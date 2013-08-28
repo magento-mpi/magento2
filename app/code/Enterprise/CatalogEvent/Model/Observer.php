@@ -388,6 +388,4 @@ class Enterprise_CatalogEvent_Model_Observer
 
         return $this;
     }
-
-
 }

@@ -49,7 +49,7 @@ class Enterprise_GiftCardAccount_Model_Observer
                 $card['authorized'] = $card['ba'];
             }
 
-            $cards = $this->_giftCardAccountData->setCards($order, $cards);
+            $this->_giftCardAccountData->setCards($order, $cards);
         }
 
         return $this;

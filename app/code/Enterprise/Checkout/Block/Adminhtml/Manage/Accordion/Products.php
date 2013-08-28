@@ -18,11 +18,6 @@
 class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     extends Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract
 {
-    public function __construct(Magento_Backend_Block_Template_Context $context, Magento_Core_Model_StoreManagerInterface $storeManager, Magento_Core_Model_Url $urlModel, array $data = array())
-    {
-        parent::__construct($context, $storeManager, $urlModel, $data);
-    }
-
     /**
      * Block initializing, grid parameters
      */

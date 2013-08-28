@@ -23,25 +23,26 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Magento_C
      *
      * @var Magento_Catalog_Helper_Product_Configuration
      */
-    protected $_catalogProductConfiguration = null;
+    protected $_ctlgProdConfigur = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
+     * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
+        Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
         Magento_Core_Helper_Context $context
     ) {
-        $this->_catalogProductConfiguration = $catalogProductConfiguration;
+        $this->_ctlgProdConfigur = $ctlgProdConfigur;
         parent::__construct($context);
     }
 
     /**
      * Prepare custom option for display, returns false if there's no value
      *
-     * @param string $code
-     * @return mixed
+     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param $code
+     * @return bool|mixed
      */
     public function prepareCustomOption(Magento_Catalog_Model_Product_Configuration_Item_Interface $item, $code)
     {
@@ -58,6 +59,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Magento_C
     /**
      * Get gift card option list
      *
+     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
      * @return array
      */
     public function getGiftcardOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
@@ -108,7 +110,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Magento_C
     {
         return array_merge(
             $this->getGiftcardOptions($item),
-            $this->_catalogProductConfiguration->getCustomOptions($item)
+            $this->_ctlgProdConfigur->getCustomOptions($item)
         );
     }
 }

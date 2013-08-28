@@ -19,8 +19,6 @@ class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Magento_Checkout_Model
     /**
      * Initialize dependencies.
      *
-     *
-     *
      * @param Enterprise_GiftCardAccount_Helper_Data $giftCardAccountData
      * @param Magento_Api_Helper_Data $apiHelper
      */
@@ -46,7 +44,7 @@ class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Magento_Checkout_Model
 
         $giftcardsList = $this->_giftCardAccountData->getCards($quote);
         // map short names of giftcard account attributes to long
-        foreach($giftcardsList as $id => $card) {
+        foreach ($giftcardsList as $id => $card) {
             $giftcardsList[$id] = array(
                 'giftcardaccount_id' => $card['i'],
                 'code' => $card['c'],

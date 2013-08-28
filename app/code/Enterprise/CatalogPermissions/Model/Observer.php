@@ -53,11 +53,14 @@ class Enterprise_CatalogPermissions_Model_Observer
      *
      * @var Enterprise_CatalogPermissions_Helper_Data
      */
-    protected $_helper;
+    protected $_catalogPermData;
 
-    public function __construct()
+    /**
+     * @param Enterprise_CatalogPermissions_Helper_Data $catalogPermData
+     */
+    public function __construct(Enterprise_CatalogPermissions_Helper_Data $catalogPermData)
     {
-        $this->_helper = $this->_helper;
+        $this->_catalogPermData = $catalogPermData;
     }
 
     /**
@@ -68,7 +71,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryPermissionOnIsActiveFilterToCollection(Magento_Event_Observer $observer)
     {
-        if (!$this->_helper->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
@@ -91,7 +94,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryPermissionOnLoadCollection(Magento_Event_Observer $observer)
     {
-        if (!$this->_helper->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
@@ -126,7 +129,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryInactiveIds(Magento_Event_Observer $observer)
     {
-        if (!$this->_helper->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
@@ -148,7 +151,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryPermissionOnProductCount(Magento_Event_Observer $observer)
     {
-        if (!$this->_helper->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
@@ -165,7 +168,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryPermission(Magento_Event_Observer $observer)
     {
-        if (!$this->_helper->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
@@ -184,7 +187,7 @@ class Enterprise_CatalogPermissions_Model_Observer
         if ($observer->getEvent()->getCategory()->getIsHidden()) {
 
             $observer->getEvent()->getControllerAction()->getResponse()
-                ->setRedirect($this->_helper->getLandingPageUrl());
+                ->setRedirect($this->_catalogPermData->getLandingPageUrl());
 
             Mage::throwException(
                 __('You may need more permissions to access this category.')
@@ -201,7 +204,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyProductPermissionOnCollection(Magento_Event_Observer $observer)
     {
-        if (!$this->_helper->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
@@ -218,7 +221,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyProductPermissionOnCollectionAfterLoad(Magento_Event_Observer $observer)
     {
-        if (!$this->_helper->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
@@ -244,7 +247,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkQuotePermissions(Magento_Event_Observer $observer)
     {
-        if (!$this->_helper->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
@@ -285,7 +288,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkQuoteItemSetProduct(Magento_Event_Observer $observer)
     {
-        if (!$this->_helper->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
@@ -351,9 +354,9 @@ class Enterprise_CatalogPermissions_Model_Observer
         }
 
         $defaultGrants = array(
-            'grant_catalog_category_view' => $this->_helper->isAllowedCategoryView(),
-            'grant_catalog_product_price' => $this->_helper->isAllowedProductPrice(),
-            'grant_checkout_items' => $this->_helper->isAllowedCheckoutItems()
+            'grant_catalog_category_view' => $this->_catalogPermData->isAllowedCategoryView(),
+            'grant_catalog_product_price' => $this->_catalogPermData->isAllowedProductPrice(),
+            'grant_checkout_items' => $this->_catalogPermData->isAllowedCheckoutItems()
         );
 
         foreach ($quote->getAllItems() as $item) {
@@ -386,7 +389,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyProductPermission(Magento_Event_Observer $observer)
     {
-        if (!$this->_helper->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
@@ -395,7 +398,7 @@ class Enterprise_CatalogPermissions_Model_Observer
         $this->_applyPermissionsOnProduct($product);
         if ($observer->getEvent()->getProduct()->getIsHidden()) {
             $observer->getEvent()->getControllerAction()->getResponse()
-                ->setRedirect($this->_helper->getLandingPageUrl());
+                ->setRedirect($this->_catalogPermData->getLandingPageUrl());
 
             Mage::throwException(
                 __('You may need more permissions to access this product.')
@@ -415,7 +418,7 @@ class Enterprise_CatalogPermissions_Model_Observer
     {
         if ($category->getData('permissions/grant_catalog_category_view') == -2 ||
             ($category->getData('permissions/grant_catalog_category_view')!= -1 &&
-                !$this->_helper->isAllowedCategoryView())) {
+                !$this->_catalogPermData->isAllowedCategoryView())) {
             $category->setIsActive(0);
             $category->setIsHidden(true);
         }
@@ -433,21 +436,21 @@ class Enterprise_CatalogPermissions_Model_Observer
     {
         if ($product->getData('grant_catalog_category_view') == -2 ||
             ($product->getData('grant_catalog_category_view')!= -1 &&
-                !$this->_helper->isAllowedCategoryView())) {
+                !$this->_catalogPermData->isAllowedCategoryView())) {
             $product->setIsHidden(true);
         }
 
 
         if ($product->getData('grant_catalog_product_price') == -2 ||
             ($product->getData('grant_catalog_product_price')!= -1 &&
-                !$this->_helper->isAllowedProductPrice())) {
+                !$this->_catalogPermData->isAllowedProductPrice())) {
             $product->setCanShowPrice(false);
             $product->setDisableAddToCart(true);
         }
 
         if ($product->getData('grant_checkout_items') == -2 ||
             ($product->getData('grant_checkout_items')!= -1 &&
-                !$this->_helper->isAllowedCheckoutItems())) {
+                !$this->_catalogPermData->isAllowedCheckoutItems())) {
             $product->setDisableAddToCart(true);
         }
 
@@ -477,11 +480,11 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkCatalogSearchLayout(Magento_Event_Observer $observer)
     {
-        if (!$this->_helper->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
-        if (!$this->_helper->isAllowedCatalogSearch()) {
+        if (!$this->_catalogPermData->isAllowedCatalogSearch()) {
             $observer->getEvent()->getLayout()->getUpdate()->addHandle(
                 'CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH'
             );
@@ -497,17 +500,17 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkCatalogSearchPreDispatch(Magento_Event_Observer $observer)
     {
-        if (!$this->_helper->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
         $action = $observer->getEvent()->getControllerAction();
-        if (!$this->_helper->isAllowedCatalogSearch()
+        if (!$this->_catalogPermData->isAllowedCatalogSearch()
             && !$action->getFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH)
             && $action->getRequest()->isDispatched()
         ) {
             $action->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
-            $action->getResponse()->setRedirect($this->_helper->getLandingPageUrl());
+            $action->getResponse()->setRedirect($this->_catalogPermData->getLandingPageUrl());
         }
 
         return $this;
@@ -551,7 +554,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkIfProductAllowedInRss(Magento_Event_Observer $observer)
     {
-        if (!$this->_helper->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
@@ -601,7 +604,7 @@ class Enterprise_CatalogPermissions_Model_Observer
             $data[$permission] = null;
         }
 
-        if (!$this->_helper->$method()) {
+        if (!$this->_catalogPermData->$method()) {
             if ($data[$permission] == Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW) {
                 $result = true;
             } else {

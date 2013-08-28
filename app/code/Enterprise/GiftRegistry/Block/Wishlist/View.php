@@ -27,11 +27,15 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block
      */
     public function __construct(
         Enterprise_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
-        parent::__construct($context, $data);
+        parent::__construct($wishlistData, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     /**

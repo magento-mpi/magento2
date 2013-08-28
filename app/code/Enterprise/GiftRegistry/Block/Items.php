@@ -23,16 +23,20 @@ class Enterprise_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
 
     /**
      * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
-        parent::__construct($context, $data);
+        parent::__construct($catalogData, $coreData, $context, $data);
     }
 
     /**

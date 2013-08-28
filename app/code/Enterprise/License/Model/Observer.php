@@ -45,8 +45,8 @@ class Enterprise_License_Model_Observer
      */
     public function adminUserAuthenticateAfter()
     {
-        $enterprise_license=$this->_licenseData;
-        if($enterprise_license->isIoncubeLoaded() && $enterprise_license->isIoncubeEncoded()) {
+        $enterpriseLicense = $this->_licenseData;
+        if ($enterpriseLicense->isIoncubeLoaded() && $enterpriseLicense->isIoncubeEncoded()) {
             $this->_calculateDaysLeftToExpired();
         }
     }

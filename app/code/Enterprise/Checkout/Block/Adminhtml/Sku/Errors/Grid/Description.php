@@ -20,7 +20,7 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Magento_Adminhtml_Block_Template
+class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Magento_Backend_Block_Template
 {
     protected $_template = 'sku/errors/grid/description.phtml';
 
@@ -33,16 +33,18 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
 
     /**
      * @param Enterprise_Checkout_Helper_Data $checkoutData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Checkout_Helper_Data $checkoutData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

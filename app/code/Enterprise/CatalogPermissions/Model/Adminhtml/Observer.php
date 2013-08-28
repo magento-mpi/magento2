@@ -31,17 +31,17 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      *
      * @var Enterprise_CatalogPermissions_Helper_Data
      */
-    protected $_catalogPermissionsData = null;
+    protected $_catalogPermData = null;
 
     /**
-     * @param Enterprise_CatalogPermissions_Helper_Data $catalogPermissionsData
+     * @param Enterprise_CatalogPermissions_Helper_Data $catalogPermData
      * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
-        Enterprise_CatalogPermissions_Helper_Data $catalogPermissionsData,
+        Enterprise_CatalogPermissions_Helper_Data $catalogPermData,
         Magento_AuthorizationInterface $authorization
     ) {
-        $this->_catalogPermissionsData = $catalogPermissionsData;
+        $this->_catalogPermData = $catalogPermData;
         $this->_authorization = $authorization;
     }
 
@@ -55,7 +55,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     {
         $category = $observer->getEvent()->getCategory();
         /* @var $category Magento_Catalog_Model_Category */
-        $helper = $this->_catalogPermissionsData;
+        $helper = $this->_catalogPermData;
         if (!$helper->isAllowedCategory($category) && $category->hasData('permissions')) {
             $category->unsetData('permissions');
         }
@@ -71,7 +71,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function saveCategoryPermissions(Magento_Event_Observer $observer)
     {
-        if (!$this->_catalogPermissionsData->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
@@ -256,7 +256,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function addCategoryPermissionTab(Magento_Event_Observer $observer)
     {
-        if (!$this->_catalogPermissionsData->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
         if (!$this->_authorization->isAllowed('Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions')) {
