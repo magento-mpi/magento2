@@ -47,10 +47,7 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
     {
         $args = $args[0];
 
-        /** @var Magento_Api_Helper_Data */
-        $helper = $this->_apiData;
-
-        $helper->wsiArrayUnpacker($args);
+        $this->_apiData->wsiArrayUnpacker($args);
         $args = get_object_vars($args);
 
         if (isset($args['sessionId'])) {
@@ -78,7 +75,7 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
 
         $res = $this->_call($sessionId, $apiKey, $args);
 
-        $obj = $helper->wsiArrayPacker($res);
+        $obj = $this->_apiData->wsiArrayPacker($res);
         $stdObj = new stdClass();
         $stdObj->result = $obj;
 

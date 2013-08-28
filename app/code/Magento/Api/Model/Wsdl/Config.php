@@ -105,9 +105,7 @@ class Magento_Api_Model_Wsdl_Config extends Magento_Api_Model_Wsdl_Config_Base
             $mergeWsdl = new Magento_Api_Model_Wsdl_Config_Base();
             $mergeWsdl->setHandler($this->getHandler());
 
-            /** @var Magento_Api_Helper_Data $helper */
-            $helper = $this->_apiData;
-            if ($helper->isWsiCompliant()) {
+            if ($this->_apiData->isWsiCompliant()) {
                 /**
                  * Exclude Magento_Api wsdl xml file because it used for previous version
                  * of API wsdl declaration
