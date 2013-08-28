@@ -186,12 +186,12 @@
         <param name="routerList">
             <value>
                 <standard>
-                    <class>Mage_Core_Controller_Varien_Router_Base</class>
+                    <instance>Mage_Core_Controller_Varien_Router_Base</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>20</sortOrder>
                 </standard>
                 <default>
-                    <class>Mage_Core_Controller_Varien_Router_Default</class>
+                    <instance>Mage_Core_Controller_Varien_Router_Default</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>100</sortOrder>
                 </default>
@@ -211,10 +211,12 @@
     </type>
     <type name="Mage_Core_Model_NoRouteHandlerList">
         <param name="handlerClassesList">
-            <default>
-                <instance>Mage_Core_Model_Router_NoRouteHandler</instance>
-                <sortOrder>100</sortOrder>
-            </default>
+            <value>
+                <default>
+                    <instance>Mage_Core_Model_Router_NoRouteHandler</instance>
+                    <sortOrder>100</sortOrder>
+                </default>
+            </value>
         </param>
     </type>
 </config>

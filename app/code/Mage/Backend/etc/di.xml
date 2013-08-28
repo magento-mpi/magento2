@@ -13,7 +13,7 @@
         <param name="routerList">
             <value>
                 <admin>
-                    <class>Mage_Backend_Controller_Router_Default</class>
+                    <instance>Mage_Backend_Controller_Router_Default</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>10</sortOrder>
                 </admin>
@@ -57,10 +57,12 @@
     </type>
     <type name="Mage_Core_Model_NoRouteHandlerList">
         <param name="handlerClassesList">
-            <default>
-                <instance>Mage_Backend_Model_Router_NoRouteHandler</instance>
-                <sortOrder>10</sortOrder>
-            </default>
+            <value>
+                <backend>
+                    <instance>Mage_Backend_Model_Router_NoRouteHandler</instance>
+                    <sortOrder>10</sortOrder>
+                </backend>
+            </value>
         </param>
     </type>
 </config>
