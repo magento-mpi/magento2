@@ -9,7 +9,7 @@
 /**
  * Relations between a banner and customer segments
  */
-class Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLink extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLink extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Setup association with a table

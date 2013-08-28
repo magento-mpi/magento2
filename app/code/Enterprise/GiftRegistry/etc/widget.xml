@@ -12,7 +12,7 @@
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
     <widget id="enterprise_giftregistry_search" class="Enterprise_GiftRegistry_Block_Search_Widget_Form"
-            translate="label description" module="Enterprise_GiftRegistry" is_email_compatible="false">
+            translate="label description" is_email_compatible="false">
         <label>Gift Registry Search</label>
         <description>Gift Registry Quick Search Form</description>
         <parameter name="types" translate="label" xsi:type="multiselect" visible="true" required="true"

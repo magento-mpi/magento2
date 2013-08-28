@@ -21,10 +21,10 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     /**
      * Set rule type
      *
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price');
@@ -39,11 +39,11 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     protected function _getOperatorOptionArray()
     {
         return array(
-            '==' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('equal to'),
-            '>'  => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('more'),
-            '>=' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('equals or greater than'),
-            '<'  => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('less'),
-            '<=' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('equals or less than')
+            '==' => __('equal to'),
+            '>'  => __('more'),
+            '>=' => __('equals or greater than'),
+            '<'  => __('less'),
+            '<=' => __('equals or less than')
         );
     }
 
@@ -67,14 +67,14 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product Price is %s %s%% of Matched Product(s) Price', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . __('Product Price is %1 %2% of Matched Product(s) Price', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
     /**
      * Retrieve SELECT WHERE condition for product collection
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      * @param Enterprise_TargetRule_Model_Index $object
      * @param array $bind
      * @return Zend_Db_Expr

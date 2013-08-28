@@ -25,7 +25,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
      */
     public function getDesignSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => 'giftwrapping_design_item',
                 'class' => 'select'
@@ -90,7 +90,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
     /**
      * Check ability to display gift wrapping for quote item
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return bool
      */
     public function getDisplayGiftWrappingForItem($item)

@@ -10,7 +10,7 @@
 <config>
     <module name="Enterprise_Tag" version="1.0.0.0" active="false">
         <depends>
-            <module name="Mage_Tag" />
+            <module name="Magento_Tag" />
             <module name="Enterprise_Reward" />
             <module name="Enterprise_AdminGws" />
         </depends>

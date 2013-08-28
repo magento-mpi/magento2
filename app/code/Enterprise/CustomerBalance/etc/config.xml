@@ -249,7 +249,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <customerbalance before="Mage_Adminhtml">Enterprise_CustomerBalance_Adminhtml</customerbalance>
+                        <customerbalance before="Magento_Adminhtml">Enterprise_CustomerBalance_Adminhtml</customerbalance>
                     </modules>
                 </args>
             </adminhtml>

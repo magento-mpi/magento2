@@ -37,7 +37,7 @@ class Enterprise_Reward_Model_Action_OrderRevert extends Enterprise_Reward_Model
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
 
-        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Reverted from order #%s', $incrementId);
+        return __('Reverted from order #%1', $incrementId);
     }
 
     /**

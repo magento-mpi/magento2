@@ -11,10 +11,10 @@
 -->
 <logging>
     <actions>
-        <apply_coupon translate="label" module="Enterprise_Checkout">
+        <apply_coupon translate="label">
             <label>Apply Coupon</label>
         </apply_coupon>
-        <add_to_cart translate="label" module="Enterprise_Checkout">
+        <add_to_cart translate="label">
             <label>Add to Cart</label>
         </add_to_cart>
     </actions>
@@ -24,31 +24,31 @@
             <adminhtml_checkout_index>
                 <action>view</action>
                 <expected_models>
-                    <Mage_Sales_Model_Quote/>
+                    <Magento_Sales_Model_Quote/>
                 </expected_models>
             </adminhtml_checkout_index>
             <adminhtml_checkout_applyCoupon>
                 <action>apply_coupon</action>
                 <expected_models>
-                    <Mage_Sales_Model_Quote/>
+                    <Magento_Sales_Model_Quote/>
                 </expected_models>
                 <post_dispatch>postDispatchAdminCheckoutApplyCoupon</post_dispatch>
             </adminhtml_checkout_applyCoupon>
             <adminhtml_checkout_updateItems>
                 <action>save</action>
                 <expected_models>
-                    <Mage_Sales_Model_Quote_Item/>
+                    <Magento_Sales_Model_Quote_Item/>
                 </expected_models>
             </adminhtml_checkout_updateItems>
             <adminhtml_checkout_addToCart>
                 <action>add_to_cart</action>
                 <expected_models>
-                    <Mage_Sales_Model_Quote_Item>
+                    <Magento_Sales_Model_Quote_Item>
                         <additional_data>
                             <item_id/>
                             <quote_id/>
                         </additional_data>
-                    </Mage_Sales_Model_Quote_Item>
+                    </Magento_Sales_Model_Quote_Item>
                 </expected_models>
             </adminhtml_checkout_addToCart>
         </actions>

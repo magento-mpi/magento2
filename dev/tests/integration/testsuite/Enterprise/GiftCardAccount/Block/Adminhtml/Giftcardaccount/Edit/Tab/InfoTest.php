@@ -26,7 +26,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
         $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
         Mage::register('current_giftcardaccount', $model);
 
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
         $this->_block = $layout
             ->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info');
     }
@@ -44,7 +44,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
      */
     public function testPrepareFormSingleStore()
     {
-        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $this->_block->initForm();
         $form = $this->_block->getForm();
         $this->assertEquals('base_fieldset', $form->getElement('base_fieldset')->getId());
@@ -61,7 +61,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
      */
     public function testPrepareFormMultipleStore()
     {
-        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $this->_block->initForm();
         $form = $this->_block->getForm();
         $this->assertEquals('base_fieldset', $form->getElement('base_fieldset')->getId());
@@ -89,9 +89,9 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
      */
     public function testInitForm()
     {
-        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
         $block = $layout->addBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info');
 
         $element = $block->initForm()->getForm()->getElement('date_expires');

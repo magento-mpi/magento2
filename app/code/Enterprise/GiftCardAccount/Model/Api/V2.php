@@ -12,7 +12,7 @@ class Enterprise_GiftCardAccount_Model_Api_V2 extends Enterprise_GiftCardAccount
     /**
      * Checks giftcard account data
      *
-     * @throws Mage_Api_Exception
+     * @throws Magento_Api_Exception
      * @param  stdClass $giftcardAccountData
      * @return array
      */
@@ -29,7 +29,7 @@ class Enterprise_GiftCardAccount_Model_Api_V2 extends Enterprise_GiftCardAccount
     /**
      * Checks email notification data
      *
-     * @throws Mage_Api_Exception
+     * @throws Magento_Api_Exception
      * @param  null|stdClass $notificationData
      * @return array
      */

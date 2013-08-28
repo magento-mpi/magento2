@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
- extends Mage_Adminhtml_Block_Widget
+ extends Magento_Adminhtml_Block_Widget
  implements Magento_Data_Form_Element_Renderer_Interface
 {
     protected $_element = null;
@@ -32,8 +32,8 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
     {
         $this->setElement($element);
         $isAddButtonDisabled = ($element->getData('readonly_disabled') === true) ? true : false;
-        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Add Amount'),
+        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            'label'     => __('Add Amount'),
             'onclick'   => "giftcardAmountsControl.addItem('" . $this->getElement()->getHtmlId() . "')",
             'class'     => 'action-add',
             'disabled'  => $isAddButtonDisabled
@@ -70,7 +70,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
         }
         $websites = array();
         $websites[0] = array(
-            'name'      => $this->__('All Websites'),
+            'name'      => __('All Websites'),
             'currency'  => Mage::app()->getBaseCurrencyCode()
         );
 
@@ -79,7 +79,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
                 $website = Mage::app()->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'      => $website->getName(),
-                    'currency'  => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                    'currency'  => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
                 );
             } else {
                 foreach (Mage::app()->getWebsites() as $website) {
@@ -88,7 +88,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
                     }
                     $websites[$website->getId()] = array(
                         'name'      => $website->getName(),
-                        'currency'  => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                        'currency'  => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
                     );
                 }
             }

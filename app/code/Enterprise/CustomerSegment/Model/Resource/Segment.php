@@ -16,20 +16,20 @@
  * @package     Enterprise_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_Resource_Abstract
+class Enterprise_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_Resource_Abstract
 {
     /**
-     * @var Mage_Customer_Model_Config_Share
+     * @var Magento_Customer_Model_Config_Share
      */
     protected $_configShare;
 
     /**
-     * @param Mage_Core_Model_Resource $resource
-     * @param Mage_Customer_Model_Config_Share $configShare
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Customer_Model_Config_Share $configShare
      */
     public function __construct(
-        Mage_Core_Model_Resource $resource,
-        Mage_Customer_Model_Config_Share $configShare
+        Magento_Core_Model_Resource $resource,
+        Magento_Customer_Model_Config_Share $configShare
     ) {
         parent::__construct($resource);
         $this->_configShare = $configShare;
@@ -75,11 +75,11 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
     /**
      * Add website ids to rule data after load
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      *
      * @return Enterprise_CustomerSegment_Model_Resource_Segment
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         $object->setData('website_ids', (array)$this->getWebsiteIds($object->getId()));
 
@@ -91,11 +91,11 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
      * Match and save events.
      * Save websites associations.
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      *
      * @return Enterprise_CustomerSegment_Model_Resource_Segment
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $segmentId = $object->getId();
 
@@ -381,7 +381,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
      *
      * @deprecated after 1.11.2.0 use $this->bindRuleToEntity() instead
      *
-     * @param Mage_Core_Model_Abstract|Enterprise_CustomerSegment_Model_Segment $segment
+     * @param Magento_Core_Model_Abstract|Enterprise_CustomerSegment_Model_Segment $segment
      *
      * @return Enterprise_CustomerSegment_Model_Resource_Segment
      */

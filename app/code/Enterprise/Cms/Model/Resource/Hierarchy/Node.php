@@ -16,7 +16,7 @@
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Primary key auto increment flag
@@ -368,7 +368,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
      * @param Enterprise_Cms_Model_Hierarchy_Node $object
      * @return Enterprise_Cms_Model_Resource_Hierarchy_Node
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         if ($object->dataHasChangedFor($this->getIdFieldName())) {
             // update xpath
@@ -385,10 +385,10 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
     /**
      * Saving meta if such available for node (in case node is root node of three)
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Enterprise_Cms_Model_Resource_Hierarchy_Node
      */
-    public function saveMetaData(Mage_Core_Model_Abstract $object)
+    public function saveMetaData(Magento_Core_Model_Abstract $object)
     {
         // we save to metadata table not only metadata :(
         //if ($object->getParentNodeId()) {

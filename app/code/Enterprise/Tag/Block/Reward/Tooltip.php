@@ -25,10 +25,10 @@ class Enterprise_Tag_Block_Reward_Tooltip extends Enterprise_Reward_Block_Toolti
     protected $_helpers;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Core_Block_Template_Context $context, array $data = array())
+    public function __construct(Magento_Core_Block_Template_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
 
@@ -45,7 +45,7 @@ class Enterprise_Tag_Block_Reward_Tooltip extends Enterprise_Reward_Block_Toolti
      * Helper getter
      *
      * @param string $helperName
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     protected function _helper($helperName)
     {

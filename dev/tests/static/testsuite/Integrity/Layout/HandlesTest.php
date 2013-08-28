@@ -107,7 +107,7 @@ class Integrity_Layout_HandleTest extends PHPUnit_Framework_TestCase
                 $nodeErrors[] = 'specified value for "htmlClass" attribute is invalid';
             }
             $allowedAttributes = array(
-                'name', 'label', 'as', 'htmlTag', 'htmlId', 'htmlClass', 'module', 'output', 'before', 'after'
+                'name', 'label', 'as', 'htmlTag', 'htmlId', 'htmlClass', 'output', 'before', 'after'
             );
             foreach ($attr as $key => $attribute) {
                 if (!in_array($key, $allowedAttributes)) {

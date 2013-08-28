@@ -15,12 +15,12 @@
  * @package    Enterprise_GiftWrapping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Mage_Adminhtml_Block_Template
+class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Magento_Adminhtml_Block_Template
 {
     /**
      * Get order item from parent block
      *
-     * @return Mage_Sales_Model_Order_Item
+     * @return Magento_Sales_Model_Order_Item
      */
     public function getItem()
     {

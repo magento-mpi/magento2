@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../Mage/Customer/_files/customer.php';
+require __DIR__ . '/../../../Magento/Customer/_files/customer.php';
 /** @var $balance Enterprise_CustomerBalance_Model_Balance */
 $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
 $balance->setCustomerId($customer->getId())

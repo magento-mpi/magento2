@@ -10,7 +10,7 @@
 <config>
     <module name="Enterprise_Checkout" version="1.11.0.0" active="false">
         <depends>
-            <module name="Mage_Sales" />
+            <module name="Magento_Sales" />
         </depends>
     </module>
 </config>

@@ -15,10 +15,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes');
@@ -51,7 +51,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         $conditions = array_merge($conditions, Mage::getModel($prefix . 'Region')->getNewChildSelectOptions());
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Address Attributes')
+            'label' => __('Address Attributes')
         );
     }
 
@@ -62,7 +62,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
      */
     public function loadAttributeOptions()
     {
-        $customerAttributes = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Address')
+        $customerAttributes = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Address')
             ->loadAllAttributes()
             ->getAttributesByCode();
 
@@ -92,11 +92,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = Mage::getModel('Mage_Directory_Model_Config_Source_Country')->toOptionArray();
+                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Country')->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = Mage::getModel('Mage_Directory_Model_Config_Source_Allregion')->toOptionArray();
+                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Allregion')->toOptionArray();
                     break;
 
                 default:
@@ -191,17 +191,17 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
      */
     public function asHtml()
     {
-        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address %s', parent::asHtml());
+        return __('Customer Address %1', parent::asHtml());
     }
 
     /**
      * Retrieve attribute object
      *
-     * @return Mage_Eav_Model_Entity_Attribute
+     * @return Magento_Eav_Model_Entity_Attribute
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', $this->getAttribute());
+        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', $this->getAttribute());
     }
 
     /**

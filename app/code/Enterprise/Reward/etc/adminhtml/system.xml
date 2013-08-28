@@ -11,24 +11,24 @@
 -->
 <config>
     <system>
-        <section id="enterprise_reward" translate="label" module="Enterprise_Reward" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="enterprise_reward" translate="label" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Reward Points</label>
             <class>separator-top</class>
             <tab>customer</tab>
             <resource>Enterprise_Reward::enterprise_reward</resource>
-            <group id="general" translate="label" module="Enterprise_Reward" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Reward Points</label>
                 <field id="is_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Reward Points Functionality</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="is_enabled_on_front" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable Reward Points Functionality on Frontend</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="publish_history" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Customers May See Reward Points History</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="min_points_balance" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Rewards Points Balance Redemption Threshold</label>
@@ -52,18 +52,18 @@
                 </field>
                 <field id="refund_automatically" translate="label" type="select" sortOrder="65" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Refund Reward Points Automatically</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="landing_page" translate="label comment" sortOrder="70" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Landing Page</label>
-                    <source_model>Mage_Cms_Model_Config_Source_Page</source_model>
+                    <source_model>Magento_Cms_Model_Config_Source_Page</source_model>
                 </field>
             </group>
-            <group id="points" translate="label" module="Enterprise_Reward" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+            <group id="points" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Actions for Acquiring Reward Points by Customers</label>
                 <field id="order" translate="label comment" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Purchase</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                     <comment>Added for spent money according to reward exchange rates.</comment>
                 </field>
                 <field id="register" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -102,23 +102,23 @@
                     <label>Rewarded Reviews Submission Quantity Limit</label>
                 </field>
             </group>
-            <group id="notification" translate="label" module="Enterprise_Reward" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="notification" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Email Notification Settings</label>
                 <field id="email_sender" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Email Sender</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
                 </field>
                 <field id="subscribe_by_default" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Subscribe Customers by Default</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="balance_update_template" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Balance Update Email</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
                 </field>
                 <field id="expiry_warning_template" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Reward Points Expiry Warning Email</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
                 </field>
                 <field id="expiry_day_before" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Expiry Warning Before (days)</label>

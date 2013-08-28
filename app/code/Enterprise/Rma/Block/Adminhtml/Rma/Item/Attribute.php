@@ -15,7 +15,7 @@
  * @package     Enterprise_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Initialize rma item management page
@@ -26,8 +26,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute extends Mage_Adminhtml_B
     {
         $this->_controller = 'adminhtml_rma_item_attribute';
         $this->_blockGroup = 'Enterprise_Rma';
-        $this->_headerText = Mage::helper('Enterprise_Rma_Helper_Data')->__('Return Item Attribute');
-        $this->_addButtonLabel = Mage::helper('Enterprise_Rma_Helper_Data')->__('Add New Attribute');
+        $this->_headerText = __('Return Item Attribute');
+        $this->_addButtonLabel = __('Add New Attribute');
         parent::_construct();
     }
 }

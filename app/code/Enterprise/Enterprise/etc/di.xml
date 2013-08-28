@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <preference for="Mage_Core_Model_Resource_Setup_Migration" type="Enterprise_Enterprise_Model_Resource_Setup_Migration" />
+    <preference for="Magento_Core_Model_Resource_Setup_Migration" type="Enterprise_Enterprise_Model_Resource_Setup_Migration" />
 </config>

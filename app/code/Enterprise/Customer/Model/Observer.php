@@ -30,7 +30,7 @@ class Enterprise_Customer_Model_Observer
     public function salesQuoteAfterLoad(Magento_Event_Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        if ($quote instanceof Mage_Core_Model_Abstract) {
+        if ($quote instanceof Magento_Core_Model_Abstract) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Quote')
                 ->load($quote->getId())
                 ->attachAttributeData($quote);
@@ -65,7 +65,7 @@ class Enterprise_Customer_Model_Observer
     public function salesQuoteAfterSave(Magento_Event_Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        if ($quote instanceof Mage_Core_Model_Abstract) {
+        if ($quote instanceof Magento_Core_Model_Abstract) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Quote')
                 ->saveAttributeData($quote);
         }
@@ -82,7 +82,7 @@ class Enterprise_Customer_Model_Observer
     public function salesQuoteAddressAfterSave(Magento_Event_Observer $observer)
     {
         $quoteAddress = $observer->getEvent()->getQuoteAddress();
-        if ($quoteAddress instanceof Mage_Core_Model_Abstract) {
+        if ($quoteAddress instanceof Magento_Core_Model_Abstract) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Quote_Address')
                 ->saveAttributeData($quoteAddress);
         }
@@ -99,7 +99,7 @@ class Enterprise_Customer_Model_Observer
     public function salesOrderAfterLoad(Magento_Event_Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
-        if ($order instanceof Mage_Core_Model_Abstract) {
+        if ($order instanceof Magento_Core_Model_Abstract) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Order')
                 ->load($order->getId())
                 ->attachAttributeData($order);
@@ -134,7 +134,7 @@ class Enterprise_Customer_Model_Observer
     public function salesOrderAfterSave(Magento_Event_Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
-        if ($order instanceof Mage_Core_Model_Abstract) {
+        if ($order instanceof Magento_Core_Model_Abstract) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Order')
                 ->saveAttributeData($order);
         }
@@ -151,7 +151,7 @@ class Enterprise_Customer_Model_Observer
     public function salesOrderAddressAfterLoad(Magento_Event_Observer $observer)
     {
         $address = $observer->getEvent()->getAddress();
-        if ($address instanceof Mage_Core_Model_Abstract) {
+        if ($address instanceof Magento_Core_Model_Abstract) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address')
                 ->attachDataToEntities(array($address));
         }
@@ -168,7 +168,7 @@ class Enterprise_Customer_Model_Observer
     public function salesOrderAddressAfterSave(Magento_Event_Observer $observer)
     {
         $orderAddress = $observer->getEvent()->getAddress();
-        if ($orderAddress instanceof Mage_Core_Model_Abstract) {
+        if ($orderAddress instanceof Magento_Core_Model_Abstract) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address')
                 ->saveAttributeData($orderAddress);
         }
@@ -185,17 +185,17 @@ class Enterprise_Customer_Model_Observer
     public function enterpriseCustomerAttributeBeforeSave(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute instanceof Mage_Customer_Model_Attribute && $attribute->isObjectNew()) {
+        if ($attribute instanceof Magento_Customer_Model_Attribute && $attribute->isObjectNew()) {
             /**
              * Check for maximum attribute_code length
              */
-            $attributeCodeMaxLength = Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9;
+            $attributeCodeMaxLength = Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9;
             $validate = Zend_Validate::is($attribute->getAttributeCode(), 'StringLength', array(
                 'max' => $attributeCodeMaxLength
             ));
             if (!$validate) {
-                throw Mage::exception('Mage_Eav',
-                    Mage::helper('Mage_Eav_Helper_Data')->__('Maximum length of attribute code must be less than %s symbols', $attributeCodeMaxLength)
+                throw Mage::exception('Magento_Eav',
+                    __('Maximum length of attribute code must be less than %1 symbols', $attributeCodeMaxLength)
                 );
             }
         }
@@ -212,7 +212,7 @@ class Enterprise_Customer_Model_Observer
     public function enterpriseCustomerAttributeSave(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute instanceof Mage_Customer_Model_Attribute && $attribute->isObjectNew()) {
+        if ($attribute instanceof Magento_Customer_Model_Attribute && $attribute->isObjectNew()) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Quote')
                 ->saveNewAttribute($attribute);
             Mage::getModel('Enterprise_Customer_Model_Sales_Order')
@@ -231,7 +231,7 @@ class Enterprise_Customer_Model_Observer
     public function enterpriseCustomerAttributeDelete(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute instanceof Mage_Customer_Model_Attribute && !$attribute->isObjectNew()) {
+        if ($attribute instanceof Magento_Customer_Model_Attribute && !$attribute->isObjectNew()) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Quote')
                 ->deleteAttribute($attribute);
             Mage::getModel('Enterprise_Customer_Model_Sales_Order')
@@ -250,7 +250,7 @@ class Enterprise_Customer_Model_Observer
     public function enterpriseCustomerAddressAttributeSave(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute instanceof Mage_Customer_Model_Attribute && $attribute->isObjectNew()) {
+        if ($attribute instanceof Magento_Customer_Model_Attribute && $attribute->isObjectNew()) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Quote_Address')
                 ->saveNewAttribute($attribute);
             Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address')
@@ -269,7 +269,7 @@ class Enterprise_Customer_Model_Observer
     public function enterpriseCustomerAddressAttributeDelete(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute instanceof Mage_Customer_Model_Attribute && !$attribute->isObjectNew()) {
+        if ($attribute instanceof Magento_Customer_Model_Attribute && !$attribute->isObjectNew()) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Quote_Address')
                 ->deleteAttribute($attribute);
             Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address')
@@ -445,7 +445,7 @@ class Enterprise_Customer_Model_Observer
         $source = $observer->getEvent()->getSource();
         $target = $observer->getEvent()->getTarget();
 
-        if ($source instanceof Mage_Core_Model_Abstract && $target instanceof Mage_Core_Model_Abstract) {
+        if ($source instanceof Magento_Core_Model_Abstract && $target instanceof Magento_Core_Model_Abstract) {
             if ($convertType == self::CONVERT_TYPE_CUSTOMER) {
                 $attributes = Mage::helper('Enterprise_Customer_Helper_Data')->getCustomerUserDefinedAttributeCodes();
                 $prefix     = 'customer_';

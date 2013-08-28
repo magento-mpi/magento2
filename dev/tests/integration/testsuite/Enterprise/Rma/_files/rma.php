@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-include(__DIR__ . '/../../../Mage/Sales/_files/order.php');
+include(__DIR__ . '/../../../Magento/Sales/_files/order.php');
 
 /** @var $rma Enterprise_Rma_Model_Rma */
 $rma = Mage::getModel('Enterprise_Rma_Model_Rma');

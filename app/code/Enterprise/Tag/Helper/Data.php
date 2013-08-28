@@ -15,7 +15,7 @@
  * @package     Enterprise_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Tag_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Tag_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Reward points model instance
@@ -25,10 +25,10 @@ class Enterprise_Tag_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_rewardModel;
 
     /**
-     * @param Mage_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Core_Helper_Context $context, array $data = array())
+    public function __construct(Magento_Core_Helper_Context $context, array $data = array())
     {
         if (isset($data['reward_model'])) {
             $this->_rewardModel = $data['reward_model'];

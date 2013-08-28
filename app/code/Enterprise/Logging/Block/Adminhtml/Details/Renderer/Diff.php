@@ -13,7 +13,7 @@
  *
  */
 class Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Render the grid cell value
@@ -33,15 +33,15 @@ class Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff
             }
             elseif (is_array($dataArray)) {
                 if (isset($dataArray['__no_changes'])) {
-                    $html = $this->__('No changes');
+                    $html = __('No changes');
                     $specialFlag = true;
                 }
                 if (isset($dataArray['__was_deleted'])) {
-                    $html = $this->__('Item was deleted');
+                    $html = __('Item was deleted');
                     $specialFlag = true;
                 }
                 if (isset($dataArray['__was_created'])) {
-                    $html = $this->__('N/A');
+                    $html = __('N/A');
                     $specialFlag = true;
                 }
                 $dataArray = (array)$dataArray;

@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-abstract class Enterprise_Rma_Block_Adminhtml_Rma_Create_Abstract extends Mage_Adminhtml_Block_Widget
+abstract class Enterprise_Rma_Block_Adminhtml_Rma_Create_Abstract extends Magento_Adminhtml_Block_Widget
 {
      /**
      * Retrieve create order model object

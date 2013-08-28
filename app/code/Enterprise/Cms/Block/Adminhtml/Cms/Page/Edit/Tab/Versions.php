@@ -17,8 +17,8 @@
  */
 
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
-    extends Mage_Adminhtml_Block_Widget_Grid
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget_Grid
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Array of admin users in system
@@ -41,7 +41,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected function _prepareCollection()
     {
-        $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
+        $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
 
         /* var $collection Enterprise_Cms_Model_Resource_Version_Collection */
         $collection = Mage::getModel('Enterprise_Cms_Model_Page_Version')->getCollection()
@@ -83,7 +83,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     {
 /*
         $this->addColumn('version_number', array(
-            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Version #'),
+            'header' => __('Version #'),
             'width' => 100,
             'index' => 'version_number',
             'type' => 'options',
@@ -91,7 +91,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
         ));
 */
         $this->addColumn('label', array(
-            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Version Label'),
+            'header' => __('Version Label'),
             'index' => 'label',
             'type' => 'options',
             'options' => $this->getCollection()
@@ -99,7 +99,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
         ));
 
         $this->addColumn('owner', array(
-            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Owner'),
+            'header' => __('Owner'),
             'index' => 'username',
             'type' => 'options',
             'options' => $this->getCollection()->getUsersArray(false),
@@ -107,7 +107,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
         ));
 
         $this->addColumn('access_level', array(
-            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Access Level'),
+            'header' => __('Access Level'),
             'index' => 'access_level',
             'type' => 'options',
             'width' => 100,
@@ -115,14 +115,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
         ));
 
         $this->addColumn('revisions', array(
-            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Quantity'),
+            'header' => __('Quantity'),
             'index' => 'revisions_count',
             'type' => 'number'
         ));
 
         $this->addColumn('created_at', array(
             'width'     => 150,
-            'header'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Created'),
+            'header'    => __('Created'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
@@ -143,7 +143,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Returns cms page object from registry
      *
-     * @return Mage_Cms_Model_Page
+     * @return Magento_Cms_Model_Page
      */
     public function getPage()
     {
@@ -157,7 +157,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Versions');
+        return __('Versions');
     }
 
     /**
@@ -167,7 +167,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Versions');
+        return __('Versions');
     }
 
     /**
@@ -203,9 +203,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
             $this->getMassactionBlock()->setFormFieldName('version');
 
             $this->getMassactionBlock()->addItem('delete', array(
-                'label'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Delete'),
+                'label'    => __('Delete'),
                 'url'      => $this->getUrl('*/*/massDeleteVersions', array('_current' => true)),
-                'confirm'  => Mage::helper('Enterprise_Cms_Helper_Data')->__('Are you sure?'),
+                'confirm'  => __('Are you sure?'),
                 'selected' => true,
             ));
         }

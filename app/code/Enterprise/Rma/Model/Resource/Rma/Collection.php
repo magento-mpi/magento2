@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Resource_Rma_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_Rma_Model_Resource_Rma_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Internal constructor

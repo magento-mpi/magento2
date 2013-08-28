@@ -65,4 +65,13 @@ return array(
     array('Mage_Install_Model_Installer_Db_Oracle'),
     array('Enterprise_Reminder_Model_Resource_Helper_Mysql4'),
     array('Enterprise_Logging_Model_Resource_Helper_Mysql4'),
+    array('Enterprise_Queue_Model_Queue'),
+    array('Enterprise_Queue_Model_AddException'),
+    array('Enterprise_Queue_Model_Config'),
+    array('Enterprise_Queue_Model_Config_Gearman'),
+    array('Enterprise_Queue_Model_Event_Handler'),
+    array('Enterprise_Queue_Model_Event_Invoker_Asynchronous'),
+    array('Enterprise_Queue_Model_Resource_Task'),
+    array('Enterprise_Queue_Model_Task'),
+    array('Enterprise_Queue_Model_TaskRepository'),
 );

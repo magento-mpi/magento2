@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_GiftRegistry_Model_Resource_Item_Option_Collection
-    extends Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * List of option ids grouped by item id
@@ -95,14 +95,14 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Option_Collection
     /**
      * Apply product(s) filter to collection
      *
-     * @param  int|Mage_Catalog_Model_Product|array $product
+     * @param  int|Magento_Catalog_Model_Product|array $product
      * @return Enterprise_GiftRegistry_Model_Resource_Item_Option_Collection
      */
     public function addProductFilter($product)
     {
         if (is_array($product)) {
             $this->addFieldToFilter('product_id', array('in' => $product));
-        } else if ($product instanceof Mage_Catalog_Model_Product) {
+        } else if ($product instanceof Magento_Catalog_Model_Product) {
             $this->addFieldToFilter('product_id', $product->getId());
         } elseif ((int)$product > 0) {
             $this->addFieldToFilter('product_id', (int)$product);
@@ -160,7 +160,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Option_Collection
      */
     public function getOptionsByProduct($product)
     {
-        if ($product instanceof Mage_Catalog_Model_Product) {
+        if ($product instanceof Magento_Catalog_Model_Product) {
             $productId = $product->getId();
         } else {
             $productId = $product;

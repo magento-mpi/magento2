@@ -13,14 +13,14 @@ class Enterprise_CustomerBalance_Model_ApiTest extends PHPUnit_Framework_TestCas
     /**
      * Customer fixture
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     public static $customer = null;
 
     /**
      * Customer without balance fixture
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     public static $customerNoBalance = null;
 

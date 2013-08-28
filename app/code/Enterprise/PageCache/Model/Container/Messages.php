@@ -45,7 +45,7 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
      */
     protected function _renderBlock()
     {
-        Mage::getSingleton('Mage_Core_Model_Cookie')->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
+        Mage::getSingleton('Magento_Core_Model_Cookie')->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
 
         $block = $this->_getPlaceHolderBlock();
 
@@ -62,9 +62,9 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
      * Add messages from storage to message block
      *
      * @param string $messagesStorage
-     * @param Mage_Core_Block_Messages $block
+     * @param Magento_Core_Block_Messages $block
      */
-    protected function _addMessagesToBlock($messagesStorage, Mage_Core_Block_Messages $block)
+    protected function _addMessagesToBlock($messagesStorage, Magento_Core_Block_Messages $block)
     {
         if ($storage = Mage::getSingleton($messagesStorage)) {
             $block->addMessages($storage->getMessages(true));

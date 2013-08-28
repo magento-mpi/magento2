@@ -21,7 +21,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_MainTest extends
      */
     public function testPrepareForm()
     {
-        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         Mage::register('current_target_rule', Mage::getModel('Enterprise_TargetRule_Model_Rule'));
 
         $block = Mage::app()->getLayout()->createBlock(

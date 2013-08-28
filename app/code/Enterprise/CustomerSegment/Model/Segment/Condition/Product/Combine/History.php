@@ -30,10 +30,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     protected $_inputType = 'select';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History');
@@ -77,8 +77,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            self::VIEWED  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('viewed'),
-            self::ORDERED => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('ordered'),
+            self::VIEWED  => __('viewed'),
+            self::ORDERED => __('ordered'),
         ));
         return $this;
     }
@@ -88,7 +88,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
      *
      * Modify value_option array if needed
      *
-     * @param Mage_Rule_Model_Rule $rule
+     * @param Magento_Rule_Model_Rule $rule
      * @return Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
      */
     public function setRule($rule)
@@ -126,8 +126,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('Mage_Rule_Helper_Data')->__('was'),
-            '!='  => Mage::helper('Mage_Rule_Helper_Data')->__('was not')
+            '=='  => __('was'),
+            '!='  => __('was not')
         ));
         return $this;
     }
@@ -140,7 +140,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Product %s %s and matches %s of these Conditions:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . __('If Product %1 %2 and matches %3 of these Conditions:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

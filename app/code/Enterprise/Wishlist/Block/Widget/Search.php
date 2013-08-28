@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Block_Widget_Search extends Mage_Core_Block_Template implements Mage_Widget_Block_Interface
+class Enterprise_Wishlist_Block_Widget_Search extends Magento_Core_Block_Template implements Magento_Widget_Block_Interface
 {
     /**
      * Search form select options
@@ -99,12 +99,12 @@ class Enterprise_Wishlist_Block_Widget_Search extends Mage_Core_Block_Template i
         $options = array_merge(array(
             array(
                 'value' => '',
-                'label' => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Select Search Type'))
+                'label' => __('Select Search Type'))
             ),
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setName('search_by')
             ->setId($this->getBlockId() . '-search_by')
             ->setOptions($options);
@@ -120,7 +120,7 @@ class Enterprise_Wishlist_Block_Widget_Search extends Mage_Core_Block_Template i
     public function getBlockId()
     {
         if ($this->getData('id') === null) {
-            $this->setData('id', Mage::helper('Mage_Core_Helper_Data')->uniqHash());
+            $this->setData('id', Mage::helper('Magento_Core_Helper_Data')->uniqHash());
         }
         return $this->getData('id');
     }

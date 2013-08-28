@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_googleshopping_types_block>
+        <reference name="googleshopping.types.container">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.googleshopping.types.grid" as="grid">
+                <arguments>
+                    <id>types_grid</id>
+                    <dataSource type="object">Magento_GoogleShopping_Model_Resource_Grid_Collection</dataSource>
+                    <save_parameters_in_session>1</save_parameters_in_session>
+                    <use_ajax>1</use_ajax>
+                    <grid_url type="url">
+                        <path>*/*/grid</path>
+                        <params>
+                            <_current>1</_current>
+                        </params>
+                    </grid_url>
+                </arguments>
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="googleshopping.types.grid.columnSet">
+                    <arguments>
+                        <id>types_grid</id>
+                        <rowUrl>
+                            <path>*/*/edit</path>
+                            <params>
+                                <_current>1</_current>
+                            </params>
+                            <extraParamsTemplate>
+                                <id>getId</id>
+                            </extraParamsTemplate>
+                        </rowUrl>
+                    </arguments>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="attribute_set_name">
+                        <arguments>
+                            <header translate="true">Attributes Set</header>
+                            <index>attribute_set_name</index>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="target_country">
+                        <arguments>
+                            <header translate="true">Target Country</header>
+                            <index>target_country</index>
+                            <width>150px</width>
+                            <renderer>Magento_GoogleShopping_Block_Adminhtml_Types_Renderer_Country</renderer>
+                            <filter>0</filter>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="items_total">
+                        <arguments>
+                            <header translate="true">Total Qty Content Items</header>
+                            <index>items_total</index>
+                            <width>150px</width>
+                            <filter>0</filter>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_googleshopping_types_block>
+</layout>

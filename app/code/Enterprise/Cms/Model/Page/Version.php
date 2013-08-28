@@ -34,7 +34,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
+class Enterprise_Cms_Model_Page_Version extends Magento_Core_Model_Abstract
 {
     /**
      * Prefix of model events names.
@@ -80,11 +80,11 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
                         $this->getPageId(), Enterprise_Cms_Model_Increment::LEVEL_VERSION);
 
             $this->setVersionNumber($incrementNumber);
-            $this->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
+            $this->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
         }
 
         if (!$this->getLabel()) {
-            Mage::throwException(Mage::helper('Enterprise_Cms_Helper_Data')->__('Please enter a version label.'));
+            Mage::throwException(__('Please enter a version label.'));
         }
 
         // We cannot allow changing access level for some versions
@@ -95,13 +95,13 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
 
                 if ($resource->isVersionLastPublic($this)) {
                     Mage::throwException(
-                        Mage::helper('Enterprise_Cms_Helper_Data')->__('Cannot change version access level because it is the last public version for its page.')
+                        __('Cannot change version access level because it is the last public version for its page.')
                     );
                 }
 
 //                if ($resource->isVersionHasPublishedRevision($this)) {
 //                    Mage::throwException(
-//                        Mage::helper('Enterprise_Cms_Helper_Data')->__('Cannot change version access level because its revision is published.')
+//                        __('Cannot change version access level because its revision is published.')
 //                    );
 //                }
             }
@@ -153,14 +153,14 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
         if ($this->isPublic()) {
             if ($resource->isVersionLastPublic($this)) {
                 Mage::throwException(
-                    Mage::helper('Enterprise_Cms_Helper_Data')->__('Version "%s" cannot be removed because it is the last public page version.', $this->getLabel())
+                    __('Version "%1" cannot be removed because it is the last public page version.', $this->getLabel())
                 );
             }
         }
 
         if ($resource->isVersionHasPublishedRevision($this)) {
             Mage::throwException(
-                Mage::helper('Enterprise_Cms_Helper_Data')->__('Version "%s" cannot be removed because its revision is published.', $this->getLabel())
+                __('Version "%1" cannot be removed because its revision is published.', $this->getLabel())
             );
         }
 

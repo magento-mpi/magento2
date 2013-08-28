@@ -17,13 +17,13 @@
     <?php if ($_product->getName()): ?>
         <strong><?php echo $this->escapeHtml($_product->getName()) ?></strong><br/>
     <?php endif ?>
-    <strong><?php echo $this->__('SKU: ') ?></strong> <?php echo $_sku ?><br/>
+    <strong><?php echo __('SKU: ') ?></strong> <?php echo $_sku ?><br/>
     <div class="notice">
         <div style="font-size: 95%"><?php echo $this->getErrorMessage($_item) ?></div>
     </div>
 
     <?php if ($_item->getQtyMaxAllowed()): ?>
-        <?php echo $this->__('Only <span id="%s_max_allowed">%s</span> in stock', $_sku, $_item->getQtyMaxAllowed()) ?>
+        <?php echo __('Only <span id="%1_max_allowed">%2</span> in stock', $_sku, $_item->getQtyMaxAllowed()) ?>
     <?php endif ?>
     <input type="hidden" name="sku" value="<?php echo $_sku ?>"/>
     <input type="checkbox" name="<?php echo $this->getSourceId() ?>" value="<?php echo $_sku ?>" checked="checked" style="display:none"/>

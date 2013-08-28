@@ -29,7 +29,7 @@ class Enterprise_GiftRegistry_Model_Item_OptionTest extends PHPUnit_Framework_Te
 
     public function setProductDataProvider()
     {
-        $product = $this->getMock('Mage_Catalog_Model_Product', array('getId'), array(), '', false);
+        $product = $this->getMock('Magento_Catalog_Model_Product', array('getId'), array(), '', false);
         $product->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(3));

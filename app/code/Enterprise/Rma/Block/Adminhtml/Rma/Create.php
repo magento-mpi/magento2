@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Rma_Block_Adminhtml_Rma_Create extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Rma_Block_Adminhtml_Rma_Create extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     protected function _construct()
     {

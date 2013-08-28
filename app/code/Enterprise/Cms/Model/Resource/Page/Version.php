@@ -16,7 +16,7 @@
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Model_Resource_Page_Version extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Cms_Model_Resource_Page_Version extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization
@@ -29,10 +29,10 @@ class Enterprise_Cms_Model_Resource_Page_Version extends Mage_Core_Model_Resourc
     /**
      * Checking if version id not last public for its page
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return bool
      */
-    public function isVersionLastPublic(Mage_Core_Model_Abstract $object)
+    public function isVersionLastPublic(Magento_Core_Model_Abstract $object)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from($this->getMainTable(), 'COUNT(*)')
@@ -54,10 +54,10 @@ class Enterprise_Cms_Model_Resource_Page_Version extends Mage_Core_Model_Resourc
     /**
      * Checking if Version does not contain published revision
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return bool
      */
-    public function isVersionHasPublishedRevision(Mage_Core_Model_Abstract $object)
+    public function isVersionHasPublishedRevision(Magento_Core_Model_Abstract $object)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from(array('p' => $this->getTable('cms_page')), array())

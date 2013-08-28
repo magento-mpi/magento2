@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_giftcardaccount_block>
         <reference name="adminhtml.gift.card.account.grid.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="gift.card.account.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="gift.card.account.grid" as="grid">
                 <arguments>
                     <id>giftcardaccountGrid</id>
                     <dataSource type="object">Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection</dataSource>
@@ -26,35 +26,35 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_Export" name="gift.card.account.grid.export" as="grid.export">
+                <block type="Magento_Backend_Block_Widget_Grid_Export" name="gift.card.account.grid.export" as="grid.export">
                     <arguments>
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportCsv</urlPath>
-                                <label translate="true" module="Mage_Customer">CSV</label>
+                                <label translate="true">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportMsxml</urlPath>
-                                <label translate="true" module="Mage_Customer">Excel XML</label>
+                                <label translate="true">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="gift.card.account.grid.massaction" as="grid.massaction">
+                <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="gift.card.account.grid.massaction" as="grid.massaction">
                     <arguments>
                         <massaction_id_field>giftcardaccount_id</massaction_id_field>
                         <form_field_name>giftcardaccount</form_field_name>
                         <use_select_all>1</use_select_all>
                         <options>
                             <delete>
-                                <label translate="true" module="Enterprise_GiftCardAccount">Delete</label>
+                                <label translate="true">Delete</label>
                                 <url>*/*/massDelete</url>
-                                <confirm translate="true" module="Enterprise_GiftCardAccount">Are you sure you want to delete these gift card accounts?</confirm>
+                                <confirm translate="true">Are you sure you want to delete these gift card accounts?</confirm>
                             </delete>
                         </options>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.logging.archive.grid.columnSet" as="grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.logging.archive.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -63,51 +63,51 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="giftcardaccount_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="giftcardaccount_id">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">ID</header>
+                            <header translate="true">ID</header>
                             <type>number</type>
                             <index>giftcardaccount_id</index>
                             <width>30</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="code">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Code</header>
+                            <header translate="true">Code</header>
                             <index>code</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="website">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Website</header>
+                            <header translate="true">Website</header>
                             <type>options</type>
                             <index>website_id</index>
                             <width>100</width>
                             <column_css_class>col-store</column_css_class>
                             <header_css_class>col-store</header_css_class>
-                            <options type="options">Mage_Backend_Model_Config_Source_Website_OptionHash</options>
+                            <options type="options">Magento_Backend_Model_Config_Source_Website_OptionHash</options>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="date_created">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_created">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Created</header>
+                            <header translate="true">Created</header>
                             <index>date_created</index>
                             <width>120</width>
                             <type>date</type>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="date_expires">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_expires">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">End on</header>
+                            <header translate="true">End on</header>
                             <index>date_expires</index>
                             <width>120</width>
                             <type>date</type>
                             <default>--</default>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="status">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Active</header>
+                            <header translate="true">Active</header>
                             <index>status</index>
                             <width>50</width>
                             <type>options</type>
@@ -115,9 +115,9 @@
                             <options type="options">Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Grid_Active</options>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="state">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="state">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Status</header>
+                            <header translate="true">Status</header>
                             <index>state</index>
                             <width>100</width>
                             <type>options</type>
@@ -125,9 +125,9 @@
                             <options type="options">Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Grid_Status</options>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="balance">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="balance">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Balance</header>
+                            <header translate="true">Balance</header>
                             <index>balance</index>
                             <type>currency</type>
                             <currency>base_currency_code</currency>

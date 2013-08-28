@@ -34,7 +34,7 @@ $_element = $this->getElement();
         <table cellspacing="0" class="<?php echo $_element->hasTableClass() ? $_element->getTableClass() : 'data-table'?>">
             <tbody>
                 <tr>
-                    <td class="col-product"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name') ?></td>
+                    <td class="col-product"><?php echo __('Product Name') ?></td>
                     <td><?php echo $_element->getProductName() ?></td>
                 </tr>
                 <?php echo $_element->getChildrenHtml(); ?>

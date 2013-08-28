@@ -24,9 +24,9 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_System_Config_Source_Grant
     public function toOptionArray()
     {
         return array(
-            Enterprise_CatalogPermissions_Helper_Data::GRANT_ALL            => Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('Yes, for Everyone'),
-            Enterprise_CatalogPermissions_Helper_Data::GRANT_CUSTOMER_GROUP => Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('Yes, for Specified Customer Groups'),
-            Enterprise_CatalogPermissions_Helper_Data::GRANT_NONE           => Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('No')
+            Enterprise_CatalogPermissions_Helper_Data::GRANT_ALL            => __('Yes, for Everyone'),
+            Enterprise_CatalogPermissions_Helper_Data::GRANT_CUSTOMER_GROUP => __('Yes, for Specified Customer Groups'),
+            Enterprise_CatalogPermissions_Helper_Data::GRANT_NONE           => __('No')
         );
     }
 }

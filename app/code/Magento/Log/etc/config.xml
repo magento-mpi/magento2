@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Log
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <ignoredModules>
+            <entities>
+                <install />
+                <adminhtml />
+                <admin />
+            </entities>
+        </ignoredModules>
+        <ignore_user_agents>
+            <google1>Googlebot/1.0 (googlebot@googlebot.com http://googlebot.com/)</google1>
+            <google2>Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)</google2>
+            <google3>Googlebot/2.1 (+http://www.googlebot.com/bot.html)</google3>
+        </ignore_user_agents>
+        <resources>
+            <log_setup>
+                <setup>
+                    <module>Magento_Log</module>
+                </setup>
+            </log_setup>
+        </resources>
+        <template>
+            <email>
+                <system_log_error_email_template translate="label" module="Magento_Log">
+                    <label>Log Cleanup Warnings</label>
+                    <file>email/cleanup_warning.html</file>
+                    <type>text</type>
+                </system_log_error_email_template>
+            </email>
+        </template>
+    </global>
+    <frontend>
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <log>
+                        <class>Magento_Log_Model_Visitor</class>
+                        <method>initByRequest</method>
+                    </log>
+                </observers>
+            </controller_action_predispatch>
+            <controller_action_postdispatch>
+                <observers>
+                    <log>
+                        <class>Magento_Log_Model_Visitor</class>
+                        <method>saveByRequest</method>
+                    </log>
+                </observers>
+            </controller_action_postdispatch>
+            <customer_login>
+                <observers>
+                    <log>
+                        <class>Magento_Log_Model_Visitor</class>
+                        <method>bindCustomerLogin</method>
+                    </log>
+                </observers>
+            </customer_login>
+            <customer_logout>
+                <observers>
+                    <log>
+                        <class>Magento_Log_Model_Visitor</class>
+                        <method>bindCustomerLogout</method>
+                    </log>
+                </observers>
+            </customer_logout>
+            <sales_quote_save_after>
+                <observers>
+                    <log>
+                        <class>Magento_Log_Model_Visitor</class>
+                        <method>bindQuoteCreate</method>
+                    </log>
+                </observers>
+            </sales_quote_save_after>
+            <checkout_quote_destroy>
+                <observers>
+                    <log>
+                        <class>Magento_Log_Model_Visitor</class>
+                        <method>bindQuoteDestroy</method>
+                    </log>
+                </observers>
+            </checkout_quote_destroy>
+        </events>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Log>
+                    <files>
+                        <default>Magento_Log.csv</default>
+                    </files>
+                </Magento_Log>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <log>
+            <visitor>
+                <online_update_frequency>60</online_update_frequency>
+            </visitor>
+        </log>
+        <system>
+            <log>
+                <clean_after_day>180</clean_after_day>
+                <enabled>0</enabled>
+                <time />
+                <frequency>D</frequency>
+                <error_email />
+                <error_email_identity>general</error_email_identity>
+                <error_email_template>system_log_error_email_template</error_email_template>
+            </log>
+        </system>
+    </default>
+    <crontab>
+        <jobs>
+            <log_clean>
+                <run>
+                    <model>Magento_Log_Model_Cron::logClean</model>
+                </run>
+            </log_clean>
+        </jobs>
+    </crontab>
+</config>

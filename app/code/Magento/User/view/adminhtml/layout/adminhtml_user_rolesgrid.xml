@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_user_rolesgrid>
+        <container name="root" label="Root" output="1">
+            <block type="Magento_User_Block_User_Edit_Tab_Roles" name="adminhtml.user.rolesgrid"/>
+        </container>
+    </adminhtml_user_rolesgrid>
+</layout>

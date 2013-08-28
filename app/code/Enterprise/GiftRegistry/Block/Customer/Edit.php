@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_GiftRegistry
  */
-class Enterprise_GiftRegistry_Block_Customer_Edit extends Mage_Directory_Block_Data
+class Enterprise_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_Data
 {
     /**
      * Template container
@@ -31,9 +31,9 @@ class Enterprise_GiftRegistry_Block_Customer_Edit extends Mage_Directory_Block_D
     public function getFormHeader()
     {
         if (Mage::registry('enterprise_giftregistry_entity')->getId()) {
-            return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Edit Gift Registry');
+            return __('Edit Gift Registry');
         } else {
-            return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Create Gift Registry');
+            return __('Create Gift Registry');
         }
     }
 
@@ -44,7 +44,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit extends Mage_Directory_Block_D
      */
     public function getFormDataPost()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getGiftRegistryEntityFormData(true);
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getGiftRegistryEntityFormData(true);
     }
 
     /**

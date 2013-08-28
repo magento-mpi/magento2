@@ -25,20 +25,20 @@ class Enterprise_SalesArchive_Model_Archive
      */
     protected $_entities = array(
         self::ORDER => array(
-            'model' => 'Mage_Sales_Model_Order',
-            'resource_model' => 'Mage_Sales_Model_Resource_Order'
+            'model' => 'Magento_Sales_Model_Order',
+            'resource_model' => 'Magento_Sales_Model_Resource_Order'
         ),
         self::INVOICE => array(
-            'model' => 'Mage_Sales_Model_Order_Invoice',
-            'resource_model' => 'Mage_Sales_Model_Resource_Order_Invoice'
+            'model' => 'Magento_Sales_Model_Order_Invoice',
+            'resource_model' => 'Magento_Sales_Model_Resource_Order_Invoice'
         ),
         self::SHIPMENT  => array(
-            'model' => 'Mage_Sales_Model_Order_Shipment',
-            'resource_model' => 'Mage_Sales_Model_Resource_Order_Shipment'
+            'model' => 'Magento_Sales_Model_Order_Shipment',
+            'resource_model' => 'Magento_Sales_Model_Resource_Order_Shipment'
         ),
         self::CREDITMEMO => array(
-            'model' => 'Mage_Sales_Model_Order_Creditmemo',
-            'resource_model' => 'Mage_Sales_Model_Resource_Order_Creditmemo'
+            'model' => 'Magento_Sales_Model_Order_Creditmemo',
+            'resource_model' => 'Magento_Sales_Model_Resource_Order_Creditmemo'
         )
     );
 

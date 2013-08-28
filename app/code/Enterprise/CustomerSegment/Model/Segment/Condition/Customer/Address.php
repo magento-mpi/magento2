@@ -15,10 +15,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address');
@@ -35,7 +35,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
         $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),
-                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions Combination')
+                'label' => __('Conditions Combination')
             ),
             Mage::getModel($prefix.'Default')->getNewChildSelectOptions(),
             Mage::getModel($prefix.'Attributes')->getNewChildSelectOptions(),
@@ -51,7 +51,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Customer Addresses match %s of these Conditions:', $this->getAggregatorElement()->getHtml())
+            . __('If Customer Addresses match %1 of these Conditions:', $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -76,7 +76,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
     {
         $resource = $this->getResource();
         $select = $resource->createSelect();
-        $addressEntityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer_address');
+        $addressEntityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer_address');
         $addressTable = $resource->getTable($addressEntityType->getEntityTable());
         $select->from(array('customer_address' => $addressTable), array(new Zend_Db_Expr(1)));
         $select->where('customer_address.entity_type_id = ?', $addressEntityType->getId());

@@ -11,7 +11,7 @@
 /**
  * Websites fieldset for admin roles edit tab
  */
-class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mage_Backend_Block_Template
+class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Magento_Backend_Block_Template
 {
     /**
      * Check whether role assumes all websites permissions
@@ -34,7 +34,7 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends 
     /**
      * Get the role object
      *
-     * @return Mage_User_Model_Role
+     * @return Magento_User_Model_Role
      */
     public function getRole()
     {
@@ -67,6 +67,6 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends 
                 }
             }
         }
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
     }
 }

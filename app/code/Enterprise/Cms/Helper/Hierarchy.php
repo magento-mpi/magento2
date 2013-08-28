@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
+class Enterprise_Cms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_HIERARCHY_ENABLED    = 'cms/hierarchy/enabled';
     const XML_PATH_METADATA_ENABLED     = 'cms/hierarchy/metadata_enabled';

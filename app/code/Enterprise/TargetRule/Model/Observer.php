@@ -44,10 +44,10 @@ class Enterprise_TargetRule_Model_Observer
      */
     public function catalogProductAfterSave(Magento_Event_Observer $observer)
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = $observer->getEvent()->getProduct();
 
-        Mage::getSingleton('Mage_Index_Model_Indexer')->logEvent(
+        Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
             new Magento_Object(array(
                 'id' => $product->getId(),
                 'store_id' => $product->getStoreId(),
@@ -68,7 +68,7 @@ class Enterprise_TargetRule_Model_Observer
      */
     public function catalogProductSaveCommitAfter(Magento_Event_Observer $observer)
     {
-        Mage::getSingleton('Mage_Index_Model_Indexer')->indexEvents(
+        Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
             Enterprise_TargetRule_Model_Index::ENTITY_PRODUCT,
             Enterprise_TargetRule_Model_Index::EVENT_TYPE_REINDEX_PRODUCTS
         );
@@ -84,12 +84,12 @@ class Enterprise_TargetRule_Model_Observer
     {
         if ($observer->getDataObject()->getPath() == 'customer/enterprise_customersegment/is_enabled'
             && $observer->getDataObject()->isValueChanged()) {
-            Mage::getSingleton('Mage_Index_Model_Indexer')->logEvent(
+            Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
                 new Magento_Object(array('type_id' => null, 'store' => null)),
                 Enterprise_TargetRule_Model_Index::ENTITY_TARGETRULE,
                 Enterprise_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
             );
-            Mage::getSingleton('Mage_Index_Model_Indexer')->indexEvents(
+            Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
                 Enterprise_TargetRule_Model_Index::ENTITY_TARGETRULE,
                 Enterprise_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
             );

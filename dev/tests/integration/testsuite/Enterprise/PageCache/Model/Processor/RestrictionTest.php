@@ -17,8 +17,8 @@ class Enterprise_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Frame
 
     public static function setUpBeforeClass()
     {
-        /** @var Mage_Core_Model_Cache_StateInterface $cacheState */
-        $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+        /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
+        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
         $cacheState->setEnabled('full_page', true);
     }
 

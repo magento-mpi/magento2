@@ -12,7 +12,7 @@
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
     <widget id="wishlist_search" class="Enterprise_Wishlist_Block_Widget_Search"
-            translate="label description" module="Enterprise_Wishlist" is_email_compatible="false">
+            translate="label description" is_email_compatible="false">
         <label>Wishlist Search</label>
         <description>Wish List Search Description</description>
         <parameter name="types" xsi:type="multiselect" translate="label description" required="true"

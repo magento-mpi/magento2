@@ -33,7 +33,7 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
      */
     public function setUp()
     {
-        $dateModelMock = $this->getMock('Mage_Core_Model_Date', array('date'), array(), '', false);
+        $dateModelMock = $this->getMock('Magento_Core_Model_Date', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
             ->method('date')
             ->will($this->returnCallback(array($this, 'getDateCallback')));
@@ -57,7 +57,7 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
     public function testGetDateModel()
     {
         $this->assertInstanceOf(
-            'Mage_Core_Model_Date',
+            'Magento_Core_Model_Date',
             $this->_model->getDateModel(),
             'Date model getter retrieve instance with wrong type'
         );
@@ -189,7 +189,7 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * Callback to use instead Mage_Core_Model_Date::date()
+     * Callback to use instead Magento_Core_Model_Date::date()
      *
      * @param string $format
      * @param int|string $input

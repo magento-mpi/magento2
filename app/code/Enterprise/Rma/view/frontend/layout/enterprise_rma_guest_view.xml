@@ -18,38 +18,38 @@
         <update handle="customer_account"/>
         <reference name="content">
             <block type="Enterprise_Rma_Block_Return_Info" as="info" name="sales.order.info">
-                <block type="Mage_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
+                <block type="Magento_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
                     <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml"/>
                 </block>
             </block>
             <block type="Enterprise_Rma_Block_Return_View" name="rma.return.history">
                 <container name="rma.return.history.info" as="info" label="View Return"/>
             </block>
-            <block type="Enterprise_Rma_Block_Return_View" name="customer.account.link.back" template="Mage_Customer::account/link/back.phtml"/>
+            <block type="Enterprise_Rma_Block_Return_View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
         </reference>
         <update handle="enterprise_rma_return_view_handle"/>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="Mage_Sales">
+            <action method="addLink" translate="label">
                 <name>view</name>
                 <path>sales/guest/view</path>
                 <label>Order Information</label>
             </action>
-            <action method="addLink" translate="label" module="Mage_Sales">
+            <action method="addLink" translate="label">
                 <name>invoice</name>
                 <path>sales/guest/invoice</path>
                 <label>Invoices</label>
             </action>
-            <action method="addLink" translate="label" module="Mage_Sales">
+            <action method="addLink" translate="label">
                 <name>shipment</name>
                 <path>sales/guest/shipment</path>
                 <label>Shipments</label>
             </action>
-            <action method="addLink" translate="label" module="Mage_Sales">
+            <action method="addLink" translate="label">
                 <name>creditmemo</name>
                 <path>sales/guest/creditmemo</path>
                 <label>Refunds</label>
             </action>
-            <action method="addLink" translate="label" module="Mage_Sales">
+            <action method="addLink" translate="label">
                 <name>returns</name>
                 <path/>
                 <label>Returns</label>

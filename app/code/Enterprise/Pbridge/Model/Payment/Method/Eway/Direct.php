@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Eway_Direct extends Mage_Payment_Model_Method_Cc
+class Enterprise_Pbridge_Model_Payment_Method_Eway_Direct extends Magento_Payment_Model_Method_Cc
 {
     /**
      * Eway Direct payment method code
@@ -42,7 +42,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Eway_Direct extends Mage_Payment_M
      * Info block type for backend
      * @var string
      */
-    protected $_infoBlockType = 'Mage_Payment_Block_Info_Cc';
+    protected $_infoBlockType = 'Magento_Payment_Block_Info_Cc';
 
     /**
      * Form block type for the frontend
@@ -82,7 +82,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Eway_Direct extends Mage_Payment_M
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
             if ($this->_pbridgeMethodInstance) {
                 $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
             }
@@ -109,7 +109,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Eway_Direct extends Mage_Payment_M
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Mage_Payment_Model_Info
+     * @return Magento_Payment_Model_Info
      */
     public function assignData($data)
     {
@@ -135,7 +135,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Eway_Direct extends Mage_Payment_M
     /**
      * Check whether payment method can be used
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return boolean
      */
     public function isAvailable($quote = null)

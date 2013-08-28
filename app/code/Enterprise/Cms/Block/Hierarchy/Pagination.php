@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Block_Hierarchy_Pagination extends Mage_Core_Block_Template
+class Enterprise_Cms_Block_Hierarchy_Pagination extends Magento_Core_Block_Template
 {
     /**
      * Current Hierarchy Node Page Instance
@@ -51,13 +51,13 @@ class Enterprise_Cms_Block_Hierarchy_Pagination extends Mage_Core_Block_Template
     /**
      * Add context menu params to block data
      *
-     * @return Mage_Core_Block_Template
+     * @return Magento_Core_Block_Template
      */
     protected function _loadNodePaginationParams()
     {
         $this->setPaginationEnabled(false);
 
-        if ($this->_node instanceof Mage_Core_Model_Abstract) {
+        if ($this->_node instanceof Magento_Core_Model_Abstract) {
             $params = $this->_node->getMetadataPagerParams();
             if ($params !== null
                 && isset($params['pager_visibility'])

@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection
-    extends Mage_Reports_Model_Resource_Customer_Collection
+    extends Magento_Reports_Model_Resource_Customer_Collection
 {
     /**
      * Joins Invitation report data, and filter by date

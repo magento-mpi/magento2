@@ -21,7 +21,7 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adminhtml_Block_Template
+abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Magento_Adminhtml_Block_Template
 {
     /**
      * List type of current block
@@ -38,7 +38,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
 
         // Used by JS to tell accordions from each other
         $this->setId('sku');
-        /* @see Enterprise_Checkout_Adminhtml_CheckoutController::_getListItemInfo() */
+        /* @see Enterprise_Checkout_Controller_Adminhtml_Checkout::_getListItemInfo() */
         $this->setListType(self::LIST_TYPE);
         $this->setDataContainerId('sku_container');
     }
@@ -50,20 +50,20 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
      */
     protected function _prepareLayout()
     {
-        /* @var $headBlock Mage_Page_Block_Html_Head */
+        /* @var $headBlock Magento_Page_Block_Html_Head */
         $headBlock = parent::_prepareLayout()->getLayout()->getBlock('head');
         if ($headBlock) {
             // Head block is not defined on AJAX request
             $headBlock->addJs('Enterprise_Checkout::addbysku.js');
         }
 
-        $this->addChild('deleteButton', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('deleteButton', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label'   => '',
             'onclick' => 'addBySku.del(this)',
             'class'   => 'delete'
         ));
 
-        $this->addChild('addButton', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('addButton', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label'   => 'Add',
             'onclick' => 'addBySku.add()',
             'class'   => 'add'
@@ -118,7 +118,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
             'fileUploadUrl'    => $this->getFileUploadUrl(),
         );
 
-        $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
+        $json = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
         return $json;
     }
 

@@ -15,7 +15,7 @@
  * @package     Enterprise_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Initialize form
@@ -35,14 +35,14 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
         $segment = Mage::registry('current_customer_segment');
         if ($segment && $segment->getId()) {
             $this->_addButton('match_customers', array(
-                'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Refresh Segment Data'),
+                'label'     => __('Refresh Segment Data'),
                 'onclick'   => 'setLocation(\'' . $this->getMatchUrl() . '\')',
             ), -1);
         }
 
         $this->_addButton('save_and_continue_edit', array(
             'class'   => 'save',
-            'label'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Save and Continue Edit'),
+            'label'   => __('Save and Continue Edit'),
             'data_attribute'  => array(
                 'mage-init' => array(
                     'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
@@ -71,10 +71,10 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
     {
         $segment = Mage::registry('current_customer_segment');
         if ($segment->getSegmentId()) {
-            return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__("Edit Segment '%s'", $this->escapeHtml($segment->getName()));
+            return __("Edit Segment '%1'", $this->escapeHtml($segment->getName()));
         }
         else {
-            return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('New Segment');
+            return __('New Segment');
         }
     }
 }

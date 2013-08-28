@@ -13,7 +13,7 @@
  *
  */
 class Enterprise_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls
- extends Mage_Core_Block_Template
+ extends Magento_Core_Block_Template
 {
     /**
      * Check whether refund to customerbalance is available

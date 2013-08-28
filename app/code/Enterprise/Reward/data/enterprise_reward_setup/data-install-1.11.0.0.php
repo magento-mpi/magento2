@@ -55,4 +55,4 @@ $cmsPage = array(
 ',
 );
 
-Mage::getModel('Mage_Cms_Model_Page')->setData($cmsPage)->save();
+Mage::getModel('Magento_Cms_Model_Page')->setData($cmsPage)->save();

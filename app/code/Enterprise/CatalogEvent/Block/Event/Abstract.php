@@ -16,7 +16,7 @@
  * @package    Enterprise_CatalogEvent
  */
 
-abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Block_Template
+abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Magento_Core_Block_Template
 {
     /**
      * Event statuses titles
@@ -29,9 +29,9 @@ abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Bl
     {
         parent::_construct();
         $this->_statuses = array(
-            Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Coming Soon'),
-            Enterprise_CatalogEvent_Model_Event::STATUS_OPEN     => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Sale Ends In'),
-            Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED   => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Closed'),
+            Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING => __('Coming Soon'),
+            Enterprise_CatalogEvent_Model_Event::STATUS_OPEN     => __('Sale Ends In'),
+            Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED   => __('Closed'),
         );
     }
 
@@ -61,7 +61,7 @@ abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Bl
     public function getEventTime($type, $event, $format = null)
     {
         if ($format === null) {
-            $format = $this->_getLocale()->getTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+            $format = $this->_getLocale()->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
         }
 
         return $this->_getEventDate($type, $event, $format);
@@ -78,7 +78,7 @@ abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Bl
     public function getEventDate($type, $event, $format = null)
     {
         if ($format === null) {
-            $format = $this->_getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+            $format = $this->_getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
         }
 
         return $this->_getEventDate($type, $event, $format);
@@ -115,7 +115,7 @@ abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Bl
         $dateString = $event->getData('date_' . $type);
         $date->set($dateString, Magento_Date::DATETIME_INTERNAL_FORMAT);
 
-        if (($timezone = Mage::app()->getStore()->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE))) {
+        if (($timezone = Mage::app()->getStore()->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE))) {
             // changing timezone to default store timezone
             $date->setTimezone($timezone);
         }
@@ -139,7 +139,7 @@ abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Bl
     /**
      * Retrieve current locale
      *
-     * @return Mage_Core_Model_LocaleInterface
+     * @return Magento_Core_Model_LocaleInterface
      */
     protected function _getLocale()
     {

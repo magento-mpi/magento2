@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Block_Return_Returns extends Mage_Core_Block_Template
+class Enterprise_Rma_Block_Return_Returns extends Magento_Core_Block_Template
 {
     public function _construct()
     {
@@ -21,7 +21,7 @@ class Enterprise_Rma_Block_Return_Returns extends Mage_Core_Block_Template
                 ->addFieldToFilter('order_id', Mage::registry('current_order')->getId())
                 ->setOrder('date_requested', 'desc');
 
-            $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+            $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
             if ($customerSession->isLoggedIn()) {
                 $returns->addFieldToFilter('customer_id', $customerSession->getCustomer()->getId());
             }
@@ -35,7 +35,7 @@ class Enterprise_Rma_Block_Return_Returns extends Mage_Core_Block_Template
         parent::_prepareLayout();
 
         $pager = $this->getLayout()
-            ->createBlock('Mage_Page_Block_Html_Pager', 'sales.order.history.pager')
+            ->createBlock('Magento_Page_Block_Html_Pager', 'sales.order.history.pager')
             ->setCollection($this->getReturns());
         $this->setChild('pager', $pager);
         $this->getReturns()->load();

@@ -11,7 +11,7 @@
 /**
  * Front end helper block to show giftregistry items
  */
-class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
+class Enterprise_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
 {
 
     /**
@@ -29,8 +29,8 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
                 ->addRegistryFilter($this->getEntity()->getId());
 
             $quoteItemsCollection = array();
-            $quote = Mage::getModel('Mage_Sales_Model_Quote')->setItemCount(true);
-            $emptyQuoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item');
+            $quote = Mage::getModel('Magento_Sales_Model_Quote')->setItemCount(true);
+            $emptyQuoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item');
             foreach ($collection as $item) {
                 $product = $item->getProduct();
                 $remainingQty = $item->getQty() - $item->getQtyFulfilled();
@@ -46,14 +46,14 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
                     ->setOptions($item->getOptions());
 
                 $product->setCustomOptions($item->getOptionsByCode());
-                if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)) {
+                if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
                         Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                            Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $product->getFinalPrice(), true)
+                            Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
-                    $product->setAddToCartUrl($this->helper('Mage_Checkout_Helper_Cart')->getAddUrl($product));
+                    $product->setAddToCartUrl($this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product));
                 } else {
                     $quoteItem->setGiftRegistryPrice($product->getFinalPrice());
                     $quoteItem->setCanApplyMsrp(false);

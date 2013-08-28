@@ -30,6 +30,6 @@ class Enterprise_Customer_Block_Form extends Enterprise_Eav_Block_Form
      *
      * @var string
      */
-    protected $_formModelPath = 'Mage_Customer_Model_Form';
+    protected $_formModelPath = 'Magento_Customer_Model_Form';
 
 }

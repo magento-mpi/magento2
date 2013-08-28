@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <catalog_product_view_type_bundle>
+        <reference name="product.info">
+            <action method="setTemplate">
+                <template>Magento_Bundle::catalog/product/view.phtml</template>
+            </action>
+            <block type="Magento_Bundle_Block_Catalog_Product_View" name="bundle.summary" as="bundleSummary" after="product.info.bundle" template="catalog/product/view/summary.phtml" translate="label">
+                <label>Bundle Product View Summary</label>
+                <block type="Magento_Catalog_Block_Product_View" name="product.info.addtocart.bundle" as="addtocart" template="product/view/addtocart.phtml"/>
+                <block type="Magento_Catalog_Block_Product_View" name="product.info.addto.bundle" as="addto" template="product/view/addto.phtml"/>
+            </block>
+            <block type="Magento_Bundle_Block_Catalog_Product_View" name="customize.button" as="customize_button" template="catalog/product/view/customize.phtml"/>
+        </reference>
+
+        <move element="bundle.prices" destination="bundle.summary" before="-"/>
+
+        <reference name="product.info.options.wrapper">
+            <block type="Magento_Catalog_Block_Product_View" name="bundle.product.view.options.notice" after="-" template="Magento_Bundle::catalog/product/view/options/notice.phtml"/>
+        </reference>
+
+        <reference name="product.info.options.wrapper.bottom">
+            <block type="Magento_Bundle_Block_Catalog_Product_View" name="bundle.back.button" as="backButton" after="-" template="catalog/product/view/backbutton.phtml"/>
+            <action method="unsetChild">
+                <block>addtocart</block>
+            </action>
+            <action method="setHideRequiredNotice">
+                <flag>1</flag>
+            </action>
+            <action method="unsetChild">
+                <block>addto</block>
+            </action>
+        </reference>
+    </catalog_product_view_type_bundle>
+</layout>

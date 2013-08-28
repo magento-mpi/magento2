@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
-/* @var $coreHelper Mage_Core_Helper_Data */
-$coreHelper = Mage::helper('Mage_Core_Helper_Data');
+/* @var $coreHelper Magento_Core_Helper_Data */
+$coreHelper = Mage::helper('Magento_Core_Helper_Data');
 ?>
 <div style="display:none; visibility: hidden;">
     <div id="ui:button:add"><?php echo $this->getAddButtonHtml(); ?></div>
     <div id="ui:button:delete"><?php echo $this->getDeleteButtonHtml()?></div>
-    <div id="ui:button:delete-title"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete Option'); ?></div>
+    <div id="ui:button:delete-title"><?php echo __('Delete Option'); ?></div>
 </div>
 
 <script type="text/javascript">
@@ -23,9 +23,9 @@ OptionTemplateSelect =
     '<table class="data-table">'+
         '<thead>'+
         '<tr>'+
-            '<th>' + <?php echo $coreHelper->jsonEncode(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Code')) ?> + '<span class="required">*</span></th>'+
-            '<th>' + <?php echo $coreHelper->jsonEncode(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Label')) ?> + '<span class="required">*</span></th>'+
-            '<th>' + <?php echo $coreHelper->jsonEncode(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Is Default')) ?> +'</th>'+
+            '<th>' + <?php echo $coreHelper->jsonEncode(__('Code')) ?> + '<span class="required">*</span></th>'+
+            '<th>' + <?php echo $coreHelper->jsonEncode(__('Label')) ?> + '<span class="required">*</span></th>'+
+            '<th>' + <?php echo $coreHelper->jsonEncode(__('Is Default')) ?> +'</th>'+
             '<th class="type-butt scope-item">&nbsp;</th>'+
         '</tr>'+
         '</thead>'+

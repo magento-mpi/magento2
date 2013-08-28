@@ -11,7 +11,7 @@
 /**
  * Log grid container
  */
-class Enterprise_Logging_Block_Adminhtml_Details extends Mage_Adminhtml_Block_Widget_Container
+class Enterprise_Logging_Block_Adminhtml_Details extends Magento_Adminhtml_Block_Widget_Container
 {
     /**
      * Store curent event
@@ -23,7 +23,7 @@ class Enterprise_Logging_Block_Adminhtml_Details extends Mage_Adminhtml_Block_Wi
     /**
      * Store current event user
      *
-     * @var Mage_User_Model_User
+     * @var Magento_User_Model_User
      */
     protected $_eventUser = null;
 
@@ -35,8 +35,8 @@ class Enterprise_Logging_Block_Adminhtml_Details extends Mage_Adminhtml_Block_Wi
     {
         parent::_construct();
         $this->_addButton('back', array(
-            'label'   => Mage::helper('Enterprise_Logging_Helper_Data')->__('Back'),
-            'onclick' => "setLocation('" . Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/*/'). "')",
+            'label'   => __('Back'),
+            'onclick' => "setLocation('" . Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/*/'). "')",
             'class'   => 'back'
         ));
     }
@@ -49,9 +49,9 @@ class Enterprise_Logging_Block_Adminhtml_Details extends Mage_Adminhtml_Block_Wi
     public function getHeaderText()
     {
         if ($this->getCurrentEvent()) {
-            return Mage::helper('Enterprise_Logging_Helper_Data')->__('Log Entry #%d', $this->getCurrentEvent()->getId());
+            return __('Log Entry #%1', $this->getCurrentEvent()->getId());
         }
-        return Mage::helper('Enterprise_Logging_Helper_Data')->__('Log Entry Details');
+        return __('Log Entry Details');
     }
 
     /**
@@ -112,12 +112,12 @@ class Enterprise_Logging_Block_Adminhtml_Details extends Mage_Adminhtml_Block_Wi
     /**
      * Get current event user
      *
-     * @return Mage_User_Model_User|null
+     * @return Magento_User_Model_User|null
      */
     public function getEventUser()
     {
         if (null === $this->_eventUser) {
-            $this->_eventUser = Mage::getModel('Mage_User_Model_User')->load($this->getUserId());
+            $this->_eventUser = Mage::getModel('Magento_User_Model_User')->load($this->getUserId());
         }
         return $this->_eventUser;
     }

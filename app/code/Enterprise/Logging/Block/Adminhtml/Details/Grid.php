@@ -13,7 +13,7 @@
  * Admin Actions Log Archive grid
  *
  */
-class Enterprise_Logging_Block_Adminhtml_Details_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Logging_Block_Adminhtml_Details_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Initialize default sorting and html ID
@@ -47,7 +47,7 @@ class Enterprise_Logging_Block_Adminhtml_Details_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('source_name', array(
-            'header'    => Mage::helper('Enterprise_Logging_Helper_Data')->__('Source Data'),
+            'header'    => __('Source Data'),
             'sortable'  => false,
             'renderer'  => 'Enterprise_Logging_Block_Adminhtml_Details_Renderer_Sourcename',
             'index'     => 'source_name',
@@ -55,14 +55,14 @@ class Enterprise_Logging_Block_Adminhtml_Details_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('original_data', array(
-            'header'    => Mage::helper('Enterprise_Logging_Helper_Data')->__('Value Before Change'),
+            'header'    => __('Value Before Change'),
             'sortable'  => false,
             'renderer'  => 'Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff',
             'index'     => 'original_data'
         ));
 
         $this->addColumn('result_data', array(
-            'header'    => Mage::helper('Enterprise_Logging_Helper_Data')->__('Value After Change'),
+            'header'    => __('Value After Change'),
             'sortable'  => false,
             'renderer'  => 'Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff',
             'index'     => 'result_data'

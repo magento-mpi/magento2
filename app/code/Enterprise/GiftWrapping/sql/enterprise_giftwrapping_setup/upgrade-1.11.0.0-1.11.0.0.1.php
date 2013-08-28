@@ -12,14 +12,14 @@
 $installer = $this;
 
 $installer->updateAttribute(
-    Mage_Catalog_Model_Product::ENTITY,
+    Magento_Catalog_Model_Product::ENTITY,
     'gift_wrapping_available',
     'frontend_class',
     'hidden-for-virtual'
 );
 
 $installer->updateAttribute(
-    Mage_Catalog_Model_Product::ENTITY,
+    Magento_Catalog_Model_Product::ENTITY,
     'gift_wrapping_price',
     'frontend_class',
     'hidden-for-virtual'

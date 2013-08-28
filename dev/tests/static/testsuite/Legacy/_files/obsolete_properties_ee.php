@@ -14,5 +14,5 @@ return array(
     array('_amountCache', 'Enterprise_GiftCard_Block_Catalog_Product_Price'),
     array('_minMaxCache', 'Enterprise_GiftCard_Block_Catalog_Product_Price'),
     array('_skipFields', 'Enterprise_Logging_Model_Processor'),
-    array('_layoutUpdate', 'Enterprise_WebsiteRestriction_IndexController'),
+    array('_layoutUpdate', 'Enterprise_WebsiteRestriction_Controller_Index'),
 );

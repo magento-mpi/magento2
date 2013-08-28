@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Model_System_Config_Backend_Pool extends Mage_Core_Model_Config_Data
+class Enterprise_GiftCardAccount_Model_System_Config_Backend_Pool extends Magento_Core_Model_Config_Data
 {
     protected function _beforeSave()
     {
@@ -57,7 +57,7 @@ class Enterprise_GiftCardAccount_Model_System_Config_Backend_Pool extends Mage_C
         }
 
         if ($len > 255) {
-            Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Maximum generated code length is 255. Please correct your settings.'));
+            Mage::throwException(__('Maximum generated code length is 255. Please correct your settings.'));
         }
     }
 }

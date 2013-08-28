@@ -12,10 +12,6 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
      * @var Enterprise_Reward_Model_Reward_Balance_Validator
      */
     protected $_model;
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_helperMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -39,17 +35,15 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
 
     public function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false);
-        $this->_helperMock = $this->getMock('Enterprise_Reward_Helper_Data', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $this->_modelFactoryMock =
             $this->getMock('Enterprise_Reward_Model_RewardFactory', array('create'), array(), '', false);
-        $this->_sessionMock = $this->getMock('Mage_Checkout_Model_Session',
+        $this->_sessionMock = $this->getMock('Magento_Checkout_Model_Session',
             array('setUpdateSection', 'setGotoSection'), array(), '', false);
         $this->_orderMock =
-            $this->getMock('Mage_Sales_Model_Order', array('getRewardPointsBalance'), array(), '', false);
+            $this->getMock('Magento_Sales_Model_Order', array('getRewardPointsBalance'), array(), '', false);
         $this->_model = new Enterprise_Reward_Model_Reward_Balance_Validator(
             $this->_storeManagerMock,
-            $this->_helperMock,
             $this->_modelFactoryMock,
             $this->_sessionMock
         );
@@ -58,7 +52,7 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
     public function testValidateWhenBalanceAboveNull()
     {
         $this->_orderMock->expects($this->any())->method('getRewardPointsBalance')->will($this->returnValue(1));
-        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->once())->method('getWebsiteId');
         $reward = $this->getMock('Enterprise_Reward_Model_Reward', array('getPointsBalance'), array(), '', false);
@@ -69,12 +63,12 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
 
     /**
      * @expectedException Enterprise_Reward_Model_Reward_Balance_Exception
-     * @expectedExceptionMessage Not enough Reward Points to complete this Order.
+     * @expectedExceptionMessage You don't have enough reward points to pay for this purchase.
      */
     public function testValidateWhenBalanceNotEnoughToPlaceOrder()
     {
         $this->_orderMock->expects($this->any())->method('getRewardPointsBalance')->will($this->returnValue(1));
-        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->once())->method('getWebsiteId');
         $reward = $this->getMock('Enterprise_Reward_Model_Reward', array('getPointsBalance'), array(), '', false);
@@ -82,9 +76,7 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
         $reward->expects($this->once())->method('getPointsBalance')->will($this->returnValue(0.5));
         $this->_sessionMock->expects($this->once())->method('setUpdateSection')->with('payment-method');
         $this->_sessionMock->expects($this->once())->method('setGotoSection')->with('payment');
-        $this->_helperMock->expects(
-            $this->once())->method('__')->will($this->returnValue('Not enough Reward Points to complete this Order.')
-        );
+
         $this->_model->validate($this->_orderMock);
     }
 }

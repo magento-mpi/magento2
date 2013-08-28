@@ -12,7 +12,7 @@
  * Target rule edit form block
  */
 
-class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     protected $_blockGroup = 'Enterprise_TargetRule';
     protected $_controller = 'adminhtml_targetrule';
@@ -28,7 +28,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit extends Mage_Adminht
 
         $this->_addButton('save_and_continue_edit', array(
             'class'   => 'save',
-            'label'   => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Save and Continue Edit'),
+            'label'   => __('Save and Continue Edit'),
             'data_attribute'  => array(
                 'mage-init' => array(
                     'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
@@ -46,10 +46,10 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit extends Mage_Adminht
     {
         $rule = Mage::registry('current_target_rule');
         if ($rule && $rule->getRuleId()) {
-            return Mage::helper('Enterprise_TargetRule_Helper_Data')->__("Edit Rule '%s'", $this->escapeHtml($rule->getName()));
+            return __("Edit Rule '%1'", $this->escapeHtml($rule->getName()));
         }
         else {
-            return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('New Rule');
+            return __('New Rule');
         }
     }
 

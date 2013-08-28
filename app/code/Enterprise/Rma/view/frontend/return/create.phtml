@@ -15,10 +15,10 @@
 
 <div id="template-registrant" class="template" style="display: none">
     <p class="btn-remove" id="btn-remove${_index_}"><a href="#" class="btn-remove">
-        <img src="<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove') ?>" /></a>
+        <img src="<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>" alt="<?php echo __('Remove') ?>" /></a>
     </p>
     <div class="field">
-        <label for="items:item${_index_}" class="required"><em>*</em><?php echo $this->__('Item') ?></label>
+        <label for="items:item${_index_}" class="required"><em>*</em><?php echo __('Item') ?></label>
         <div class="input-box">
             <?php $bundleID     = 0; ?>
             <?php $firstItemId = $i = $productType = $availableQty = 0; ?>
@@ -33,7 +33,7 @@
                     $i = 1;
                     ?>
                     <?php endif; ?>
-                <?php if ($_item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE): ?>
+                <?php if ($_item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE): ?>
                     <?php $bundleID = $_item->getId(); ?>
                     <?php endif; ?>
                 <?php if (!$_item->getParentItemId() || $_item->getParentItemId() != $bundleID): ?>
@@ -78,9 +78,9 @@
                                 <col width="65" />
                             </colgroup>
                             <thead>
-                            <th colspan="2"><?php echo $this->__('Sub-items:') ?></th>
-                            <th class="a-center"><?php echo $this->__('Remaining Qty:') ?></th>
-                            <th class="a-center"><?php echo $this->__('Qty:') ?></th>
+                            <th colspan="2"><?php echo __('Sub-items:') ?></th>
+                            <th class="a-center"><?php echo __('Remaining Qty:') ?></th>
+                            <th class="a-center"><?php echo __('Qty:') ?></th>
                             </thead>
                             <tbody>
                                 <?php foreach($node as $item): ?>
@@ -113,7 +113,7 @@
         <?php endif; ?>
     </div>
     <div class="field" id="qty_requested_block_${_index_}">
-        <label for="items:qty_requested${_index_}" class="required"><em>*</em><?php echo $this->__('Quantity To Return') ?></label>
+        <label for="items:qty_requested${_index_}" class="required"><em>*</em><?php echo __('Quantity To Return') ?></label>
         <div class="input-box">
             <input type="text" class="input-text" data-validate="{'validate-greater-than-zero':true,required:true}" value="" name="items[${_index_}][qty_requested]" id="items:qty_requested${_index_}">
         </div>
@@ -142,23 +142,23 @@
 <form id="rma_create_form" method="post" enctype="multipart/form-data">
     <div class="order-page">
         <div class="page-title title-buttons">
-            <h1><?php echo $this->__('New Return for Order %s', $_order->getIncrementId()) ?></h1>
+            <h1><?php echo __('New Return for Order %1', $_order->getIncrementId()) ?></h1>
         </div>
         <ul class="form-list">
             <li>
-                <label><?php echo $this->__('Order ID') ?></label>
+                <label><?php echo __('Order ID') ?></label>
                 <h5 style="float:left;"><?php echo $_order->getIncrementId() ?></h5>
             </li>
             <li>
-                <label><?php echo $this->__('Customer Name') ?></label>
+                <label><?php echo __('Customer Name') ?></label>
                 <h5 style="float:left;"><?php echo $this->escapeHtml($_order->getCustomerName()) ?></h5>
             </li>
             <li>
-                <label><?php echo $this->__('Order Shipping Address') ?></label>
+                <label><?php echo __('Order Shipping Address') ?></label>
                 <h5 style="float:left;"><?php echo $_order->getShippingAddress()->format('html') ?></h5>
             </li>
             <li>
-                <label><?php echo $this->__('Email Address') ?></label>
+                <label><?php echo __('Email Address') ?></label>
                 <h5 style="float:left;"><?php echo $_order->getCustomerEmail()?></h5>
             </li>
             <li>
@@ -210,18 +210,18 @@
                         firstItemId: '<?php echo $firstItemId; ?>',
                         productType: '<?php echo $productType?>',
                         availableQuantity: '<?php echo ($availableQty) ? $availableQty : 0 ?>',
-                        prodTypeBundle: '<?php echo Mage_Catalog_Model_Product_Type::TYPE_BUNDLE ?>'
+                        prodTypeBundle: '<?php echo Magento_Catalog_Model_Product_Type::TYPE_BUNDLE ?>'
                     }).validation({ignore: ':hidden:not(input[id$="_value"])'});
                 });
         })(jQuery);
     </script>
     <div class="fieldset">
-        <h2 class="legend"><?php echo $this->__('Return Items Information') ?></h2>
+        <h2 class="legend"><?php echo __('Return Items Information') ?></h2>
         <ul class="form-list" id="registrant-options">
             <li class="no-display">&nbsp;</li>
         </ul>
         <div class="buttons-set form-buttons" style="text-align:right">
-            <a href="javascript:void(0)" id="add-item-to-return"><?php echo $this->__('Add Item To Return') ?></a>
+            <a href="javascript:void(0)" id="add-item-to-return"><?php echo __('Add Item To Return') ?></a>
         </div>
     </div>
 
@@ -230,7 +230,7 @@
     <ul class="form-list">
         <li class="fields">
             <div class="field">
-                <label for="rma_comment"><?php echo $this->__('Comments') ?></label>
+                <label for="rma_comment"><?php echo __('Comments') ?></label>
                 <div class="input-box">
                     <textarea id="rma_comment" style="height:6em;" cols="5" rows="3" name="rma_comment" class="input-text"><?php if ($_data): ?><?php echo $_data->getRmaComment(); ?><?php endif; ?></textarea>
                 </div>
@@ -240,7 +240,7 @@
 
     <br />
     <div class="buttons-set form-buttons">
-        <p class="back-link a-left"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
-        <button type="submit" class="button" id="submit.save" title="<?php echo $this->__('Save') ?>"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+        <p class="back-link a-left"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo __('Back') ?></a></p>
+        <button type="submit" class="button" id="submit.save" title="<?php echo __('Save') ?>"><span><span><?php echo __('Submit') ?></span></span></button>
     </div>
 </form>

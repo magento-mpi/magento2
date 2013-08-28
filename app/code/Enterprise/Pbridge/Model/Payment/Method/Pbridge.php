@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model_Method_Abstract
+class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model_Method_Abstract
 {
     /**
      * Config path for system default country
@@ -33,7 +33,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Payment method instance wrapped by Payment Bridge
      *
-     * @var Mage_Payment_Model_Method_Abstract
+     * @var Magento_Payment_Model_Method_Abstract
      */
     protected $_originalMethodInstance = null;
 
@@ -78,7 +78,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Check whether payment method can be used
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -89,7 +89,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Check if dummy payment method is available
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return boolean
      */
     public function isDummyMethodAvailable($quote = null)
@@ -111,7 +111,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Mage_Payment_Model_Info
+     * @return Magento_Payment_Model_Info
      */
     public function assignData($data)
     {
@@ -174,7 +174,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Setter
      *
-     * @param Mage_Payment_Model_Method_Abstract $methodInstance
+     * @param Magento_Payment_Model_Method_Abstract $methodInstance
      * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge
      */
     public function setOriginalMethodInstance($methodInstance)
@@ -187,7 +187,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      * Getter.
      * Retrieve the wrapped payment method instance
      *
-     * @return Mage_Payment_Model_Method_Abstract
+     * @return Magento_Payment_Model_Method_Abstract
      */
     public function getOriginalMethodInstance()
     {
@@ -196,7 +196,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             if (null === $this->_originalMethodCode) {
                 return null;
             }
-            $this->_originalMethodInstance = Mage::helper('Mage_Payment_Helper_Data')
+            $this->_originalMethodInstance = Mage::helper('Magento_Payment_Helper_Data')
                  ->getMethodInstance($this->_originalMethodCode);
         }
         return $this->_originalMethodInstance;
@@ -205,7 +205,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Retrieve payment iformation model object
      *
-     * @return Mage_Payment_Model_Info
+     * @return Magento_Payment_Model_Info
      */
     public function getInfoInstance()
     {
@@ -227,7 +227,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     {
         parent::validate();
         if (!$this->getPbridgeResponse('token')) {
-            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__("We can't find the Payment Bridge authentication data."));
+            Mage::throwException(__("We can't find the Payment Bridge authentication data."));
         }
         return $this;
     }
@@ -237,7 +237,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      *
      * @param   Magento_Object $payment
      * @param   float $amount
-     * @return  Mage_Payment_Model_Abstract
+     * @return  Magento_Payment_Model_Abstract
      */
     public function authorize(Magento_Object $payment, $amount)
     {
@@ -278,10 +278,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         $this->_importResultToPayment($payment, $apiResponse);
 
         if (isset($apiResponse['fraud']) && (bool)$apiResponse['fraud']) {
-            $message = Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Merchant review is required for further processing.');
+            $message = __('Merchant review is required for further processing.');
             $payment->getOrder()->setState(
-                  Mage_Sales_Model_Order::STATE_PROCESSING,
-                  Mage_Sales_Model_Order::STATUS_FRAUD,
+                  Magento_Sales_Model_Order::STATE_PROCESSING,
+                  Magento_Sales_Model_Order::STATUS_FRAUD,
                   $message
             );
         }
@@ -292,7 +292,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      * Cancel payment
      *
      * @param   Magento_Object $payment
-     * @return  Mage_Payment_Model_Abstract
+     * @return  Magento_Payment_Model_Abstract
      */
     public function cancel(Magento_Object $payment)
     {
@@ -305,7 +305,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      *
      * @param   Magento_Object $payment
      * @param   float $amount
-     * @return  Mage_Payment_Model_Abstract
+     * @return  Magento_Payment_Model_Abstract
      */
     public function capture(Magento_Object $payment, $amount)
     {
@@ -331,10 +331,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         $apiResponse = $api->getResponse();
 
         if (isset($apiResponse['fraud']) && (bool)$apiResponse['fraud']) {
-            $message = Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Merchant review is required for further processing.');
+            $message = __('Merchant review is required for further processing.');
             $payment->getOrder()->setState(
-                  Mage_Sales_Model_Order::STATE_PROCESSING,
-                  Mage_Sales_Model_Order::STATUS_FRAUD,
+                  Magento_Sales_Model_Order::STATE_PROCESSING,
+                  Magento_Sales_Model_Order::STATUS_FRAUD,
                   $message
             );
         }
@@ -346,7 +346,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      *
      * @param   Magento_Object $payment
      * @param   float $amount
-     * @return  Mage_Payment_Model_Abstract
+     * @return  Magento_Payment_Model_Abstract
      */
     public function refund(Magento_Object $payment, $amount)
     {
@@ -382,7 +382,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             return $api->getResponse();
 
         } else {
-            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__("We can't issue a refund transaction because the capture transaction does not exist. "));
+            Mage::throwException(__("We can't issue a refund transaction because the capture transaction does not exist. "));
         }
     }
 
@@ -390,7 +390,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      * Void payment
      *
      * @param   Magento_Object $payment
-     * @return  Mage_Payment_Model_Abstract
+     * @return  Magento_Payment_Model_Abstract
      */
     public function void(Magento_Object $payment)
     {
@@ -404,7 +404,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             $this->_getApi()->doVoid($request);
 
         } else {
-            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('You need an authorization transaction to void.'));
+            Mage::throwException(__('You need an authorization transaction to void.'));
         }
         return $this->_getApi()->getResponse();
     }
@@ -412,7 +412,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Create address request data
      *
-     * @param Mage_Sales_Model_Order_Address $address
+     * @param Magento_Sales_Model_Order_Address $address
      * @return array
      */
     protected function _getAddressInfo($address)
@@ -431,7 +431,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             $result['street2'] = $street2;
         }
         //Region code lookup
-        $region = Mage::getModel('Mage_Directory_Model_Region')->load($address->getData('region_id'));
+        $region = Mage::getModel('Magento_Directory_Model_Region')->load($address->getData('region_id'));
         if ($region && $region->getId()) {
             $result['region'] = $region->getCode();
         } else {
@@ -443,7 +443,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
 
     /**
      * Public wrapper for _getAddressInfo
-     * @param  Mage_Sales_Model_Order_Address $address
+     * @param  Magento_Sales_Model_Order_Address $address
      * @return array
      */
     public function getAddressInfo($address)
@@ -454,11 +454,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Fill cart request section from order
      *
-     * @param Mage_Core_Model_Abstract $order
+     * @param Magento_Core_Model_Abstract $order
      *
      * @return array
      */
-    protected function _getCart(Mage_Core_Model_Abstract $order)
+    protected function _getCart(Magento_Core_Model_Abstract $order)
     {
         list($items, $totals) = Mage::helper('Enterprise_Pbridge_Helper_Data')->prepareCart($order);
         //Getting cart items
@@ -475,14 +475,14 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      * Transfer API results to payment.
      * Api response must be compatible with payment response expectation
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param array $apiResponse
      */
-    protected function _importResultToPayment(Mage_Sales_Model_Order_Payment $payment, $apiResponse)
+    protected function _importResultToPayment(Magento_Sales_Model_Order_Payment $payment, $apiResponse)
     {
         if (!empty($apiResponse['gateway_transaction_id'])) {
             $payment->setPreparedMessage(
-                Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Original gateway transaction id: #%s.', $apiResponse['gateway_transaction_id'])
+                __('Original gateway transaction id: #%1.', $apiResponse['gateway_transaction_id'])
             );
         }
 
@@ -515,7 +515,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     {
         $orderId = null;
         $paymentInfo = $this->getInfoInstance();
-        if ($paymentInfo instanceof Mage_Sales_Model_Order_Payment) {
+        if ($paymentInfo instanceof Magento_Sales_Model_Order_Payment) {
             $orderId = $paymentInfo->getOrder()->getIncrementId();
         } else {
             if (!$paymentInfo->getQuote()->getReservedOrderId()) {

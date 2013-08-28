@@ -42,7 +42,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
     /**
      * Retrieve current product instance (if actual and available)
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -68,7 +68,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
 
             default:
                 Mage::throwException(
-                    Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Undefined Catalog Product List Type')
+                    __('Undefined Catalog Product List Type')
                 );
         }
         return $prefix;
@@ -153,9 +153,9 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
     /**
      * Get link collection with limit parameter
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @param null|int $limit
-     * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection|null
+     * @return Magento_Catalog_Model_Resource_Product_Link_Product_Collection|null
      */
     protected function _getPreparedTargetLinkCollection($limit = null)
     {
@@ -173,7 +173,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
 
             default:
                 Mage::throwException(
-                    Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Undefined Catalog Product List Type')
+                    __('Undefined Catalog Product List Type')
                 );
         }
 
@@ -183,7 +183,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
         }
 
         $linkCollection
-            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds())
+            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds())
             ->setFlag('do_not_use_category_id', true);
 
         $excludeProductIds = $this->getExcludeProductIds();
@@ -197,7 +197,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
     /**
      * Get link collection for related and up-sell
      *
-     * @return Mage_Catalog_Model_Resource_Product_Collection|null
+     * @return Magento_Catalog_Model_Resource_Product_Collection|null
      */
     protected function _getTargetLinkCollection()
     {
@@ -251,14 +251,14 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
 
         $items = array();
         if ($productIds) {
-            /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-            $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
+            /** @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+            $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
             $collection->addFieldToFilter('entity_id', array('in' => $productIds));
             $this->_addProductAttributesAndPrices($collection);
 
             $collection->setPageSize($limit)
                 ->setFlag('do_not_use_category_id', true)
-                ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+                ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
             foreach ($collection as $item) {
                 $items[$item->getEntityId()] = $item;

@@ -28,7 +28,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
         $this->setDefaultSort('entity_id');
         $this->setPagerVisibility(true);
         $this->setFilterVisibility(true);
-        $this->setHeaderText(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Products'));
+        $this->setHeaderText(__('Products'));
     }
 
     /**
@@ -44,13 +44,13 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Return items collection
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
-            $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+            $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+            $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
                 ->setStore($this->_getStore())
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToSelect('sku')
@@ -59,9 +59,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
                     array_keys(
                         Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
                     )
-                )->addAttributeToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+                )->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
                 ->addStoreFilter($this->_getStore());
-            Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')->addIsInStockFilterToCollection($collection);
+            Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')->addIsInStockFilterToCollection($collection);
             $this->setData('items_collection', $collection);
         }
         return $this->getData('items_collection');
@@ -70,37 +70,37 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Prepare Grid columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'sortable'  => true,
             'width'     => '60',
             'index'     => 'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Product'),
-            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
+            'header'    => __('Product'),
+            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
             'index'     => 'name'
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('SKU'),
+            'header'    => __('SKU'),
             'width'     => '80',
             'index'     => 'sku'
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Price'),
+            'header'    => __('Price'),
             'type'      => 'currency',
             'column_css_class' => 'price',
             'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
             'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
-            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price'
+            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price'
         ));
 
         $this->_addControlColumns();
@@ -111,7 +111,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Custom products grid search callback
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareLayout()
     {
@@ -123,7 +123,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Search by selected products
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -152,7 +152,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     protected function _getSelectedProducts()
     {
         if ($this->getRequest()->getPost('source')) {
-            $source = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
+            $source = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
             if (isset($source['source_products']) && is_array($source['source_products'])) {
                 return array_keys($source['source_products']);
             }
@@ -173,7 +173,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Add columns with controls to manage added products and their quantity
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _addControlColumns()
     {

@@ -17,12 +17,12 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit
-    extends Mage_Adminhtml_Block_Widget_Form_Container
+    extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Return current customer address attribute instance
      *
-     * @return Mage_Customer_Model_Attribute
+     * @return Magento_Customer_Model_Attribute
      */
     protected function _getAttribute()
     {
@@ -44,7 +44,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit
         $this->_addButton(
             'save_and_edit_button',
             array(
-                'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Save and Continue Edit'),
+                'label'     => __('Save and Continue Edit'),
                 'class'     => 'save',
                 'data_attribute'  => array(
                     'mage-init' => array(
@@ -55,11 +55,11 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit
             100
         );
 
-        $this->_updateButton('save', 'label', Mage::helper('Enterprise_Customer_Helper_Data')->__('Save Attribute'));
+        $this->_updateButton('save', 'label', __('Save Attribute'));
         if (!$this->_getAttribute() || !$this->_getAttribute()->getIsUserDefined()) {
             $this->_removeButton('delete');
         } else {
-            $this->_updateButton('delete', 'label', Mage::helper('Enterprise_Customer_Helper_Data')->__('Delete Attribute'));
+            $this->_updateButton('delete', 'label', __('Delete Attribute'));
         }
     }
 
@@ -76,9 +76,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit
                 // restored label
                 $label = $label[0];
             }
-            return Mage::helper('Enterprise_Customer_Helper_Data')->__('Edit Customer Address Attribute "%s"', $label);
+            return __('Edit Customer Address Attribute "%1"', $label);
         } else {
-            return Mage::helper('Enterprise_Customer_Helper_Data')->__('New Customer Address Attribute');
+            return __('New Customer Address Attribute');
         }
     }
 

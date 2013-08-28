@@ -28,7 +28,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
+class Enterprise_Reward_Model_Reward extends Magento_Core_Model_Abstract
 {
     const XML_PATH_BALANCE_UPDATE_TEMPLATE = 'enterprise_reward/notification/balance_update_template';
     const XML_PATH_BALANCE_WARNING_TEMPLATE = 'enterprise_reward/notification/expiry_warning_template';
@@ -92,7 +92,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     public static function setActionModelClass($actionId, $actionModelClass)
     {
         if (!is_int($actionId)) {
-            Mage::throwException(Mage::helper('Enterprise_Reward_Helper_Data')->__('The action ID you enter must be a numerical integer.'));
+            Mage::throwException(__('The action ID you enter must be a numerical integer.'));
         }
         self::$_actionModelClasses[$actionId] = $actionModelClass;
     }
@@ -207,7 +207,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      * Setter.
      * Set customer id
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @return Enterprise_Reward_Model_Reward
      */
     public function setCustomer($customer)
@@ -221,12 +221,12 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     /**
      * Getter
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
         if (!$this->_getData('customer') && $this->getCustomerId()) {
-            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->getCustomerId());
+            $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->getCustomerId());
             $this->setCustomer($customer);
         }
         return $this->_getData('customer');
@@ -263,7 +263,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      * Getter for store (for emails etc)
      * Trying get store from customer if its not assigned
      *
-     * @return Mage_Core_Model_Store|null
+     * @return Magento_Core_Model_Store|null
      */
     public function getStore()
     {
@@ -597,9 +597,9 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         }
         $history = $this->getHistory();
         $store = Mage::app()->getStore($this->getStore());
-        $mail  = Mage::getModel('Mage_Core_Model_Email_Template');
-        /* @var $mail Mage_Core_Model_Email_Template */
-        $mail->setDesignConfig(array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
+        $mail  = Mage::getModel('Magento_Core_Model_Email_Template');
+        /* @var $mail Magento_Core_Model_Email_Template */
+        $mail->setDesignConfig(array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
         $templateVars = array(
             'store' => $store,
             'customer' => $this->getCustomer(),
@@ -640,10 +640,10 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function sendBalanceWarningNotification($item, $websiteId)
     {
-        $mail  = Mage::getModel('Mage_Core_Model_Email_Template');
-        /* @var $mail Mage_Core_Model_Email_Template */
+        $mail  = Mage::getModel('Magento_Core_Model_Email_Template');
+        /* @var $mail Magento_Core_Model_Email_Template */
         $mail->setDesignConfig(array(
-            'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+            'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
             'store' => $item->getStoreId()
         ));
         $store = Mage::app()->getStore($item->getStoreId());
@@ -691,7 +691,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     /**
      * Delete orphan (points of deleted website) points by given customer
      *
-     * @param Mage_Customer_Model_Customer | integer | null $customer
+     * @param Magento_Customer_Model_Customer | integer | null $customer
      * @return Enterprise_Reward_Model_Reward
      */
     public function deleteOrphanPointsByCustomer($customer = null)
@@ -699,7 +699,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         if ($customer === null) {
             $customer = $this->getCustomerId()?$this->getCustomerId():$this->getCustomer();
         }
-        if (is_object($customer) && $customer instanceof Mage_Customer_Model_Customer) {
+        if (is_object($customer) && $customer instanceof Magento_Customer_Model_Customer) {
             $customer = $customer->getId();
         }
         if ($customer) {

@@ -12,7 +12,7 @@
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
     <widget id="enterprise_banner" class="Enterprise_Banner_Block_Widget_Banner" translate="label description"
-            module="Enterprise_Banner" placeholder_image="Enterprise_Banner::widget_banner.gif">
+            placeholder_image="Enterprise_Banner::widget_banner.gif">
         <label>Banner Rotator</label>
         <description>Displays Specified or Promotion Banners</description>
         <parameter xsi:type="select" name="display_mode" translate="label" required="true" visible="true" >

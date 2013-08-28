@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <action method="addTab">
+                <tab>tags</tab>
+                <content>Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag</content>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+</layout>

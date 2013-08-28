@@ -52,7 +52,7 @@ class Enterprise_PageCache_Model_Processor_Product extends Enterprise_PageCache_
      */
     public function prepareContent(Zend_Controller_Response_Http $response)
     {
-        $countLimit = Mage::getStoreConfig(Mage_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
+        $countLimit = Mage::getStoreConfig(Magento_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
         // save recently viewed product count limit
         $cacheId = $this->_processor->getRecentlyViewedCountCacheId();
         if (!$this->_fpcCache->getFrontend()->test($cacheId)) {

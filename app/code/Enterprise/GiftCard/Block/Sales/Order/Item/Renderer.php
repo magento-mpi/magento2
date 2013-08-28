@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCard_Block_Sales_Order_Item_Renderer extends Mage_Sales_Block_Order_Item_Renderer_Default
+class Enterprise_GiftCard_Block_Sales_Order_Item_Renderer extends Magento_Sales_Block_Order_Item_Renderer_Default
 {
     /**
      * Prepare custom option for display, returns false if there's no value
@@ -49,7 +49,7 @@ class Enterprise_GiftCard_Block_Sales_Order_Item_Renderer extends Mage_Sales_Blo
                 $value = $this->_getNameEmailString($value, $email);
             }
             $result[] = array(
-                'label'=>Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card Sender'),
+                'label'=>__('Gift Card Sender'),
                 'value'=>$value,
             );
         }
@@ -58,13 +58,13 @@ class Enterprise_GiftCard_Block_Sales_Order_Item_Renderer extends Mage_Sales_Blo
                 $value = $this->_getNameEmailString($value, $email);
             }
             $result[] = array(
-                'label'=>Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card Recipient'),
+                'label'=>__('Gift Card Recipient'),
                 'value'=>$value,
             );
         }
         if ($value = $this->_prepareCustomOption('giftcard_message')) {
             $result[] = array(
-                'label'=>Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card Message'),
+                'label'=>__('Gift Card Message'),
                 'value'=>$value,
             );
         }

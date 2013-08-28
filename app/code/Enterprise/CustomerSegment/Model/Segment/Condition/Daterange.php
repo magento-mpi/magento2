@@ -34,10 +34,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     /**
      * Initialize model
      *
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
 
@@ -54,7 +54,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     {
         return array(
             'value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Date Range'),
+            'label' => __('Date Range'),
         );
     }
 
@@ -98,7 +98,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
         return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
             . $this->_viewUrl->getViewFileUrl('images/rule_chooser_trigger.gif')
             . '" alt="" class="v-middle rule-chooser-trigger"'
-            . 'title="' . Mage::helper('Mage_Rule_Helper_Data')->__('Open Chooser') . '" /></a>';
+            . 'title="' . __('Open Chooser') . '" /></a>';
     }
 
     /**
@@ -108,7 +108,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
      */
     public function getValueElementChooserUrl()
     {
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/customersegment/chooserDaterange', array(
+        return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/customersegment/chooserDaterange', array(
             'value_element_id' => $this->_valueElement->getId(),
         ));
     }
@@ -124,7 +124,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     {
         $this->_valueElement = $this->getValueElement();
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Date Range %s within %s', $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
+            . __('Date Range %1 within %2', $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
             . $this->getRemoveLinkHtml()
             . '<div class="rule-chooser no-split" url="' . $this->getValueElementChooserUrl() . '"></div>';
     }

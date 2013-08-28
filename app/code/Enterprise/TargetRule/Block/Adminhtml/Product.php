@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block_Widget
+class Enterprise_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block_Widget
 {
     /**
      * Attributes is read only flag
@@ -49,7 +49,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
     /**
      * Retrieve current edit product instance
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {

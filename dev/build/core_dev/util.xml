@@ -57,11 +57,6 @@
             <param name="product_edition_code" value="ee"/>
         </antcall>
     </target>
-    <target name="_saas_edition" description="Saas Edition source code preparation">
-        <antcall target="_product_edition">
-            <param name="product_edition_code" value="saas"/>
-        </antcall>
-    </target>
 
     <target name="_database_credential_substitution" description="Database credentials substitution in configuration file from environment variables">
         <fail unless="db_config_file" message="Property 'db_config_file' must be defined"/>
@@ -85,6 +80,15 @@
             <dirset dir="${product_root_dir}/pub/static"/>
             <dirset dir="${product_root_dir}/var"/>
         </chmod>
+    </target>
+
+    <target name="_code_coverage_configuration" depends="_product_location" description="Code Coverage configuration">
+        <fail unless="configuration_file" message="Code coverage configuration variable 'configuration_file' must be defined"/>
+        <replace file="${configuration_file}">
+            <replacefilter token="{{coverage_dir}}" value="${product_root_dir}"/>
+            <replacefilter token="--coverage_html_placeholder" value="-- --&gt;"/>
+            <replacefilter token="coverage_html_placeholder--" value="&lt;!-- --"/>
+        </replace>
     </target>
 
 </project>

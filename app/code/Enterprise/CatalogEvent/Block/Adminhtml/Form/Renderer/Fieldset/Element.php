@@ -16,7 +16,7 @@
  * @package    Enterprise_CatalogEvent
  */
 class Enterprise_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element
-    extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {
     protected $_template = 'form/renderer/fieldset/element.phtml';
 
@@ -88,11 +88,11 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element
             return $html;
         }
         if ($element->getScope() == 'global' || $element->getScope() === null) {
-            $html .= Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]');
+            $html .= __('[GLOBAL]');
         } elseif ($element->getScope() == 'website') {
-            $html .= Mage::helper('Mage_Adminhtml_Helper_Data')->__('[WEBSITE]');
+            $html .= __('[WEBSITE]');
         } elseif ($element->getScope() == 'store') {
-            $html .= Mage::helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]');
+            $html .= __('[STORE VIEW]');
         }
 
         return $html;

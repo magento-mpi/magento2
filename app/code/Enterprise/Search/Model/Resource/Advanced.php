@@ -15,7 +15,7 @@
  * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource_Abstract
+class Enterprise_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource_Abstract
 {
     /**
      * Defines text type fields
@@ -42,7 +42,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
      * Add filter by indexable attribute
      *
      * @param Enterprise_Search_Model_Resource_Collection $collection
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
      *
      * @return bool
@@ -63,7 +63,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
      * Retrieve filter array
      *
      * @param Enterprise_Search_Model_Resource_Collection $collection
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
      * @return array
      */
@@ -88,7 +88,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
                 ->getSearchEngineFieldName($attribute, 'nav');
 
         if ($attribute->getBackendType() == 'datetime') {
-            $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
             foreach ($value as &$val) {
                 if (!is_empty_date($val)) {
                     $date = new Zend_Date($val, $format);
@@ -109,7 +109,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
      * Add filter by attribute rated price
      *
      * @param Enterprise_Search_Model_Resource_Collection $collection
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
      * @param int $rate
      *
@@ -128,7 +128,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
     /**
      * Add not indexable field to search
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
      * @param Enterprise_Search_Model_Resource_Collection $collection
      *

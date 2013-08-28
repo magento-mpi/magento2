@@ -12,9 +12,9 @@
 <?php if ($this->hasItems()):?>
 <div class="box-collateral box-related">
     <div class="box-title">
-        <h2><?php echo $this->__('Related Products') ?></h2>
+        <h2><?php echo __('Related Products') ?></h2>
     </div>
-    <p class="note"><?php echo $this->__('Check items to add to the cart or') ?>&nbsp;<a href="#" role="select-all"><strong><?php echo $this->__('select all') ?></strong></a></p>
+    <p class="note"><?php echo __('Check items to add to the cart or') ?>&nbsp;<a href="#" role="select-all"><strong><?php echo __('select all') ?></strong></a></p>
     <?php $i=0; foreach($this->getItemCollection() as $_item): ?>
         <?php if ($i++ % $this->getColumnCount() == 0): ?>
         <ul class="box-content">
@@ -31,7 +31,7 @@
     <?php endforeach ?>
     <script type="text/javascript">jQuery('.box-related ul.box-content li').decorate('generic', ['odd','even','first','last']);</script>
     <script type="text/javascript">
-        head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/related-products.js'); ?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/related-products.js'); ?>", function() {
             jQuery(".box-related a[role='select-all']").relatedProducts();
         });
     </script>

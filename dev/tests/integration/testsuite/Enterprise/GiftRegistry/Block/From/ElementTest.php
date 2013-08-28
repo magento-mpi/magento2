@@ -19,7 +19,7 @@ class Enterprise_GiftRegistry_Block_Form_ElementTest extends PHPUnit_Framework_T
         $block = Mage::app()->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Form_Element');
 
         $value = null;
-        $formatType = Mage_Core_Model_LocaleInterface::FORMAT_TYPE_FULL;
+        $formatType = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_FULL;
 
         $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
 

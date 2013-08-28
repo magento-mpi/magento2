@@ -16,7 +16,7 @@
  * @package     Enterprise_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Logging_Model_Resource_Event_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_Logging_Model_Resource_Event_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Initialize resource

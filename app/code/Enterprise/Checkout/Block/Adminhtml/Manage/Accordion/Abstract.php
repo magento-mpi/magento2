@@ -15,7 +15,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract extends Mage_Adminhtml_Block_Widget_Grid
+abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Collection field name for using in controls
@@ -103,19 +103,19 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     /**
      * Prepare Grid columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Product'),
+            'header'    => __('Product'),
             'renderer'  => 'Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product',
             'index'     => 'name',
             'sortable'  => false
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Price'),
+            'header'    => __('Price'),
             'renderer'  => $this->_getPriceRenderer(),
             'align'     => 'right',
             'type'      => 'currency',
@@ -150,8 +150,8 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
 
         $this->addColumn('qty', array(
             'sortable'  => false,
-            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Quantity'),
-            'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty',
+            'header'    => __('Quantity'),
+            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',
             'align'     => 'right',
@@ -167,7 +167,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     /**
      * Return current customer from regisrty
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     protected function _getCustomer()
     {
@@ -177,7 +177,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     /**
      * Return current store from regisrty
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getStore()
     {
@@ -211,7 +211,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     /**
      * Returns additional javascript to init this grid
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getAdditionalJavaScript ()
     {

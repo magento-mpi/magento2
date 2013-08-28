@@ -1,0 +1,42 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="page-title title-buttons">
+    <h1><?php echo __('Change Billing Address') ?></h1>
+    <button type="button" class="button" onclick="setLocation('<?php echo $this->getAddNewUrl() ?>')"><span><span><?php echo __('Add New Address') ?></span></span></button>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div class="multiple-checkout">
+    <?php $_index=0 ?>
+    <?php foreach ($this->getAddressCollection() as $_address): ?>
+        <?php if($_index%3==0): ?><div class="col3-set"><?php endif; ?>
+        <div class="col-<?php echo ($_index%3+1) ?>">
+                <p class="actions">
+                    <a href="<?php echo $this->getEditAddressUrl($_address) ?>"><?php echo __('Edit Address') ?></a> <span class="separator">|</span> 
+                    <a href="<?php echo $this->getSetAddressUrl($_address) ?>"><?php echo __('Select Address') ?></a>
+                </p>
+                <address>
+                    <?php echo $_address->format('html') ?>
+                    <?php if($this->isAddressDefaultBilling($_address)): ?>
+                        <br /><strong><?php echo __('Default Billing') ?></strong>
+                    <?php endif; ?>
+                    <?php if($this->isAddressDefaultShipping($_address)): ?>
+                        <br /><strong><?php echo __('Default Shipping') ?></strong>
+                    <?php endif; ?>
+                </address>
+        </div>
+        <?php $_index++ ?>
+        <?php if($_index && $_index%3==0): ?></div><?php endif; ?>
+    <?php endforeach; ?>
+    <?php if(!$_index || $_index%3!=0): ?></div><?php endif; ?>
+    <div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo __('Back to Billing Information') ?></a></p>
+    </div>    
+</div>

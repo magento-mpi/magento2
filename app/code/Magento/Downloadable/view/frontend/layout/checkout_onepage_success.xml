@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <checkout_onepage_success>
+        <reference name="checkout.success">
+            <block type="Magento_Downloadable_Block_Checkout_Success" name="downloadable.checkout.success" template="checkout/success.phtml"/>
+        </reference>
+    </checkout_onepage_success>
+</layout>

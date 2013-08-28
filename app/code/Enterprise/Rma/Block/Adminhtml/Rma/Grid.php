@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Initialize grid
@@ -62,7 +62,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA'),
+            'header' => __('RMA'),
             'type'   => 'number',
             'index'  => 'increment_id',
             'header_css_class'  => 'col-rma-number',
@@ -70,7 +70,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('date_requested', array(
-            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Requested Date'),
+            'header' => __('Requested Date'),
             'index' => 'date_requested',
             'type' => 'datetime',
             'html_decorators' => array('nobr'),
@@ -79,7 +79,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('order_increment_id', array(
-            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Order'),
+            'header' => __('Order'),
             'type'   => 'number',
             'index'  => 'order_increment_id',
             'header_css_class'  => 'col-order-number',
@@ -87,7 +87,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('order_date', array(
-            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Order Date'),
+            'header' => __('Order Date'),
             'index' => 'order_date',
             'type' => 'datetime',
             'html_decorators' => array('nobr'),
@@ -96,14 +96,14 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('customer_name', array(
-            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Customer'),
+            'header' => __('Customer'),
             'index' => 'customer_name',
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('status', array(
-            'header'  => Mage::helper('Enterprise_Rma_Helper_Data')->__('Status'),
+            'header'  => __('Status'),
             'index'   => 'status',
             'type'    => 'options',
             'options' => Mage::getModel('Enterprise_Rma_Model_Rma')->getAllStatuses(),
@@ -113,12 +113,12 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
 
         $this->addColumn('action',
             array(
-                'header'    =>  Mage::helper('Enterprise_Rma_Helper_Data')->__('Action'),
+                'header'    =>  __('Action'),
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('View'),
+                        'caption'   => __('View'),
                         'url'       => array('base'=> $this->_getControllerUrl('edit')),
                         'field'     => 'id'
                     )
@@ -145,9 +145,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
         $this->getMassactionBlock()->setFormFieldName('entity_ids');
 
         $this->getMassactionBlock()->addItem('status', array(
-            'label'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Close'),
+            'label'=> __('Close'),
             'url'  => $this->getUrl($this->_getControllerUrl('close')),
-            'confirm'  => Mage::helper('Enterprise_Rma_Helper_Data')->__("You have chosen to change status(es) of the selected RMA requests to Close. Are you sure you want to proceed?")
+            'confirm'  => __("You have chosen to change status(es) of the selected RMA requests to Close. Are you sure you want to proceed?")
         ));
 
         return $this;

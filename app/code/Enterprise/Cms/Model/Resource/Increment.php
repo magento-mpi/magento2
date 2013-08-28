@@ -16,7 +16,7 @@
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Model_Resource_Increment extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Cms_Model_Resource_Increment extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization
@@ -29,13 +29,13 @@ class Enterprise_Cms_Model_Resource_Increment extends Mage_Core_Model_Resource_D
     /**
      * Load increment counter by passed node and level
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param int $type
      * @param int $node
      * @param int $level
      * @return bool
      */
-    public function loadByTypeNodeLevel(Mage_Core_Model_Abstract $object, $type, $node, $level)
+    public function loadByTypeNodeLevel(Magento_Core_Model_Abstract $object, $type, $node, $level)
     {
         $read = $this->_getReadAdapter();
 

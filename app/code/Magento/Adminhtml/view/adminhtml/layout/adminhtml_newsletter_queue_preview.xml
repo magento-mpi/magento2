@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_newsletter_queue_preview>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>newsletter/preview/iframeswitcher.phtml</template>
+            </action>
+            <block type="Magento_Adminhtml_Block_Newsletter_Queue_Preview_Form" name="preview_form"/>
+            <block type="Magento_Backend_Block_Store_Switcher" name="store_switcher" template="Magento_Adminhtml::newsletter/preview/store.phtml"/>
+        </reference>
+    </adminhtml_newsletter_queue_preview>
+</layout>

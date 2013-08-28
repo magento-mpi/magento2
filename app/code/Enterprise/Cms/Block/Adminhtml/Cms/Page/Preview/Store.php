@@ -16,7 +16,7 @@
  * @package    Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Store extends Mage_Backend_Block_Store_Switcher
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Store extends Magento_Backend_Block_Store_Switcher
 {
     /**
      * Retrieve id of currently selected store

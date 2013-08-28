@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_report_tag_productdetail_block>
+        <reference name="report.tag.product.productdetail.container">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.report.tag.product.productdetail.grid" as="grid">
+                <arguments>
+                    <id>grid</id>
+                    <dataSource type="object">Magento_Tag_Model_Resource_Reports_Product_Detail_Collection</dataSource>
+                </arguments>
+                <block type="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.report.tag.productdetail.grid.export" as="grid.export">
+                    <arguments>
+                        <exportTypes>
+                            <csv>
+                                <urlPath>*/*/exportProductDetailCsv</urlPath>
+                                <label translate="true">CSV</label>
+                            </csv>
+                            <excel>
+                                <urlPath>*/*/exportProductDetailExcel</urlPath>
+                                <label translate="true">Excel XML</label>
+                            </excel>
+                        </exportTypes>
+                    </arguments>
+                </block>
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.tag.product.productdetail.grid.columnSet">
+                    <arguments>
+                        <filter_visibility>0</filter_visibility>
+                    </arguments>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="tag_name">
+                        <arguments>
+                            <header translate="true">Tag</header>
+                            <index>tag_name</index>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="taged">
+                        <arguments>
+                            <header translate="true">Tag Use</header>
+                            <index>taged</index>
+                            <align>right</align>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="visible">
+                        <arguments>
+                            <header translate="true">Visibility</header>
+                            <sortable>0</sortable>
+                            <index>stores</index>
+                            <type>store</type>
+                            <store_view>1</store_view>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_report_tag_productdetail_block>
+</layout>

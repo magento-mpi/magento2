@@ -39,7 +39,7 @@ class Enterprise_Tag_Model_Observer
      */
     public function updateRewardPointsWhenTagSubmit($observer)
     {
-        /* @var $tag Mage_Tag_Model_Tag */
+        /* @var $tag Magento_Tag_Model_Tag */
         $tag = $observer->getEvent()->getObject();
         $websiteId = Mage::app()->getStore($tag->getFirstStoreId())->getWebsiteId();
 

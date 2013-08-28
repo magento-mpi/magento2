@@ -11,7 +11,7 @@
     <adminhtml_checkout_index>
         <reference name="head">
             <action method="addJs">
-                <file>Mage_Adminhtml::catalog/product/composite/configure.js</file>
+                <file>Magento_Adminhtml::catalog/product/composite/configure.js</file>
             </action>
             <action method="addJs">
                 <file>varien/configurable.js</file>
@@ -22,7 +22,7 @@
         </reference>
         <reference name="content">
             <update handle="adminhtml_sku_errors_block"/>
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
+            <block type="Magento_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
             <block type="Enterprise_Checkout_Block_Adminhtml_Manage" name="ID" template="manage.phtml">
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Store_Switcher" name="checkout.store.switcher"/>
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Messages" name="checkout.message"/>
@@ -39,7 +39,7 @@
                 </block>
                 <block type="Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon" template="form/coupon.phtml" name="checkout.form_coupon"/>
             </block>
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
+            <block type="Magento_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
         </reference>
     </adminhtml_checkout_index>
 </layout>

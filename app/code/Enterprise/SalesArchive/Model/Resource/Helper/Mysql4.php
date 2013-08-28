@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Catalog
+ * @category    Magento
+ * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +16,7 @@
  * @package     Enterprise_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_SalesArchive_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Mysql4
+class Enterprise_SalesArchive_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
 {
     /**
      * Change columns position
@@ -41,7 +41,7 @@ class Enterprise_SalesArchive_Model_Resource_Helper_Mysql4 extends Mage_Core_Mod
         }
 
         if (!$this->_getWriteAdapter()->isTableExists($table)) {
-            Mage::throwException(Mage::helper('Enterprise_SalesArchive_Helper_Data')->__("We can't find the table."));
+            Mage::throwException(__("We can't find the table."));
         }
 
         $columns = array();
@@ -52,11 +52,9 @@ class Enterprise_SalesArchive_Model_Resource_Helper_Mysql4 extends Mage_Core_Mod
         }
 
         if (!isset($columns[$column])) {
-            Mage::throwException(Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Column not found'));
+            Mage::throwException(__('Column not found'));
         } elseif ($after && !isset($columns[$after])) {
-            Mage::throwException(
-                Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Positioning column not found')
-            );
+            Mage::throwException(__('Positioning column not found'));
         }
 
         if ($after) {

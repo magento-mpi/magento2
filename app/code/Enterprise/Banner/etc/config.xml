@@ -36,7 +36,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_banner before="Mage_Adminhtml">Enterprise_Banner_Adminhtml</enterprise_banner>
+                        <enterprise_banner before="Magento_Adminhtml">Enterprise_Banner_Adminhtml</enterprise_banner>
                     </modules>
                 </args>
             </adminhtml>

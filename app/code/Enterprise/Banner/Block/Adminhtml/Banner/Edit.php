@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Initialize banner edit page. Set management buttons
@@ -22,11 +22,11 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block
 
         parent::_construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('Enterprise_Banner_Helper_Data')->__('Save Banner'));
-        $this->_updateButton('delete', 'label', Mage::helper('Enterprise_Banner_Helper_Data')->__('Delete Banner'));
+        $this->_updateButton('save', 'label', __('Save Banner'));
+        $this->_updateButton('delete', 'label', __('Delete Banner'));
 
         $this->_addButton('save_and_edit_button', array(
-                'label'   => Mage::helper('Enterprise_Banner_Helper_Data')->__('Save and Continue Edit'),
+                'label'   => __('Save and Continue Edit'),
                 'class'   => 'save',
                 'data_attribute'  => array(
                     'mage-init' => array(
@@ -55,7 +55,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block
         if (Mage::registry('current_banner')->getId()) {
             return $this->escapeHtml(Mage::registry('current_banner')->getName());
         } else {
-            return Mage::helper('Enterprise_Banner_Helper_Data')->__('New Banner');
+            return __('New Banner');
         }
     }
 

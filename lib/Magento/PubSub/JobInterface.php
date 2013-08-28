@@ -12,12 +12,29 @@
 interface Magento_PubSub_JobInterface
 {
     /**
-     * Status codes for job
+     * Status is assigned to newly created Job, identify that it is good to be sent to subscriber
      */
-    const READY_TO_SEND         = 0;
-    const SUCCESS               = 1;
-    const FAILED                = 2;
-    const RETRY                 = 3;
+    const STATUS_READY_TO_SEND         = 0;
+
+    /**
+     * Status is assigned to the Job when queue handler pick it up for processing
+     */
+    const STATUS_IN_PROGRESS           = 1;
+
+    /**
+     * Status is assigned to the Job when queue handler successfully delivered the job to subscriber
+     */
+    const STATUS_SUCCEEDED             = 2;
+
+    /**
+     * Status is assigned to the Job when queue handler failed to delivered the job after N retries
+     */
+    const STATUS_FAILED                = 3;
+
+    /**
+     * Status is assigned to the Job when queue handler failed to delivered the job but will retry more
+     */
+    const STATUS_RETRY                 = 4;
 
     /**
      * Get the event this job is responsible for processing
@@ -34,14 +51,31 @@ interface Magento_PubSub_JobInterface
     public function getSubscription();
 
     /**
-     * Process response and update Job status accordingly.
+     * Update the Job status to indicate it has completed successfully
      *
-     * @param Magento_Outbound_Transport_Http_Response $response
+     * @return Magento_PubSub_JobInterface
      */
-    public function handleResponse($response);
+    public function complete();
 
     /**
      * Handle retry on failure logic and update job status accordingly.
+     *
+     * @return Magento_PubSub_JobInterface
      */
     public function handleFailure();
+
+    /**
+     * Retrieve the status of the Job
+     *
+     * @return int
+     */
+    public function getStatus();
+
+    /**
+     * Set the status of the Job
+     *
+     * @param int $status
+     * @return Magento_PubSub_JobInterface
+     */
+    public function setStatus($status);
 }

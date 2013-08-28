@@ -114,33 +114,4 @@ applications:
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    saas: &saas
-        fallbackOrderFixture: 'saas, enterprise, default'
-        fallbackOrderHelper: 'Saas, Enterprise, Core'
-        design_theme: Plushe
-        ftp: *ftp
-        areas:
-            admin:
-                url: 'http://www.localhost.com/magento2_saas/backend/backend/'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123q'
-                after_login_page: 'store_launcher'
-            frontend:
-                url: 'http://www.localhost.com/magento2_saas/'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
-            tmt_api:
-                url: 'http://tenant.stage.server/soap.php?action=wsdl'
-                base_page_uimap: ~
-                uimap_path: ~
-                login: 'login'
-                password: 'password'
-            tmt:
-                url: 'http://tmt.domain.com/'
-                base_page_uimap: 'home'
-                uimap_path: 'tmt'
     default: *ee

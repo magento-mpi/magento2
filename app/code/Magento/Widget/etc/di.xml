@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Widget_Model_Config_Reader">
+        <param name="fileName">
+            <value>widget.xml</value>
+        </param>
+    </type>
+    <type name="Magento_Widget_Model_Config_Data">
+        <param name='reader'>
+            <instance type="Magento_Widget_Model_Config_Reader" />
+        </param>
+        <param name="cacheId">
+            <value>widget_config</value>
+        </param>
+    </type>
+</config>

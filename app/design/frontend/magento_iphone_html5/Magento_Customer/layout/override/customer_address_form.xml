@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <customer_address_form translate="label" type="page" parent="customer_address_index">
+        <label>Customer My Account Address Edit Form</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="Magento_Customer_Block_Address_Edit" name="customer_address_edit" template="address/edit.phtml">
+                <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+                    <action method="setFormCode">
+                        <code>customer_address_edit</code>
+                    </action>
+                </block>
+            </block>
+        </reference>
+        <update handle="customer_form_template_handle"/>
+    </customer_address_form>
+</layout>

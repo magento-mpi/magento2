@@ -16,8 +16,8 @@
  * @package    Enterprise_TargetRule
  */
 class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
-    extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Prepare target rule actions form before rendering HTML
@@ -33,12 +33,12 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset   = $form->addFieldset('conditions_fieldset', array(
-            'legend' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product Match Conditions (leave blank for matching all products)'))
+            'legend' => __('Product Match Conditions (leave blank for matching all products)'))
         );
         $newCondUrl = $this->getUrl('*/targetrule/newConditionHtml/', array(
             'form'  => $fieldset->getHtmlId()
         ));
-        $renderer   = Mage::getBlockSingleton('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+        $renderer   = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
             ->setTemplate('Enterprise_TargetRule::edit/conditions/fieldset.phtml')
             ->setNewChildUrl($newCondUrl);
         $fieldset->setRenderer($renderer);
@@ -66,7 +66,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Products to Match');
+        return __('Products to Match');
     }
 
     /**
@@ -76,7 +76,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
      */
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Products to Match');
+        return __('Products to Match');
     }
 
     /**

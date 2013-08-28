@@ -24,7 +24,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
      * @var array
      */
     protected $_websites = array(
-        Mage_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
+        Magento_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
         1                                            => 'website1',
     );
 
@@ -83,19 +83,16 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
             ->method('getWebsites')
             ->will($this->returnCallback(array($this, 'getWebsites')));
 
-        $translator = $this->getMock('stdClass', array('__'));
-        $translator->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
+        $translator = $this->getMock('stdClass');
 
         /** @var $attributeCollection Magento_Data_Collection|PHPUnit_Framework_TestCase */
         $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments(
-                'Mage_Eav_Model_Entity_Attribute_Abstract'
+                'Magento_Eav_Model_Entity_Attribute_Abstract'
             );
             $arguments['data'] = $attributeData;
-            $attribute = $this->getMockBuilder('Mage_Eav_Model_Entity_Attribute_Abstract')
+            $attribute = $this->getMockBuilder('Magento_Eav_Model_Entity_Attribute_Abstract')
                 ->setConstructorArgs($arguments)
                 ->setMethods(array('_construct'))
                 ->getMock();
@@ -131,7 +128,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == Mage_Core_Model_AppInterface::ADMIN_STORE_ID) {
+            if (!$withDefault && $id == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
                 continue;
             }
             $websiteData = array(
@@ -151,7 +148,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
      */
     public function testExportItem()
     {
-        $writer = $this->getMockForAbstractClass('Mage_ImportExport_Model_Export_Adapter_Abstract',
+        $writer = $this->getMockForAbstractClass('Magento_ImportExport_Model_Export_Adapter_Abstract',
             array(), '', false, false, true, array('writeRow')
         );
 
@@ -161,8 +158,8 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
 
         $this->_model->setWriter($writer);
 
-        $item = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', array(), '', false);
-        /** @var $item Mage_Core_Model_Abstract */
+        $item = $this->getMockForAbstractClass('Magento_Core_Model_Abstract', array(), '', false);
+        /** @var $item Magento_Core_Model_Abstract */
         $item->setData($this->_customerData);
 
         $this->_model->exportItem($item);

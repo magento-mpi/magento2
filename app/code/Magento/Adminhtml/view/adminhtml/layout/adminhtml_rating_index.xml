@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_rating_index>
+        <update handle="formkey"/>
+        <update handle="adminhtml_rating_block"/>
+        <reference name="content">
+            <block type="Magento_Adminhtml_Block_Rating_Rating" name="adminhtml.rating.container"/>
+        </reference>
+    </adminhtml_rating_index>
+</layout>

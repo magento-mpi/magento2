@@ -9,8 +9,8 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
-    extends Mage_Adminhtml_Block_Template
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Template
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Set identifier and title
@@ -19,7 +19,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
     {
         parent::_construct();
         $this->setId('gifregustry');
-        $this->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry'));
+        $this->setTitle(__('Gift Registry'));
     }
 
     /**

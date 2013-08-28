@@ -15,9 +15,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer');
@@ -37,7 +37,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer
         $conditions = array_merge($conditions, Mage::getModel($prefix . 'Storecredit')->getNewChildSelectOptions());
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer')
+            'label' => __('Customer')
         );
     }
 }

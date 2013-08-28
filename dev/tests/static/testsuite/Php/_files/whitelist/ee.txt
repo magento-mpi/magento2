@@ -6,7 +6,7 @@ app/code/Enterprise/GiftCard/Block/Adminhtml/Renderer/OpenAmount.php
 app/code/Enterprise/Invitation/Block/Adminhtml/Grid/Column/Renderer/Percent.php
 app/code/Enterprise/Invitation/Block/Adminhtml/Report
 app/code/Enterprise/Invitation/Model/Resource/Report
-app/code/Enterprise/Invitation/controllers/Adminhtml/Report
+app/code/Enterprise/Invitation/Controller/Adminhtml/Report
 app/code/Enterprise/PageCache/Model/Cache/Type.php
 app/code/Enterprise/Pbridge/Model/Authorizenet/Source/PaymentAction.php
 app/code/Enterprise/SalesArchive/Model/Order

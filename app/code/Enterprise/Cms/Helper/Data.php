@@ -15,7 +15,7 @@
  * @package    Enterprise_Cms
  */
 
-class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Cms_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Array of admin users in system
@@ -31,7 +31,7 @@ class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
     public function getUsersArray($addEmptyUser = false)
     {
         if (!$this->_usersHash) {
-            $collection = Mage::getModel('Mage_User_Model_User')->getCollection();
+            $collection = Mage::getModel('Magento_User_Model_User')->getCollection();
             $this->_usersHash = array();
 
             if ($addEmptyUser) {
@@ -54,9 +54,9 @@ class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
     public function getVersionAccessLevels()
     {
         return array(
-            Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PRIVATE => $this->__('Private'),
-            Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PROTECTED => $this->__('Protected'),
-            Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC => $this->__('Public')
+            Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PRIVATE => __('Private'),
+            Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PROTECTED => __('Protected'),
+            Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC => __('Public')
         );
     }
 
@@ -98,6 +98,6 @@ class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDeleteMultipleHierarchiesText()
     {
-        return $this->__('Delete Multiple Hierarchies');
+        return __('Delete Multiple Hierarchies');
     }
 }

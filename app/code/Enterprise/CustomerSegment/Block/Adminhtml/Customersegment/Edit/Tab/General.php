@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare general properties form
@@ -32,7 +32,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
         $form->setHtmlIdPrefix('segment_');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('General Properties')
+            'legend' => __('General Properties')
         ));
 
         if ($model->getId()) {
@@ -43,13 +43,13 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
 
         $fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment Name'),
+            'label' => __('Segment Name'),
             'required' => true
         ));
 
         $fieldset->addField('description', 'textarea', array(
             'name' => 'description',
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Description'),
+            'label' => __('Description'),
             'style' => 'height: 100px;'
         ));
 
@@ -63,37 +63,37 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
         } else {
             $fieldset->addField('website_ids', 'multiselect', array(
                 'name'     => 'website_ids[]',
-                'label'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Assigned to Website'),
-                'title'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Assigned to Website'),
+                'label'    => __('Assigned to Website'),
+                'title'    => __('Assigned to Website'),
                 'required' => true,
-                'values'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds()
             ));
         }
 
         $fieldset->addField('is_active', 'select', array(
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Status'),
+            'label' => __('Status'),
             'name' => 'is_active',
             'required' => true,
             'options' => array(
-                '1' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Active'),
-                '0' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Inactive')
+                '1' => __('Active'),
+                '0' => __('Inactive')
             )
         ));
 
         $applyToFieldConfig = array(
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Apply To'),
+            'label' => __('Apply To'),
             'name' => 'apply_to',
             'required' => false,
             'disabled' => (boolean)$model->getId(),
             'options' => array(
-                Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Visitors and Registered Customers'),
-                Enterprise_CustomerSegment_Model_Segment::APPLY_TO_REGISTERED => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Registered Customers'),
-                Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Visitors')
+                Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED => __('Visitors and Registered Customers'),
+                Enterprise_CustomerSegment_Model_Segment::APPLY_TO_REGISTERED => __('Registered Customers'),
+                Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS => __('Visitors')
             )
         );
         if (!$model->getId()) {
-            $applyToFieldConfig['note'] = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Please save this information to specify segmentation conditions.');
+            $applyToFieldConfig['note'] = __('Please save this information to specify segmentation conditions.');
         }
 
         $fieldset->addField('apply_to', 'select', $applyToFieldConfig);

@@ -15,15 +15,15 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Checkout_Block_Adminhtml_Manage extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     protected function _construct()
     {
         parent::_construct();
         $this->setId('checkout_manage_container');
 
-        if ($this->_authorization->isAllowed('Mage_Sales::create')) {
-            $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Create Order'));
+        if ($this->_authorization->isAllowed('Magento_Sales::create')) {
+            $this->_updateButton('save', 'label', __('Create Order'));
             $this->_updateButton('save', 'onclick', 'setLocation(\'' . $this->getCreateOrderUrl() . '\');');
         } else {
             $this->_removeButton('save');
@@ -35,7 +35,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
     /**
      * Prepare layout, create buttons
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
@@ -43,34 +43,34 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
             return $this;
         }
 
-        $this->addChild('add_products_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Add Products'),
+        $this->addChild('add_products_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            'label' => __('Add Products'),
             'onclick' => 'checkoutObj.searchProducts()',
             'class' => 'add',
             'id' => 'add_products_btn'
         ));
 
-        $this->addChild('update_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Update Items and Qty\'s'),
+        $this->addChild('update_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            'label' => __('Update Items and Qty\'s'),
             'onclick' => 'checkoutObj.updateItems()',
             'style' => 'float:right; margin-left: 5px;'
         ));
-        $deleteAllConfirmString = Mage::helper('Enterprise_Checkout_Helper_Data')->__('Are you sure you want to clear your shopping cart?');
-        $this->addChild('empty_customer_cart_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Clear the shopping cart.'),
+        $deleteAllConfirmString = __('Are you sure you want to clear your shopping cart?');
+        $this->addChild('empty_customer_cart_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            'label' => __('Clear the shopping cart.'),
             'onclick' => 'confirm(\'' . $deleteAllConfirmString . '\') '
                 . ' && checkoutObj.updateItems({\'empty_customer_cart\': 1})',
             'style' => 'float:right;'
         ));
 
-        $this->addChild('addto_cart_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Add Selected Product(s) to Shopping Cart'),
+        $this->addChild('addto_cart_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            'label' => __('Add Selected Product(s) to Shopping Cart'),
             'onclick' => 'checkoutObj.addToCart()',
             'class' => 'add button-to-cart'
         ));
 
-        $this->addChild('cancel_add_products_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Cancel'),
+        $this->addChild('cancel_add_products_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            'label' => __('Cancel'),
             'onclick' => 'checkoutObj.cancelSearch()',
             'class' => 'cancel'
         ));
@@ -97,13 +97,13 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
     {
         $customer = $this->escapeHtml($this->_getCustomer()->getName());
         $store = $this->escapeHtml($this->_getStore()->getName());
-        return Mage::helper('Enterprise_Checkout_Helper_Data')->__('Shopping Cart for %s in %s', $customer, $store);
+        return __('Shopping Cart for %1 in %2', $customer, $store);
     }
 
     /**
      * Return current customer from regisrty
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     protected function _getCustomer()
     {
@@ -113,7 +113,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
     /**
      * Return current store from regisrty
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getStore()
     {
@@ -173,7 +173,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
         );
 
         $messages = array(
-            'chooseProducts' => $this->__('Choose  products to add to shopping cart.')
+            'chooseProducts' => __('Choose  products to add to shopping cart.')
         );
 
         $data = array(
@@ -183,7 +183,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
             'store_id' => $this->_getStore()->getId()
         );
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**

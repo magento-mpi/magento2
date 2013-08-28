@@ -2,18 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Catalog
+ * @category    Magento
+ * @package     Magento_Catalog
  * @subpackage  performance_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-$installer = $installer = Mage::getModel('Mage_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$installer = $installer = Mage::getModel('Magento_Catalog_Model_Resource_Setup',
+    array('resourceName' => 'catalog_setup'));
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */
-$category = Mage::getModel('Mage_Catalog_Model_Category');
+$category = Mage::getModel('Magento_Catalog_Model_Category');
 
 $category->setId(3)
     ->setName('Category 1')
@@ -26,8 +27,8 @@ $category->setId(3)
     ->setPosition(1)
     ->save();
 
-$product = Mage::getModel('Mage_Catalog_Model_Product');
-$product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
     ->setStoreId(1)
     ->setWebsiteIds(array(1))
@@ -38,15 +39,15 @@ $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setPrice(10)
     ->setWeight(18)
     ->setCategoryIds(array(2,3))
-    ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setTaxClassId(0)
     ->save();
 
-$stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+$stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
 $stockItem->setProductId($product->getId())
     ->setTypeId($product->getTypeId())
-    ->setStockId(Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID)
+    ->setStockId(Magento_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID)
     ->setIsInStock(1)
     ->setQty(10000)
     ->setUseConfigMinQty(1)

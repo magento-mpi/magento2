@@ -16,13 +16,13 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Helper_Customer extends Mage_Core_Helper_Abstract
+class Enterprise_Reward_Helper_Customer extends Magento_Core_Helper_Abstract
 {
     /**
      * Return Unsubscribe notification URL
      *
      * @param string|boolean $notification Notification type
-     * @param int|string|Mage_Core_Model_Store $storeId
+     * @param int|string|Magento_Core_Model_Store $storeId
      * @return string
      */
     public function getUnsubscribeUrl($notification = false, $storeId = null)

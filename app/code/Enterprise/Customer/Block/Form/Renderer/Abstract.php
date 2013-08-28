@@ -31,7 +31,7 @@ abstract class Enterprise_Customer_Block_Form_Renderer_Abstract extends Enterpri
             $this->getEntity()->getId() &&
             $this->getEntity()->validate() === true &&
             $this->validateValue($this->getValue()) !== true) {
-                $result = Mage::helper('Enterprise_Customer_Helper_Data')->__('Edit this attribute here to use in an address template.');
+                $result = __('Edit this attribute here to use in an address template.');
             }
 
         return $result;
@@ -41,12 +41,12 @@ abstract class Enterprise_Customer_Block_Form_Renderer_Abstract extends Enterpri
      * Validate attribute value
      *
      * @param array|string $value
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return boolean
      */
     public function validateValue($value)
     {
-        $dataModel = Mage_Customer_Model_Attribute_Data::factory($this->getAttributeObject(), $this->getEntity());
+        $dataModel = Magento_Customer_Model_Attribute_Data::factory($this->getAttributeObject(), $this->getEntity());
         $result = $dataModel->validateValue($this->getValue());
         return $result;
     }

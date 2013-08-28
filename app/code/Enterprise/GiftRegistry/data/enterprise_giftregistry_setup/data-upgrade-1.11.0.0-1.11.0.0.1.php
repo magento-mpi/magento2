@@ -19,10 +19,10 @@ $defaultTypes = array(
 foreach ($defaultTypes as $typeId => $label) {
     $installer->getConnection()->update(
         $this->getTable('enterprise_giftregistry_type_info'),
-        array('store_id' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID),
+        array('store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID),
         array(
             'type_id = ?' => $typeId,
-            'store_id = ?' => Mage_Core_Model_AppInterface::DISTRO_STORE_ID,
+            'store_id = ?' => Magento_Core_Model_AppInterface::DISTRO_STORE_ID,
             'label = ?' => $label
         )
     );

@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Block_Search_Form extends Mage_Core_Block_Template
+class Enterprise_Wishlist_Block_Search_Form extends Magento_Core_Block_Template
 {
     /**
      * Posted form data
@@ -31,7 +31,7 @@ class Enterprise_Wishlist_Block_Search_Form extends Mage_Core_Block_Template
      */
     public function getFormHeader()
     {
-        return Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wish List Search');
+        return __('Wish List Search');
     }
 
     /**

@@ -15,7 +15,7 @@
  * @package    Enterprise_GiftRegistry
  */
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
-    extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {
     protected $_template = 'form/renderer/element.phtml';
 
@@ -87,11 +87,11 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
             return $html;
         }
         if ($element->getScope() == 'global' || $element->getScope() === null) {
-            $html .= Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]');
+            $html .= __('[GLOBAL]');
         } elseif ($element->getScope() == 'website') {
-            $html .= Mage::helper('Mage_Adminhtml_Helper_Data')->__('[WEBSITE]');
+            $html .= __('[WEBSITE]');
         } elseif ($element->getScope() == 'store') {
-            $html .= Mage::helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]');
+            $html .= __('[STORE VIEW]');
         }
 
         return $html;

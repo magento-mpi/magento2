@@ -18,9 +18,7 @@ class Enterprise_Pbridge_Model_Authorizenet_Source_PaymentActionTest extends PHP
 
     protected function setUp()
     {
-        $mockHelper = $this->getMock('Enterprise_Pbridge_Helper_Data', array(), array(), '', false, false);
-        $mockHelper->expects($this->any())->method('__')->will($this->returnValue('Test Label'));
-        $this->_model= new Enterprise_Pbridge_Model_Authorizenet_Source_PaymentAction($mockHelper);
+        $this->_model= new Enterprise_Pbridge_Model_Authorizenet_Source_PaymentAction();
     }
 
     /**
@@ -40,12 +38,12 @@ class Enterprise_Pbridge_Model_Authorizenet_Source_PaymentActionTest extends PHP
         $options = $this->_model->toOptionArray();
         $expected = array(
             array(
-                'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
-                'label' => 'Test Label'
+                'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
+                'label' => __('Authorize Only')
             ),
             array(
-                'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
-                'label' => 'Test Label'
+                'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
+                'label' => __('Authorize and Capture')
             ),
         );
         $this->assertEquals($options, $expected);

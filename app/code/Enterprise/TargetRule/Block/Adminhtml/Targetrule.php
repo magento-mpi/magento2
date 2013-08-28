@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_TargetRule_Block_Adminhtml_Targetrule extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Enterprise_TargetRule_Block_Adminhtml_Targetrule extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Initialize invitation manage page
@@ -19,8 +19,8 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule extends Mage_Adminhtml_Bl
     {
         $this->_controller = 'adminhtml_targetrule';
         $this->_blockGroup = 'Enterprise_TargetRule';
-        $this->_headerText = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Related Products Rule');
-        $this->_addButtonLabel = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Add Rule');
+        $this->_headerText = __('Related Products Rule');
+        $this->_addButtonLabel = __('Add Rule');
         parent::_construct();
     }
 

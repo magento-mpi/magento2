@@ -12,7 +12,7 @@
  * Product attribute value condition
  */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
-    extends Mage_Rule_Model_Condition_Product_Abstract
+    extends Magento_Rule_Model_Condition_Product_Abstract
 {
     /**
      * Used for rule property field
@@ -24,10 +24,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
     /**
      * Init model
      *
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes');
@@ -87,7 +87,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
 
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Product Attributes')
+            'label' => __('Product Attributes')
         );
     }
 
@@ -98,17 +98,17 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Product %s', parent::asHtml());
+        return __('Product %1', parent::asHtml());
     }
 
     /**
      * Get product attribute object
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     * @return Magento_Catalog_Model_Resource_Eav_Attribute
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', $this->getAttribute());
+        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_product', $this->getAttribute());
     }
 
     /**

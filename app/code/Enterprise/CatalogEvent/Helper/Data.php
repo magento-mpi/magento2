@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogEvent_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_CatalogEvent_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_ENABLED = 'catalog/enterprise_catalogevent/enabled';
 

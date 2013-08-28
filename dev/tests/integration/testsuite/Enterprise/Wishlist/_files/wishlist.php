@@ -9,5 +9,5 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../Mage/Wishlist/_files/wishlist.php';
+require __DIR__ . '/../../../Magento/Wishlist/_files/wishlist.php';
 $wishlist->setVisibility(1)->save();

@@ -31,12 +31,9 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
      */
     protected function _prepareForm()
     {
-        /** @var $helper Enterprise_ImportExport_Helper_Data */
-        $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
-
-        $this->setGeneralSettingsLabel($helper->__('Import Settings'));
-        $this->setFileSettingsLabel($helper->__('Import File Information'));
-        $this->setEmailSettingsLabel($helper->__('Import Failed Emails'));
+        $this->setGeneralSettingsLabel(__('Import Settings'));
+        $this->setFileSettingsLabel(__('Import File Information'));
+        $this->setEmailSettingsLabel(__('Import Failed Emails'));
 
         parent::_prepareForm();
         $form = $this->getForm();
@@ -45,14 +42,14 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
         $fieldset = $form->getElement('operation_settings');
 
         // add behaviour fields
-        $uniqueBehaviors = Mage_ImportExport_Model_Import::getUniqueEntityBehaviors();
+        $uniqueBehaviors = Magento_ImportExport_Model_Import::getUniqueEntityBehaviors();
         foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
-            /** @var $behaviorSource Mage_ImportExport_Model_Source_Import_BehaviorAbstract */
+            /** @var $behaviorSource Magento_ImportExport_Model_Source_Import_BehaviorAbstract */
             $behaviorSource = Mage::getModel($behaviorClass);
             $fieldset->addField($behaviorCode, 'select', array(
                 'name'     => 'behavior',
-                'title'    => $helper->__('Import Behavior'),
-                'label'    => $helper->__('Import Behavior'),
+                'title'    => __('Import Behavior'),
+                'label'    => __('Import Behavior'),
                 'required' => true,
                 'disabled' => true,
                 'values'   => $behaviorSource->toOptionArray()
@@ -63,14 +60,14 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
         $operationData = Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data');
         $fieldset->addField('force_import', 'select', array(
             'name'     => 'force_import',
-            'title'    => $helper->__('On Error'),
-            'label'    => $helper->__('On Error'),
+            'title'    => __('On Error'),
+            'label'    => __('On Error'),
             'required' => true,
             'values'   => $operationData->getForcedImportOptionArray()
         ), 'freq');
 
         $form->getElement('email_template')
-            ->setValues(Mage::getModel('Mage_Backend_Model_Config_Source_Email_Template')
+            ->setValues(Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template')
                 ->setPath('enterprise_importexport_import_failed')
                 ->toOptionArray()
             );
@@ -78,8 +75,8 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
         $fieldset = $form->getElement('file_settings');
         $fieldset->addField('file_name', 'text', array(
             'name'     => 'file_info[file_name]',
-            'title'    => $helper->__('File Name'),
-            'label'    => $helper->__('File Name'),
+            'title'    => __('File Name'),
+            'label'    => __('File Name'),
             'required' => true
         ), 'file_path');
 

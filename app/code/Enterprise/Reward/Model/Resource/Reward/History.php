@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Reward_Model_Resource_Reward_History extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Internal constructor
@@ -33,7 +33,7 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
      * @param Magento_Object $object
      * @return Enterprise_Reward_Model_Resource_Reward_History
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         parent::_afterLoad($object);
         if (is_string($object->getData('additional_data'))) {
@@ -45,10 +45,10 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
     /**
      * Perform actions before object save
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Enterprise_Reward_Model_Resource_Reward_History
      */
-    public function _beforeSave(Mage_Core_Model_Abstract $object)
+    public function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         parent::_beforeSave($object);
         if (is_array($object->getData('additional_data'))) {

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_billing_agreement_ordersgrid>
+        <update handle="adminhtml_sales_order_grid_block"/>
+        <reference name="sales.order.grid">
+            <arguments>
+                <dataSource>
+                    <updater>Magento_Sales_Model_Billing_Agreement_OrdersUpdater</updater>
+                </dataSource>
+                <grid_url>
+                    <path>*/*/ordersgrid</path>
+                </grid_url>
+            </arguments>
+        </reference>
+        <remove name="sales.order.grid.export"/>
+        <remove name="sales.order.grid.massaction"/>
+        <container name="sales_order.grid.container" label="Sales Order Grid Container" output="1"/>
+    </adminhtml_sales_billing_agreement_ordersgrid>
+</layout>

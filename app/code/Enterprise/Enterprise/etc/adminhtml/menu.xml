@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_Enterprise::private_sales" title="Private Sales" module="Enterprise_Enterprise" sortOrder="10" parent="Mage_Adminhtml::marketing" resource="Enterprise_Enterprise::marketing_private_sales" />
+        <add id="Enterprise_Enterprise::private_sales" title="Private Sales" module="Enterprise_Enterprise" sortOrder="10" parent="Magento_Adminhtml::marketing" resource="Enterprise_Enterprise::marketing_private_sales" />
     </menu>
 </config>

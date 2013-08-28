@@ -20,7 +20,7 @@
         <?php $_code = $_card['c']; ?>
 
         <tr>
-            <td class="label"><?php echo Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card (%s)', $_code) ?></td>
+            <td class="label"><?php echo __('Gift Card (%1)', $_code) ?></td>
             <td>
                 <?php echo $this->displayPrices(-$_baseAmount, -$_amount); ?>
             </td>

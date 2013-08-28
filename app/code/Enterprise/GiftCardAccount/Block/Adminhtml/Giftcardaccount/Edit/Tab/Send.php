@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Init form fields
@@ -23,31 +23,31 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
         $model = Mage::registry('current_giftcardaccount');
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Send Gift Card'))
+            array('legend'=>__('Send Gift Card'))
         );
 
         $fieldset->addField('recipient_email', 'text', array(
-            'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Recipient Email'),
-            'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Recipient Email'),
+            'label'     => __('Recipient Email'),
+            'title'     => __('Recipient Email'),
             'class'     => 'validate-email',
             'name'      => 'recipient_email',
         ));
 
         $fieldset->addField('recipient_name', 'text', array(
-            'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Recipient Name'),
-            'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Recipient Name'),
+            'label'     => __('Recipient Name'),
+            'title'     => __('Recipient Name'),
             'name'      => 'recipient_name',
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
                 'name'     => 'recipient_store',
-                'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email from the Following Store View'),
-                'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email from the Following Store View'),
+                'label'    => __('Send Email from the Following Store View'),
+                'title'    => __('Send Email from the Following Store View'),
                 'after_element_html' => $this->_getStoreIdScript()
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 
@@ -78,7 +78,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
             }
         }
 
-        $websiteStores = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($websiteStores);
+        $websiteStores = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($websiteStores);
 
         $result  = '<script type="text/javascript">//<![CDATA[' . "\n";
         $result .= "var websiteStores = $websiteStores;";
@@ -109,7 +109,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
             }
             else {
               var option = document.createElement("option");
-              option.appendChild(document.createTextNode(\''.Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('-- First Please Select a Website --').'\'));
+              option.appendChild(document.createTextNode(\''.__('-- First Please Select a Website --').'\'));
               sSel.appendChild(option);
             }
         }

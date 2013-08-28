@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
 
     protected $_template = 'customer/form.phtml';
@@ -24,8 +24,8 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
         $this->addChild('entity_items', 'Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items');
         $this->addChild('cart_items', 'Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart');
         $this->addChild('sharing_form', 'Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing');
-        $this->addChild('update_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label' => $this->helper('Enterprise_GiftRegistry_Helper_Data')->__('Update Items and Qty\'s'),
+        $this->addChild('update_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            'label' => __('Update Items and Qty\'s'),
             'type'  => 'submit'
         ));
 
@@ -49,7 +49,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getOwnerName()
     {
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')
             ->load($this->getEntity()->getCustomerId());
 
         return $this->escapeHtml($customer->getName());
@@ -136,7 +136,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
     public function getCreatedAt()
     {
         return $this->formatDate($this->getEntity()->getCreatedAt(),
-            Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true
+            Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true
         );
     }
 

@@ -15,7 +15,7 @@
  * @package    Enterprise_CustomerSegment
  */
 
-class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment extends Mage_Backend_Block_Widget_Grid_Container
+class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * Initialize customer segment manage page
@@ -26,8 +26,8 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment extends Mage_Ba
     {
         $this->_controller = 'adminhtml_customersegment';
         $this->_blockGroup = 'Enterprise_CustomerSegment';
-        $this->_headerText = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segments');
-        $this->_addButtonLabel = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Add Segment');
+        $this->_headerText = __('Segments');
+        $this->_addButtonLabel = __('Add Segment');
         parent::_construct();
     }
 

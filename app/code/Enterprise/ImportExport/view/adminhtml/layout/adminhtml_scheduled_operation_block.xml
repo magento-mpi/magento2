@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_scheduled_operation_block>
         <reference name="adminhtml.block.scheduled.operation.grid.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.block.scheduled.operation.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.scheduled.operation.grid" as="grid">
                 <arguments>
                     <id>operationGrid</id>
                     <dataSource type="object">Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Collection</dataSource>
@@ -24,39 +24,39 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.scheduled.operation.massactions" as="grid.massaction">
+                <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.scheduled.operation.massactions" as="grid.massaction">
                     <arguments>
                         <massaction_id_field>id</massaction_id_field>
                         <form_field_name>operation</form_field_name>
                         <use_select_all>1</use_select_all>
                         <options>
                             <delete>
-                                <label translate="true" module="Enterprise_ImportExport">Delete</label>
+                                <label translate="true">Delete</label>
                                 <url>*/*/massDelete</url>
-                                <confirm translate="true" module="Enterprise_ImportExport">Are you sure you want to delete the selected scheduled imports/exports?</confirm>
+                                <confirm translate="true">Are you sure you want to delete the selected scheduled imports/exports?</confirm>
                             </delete>
                             <status>
-                                <label translate="true" module="Enterprise_ImportExport">Change status</label>
+                                <label translate="true">Change status</label>
                                 <url>*/*/massChangeStatus</url>
                                 <block_name>status</block_name>
                             </status>
                         </options>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Massaction_Additional" name="adminhtml.block.scheduled.operation.massactions.status" as="status">
+                    <block type="Magento_Backend_Block_Widget_Grid_Massaction_Additional" name="adminhtml.block.scheduled.operation.massactions.status" as="status">
                         <arguments>
                             <fields>
                                 <visibility>
                                     <name>status</name>
                                     <type>select</type>
                                     <class>required-entry</class>
-                                    <label translate="true" module="Enterprise_ImportExport">Status</label>
+                                    <label translate="true">Status</label>
                                     <values>Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Statuses</values>
                                 </visibility>
                             </fields>
                         </arguments>
                     </block>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet">
                     <arguments>
                         <id>operationGrid</id>
                         <rowUrl>
@@ -66,67 +66,67 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Enterprise_ImportExport">Name</header>
+                            <header translate="true">Name</header>
                             <index>name</index>
                             <type>text</type>
                             <escape>1</escape>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="operation_type">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="operation_type">
                         <arguments>
-                            <header translate="true" module="Enterprise_ImportExport">Operation</header>
+                            <header translate="true">Operation</header>
                             <index>operation_type</index>
                             <type>options</type>
                             <width>30</width>
                             <options type='options'>Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Operations</options>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="entity_type">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="entity_type">
                         <arguments>
-                            <header translate="true" module="Enterprise_ImportExport">Entity Type</header>
+                            <header translate="true">Entity Type</header>
                             <index>entity_type</index>
                             <type>options</type>
                             <options type='options'>Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Entities</options>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="last_run_date">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="last_run_date">
                         <arguments>
-                            <header translate="true" module="Enterprise_ImportExport">Last Run</header>
+                            <header translate="true">Last Run</header>
                             <index>last_run_date</index>
                             <type>datetime</type>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="freq">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="freq">
                         <arguments>
-                            <header translate="true" module="Enterprise_ImportExport">Frequency</header>
+                            <header translate="true">Frequency</header>
                             <index>freq</index>
                             <width>100</width>
                             <type>options</type>
                             <options type='options'>Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Frequency</options>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="status">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
-                            <header translate="true" module="Enterprise_ImportExport">Status</header>
+                            <header translate="true">Status</header>
                             <index>status</index>
                             <type>options</type>
                             <options type='options'>Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Statuses</options>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_success">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_success">
                         <arguments>
-                            <header translate="true" module="Enterprise_ImportExport">Last Outcome</header>
+                            <header translate="true">Last Outcome</header>
                             <index>is_success</index>
                             <type>options</type>
                             <width>200</width>
                             <options type='options'>Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Result</options>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
-                            <header translate="true" module="Enterprise_ImportExport">Action</header>
+                            <header translate="true">Action</header>
                             <index>id</index>
                             <width>50</width>
                             <type>action</type>
@@ -135,14 +135,14 @@
                             <sortable>0</sortable>
                             <actions>
                                 <edit_action>
-                                    <caption translate="true" module="Enterprise_ImportExport">Edit</caption>
+                                    <caption translate="true">Edit</caption>
                                     <url>
                                         <base>*/*/edit</base>
                                     </url>
                                     <field>id</field>
                                 </edit_action>
                                 <run_action>
-                                    <caption translate="true" module="Enterprise_ImportExport">Run</caption>
+                                    <caption translate="true">Run</caption>
                                     <url>
                                         <base>*/scheduled_operation/cron</base>
                                     </url>

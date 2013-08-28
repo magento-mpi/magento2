@@ -20,7 +20,7 @@ class Enterprise_Reminder_Model_Resource_Reminder_Collection
     extends Enterprise_Reminder_Model_Resource_Rule_Collection
 {
     /**
-     * @return Enterprise_Reminder_Model_Resource_Reminder_Collection|Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Enterprise_Reminder_Model_Resource_Reminder_Collection|Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _initSelect()
     {

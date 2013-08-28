@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
-    extends Mage_Adminhtml_Block_Widget_Form_Container
+    extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Initialize operation form container.
@@ -59,7 +59,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         if ($formBlock) {
             $this->setChild('form', $formBlock);
         } else {
-            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Please correct the scheduled operation type.'));
+            Mage::throwException(__('Please correct the scheduled operation type.'));
         }
 
         $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''

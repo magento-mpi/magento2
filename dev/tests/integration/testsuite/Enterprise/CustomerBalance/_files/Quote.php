@@ -7,7 +7,7 @@
  */
 
 //Add customer
-$customer = Mage::getModel('Mage_Customer_Model_Customer');
+$customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->setStoreId(1)
     ->setWebsiteId(1)
     ->setCreatedIn('Default Store View')
@@ -33,7 +33,7 @@ $customerBalance->setCustomerId($customer->getId())
 Enterprise_CustomerBalance_Model_Quote_ApiTest::$customer = $customer;
 
 //Create new simple product to add it to shopping cart
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->setTypeId('simple')
     ->setStoreId(1)
     ->setWebsiteId(1)
@@ -45,8 +45,8 @@ $product->setTypeId('simple')
     ->setMetaTitle('meta title')
     ->setMetaKeyword('meta keyword')
     ->setMetaDescription('meta description')
-    ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setWeight(12)
     ->setStockData(
         array(
@@ -61,7 +61,7 @@ $product->setTypeId('simple')
 Enterprise_CustomerBalance_Model_Quote_ApiTest::$product = $product;
 
 //Create shopping cart
-$quote = Mage::getModel('Mage_Sales_Model_Quote');
+$quote = Mage::getModel('Magento_Sales_Model_Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false);
@@ -73,11 +73,11 @@ $quote->addProduct($product);
 
 //Assign customer to cart
 $quote->setCustomer($customer)
-    ->setCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)
+    ->setCheckoutMethod(Magento_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)
     ->setPasswordHash($customer->encryptPassword($customer->getPassword()));
 
 //Create billing/shipping address
-$address = Mage::getModel('Mage_Sales_Model_Quote_Address');
+$address = Mage::getModel('Magento_Sales_Model_Quote_Address');
 $address->setData(
     array(
         'city' => 'New York',
@@ -96,8 +96,6 @@ $address->setData(
         'use_for_shipping' => true
     )
 );
-//Implode street address (this method is overridden)
-$address->setStreet($address->getData('street'));
 
 //Assign address to cart
 $quote->setBillingAddress($address);
@@ -109,7 +107,7 @@ $quote->collectTotals()
 Enterprise_CustomerBalance_Model_Quote_ApiTest::$quote = $quote;
 
 //Create shopping cart by guest
-$guestQuote = Mage::getModel('Mage_Sales_Model_Quote');
+$guestQuote = Mage::getModel('Magento_Sales_Model_Quote');
 $guestQuote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)

@@ -15,25 +15,24 @@
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Backend_Block_Widget_Grid
+class Enterprise_Search_Block_Adminhtml_Search_Grid extends Magento_Backend_Block_Widget_Grid
 {
-
     /**
      * @var Enterprise_Search_Model_Adminhtml_Search_Grid_Options
      */
     protected $_options;
 
     /**
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
 
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Model_Url $urlModel,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
         Enterprise_Search_Model_Adminhtml_Search_Grid_Options $options,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         parent::__construct($context, $storeManager, $urlModel, $data);
@@ -88,7 +87,7 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Backend_Block_W
     {
         $queries = array_flip($this->getSelectedQueries());
         if (!empty($queries)) {
-            return $this->helper('Mage_Core_Helper_Data')->jsonEncode($queries);
+            return $this->helper('Magento_Core_Helper_Data')->jsonEncode($queries);
         }
         return '{}';
     }

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_order_create_load_block_shipping_method>
+        <reference name="content">
+            <block type="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method" template="sales/order/create/abstract.phtml" name="shipping_method">
+                <block type="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form" template="sales/order/create/shipping/method/form.phtml" name="order.create.shipping.method.form" as="form"/>
+            </block>
+        </reference>
+    </adminhtml_sales_order_create_load_block_shipping_method>
+</layout>

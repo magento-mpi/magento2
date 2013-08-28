@@ -14,7 +14,7 @@
  * @package     Enterprise_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Return_Info extends Mage_Core_Block_Template
+class Enterprise_Rma_Block_Return_Info extends Magento_Core_Block_Template
 {
     protected $_links = array();
 
@@ -23,11 +23,11 @@ class Enterprise_Rma_Block_Return_Info extends Mage_Core_Block_Template
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle($this->__('Order # %s', $this->getOrder()->getRealOrderId()));
+            $headBlock->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
         }
         $this->setChild(
             'payment_info',
-            $this->helper('Mage_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('Magento_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 
@@ -39,7 +39,7 @@ class Enterprise_Rma_Block_Return_Info extends Mage_Core_Block_Template
     /**
      * Retrieve current order model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {

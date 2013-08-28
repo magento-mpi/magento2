@@ -16,7 +16,7 @@
  * @package     Enterprise_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_GiftCardAccount_Model_Resource_Pool_Abstract extends Mage_Core_Model_Resource_Db_Abstract
+abstract class Enterprise_GiftCardAccount_Model_Resource_Pool_Abstract extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Delete records in db using specified status as criteria

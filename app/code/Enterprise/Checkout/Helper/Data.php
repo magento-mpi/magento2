@@ -15,7 +15,7 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Items for requiring attention grid (doesn't include sku-failed items)
@@ -71,7 +71,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Contains session object to which data is saved
      *
-     * @var Mage_Core_Model_Session_Abstract
+     * @var Magento_Core_Model_Session_Abstract
      */
     protected $_session;
 
@@ -88,13 +88,13 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Return session for affected items
      *
-     * @return Mage_Core_Model_Session_Abstract
+     * @return Magento_Core_Model_Session_Abstract
      */
     public function getSession()
     {
         if (!$this->_session) {
             $sessionClassPath = Mage::app()->getStore()->isAdmin() ?
-                    'Mage_Adminhtml_Model_Session' : 'Mage_Customer_Model_Session';
+                    'Magento_Adminhtml_Model_Session' : 'Magento_Customer_Model_Session';
             $this->_session =  Mage::getSingleton($sessionClassPath);
         }
 
@@ -104,9 +104,9 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Sets session instance to use for saving data
      *
-     * @param Mage_Core_Model_Session_Abstract $session
+     * @param Magento_Core_Model_Session_Abstract $session
      */
-    public function setSession(Mage_Core_Model_Session_Abstract $session)
+    public function setSession(Magento_Core_Model_Session_Abstract $session)
     {
         $this->_session = $session;
     }
@@ -133,33 +133,33 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($code) {
             case self::ADD_ITEM_STATUS_FAILED_SKU:
-                $message = $this->__('SKU not found in catalog.');
+                $message = __('SKU not found in catalog.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                $message = $this->__('Availability: Out of stock.');
+                $message = __('Availability: Out of stock.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
-                $message = $this->__('The requested quantity is not available.');
+                $message = __('The requested quantity is not available.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
-                $message = $this->__('The product cannot be added to cart in requested quantity.');
+                $message = __('The product cannot be added to cart in requested quantity.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_CONFIGURE:
-                $message = $this->__("Please specify the product's options.");
+                $message = __("Please specify the product's options.");
                 break;
             case self::ADD_ITEM_STATUS_FAILED_PERMISSIONS:
-                $message = $this->__('The product cannot be added to cart.');
+                $message = __('The product cannot be added to cart.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER:
             case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE:
             case self::ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE:
-                $message = $this->__('Please enter a valid number in the "Qty" field.');
+                $message = __('Please enter a valid number in the "Qty" field.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_WEBSITE:
-                $message = $this->__('The product is assigned to another website.');
+                $message = __('The product is assigned to another website.');
                 break;
             case self::ADD_ITEM_STATUS_FAILED_DISABLED:
-                $message = $this->__('You can add only enabled products.');
+                $message = __('You can add only enabled products.');
                 break;
             default:
                 $message = '';
@@ -192,11 +192,11 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 $result = true;
                 break;
             case Enterprise_Checkout_Model_Cart_Sku_Source_Settings::YES_SPECIFIED_GROUPS_VALUE:
-                /** @var $customerSession Mage_Customer_Model_Session */
-                $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+                /** @var $customerSession Magento_Customer_Model_Session */
+                $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
                 if ($customerSession) {
                     $groupId = $customerSession->getCustomerGroupId();
-                    $result = $groupId === Mage_Customer_Model_Group::NOT_LOGGED_IN_ID
+                    $result = $groupId === Magento_Customer_Model_Group::NOT_LOGGED_IN_ID
                         || in_array($groupId, $this->getSkuCustomerGroups());
                 }
                 break;
@@ -231,7 +231,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 ->addMinimalPrice()
                 ->addFinalPrice()
                 ->addTaxPercents()
-                ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
+                ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
                 ->addUrlRewrite();
             $itemsToLoad = array();
 
@@ -253,8 +253,8 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
                     // Create empty quote item. Otherwise it won't be correctly treated inside failed.phtml
-                    $collectionItem = Mage::getModel('Mage_Sales_Model_Quote_Item')
-                        ->setProduct(Mage::getModel('Mage_Catalog_Model_Product'))
+                    $collectionItem = Mage::getModel('Magento_Sales_Model_Quote_Item')
+                        ->setProduct(Mage::getModel('Magento_Catalog_Model_Product'))
                         ->addData($item['item']);
                     $quoteItemsCollection[] = $collectionItem;
                 }
@@ -263,10 +263,10 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             if ($ids) {
                 $collection->addIdFilter($ids);
 
-                $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
-                $emptyQuoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item');
+                $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+                $emptyQuoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item');
 
-                /** @var $itemProduct Mage_Catalog_Model_Product */
+                /** @var $itemProduct Magento_Catalog_Model_Product */
                 foreach ($collection->getItems() as $product) {
                     $itemsCount = count($itemsToLoad[$product->getId()]);
                     foreach ($itemsToLoad[$product->getId()] as $index => $itemToLoad) {
@@ -284,20 +284,20 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                             ->setRedirectUrl($itemProduct->getUrlModel()->getUrl($itemProduct));
 
                         $itemProduct->setCustomOptions($itemProduct->getOptionsByCode());
-                        if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($itemProduct)) {
+                        if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($itemProduct)) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
                                 Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                                    Mage::helper('Mage_Tax_Helper_Data')->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
+                                    Mage::helper('Magento_Tax_Helper_Data')->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
                                 ))
                             );
-                            $itemProduct->setAddToCartUrl(Mage::helper('Mage_Checkout_Helper_Cart')->getAddUrl($itemProduct));
+                            $itemProduct->setAddToCartUrl(Mage::helper('Magento_Checkout_Helper_Cart')->getAddUrl($itemProduct));
                         } else {
                             $quoteItem->setCanApplyMsrp(false);
                         }
 
-                        /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                        $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+                        /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+                        $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
                         $stockItem->assignProduct($itemProduct);
                         $quoteItem->setStockItem($stockItem);
 
@@ -322,13 +322,13 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getFileGeneralErrorText()
     {
-        return $this->__('You cannot upload this file.');
+        return __('You cannot upload this file.');
     }
 
     /**
      * Process SKU file uploading and get uploaded data
      *
-     * @param Mage_Core_Model_Session_Abstract|null $session
+     * @param Magento_Core_Model_Session_Abstract|null $session
      * @return array|bool
      */
     public function processSkuFileUploading($session)
@@ -339,10 +339,10 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             $importModel->uploadFile();
             $rows = $importModel->getRows();
             if (empty($rows)) {
-                Mage::throwException($this->__('The file is empty.'));
+                Mage::throwException(__('The file is empty.'));
             }
             return $rows;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             if (!is_null($session)) {
                 $session->addError($e->getMessage());
             }
@@ -356,10 +356,10 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check whether SKU file was uploaded
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @return bool
      */
-    public function isSkuFileUploaded(Mage_Core_Controller_Request_Http $request)
+    public function isSkuFileUploaded(Magento_Core_Controller_Request_Http $request)
     {
         return (bool)$request->getPost(self::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG);
     }
@@ -371,7 +371,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getAccountSkuUrl()
     {
-        return Mage::getSingleton('Mage_Core_Model_Url')->getUrl('enterprise_checkout/sku');
+        return Mage::getSingleton('Magento_Core_Model_Url')->getUrl('enterprise_checkout/sku');
     }
 
     /**
@@ -382,7 +382,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     public function getSkuEmptyDataMessageText()
     {
         return $this->isSkuApplied()
-            ? $this->__('You have not entered a product SKU. Please <a href="%s">click here</a> to add product(s) by SKU.', $this->getAccountSkuUrl())
-            : $this->__('You have not entered a product SKU.');
+            ? __('You have not entered a product SKU. Please <a href="%1">click here</a> to add product(s) by SKU.', $this->getAccountSkuUrl())
+            : __('You have not entered a product SKU.');
     }
 }

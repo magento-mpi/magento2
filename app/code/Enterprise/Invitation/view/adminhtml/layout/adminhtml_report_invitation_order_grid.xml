@@ -29,9 +29,9 @@
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.columnSet">
-            <block type="Mage_Backend_Block_Widget_Grid_Column" as="sent">
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="sent">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Invitations Sent</header>
+                    <header translate="true">Invitations Sent</header>
                     <type>number</type>
                     <index>sent</index>
                     <id>sent</id>
@@ -39,9 +39,9 @@
                     <column_css_class>col-inv-sent</column_css_class>
                 </arguments>
             </block>
-            <block type="Mage_Backend_Block_Widget_Grid_Column" as="accepted">
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Invitations Accepted</header>
+                    <header translate="true">Invitations Accepted</header>
                     <type>number</type>
                     <index>accepted</index>
                     <id>accepted</id>
@@ -49,9 +49,9 @@
                     <column_css_class>col-inv-acc</column_css_class>
                 </arguments>
             </block>
-            <block type="Mage_Backend_Block_Widget_Grid_Column" as="purchased">
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="purchased">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Accepted and Purchased</header>
+                    <header translate="true">Accepted and Purchased</header>
                     <type>number</type>
                     <index>purchased</index>
                     <id>purchased</id>
@@ -59,9 +59,9 @@
                     <column_css_class>col-acc</column_css_class>
                 </arguments>
             </block>
-            <block type="Mage_Backend_Block_Widget_Grid_Column" as="purchased_rate">
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="purchased_rate">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Conversion Rate</header>
+                    <header translate="true">Conversion Rate</header>
                     <renderer>Enterprise_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent</renderer>
                     <type>string</type>
                     <index>purchased_rate</index>

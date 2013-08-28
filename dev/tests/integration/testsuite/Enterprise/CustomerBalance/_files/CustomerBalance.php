@@ -7,7 +7,7 @@
  */
 
 //Add customer
-$customer = Mage::getModel('Mage_Customer_Model_Customer');
+$customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->setStoreId(1)
     ->setWebsiteId(1)
     ->setCreatedIn('Default Store View')
@@ -41,7 +41,7 @@ $customerBalance->setCustomerId($customer->getId())
 Enterprise_CustomerBalance_Model_ApiTest::$customer = $customer;
 
 //Add customer without balance
-$customerWithoutBalance = Mage::getModel('Mage_Customer_Model_Customer');
+$customerWithoutBalance = Mage::getModel('Magento_Customer_Model_Customer');
 $customerWithoutBalance->setStoreId(1)
     ->setWebsiteId(1)
     ->setCreatedIn('Default Store View')

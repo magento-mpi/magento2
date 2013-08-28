@@ -1,5 +1,0 @@
-# special case for Saas edition in build mode: it is not published, but distinguished into a separate list
-# because it is used in infrastructure for running tests
-# requires gearman extension, CI environment is not ready yet
-app/code/Enterprise/Queue/etc/config.xml
-app/code/Enterprise/Queue/etc/di.xml

@@ -14,7 +14,7 @@
  */
 
 class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Invoices
-     extends Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices
+     extends Magento_Adminhtml_Block_Sales_Order_View_Tab_Invoices
 {
 
     /**

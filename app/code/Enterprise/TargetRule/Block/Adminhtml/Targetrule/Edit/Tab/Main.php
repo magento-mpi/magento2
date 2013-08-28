@@ -16,8 +16,8 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
-    extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Prepare Mail Target Rule Edit form
@@ -34,7 +34,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('General Rule Information')
+            'legend' => __('General Rule Information')
         ));
 
         if ($model->getId()) {
@@ -45,22 +45,22 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
 
         $fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Rule Name'),
+            'label' => __('Rule Name'),
             'required' => true,
         ));
 
         $fieldset->addField('sort_order', 'text', array(
             'name' => 'sort_order',
-            'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Priority'),
+            'label' => __('Priority'),
         ));
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Status'),
+            'label'     => __('Status'),
             'name'      => 'is_active',
             'required'  => true,
             'options'   => array(
-                '1' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Active'),
-                '0' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Inactive'),
+                '1' => __('Active'),
+                '0' => __('Inactive'),
             ),
         ));
         if (!$model->getId()) {
@@ -68,23 +68,23 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
         }
 
         $fieldset->addField('apply_to', 'select', array(
-            'label'     => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Apply To'),
+            'label'     => __('Apply To'),
             'name'      => 'apply_to',
             'required'  => true,
             'options'   => Mage::getSingleton('Enterprise_TargetRule_Model_Rule')->getAppliesToOptions(true),
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'         => 'from_date',
-            'label'        => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('From Date'),
+            'label'        => __('From Date'),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
             'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
             'name'         => 'to_date',
-            'label'        => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('To Date'),
+            'label'        => __('To Date'),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
             'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
@@ -92,8 +92,8 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
 
         $fieldset->addField('positions_limit', 'text', array(
             'name'  => 'positions_limit',
-            'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Result Limit'),
-            'note'  => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Maximum number of products that can be matched by this Rule. Capped to 20.'),
+            'label' => __('Result Limit'),
+            'note'  => __('Maximum number of products that can be matched by this Rule. Capped to 20.'),
         ));
 
 
@@ -120,7 +120,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Rule Information');
+        return __('Rule Information');
     }
 
     /**
@@ -130,7 +130,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
      */
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Rule Information');
+        return __('Rule Information');
     }
 
     /**

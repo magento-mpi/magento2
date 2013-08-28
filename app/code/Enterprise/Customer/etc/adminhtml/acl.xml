@@ -12,12 +12,12 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::stores">
-                    <resource id="Mage_Adminhtml::stores_attributes">
-                        <resource id="Enterprise_Customer::attributes" module="Enterprise_Customer" title="Customer Attributes" sortOrder="10">
-                            <resource id="Enterprise_Customer::customer_attributes" module="Enterprise_Customer" title="Customer" sortOrder="10" />
-                            <resource id="Enterprise_Customer::customer_address_attributes" module="Enterprise_Customer" title="Customer Address" sortOrder="20" />
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::stores">
+                    <resource id="Magento_Adminhtml::stores_attributes">
+                        <resource id="Enterprise_Customer::attributes" title="Customer Attributes" sortOrder="10">
+                            <resource id="Enterprise_Customer::customer_attributes" title="Customer" sortOrder="10" />
+                            <resource id="Enterprise_Customer::customer_address_attributes" title="Customer Address" sortOrder="20" />
                         </resource>
                     </resource>
                 </resource>

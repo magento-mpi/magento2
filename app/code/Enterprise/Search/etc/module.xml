@@ -10,7 +10,7 @@
 <config>
     <module name="Enterprise_Search" version="1.11.0.0" active="false">
         <depends>
-            <module name="Mage_CatalogSearch" />
+            <module name="Magento_CatalogSearch" />
         </depends>
     </module>
 </config>

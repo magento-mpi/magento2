@@ -10,12 +10,12 @@
 <layout version="0.1.0">
     <wishlist_index_index>
         <reference name="head">
-            <action method="setTitle" translate="title" module="Enterprise_Wishlist" ifconfig="wishlist/general/multiple_enabled">
+            <action method="setTitle" translate="title" ifconfig="wishlist/general/multiple_enabled">
                 <title>My Wish Lists</title>
             </action>
         </reference>
         <reference name="customer.wishlist">
-            <action method="setTitle" translate="title" module="Enterprise_Wishlist" ifconfig="wishlist/general/multiple_enabled">
+            <action method="setTitle" translate="title" ifconfig="wishlist/general/multiple_enabled">
                 <title>My Wish Lists</title>
             </action>
             <block type="Enterprise_Wishlist_Block_Customer_Wishlist_Management" name="customer.wishlist.management" as="top" template="view/management.phtml">

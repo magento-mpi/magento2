@@ -25,7 +25,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='search.edit.grid.columnSet' as='grid.columnSet'>
+                <block type='Magento_Backend_Block_Widget_Grid_ColumnSet' name='search.edit.grid.columnSet' as='grid.columnSet'>
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -34,7 +34,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='query_id_selected'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='query_id_selected'>
                         <arguments>
                             <index>query_id</index>
                             <id>query_id_selected</id>
@@ -45,61 +45,61 @@
                             <align>center</align>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='query_id'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='query_id'>
                         <arguments>
-                            <header translate='true' module='Enterprise_Search'>ID</header>
+                            <header translate='true'>ID</header>
                             <index>query_id</index>
                             <width>50px</width>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='search_query'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='search_query'>
                         <arguments>
-                            <header translate='true' module='Enterprise_Search'>Search Query</header>
+                            <header translate='true'>Search Query</header>
                             <index>query_text</index>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column_Multistore' as='store_id'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column_Multistore' as='store_id'>
                         <arguments>
-                            <header translate='true' module='Enterprise_Search'>Store</header>
+                            <header translate='true'>Store</header>
                             <index>store_id</index>
                             <type>store</type>
                             <store_view>1</store_view>
                             <sortable>0</sortable>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='num_results'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='num_results'>
                         <arguments>
-                            <header translate='true' module='Enterprise_Search'>Results</header>
+                            <header translate='true'>Results</header>
                             <index>num_results</index>
                             <type>number</type>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='popularity'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='popularity'>
                         <arguments>
-                            <header translate='true' module='Enterprise_Search'>Uses</header>
+                            <header translate='true'>Uses</header>
                             <index>popularity</index>
                             <type>number</type>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='synonym_for'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='synonym_for'>
                         <arguments>
-                            <header translate='true' module='Enterprise_Search'>Synonym</header>
+                            <header translate='true'>Synonym</header>
                             <index>synonym_for</index>
                             <align>left</align>
                             <width>160px</width>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='redirect'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='redirect'>
                         <arguments>
-                            <header translate='true' module='Enterprise_Search'>Redirect URL</header>
+                            <header translate='true'>Redirect URL</header>
                             <index>redirect</index>
                             <align>left</align>
                             <width>200px</width>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='display_in_terms'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='display_in_terms'>
                         <arguments>
-                            <header translate='true' module='Enterprise_Search'>Suggested Term</header>
+                            <header translate='true'>Suggested Term</header>
                             <sortable>1</sortable>
                             <index>display_in_terms</index>
                             <type>options</type>
@@ -108,18 +108,18 @@
                             <options>
                                 <yes>
                                     <value>1</value>
-                                    <label translate="true" module="Enterprise_Search">Yes</label>
+                                    <label translate="true">Yes</label>
                                 </yes>
                                 <no>
                                     <value>0</value>
-                                    <label translate="true" module="Enterprise_Search">No</label>
+                                    <label translate="true">No</label>
                                 </no>
                             </options>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='action'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='action'>
                         <arguments>
-                            <header translate='true' module='Enterprise_Search'>Action</header>
+                            <header translate='true'>Action</header>
                             <index>catalog</index>
                             <width>100px</width>
                             <type>action</type>
@@ -128,7 +128,7 @@
                             <sortable>0</sortable>
                             <actions>
                                 <edit_action>
-                                    <caption translate="true" module="Enterprise_Search">Edit</caption>
+                                    <caption translate="true">Edit</caption>
                                     <url>
                                         <base>*/*/edit</base>
                                     </url>

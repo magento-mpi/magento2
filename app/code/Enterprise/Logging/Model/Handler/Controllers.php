@@ -85,12 +85,12 @@ class Enterprise_Logging_Model_Handler_Controllers
         $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
 
         //Collect skip encrypted fields
-        /** @var Mage_Backend_Model_Config_Structure $configStructure  */
-        $configStructure = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+        /** @var Magento_Backend_Model_Config_Structure $configStructure  */
+        $configStructure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
 
         $encryptedNodePaths = $configStructure->getFieldPathsByAttribute(
             'backend_model',
-            'Mage_Backend_Model_Config_Backend_Encrypted'
+            'Magento_Backend_Model_Config_Backend_Encrypted'
         );
 
         $skipEncrypted = array();
@@ -163,7 +163,7 @@ class Enterprise_Logging_Model_Handler_Controllers
                 $info = Mage::app()->getRequest()->getParam('email');
             }
             $success = true;
-            $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+            $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
             if ($messages) {
                 $success = 'error' != $messages->getType();
             }
@@ -241,7 +241,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         //Need when in request data there are was no period info
         if ($filter) {
-            $filterData = Mage::app()->getHelper('Mage_Adminhtml_Helper_Data')->prepareFilterString($filter);
+            $filterData = Mage::app()->getHelper('Magento_Adminhtml_Helper_Data')->prepareFilterString($filter);
             $data = array_merge($data, (array)$filterData);
         }
 
@@ -283,9 +283,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         $this->postDispatchGeneric($config, $eventModel, $processorModel);
         if ($request->getParam('auto_apply')) {
-            $eventModel->setInfo(
-                Mage::helper('Enterprise_Logging_Helper_Data')->__('%s & applied', $eventModel->getInfo())
-            );
+            $eventModel->setInfo(__('%1 & applied', $eventModel->getInfo()));
         }
 
         return $eventModel;
@@ -320,13 +318,11 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(
-            Mage::helper('Enterprise_Logging_Helper_Data')->__('Tax Rates Import')
-        );
+        return $eventModel->setIsSuccess($success)->setInfo(__('Tax Rates Import'));
     }
 
     /**
@@ -343,7 +339,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
         $products = $request->getParam('product');
         if (!$products) {
-            $products = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getProductIds();
+            $products = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getProductIds();
         }
         if ($products) {
             $processor->addEventChanges(clone $change->setSourceName('product')
@@ -377,7 +373,7 @@ class Enterprise_Logging_Model_Handler_Controllers
                 ->setResultData(array('ids' => implode(', ', $websiteIds))));
         }
 
-        return $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Attributes Updated'));
+        return $eventModel->setInfo(__('Attributes Updated'));
     }
 
     /**
@@ -557,13 +553,11 @@ class Enterprise_Logging_Model_Handler_Controllers
             ->setOriginalData(array())
             ->setResultData(array('rates' => implode(', ', $values))));
         $success = true;
-        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(
-            Mage::helper('Enterprise_Logging_Helper_Data')->__('Currency Rates Saved')
-        );
+        return $eventModel->setIsSuccess($success)->setInfo(__('Currency Rates Saved'));
     }
 
     /**
@@ -584,11 +578,11 @@ class Enterprise_Logging_Model_Handler_Controllers
         $cacheTypes = $request->getPost('types');
         if (is_array($cacheTypes) && !empty($cacheTypes)) {
             $cacheTypes = implode(', ', $cacheTypes);
-            $info = Mage::helper('Enterprise_Logging_Helper_Data')->__('Cache types: %s ', $cacheTypes);
+            $info = __('Cache types: %1 ', $cacheTypes);
         }
 
         $success = true;
-        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -608,13 +602,11 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(
-            Mage::helper('Enterprise_Logging_Helper_Data')->__('Tax Rates Export')
-        );
+        return $eventModel->setIsSuccess($success)->setInfo(__('Tax Rates Export'));
     }
 
     /**
@@ -648,7 +640,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($request->getParam('action')) {
             $message .= ucfirst($request->getParam('action')) . ' action: ';
         }
-        $message .= Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()->getCode();
+        $message .= Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()->getCode();
         return $eventModel->setInfo($message);
     }
 
@@ -668,7 +660,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         $success = true;
         $body = Mage::app()->getResponse()->getBody();
-        $messages = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($body);
+        $messages = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($body);
         if (!empty($messages['success'])) {
             $success = $messages['success'];
             if (empty($classId) && !empty($messages['class_id'])) {

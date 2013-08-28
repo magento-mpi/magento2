@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Conditions
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare conditions form
@@ -33,24 +33,24 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condit
         $params = array('apply_to' => $model->getApplyTo());
         $url = $this->getUrl('*/customersegment/newConditionHtml/form/segment_conditions_fieldset', $params);
 
-        $renderer = Mage::getBlockSingleton('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+        $renderer = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($url);
         $fieldset = $form->addFieldset('conditions_fieldset', array(
-            'legend' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
+            'legend' => __('Conditions'),
             'class' => 'fieldset',
         ))->setRenderer($renderer);
 
         $fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
-            'title' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
+            'label' => __('Conditions'),
+            'title' => __('Conditions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Conditions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Conditions'));
 
         if (Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED == $model->getApplyTo()) {
             $fieldset->addField('conditions-label', 'label', array(
-                'note' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('* applicable to visitors and registered customers'),
+                'note' => __('* applicable to visitors and registered customers'),
             ));
         }
 

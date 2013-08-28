@@ -15,8 +15,8 @@
  * @package    Enterprise_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions extends Mage_Adminhtml_Block_Template
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions extends Magento_Adminhtml_Block_Template
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Prepare label for tab
@@ -25,7 +25,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions extends Mage_
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Banner_Helper_Data')->__('Related Promotions');
+        return __('Related Promotions');
     }
 
     /**

@@ -1,0 +1,12 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<p><?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?></p>
+<p><?php echo __('Purchase Order Number: %1', $this->escapeHtml($this->getInfo()->getPoNumber())) ?></p>

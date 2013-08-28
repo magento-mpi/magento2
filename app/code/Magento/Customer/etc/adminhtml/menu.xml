@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Customer
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_Customer::customer" title="Customers" module="Magento_Customer" sortOrder="30" resource="Magento_Customer::customer"/>
+        <add id="Magento_Customer::customer_manage" title="All Customers" module="Magento_Customer" sortOrder="10" parent="Magento_Customer::customer" action="adminhtml/customer/" resource="Magento_Customer::manage"/>
+        <add id="Magento_Customer::customer_group" title="Customer Groups" module="Magento_Customer" sortOrder="10" parent="Magento_Adminhtml::other_settings" action="adminhtml/customer_group/" resource="Magento_Customer::group"/>
+        <add id="Magento_Customer::customer_online" title="Now Online" module="Magento_Customer" sortOrder="30" parent="Magento_Customer::customer" action="adminhtml/customer_online/" resource="Magento_Customer::online"/>
+    </menu>
+</config>

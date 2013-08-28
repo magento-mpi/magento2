@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tabs
-    extends Mage_Adminhtml_Block_Widget_Tabs
+    extends Magento_Adminhtml_Block_Widget_Tabs
 {
     /**
      * Initialize edit tabs
@@ -29,6 +29,6 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tabs
 
         $this->setId('enterprise_customer_address_attribute_edit_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Enterprise_Customer_Helper_Data')->__('Attribute Information'));
+        $this->setTitle(__('Attribute Information'));
     }
 }

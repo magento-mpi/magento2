@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="eav" translate="label,description" instance="Magento_Eav_Model_Cache_Type">
+        <label>EAV types and attributes</label>
+        <description>Entity types declaration cache.</description>
+    </type>
+</config>

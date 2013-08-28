@@ -13,7 +13,7 @@
         <update handle="adminhtml_logging_archive_grid_block"/>
         <reference name="content">
             <block type="Enterprise_Logging_Block_Adminhtml_Container" name="adminhtml.logging.archive.grid.container">
-                <arguments translate="header_text" module="Enterprise_Logging">
+                <arguments translate="header_text">
                     <header_text>Admin Actions Log Archive</header_text>
                 </arguments>
             </block>

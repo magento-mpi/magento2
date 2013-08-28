@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="left">
+            <block type="Magento_Newsletter_Block_Subscribe" name="newsletter_subscription" template="subscribe.phtml"/>
+        </reference>
+    </default>
+</layout>

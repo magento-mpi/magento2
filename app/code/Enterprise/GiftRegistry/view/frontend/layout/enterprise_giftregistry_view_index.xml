@@ -18,30 +18,30 @@
         <reference name="content">
             <block type="Enterprise_GiftRegistry_Block_View" name="enterprise.giftregistry.view" template="view.phtml">
                 <block type="Enterprise_GiftRegistry_Block_Items" name="giftregistry_items" template="view/items.phtml">
-                    <block type="Mage_Catalog_Block_Product_Price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price"/>
+                    <block type="Magento_Catalog_Block_Product_Price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price"/>
                     <action method="addItemRender">
                         <type>default</type>
-                        <block>Mage_Checkout_Block_Cart_Item_Renderer</block>
+                        <block>Magento_Checkout_Block_Cart_Item_Renderer</block>
                         <template>Enterprise_GiftRegistry::view/items/default.phtml</template>
                     </action>
                     <action method="addItemRender">
                         <type>simple</type>
-                        <block>Mage_Checkout_Block_Cart_Item_Renderer</block>
+                        <block>Magento_Checkout_Block_Cart_Item_Renderer</block>
                         <template>Enterprise_GiftRegistry::view/items/default.phtml</template>
                     </action>
                     <action method="addItemRender">
                         <type>grouped</type>
-                        <block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block>
+                        <block>Magento_Checkout_Block_Cart_Item_Renderer_Grouped</block>
                         <template>Enterprise_GiftRegistry::view/items/default.phtml</template>
                     </action>
                     <action method="addItemRender">
                         <type>configurable</type>
-                        <block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block>
+                        <block>Magento_Checkout_Block_Cart_Item_Renderer_Configurable</block>
                         <template>Enterprise_GiftRegistry::view/items/default.phtml</template>
                     </action>
                     <action method="addItemRender">
                         <type>bundle</type>
-                        <block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block>
+                        <block>Magento_Bundle_Block_Checkout_Cart_Item_Renderer</block>
                         <template>Enterprise_GiftRegistry::view/items/default.phtml</template>
                     </action>
                     <action method="addItemRender">
@@ -56,7 +56,7 @@
         <update handle="MAP_popup"/>
         <reference name="product.tooltip">
             <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
-                <block type="Mage_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml" module="Mage_Paypal">
+                <block type="Magento_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
                     <action method="setIsInCatalogProduct">
                         <value>1</value>
                     </action>

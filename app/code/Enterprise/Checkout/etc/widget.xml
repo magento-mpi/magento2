@@ -12,11 +12,11 @@
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
     <widget id="order_by_sku" class="Enterprise_Checkout_Block_Widget_Sku" translate="label description"
-            module="Enterprise_Checkout" is_email_compatible="true" >
+            is_email_compatible="true" >
         <label>Order by SKU</label>
         <description>Order by SKU Description</description>
         <parameter name="link_display" xsi:type="select" translate="label description" visible="true"
-                   sort_order="10" source_model="Mage_Backend_Model_Config_Source_Yesno">
+                   sort_order="10" source_model="Magento_Backend_Model_Config_Source_Yesno">
             <label>Display a Link to Loading a Spreadsheet</label>
             <description>Defines whether a link to My Account &amp;gt; Order by SKU page will be displayed on the widget</description>
         </parameter>

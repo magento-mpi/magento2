@@ -20,27 +20,27 @@
             <block type="Enterprise_GiftRegistry_Block_Items" name="giftregistry.customer.items" template="customer/items.phtml">
                 <action method="addItemRender">
                     <type>default</type>
-                    <block>Mage_Checkout_Block_Cart_Item_Renderer</block>
+                    <block>Magento_Checkout_Block_Cart_Item_Renderer</block>
                     <template>Enterprise_GiftRegistry::customer/items/default.phtml</template>
                 </action>
                 <action method="addItemRender">
                     <type>simple</type>
-                    <block>Mage_Checkout_Block_Cart_Item_Renderer</block>
+                    <block>Magento_Checkout_Block_Cart_Item_Renderer</block>
                     <template>Enterprise_GiftRegistry::customer/items/default.phtml</template>
                 </action>
                 <action method="addItemRender">
                     <type>grouped</type>
-                    <block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block>
+                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Grouped</block>
                     <template>Enterprise_GiftRegistry::customer/items/default.phtml</template>
                 </action>
                 <action method="addItemRender">
                     <type>configurable</type>
-                    <block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block>
+                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Configurable</block>
                     <template>Enterprise_GiftRegistry::customer/items/default.phtml</template>
                 </action>
                 <action method="addItemRender">
                     <type>bundle</type>
-                    <block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block>
+                    <block>Magento_Bundle_Block_Checkout_Cart_Item_Renderer</block>
                     <template>Enterprise_GiftRegistry::customer/items/default.phtml</template>
                 </action>
                 <action method="addItemRender">

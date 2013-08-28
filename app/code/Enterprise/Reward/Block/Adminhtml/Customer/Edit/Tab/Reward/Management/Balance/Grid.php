@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance_Grid
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Flag to store if customer has orphan points
@@ -42,7 +42,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
     /**
      * Getter
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
@@ -85,13 +85,13 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
                 );
                 $item->addData(array(
                     'min_points_balance' => (int)$minBalance,
-                    'max_points_balance' => (!((int)$maxBalance)?Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unlimited'):$maxBalance)
+                    'max_points_balance' => (!((int)$maxBalance)?__('Unlimited'):$maxBalance)
                 ));
             } else {
                 $this->_customerHasOrphanPoints = true;
                 $item->addData(array(
-                    'min_points_balance' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No Data'),
-                    'max_points_balance' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No Data')
+                    'min_points_balance' => __('No Data'),
+                    'max_points_balance' => __('No Data')
                 ));
             }
             $item->setCustomer($this->getCustomer());
@@ -108,7 +108,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
     {
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
-                'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
+                'header'   => __('Website'),
                 'index'    => 'website_id',
                 'sortable' => false,
                 'type'     => 'options',
@@ -117,28 +117,28 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
         }
 
         $this->addColumn('points_balance', array(
-            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Balance'),
+            'header'   => __('Balance'),
             'index'    => 'points_balance',
             'sortable' => false,
             'align'    => 'center'
         ));
 
         $this->addColumn('currency_amount', array(
-            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Currency Amount'),
+            'header'   => __('Currency Amount'),
             'getter'   => 'getFormatedCurrencyAmount',
             'align'    => 'right',
             'sortable' => false
         ));
 
         $this->addColumn('min_balance', array(
-            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points Threshold'),
+            'header'   => __('Reward Points Threshold'),
             'index'    => 'min_points_balance',
             'sortable' => false,
             'align'    => 'center'
         ));
 
         $this->addColumn('max_balance', array(
-            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points Cap'),
+            'header'   => __('Reward Points Cap'),
             'index'    => 'max_points_balance',
             'sortable' => false,
             'align'    => 'center'
@@ -168,9 +168,9 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
     {
         $html = parent::_afterToHtml($html);
         if ($this->_customerHasOrphanPoints) {
-            $deleteOrhanPointsButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $deleteOrhanPointsButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('Enterprise_Reward_Helper_Data')->__('Delete Orphan Points'),
+                    'label'     => __('Delete Orphan Points'),
                     'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanPointsUrl() .'\')',
                     'class'     => 'scalable delete',
                 ));

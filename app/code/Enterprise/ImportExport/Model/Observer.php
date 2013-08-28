@@ -50,7 +50,7 @@ class Enterprise_ImportExport_Model_Observer
     /**
      * Clear old log files and folders
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Magento_Cron_Model_Schedule $schedule
      * @param bool $forceRun
      * @return bool
      */
@@ -64,17 +64,17 @@ class Enterprise_ImportExport_Model_Observer
         }
 
         try {
-            $logPath = Mage::getBaseDir(Mage_Core_Model_Dir::LOG)
+            $logPath = Mage::getBaseDir(Magento_Core_Model_Dir::LOG)
                 . DS . Enterprise_ImportExport_Model_Scheduled_Operation::LOG_DIRECTORY;
 
             if (!file_exists($logPath) || !is_dir($logPath)) {
                 if (!mkdir($logPath, 0777, true)) {
-                    Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__("We couldn't create directory " . '"%s"', $logPath));
+                    Mage::throwException(__("We couldn't create directory " . '"%1"', $logPath));
                 }
             }
 
             if (!is_dir($logPath) || !is_writable($logPath)) {
-                Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('The directory "%s" is not writable.', $logPath));
+                Mage::throwException(__('The directory "%1" is not writable.', $logPath));
             }
             $saveTime = (int) Mage::getStoreConfig(self::SAVE_LOG_TIME_PATH) + 1;
             $dateCompass = new DateTime('-' . $saveTime . ' days');
@@ -91,7 +91,7 @@ class Enterprise_ImportExport_Model_Observer
                     if (!$fs->rmdirRecursive($directory, true)) {
                         $directory = str_replace(Mage::getBaseDir() . DS, '', $directory);
                         Mage::throwException(
-                            Mage::helper('Enterprise_ImportExport_Helper_Data')->__('We couldn\'t delete "%s" because the directory is not writable.', $directory)
+                            __('We couldn\'t delete "%1" because the directory is not writable.', $directory)
                         );
                     }
                 }
@@ -136,7 +136,7 @@ class Enterprise_ImportExport_Model_Observer
     /**
      * Run operation in crontab
      *
-     * @param Mage_Cron_Model_Schedule|Magento_Object $schedule
+     * @param Magento_Cron_Model_Schedule|Magento_Object $schedule
      * @param bool $forceRun
      * @return bool
      */
@@ -167,8 +167,8 @@ class Enterprise_ImportExport_Model_Observer
             return $this;
         }
 
-        $mailer = Mage::getSingleton('Mage_Core_Model_Email_Template_Mailer');
-        $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
+        $mailer = Mage::getSingleton('Magento_Core_Model_Email_Template_Mailer');
+        $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
         $emailInfo->addTo($receiverEmail);
 
         $mailer->addEmailInfo($emailInfo);

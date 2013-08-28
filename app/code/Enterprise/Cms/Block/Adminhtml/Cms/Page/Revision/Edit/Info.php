@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Adminhtml_Block_Widget_Container
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Magento_Adminhtml_Block_Widget_Container
 {
     /**
      * Currently loaded page model
@@ -40,13 +40,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
      */
     public function getVersion()
     {
-        $version = '';
         if ($this->_page->getLabel()) {
             $version = $this->_page->getLabel();
         } else {
             $version = $this->_page->getVersionId();
         }
-        return $version ? $version : Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
+        return $version ? $version : __('N/A');
     }
 
     /**
@@ -57,7 +56,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     public function getVersionNumber()
     {
         return $this->_page->getVersionNumber() ? $this->_page->getVersionNumber()
-            : Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
+            : __('N/A');
     }
 
     /**
@@ -68,7 +67,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     public function getVersionLabel()
     {
         return $this->_page->getLabel() ? $this->_page->getLabel()
-            : Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
+            : __('N/A');
     }
 
     /**
@@ -79,7 +78,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     public function getRevisionId()
     {
         return $this->_page->getRevisionId() ? $this->_page->getRevisionId()
-            : Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
+            : __('N/A');
     }
 
     /**
@@ -100,17 +99,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     public function getAuthor()
     {
         $userId = $this->_page->getUserId();
-        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId() == $userId) {
-            return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getUsername();
+        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId() == $userId) {
+            return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getUsername();
         }
 
-        $user = Mage::getModel('Mage_User_Model_User')
+        $user = Mage::getModel('Magento_User_Model_User')
             ->load($userId);
 
         if ($user->getId()) {
             return $user->getUsername();
         }
-        return Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
+        return __('N/A');
     }
 
     /**
@@ -121,13 +120,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     public function getCreatedAt()
     {
         $format = Mage::app()->getLocale()->getDateTimeFormat(
-                Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
+                Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
             );
         $data = $this->_page->getRevisionCreatedAt();
         try {
             $data = Mage::app()->getLocale()->date($data, Magento_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
         } catch (Exception $e) {
-            $data = Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
+            $data = __('N/A');
         }
         return  $data;
     }

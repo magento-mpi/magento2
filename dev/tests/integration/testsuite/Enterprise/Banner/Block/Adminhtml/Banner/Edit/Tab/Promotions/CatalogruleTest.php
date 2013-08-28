@@ -7,7 +7,7 @@
  */
 
 /**
- * @magentoDataFixture Mage/CatalogRule/_files/catalog_rule_10_off_not_logged.php
+ * @magentoDataFixture Magento/CatalogRule/_files/catalog_rule_10_off_not_logged.php
  * @magentoAppArea adminhtml
  */
 class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_CatalogruleTest extends PHPUnit_Framework_TestCase
@@ -19,8 +19,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_CatalogruleTe
             'Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule'
         );
 
-        /** @var Mage_CatalogRule_Model_Rule $catalogRule */
-        $catalogRule = Mage::getModel('Mage_CatalogRule_Model_Rule');
+        /** @var Magento_CatalogRule_Model_Rule $catalogRule */
+        $catalogRule = Mage::getModel('Magento_CatalogRule_Model_Rule');
         $catalogRule->load('Test Catalog Rule', 'name');
 
         $this->assertSame(array($catalogRule->getId()), $block->getCollection()->getAllIds());

@@ -54,8 +54,8 @@ class Enterprise_Checkout_Model_Import extends Magento_Object
      */
     public function uploadFile()
     {
-        /** @var $uploader Mage_Core_Model_File_Uploader */
-        $uploader  = Mage::getModel('Mage_Core_Model_File_Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
+        /** @var $uploader Magento_Core_Model_File_Uploader */
+        $uploader  = Mage::getModel('Magento_Core_Model_File_Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->skipDbProcessing(true);
         if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {
@@ -134,7 +134,7 @@ class Enterprise_Checkout_Model_Import extends Magento_Object
                 fclose($fileHandler);
             }
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('The file is corrupt.'));
+            Mage::throwException(__('The file is corrupt.'));
         }
         return $csvData;
     }
@@ -174,6 +174,6 @@ class Enterprise_Checkout_Model_Import extends Magento_Object
      */
     protected function _getFileTypeMessageText()
     {
-        return Mage::helper('Enterprise_Checkout_Helper_Data')->__('This file needs to be in .csv format.');
+        return __('This file needs to be in .csv format.');
     }
 }

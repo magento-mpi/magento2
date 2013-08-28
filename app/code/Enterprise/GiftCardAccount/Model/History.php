@@ -29,7 +29,7 @@
  * @package     Enterprise_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
+class Enterprise_GiftCardAccount_Model_History extends Magento_Core_Model_Abstract
 {
     const ACTION_CREATED  = 0;
     const ACTION_USED     = 1;
@@ -39,28 +39,28 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
     const ACTION_UPDATED  = 5;
 
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Magento_Backend_Model_Auth_Session
      */
     protected $_adminSession;
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
-     * @param Mage_Backend_Model_Auth_Session $adminSession
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Backend_Model_Auth_Session $adminSession
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Backend_Model_Auth_Session $adminSession,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Backend_Model_Auth_Session $adminSession,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -79,7 +79,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
     /**
      * Get admin user
      *
-     * @return null|Mage_User_Model_User
+     * @return null|Magento_User_Model_User
      */
     protected function _getAdminUser()
     {
@@ -93,12 +93,12 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
     public function getActionNamesArray()
     {
         return array(
-            self::ACTION_CREATED  => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Created'),
-            self::ACTION_UPDATED  => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Updated'),
-            self::ACTION_SENT     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Sent'),
-            self::ACTION_USED     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Used'),
-            self::ACTION_REDEEMED => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Redeemed'),
-            self::ACTION_EXPIRED  => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Expired'),
+            self::ACTION_CREATED  => __('Created'),
+            self::ACTION_UPDATED  => __('Updated'),
+            self::ACTION_SENT     => __('Sent'),
+            self::ACTION_USED     => __('Used'),
+            self::ACTION_REDEEMED => __('Redeemed'),
+            self::ACTION_EXPIRED  => __('Expired'),
         );
     }
 
@@ -106,11 +106,11 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
     {
         if ($this->getGiftcardaccount()->getOrder()) {
             $orderId = $this->getGiftcardaccount()->getOrder()->getIncrementId();
-            return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Order #%s.', $orderId);
+            return __('Order #%1.', $orderId);
         } else if ($user = $this->_getAdminUser()) {
             $username = $user->getUsername();
             if ($username) {
-                return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('By admin: %s.', $username);
+                return __('By admin: %1.', $username);
             }
         }
 
@@ -121,7 +121,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
     {
         if ($this->getGiftcardaccount()->getOrder()) {
             $orderId = $this->getGiftcardaccount()->getOrder()->getIncrementId();
-            return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Order #%s.', $orderId);
+            return __('Order #%1.', $orderId);
         }
 
         return '';
@@ -142,16 +142,16 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
         }
 
         if ($sender) {
-            return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Recipient: %s. By admin: %s.', $recipient, $sender);
+            return __('Recipient: %1. By admin: %2.', $recipient, $sender);
         } else {
-            return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Recipient: %s.', $recipient);
+            return __('Recipient: %1.', $recipient);
         }
     }
 
     protected function _getRedeemedAdditionalInfo()
     {
         if ($customerId = $this->getGiftcardaccount()->getCustomerId()) {
-            return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Customer #%s.', $customerId);
+            return __('Customer #%1.', $customerId);
         }
         return '';
     }
@@ -161,7 +161,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
         if ($user = $this->_getAdminUser()) {
             $username = $user->getUsername();
             if ($username) {
-                return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('By admin: %s.', $username);
+                return __('By admin: %1.', $username);
             }
         }
         return '';
@@ -175,7 +175,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (!$this->hasGiftcardaccount()) {
-            Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Please assign a gift card account.'));
+            Mage::throwException(__('Please assign a gift card account.'));
         }
 
         $this->setAction($this->getGiftcardaccount()->getHistoryAction());
@@ -205,7 +205,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
                 $this->setAdditionalInfo($this->_getExpiredAdditionalInfo());
             break;
             default:
-                Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Unknown history action.'));
+                Mage::throwException(__('Unknown history action.'));
             break;
         }
 

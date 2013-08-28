@@ -1,0 +1,33 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
+/**
+ * Head block OAuth simple pages
+ *
+ * @var $this Magento_Adminhtml_Block_Page_Head
+ */
+
+//Code partially copied from adminhtml/default/default/template/page/head.phtml
+?>
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>"/>
+<title><?php echo htmlspecialchars(html_entity_decode($this->getTitle())) ?></title>
+<link rel="icon" href="<?php echo $this->getViewFileUrl('Magento_Page::favicon.ico') ?>" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?php echo $this->getViewFileUrl('Magento_Page::favicon.ico') ?>" type="image/x-icon"/>
+
+<script type="text/javascript">
+//<![CDATA[
+    var BLANK_URL = '<?php echo $this->getJsUrl() ?>blank.html';
+    var BLANK_IMG = '<?php echo $this->getJsUrl() ?>spacer.gif';
+    var BASE_URL = '<?php echo $this->getUrl('*') ?>';
+    var FORM_KEY = '<?php echo $this->getFormKey() ?>';
+//]]>
+</script>
+
+<?php echo $this->getCssJsHtml() ?>

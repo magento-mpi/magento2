@@ -19,7 +19,7 @@
  * @method      array getData() getData()
  */
 class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
-    extends Mage_ImportExport_Model_Export_EntityAbstract
+    extends Magento_ImportExport_Model_Export_EntityAbstract
 {
     /**#@+
      * Permanent column names
@@ -73,7 +73,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
     /**
      * Customers whose financial data is exported
      *
-     * @var Mage_ImportExport_Model_Export_Entity_Eav_Customer
+     * @var Magento_ImportExport_Model_Export_Entity_Eav_Customer
      */
     protected $_customerEntity;
 
@@ -96,7 +96,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
             : Mage::getResourceModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
         $this->_customerEntity = isset($data['customer_entity']) ? $data['customer_entity']
-            : Mage::getModel('Mage_ImportExport_Model_Export_Entity_Eav_Customer');
+            : Mage::getModel('Magento_ImportExport_Model_Export_Entity_Eav_Customer');
         $this->_moduleHelper = isset($data['module_helper']) ? $data['module_helper']
             : Mage::helper('Enterprise_ImportExport_Helper_Data');
 
@@ -112,7 +112,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
      */
     protected function _initFrontendWebsites()
     {
-        /** @var $website Mage_Core_Model_Website */
+        /** @var $website Magento_Core_Model_Website */
         foreach ($this->_websiteManager->getWebsites() as $website) {
             $this->_frontendWebsiteIdToCode[$website->getId()] = $website->getCode();
         }
@@ -166,7 +166,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
     /**
      * Export given customer data
      *
-     * @param Mage_Customer_Model_Customer $item
+     * @param Magento_Customer_Model_Customer $item
      * @return string
      */
     public function exportItem($item)
@@ -197,7 +197,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
      * Set parameters (push filters from post into export customer model)
      *
      * @param array $parameters
-     * @return Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address
+     * @return Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
      */
     public function setParameters(array $parameters)
     {
@@ -237,7 +237,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
         if ($this->_entityAttributes === null) {
             $this->_entityAttributes = array();
             foreach ($this->filterAttributeCollection($this->getAttributeCollection()) as $attribute) {
-                /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+                /** @var $attribute Magento_Eav_Model_Entity_Attribute */
                 $this->_entityAttributes[] = $attribute->getAttributeCode();
             }
         }

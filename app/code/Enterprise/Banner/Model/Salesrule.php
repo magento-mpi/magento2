@@ -23,7 +23,7 @@
  * @package     Enterprise_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Model_Salesrule extends Mage_Core_Model_Abstract
+class Enterprise_Banner_Model_Salesrule extends Magento_Core_Model_Abstract
 {
     /**
      * Initialize promo shopping cart price rule model

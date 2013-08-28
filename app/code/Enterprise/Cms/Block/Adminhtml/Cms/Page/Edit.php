@@ -17,7 +17,7 @@
  */
 
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
-    extends Mage_Adminhtml_Block_Template
+    extends Magento_Adminhtml_Block_Template
 {
     /**
      * Adding js to CE blocks to implement special functionality which
@@ -29,16 +29,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
     protected function _prepareLayout()
     {
         $tabsBlock = $this->getLayout()->getBlock('cms_page_edit_tabs');
-        /* @var $tabBlock Mage_Adminhtml_Block_Cms_Page_Edit_Tabs */
+        /* @var $tabBlock Magento_Adminhtml_Block_Cms_Page_Edit_Tabs */
         if ($tabsBlock) {
             $editBlock = $this->getLayout()->getBlock('cms_page_edit');
-            /* @var $editBlock Mage_Adminhtml_Block_Cms_Page_Edit */
+            /* @var $editBlock Magento_Adminhtml_Block_Cms_Page_Edit */
             if ($editBlock) {
                 $page = Mage::registry('cms_page');
                 if ($page) {
                     if ($page->getId()) {
                         $editBlock->addButton('preview', array(
-                            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Preview'),
+                            'label'     => __('Preview'),
                             'class'     => 'preview',
                             'data_attribute'  => array(
                                 'mage-init' => array(
@@ -67,7 +67,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
                     }
                     // If user non-publisher he can save page only if it has disabled status
                     if ($page->getUnderVersionControl()) {
-                        if ($page->getId() && $page->getIsActive() == Mage_Cms_Model_Page::STATUS_ENABLED) {
+                        if ($page->getId() && $page->getIsActive() == Magento_Cms_Model_Page::STATUS_ENABLED) {
                             if (!Mage::getSingleton('Enterprise_Cms_Model_Config')->canCurrentUserPublishRevision()) {
                                 $editBlock->removeButton('delete');
                                 $editBlock->removeButton('save');

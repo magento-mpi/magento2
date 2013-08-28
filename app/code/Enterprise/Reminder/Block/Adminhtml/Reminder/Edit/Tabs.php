@@ -12,7 +12,7 @@
  * Reminder rules edit tabs block
  */
 class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
-    extends Mage_Adminhtml_Block_Widget_Tabs
+    extends Magento_Adminhtml_Block_Widget_Tabs
 {
 
     /**
@@ -25,7 +25,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
         parent::_construct();
         $this->setId('enterprise_reminder_rule_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Email Reminder Rule'));
+        $this->setTitle(__('Email Reminder Rule'));
     }
 
     /**
@@ -36,7 +36,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
     protected function _beforeToHtml()
     {
         $this->addTab('general_section', array(
-            'label'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Rule Information'),
+            'label'   => __('Rule Information'),
             'content' => $this->getLayout()->createBlock(
                 'Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General',
                 'adminhtml_reminder_edit_tab_general'
@@ -44,7 +44,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
         ));
 
         $this->addTab('conditions_section', array(
-            'label'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Conditions'),
+            'label'   => __('Conditions'),
             'content' => $this->getLayout()->createBlock(
                 'Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions',
                 'adminhtml_reminder_edit_tab_conditions'
@@ -52,7 +52,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
         ));
 
         $this->addTab('template_section', array(
-            'label'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Emails and Labels'),
+            'label'   => __('Emails and Labels'),
             'content' => $this->getLayout()->createBlock(
                 'Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates',
                 'adminhtml_reminder_edit_tab_templates'
@@ -62,7 +62,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
         $rule = Mage::registry('current_reminder_rule');
         if ($rule && $rule->getId()) {
             $this->addTab('matched_customers', array(
-                'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Matched Customers'),
+                'label' => __('Matched Customers'),
                 'url'   => $this->getUrl('*/*/customerGrid', array('rule_id' => $rule->getId())),
                 'class' => 'ajax'
             ));

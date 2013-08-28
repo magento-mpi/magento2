@@ -16,7 +16,7 @@ class Enterprise_CustomerSegment_Model_LoggingTest extends PHPUnit_Framework_Tes
      */
     public function testPostDispatchCustomerSegmentMatch($qty, $customerSegmentId, $expectedText)
     {
-        $requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $requestMock->expects($this->atLeastOnce())
             ->method('getParam')
             ->with('id')
@@ -27,13 +27,8 @@ class Enterprise_CustomerSegment_Model_LoggingTest extends PHPUnit_Framework_Tes
             ->method('getSegmentCustomersQty')
             ->with($customerSegmentId)
             ->will($this->returnValue($qty));
-        $helperMock = $this->getMock('Enterprise_CustomerSegment_Helper_Data', array(), array(), '', false);
-        $helperMock->expects($this->any())
-            ->method('__')
-            ->with('Matched %d Customers of Segment %s', $qty, $customerSegmentId)
-            ->will($this->returnValue($expectedText));
 
-        $model = new Enterprise_CustomerSegment_Model_Logging($resourceMock, $requestMock, $helperMock);
+        $model = new Enterprise_CustomerSegment_Model_Logging($resourceMock, $requestMock);
         $config = new Magento_Simplexml_Element('<config/>');
         $eventMock = $this->getMock('Enterprise_Logging_Model_Event', array('setInfo'), array(), '', false);
         $eventMock->expects($this->once())

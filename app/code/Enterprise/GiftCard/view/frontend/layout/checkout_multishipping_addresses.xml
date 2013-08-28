@@ -13,7 +13,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer</block>
-                <template>Mage_Checkout::multishipping/item/default.phtml</template>
+                <template>Magento_Checkout::multishipping/item/default.phtml</template>
             </action>
         </reference>
     </checkout_multishipping_addresses>

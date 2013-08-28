@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
+class Enterprise_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
 {
     /**
      * Initialize resource model
@@ -28,7 +28,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
     /**
      * Get store object
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -117,12 +117,12 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
         $order = $this->getRma()->getOrder();
         $comment = $this->getComment();
 
-        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-        /* @var $translate Mage_Core_Model_Translate */
+        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        /* @var $translate Magento_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
-        /* @var $mailTemplate Mage_Core_Model_Email_Template */
+        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+        /* @var $mailTemplate Magento_Core_Model_Email_Template */
         $copyTo = $configRmaEmail->getCopyTo();
         $copyMethod = $configRmaEmail->getCopyMethod();
         if ($copyTo && $copyMethod == 'bcc') {
@@ -148,7 +148,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
 
         foreach ($sendTo as $recipient) {
             $mailTemplate->setDesignConfig(array(
-                'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+                'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
                 'store' => $this->getStoreId()
             ))
                 ->sendTransactional(
@@ -178,23 +178,23 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
     {
         $systemComments = array(
             Enterprise_Rma_Model_Rma_Source_Status::STATE_PENDING =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('We placed your Return request.'),
+                __('We placed your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_AUTHORIZED =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('We have authorized your Return request.'),
+                __('We have authorized your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_PARTIAL_AUTHORIZED =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('We partially authorized your Return request.'),
+                __('We partially authorized your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('We received your Return request.'),
+                __('We received your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED_ON_ITEM =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('We partially received your Return request.'),
+                __('We partially received your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_APPROVED_ON_ITEM =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('We partially approved your Return request.'),
+                __('We partially approved your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_REJECTED_ON_ITEM =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('We partially rejected your Return request.'),
+                __('We partially rejected your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_CLOSED =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('We closed your Return request.'),
+                __('We closed your Return request.'),
             Enterprise_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED =>
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('We processed and closed your Return request.'),
+                __('We processed and closed your Return request.'),
         );
 
         $rma = $this->getRma();
@@ -207,7 +207,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
                 ->setComment($systemComments[$rma->getStatus()])
                 ->setIsVisibleOnFront(true)
                 ->setStatus($rma->getStatus())
-                ->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
+                ->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
                 ->setIsAdmin(1)
                 ->save();
         }

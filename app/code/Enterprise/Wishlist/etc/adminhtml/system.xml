@@ -13,14 +13,14 @@
     <system>
         <section id="wishlist">
             <group id="general">
-                <field id="multiple_enabled" translate="label" module="Enterprise_Wishlist" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="multiple_enabled" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Multiple Wish Lists</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                     <depends>
                         <field id="active">1</field>
                     </depends>
                 </field>
-                <field id="multiple_wishlist_number" translate="label comment" module="Enterprise_Wishlist" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="multiple_wishlist_number" translate="label comment" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Number of Multiple Wish Lists</label>
                     <depends>
                         <field id="active">1</field>

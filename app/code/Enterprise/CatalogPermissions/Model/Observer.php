@@ -187,7 +187,7 @@ class Enterprise_CatalogPermissions_Model_Observer
                 ->setRedirect($this->_helper->getLandingPageUrl());
 
             Mage::throwException(
-                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You may need more permissions to access this category.')
+                __('You may need more permissions to access this category.')
             );
         }
         return $this;
@@ -257,18 +257,18 @@ class Enterprise_CatalogPermissions_Model_Observer
             } else {
                 $parentItem = false;
             }
-            /* @var $quoteItem Mage_Sales_Model_Quote_Item */
+            /* @var $quoteItem Magento_Sales_Model_Quote_Item */
             if ($quoteItem->getDisableAddToCart() && !$quoteItem->isDeleted()) {
                 $quote->removeItem($quoteItem->getId());
                 if ($parentItem) {
                     $quote->setHasError(true)
                             ->addMessage(
-                                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%s" to the cart.', $parentItem->getName())
+                                __('You cannot add "%1" to the cart.', $parentItem->getName())
                             );
                 } else {
                      $quote->setHasError(true)
                             ->addMessage(
-                                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%s" to the cart.', $quoteItem->getName())
+                                __('You cannot add "%1" to the cart.', $quoteItem->getName())
                             );
                 }
             }
@@ -302,16 +302,16 @@ class Enterprise_CatalogPermissions_Model_Observer
             $parentItem = false;
         }
 
-        /* @var $quoteItem Mage_Sales_Model_Quote_Item */
+        /* @var $quoteItem Magento_Sales_Model_Quote_Item */
         if ($product->getDisableAddToCart() && !$quoteItem->isDeleted()) {
             $quoteItem->getQuote()->removeItem($quoteItem->getId());
             if ($parentItem) {
                 Mage::throwException(
-                    Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%s" to the cart.', $parentItem->getName())
+                    __('You cannot add "%1" to the cart.', $parentItem->getName())
                 );
             } else {
                 Mage::throwException(
-                    Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%s" to the cart.', $quoteItem->getName())
+                    __('You cannot add "%1" to the cart.', $quoteItem->getName())
                 );
             }
         }
@@ -322,7 +322,7 @@ class Enterprise_CatalogPermissions_Model_Observer
     /**
      * Initialize permissions for quote items
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return Enterprise_CatalogPermissions_Model_Observer
      */
     protected function _initPermissionsOnQuoteItems($quote)
@@ -398,7 +398,7 @@ class Enterprise_CatalogPermissions_Model_Observer
                 ->setRedirect($this->_helper->getLandingPageUrl());
 
             Mage::throwException(
-                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You may need more permissions to access this product.')
+                __('You may need more permissions to access this product.')
             );
         }
 
@@ -408,7 +408,7 @@ class Enterprise_CatalogPermissions_Model_Observer
     /**
      * Apply category related permissions on category
      *
-     * @param Magento_Data_Tree_Node|Mage_Catalog_Model_Category
+     * @param Magento_Data_Tree_Node|Magento_Catalog_Model_Category
      * @return Enterprise_CatalogPermissions_Model_Observer
      */
     protected function _applyPermissionsOnCategory($category)
@@ -426,7 +426,7 @@ class Enterprise_CatalogPermissions_Model_Observer
     /**
      * Apply category related permissions on product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Enterprise_CatalogPermissions_Model_Observer
      */
     protected function _applyPermissionsOnProduct($product)
@@ -503,10 +503,10 @@ class Enterprise_CatalogPermissions_Model_Observer
 
         $action = $observer->getEvent()->getControllerAction();
         if (!$this->_helper->isAllowedCatalogSearch()
-            && !$action->getFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH)
+            && !$action->getFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH)
             && $action->getRequest()->isDispatched()
         ) {
-            $action->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+            $action->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
             $action->getResponse()->setRedirect($this->_helper->getLandingPageUrl());
         }
 
@@ -520,7 +520,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     protected function _getCustomerGroupId()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
     }
 
     /**

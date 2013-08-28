@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Customer_Form_Register extends Mage_Customer_Block_Form_Register
+class Enterprise_Invitation_Block_Customer_Form_Register extends Magento_Customer_Block_Form_Register
 {
     /**
      * Retrieve form data
@@ -26,7 +26,7 @@ class Enterprise_Invitation_Block_Customer_Form_Register extends Mage_Customer_B
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $customerFormData = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerFormData(true);
+            $customerFormData = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerFormData(true);
             $data = new Magento_Object($customerFormData);
             if (empty($customerFormData)) {
                 $invitation = $this->getCustomerInvitation();

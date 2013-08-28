@@ -46,7 +46,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
         $this->setData('open', true);
         if ($this->_getStore()) {
             $this->setHeaderText(
-                Mage::helper('Enterprise_Checkout_Helper_Data')->__('Wish List (%s)', $this->getItemsCount())
+                __('Wish List (%1)', $this->getItemsCount())
             );
         }
     }
@@ -64,17 +64,17 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     /**
      * Create wishlist item collection
      *
-     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     * @return Magento_Wishlist_Model_Resource_Item_Collection
      */
     protected function _createItemsCollection()
     {
-        return Mage::getModel('Mage_Wishlist_Model_Item')->getCollection();
+        return Mage::getModel('Magento_Wishlist_Model_Item')->getCollection();
     }
 
     /**
      * Return items collection
      *
-     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     * @return Magento_Wishlist_Model_Resource_Item_Collection
      */
     public function getItemsCollection()
     {

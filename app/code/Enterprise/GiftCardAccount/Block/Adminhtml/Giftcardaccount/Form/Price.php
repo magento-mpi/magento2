@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Form_Price extends Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Form_Price extends Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price
 {
 
 }

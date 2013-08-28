@@ -146,7 +146,7 @@ interface Enterprise_Search_Model_AdapterInterface
     /**
      * Retrieve attribute solr field name
      *
-     * @param   Mage_Catalog_Model_Resource_Eav_Attribute|string $attribute
+     * @param   Magento_Catalog_Model_Resource_Eav_Attribute|string $attribute
      * @param   string $target - default|sort|nav
      *
      * @return  string|bool

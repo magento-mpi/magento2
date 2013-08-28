@@ -15,14 +15,14 @@
             <enterprise_giftcard_setup>
                 <setup>
                     <module>Enterprise_GiftCard</module>
-                    <class>Mage_Catalog_Model_Resource_Setup</class>
+                    <class>Magento_Catalog_Model_Resource_Setup</class>
                 </setup>
             </enterprise_giftcard_setup>
         </resources>
         <catalog>
             <product>
                 <type>
-                    <giftcard translate="label" module="Enterprise_GiftCard">
+                    <giftcard translate="label">
                         <label>Gift Card</label>
                         <model>Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard</model>
                         <price_model>Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard</price_model>

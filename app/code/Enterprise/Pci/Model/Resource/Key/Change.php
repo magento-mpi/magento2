@@ -17,7 +17,7 @@
  * @package     Enterprise_Pci
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * @var Enterprise_Pci_Model_Encryption
@@ -32,10 +32,10 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
     /**
      * Constructor
      *
-     * @param Mage_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Resource $resource
      * @param Magento_Filesystem $filesystem
      */
-    public function __construct(Mage_Core_Model_Resource $resource, Magento_Filesystem $filesystem)
+    public function __construct(Magento_Core_Model_Resource $resource, Magento_Filesystem $filesystem)
     {
         parent::__construct($resource);
         $this->_filesystem = $filesystem;
@@ -58,7 +58,7 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
      */
     public function reEncryptDatabaseValues($safe = true)
     {
-        $this->_encryptor = clone Mage::helper('Mage_Core_Helper_Data')->getEncryptor();
+        $this->_encryptor = clone Mage::helper('Magento_Core_Helper_Data')->getEncryptor();
 
         // update database only
         if ($safe) {
@@ -93,15 +93,14 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
         $file = Mage::getBaseDir('etc') . DS . 'local.xml';
 
         if (!$this->_filesystem->isWritable($file)) {
-            throw new Exception(Mage::helper('Enterprise_Pci_Helper_Data')
-                ->__('File %s is not writeable.', $file));
+            throw new Exception(__('File %1 is not writeable.', $file));
         }
 
         $contents = $this->_filesystem->read($file);
         if (null === $key) {
             $key = md5(time());
         }
-        $this->_encryptor = clone Mage::helper('Mage_Core_Helper_Data')->getEncryptor();
+        $this->_encryptor = clone Mage::helper('Magento_Core_Helper_Data')->getEncryptor();
         $this->_encryptor->setNewKey($key);
         $contents = preg_replace('/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s', 
             '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>', $contents
@@ -129,11 +128,11 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
     protected function _reEncryptSystemConfigurationValues()
     {
         // look for encrypted node entries in all system.xml files
-        /** @var Mage_Backend_Model_Config_Structure $configStructure  */
-        $configStructure = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+        /** @var Magento_Backend_Model_Config_Structure $configStructure  */
+        $configStructure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
         $paths = $configStructure->getFieldPathsByAttribute(
             'backend_model',
-            'Mage_Backend_Model_Config_Backend_Encrypted'
+            'Magento_Backend_Model_Config_Backend_Encrypted'
         );
 
         // walk through found data and re-encrypt it

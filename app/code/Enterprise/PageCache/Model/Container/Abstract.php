@@ -260,7 +260,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract implements Enterpri
     /**
      * Get Place Holder Block
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _getPlaceHolderBlock()
     {

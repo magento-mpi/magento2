@@ -16,7 +16,7 @@
  * @package     Enterprise_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Invitation_Model_Resource_Invitation extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Invitation_Model_Resource_Invitation extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Intialize resource model
@@ -27,7 +27,7 @@ class Enterprise_Invitation_Model_Resource_Invitation extends Mage_Core_Model_Re
         $this->_init('enterprise_invitation', 'invitation_id');
         $this->addUniqueField(array(
             'field' => array('customer_id', 'email'),
-            'title' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation for same email address')
+            'title' => __('Invitation for same email address')
         ));
     }
 

@@ -44,8 +44,8 @@
  * @method Core_Mage_Order_Helper|Enterprise_Mage_Order_Helper                                         orderHelper()
  * @method Core_Mage_Paypal_Helper                                                                     paypalHelper()
  * @method Core_Mage_PriceRules_Helper|Enterprise_Mage_PriceRules_Helper                               priceRulesHelper()
- * @method Core_Mage_ProductAttribute_Helper|Saas_Mage_ProductAttribute_Helper                         productAttributeHelper()
- * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper|Saas_Mage_Product_Helper            productHelper()
+ * @method Core_Mage_ProductAttribute_Helper                                                           productAttributeHelper()
+ * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper                                     productHelper()
  * @method Core_Mage_Rating_Helper                                                                     ratingHelper()
  * @method Core_Mage_Reports_Helper                                                                    reportsHelper()
  * @method Core_Mage_Review_Helper                                                                     reviewHelper()
@@ -74,11 +74,6 @@
  * @method Enterprise_Mage_Rma_Helper                                                                  rmaHelper()
  * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
- * @method Saas_Mage_Printedtemplate_Helper                                                            printedtemplateHelper()
- * @method Saas_Mage_StoreLauncher_Helper                                                              storeLauncherHelper()
- * @method Saas_Mage_Tmt_Helper                                                                        tmtHelper()
- * @method Saas_Mage_TmtApi_Helper                                                                     tmtApiHelper()
- * @method Saas_Mage_Unitprice_Helper                                                                  unitpriceHelper()
  */
 //@codingStandardsIgnoreEnd
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase

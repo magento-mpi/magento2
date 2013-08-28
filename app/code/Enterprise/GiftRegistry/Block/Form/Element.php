@@ -11,10 +11,10 @@
 /**
  * Abstract block to render form elements
  */
-class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Template
+class Enterprise_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Template
 {
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
 
@@ -22,13 +22,13 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
     protected $_regionCollection;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
         array $data = array()
     ) {
         $this->_configCacheType = $configCacheType;
@@ -40,12 +40,12 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
      * Load country collection
      *
      * @param null|string $country
-     * @return Mage_Directory_Model_Resource_Country_Collection
+     * @return Magento_Directory_Model_Resource_Country_Collection
      */
     protected function _getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = Mage::getSingleton('Mage_Directory_Model_Country')->getResourceCollection()
+            $this->_countryCollection = Mage::getSingleton('Magento_Directory_Model_Country')->getResourceCollection()
                 ->loadByStore();
         }
         return $this->_countryCollection;
@@ -55,12 +55,12 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
      * Load region collection by specified country code
      *
      * @param null|string $country
-     * @return Mage_Directory_Model_Resource_Region_Collection
+     * @return Magento_Directory_Model_Resource_Region_Collection
      */
     protected function _getRegionCollection($country = null)
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = Mage::getModel('Mage_Directory_Model_Region')->getResourceCollection()
+            $this->_regionCollection = Mage::getModel('Magento_Directory_Model_Region')->getResourceCollection()
                 ->addCountryFilter($country)
                 ->load();
         }
@@ -149,7 +149,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
      */
     public function getSelectHtml($name, $id, $options = array(), $value = null, $class = '')
     {
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setClass('select ' . $class)
@@ -203,15 +203,15 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
     public function getCalendarDateHtml($name, $id, $value = null, $formatType = null, $class = '')
     {
         if (is_null($formatType)) {
-            $formatType = Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM;
+            $formatType = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM;
         }
 
-        $calendar = $this->getLayout()->createBlock('Mage_Core_Block_Html_Date')
+        $calendar = $this->getLayout()->createBlock('Magento_Core_Block_Html_Date')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setValue($value)
             ->setClass('datetime-picker input-text' . $class)
-            ->setImage($this->getViewFileUrl('Mage_Core::calendar.gif'))
+            ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
             ->setDateFormat(Mage::app()->getLocale()->getDateFormat($formatType));
         return $calendar->getHtml();
     }
@@ -246,7 +246,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
     public function convertArrayToOptions($selectOptions, $withEmpty = false) {
         $options = array();
         if ($withEmpty) {
-            $options[] = array('value' => '', 'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('-- Please select --'));
+            $options[] = array('value' => '', 'label' => __('-- Please select --'));
         }
         if (is_array($selectOptions)) {
             foreach ($selectOptions as $code => $option) {

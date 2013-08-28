@@ -30,7 +30,7 @@ class Enterprise_Enterprise_Model_Resource_Setup_MigrationTest extends PHPUnit_F
         }
 
         // array must contain all data from parent class
-        $parentModules = Mage_Core_Model_Resource_Setup_Migration::getCompositeModules();
+        $parentModules = Magento_Core_Model_Resource_Setup_Migration::getCompositeModules();
         $this->assertEmpty(array_diff($parentModules, $compositeModules));
     }
 }

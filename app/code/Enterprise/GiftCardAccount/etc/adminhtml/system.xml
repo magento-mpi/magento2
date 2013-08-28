@@ -15,18 +15,18 @@
             <label>Gift Cards</label>
             <tab>sales</tab>
             <resource>Enterprise_GiftCard::giftcard</resource>
-            <group id="giftcardaccount_email" translate="label" module="Enterprise_GiftCardAccount" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="giftcardaccount_email" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Email Sent from Gift Card Account Management</label>
                 <field id="identity" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Gift Card Email Sender</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
                 </field>
                 <field id="template" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Gift Card Template</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
                 </field>
             </group>
-            <group id="giftcardaccount_general" translate="label" module="Enterprise_GiftCardAccount" type="text" sortOrder="400" showInDefault="1" showInWebsite="0" showInStore="0">
+            <group id="giftcardaccount_general" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Gift Card Account General Settings</label>
                 <field id="code_length" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Code Length</label>
@@ -66,7 +66,7 @@
         </section>
         <section id="sales">
             <group id="totals_sort">
-                <field id="giftcardaccount" module="Enterprise_GiftCardAccount" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="giftcardaccount" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Gift Cards</label>
                 </field>
             </group>

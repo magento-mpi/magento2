@@ -16,7 +16,7 @@
  */
 class Enterprise_GiftRegistry_Block_Search_Widget_Form
     extends Enterprise_GiftRegistry_Block_Search_Quick
-    implements Mage_Widget_Block_Interface
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Search form select options
@@ -108,12 +108,12 @@ class Enterprise_GiftRegistry_Block_Search_Widget_Form
         $options = array_merge(array(
             array(
                 'value' => '',
-                'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Select Search Type'))
+                'label' => __('Select Search Type'))
             ),
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setName('search_by')
             ->setId('search-by')
             ->setOptions($options);

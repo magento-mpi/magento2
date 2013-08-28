@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_GiftRegistry
  */
-class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
+class Enterprise_GiftRegistry_Block_Search_Form extends Magento_Core_Block_Template
 {
     protected $_formData = null;
 
@@ -25,7 +25,7 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
      */
     public function getFormHeader()
     {
-        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Search');
+        return __('Gift Registry Search');
     }
 
     /**
@@ -37,7 +37,7 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('Mage_Customer_Model_Session')->getRegistrySearchData();
+            $this->_formData = Mage::getSingleton('Magento_Customer_Model_Session')->getRegistrySearchData();
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
@@ -63,7 +63,7 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => 'params-type-id',
                 'class' => 'select'

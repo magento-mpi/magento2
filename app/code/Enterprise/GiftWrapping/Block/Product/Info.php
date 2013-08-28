@@ -15,7 +15,7 @@
  * @package     Enterprise_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Block_Product_Info extends Mage_Core_Block_Template
+class Enterprise_GiftWrapping_Block_Product_Info extends Magento_Core_Block_Template
 {
     /**
      * Return product gift wrapping info

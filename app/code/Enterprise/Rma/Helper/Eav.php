@@ -45,7 +45,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
     {
         $inputTypes = array(
             'text' => array(
-                'label'             => $this->__('Text Field'),
+                'label'             => __('Text Field'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'min_text_length',
@@ -66,7 +66,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
                 'default_value'     => 'text',
             ),
             'textarea' => array(
-                'label'             => $this->__('Text Area'),
+                'label'             => __('Text Area'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'min_text_length',
@@ -81,18 +81,18 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
                 'default_value'     => 'textarea',
             ),
             'select' => array(
-                'label'             => $this->__('Dropdown'),
+                'label'             => __('Dropdown'),
                 'manage_options'    => true,
                 'option_default'    => 'radio',
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
+                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
                 'backend_type'      => 'int',
                 'default_value'     => false,
             ),
             'image' => array(
-                'label'             => $this->__('Image File'),
+                'label'             => __('Image File'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'max_file_size',
@@ -119,7 +119,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
      *
      * Uses internal protected method, which must use data from protected variable
      *
-     * @param null|int|Mage_Core_Model_Store $storeId
+     * @param null|int|Magento_Core_Model_Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -141,7 +141,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
      * Uses internal protected method, which must use data from protected variable
      *
      * @param string $attributeCode
-     * @param null|int|Mage_Core_Model_Store $storeId
+     * @param null|int|Magento_Core_Model_Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -160,7 +160,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
     /**
      * Get complicated array of select-typed attribute values depending by store
      *
-     * @param null|int|Mage_Core_Model_Store $storeId
+     * @param null|int|Magento_Core_Model_Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -168,22 +168,22 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
     {
         if (is_null($storeId)) {
             $storeId = Mage::app()->getStore()->getId();
-        } elseif ($storeId instanceof Mage_Core_Model_Store) {
+        } elseif ($storeId instanceof Magento_Core_Model_Store) {
             $storeId = $storeId->getId();
         }
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
-            $optionCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+            $optionCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setStoreFilter($storeId, $useDefaultValue);
 
             $optionCollection
                 ->getSelect()
                 ->join(
-                    array('ea' => Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('eav_attribute')),
+                    array('ea' => Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('eav_attribute')),
                     'main_table.attribute_id = ea.attribute_id',
                     array('attribute_code' => 'ea.attribute_code'))
                 ->join(
-                    array('eat' => Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('eav_entity_type')),
+                    array('eat' => Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('eav_entity_type')),
                     'ea.entity_type_id = eat.entity_type_id',
                     array(''))
                 ->where('eat.entity_type_code = ?', $this->_getEntityTypeCode());

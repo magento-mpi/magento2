@@ -48,8 +48,8 @@ class Enterprise_PageCache_Model_DesignPackage_RulesTest extends PHPUnit_Framewo
     protected function setUp()
     {
         $this->_fpcCacheMock = $this->getMock('Enterprise_PageCache_Model_Cache', array(), array(), '', false);
-        $this->_designChangeMock = $this->getMock('Mage_Core_Model_Design', array(), array(), '', false);
-        $this->_designMock = $this->getMock('Mage_Core_Model_View_DesignInterface');
+        $this->_designChangeMock = $this->getMock('Magento_Core_Model_Design', array(), array(), '', false);
+        $this->_designMock = $this->getMock('Magento_Core_Model_View_DesignInterface');
 
         $this->_currentDate = date('Y-m-d');
 
@@ -85,7 +85,7 @@ class Enterprise_PageCache_Model_DesignPackage_RulesTest extends PHPUnit_Framewo
 
     public function testGetPackageNameWithoutCachedIdAndWithoutDesignException()
     {
-        $resourceMock = $this->getMock('Mage_Core_Model_Resource_Design', array(), array(), '', false);
+        $resourceMock = $this->getMock('Magento_Core_Model_Resource_Design', array(), array(), '', false);
         $resourceMock->expects($this->once())
             ->method('loadChange')
             ->with($this->_storeId, $this->_currentDate)

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <cms_page_view>
+        <reference name="head">
+            <block type="Magento_GoogleOptimizer_Block_Code_Page" before="-" name="googleoptimizer.experiment.script"/>
+        </reference>
+    </cms_page_view>
+</layout>

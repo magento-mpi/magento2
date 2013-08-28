@@ -12,7 +12,7 @@
  * Admin roles grid
  *
  */
-class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role extends Mage_Backend_Block_Widget_Grid
+class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role extends Magento_Backend_Block_Widget_Grid
 {
     /**
      * Add allowed websites/stores column
@@ -24,7 +24,7 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role extends Mage_Bac
         parent::_prepareColumns();
 
         $this->addColumn('gws', array(
-            'header'   => $this->__('Allowed Scopes'),
+            'header'   => __('Allowed Scopes'),
             'width'    => '200',
             'sortable' => false,
             'filter'   => false,

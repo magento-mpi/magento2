@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -25,8 +25,8 @@ class Integrity_Theme_RenderersTest extends Magento_Test_TestCase_IntegrityAbstr
 
         $blocks = array();
         foreach ($this->_getDesignThemes() as $theme) {
-            /** @var Mage_Core_Model_Layout_Merge $layoutUpdate */
-            $layoutUpdate = Mage::getModel('Mage_Core_Model_Layout_Merge', array('theme' => $theme));
+            /** @var Magento_Core_Model_Layout_Merge $layoutUpdate */
+            $layoutUpdate = Mage::getModel('Magento_Core_Model_Layout_Merge', array('theme' => $theme));
             $blockElements = $layoutUpdate->getFileLayoutUpdatesXml()->xpath($xpath);
             if ($blockElements) {
                 foreach ($blockElements as $block) {
@@ -52,9 +52,9 @@ class Integrity_Theme_RenderersTest extends Magento_Test_TestCase_IntegrityAbstr
         return array(
             array('Enterprise_Customer', '//action[@method=\'addRenderer\']/renderer_block'),
             array('Enterprise_Rma', '//action[@method=\'addRenderer\']/renderer_block'),
-            array('Mage_Adminhtml', '//action[@method=\'addOptionRenderer\']/block'),
-            array('Mage_Bundle', '//action[@method=\'addRenderer\']/block'),
-            array('Mage_Catalog', '//action[@method=\'addOptionRenderer\']/block'),
+            array('Magento_Adminhtml', '//action[@method=\'addOptionRenderer\']/block'),
+            array('Magento_Bundle', '//action[@method=\'addRenderer\']/block'),
+            array('Magento_Catalog', '//action[@method=\'addOptionRenderer\']/block'),
         );
     }
 }

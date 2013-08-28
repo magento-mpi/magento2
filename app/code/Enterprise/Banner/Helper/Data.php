@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Banner_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Banner_Helper_Data extends Magento_Core_Helper_Abstract
 {
 
 }

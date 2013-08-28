@@ -47,7 +47,7 @@ class Generate
      *
      * @var array
      */
-    protected $_namePatterns = array('#^(Mage_\w+)\.csv$#', '#^(Enterprise_\w+)\.csv$#', '#^(translate).csv$#');
+    protected $_namePatterns = array('#^(Magento_\w+)\.csv$#', '#^(Enterprise_\w+)\.csv$#', '#^(translate).csv$#');
 
     /**
      * Pattern of the locale path

@@ -23,10 +23,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     protected $_inputType = 'select';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region');
@@ -53,7 +53,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     {
         return array(array(
             'value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Has State/Province')
+            'label' => __('Has State/Province')
         ));
     }
 
@@ -65,8 +65,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     public function asHtml()
     {
         $element = $this->getValueElementHtml();
-        return $this->getTypeElementHtml() . Mage::helper('Enterprise_CustomerSegment_Helper_Data')
-            ->__('If Customer Address %s State/Province specified', $element) . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __('If Customer Address %1 State/Province specified', $element)
+            . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -87,8 +87,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            '1' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('has'),
-            '0' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('does not have'),
+            '1' => __('has'),
+            '0' => __('does not have'),
         ));
         return $this;
     }
@@ -104,7 +104,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     public function getConditionsSql($customer, $website)
     {
         $inversion = ((int)$this->getValue() ? '' : ' NOT ');
-        $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', 'region');
+        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', 'region');
         $select = $this->getResource()->createSelect();
         $ifNull = $this->getResource()->getReadConnection()->getCheckSql("caev.value IS {$inversion} NULL", 0, 1);
         $select->from(array('caev' => $attribute->getBackendTable()), "({$ifNull})");

@@ -17,12 +17,12 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Getter
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
@@ -40,45 +40,45 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
         $form->setHtmlIdPrefix('reward_');
         $form->setFieldNameSuffix('reward');
         $fieldset = $form->addFieldset('update_fieldset', array(
-            'legend' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Update Reward Points Balance')
+            'legend' => __('Update Reward Points Balance')
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store', 'select', array(
                 'name'  => 'store_id',
-                'title' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Store'),
-                'label' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Store'),
+                'title' => __('Store'),
+                'label' => __('Store'),
                 'values' => $this->_getStoreValues()
             ));
         }
 
         $fieldset->addField('points_delta', 'text', array(
             'name'  => 'points_delta',
-            'title' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Update Points'),
-            'label' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Update Points'),
-            'note'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Enter a negative number to subtract from the balance.')
+            'title' => __('Update Points'),
+            'label' => __('Update Points'),
+            'note'  => __('Enter a negative number to subtract from the balance.')
         ));
 
         $fieldset->addField('comment', 'text', array(
             'name'  => 'comment',
-            'title' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Comment'),
-            'label' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Comment')
+            'title' => __('Comment'),
+            'label' => __('Comment')
         ));
 
         $fieldset = $form->addFieldset('notification_fieldset', array(
-            'legend' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points Notifications')
+            'legend' => __('Reward Points Notifications')
         ));
 
         $fieldset->addField('update_notification', 'checkbox', array(
             'name'    => 'reward_update_notification',
-            'label'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Subscribe for balance updates'),
+            'label'   => __('Subscribe for balance updates'),
             'checked' => (bool)$this->getCustomer()->getRewardUpdateNotification(),
             'value'   => 1
         ));
 
         $fieldset->addField('warning_notification', 'checkbox', array(
             'name'    => 'reward_warning_notification',
-            'label'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Subscribe for points expiration notifications'),
+            'label'   => __('Subscribe for points expiration notifications'),
             'checked' => (bool)$this->getCustomer()->getRewardWarningNotification(),
             'value' => 1
         ));
@@ -99,10 +99,10 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
             || Mage::app()->hasSingleStore()
             || $customer->getSharingConfig()->isGlobalScope())
         {
-            return Mage::getModel('Mage_Core_Model_System_Store')->getStoreValuesForForm();
+            return Mage::getModel('Magento_Core_Model_System_Store')->getStoreValuesForForm();
         }
 
-        $stores = Mage::getModel('Mage_Core_Model_System_Store')
+        $stores = Mage::getModel('Magento_Core_Model_System_Store')
             ->getStoresStructure(false, array(), array(), array($customer->getWebsiteId()));
         $values = array();
 

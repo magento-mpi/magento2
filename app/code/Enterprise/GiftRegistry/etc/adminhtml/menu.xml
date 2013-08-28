@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_GiftRegistry::customer_enterprise_giftregistry" title="Gift Registry" module="Enterprise_GiftRegistry" sortOrder="40" parent="Mage_Adminhtml::other_settings" action="adminhtml/giftregistry" dependsOnModule="Enterprise_GiftRegistry" dependsOnConfig="enterprise_giftregistry/general/enabled" resource="Enterprise_GiftRegistry::customer_enterprise_giftregistry"/>
+        <add id="Enterprise_GiftRegistry::customer_enterprise_giftregistry" title="Gift Registry" module="Enterprise_GiftRegistry" sortOrder="40" parent="Magento_Adminhtml::other_settings" action="adminhtml/giftregistry" dependsOnModule="Enterprise_GiftRegistry" dependsOnConfig="enterprise_giftregistry/general/enabled" resource="Enterprise_GiftRegistry::customer_enterprise_giftregistry"/>
     </menu>
 </config>

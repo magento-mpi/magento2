@@ -10,9 +10,10 @@
 <config>
     <module name="Enterprise_Cms" version="1.11.0.4" active="false">
         <depends>
-            <module name="Mage_Adminhtml" />
-            <module name="Mage_Cms" />
-            <module name="Mage_Widget" />
+            <module name="Magento_Adminhtml" />
+            <module name="Magento_Cms" />
+            <module name="Magento_Widget" />
+            <module name="Magento_User" />
         </depends>
     </module>
 </config>

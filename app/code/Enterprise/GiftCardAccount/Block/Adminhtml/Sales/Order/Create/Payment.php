@@ -8,16 +8,16 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_Core_Block_Template
+class Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_Core_Block_Template
 {
     /**
      * Retrieve order create model
      *
-     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     * @return Magento_Adminhtml_Model_Sales_Order_Create
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
+        return Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
     }
 
     public function getGiftCards()

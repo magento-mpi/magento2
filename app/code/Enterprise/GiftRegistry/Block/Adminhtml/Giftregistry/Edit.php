@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Intialize form
@@ -23,22 +23,22 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Mage_Adm
         parent::_construct();
 
         if (Mage::registry('current_giftregistry_type')) {
-            $this->_updateButton('save', 'label', Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Save'));
+            $this->_updateButton('save', 'label', __('Save'));
             $this->_updateButton('save', 'data_attribute', array(
                 'mage-init' => array(
                     'button' => array('event' => 'save', 'target' => '#edit_form'),
                 )
             ));
 
-            $confirmMessage = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("If you delete this gift registry type, you also delete customer registries that use this type. Do you want to continue?");
-            $this->_updateButton('delete', 'label', Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete'));
+            $confirmMessage = __("If you delete this gift registry type, you also delete customer registries that use this type. Do you want to continue?");
+            $this->_updateButton('delete', 'label', __('Delete'));
             $this->_updateButton('delete', 'onclick',
                 'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
 
             $this->_addButton('save_and_continue_edit', array(
                 'class'   => 'save',
-                'label'   => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Save and Continue Edit'),
+                'label'   => __('Save and Continue Edit'),
                 'data_attribute' => array(
                     'mage-init' => array(
                         'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
@@ -57,10 +57,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Mage_Adm
     {
         $type = Mage::registry('current_giftregistry_type');
         if ($type->getId()) {
-            return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("Edit '%s' Gift Registry Type", $this->escapeHtml($type->getLabel()));
+            return __("Edit '%1' Gift Registry Type", $this->escapeHtml($type->getLabel()));
         }
         else {
-            return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('New Gift Registry Type');
+            return __('New Gift Registry Type');
         }
     }
 

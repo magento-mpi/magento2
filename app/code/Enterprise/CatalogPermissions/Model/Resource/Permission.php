@@ -16,7 +16,7 @@
  * @package     Enterprise_CatalogPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CatalogPermissions_Model_Resource_Permission extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_CatalogPermissions_Model_Resource_Permission extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize resource
@@ -36,7 +36,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission extends Mage_Core_
         parent::_initUniqueFields();
         $this->_uniqueFields[] = array(
             'field' => array('category_id', 'website_id', 'customer_group_id'),
-            'title' => Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('Permission with the same scope')
+            'title' => __('Permission with the same scope')
         );
     }
 }

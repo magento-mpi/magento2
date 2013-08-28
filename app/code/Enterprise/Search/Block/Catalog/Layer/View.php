@@ -15,7 +15,7 @@
  * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Layer_View
+class Enterprise_Search_Block_Catalog_Layer_View extends Magento_Catalog_Block_Layer_View
 {
     /**
      * Initialize blocks names
@@ -83,7 +83,7 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
     /**
      * Get layer object
      *
-     * @return Mage_Catalog_Model_Layer
+     * @return Magento_Catalog_Model_Layer
      */
     public function getLayer()
     {

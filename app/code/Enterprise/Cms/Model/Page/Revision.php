@@ -52,7 +52,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
+class Enterprise_Cms_Model_Page_Revision extends Magento_Core_Model_Abstract
 {
     /**
      * Prefix of model events names.
@@ -96,7 +96,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
     {
         $tags = parent::getCacheIdTags();
         if ($tags && $this->getPageId()) {
-            $tags[] = Mage_Cms_Model_Page::CACHE_TAG.'_'.$this->getPageId();
+            $tags[] = Magento_Cms_Model_Page::CACHE_TAG.'_'.$this->getPageId();
         }
         return $tags;
     }
@@ -114,7 +114,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
          */
         if ($this->_revisionedDataWasModified() || $this->getVersionId() != $this->getOrigData('version_id')) {
             $this->unsetData($this->getIdFieldName());
-            $this->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
+            $this->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
 
             $incrementNumber = Mage::getModel('Enterprise_Cms_Model_Increment')
                 ->getNewIncrementId(Enterprise_Cms_Model_Increment::TYPE_PAGE,
@@ -199,7 +199,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
         /* @var $resource Enterprise_Cms_Model_Resource_Page_Revision */
         if ($resource->isRevisionPublished($this)) {
             Mage::throwException(
-                Mage::helper('Enterprise_Cms_Helper_Data')->__('Revision #%s could not be removed because it is published.', $this->getRevisionNumber())
+                __('Revision #%1 could not be removed because it is published.', $this->getRevisionNumber())
             );
         }
     }

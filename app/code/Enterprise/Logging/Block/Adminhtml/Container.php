@@ -11,7 +11,7 @@
 /**
  * General Logging container
  */
-class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Backend_Block_Widget_Grid_Container
+class Enterprise_Logging_Block_Adminhtml_Container extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * Remove add button
@@ -35,6 +35,6 @@ class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Backend_Block_Wi
      */
     public function getHeaderText()
     {
-        return Mage::helper('Enterprise_Logging_Helper_Data')->__($this->getData('header_text'));
+        return __($this->getData('header_text'));
     }
 }

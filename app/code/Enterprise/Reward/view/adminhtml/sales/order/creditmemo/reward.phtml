@@ -10,7 +10,7 @@
 ?>
 <?php if ($this->canRefundRewardPoints()): ?>
     <p>
-        <label for="creditmemo_refund_reward_points_enable"><?php echo Mage::helper('Enterprise_Reward_Helper_Data')->__('Refund Reward Points') ?></label>
+        <label for="creditmemo_refund_reward_points_enable"><?php echo __('Refund Reward Points') ?></label>
         <input type="checkbox" name="creditmemo[refund_reward_points_enable]" value="1" id="creditmemo_refund_reward_points_enable">
         <input type="text" name="creditmemo[refund_reward_points]" value="<?php echo $this->getRefundRewardPointsBalance() ?>" id="creditmemo_refund_reward_points" class="input-text not-negative-amount" style="width: 60px; text-align: right;">
         <script type="text/javascript">

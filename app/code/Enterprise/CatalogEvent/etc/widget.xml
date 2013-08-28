@@ -11,7 +11,7 @@
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
-    <widget id="event_lister" class="Enterprise_CatalogEvent_Block_Widget_Lister" module="Enterprise_CatalogEvent"
+    <widget id="event_lister" class="Enterprise_CatalogEvent_Block_Widget_Lister"
             translate="label description" placeholder_image="Enterprise_CatalogEvent::widget_lister.gif">
         <label>Catalog Events Carousel</label>
         <description>List all open Catalog Events as a Paginated Carousel</description>

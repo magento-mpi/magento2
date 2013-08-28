@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Selector
-    extends Mage_Wishlist_Block_Customer_Wishlist_Item_Column
+    extends Magento_Wishlist_Block_Customer_Wishlist_Item_Column
 {
     /**
      * Render block

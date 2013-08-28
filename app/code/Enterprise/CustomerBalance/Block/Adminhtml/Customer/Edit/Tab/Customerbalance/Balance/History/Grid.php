@@ -12,7 +12,7 @@
  * Customer balance history grid
  */
 class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * @var Enterprise_CustomerBalance_Model_Resource_Balance_Collection
@@ -54,7 +54,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
     protected function _prepareColumns()
     {
         $this->addColumn('updated_at', array(
-            'header'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Date'),
+            'header'    => __('Date'),
             'index'     => 'updated_at',
             'type'      => 'datetime',
             'filter'    => false,
@@ -63,17 +63,17 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
-                'header'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
+                'header'    => __('Website'),
                 'index'     => 'website_id',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
+                'options'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash(),
                 'sortable'  => false,
                 'width'     => 200,
             ));
         }
 
         $this->addColumn('balance_action', array(
-            'header'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Action'),
+            'header'    => __('Action'),
             'width'     => 70,
             'index'     => 'action',
             'sortable'  => false,
@@ -82,7 +82,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         ));
 
         $this->addColumn('balance_delta', array(
-            'header'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Balance Change'),
+            'header'    => __('Balance Change'),
             'width'     => 50,
             'index'     => 'balance_delta',
             'type'      => 'price',
@@ -92,7 +92,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         ));
 
         $this->addColumn('balance_amount', array(
-            'header'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Balance'),
+            'header'    => __('Balance'),
             'width'     => 50,
             'index'     => 'balance_amount',
             'sortable'  => false,
@@ -101,12 +101,12 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         ));
 
         $this->addColumn('is_customer_notified', array(
-            'header'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Customer notified'),
+            'header'    => __('Customer notified'),
             'index'     => 'is_customer_notified',
             'type'      => 'options',
             'options'   => array(
-                '1' => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Notified'),
-                '0' => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('No'),
+                '1' => __('Notified'),
+                '0' => __('No'),
             ),
             'sortable'  => false,
             'filter'    => false,
@@ -114,7 +114,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         ));
 
         $this->addColumn('additional_info', array(
-            'header'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('More information'),
+            'header'    => __('More information'),
             'index'     => 'additional_info',
             'sortable'  => false,
         ));

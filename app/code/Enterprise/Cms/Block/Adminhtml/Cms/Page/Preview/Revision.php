@@ -16,7 +16,7 @@
  * @package    Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision extends Mage_Adminhtml_Block_Template
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision extends Magento_Adminhtml_Block_Template
 {
     /**
      * Retrieve id of currently selected revision
@@ -43,7 +43,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision extends Mage_Admi
             ->addPageFilter($this->getRequest()->getParam('page_id'))
             ->joinVersions()
             ->addNumberSort()
-            ->addVisibilityFilter(Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId(),
+            ->addVisibilityFilter(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId(),
                 Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel());
 
         $revisions = array();
@@ -54,7 +54,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision extends Mage_Admi
             } else {
                 $revisions[$item->getVersionId()] = array(
                     'revisions' => array($item),
-                    'label' => ($item->getLabel() ? $item->getLabel() : $this->__('N/A'))
+                    'label' => ($item->getLabel() ? $item->getLabel() : __('N/A'))
                 );
             }
         }

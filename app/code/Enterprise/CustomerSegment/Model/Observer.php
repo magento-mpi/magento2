@@ -39,7 +39,7 @@ class Enterprise_CustomerSegment_Model_Observer
         }
         $additional = $observer->getEvent()->getAdditional();
         $additional->setConditions(array(array(
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Segment'),
+            'label' => __('Customer Segment'),
             'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Segment'
         )));
     }
@@ -84,7 +84,7 @@ class Enterprise_CustomerSegment_Model_Observer
 
         // For visitors use customer instance from customer session
         if (!$customer) {
-            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
         }
 
         $website = Mage::app()->getStore()->getWebsite();
@@ -119,9 +119,9 @@ class Enterprise_CustomerSegment_Model_Observer
         $fieldset   = $form->getElement('base_fieldset');
         $fieldset->addField('is_used_for_customer_segment', 'select', array(
             'name'      => 'is_used_for_customer_segment',
-            'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Use in Customer Segment'),
-            'title'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Use in Customer Segment'),
-            'values'    => Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray(),
+            'label'     => __('Use in Customer Segment'),
+            'title'     => __('Use in Customer Segment'),
+            'values'    => Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray(),
         ));
     }
 
@@ -141,11 +141,11 @@ class Enterprise_CustomerSegment_Model_Observer
         $form = $observer->getEvent()->getForm();
         /** @var Magento_Object $model */
         $model = $observer->getEvent()->getModel();
-        /** @var Mage_Core_Block_Abstract $block */
+        /** @var Magento_Core_Block_Abstract $block */
         $block = $observer->getEvent()->getBlock();
 
-        /** @var Mage_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies */
-        $fieldDependencies = $block->getLayout()->createBlock('Mage_Backend_Block_Widget_Form_Element_Dependence');
+        /** @var Magento_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies */
+        $fieldDependencies = $block->getLayout()->createBlock('Magento_Backend_Block_Widget_Form_Element_Dependence');
         $block->setChild('form_after', $fieldDependencies);
 
         $this->_segmentHelper->addSegmentFieldsToForm($form, $model, $fieldDependencies);

@@ -20,19 +20,19 @@
     <input type="checkbox" class="checkbox" name="payment[use_customer_balance]" value="1"
            id="use-customer-balance" <?php echo ($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
 
-    <?php $balance = Mage::helper('Mage_Core_Helper_Data')->currency($this->getBalance()); ?>
+    <?php $balance = Mage::helper('Magento_Core_Helper_Data')->currency($this->getBalance()); ?>
     <label for="use-customer-balance">
         <strong>
-            <?php echo Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Use Store Credit'); ?>
+            <?php echo __('Use Store Credit'); ?>
             (<span id="customerbalance-available-amount"><?php echo $balance; ?></span>
-            <?php echo Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('available'); ?>)
+            <?php echo __('available'); ?>)
         </strong>
     </label>
 </div>
 <script type="text/javascript">
     (function($) {
         head.js(
-            "<?php echo $this->getViewFileUrl('Mage_Customer::js/checkout-balance.js') ?>",
+            "<?php echo $this->getViewFileUrl('Magento_Customer::js/checkout-balance.js') ?>",
             function() {
                 $('#use-customer-balance').checkoutBalance({
                     balance: <?php echo (float)$this->getBalance(); ?>,

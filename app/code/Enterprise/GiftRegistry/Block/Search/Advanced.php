@@ -38,7 +38,7 @@ class Enterprise_GiftRegistry_Block_Search_Advanced extends Enterprise_GiftRegis
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('Mage_Customer_Model_Session')->getRegistrySearchData();
+            $this->_formData = Mage::getSingleton('Magento_Customer_Model_Session')->getRegistrySearchData();
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
@@ -83,11 +83,11 @@ class Enterprise_GiftRegistry_Block_Search_Advanced extends Enterprise_GiftRegis
             if ($isDate) {
                 $fromDate = $isDate . '_from';
                 $attributes[$fromDate] = $attributes[$isDate];
-                $attributes[$fromDate]['label'] .= ' ' . $this->__('From');
+                $attributes[$fromDate]['label'] .= ' ' . __('From');
 
                 $toDate = $isDate . '_to';
                 $attributes[$toDate] = $attributes[$isDate];
-                $attributes[$toDate]['label'] .= ' ' . $this->__('To');
+                $attributes[$toDate]['label'] .= ' ' . __('To');
 
                 unset($attributes[$isDate]);
             }
@@ -102,7 +102,7 @@ class Enterprise_GiftRegistry_Block_Search_Advanced extends Enterprise_GiftRegis
                     ->setElementRegion($region)
                     ->setElementRegionText($region . '_text');
 
-                $regionAttribute['label'] = $this->__('State/Province');
+                $regionAttribute['label'] = __('State/Province');
                 $regionAttribute['code'] = $region;
                 $regionAttribute['type'] = 'region';
 
