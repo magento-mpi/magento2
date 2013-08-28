@@ -94,10 +94,6 @@ class Enterprise_Logging_Model_Processor
     protected $_coreHttp = null;
 
     /**
-     * Initialize configuration model, controller and model handler
-     *
-     *
-     *
      * @param Magento_Core_Helper_Http $coreHttp
      */
     public function __construct(

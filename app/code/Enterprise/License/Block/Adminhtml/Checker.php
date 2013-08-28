@@ -66,8 +66,7 @@ class Enterprise_License_Block_Adminhtml_Checker extends Magento_Backend_Block_T
      */
     public function shouldDispalyNotification()
     {
-        $enterpriseLicense = $this->_licenseData;
-        if ($enterpriseLicense->isIoncubeLoaded() && $enterpriseLicense->isIoncubeEncoded()) {
+        if ($this->_licenseData->isIoncubeLoaded() && $this->_licenseData->isIoncubeEncoded()) {
             return ($this->_daysLeftBeforeExpired < 31);
         } else {
             return false;
@@ -93,17 +92,18 @@ class Enterprise_License_Block_Adminhtml_Checker extends Magento_Backend_Block_T
     public function getMessage()
     {
         $message = "";
-
         $days = $this->getDaysLeftBeforeExpired();
-
-        if($days < 0) {
-            $message = __('Act now! Your Magento Enteprise Edition license expired. Please contact <a href="mailto:sales@magento.com">sales@magento.com</a> to renew the license.');
-        } elseif(0 == $days) {
-            $message = __('It\'s not too late! Your Magento Enteprise Edition expires today. Please contact <a href="mailto:sales@magento.com">sales@magento.com</a> to renew the license.');
-        } elseif($days < 31) {
-            $message = __('Act soon! Your Magento Enteprise Edition will expire in %1 days. Please contact <a href="mailto:sales@magento.com">sales@magento.com</a> to renew the license.', $days);
+        if ($days < 0) {
+            $message = __('Act now! Your Magento Enteprise Edition license expired. '
+                . 'Please contact <a href="mailto:sales@magento.com">sales@magento.com</a> to renew the license.');
+        } elseif (0 == $days) {
+            $message = __('It\'s not too late! Your Magento Enteprise Edition expires today. '
+                . 'Please contact <a href="mailto:sales@magento.com">sales@magento.com</a> to renew the license.');
+        } elseif ($days < 31) {
+            $message = __('Act soon! Your Magento Enteprise Edition will expire in %1 days. '
+                . 'Please contact <a href="mailto:sales@magento.com">sales@magento.com</a> to renew the license.',
+                    $days);
         }
-
         return $message;
     }
 }

@@ -45,8 +45,7 @@ class Enterprise_License_Model_Observer
      */
     public function adminUserAuthenticateAfter()
     {
-        $enterpriseLicense = $this->_licenseData;
-        if ($enterpriseLicense->isIoncubeLoaded() && $enterpriseLicense->isIoncubeEncoded()) {
+        if ($this->_licenseData->isIoncubeLoaded() && $this->_licenseData->isIoncubeEncoded()) {
             $this->_calculateDaysLeftToExpired();
         }
     }
@@ -60,8 +59,7 @@ class Enterprise_License_Model_Observer
      */
     public function preDispatch()
     {
-        $enterprise_license=$this->_licenseData;
-        if($enterprise_license->isIoncubeLoaded() && $enterprise_license->isIoncubeEncoded()) {
+        if ($this->_licenseData->isIoncubeLoaded() && $this->_licenseData->isIoncubeEncoded()) {
             $lastCalculation = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getDaysLeftBeforeExpired();
 
             $dayOfLastCalculation = date('d', $lastCalculation['updatedAt']);
@@ -70,7 +68,8 @@ class Enterprise_License_Model_Observer
 
             $isComeNewDay = ($currentDay != $dayOfLastCalculation);
 
-            if(!Mage::getSingleton('Magento_Backend_Model_Auth_Session')->hasDaysLeftBeforeExpired() or $isComeNewDay) {
+            if (!Mage::getSingleton('Magento_Backend_Model_Auth_Session')->hasDaysLeftBeforeExpired()
+                || $isComeNewDay) {
                 $this->_calculateDaysLeftToExpired();
             }
         }
@@ -84,8 +83,7 @@ class Enterprise_License_Model_Observer
      */
     protected function _calculateDaysLeftToExpired()
     {
-        $enterprise_license=$this->_licenseData;
-        if($enterprise_license->isIoncubeLoaded() && $enterprise_license->isIoncubeEncoded()) {
+        if ($this->_licenseData->isIoncubeLoaded() && $this->_licenseData->isIoncubeEncoded()) {
             $licenseProperties = $this->_licenseData->getIoncubeLicenseProperties();
             $expiredDate = (string)$licenseProperties[self::EXPIRED_DATE_KEY]['value'];
 

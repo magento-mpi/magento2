@@ -30,10 +30,6 @@ class Enterprise_Logging_Model_Observer
     protected $_coreHttp = null;
 
     /**
-     * Initialize Enterprise_Logging_Model_Processor class
-     *
-     *
-     *
      * @param Magento_Core_Helper_Http $coreHttp
      */
     public function __construct(

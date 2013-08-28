@@ -27,8 +27,6 @@ class Enterprise_Wishlist_Model_Resource_Item_Collection extends Magento_Wishlis
     /**
      * Collection constructor
      *
-     *
-     *
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales

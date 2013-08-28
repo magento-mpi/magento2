@@ -20,7 +20,6 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Generic Action handler
      *
-     *
      * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @param Enterprise_Logging_Model_Processor $processorModel
@@ -30,15 +29,13 @@ class Enterprise_Logging_Model_Handler_Controllers
     {
         $collectedIds = $processorModel->getCollectedIds();
         if ($collectedIds) {
-            $eventModel->setInfo($this->_objectManager->get('Enterprise_Logging_Helper_Data')->implodeValues($collectedIds));
+            $eventModel->setInfo(
+                $this->_objectManager->get('Enterprise_Logging_Helper_Data')->implodeValues($collectedIds)
+            );
             return true;
         }
         return false;
     }
-
-    /*
-     * Special postDispach handlers below
-    */
 
     /**
      * Simply log action without any id-s
@@ -339,7 +336,8 @@ class Enterprise_Logging_Model_Handler_Controllers
         $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
         $products = $request->getParam('product');
         if (!$products) {
-            $products = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getProductIds();
+            $products = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')
+                ->getProductIds();
         }
         if ($products) {
             $processor->addEventChanges(clone $change->setSourceName('product')
@@ -451,7 +449,8 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
-                ->setInfo($this->_objectManager->get('Enterprise_Logging_Helper_Data')->implodeValues($backup->getDeleteResult()));
+                ->setInfo($this->_objectManager->get('Enterprise_Logging_Helper_Data')
+                    ->implodeValues($backup->getDeleteResult()));
         } else {
             $eventModel->setIsSuccess(false);
         }

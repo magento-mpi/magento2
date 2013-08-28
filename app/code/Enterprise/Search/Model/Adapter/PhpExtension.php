@@ -30,27 +30,26 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
      *
      * @var Magento_CatalogInventory_Helper_Data
      */
-    protected $_catalogInventoryData = null;
+    protected $_ctlgInventData = null;
 
     /**
      * Initialize connect to Solr Client
      *
-     *
-     *
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
      * @param Enterprise_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Enterprise_Search_Helper_ClientInterface $clientHelper
      * @param array $options
+     * @throws Exception
      */
     public function __construct(
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_CatalogInventory_Helper_Data $ctlgInventData,
         Enterprise_Search_Model_Client_FactoryInterface $clientFactory,
         Magento_Core_Model_Logger $logger,
         Enterprise_Search_Helper_ClientInterface $clientHelper,
         $options = array()
     ) {
-        $this->_catalogInventoryData = $catalogInventoryData;
+        $this->_ctlgInventData = $ctlgInventData;
         if (!extension_loaded('solr')) {
             throw new Exception('Solr extension not enabled!');
         }
@@ -214,7 +213,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         if ($_params['store_id'] > 0) {
             $solrQuery->addFilterQuery('store_id:' . $_params['store_id']);
         }
-        if (!$this->_catalogInventoryData->isShowOutOfStock()) {
+        if (!$this->_ctlgInventData->isShowOutOfStock()) {
             $solrQuery->addFilterQuery('in_stock:true');
         }
 

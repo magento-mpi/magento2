@@ -22,6 +22,10 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block
 
     /**
      * @param Enterprise_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */

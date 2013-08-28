@@ -25,12 +25,14 @@ class Enterprise_Tag_Block_Reward_Tooltip extends Enterprise_Reward_Block_Toolti
     protected $_helpers;
 
     /**
+     * @param Enterprise_Tag_Helper_Data $tagData
      * @param Magento_Core_Helper_Data $coreData
      * @param Enterprise_Reward_Helper_Data $rewardData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Enterprise_Tag_Helper_Data $tagData,
         Magento_Core_Helper_Data $coreData,
         Enterprise_Reward_Helper_Data $rewardData,
         Magento_Core_Block_Template_Context $context,
@@ -42,9 +44,7 @@ class Enterprise_Tag_Block_Reward_Tooltip extends Enterprise_Reward_Block_Toolti
             $this->_helpers = $data['helpers'];
         }
 
-        /** @var $helper Enterprise_Tag_Helper_Data */
-        $helper = $this->_helper('Enterprise_Tag_Helper_Data');
-        $helper->addActionClassToRewardModel();
+        $tagData->addActionClassToRewardModel();
     }
 
     /**
@@ -55,6 +55,8 @@ class Enterprise_Tag_Block_Reward_Tooltip extends Enterprise_Reward_Block_Toolti
      */
     protected function _helper($helperName)
     {
-        return isset($this->_helpers[$helperName]) ? $this->_helpers[$helperName] : Mage::helper($helperName);
+        return isset($this->_helpers[$helperName])
+            ? $this->_helpers[$helperName]
+            : Mage::helper($helperName);
     }
 }

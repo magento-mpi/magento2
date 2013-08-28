@@ -18,11 +18,6 @@
 class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Copy
     extends Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
 {
-    public function __construct(Enterprise_Wishlist_Helper_Data $wishlistData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($wishlistData, $context, $data);
-    }
-
     /**
      * Checks whether column should be shown in table
      *

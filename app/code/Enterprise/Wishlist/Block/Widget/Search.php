@@ -15,7 +15,8 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Block_Widget_Search extends Magento_Core_Block_Template implements Magento_Widget_Block_Interface
+class Enterprise_Wishlist_Block_Widget_Search extends Magento_Core_Block_Template
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Search form select options
@@ -23,11 +24,6 @@ class Enterprise_Wishlist_Block_Widget_Search extends Magento_Core_Block_Templat
      * @var array
      */
     protected $_selectOptions;
-
-    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($coreData, $context, $data);
-    }
 
     /**
      * Retrieve form types list

@@ -27,17 +27,19 @@ class Enterprise_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_
     /**
      * @param Enterprise_Search_Helper_Data $searchData
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Search_Helper_Data $searchData,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
-        parent::__construct($catalogSearchData, $context, $data);
+        parent::__construct($catalogSearchData, $coreData, $context, $data);
     }
 
     /**

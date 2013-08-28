@@ -74,8 +74,7 @@ class Enterprise_Search_Model_Indexer_Indexer
      */
     public function reindexAll()
     {
-        $helper = $this->_searchData;
-        if ($helper->isThirdPartyEngineAvailable()) {
+        if ($this->_searchData->isThirdPartyEngineAvailable()) {
             /* Change index status to running */
             $indexProcess = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext');
             if ($indexProcess) {

@@ -19,27 +19,6 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Selector
     extends Magento_Wishlist_Block_Customer_Wishlist_Item_Column
 {
     /**
-     * Wishlist data
-     *
-     * @var Enterprise_Wishlist_Helper_Data
-     */
-    protected $_wishlistData = null;
-
-    /**
-     * @param Enterprise_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Enterprise_Wishlist_Helper_Data $wishlistData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_wishlistData = $wishlistData;
-        parent::__construct($context, $data);
-    }
-
-    /**
      * Render block
      *
      * @return bool

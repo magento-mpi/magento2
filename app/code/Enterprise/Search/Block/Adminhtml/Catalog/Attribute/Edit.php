@@ -15,7 +15,7 @@
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Adminhtml_Catalog_Attribute_Edit extends Magento_Adminhtml_Block_Template
+class Enterprise_Search_Block_Adminhtml_Catalog_Attribute_Edit extends Magento_Backend_Block_Template
 {
     /**
      * Search data
@@ -26,16 +26,18 @@ class Enterprise_Search_Block_Adminhtml_Catalog_Attribute_Edit extends Magento_A
 
     /**
      * @param Enterprise_Search_Helper_Data $searchData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Search_Helper_Data $searchData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

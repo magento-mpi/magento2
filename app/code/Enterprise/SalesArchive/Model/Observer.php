@@ -29,17 +29,17 @@ class Enterprise_SalesArchive_Model_Observer
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var Magento_Backend_Helper_Data
      */
-    protected $_adminhtmlData = null;
+    protected $_backendData = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Backend_Helper_Data $backendData
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Data $adminhtmlData
+        Magento_Backend_Helper_Data $backendData
     ) {
-        $this->_adminhtmlData = $adminhtmlData;
+        $this->_backendData = $backendData;
         $this->_archive = Mage::getModel('Enterprise_SalesArchive_Model_Archive');
         $this->_config  = Mage::getSingleton('Enterprise_SalesArchive_Model_Config');
     }
@@ -80,7 +80,7 @@ class Enterprise_SalesArchive_Model_Observer
 
         if ($object->getIsArchived()) {
             $object->setBackUrl(
-                $this->_adminhtmlData->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
+                $this->_backendData->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
             );
         } elseif ($object->getIsMoveable() !== false) {
             $object->setIsMoveable(

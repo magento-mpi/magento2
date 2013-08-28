@@ -23,6 +23,11 @@ class Enterprise_Invitation_Model_Observer
      */
     protected $_flagInCustomerRegistration = false;
 
+    /**
+     * Invitation configuration
+     *
+     * @var Enterprise_Invitation_Model_Config
+     */
     protected $_config;
 
     /**
@@ -45,6 +50,7 @@ class Enterprise_Invitation_Model_Observer
     /**
      * Observe customer registration for invitations
      *
+     * @param Magento_Event_Observer $observer
      * @return void
      */
     public function restrictCustomerRegistration(Magento_Event_Observer $observer)
@@ -54,7 +60,6 @@ class Enterprise_Invitation_Model_Observer
         }
 
         $result = $observer->getEvent()->getResult();
-
         if (!$result->getIsAllowed()) {
             $this->_invitationData->isRegistrationAllowed(false);
         } else {

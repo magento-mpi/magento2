@@ -672,10 +672,11 @@ class Enterprise_PageCache_Model_Observer
         $httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost();
         $urlHost = parse_url($url, PHP_URL_HOST);
         if ($httpHost != $urlHost && Mage::getSingleton('Magento_Core_Model_Session')->getMessages()->count() > 0) {
-            $transport->setUrl($this->_coreUrl->addRequestParam(
-                $url,
-                array(Enterprise_PageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM => null)
-            ));
+            $transport->setUrl(
+                $this->_coreUrl->addRequestParam($url, array(
+                    Enterprise_PageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM => null
+                ))
+            );
         }
         return $this;
     }
