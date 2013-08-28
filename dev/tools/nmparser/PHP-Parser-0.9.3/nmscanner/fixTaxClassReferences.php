@@ -70,8 +70,8 @@ class fixTaxClassReferences
             $string = $string . $key;
         }
         $stringBefore = $string;
-        $string = str_replace('Magento_Tax_Model_Resource_TaxClass_', 'Magento_Tax_Model_Resource_TaxClass_', $string);
-        $string = str_replace('Magento_Tax_Model_TaxClass_', 'Magento_Tax_Model_TaxClass_', $string);
+        $string = str_replace('Magento_Tax_Model_Resource_Class' . '_', 'Magento_Tax_Model_Resource_TaxClass_', $string);
+        $string = str_replace('Magento_Tax_Model_Class' . '_', 'Magento_Tax_Model_TaxClass_', $string);
         if ($stringBefore != $string) {
             echo "$file\n";
             file_put_contents($file, $string);
