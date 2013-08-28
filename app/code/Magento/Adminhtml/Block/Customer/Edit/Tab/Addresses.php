@@ -28,16 +28,18 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
 
     /**
      * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     public function getRegionsUrl()
@@ -113,7 +115,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
             ->initDefaultValues();
 
         $attributes = $addressForm->getAttributes();
-        if(isset($attributes['street'])) {
+        if (isset($attributes['street'])) {
             $this->_adminhtmlAddresses
                 ->processStreetAttribute($attributes['street']);
         }
@@ -225,7 +227,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
      *
      * @return string
      */
-    public function getDefaultCountriesJson() {
+    public function getDefaultCountriesJson()
+    {
         $websites = Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(false, true);
         $result = array();
         foreach ($websites as $website) {

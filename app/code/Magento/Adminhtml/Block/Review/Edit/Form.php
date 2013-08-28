@@ -27,16 +27,18 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
 
     /**
      * @param Magento_Review_Helper_Data $reviewData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Review_Helper_Data $reviewData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _prepareForm()
@@ -47,21 +49,30 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
 
         $form = new Magento_Data_Form(array(
             'id'        => 'edit_form',
-            'action'    => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'), 'ret' => Mage::registry('ret'))),
+            'action'    => $this->getUrl('*/*/save', array(
+                'id' => $this->getRequest()->getParam('id'),
+                'ret' => Mage::registry('ret')
+            )),
             'method'    => 'post'
         ));
 
-        $fieldset = $form->addFieldset('review_details', array('legend' => __('Review Details'), 'class' => 'fieldset-wide'));
+        $fieldset = $form->addFieldset('review_details', array(
+            'legend' => __('Review Details'),
+            'class' => 'fieldset-wide'
+        ));
 
-        /** @var $helper Magento_Review_Helper_Data */
-        $helper = $this->_reviewData;
         $fieldset->addField('product_name', 'note', array(
             'label'     => __('Product'),
-            'text'      => '<a href="' . $this->getUrl('*/catalog_product/edit', array('id' => $product->getId())) . '" onclick="this.target=\'blank\'">' . $helper->escapeHtml($product->getName()) . '</a>'
+            'text'      => '<a href="' . $this->getUrl('*/catalog_product/edit', array('id' => $product->getId()))
+                . '" onclick="this.target=\'blank\'">' . $this->_reviewData->escapeHtml($product->getName()) . '</a>'
         ));
 
         if ($customer->getId()) {
-            $customerText = __('<a href="%1" onclick="this.target=\'blank\'">%2 %3</a> <a href="mailto:%4">(%4)</a>', $this->getUrl('*/customer/edit', array('id' => $customer->getId(), 'active_tab'=>'review')), $this->escapeHtml($customer->getFirstname()), $this->escapeHtml($customer->getLastname()), $this->escapeHtml($customer->getEmail()));
+            $customerText = __('<a href="%1" onclick="this.target=\'blank\'">%2 %3</a> <a href="mailto:%4">(%4)</a>',
+                $this->getUrl('*/customer/edit', array('id' => $customer->getId(), 'active_tab'=>'review')),
+                $this->escapeHtml($customer->getFirstname()),
+                $this->escapeHtml($customer->getLastname()),
+                $this->escapeHtml($customer->getEmail()));
         } else {
             if (is_null($review->getCustomerId())) {
                 $customerText = __('Guest');
@@ -105,11 +116,11 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
                 'name'      => 'stores[]',
                 'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
             $review->setSelectStores($review->getStores());
-        }
-        else {
+        } else {
             $fieldset->addField('select_stores', 'hidden', array(
                 'name'      => 'stores[]',
                 'value'     => Mage::app()->getStore(true)->getId()

@@ -103,10 +103,7 @@ class Magento_Adminhtml_Helper_Catalog extends Magento_Core_Helper_Abstract
      */
     public function getSitemapValidPaths()
     {
-        $path = Mage::getStoreConfig(self::XML_PATH_SITEMAP_VALID_PATHS);
-        /** @var $helper Magento_Core_Helper_Data */
-        $helper = $this->_coreData;
-        $path = array_merge($path, $helper->getPublicFilesValidPath());
-        return $path;
+        return array_merge(Mage::getStoreConfig(self::XML_PATH_SITEMAP_VALID_PATHS),
+            $this->_coreData->getPublicFilesValidPath());
     }
 }

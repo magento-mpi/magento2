@@ -18,10 +18,10 @@
 class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_Helper_Abstract
 {
      /**
-     * Catalog product
-     *
-     * @var Magento_Catalog_Helper_Product
-     */
+      * Catalog product
+      *
+      * @var Magento_Catalog_Helper_Product
+      */
     protected $_catalogProduct = null;
 
     /**
@@ -67,16 +67,16 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
     }
 
      /**
-     * Init composite product configuration layout
-     *
-     * $isOk - true or false, whether action was completed nicely or with some error
-     * If $isOk is FALSE (some error during configuration), so $productType must be null
-     *
-     * @param Magento_Adminhtml_Controller_Action $controller
-     * @param bool $isOk
-     * @param string $productType
-     * @return Magento_Adminhtml_Helper_Catalog_Product_Composite
-     */
+      * Init composite product configuration layout
+      *
+      * $isOk - true or false, whether action was completed nicely or with some error
+      * If $isOk is FALSE (some error during configuration), so $productType must be null
+      *
+      * @param Magento_Adminhtml_Controller_Action $controller
+      * @param bool $isOk
+      * @param string $productType
+      * @return Magento_Adminhtml_Helper_Catalog_Product_Composite
+      */
     protected function _initConfigureResultLayout($controller, $isOk, $productType)
     {
         $update = $controller->getLayout()->getUpdate();

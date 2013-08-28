@@ -40,6 +40,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     /**
      * @param Magento_Review_Helper_Data $reviewData
      * @param Magento_Review_Helper_Action_Pager $reviewActionPager
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
@@ -48,6 +49,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     public function __construct(
         Magento_Review_Helper_Data $reviewData,
         Magento_Review_Helper_Action_Pager $reviewActionPager,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
@@ -55,7 +57,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     ) {
         $this->_reviewData = $reviewData;
         $this->_reviewActionPager = $reviewActionPager;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     /**
@@ -106,7 +108,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
 
         if ($this->getCustomerId() || $this->getRequest()->getParam('customerId', false)) {
             $customerId = $this->getCustomerId();
-            if (!$customerId){
+            if (!$customerId) {
                 $customerId = $this->getRequest()->getParam('customerId');
             }
             $this->setCustomerId($customerId);
@@ -130,8 +132,6 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
      */
     protected function _prepareColumns()
     {
-        /** @var $helper Magento_Review_Helper_Data */
-        $helper = $this->_reviewData;
         $this->addColumn('review_id', array(
             'header'        => __('ID'),
             'align'         => 'right',
@@ -149,12 +149,12 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
             'index'         => 'review_created_at',
         ));
 
-        if( !Mage::registry('usePendingFilter') ) {
+        if (!Mage::registry('usePendingFilter')) {
             $this->addColumn('status', array(
                 'header'        => __('Status'),
                 'align'         => 'left',
                 'type'          => 'options',
-                'options'       => $helper->getReviewStatuses(),
+                'options'       => $this->_reviewData->getReviewStatuses(),
                 'width'         => '100px',
                 'filter_index'  => 'rt.status_id',
                 'index'         => 'status_id',
@@ -267,9 +267,6 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
      */
     protected function _prepareMassaction()
     {
-        /** @var $helper Magento_Review_Helper_Data */
-        $helper = $this->_reviewData;
-
         $this->setMassactionIdField('review_id');
         $this->setMassactionIdFilter('rt.review_id');
         $this->setMassactionIdFieldOnlyIndexValue(true);
@@ -284,7 +281,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
             'confirm' => __('Are you sure?')
         ));
 
-        $statuses = $helper->getReviewStatusesOptionArray();
+        $statuses = $this->_reviewData->getReviewStatusesOptionArray();
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('update_status', array(
             'label'         => __('Update Status'),
@@ -327,7 +324,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
      */
     public function getGridUrl()
     {
-        if( $this->getProductId() || $this->getCustomerId() ) {
+        if ($this->getProductId() || $this->getCustomerId()) {
             return $this->getUrl(
                 '*/catalog_product_review/' . (Mage::registry('usePendingFilter') ? 'pending' : ''),
                 array(

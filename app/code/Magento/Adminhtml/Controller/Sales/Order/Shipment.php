@@ -380,7 +380,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             );
         }
 
-        if ( is_object($response)){
+        if (is_object($response)) {
             $block = $this->_objectManager->create('Magento_Adminhtml_Block_Template');
             $block->setTemplate('sales/order/shipment/tracking/info.phtml');
             $block->setTrackingInfo($response);
@@ -527,7 +527,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                     $pdf = new Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(__('We don\'t recognize or support the file extension in this shipment: %1.', $shipment->getIncrementId()));
+                        $this->_getSession()
+                            ->addError(__('We don\'t recognize or support the file extension in this shipment: %1.',
+                                $shipment->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -561,12 +563,13 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
         $shipment = $this->_initShipment();
 
         if ($shipment) {
-            $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Shipment_Packaging')->getPdf($shipment);
-            $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf',
+            $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Shipment_Packaging')
+                ->getPdf($shipment);
+            $this->_prepareDownloadResponse(
+                'packingslip' . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf',
                 $pdf->render(), 'application/pdf'
             );
-        }
-        else {
+        } else {
             $this->_forward('noRoute');
         }
     }

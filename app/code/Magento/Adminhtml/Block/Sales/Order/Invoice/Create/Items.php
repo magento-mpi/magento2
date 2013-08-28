@@ -29,16 +29,18 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
 
     /**
      * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Sales_Helper_Data $salesData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -138,14 +140,14 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
      */
     public function getOrderTotalbarData()
     {
-        $totalbarData = array();
         $this->setPriceDataObject($this->getInvoice()->getOrder());
+
+        $totalbarData = array();
         $totalbarData[] = array(__('Paid Amount'), $this->displayPriceAttribute('amount_paid'), false);
         $totalbarData[] = array(__('Refund Amount'), $this->displayPriceAttribute('amount_refunded'), false);
         $totalbarData[] = array(__('Shipping Amount'), $this->displayPriceAttribute('shipping_captured'), false);
         $totalbarData[] = array(__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false);
         $totalbarData[] = array(__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true);
-
         return $totalbarData;
     }
 

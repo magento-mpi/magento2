@@ -20,11 +20,6 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Top extends Magento_Adminhtml_B
 {
     protected $_collection;
 
-    public function __construct(Magento_Backend_Block_Template_Context $context, Magento_Core_Model_StoreManagerInterface $storeManager, Magento_Core_Model_Url $urlModel, array $data = array())
-    {
-        parent::__construct($context, $storeManager, $urlModel, $data);
-    }
-
     protected function _construct()
     {
         parent::_construct();
@@ -41,9 +36,9 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Top extends Magento_Adminhtml_B
 
         if ($this->getRequest()->getParam('store')) {
             $storeIds = $this->getRequest()->getParam('store');
-        } else if ($this->getRequest()->getParam('website')){
+        } else if ($this->getRequest()->getParam('website')) {
             $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
-        } else if ($this->getRequest()->getParam('group')){
+        } else if ($this->getRequest()->getParam('group')) {
             $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
         } else {
             $storeIds = '';

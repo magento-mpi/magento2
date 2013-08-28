@@ -97,7 +97,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
     public function renderTotals($area = null, $colspan = 1)
     {
         $html = '';
-        foreach($this->getTotals() as $total) {
+        foreach ($this->getTotals() as $total) {
             if ($total->getArea() != $area && $area != -1) {
                 continue;
             }

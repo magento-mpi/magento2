@@ -88,7 +88,8 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
      * @param array $giftmessage
      * @return Magento_Adminhtml_Model_Giftmessage_Save
      */
-    protected function _saveOne($entityId, $giftmessage) {
+    protected function _saveOne($entityId, $giftmessage)
+    {
         /* @var $giftmessageModel Magento_GiftMessage_Model_Message */
         $giftmessageModel = Mage::getModel('Magento_GiftMessage_Model_Message');
         $entityType = $this->_getMappedType($giftmessage['type']);
@@ -143,7 +144,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
      */
     protected function _deleteOne($entityModel, $giftmessageModel=null)
     {
-        if(is_null($giftmessageModel)) {
+        if (is_null($giftmessageModel)) {
             $giftmessageModel = Mage::getModel('Magento_GiftMessage_Model_Message')
                 ->load($entityModel->getGiftMessageId());
         }
@@ -189,7 +190,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
      */
     public function getAllowQuoteItems()
     {
-        if(!is_array($this->_getSession()->getAllowQuoteItemsGiftMessage())) {
+        if (!is_array($this->_getSession()->getAllowQuoteItemsGiftMessage())) {
             $this->setAllowQuoteItems(array());
         }
 
@@ -206,7 +207,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
         $result = array();
         foreach ($this->getAllowQuoteItems() as $itemId) {
             $item = $this->_getQuote()->getItemById($itemId);
-            if(!$item) {
+            if (!$item) {
                 continue;
             }
             $result[] = $item->getProduct()->getId();
@@ -222,7 +223,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
      */
     public function getIsAllowedQuoteItem($item)
     {
-        if(!in_array($item->getId(), $this->getAllowQuoteItems())) {
+        if (!in_array($item->getId(), $this->getAllowQuoteItems())) {
             if ($item->getGiftMessageId() && $this->isGiftMessagesAvailable($item)) {
                 $this->addAllowQuoteItem($item->getId());
                 return true;
@@ -241,9 +242,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
      */
     public function isGiftMessagesAvailable($item)
     {
-        return $this->_giftMessageMessage->getIsMessagesAvailable(
-            'item', $item, $item->getStore()
-        );
+        return $this->_giftMessageMessage->getIsMessagesAvailable('item', $item, $item->getStore());
     }
 
     /**
@@ -262,7 +261,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
                 ->load($productId);
             $item = $this->_getQuote()->getItemByProduct($product);
 
-            if(!$item) {
+            if (!$item) {
                 continue;
             }
 
@@ -290,7 +289,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
 
             $item = $this->_getQuote()->getItemById($itemId);
 
-            if(!$item) {
+            if (!$item) {
                 // Clean not exists items
                 $deleteAllowedItems[] = $itemId;
                 continue;
@@ -352,5 +351,4 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
     {
         return $this->_getSession()->getQuote();
     }
-
 }

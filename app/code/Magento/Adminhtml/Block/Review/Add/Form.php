@@ -27,16 +27,18 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Adminhtml_Block_Wi
 
     /**
      * @param Magento_Review_Helper_Data $reviewData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Review_Helper_Data $reviewData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _prepareForm()
@@ -54,7 +56,8 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Adminhtml_Block_Wi
             'label'     => __('Product Rating'),
             'required'  => true,
             'text'      => '<div id="rating_detail">'
-                . $this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Rating_Detailed')->toHtml() . '</div>',
+                . $this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Rating_Detailed')->toHtml()
+                . '</div>',
         ));
 
         $fieldset->addField('status_id', 'select', array(
@@ -74,7 +77,8 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Adminhtml_Block_Wi
                 'name'      => 'select_stores[]',
                 'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 

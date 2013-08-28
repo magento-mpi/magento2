@@ -27,16 +27,18 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
 
     /**
      * @param Magento_Review_Helper_Action_Pager $reviewActionPager
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Review_Helper_Action_Pager $reviewActionPager,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_reviewActionPager = $reviewActionPager;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()
@@ -183,7 +185,7 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
 
     public function getHeaderText()
     {
-        if( Mage::registry('review_data') && Mage::registry('review_data')->getId() ) {
+        if ( Mage::registry('review_data') && Mage::registry('review_data')->getId()) {
             return __("Edit Review '%1'", $this->escapeHtml(Mage::registry('review_data')->getTitle()));
         } else {
             return __('New Review');

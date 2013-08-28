@@ -34,16 +34,18 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
 
     /**
      * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -114,7 +116,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
             ->setEntity($addressModel);
 
         $attributes = $addressForm->getAttributes();
-        if(isset($attributes['street'])) {
+        if (isset($attributes['street'])) {
             $this->_adminhtmlAddresses
                 ->processStreetAttribute($attributes['street']);
         }
@@ -181,7 +183,8 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
         $vatIdElement = $this->_form->getElement('vat_id');
         if ($vatIdElement && $this->getDisplayVatValidationButton() !== false) {
             $vatIdElement->setRenderer(
-                $this->getLayout()->createBlock('Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat')
+                $this->getLayout()
+                    ->createBlock('Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat')
                     ->setJsVariablePrefix($this->getJsVariablePrefix())
             );
         }

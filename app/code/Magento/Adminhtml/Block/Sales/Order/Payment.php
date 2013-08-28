@@ -26,16 +26,18 @@ class Magento_Adminhtml_Block_Sales_Order_Payment extends Magento_Adminhtml_Bloc
 
     /**
      * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -62,5 +64,4 @@ class Magento_Adminhtml_Block_Sales_Order_Payment extends Magento_Adminhtml_Bloc
     {
         return $this->getChildHtml('info');
     }
-
 }

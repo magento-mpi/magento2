@@ -17,7 +17,6 @@
  */
 class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml_Block_Widget_Grid
 {
-
     /**
      * Sales reorder
      *
@@ -27,6 +26,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
 
     /**
      * @param Magento_Sales_Helper_Reorder $salesReorder
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
@@ -34,13 +34,14 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
      */
     public function __construct(
         Magento_Sales_Helper_Reorder $salesReorder,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
         $this->_salesReorder = $salesReorder;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     protected function _construct()
@@ -141,5 +142,4 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
     {
         return $this->getUrl('*/*/orders', array('_current' => true));
     }
-
 }

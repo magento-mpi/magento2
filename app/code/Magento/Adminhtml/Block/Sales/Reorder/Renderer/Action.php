@@ -63,7 +63,7 @@ class Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action
 
     protected function _getEscapedValue($value)
     {
-        return addcslashes(htmlspecialchars($value),'\\\'');
+        return addcslashes(htmlspecialchars($value), '\\\'');
     }
 
     /**

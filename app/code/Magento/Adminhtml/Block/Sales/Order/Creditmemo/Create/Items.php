@@ -19,6 +19,7 @@
 class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
 {
     protected $_canReturnToStock;
+
     /**
      * Sales data
      *
@@ -28,16 +29,18 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
 
     /**
      * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Sales_Helper_Data $salesData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -68,8 +71,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
                 'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',
             ));
 
-        }
-        else {
+        } else {
             $this->addChild('submit_button', 'Magento_Adminhtml_Block_Widget_Button', array(
                 'label'     => __('Refund Offline'),
                 'class'     => 'save submit-button',
@@ -117,14 +119,14 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
      */
     public function getOrderTotalbarData()
     {
-        $totalbarData = array();
         $this->setPriceDataObject($this->getOrder());
+
+        $totalbarData = array();
         $totalbarData[] = array(__('Paid Amount'), $this->displayPriceAttribute('total_invoiced'), false);
         $totalbarData[] = array(__('Refund Amount'), $this->displayPriceAttribute('total_refunded'), false);
         $totalbarData[] = array(__('Shipping Amount'), $this->displayPriceAttribute('shipping_invoiced'), false);
         $totalbarData[] = array(__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false);
         $totalbarData[] = array(__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true);
-
         return $totalbarData;
     }
 
@@ -161,7 +163,6 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
 
     public function canReturnToStock()
     {
-        $canReturnToStock = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
         if (Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
             return true;
         } else {
@@ -176,10 +177,14 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
     public function canReturnItemsToStock()
     {
         if (is_null($this->_canReturnToStock)) {
-            if ($this->_canReturnToStock = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
+            $this->_canReturnToStock = Mage::getStoreConfig(
+                Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT
+            );
+            if ($this->_canReturnToStock) {
                 $canReturnToStock = false;
                 foreach ($this->getCreditmemo()->getAllItems() as $item) {
-                    $product = Mage::getModel('Magento_Catalog_Model_Product')->load($item->getOrderItem()->getProductId());
+                    $product = Mage::getModel('Magento_Catalog_Model_Product')
+                        ->load($item->getOrderItem()->getProductId());
                     if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                         $item->setCanReturnToStock($canReturnToStock = true);
                     } else {

@@ -39,11 +39,6 @@ class Magento_Adminhtml_Model_Search_Catalog extends Magento_Object
     protected $_adminhtmlData = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_Adminhtml_Helper_Data $adminhtmlData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
@@ -65,10 +60,9 @@ class Magento_Adminhtml_Model_Search_Catalog extends Magento_Object
      */
     public function load()
     {
-        $arr = array();
-
+        $result = array();
         if (!$this->hasStart() || !$this->hasLimit() || !$this->hasQuery()) {
-            $this->setResults($arr);
+            $this->setResults($result);
             return $this;
         }
 
@@ -82,21 +76,16 @@ class Magento_Adminhtml_Model_Search_Catalog extends Magento_Object
 
         foreach ($collection as $product) {
             $description = strip_tags($product->getDescription());
-            $arr[] = array(
+            $result[] = array(
                 'id'            => 'product/1/'.$product->getId(),
                 'type'          => __('Product'),
                 'name'          => $product->getName(),
                 'description'   => $this->_coreString->substr($description, 0, 30),
-                'url' => $this->_adminhtmlData->getUrl(
-                    '*/catalog_product/edit',
-                    array(
-                        'id' => $product->getId()
-                    )
-                ),
+                'url' => $this->_adminhtmlData->getUrl('*/catalog_product/edit', array('id' => $product->getId())),
             );
         }
 
-        $this->setResults($arr);
+        $this->setResults($result);
 
         return $this;
     }

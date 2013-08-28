@@ -33,10 +33,6 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Tax extends Magento_Tax_Block_S
     protected $_taxOrderFactory;
 
     /**
-     * Initialize dependencies
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Tax_Model_Config $taxConfig

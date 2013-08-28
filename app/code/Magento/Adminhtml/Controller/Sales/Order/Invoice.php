@@ -34,6 +34,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
     /**
      * Initialize invoice model instance
      *
+     * @param bool $update
      * @return Magento_Sales_Model_Order_Invoice
      */
     protected function _initInvoice($update = false)
@@ -41,7 +42,6 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
         $this->_title(__('Invoices'));
 
         $invoice = false;
-        $itemsToInvoice = 0;
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($invoiceId) {
@@ -87,7 +87,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
     protected function _saveInvoice($invoice)
     {
         $invoice->getOrder()->setIsInProcess(true);
-        $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
+        Mage::getModel('Magento_Core_Model_Resource_Transaction')
             ->addObject($invoice)
             ->addObject($invoice->getOrder())
             ->save();
@@ -137,8 +137,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
             $this->getLayout()->getBlock('sales_invoice_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
             $this->renderLayout();
-        }
-        else {
+        } else {
             $this->_forward('noRoute');
         }
     }
@@ -258,7 +257,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
                 $transactionSave->save();
 
                 if (isset($shippingResponse) && $shippingResponse->hasErrors()) {
-                    $this->_getSession()->addError(__('The invoice and the shipment  have been created. The shipping label cannot be created now.'));
+                    $this->_getSession()->addError(__('The invoice and the shipment  have been created. '
+                        . 'The shipping label cannot be created now.'));
                 } elseif (!empty($data['do_shipment'])) {
                     $this->_getSession()->addSuccess(__('You created the invoice and shipment.'));
                 } else {
@@ -406,5 +406,4 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
         $this->_initInvoice();
         parent::printAction();
     }
-
 }

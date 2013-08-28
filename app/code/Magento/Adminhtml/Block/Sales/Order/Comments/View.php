@@ -26,16 +26,18 @@ class Magento_Adminhtml_Block_Sales_Order_Comments_View extends Magento_Adminhtm
 
     /**
      * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Sales_Helper_Data $salesData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -62,28 +64,27 @@ class Magento_Adminhtml_Block_Sales_Order_Comments_View extends Magento_Adminhtm
             'label'   => __('Submit Comment'),
             'class'   => 'save'
         ));
-
-
         return parent::_prepareLayout();
     }
 
     public function getSubmitUrl()
     {
-        return $this->getUrl('*/*/addComment',array('id'=>$this->getEntity()->getId()));
+        return $this->getUrl('*/*/addComment', array('id' => $this->getEntity()->getId()));
     }
 
     public function canSendCommentEmail()
     {
-        $helper = $this->_salesData;
         switch ($this->getParentType()) {
             case 'invoice':
-                return $helper->canSendInvoiceCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
+                return $this->_salesData
+                    ->canSendInvoiceCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
             case 'shipment':
-                return $helper->canSendShipmentCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
+                return $this->_salesData
+                    ->canSendShipmentCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
             case 'creditmemo':
-                return $helper->canSendCreditmemoCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
+                return $this->_salesData
+                    ->canSendCreditmemoCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
         }
-
         return true;
     }
 }

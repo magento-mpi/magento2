@@ -45,10 +45,9 @@ class Magento_Adminhtml_Model_Search_Order extends Magento_Object
      */
     public function load()
     {
-        $arr = array();
-
+        $result = array();
         if (!$this->hasStart() || !$this->hasLimit() || !$this->hasQuery()) {
-            $this->setResults($arr);
+            $this->setResults($result);
             return $this;
         }
 
@@ -73,22 +72,19 @@ class Magento_Adminhtml_Model_Search_Order extends Magento_Object
             ->load();
 
         foreach ($collection as $order) {
-            $arr[] = array(
+            $result[] = array(
                 'id'                => 'order/1/'.$order->getId(),
                 'type'              => __('Order'),
                 'name'              => __('Order #%1', $order->getIncrementId()),
                 'description'       => $order->getBillingFirstname().' '.$order->getBillingLastname(),
-                'form_panel_title'  => __('Order #%1 (%2)', $order->getIncrementId(), $order->getBillingFirstname().' '.$order->getBillingLastname()),
-                'url' => $this->_adminhtmlData->getUrl(
-                    '*/sales_order/view',
-                    array(
-                        'order_id' => $order->getId()
-                    )
-                ),
+                'form_panel_title'  => __('Order #%1 (%2)',
+                    $order->getIncrementId(),
+                    $order->getBillingFirstname() . ' ' . $order->getBillingLastname()),
+                'url' => $this->_adminhtmlData->getUrl('*/sales_order/view', array('order_id' => $order->getId())),
             );
         }
 
-        $this->setResults($arr);
+        $this->setResults($result);
 
         return $this;
     }

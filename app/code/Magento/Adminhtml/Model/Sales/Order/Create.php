@@ -190,7 +190,8 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      *
      * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
-    public function recollectCart(){
+    public function recollectCart()
+    {
         if ($this->_needCollectCart === true) {
             $this->getCustomerCart()
                 ->collectTotals()
@@ -430,6 +431,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Retrieve customer wishlist model object
      *
      * @params bool $cacheReload pass cached wishlist object and get new one
+     * @param bool $cacheReload
      * @return Magento_Wishlist_Model_Wishlist
      */
     public function getCustomerWishlist($cacheReload = false)
@@ -720,7 +722,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * $config can be either buyRequest config, or just qty
      *
      * @param   int|Magento_Catalog_Model_Product $product
-     * @param   float|array|Magento_Object $config
+     * @param array|float|int|\Magento_Object $config
      * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
     public function addProduct($product, $config = 1)
@@ -801,6 +803,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Update quantity of order quote items
      *
      * @param   array $data
+     * @throws Exception|Magento_Core_Exception
      * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
     public function updateQuoteItems($data)
@@ -860,8 +863,11 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Parse additional options and sync them with product options
      *
-     * @param Magento_Sales_Model_Quote_Item $product
-     * @param array $options
+     * @param Magento_Sales_Model_Quote_Item $item
+     * @param $additionalOptions
+     * @internal param \Magento_Sales_Model_Quote_Item $product
+     * @internal param array $options
+     * @return array
      */
     protected function _parseOptions(Magento_Sales_Model_Quote_Item $item, $additionalOptions)
     {
@@ -894,7 +900,8 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                     $optionId = $productOptions[$label]['option_id'];
                     $option = $item->getProduct()->getOptionById($optionId);
 
-                    $group = Mage::getSingleton('Magento_Catalog_Model_Product_Option')->groupFactory($option->getType())
+                    $group = Mage::getSingleton('Magento_Catalog_Model_Product_Option')
+                        ->groupFactory($option->getType())
                         ->setOption($option)
                         ->setProduct($item->getProduct());
 
@@ -928,6 +935,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      *
      * @param Magento_Sales_Model_Quote_Item $item
      * @param array $options
+     * @return $this
      */
     protected function _assignOptionsToItem(Magento_Sales_Model_Quote_Item $item, $options)
     {

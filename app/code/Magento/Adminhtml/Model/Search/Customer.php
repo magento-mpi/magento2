@@ -45,12 +45,12 @@ class Magento_Adminhtml_Model_Search_Customer extends Magento_Object
      */
     public function load()
     {
-        $arr = array();
-
+        $result = array();
         if (!$this->hasStart() || !$this->hasLimit() || !$this->hasQuery()) {
-            $this->setResults($arr);
+            $this->setResults($result);
             return $this;
         }
+
         $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
             ->addNameToSelect()
             ->joinAttribute('company', 'customer_address/company', 'default_billing', null, 'left')
@@ -63,21 +63,16 @@ class Magento_Adminhtml_Model_Search_Customer extends Magento_Object
             ->load();
 
         foreach ($collection->getItems() as $customer) {
-            $arr[] = array(
+            $result[] = array(
                 'id'            => 'customer/1/'.$customer->getId(),
                 'type'          => __('Customer'),
                 'name'          => $customer->getName(),
                 'description'   => $customer->getCompany(),
-                'url' => $this->_adminhtmlData->getUrl(
-                    '*/customer/edit',
-                    array(
-                        'id' => $customer->getId()
-                    )
-                ),
+                'url' => $this->_adminhtmlData->getUrl('*/customer/edit', array('id' => $customer->getId())),
             );
         }
 
-        $this->setResults($arr);
+        $this->setResults($result);
 
         return $this;
     }

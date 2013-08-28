@@ -29,16 +29,18 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
 
     /**
      * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()
@@ -127,7 +129,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
         $rates = $this->getShippingRates();
         if (is_array($rates)) {
             foreach ($rates as $group) {
-                foreach ($group as $code => $rate) {
+                foreach ($group as $rate) {
                     if ($rate->getCode() == $this->getShippingMethod()) {
                         return $rate;
                     }

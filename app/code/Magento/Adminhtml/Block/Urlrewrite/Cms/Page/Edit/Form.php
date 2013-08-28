@@ -20,11 +20,6 @@
  */
 class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Adminhtml_Block_Urlrewrite_Edit_Form
 {
-    public function __construct(Magento_Adminhtml_Helper_Data $adminhtmlData, Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($adminhtmlData, $context, $data);
-    }
-
     /**
      * Form post init
      *

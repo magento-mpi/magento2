@@ -100,20 +100,22 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
      *
      * @var Magento_Adminhtml_Helper_Dashboard_Data
      */
-    protected $_adminhtmlDashboardData = null;
+    protected $_dashboardData = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Dashboard_Data $adminhtmlDashboardData
+     * @param Magento_Adminhtml_Helper_Dashboard_Data $dashboardData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Dashboard_Data $adminhtmlDashboardData,
+        Magento_Adminhtml_Helper_Dashboard_Data $dashboardData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_adminhtmlDashboardData = $adminhtmlDashboardData;
-        parent::__construct($context, $data);
+        $this->_dashboardData = $dashboardData;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -195,7 +197,8 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
             $this->setAxisLabels($axis, $this->getRowsData($attr, true));
         }
 
-        $timezoneLocal = Mage::app()->getStore()->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        $timezoneLocal = Mage::app()->getStore()
+            ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
 
         list ($dateStart, $dateEnd) = Mage::getResourceModel('Magento_Reports_Model_Resource_Order_Collection')
             ->getDateRange($this->getDataHelper()->getParam('period'), '', '', true);
@@ -432,7 +435,7 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
             return self::API_URL . '?' . implode('&', $p);
         } else {
             $gaData = urlencode(base64_encode(json_encode($params)));
-            $gaHash = $this->_adminhtmlDashboardData->getChartDataHash($gaData);
+            $gaHash = $this->_dashboardData->getChartDataHash($gaData);
             $params = array('ga' => $gaData, 'h' => $gaHash);
             return $this->getUrl('*/*/tunnel', array('_query' => $params));
         }

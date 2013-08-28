@@ -29,16 +29,18 @@ class Magento_Adminhtml_Block_Customer_Edit_Renderer_Attribute_Group
 
     /**
      * @param Magento_Customer_Helper_Address $customerAddress
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Customer_Helper_Address $customerAddress,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_customerAddress = $customerAddress;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

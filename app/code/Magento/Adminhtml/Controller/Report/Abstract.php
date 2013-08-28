@@ -62,7 +62,8 @@ abstract class Magento_Adminhtml_Controller_Report_Abstract extends Magento_Admi
             $blocks = array($blocks);
         }
 
-        $requestData = $this->_objectManager->get('Magento_Adminhtml_Helper_Data')->prepareFilterString($this->getRequest()->getParam('filter'));
+        $requestData = $this->_objectManager->get('Magento_Adminhtml_Helper_Data')
+            ->prepareFilterString($this->getRequest()->getParam('filter'));
         $requestData = $this->_filterDates($requestData, array('from', 'to'));
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');
         $params = new Magento_Object();
@@ -102,7 +103,9 @@ abstract class Magento_Adminhtml_Controller_Report_Abstract extends Magento_Admi
         $refreshStatsLink = $this->getUrl('*/report_statistics');
         $directRefreshLink = $this->getUrl('*/report_statistics/refreshRecent', array('code' => $refreshCode));
 
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(__('Last updated: %1. To refresh last day\'s <a href="%2">statistics</a>, click <a href="%3">here</a>.', $updatedAt, $refreshStatsLink, $directRefreshLink));
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            ->addNotice(__('Last updated: %1. To refresh last day\'s <a href="%2">statistics</a>, '
+                . 'click <a href="%3">here</a>.', $updatedAt, $refreshStatsLink, $directRefreshLink));
         return $this;
     }
 }

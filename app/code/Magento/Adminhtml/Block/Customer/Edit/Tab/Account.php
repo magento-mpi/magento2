@@ -17,7 +17,6 @@
  */
 class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtml_Block_Widget_Form
 {
-
     /*
      * Disable Auto Group Change Attribute Name
      */
@@ -233,7 +232,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
             $form->getElement('website_id')->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "
-                var {$prefix}_websites = " . $this->_coreData->jsonEncode($websites) .";
+                var {$prefix}_websites = " . $this->_coreData->jsonEncode($websites) . ";
                 jQuery.validator.addMethod('validate-website-has-store', function(v, elem){
                         return {$prefix}_websites[elem.value] == true;
                     },

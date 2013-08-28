@@ -28,16 +28,18 @@ class Magento_Adminhtml_Block_Page_Header extends Magento_Adminhtml_Block_Templa
 
     /**
      * @param Magento_Backend_Helper_Data $backendData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_backendData = $backendData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     public function getHomeLink()
@@ -64,5 +66,4 @@ class Magento_Adminhtml_Block_Page_Header extends Magento_Adminhtml_Block_Templa
     {
         return Mage::getStoreConfig('web/browser_capabilities/javascript');
     }
-
 }

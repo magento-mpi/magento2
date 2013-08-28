@@ -113,8 +113,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
                 return;
             }
 
-            $status->setData($data)
-                    ->setStatus($statusCode);
+            $status->setData($data) ->setStatus($statusCode);
+
             try {
                 $status->save();
                 $this->_getSession()->addSuccess(__('You have saved the order status.'));

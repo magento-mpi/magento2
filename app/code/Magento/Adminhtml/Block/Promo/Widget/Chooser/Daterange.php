@@ -86,7 +86,8 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
         }
         return $form->toHtml() . "<script type=\"text/javascript\">
             dateTimeChoose_{$idSuffix} = function() {
-                $('{$this->_targetElementId}').value = $('from_{$idSuffix}').value + '{$this->_rangeDelimiter}' + $('to_{$idSuffix}').value;
+                $('{$this->_targetElementId}').value = "
+                    . "$('from_{$idSuffix}').value + '{$this->_rangeDelimiter}' + $('to_{$idSuffix}').value;
             };
             </script>";
     }

@@ -16,18 +16,12 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Customer_Edit_Tab_View
- extends Magento_Adminhtml_Block_Template
- implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Template
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
-
     protected $_customer;
 
     protected $_customerLog;
-
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
 
     public function getCustomer()
     {
@@ -130,8 +124,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     public function getCurrentStatus()
     {
         $log = $this->getCustomerLog();
-        if ($log->getLogoutAt() ||
-            strtotime(now())-strtotime($log->getLastVisitAt())>Magento_Log_Model_Visitor::getOnlineMinutesInterval()*60) {
+        $interval = Magento_Log_Model_Visitor::getOnlineMinutesInterval();
+        if ($log->getLogoutAt() || (strtotime(now()) - strtotime($log->getLastVisitAt()) > $interval * 60)) {
             return __('Offline');
         }
         return __('Online');
@@ -161,14 +155,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getBillingAddressHtml()
     {
-        $html = '';
         if ($address = $this->getCustomer()->getPrimaryBillingAddress()) {
-            $html = $address->format('html');
+            return $address->format('html');
         }
-        else {
-            $html = __('The customer does not have default billing address.');
-        }
-        return $html;
+        return __('The customer does not have default billing address.');
     }
 
     public function getAccordionHtml()
@@ -206,5 +196,4 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
         }
         return true;
     }
-
 }

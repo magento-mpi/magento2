@@ -18,11 +18,6 @@
 
 class Magento_Adminhtml_Block_Dashboard_Orders_Grid extends Magento_Adminhtml_Block_Dashboard_Grid
 {
-    public function __construct(Magento_Backend_Block_Template_Context $context, Magento_Core_Model_StoreManagerInterface $storeManager, Magento_Core_Model_Url $urlModel, array $data = array())
-    {
-        parent::__construct($context, $storeManager, $urlModel, $data);
-    }
-
     protected function _construct()
     {
         parent::_construct();
@@ -68,7 +63,8 @@ class Magento_Adminhtml_Block_Dashboard_Orders_Grid extends Magento_Adminhtml_Bl
     protected function _preparePage()
     {
         $this->getCollection()->setPageSize($this->getParam($this->getVarNameLimit(), $this->_defaultLimit));
-        // Remove count of total orders $this->getCollection()->setCurPage($this->getParam($this->getVarNamePage(), $this->_defaultPage));
+//        Remove count of total orders
+//        $this->getCollection()->setCurPage($this->getParam($this->getVarNamePage(), $this->_defaultPage));
     }
 
     protected function _prepareColumns()

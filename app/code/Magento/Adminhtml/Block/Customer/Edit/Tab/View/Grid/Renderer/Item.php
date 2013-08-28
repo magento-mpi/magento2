@@ -23,19 +23,20 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
      *
      * @var Magento_Catalog_Helper_Product_Configuration
      */
-    protected $_catalogProductConfiguration = null;
+    protected $_productConfig = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
+     * @param Magento_Catalog_Helper_Product_Configuration $productConfig
      * @param Magento_Backend_Block_Context $context
      * @param array $data
+     * @internal param \Magento_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
+        Magento_Catalog_Helper_Product_Configuration $productConfig,
         Magento_Backend_Block_Context $context,
         array $data = array()
     ) {
-        $this->_catalogProductConfiguration = $catalogProductConfiguration;
+        $this->_productConfig = $productConfig;
         parent::__construct($context, $data);
     }
 
@@ -70,11 +71,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
             $helperName = 'Magento_Catalog_Helper_Product_Configuration';
         }
 
-        $helper = Mage::helper($helperName);
+        $helper = $this->_helperFactory->get($helperName);
         if (!($helper instanceof Magento_Catalog_Helper_Product_Configuration_Interface)) {
             Mage::throwException(__("Helper for options rendering doesn't implement required interface."));
         }
-
         return $helper;
     }
 
@@ -113,7 +113,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
         $params = array(
             'max_length' => 55
         );
-        return $this->_catalogProductConfiguration->getFormattedOptionValue($option, $params);
+        return $this->_productConfig->getFormattedOptionValue($option, $params);
     }
 
     /*

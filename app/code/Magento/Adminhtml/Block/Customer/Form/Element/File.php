@@ -38,10 +38,6 @@ class Magento_Adminhtml_Block_Customer_Form_Element_File extends Magento_Data_Fo
     protected $_coreData = null;
 
     /**
-     * Initialize Form Element
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Adminhtml_Helper_Data $adminhtmlData
      * @param Magento_Core_Model_View_Url $viewUrl

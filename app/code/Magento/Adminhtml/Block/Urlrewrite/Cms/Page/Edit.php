@@ -20,19 +20,11 @@
  */
 class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Magento_Adminhtml_Block_Urlrewrite_Edit
 {
-    public function __construct(Magento_Adminhtml_Helper_Data $adminhtmlData, Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($adminhtmlData, $context, $data);
-    }
-
     /**
      * Prepare layout for URL rewrite creating for CMS page
      */
     protected function _prepareLayoutFeatures()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = $this->_adminhtmlData;
-
         if ($this->_getUrlRewrite()->getId()) {
             $this->_headerText = __('Edit URL Rewrite for CMS page');
         } else {
@@ -42,7 +34,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Magento_Adminhtml
         if ($this->_getCmsPage()->getId()) {
             $this->_addCmsPageLinkBlock();
             $this->_addEditFormBlock();
-            $this->_updateBackButtonLink($helper->getUrl('*/*/edit') . 'cms_page');
+            $this->_updateBackButtonLink($this->_adminhtmlData->getUrl('*/*/edit') . 'cms_page');
         } else {
             $this->_addUrlRewriteSelectorBlock();
             $this->_addCmsPageGridBlock();
@@ -67,10 +59,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Magento_Adminhtml
      */
     private function _addCmsPageLinkBlock()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = $this->_adminhtmlData;
         $this->addChild('cms_page_link', 'Magento_Adminhtml_Block_Urlrewrite_Link', array(
-            'item_url'  => $helper->getUrl('*/*/*') . 'cms_page',
+            'item_url'  => $this->_adminhtmlData->getUrl('*/*/*') . 'cms_page',
             'item_name' => $this->getCmsPage()->getTitle(),
             'label'     => __('CMS page:')
         ));

@@ -17,9 +17,6 @@
  */
 class Magento_Adminhtml_Block_Page_System_Config_Robots_Reset extends Magento_Backend_Block_System_Config_Form_Field
 {
-    /*
-     * Set template
-     */
     /**
      * Page robots
      *
@@ -45,6 +42,9 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_Reset extends Magento_Ba
         parent::__construct($coreData, $context, $application, $data);
     }
 
+    /*
+     * Set template
+     */
     protected function _construct()
     {
         parent::_construct();

@@ -35,16 +35,18 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_A
 
     /**
      * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

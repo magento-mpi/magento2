@@ -56,4 +56,4 @@ class Magento_Adminhtml_Controller_Catalog_Product_Gallery extends Magento_Admin
     {
         return $this->_authorization->isAllowed('Magento_Catalog::products');
     }
-} // Class Magento_Adminhtml_Controller_Catalog_Product_Gallery End
+}

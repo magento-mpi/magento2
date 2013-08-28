@@ -67,10 +67,8 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
             $attributes = $this->getRequest()->getParam('attributes');
             if (!empty($attributes)) {
                 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
-                $this->_objectManager->get('Magento_Catalog_Model_Product_Type_Configurable')->setUsedProductAttributeIds(
-                    $attributes,
-                    $product
-                );
+                $this->_objectManager->get('Magento_Catalog_Model_Product_Type_Configurable')
+                    ->setUsedProductAttributeIds($attributes, $product);
             } else {
                 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE);
             }
@@ -128,8 +126,10 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
      * @param array $productsArray
      * @return Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Ajax_Serializer
      */
-    protected function _createSerializerBlock($inputName, Magento_Adminhtml_Block_Widget_Grid $gridBlock, $productsArray)
-    {
+    protected function _createSerializerBlock(
+        $inputName,
+        Magento_Adminhtml_Block_Widget_Grid $gridBlock, $productsArray
+    ) {
         return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Ajax_Serializer')
             ->setGridBlock($gridBlock)
             ->setProducts($productsArray)
@@ -331,9 +331,10 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
     /**
      * Save attribute options just created by user
      *
-     * @TODO Move this logic to configurable product type model when full set of operations for attribute options during
-     *  product creation will be implemented: edit labels, remove, reorder. Currently only addition of options to end
-     *  and removal of just added option is supported.
+     * @TODO Move this logic to configurable product type model
+     *   when full set of operations for attribute options during
+     *   product creation will be implemented: edit labels, remove, reorder.
+     * Currently only addition of options to end and removal of just added option is supported.
      */
     protected function _saveAttributeOptions()
     {
@@ -588,7 +589,8 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 //            if (is_array($errors = $product->validate())) {
 //                foreach ($errors as $code => $error) {
 //                    if ($error === true) {
-//                        Mage::throwException(__('Attribute "%1" is invalid.', $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
+//                        Mage::throwException(__('Attribute "%1" is invalid.',
+//                           $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
 //                    }
 //                    else {
 //                        Mage::throwException($error);
@@ -740,10 +742,8 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
         $attributes = $this->getRequest()->getParam('attributes');
         if (!empty($attributes)) {
-            $this->_objectManager->get('Magento_Catalog_Model_Product_Type_Configurable')->setUsedProductAttributeIds(
-                $attributes,
-                $product
-            );
+            $this->_objectManager->get('Magento_Catalog_Model_Product_Type_Configurable')
+                ->setUsedProductAttributeIds($attributes, $product);
 
             $product->setNewVariationsAttributeSetId($this->getRequest()->getPost('new-variations-attribute-set-id'));
             $associatedProductIds = $this->getRequest()->getPost('associated_product_ids', array());
@@ -850,9 +850,8 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
                 $this->_getSession()->addSuccess(__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
-                    $this->_getSession()->addNotice(
-                        __('SKU for product %1 has been changed to %2.', $this->_objectManager->get('Magento_Core_Helper_Data')
-                            ->escapeHtml($product->getName()),
+                    $this->_getSession()->addNotice(__('SKU for product %1 has been changed to %2.',
+                            $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($product->getName()),
                             $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
                 }
@@ -1053,10 +1052,10 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
     public function showUpdateResultAction()
     {
         $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
-        if ($session->hasCompositeProductResult() && $session->getCompositeProductResult() instanceof Magento_Object) {
-            /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-            $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite');
-            $helper->renderUpdateResult($this, $session->getCompositeProductResult());
+        if ($session->hasCompositeProductResult()
+            && $session->getCompositeProductResult() instanceof Magento_Object) {
+            $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite')
+                ->renderUpdateResult($this, $session->getCompositeProductResult());
             $session->unsCompositeProductResult();
         } else {
             $session->unsCompositeProductResult();
@@ -1144,6 +1143,5 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
             $response->setMessage($e->getMessage());
             $this->getResponse()->setBody($response->toJson());
         }
-
     }
 }

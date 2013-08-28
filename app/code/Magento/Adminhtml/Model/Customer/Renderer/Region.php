@@ -85,7 +85,8 @@ class Magento_Adminhtml_Model_Customer_Renderer_Region implements Magento_Data_F
 
         if ($regionCollection && count($regionCollection) > 0) {
             $elementClass = $element->getClass();
-            $html.= '<label class="label" for="' . $regionIdHtmlId . '"><span>'.$element->getLabel().'</span><span class="required" style="display:none">*</span></label>';
+            $html.= '<label class="label" for="' . $regionIdHtmlId . '"><span>' . $element->getLabel() . '</span>'
+                . '<span class="required" style="display:none">*</span></label>';
             $html.= '<div class="control">';
 
             $html .= '<select id="' . $regionIdHtmlId . '" name="' . $regionIdHtmlName . '" '

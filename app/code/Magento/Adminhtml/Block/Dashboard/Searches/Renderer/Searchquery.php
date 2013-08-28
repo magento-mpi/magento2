@@ -45,8 +45,7 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Renderer_Searchquery
         if ($this->_coreString->strlen($value) > 30) {
             $value = '<span title="'. $this->escapeHtml($value) .'">'
                 . $this->escapeHtml($this->_coreString->truncate($value, 30)) . '</span>';
-        }
-        else {
+        } else {
             $value = $this->escapeHtml($value);
         }
         return $value;

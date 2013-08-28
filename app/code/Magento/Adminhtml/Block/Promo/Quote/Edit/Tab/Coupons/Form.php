@@ -28,16 +28,18 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
 
     /**
      * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_SalesRule_Helper_Coupon $salesRuleCoupon,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_salesRuleCoupon = $salesRuleCoupon;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
