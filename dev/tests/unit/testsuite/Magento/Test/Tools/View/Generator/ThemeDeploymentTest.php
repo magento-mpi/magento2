@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/Magento/Tools/View/Generator/ThemeDeployment.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+    . '/tools/Magento/Tools/View/Generator/ThemeDeployment.php';
 
 class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCase
 {
@@ -78,7 +79,8 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
-        $object = new Magento_tools_View_Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted, $forbidden);
+        $object = new Magento_tools_View_Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted,
+            $forbidden);
         $object->run($fixture['copyRules']);
 
         // Verify expected paths
@@ -134,7 +136,8 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
-        $object = new Magento_Tools_View_Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted, $forbidden, true);
+        $object = new Magento_Tools_View_Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted,
+            $forbidden, true);
         $object->run($fixture['copyRules']);
 
         $actualPaths = $this->_getRelativePaths($this->_tmpDir);
@@ -152,7 +155,8 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden_without_php.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
-        $object = new Magento_tools_View_Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted, $forbidden, true);
+        $object = new Magento_tools_View_Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted,
+            $forbidden, true);
         $object->run($fixture['copyRules']);
     }
 

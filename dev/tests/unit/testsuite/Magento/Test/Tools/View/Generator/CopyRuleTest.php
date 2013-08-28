@@ -42,7 +42,8 @@ class Magento_Test_Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_T
         ));
         $this->_themeCollection->expects($this->any())->method('isLoaded')->will($this->returnValue(true));
         $this->_fallbackRule = $this->getMockForAbstractClass('Magento_Core_Model_Design_Fallback_Rule_RuleInterface');
-        $this->_object = new Magento_tools_View_Generator_CopyRule($this->_filesystem, $this->_themeCollection, $this->_fallbackRule);
+        $this->_object = new Magento_tools_View_Generator_CopyRule($this->_filesystem, $this->_themeCollection,
+            $this->_fallbackRule);
     }
 
     protected function tearDown()
