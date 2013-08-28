@@ -20,7 +20,7 @@ class Legacy_FilesystemEnterpriseTest extends PHPUnit_Framework_TestCase
      */
     public function testRelocations($path)
     {
-        $this->markTestSkipped('Skipping test until all references to Enterprise have been removed');
+        //$this->markTestSkipped('Skipping test until all references to Enterprise have been removed');
         $this->assertFileNotExists(Utility_Files::init()->getPathToSource() . DIRECTORY_SEPARATOR . $path);
     }
 
@@ -30,7 +30,7 @@ class Legacy_FilesystemEnterpriseTest extends PHPUnit_Framework_TestCase
     public function relocationsDataProvider()
     {
         return array(
-            'Relocated to Magento' => array('app/code/Enterprise'),
+            'Relocated to Magento' => array('app/code/core/Enterprise'),
         );
     }
 }
