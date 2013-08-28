@@ -29,14 +29,16 @@
                    translate="label" >
             <label>Display Page Control</label>
         </parameter>
-        <parameter name="products_per_page" xsi:type="text" required="true" visible="true" value="5" translate="label">
+        <parameter name="products_per_page" xsi:type="text" required="true" visible="true" translate="label">
             <label>Number of Products per Page</label>
+            <value>5</value>
             <depends>
                 <parameter name="show_pager" value="1"/>
             </depends>
         </parameter>
-        <parameter name="products_count" xsi:type="text" required="true" visible="true" value="10" translate="label">
+        <parameter name="products_count" xsi:type="text" required="true" visible="true" translate="label">
             <label>Number of Products to Display</label>
+            <value>10</value>
         </parameter>
         <parameter name="template" xsi:type="select" required="true" visible="true" translate="label">
             <label>Template</label>
