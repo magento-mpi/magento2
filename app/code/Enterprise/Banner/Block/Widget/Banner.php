@@ -117,7 +117,6 @@ class Enterprise_Banner_Block_Widget_Banner
      * @param  $data
      */
     public function __construct(
-        array $data,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Enterprise_Banner_Model_Resource_Banner $resource,
@@ -128,7 +127,7 @@ class Enterprise_Banner_Block_Widget_Banner
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        parent::__construct($coreData, $data, $context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_bannerResource = $resource;
         $this->_coreSession = $coreSession;
         $this->_checkoutSession = $checkoutSession;

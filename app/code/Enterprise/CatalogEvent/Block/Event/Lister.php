@@ -38,11 +38,12 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
      */
     public function __construct(
         Enterprise_CatalogEvent_Helper_Data $catalogEventData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_catalogEventData = $catalogEventData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
