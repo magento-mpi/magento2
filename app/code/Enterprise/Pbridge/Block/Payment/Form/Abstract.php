@@ -39,11 +39,6 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Enterprise
      */
     protected $_sendShipping = false;
 
-    public function __construct(Enterprise_Pbridge_Helper_Data $pbridgeData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($pbridgeData, $context, $data);
-    }
-
     /**
      * Return original payment method code
      *

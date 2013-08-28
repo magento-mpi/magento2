@@ -24,11 +24,6 @@ class Enterprise_Pbridge_Block_Checkout_Payment_Review_Iframe extends Enterprise
      */
     protected $_iframeHeight = '400';
 
-    public function __construct(Enterprise_Pbridge_Helper_Data $pbridgeData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($pbridgeData, $context, $data);
-    }
-
     /**
      * Return redirect url for Payment Bridge application
      *

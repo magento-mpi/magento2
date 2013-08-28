@@ -32,11 +32,6 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
      */
     protected $_ecInstance = null;
 
-    public function __construct($params = array())
-    {
-        parent::__construct($params);
-    }
-
     /**
      * EC PE won't be available if the EC is available
      *

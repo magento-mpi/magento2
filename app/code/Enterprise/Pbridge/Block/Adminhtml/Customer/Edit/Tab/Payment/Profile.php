@@ -18,7 +18,7 @@
  */
 class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
     extends Enterprise_Pbridge_Block_Iframe_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Block template
@@ -39,11 +39,6 @@ class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      * @var string
      */
     protected $_iframeHeight = '600';
-
-    public function __construct(Enterprise_Pbridge_Helper_Data $pbridgeData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($pbridgeData, $context, $data);
-    }
 
     /**
      * Getter for label

@@ -72,13 +72,17 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Paymen
     /**
      * @param Enterprise_Pbridge_Helper_Data $pbridgeData
      * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
      */
     public function __construct(
         Enterprise_Pbridge_Helper_Data $pbridgeData,
-        Magento_Core_Model_ModuleListInterface $moduleList
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($moduleList);
+        parent::__construct($moduleList, $paymentData, $data);
     }
 
     /**

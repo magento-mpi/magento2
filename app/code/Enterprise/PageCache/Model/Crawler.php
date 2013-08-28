@@ -59,23 +59,23 @@ class Enterprise_PageCache_Model_Crawler extends Magento_Core_Model_Abstract
      *
      * @var Enterprise_WebsiteRestriction_Helper_Data
      */
-    protected $_websiteRestrictionData = null;
+    protected $_websiteRestricData = null;
 
     /**
-     * @param Enterprise_WebsiteRestriction_Helper_Data $websiteRestrictionData
+     * @param Enterprise_WebsiteRestriction_Helper_Data $websiteRestricData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Enterprise_WebsiteRestriction_Helper_Data $websiteRestrictionData,
+        Enterprise_WebsiteRestriction_Helper_Data $websiteRestricData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_websiteRestrictionData = $websiteRestrictionData;
+        $this->_websiteRestricData = $websiteRestricData;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
@@ -105,7 +105,7 @@ class Enterprise_PageCache_Model_Crawler extends Magento_Core_Model_Abstract
         $baseUrls = array();
         foreach (Mage::app()->getStores() as $store) {
             $website               = Mage::app()->getWebsite($store->getWebsiteId());
-            if ($this->_websiteRestrictionData->getIsRestrictionEnabled($store)) {
+            if ($this->_websiteRestricData->getIsRestrictionEnabled($store)) {
                 continue;
             }
             $baseUrl               = Mage::app()->getStore($store)->getBaseUrl();

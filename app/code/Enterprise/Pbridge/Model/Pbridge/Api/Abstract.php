@@ -47,21 +47,24 @@ class Enterprise_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
      *
      * @param Enterprise_Pbridge_Helper_Data $pbridgeData
      * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
      */
     public function __construct(
         Enterprise_Pbridge_Helper_Data $pbridgeData,
-        Magento_Core_Helper_Data $coreData
+        Magento_Core_Helper_Data $coreData,
+        array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_coreData = $coreData;
+        parent::__construct($data);
     }
 
     /**
      * Make a call to Payment Bridge service with given request parameters
      *
      * @param array $request
-     * @return array
-     * @throws Magento_Core_Exception
+     * @throws Exception
+     * @return bool
      */
     protected function _call(array $request)
     {

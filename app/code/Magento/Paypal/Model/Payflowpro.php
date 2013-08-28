@@ -108,13 +108,17 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_ModuleListInterface $moduleList
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($moduleList);
+        parent::__construct($moduleList, $paymentData, $data);
     }
 
     /**

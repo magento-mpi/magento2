@@ -99,11 +99,6 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      */
     protected $_secureSilentPostHashKey = 'secure_silent_post_hash';
 
-    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Core_Model_ModuleListInterface $moduleList)
-    {
-        parent::__construct($coreData, $moduleList);
-    }
-
     /**
      * Do not validate payment form using server methods
      *

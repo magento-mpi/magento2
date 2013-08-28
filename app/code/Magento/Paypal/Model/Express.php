@@ -59,13 +59,21 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
 
     /**
      * Payment additional information key for number of used authorizations
+     *
      * @var string
      */
     protected $_authorizationCountKey = 'authorization_count';
 
-    public function __construct($params = array())
-    {
-        $proInstance = array_shift($params);
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
+    ) {
+        parent::__construct($paymentData, $data);
+        $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof Magento_Paypal_Model_Pro)) {
             $this->_pro = $proInstance;
         } else {

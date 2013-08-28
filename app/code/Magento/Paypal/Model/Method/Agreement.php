@@ -48,11 +48,15 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Initialize Magento_Paypal_Model_Pro model
      *
-     * @param array $params
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
      */
-    public function __construct($params = array())
-    {
-        $proInstance = array_shift($params);
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
+    ) {
+        parent::__construct($paymentData, $data);
+        $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof Magento_Paypal_Model_Pro)) {
             $this->_pro = $proInstance;
         } else {

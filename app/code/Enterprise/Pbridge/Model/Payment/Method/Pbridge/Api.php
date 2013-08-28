@@ -18,11 +18,6 @@
  */
 class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Enterprise_Pbridge_Model_Pbridge_Api_Abstract
 {
-    public function __construct(Enterprise_Pbridge_Helper_Data $pbridgeData, Magento_Core_Helper_Data $coreData)
-    {
-        parent::__construct($pbridgeData, $coreData);
-    }
-
     /**
      * Prepare, merge, encrypt required params for Payment Bridge and payment request params.
      * Return request params as http query string

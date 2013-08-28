@@ -86,7 +86,7 @@ class Enterprise_PageCache_Model_Observer
      *
      * @var Magento_Catalog_Helper_Product_Compare
      */
-    protected $_catalogProductCompare = null;
+    protected $_ctlgProdCompare = null;
 
     /**
      * Wishlist data
@@ -105,7 +105,7 @@ class Enterprise_PageCache_Model_Observer
     /**
      * @param Magento_Core_Helper_Url $coreUrl
      * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
+     * @param Magento_Catalog_Helper_Product_Compare $ctlgProdCompare
      * @param Enterprise_PageCache_Model_Processor $processor
      * @param Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier
      * @param Enterprise_PageCache_Model_Config $config
@@ -118,7 +118,7 @@ class Enterprise_PageCache_Model_Observer
     public function __construct(
         Magento_Core_Helper_Url $coreUrl,
         Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
+        Magento_Catalog_Helper_Product_Compare $ctlgProdCompare,
         Enterprise_PageCache_Model_Processor $processor,
         Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier,
         Enterprise_PageCache_Model_Config $config,
@@ -130,7 +130,7 @@ class Enterprise_PageCache_Model_Observer
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_wishlistData = $wishlistData;
-        $this->_catalogProductCompare = $catalogProductCompare;
+        $this->_ctlgProdCompare = $ctlgProdCompare;
         $this->_processor = $processor;
         $this->_config    = $config;
         $this->_cacheState = $cacheState;
@@ -401,7 +401,7 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
 
-        $listItems = $this->_catalogProductCompare->getItemCollection();
+        $listItems = $this->_ctlgProdCompare->getItemCollection();
         $previousList = $this->_cookie->get(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
         $previousList = (empty($previousList)) ? array() : explode(',', $previousList);
 

@@ -86,12 +86,14 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
 
     /**
      * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
      */
     public function __construct(
-        Magento_Payment_Helper_Data $paymentData
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
     ) {
         $this->_paymentData = $paymentData;
-
+        parent::__construct($data);
     }
 
     /**

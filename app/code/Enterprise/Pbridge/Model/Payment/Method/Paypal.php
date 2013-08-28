@@ -55,14 +55,18 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Mode
 
     /**
      * @param Enterprise_Pbridge_Helper_Data $pbridgeData
-     * @param  $params
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param array $data
      */
     public function __construct(
         Enterprise_Pbridge_Helper_Data $pbridgeData,
-        $params = array()
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Payment_Helper_Data $paymentData,
+        array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($params);
+        parent::__construct($moduleList, $paymentData, $data);
         $this->_pro->setPaymentMethod($this);
     }
 

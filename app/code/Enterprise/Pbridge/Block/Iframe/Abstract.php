@@ -69,16 +69,18 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Magento_Payment_
 
     /**
      * @param Enterprise_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
