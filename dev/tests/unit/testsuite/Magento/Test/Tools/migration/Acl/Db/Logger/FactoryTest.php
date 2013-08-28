@@ -54,7 +54,8 @@ class Magento_Test_Tools_Migration_Acl_Db_Logger_FactoryTest extends PHPUnit_Fra
      */
     public function testGetLogger($loggerType, $file)
     {
-        $this->assertInstanceOf('Magento_Tools_Migration_Acl_Db_LoggerAbstract', $this->_model->getLogger($loggerType, $file));
+        $this->assertInstanceOf(
+            'Magento_Tools_Migration_Acl_Db_LoggerAbstract', $this->_model->getLogger($loggerType, $file));
     }
 
     /**

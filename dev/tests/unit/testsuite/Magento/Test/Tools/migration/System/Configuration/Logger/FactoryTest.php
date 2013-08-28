@@ -20,11 +20,14 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Logger/Factory.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/System/FileManager.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/System/FileReader.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/System/FileManager.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/System/FileReader.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration//System/WriterInterface.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/System/Writer/Memory.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/System/Writer/Memory.php';
 
 
 class Magento_Test_Tools_Migration_System_Configuration_Logger_FactoryTest extends PHPUnit_Framework_TestCase
@@ -42,7 +45,8 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_FactoryTest exten
     public function setUp()
     {
         $this->_model = new Magento_Tools_Migration_System_Configuration_Logger_Factory();
-        $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
+        $this->_fileManagerMock = $this->getMock(
+            'Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
     }
 
     public function tearDown()

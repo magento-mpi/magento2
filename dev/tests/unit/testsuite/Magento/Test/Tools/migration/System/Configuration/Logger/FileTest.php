@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration//Acl/Db/LoggerAbstract.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration//Acl/Db/Logger/File.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration//Acl/Db/LoggerAbstract.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration//Acl/Db/Logger/File.php';
 
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
@@ -18,7 +20,8 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration//System/Configuration/Logger/File.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration//System/FileManager.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration//System/FileManager.php';
 
 class Magento_Test_Tools_Migration_System_Configuration_Logger_FileTest extends PHPUnit_Framework_TestCase
 {
@@ -29,7 +32,8 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_FileTest extends 
 
     public function setUp()
     {
-        $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
+        $this->_fileManagerMock = $this->getMock(
+            'Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
     }
 
     public function tearDown()
