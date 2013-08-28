@@ -18,15 +18,11 @@
  */
 class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
 {
-    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Core_Model_Resource $resource)
-    {
-        parent::__construct($coreData, $resource);
-    }
-
     /**
      * Reindex temporary (price result data) for all products
      *
-     * @return Magento_Bundle_Model_Resource_Indexer_Price
+     * @return $this|Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
+     * @throws Exception
      */
     public function reindexAll()
     {

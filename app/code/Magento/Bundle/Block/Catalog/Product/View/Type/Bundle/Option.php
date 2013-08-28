@@ -32,11 +32,6 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Magen
      */
     protected $_showSingle = null;
 
-    public function __construct(Magento_Catalog_Helper_Data $catalogData, Magento_Tax_Helper_Data $taxData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($catalogData, $taxData, $coreData, $context, $data);
-    }
-
     /**
      * Check if option has a single selection
      *

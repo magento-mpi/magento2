@@ -17,12 +17,6 @@
  */
 class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_Product_Price
 {
-
-    public function __construct(Magento_Catalog_Helper_Data $catalogData, Magento_Tax_Helper_Data $taxData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($catalogData, $taxData, $coreData, $context, $data);
-    }
-
     public function isRatesGraterThenZero()
     {
         $_request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest(false, false, false);

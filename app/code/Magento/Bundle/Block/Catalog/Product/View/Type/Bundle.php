@@ -37,16 +37,22 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
 
     /**
      * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
-        parent::__construct($context, $data);
+        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
     }
 
     public function getOptions()

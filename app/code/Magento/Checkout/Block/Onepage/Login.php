@@ -27,18 +27,20 @@ class Magento_Checkout_Block_Onepage_Login extends Magento_Checkout_Block_Onepag
 
     /**
      * @param Magento_Checkout_Helper_Data $checkoutData
-     * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Checkout_Helper_Data $checkoutData,
-        Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;
-        parent::__construct($context, $configCacheType, $data);
+        parent::__construct($configCacheType, $coreData, $context, $data);
     }
 
     protected function _construct()

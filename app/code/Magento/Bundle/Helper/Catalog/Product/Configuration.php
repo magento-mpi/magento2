@@ -30,19 +30,19 @@ class Magento_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_H
      *
      * @var Magento_Catalog_Helper_Product_Configuration
      */
-    protected $_catalogProductConfiguration = null;
+    protected $_ctlgProdConfigur = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
+     * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
+        Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context
     ) {
-        $this->_catalogProductConfiguration = $catalogProductConfiguration;
+        $this->_ctlgProdConfigur = $ctlgProdConfigur;
         $this->_coreData = $coreData;
         parent::__construct($context);
     }
@@ -165,7 +165,7 @@ class Magento_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_H
     {
         return array_merge(
             $this->getBundleOptions($item),
-            $this->_catalogProductConfiguration->getCustomOptions($item)
+            $this->_ctlgProdConfigur->getCustomOptions($item)
         );
     }
 }

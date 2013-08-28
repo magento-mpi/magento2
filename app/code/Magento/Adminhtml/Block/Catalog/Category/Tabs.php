@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Block_Widget_Tabs
 {
     /**
      * Default Attribute Tab Block

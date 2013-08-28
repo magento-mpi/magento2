@@ -30,18 +30,20 @@ class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_C
 
     /**
      * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
-        parent::__construct($context, $configCacheType, $data);
+        parent::__construct($configCacheType, $coreData, $context, $data);
     }
 
     public function getShippingRates()

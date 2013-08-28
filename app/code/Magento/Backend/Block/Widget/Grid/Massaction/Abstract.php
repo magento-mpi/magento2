@@ -35,11 +35,6 @@ abstract class Magento_Backend_Block_Widget_Grid_Massaction_Abstract extends Mag
 
     protected $_template = 'Magento_Backend::widget/grid/massaction.phtml';
 
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
-
     protected function _construct()
     {
         parent::_construct();

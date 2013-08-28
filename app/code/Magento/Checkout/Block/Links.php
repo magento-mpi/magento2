@@ -17,11 +17,6 @@
  */
 class Magento_Checkout_Block_Links extends Magento_Core_Block_Template
 {
-    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($coreData, $context, $data);
-    }
-
     /**
      * Add shopping cart link to parent block
      *

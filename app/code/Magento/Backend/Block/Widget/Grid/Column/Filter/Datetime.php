@@ -16,17 +16,13 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @todo        date format
  */
-class Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Magento_Backend_Block_Widget_Grid_Column_Filter_Date
+class Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime
+    extends Magento_Backend_Block_Widget_Grid_Column_Filter_Date
 {
     /**
      * full day is 86400, we need 23 hours:59 minutes:59 seconds = 86399
      */
     const END_OF_DAY_IN_SECONDS = 86399;
-
-    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Backend_Block_Context $context, array $data = array())
-    {
-        parent::__construct($coreData, $context, $data);
-    }
 
     public function getValue($index = null)
     {
