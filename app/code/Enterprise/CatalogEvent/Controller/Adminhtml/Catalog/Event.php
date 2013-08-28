@@ -17,6 +17,7 @@
 
 class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Adminhtml_Controller_Action
 {
+
     /**
      * Check is enabled module in config
      *
@@ -150,7 +151,8 @@ class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento
 
         $isUploaded = true;
         try {
-            $uploader = new Magento_Core_Model_File_Uploader('image');
+            $uploader = $this->_objectManager
+                ->create('Magento_Core_Model_File_Uploader', array('fileId' => 'image'));;
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
@@ -260,12 +262,11 @@ class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento
      */
     protected function _filterPostData($data)
     {
-        if(isset($data['catalogevent'])) {
+        if (isset($data['catalogevent'])) {
             $_data = $data['catalogevent'];
             $_data = $this->_filterDateTime($_data, array('date_start', 'date_end'));
             $data['catalogevent'] = $_data;
         }
         return $data;
     }
-
 }

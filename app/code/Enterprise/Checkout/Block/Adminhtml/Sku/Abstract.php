@@ -11,7 +11,6 @@
 /**
  * Admin Checkout main form container
  *
- * @method string                                           getAdditionalJavascript()
  * @method string                                           getListType()
  * @method Enterprise_Checkout_Block_Adminhtml_Sku_Abstract setListType()
  * @method string                                           getDataContainerId()
@@ -21,7 +20,7 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Magento_Adminhtml_Block_Template
+abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Magento_Backend_Block_Template
 {
     /**
      * List type of current block
@@ -29,11 +28,6 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Magento_
     const LIST_TYPE = 'add_by_sku';
 
     protected $_template = 'sku/add.phtml';
-
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
 
     /**
      * Initialize SKU container

@@ -33,6 +33,7 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
 
     /**
      * @param Enterprise_CatalogEvent_Helper_Data $catalogEventData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */

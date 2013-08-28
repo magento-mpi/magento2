@@ -16,7 +16,7 @@
  */
 class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions
     extends Magento_Adminhtml_Block_Catalog_Category_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
 
     protected $_template = 'catalog/category/tab/permissions.phtml';
@@ -26,20 +26,22 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
      *
      * @var Enterprise_CatalogPermissions_Helper_Data
      */
-    protected $_catalogPermissionsData = null;
+    protected $_catalogPermData = null;
 
     /**
-     * @param Enterprise_CatalogPermissions_Helper_Data $catalogPermissionsData
+     * @param Enterprise_CatalogPermissions_Helper_Data $catalogPermData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Enterprise_CatalogPermissions_Helper_Data $catalogPermissionsData,
+        Enterprise_CatalogPermissions_Helper_Data $catalogPermData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_catalogPermissionsData = $catalogPermissionsData;
-        parent::__construct($context, $data);
+        $this->_catalogPermData = $catalogPermData;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -149,7 +151,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         $groups   = Mage::getModel('Magento_Customer_Model_Group')->getCollection()->getAllIds();
 
         /* @var $helper Enterprise_CatalogPermissions_Helper_Data */
-        $helper   = $this->_catalogPermissionsData;
+        $helper   = $this->_catalogPermData;
 
         $parent = (string)Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT;
         $allow  = (string)Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;

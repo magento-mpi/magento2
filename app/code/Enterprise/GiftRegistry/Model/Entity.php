@@ -11,7 +11,6 @@
 /**
  * Entity data model
  *
- * @method Enterprise_GiftRegistry_Model_Resource_Entity _getResource()
  * @method Enterprise_GiftRegistry_Model_Resource_Entity getResource()
  * @method Enterprise_GiftRegistry_Model_Entity setTypeId(int $value)
  * @method int getCustomerId()

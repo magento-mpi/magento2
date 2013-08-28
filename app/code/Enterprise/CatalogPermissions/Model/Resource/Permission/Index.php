@@ -64,21 +64,21 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
      *
      * @var Enterprise_CatalogPermissions_Helper_Data
      */
-    protected $_catalogPermissionsData = null;
+    protected $_catalogPermData = null;
 
     /**
      * Class constructor
      *
      *
      *
-     * @param Enterprise_CatalogPermissions_Helper_Data $catalogPermissionsData
+     * @param Enterprise_CatalogPermissions_Helper_Data $catalogPermData
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
-        Enterprise_CatalogPermissions_Helper_Data $catalogPermissionsData,
+        Enterprise_CatalogPermissions_Helper_Data $catalogPermData,
         Magento_Core_Model_Resource $resource
     ) {
-        $this->_catalogPermissionsData = $catalogPermissionsData;
+        $this->_catalogPermData = $catalogPermData;
         parent::__construct($resource);
     }
 
@@ -767,7 +767,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             $select->where('website_id = :website_id');
             $bind[':website_id'] = $websiteId;
         }
-        if (!$this->_catalogPermissionsData->isAllowedCategoryView()) {
+        if (!$this->_catalogPermData->isAllowedCategoryView()) {
             $bind[':grant_catalog_category_view'] = Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;
         } else {
             $bind[':grant_catalog_category_view'] = Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY;
@@ -778,11 +778,11 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
         $select = $adapter->select()
             ->from($this->getTable('catalog_category_entity'), 'entity_id');
 
-        if (!empty($restrictedCatIds) && !$this->_catalogPermissionsData->isAllowedCategoryView()) {
+        if (!empty($restrictedCatIds) && !$this->_catalogPermData->isAllowedCategoryView()) {
             $select->where('entity_id NOT IN(?)', $restrictedCatIds);
-        } elseif (!empty($restrictedCatIds) && $this->_catalogPermissionsData->isAllowedCategoryView()) {
+        } elseif (!empty($restrictedCatIds) && $this->_catalogPermData->isAllowedCategoryView()) {
             $select->where('entity_id IN(?)', $restrictedCatIds);
-        } elseif ($this->_catalogPermissionsData->isAllowedCategoryView()) {
+        } elseif ($this->_catalogPermData->isAllowedCategoryView()) {
             $select->where('1 = 0'); // category view allowed for all
         }
 
@@ -813,7 +813,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             );
         }
 
-        if (!$this->_catalogPermissionsData->isAllowedProductPrice()) {
+        if (!$this->_catalogPermData->isAllowedProductPrice()) {
             $select->where(
                 'permission_index_product.grant_catalog_product_price = ?',
                 Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -853,7 +853,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
                 array()
             );
 
-        if (!$this->_catalogPermissionsData->isAllowedCategoryView()) {
+        if (!$this->_catalogPermData->isAllowedCategoryView()) {
             $collection->getProductCountSelect()
                 ->where('permission_index_product_count.grant_catalog_category_view = ?',
                     Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -892,7 +892,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             array()
         );
 
-        if (!$this->_catalogPermissionsData->isAllowedCategoryView()) {
+        if (!$this->_catalogPermData->isAllowedCategoryView()) {
             $collection->getSelect()
                 ->where('permission_index.grant_catalog_category_view = ?',
                     Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -946,7 +946,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
                         'grant_catalog_product_price',
                         'grant_checkout_items')
                 );
-            if (!$this->_catalogPermissionsData->isAllowedCategoryView()) {
+            if (!$this->_catalogPermData->isAllowedCategoryView()) {
                 $collection->getSelect()
                     ->where('permission_index_product.grant_catalog_category_view = ?',
                         Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -973,7 +973,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
                  */
                 if (in_array($linkTypeId, $linkTypeIds)) {
 
-                    if (!$this->_catalogPermissionsData->isAllowedProductPrice()) {
+                    if (!$this->_catalogPermData->isAllowedProductPrice()) {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_catalog_product_price = ?',
                                 Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -984,7 +984,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
                                 Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
                     }
 
-                    if (!$this->_catalogPermissionsData->isAllowedCheckoutItems()) {
+                    if (!$this->_catalogPermData->isAllowedCheckoutItems()) {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_checkout_items = ?',
                                 Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);

@@ -15,7 +15,7 @@
  * @package    Enterprise_License
  */
 
-class Enterprise_License_Block_Adminhtml_Checker extends Magento_Adminhtml_Block_Template
+class Enterprise_License_Block_Adminhtml_Checker extends Magento_Backend_Block_Template
 {
     /**
      * Number of days until the expiration of license.
@@ -33,16 +33,18 @@ class Enterprise_License_Block_Adminhtml_Checker extends Magento_Adminhtml_Block
 
     /**
      * @param Enterprise_License_Helper_Data $licenseData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_License_Helper_Data $licenseData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_licenseData = $licenseData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -64,8 +66,8 @@ class Enterprise_License_Block_Adminhtml_Checker extends Magento_Adminhtml_Block
      */
     public function shouldDispalyNotification()
     {
-        $enterprise_license=$this->_licenseData;
-        if($enterprise_license->isIoncubeLoaded() && $enterprise_license->isIoncubeEncoded()) {
+        $enterpriseLicense = $this->_licenseData;
+        if ($enterpriseLicense->isIoncubeLoaded() && $enterpriseLicense->isIoncubeEncoded()) {
             return ($this->_daysLeftBeforeExpired < 31);
         } else {
             return false;

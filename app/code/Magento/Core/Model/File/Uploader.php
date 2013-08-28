@@ -42,17 +42,18 @@ class Magento_Core_Model_File_Uploader extends Magento_File_Uploader
     /**
      * Init upload
      *
-     *
-     *
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Core_Helper_File_Storage $coreFileStorage
+     * @param $fileId
      */
     public function __construct(
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
-        Magento_Core_Helper_File_Storage $coreFileStorage
+        Magento_Core_Helper_File_Storage $coreFileStorage,
+        $fileId
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_coreFileStorage = $coreFileStorage;
+        parent::__construct($fileId);
     }
 
     /**

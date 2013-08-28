@@ -51,11 +51,14 @@ class Enterprise_Checkout_Model_Import extends Magento_Object
      * attributes This behavior may change in child classes
      *
      * @param Enterprise_Checkout_Helper_Data $checkoutData
+     * @param array $data
      */
     public function __construct(
-        Enterprise_Checkout_Helper_Data $checkoutData
+        Enterprise_Checkout_Helper_Data $checkoutData,
+        array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;
+        parent::__construct($data);
     }
 
     /**

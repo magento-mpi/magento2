@@ -20,13 +20,6 @@
 class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Template
 {
     /**
-     * Helper instance
-     *
-     * @var Enterprise_Checkout_Helper_Data|null
-     */
-    protected $_helper;
-
-    /**
      * Checkout data
      *
      * @var Enterprise_Checkout_Helper_Data
@@ -60,19 +53,6 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Tem
     }
 
     /**
-     * Retrieve helper instance
-     *
-     * @return Enterprise_Checkout_Helper_Data
-     */
-    protected function _getHelper()
-    {
-        if (is_null($this->_helper)) {
-            $this->_helper = $this->_checkoutData;
-        }
-        return $this->_helper;
-    }
-
-    /**
      * Retrieve item's message
      *
      * @return string
@@ -82,19 +62,19 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Tem
         switch ($this->getItem()->getCode()) {
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
                 $message = '<span class="sku-out-of-stock" id="sku-stock-failed-' . $this->getItem()->getId() . '">'
-                    . $this->_getHelper()->getMessage(
+                    . $this->_checkoutData->getMessage(
                         Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
                     ) . '</span>';
                 return $message;
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
-                $message = $this->_getHelper()->getMessage(
+                $message = $this->_checkoutData->getMessage(
                     Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED
                 );
                 $message .= '<br/>' . __("Only %1%2%3 left in stock", '<span class="sku-failed-qty" id="sku-stock-failed-' . $this->getItem()->getId() . '">', $this->getItem()->getQtyMaxAllowed(), '</span>');
                 return $message;
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
                 $item = $this->getItem();
-                $message = $this->_getHelper()->getMessage(
+                $message = $this->_checkoutData->getMessage(
                     Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART
                 );
                 $message .= '<br/>';
@@ -105,7 +85,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Tem
                 }
                 return $message;
             default:
-                $error = $this->_getHelper()->getMessage($this->getItem()->getCode());
+                $error = $this->_checkoutData->getMessage($this->getItem()->getCode());
                 $error = $error ? $error : $this->escapeHtml($this->getItem()->getError());
                 return $error ? $error : '';
         }

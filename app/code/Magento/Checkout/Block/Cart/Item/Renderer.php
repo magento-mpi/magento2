@@ -66,8 +66,8 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /**
      * Set item for render
      *
-     * @param   Magento_Sales_Model_Quote_Item $item
-     * @return  Magento_Checkout_Block_Cart_Item_Renderer
+     * @param Magento_Sales_Model_Quote_Item_Abstract $item
+     * @return $this
      */
     public function setItem(Magento_Sales_Model_Quote_Item_Abstract $item)
     {

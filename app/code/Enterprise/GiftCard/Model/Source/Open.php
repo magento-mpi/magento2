@@ -47,7 +47,8 @@ class Enterprise_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Att
     /**
      * Get option text
      *
-     * @return string|null
+     * @param int|string $value
+     * @return bool|null|string
      */
     public function getOptionText($value)
     {

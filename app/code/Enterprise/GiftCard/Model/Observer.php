@@ -32,6 +32,7 @@ class Enterprise_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection
      * @param array $data
+     * @throws InvalidArgumentException
      */
     public function __construct(
         Enterprise_GiftCard_Helper_Data $giftCardData,
@@ -189,7 +190,7 @@ class Enterprise_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
 
                         foreach ($invoiceItemCollection as $invoiceItem) {
                             $invoiceId = $invoiceItem->getParentId();
-                            if(isset($loadedInvoices[$invoiceId])) {
+                            if (isset($loadedInvoices[$invoiceId])) {
                                 $invoice = $loadedInvoices[$invoiceId];
                             } else {
                                 $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->load($invoiceId);

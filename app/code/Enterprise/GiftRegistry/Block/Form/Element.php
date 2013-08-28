@@ -41,8 +41,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Temp
     /**
      * Load country collection
      *
-     * @param null|string $country
-     * @return Magento_Directory_Model_Resource_Country_Collection
+     * @return mixed
      */
     protected function _getCountryCollection()
     {

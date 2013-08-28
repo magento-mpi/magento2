@@ -15,25 +15,24 @@ class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Chec
      *
      * @var Enterprise_GiftCard_Helper_Catalog_Product_Configuration
      */
-    protected $_giftCardCatalogProductConfiguration = null;
+    protected $_giftCardCtlgProdConfigur = null;
 
     /**
-     * @param Enterprise_GiftCard_Helper_Catalog_Product_Configuration
-     * $giftCardCatalogProductConfiguration
-     * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
+     * @param Enterprise_GiftCard_Helper_Catalog_Product_Configuration $giftCardCtlgProdConfigur
+     * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Enterprise_GiftCard_Helper_Catalog_Product_Configuration $giftCardCatalogProductConfiguration,
-        Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
+        Enterprise_GiftCard_Helper_Catalog_Product_Configuration $giftCardCtlgProdConfigur,
+        Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_giftCardCatalogProductConfiguration = $giftCardCatalogProductConfiguration;
-        parent::__construct($catalogProductConfiguration, $coreData, $context, $data);
+        $this->_giftCardCtlgProdConfigur = $giftCardCtlgProdConfigur;
+        parent::__construct($ctlgProdConfigur, $coreData, $context, $data);
     }
 
     /**
@@ -44,7 +43,7 @@ class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Chec
      */
     protected function _prepareCustomOption($code)
     {
-        return $this->_giftCardCatalogProductConfiguration
+        return $this->_giftCardCtlgProdConfigur
             ->prepareCustomOption($this->getItem(), $code);
     }
 
@@ -55,7 +54,7 @@ class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Chec
      */
     protected function _getGiftcardOptions()
     {
-        return $this->_giftCardCatalogProductConfiguration
+        return $this->_giftCardCtlgProdConfigur
             ->getGiftcardOptions($this->getItem());
     }
 
@@ -66,7 +65,7 @@ class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Chec
      */
     public function getOptionList()
     {
-        return $this->_giftCardCatalogProductConfiguration
+        return $this->_giftCardCtlgProdConfigur
             ->getOptions($this->getItem());
     }
 }

@@ -56,9 +56,7 @@ class Enterprise_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Ab
     {
         /** @var $collection Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection */
         $collection = Mage::getResourceModel('Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection');
-        /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = $this->_apiData;
-        $filters = $apiHelper->parseFilters($filters, $this->_mapAttributes);
+        $filters = $this->_apiData->parseFilters($filters, $this->_mapAttributes);
         try {
             foreach ($filters as $field => $value) {
                 $collection->addFieldToFilter($field, $value);
@@ -67,7 +65,7 @@ class Enterprise_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Ab
             $this->_fault('filters_invalid', $e->getMessage());
         }
         $result = array();
-        foreach($collection->getItems() as $card){
+        foreach ($collection->getItems() as $card) {
             $result[] = $this->_getEntityInfo($card);
         }
 
@@ -130,7 +128,7 @@ class Enterprise_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Ab
         // send email notification if recipient parameters are set
         if (isset($notificationData)) {
             try {
-                if($giftcardAccount->getStatus()){
+                if ($giftcardAccount->getStatus()) {
                     $giftcardAccount->addData($notificationData);
                     $giftcardAccount->sendEmail();
                 }

@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_Sales_Model_Quote_Address_Total_Abstract
+class Enterprise_GiftCardAccount_Model_Total_Quote_Giftcardaccount
+    extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
      * Gift card account data

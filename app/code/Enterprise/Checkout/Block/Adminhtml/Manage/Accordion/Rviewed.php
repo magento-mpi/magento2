@@ -32,6 +32,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
 
     /**
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
@@ -39,13 +40,14 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
      */
     public function __construct(
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     /**

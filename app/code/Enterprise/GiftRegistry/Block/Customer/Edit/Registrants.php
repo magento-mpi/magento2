@@ -49,7 +49,6 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registrants extends  Enterpris
     /**
      * Retrieve Max Recipients
      *
-     * @param int $store
      * @return int
      */
     public function getMaxRegistrant()

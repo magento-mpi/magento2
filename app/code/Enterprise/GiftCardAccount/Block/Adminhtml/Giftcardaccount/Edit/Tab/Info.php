@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info extends Magento_Adminhtml_Block_Widget_Form
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
+    extends Magento_Backend_Block_Widget_Form
 {
 
     protected $_template = 'edit/tab/info.phtml';
-
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
 
     /**
      * Init form fields
@@ -34,7 +30,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             array('legend'=>__('Information'))
         );
 
-        if ($model->getId()){
+        if ($model->getId()) {
             $fieldset->addField('code', 'label', array(
                 'name'      => 'code',
                 'label'     => __('Gift Card Code'),

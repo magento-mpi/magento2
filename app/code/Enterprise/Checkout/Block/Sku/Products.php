@@ -34,18 +34,22 @@ class Enterprise_Checkout_Block_Sku_Products extends Magento_Checkout_Block_Cart
     /**
      * @param Magento_Core_Helper_Url $coreUrl
      * @param Enterprise_Checkout_Helper_Data $checkoutData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Url $coreUrl,
         Enterprise_Checkout_Helper_Data $checkoutData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
-        parent::__construct($context, $data);
+        parent::__construct($catalogData, $coreData, $context, $data);
     }
 
     /**
