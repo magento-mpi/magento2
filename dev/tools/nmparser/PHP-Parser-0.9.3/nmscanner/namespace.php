@@ -664,11 +664,13 @@ class namespacer
     private function getRelativePath($from, $to)
     {
         // some compatibility fixes for Windows paths
+        $windows=false;
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
             $to = is_dir($to) ? rtrim($to, '\/') . '/' : $to;
             $from = str_replace('\\', '/', $from);
             $to = str_replace('\\', '/', $to);
+            $windows=true;
         }
 
         $from = explode('/', $from);
@@ -694,7 +696,11 @@ class namespacer
             }
         }
 
-        return implode('/', $relPath);
+        $path= implode('/', $relPath);
+        if(!$windows){
+            $path=str_replace("\\","/",$path);
+        }
+        return $path;
     }
 }
 
