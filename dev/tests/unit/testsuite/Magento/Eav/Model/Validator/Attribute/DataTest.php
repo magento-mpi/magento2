@@ -183,17 +183,16 @@ class Magento_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_T
      */
     public function whiteBlackListProvider()
     {
+        $whiteCallback = function($validator) {
+            $validator->setAttributesWhiteList(array('attribute'));
+        };
+
+        $blackCallback = function($validator) {
+            $validator->setAttributesBlackList(array('attribute2'));
+        };
         return array(
-            'white_list' => array(
-                function ($validator) {
-                    $validator->setAttributesWhiteList(array('attribute'));
-                }
-            ),
-            'black_list' => array(
-                function ($validator) {
-                    $validator->setAttributesBlackList(array('attribute2'));
-                }
-            )
+            'white_list' => array($whiteCallback),
+            'black_list' => array($blackCallback)
         );
     }
 

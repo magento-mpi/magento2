@@ -1824,7 +1824,10 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
         /* add product custom options data */
         $customOptions = $buyRequest->getOptions();
         if (is_array($customOptions)) {
-            $options->setOptions(array_diff($buyRequest->getOptions(), array('')));
+            array_filter($customOptions, function ($value) {
+                return $value !== '';
+            });
+            $options->setOptions($customOptions);
         }
 
         /* add product type selected options data */
