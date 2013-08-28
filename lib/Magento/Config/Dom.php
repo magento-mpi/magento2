@@ -41,7 +41,7 @@ class Magento_Config_Dom
     protected $_schemaFile;
 
     /**
-     * Default names for xml elements
+     * Default namespace for xml elements
      *
      * @var string
      */
