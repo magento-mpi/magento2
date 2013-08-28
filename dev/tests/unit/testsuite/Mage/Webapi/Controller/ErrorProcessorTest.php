@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Webapi_Controller_ErrorProcessor */
     protected $_errorProcessor;

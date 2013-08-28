@@ -9,7 +9,7 @@
  */
 class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Mage_Webapi_Helper_Data */
     protected $_helperMock;
 
     /** @var Mage_Core_Model_Config */
@@ -30,11 +30,6 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('getNode'))
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->_configMock->expects($this->once())
-            ->method('getNode')
-            ->with($this->anything())
-            ->will($this->returnValue('testNode'));
 
         /** Initialize SUT. */
         $this->_soapRequest = new Mage_Webapi_Controller_Soap_Request($this->_configMock, $this->_helperMock);

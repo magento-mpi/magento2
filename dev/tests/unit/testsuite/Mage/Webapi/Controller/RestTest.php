@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Controller_Dispatcher_Rest */
+    /** @var Mage_Webapi_Controller_Rest */
     protected $_restDispatcher;
 
     /** @var Mage_Webapi_Controller_Rest_Authentication */
@@ -56,7 +56,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
         $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         /** Init SUT. */
-        $this->_restDispatcher = new Mage_Webapi_Controller_Dispatcher_Rest(
+        $this->_restDispatcher = new Mage_Webapi_Controller_Rest(
             $this->_requestMock,
             $this->_responseMock,
             $this->_restPresentation,

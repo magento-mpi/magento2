@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Webapi_Controller_Soap_Handler */
     protected $_handler;
