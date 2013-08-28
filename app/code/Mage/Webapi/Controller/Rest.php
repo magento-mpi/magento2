@@ -94,7 +94,7 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
             if ($route->isSecure() && !$this->_request->isSecure()) {
                 throw new Mage_Webapi_Exception(
                     $this->_helper->__('Operation allowed only in HTTPS'),
-                    Mage_Webapi_Exception::HTTP_FORBIDDEN
+                    Mage_Webapi_Exception::HTTP_BAD_REQUEST
                 );
             }
             /** @var Mage_Webapi_Controller_Rest_Presentation $inputData */

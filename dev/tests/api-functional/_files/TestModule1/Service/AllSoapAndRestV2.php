@@ -9,21 +9,15 @@
 class Mage_TestModule1_Service_AllSoapAndRestV2 extends Mage_TestModule1_Service_AllSoapAndRestV1 implements
     Mage_TestModule1_Service_AllSoapAndRestV2Interface
 {
-
-    const ERROR_INTERNAL_DELETE = '03';
-
-
     /**
      * @param $request
      * @return array
-     * @throws Mage_TestModule1_Exception
+     * @throws Mage_Webapi_Exception
      */
     public function item($request)
     {
         if ($request['id'] == null) {
-            //TODO: Change to Mage_Service_Exception
-            throw new Mage_TestModule1_Exception("Invalid Id",
-                Mage_TestModule1_Service_AllSoapAndRestV1::ERROR_INTERNAL_LOAD);
+            throw new Mage_Webapi_Exception("Invalid Id", Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         $result = array(
             'id' => $request['id'],
@@ -37,14 +31,12 @@ class Mage_TestModule1_Service_AllSoapAndRestV2 extends Mage_TestModule1_Service
     /**
      * @param $request
      * @return array
-     * @throws Mage_TestModule1_Exception
+     * @throws Mage_Webapi_Exception
      */
     public function delete($request)
     {
         if ($request['id'] == null) {
-            //TODO: Change to Mage_Service_Exception
-            throw new Mage_TestModule1_Exception("Invalid Id",
-                Mage_TestModule1_Service_AllSoapAndRestV2::ERROR_INTERNAL_DELETE);
+            throw new Mage_Webapi_Exception("Invalid Id", Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
         $result = array(
@@ -53,5 +45,4 @@ class Mage_TestModule1_Service_AllSoapAndRestV2 extends Mage_TestModule1_Service
         );
         return $result;
     }
-
 }
