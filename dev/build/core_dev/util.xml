@@ -82,4 +82,13 @@
         </chmod>
     </target>
 
+    <target name="_code_coverage_configuration" depends="_product_location" description="Code Coverage configuration">
+        <fail unless="configuration_file" message="Code coverage configuration variable 'configuration_file' must be defined"/>
+        <replace file="${configuration_file}">
+            <replacefilter token="{{coverage_dir}}" value="${product_root_dir}"/>
+            <replacefilter token="--coverage_html_placeholder" value="-- --&gt;"/>
+            <replacefilter token="coverage_html_placeholder--" value="&lt;!-- --"/>
+        </replace>
+    </target>
+
 </project>
