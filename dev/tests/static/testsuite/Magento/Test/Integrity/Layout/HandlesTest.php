@@ -124,26 +124,6 @@ class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @param string $file
-     * @dataProvider layoutFilesDataProvider
-     */
-    public function testHandlesConvention($file)
-    {
-        // One handle per file
-        $xml = simplexml_load_file($file);
-        $handles = $xml->children();
-        $this->assertEquals(1, count($handles), 'There should be exactly 1 handle declared per layout file');
-
-        // Name of file is same as handle name
-        $skippedPrefix = 'install_wizard_config_'; // Several files, that do not follow the convention
-        $basename = basename($file);
-        if (substr($basename, 0, strlen($skippedPrefix)) != $skippedPrefix) {
-            $handle = $handles[0];
-            $this->assertEquals($handle['id'] . ".xml", $basename);
-        }
-    }
-
-    /**
      * @return array
      */
     public function layoutFilesDataProvider()
