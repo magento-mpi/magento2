@@ -56,8 +56,14 @@ class Mage_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
             'frontendRouter' => new FrontClass(),
         );
 
-        $this->_objectManagerMock->expects($this->at(0))->method('create')->will($this->returnValue(new DefaultClass()));
-        $this->_objectManagerMock->expects($this->at(1))->method('create')->will($this->returnValue(new FrontClass()));
+        $this->_objectManagerMock
+            ->expects($this->at(0))
+            ->method('create')
+            ->will($this->returnValue(new DefaultClass()));
+        $this->_objectManagerMock
+            ->expects($this->at(1))
+            ->method('create')
+            ->will($this->returnValue(new FrontClass()));
 
         $this->assertEquals($this->_model->getRouters(), $expectedResult);
     }

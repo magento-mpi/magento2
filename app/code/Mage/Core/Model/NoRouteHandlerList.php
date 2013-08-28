@@ -59,7 +59,7 @@ class Mage_Core_Model_NoRouteHandlerList
             asort($sortedHandlersList);
 
             //creating handlers
-            foreach ($sortedHandlersList as $handlerInstance => $handlerSortOrder) {
+            foreach (array_keys($sortedHandlersList) as $handlerInstance) {
                 $this->_handlers[] = $this->_objectManager->create($handlerInstance);
             }
         }
