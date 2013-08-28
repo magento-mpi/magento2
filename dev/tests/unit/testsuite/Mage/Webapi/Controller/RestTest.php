@@ -39,6 +39,12 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     /** @var stdClass */
     protected $_serviceMock;
 
+    /** @var Mage_Core_Model_StoreManager */
+    protected $_storeManagerMock;
+
+    /** @var Mage_Core_Model_App_State */
+    protected $_appStateMock;
+
     const SERVICE_METHOD = 'serviceMethod';
     const SERVICE_ID = 'serviceId';
 
@@ -50,7 +56,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_responseMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Response')
-            ->setMethods(array('sendResponse'))
+            ->setMethods(array('sendResponse', 'getHeaders'))
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -89,6 +95,13 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->_storeManagerMock =  $this->getMockBuilder('Mage_Core_Model_StoreManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_appStateMock =  $this->getMockBuilder('Mage_Core_Model_App_State')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         /** Init SUT. */
         $this->_restDispatcher = new Mage_Webapi_Controller_Rest(
@@ -98,7 +111,9 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             $this->_routerMock,
             $this->_authenticationMock,
             $this->_objectManagerMock,
-            $this->_helperMock
+            $this->_helperMock,
+            $this->_storeManagerMock,
+            $this->_appStateMock
         );
 
 
@@ -116,7 +131,9 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
         $this->_restPresentation->expects($this->any())->method('getRequestData')->will($this->returnValue(array()));
 
         /** Assert that response sendResponse method will be executed once. */
-        $this->_responseMock->expects($this->any())->method('sendResponse');
+        $this->_responseMock->expects($this->once())->method('sendResponse');
+
+        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
 
         parent::setUp();
     }
@@ -132,7 +149,24 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
         unset($this->_authorizationMock);
         unset($this->_restPresentation);
         unset($this->_helperMock);
+        unset($this->_storeManagerMock);
+        unset($this->_appStateMock);
         parent::tearDown();
+    }
+
+
+    /**
+     * Test redirected to install page
+     */
+    public function testRedirectToInstallPage()
+    {
+        $redirectUrl = 'http://magento.ll/';
+        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(false));
+
+        $this->_responseMock->expects($this->once())->method('getHeaders')->will($this->returnValue(array('Location' => $redirectUrl)));
+        $this->_restDispatcher->dispatch();
+        $headers = $this->_responseMock->getHeaders();
+        $this->assertEquals($redirectUrl, $headers['Location']);
     }
 
     /**

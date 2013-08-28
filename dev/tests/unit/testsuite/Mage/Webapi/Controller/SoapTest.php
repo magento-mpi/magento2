@@ -30,6 +30,12 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_errorProcessorMock;
 
+    /** @var Mage_Core_Model_StoreManager */
+    protected $_storeManagerMock;
+
+    /** @var Mage_Core_Model_App_State */
+    protected $_appStateMock;
+
     /**
      * Set up dispatcher object.
      */
@@ -69,6 +75,14 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
         $soapHandlerMock = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Handler')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_storeManagerMock =  $this->getMockBuilder('Mage_Core_Model_StoreManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_appStateMock =  $this->getMockBuilder('Mage_Core_Model_App_State')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
+
 
         $this->_dispatcher = new Mage_Webapi_Controller_Soap(
             $this->_requestMock,
@@ -77,7 +91,9 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
             $this->_soapServerMock,
             $this->_soapFaultMock,
             $this->_errorProcessorMock,
-            $soapHandlerMock
+            $soapHandlerMock,
+            $this->_storeManagerMock,
+            $this->_appStateMock
         );
     }
 
@@ -93,6 +109,8 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
         unset($this->_soapServerMock);
         unset($this->_soapFaultMock);
         unset($this->_errorProcessorMock);
+        unset($this->_storeManagerMock);
+        unset($this->_appStateMock);
 
         parent::tearDown();
     }
