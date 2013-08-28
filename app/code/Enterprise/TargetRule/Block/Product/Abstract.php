@@ -122,16 +122,6 @@ abstract class Enterprise_TargetRule_Block_Product_Abstract extends Magento_Cata
     }
 
     /**
-     * Retrieve TargetRule data helper
-     *
-     * @return Enterprise_TargetRule_Helper_Data
-     */
-    public function getTargetRuleHelper()
-    {
-        return $this->_targetRuleData;
-    }
-
-    /**
      * Get link collection
      *
      * @return Magento_Catalog_Model_Resource_Product_Collection|null

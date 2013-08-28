@@ -18,11 +18,6 @@
 
 class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Magento_Catalog_Model_Layer_Filter_Category
 {
-    public function __construct(Magento_Core_Helper_Data $coreData)
-    {
-        parent::__construct($coreData);
-    }
-
     /**
      * Get data array for building category filter items
      *

@@ -23,16 +23,18 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
 
     /**
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

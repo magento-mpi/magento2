@@ -20,11 +20,6 @@ class Magento_Wishlist_Block_Share_Email_Items extends Magento_Wishlist_Block_Ab
 {
     protected $_template = 'email/items.phtml';
 
-    public function __construct(Magento_Wishlist_Helper_Data $wishlistData, Magento_Tax_Helper_Data $taxData, Magento_Catalog_Helper_Data $catalogData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($wishlistData, $taxData, $catalogData, $coreData, $context, $data);
-    }
-
     /**
      * Retrieve Product View URL
      *

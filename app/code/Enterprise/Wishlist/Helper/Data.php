@@ -25,27 +25,6 @@ class Enterprise_Wishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     protected $_defaultWishlistsByCustomer = array();
 
     /**
-     * Wishlist data
-     *
-     * @var Magento_Wishlist_Helper_Data
-     */
-    protected $_wishlistData = null;
-
-    /**
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
-     */
-    public function __construct(
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
-    ) {
-        $this->_wishlistData = $wishlistData;
-        parent::__construct($coreData, $context);
-    }
-
-    /**
      * Create wishlist item collection
      *
      * @return Magento_Wishlist_Model_Resource_Item_Collection
@@ -60,16 +39,6 @@ class Enterprise_Wishlist_Helper_Data extends Magento_Wishlist_Helper_Data
         } else {
             return parent::_createWishlistItemCollection();
         }
-    }
-
-    /**
-     * Retrieve current customer
-     *
-     * @return Magento_Customer_Model_Customer
-     */
-    public function getCustomer()
-    {
-        return $this->_wishlistData->getCustomer();
     }
 
     /**

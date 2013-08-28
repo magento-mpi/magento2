@@ -39,7 +39,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
         Magento_Rule_Model_Condition_Context $context,
         array $data = array()
     ) {
-        parent::__construct($backendData, $data, $context, $data);
+        parent::__construct($backendData, $context, $data);
         $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes');
         $this->setValue(null);
         $this->setValueType(self::VALUE_TYPE_SAME_AS);

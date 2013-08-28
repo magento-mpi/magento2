@@ -31,7 +31,9 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
         $protectedActions = array(
             'createwishlist', 'editwishlist', 'deletewishlist', 'copyitems', 'moveitem', 'moveitems'
         );
-        if (!$this->_objectManager->get('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled() && in_array($action, $protectedActions)) {
+        if (!$this->_objectManager->get('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled()
+            && in_array($action, $protectedActions)
+        ) {
             $this->norouteAction();
         }
 

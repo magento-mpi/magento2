@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block_Widget
+class Enterprise_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_Widget
 {
     /**
      * Attributes is read only flag
@@ -26,26 +26,18 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Bl
 
     /**
      * @param Enterprise_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_TargetRule_Helper_Data $targetRuleData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_targetRuleData = $targetRuleData;
-        parent::__construct($context, $data);
-    }
-
-    /**
-     * Retrieve TargetRule Data Helper
-     *
-     * @return Enterprise_TargetRule_Helper_Data
-     */
-    protected function _getRuleHelper()
-    {
-        return $this->_targetRuleData;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -96,7 +88,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Bl
     {
         $position = $this->_getValue('position_limit');
         if (is_null($position)) {
-            $position = $this->_getRuleHelper()->getMaximumNumberOfProduct($this->_getProductListType());
+            $position = $this->_targetRuleData->getMaximumNumberOfProduct($this->_getProductListType());
         }
         return $position;
     }
@@ -110,7 +102,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Bl
     {
         $show = $this->_getValue('position_behavior');
         if (is_null($show)) {
-            $show = $this->_getRuleHelper()->getShowProducts($this->_getProductListType());
+            $show = $this->_targetRuleData->getShowProducts($this->_getProductListType());
         }
         return $show;
     }
