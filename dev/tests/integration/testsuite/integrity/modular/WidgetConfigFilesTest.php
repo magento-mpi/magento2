@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Integrity_Modular_WidgetConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -16,7 +15,7 @@ class Integrity_Modular_WidgetConfigFilesTest extends PHPUnit_Framework_TestCase
     protected $_schemaFile;
 
     /**
-     * @var  Mage_Widget_Model_Config_Reader
+     * @var  Magento_Widget_Model_Config_Reader
      */
     protected $_reader;
 
@@ -32,22 +31,22 @@ class Integrity_Modular_WidgetConfigFilesTest extends PHPUnit_Framework_TestCase
         $widgetFiles = $this->getWidgetConfigFiles();
         if (!empty($widgetFiles)) {
 
-            $this->_fileResolverMock = $this->getMockBuilder('Mage_Core_Model_Config_FileResolver_Primary')
+            $this->_fileResolverMock = $this->getMockBuilder('Magento_Core_Model_Config_FileResolver_Primary')
                 ->disableOriginalConstructor()->getMock();
 
-            $this->_reader = $this->_objectManager->create('Mage_Widget_Model_Config_Reader', array(
+            $this->_reader = $this->_objectManager->create('Magento_Widget_Model_Config_Reader', array(
                 'configFiles' => $widgetFiles, 'fileResolver' => $this->_fileResolverMock));
 
-            /** @var $dirs Mage_Core_Model_Dir */
-            $dirs = $this->_objectManager->get('Mage_Core_Model_Dir');
-            $modulesDir = $dirs->getDir(Mage_Core_Model_Dir::MODULES);
-            $this->_schemaFile = $modulesDir . '/Mage/Widget/etc/widget.xsd';
+            /** @var $dirs Magento_Core_Model_Dir */
+            $dirs = $this->_objectManager->get('Magento_Core_Model_Dir');
+            $modulesDir = $dirs->getDir(Magento_Core_Model_Dir::MODULES);
+            $this->_schemaFile = $modulesDir . '/Magento/Widget/etc/widget.xsd';
         }
     }
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Mage_Widget_Model_Config_Reader');
+        $this->_objectManager->removeSharedInstance('Magento_Widget_Model_Config_Reader');
     }
 
     public function getWidgetConfigFiles()
