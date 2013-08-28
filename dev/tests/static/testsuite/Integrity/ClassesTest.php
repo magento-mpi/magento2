@@ -60,7 +60,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         $this->_assertClassesExist($classes);
 
-        $this->_assertValidNamespace($file);
+        $this->_assertValidNamespace($file, $contents);
     }
 
     /**
@@ -183,9 +183,8 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      * @param array $file
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    protected function _assertValidNamespace($file)
+    protected function _assertValidNamespace($file, $contents)
     {
-        $contents = file_get_contents($file);
         $relativePath = str_replace(Utility_Files::init()->getPathToSource(), "", $file);
 
         $classPattern = '/class\s[A-Z][^\s\/]+/';
@@ -196,6 +195,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $className = null;
         $namespace = null;
 
+        // exception made because the file is already using formal namespace
         $exclusion = "/app/code/Zend/Soap/Wsdl.php";
         if ($relativePath == $exclusion) {
             return;
