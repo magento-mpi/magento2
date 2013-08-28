@@ -42,7 +42,7 @@ class Integrity_Mage_Widget_TemplateFilesTest extends PHPUnit_Framework_TestCase
         foreach ($model->getWidgetsArray() as $row) {
             /** @var $instance Mage_Widget_Model_Widget_Instance */
             $instance = Mage::getModel('Mage_Widget_Model_Widget_Instance');
-            $config = $instance->setType($row['type'])->getWidgetConfigInArray();
+            $config = $instance->setType($row['type'])->getWidgetConfigAsArray();
             $class = $row['type'];
             if (is_subclass_of($class, 'Mage_Core_Block_Template')) {
                 if (isset($config['parameters']) && isset($config['parameters']['template'])

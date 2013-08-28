@@ -35,7 +35,7 @@ class Integrity_Mage_Widget_SkinFilesTest extends PHPUnit_Framework_TestCase
         foreach ($model->getWidgetsArray() as $row) {
             /** @var $instance Mage_Widget_Model_Widget_Instance */
             $instance = Mage::getModel('Mage_Widget_Model_Widget_Instance');
-            $config = $instance->setType($row['type'])->getWidgetConfigInArray();
+            $config = $instance->setType($row['type'])->getWidgetConfigAsArray();
             if (isset($config['placeholder_image'])) {
                 $result[] = array((string)$config['placeholder_image']);
             }

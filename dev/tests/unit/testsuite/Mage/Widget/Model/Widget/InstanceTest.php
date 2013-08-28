@@ -112,7 +112,7 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
         $this->_readerMock->expects($this->once())->method('readFile')->with($this->equalTo($xmlFile))
             ->will($this->returnValue($themeConfig));
 
-        $result = $this->_model->getWidgetConfigInArray();
+        $result = $this->_model->getWidgetConfigAsArray();
 
         $expectedConfigFile = __DIR__ . '/../_files/mappedConfigArray1.php';
         $expectedConfig = include $expectedConfigFile;

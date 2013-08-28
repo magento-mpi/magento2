@@ -41,7 +41,7 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetWidgetConfigInArray()
     {
-        $config = $this->_model->setType('Mage_Catalog_Block_Product_Widget_New')->getWidgetConfigInArray();
+        $config = $this->_model->setType('Mage_Catalog_Block_Product_Widget_New')->getWidgetConfigAsArray();
         $this->assertTrue(is_array($config));
         $element = null;
         if (isset($config['parameters']) && isset($config['parameters']['template'])

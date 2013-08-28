@@ -15,7 +15,7 @@ class Mage_Catalog_WidgetTest extends PHPUnit_Framework_TestCase
     {
         /** @var $model Mage_Widget_Model_Widget_Instance */
         $model = Mage::getModel('Mage_Widget_Model_Widget_Instance');
-        $config = $model->setType('Mage_Catalog_Block_Product_Widget_New')->getWidgetConfigInArray();
+        $config = $model->setType('Mage_Catalog_Block_Product_Widget_New')->getWidgetConfigAsArray();
         $templates = $config['parameters']['template']['values'];
         $this->assertArrayHasKey('default', $templates);
         $this->assertArrayHasKey('list', $templates);

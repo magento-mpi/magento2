@@ -457,7 +457,7 @@ return array(
     array('getViewOrderUrl', 'Mage_Checkout_Block_Onepage_Success'),
     array('getWatermarkHeigth', '', 'getWatermarkHeight'),
     array('getWebsite', 'Mage_Captcha_Helper_Data'),
-    array('getWidgetConfig', 'Mage_Widget_Model_Widget_Instance', 'getWidgetConfigInArray'),
+    array('getWidgetConfig', 'Mage_Widget_Model_Widget_Instance', 'getWidgetConfigAsArray'),
     array('getWidgetsRequiredJsFiles','Mage_Widget_Model_Widget'),
     array('getWidgetsXml','Mage_Widget_Model_Widget', 'getWidgets'),
     array('getWidgetSupportedBlocks', 'Mage_Widget_Model_Widget_Instance'),
