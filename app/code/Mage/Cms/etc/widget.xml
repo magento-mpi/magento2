@@ -17,7 +17,7 @@
         <label>CMS Page Link</label>
         <description>Link to a CMS Page</description>
         <parameter name="page_id" xsi:type="block" visible='true' required="true"
-                   translate="label">
+                   translate="label" sort_order="10">
             <label>CMS Page</label>
             <block class="Mage_Adminhtml_Block_Cms_Page_Widget_Chooser">
                 <data>
