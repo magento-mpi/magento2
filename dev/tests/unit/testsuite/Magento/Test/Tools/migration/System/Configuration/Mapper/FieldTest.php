@@ -8,11 +8,11 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Mapper/Abstract.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Abstract.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Mapper/Field.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Field.php';
 
 /**
  * Test case for Tools_Migration_System_Configuration_Mapper_Field

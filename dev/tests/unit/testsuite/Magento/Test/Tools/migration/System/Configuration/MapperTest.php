@@ -8,17 +8,17 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Mapper/Abstract.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Abstract.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Mapper.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Mapper/Tab.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Tab.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Mapper/Section.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Section.php';
 
 /**
  * Test case for Magento_Tools_Migration_System_Configuration_Mapper
