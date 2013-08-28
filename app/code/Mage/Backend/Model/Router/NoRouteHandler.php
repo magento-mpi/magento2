@@ -31,7 +31,8 @@ class Mage_Backend_Model_Router_NoRouteHandler implements Mage_Core_Model_Router
      */
     public function process(Mage_Core_Controller_Request_Http $request)
     {
-        $areaFrontName = array_shift(explode('/', trim($request->getPathInfo(), '/')));
+        $requestPathParams = explode('/', trim($request->getPathInfo(), '/'));
+        $areaFrontName = array_shift($requestPathParams);
 
         if ($areaFrontName == $this->_helper->getAreaFrontName()) {
 
