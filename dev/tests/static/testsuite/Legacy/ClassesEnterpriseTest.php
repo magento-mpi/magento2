@@ -114,7 +114,7 @@ class Legacy_ClassesEnterpriseTest extends PHPUnit_Framework_TestCase
             }
             if (!$excludeItem) {
                 try {
-                    $this->assertStringStartsNotWith('Enterprise',$name);
+                    $this->assertStringStartsNotWith('Enterprise', $name);
                 }
                 catch (PHPUnit_Framework_AssertionFailedError $e) {
                     $obsoleteClasses[] = $name;
