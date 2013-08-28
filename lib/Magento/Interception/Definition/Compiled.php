@@ -1,11 +1,13 @@
 <?php
 /**
+ * Compiled method plugin definitions. Must be used in production for maximum performance
+ *
  * {license_notice}
  * 
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_ObjectManager_Interception_Definition_Compiled implements Magento_ObjectManager_Interception_Definition
+class Magento_Interception_Definition_Compiled implements Magento_Interception_Definition
 {
     /**
      * List of plugin definitions

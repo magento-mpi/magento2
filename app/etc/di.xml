@@ -26,6 +26,7 @@
     <preference for="Magento_Config_ValidationStateInterface" type="Mage_Core_Model_Config_ValidationState" />
     <preference for="Mage_Core_Model_ModuleListInterface" type="Mage_Core_Model_ModuleList" />
     <preference for="Mage_Core_Model_Event_ConfigInterface" type="Mage_Core_Model_Event_Config" />
+    <preference for="Magento_Interception_PluginList" type="Magento_Interception_PluginList_PluginList" />
     <type name="Mage_Core_Model_App_State">
         <param name="mode">
             <value type="argument">Mage::PARAM_MODE</value>
@@ -171,6 +172,38 @@
     <type name="Mage_Core_Model_Cache_Config_Data">
         <param name="cacheId">
             <value>config_cache</value>
+        </param>
+    </type>
+    <type name="Magento_Interception_Config_Config">
+        <param name="cache">
+            <instance type="Mage_Core_Model_Cache_Type_Config" />
+        </param>
+        <param name="reader">
+            <instance type="Magento_ObjectManager_Config_Reader_Dom" />
+        </param>
+        <param name="cacheId">
+            <value>interception</value>
+        </param>
+        <param name="scopePriorityScheme">
+            <value>
+                <first>global</first>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Interception_PluginList_PluginList">
+        <param name="cache">
+            <instance type="Mage_Core_Model_Cache_Type_Config" />
+        </param>
+        <param name="reader">
+            <instance type="Magento_ObjectManager_Config_Reader_Dom" />
+        </param>
+        <param name="cacheId">
+            <value>plugin-list</value>
+        </param>
+        <param name="scopePriorityScheme">
+            <value>
+                <first>global</first>
+            </value>
         </param>
     </type>
 </config>
