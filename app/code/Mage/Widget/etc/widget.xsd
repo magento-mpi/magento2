@@ -92,10 +92,6 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="argumentType" abstract="true" mixed="true">
-        <xs:attribute name="name" use="required"/>
-    </xs:complexType>
-
     <xs:complexType name="dataType">
         <xs:annotation>
             <xs:documentation>Data for the renderer.</xs:documentation>
