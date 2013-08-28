@@ -32,11 +32,14 @@ class Magento_Centinel_Model_Observer extends Magento_Object
      * attributes This behavior may change in child classes
      *
      * @param Magento_Centinel_Helper_Data $centinelData
+     * @param array $data
      */
     public function __construct(
-        Magento_Centinel_Helper_Data $centinelData
+        Magento_Centinel_Helper_Data $centinelData,
+        array $data = array()
     ) {
         $this->_centinelData = $centinelData;
+        parent::__construct($data);
     }
 
     /**

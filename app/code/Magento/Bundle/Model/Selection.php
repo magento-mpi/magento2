@@ -48,14 +48,14 @@ class Magento_Bundle_Model_Selection extends Magento_Core_Model_Abstract
     /**
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Bundle_Model_Resource_Selection $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_Context $context,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Bundle_Model_Resource_Selection $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

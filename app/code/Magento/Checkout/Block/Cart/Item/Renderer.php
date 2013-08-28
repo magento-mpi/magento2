@@ -45,21 +45,21 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
      *
      * @var Magento_Catalog_Helper_Product_Configuration
      */
-    protected $_catalogProductConfiguration = null;
+    protected $_productConfigur = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
+     * @param Magento_Catalog_Helper_Product_Configuration $productConfigur
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
+        Magento_Catalog_Helper_Product_Configuration $productConfigur,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_catalogProductConfiguration = $catalogProductConfiguration;
+        $this->_productConfigur = $productConfigur;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -252,7 +252,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     public function getProductOptions()
     {
         /* @var $helper Magento_Catalog_Helper_Product_Configuration */
-        $helper = $this->_catalogProductConfiguration;
+        $helper = $this->_productConfigur;
         return $helper->getCustomOptions($this->getItem());
     }
 
@@ -394,7 +394,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     public function getFormatedOptionValue($optionValue)
     {
         /* @var $helper Magento_Catalog_Helper_Product_Configuration */
-        $helper = $this->_catalogProductConfiguration;
+        $helper = $this->_productConfigur;
         $params = array(
             'max_length' => 55,
             'cut_replacer' => ' <a href="#" class="dots" onclick="return false">...</a>'

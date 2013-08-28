@@ -25,11 +25,6 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
      */
     private $_inputsToSerialize = array();
 
-    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($coreData, $context, $data);
-    }
-
     /**
      * Set serializer template
      *
@@ -115,5 +110,4 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
                  ->setSerializeData($grid->$callback());
         }
     }
-
 }

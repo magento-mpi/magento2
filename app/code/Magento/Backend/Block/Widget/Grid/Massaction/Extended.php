@@ -43,16 +43,18 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Extended extends Magento_Back
 
     /**
      * @param Magento_Backend_Helper_Data $backendData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_backendData = $backendData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

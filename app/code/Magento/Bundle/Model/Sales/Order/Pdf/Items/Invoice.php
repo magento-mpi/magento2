@@ -34,14 +34,14 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Magento_Bundle_
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
-        array $data = array(),
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Model_Context $context,
         Magento_Data_Collection_Db $resourceCollection = null,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Core_Model_Context $context,
-        Magento_Tax_Helper_Data $taxData
+        array $data = array()
     ) {
         $this->_coreString = $coreString;
-        parent::__construct($data, $resourceCollection, $resource, $context, $taxData, $context, $resource, $resourceCollection, $data);
+        parent::__construct($taxData, $context, $resource, $resourceCollection, $data);
     }
 
     /**

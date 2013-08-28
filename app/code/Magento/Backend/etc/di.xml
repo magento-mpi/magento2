@@ -27,4 +27,9 @@
     <type name="Magento_Backend_Model_Menu_Config">
         <param name="menuDirector"><instance type="Magento_Backend_Model_Menu_Director_Director"/></param>
     </type>
+    <type name="Magento_Backend_Helper_Data">
+        <param name="applicationConfig">
+            <instance type="Magento_Core_Model_ConfigProxy"/>
+        </param>
+    </type>
 </config>

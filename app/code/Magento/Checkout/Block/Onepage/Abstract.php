@@ -28,17 +28,19 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
     protected $_addressesCollection;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
         $this->_configCacheType = $configCacheType;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

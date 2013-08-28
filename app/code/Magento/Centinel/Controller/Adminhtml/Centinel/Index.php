@@ -61,7 +61,8 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
     public function authenticationCompleteAction()
     {
         try {
-           if ($validator = $this->_getValidator()) {
+            $validator = $this->_getValidator();
+            if ($validator) {
                 $request = $this->getRequest();
 
                 $data = new Magento_Object();
@@ -101,4 +102,3 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
         return false;
     }
 }
-

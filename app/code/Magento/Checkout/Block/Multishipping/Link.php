@@ -52,7 +52,7 @@ class Magento_Checkout_Block_Multishipping_Link extends Magento_Core_Block_Templ
 
     public function _toHtml()
     {
-        if (!$this->_checkoutData->isMultishippingCheckoutAvailable()){
+        if (!$this->_checkoutData->isMultishippingCheckoutAvailable()) {
             return '';
         }
 

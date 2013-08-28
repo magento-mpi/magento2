@@ -16,7 +16,8 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Product_Attribute_Source_Price_View extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+class Magento_Bundle_Model_Product_Attribute_Source_Price_View
+    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
      * Core data
