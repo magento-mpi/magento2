@@ -122,7 +122,7 @@ class Legacy_ClassesEnterpriseTest extends PHPUnit_Framework_TestCase
             }
         }
         if ($obsoleteClasses) {
-            $this->fail('Obsolete Class name(s) detected:' . "\n" . implode("\n", $obsoleteClasses));
+            $this->fail('Obsolete class name(s) detected:' . "\n" . implode("\n", $obsoleteClasses));
         }
     }
 
