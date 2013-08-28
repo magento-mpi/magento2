@@ -7,11 +7,17 @@
  */
 class Mage_Webapi_Controller_Request_FactoryTest extends PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_ObjectManager */
     protected $_objectManager;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_apiFrontMock;
+    /** @var Mage_Core_Model_App */
+    protected $_application;
+
+    /** @var Mage_Core_Model_Config */
+    protected $_config;
+
+    /** @var Mage_Core_Controller_Request_Http */
+    protected $_request;
 
     /** @var Mage_Webapi_Controller_Request_Factory */
     protected $_requestFactory;
@@ -23,22 +29,34 @@ class Mage_Webapi_Controller_Request_FactoryTest extends PHPUnit_Framework_TestC
             ->setMethods(array('get'))
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
-        $this->_apiFrontMock = $this->getMockBuilder('Mage_Webapi_Controller_Front')
-            ->setMethods(array('determineApiType'))
+        $this->_application = $this->getMockBuilder('Mage_Core_Model_App')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_request = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_application->expects($this->once())
+            ->method('getRequest')
+            ->will($this->returnValue($this->_request));
+        $this->_config = $this->getMockBuilder('Mage_Core_Model_Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         /** Initialize SUT. */
         $this->_requestFactory = new Mage_Webapi_Controller_Request_Factory(
-            $this->_apiFrontMock,
+            $this->_application,
+            $this->_config,
             $this->_objectManager
         );
+
         parent::setUp();
     }
 
     protected function tearDown()
     {
         unset($this->_objectManager);
-        unset($this->_apiFrontMock);
+        unset($this->_application);
+        unset($this->_config);
         unset($this->_requestFactory);
         parent::tearDown();
     }
@@ -47,26 +65,22 @@ class Mage_Webapi_Controller_Request_FactoryTest extends PHPUnit_Framework_TestC
     {
         $this->setExpectedException(
             'LogicException',
-            'There is no corresponding request class for the "invalidApiType" API type.'
+            'No corresponding handler class found for "invalidapirequest" request type'
         );
-        $this->_apiFrontMock->expects($this->once())
-            ->method('determineApiType')
-            ->will($this->returnValue('invalidApiType'));
+        $this->_request->expects($this->once())
+            ->method('getOriginalPathInfo')
+            ->will($this->returnValue('invalidApiRequest'));
         $this->_requestFactory->get();
     }
 
     public function testGet()
     {
-        $this->_apiFrontMock->expects($this->once())
-            ->method('determineApiType')
-            ->will($this->returnValue(Mage_Webapi_Controller_Front::API_TYPE_REST));
         $expectedController = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_objectManager->expects($this->once())->method('get')->will($this->returnValue($expectedController));
+        $this->_request->expects($this->once())
+            ->method('getOriginalPathInfo')->will($this->returnValue(Mage_Webapi_Controller_Rest::REQUEST_TYPE));
         $this->assertEquals($expectedController, $this->_requestFactory->get());
     }
 }
-
-
-

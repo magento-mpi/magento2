@@ -162,46 +162,6 @@ class Mage_Webapi_Controller_Rest_Request extends Mage_Webapi_Controller_Request
     }
 
     /**
-     * Retrieve service type.
-     *
-     * @return string
-     */
-    public function getServiceName()
-    {
-        return $this->_serviceName;
-    }
-
-    /**
-     * Set service type.
-     *
-     * @param string $serviceName
-     */
-    public function setServiceName($serviceName)
-    {
-        $this->_serviceName = $serviceName;
-    }
-
-    /**
-     * Retrieve action type.
-     *
-     * @return string|null
-     */
-    public function getServiceType()
-    {
-        return $this->_serviceType;
-    }
-
-    /**
-     * Set service type.
-     *
-     * @param string $serviceType
-     */
-    public function setServiceType($serviceType)
-    {
-        $this->_serviceType = $serviceType;
-    }
-
-    /**
      * Retrieve action version.
      *
      * @return int

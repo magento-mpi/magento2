@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Webapi_Controller_Dispatcher_Soap */
     protected $_dispatcher;
@@ -70,7 +70,7 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_dispatcher = new Mage_Webapi_Controller_Dispatcher_Soap(
+        $this->_dispatcher = new Mage_Webapi_Controller_Soap(
             $this->_requestMock,
             $this->_responseMock,
             $this->_autoDiscoverMock,

@@ -51,17 +51,10 @@ class Mage_Webapi_Controller_Rest_Presentation_Request
     protected function _getRequestBody()
     {
         $requestBody = array();
-        switch ($this->_request->getHttpMethod()) {
-            case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_POST:
-                // break is intentionally omitted
-            case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_PUT:
-                $requestBody = $this->_request->getBodyParams();
-                break;
-            case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET:
-                // break is intentionally omitted
-            case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE:
-                // break is intentionally omitted
-                break;
+        $httpMethod = $this->_request->getHttpMethod();
+        if ($httpMethod == Mage_Webapi_Model_Rest_Config::HTTP_METHOD_POST
+            || $httpMethod == Mage_Webapi_Model_Rest_Config::HTTP_METHOD_PUT) {
+            $requestBody = $this->_request->getBodyParams();
         }
         return $requestBody;
     }
