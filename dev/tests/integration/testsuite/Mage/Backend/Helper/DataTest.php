@@ -120,9 +120,6 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @magentoConfigFixture admin/routers/adminhtml/args/frontName admin
-     */
     public function testGetHomePageUrl()
     {
         $this->assertStringEndsWith(

@@ -29,8 +29,8 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel();
         /* some existing node should be used */
-        $model->setNode('admin/routers/adminhtml/use', 'test');
-        $this->assertEquals('test', (string) $model->getNode('admin/routers/adminhtml/use'));
+        $model->setNode('default/node/with/value', 'test');
+        $this->assertEquals('test', (string) $model->getNode('default/node/with/value'));
     }
 
     public function testDetermineOmittedNamespace()
@@ -146,16 +146,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('test_area1', $allowedAreas, 'Test area #1 is not loaded');
 
         $testAreaExpected = array(
-            'base_controller' => 'Mage_Core_Controller_Varien_Action',
-            'frontName' => 'TESTAREA',
-            'routers'         => array(
-                'test_router1' => array(
-                    'class'   => 'Mage_Core_Controller_Varien_Router_Default'
-                ),
-                'test_router2' => array(
-                    'class'   => 'Mage_Core_Controller_Varien_Router_Default'
-                ),
-            )
+            'areaNode' => 'value',
         );
         $this->assertEquals($testAreaExpected, $allowedAreas['test_area1'], 'Test area is not loaded correctly');
 
@@ -163,27 +154,5 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertArrayNotHasKey('test_area3', $allowedAreas, 'Test area #3 is loaded by mistake');
         $this->assertArrayNotHasKey('test_area4', $allowedAreas, 'Test area #4 is loaded by mistake');
         $this->assertArrayNotHasKey('test_area5', $allowedAreas, 'Test area #5 is loaded by mistake');
-    }
-
-    /**
-     * Check if routers loaded correctly from configuration
-     */
-    public function testGetRouters()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $model = $this->_createModel(array('sourceData' => __DIR__ . '/../_files/etc/config.xml'));
-
-        $loadedRouters = $model->getRouters();
-        $this->assertArrayHasKey('test_router1', $loadedRouters, 'Test router #1 is not initialized in test area.');
-        $this->assertArrayHasKey('test_router2', $loadedRouters, 'Test router #2 is not initialized in test area.');
-
-        $testRouterExpected = array(
-            'class'           => 'Mage_Core_Controller_Varien_Router_Default',
-            'area'            => 'test_area1',
-            'frontName'       => 'TESTAREA',
-            'base_controller' => 'Mage_Core_Controller_Varien_Action'
-        );
-        $this->assertEquals($testRouterExpected, $loadedRouters['test_router1'], 'Test router is not loaded correctly');
-        $this->assertEquals($testRouterExpected, $loadedRouters['test_router2'], 'Test router is not loaded correctly');
     }
 }

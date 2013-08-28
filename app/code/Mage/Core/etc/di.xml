@@ -209,4 +209,12 @@
             <value>standard</value>
         </param>
     </type>
+    <type name="Mage_Core_Model_NoRouteHandlerList">
+        <param name="handlerClassesList">
+            <default>
+                <instance>Mage_Core_Model_Router_NoRouteHandler</instance>
+                <sortOrder>100</sortOrder>
+            </default>
+        </param>
+    </type>
 </config>
