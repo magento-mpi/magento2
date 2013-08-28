@@ -18,11 +18,6 @@
 class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
     extends Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
 {
-    public function __construct(Enterprise_GiftWrapping_Helper_Data $giftWrappingData, Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($giftWrappingData, $context, $data);
-    }
-
     /**
      * Select element for choosing gift wrapping design
      *

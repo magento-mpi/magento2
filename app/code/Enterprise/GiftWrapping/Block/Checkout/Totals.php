@@ -30,16 +30,20 @@ class Enterprise_GiftWrapping_Block_Checkout_Totals extends Magento_Checkout_Blo
 
     /**
      * @param Enterprise_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($context, $data);
+        parent::__construct($catalogData, $coreData, $context, $data);
     }
 
     /**
@@ -47,7 +51,8 @@ class Enterprise_GiftWrapping_Block_Checkout_Totals extends Magento_Checkout_Blo
      *
      * @return array
      */
-    public function getValues(){
+    public function getValues()
+    {
         $values = array();
         $total = $this->getTotal();
         $totals = $this->_giftWrappingData->getTotals($total);

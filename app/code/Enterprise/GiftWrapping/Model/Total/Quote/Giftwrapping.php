@@ -13,7 +13,8 @@
  * GiftWrapping total calculator for quote
  *
  */
-class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sales_Model_Quote_Address_Total_Abstract
+class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping
+    extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
      * @var Magento_Core_Model_Store
@@ -38,10 +39,6 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sal
     protected $_giftWrappingData = null;
 
     /**
-     * Init total model, set total code
-     *
-     *
-     *
      * @param Enterprise_GiftWrapping_Helper_Data $giftWrappingData
      */
     public function __construct(

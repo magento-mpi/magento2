@@ -19,11 +19,6 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magent
 {
     protected $_designCollection;
 
-    /*
-     * Retrieve order model instance
-     *
-     * @return Magento_Sales_Model_Order
-     */
     /**
      * Gift wrapping data
      *
@@ -47,6 +42,11 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magent
         parent::__construct($coreData, $context, $data);
     }
 
+    /*
+     * Retrieve order model instance
+     *
+     * @return Magento_Sales_Model_Order
+     */
     public function getOrder()
     {
         return Mage::registry('sales_order');
@@ -92,7 +92,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magent
             $temp['design'] = $this->escapeHtml($item->getDesign());
             $data[$item->getId()] = $temp;
         }
-       return new Magento_Object($data);
+        return new Magento_Object($data);
     }
 
     /**

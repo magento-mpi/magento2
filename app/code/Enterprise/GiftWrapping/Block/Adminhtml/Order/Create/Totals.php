@@ -23,16 +23,20 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Totals extends Magent
 
     /**
      * @param Enterprise_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_Sales_Helper_Data $salesData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($context, $data);
+        parent::__construct($salesData, $coreData, $context, $data);
     }
 
     /**
@@ -40,7 +44,8 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Totals extends Magent
      *
      * @return array
      */
-    public function getValues(){
+    public function getValues()
+    {
         $values = array();
         $total = $this->getTotal();
         $totals = $this->_giftWrappingData->getTotals($total);

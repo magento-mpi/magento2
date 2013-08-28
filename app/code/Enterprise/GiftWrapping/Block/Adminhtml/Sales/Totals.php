@@ -18,11 +18,6 @@
 class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Totals extends Magento_Core_Block_Template
 {
     /**
-     * Initialize gift wrapping and printed card totals for order/invoice/creditmemo
-     *
-     * @return Enterprise_GiftWrapping_Block_Adminhtml_Sales_Totals
-     */
-    /**
      * Gift wrapping data
      *
      * @var Enterprise_GiftWrapping_Helper_Data
@@ -45,6 +40,11 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Totals extends Magento_Core_
         parent::__construct($coreData, $context, $data);
     }
 
+    /**
+     * Initialize gift wrapping and printed card totals for order/invoice/creditmemo
+     *
+     * @return Enterprise_GiftWrapping_Block_Adminhtml_Sales_Totals
+     */
     public function initTotals()
     {
         $parent = $this->getParentBlock();

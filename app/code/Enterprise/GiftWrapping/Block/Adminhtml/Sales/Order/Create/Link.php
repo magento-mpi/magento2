@@ -26,16 +26,18 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Ma
 
     /**
      * @param Enterprise_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -56,7 +58,8 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Ma
     public function getDesign()
     {
         if ($this->getItem()->getGwId()) {
-            $wrappingModel = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')->load($this->getItem()->getGwId());
+            $wrappingModel = Mage::getModel('Enterprise_GiftWrapping_Model_Wrapping')
+                ->load($this->getItem()->getGwId());
             if ($wrappingModel->getId()) {
                 return $this->escapeHtml($wrappingModel->getDesign());
             }
