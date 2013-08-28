@@ -8,8 +8,7 @@
 return array(
     'sales_widget_guestform' => array(
         '@' => array(
-            'type' => 'Mage_Sales_Block_Widget_Guest_Form',
-            'module' => "Mage_Sales",
+            'type' => 'Magento_Sales_Block_Widget_Guest_Form',
             'translate' => 'label description',
         ),
         'is_email_compatible' => '1',
@@ -46,7 +45,7 @@ return array(
                 'visible' => '0'
             ),
             'link_display' => array(
-                'source_model' => 'Mage_Backend_Model_Config_Source_Yesno',
+                'source_model' => 'Magento_Backend_Model_Config_Source_Yesno',
                 'type' => 'select',
                 'visible' => '1',
                 '@' => array(
@@ -80,7 +79,7 @@ return array(
                     'translate' => 'label'
                 ),
                 'helper_block' => array(
-                    'type' => 'Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser',
+                    'type' => 'Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser',
                     'data' => array(
                         'button' => array(
                             'open' => 'Select Product...'

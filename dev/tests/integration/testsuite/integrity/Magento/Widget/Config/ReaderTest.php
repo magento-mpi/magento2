@@ -20,7 +20,7 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         /** @var Magento_Core_Model_Dir $dirs */
         $dirs = Mage::getObjectManager()->create(
             'Magento_Core_Model_Dir', array(
-                'baseDir' => array(BP),
+                'baseDir' => BP,
                 'dirs' => array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files'))
         );
 
@@ -61,7 +61,7 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $schema = __DIR__ . '/../../../../../../../../../app/code/Magento/Widget/etc/widget.xsd';
+        $schema = __DIR__ . '/../../../../../../../../app/code/Magento/Widget/etc/widget.xsd';
         $this->_model = Mage::getObjectManager()->create(
             'Magento_Widget_Model_Config_Reader', array(
                 'moduleReader' => $moduleReader,
