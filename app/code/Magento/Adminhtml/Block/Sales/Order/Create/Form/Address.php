@@ -33,25 +33,15 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
     protected $_adminhtmlAddresses = null;
 
     /**
-     * Customer data
-     *
-     * @var Magento_Customer_Helper_Data
-     */
-    protected $_customerData = null;
-
-    /**
-     * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Helper_Data $customerData,
         Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_customerData = $customerData;
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
         parent::__construct($context, $data);
     }
@@ -132,7 +122,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
 
         $prefixElement = $this->_form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->_customerData->getNamePrefixOptions($this->getStore());
+            $prefixOptions = $this->helper('Magento_Customer_Helper_Data')->getNamePrefixOptions($this->getStore());
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(),
@@ -149,7 +139,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
 
         $suffixElement = $this->_form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->_customerData->getNameSuffixOptions($this->getStore());
+            $suffixOptions = $this->helper('Magento_Customer_Helper_Data')->getNameSuffixOptions($this->getStore());
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField($suffixElement->getId(),

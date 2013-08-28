@@ -59,7 +59,7 @@ jQuery(function($) {
     });
     $('body').trigger(
         'refreshJsList',
-        {jsList: <?php echo Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getJsFiles()) ?>}
+        {jsList: <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getJsFiles()) ?>}
     );
 });
 </script>

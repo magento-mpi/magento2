@@ -17,11 +17,6 @@
  */
 class Magento_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Adminhtml_Block_Widget_Form
 {
-    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($coreData, $context, $data);
-    }
-
     /**
      * Prepare read-only data and group it by fieldsets
      * @return Magento_Paypal_Block_Adminhtml_Settlement_Details_Form
@@ -33,7 +28,7 @@ class Magento_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Adm
         $settlement = Mage::getSingleton('Magento_Paypal_Model_Report_Settlement');
         /* @var $settlement Magento_Paypal_Model_Report_Settlement */
 
-        $coreHelper = $this->_coreData;
+        $coreHelper = $this->helper('Magento_Core_Helper_Data');
         $fieldsets = array(
             'reference_fieldset' => array(
                 'fields' => array(

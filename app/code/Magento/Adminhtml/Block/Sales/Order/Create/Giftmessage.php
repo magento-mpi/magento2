@@ -19,29 +19,6 @@
 class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
 {
     /**
-     * Gift message message
-     *
-     * @var Magento_GiftMessage_Helper_Message
-     */
-    protected $_giftMessageMessage = null;
-
-    /**
-     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_GiftMessage_Helper_Message $giftMessageMessage,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_giftMessageMessage = $giftMessageMessage;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Generate form for editing of gift message for entity
      *
      * @param Magento_Object $entity
@@ -68,7 +45,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Magento_Adm
 
         foreach ($allItems as $item) {
             if($this->_getGiftmessageSaveModel()->getIsAllowedQuoteItem($item)
-               && $this->_giftMessageMessage->getIsMessagesAvailable('item',
+               && $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('item',
                         $item, $this->getStore())) {
                 // if item allowed
                 $items[] = $item;

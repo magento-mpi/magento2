@@ -23,11 +23,6 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
 
     protected $_template = 'instance/edit/layout.phtml';
 
-    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($coreData, $context, $data);
-    }
-
     /**
      * Render given element (return html of element)
      *
@@ -130,45 +125,45 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
         $options = array();
         $options[] = array(
             'value' => '',
-            'label' => $this->_coreData->jsQuoteEscape(__('-- Please Select --'))
+            'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('-- Please Select --'))
         );
         $options[] = array(
             'label' => __('Categories'),
             'value' => array(
                 array(
                     'value' => 'anchor_categories',
-                    'label' => $this->_coreData->jsQuoteEscape(__('Anchor Categories'))
+                    'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Anchor Categories'))
                 ),
                 array(
                     'value' => 'notanchor_categories',
-                    'label' => $this->_coreData->jsQuoteEscape(__('Non-Anchor Categories'))
+                    'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Non-Anchor Categories'))
                 )
             )
         );
         foreach (Magento_Catalog_Model_Product_Type::getTypes() as $typeId => $type) {
             $productsOptions[] = array(
                'value' => $typeId.'_products',
-               'label' => $this->_coreData->jsQuoteEscape($type['label'])
+               'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape($type['label'])
             );
         }
         array_unshift($productsOptions, array(
             'value' => 'all_products',
-            'label' => $this->_coreData->jsQuoteEscape(__('All Product Types'))
+            'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('All Product Types'))
         ));
         $options[] = array(
-            'label' => $this->_coreData->jsQuoteEscape(__('Products')),
+            'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Products')),
             'value' => $productsOptions
         );
         $options[] = array(
-            'label' => $this->_coreData->jsQuoteEscape(__('Generic Pages')),
+            'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Generic Pages')),
             'value' => array(
                 array(
                     'value' => 'all_pages',
-                    'label' => $this->_coreData->jsQuoteEscape(__('All Pages'))
+                    'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('All Pages'))
                 ),
                 array(
                     'value' => 'pages',
-                    'label' => $this->_coreData->jsQuoteEscape(__('Specified Page'))
+                    'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Specified Page'))
                 )
             )
         );
@@ -266,7 +261,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
     {
         $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'     => $this->_coreData->jsQuoteEscape(__('Remove Layout Update')),
+                'label'     => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('Remove Layout Update')),
                 'onclick'   => 'WidgetInstance.removePageGroup(this)',
                 'class'     => 'action-delete'
             ));

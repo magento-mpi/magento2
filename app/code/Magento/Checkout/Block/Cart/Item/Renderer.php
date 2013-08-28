@@ -48,37 +48,17 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     protected $_catalogProductConfiguration = null;
 
     /**
-     * Catalog image
-     *
-     * @var Magento_Catalog_Helper_Image
-     */
-    protected $_catalogImage = null;
-
-    /**
-     * Core url
-     *
-     * @var Magento_Core_Helper_Url
-     */
-    protected $_coreUrl = null;
-
-    /**
-     * @param Magento_Core_Helper_Url $coreUrl
-     * @param Magento_Catalog_Helper_Image $catalogImage
      * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Url $coreUrl,
-        Magento_Catalog_Helper_Image $catalogImage,
         Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_coreUrl = $coreUrl;
-        $this->_catalogImage = $catalogImage;
         $this->_catalogProductConfiguration = $catalogProductConfiguration;
         parent::__construct($coreData, $context, $data);
     }
@@ -139,7 +119,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
                     $product = $children[0]->getProduct();
                 }
             }
-            $thumbnail = $this->_catalogImage->init($product, 'thumbnail');
+            $thumbnail = $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail');
         } else {
             $thumbnail = $this->_productThumbnail;
         }
@@ -310,7 +290,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
             return $this->getData('delete_url');
         }
 
-        $encodedUrl = $this->_coreUrl->getEncodedUrl();
+        $encodedUrl = $this->helper('Magento_Core_Helper_Url')->getEncodedUrl();
         return $this->getUrl(
             'checkout/cart/delete',
             array(

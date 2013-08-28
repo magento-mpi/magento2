@@ -18,35 +18,6 @@
 class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
 
-    /**
-     * Customer data
-     *
-     * @var Magento_Customer_Helper_Data
-     */
-    protected $_customerData = null;
-
-    /**
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        array $data = array()
-    ) {
-        $this->_customerData = $customerData;
-        parent::__construct($backendData, $coreData, $context, $storeManager, $urlModel, $data);
-    }
-
     protected function _construct()
     {
         parent::_construct();
@@ -202,7 +173,7 @@ class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widg
              'url'      => $this->getUrl('*/*/massUnsubscribe')
         ));
 
-        $groups = $this->_customerData->getGroups()->toOptionArray();
+        $groups = $this->helper('Magento_Customer_Helper_Data')->getGroups()->toOptionArray();
 
         array_unshift($groups, array('label'=> '', 'value'=> ''));
         $this->getMassactionBlock()->addItem('assign_group', array(

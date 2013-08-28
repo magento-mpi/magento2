@@ -18,29 +18,6 @@ class Magento_Adminhtml_Block_Customer_Edit_Renderer_Region
     implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
-     * Directory data
-     *
-     * @var Magento_Directory_Helper_Data
-     */
-    protected $_directoryData = null;
-
-    /**
-     * @param Magento_Directory_Helper_Data $directoryData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Directory_Helper_Data $directoryData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Context $context,
-        array $data = array()
-    ) {
-        $this->_directoryData = $directoryData;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Output the region element and javasctipt that makes it dependent from country element
      *
      * @param Magento_Data_Form_Element_Abstract $element
@@ -73,7 +50,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Renderer_Region
         $html .= '<script type="text/javascript">' . "\n";
         $html .= '$("' . $selectId . '").setAttribute("defaultValue", "' . $regionId.'");' . "\n";
         $html .= 'new regionUpdater("' . $country->getHtmlId() . '", "' . $element->getHtmlId()
-            . '", "' . $selectId . '", ' . $this->_directoryData->getRegionJson() . ');' . "\n";
+            . '", "' . $selectId . '", ' . $this->helper('Magento_Directory_Helper_Data')->getRegionJson() . ');' . "\n";
         $html .= '</script>' . "\n";
 
         $html .= '</div></div>' . "\n";

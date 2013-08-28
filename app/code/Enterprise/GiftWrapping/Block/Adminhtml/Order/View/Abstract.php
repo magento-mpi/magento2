@@ -32,27 +32,17 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magent
     protected $_giftWrappingData = null;
 
     /**
-     * Adminhtml sales
-     *
-     * @var Magento_Adminhtml_Helper_Sales
-     */
-    protected $_adminhtmlSales = null;
-
-    /**
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
      * @param Enterprise_GiftWrapping_Helper_Data $giftWrappingData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
         Enterprise_GiftWrapping_Helper_Data $giftWrappingData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_adminhtmlSales = $adminhtmlSales;
         $this->_giftWrappingData = $giftWrappingData;
         parent::__construct($coreData, $context, $data);
     }
@@ -113,7 +103,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magent
      */
     protected function _preparePrices($basePrice, $price)
     {
-        return $this->_adminhtmlSales->displayPrices($this->getOrder(), $basePrice, $price);
+        return $this->helper('Magento_Adminhtml_Helper_Sales')->displayPrices($this->getOrder(), $basePrice, $price);
     }
 
     /**

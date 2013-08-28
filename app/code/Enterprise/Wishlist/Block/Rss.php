@@ -25,9 +25,8 @@ class Enterprise_Wishlist_Block_Rss extends Magento_Rss_Block_Wishlist
     protected $_wishlistData = null;
 
     /**
-     * @param Magento_Catalog_Helper_Output $catalogOutput
      * @param Enterprise_Wishlist_Helper_Data $wishlistData
-     * @param Enterprise_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
@@ -35,7 +34,6 @@ class Enterprise_Wishlist_Block_Rss extends Magento_Rss_Block_Wishlist
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Output $catalogOutput,
         Enterprise_Wishlist_Helper_Data $wishlistData,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Tax_Helper_Data $taxData,
@@ -45,7 +43,7 @@ class Enterprise_Wishlist_Block_Rss extends Magento_Rss_Block_Wishlist
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
-        parent::__construct($catalogOutput, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($wishlistData, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     /**

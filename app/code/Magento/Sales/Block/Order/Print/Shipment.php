@@ -33,29 +33,6 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
     protected $_shipmentsCollection;
 
     /**
-     * Payment data
-     *
-     * @var Magento_Payment_Helper_Data
-     */
-    protected $_paymentData = null;
-
-    /**
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_paymentData = $paymentData;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Load all tracks and save it to local cache by shipments
      *
      * @return Magento_Sales_Block_Order_Print_Shipment
@@ -86,7 +63,7 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
         }
         $this->setChild(
             'payment_info',
-            $this->_paymentData->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('Magento_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 

@@ -174,7 +174,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
                 )
             )
         );
-        return $this->_backendData->escapeHtml(json_encode($data));
+        return $this->helper('Magento_Backend_Helper_Data')->escapeHtml(json_encode($data));
     }
 
     /**
@@ -195,7 +195,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
                 )
             )
         );
-        return $this->_backendData->escapeHtml(json_encode($data));
+        return $this->helper('Magento_Backend_Helper_Data')->escapeHtml(json_encode($data));
     }
 
     /**

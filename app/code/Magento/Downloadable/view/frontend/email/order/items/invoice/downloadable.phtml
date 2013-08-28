@@ -37,8 +37,8 @@
     <td align="left" valign="top" style="padding:3px 9px"><?php echo $this->escapeHtml($this->getSku($_item)) ?></td>
     <td align="center" valign="top" style="padding:3px 9px"><?php echo $_item->getQty()*1 ?></td>
     <td align="right" valign="top" style="padding:3px 9px">
-        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax($_order->getStore()) || Mage::helper('Magento_Tax_Helper_Data')->displayCartBothPrices($_order->getStore())): ?>
-            <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayCartBothPrices($_order->getStore())): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax($_order->getStore()) || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices($_order->getStore())): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices($_order->getStore())): ?>
                 <span class="label"><?php echo __('Excl. Tax'); ?>:</span>
             <?php endif; ?>
             <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'email', $_order->getStore())): ?>
@@ -76,11 +76,11 @@
         <?php endif; ?>
 
 
-        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayCartPriceInclTax($_order->getStore()) || Mage::helper('Magento_Tax_Helper_Data')->displayCartBothPrices($_order->getStore())): ?>
-            <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayCartBothPrices($_order->getStore())): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceInclTax($_order->getStore()) || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices($_order->getStore())): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices($_order->getStore())): ?>
                 <br /><span class="label"><?php echo __('Incl. Tax'); ?>:</span>
             <?php endif; ?>
-            <?php $_incl = Mage::helper('Magento_Checkout_Helper_Data')->getSubtotalInclTax($_item); ?>
+            <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getSubtotalInclTax($_item); ?>
                 <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'email', $_order->getStore())): ?>
                     <?php echo $_order->formatPrice($_incl+$_item->getWeeeTaxAppliedRowAmount()); ?>
                 <?php else: ?>

@@ -337,7 +337,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         $paths = $template->getSystemConfigPathsWhereUsedAsDefault();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
         if($asJSON){
-            return $this->_coreData->jsonEncode($pathsParts);
+            return $this->helper('Magento_Core_Helper_Data')->jsonEncode($pathsParts);
         }
         return $pathsParts;
     }

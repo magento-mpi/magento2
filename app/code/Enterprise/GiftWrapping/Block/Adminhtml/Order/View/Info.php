@@ -18,23 +18,9 @@
 class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info
     extends Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract
 {
-    /**
-     * @param array $data
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param  $giftWrappingData
-     * @param  $coreData
-     * @param  $context
-     * @param  $data
-     */
-    public function __construct(
-        array $data,
-        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
-        Enterprise_GiftWrapping_Helper_Data $giftWrappingData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        parent::__construct($adminhtmlSales, $data, $giftWrappingData, $coreData, $context, $data);
+    public function __construct(Enterprise_GiftWrapping_Helper_Data $giftWrappingData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($giftWrappingData, $coreData, $context, $data);
     }
 
     /**

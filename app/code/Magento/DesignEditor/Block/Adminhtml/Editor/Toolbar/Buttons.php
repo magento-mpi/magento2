@@ -25,29 +25,6 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     protected $_themeId;
 
     /**
-     * Backend data
-     *
-     * @var Magento_Backend_Helper_Data
-     */
-    protected $_backendData = null;
-
-    /**
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_backendData = $backendData;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Get current theme id
      *
      * @return int
@@ -77,6 +54,6 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
      */
     public function getHomeLink()
     {
-        return $this->_backendData->getHomePageUrl();
+        return $this->helper('Magento_Backend_Helper_Data')->getHomePageUrl();
     }
 }

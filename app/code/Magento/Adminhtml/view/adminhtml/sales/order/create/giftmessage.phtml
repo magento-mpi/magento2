@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 ?>
-<?php if (Mage::helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('main', $this->getQuote(), $this->getStoreId())): ?>
+<?php if ($this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('main', $this->getQuote(), $this->getStoreId())): ?>
 <?php $_items = $this->getItems(); ?>
 <div id="order-giftmessage">
     <div class="giftmessage-order-create box-left">
         <fieldset>
             <legend><?php echo __('Gift Message for the Entire Order') ?></legend>
             <br />
-            <?php if(Mage::helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('main', $this->getQuote(), $this->getStoreId())): ?>
+            <?php if($this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('main', $this->getQuote(), $this->getStoreId())): ?>
                 <div class="giftmessage-entire-order">
                     <p><?php echo __('If you don\'t want to leave a gift message for the entire order, leave this box blank.') ?></p>
                     <?php echo $this->getFormHtml($this->getQuote(), 'main') ?>

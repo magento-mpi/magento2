@@ -17,39 +17,6 @@
  */
 class Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Magento_Adminhtml_Block_Sales_Items_Abstract
 {
-    /**
-     * Gift message message
-     *
-     * @var Magento_GiftMessage_Helper_Message
-     */
-    protected $_giftMessageMessage = null;
-
-    /**
-     * Checkout data
-     *
-     * @var Magento_Checkout_Helper_Data
-     */
-    protected $_checkoutData = null;
-
-    /**
-     * @param Magento_Checkout_Helper_Data $checkoutData
-     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Checkout_Helper_Data $checkoutData,
-        Magento_GiftMessage_Helper_Message $giftMessageMessage,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_checkoutData = $checkoutData;
-        $this->_giftMessageMessage = $giftMessageMessage;
-        parent::__construct($coreData, $context, $data);
-    }
-
     public function getItem()
     {
         return $this->_getData('item');
@@ -158,7 +125,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Ma
     protected function _initMessage()
     {
         $this->_giftMessage[$this->getItem()->getGiftMessageId()] =
-            $this->_giftMessageMessage->getGiftMessage($this->getItem()->getGiftMessageId());
+            $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage($this->getItem()->getGiftMessageId());
 
         // init default values for giftmessage form
         if(!$this->getMessage()->getSender()) {
@@ -216,7 +183,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Ma
      */
     public function canDisplayGiftmessage()
     {
-        return $this->_giftMessageMessage->getIsMessagesAvailable(
+        return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
             'order_item', $this->getItem(), $this->getItem()->getOrder()->getStoreId()
         );
     }
@@ -230,8 +197,8 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Ma
     public function displaySubtotalInclTax($item)
     {
         return $this->displayPrices(
-            $this->_checkoutData->getBaseSubtotalInclTax($item),
-            $this->_checkoutData->getSubtotalInclTax($item)
+            $this->helper('Magento_Checkout_Helper_Data')->getBaseSubtotalInclTax($item),
+            $this->helper('Magento_Checkout_Helper_Data')->getSubtotalInclTax($item)
         );
     }
 
@@ -244,8 +211,8 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Ma
     public function displayPriceInclTax(Magento_Object $item)
     {
         return $this->displayPrices(
-            $this->_checkoutData->getBasePriceInclTax($item),
-            $this->_checkoutData->getPriceInclTax($item)
+            $this->helper('Magento_Checkout_Helper_Data')->getBasePriceInclTax($item),
+            $this->helper('Magento_Checkout_Helper_Data')->getPriceInclTax($item)
         );
     }
 

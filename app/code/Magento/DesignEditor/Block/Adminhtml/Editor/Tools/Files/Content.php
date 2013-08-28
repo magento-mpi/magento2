@@ -16,11 +16,6 @@
 class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content
     extends Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content
 {
-    public function __construct(Magento_Theme_Helper_Storage $themeStorage, Magento_Core_Helper_Data $coreData, Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($themeStorage, $coreData, $context, $data);
-    }
-
     /**
      * Get header text
      *
@@ -28,7 +23,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content
      */
     public function getHeaderText()
     {
-        return __('CSS Editor ') . __($this->_themeStorage->getStorageTypeName());
+        return __('CSS Editor ') . __($this->helper('Magento_Theme_Helper_Storage')->getStorageTypeName());
     }
     /**
      * Javascript setup object for filebrowser instance
@@ -53,6 +48,6 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content
             'showBreadcrumbs' => false
         ));
 
-        return $this->_coreData->jsonEncode($setupObject);
+        return $this->helper('Magento_Core_Helper_Data')->jsonEncode($setupObject);
     }
 }

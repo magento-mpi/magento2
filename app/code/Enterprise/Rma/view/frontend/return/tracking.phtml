@@ -23,7 +23,7 @@
 <tr>
     <td><?php echo $this->escapeHtml($number->getCarrierTitle()) ?></td>
     <td>
-        <a href="#" data-mage-init="{popupWindow: {windowURL:'<?php echo Mage::helper('Enterprise_Rma_Helper_Data')->getTrackingPopupUrlBySalesModel($number) ?>',windowName:'trackshipment',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}}"
+        <a href="#" data-mage-init="{popupWindow: {windowURL:'<?php echo $this->helper('Enterprise_Rma_Helper_Data')->getTrackingPopupUrlBySalesModel($number) ?>',windowName:'trackshipment',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}}"
            title="<?php echo $this->escapeHtml($number->getTrackNumber()) ?>">
                 <?php echo $this->escapeHtml($number->getTrackNumber()) ?>
         </a>

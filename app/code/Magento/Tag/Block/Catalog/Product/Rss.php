@@ -17,29 +17,6 @@
  */
 class Magento_Tag_Block_Catalog_Product_Rss extends Magento_Rss_Block_Catalog_Abstract
 {
-    /**
-     * Catalog image
-     *
-     * @var Magento_Catalog_Helper_Image
-     */
-    protected $_catalogImage = null;
-
-    /**
-     * @param Magento_Catalog_Helper_Image $catalogImage
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Catalog_Helper_Image $catalogImage,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_catalogImage = $catalogImage;
-        parent::__construct($catalogData, $context, $data);
-    }
-
     protected function _construct()
     {
         /*
@@ -111,7 +88,7 @@ class Magento_Tag_Block_Catalog_Product_Rss extends Magento_Rss_Block_Catalog_Ab
 
         $product->unsetData()->load($args['row']['entity_id']);
         $description = '<table><tr><td><a href="'.$product->getProductUrl().'">'
-            . '<img src="' . $this->_catalogImage->init($product, 'thumbnail')->resize(75, 75)
+            . '<img src="' . $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
             . '" border="0" align="left" height="75" width="75"></a></td>'
             . '<td  style="text-decoration:none;">'.$product->getDescription();
 

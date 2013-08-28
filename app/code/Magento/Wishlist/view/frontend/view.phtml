@@ -9,11 +9,11 @@
  */
 /* @var $this Magento_Wishlist_Block_Customer_Wishlist */
 ?>
-<?php if (Mage::helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
+<?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
     <div class="my-wishlist">
         <div class="page-title title-buttons">
-            <?php if (Mage::helper('Magento_Wishlist_Helper_Data')->isRssAllow() && $this->hasWishlistItems()): ?>
-                <a href="<?php echo Mage::helper('Magento_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo __('RSS Feed') ?></a>
+            <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isRssAllow() && $this->hasWishlistItems()): ?>
+                <a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo __('RSS Feed') ?></a>
             <?php endif; ?>
             <h1><?php echo $this->getTitle(); ?></h1>
         </div>
@@ -55,7 +55,7 @@
                             addToCartUrl: '<?php echo $this->getItemAddToCartUrl('%item%');?>' ,
                             confirmRemoveMessage: '<?php echo __('Are you sure you want to remove this product from your wish list?') ?>',
                             addAllToCartUrl : '<?php echo $this->getUrl('*/*/allcart', array('wishlist_id' => $this->getWishlistInstance()->getId())) ?>',
-                            commentString : '<?php echo Mage::helper('Magento_Wishlist_Helper_Data')->defaultCommentString()?>'
+                            commentString : '<?php echo $this->helper('Magento_Wishlist_Helper_Data')->defaultCommentString()?>'
                         });
                         $('body').splitButton();
                     });

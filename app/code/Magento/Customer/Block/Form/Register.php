@@ -22,26 +22,8 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
      */
     protected $_address;
 
-    /**
-     * Customer data
-     *
-     * @var Magento_Customer_Helper_Data
-     */
-    protected $_customerData = null;
-
-    /**
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param  $context
-     * @param  $configCacheType
-     * @param  $data
-     */
-    public function __construct(
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        array $data = array()
-    ) {
-        $this->_customerData = $customerData;
+    public function __construct(Magento_Core_Block_Template_Context $context, Magento_Core_Model_Cache_Type_Config $configCacheType, array $data = array())
+    {
         parent::__construct($context, $configCacheType, $data);
     }
 
@@ -58,7 +40,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
      */
     public function getPostActionUrl()
     {
-        return $this->_customerData->getRegisterPostUrl();
+        return $this->helper('Magento_Customer_Helper_Data')->getRegisterPostUrl();
     }
 
     /**
@@ -70,7 +52,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
     {
         $url = $this->getData('back_url');
         if (is_null($url)) {
-            $url = $this->_customerData->getLoginUrl();
+            $url = $this->helper('Magento_Customer_Helper_Data')->getLoginUrl();
         }
         return $url;
     }

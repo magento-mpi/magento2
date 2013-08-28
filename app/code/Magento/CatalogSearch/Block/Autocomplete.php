@@ -15,29 +15,6 @@ class Magento_CatalogSearch_Block_Autocomplete extends Magento_Core_Block_Abstra
 {
     protected $_suggestData = null;
 
-    /**
-     * Catalog search data
-     *
-     * @var Magento_CatalogSearch_Helper_Data
-     */
-    protected $_catalogSearchData = null;
-
-    /**
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Context $context,
-        array $data = array()
-    ) {
-        $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($coreData, $context, $data);
-    }
-
     protected function _toHtml()
     {
         $html = '';
@@ -75,8 +52,8 @@ class Magento_CatalogSearch_Block_Autocomplete extends Magento_Core_Block_Abstra
     public function getSuggestData()
     {
         if (!$this->_suggestData) {
-            $collection = $this->_catalogSearchData->getSuggestCollection();
-            $query = $this->_catalogSearchData->getQueryText();
+            $collection = $this->helper('Magento_CatalogSearch_Helper_Data')->getSuggestCollection();
+            $query = $this->helper('Magento_CatalogSearch_Helper_Data')->getQueryText();
             $counter = 0;
             $data = array();
             foreach ($collection as $item) {

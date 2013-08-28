@@ -123,7 +123,7 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
         }
 
         // set misc data
-        $this->setShortcutHtmlId($this->_coreData->uniqHash('ec_shortcut_'))
+        $this->setShortcutHtmlId($this->helper('Magento_Core_Helper_Data')->uniqHash('ec_shortcut_'))
             ->setCheckoutUrl($this->getUrl($this->_startAction))
         ;
 

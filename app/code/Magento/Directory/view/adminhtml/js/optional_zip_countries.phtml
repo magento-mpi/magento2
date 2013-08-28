@@ -18,7 +18,7 @@
 ?>
 <script type="text/javascript">
 //<![CDATA[
-optionalZipCountries = <?php echo Mage::helper('Magento_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>;
+optionalZipCountries = <?php echo $this->helper('Magento_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>;
 
 function onAddressCountryChanged (countryElement) {
     var zipElementId = countryElement.id.replace(/country_id/, 'postcode');

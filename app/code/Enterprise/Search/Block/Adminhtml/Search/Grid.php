@@ -87,7 +87,7 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Magento_Backend_Bloc
     {
         $queries = array_flip($this->getSelectedQueries());
         if (!empty($queries)) {
-            return $this->_coreData->jsonEncode($queries);
+            return $this->helper('Magento_Core_Helper_Data')->jsonEncode($queries);
         }
         return '{}';
     }

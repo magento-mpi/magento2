@@ -18,31 +18,6 @@
 class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
 {
     /**
-     * Checkout cart
-     *
-     * @var Magento_Checkout_Helper_Cart
-     */
-    protected $_checkoutCart = null;
-
-    /**
-     * @param Magento_Checkout_Helper_Cart $checkoutCart
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Checkout_Helper_Cart $checkoutCart,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_checkoutCart = $checkoutCart;
-        parent::__construct($catalogData, $coreData, $context, $data);
-    }
-
-    /**
      * Prepare Quote Item Product URLs
      *
      */
@@ -143,7 +118,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
 
     public function getIsVirtual()
     {
-        return $this->_checkoutCart->getIsVirtualQuote();
+        return $this->helper('Magento_Checkout_Helper_Cart')->getIsVirtualQuote();
     }
 
     /**

@@ -15,7 +15,7 @@
  */
 $_product = $this->getProduct();
 $_tierPrices = $this->getTierPrices();
-$_finalPriceInclTax = Mage::helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getFinalPrice(), true);
+$_finalPriceInclTax = $this->helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getFinalPrice(), true);
 
 /** @var $_catalogHelper Magento_Catalog_Helper_Data */
 $_catalogHelper = Mage::helper('Magento_Catalog_Helper_Data');
@@ -42,7 +42,7 @@ if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(1,2
             <?php endif; ?>
         <?php else: ?>
 
-        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
             <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 0)): ?>
                 <?php echo __('Buy %1 for %2 (%3 incl. tax) each', $_price['price_qty'], $_price['formated_price_incl_weee_only'], $_price['formated_price_incl_weee']) ?>
             <?php elseif(Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 1)): ?>
@@ -84,7 +84,7 @@ if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(1,2
                     <?php echo __('Buy %1 for %2 (%3 incl. tax) each', $_price['price_qty'], $_price['formated_price'], $_price['formated_price_incl_tax']) ?>
             <?php endif; ?>
         <?php else: ?>
-            <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayPriceIncludingTax()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayPriceIncludingTax()): ?>
                 <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 0)): ?>
                         <?php echo __('Buy %1 for %2 each', $_price['price_qty'], $_price['formated_price_incl_weee']) ?>
                 <?php elseif(Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 1)): ?>
@@ -175,13 +175,13 @@ if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(1,2
         <?php endif; ?>
 
         <?php if ($_catalogHelper->isShowPriceOnGesture($_product)):?>
-            <?php $popupId = 'msrp-popup-' . $_product->getId() . Mage::helper('Magento_Core_Helper_Data')->getRandomString(20); ?>
+            <?php $popupId = 'msrp-popup-' . $_product->getId() . $this->helper('Magento_Core_Helper_Data')->getRandomString(20); ?>
             <?php
             $addToCartUrl = $this->getProduct()->isSalable()
                 ? $this->getAddToCartUrl($_product, array('qty' => $_price['price_qty']))
                 : '';
             ?>
-            <a href="#" id="<?php echo($popupId);?>" data-tier-price='{addToCartUrl:"<?php echo $addToCartUrl; ?>", name:"<?php echo $_product->getName() ?>", price:<?php echo json_encode($_price['real_price_html']) ?>, msrp:"<?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_product->getMsrp(),true,false) ?>"<?php if (!$this->getInGrouped()): ?>, qty:"<?php echo $_price['price_qty']?>"<?php endif ?>}'><?php echo __('Click for price'); ?></a>
+            <a href="#" id="<?php echo($popupId);?>" data-tier-price='{addToCartUrl:"<?php echo $addToCartUrl; ?>", name:"<?php echo $_product->getName() ?>", price:<?php echo json_encode($_price['real_price_html']) ?>, msrp:"<?php echo $this->helper('Magento_Core_Helper_Data')->currency($_product->getMsrp(),true,false) ?>"<?php if (!$this->getInGrouped()): ?>, qty:"<?php echo $_price['price_qty']?>"<?php endif ?>}'><?php echo __('Click for price'); ?></a>
         <?php else: ?>
             <span class="msrp-price-hide-message">
                 <?php echo $_catalogHelper->getMsrpPriceMessage($_product) ?>

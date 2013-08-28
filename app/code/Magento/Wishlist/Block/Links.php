@@ -25,34 +25,11 @@ class Magento_Wishlist_Block_Links extends Magento_Page_Block_Template_Links_Blo
     protected $_position = 30;
 
     /**
-     * Wishlist data
-     *
-     * @var Magento_Wishlist_Helper_Data
-     */
-    protected $_wishlistData = null;
-
-    /**
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_wishlistData = $wishlistData;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * @return string
      */
     protected function _toHtml()
     {
-        if ($this->_wishlistData->isAllow()) {
+        if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) {
             $text = $this->_createLabel($this->_getItemCount());
             $this->_label = $text;
             $this->_title = $text;
@@ -82,7 +59,7 @@ class Magento_Wishlist_Block_Links extends Magento_Page_Block_Template_Links_Blo
      */
     protected function _getItemCount()
     {
-        return $this->_wishlistData->getItemCount();
+        return $this->helper('Magento_Wishlist_Helper_Data')->getItemCount();
     }
 
     /**

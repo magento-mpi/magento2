@@ -14,7 +14,7 @@
  *
  * @var $this Enterprise_Checkout_Block_Widget_Sku
  */
-$uniqueSuffix = '_' . Mage::helper('Magento_Core_Helper_Data')->getRandomString(20);
+$uniqueSuffix = '_' . $this->helper('Magento_Core_Helper_Data')->getRandomString(20);
 $skuFormId = 'skuForm' . $uniqueSuffix;
 $qtyValidationClasses = 'required-entry validate-number validate-greater-than-zero'
     . ' validate-number-range number-range-0.0001-99999999.9999';

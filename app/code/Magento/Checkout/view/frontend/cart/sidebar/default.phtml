@@ -33,14 +33,14 @@
 
     <?php else: ?>
 
-    <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax() || Mage::helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
-        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
+    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
             <?php echo __('Excl. Tax'); ?>:
         <?php endif; ?>
         <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
-            <?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?>
+            <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?>
         <?php else: ?>
-            <?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()) ?>
+            <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()) ?>
         <?php endif; ?>
         <?php if (Mage::helper('Magento_Weee_Helper_Data')->getApplied($_item)): ?>
             <br />
@@ -62,22 +62,22 @@
                 </small>
             <?php endif; ?>
             <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): ?>
-                <span class="nobr"><?php echo __('Total'); ?>:<br /> <?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></span>
+                <span class="nobr"><?php echo __('Total'); ?>:<br /> <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></span>
             <?php endif; ?>
         <?php endif; ?>
     <?php endif; ?>
 
 
 
-    <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayCartPriceInclTax() || Mage::helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
-        <?php $_incl = Mage::helper('Magento_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
-        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
+    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
+        <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
             <br /><?php echo __('Incl. Tax'); ?>:
         <?php endif; ?>
         <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
-            <?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?>
+            <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?>
         <?php else: ?>
-            <?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($_incl-$_item->getWeeeTaxDisposition()) ?>
+            <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_incl-$_item->getWeeeTaxDisposition()) ?>
         <?php endif; ?>
         <?php if (Mage::helper('Magento_Weee_Helper_Data')->getApplied($_item)): ?>
             <br />
@@ -99,7 +99,7 @@
                 </small>
             <?php endif; ?>
             <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): ?>
-                <span class="nobr"><?php echo __('Total incl. tax'); ?>:<br /> <?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
+                <span class="nobr"><?php echo __('Total incl. tax'); ?>:<br /> <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
             <?php endif; ?>
         <?php endif; ?>
     <?php endif; ?>

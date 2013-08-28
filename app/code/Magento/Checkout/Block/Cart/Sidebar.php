@@ -28,22 +28,6 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
     protected $_taxData = null;
 
     /**
-     * Checkout data
-     *
-     * @var Magento_Checkout_Helper_Data
-     */
-    protected $_checkoutData = null;
-
-    /**
-     * Checkout url
-     *
-     * @var Magento_Checkout_Helper_Url
-     */
-    protected $_checkoutUrl = null;
-
-    /**
-     * @param Magento_Checkout_Helper_Url $checkoutUrl
-     * @param Magento_Checkout_Helper_Data $checkoutData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
@@ -51,16 +35,12 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      * @param array $data
      */
     public function __construct(
-        Magento_Checkout_Helper_Url $checkoutUrl,
-        Magento_Checkout_Helper_Data $checkoutData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_checkoutUrl = $checkoutUrl;
-        $this->_checkoutData = $checkoutData;
         $this->_taxData = $taxData;
         parent::__construct($catalogData, $coreData, $context, $data);
     }
@@ -241,7 +221,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      */
     public function isPossibleOnepageCheckout()
     {
-        return $this->_checkoutData->canOnepageCheckout() && !$this->getQuote()->getHasError();
+        return $this->helper('Magento_Checkout_Helper_Data')->canOnepageCheckout() && !$this->getQuote()->getHasError();
     }
 
     /**
@@ -251,7 +231,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      */
     public function getCheckoutUrl()
     {
-        return $this->_checkoutUrl->getCheckoutUrl();
+        return $this->helper('Magento_Checkout_Helper_Url')->getCheckoutUrl();
     }
 
     /**

@@ -42,7 +42,7 @@ $fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
         <?php echo $element->getElementHtml() ?>
     <?php else: ?>
     <div<?php echo $fieldAttributes ?> data-element-id="<?php echo $element->getHtmlId() ?>"
-        data-apply-to="<?php echo $this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
+        data-apply-to="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode(
             $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : array()
         ))?>"
         >

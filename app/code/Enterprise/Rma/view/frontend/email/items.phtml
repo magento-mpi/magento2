@@ -54,10 +54,10 @@
             <?php echo $this->escapeHtml($this->getOptionAttributeStringValue($item->getResolution())) ?>
         </td>
         <td valign="top" align="center" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted <?php echo $color?>">
-            <?php echo Mage::helper('Enterprise_Rma_Helper_Data')->parseQuantity($item->getQtyRequested(), $item) ?>
+            <?php echo $this->helper('Enterprise_Rma_Helper_Data')->parseQuantity($item->getQtyRequested(), $item) ?>
         </td>
         <td valign="top" align="center" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted <?php echo $color?>">
-            <?php echo Mage::helper('Enterprise_Rma_Helper_Data')->getQty($item) ?>
+            <?php echo $this->helper('Enterprise_Rma_Helper_Data')->getQty($item) ?>
         </td>
         <td valign="top" align="left" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted <?php echo $color?>">
             <?php echo $this->escapeHtml($item->getStatusLabel()) ?>

@@ -17,7 +17,7 @@
     $_style = $this->getTotal()->getStyle();
 ?>
 <?php global $taxIter; $taxIter++; ?>
-<?php if (Mage::helper('Magento_Tax_Helper_Data')->displayFullSummary() && $_value!=0): ?>
+<?php if ($this->helper('Magento_Tax_Helper_Data')->displayFullSummary() && $_value!=0): ?>
 <?php $isTop = 1; ?>
     <?php foreach ($this->getTotal()->getFullInfo() as $info): ?>
         <?php if (isset($info['hidden']) && $info['hidden']) continue; ?>
@@ -37,7 +37,7 @@
             </td>
             <?php if ($isFirst): ?>
                 <td style="<?php echo $_style ?>" class="a-right" rowspan="<?php echo count($rates); ?>">
-                    <?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($amount); ?>
+                    <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($amount); ?>
                 </td>
             <?php endif; ?>
         </tr>
@@ -46,13 +46,13 @@
         <?php endforeach; ?>
     <?php endforeach; ?>
 <?php endif;?>
-<tr <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayFullSummary() && $_value!=0): ?> class="summary-total" onclick="expandDetails(this, '.summary-details-<?php echo $taxIter;?>')"<?php endif; ?>>
+<tr <?php if ($this->helper('Magento_Tax_Helper_Data')->displayFullSummary() && $_value!=0): ?> class="summary-total" onclick="expandDetails(this, '.summary-details-<?php echo $taxIter;?>')"<?php endif; ?>>
     <td style="<?php echo $_style ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
-        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayFullSummary()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayFullSummary()): ?>
             <div class="summary-collapse"><?php echo $this->getTotal()->getTitle() ?></div>
         <?php else: ?>
             <?php echo $this->getTotal()->getTitle() ?>
         <?php endif;?>
     </td>
-    <td style="<?php echo $_style ?>" class="a-right"><?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($_value) ?></td>
+    <td style="<?php echo $_style ?>" class="a-right"><?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_value) ?></td>
 </tr>

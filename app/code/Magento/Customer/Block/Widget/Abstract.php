@@ -10,32 +10,9 @@
 
 class Magento_Customer_Block_Widget_Abstract extends Magento_Core_Block_Template
 {
-    /**
-     * Customer address
-     *
-     * @var Magento_Customer_Helper_Address
-     */
-    protected $_customerAddress = null;
-
-    /**
-     * @param Magento_Customer_Helper_Address $customerAddress
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Customer_Helper_Address $customerAddress,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_customerAddress = $customerAddress;
-        parent::__construct($coreData, $context, $data);
-    }
-
     public function getConfig($key)
     {
-        return $this->_customerAddress->getConfig($key);
+        return $this->helper('Magento_Customer_Helper_Address')->getConfig($key);
     }
 
     public function getFieldIdFormat()

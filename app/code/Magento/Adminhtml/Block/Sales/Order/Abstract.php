@@ -18,29 +18,6 @@
 class Magento_Adminhtml_Block_Sales_Order_Abstract extends Magento_Adminhtml_Block_Widget
 {
     /**
-     * Adminhtml sales
-     *
-     * @var Magento_Adminhtml_Helper_Sales
-     */
-    protected $_adminhtmlSales = null;
-
-    /**
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_adminhtmlSales = $adminhtmlSales;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Retrieve available order
      *
      * @return Magento_Sales_Model_Order
@@ -70,12 +47,12 @@ class Magento_Adminhtml_Block_Sales_Order_Abstract extends Magento_Adminhtml_Blo
 
     public function displayPriceAttribute($code, $strong = false, $separator = '<br/>')
     {
-        return $this->_adminhtmlSales->displayPriceAttribute($this->getPriceDataObject(), $code, $strong, $separator);
+        return $this->helper('Magento_Adminhtml_Helper_Sales')->displayPriceAttribute($this->getPriceDataObject(), $code, $strong, $separator);
     }
 
     public function displayPrices($basePrice, $price, $strong = false, $separator = '<br/>')
     {
-        return $this->_adminhtmlSales->displayPrices($this->getPriceDataObject(), $basePrice, $price, $strong, $separator);
+        return $this->helper('Magento_Adminhtml_Helper_Sales')->displayPrices($this->getPriceDataObject(), $basePrice, $price, $strong, $separator);
     }
 
     /**

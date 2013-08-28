@@ -146,7 +146,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
 
         foreach ($this->getAllowProducts() as $product) {
             $productId  = $product->getId();
-            $image = $this->_catalogImage->init($product, 'image');
+            $image = $this->helper('Magento_Catalog_Helper_Image')->init($product, 'image');
 
             foreach ($this->getAllowAttributes() as $attribute) {
                 $productAttribute   = $attribute->getProductAttribute();

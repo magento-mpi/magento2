@@ -31,7 +31,7 @@ store name = $_order->getStore()->getGroup()->getName()
 <?php $i=0; foreach ($_order->getAllItems() as $_item): $i++ ?>
         <tr <?php echo $i%2?'bgcolor="#eeeded"':'' ?>>
             <td align="left" valign="top" style="padding:3px 9px"><strong><?php echo $this->escapeHtml($_item->getName()) ?></strong>
-            <?php if($_item->getGiftMessageId() && $_giftMessage = Mage::helper('Magento_GiftMessage_Helper_Message')->getGiftMessage($_item->getGiftMessageId())): ?>
+            <?php if($_item->getGiftMessageId() && $_giftMessage = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage($_item->getGiftMessageId())): ?>
             <br /><strong><?php echo __('Gift Message') ?></strong>
             <br /><?php echo __('From:'); ?> <?php echo $this->escapeHtml($_giftMessage->getSender()) ?>
             <br /><?php echo __('To:'); ?> <?php echo $this->escapeHtml($_giftMessage->getRecipient()) ?>
@@ -45,7 +45,7 @@ store name = $_order->getStore()->getGroup()->getName()
     </tbody>
 
     <tfoot>
-    <?php if($_order->getGiftMessageId() && $_giftMessage = Mage::helper('Magento_GiftMessage_Helper_Message')->getGiftMessage($_order->getGiftMessageId())): ?>
+    <?php if($_order->getGiftMessageId() && $_giftMessage = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage($_order->getGiftMessageId())): ?>
         <tr>
             <td colspan="3" align="left" style="padding:3px 9px">
             <strong><?php echo __('Gift Message') ?></strong>

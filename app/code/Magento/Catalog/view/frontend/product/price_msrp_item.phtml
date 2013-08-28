@@ -18,9 +18,9 @@
 ?>
 <?php
 /** @var $_coreHelper Magento_Core_Helper_Data */
-$_coreHelper = Mage::helper('Magento_Core_Helper_Data');
+$_coreHelper = $this->helper('Magento_Core_Helper_Data');
 /** @var $_catalogHelper Magento_Catalog_Helper_Data */
-$_catalogHelper = Mage::helper('Magento_Catalog_Helper_Data');
+$_catalogHelper = $this->helper('Magento_Catalog_Helper_Data');
 
 /** @var $_product Magento_Catalog_Model_Product */
 $_product = $this->getProduct();
@@ -29,7 +29,7 @@ $_msrpPrice = '';
 $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElementIdPrefix() : 'product-price-';
 ?>
 <div class="price-box map-info">
-    <?php $_price = Mage::helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getMsrp()) ?>
+    <?php $_price = $this->helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getMsrp()) ?>
     <?php if ($_product->getMsrp()): ?>
     <?php $_msrpPrice = $_coreHelper->currency($_product->getMsrp(), true, true) ?>
     <span class="old-price"><?php echo $_msrpPrice ?></span>
@@ -56,7 +56,7 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
     (function ($) {
         head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>",
             function () {
-            <?php if (Mage::helper('Magento_Catalog_Helper_Data')->isShowPriceOnGesture($_product)): ?>
+            <?php if ($this->helper('Magento_Catalog_Helper_Data')->isShowPriceOnGesture($_product)): ?>
                 $('#<?php echo($popupId);?>').addToCart({
                     cartForm: "#product_addtocart_form",
                     popupId: "#<?php echo($popupId);?>",

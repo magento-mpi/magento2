@@ -10,11 +10,11 @@
 ?>
 
 <?php  $_order = $this->getOrder() ?>
-<?php if(Mage::helper('Magento_Rss_Helper_Order')->isStatusNotificationAllow()): ?>
-    <a href="<?php echo Mage::helper('Magento_Rss_Helper_Order')->getStatusHistoryRssUrl($_order) ?>" class="link-rss f-none"><?php echo __('Subscribe to Order Status') ?></a>
+<?php if($this->helper('Magento_Rss_Helper_Order')->isStatusNotificationAllow()): ?>
+    <a href="<?php echo $this->helper('Magento_Rss_Helper_Order')->getStatusHistoryRssUrl($_order) ?>" class="link-rss f-none"><?php echo __('Subscribe to Order Status') ?></a>
     <span class="separator">|</span>
 <?php endif; ?>
-<?php if (Mage::helper('Magento_Sales_Helper_Reorder')->canReorder($_order)) : ?>
+<?php if ($this->helper('Magento_Sales_Helper_Reorder')->canReorder($_order)) : ?>
     <a href="<?php echo $this->getReorderUrl($_order) ?>" class="link-reorder"><?php echo __('Reorder') ?></a>
     <span class="separator">|</span>
 <?php endif ?>

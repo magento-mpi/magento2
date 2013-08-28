@@ -12,8 +12,8 @@
     $wishlistItems = $this->getWishlistItems();
 ?>
 <div class="page-title title-buttons">
-    <?php if (Mage::helper('Magento_Wishlist_Helper_Data')->isRssAllow() && count($this->getWishlistItems())): ?>
-        <a href="<?php echo Mage::helper('Magento_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo __('RSS Feed') ?></a>
+    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isRssAllow() && count($this->getWishlistItems())): ?>
+        <a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo __('RSS Feed') ?></a>
     <?php endif; ?>
     <h1><?php echo __('Wish List Info') ?></h1>
 </div>

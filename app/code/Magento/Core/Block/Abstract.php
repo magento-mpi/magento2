@@ -128,23 +128,11 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
     protected $_cacheState;
 
     /**
-     * Core data
-     *
-     * @var Magento_Core_Helper_Data
-     */
-    protected $_coreData = null;
-
-    /**
-     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Context $context
      * @param array $data
      */
-    public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Context $context,
-        array $data = array()
-    ) {
-        $this->_coreData = $coreData;
+    public function __construct(Magento_Core_Block_Context $context, array $data = array())
+    {
         $this->_request         = $context->getRequest();
         $this->_layout          = $context->getLayout();
         $this->_eventManager    = $context->getEventManager();
@@ -713,7 +701,7 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
      */
     public function getUrlBase64($route = '', $params = array())
     {
-        return $this->_coreData->urlEncode($this->getUrl($route, $params));
+        return $this->helper('Magento_Core_Helper_Data')->urlEncode($this->getUrl($route, $params));
     }
 
     /**
@@ -725,7 +713,7 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
      */
     public function getUrlEncoded($route = '', $params = array())
     {
-        return $this->_coreData->urlEncode($this->getUrl($route, $params));
+        return $this->helper('Magento_Core_Helper_Data')->urlEncode($this->getUrl($route, $params));
     }
 
     /**
@@ -808,7 +796,7 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
     public function formatDate(
         $date = null, $format =  Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false
     ) {
-        return $this->_coreData->formatDate($date, $format, $showTime);
+        return $this->helper('Magento_Core_Helper_Data')->formatDate($date, $format, $showTime);
     }
 
     /**
@@ -822,7 +810,7 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
     public function formatTime(
         $time = null, $format = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false
     ) {
-        return $this->_coreData->formatTime($time, $format, $showDate);
+        return $this->helper('Magento_Core_Helper_Data')->formatTime($time, $format, $showDate);
     }
 
     /**
@@ -858,7 +846,7 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
      */
     public function escapeHtml($data, $allowedTags = null)
     {
-        return $this->_coreData->escapeHtml($data, $allowedTags);
+        return $this->helper('Magento_Core_Helper_Data')->escapeHtml($data, $allowedTags);
     }
 
     /**
@@ -871,7 +859,7 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
      */
     public function stripTags($data, $allowableTags = null, $allowHtmlEntities = false)
     {
-        return $this->_coreData->stripTags($data, $allowableTags, $allowHtmlEntities);
+        return $this->helper('Magento_Core_Helper_Data')->stripTags($data, $allowableTags, $allowHtmlEntities);
     }
 
     /**
@@ -882,7 +870,7 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
      */
     public function escapeUrl($data)
     {
-        return $this->_coreData->escapeUrl($data);
+        return $this->helper('Magento_Core_Helper_Data')->escapeUrl($data);
     }
 
     /**
@@ -895,7 +883,7 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
      */
     public function quoteEscape($data, $addSlashes = false)
     {
-        return $this->_coreData->quoteEscape($data, $addSlashes);
+        return $this->helper('Magento_Core_Helper_Data')->quoteEscape($data, $addSlashes);
     }
 
     /**
@@ -907,7 +895,7 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
      */
     public function jsQuoteEscape($data, $quote = '\'')
     {
-        return $this->_coreData->jsQuoteEscape($data, $quote);
+        return $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape($data, $quote);
     }
 
     /**

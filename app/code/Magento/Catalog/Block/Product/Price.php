@@ -35,14 +35,6 @@ class Magento_Catalog_Block_Product_Price extends Magento_Core_Block_Template
     protected $_catalogData = null;
 
     /**
-     * Checkout cart
-     *
-     * @var Magento_Checkout_Helper_Cart
-     */
-    protected $_checkoutCart = null;
-
-    /**
-     * @param Magento_Checkout_Helper_Cart $checkoutCart
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Helper_Data $coreData
@@ -50,14 +42,12 @@ class Magento_Catalog_Block_Product_Price extends Magento_Core_Block_Template
      * @param array $data
      */
     public function __construct(
-        Magento_Checkout_Helper_Cart $checkoutCart,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_checkoutCart = $checkoutCart;
         $this->_catalogData = $catalogData;
         $this->_taxData = $taxData;
         parent::__construct($coreData, $context, $data);
@@ -165,7 +155,7 @@ class Magento_Catalog_Block_Product_Price extends Magento_Core_Block_Template
      */
     public function getAddToCartUrl($product, $additional = array())
     {
-        return $this->_checkoutCart->getAddUrl($product, $additional);
+        return $this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product, $additional);
     }
 
     /**

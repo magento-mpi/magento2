@@ -20,29 +20,6 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
     protected $_template = 'Magento_Paypal::system/config/fieldset/hint.phtml';
 
     /**
-     * Adminhtml js
-     *
-     * @var Magento_Adminhtml_Helper_Js
-     */
-    protected $_adminhtmlJs = null;
-
-    /**
-     * @param Magento_Adminhtml_Helper_Js $adminhtmlJs
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Adminhtml_Helper_Js $adminhtmlJs,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_adminhtmlJs = $adminhtmlJs;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Render fieldset html
      *
      * @param Magento_Data_Form_Element_Abstract $element
@@ -100,6 +77,6 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
                 });
             });
         ';
-        return $this->toHtml() . $this->_adminhtmlJs->getScript($js);
+        return $this->toHtml() . $this->helper('Magento_Adminhtml_Helper_Js')->getScript($js);
     }
 }

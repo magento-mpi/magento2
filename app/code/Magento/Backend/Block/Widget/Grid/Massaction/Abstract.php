@@ -44,7 +44,7 @@ abstract class Magento_Backend_Block_Widget_Grid_Massaction_Abstract extends Mag
     {
         parent::_construct();
 
-        $this->setErrorText($this->_backendHelper
+        $this->setErrorText($this->helper('Magento_Backend_Helper_Data')
             ->jsQuoteEscape(__('Please select items.')));
 
         if (null !== $this->getOptions()) {

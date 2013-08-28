@@ -22,29 +22,6 @@ class Magento_Backend_Block_System_Config_Form_Fieldset
 {
 
     /**
-     * Core js
-     *
-     * @var Magento_Core_Helper_Js
-     */
-    protected $_coreJs = null;
-
-    /**
-     * @param Magento_Core_Helper_Js $coreJs
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Helper_Js $coreJs,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Context $context,
-        array $data = array()
-    ) {
-        $this->_coreJs = $coreJs;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Render fieldset html
      *
      * @param Magento_Data_Form_Element_Abstract $element
@@ -195,7 +172,7 @@ class Magento_Backend_Block_System_Config_Form_Fieldset
     {
         $htmlId = $element->getHtmlId();
         $output = "Fieldset.applyCollapse('{$htmlId}');";
-        return $this->_coreJs->getScript($output);
+        return $this->helper('Magento_Core_Helper_Js')->getScript($output);
     }
 
     /**

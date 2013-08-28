@@ -40,7 +40,7 @@
                     <td><em><?php echo $_order->getStatusLabel() ?></em></td>
                     <td class="a-center">
                         <a href="<?php echo $this->getViewUrl($_order) ?>" class="nobr"><?php echo __('View Order') ?></a>
-                        <?php if (Mage::helper('Magento_Sales_Helper_Reorder')->canReorder($_order)) : ?>
+                        <?php if ($this->helper('Magento_Sales_Helper_Reorder')->canReorder($_order)) : ?>
                             <span class="separator">|</span> <a href="<?php echo $this->getReorderUrl($_order) ?>" class="nobr"><?php echo __('Reorder') ?></a>
                         <?php endif ?>
                     </td>

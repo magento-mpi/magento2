@@ -11,7 +11,7 @@
 <?php if($this->getResultCount()): ?>
 <div class="page-title">
     <?php echo $this->getChildHtml('tagged_product_list_rss_link'); ?>
-    <h1><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : __("Search results for '%1'", Mage::helper('Magento_CatalogSearch_Helper_Data')->getEscapedQueryText()) ?></h1>
+    <h1><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : __("Search results for '%1'", $this->helper('Magento_CatalogSearch_Helper_Data')->getEscapedQueryText()) ?></h1>
 </div>
 <div class="results-view">
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
@@ -26,7 +26,7 @@
 </div>
 <?php else: ?>
 <div class="page-title">
-    <h1><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : __("Search results for '%1'", Mage::helper('Magento_CatalogSearch_Helper_Data')->getEscapedQueryText()) ?></h1>
+    <h1><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : __("Search results for '%1'", $this->helper('Magento_CatalogSearch_Helper_Data')->getEscapedQueryText()) ?></h1>
 </div>
 <p class="note-msg">
     <?php echo ($this->getNoResultText()) ? $this->getNoResultText() : __('Your search returns no results.') ?>

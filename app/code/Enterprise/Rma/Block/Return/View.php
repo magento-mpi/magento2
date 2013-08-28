@@ -351,7 +351,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
                 'href'      => "javascript:void(0)",
                 'title'     => __('Show Packages'),
                 'onclick'   => "popWin(
-                        '".$this->_rmaData->getPackagePopupUrlByRmaModel($this->getRma())."',
+                        '".$this->helper('Enterprise_Rma_Helper_Data')->getPackagePopupUrlByRmaModel($this->getRma())."',
                         'package',
                         'width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
             ))
@@ -369,7 +369,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         return $this->getLayout()
             ->createBlock('Magento_Core_Block_Html_Link')
             ->setData(array(
-                'href'      => $this->_rmaData->getPackagePopupUrlByRmaModel(
+                'href'      => $this->helper('Enterprise_Rma_Helper_Data')->getPackagePopupUrlByRmaModel(
                     $this->getRma(),
                     'printlabel'
                 ),

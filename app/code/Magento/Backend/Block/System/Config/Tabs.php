@@ -57,25 +57,15 @@ class Magento_Backend_Block_System_Config_Tabs extends Magento_Backend_Block_Wid
     protected $_storeCode;
 
     /**
-     * Backend data
-     *
-     * @var Magento_Backend_Helper_Data
-     */
-    protected $_backendData = null;
-
-    /**
-     * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Backend_Model_Config_Structure $configStructure
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Backend_Model_Config_Structure $configStructure,
         array $data = array()
     ) {
-        $this->_backendData = $backendData;
         parent::__construct($context, $data);
         $this->_tabs = $configStructure->getTabs();
 
@@ -83,7 +73,7 @@ class Magento_Backend_Block_System_Config_Tabs extends Magento_Backend_Block_Wid
         $this->setTitle(__('Configuration'));
         $this->_currentSectionId = $this->getRequest()->getParam('section');
 
-        $this->_backendData->addPageHelpUrl($this->getRequest()->getParam('section') . '/');
+        $this->helper('Magento_Backend_Helper_Data')->addPageHelpUrl($this->getRequest()->getParam('section') . '/');
     }
 
     /**

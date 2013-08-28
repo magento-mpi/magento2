@@ -17,23 +17,9 @@
  */
 class Magento_Paypal_Block_Payflow_Advanced_Iframe extends Magento_Paypal_Block_Payflow_Link_Iframe
 {
-    /**
-     * @param array $data
-     * @param Magento_Paypal_Helper_Hss $paypalHss
-     * @param Magento_Core_Helper_Data $coreData
-     * @param  $paymentData
-     * @param  $context
-     * @param  $data
-     */
-    public function __construct(
-        array $data,
-        Magento_Paypal_Helper_Hss $paypalHss,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        parent::__construct($coreData, $paypalHss, $data, $paymentData, $context, $data);
+    public function __construct(Magento_Payment_Helper_Data $paymentData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($paymentData, $context, $data);
     }
 
     /**

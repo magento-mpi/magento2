@@ -13,9 +13,9 @@
 <tr>
     <td class="col-product"><?php echo $this->getColumnHtml($_item, 'name') ?></td>
     <td class="col-price">
-        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || Mage::helper('Magento_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Magento_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
             <span class="price-excl-tax">
-                <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
+                <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                     <span class="label"><?php echo __('Excl. Tax'); ?>:</span>
                 <?php endif; ?>
 
@@ -66,13 +66,13 @@
             </span>
             <br />
         <?php endif; ?>
-        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || Mage::helper('Magento_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Magento_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
             <span class="price-incl-tax">
-                <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
+                <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                     <span class="label"><?php echo __('Incl. Tax'); ?>:</span>
                 <?php endif; ?>
-                <?php $_incl = Mage::helper('Magento_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
-                <?php $_baseIncl = Mage::helper('Magento_Checkout_Helper_Data')->getBasePriceInclTax($_item); ?>
+                <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
+                <?php $_baseIncl = $this->helper('Magento_Checkout_Helper_Data')->getBasePriceInclTax($_item); ?>
 
                 <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales', $_item->getStoreId())): ?>
                     <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedAmount(), $_incl+$_item->getWeeeTaxAppliedAmount()); ?>
@@ -124,9 +124,9 @@
     <?php endif; ?>
     </td>
     <td class="col-subtotal">
-        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || Mage::helper('Magento_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Magento_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
             <span class="price-excl-tax">
-                <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
+                <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                     <span class="label"><?php echo __('Excl. Tax'); ?>:</span>
                 <?php endif; ?>
 
@@ -176,13 +176,13 @@
             </span>
             <br />
         <?php endif; ?>
-        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || Mage::helper('Magento_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Magento_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
             <span class="price-incl-tax">
-                <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
+                <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                     <span class="label"><?php echo __('Incl. Tax'); ?>:</span>
                 <?php endif; ?>
-                <?php $_incl = Mage::helper('Magento_Checkout_Helper_Data')->getSubtotalInclTax($_item); ?>
-                <?php $_baseIncl = Mage::helper('Magento_Checkout_Helper_Data')->getBaseSubtotalInclTax($_item); ?>
+                <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getSubtotalInclTax($_item); ?>
+                <?php $_baseIncl = $this->helper('Magento_Checkout_Helper_Data')->getBaseSubtotalInclTax($_item); ?>
                 <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales', $_item->getStoreId())): ?>
                     <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedRowAmnt(), $_incl+$_item->getWeeeTaxAppliedRowAmount()); ?>
                 <?php else: ?>

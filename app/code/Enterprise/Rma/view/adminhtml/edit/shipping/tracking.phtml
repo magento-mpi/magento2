@@ -43,7 +43,7 @@
                 <?php if ($_track->isCustom()): ?>
                     <?php echo $this->escapeHtml($_track->getTrackNumber()) ?>
                 <?php else: ?>
-                <a href="#" onclick="popWin('<?php echo Mage::helper('Enterprise_Rma_Helper_Data')->getTrackingPopupUrlBySalesModel($_track) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')"><?php echo $this->escapeHtml($_track->getTrackNumber()) ?></a>
+                <a href="#" onclick="popWin('<?php echo $this->helper('Enterprise_Rma_Helper_Data')->getTrackingPopupUrlBySalesModel($_track) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')"><?php echo $this->escapeHtml($_track->getTrackNumber()) ?></a>
                 <div id="shipment_tracking_info_response_<?php echo $_track->getId() ?>"></div>
                 <?php endif; ?>
             </td>

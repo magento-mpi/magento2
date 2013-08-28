@@ -37,12 +37,12 @@
             </div>
             <div class="shipping-description-wrapper">
                 <?php  if ($_order->getTracksCollection()->count()) : ?>
-                <p><a href="#" id="linkId" onclick="popWin('<?php echo Mage::helper('Magento_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_order) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo __('Track Order') ?>"><?php echo __('Track Order') ?></a></p>
+                <p><a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('Magento_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_order) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo __('Track Order') ?>"><?php echo __('Track Order') ?></a></p>
                 <?php endif; ?>
                 <?php if ($_order->getShippingDescription()): ?>
                     <strong><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></strong>
 
-                    <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
+                    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
                         <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
                     <?php else: ?>
                         <?php $_excl = $this->displayPriceAttribute('shipping_amount', false, ' '); ?>
@@ -50,7 +50,7 @@
                     <?php $_incl = $this->displayShippingPriceInclTax($_order); ?>
 
                     <?php echo $_excl; ?>
-                    <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
                         (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
                     <?php endif; ?>
                 <?php else: ?>

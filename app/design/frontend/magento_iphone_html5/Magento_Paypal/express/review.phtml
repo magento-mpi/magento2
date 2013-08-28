@@ -18,7 +18,7 @@ $shippingAddress = $this->getShippingAddress();
 <?php echo $this->getLayout()->renderElement('messages') ?>
 <script type="text/javascript">
 //<![CDATA[
-    var countryRegions = <?php echo Mage::helper('Magento_Directory_Helper_Data')->getRegionJson() ?>
+    var countryRegions = <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson() ?>
 //]]>
 </script>
 <div class="paypal-review-order">

@@ -18,11 +18,11 @@
 ?>
 <?php
     /** @var $_coreHelper Magento_Core_Helper_Data */
-    $_coreHelper        = Mage::helper('Magento_Core_Helper_Data');
+    $_coreHelper        = $this->helper('Magento_Core_Helper_Data');
     /** @var $_weeeHelper Magento_Weee_Helper_Data */
-    $_weeeHelper        = Mage::helper('Magento_Weee_Helper_Data');
+    $_weeeHelper        = $this->helper('Magento_Weee_Helper_Data');
     /** @var $_taxHelper Magento_Tax_Helper_Data */
-    $_taxHelper         = Mage::helper('Magento_Tax_Helper_Data');
+    $_taxHelper         = $this->helper('Magento_Tax_Helper_Data');
 
     $_product           = $this->getProduct();
     $_id                = $_product->getId();

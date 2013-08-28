@@ -25,29 +25,6 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
     protected $_entity;
 
     /**
-     * Gift message message
-     *
-     * @var Magento_GiftMessage_Helper_Message
-     */
-    protected $_giftMessageMessage = null;
-
-    /**
-     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_GiftMessage_Helper_Message $giftMessageMessage,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_giftMessageMessage = $giftMessageMessage;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Retrieve order model instance
      *
      * @return Magento_Sales_Model_Order
@@ -212,7 +189,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->_giftMessageMessage->getGiftMessage(
+        $this->_giftMessage = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage(
                                    $this->getEntity()->getGiftMessageId()
                               );
 
@@ -269,7 +246,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
      */
     public function canDisplayGiftmessage()
     {
-        return $this->_giftMessageMessage->getIsMessagesAvailable(
+        return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
             'order', $this->getEntity(), $this->getEntity()->getStoreId()
         );
     }

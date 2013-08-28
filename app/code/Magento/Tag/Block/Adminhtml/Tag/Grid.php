@@ -18,35 +18,6 @@
 class Magento_Tag_Block_Adminhtml_Tag_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
-     * Tag data
-     *
-     * @var Magento_Tag_Helper_Data
-     */
-    protected $_tagData = null;
-
-    /**
-     * @param Magento_Tag_Helper_Data $tagData
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Tag_Helper_Data $tagData,
-        Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        array $data = array()
-    ) {
-        $this->_tagData = $tagData;
-        parent::__construct($backendData, $coreData, $context, $storeManager, $urlModel, $data);
-    }
-
-    /**
      * Constructor
      *
      * @return void
@@ -108,7 +79,7 @@ class Magento_Tag_Block_Adminhtml_Tag_Grid extends Magento_Adminhtml_Block_Widge
             'width'         => 90,
             'index'         => 'status',
             'type'          => 'options',
-            'options'       => $this->_tagData->getStatusesArray(),
+            'options'       => $this->helper('Magento_Tag_Helper_Data')->getStatusesArray(),
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
@@ -136,7 +107,7 @@ class Magento_Tag_Block_Adminhtml_Tag_Grid extends Magento_Adminhtml_Block_Widge
              'confirm'  => __('Are you sure?')
         ));
 
-        $statuses = $this->_tagData->getStatusesOptionsArray();
+        $statuses = $this->helper('Magento_Tag_Helper_Data')->getStatusesOptionsArray();
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
 

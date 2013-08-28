@@ -25,11 +25,6 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      */
     protected $_theme;
 
-    public function __construct(Magento_Backend_Helper_Data $backendData, Magento_Core_Helper_Data $coreData, Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($backendData, $coreData, $context, $data);
-    }
-
     /**
      * Init save button
      *
@@ -288,6 +283,6 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      */
     protected function _encode($data)
     {
-        return $this->_backendData->escapeHtml(json_encode($data));
+        return $this->helper('Magento_Backend_Helper_Data')->escapeHtml(json_encode($data));
     }
 }

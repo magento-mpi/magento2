@@ -23,11 +23,6 @@ class Magento_DesignEditor_Block_Adminhtml_Theme extends Magento_Backend_Block_T
      */
     protected $_buttons = array();
 
-    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($coreData, $context, $data);
-    }
-
     /**
      * Add button
      *
@@ -95,7 +90,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme extends Magento_Backend_Block_T
         );
 
         /** @var $helper Magento_Core_Helper_Data */
-        $helper = $this->_coreData;
+        $helper = $this->helper('Magento_Core_Helper_Data');
         return $helper->jsonEncode($options);
     }
 

@@ -14,14 +14,14 @@
     <td class="first"><?php echo __('Gift Wrapping'); ?></td>
     <td></td>
     <td class="price">
-        <?php if (Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingBothPrices($this->getStore()) || Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingExcludeTaxPrice($this->getStore())): ?>
-            <?php if (Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingBothPrices($this->getStore())): ?>
+        <?php if ($this->helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingBothPrices($this->getStore()) || $this->helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingExcludeTaxPrice($this->getStore())): ?>
+            <?php if ($this->helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingBothPrices($this->getStore())): ?>
                 <span class="label"><?php echo __('Excl. Tax'); ?>:</span>
             <?php endif; ?>
             <?php echo $this->formatPrice($_item->getGwPrice());?>
         <?php endif; ?>
-        <?php if (Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingBothPrices($this->getStore()) || Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingIncludeTaxPrice($this->getStore())): ?>
-            <?php if (Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingBothPrices($this->getStore())): ?>
+        <?php if ($this->helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingBothPrices($this->getStore()) || $this->helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingIncludeTaxPrice($this->getStore())): ?>
+            <?php if ($this->helper('Enterprise_GiftWrapping_Helper_Data')->displayCartWrappingBothPrices($this->getStore())): ?>
                 <br />
                 <span class="label"><?php echo __('Incl. Tax'); ?>:</span>
             <?php endif; ?>

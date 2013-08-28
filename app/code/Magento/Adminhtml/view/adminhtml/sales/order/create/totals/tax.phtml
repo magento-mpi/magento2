@@ -9,7 +9,7 @@
  */
 ?>
 <?php global $taxIter; $taxIter++; ?>
-<?php if (Mage::helper('Magento_Tax_Helper_Data')->displayFullSummary()): ?>
+<?php if ($this->helper('Magento_Tax_Helper_Data')->displayFullSummary()): ?>
 <?php $isTop = 1; ?>
             <?php foreach ($this->getTotal()->getFullInfo() as $info): ?>
                 <?php if (isset($info['hidden']) && $info['hidden']) continue; ?>
@@ -38,10 +38,10 @@
                 <?php endforeach; ?>
             <?php endforeach; ?>
 <?php endif;?>
-<?php $class="{$this->getTotal()->getCode()} " . (Mage::helper('Magento_Tax_Helper_Data')->displayFullSummary() ? 'summary-total' : ''); ?>
-<tr<?php if (Mage::helper('Magento_Tax_Helper_Data')->displayFullSummary()): ?> onclick="expandDetails(this, '.summary-details-<?php echo $taxIter;?>')"<?php endif; ?> class="<?php echo $class;?>">
+<?php $class="{$this->getTotal()->getCode()} " . ($this->helper('Magento_Tax_Helper_Data')->displayFullSummary() ? 'summary-total' : ''); ?>
+<tr<?php if ($this->helper('Magento_Tax_Helper_Data')->displayFullSummary()): ?> onclick="expandDetails(this, '.summary-details-<?php echo $taxIter;?>')"<?php endif; ?> class="<?php echo $class;?>">
     <td style="<?php echo $this->getTotal()->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
-        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayFullSummary()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayFullSummary()): ?>
             <div class="summary-collapse"><?php echo $this->getTotal()->getTitle() ?></div>
         <?php else: ?>
             <?php echo $this->getTotal()->getTitle() ?>

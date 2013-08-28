@@ -23,10 +23,10 @@
 
 <?php $_weeeSeparator = ''; ?>
 
-<?php $simplePricesTax = (Mage::helper('Magento_Tax_Helper_Data')->displayPriceIncludingTax() || Mage::helper('Magento_Tax_Helper_Data')->displayBothPrices()); ?>
+<?php $simplePricesTax = ($this->helper('Magento_Tax_Helper_Data')->displayPriceIncludingTax() || $this->helper('Magento_Tax_Helper_Data')->displayBothPrices()); ?>
 
 <?php $_minimalPriceValue = $_product->getMinimalPrice() ?>
-<?php $_minimalPrice = Mage::helper('Magento_Tax_Helper_Data')->getPrice($_product, $_minimalPriceValue, $simplePricesTax) ?>
+<?php $_minimalPrice = $this->helper('Magento_Tax_Helper_Data')->getPrice($_product, $_minimalPriceValue, $simplePricesTax) ?>
 
 <?php if (!$_product->isGrouped()): ?>
     <?php $_weeeTaxAmount = Mage::helper('Magento_Weee_Helper_Data')->getAmountForDisplay($_product); ?>
@@ -36,13 +36,13 @@
     <?php endif; ?>
 
     <div class="price-box">
-    <?php $_price = Mage::helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getPrice()) ?>
-    <?php $_regularPrice = Mage::helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getPrice(), $simplePricesTax) ?>
-    <?php $_finalPrice = Mage::helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getFinalPrice()) ?>
-    <?php $_finalPriceInclTax = Mage::helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getFinalPrice(), true) ?>
+    <?php $_price = $this->helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getPrice()) ?>
+    <?php $_regularPrice = $this->helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getPrice(), $simplePricesTax) ?>
+    <?php $_finalPrice = $this->helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getFinalPrice()) ?>
+    <?php $_finalPriceInclTax = $this->helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getFinalPrice(), true) ?>
     <?php $_weeeDisplayType = Mage::helper('Magento_Weee_Helper_Data')->getPriceDisplayType(); ?>
     <?php if ($_finalPrice == $_price): ?>
-        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
             <?php if ($_weeeTaxAmount && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 0)): // including ?>
                 <span class="price-excluding-tax">
                     <span class="label"><?php echo __('Excl. Tax:') ?></span>
@@ -160,7 +160,7 @@
                 <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_regularPrice+$_originalWeeeTaxAmount,true,false) ?></span>
             </p>
 
-            <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
                 <p class="special-price">
                     <span class="price-label"><?php echo __('Special Price:') ?></span>
                     <span class="price-excluding-tax">
@@ -260,7 +260,7 @@
                 <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_regularPrice,true,false) ?></span>
             </p>
 
-            <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
                 <p class="special-price">
                     <span class="price-label"><?php echo __('Special Price:') ?></span>
                     <span class="price-excluding-tax">
@@ -306,14 +306,14 @@
 
 <?php else: /* if (!$_product->isGrouped()): */ ?>
     <?php
-    $_exclTax = Mage::helper('Magento_Tax_Helper_Data')->getPrice($_product, $_minimalPriceValue, $includingTax = null);
-    $_inclTax = Mage::helper('Magento_Tax_Helper_Data')->getPrice($_product, $_minimalPriceValue, $includingTax = true);
+    $_exclTax = $this->helper('Magento_Tax_Helper_Data')->getPrice($_product, $_minimalPriceValue, $includingTax = null);
+    $_inclTax = $this->helper('Magento_Tax_Helper_Data')->getPrice($_product, $_minimalPriceValue, $includingTax = true);
     ?>
     <?php if ($this->getDisplayMinimalPrice() && $_minimalPriceValue): ?>
         <div class="price-box">
         <p class="minimal-price">
             <span class="price-label"><?php echo __('Starting at:') ?></span>
-            <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
                 <span class="price-excluding-tax">
                     <span class="label"><?php echo __('Excl. Tax:') ?></span>
                     <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_exclTax, true, false) ?></span>
@@ -325,7 +325,7 @@
             <?php else: ?>
                 <?php
                 $_showPrice = $_inclTax;
-                if (!Mage::helper('Magento_Tax_Helper_Data')->displayPriceIncludingTax()) {
+                if (!$this->helper('Magento_Tax_Helper_Data')->displayPriceIncludingTax()) {
                     $_showPrice = $_exclTax;
                 }
                 ?>

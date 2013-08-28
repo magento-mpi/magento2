@@ -538,7 +538,7 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
     protected function _prepareData()
     {
         if (!is_null($this->getDataHelperName())) {
-            $availablePeriods = array_keys($this->_adminhtmlDashboardData->getDatePeriods());
+            $availablePeriods = array_keys($this->helper('Magento_Adminhtml_Helper_Dashboard_Data')->getDatePeriods());
             $period = $this->getRequest()->getParam('period');
             $this->getDataHelper()->setParam('period',
                ($period && in_array($period, $availablePeriods)) ? $period : '24h'

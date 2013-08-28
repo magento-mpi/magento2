@@ -18,7 +18,7 @@
         <?php echo __('Subtotal (Excl. Tax)') ?>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValueExclTax()) ?>
+        <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValueExclTax()) ?>
     </td>
 </tr>
 <tr>
@@ -26,7 +26,7 @@
         <?php echo __('Subtotal (Incl. Tax)') ?>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValueInclTax()) ?>
+        <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValueInclTax()) ?>
     </td>
 </tr>
 <?php else : ?>
@@ -35,7 +35,7 @@
         <?php echo $this->getTotal()->getTitle() ?>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValue()) ?>
+        <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValue()) ?>
     </td>
 </tr>
 <?php endif;?>

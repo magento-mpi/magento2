@@ -11,29 +11,6 @@
 class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Totals
 {
     /**
-     * Adminhtml sales
-     *
-     * @var Magento_Adminhtml_Helper_Sales
-     */
-    protected $_adminhtmlSales = null;
-
-    /**
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_adminhtmlSales = $adminhtmlSales;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Format total value based on order currency
      *
      * @param   Magento_Object $total
@@ -42,7 +19,7 @@ class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Tot
     public function formatValue($total)
     {
         if (!$total->getIsFormated()) {
-            return $this->_adminhtmlSales->displayPrices(
+            return $this->helper('Magento_Adminhtml_Helper_Sales')->displayPrices(
                 $this->getOrder(),
                 $total->getBaseValue(),
                 $total->getValue()

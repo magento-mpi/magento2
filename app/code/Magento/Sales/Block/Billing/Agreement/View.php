@@ -37,29 +37,6 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     protected $_relatedOrders = null;
 
     /**
-     * Payment data
-     *
-     * @var Magento_Payment_Helper_Data
-     */
-    protected $_paymentData = null;
-
-    /**
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_paymentData = $paymentData;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Retrieve related orders collection
      *
      * @return Magento_Sales_Model_Resource_Order_Collection
@@ -95,7 +72,7 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
                 $value = $order->getIncrementId();
                 break;
             case 'created_at':
-                $value = $this->_coreData->formatDate($order->getCreatedAt(), 'short', true);
+                $value = $this->helper('Magento_Core_Helper_Data')->formatDate($order->getCreatedAt(), 'short', true);
                 break;
             case 'shipping_address':
                 $value = $order->getShippingAddress()
@@ -145,7 +122,7 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->_paymentData->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->helper('Magento_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
@@ -177,11 +154,11 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
             $createdAt = $this->_billingAgreementInstance->getCreatedAt();
             $updatedAt = $this->_billingAgreementInstance->getUpdatedAt();
             $this->setAgreementCreatedAt(
-                ($createdAt) ? $this->_coreData->formatDate($createdAt, 'short', true) : __('N/A')
+                ($createdAt) ? $this->helper('Magento_Core_Helper_Data')->formatDate($createdAt, 'short', true) : __('N/A')
             );
             if ($updatedAt) {
                 $this->setAgreementUpdatedAt(
-                    $this->_coreData->formatDate($updatedAt, 'short', true)
+                    $this->helper('Magento_Core_Helper_Data')->formatDate($updatedAt, 'short', true)
                 );
             }
             $this->setAgreementStatus($this->_billingAgreementInstance->getStatusLabel());

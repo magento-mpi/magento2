@@ -32,11 +32,6 @@ class Magento_Tag_Block_Customer_View extends Magento_Catalog_Block_Product_Abst
      */
     protected $_tagInfo;
 
-    public function __construct(Magento_Catalog_Helper_Image $catalogImage, Magento_Page_Helper_Layout $pageLayout, Magento_Catalog_Helper_Product_Compare $catalogProductCompare, Magento_Wishlist_Helper_Data $wishlistData, Magento_Checkout_Helper_Cart $checkoutCart, Magento_Tax_Helper_Data $taxData, Magento_Catalog_Helper_Data $catalogData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($catalogImage, $pageLayout, $catalogProductCompare, $wishlistData, $checkoutCart, $taxData, $catalogData, $coreData, $context, $data);
-    }
-
     /**
      * Initialize block
      *
@@ -155,7 +150,7 @@ class Magento_Tag_Block_Customer_View extends Magento_Catalog_Block_Product_Abst
      */
     public function getImageUrl($product)
     {
-        return (string) $this->_catalogImage->init($product, 'small_image')
+        return (string) $this->helper('Magento_Catalog_Helper_Image')->init($product, 'small_image')
             ->resize($this->getImageSize());
     }
 

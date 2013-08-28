@@ -23,7 +23,7 @@ $element = $this->getElement();
 <?php $_showWebsite= $this->isMultiWebsites(); ?>
 <div class="field" id="attribute-<?php echo $_htmlId?>-container" data-element-id="<?php echo $_htmlId?>"
      data-apply-to="<?php echo $this->escapeHtml(
-         Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
+         $this->helper('Magento_Core_Helper_Data')->jsonEncode(
              $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : array()
          )
      )?>">

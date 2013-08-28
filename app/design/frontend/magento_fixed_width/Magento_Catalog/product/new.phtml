@@ -32,7 +32,7 @@
                         <?php endif; ?>
                     <?php endif; ?>
                     <ul class="add-to-links" data-role="add-to-links">
-                        <?php if (Mage::helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
+                        <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
                             <li><a href="<?php echo $this->getAddToWishlistUrl($_product) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></li>
                         <?php endif; ?>
                         <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>

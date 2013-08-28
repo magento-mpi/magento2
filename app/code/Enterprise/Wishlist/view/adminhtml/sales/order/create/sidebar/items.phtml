@@ -91,7 +91,7 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
-    var wishlistBlockId = 'sidebar_data_<?php echo Mage::helper('Magento_Core_Helper_Data')->jsQuoteEscape($this->getDataId()); ?>';
+    var wishlistBlockId = 'sidebar_data_<?php echo $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape($this->getDataId()); ?>';
     var wishlistBlock = {
         table : $(wishlistBlockId).down('.content table'),
         selector : $(wishlistBlockId).down('.head select'),

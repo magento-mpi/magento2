@@ -25,19 +25,17 @@ class Enterprise_Cms_Block_Hierarchy_Head extends Magento_Core_Block_Abstract
     protected $_cmsHierarchy = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
      * @param Enterprise_Cms_Helper_Hierarchy $cmsHierarchy
      * @param Magento_Core_Block_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
         Enterprise_Cms_Helper_Hierarchy $cmsHierarchy,
         Magento_Core_Block_Context $context,
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $data);
     }
 
     /**

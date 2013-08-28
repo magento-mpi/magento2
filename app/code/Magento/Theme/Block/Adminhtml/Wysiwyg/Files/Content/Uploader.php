@@ -23,29 +23,6 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader extends Magen
     protected $_template = 'browser/content/uploader.phtml';
 
     /**
-     * Theme storage
-     *
-     * @var Magento_Theme_Helper_Storage
-     */
-    protected $_themeStorage = null;
-
-    /**
-     * @param Magento_Theme_Helper_Storage $themeStorage
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Theme_Helper_Storage $themeStorage,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_View_Url $viewUrl,
-        array $data = array()
-    ) {
-        $this->_themeStorage = $themeStorage;
-        parent::__construct($context, $viewUrl, $data);
-    }
-
-    /**
      * Prepare layout
      *
      * @return Magento_Adminhtml_Block_Media_Uploader
@@ -53,7 +30,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader extends Magen
     protected function _prepareLayout()
     {
         $this->getConfig()->setUrl(
-            $this->getUrl('*/*/upload', $this->_themeStorage->getRequestParams())
+            $this->getUrl('*/*/upload', $this->helper('Magento_Theme_Helper_Storage')->getRequestParams())
         );
         return parent::_prepareLayout();
     }
@@ -65,6 +42,6 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader extends Magen
      */
     public function getHelperStorage()
     {
-        return $this->_themeStorage;
+        return $this->helper('Magento_Theme_Helper_Storage');
     }
 }

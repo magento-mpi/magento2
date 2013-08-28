@@ -20,30 +20,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
     extends Magento_Adminhtml_Block_Catalog_Form
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
-    /**
-     * Adminhtml catalog product edit action attribute
-     *
-     * @var Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
-     */
-    protected $_adminhtmlCatalogProductEditActionAttribute = null;
-
-    /**
-     * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
-     * $adminhtmlCatalogProductEditActionAttribute
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlCatalogProductEditActionAttribute,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_adminhtmlCatalogProductEditActionAttribute = $adminhtmlCatalogProductEditActionAttribute;
-        parent::__construct($coreData, $context, $data);
-    }
-
     protected function _construct()
     {
         parent::_construct();
@@ -86,7 +62,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
      */
     public function getAttributes()
     {
-        return $this->_adminhtmlCatalogProductEditActionAttribute
+        return $this->helper('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')
             ->getAttributes()->getItems();
     }
 

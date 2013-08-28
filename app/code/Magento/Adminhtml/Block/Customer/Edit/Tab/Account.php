@@ -23,24 +23,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
      */
     const DISABLE_ATTRIBUTE_NAME = 'disable_auto_group_change';
 
-    /**
-     * Customer data
-     *
-     * @var Magento_Customer_Helper_Data
-     */
-    protected $_customerData = null;
-
-    /**
-     * @param Magento_Customer_Helper_Data $customerData
-     * @param  $context
-     * @param  $data
-     */
-    public function __construct(
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_customerData = $customerData;
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
         parent::__construct($context, $data);
     }
 
@@ -76,7 +60,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
 
         $prefixElement = $form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->_customerData->getNamePrefixOptions($customerStoreId);
+            $prefixOptions = $this->helper('Magento_Customer_Helper_Data')->getNamePrefixOptions($customerStoreId);
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(),
@@ -93,7 +77,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
 
         $suffixElement = $form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->_customerData->getNameSuffixOptions($customerStoreId);
+            $suffixOptions = $this->helper('Magento_Customer_Helper_Data')->getNameSuffixOptions($customerStoreId);
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField($suffixElement->getId(),

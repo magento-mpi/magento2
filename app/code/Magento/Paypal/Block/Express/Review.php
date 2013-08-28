@@ -37,29 +37,6 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     protected $_paypalActionPrefix = 'paypal';
 
     /**
-     * Tax data
-     *
-     * @var Magento_Tax_Helper_Data
-     */
-    protected $_taxData = null;
-
-    /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_taxData = $taxData;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Quote object setter
      *
      * @param Magento_Sales_Model_Quote $quote
@@ -148,10 +125,10 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
             $price = $rate->getErrorMessage();
         } else {
             $price = $this->_getShippingPrice($rate->getPrice(),
-                $this->_taxData->displayShippingPriceIncludingTax());
+                $this->helper('Magento_Tax_Helper_Data')->displayShippingPriceIncludingTax());
 
             $incl = $this->_getShippingPrice($rate->getPrice(), true);
-            if (($incl != $price) && $this->_taxData->displayShippingBothPrices()) {
+            if (($incl != $price) && $this->helper('Magento_Tax_Helper_Data')->displayShippingBothPrices()) {
                 $renderedInclTax = sprintf(
                     $inclTaxFormat,
                     __('Incl. Tax'),
@@ -191,7 +168,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     protected function _getShippingPrice($price, $isInclTax)
     {
         return $this->_formatPrice(
-            $this->_taxData->getShippingPrice(
+            $this->helper('Magento_Tax_Helper_Data')->getShippingPrice(
                 $price,
                 $isInclTax,
                 $this->_address

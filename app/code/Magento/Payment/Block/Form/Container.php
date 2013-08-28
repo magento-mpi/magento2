@@ -20,29 +20,6 @@
 class Magento_Payment_Block_Form_Container extends Magento_Core_Block_Template
 {
     /**
-     * Payment data
-     *
-     * @var Magento_Payment_Helper_Data
-     */
-    protected $_paymentData = null;
-
-    /**
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_paymentData = $paymentData;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Prepare children blocks
      */
     protected function _prepareLayout()
@@ -53,7 +30,7 @@ class Magento_Payment_Block_Form_Container extends Magento_Core_Block_Template
         foreach ($this->getMethods() as $method) {
             $this->setChild(
                'payment.method.'.$method->getCode(),
-               $this->_paymentData->getMethodFormBlock($method)
+               $this->helper('Magento_Payment_Helper_Data')->getMethodFormBlock($method)
             );
         }
 
@@ -117,7 +94,7 @@ class Magento_Payment_Block_Form_Container extends Magento_Core_Block_Template
             $quote = $this->getQuote();
             $store = $quote ? $quote->getStoreId() : null;
             $methods = array();
-            foreach ($this->_paymentData->getStoreMethods($store, $quote) as $method) {
+            foreach ($this->helper('Magento_Payment_Helper_Data')->getStoreMethods($store, $quote) as $method) {
                 if ($this->_canUseMethod($method) && $method->isApplicableToQuote(
                     $quote,
                     Magento_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL

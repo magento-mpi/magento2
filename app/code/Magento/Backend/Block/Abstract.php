@@ -25,16 +25,12 @@ class Magento_Backend_Block_Abstract extends Magento_Core_Block_Abstract
     protected $_authorization;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Context $context
      * @param array $data
      */
-    public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Context $context,
-        array $data = array()
-    ) {
-        parent::__construct($coreData, $context, $data);
+    public function __construct(Magento_Backend_Block_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
         $this->_authorization = $context->getAuthorization();
     }
 }

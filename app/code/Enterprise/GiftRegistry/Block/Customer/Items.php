@@ -14,33 +14,9 @@
 class Enterprise_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Product_Abstract
 {
 
-    /**
-     * @param array $data
-     * @param Magento_Checkout_Helper_Cart $checkoutCart
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
-     * @param Magento_Page_Helper_Layout $pageLayout
-     * @param Magento_Catalog_Helper_Image $catalogImage
-     * @param  $taxData
-     * @param  $catalogData
-     * @param  $coreData
-     * @param  $context
-     * @param  $data
-     */
-    public function __construct(
-        array $data,
-        Magento_Checkout_Helper_Cart $checkoutCart,
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
-        Magento_Page_Helper_Layout $pageLayout,
-        Magento_Catalog_Helper_Image $catalogImage,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        parent::__construct($catalogImage, $pageLayout, $catalogProductCompare, $wishlistData, $checkoutCart, $data, $taxData, $catalogData, $coreData, $context, $data);
+    public function __construct(Magento_Tax_Helper_Data $taxData, Magento_Catalog_Helper_Data $catalogData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
     }
 
     /**

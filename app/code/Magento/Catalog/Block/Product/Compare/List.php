@@ -73,7 +73,7 @@ class Magento_Catalog_Block_Product_Compare_List extends Magento_Catalog_Block_P
             $urlParamName   => $continueUrl
         );
 
-        return $this->_wishlistData->getAddUrlWithParams($product, $params);
+        return $this->helper('Magento_Wishlist_Helper_Data')->getAddUrlWithParams($product, $params);
     }
 
     /**

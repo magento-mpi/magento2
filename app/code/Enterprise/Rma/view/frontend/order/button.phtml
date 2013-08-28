@@ -9,7 +9,7 @@
  */
 /** @var $this Enterprise_Rma_Block_Order_Button */
 ?>
-<?php if(Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($this->getOrder())): ?>
+<?php if($this->helper('Enterprise_Rma_Helper_Data')->canCreateRma($this->getOrder())): ?>
     <span class="separator">|</span>
-    <a href="<?php echo Mage::helper('Enterprise_Rma_Helper_Data')->getReturnCreateUrl($this->getOrder()) ?>"><?php echo __('Return') ?></a>
+    <a href="<?php echo $this->helper('Enterprise_Rma_Helper_Data')->getReturnCreateUrl($this->getOrder()) ?>"><?php echo __('Return') ?></a>
 <?php endif;?>

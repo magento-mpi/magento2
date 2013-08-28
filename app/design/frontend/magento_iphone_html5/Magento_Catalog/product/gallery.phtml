@@ -8,22 +8,22 @@
  * @license     {license_link}
  */
 ?>
-<?php $__helper = Mage::helper('Magento_Catalog_Helper_Output'); ?>
+<?php $__helper = $this->helper('Magento_Catalog_Helper_Output'); ?>
 <?php $_product = $this->getProduct(); ?>
 <div class="product-gallery" id="product-gallery">
     <ul>
         <li>
-            <img src="<?php echo Mage::helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->resize(300) ?>" height="300" alt="<?php echo $this->escapeHtml($this->getImageLabel()) ?>" title="<?php echo $this->escapeHtml($this->getImageLabel()) ?>" />
+            <img src="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->resize(300) ?>" height="300" alt="<?php echo $this->escapeHtml($this->getImageLabel()) ?>" title="<?php echo $this->escapeHtml($this->getImageLabel()) ?>" />
         </li>
         <?php foreach ($this->getProduct()->getMediaGalleryImages() as $_image): ?>
         <li>
-            <img src="<?php echo Mage::helper('Magento_Catalog_Helper_Image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(300); ?>" height="300" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" />
+            <img src="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(300); ?>" height="300" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" />
         </li>
         <?php endforeach; ?>
     </ul>
 </div>
 <div class="buttons-set">
-    <a href="<?php echo Mage::helper('Magento_Checkout_Helper_Cart')->getAddUrl($_product) ?>">Add to Cart</a>
+    <a href="<?php echo $this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($_product) ?>">Add to Cart</a>
 </div>
 <script type="text/javascript">
     document.observe("dom:loaded", function() {

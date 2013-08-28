@@ -30,29 +30,6 @@ class Magento_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
     protected $_billingAgreements = null;
 
     /**
-     * Payment data
-     *
-     * @var Magento_Payment_Helper_Data
-     */
-    protected $_paymentData = null;
-
-    /**
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_paymentData = $paymentData;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Set Billing Agreement instance
      *
      * @return Magento_Core_Block_Abstract
@@ -96,7 +73,7 @@ class Magento_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
             case 'created_at':
             case 'updated_at':
                 $value = ($item->getData($key))
-                    ? $this->_coreData->formatDate($item->getData($key), 'short', true) : __('N/A');
+                    ? $this->helper('Magento_Core_Helper_Data')->formatDate($item->getData($key), 'short', true) : __('N/A');
                 break;
             case 'edit_url':
                 $value = $this->getUrl('*/billing_agreement/view', array('agreement' => $item->getAgreementId()));
@@ -122,7 +99,7 @@ class Magento_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->_paymentData->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->helper('Magento_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
@@ -137,7 +114,7 @@ class Magento_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
     public function getWizardPaymentMethodOptions()
     {
         $paymentMethodOptions = array();
-        foreach ($this->_paymentData->getBillingAgreementMethods() as $paymentMethod) {
+        foreach ($this->helper('Magento_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
             if ($paymentMethod->getConfigData('allow_billing_agreement_wizard') == 1) {
                 $paymentMethodOptions[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }

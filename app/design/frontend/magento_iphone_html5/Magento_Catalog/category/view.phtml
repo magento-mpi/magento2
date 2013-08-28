@@ -16,7 +16,7 @@
  */
 ?>
 <?php
-    $_helper    = Mage::helper('Magento_Catalog_Helper_Output');
+    $_helper    = $this->helper('Magento_Catalog_Helper_Output');
     $_category  = $this->getCurrentCategory();
     $_categoryTitle = '<div class="category-title page-title"><h1>'.$_helper->categoryAttribute($_category, $_category->getName(), 'name').'</h1></div>';
     $_imgUrl    = $_category->getImageUrl();

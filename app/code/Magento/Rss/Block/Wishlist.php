@@ -31,32 +31,8 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
      */
     protected $_mapRenderer = 'msrp_rss';
 
-    /**
-     * Catalog output
-     *
-     * @var Magento_Catalog_Helper_Output
-     */
-    protected $_catalogOutput = null;
-
-    /**
-     * @param Magento_Catalog_Helper_Output $catalogOutput
-     * @param  $wishlistData
-     * @param  $taxData
-     * @param  $catalogData
-     * @param  $coreData
-     * @param  $context
-     * @param  $data
-     */
-    public function __construct(
-        Magento_Catalog_Helper_Output $catalogOutput,
-        Magento_Wishlist_Helper_Data $wishlistData,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_catalogOutput = $catalogOutput;
+    public function __construct(Magento_Wishlist_Helper_Data $wishlistData, Magento_Tax_Helper_Data $taxData, Magento_Catalog_Helper_Data $catalogData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
         parent::__construct($wishlistData, $taxData, $catalogData, $coreData, $context, $data);
     }
 
@@ -158,10 +134,10 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
                 }
 
                 $description = '<table><tr><td><a href="' . $productUrl . '"><img src="'
-                    . $this->_catalogImage->init($product, 'thumbnail')->resize(75, 75)
+                    . $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
                     . '" border="0" align="left" height="75" width="75"></a></td>'
                     . '<td style="text-decoration:none;">'
-                    . $this->_catalogOutput
+                    . $this->helper('Magento_Catalog_Helper_Output')
                         ->productAttribute($product, $product->getShortDescription(), 'short_description')
                     . '<p>';
 
@@ -171,7 +147,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
                 $description .= '</p>';
                 if ($this->hasDescription($product)) {
                     $description .= '<p>' . __('Comment:')
-                        . ' ' . $this->_catalogOutput
+                        . ' ' . $this->helper('Magento_Catalog_Helper_Output')
                             ->productAttribute($product, $product->getDescription(), 'description')
                         . '<p>';
                 }
@@ -179,7 +155,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
                 $description .= '</td></tr></table>';
 
                 $rssObj->_addEntry(array(
-                    'title'         => $this->_catalogOutput
+                    'title'         => $this->helper('Magento_Catalog_Helper_Output')
                         ->productAttribute($product, $product->getName(), 'name'),
                     'link'          => $productUrl,
                     'description'   => $description,

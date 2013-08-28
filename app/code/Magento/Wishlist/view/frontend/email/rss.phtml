@@ -9,7 +9,7 @@
  */
 ?>
 <p style="font-size:12px; line-height:16px; margin:0 0 16px;">
-    <?php echo __("RSS link to %1's wishlist",Mage::helper('Magento_Wishlist_Helper_Data')->getCustomerName()) ?>
+    <?php echo __("RSS link to %1's wishlist",$this->helper('Magento_Wishlist_Helper_Data')->getCustomerName()) ?>
     <br />
-    <a href="<?php echo Mage::helper('Magento_Wishlist_Helper_Data')->getRssUrl($this->getWishlistId()); ?>"><?php echo Mage::helper('Magento_Wishlist_Helper_Data')->getRssUrl($this->getWishlistId()); ?></a>
+    <a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getRssUrl($this->getWishlistId()); ?>"><?php echo $this->helper('Magento_Wishlist_Helper_Data')->getRssUrl($this->getWishlistId()); ?></a>
 </p>

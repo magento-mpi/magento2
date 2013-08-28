@@ -98,7 +98,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                    value="<?php echo $image?>" type="hidden"/>
                         </div>
                         <?php if ($image): ?>
-                            <img src="<?php echo Mage::helper('Magento_Catalog_Helper_Product')->getImageUrl($product)?>"
+                            <img src="<?php echo $this->helper('Magento_Catalog_Helper_Product')->getImageUrl($product)?>"
                                  class="variation" data-role="image"/>
                         <?php endif; ?>
                     </td>
@@ -107,7 +107,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                            target="_blank"><?php echo $this->escapeHtml($product->getName())?></a>
 
                         <button type="button" data-action="choose" class="action-choose" title="<?php echo __('Choose'); ?>"
-                                data-attributes="<?php echo $this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($attributeValues)); ?>">
+                                data-attributes="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode($attributeValues)); ?>">
                             <span><?php echo __('Choose'); ?></span>
                         </button>
                     </td>
@@ -180,10 +180,10 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                value="<?php echo $this->escapeHtml($this->getProduct()->getName()), '-', implode('-', $attributeLabels)?>"
                                class="<?php echo $this->getAttributeFrontendClass('name'); ?>"<?php echo $disabled?>/>
                         <input type="hidden" name="variations-matrix[<?php echo $key?>][configurable_attribute]"
-                               value="<?php echo $this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
+                               value="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
 
                         <button type="button" data-action="choose" class="action-choose" title="<?php echo __('Choose'); ?>"
-                                data-attributes="<?php echo $this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled;?>>
+                                data-attributes="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled;?>>
                             <span><?php echo __('Choose'); ?></span>
                         </button>
                     </td>
