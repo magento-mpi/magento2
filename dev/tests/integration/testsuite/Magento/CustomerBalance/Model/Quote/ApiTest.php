@@ -98,7 +98,8 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
     public function testCustomerBalanceForQuoteRemoveAmountWithoutStoreId()
     {
         $input = array('quoteId' => self::$quote->getId());
-        $this->assertTrue(Magento_TestFramework_Helper_Api::call($this, 'shoppingCartCustomerbalanceRemoveAmount', $input),
+        $this->
+            assertTrue(Magento_TestFramework_Helper_Api::call($this, 'shoppingCartCustomerbalanceRemoveAmount', $input),
             'Remove used amount fail');
 
         $quote = Mage::getModel('Magento_Sales_Model_Quote');
@@ -118,7 +119,8 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
 
         $data['input']['quoteId'] = self::$quote->getId();
 
-        $result = Magento_TestFramework_Helper_Api::call($this, 'shoppingCartCustomerbalanceSetAmount', (array)$data['input']);
+        $result = Magento_TestFramework_Helper_Api::call($this, 'shoppingCartCustomerbalanceSetAmount',
+            (array)$data['input']);
         $this->assertEquals($data['expected']['used_amount'], $result, 'Used amount is invalid');
     }
 
@@ -137,7 +139,8 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
         $data['input']['quoteId'] = self::$quote->getId();
 
         $this->assertTrue(
-            Magento_TestFramework_Helper_Api::call($this, 'shoppingCartCustomerbalanceRemoveAmount', (array)$data['input']),
+            Magento_TestFramework_Helper_Api::call($this, 'shoppingCartCustomerbalanceRemoveAmount',
+                (array)$data['input']),
             'Remove used amount fail'
         );
 

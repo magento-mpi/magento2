@@ -66,7 +66,8 @@ class Magento_Test_Db_Adapter_TransactionInterfaceTest extends PHPUnit_Framework
     public function transparentTransactionDataProvider()
     {
         $result = array();
-        foreach (glob(realpath(__DIR__ . '/../../../../../../../Magento/TestFramework/Db/Adapter') . '/*.php') as $file) {
+        $path = '/../../../../../../../Magento/TestFramework/Db/Adapter';
+        foreach (glob(realpath(__DIR__ . $path ) . '/*.php') as $file) {
             $suffix = basename($file, '.php');
             if (false === strpos($suffix, 'Interface')) {
                 $result[] = array("Magento_TestFramework_Db_Adapter_{$suffix}");

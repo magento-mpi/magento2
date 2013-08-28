@@ -206,7 +206,8 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->load(1);
         $this->_model->setIsActive(0)->save();
-        $this->_model->authenticate(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+        $this->_model->authenticate(Magento_TestFramework_Bootstrap::ADMIN_NAME,
+            Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
     }
 
     /**
@@ -217,7 +218,8 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->load(1);
         $this->_model->setRoleId(1)->deleteFromRole();
-        $this->_model->authenticate(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+        $this->_model->authenticate(Magento_TestFramework_Bootstrap::ADMIN_NAME,
+            Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
     }
 
     /**
@@ -229,7 +231,8 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
         $lognum = $this->_model->getLognum();
 
         $beforeLogin = time();
-        $this->_model->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD)
+        $this->_model->login(Magento_TestFramework_Bootstrap::ADMIN_NAME,
+            Magento_TestFramework_Bootstrap::ADMIN_PASSWORD)
             ->reload();
         $loginTime = strtotime($this->_model->getLogdate());
 
@@ -237,7 +240,8 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(++$lognum, $this->_model->getLognum());
 
         $beforeLogin = time();
-        $this->_model->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD)
+        $this->_model->login(Magento_TestFramework_Bootstrap::ADMIN_NAME,
+            Magento_TestFramework_Bootstrap::ADMIN_PASSWORD)
             ->reload();
         $loginTime = strtotime($this->_model->getLogdate());
         $this->assertTrue($beforeLogin <= $loginTime && $loginTime <= time() );

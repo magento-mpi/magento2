@@ -8,10 +8,14 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/LoggerAbstract.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Logger/Factory.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Logger/Console.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Logger/File.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/Acl/Db/LoggerAbstract.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/Acl/Db/Logger/Factory.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/Acl/Db/Logger/Console.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/Acl/Db/Logger/File.php';
 
 
 

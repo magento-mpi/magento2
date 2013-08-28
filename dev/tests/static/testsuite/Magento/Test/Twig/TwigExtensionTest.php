@@ -26,7 +26,8 @@ class Magento_Test_Twig_TwigExtensionTest extends PHPUnit_Framework_TestCase
 
     public function listAllTwigFiles()
     {
-        $testData = Magento_TestFramework_Utility_Files::composeDataSets(Magento_TestFramework_Utility_Files::init()->getTwigFiles());
+        $testData = Magento_TestFramework_Utility_Files::composeDataSets(
+            Magento_TestFramework_Utility_Files::init()->getTwigFiles());
         if (empty($testData)) {
             $testData[] = array('Dummy data for when no twig files exist.', false);
         }

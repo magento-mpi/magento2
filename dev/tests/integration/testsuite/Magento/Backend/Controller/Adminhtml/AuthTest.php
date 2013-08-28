@@ -40,7 +40,8 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
         Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
 
         $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
-        $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(
+            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
         $this->_session = $this->_auth->getAuthStorage();
     }
 

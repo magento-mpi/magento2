@@ -24,7 +24,8 @@ class Magento_Test_Performance_Scenario_FailureExceptionTest extends PHPUnit_Fra
     protected function setUp()
     {
         $this->_scenario = new Magento_TestFramework_Performance_Scenario('Title', '', array(), array(), array());
-        $this->_object = new Magento_TestFramework_Performance_Scenario_FailureException($this->_scenario, 'scenario has failed');
+        $this->_object =
+            new Magento_TestFramework_Performance_Scenario_FailureException($this->_scenario, 'scenario has failed');
     }
 
     protected function tearDown()

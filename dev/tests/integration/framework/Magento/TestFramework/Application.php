@@ -178,7 +178,8 @@ class Magento_TestFramework_Application
         Mage::$headersSentThrowsException = false;
         $config = new Magento_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Mage::getObjectManager()) {
-            $objectManager = new Magento_TestFramework_ObjectManager($config, new Magento_TestFramework_ObjectManager_Config());
+            $objectManager = new Magento_TestFramework_ObjectManager($config,
+                new Magento_TestFramework_ObjectManager_Config());
             $primaryLoader = new Magento_Core_Model_ObjectManager_ConfigLoader_Primary($config->getDirectories());
             $this->_primaryConfig = $primaryLoader->load();
 

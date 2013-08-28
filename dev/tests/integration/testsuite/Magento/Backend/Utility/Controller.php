@@ -34,7 +34,8 @@ class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_
 
         $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
         $this->_session = $this->_auth->getAuthStorage();
-        $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(
+            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
     }
 
     protected function tearDown()

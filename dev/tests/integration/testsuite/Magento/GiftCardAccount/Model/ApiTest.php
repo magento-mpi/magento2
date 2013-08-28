@@ -42,7 +42,8 @@ class Magento_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertGreaterThan(0, count($list));
 
         //Test info
-        $info = Magento_TestFramework_Helper_Api::call($this, 'giftcardAccountInfo', array('giftcardAccountId' => $accountId));
+        $info = Magento_TestFramework_Helper_Api::call($this, 'giftcardAccountInfo',
+            array('giftcardAccountId' => $accountId));
 
         unset($createData['status']);
         unset($createData['website_id']);
@@ -96,7 +97,8 @@ class Magento_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCase
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/../_files/fixture/giftcard_account.xml');
         $invalidData = Magento_TestFramework_Helper_Api::simpleXmlToArray($fixture->invalidInfo);
-        Magento_TestFramework_Helper_Api::callWithException($this, 'giftcardAccountInfo', array($invalidData['giftcard_id']));
+        Magento_TestFramework_Helper_Api::callWithException($this, 'giftcardAccountInfo',
+            array($invalidData['giftcard_id']));
     }
 
     /**

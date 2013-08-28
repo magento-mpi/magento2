@@ -11,7 +11,8 @@
 /**
  * Handler for performance testing scenarios in format of PHP console scripts
  */
-class Magento_TestFramework_Performance_Scenario_Handler_Php implements Magento_TestFramework_Performance_Scenario_HandlerInterface
+class Magento_TestFramework_Performance_Scenario_Handler_Php
+    implements Magento_TestFramework_Performance_Scenario_HandlerInterface
 {
     /**
      * @var Magento_Shell
@@ -71,7 +72,8 @@ class Magento_TestFramework_Performance_Scenario_Handler_Php implements Magento_
         }
         $reportErrors = $this->_getReportErrors($reportRows);
         if ($reportErrors) {
-            throw new Magento_TestFramework_Performance_Scenario_FailureException($scenario, implode(PHP_EOL, $reportErrors));
+            throw new Magento_TestFramework_Performance_Scenario_FailureException($scenario, implode(PHP_EOL,
+                $reportErrors));
         }
     }
 

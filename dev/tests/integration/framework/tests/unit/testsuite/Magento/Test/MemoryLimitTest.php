@@ -54,7 +54,8 @@ class Magento_Test_MemoryLimitTest extends PHPUnit_Framework_TestCase
      */
     protected function _createObject($memCap, $leakCap)
     {
-        $helper = $this->getMock('Magento_TestFramework_Helper_Memory', array('getRealMemoryUsage'), array(), '', false);
+        $helper = $this->getMock(
+            'Magento_TestFramework_Helper_Memory', array('getRealMemoryUsage'), array(), '', false);
         $helper->expects($this->any())->method('getRealMemoryUsage')->will($this->returnValue(1024 * 1024));
         return new Magento_TestFramework_MemoryLimit($memCap, $leakCap, $helper);
     }

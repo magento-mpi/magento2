@@ -74,7 +74,8 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
             $noticeInbox->addCritical('Test notice', 'Test description');
         }
 
-        $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(
+            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
 
         /** @var $acl Magento_Acl */
         $acl = Mage::getSingleton('Magento_Acl_Builder')->getAcl();

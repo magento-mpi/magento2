@@ -38,7 +38,8 @@ class Magento_Test_Php_Exemplar_CodeMessTest extends PHPUnit_Framework_TestCase
     {
         self::$_rulesetFile = realpath(__DIR__ . '/../_files/phpmd/ruleset.xml');
         self::$_reportFile = __DIR__ . '/../../../tmp/phpmd_report.xml';
-        self::$_messDetector = new Magento_TestFramework_CodingStandard_Tool_CodeMessDetector(self::$_rulesetFile, self::$_reportFile);
+        self::$_messDetector =
+            new Magento_TestFramework_CodingStandard_Tool_CodeMessDetector(self::$_rulesetFile, self::$_reportFile);
     }
 
     protected function setUp()

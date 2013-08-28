@@ -23,7 +23,8 @@ class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCa
 
     public static function setUpBeforeClass()
     {
-        $tmpDir = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR . __CLASS__;
+        $tmpDir =
+            Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR . __CLASS__;
         if (is_file($tmpDir)) {
             unlink($tmpDir);
         } elseif (is_dir($tmpDir)) {

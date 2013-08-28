@@ -137,7 +137,8 @@ class Magento_TestFramework_Inspection_WordsFinder
         foreach ($nodes as $node) {
             $path = $node->xpath('path');
             if (!$path) {
-                throw new Magento_TestFramework_Inspection_Exception('A "path" must be defined for the whitelisted item');
+                throw new Magento_TestFramework_Inspection_Exception(
+                    'A "path" must be defined for the whitelisted item');
             }
             $path = (string) $path[0];
 

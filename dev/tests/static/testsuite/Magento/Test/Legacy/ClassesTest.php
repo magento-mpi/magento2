@@ -121,13 +121,17 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
     {
         $xml = simplexml_load_file($path);
         $classes = Magento_TestFramework_Utility_Classes::collectLayoutClasses($xml);
-        foreach (Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml, '/layout//@helper', 'helper') as $class) {
+        foreach (Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml,
+            '/layout//@helper', 'helper') as $class) {
             $classes[] = Magento_TestFramework_Utility_Classes::getCallbackClass($class);
         }
-        $classes = array_merge($classes, Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml, '/layout//@module', 'module'));
+        $classes =
+            array_merge($classes, Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml,
+                    '/layout//@module', 'module'));
         $this->_assertNonFactoryName(array_unique($classes));
 
-        $tabs = Magento_TestFramework_Utility_Classes::getXmlNodeValues($xml, '/layout//action[@method="addTab"]/block');
+        $tabs =
+            Magento_TestFramework_Utility_Classes::getXmlNodeValues($xml, '/layout//action[@method="addTab"]/block');
         $this->_assertNonFactoryName(array_unique($tabs), true);
     }
 

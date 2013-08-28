@@ -35,7 +35,8 @@ class Magento_Logging_Model_ProcessorTest extends Magento_TestFramework_TestCase
         Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
 
         $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
-        $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME,
+            Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
 
         $this->getRequest()->setServer(array('REQUEST_METHOD' => 'POST'));
         $this->getRequest()->setPost(

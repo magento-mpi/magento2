@@ -54,7 +54,8 @@ class Magento_Test_Bootstrap_DocBlockTest extends PHPUnit_Framework_TestCase
 
     public function testRegisterAnnotations()
     {
-        $this->_expectNoListenerCreation('Magento_TestFramework_Event_PhpUnit', 'Instance of the event manager is required.');
+        $this->_expectNoListenerCreation(
+            'Magento_TestFramework_Event_PhpUnit', 'Instance of the event manager is required.');
         $this->_expectNoListenerCreation(
             'Magento_TestFramework_Event_Magento', 'Instance of the "Magento_TestFramework_EventManager" is expected.'
         );

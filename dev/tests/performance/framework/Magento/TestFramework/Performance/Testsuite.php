@@ -68,7 +68,8 @@ class Magento_TestFramework_Performance_Testsuite
      * @param Magento_TestFramework_Performance_Scenario_HandlerInterface $scenarioHandler
      */
     public function __construct(Magento_TestFramework_Performance_Config $config,
-        Magento_TestFramework_Application $application, Magento_TestFramework_Performance_Scenario_HandlerInterface $scenarioHandler
+        Magento_TestFramework_Application $application,
+        Magento_TestFramework_Performance_Scenario_HandlerInterface $scenarioHandler
     ) {
         $this->_config = $config;
         $this->_application = $application;
@@ -189,7 +190,8 @@ class Magento_TestFramework_Performance_Testsuite
      *
      * @param Magento_TestFramework_Performance_Scenario_FailureException $scenarioFailure
      */
-    protected function _notifyScenarioFailure(Magento_TestFramework_Performance_Scenario_FailureException $scenarioFailure)
+    protected function _notifyScenarioFailure(
+        Magento_TestFramework_Performance_Scenario_FailureException $scenarioFailure)
     {
         if ($this->_onScenarioFailure) {
             call_user_func($this->_onScenarioFailure, $scenarioFailure);

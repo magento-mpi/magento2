@@ -17,7 +17,8 @@ class Magento_Test_Integrity_Magento_Backend_SystemConfigTest extends PHPUnit_Fr
     {
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($configFile));
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/code/Magento/Backend/etc/system_file.xsd';
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() .
+            '/app/code/Magento/Backend/etc/system_file.xsd';
         $errors = Magento_Config_Dom::validateDomDocument($dom, $schema);
         if ($errors) {
             $this->fail('XML-file has validation errors:' . PHP_EOL . implode(PHP_EOL . PHP_EOL, $errors));

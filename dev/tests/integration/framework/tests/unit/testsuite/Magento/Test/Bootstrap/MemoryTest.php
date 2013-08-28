@@ -31,7 +31,8 @@ class Magento_Test_Bootstrap_MemoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_memoryLimit = $this->getMock('Magento_TestFramework_MemoryLimit', array('printStats'), array(), '', false);
+        $this->_memoryLimit = $this->getMock(
+            'Magento_TestFramework_MemoryLimit', array('printStats'), array(), '', false);
         $this->_activationPolicy = $this->getMock('stdClass', array('register_shutdown_function'));
         $this->_object = new Magento_TestFramework_Bootstrap_Memory(
             $this->_memoryLimit, array($this->_activationPolicy, 'register_shutdown_function')

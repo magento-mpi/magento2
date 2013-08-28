@@ -113,10 +113,12 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $classes = Magento_TestFramework_Utility_Classes::getXmlNodeValues($xml,
             '/layout//*[contains(text(), "_Block_") or contains(text(), "_Model_") or contains(text(), "_Helper_")]'
         );
-        foreach (Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml, '/layout//@helper', 'helper') as $class) {
+        foreach (Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml,
+            '/layout//@helper', 'helper') as $class) {
             $classes[] = Magento_TestFramework_Utility_Classes::getCallbackClass($class);
         }
-        foreach (Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml, '/layout//@module', 'module') as $module) {
+        foreach (Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml,
+            '/layout//@module', 'module') as $module) {
             $classes[] = "{$module}_Helper_Data";
         }
         $classes = array_merge($classes, Magento_TestFramework_Utility_Classes::collectLayoutClasses($xml));

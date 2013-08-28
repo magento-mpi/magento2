@@ -319,7 +319,8 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
     protected function _testUpdate($categoryId, $categoryFixture)
     {
         $categoryFixture['update']['categoryId'] = $categoryId;
-        $resultUpdated = Magento_TestFramework_Helper_Api::call($this, 'catalogCategoryUpdate', $categoryFixture['update']);
+        $resultUpdated =
+            Magento_TestFramework_Helper_Api::call($this, 'catalogCategoryUpdate', $categoryFixture['update']);
         $this->assertTrue($resultUpdated);
 
         $category = Mage::getModel('Magento_Catalog_Model_Category');
@@ -400,7 +401,8 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
          */
         $params = $categoryFixture['update'];
         $params['categoryId'] = 9999;
-        $exception = $result = Magento_TestFramework_Helper_Api::callWithException($this, 'catalogCategoryUpdate', $params);
+        $exception = $result =
+            Magento_TestFramework_Helper_Api::callWithException($this, 'catalogCategoryUpdate', $params);
         //make result like in response
         $result = array(
             'faultcode' => $exception->faultcode,

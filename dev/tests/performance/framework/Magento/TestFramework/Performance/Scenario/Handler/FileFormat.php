@@ -11,7 +11,8 @@
 /**
  * Handler delegates execution to one of registered scenario handlers depending on a scenario file extension
  */
-class Magento_TestFramework_Performance_Scenario_Handler_FileFormat implements Magento_TestFramework_Performance_Scenario_HandlerInterface
+class Magento_TestFramework_Performance_Scenario_Handler_FileFormat
+    implements Magento_TestFramework_Performance_Scenario_HandlerInterface
 {
     /**
      * @var array
@@ -25,7 +26,8 @@ class Magento_TestFramework_Performance_Scenario_Handler_FileFormat implements M
      * @param Magento_TestFramework_Performance_Scenario_HandlerInterface $handlerInstance
      * @return Magento_TestFramework_Performance_Scenario_Handler_FileFormat
      */
-    public function register($fileExtension, Magento_TestFramework_Performance_Scenario_HandlerInterface $handlerInstance)
+    public function register($fileExtension,
+        Magento_TestFramework_Performance_Scenario_HandlerInterface $handlerInstance)
     {
         $this->_handlers[$fileExtension] = $handlerInstance;
         return $this;

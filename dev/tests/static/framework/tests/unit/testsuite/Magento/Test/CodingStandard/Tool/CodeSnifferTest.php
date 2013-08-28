@@ -34,7 +34,8 @@ class Magento_Test_CodingStandard_Tool_CodeSnifferTest extends PHPUnit_Framework
     protected function setUp()
     {
         $this->_wrapper = $this->getMock('Magento_TestFramework_CodingStandard_Tool_CodeSniffer_Wrapper');
-        $this->_tool = new Magento_TestFramework_CodingStandard_Tool_CodeSniffer(self::RULE_SET, self::REPORT_FILE, $this->_wrapper);
+        $this->_tool = new Magento_TestFramework_CodingStandard_Tool_CodeSniffer(self::RULE_SET, self::REPORT_FILE,
+            $this->_wrapper);
     }
 
     public function testRun()

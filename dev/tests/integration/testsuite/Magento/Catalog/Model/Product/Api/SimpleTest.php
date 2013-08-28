@@ -246,7 +246,8 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         //update product
         $data['create_with_attributes_soapv2'] = array('productId' => $productId) + $data['update'];
 
-        $isOk = Magento_TestFramework_Helper_Api::call($this, 'catalogProductUpdate', $data['create_with_attributes_soapv2']);
+        $isOk = Magento_TestFramework_Helper_Api::call(
+            $this, 'catalogProductUpdate', $data['create_with_attributes_soapv2']);
 
         //test call response is true
         $this->assertTrue($isOk, 'Call returned false');
@@ -356,7 +357,8 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
 
         $data = require __DIR__ . '/_files/ProductData.php';
         // create product for test
-        $productId = Magento_TestFramework_Helper_Api::call($this, 'catalogProductCreate', $data['create_full']['soap']);
+        $productId =
+            Magento_TestFramework_Helper_Api::call($this, 'catalogProductCreate', $data['create_full']['soap']);
         $this->assertGreaterThan(0, $productId, 'Product was not created');
 
         // update product on test store

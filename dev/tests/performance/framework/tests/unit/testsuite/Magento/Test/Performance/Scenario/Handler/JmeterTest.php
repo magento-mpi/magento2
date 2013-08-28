@@ -45,8 +45,8 @@ class Magento_Test_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Frame
             Magento_TestFramework_Performance_Scenario::ARG_USERS => 2,
             Magento_TestFramework_Performance_Scenario::ARG_LOOPS => 3,
         );
-        $this->_scenario = new Magento_TestFramework_Performance_Scenario('Scenario', $this->_scenarioFile, $scenarioArgs, array(),
-            array());
+        $this->_scenario = new Magento_TestFramework_Performance_Scenario('Scenario', $this->_scenarioFile,
+            $scenarioArgs, array(), array());
 
         $this->_reportFile = realpath(__DIR__ . '/../../_files') . DIRECTORY_SEPARATOR . 'scenario.jtl';
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
@@ -118,7 +118,8 @@ class Magento_Test_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Frame
     public function testRunException($scenarioFile, $reportFile, $expectedException, $expectedExceptionMsg = '')
     {
         $this->setExpectedException($expectedException, $expectedExceptionMsg);
-        $scenario = new Magento_TestFramework_Performance_Scenario('Scenario', $scenarioFile, array(), array(), array());
+        $scenario =
+            new Magento_TestFramework_Performance_Scenario('Scenario', $scenarioFile, array(), array(), array());
         $this->_object->run($scenario, $reportFile);
     }
 

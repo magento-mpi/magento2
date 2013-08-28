@@ -101,7 +101,8 @@ class Magento_Test_Helper_BootstrapTest extends PHPUnit_Framework_TestCase
     public function testCanTestHeaders()
     {
         if (!function_exists('xdebug_get_headers')) {
-            $this->assertFalse(Magento_TestFramework_Helper_Bootstrap::canTestHeaders(), 'Expected inability to test headers.');
+            $this->assertFalse(
+                Magento_TestFramework_Helper_Bootstrap::canTestHeaders(), 'Expected inability to test headers.');
             return;
         }
         $expectedHeader = 'SomeHeader: header-value';

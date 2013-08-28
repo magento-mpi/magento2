@@ -54,7 +54,8 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
     protected function _getBootstrap()
     {
         if (!$this->_bootstrap) {
-            $this->_bootstrap = $this->getMock('Magento_TestFramework_Bootstrap', array('getAllOptions'), array(), '', false);
+            $this->_bootstrap = $this->getMock(
+                'Magento_TestFramework_Bootstrap', array('getAllOptions'), array(), '', false);
         }
         return $this->_bootstrap;
     }

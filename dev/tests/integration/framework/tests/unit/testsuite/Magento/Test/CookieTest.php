@@ -23,7 +23,8 @@ class Magento_Test_CookieTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Magento_TestFramework_Cookie(new Magento_TestFramework_Request(), new Magento_TestFramework_Response());
+        $this->_model = new Magento_TestFramework_Cookie(
+            new Magento_TestFramework_Request(), new Magento_TestFramework_Response());
     }
 
     public function testSet()

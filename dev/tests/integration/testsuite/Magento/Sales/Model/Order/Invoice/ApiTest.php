@@ -143,7 +143,8 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
              */
             $this->setExpectedException('SoapFault', $expectedFaultMessage);
         }
-        Magento_TestFramework_Helper_Api::call($this, 'salesOrderInvoiceCapture', array($invoiceBefore->getIncrementId()));
+        Magento_TestFramework_Helper_Api::call($this, 'salesOrderInvoiceCapture',
+            array($invoiceBefore->getIncrementId()));
     }
 
     /**

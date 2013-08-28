@@ -44,8 +44,8 @@ class Magento_Test_Performance_Scenario_Handler_PhpTest extends PHPUnit_Framewor
             Magento_TestFramework_Performance_Scenario::ARG_LOOPS => 3,
             'custom' => 'custom_value',
         );
-        $this->_scenario = new Magento_TestFramework_Performance_Scenario('Scenario', $this->_scenarioFile, $scenarioArgs, array(),
-            array());
+        $this->_scenario = new Magento_TestFramework_Performance_Scenario('Scenario', $this->_scenarioFile,
+            $scenarioArgs, array(), array());
 
         $this->_reportFile = realpath(__DIR__ . '/../../_files/scenario.jtl');
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));

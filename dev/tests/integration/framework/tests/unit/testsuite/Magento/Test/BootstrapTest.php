@@ -67,7 +67,8 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_integrationTestsDir = realpath(__DIR__ . '/../../../../../../');
-        $this->_settings = new Magento_TestFramework_Bootstrap_Settings($this->_integrationTestsDir, $this->_requiredSettings);
+        $this->_settings = new Magento_TestFramework_Bootstrap_Settings(
+            $this->_integrationTestsDir, $this->_requiredSettings);
         $this->_envBootstrap = $this->getMock(
             'Magento_TestFramework_Bootstrap_Environment', array('emulateHttpRequest', 'emulateSession')
         );
@@ -109,7 +110,8 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     {
         $fixtureSettings += $this->_requiredSettings;
         $application = $this->getMock(
-            'Magento_TestFramework_Application', array('cleanup', 'isInstalled', 'initialize', 'install'), array(), '', false
+            'Magento_TestFramework_Application',
+            array('cleanup', 'isInstalled', 'initialize', 'install'), array(), '', false
         );
         $settings = new Magento_TestFramework_Bootstrap_Settings($this->_integrationTestsDir, $fixtureSettings);
         // prevent calling the constructor because of mocking the method it invokes

@@ -26,7 +26,8 @@ class Magento_Test_Annotation_AppIsolationTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_application = $this->getMock('Magento_TestFramework_Application', array('reinitialize'), array(), '', false);
+        $this->_application = $this->getMock(
+            'Magento_TestFramework_Application', array('reinitialize'), array(), '', false);
         $this->_object = new Magento_TestFramework_Annotation_AppIsolation($this->_application);
     }
 

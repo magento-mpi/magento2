@@ -42,7 +42,8 @@ class Magento_Test_Php_LiveCodeTest extends PHPUnit_Framework_TestCase
     {
         $reportFile = self::$_reportDir . '/phpcs_report.xml';
         $wrapper = new Magento_TestFramework_CodingStandard_Tool_CodeSniffer_Wrapper();
-        $codeSniffer = new Magento_TestFramework_CodingStandard_Tool_CodeSniffer(realpath(__DIR__ . '/_files/phpcs'), $reportFile, $wrapper);
+        $codeSniffer = new Magento_TestFramework_CodingStandard_Tool_CodeSniffer(realpath(__DIR__ . '/_files/phpcs'),
+            $reportFile, $wrapper);
         if (!$codeSniffer->canRun()) {
             $this->markTestSkipped('PHP Code Sniffer is not installed.');
         }
@@ -55,8 +56,8 @@ class Magento_Test_Php_LiveCodeTest extends PHPUnit_Framework_TestCase
     public function testCodeMess()
     {
         $reportFile = self::$_reportDir . '/phpmd_report.xml';
-        $codeMessDetector = new Magento_TestFramework_CodingStandard_Tool_CodeMessDetector(realpath(__DIR__ . '/_files/phpmd/ruleset.xml'),
-            $reportFile
+        $codeMessDetector = new Magento_TestFramework_CodingStandard_Tool_CodeMessDetector(
+            realpath(__DIR__ . '/_files/phpmd/ruleset.xml'), $reportFile
         );
 
         if (!$codeMessDetector->canRun()) {

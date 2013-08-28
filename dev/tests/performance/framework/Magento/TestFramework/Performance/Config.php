@@ -180,8 +180,8 @@ class Magento_TestFramework_Performance_Config
         // Validate sub arrays
         $subArrays = $this->_validateScenarioSubArrays($title, $config, $commonConfig);
 
-        return new Magento_TestFramework_Performance_Scenario($title, $file, $subArrays['arguments'], $subArrays['settings'],
-            $subArrays['fixtures']);
+        return new Magento_TestFramework_Performance_Scenario($title, $file, $subArrays['arguments'],
+            $subArrays['settings'], $subArrays['fixtures']);
     }
 
     /**

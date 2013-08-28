@@ -29,7 +29,8 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testCustomOptionCRUD()
     {
-        $customOptions = Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
+        $customOptions =
+            Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
         $store = (string)self::$_customOptionFixture->store;
 
         $this->_testCreate($store, $customOptions);
@@ -230,7 +231,8 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testCustomOptionAddExceptionProductNotExists()
     {
-        $customOptions = Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
+        $customOptions =
+            Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
 
         $option = reset($customOptions);
         if (isset($option['additional_fields'])
@@ -255,7 +257,8 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
     public function testCustomOptionAddExceptionAdditionalFieldsNotSet()
     {
         $fixtureProductId = Mage::registry('productData')->getId();
-        $customOptions = Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
+        $customOptions =
+            Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
 
         $option = $customOptions['field'];
         $option['additional_fields'] = array();
@@ -273,7 +276,8 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
     public function testCustomOptionDateTimeAddExceptionStoreNotExist()
     {
         $fixtureProductId = Mage::registry('productData')->getId();
-        $customOptions = Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
+        $customOptions =
+            Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
 
         $option = reset($customOptions);
         if (isset($option['additional_fields'])

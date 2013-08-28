@@ -12,7 +12,8 @@
 /**
  * PHP Code Mess v1.3.3 tool wrapper
  */
-class Magento_TestFramework_CodingStandard_Tool_CodeMessDetector implements Magento_TestFramework_CodingStandard_ToolInterface
+class Magento_TestFramework_CodingStandard_Tool_CodeMessDetector
+    implements Magento_TestFramework_CodingStandard_ToolInterface
 {
     /**
      * Ruleset directory

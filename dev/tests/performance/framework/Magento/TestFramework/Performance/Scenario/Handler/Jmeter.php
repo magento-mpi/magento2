@@ -11,7 +11,8 @@
 /**
  * Handler for performance testing scenarios in format of Apache JMeter
  */
-class Magento_TestFramework_Performance_Scenario_Handler_Jmeter implements Magento_TestFramework_Performance_Scenario_HandlerInterface
+class Magento_TestFramework_Performance_Scenario_Handler_Jmeter
+    implements Magento_TestFramework_Performance_Scenario_HandlerInterface
 {
     /**
      * @var Magento_Shell
@@ -70,7 +71,8 @@ class Magento_TestFramework_Performance_Scenario_Handler_Jmeter implements Magen
             }
             $reportErrors = $this->_getReportErrors($reportFile);
             if ($reportErrors) {
-                throw new Magento_TestFramework_Performance_Scenario_FailureException($scenario, implode(PHP_EOL, $reportErrors));
+                throw new Magento_TestFramework_Performance_Scenario_FailureException($scenario,
+                    implode(PHP_EOL, $reportErrors));
             }
         }
     }

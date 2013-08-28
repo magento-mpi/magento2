@@ -12,7 +12,8 @@
 /**
  * PHP Copy Paste Detector v1.4.0 tool wrapper
  */
-class Magento_TestFramework_CodingStandard_Tool_CopyPasteDetector implements Magento_TestFramework_CodingStandard_ToolInterface
+class Magento_TestFramework_CodingStandard_Tool_CopyPasteDetector
+    implements Magento_TestFramework_CodingStandard_ToolInterface
 {
     /**
      * Report file

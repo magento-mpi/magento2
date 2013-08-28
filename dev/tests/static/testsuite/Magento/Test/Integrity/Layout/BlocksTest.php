@@ -80,7 +80,8 @@ class Magento_Test_Integrity_Layout_BlocksTest extends PHPUnit_Framework_TestCas
     {
         $result = array();
         foreach (Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, false, true, false) as $file) {
-            $aliases = Magento_TestFramework_Utility_Classes::getAllMatches(file_get_contents($file), '/\->getChildBlock\(\'([^\']+)\'\)/x');
+            $aliases = Magento_TestFramework_Utility_Classes::getAllMatches(file_get_contents($file),
+                '/\->getChildBlock\(\'([^\']+)\'\)/x');
             foreach ($aliases as $alias) {
                 $result[$file] = array($alias, $file);
             }

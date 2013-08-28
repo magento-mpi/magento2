@@ -17,7 +17,8 @@ class Magento_Test_Legacy_ObsoleteThemeLocalXmlTest extends PHPUnit_Framework_Te
         $package = '*';
         $theme = '*';
         $this->assertEmpty(glob(
-            Magento_TestFramework_Utility_Files::init()->getPathToSource() . "/app/design/{$area}/{$package}/{$theme}/local.xml"
+            Magento_TestFramework_Utility_Files::init()->getPathToSource()
+                . "/app/design/{$area}/{$package}/{$theme}/local.xml"
         ));
     }
 }
