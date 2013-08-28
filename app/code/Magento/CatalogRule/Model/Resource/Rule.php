@@ -49,10 +49,6 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
     protected $_catalogRuleData = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_CatalogRule_Helper_Data $catalogRuleData
      * @param Magento_Core_Model_Resource $resource
      */

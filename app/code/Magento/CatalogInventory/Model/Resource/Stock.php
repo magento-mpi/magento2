@@ -75,10 +75,6 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
     protected $_catalogInventoryData = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Core_Model_Resource $resource
      */

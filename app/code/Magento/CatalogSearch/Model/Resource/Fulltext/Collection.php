@@ -26,10 +26,6 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_C
     protected $_catalogSearchData = null;
 
     /**
-     * Collection constructor
-     *
-     *
-     *
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat

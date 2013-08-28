@@ -26,10 +26,6 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
     protected $_catalogSearchData = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Model_Resource $resource
      */

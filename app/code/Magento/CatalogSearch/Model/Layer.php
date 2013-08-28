@@ -20,11 +20,6 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     protected $_catalogSearchData = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param array $data
      */
