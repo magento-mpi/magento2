@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Request mock.
      *
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Webapi_Controller_Rest_Request
      */
     protected $_request;
 
@@ -147,18 +147,6 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for getServiceType() method.
-     *
-     */
-    public function testGetServiceType()
-    {
-        $this->assertNull($this->_request->getServiceType());
-        $resource = 'test_service';
-        $this->_request->setServiceType($resource);
-        $this->assertEquals($resource, $this->_request->getServiceType());
-    }
-
-    /**
      * Data provider for testGetAcceptTypes().
      *
      * @return array
@@ -230,12 +218,5 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
         $this->_request->getServiceVersion();
-    }
-
-    public function testGetServiceName()
-    {
-        $serviceName = 'serviceName';
-        $this->_request->setServiceName($serviceName);
-        $this->assertEquals($serviceName, $this->_request->getServiceName());
     }
 }
