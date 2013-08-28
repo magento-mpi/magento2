@@ -20,7 +20,8 @@
         <depends>
             <module name="Magento_Cms"/>
             <module name="Magento_Install"/>
-            <module name="Magento_Adminhtml" type="soft"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_AdminNotification"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Core"/>
             <module name="Enterprise_AdminGws"/>

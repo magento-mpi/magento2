@@ -25,6 +25,7 @@
             <module name="Magento_Paypal"/>
             <module name="Magento_Newsletter"/>
             <module name="Magento_Cms"/>
+            <module name="Magento_SalesRule"/>
             <module name="Magento_Review" type="soft"/>
         </depends>
     </module>

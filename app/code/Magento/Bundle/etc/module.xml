@@ -28,6 +28,7 @@
             <module name="Magento_GiftMessage"/>
             <module name="Magento_Wishlist" type="soft"/>
             <module name="Magento_Rss" type="soft"/>
+            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>

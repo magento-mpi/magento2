@@ -23,6 +23,7 @@
             <module name="Enterprise_Eav"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Checkout" type="soft"/>
+            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>

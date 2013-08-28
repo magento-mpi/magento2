@@ -33,9 +33,9 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @var array
      */
     protected $_defaultModules = array(
-        'default'   => 'Mage_Install',
-        'frontend'  => 'Mage_Page',
-        'adminhtml' => 'Mage_Adminhtml',
+        'default'   => 'Magento_Install',
+        'frontend'  => 'Magento_Page',
+        'adminhtml' => 'Magento_Adminhtml',
     );
 
     /**

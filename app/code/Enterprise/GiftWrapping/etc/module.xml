@@ -22,6 +22,7 @@
             <module name="Magento_Sales"/>
             <module name="Magento_Tax"/>
             <module name="Magento_Eav"/>
+            <module name="Magento_Page" type="soft"/>
             <module name="Magento_GiftMessage" type="soft"/>
         </depends>
     </module>

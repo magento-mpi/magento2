@@ -22,6 +22,7 @@
             <module name="Magento_Eav"/>
             <module name="Magento_GoogleCheckout"/>
             <module name="Magento_Tax"/>
+            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>

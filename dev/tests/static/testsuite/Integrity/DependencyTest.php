@@ -500,7 +500,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 // Read module's config.xml file
                 $config = simplexml_load_file(self::$_listConfigXml[$module]);
 
-                if ($module == 'Mage_Adminhtml') {
+                if ($module == 'Magento_Adminhtml') {
                     $nodes = $config->xpath("/config/admin/routers/*") ?: array();
                 } elseif ('adminhtml' == $chunks[0]) {
                     array_shift($chunks);
@@ -519,7 +519,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 foreach ($nodes as $node) {
                     /** @var SimpleXMLElement $node */
                     $path = $node->getName() ? $node->getName() . '_' . $controllerName : $controllerName;
-                    if (isset(self::$_mapRouters[$path]) && (self::$_mapRouters[$path] == 'Mage_Adminhtml')) {
+                    if (isset(self::$_mapRouters[$path]) && (self::$_mapRouters[$path] == 'Magento_Adminhtml')) {
                         continue;
                     }
                     self::$_mapRouters[$path] = $module;

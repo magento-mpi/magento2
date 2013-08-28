@@ -15,6 +15,7 @@
         <depends>
             <module name="Magento_Core"/>
             <module name="Magento_Adminhtml"/>
+            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>
