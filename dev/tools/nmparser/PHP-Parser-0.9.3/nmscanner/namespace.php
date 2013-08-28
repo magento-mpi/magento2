@@ -698,7 +698,7 @@ class namespacer
 
         $path= implode('/', $relPath);
         if(!$windows){
-            $path=str_replace("\\","/",$path);
+            $path="/".str_replace("\\","/",$path);
         }
         return $path;
     }
@@ -740,7 +740,7 @@ if (isset($argv[1])) {
         if (is_dir('C:\Program Files (x86)\Git\cmd')) {
             exec("PATH=C:\\Program Files (x86)\\Git\\cmd");
         } elseif (is_dir('C:\Program Files\Git\cmd')) {
-            exec("PATH=C:\\Program Files\\Git\cmd");
+            exec("PATH=C:\\Program Files\\Git\\cmd");
         } else {
             die('Git is not installed or the git path in script is incorrect');
         }
