@@ -6,8 +6,8 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/Di/Code/Scanner/ScannerInterface.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Di/Code/Scanner/ScannerInterface.php';
+require_once realpath(__DIR__ . '/../../../../../../../')
     . '/tools/Di/Code/Scanner/XmlInterceptorScanner.php';
 
 class Magento_Tools_Di_Code_Scanner_XmlInterceptorScannerTest extends PHPUnit_Framework_TestCase
@@ -30,7 +30,7 @@ class Magento_Tools_Di_Code_Scanner_XmlInterceptorScannerTest extends PHPUnit_Fr
     protected function setUp()
     {
         $this->_model = new Magento\Tools\Di\Code\Scanner\XmlInterceptorScanner();
-        $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../') . '/_files');
+        $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
         $this->_testFiles =  array(
             $this->_testDir . '/app/code/Magento/SomeModule/etc/di.xml',
             $this->_testDir . '/app/etc/di/config.xml',

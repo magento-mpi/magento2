@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/migration/Acl/Db/Reader.php';
+require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/migration/Acl/Db/Reader.php';
 
 class Tools_Migration_Acl_Db_ReaderTest extends PHPUnit_Framework_TestCase
 {

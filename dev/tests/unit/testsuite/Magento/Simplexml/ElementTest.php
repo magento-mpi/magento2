@@ -66,4 +66,18 @@ XML;
         $this->assertEquals($expected, $xml->asNiceXml());
     }
 
+    public function testAppendChild()
+    {
+        /** @var Magento_Simplexml_Element $baseXml */
+        $baseXml = simplexml_load_string('<root/>', 'Magento_Simplexml_Element');
+        /** @var Magento_Simplexml_Element $appendXml */
+        $appendXml = simplexml_load_string(
+            '<node_a attr="abc"><node_b>text</node_b></node_a>',
+            'Magento_Simplexml_Element'
+        );
+        $baseXml->appendChild($appendXml);
+
+        $expectedXml = '<root><node_a attr="abc"><node_b>text</node_b></node_a></root>';
+        $this->assertXmlStringEqualsXmlString($expectedXml, $baseXml->asNiceXml());
+    }
 }

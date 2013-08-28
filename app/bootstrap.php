@@ -17,7 +17,7 @@ define('BP', dirname(__DIR__));
 /**
  * Environment initialization
  */
-error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL);
 #ini_set('display_errors', 1);
 umask(0);
 
@@ -42,9 +42,9 @@ if (file_exists($classMapPath)) {
 
 if (!defined('BARE_BOOTSTRAP')) {
     /* PHP version validation */
-    if (version_compare(phpversion(), '5.3.3', '<') === true) {
+    if (version_compare(phpversion(), '5.4.0', '<') === true) {
         if (PHP_SAPI == 'cli') {
-            echo 'Magento supports PHP 5.3.3 or newer. Please read http://www.magento.com/install.';
+            echo 'Magento supports PHP 5.4.0 or newer. Please read http://www.magento.com/install.';
         } else {
             echo <<<HTML
 <div style="font:12px/1.35em arial, helvetica, sans-serif;">
@@ -52,7 +52,7 @@ if (!defined('BARE_BOOTSTRAP')) {
         <h3 style="margin:0;font-size:1.7em;font-weight:normal;text-transform:none;text-align:left;color:#2f2f2f;">
         Whoops, it looks like you have an invalid PHP version.</h3>
     </div>
-    <p>Magento supports PHP 5.3.3 or newer.
+    <p>Magento supports PHP 5.4.0 or newer.
     <a href="http://www.magento.com/install" target="">Find out</a>
     how to install Magento using PHP-CGI as a work-around.
     </p>

@@ -6,7 +6,7 @@
  * @license {license_link}
  */
 
-$data = require dirname(__FILE__) . '/ProductAttributeData.php';
+$data = require __DIR__ . '/ProductAttributeData.php';
 // add product attributes via installer
 $installer = Mage::getModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'core_setup'));
 $installer->addAttribute(

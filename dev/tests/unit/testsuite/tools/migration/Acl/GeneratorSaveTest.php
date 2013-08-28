@@ -8,9 +8,9 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/Acl/Generator.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/Acl/FileManager.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/Acl/Formatter.php';
+require_once realpath(__DIR__ . '/../../../../../../') . '/tools/migration/Acl/Generator.php';
+require_once realpath(__DIR__ . '/../../../../../../') . '/tools/migration/Acl/FileManager.php';
+require_once realpath(__DIR__ . '/../../../../../../') . '/tools/migration/Acl/Formatter.php';
 
 /**
  * Tools_Migration_Acl test case

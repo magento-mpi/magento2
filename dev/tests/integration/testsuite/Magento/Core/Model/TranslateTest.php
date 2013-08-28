@@ -31,7 +31,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test_default', 'locale', 'en_US',
+        $pathChunks = array(__DIR__, '_files', 'design', 'frontend', 'test_default', 'locale', 'en_US',
             'translate.csv');
 
         $this->_viewFileSystem = $this->getMock('Magento_Core_Model_View_FileSystem',
@@ -62,9 +62,9 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
         Mage::getObjectManager()->addSharedInstance($this->_viewFileSystem, 'Magento_Core_Model_View_FileSystem');
 
-        Mage::getConfig()->setModuleDir('Magento_Core', 'locale', dirname(__FILE__) . '/_files/Magento/Core/locale');
+        Mage::getConfig()->setModuleDir('Magento_Core', 'locale', __DIR__ . '/_files/Magento/Core/locale');
         Mage::getConfig()->setModuleDir('Magento_Catalog', 'locale',
-            dirname(__FILE__) . '/_files/Magento/Catalog/locale');
+            __DIR__ . '/_files/Magento/Catalog/locale');
 
         $this->_designModel = $this->getMock('Magento_Core_Model_View_Design',
             array('getDesignTheme'),
@@ -148,7 +148,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     public function testGetData()
     {
         $this->markTestIncomplete('Bug MAGETWO-6986');
-        $expectedData = include(dirname(__FILE__) . '/Translate/_files/_translation_data.php');
+        $expectedData = include(__DIR__ . '/Translate/_files/_translation_data.php');
         $this->assertEquals($expectedData, $this->_model->getData());
     }
 

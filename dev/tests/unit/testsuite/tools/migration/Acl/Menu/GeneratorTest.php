@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/migration/Acl/Menu/Generator.php';
+require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/migration/Acl/Menu/Generator.php';
 
 /**
  * Tools_Migration_Acl_Menu_Generator_Menu generate test case

@@ -105,7 +105,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      * @param array $params theme/module parameters array
      * @return string
      */
-    public function publishRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params)
+    public function _publishRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params)
     {
         $relativeFilePath = $this->_getRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params);
         return $this->_getPublishedFilePath($relativeFilePath, $params);
@@ -309,9 +309,8 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     {
         $content = $this->_filesystem->read($sourcePath);
 
-        $publisher = $this;
-        $callback = function ($fileId, $originalPath) use ($publisher, $fileName, $params) {
-            $relatedPathPublic = $publisher->publishRelatedViewFile(
+        $callback = function ($fileId, $originalPath) use ($fileName, $params) {
+            $relatedPathPublic = $this->_publishRelatedViewFile(
                 $fileId, $originalPath, $fileName, $params
             );
             return $relatedPathPublic;

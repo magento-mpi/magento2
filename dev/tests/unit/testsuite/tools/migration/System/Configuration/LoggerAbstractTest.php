@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../')
     . '/tools/migration/System/Configuration/LoggerAbstract.php';
 
 class Tools_Migration_System_Configuration_LoggerAbstractTest extends PHPUnit_Framework_TestCase

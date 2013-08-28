@@ -383,6 +383,6 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
      */
     protected static function _loadXmlFixture($fileName)
     {
-        return simplexml_load_file(dirname(__FILE__) . '/../Api/_files/_data/xml/' . $fileName);
+        return simplexml_load_file(__DIR__ . '/../Api/_files/_data/xml/' . $fileName);
     }
 }

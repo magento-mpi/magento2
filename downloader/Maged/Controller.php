@@ -403,7 +403,7 @@ final class Maged_Controller
         $this->channelConfig()->setSettingsView($this->session(), $this->view());
 
         $fs_disabled =! $this->isWritable();
-        $ftpParams = $config->__get('remote_config') ? @parse_url($config->__get('remote_config')) : '';
+        $ftpParams = $config->__get('remote_config') ? parse_url($config->__get('remote_config')) : '';
 
         $this->view()->set('fs_disabled', $fs_disabled);
         $this->view()->set('deployment_type', ($fs_disabled || !empty($ftpParams) ? 'ftp' : 'fs'));
@@ -462,7 +462,7 @@ final class Maged_Controller
      */
     public function __construct()
     {
-        $this->_rootDir = dirname(dirname(__FILE__));
+        $this->_rootDir = dirname(__DIR__);
         $this->_mageDir = dirname($this->_rootDir);
     }
 
@@ -843,7 +843,7 @@ final class Maged_Controller
     protected function _getMaintenanceFilePath()
     {
         if (is_null($this->_maintenanceFile)) {
-            $path = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR;
+            $path = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
             $this->_maintenanceFile = $path . 'maintenance.flag';
         }
         return $this->_maintenanceFile;

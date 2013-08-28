@@ -8,9 +8,9 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/System/FileManager.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/System/FileReader.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/System/Writer/Memory.php';
+require_once realpath(__DIR__ . '/../../../../../../') . '/tools/migration/System/FileManager.php';
+require_once realpath(__DIR__ . '/../../../../../../') . '/tools/migration/System/FileReader.php';
+require_once realpath(__DIR__ . '/../../../../../../') . '/tools/migration/System/Writer/Memory.php';
 
 class Tools_Migration_System_FileManagerTest extends PHPUnit_Framework_TestCase
 {

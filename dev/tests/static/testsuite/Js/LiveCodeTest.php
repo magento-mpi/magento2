@@ -38,7 +38,7 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
         if (is_file($path)) {
             return array($path);
         }
-        $path = $path == '' ? dirname(__FILE__) : $path;
+        $path = $path == '' ? __DIR__ : $path;
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
         $regexIterator = new RegexIterator($iterator, '/\\.js$/');
         $filePaths = array();
