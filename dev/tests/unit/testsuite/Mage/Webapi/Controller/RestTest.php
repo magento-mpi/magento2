@@ -204,6 +204,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_responseMock->isException());
         $exceptionArray = $this->_responseMock->getException();
         $this->assertEquals('Operation allowed only in HTTPS', $exceptionArray[0]->getMessage());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $exceptionArray[0]->getCode());
     }
 
     /**
