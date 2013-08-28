@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Rest controller dispatcher.
+ * Test Rest controller.
  *
  * {license_notice}
  *
@@ -24,6 +24,9 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Controller_Rest_Router */
     protected $_routerMock;
 
+    /** @var Mage_Webapi_Controller_Rest_Router_Route */
+    protected $_routeMock;
+
     /** @var Mage_Webapi_Controller_Rest_Presentation */
     protected $_restPresentation;
 
@@ -33,27 +36,59 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Helper_Data */
     protected $_helperMock;
 
+    /** @var stdClass */
+    protected $_serviceMock;
+
+    const SERVICE_METHOD = 'serviceMethod';
+    const SERVICE_ID = 'serviceId';
+
     protected function setUp()
     {
-        $this->markTestIncomplete(
-            "This unit test has an incorrect mocking and needs to be fixed"
-        );
+        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request')
+            ->setMethods(array('isSecure'))
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        /** Init dependencies for SUT. */
-        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request')->disableOriginalConstructor()
-            ->getMock();
         $this->_responseMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Response')
-            ->disableOriginalConstructor()->getMock();
-        $this->_restPresentation = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Presentation')
-            ->disableOriginalConstructor()->getMock();
-        $this->_routerMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Router')->disableOriginalConstructor()
+            ->setMethods(array('sendResponse'))
+            ->disableOriginalConstructor()
             ->getMock();
+
+        $this->_restPresentation = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Presentation')
+            ->setMethods(array('prepareResponse', 'getRequestData'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_routerMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Router')
+            ->setMethods(array('match'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+
+        $this->_routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Router_Route')
+            ->setMethods(array('isSecure', 'getServiceMethod', 'getServiceId', 'getServiceVersion'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->_authenticationMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Authentication')
-            ->disableOriginalConstructor()->getMock();
+            ->setMethods(array('isSecure'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
-            ->disableOriginalConstructor()->getMock();
-        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
-        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
+            ->setMethods(array('__'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_serviceMock = $this->getMockBuilder('stdClass')
+            ->setMethods(array(self::SERVICE_METHOD))
+            ->disableOriginalConstructor()
+            ->getMock();
+
 
         /** Init SUT. */
         $this->_restDispatcher = new Mage_Webapi_Controller_Rest(
@@ -65,6 +100,24 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             $this->_objectManagerMock,
             $this->_helperMock
         );
+
+
+        //Set default expectations used by all tests
+        $this->_routeMock
+            ->expects($this->any())->method('getServiceId')->will($this->returnValue(self::SERVICE_ID));
+
+        $this->_routeMock
+            ->expects($this->any())->method('getServiceMethod')->will($this->returnValue(self::SERVICE_METHOD));
+        $this->_routeMock->expects($this->any())->method('getServiceVersion');
+        $this->_routerMock->expects($this->any())->method('match')->will($this->returnValue($this->_routeMock));
+
+        $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValue($this->_serviceMock));
+        $this->_restPresentation->expects($this->any())->method('prepareResponse')->will($this->returnValue(array()));
+        $this->_restPresentation->expects($this->any())->method('getRequestData')->will($this->returnValue(array()));
+
+        /** Assert that response sendResponse method will be executed once. */
+        $this->_responseMock->expects($this->any())->method('sendResponse');
+
         parent::setUp();
     }
 
@@ -85,103 +138,97 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     /**
      * Test dispatch method with Exception throwing.
      */
-    public function testDispatchException()
+    public function testDispatchAuthenticationException()
     {
-        /** Init logical Exception. */
-        $logicalException = new LogicException();
-        /** Mock authenticate method to throw Exception. */
-        $this->_authenticationMock->expects($this->once())->method('authenticate')->will(
-            $this->throwException($logicalException)
+        $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(array()));
+        $this->markTestIncomplete(
+            "Test should be fixed after Mage_Webapi_Controller_Rest::dispatch() enforces authentication"
         );
-        /** Assert that setException method will be executed with thrown logical Exception. */
-        $this->_responseMock->expects($this->once())->method('setException')->with($this->equalTo($logicalException));
-
-        $this->_restDispatcher->dispatch();
     }
 
     /**
-     * Test dispatch method.
+     * Test Secure Request and Secure route combinations
+     *
+     * @dataProvider dataProviderSecureRequestSecureRoute
      */
-    public function testDispatch()
+    public function testSecureRouteAndRequest($isSecureRoute, $isSecureRequest)
     {
-        //$this->_authenticationMock->expects($this->once())->method('authenticate');
-        /** Init route mock. */
-        $routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Router_Route')->disableOriginalConstructor()
-            ->getMock();
-        $routeMock->expects($this->any())->method('getServiceId');
-        $serviceMethodName = 'getServiceMethod';
-        $routeMock->expects($this->any())->method('getServiceMethod')->will($this->returnValue($serviceMethodName));
-        $routeMock->expects($this->any())->method('getServiceVersion');
-        $this->_routerMock->expects($this->once())->method('match')->will($this->returnValue($routeMock));
-        $serviceMock = $this->getMockBuilder('Varien_Object')->disableOriginalConstructor()->getMock();
-        $serviceMock->expects($this->any())->method($serviceMethodName)->will($this->returnValue(array()));
-        $this->_objectManagerMock->expects($this->once())->method('get')->will(
-            $this->returnValue($serviceMock)
-        );
-        $this->_restPresentation->expects($this->once())->method('prepareResponse')->will(
-            $this->returnValue(array())
-        );
-        /** Assert that response sendResponse method will be executed once. */
-        $this->_responseMock->expects($this->once())->method('sendResponse');
-
+        $this->_serviceMock
+            ->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(array()));
+        $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue($isSecureRoute));
+        $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue($isSecureRequest));
         $this->_restDispatcher->dispatch();
+        $this->assertFalse($this->_responseMock->isException());
     }
 
     /**
-     * Test dispatch for a secure operation
+     * Data provider for testSecureRouteAndRequest.
+     *
+     * @return array
      */
-    public function testSecureOperation()
+    public function dataProviderSecureRequestSecureRoute()
     {
-        $serviceId = 'SomeService';
-        $serviceMethodName = 'someMethod';
-        //$this->_authenticationMock->expects($this->once())->method('authenticate');
-        /** Init route mock. */
-        $routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Router_Route')->disableOriginalConstructor()
-            ->getMock();
-
-        $serviceMock = $this->getMock('StdClass', array($serviceMethodName));
-
-        $routeMock->expects($this->any())->method('getServiceId')->will($this->returnValue($serviceId));
-        $routeMock->expects($this->any())->method('getServiceMethod')->will($this->returnValue($serviceMethodName));
-        $routeMock->expects($this->any())->method('getServiceVersion');
-        $routeMock->expects($this->any())->method('isSecure')->will($this->returnValue(true));
-
-        $this->_objectManagerMock
-            ->expects($this->any())
-            ->method('get')
-            ->will($this->returnValueMap(array(array($serviceId, $serviceMock))));
-
-        $this->_routerMock->expects($this->once())->method('match')->will($this->returnValue($routeMock));
-        $this->_restPresentation->expects($this->once())->method('prepareResponse')->will(
-            $this->returnValue(array())
+        return array(
+            //Each array contains return type for isSecure method of route and request objects .
+            array(
+                true,
+                true
+            ),
+            array(
+                false,
+                true
+            ),
+            array(
+                false,
+                false
+            )
         );
-        $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue(true));
-        /** Assert that response sendResponse method will be executed once. */
-        $this->_responseMock->expects($this->once())->method('sendResponse');
 
-        $this->_restDispatcher->dispatch();
     }
 
     /**
-     * Test dispatch for a secure operation when call is made in insecure channel
+     * Test insecure request for a secure route
      */
-    public function testSecureOperationDispatchForInsecureCall()
+    public function testInSecureRequestOverSecureRoute()
     {
-        //$this->_authenticationMock->expects($this->once())->method('authenticate');
-        /** Init route mock. */
-        $routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Router_Route')->disableOriginalConstructor()
-            ->getMock();
-        $routeMock->expects($this->any())->method('getServiceId');
-        $routeMock->expects($this->any())->method('getServiceMethod');
-        $routeMock->expects($this->any())->method('getServiceVersion');
-        $routeMock->expects($this->any())->method('isSecure')->will($this->returnValue(true));
-        $this->_routerMock->expects($this->once())->method('match')->will($this->returnValue($routeMock));
+        $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(array()));
+        $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue(true));
+        $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
 
-        /** Assert that setException method will be executed once. */
-        $this->_responseMock->expects($this->once())->method('setException')->with(
-            new Mage_Webapi_Exception('Operation allowed only in HTTPS', Mage_Webapi_Exception::HTTP_FORBIDDEN)
-        );
+        //Override default prepareResponse. It should never be called in this case
+        $this->_restPresentation->expects($this->never())->method('prepareResponse');
+
+        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         $this->_restDispatcher->dispatch();
+        $this->assertTrue($this->_responseMock->isException());
+        $exceptionArray = $this->_responseMock->getException();
+        $this->assertEquals('Operation allowed only in HTTPS', $exceptionArray[0]->getMessage());
     }
+
+    /**
+     * Test incorrect format type response from service methods
+     */
+    public function testInvalidReturnTypeFromService()
+    {
+        $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue("invalid"));
+        $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
+        $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
+
+        //Override default prepareResponse. It should never be called in this case
+        $this->_restPresentation->expects($this->never())->method('prepareResponse');
+
+        $expectedMsg = 'The method' . self::SERVICE_METHOD . ' of service '
+            . self::SERVICE_ID . ' must return an array.';
+        $this->_helperMock->expects($this->any())
+            ->method('__')
+            ->with('The method "%s" of service "%s" must return an array.', self::SERVICE_METHOD, self::SERVICE_ID)
+            ->will($this->returnValue($expectedMsg));
+
+        $this->_restDispatcher->dispatch();
+        $this->assertTrue($this->_responseMock->isException());
+        $exceptionArray = $this->_responseMock->getException();
+        $this->assertEquals($expectedMsg, $exceptionArray[0]->getMessage());
+    }
+
 }
