@@ -15,9 +15,10 @@
             translate="label description" placeholder_image="Magento_Reports::images/product_widget_viewed.gif">
         <label>Recently Viewed Products</label>
         <description>List of Products Recently Viewed by Visitor</description>
-        <parameter name="page_size" translate="label" xsi:type="text" value="5" required="true"
+        <parameter name="page_size" translate="label" xsi:type="text" required="true"
                    visible="true">
             <label>Number of Products to display</label>
+            <value>5</value>
         </parameter>
         <parameter name="template" xsi:type="select" required="true" visible="true">
             <label>Template</label>
@@ -60,9 +61,10 @@
             translate="label description" placeholder_image="Magento_Reports::images/product_widget_compared.gif">
         <label>Recently Compared Products</label>
         <description>List of Products Recently Compared and Removed from the Compare List by Visitor</description>
-        <parameter name="page_size" xsi:type="text" translate="label" value="5" required="true"
+        <parameter name="page_size" xsi:type="text" translate="label" required="true"
                    visible="true">
             <label>Number of Products to display</label>
+            <value>5</value>
         </parameter>
         <parameter name="template" xsi:type="select" visible="true" required="true">
             <label>Template</label>
