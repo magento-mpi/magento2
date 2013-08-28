@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_report_customer_customersegment_segment>
+        <reference name="content">
+            <block type="Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment" name="adminhtml.customersegment.report.grid.container">
+                <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.customersegment.report.grid" as="grid">
+                    <arguments>
+                        <id>gridReportCustomersegments</id>
+                        <dataSource type="object">Enterprise_CustomerSegment_Model_Resource_Segment_Report_Collection</dataSource>
+                    </arguments>
+                    <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="adminhtml.customersegment.report.massactions" as="grid.massaction">
+                    <arguments>
+                        <massaction_id_field>segment_id</massaction_id_field>
+                        <use_select_all>1</use_select_all>
+                        <options>
+                            <view>
+                                <label translate="true" module="Enterprise_CustomerSegment">View Combined Report</label>
+                                <url>*/*/detail</url>
+                                <params>
+                                    <_current>1</_current>
+                                </params>
+                                <block_name>set</block_name>
+                            </view>
+                        </options>
+                    </arguments>
+                    <block type="Mage_Backend_Block_Widget_Grid_Massaction_Additional" name="adminhtml.customersegment.report.massactions.visibility" as="set">
+                        <arguments>
+                            <fields>
+                                <visibility>
+                                    <name>view_mode</name>
+                                    <type>select</type>
+                                    <class>required-entry</class>
+                                    <label translate="true" module="Enterprise_CustomerSegment">Set</label>
+                                    <values>Enterprise_CustomerSegment_Model_Resource_Segment_Report_Massaction_Set</values>
+                                </visibility>
+                            </fields>
+                        </arguments>
+                    </block>
+                </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.customersegment.report.grid.columnSet" as="grid.columnSet">
+                        <arguments>
+                            <rowUrl>
+                                <path>*/*/detail</path>
+                                <extraParamsTemplate>
+                                    <segment_id>getId</segment_id>
+                                </extraParamsTemplate>
+                            </rowUrl>
+                        </arguments>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="segment_id">
+                            <arguments>
+                                <header translate="true" module="Enterprise_CustomerSegment">ID</header>
+                                <index>segment_id</index>
+                                <header_css_class>col-id</header_css_class>
+                                <column_css_class>col-id</column_css_class>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
+                            <arguments>
+                                <header translate="true" module="Enterprise_CustomerSegment">Segment</header>
+                                <index>name</index>
+                                <header_css_class>col-segment</header_css_class>
+                                <column_css_class>col-segment</column_css_class>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_active">
+                            <arguments>
+                                <header translate="true" module="Enterprise_CustomerSegment">Status</header>
+                                <index>is_active</index>
+                                <type>options</type>
+                                <options>
+                                    <active>
+                                        <value>1</value>
+                                        <label translate="true" module="Enterprise_CustomerSegment">Active</label>
+                                    </active>
+                                    <inactive>
+                                        <value>0</value>
+                                        <label translate="true" module="Enterprise_CustomerSegment">Inactive</label>
+                                    </inactive>
+                                </options>
+                                <header_css_class>col-status</header_css_class>
+                                <column_css_class>col-status</column_css_class>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="website">
+                            <arguments>
+                                <header translate="true" module="Enterprise_CustomerSegment">Website</header>
+                                <index>website_ids</index>
+                                <type>options</type>
+                                <options type="options">Mage_Backend_Model_Config_Source_Website_OptionHash</options>
+                                <header_css_class>col-website</header_css_class>
+                                <column_css_class>col-website</column_css_class>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="customer_count">
+                            <arguments>
+                                <header translate="true" module="Enterprise_CustomerSegment">Customers</header>
+                                <index>customer_count</index>
+                                <header_css_class>col-qty</header_css_class>
+                                <column_css_class>col-qty</column_css_class>
+                            </arguments>
+                        </block>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_report_customer_customersegment_segment>
+</layout>
