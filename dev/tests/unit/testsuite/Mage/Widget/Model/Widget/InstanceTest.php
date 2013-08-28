@@ -65,7 +65,7 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetWidgetConfigInArray()
+    public function testGetWidgetConfigAsArray()
     {
         $widget = array(
             '@' => array(
