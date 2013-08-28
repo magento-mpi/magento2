@@ -30,17 +30,19 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
     /**
      * @param Enterprise_Customer_Helper_Data $customerData
      * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Customer_Helper_Data $customerData,
         Magento_Eav_Helper_Data $eavData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
-        parent::__construct($eavData, $context, $data);
+        parent::__construct($eavData, $coreData, $context, $data);
     }
 
     /**

@@ -19,10 +19,6 @@ class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Magen
     protected $_customerBalanceData = null;
 
     /**
-     * Init total model, set total code
-     *
-     *
-     *
      * @param Enterprise_CustomerBalance_Helper_Data $customerBalanceData
      */
     public function __construct(

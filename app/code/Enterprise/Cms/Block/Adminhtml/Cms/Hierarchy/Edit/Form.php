@@ -41,18 +41,20 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magento_Adm
 
     /**
      * @param Enterprise_Cms_Helper_Hierarchy $cmsHierarchy
-     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Cms_Helper_Hierarchy $cmsHierarchy,
-        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
 
         $this->setTemplate('hierarchy/edit.phtml');
 

@@ -28,16 +28,18 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Js
 
     /**
      * @param Enterprise_Customer_Helper_Data $customerData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Customer_Helper_Data $customerData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

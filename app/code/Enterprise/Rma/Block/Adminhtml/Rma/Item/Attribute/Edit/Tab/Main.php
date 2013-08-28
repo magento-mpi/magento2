@@ -30,17 +30,19 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     /**
      * @param Enterprise_Rma_Helper_Eav $rmaEav
      * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Rma_Helper_Eav $rmaEav,
         Magento_Eav_Helper_Data $eavData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
-        parent::__construct($eavData, $context, $data);
+        parent::__construct($eavData, $coreData, $context, $data);
     }
 
     /**

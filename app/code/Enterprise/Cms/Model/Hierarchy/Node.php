@@ -12,7 +12,6 @@
 /**
  * Cms Hierarchy Pages Node Model
  *
- * @method Enterprise_Cms_Model_Resource_Hierarchy_Node _getResource()
  * @method Enterprise_Cms_Model_Resource_Hierarchy_Node getResource()
  * @method int getParentNodeId()
  * @method Enterprise_Cms_Model_Hierarchy_Node setParentNodeId(int $value)

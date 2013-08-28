@@ -39,10 +39,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     protected $_adminhtmlData = null;
 
     /**
-     * Initialize model
-     *
-     *
-     *
      * @param Magento_Adminhtml_Helper_Data $adminhtmlData
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data

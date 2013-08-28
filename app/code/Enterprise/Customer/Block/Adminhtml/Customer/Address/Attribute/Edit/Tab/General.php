@@ -30,17 +30,19 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
     /**
      * @param Enterprise_Customer_Helper_Data $customerData
      * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Customer_Helper_Data $customerData,
         Magento_Eav_Helper_Data $eavData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
-        parent::__construct($eavData, $context, $data);
+        parent::__construct($eavData, $coreData, $context, $data);
     }
 
     /**
@@ -70,14 +72,12 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
         $attribute  = $this->getAttributeObject();
         $form       = $this->getForm();
         $fieldset   = $form->getElement('base_fieldset');
-        /* @var $helper Enterprise_Customer_Helper_Data */
-        $helper     = $this->_customerData;
 
         $fieldset->removeField('frontend_class');
         $fieldset->removeField('is_unique');
 
         // update Input Types
-        $values     = $helper->getFrontendInputOptions();
+        $values     = $this->_customerData->getFrontendInputOptions();
         $element    = $form->getElement('frontend_input');
         $element->setValues($values);
         $element->setLabel(__('Input Type'));
@@ -153,7 +153,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
             'label'     => __('Minimal value'),
             'title'     => __('Minimal value'),
             'image'     => $this->getViewFileUrl('images/grid-cal.gif'),
-            'date_format' => $helper->getDateFormat()
+            'date_format' => $this->_customerData->getDateFormat()
         ), 'default_value_date');
 
         $fieldset->addField('date_range_max', 'date', array(
@@ -161,7 +161,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
             'label'     => __('Maximum value'),
             'title'     => __('Maximum value'),
             'image'     => $this->getViewFileUrl('images/grid-cal.gif'),
-            'date_format' => $helper->getDateFormat()
+            'date_format' => $this->_customerData->getDateFormat()
         ), 'date_range_min');
 
         $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
@@ -189,7 +189,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
             'name'         => 'used_in_forms',
             'label'        => __('Forms to Use In'),
             'title'        => __('Forms to Use In'),
-            'values'       => $helper->getCustomerAddressAttributeFormOptions(),
+            'values'       => $this->_customerData->getCustomerAddressAttributeFormOptions(),
             'value'        => $attribute->getUsedInForms(),
             'can_be_empty' => true,
         ))->setSize(5);
@@ -206,11 +206,11 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
                 $form->getElement($elementId)->setDisabled(true);
             }
 
-            $inputTypeProp = $helper->getAttributeInputTypes($attribute->getFrontendInput());
+            $inputTypeProp = $this->_customerData->getAttributeInputTypes($attribute->getFrontendInput());
 
             // input_filter
             if ($inputTypeProp['filter_types']) {
-                $filterTypes = $helper->getAttributeFilterTypes();
+                $filterTypes = $this->_customerData->getAttributeFilterTypes();
                 $values = $form->getElement('input_filter')->getValues();
                 foreach ($inputTypeProp['filter_types'] as $filterTypeCode) {
                     $values[$filterTypeCode] = $filterTypes[$filterTypeCode];
@@ -220,7 +220,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
 
             // input_validation getAttributeValidateFilters
             if ($inputTypeProp['validate_filters']) {
-                $filterTypes = $helper->getAttributeValidateFilters();
+                $filterTypes = $this->_customerData->getAttributeValidateFilters();
                 $values = $form->getElement('input_validation')->getValues();
                 foreach ($inputTypeProp['validate_filters'] as $filterTypeCode) {
                     $values[$filterTypeCode] = $filterTypes[$filterTypeCode];
@@ -230,7 +230,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
         }
 
         // apply scopes
-        foreach ($helper->getAttributeElementScopes() as $elementId => $scope) {
+        foreach ($this->_customerData->getAttributeElementScopes() as $elementId => $scope) {
             $element = $form->getElement($elementId);
             if ($element->getDisabled()) {
                 continue;

@@ -29,16 +29,18 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
 
     /**
      * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Eav_Helper_Data $eavData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_eavData = $eavData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     public function setAttributeObject($attribute)

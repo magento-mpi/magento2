@@ -22,10 +22,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
     protected $_isUsedForRuleProperty = 'is_used_for_promo_rules';
 
     /**
-     * Init model
-     *
-     *
-     *
      * @param Magento_Adminhtml_Helper_Data $adminhtmlData
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data

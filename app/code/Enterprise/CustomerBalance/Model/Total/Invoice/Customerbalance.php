@@ -18,11 +18,6 @@ class Enterprise_CustomerBalance_Model_Total_Invoice_Customerbalance extends Mag
     protected $_customerBalanceData = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Enterprise_CustomerBalance_Helper_Data $customerBalanceData
      * @param array $data
      */

@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-class Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
+class Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance
+    extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
 {
     /**
      * Customer balance data
@@ -18,11 +19,6 @@ class Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends 
     protected $_customerBalanceData = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Enterprise_CustomerBalance_Helper_Data $customerBalanceData
      * @param array $data
      */

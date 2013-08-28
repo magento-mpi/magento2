@@ -44,14 +44,10 @@ class Enterprise_Cms_Model_Observer
     protected $_coreData = null;
 
     /**
-     * Constructor
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Enterprise_Cms_Helper_Hierarchy $cmsHierarchy
-     * @param  $config
-     * @param  $authorization
+     * @param Enterprise_Cms_Model_Config $config
+     * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
@@ -155,9 +151,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function cmsControllerRouterMatchBefore(Magento_Event_Observer $observer)
     {
-        /* @var $helper Enterprise_Cms_Helper_Hierarchy */
-        $helper = $this->_cmsHierarchy;
-        if (!$helper->isEnabled()) {
+        if (!$this->_cmsHierarchy->isEnabled()) {
             return $this;
         }
 
@@ -531,9 +525,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function affectCmsPageRender(Magento_Event_Observer $observer)
     {
-        /* @var $helper Enterprise_Cms_Helper_Hierarchy */
-        $helper = $this->_cmsHierarchy;
-        if (!is_object(Mage::registry('current_cms_hierarchy_node')) || !$helper->isEnabled()) {
+        if (!is_object(Mage::registry('current_cms_hierarchy_node')) || !$this->_cmsHierarchy->isEnabled()) {
             return $this;
         }
 

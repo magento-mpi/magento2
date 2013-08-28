@@ -10,11 +10,6 @@
 
 class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Js extends Magento_Adminhtml_Block_Template
 {
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
-
     public function getCustomerWebsite()
     {
         return Mage::registry('current_customer')->getWebsiteId();
