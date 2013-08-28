@@ -8,7 +8,7 @@
  */
 -->
 <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:include schemaLocation="../../Core/etc/types.xsd"/>
+    <xs:include schemaLocation="types.xsd"/>
 
     <xs:annotation>
         <xs:documentation>Contains widgets.</xs:documentation>
@@ -97,7 +97,7 @@
             <xs:documentation>Data for the renderer.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="item" type="argumentType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="item" type="namedType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 

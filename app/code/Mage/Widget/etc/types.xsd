@@ -10,13 +10,14 @@
  */
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" >
-    <xs:complexType name="argumentType" abstract="true" mixed="true">
+
+    <xs:complexType name="namedType" abstract="true" mixed="true">
         <xs:attribute name="name" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="simpleType" mixed="true">
         <xs:complexContent>
-            <xs:extension base="argumentType">
+            <xs:extension base="namedType">
                 <xs:sequence>
                     <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="1"/>
                 </xs:sequence>
@@ -26,7 +27,7 @@
 
     <xs:complexType name="complexType" mixed="true">
         <xs:complexContent>
-            <xs:extension base="argumentType"/>
+            <xs:extension base="namedType"/>
         </xs:complexContent>
     </xs:complexType>
 
@@ -34,7 +35,7 @@
         <xs:complexContent>
             <xs:extension base="complexType">
                 <xs:sequence>
-                    <xs:element name="item" type="argumentType" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="item" type="namedType" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
