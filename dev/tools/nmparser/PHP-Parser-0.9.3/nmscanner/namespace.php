@@ -61,24 +61,22 @@ class namespacer
         "DOMXPath",
         "BadMethodCallException",
         "PDO",
-        "SimpleXMLElement",
+        'ArrayAccess',
+        'SimpleXMLElement',
+        'RecursiveDirectoryIterator',
         "Mage::"
     );
-    private $libSearch = array();
-    private $libReplace = array();
     private $gitShell = null;
 
     public function __construct($path, $rootDirectory, $def = false)
     {
 
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $this->rootDirPath=realpath(__DIR__);
-        }else{
-            $this->rootDirPath=null;
-        }
+
+        $this->rootDirPath = realpath(__DIR__);
         $this->path = $path;
         $this->gitShell = new Magento_Shell(null);
         $this->gitClassMove();
+        $this->gitListPackageMove();
         $this->rootDirectory = $rootDirectory;
         $this->renameFileLogger = time() . $this->renameFileLogger;
         $this->renameClassLogger = time() . $this->renameClassLogger;
@@ -143,6 +141,73 @@ class namespacer
                     foreach ($files as $key) {
                         $pattern = 'Magento_Tax_Model_Resource_Class_';
                         $rep = 'Magento_Tax_Model_Resource_TaxClass_';
+
+                        $cont = str_replace($pattern, $rep, file_get_contents($key));
+                        file_put_contents($key, $cont);
+                    }
+
+                }
+            } else {
+                echo "skipping already-moved $params[0]\n";
+            }
+        } catch (Exception $e) {
+            $string = 'Message: ' . $e->getMessage() . "\n";
+            $this->logFile($this->errorLog, $string);
+        }
+
+    }
+
+    /**
+     * rename the List package
+     * Magento\Core\Model\Layout\File\List
+     */
+    public function gitListPackageMove()
+    {
+        $params = array(
+            '../../../../../' . 'app/code/Magento/Core/Model/Layout/File/List',
+            '../../../../../' . 'app/code/Magento/Core/Model/Layout/File/ListFile',
+        );
+
+        try {
+            if (realpath($params[0]) && !realpath($params[1])) {
+                echo "git-moving $params[0] to $params[1]\n";
+                $this->gitShell->execute(
+                    'git mv %s %s',
+                    $params
+                );
+                $RealPath1 = realpath($params[1]);
+                $files1 = $this->scanDirectory($RealPath1);
+                if (!empty($files1)) {
+                    foreach ($files1 as $key) {
+                        $pattern1 = 'Magento_Core_Model_' . 'Layout_File_List_';
+                        $rep1 = 'Magento_Core_Model_' . 'Layout_File_ListFile_';
+
+                        $cont = str_replace($pattern1, $rep1, file_get_contents($key));
+                        file_put_contents($key, $cont);
+                    }
+
+                }
+            } else {
+                echo "skipping already-moved $params[0]\n";
+            }
+
+            $params = array(
+                '../../../../../dev/tests/unit/testsuite/Magento/Core/Model/Layout/File/List',
+                '../../../../../dev/tests/unit/testsuite/Magento/Core/Model/Layout/File/ListFile'
+            );
+            //git mv %s %s',
+            if (realpath($params[0]) && !realpath($params[1])) {
+                echo "git-moving $params[0] to $params[1]\n";
+                $this->gitShell->execute(
+                    'git mv %s %s',
+                    $params
+                );
+                $RealPath = realpath($params[1]);
+                $files = $this->scanDirectory($RealPath);
+                if (!empty($files)) {
+                    foreach ($files as $key) {
+                        $pattern = 'Magento_Core_Model' . '_Layout_File_List_';
+                        $rep = 'Magento_Core_Model' . '_Layout_File_ListFile_';
 
                         $cont = str_replace($pattern, $rep, file_get_contents($key));
                         file_put_contents($key, $cont);
@@ -496,13 +561,13 @@ class namespacer
             clearstatcache();
 
             try {
-                if(!empty($this->rootDirPath)){
-                    $path=$this->getRelativePath($this->rootDirPath,$file);
-                    $tar=$this->getRelativePath($this->rootDirPath,$this->fileMapper[$file]);
+                if (!empty($this->rootDirPath)) {
+                    $path = $this->getRelativePath($this->rootDirPath, $file);
+                    $tar = $this->getRelativePath($this->rootDirPath, $this->fileMapper[$file]);
                     $this->gitRename($path, $tar);
                     $string = $file . " =>  " . $this->fileMapper[$file] . "\n";
                     $this->logFile($this->renameFileLogger, $string);
-                }else{
+                } else {
                     $this->gitRename($file, $this->fileMapper[$file]);
                     $string = $file . " =>  " . $this->fileMapper[$file] . "\n";
                     $this->logFile($this->renameFileLogger, $string);
@@ -510,7 +575,7 @@ class namespacer
 
 
             } catch (Exception $e) {
-                $string = 'Message: ' . $e->getMessage()."\n";
+                $string = 'Message: ' . $e->getMessage() . "\n";
                 $this->logFile($this->errorLog, $string);
             }
 
@@ -564,15 +629,17 @@ class namespacer
     public function replaceThirdParty($path)
     {
         foreach ($this->addSlashArray as $key) {
-            $this->libSearch[] = "/\\b" . $key . "/";
-            $this->libReplace[] = "\\$key";
+            $libSearch[] ="/\\s" . $key . "/";
+            $libSearch[] ="/\\(" . $key . "/";
+            $libReplace[] = " \\$key";
+            $libReplace[] = "(\\$key";
         }
         $files = $this->scanDirectory($path);
         echo "=====================\n";
-        echo "Started ThirdParty Replacement";
+        echo "Started ThirdParty Replacement \n";
         foreach ($files as $file) {
             if (file_exists($file)) {
-                $contents = preg_replace($this->libSearch, $this->libReplace, file_get_contents($file));
+                $contents = preg_replace($libSearch, $libReplace, file_get_contents($file));
                 file_put_contents($file, $contents);
             }
         }
@@ -597,24 +664,26 @@ class namespacer
     private function getRelativePath($from, $to)
     {
         // some compatibility fixes for Windows paths
-        $from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
-        $to   = is_dir($to)   ? rtrim($to, '\/') . '/'   : $to;
-        $from = str_replace('\\', '/', $from);
-        $to   = str_replace('\\', '/', $to);
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
+            $to = is_dir($to) ? rtrim($to, '\/') . '/' : $to;
+            $from = str_replace('\\', '/', $from);
+            $to = str_replace('\\', '/', $to);
+        }
 
-        $from     = explode('/', $from);
-        $to       = explode('/', $to);
-        $relPath  = $to;
+        $from = explode('/', $from);
+        $to = explode('/', $to);
+        $relPath = $to;
 
-        foreach($from as $depth => $dir) {
+        foreach ($from as $depth => $dir) {
             // find first non-matching dir
-            if($dir === $to[$depth]) {
+            if ($dir === $to[$depth]) {
                 // ignore this directory
                 array_shift($relPath);
             } else {
                 // get number of remaining dirs to $from
                 $remaining = count($from) - $depth;
-                if($remaining > 1) {
+                if ($remaining > 1) {
                     // add traversals up to first matching dir
                     $padLength = (count($relPath) + $remaining - 1) * -1;
                     $relPath = array_pad($relPath, $padLength, '..');
