@@ -12,22 +12,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:include schemaLocation="types.xsd"/>
 
-    <xs:element name="layout">
-        <xs:annotation>
-            <xs:documentation>
-                Handle id must be unique.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element type="handleType" name="handle" minOccurs="1" maxOccurs="1"/>
-            </xs:sequence>
-        </xs:complexType>
-        <xs:key name="handleName">
-            <xs:selector xpath="handle"></xs:selector>
-            <xs:field xpath="@id"></xs:field>
-        </xs:key>
-    </xs:element>
+    <xs:element name="layout" type="handleType"/>
 
     <xs:complexType name="argumentType" abstract="true" mixed="true">
         <xs:sequence>
@@ -121,7 +106,6 @@
             <xs:element ref="remove" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="move" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute type="xs:string" name="id" use="required"/>
         <xs:attribute type="xs:string" name="type"/>
         <xs:attribute type="xs:string" name="parent"/>
         <xs:attribute type="xs:string" name="owner"/>
