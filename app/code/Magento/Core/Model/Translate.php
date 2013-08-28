@@ -151,9 +151,9 @@ class Magento_Core_Model_Translate
     protected $_moduleList;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Core_Model_Config_Modules_Reader
      */
-    protected $_configObject;
+    protected $_modulesReader;
 
     /**
      * Initialize translate model
@@ -165,7 +165,7 @@ class Magento_Core_Model_Translate
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Phrase_Renderer_Placeholder $placeholderRender
      * @param Magento_Core_Model_ModuleList $moduleList
-     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $viewDesign,
@@ -175,7 +175,7 @@ class Magento_Core_Model_Translate
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Phrase_Renderer_Placeholder $placeholderRender,
         Magento_Core_Model_ModuleList $moduleList,
-        Magento_Core_Model_Config $config
+        Magento_Core_Model_Config_Modules_Reader $modulesReader
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $loader->load();
@@ -184,7 +184,7 @@ class Magento_Core_Model_Translate
         $this->_viewFileSystem = $viewFileSystem;
         $this->_placeholderRender = $placeholderRender;
         $this->_moduleList = $moduleList;
-        $this->_configObject = $config;
+        $this->_modulesReader = $modulesReader;
     }
 
     /**
@@ -429,7 +429,7 @@ class Magento_Core_Model_Translate
      */
     protected function _getModuleTranslationFile($moduleName, $locale)
     {
-        $file = $this->_configObject->getModuleDir(Magento_Core_Model_Dir::LOCALE, $moduleName);
+        $file = $this->_modulesReader->getModuleDir(Magento_Core_Model_Dir::LOCALE, $moduleName);
         $file .= DS . $locale . '.csv';
         return $file;
     }
