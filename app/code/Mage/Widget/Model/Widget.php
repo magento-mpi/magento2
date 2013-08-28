@@ -285,7 +285,7 @@ class Mage_Widget_Model_Widget
     }
 
     /**
-     * Remove attributes from wisget array so that emulates how Magento_Simplexml_Element::asCanonicalArray works
+     * Remove attributes from widget array so that emulates how Magento_Simplexml_Element::asCanonicalArray works
      *
      * @param $inputArray
      * @return mixed
