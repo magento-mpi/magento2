@@ -22,6 +22,16 @@
         </xsl:copy>
     </xsl:template>
 
+    <!-- Update block node -->
+    <xsl:template match="block">
+        <xsl:copy>
+            <xsl:attribute name="class">
+                <xsl:value-of select="attribute::type"/>
+            </xsl:attribute>
+            <xsl:apply-templates select="node()|@*[name()!='type']"/>
+        </xsl:copy>
+    </xsl:template>
+
     <!-- Update action node -->
     <xsl:template match="*[name()='action']">
         <xsl:copy>
