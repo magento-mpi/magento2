@@ -49,7 +49,7 @@
             <word>Magento_Adminhtml::profiles</word>
         </item>
         <item>
-            <path>dev/tests/static/testsuite/Php/Exemplar/_files/phpmd_ruleset.xsd</path>
+            <path>dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpmd_ruleset.xsd</path>
             <word>dataflow</word>
         </item>
         <item>
