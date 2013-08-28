@@ -7,7 +7,7 @@
  */
 
 namespace Magento\Tools\I18n\Code;
-use Magento\Tools\I18n\Code\Dictionary\Scanner\FileScanner;
+use Magento\Tools\I18n\Code\Dictionary\ContextDetector;
 
 /**
  * Split dictionary by language pack
@@ -47,7 +47,7 @@ class LanguagePack
     protected $_baseDir;
 
     /**
-     * If false, will throw error if duplicated finded
+     * If false, will throw error if duplicated found
      * If phrase exist more than once into one of code-pool-type (meta-info-type), than it is considered as duplicate
      *
      * @var bool
@@ -102,7 +102,7 @@ class LanguagePack
     /**
      * @param bool $allow
      */
-    public function setAlloweDuplicates($allow)
+    public function setAllowedDuplicates($allow)
     {
         $this->_allowDuplicates = $allow;
     }
@@ -152,7 +152,7 @@ class LanguagePack
     public function getSuccessSavedMessage()
     {
         if ($this->_savedPackN) {
-            return sprintf("\nSucessfully saved %d language package(s)", $this->_savedPackN);
+            return sprintf("\nSuccessfully saved %d language package(s)", $this->_savedPackN);
         }
         return '';
     }
@@ -216,7 +216,7 @@ class LanguagePack
             }
             if (!$contextType || !$contextValue) {
                 $this->_throwError(
-                    'Cannot split dictionary into language pack. Context infromation is absent in row#%d: %s',
+                    'Cannot split dictionary into language pack. Context information is absent in row#%d: %s',
                     $rowN, implode($phraseRow)
                 );
             }
@@ -259,7 +259,6 @@ class LanguagePack
      * Save language pack into the specific files
      *
      * @param array $languagePack
-     * @throws \Exception
      */
     private function _processLanguagePack($languagePack)
     {
@@ -276,8 +275,8 @@ class LanguagePack
     /**
      * Save language pack to the directory
      *
-     * @param $directory
-     * @param $dictionary
+     * @param string $directory
+     * @param string $dictionary
      */
     private function _saveLanguagePack($directory, $dictionary)
     {
@@ -335,27 +334,27 @@ class LanguagePack
      */
     private function _getDictionaryPathes($contextType, $contextValue)
     {
-        $pathes = array();
+        $paths = array();
         $contextValues = explode(',', $contextValue);
         foreach ($contextValues as $context) {
             $path = $this->_baseDir . '/app/';
             switch ($contextType) {
-                case FileScanner::CONTEXT_TYPE_MODULE:
+                case ContextDetector::CONTEXT_TYPE_MODULE:
                     $path .= 'code/' . str_replace('_', '/', $context) . '/' . self::I18N_DIRECTORY;
                     break;
-                case FileScanner::CONTEXT_TYPE_THEME:
+                case ContextDetector::CONTEXT_TYPE_THEME:
                     $path .= 'design/' . $context . '/' . self::I18N_DIRECTORY;
                     break;
-                case FileScanner::CONTEXT_TYPE_LIB:
+                case ContextDetector::CONTEXT_TYPE_PUB:
                     $path .= self::I18N_DIRECTORY;
                     break;
                 default:
                     $this->_throwError('Invalid meta-type given: ' . $contextType);
             }
             $this->_createDirectoryIfNo($path);
-            $pathes[] = $path;
+            $paths[] = $path;
         }
-        return $pathes;
+        return $paths;
     }
 
     /**

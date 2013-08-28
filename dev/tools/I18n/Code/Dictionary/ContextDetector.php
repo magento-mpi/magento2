@@ -18,7 +18,7 @@ class ContextDetector
      */
     const CONTEXT_TYPE_MODULE = 'module';
     const CONTEXT_TYPE_THEME = 'theme';
-    const CONTEXT_TYPE_LIB = 'lib';
+    const CONTEXT_TYPE_PUB = 'pub';
     /**#@-*/
 
     /**
@@ -42,7 +42,8 @@ class ContextDetector
             $contextValue = explode('/', $contextValue);
             $contextValue = $contextValue[3] . '/' . $contextValue[4];
         } elseif (($contextValue = strstr($filePath, '/pub/lib/'))) {
-            $contextType = self::CONTEXT_TYPE_LIB;
+            $contextType = self::CONTEXT_TYPE_PUB;
+            $contextValue = ltrim($contextValue, '/');
         } else {
             throw new \InvalidArgumentException('Invalid path given: ' . $filePath);
         }

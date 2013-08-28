@@ -12,7 +12,7 @@ $baseDir = realpath(BP);
 use Magento\Tools\I18n\Code\LanguagePack;
 
 try {
-    $options = new Zend_Console_Getopt(array(
+    $console = new Zend_Console_Getopt(array(
         'target_locale|l=s' => 'Target locale for dictionary, for example "de_DE"',
         'source_file|s=s' => 'Path to source file dictionary with translations, by default read from standard input'
             . ' stream',
@@ -22,16 +22,16 @@ try {
         - "merge" -  merge language packages
         , by default "replace"',
     ));
-    $options->parse();
-    $sourceFilename = $options->getOption('source_file') ? $options->getOption('source_file') : null;
-    $targetLocale = $options->getOption('target_locale') ? $options->getOption('target_locale') : null;
-    $saveMode = $options->getOption('mode') ? $options->getOption('mode') : 'replace';
-    $allowDuplicates = in_array($options->getOption('allow_duplicates'), array('y', 'Y', 'yes', 'Yes')) ? true : false;
+    $console->parse();
+    $sourceFilename = $console->getOption('source_file') ? $console->getOption('source_file') : null;
+    $targetLocale = $console->getOption('target_locale') ? $console->getOption('target_locale') : null;
+    $saveMode = $console->getOption('mode') ? $console->getOption('mode') : 'replace';
+    $allowDuplicates = in_array($console->getOption('allow_duplicates'), array('y', 'Y', 'yes', 'Yes')) ? true : false;
 
     $languagePack = new LanguagePack($baseDir);
     $languagePack->setTargetLocale($targetLocale);
     $languagePack->setSourceFilename($sourceFilename);
-    $languagePack->setAlloweDuplicates($allowDuplicates);
+    $languagePack->setAllowedDuplicates($allowDuplicates);
     $languagePack->setSaveMode($saveMode);
     $languagePack->splitDictionary();
     echo $languagePack->getSuccessSavedMessage();
