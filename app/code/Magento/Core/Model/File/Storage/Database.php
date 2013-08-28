@@ -44,11 +44,17 @@ class Magento_Core_Model_File_Storage_Database extends Magento_Core_Model_File_S
      *
      * @param string $connectionName
      */
-    public function __construct($connectionName = null)
-    {
+    public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_File_Storage_Database $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array(),
+        $connectionName = null
+    ) {
         $this->_init('Magento_Core_Model_Resource_File_Storage_Database');
 
-        parent::__construct($connectionName);
+        parent::__construct($coreFileStorageDb, $context, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -298,7 +304,7 @@ class Magento_Core_Model_File_Storage_Database extends Magento_Core_Model_File_S
      */
     public function getDirectoryFiles($directory)
     {
-        $directory = $this->_coreFileStorageDatabase->getMediaRelativePath($directory);
+        $directory = $this->_coreFileStorageDb->getMediaRelativePath($directory);
         return $this->_getResource()->getDirectoryFiles($directory);
     }
 

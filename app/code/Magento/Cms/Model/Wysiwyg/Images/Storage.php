@@ -55,7 +55,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      *
      * @var Magento_Core_Helper_File_Storage_Database
      */
-    protected $_coreFileStorageDatabase = null;
+    protected $_coreFileStorageDb = null;
 
     /**
      * Cms wysiwyg images
@@ -70,7 +70,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      *
      *
      * @param Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
      * @param Magento_Core_Model_View_Url $viewUrl
@@ -78,14 +78,14 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function __construct(
         Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages,
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Image_AdapterFactory $imageFactory,
         Magento_Core_Model_View_Url $viewUrl,
         array $data = array()
     ) {
         $this->_cmsWysiwygImages = $cmsWysiwygImages;
-        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
+        $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->setWorkingDirectory($this->getHelper()->getStorageRoot());
@@ -102,7 +102,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function getDirsCollection($path)
     {
-        if ($this->_coreFileStorageDatabase->checkDbUsage()) {
+        if ($this->_coreFileStorageDb->checkDbUsage()) {
             $subDirectories = Mage::getModel('Magento_Core_Model_File_Storage_Directory_Database')
                 ->getSubdirectories($path);
             foreach ($subDirectories as $directory) {
@@ -149,7 +149,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function getFilesCollection($path, $type = null)
     {
-        if ($this->_coreFileStorageDatabase->checkDbUsage()) {
+        if ($this->_coreFileStorageDb->checkDbUsage()) {
             $files = Mage::getModel('Magento_Core_Model_File_Storage_Database')->getDirectoryFiles($path);
 
             $fileStorageModel = Mage::getModel('Magento_Core_Model_File_Storage_File');
@@ -242,8 +242,8 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
 
         $this->_filesystem->createDirectory($newPath);
         try {
-            if ($this->_coreFileStorageDatabase->checkDbUsage()) {
-                $relativePath = $this->_coreFileStorageDatabase->getMediaRelativePath($newPath);
+            if ($this->_coreFileStorageDb->checkDbUsage()) {
+                $relativePath = $this->_coreFileStorageDb->getMediaRelativePath($newPath);
                 Mage::getModel('Magento_Core_Model_File_Storage_Directory_Database')->createRecursive($relativePath);
             }
 
@@ -278,7 +278,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         }
 
 
-        if ($this->_coreFileStorageDatabase->checkDbUsage()) {
+        if ($this->_coreFileStorageDb->checkDbUsage()) {
             Mage::getModel('Magento_Core_Model_File_Storage_Directory_Database')->deleteDirectory($path);
         }
         try {
@@ -305,14 +305,14 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         if ($this->_filesystem->isFile($target)) {
             $this->_filesystem->delete($target);
         }
-        $this->_coreFileStorageDatabase->deleteFile($target);
+        $this->_coreFileStorageDb->deleteFile($target);
 
         $thumb = $this->getThumbnailPath($target, true);
         if ($thumb) {
             if ($this->_filesystem->isFile($thumb)) {
                 $this->_filesystem->delete($thumb);
             }
-            $this->_coreFileStorageDatabase->deleteFile($thumb);
+            $this->_coreFileStorageDb->deleteFile($thumb);
         }
         return $this;
     }

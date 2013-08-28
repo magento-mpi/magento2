@@ -21,10 +21,16 @@ class Magento_Newsletter_Model_Session extends Magento_Core_Model_Session_Abstra
     /**
      * Class constructor. Initialize session namespace
      *
-     * @param string $sessionName
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param array $data
+     * @param null $sessionName
      */
-    public function __construct($sessionName = null)
-    {
+    public function __construct(
+        Magento_Core_Helper_Http $coreHttp,
+        array $data = array(),
+        $sessionName = null
+    ) {
+        parent::__construct($coreHttp, $data);
         $this->init('newsletter', $sessionName);
     }
 

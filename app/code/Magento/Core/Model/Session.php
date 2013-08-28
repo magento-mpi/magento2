@@ -29,13 +29,18 @@ class Magento_Core_Model_Session extends Magento_Core_Model_Session_Abstract
 
     /**
      * @param Magento_Core_Helper_Data $coreData
-     * @param string $sessionName
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param array $data
+     * @param null $sessionName
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Http $coreHttp,
+        array $data = array(),
         $sessionName = null
     ) {
         $this->_coreData = $coreData;
+        parent::__construct($coreHttp, $data);
         $this->init('core', $sessionName);
     }
 

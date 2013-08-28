@@ -37,21 +37,21 @@ class Magento_Core_Model_File_Uploader extends Magento_File_Uploader
      *
      * @var Magento_Core_Helper_File_Storage_Database
      */
-    protected $_coreFileStorageDatabase = null;
+    protected $_coreFileStorageDb = null;
 
     /**
      * Init upload
      *
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Helper_File_Storage $coreFileStorage
      * @param $fileId
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Helper_File_Storage $coreFileStorage,
         $fileId
     ) {
-        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
+        $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_coreFileStorage = $coreFileStorage;
         parent::__construct($fileId);
     }
@@ -76,7 +76,7 @@ class Magento_Core_Model_File_Uploader extends Magento_File_Uploader
         }
 
         /** @var $dbHelper Magento_Core_Helper_File_Storage_Database */
-        $dbHelper = $this->_coreFileStorageDatabase;
+        $dbHelper = $this->_coreFileStorageDb;
         $this->_result['file'] = $dbHelper->saveUploadedFile($result);
 
         return $this;

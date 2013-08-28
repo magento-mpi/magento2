@@ -42,8 +42,14 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
     /**
      * Class construct
      */
-    public function __construct()
-    {
+    public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_File_Storage_File $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_setResourceModel('Magento_Core_Model_Resource_File_Storage_File');
     }
 

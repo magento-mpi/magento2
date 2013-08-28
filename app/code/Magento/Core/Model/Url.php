@@ -115,11 +115,14 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
      * attributes This behavior may change in child classes
      *
      * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        Magento_Core_Helper_Data $coreData,
+        array $data = array()
     ) {
         $this->_coreData = $coreData;
+        parent::__construct($data);
     }
 
     /**

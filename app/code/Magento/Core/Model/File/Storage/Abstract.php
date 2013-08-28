@@ -30,23 +30,23 @@ abstract class Magento_Core_Model_File_Storage_Abstract extends Magento_Core_Mod
      *
      * @var Magento_Core_Helper_File_Storage_Database
      */
-    protected $_coreFileStorageDatabase = null;
+    protected $_coreFileStorageDb = null;
 
     /**
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
+        $this->_coreFileStorageDb = $coreFileStorageDb;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
@@ -59,7 +59,7 @@ abstract class Magento_Core_Model_File_Storage_Abstract extends Magento_Core_Mod
     {
         if (null === $this->_mediaBaseDirectory) {
             /** @var $helper Magento_Core_Helper_File_Storage_Database */
-            $helper = $this->_coreFileStorageDatabase;
+            $helper = $this->_coreFileStorageDb;
             $this->_mediaBaseDirectory = $helper->getMediaBaseDir();
         }
 

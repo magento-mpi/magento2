@@ -48,23 +48,23 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var Magento_Backend_Helper_Data
      */
-    protected $_adminhtmlData = null;
+    protected $_backendData = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Backend_Helper_Data $backendData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
         Magento_Filesystem $filesystem
     ) {
-        $this->_adminhtmlData = $adminhtmlData;
+        $this->_backendData = $backendData;
         $this->_coreData = $coreData;
         parent::__construct($context);
         $this->_filesystem = $filesystem;
@@ -205,7 +205,7 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
                 $html = $fileurl; // $mediaPath;
             } else {
                 $directive = $this->_coreData->urlEncode($directive);
-                $html = $this->_adminhtmlData->getUrl(
+                $html = $this->_backendData->getUrl(
                     '*/cms_wysiwyg/directive',
                     array('___directive' => $directive)
                 );

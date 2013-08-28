@@ -46,7 +46,7 @@ class Magento_Core_Model_Variable extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Variable $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

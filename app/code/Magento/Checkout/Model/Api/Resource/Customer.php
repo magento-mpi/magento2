@@ -41,8 +41,6 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
     /**
      * Initialize dependencies.
      *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Api_Helper_Data $apiHelper
      */

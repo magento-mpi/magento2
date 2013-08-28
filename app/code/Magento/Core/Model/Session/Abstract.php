@@ -76,11 +76,14 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      * attributes This behavior may change in child classes
      *
      * @param Magento_Core_Helper_Http $coreHttp
+     * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Http $coreHttp
+        Magento_Core_Helper_Http $coreHttp,
+        array $data = array()
     ) {
         $this->_coreHttp = $coreHttp;
+        parent::__construct($data);
     }
 
     /**

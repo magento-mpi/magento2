@@ -94,21 +94,22 @@ class Magento_Checkout_Model_Api_Resource_Product extends Magento_Checkout_Model
      * @return Magento_Sales_Model_Quote_Item
      * @throw Magento_Core_Exception
      */
-    protected function _getQuoteItemByProduct(Magento_Sales_Model_Quote $quote,
-                            Magento_Catalog_Model_Product $product,
-                            Magento_Object $requestInfo)
-    {
+    protected function _getQuoteItemByProduct(
+        Magento_Sales_Model_Quote $quote,
+        Magento_Catalog_Model_Product $product,
+        Magento_Object $requestInfo
+    ) {
         $cartCandidates = $product->getTypeInstance()
-                        ->prepareForCartAdvanced($requestInfo,
-                                $product,
-                                Magento_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL
-        );
+            ->prepareForCartAdvanced($requestInfo,
+                    $product,
+                    Magento_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL
+            );
 
         /**
          * Error message
          */
         if (is_string($cartCandidates)) {
-            throw Mage::throwException($cartCandidates);
+            Mage::throwException($cartCandidates);
         }
 
         /**

@@ -18,8 +18,15 @@
  */
 class Magento_Backend_Model_Session extends Magento_Core_Model_Session_Abstract
 {
-    public function __construct()
-    {
+    /**
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Http $coreHttp,
+        array $data = array()
+    ) {
+        parent::__construct($coreHttp, $data);
         $this->init('adminhtml');
     }
 }

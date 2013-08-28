@@ -29,14 +29,17 @@ class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Contructor
      *
-     *
-     *
      * @param Magento_Connect_Helper_Data $connectData
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param array $data
      */
     public function __construct(
-        Magento_Connect_Helper_Data $connectData
+        Magento_Connect_Helper_Data $connectData,
+        Magento_Core_Helper_Http $coreHttp,
+        array $data = array()
     ) {
         $this->_connectData = $connectData;
+        parent::__construct($coreHttp, $data);
         $this->init('adminhtml');
     }
 

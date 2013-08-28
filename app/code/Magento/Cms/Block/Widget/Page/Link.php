@@ -50,16 +50,18 @@ class Magento_Cms_Block_Widget_Page_Link
 
     /**
      * @param Magento_Cms_Helper_Page $cmsPage
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Cms_Helper_Page $cmsPage,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_cmsPage = $cmsPage;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

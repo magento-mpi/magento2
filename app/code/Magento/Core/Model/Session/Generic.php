@@ -8,11 +8,18 @@
 class Magento_Core_Model_Session_Generic extends Magento_Core_Model_Session_Abstract
 {
     /**
-     * @param string $sessionNamespace
-     * @param string $sessionName
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param array $sessionNamespace
+     * @param array $data
+     * @param null $sessionName
      */
-    public function __construct($sessionNamespace, $sessionName = null)
-    {
+    public function __construct(
+        Magento_Core_Helper_Http $coreHttp,
+        $sessionNamespace,
+        array $data = array(),
+        $sessionName = null
+    ) {
+        parent::__construct($coreHttp, $data);
         $this->init($sessionNamespace, $sessionName);
     }
 }

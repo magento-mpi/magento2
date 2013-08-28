@@ -38,17 +38,17 @@ class Magento_Core_Helper_File_Storage extends Magento_Core_Helper_Abstract
      *
      * @var Magento_Core_Helper_File_Storage_Database
      */
-    protected $_coreFileStorageDatabase = null;
+    protected $_coreFileStorageDb = null;
 
     /**
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Helper_Context $context
     ) {
-        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
+        $this->_coreFileStorageDb = $coreFileStorageDb;
         parent::__construct($context);
     }
 
@@ -115,7 +115,7 @@ class Magento_Core_Helper_File_Storage extends Magento_Core_Helper_Abstract
             return false;
         }
 
-        $dbHelper = $this->_coreFileStorageDatabase;
+        $dbHelper = $this->_coreFileStorageDb;
 
         $relativePath = $dbHelper->getMediaRelativePath($filename);
         $file = $this->getStorageModel()->loadByFilename($relativePath);
