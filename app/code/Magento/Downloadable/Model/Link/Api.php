@@ -22,7 +22,7 @@ class Magento_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Reso
      *
      * @var Magento_Core_Helper_File_Storage_Database
      */
-    protected $_coreFileStorageDatabase = null;
+    protected $_coreFileStorageDb = null;
 
     /**
      * Core data
@@ -46,23 +46,23 @@ class Magento_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Reso
     protected $_downloadableData = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Downloadable_Helper_Data $downloadableData
      * @param Magento_Downloadable_Helper_File $downloadableFile
      * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param Magento_Catalog_Helper_Product $catalogProduct
      */
     public function __construct(
-        Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Downloadable_Helper_Data $downloadableData,
         Magento_Downloadable_Helper_File $downloadableFile,
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
+        Magento_Catalog_Helper_Product $catalogProduct
     ) {
         $this->_downloadableData = $downloadableData;
         $this->_downloadableFile = $downloadableFile;
         $this->_coreData = $coreData;
-        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
+        $this->_coreFileStorageDb = $coreFileStorageDb;
         parent::__construct($catalogProduct);
     }
 
@@ -103,7 +103,7 @@ class Magento_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Reso
 
             if (isset($result['file'])) {
                 $fullPath = rtrim($tmpPath, DS) . DS . ltrim($result['file'], DS);
-                $this->_coreFileStorageDatabase->saveFile($fullPath);
+                $this->_coreFileStorageDb->saveFile($fullPath);
             }
         } catch (Exception $e) {
             if ($e->getMessage() != '') {
@@ -208,7 +208,7 @@ class Magento_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Reso
             );
 
             if ($item->getLinkFile() && !is_file($file)) {
-                $this->_coreFileStorageDatabase->saveFileToFilesystem($file);
+                $this->_coreFileStorageDb->saveFileToFilesystem($file);
             }
 
             if ($item->getLinkFile() && is_file($file)) {

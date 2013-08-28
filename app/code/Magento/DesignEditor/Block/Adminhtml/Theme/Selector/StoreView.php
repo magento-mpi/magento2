@@ -33,7 +33,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Resource_Website_Collection $websiteCollection
-     * @param Magento_Theme_Model_Config $customizationConfig
+     * @param Magento_Theme_Model_Config_Customization $customizationConfig
      * @param array $data
      */
     public function __construct(

@@ -38,12 +38,13 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registrants extends  Enterpris
      */
     public function __construct(
         Enterprise_GiftRegistry_Helper_Data $giftRegistryData,
-        Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
-        parent::__construct($context, $configCacheType, $data);
+        parent::__construct($configCacheType, $coreData, $context, $data);
     }
 
     /**

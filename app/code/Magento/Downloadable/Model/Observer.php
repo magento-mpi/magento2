@@ -25,11 +25,11 @@ class Magento_Downloadable_Model_Observer
     protected $_helper;
 
     /**
-     * @param array $data
+     * @param Magento_Core_Helper_Data $coreData
      */
-    public function __construct(array $data = array())
+    public function __construct(Magento_Core_Helper_Data $coreData)
     {
-        $this->_helper = isset($data['helper']) ? $data['helper'] : $this->_helper;
+        $this->_helper = $coreData;
     }
 
     /**
@@ -122,8 +122,9 @@ class Magento_Downloadable_Model_Observer
                     $linkPurchased
                 );
                 $linkSectionTitle = (
-                    $product->getLinksTitle()?
-                    $product->getLinksTitle():Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
+                    $product->getLinksTitle()
+                        ? $product->getLinksTitle()
+                        : Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
                 );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)
                     ->save();
@@ -170,9 +171,9 @@ class Magento_Downloadable_Model_Observer
             foreach ($order->getAllItems() as $item) {
                 /* @var $item Magento_Sales_Model_Order_Item */
                 if ($item->getProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
-                || $item->getRealProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
-                || $item->getProductOptionByCode('is_downloadable'))
-                {
+                    || $item->getRealProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
+                    || $item->getProductOptionByCode('is_downloadable')
+                ) {
                     $session->setHasDownloadableProducts(true);
                     break;
                 }

@@ -23,17 +23,17 @@ class Magento_Downloadable_Helper_Catalog_Product_Configuration extends Magento_
      *
      * @var Magento_Catalog_Helper_Product_Configuration
      */
-    protected $_catalogProductConfiguration = null;
+    protected $_productConfigur = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
+     * @param Magento_Catalog_Helper_Product_Configuration $productConfigur
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
+        Magento_Catalog_Helper_Product_Configuration $productConfigur,
         Magento_Core_Helper_Context $context
     ) {
-        $this->_catalogProductConfiguration = $catalogProductConfiguration;
+        $this->_productConfigur = $productConfigur;
         parent::__construct($context);
     }
 
@@ -83,7 +83,7 @@ class Magento_Downloadable_Helper_Catalog_Product_Configuration extends Magento_
      */
     public function getOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
     {
-        $options = $this->_catalogProductConfiguration->getOptions($item);
+        $options = $this->_productConfigur->getOptions($item);
 
         $links = $this->getLinks($item);
         if ($links) {

@@ -15,7 +15,8 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Customer_Attribute_Backend_Password extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+class Magento_Customer_Model_Customer_Attribute_Backend_Password
+    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     const MIN_PASSWORD_LENGTH = 6;
 

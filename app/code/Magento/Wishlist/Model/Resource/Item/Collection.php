@@ -86,25 +86,23 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      *
      * @var Magento_CatalogInventory_Helper_Data
      */
-    protected $_catalogInventoryData = null;
+    protected $_inventoryData = null;
 
     /**
      * Collection constructor
      *
-     *
-     *
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param Magento_Wishlist_Model_Resource_Item $resource
      */
     public function __construct(
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        Magento_Wishlist_Model_Resource_Item $resource = null
     ) {
-        $this->_catalogInventoryData = $catalogInventoryData;
+        $this->_inventoryData = $catalogInventoryData;
         $this->_adminhtmlSales = $adminhtmlSales;
         parent::__construct($fetchStrategy, $resource);
     }
@@ -212,7 +210,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
             'product_collection' => $productCollection
         ));
 
-        $checkInStock = $this->_productInStock && !$this->_catalogInventoryData->isShowOutOfStock();
+        $checkInStock = $this->_productInStock && !$this->_inventoryData->isShowOutOfStock();
 
         foreach ($this as $item) {
             $product = $productCollection->getItemById($item->getProductId());

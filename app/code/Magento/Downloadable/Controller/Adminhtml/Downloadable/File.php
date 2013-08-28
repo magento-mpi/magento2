@@ -34,7 +34,7 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magent
         }
         $result = array();
         try {
-            $uploader = new Magento_Core_Model_File_Uploader($type);
+            $uploader = $this->_objectManager->create('Magento_Core_Model_File_Uploader', array('type' => $type));
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save($tmpPath);
@@ -73,5 +73,4 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magent
     {
         return $this->_authorization->isAllowed('Magento_Catalog::products');
     }
-
 }

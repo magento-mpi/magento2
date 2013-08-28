@@ -23,25 +23,24 @@ class Magento_Downloadable_Block_Checkout_Cart_Item_Renderer extends Magento_Che
      *
      * @var Magento_Downloadable_Helper_Catalog_Product_Configuration
      */
-    protected $_downloadableCatalogProductConfiguration = null;
+    protected $_downloadProdConfig = null;
 
     /**
-     * @param Magento_Downloadable_Helper_Catalog_Product_Configuration
-     * $downloadableCatalogProductConfiguration
-     * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
+     * @param Magento_Downloadable_Helper_Catalog_Product_Configuration $dwnCtlgProdConfig
+     * @param Magento_Catalog_Helper_Product_Configuration $productConfiguration
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Downloadable_Helper_Catalog_Product_Configuration $downloadableCatalogProductConfiguration,
-        Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
+        Magento_Downloadable_Helper_Catalog_Product_Configuration $dwnCtlgProdConfig,
+        Magento_Catalog_Helper_Product_Configuration $productConfiguration,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_downloadableCatalogProductConfiguration = $downloadableCatalogProductConfiguration;
-        parent::__construct($catalogProductConfiguration, $coreData, $context, $data);
+        $this->_downloadProdConfig = $dwnCtlgProdConfig;
+        parent::__construct($productConfiguration, $coreData, $context, $data);
     }
 
     /**
@@ -51,7 +50,7 @@ class Magento_Downloadable_Block_Checkout_Cart_Item_Renderer extends Magento_Che
      */
     public function getLinks()
     {
-        return $this->_downloadableCatalogProductConfiguration->getLinks($this->getItem());
+        return $this->_downloadProdConfig->getLinks($this->getItem());
     }
 
     /**
@@ -61,6 +60,6 @@ class Magento_Downloadable_Block_Checkout_Cart_Item_Renderer extends Magento_Che
      */
     public function getLinksTitle()
     {
-        return $this->_downloadableCatalogProductConfiguration->getLinksTitle($this->getProduct());
+        return $this->_downloadProdConfig->getLinksTitle($this->getProduct());
     }
 }

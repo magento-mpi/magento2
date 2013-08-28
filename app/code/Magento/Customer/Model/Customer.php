@@ -147,7 +147,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         Magento_Core_Model_Sender $sender,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Eav_Model_Config $config,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Customer_Model_Resource_Customer $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

@@ -15,7 +15,8 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Controller_Adminhtml_Downloadable_Product_Edit extends Magento_Adminhtml_Controller_Catalog_Product
+class Magento_Downloadable_Controller_Adminhtml_Downloadable_Product_Edit
+    extends Magento_Adminhtml_Controller_Catalog_Product
 {
     /**
      * Load downloadable tab fieldsets

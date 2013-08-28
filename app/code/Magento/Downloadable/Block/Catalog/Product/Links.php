@@ -17,11 +17,6 @@
  */
 class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_Block_Product_Abstract
 {
-    public function __construct(Magento_Tax_Helper_Data $taxData, Magento_Catalog_Helper_Data $catalogData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
-    }
-
     /**
      * Enter description here...
      *

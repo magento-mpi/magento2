@@ -45,9 +45,8 @@ class Magento_Customer_Model_Customer_Api extends Magento_Customer_Model_Api_Res
 
     protected function _prepareData($data)
     {
-       foreach ($this->_mapAttributes as $attributeAlias=>$attributeCode) {
-            if(isset($data[$attributeAlias]))
-            {
+        foreach ($this->_mapAttributes as $attributeAlias=>$attributeCode) {
+            if (isset($data[$attributeAlias])) {
                 $data[$attributeCode] = $data[$attributeAlias];
                 unset($data[$attributeAlias]);
             }
