@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Adminhtml_Catalog_DatafeedsController extends Magento_Adminhtml_Controller_Action
+class Magento_Adminhtml_Controller_Catalog_Product_Datafeeds extends Magento_Adminhtml_Controller_Action
 {
 
     public function indexAction()
