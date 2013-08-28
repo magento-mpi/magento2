@@ -32,7 +32,7 @@
         <parameter name="products_per_page" xsi:type="text" required="true" visible="true" value="5" translate="label">
             <label>Number of Products per Page</label>
             <depends>
-                <parameter name="show_pager" value="true"/>
+                <parameter name="show_pager" value="1"/>
             </depends>
         </parameter>
         <parameter name="products_count" xsi:type="text" required="true" visible="true" value="10" translate="label">
