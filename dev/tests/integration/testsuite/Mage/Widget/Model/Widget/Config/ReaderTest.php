@@ -6,11 +6,9 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
  * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
+
 class Mage_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
 {
     /**
