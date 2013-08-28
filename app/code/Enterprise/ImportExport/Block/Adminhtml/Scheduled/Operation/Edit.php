@@ -27,16 +27,18 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
 
     /**
      * @param Enterprise_ImportExport_Helper_Data $importExportData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_ImportExport_Helper_Data $importExportData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_importExportData = $importExportData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

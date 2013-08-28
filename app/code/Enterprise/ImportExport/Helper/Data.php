@@ -34,18 +34,20 @@ class Enterprise_ImportExport_Helper_Data extends Magento_ImportExport_Helper_Da
     /**
      * @param Enterprise_CustomerBalance_Helper_Data $customerBalanceData
      * @param Enterprise_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config_Modules $config
      */
     public function __construct(
         Enterprise_CustomerBalance_Helper_Data $customerBalanceData,
         Enterprise_Reward_Helper_Data $rewardData,
+        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config_Modules $config
     ) {
         $this->_customerBalanceData = $customerBalanceData;
         $this->_rewardData = $rewardData;
-        parent::__construct($context, $config);
+        parent::__construct($coreHttp, $context, $config);
     }
 
     /**
@@ -179,9 +181,7 @@ class Enterprise_ImportExport_Helper_Data extends Magento_ImportExport_Helper_Da
     public function isCustomerBalanceEnabled()
     {
         if ($this->isModuleEnabled('Enterprise_CustomerBalance')) {
-            /** @var $customerBalanceHelper Enterprise_CustomerBalance_Helper_Data */
-            $customerBalanceHelper = $this->_customerBalanceData;
-            return $customerBalanceHelper->isEnabled();
+            return $this->_customerBalanceData->isEnabled();
         }
         return false;
     }

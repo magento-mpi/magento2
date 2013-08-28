@@ -82,26 +82,28 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
      *
      * @var Enterprise_ImportExport_Helper_Data
      */
-    protected $_moduleHelper;
+    protected $_importExportData;
 
     /**
-     * Constructor
-     *
+     * @param Enterprise_ImportExport_Helper_Data $importExportData
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Enterprise_ImportExport_Helper_Data $importExportData,
+        array $data = array()
+    ) {
         parent::__construct($data);
 
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
             : Mage::getResourceModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
         $this->_customerEntity = isset($data['customer_entity']) ? $data['customer_entity']
             : Mage::getModel('Magento_ImportExport_Model_Export_Entity_Eav_Customer');
-        $this->_moduleHelper = isset($data['module_helper']) ? $data['module_helper']
-            : $this->_moduleHelper;
+        $this->_importExportData = isset($data['module_helper']) ? $data['module_helper']
+            : $importExportData;
 
         $this->_initFrontendWebsites()
             ->_initWebsites(true);
+
         $this->setFileName($this->getEntityTypeCode());
     }
 
@@ -206,11 +208,11 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
         $this->_customerEntity->filterEntityCollection($this->_getEntityCollection());
 
         // join with finance data tables
-        if ($this->_moduleHelper->isRewardPointsEnabled()) {
+        if ($this->_importExportData->isRewardPointsEnabled()) {
             $this->_getEntityCollection()->joinWithRewardPoints();
         }
 
-        if ($this->_moduleHelper->isCustomerBalanceEnabled()) {
+        if ($this->_importExportData->isCustomerBalanceEnabled()) {
             $this->_getEntityCollection()->joinWithCustomerBalance();
         }
 

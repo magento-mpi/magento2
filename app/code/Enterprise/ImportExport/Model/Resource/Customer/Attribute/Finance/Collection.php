@@ -48,10 +48,6 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
     protected $_importExportData = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Enterprise_ImportExport_Helper_Data $importExportData
      * @param Magento_Eav_Model_AttributeFactory $attributeFactory
      */
@@ -62,10 +58,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
         $this->_importExportData = $importExportData;
         $this->_attributeFactory = $attributeFactory;
 
-        /** @var $helper Enterprise_ImportExport_Helper_Data */
-        $helper = $this->_importExportData;
-
-        if ($helper->isCustomerBalanceEnabled()) {
+        if ($this->_importExportData->isCustomerBalanceEnabled()) {
             $storeCreditData = array(
                 'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_CUSTOMER_BALANCE,
                 'attribute_code' => self::COLUMN_CUSTOMER_BALANCE,
@@ -78,7 +71,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
             );
         }
 
-        if ($helper->isRewardPointsEnabled()) {
+        if ($this->_importExportData->isRewardPointsEnabled()) {
             $rewardPointsData = array(
                 'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_REWARD_POINTS,
                 'attribute_code' => self::COLUMN_REWARD_POINTS,

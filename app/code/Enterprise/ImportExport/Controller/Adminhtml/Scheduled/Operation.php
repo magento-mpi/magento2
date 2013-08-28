@@ -65,10 +65,10 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_Operation extends M
     public function newAction()
     {
         $operationType = $this->getRequest()->getParam('type');
-        $this->_initAction()
-            ->_title(
-                $this->_objectManager->get('Enterprise_ImportExport_Helper_Data')->getOperationHeaderText($operationType, 'new')
-            );
+        $this->_initAction()->_title(
+            $this->_objectManager->get('Enterprise_ImportExport_Helper_Data')
+                ->getOperationHeaderText($operationType, 'new')
+        );
 
         $this->renderLayout();
     }

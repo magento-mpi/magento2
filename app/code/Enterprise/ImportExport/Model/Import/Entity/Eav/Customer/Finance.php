@@ -81,7 +81,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
      *
      * @var Enterprise_ImportExport_Helper_Data
      */
-    protected $_moduleHelper;
+    protected $_importExportData;
 
     /**
      * Object factory model, currently it is config model
@@ -105,19 +105,20 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected $_importedRowPks = array();
 
     /**
-     * Constructor
-     *
+     * @param Enterprise_ImportExport_Helper_Data $importExportData
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Enterprise_ImportExport_Helper_Data $importExportData,
+        array $data = array()
+    ) {
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
         parent::__construct($data);
 
-        $this->_moduleHelper = isset($data['module_helper']) ? $data['module_helper']
-            : $this->_moduleHelper;
+        $this->_importExportData = isset($data['module_helper']) ? $data['module_helper']
+            : $importExportData;
         $this->_objectFactory = isset($data['object_factory']) ? $data['object_factory']
             : Mage::app()->getConfig();
         $this->_adminUser = isset($data['admin_user']) ? $data['admin_user']
@@ -162,7 +163,8 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
      */
     protected function _importData()
     {
-        if (!$this->_moduleHelper->isRewardPointsEnabled() && !$this->_moduleHelper->isCustomerBalanceEnabled()) {
+        if (!$this->_importExportData->isRewardPointsEnabled()
+            && !$this->_importExportData->isCustomerBalanceEnabled()) {
             return false;
         }
 
