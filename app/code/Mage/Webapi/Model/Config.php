@@ -47,7 +47,7 @@ class Mage_Webapi_Model_Config
     /**
      * @var array
      */
-    protected $_restServices;
+    protected $_services;
 
     /**
      * @param Mage_Core_Model_Config $config
@@ -98,9 +98,9 @@ class Mage_Webapi_Model_Config
      *
      * @return array
      */
-    public function getRestServices()
+    public function getServices()
     {
-        if (null === $this->_restServices) {
+        if (null === $this->_services) {
             $services = $this->_loadFromCache();
             if ($services && is_string($services)) {
                 $data = unserialize($services);
@@ -109,9 +109,9 @@ class Mage_Webapi_Model_Config
                 $data = $this->_toArray($services);
                 $this->_saveToCache(serialize($data));
             }
-            $this->_restServices = isset($data['config']) ? $data['config'] : array();
+            $this->_services = isset($data['config']) ? $data['config'] : array();
         }
-        return $this->_restServices;
+        return $this->_services;
     }
 
     /**

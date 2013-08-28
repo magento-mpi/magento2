@@ -105,7 +105,7 @@ class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
         // TODO: Implement caching if this approach is approved
         if (is_null($this->_soapServices)) {
             $this->_soapServices = array();
-            foreach ($this->getRestServices() as $serviceData) {
+            foreach ($this->getServices() as $serviceData) {
                 $reflection = new ReflectionClass($serviceData['class']);
                 foreach ($reflection->getMethods() as $method) {
                     // find if method is secure, look into rest operation definition of each operation

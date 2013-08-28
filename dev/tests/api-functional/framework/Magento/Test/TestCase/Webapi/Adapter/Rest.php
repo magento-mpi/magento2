@@ -67,7 +67,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
             $resourcePath = $serviceInfo['rest']['resourcePath'];
         } else if (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
             /** Identify resource path using service interface name and service method name */
-            $services = $this->_restHelper->getRestServices();
+            $services = $this->_restHelper->getServices();
             $serviceInterface = $serviceInfo['serviceInterface'];
             $method = $serviceInfo['method'];
             if (isset($services[$serviceInterface]['operations'][$method])) {
@@ -105,7 +105,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
             $httpMethod = $serviceInfo['rest']['httpMethod'];
         } else if (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
             /** Identify HTTP method using service interface name and service method name */
-            $services = $this->_restHelper->getRestServices();
+            $services = $this->_restHelper->getServices();
             $serviceInterface = $serviceInfo['serviceInterface'];
             $method = $serviceInfo['method'];
             if (isset($services[$serviceInterface]['operations'][$method])) {
