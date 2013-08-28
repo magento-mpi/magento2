@@ -60,7 +60,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         $this->_assertClassesExist($classes);
 
-        $this->_assertValidNamespace($classes);
+        $this->_assertValidNamespace($file);
     }
 
     /**
@@ -176,41 +176,46 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Check whether specified classes correspond to a file according PSR-0 standard
+     * Assert PHP classes have valid pseudo-namespaces according to file locations
      *
      * Suppressing "unused variable" because of the "catch" block
      *
-     * @param array $classes
+     * @param array $file
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    protected function _assertValidNamespace($classes)
+    protected function _assertValidNamespace($file)
     {
-        $invalidNamespaces = array('Mage_', 'Enterprise_');
-        $exceptions = array('Enterprise_Tag', 'Magento_Enterprise');
-        if (!$classes) {
+        $contents = file_get_contents($file);
+        $relativePath = str_replace(Utility_Files::init()->getPathToSource(), "", $file);
+
+        $classPattern = '/class\s[A-Z][^\s\/]+/';
+        $namespacePattern = '/[A-Z][a-z]+\/[a-zA-Z]+[^\.]+/';
+
+        $classNameMatch = array();
+        $namespaceMatch = array();
+        $className = null;
+        $namespace = null;
+
+        $exclusion = "/app/code/Zend/Soap/Wsdl.php";
+        if ($relativePath == $exclusion) {
             return;
         }
-        $badClasses = array();
-        foreach ($classes as $class) {
-            try {
-                foreach ($invalidNamespaces as $invalidNamespace) {
-                    if (substr_count($class, $invalidNamespace) > 0) {
-                        $excludedNamespace = false;
-                        foreach ($exceptions as $exception) {
-                            if (substr_count($class, $exception) > 0) {
-                                $excludedNamespace = true;
-                                break;
-                            }
-                        }
-                        $this->assertTrue($excludedNamespace == true);
-                    }
-                }
-            } catch (PHPUnit_Framework_AssertionFailedError $e) {
-                $badClasses[] = $class;
-            }
+
+        // if no class declaration found for $file, then skip this file
+        if (preg_match($classPattern, $contents, $classNameMatch) != 0) {
+            $className = substr($classNameMatch[0], 6);
+        } else {
+            return;
         }
-        if ($badClasses) {
-            $this->fail("Invalid vendor name \"('Mage_', 'Enterprise_')\" detected: \n" . implode("\n", $badClasses));
+        if (preg_match($namespacePattern, $relativePath, $namespaceMatch) != 0) {
+            $namespace = str_replace('/', '_', $namespaceMatch[0]);
+        }
+        if ($className != null && $namespace != null) {
+            try {
+                $this->assertTrue($className == $namespace);
+            } catch (PHPUnit_Framework_AssertionFailedError $e) {
+                $this->fail("$file does not match namespace: $namespace\n");
+            }
         }
     }
 }
