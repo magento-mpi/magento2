@@ -34,13 +34,16 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_F
     /**
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param array $attributes
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
-        Magento_Adminhtml_Helper_Data $adminhtmlData
+        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        array $attributes = array()
     ) {
         $this->_catalogData = $catalogData;
         $this->_adminhtmlData = $adminhtmlData;
+        parent::__construct($attributes);
     }
 
     /**

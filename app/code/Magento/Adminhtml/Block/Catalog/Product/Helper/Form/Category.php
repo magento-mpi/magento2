@@ -39,13 +39,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
     /**
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Helper_Data $coreData
-     * @param  $attributes
-     * @param  $layout
+     * @param array $attributes
+     * @param Magento_Core_Model_Layout $layout
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
         Magento_Core_Helper_Data $coreData,
-        $attributes = array(),
+        array $attributes = array(),
         Magento_Core_Model_Layout $layout = null
     ) {
         $this->_backendData = $backendData;
@@ -95,11 +95,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
      */
     public function getAfterElementHtml()
     {
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = $this->_coreData;
         $htmlId = $this->getHtmlId();
         $suggestPlaceholder = __('start typing to search category');
-        $selectorOptions = $coreHelper->jsonEncode($this->_getSelectorOptions());
+        $selectorOptions = $this->_coreData->jsonEncode($this->_getSelectorOptions());
         $newCategoryCaption = __('New Category');
 
         $button = $this->_layout

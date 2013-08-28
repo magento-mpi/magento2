@@ -22,11 +22,6 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
 
     protected $_template = 'catalog/category/tree.phtml';
 
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
-
     protected function _construct()
     {
         parent::_construct();

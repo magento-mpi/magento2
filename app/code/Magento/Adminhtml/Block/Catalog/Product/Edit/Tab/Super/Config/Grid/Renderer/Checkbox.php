@@ -16,7 +16,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Checkbox extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox
+class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Checkbox
+    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox
 {
     /**
      * Core data
@@ -28,8 +29,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Rendere
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Context $context
-     * @param Magento_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter
-     * $converter
+     * @param Magento_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter $converter
      * @param array $data
      */
     public function __construct(

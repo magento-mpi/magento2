@@ -17,7 +17,6 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Magento_Data_Form_Element_Text
 {
-
     /**
      * Tax data
      *
@@ -27,10 +26,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Magento_
 
     /**
      * @param Magento_Tax_Helper_Data $taxData
+     * @param array $attributes
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData
+        Magento_Tax_Helper_Data $taxData,
+        array $attributes = array()
     ) {
+        parent::__construct($attributes);
         $this->_taxData = $taxData;
     }
 

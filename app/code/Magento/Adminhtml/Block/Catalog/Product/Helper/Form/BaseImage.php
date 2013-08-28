@@ -45,24 +45,28 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
     protected $_viewUrl;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Model_View_UrlFactory $coreViewUrlFactory
+     * @param Magento_Backend_Model_UrlFactory $backendUrlFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_File_Size $fileConfig
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
-    {
+    public function __construct(
+        Magento_Core_Model_View_UrlFactory $coreViewUrlFactory,
+        Magento_Backend_Model_UrlFactory $backendUrlFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_File_Size $fileConfig,
+        array $attributes = array()
+    ) {
         parent::__construct($attributes);
 
-        $this->_viewUrl = Mage::getModel('Magento_Core_Model_View_Url');
-
-        $this->_url = isset($attributes['url']) ? $attributes['url']
-            : Mage::getModel('Magento_Backend_Model_Url');
-        $this->_coreHelper = isset($attributes['coreHelper']) ? $attributes['coreHelper']
-            : $this->_coreHelper;
-        $this->_catalogHelperData = isset($attributes['catalogHelperData']) ? $attributes['catalogHelperData']
-            : $this->_catalogHelperData;
-        $this->_fileConfig = isset($attributes['fileConfig']) ? $attributes['fileConfig'] :
-            Mage::getSingleton('Magento_File_Size');
+        $this->_viewUrl = $coreViewUrlFactory->create();
+        $this->_url = $backendUrlFactory->create();
+        $this->_coreHelper = $coreData;
+        $this->_catalogHelperData = $catalogData;
+        $this->_fileConfig = $fileConfig;
         $this->_maxFileSize = $this->_getFileMaxSize();
     }
 

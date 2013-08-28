@@ -29,11 +29,6 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
      */
     protected $_template = 'catalog/category/edit/form.phtml';
 
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
-
     protected function _prepareLayout()
     {
         if ($head = $this->getLayout()->getBlock('head')) {

@@ -22,11 +22,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
 {
     protected $_template = 'catalog/product/helper/gallery.phtml';
 
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
-
     protected function _prepareLayout()
     {
         $this->addChild('uploader', 'Magento_Adminhtml_Block_Media_Uploader');

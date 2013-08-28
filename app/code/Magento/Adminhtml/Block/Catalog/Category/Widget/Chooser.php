@@ -26,11 +26,6 @@ class Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Magento_Ad
 
     protected $_template = 'catalog/category/widget/tree.phtml';
 
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
-
     protected function _construct()
     {
         parent::_construct();

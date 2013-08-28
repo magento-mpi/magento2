@@ -18,16 +18,18 @@
 class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_Backend_Block_Widget_Form
 {
     /**
-     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
         Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->setUseContainer(true);
         $this->_categoryFactory = $categoryFactory;
     }

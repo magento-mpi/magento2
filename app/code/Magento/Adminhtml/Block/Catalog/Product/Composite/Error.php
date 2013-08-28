@@ -17,11 +17,6 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Composite_Error extends Magento_Core_Block_Template
 {
-    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($coreData, $context, $data);
-    }
-
     /**
      * Returns error message to show what kind of error happened during retrieving of product
      * configuration controls

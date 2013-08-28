@@ -10,19 +10,12 @@
 
 class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_Block_Widget_Grid
 {
-
-    public function __construct(Magento_Backend_Block_Template_Context $context, Magento_Core_Model_StoreManagerInterface $storeManager, Magento_Core_Model_Url $urlModel, array $data = array())
-    {
-        parent::__construct($context, $storeManager, $urlModel, $data);
-    }
-
     protected function _construct()
     {
         parent::_construct();
         $this->setId('permissionsUserRolesGrid');
         $this->setDefaultSort('sort_order');
         $this->setDefaultDir('asc');
-        //$this->setDefaultFilter(array('assigned_user_role'=>1));
         $this->setTitle(__('User Roles Information'));
         $this->setUseAjax(true);
     }
@@ -69,13 +62,6 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
             'align'     => 'center',
             'index'     => 'role_id'
         ));
-
-        /*$this->addColumn('role_id', array(
-            'header'    =>__('Role ID'),
-            'index'     =>'role_id',
-            'align'     => 'right',
-            'width'    => '50px'
-        ));*/
 
         $this->addColumn('role_name', array(
             'header'    =>__('Role'),

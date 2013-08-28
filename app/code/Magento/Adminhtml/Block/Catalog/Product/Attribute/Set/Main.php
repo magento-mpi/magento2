@@ -28,16 +28,18 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
 
     /**
      * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

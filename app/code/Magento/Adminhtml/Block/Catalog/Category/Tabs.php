@@ -35,16 +35,18 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
 
     /**
      * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

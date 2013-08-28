@@ -29,16 +29,18 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey
 
     /**
      * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     public function getElementHtml()

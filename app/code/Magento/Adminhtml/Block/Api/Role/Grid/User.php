@@ -17,12 +17,6 @@
  */
 class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block_Widget_Grid
 {
-
-    public function __construct(Magento_Backend_Block_Template_Context $context, Magento_Core_Model_StoreManagerInterface $storeManager, Magento_Core_Model_Url $urlModel, array $data = array())
-    {
-        parent::__construct($context, $storeManager, $urlModel, $data);
-    }
-
     protected function _construct()
     {
         parent::_construct();

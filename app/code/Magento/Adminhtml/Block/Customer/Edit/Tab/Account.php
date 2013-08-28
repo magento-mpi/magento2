@@ -23,11 +23,6 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
      */
     const DISABLE_ATTRIBUTE_NAME = 'disable_auto_group_change';
 
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
-
     /**
      * Initialize form
      *

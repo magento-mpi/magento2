@@ -19,11 +19,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
 {
     protected $_template = 'catalog/product/edit.phtml';
 
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
-
     protected function _construct()
     {
         parent::_construct();

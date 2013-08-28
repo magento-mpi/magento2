@@ -24,21 +24,22 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage
      *
      * @var Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
      */
-    protected $_adminhtmlCatalogProductEditActionAttribute = null;
+    protected $_helperActionAttribute = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
-     * $adminhtmlCatalogProductEditActionAttribute
+     * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $helperActionAttribute
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlCatalogProductEditActionAttribute,
+        Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $helperActionAttribute,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_adminhtmlCatalogProductEditActionAttribute = $adminhtmlCatalogProductEditActionAttribute;
-        parent::__construct($context, $data);
+        $this->_helperActionAttribute = $helperActionAttribute;
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _prepareLayout()
@@ -122,7 +123,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage
      */
     public function getSaveUrl()
     {
-        $helper = $this->_adminhtmlCatalogProductEditActionAttribute;
+        $helper = $this->_helperActionAttribute;
         return $this->getUrl(
             '*/*/save',
             array(
