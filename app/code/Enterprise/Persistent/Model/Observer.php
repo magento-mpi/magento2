@@ -89,7 +89,7 @@ class Enterprise_Persistent_Model_Observer
             // apply persistent data to segments
             Mage::register('segment_customer', $customer, true);
             if ($this->_isWishlistPersist()) {
-                Mage::helper('Magento_Wishlist_Helper_Data')->setCustomer($customer);
+                $this->_wishlistData->setCustomer($customer);
             }
         }
         return $this;
@@ -430,7 +430,7 @@ class Enterprise_Persistent_Model_Observer
      */
     protected function _getPersistentHelper()
     {
-        return Mage::helper('Magento_Persistent_Helper_Session');
+        return $this->_persistentSession;
     }
 
     /**

@@ -37,10 +37,6 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resour
     protected $_coreData = null;
 
     /**
-     * Constructor
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Filesystem $filesystem
