@@ -31,10 +31,10 @@
         </parameter>
         <parameter name="products_per_page" xsi:type="text" required="true" visible="true" translate="label">
             <label>Number of Products per Page</label>
-            <value>5</value>
             <depends>
                 <parameter name="show_pager" value="1"/>
             </depends>
+            <value>5</value>
         </parameter>
         <parameter name="products_count" xsi:type="text" required="true" visible="true" translate="label">
             <label>Number of Products to Display</label>
@@ -79,7 +79,7 @@
         </container>
     </widget>
 
-    <widget id="catalog_product_link" class="Magento_Catalog_Block_Product_Widget_Link" module="Magento_Catalog" is_email_compatible="true"
+    <widget id="catalog_product_link" class="Magento_Catalog_Block_Product_Widget_Link" is_email_compatible="true"
             placeholder_image="Magento_Catalog::images/product_widget_link.gif" translate="label description">
         <label>Catalog Product Link</label>
         <description>Link to a Specified Product</description>
@@ -111,7 +111,7 @@
         </parameter>
     </widget>
 
-    <widget id="catalog_category_link" class="Magento_Catalog_Block_Category_Widget_Link" module="Magento_Catalog" is_email_compatible="true"
+    <widget id="catalog_category_link" class="Magento_Catalog_Block_Category_Widget_Link" is_email_compatible="true"
             placeholder_image="Magento_Catalog::images/category_widget_link.gif" translate="label description">
         <label>Catalog Category Link</label>
         <description>Link to a Specified Category</description>

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_Mage_Widget_WidgetConfigTest extends PHPUnit_Framework_TestCase
+class Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $configFile
@@ -21,7 +21,8 @@ class Integrity_Mage_Widget_WidgetConfigTest extends PHPUnit_Framework_TestCase
         $schema = Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget.xsd';
         $errors = Magento_Config_Dom::validateDomDocument($dom, $schema);
         if ($errors) {
-            $this->fail('XML-file has validation errors:' . PHP_EOL . implode(PHP_EOL . PHP_EOL, $errors));
+            $this->fail('XML-file ' . $configFile . ' has validation errors:'
+                . PHP_EOL . implode(PHP_EOL . PHP_EOL, $errors));
         }
     }
 

@@ -10,8 +10,8 @@
  */
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../../../../code/Mage/Widget/etc/widget.xsd">
-    <widget id="new_products" class="TODO" module="TODO">
+         xsi:noNamespaceSchemaLocation="../../../../code/Magento/Widget/etc/widget.xsd">
+    <widget id="new_products" class="TODO">
         <label>TODO</label>
         <description>TODO</description>
         <parameter name="template" xsi:type="select">
@@ -43,7 +43,7 @@
         </container>
     </widget>
 
-    <widget id="recently_viewed" class="TODO" module="TODO">
+    <widget id="recently_viewed" class="TODO">
         <label>TODO</label>
         <description>TODO</description>
         <parameter name="template" xsi:type="select">
@@ -74,7 +74,7 @@
         </container>
     </widget>
 
-    <widget id="recently_compared" class="TODO" module="TODO">
+    <widget id="recently_compared" class="TODO">
         <label>TODO</label>
         <description>TODO</description>
         <parameter name="template" xsi:type="select">
