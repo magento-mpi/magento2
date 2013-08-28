@@ -71,7 +71,10 @@
                 <argument name="type" xsi:type="string">js</argument>
                 <argument name="name" xsi:type="string">mage/adminhtml/accordion.js</argument>
             </action>
-            <!--            <action method="removeItem"><type>js</type><name>mage/adminhtml/tools.js</name></action>-->
+            <!--<action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/tools.js</argument>
+            </action>-->
             <action method="removeItem">
                 <argument name="type" xsi:type="string">js</argument>
                 <argument name="name" xsi:type="string">mage/adminhtml/product.js</argument>

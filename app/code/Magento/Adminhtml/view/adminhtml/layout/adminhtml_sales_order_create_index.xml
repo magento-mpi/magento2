@@ -14,8 +14,12 @@
             <action method="setTitleId">
                 <argument translate="true" name="id" xsi:type="string">order-header</argument>
             </action>
-            <!--action method="setTitlePrefix" translate="value"><value>Prefix</value></action-->
-            <!--action method="setTitleSuffix" translate="value"><value>suffix</value></action-->
+            <!--<action method="setTitlePrefix" translate="value">
+                <argument name="value" xsi:type="string">Prefix</argument>
+            </action>
+            <action method="setTitleSuffix" translate="value">
+                <argument name="value" xsi:type="string">suffix</argument>
+            </action>-->
         </reference>
         <reference name="left">
             <action method="setIsCollapsed">

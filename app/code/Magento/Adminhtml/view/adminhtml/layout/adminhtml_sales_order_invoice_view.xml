@@ -45,30 +45,46 @@
                     </block>
                     <block class="Magento_Adminhtml_Block_Sales_Order_Invoice_Totals" name="invoice_totals" template="sales/order/totals.phtml">
                         <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Tax" name="tax" template="sales/order/totals/tax.phtml"/>
-                        <!--<block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="footer" template="sales/order/totals/footer.phtml">
-                            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="grand" template="sales/order/totals/grand.phtml" />
-                            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="paid" template="sales/order/totals/paid.phtml" />
-                            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="refunded" template="sales/order/totals/refunded.phtml" />
-                            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="due" template="sales/order/totals/due.phtml" />
+                        <!--<block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="footer" template="sales/order/totals/footer.phtml">
+                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="grand" template="sales/order/totals/grand.phtml"/>
+                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="paid" template="sales/order/totals/paid.phtml"/>
+                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="refunded" template="sales/order/totals/refunded.phtml"/>
+                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="due" template="sales/order/totals/due.phtml"/>
                         </block>
-                        <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="tax" template="sales/order/totals/item.phtml">
-                                <action method="setSourceField"><value>tax_amount</value></action>
-                                <action method="setLabel"><value>Tax</value></action>
+                        <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
+                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="tax" template="sales/order/totals/item.phtml">
+                                <action method="setSourceField">
+                                    <argument name="value" xsi:type="string">tax_amount</argument>
+                                </action>
+                                <action method="setLabel">
+                                    <argument name="value" xsi:type="string">Tax</argument>
+                                </action>
                             </block>
-                            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="shipping" template="sales/order/totals/shipping.phtml" />
-                            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="discount" template="sales/order/totals/discount.phtml" />
-                            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="giftcert" template="sales/order/totals/item.phtml">
-                                <action method="setSourceField"><value>giftcert_amount</value></action>
-                                <action method="setLabel"><value>Gift Certificate</value></action>
+                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="shipping" template="sales/order/totals/shipping.phtml"/>
+                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="discount" template="sales/order/totals/discount.phtml"/>
+                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="giftcert" template="sales/order/totals/item.phtml">
+                                <action method="setSourceField">
+                                    <argument name="value" xsi:type="string">giftcert_amount</argument>
+                                </action>
+                                <action method="setLabel">
+                                    <argument name="value" xsi:type="string">Gift Certificate</argument>
+                                </action>
                             </block>
-                            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="adjustment_positive" template="sales/order/totals/item.phtml">
-                                <action method="setSourceField"><value>adjustment_positive</value></action>
-                                <action method="setLabel"><value>Adjustment Refund</value></action>
+                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="adjustment_positive" template="sales/order/totals/item.phtml">
+                                <action method="setSourceField">
+                                    <argument name="value" xsi:type="string">adjustment_positive</argument>
+                                </action>
+                                <action method="setLabel">
+                                    <argument name="value" xsi:type="string">Adjustment Refund</argument>
+                                </action>
                             </block>
-                            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="adjustment_negative" template="sales/order/totals/item.phtml">
-                                <action method="setSourceField"><value>adjustment_negative</value></action>
-                                <action method="setLabel"><value>Adjustment Fee</value></action>
+                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="adjustment_negative" template="sales/order/totals/item.phtml">
+                                <action method="setSourceField">
+                                    <argument name="value" xsi:type="string">adjustment_negative</argument>
+                                </action>
+                                <action method="setLabel">
+                                    <argument name="value" xsi:type="string">Adjustment Fee</argument>
+                                </action>
                             </block>
                         </block>-->
                     </block>

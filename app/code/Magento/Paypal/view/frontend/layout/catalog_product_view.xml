@@ -21,7 +21,9 @@
         <update handle="SHORTCUT_popup"/>
         <reference name="right">
             <block class="Magento_Paypal_Block_Logo" name="paypal.partner.right.logo" template="partner/logo.phtml">
-                <!--action method="setLogoType"><value>wePrefer_150x60</value></action-->
+                <!--action method="setLogoType">
+                    <argument name="value" xsi:type="string">wePrefer_150x60</argument>
+                </action-->
             </block>
         </reference>
     </handle>
