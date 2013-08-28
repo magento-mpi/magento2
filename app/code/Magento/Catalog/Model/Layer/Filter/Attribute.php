@@ -34,17 +34,15 @@ class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model
     protected $_coreString = null;
 
     /**
-     * Construct attribute filter
-     *
-     *
-     *
      * @param Magento_Core_Helper_String $coreString
+     * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString
+        Magento_Core_Helper_String $coreString,
+        array $data = array()
     ) {
         $this->_coreString = $coreString;
-        parent::__construct();
+        parent::__construct($data);
         $this->_requestVar = 'attribute';
     }
 

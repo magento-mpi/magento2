@@ -73,9 +73,7 @@ class Magento_Catalog_Model_Category_Indexer_Flat extends Magento_Index_Model_In
 
     public function isVisible()
     {
-        /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
-        $categoryFlatHelper = $this->_catalogCategoryFlat;
-        return $categoryFlatHelper->isEnabled() || !$categoryFlatHelper->isBuilt();
+        return $this->_catalogCategoryFlat->isEnabled() || !$this->_catalogCategoryFlat->isBuilt();
     }
 
     /**
@@ -118,9 +116,7 @@ class Magento_Catalog_Model_Category_Indexer_Flat extends Magento_Index_Model_In
      */
     public function matchEvent(Magento_Index_Model_Event $event)
     {
-        /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
-        $categoryFlatHelper = $this->_catalogCategoryFlat;
-        if (!$categoryFlatHelper->isAvailable() || !$categoryFlatHelper->isBuilt()) {
+        if (!$this->_catalogCategoryFlat->isAvailable() || !$this->_catalogCategoryFlat->isBuilt()) {
             return false;
         }
 

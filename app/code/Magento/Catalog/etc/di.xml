@@ -13,4 +13,9 @@
             <instance type="Magento_Core_Model_Cache_Type_Translate" />
         </param>
     </type>
+    <type name="Magento_Catalog_Model_Product_Attribute_Backend_Price">
+        <param name="coreString">
+            <instance type="Magento_Core_Helper_String_Proxy" />
+        </param>
+    </type>
 </config>

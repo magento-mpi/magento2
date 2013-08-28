@@ -25,12 +25,15 @@ class Magento_Tag_Model_Api extends Magento_Catalog_Model_Api_Resource
     protected $_tagData = null;
 
     /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Tag_Helper_Data $tagData
      */
     public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Tag_Helper_Data $tagData
     ) {
         $this->_tagData = $tagData;
+        parent::__construct($catalogProduct);
     }
 
     /**

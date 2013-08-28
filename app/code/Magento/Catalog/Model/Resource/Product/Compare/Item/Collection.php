@@ -48,10 +48,6 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
     protected $_catalogProductCompare = null;
 
     /**
-     * Collection constructor
-     *
-     *
-     *
      * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat

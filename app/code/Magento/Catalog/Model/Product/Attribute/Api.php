@@ -37,19 +37,18 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
     protected $_catalogData = null;
 
     /**
-     * Constructor. Initializes default values.
-     *
-     *
-     *
+     * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Catalog_Helper_Data $catalogData
-     * @param  $attributeLabelCache
+     * @param Magento_Cache_FrontendInterface $attributeLabelCache
      */
     public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Cache_FrontendInterface $attributeLabelCache
     ) {
         $this->_catalogData = $catalogData;
         $this->_attributeLabelCache = $attributeLabelCache;
+        parent::__construct($catalogProduct);
         $this->_storeIdSessionField = 'product_store_id';
         $this->_ignoredAttributeCodes[] = 'type_id';
         $this->_ignoredAttributeTypes[] = 'gallery';

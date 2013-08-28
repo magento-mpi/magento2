@@ -46,12 +46,14 @@ class Magento_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Reso
     protected $_downloadableData = null;
 
     /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Downloadable_Helper_Data $downloadableData
      * @param Magento_Downloadable_Helper_File $downloadableFile
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      */
     public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Downloadable_Helper_Data $downloadableData,
         Magento_Downloadable_Helper_File $downloadableFile,
         Magento_Core_Helper_Data $coreData,
@@ -61,6 +63,7 @@ class Magento_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Reso
         $this->_downloadableFile = $downloadableFile;
         $this->_coreData = $coreData;
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
+        parent::__construct($catalogProduct);
     }
 
     /**

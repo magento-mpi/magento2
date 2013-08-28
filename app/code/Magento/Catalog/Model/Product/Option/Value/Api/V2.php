@@ -25,12 +25,17 @@ class Magento_Catalog_Model_Product_Option_Value_Api_V2 extends Magento_Catalog_
     protected $_apiData = null;
 
     /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Api_Helper_Data $apiData
      */
     public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Catalog_Helper_Data $catalogData,
         Magento_Api_Helper_Data $apiData
     ) {
         $this->_apiData = $apiData;
+        parent::__construct($catalogProduct, $catalogData);
     }
 
     /**

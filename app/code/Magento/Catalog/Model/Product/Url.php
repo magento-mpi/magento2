@@ -49,20 +49,18 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
     protected $_catalogCategory = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_Catalog_Helper_Category $catalogCategory
      * @param Magento_Catalog_Helper_Product_Url $catalogProductUrl
+     * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Category $catalogCategory,
-        Magento_Catalog_Helper_Product_Url $catalogProductUrl
+        Magento_Catalog_Helper_Product_Url $catalogProductUrl,
+        array $data = array()
     ) {
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogProductUrl = $catalogProductUrl;
+        parent::__construct($data);
     }
 
     /**

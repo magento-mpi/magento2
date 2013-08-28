@@ -99,10 +99,6 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     protected $_coreData = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Resource $resource

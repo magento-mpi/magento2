@@ -53,11 +53,6 @@ class Magento_Catalog_Block_Product_Compare_List extends Magento_Catalog_Block_P
      */
     protected $_mapRenderer = 'msrp_noform';
 
-    public function __construct(Magento_Catalog_Helper_Product_Compare $catalogProductCompare, Magento_Tax_Helper_Data $taxData, Magento_Catalog_Helper_Data $catalogData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($catalogProductCompare, $taxData, $catalogData, $coreData, $context, $data);
-    }
-
     /**
      * Retrieve url for adding product to wishlist with params
      *

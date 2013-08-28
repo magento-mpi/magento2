@@ -38,17 +38,15 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
     protected $_coreData = null;
 
     /**
-     * Initialize object
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        Magento_Core_Helper_Data $coreData,
+        array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct();
+        parent::__construct($data);
         $this->setIdFieldName('visibility_id');
     }
 

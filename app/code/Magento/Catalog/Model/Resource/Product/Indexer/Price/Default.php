@@ -43,10 +43,6 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
     protected $_coreData = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Resource $resource
      */

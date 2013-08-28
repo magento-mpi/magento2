@@ -48,10 +48,6 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     protected $_catalogData = null;
 
     /**
-     * Collection constructor
-     *
-     *
-     *
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Resource_Db_Abstract $resource

@@ -25,21 +25,19 @@ class Magento_Catalog_Model_Product_Attribute_Api_V2 extends Magento_Catalog_Mod
     protected $_apiData = null;
 
     /**
-     * Constructor. Initializes default values.
-     *
-     *
-     *
+     * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Api_Helper_Data $apiData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Cache_FrontendInterface $attributeLabelCache
      */
     public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Api_Helper_Data $apiData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Cache_FrontendInterface $attributeLabelCache
     ) {
         $this->_apiData = $apiData;
-        parent::__construct($catalogData, $attributeLabelCache);
+        parent::__construct($catalogProduct, $catalogData, $attributeLabelCache);
     }
 
     /**

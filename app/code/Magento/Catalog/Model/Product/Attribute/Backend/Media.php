@@ -61,10 +61,6 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     protected $_coreFileStorageDatabase = null;
 
     /**
-     * Constructor to inject dependencies
-     *
-     *
-     *
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig

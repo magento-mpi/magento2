@@ -19,8 +19,13 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api extends Magento_Cata
 {
     const ATTRIBUTE_CODE = 'tier_price';
 
-    public function __construct()
-    {
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct
+    ) {
+        parent::__construct($catalogProduct);
         $this->_storeIdSessionField = 'product_store_id';
     }
 

@@ -37,11 +37,6 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
     protected $_coreString = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Data $coreData
      * @param array $data

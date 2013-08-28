@@ -39,17 +39,15 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     protected $_coreData = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        Magento_Core_Helper_Data $coreData,
+        array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct();
+        parent::__construct($data);
         $this->_requestVar = 'cat';
     }
 

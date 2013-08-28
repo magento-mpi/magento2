@@ -85,10 +85,6 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
     protected $_coreData = null;
 
     /**
-     * Initialize data
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Filesystem $filesystem
      * @param array $data

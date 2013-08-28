@@ -17,11 +17,6 @@
  */
 class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product_Api
 {
-    public function __construct(Magento_Api_Helper_Data $apiData)
-    {
-        parent::__construct($apiData);
-    }
-
     /**
      * Retrieve product info
      *

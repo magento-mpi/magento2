@@ -40,10 +40,6 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
     protected $_catalogData = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Resource $resource
      */

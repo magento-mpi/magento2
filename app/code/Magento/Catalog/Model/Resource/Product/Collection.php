@@ -198,10 +198,6 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     protected $_catalogData = null;
 
     /**
-     * Collection constructor
-     *
-     *
-     *
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy

@@ -40,10 +40,6 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct
     protected $_configurationHelper;
 
     /**
-     * Collection constructor
-     *
-     *
-     *
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy

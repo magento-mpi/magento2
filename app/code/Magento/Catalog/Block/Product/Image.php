@@ -50,10 +50,6 @@ class Magento_Catalog_Block_Product_Image extends Magento_Core_Block_Template
     protected $_productImageView;
 
     /**
-     * Constructor
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Catalog_Model_Product_Image_View $productImageView

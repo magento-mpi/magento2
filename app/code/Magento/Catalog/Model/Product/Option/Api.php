@@ -30,14 +30,17 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
     protected $_catalogData = null;
 
     /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Controller_Request_Http $request
     ) {
         $this->_catalogData = $catalogData;
+        parent::__construct($catalogProduct);
         $this->_request = $request;
     }
 

@@ -48,11 +48,6 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     protected $_coreData = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Filesystem $filesystem
@@ -68,6 +63,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_filesystem = $filesystem;
         $this->_data = $data;
+        parent::__construct($data);
     }
 
 

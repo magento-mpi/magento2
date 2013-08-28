@@ -122,7 +122,6 @@ abstract class Magento_Catalog_Block_Product_View_Options_Abstract extends Magen
             return '';
         }
 
-        $taxHelper = $this->_taxData;
         $store = $this->getProduct()->getStore();
 
         $sign = '+';
@@ -134,11 +133,11 @@ abstract class Magento_Catalog_Block_Product_View_Options_Abstract extends Magen
         $priceStr = $sign;
         $_priceInclTax = $this->getPrice($value['pricing_value'], true);
         $_priceExclTax = $this->getPrice($value['pricing_value']);
-        if ($taxHelper->displayPriceIncludingTax()) {
+        if ($this->_taxData->displayPriceIncludingTax()) {
             $priceStr .= $this->helper('Magento_Core_Helper_Data')->currencyByStore($_priceInclTax, $store, true, $flag);
-        } elseif ($taxHelper->displayPriceExcludingTax()) {
+        } elseif ($this->_taxData->displayPriceExcludingTax()) {
             $priceStr .= $this->helper('Magento_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
-        } elseif ($taxHelper->displayBothPrices()) {
+        } elseif ($this->_taxData->displayBothPrices()) {
             $priceStr .= $this->helper('Magento_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
             if ($_priceInclTax != $_priceExclTax) {
                 $priceStr .= ' ('.$sign.$this->helper('Magento_Core_Helper_Data')
