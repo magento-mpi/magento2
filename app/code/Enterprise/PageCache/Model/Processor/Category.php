@@ -15,6 +15,11 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
      */
     const METADATA_CATEGORY_ID = 'catalog_category_id';
 
+    /**
+     * Map of parameters
+     *
+     * @var array
+     */
     protected $_paramsMap = array(
         'display_mode'  => 'mode',
         'limit_page'    => 'limit',
@@ -132,7 +137,7 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
     /**
      * Update catalog session from GET or cookies
      *
-     * @param string $queryParams
+     * @internal param string $queryParams
      */
     protected function _prepareCatalogSession()
     {
