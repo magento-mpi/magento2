@@ -198,4 +198,17 @@
             <instance type="Magento_Core_Model_Input_Filter_MaliciousCode" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Fieldset_Config_Reader">
+        <param name="fileName">
+            <value>fieldset.xml</value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Fieldset_Config_Data">
+        <param name='reader'>
+            <instance type="Magento_Core_Model_Fieldset_Config_Reader" />
+        </param>
+        <param name="cacheId">
+            <value>fieldset_config</value>
+        </param>
+    </type>
 </config>

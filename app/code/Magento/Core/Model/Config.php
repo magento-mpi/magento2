@@ -443,13 +443,13 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      */
     public function getFieldset($name, $root = 'global')
     {
-        /** @var $config Magento_Core_Model_Config_Base */
-        $config = $this->_objectManager->get('Magento_Core_Model_Config_Fieldset');
-        $rootNode = $config->getNode($root . '/fieldsets');
-        if (!$rootNode) {
+        /** @var $config Magento_Core_Model_Fieldset_Config */
+        $config = $this->_objectManager->get('Magento_Core_Model_Fieldset_Config');
+        $fieldsets = $config->getFieldsets();
+        if (empty($fieldsets)) {
             return null;
         }
-        return $rootNode->$name ? $rootNode->$name->children() : null;
+        return isset($fieldsets[$name]) ? $fieldsets[$name] : null;
     }
 
     /**

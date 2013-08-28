@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <fieldsets>
+            <customer_account>
+                <prefix>
+                    <create>1</create>
+                    <update>1</update>
+                    <name>1</name>
+                </prefix>
+                <firstname>
+                    <create>1</create>
+                    <update>1</update>
+                    <name>1</name>
+                </firstname>
+                <middlename>
+                    <create>1</create>
+                    <update>1</update>
+                    <name>1</name>
+                </middlename>
+                <lastname>
+                    <create>1</create>
+                    <update>1</update>
+                    <name>1</name>
+                </lastname>
+                <suffix>
+                    <create>1</create>
+                    <update>1</update>
+                    <name>1</name>
+                </suffix>
+                <email>
+                    <create>1</create>
+                    <update>1</update>
+                </email>
+                <password>
+                    <create>1</create>
+                </password>
+                <confirmation>
+                    <create>1</create>
+                </confirmation>
+                <dob>
+                    <create>1</create>
+                    <update>1</update>
+                </dob>
+                <taxvat>
+                    <create>1</create>
+                    <update>1</update>
+                </taxvat>
+                <gender>
+                    <create>1</create>
+                    <update>1</update>
+                </gender>
+            </customer_account>
+            <customer_address>
+                <vat_id>
+                    <to_quote_address>*</to_quote_address>
+                </vat_id>
+                <vat_is_valid>
+                    <to_quote_address>*</to_quote_address>
+                </vat_is_valid>
+                <vat_request_id>
+                    <to_quote_address>*</to_quote_address>
+                </vat_request_id>
+                <vat_request_date>
+                    <to_quote_address>*</to_quote_address>
+                </vat_request_date>
+                <vat_request_success>
+                    <to_quote_address>*</to_quote_address>
+                </vat_request_success>
+            </customer_address>
+        </fieldsets>
+    </global>
+</config>
