@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adminhtml_Block_Widget_Grid
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
      * Default limit collection
@@ -41,6 +41,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adm
 
     /**
      * @param Enterprise_Rma_Helper_Eav $rmaEav
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
@@ -48,13 +49,14 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adm
      */
     public function __construct(
         Enterprise_Rma_Helper_Eav $rmaEav,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     /**

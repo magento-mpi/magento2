@@ -26,11 +26,16 @@ class Enterprise_Tag_Model_Reward_Observer extends Enterprise_Reward_Model_Obser
 
     /**
      * @param Enterprise_Tag_Helper_Data $tagData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Enterprise_Reward_Helper_Data $rewardData
      */
     public function __construct(
-        Enterprise_Tag_Helper_Data $tagData
+        Enterprise_Tag_Helper_Data $tagData,
+        Magento_Core_Helper_Data $coreData,
+        Enterprise_Reward_Helper_Data $rewardData
     ) {
         $this->_tagData = $tagData;
+        parent::__construct($coreData, $rewardData);
     }
 
     /**

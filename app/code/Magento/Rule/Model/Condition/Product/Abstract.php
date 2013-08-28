@@ -47,19 +47,19 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
      *
      * @var Magento_Adminhtml_Helper_Data
      */
-    protected $_adminhtmlData = null;
+    protected $_backendData = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Backend_Helper_Data $backendData,
         Magento_Rule_Model_Condition_Context $context,
         array $data = array()
     ) {
-        $this->_adminhtmlData = $adminhtmlData;
+        $this->_backendData = $backendData;
         parent::__construct($context, $data);
     }
 
@@ -385,7 +385,7 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
             default:
                 break;
         }
-        return $url !== false ? $this->_adminhtmlData->getUrl($url) : '';
+        return $url !== false ? $this->_backendData->getUrl($url) : '';
     }
 
     /**

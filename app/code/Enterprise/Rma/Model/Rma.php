@@ -73,7 +73,7 @@ class Enterprise_Rma_Model_Rma extends Magento_Core_Model_Abstract
         Magento_Core_Helper_Data $coreData,
         Enterprise_Rma_Helper_Data $rmaData,
         Magento_Core_Model_Context $context,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Enterprise_Rma_Model_Resource_Rma $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -85,7 +85,8 @@ class Enterprise_Rma_Model_Rma extends Magento_Core_Model_Abstract
     /**
      * Init resource model
      */
-    protected function _construct() {
+    protected function _construct()
+    {
         $this->_init('Enterprise_Rma_Model_Resource_Rma');
         parent::_construct();
     }

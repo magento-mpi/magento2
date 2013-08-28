@@ -23,36 +23,36 @@ class Enterprise_PricePermissions_Model_System_Config_Backend_Catalog_Product_Pr
      *
      * @var Enterprise_PricePermissions_Helper_Data
      */
-    protected $_pricePermissionsData = null;
+    protected $_pricePermData = null;
 
     /**
-     * @param Enterprise_PricePermissions_Helper_Data $pricePermissionsData
+     * @param Enterprise_PricePermissions_Helper_Data $pricePermData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Enterprise_PricePermissions_Helper_Data $pricePermissionsData,
+        Enterprise_PricePermissions_Helper_Data $pricePermData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_pricePermissionsData = $pricePermissionsData;
+        $this->_pricePermData = $pricePermData;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
     /**
      * Check permission to edit product prices before the value is saved
      *
-     * @return Enterprise_PricePermossions_Model_System_Config_Backend_Catalog_Product_Price_Default
+     * @return Enterprise_PricePermissions_Model_System_Config_Backend_Catalog_Product_Price_Default
      */
     protected function _beforeSave()
     {
         parent::_beforeSave();
         $defaultProductPriceValue = floatval($this->getValue());
-        if (!$this->_pricePermissionsData->getCanAdminEditProductPrice()
+        if (!$this->_pricePermData->getCanAdminEditProductPrice()
             || ($defaultProductPriceValue < 0)
         ) {
             $defaultProductPriceValue = floatval($this->getOldValue());
@@ -64,12 +64,12 @@ class Enterprise_PricePermissions_Model_System_Config_Backend_Catalog_Product_Pr
     /**
      * Check permission to read product prices before the value is shown to user
      *
-     * @return Enterprise_PricePermossions_Model_System_Config_Backend_Catalog_Product_Price_Default
+     * @return Enterprise_PricePermissions_Model_System_Config_Backend_Catalog_Product_Price_Default
      */
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        if (!$this->_pricePermissionsData->getCanAdminReadProductPrice()) {
+        if (!$this->_pricePermData->getCanAdminReadProductPrice()) {
             $this->setValue(null);
         }
         return $this;

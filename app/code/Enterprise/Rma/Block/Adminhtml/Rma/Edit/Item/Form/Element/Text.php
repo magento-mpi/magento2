@@ -26,11 +26,14 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Text extends Mag
 
     /**
      * @param Enterprise_Rma_Helper_Eav $rmaEav
+     * @param array $data
      */
     public function __construct(
-        Enterprise_Rma_Helper_Eav $rmaEav
+        Enterprise_Rma_Helper_Eav $rmaEav,
+        array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
+        parent::__construct($data);
     }
 
     /**

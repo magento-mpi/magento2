@@ -33,18 +33,20 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
     /**
      * @param Magento_Customer_Helper_Data $customerData
      * @param Enterprise_Rma_Helper_Data $rmaData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Customer_Helper_Data $customerData,
         Enterprise_Rma_Helper_Data $rmaData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
         $this->_rmaData = $rmaData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     public function _construct()

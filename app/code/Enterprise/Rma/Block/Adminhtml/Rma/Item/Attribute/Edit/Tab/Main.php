@@ -18,7 +18,7 @@
  */
 class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Rma eav

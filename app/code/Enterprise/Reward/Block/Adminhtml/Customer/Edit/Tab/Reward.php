@@ -17,8 +17,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
-    extends Magento_Adminhtml_Block_Template
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Template
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Reward data
@@ -29,16 +29,18 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
 
     /**
      * @param Enterprise_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Reward_Helper_Data $rewardData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

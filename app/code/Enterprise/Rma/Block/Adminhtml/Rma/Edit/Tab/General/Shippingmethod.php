@@ -50,18 +50,20 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     /**
      * @param Magento_Tax_Helper_Data $taxData
      * @param Enterprise_Rma_Helper_Data $rmaData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Tax_Helper_Data $taxData,
         Enterprise_Rma_Helper_Data $rmaData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
         $this->_rmaData = $rmaData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     public function _construct()
@@ -69,7 +71,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $buttonStatus       = Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISALLOWED;
         if ($this->_getShippingAvailability() && $this->getRma() && $this->getRma()->isAvailableForPrintLabel()) {
             $buttonStatus   = Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_ALLOWED;
-        } elseif($this->getRma() && $this->getRma()->getButtonDisabledStatus()) {
+        } elseif ($this->getRma() && $this->getRma()->getButtonDisabledStatus()) {
             $buttonStatus   = Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISABLED;
         }
 

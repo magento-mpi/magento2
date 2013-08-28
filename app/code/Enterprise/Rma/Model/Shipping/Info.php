@@ -38,11 +38,14 @@ class Enterprise_Rma_Model_Shipping_Info extends Magento_Object
      * attributes This behavior may change in child classes
      *
      * @param Enterprise_Rma_Helper_Data $rmaData
+     * @param array $data
      */
     public function __construct(
-        Enterprise_Rma_Helper_Data $rmaData
+        Enterprise_Rma_Helper_Data $rmaData,
+        array $data = array()
     ) {
         $this->_rmaData = $rmaData;
+        parent::__construct($data);
     }
 
     /**

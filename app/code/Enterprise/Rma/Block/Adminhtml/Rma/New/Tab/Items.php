@@ -15,8 +15,8 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Backend_Block_Widget_Form
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Rma eav
@@ -27,16 +27,18 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml
 
     /**
      * @param Enterprise_Rma_Helper_Eav $rmaEav
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Rma_Helper_Eav $rmaEav,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

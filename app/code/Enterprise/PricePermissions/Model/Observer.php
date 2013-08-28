@@ -85,21 +85,21 @@ class Enterprise_PricePermissions_Model_Observer
      *
      * @var Enterprise_PricePermissions_Helper_Data
      */
-    protected $_pricePermissionsData = null;
+    protected $_pricePermData = null;
 
     /**
      * Price Permissions Observer class constructor
      *
      * Sets necessary data
      *
-     * @param Enterprise_PricePermissions_Helper_Data $pricePermissionsData
+     * @param Enterprise_PricePermissions_Helper_Data $pricePermData
      * @param  $data
      */
     public function __construct(
-        Enterprise_PricePermissions_Helper_Data $pricePermissionsData,
+        Enterprise_PricePermissions_Helper_Data $pricePermData,
         array $data = array()
     ) {
-        $this->_pricePermissionsData = $pricePermissionsData;
+        $this->_pricePermData = $pricePermData;
         $this->_request = (isset($data['request']) && false === $data['request']) ? false : Mage::app()->getRequest();
         if (isset($data['can_edit_product_price']) && false === $data['can_edit_product_price']) {
             $this->_canEditProductPrice = false;
@@ -129,7 +129,7 @@ class Enterprise_PricePermissions_Model_Observer
         if ($session->isLoggedIn() && $session->getUser()->getRole()) {
             // Set all necessary flags
             /** @var $helper Enterprise_PricePermissions_Helper_Data */
-            $helper = $this->_pricePermissionsData;
+            $helper = $this->_pricePermData;
             $this->_canEditProductPrice = $helper->getCanAdminEditProductPrice();
             $this->_canReadProductPrice = $helper->getCanAdminReadProductPrice();
             $this->_canEditProductStatus = $helper->getCanAdminEditProductStatus();
@@ -348,7 +348,7 @@ class Enterprise_PricePermissions_Model_Observer
      */
     protected function _removeColumnFromGrid($block, $column)
     {
-        if (!$block instanceof Magento_Adminhtml_Block_Widget_Grid) {
+        if (!$block instanceof Magento_Backend_Block_Widget_Grid_Extended) {
             return false;
         }
         return $block->removeColumn($column);

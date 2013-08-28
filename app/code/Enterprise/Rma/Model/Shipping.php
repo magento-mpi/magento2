@@ -65,7 +65,7 @@ class Enterprise_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     public function __construct(
         Enterprise_Rma_Helper_Data $rmaData,
         Magento_Core_Model_Context $context,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Enterprise_Rma_Model_Resource_Shipping $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

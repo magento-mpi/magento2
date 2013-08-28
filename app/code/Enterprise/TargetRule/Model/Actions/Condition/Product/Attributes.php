@@ -30,20 +30,16 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
     /**
      * Define action type and default value
      *
-     *
-     *
+     * @param Magento_Backend_Helper_Data $backendData
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
-     * @param  $context
-     * @param  $data
      */
     public function __construct(
-        array $data,
-        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Backend_Helper_Data $backendData,
         Magento_Rule_Model_Condition_Context $context,
         array $data = array()
     ) {
-        parent::__construct($adminhtmlData, $data, $context, $data);
+        parent::__construct($backendData, $data, $context, $data);
         $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes');
         $this->setValue(null);
         $this->setValueType(self::VALUE_TYPE_SAME_AS);

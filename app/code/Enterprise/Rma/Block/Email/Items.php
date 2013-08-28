@@ -26,16 +26,18 @@ class Enterprise_Rma_Block_Email_Items extends Enterprise_Rma_Block_Form
 
     /**
      * @param Enterprise_Rma_Helper_Eav $rmaEav
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Rma_Helper_Eav $rmaEav,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

@@ -11,7 +11,7 @@
 /**
  * Reminder rule edit form block
  */
-class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Backend_Block_Widget_Form_Container
 {
     /**
      * Reminder data
@@ -22,16 +22,18 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Adminhtm
 
     /**
      * @param Enterprise_Reminder_Helper_Data $reminderData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Reminder_Helper_Data $reminderData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_reminderData = $reminderData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -82,8 +84,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Adminhtm
         $rule = Mage::registry('current_reminder_rule');
         if ($rule->getRuleId()) {
             return __("Edit Rule '%1'", $this->escapeHtml($rule->getName()));
-        }
-        else {
+        } else {
             return __('New Rule');
         }
     }

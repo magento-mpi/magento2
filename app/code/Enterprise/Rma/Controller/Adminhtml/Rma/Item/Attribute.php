@@ -175,13 +175,13 @@ class Enterprise_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adm
             try {
                 $data = $this->_objectManager->get('Enterprise_Rma_Helper_Eav')->filterPostData($data);
             } catch (Magento_Core_Exception $e) {
-                    $this->_getSession()->addError($e->getMessage());
-                    if (isset($data['attribute_id'])) {
-                        $this->_redirect('*/*/edit', array('_current' => true));
-                    } else {
-                        $this->_redirect('*/*/new', array('_current' => true));
-                    }
-                    return;
+                $this->_getSession()->addError($e->getMessage());
+                if (isset($data['attribute_id'])) {
+                    $this->_redirect('*/*/edit', array('_current' => true));
+                } else {
+                    $this->_redirect('*/*/new', array('_current' => true));
+                }
+                return;
             }
 
             $attributeId = $this->getRequest()->getParam('attribute_id');
