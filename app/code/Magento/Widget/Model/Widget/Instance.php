@@ -75,9 +75,6 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      */
     protected $_reader;
 
-    /** @var Magento_Core_Model_Translate Magento_Core_Model_Translate */
-    private $_translator;
-
     /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
@@ -95,7 +92,6 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         Magento_Widget_Model_Config_Reader $reader,
         Magento_Widget_Model_Widget $widgetModel,
         Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Translate $translator,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -105,8 +101,6 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         $this->_reader = $reader;
         $this->_widgetModel = $widgetModel;
         $this->_coreConfig = $coreConfig;
-        $this->_translator = $translator;
-
     }
 
     /**
@@ -204,8 +198,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         if ($this->isCompleteToCreate()) {
             return true;
         }
-        return $this->_translator->translate(
-            array('We cannot create the widget instance because it is missing required information.'));
+        return __('We cannot create the widget instance because it is missing required information.');
     }
 
     /**
@@ -360,14 +353,9 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
                 foreach ($configTemplates['values'] as $name => $template) {
                     $templates[(string)$name] = array(
                         'value' => (string)$template['value'],
-                        'label' => $this->_translator->translate(array((string)$template['label']))
+                        'label' => __((string)$template['label'])->render()
                     );
                 }
-            } elseif (isset($configTemplates['value'])) {
-                $templates['default'] = array(
-                    'value' => (string)$configTemplates['value'],
-                    'label' => $this->_translator->translate(array('Default Template'))
-                );
             }
         }
         return $templates;

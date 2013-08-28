@@ -46,20 +46,11 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $this->_readerMock = $this->getMockBuilder('Magento_Widget_Model_Config_Reader')
             ->disableOriginalConstructor()
             ->getMock();
-        $translator = $this->getMockBuilder('Magento_Core_Model_Translate')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $translator->expects($this->any())->method('translate')
-            ->will($this->returnCallback(
-                function ($arr) {
-                    return $arr[0];
-                }
-            ));
         $this->_model = $this->getMock(
             'Magento_Widget_Model_Widget_Instance',
             array('_construct'),
             array($contextMock, $this->_viewFileSystemMock, $this->_readerMock , $this->_widgetModelMock,
-                $this->_coreConfigMock, $translator),
+                $this->_coreConfigMock),
             '',
             true
         );
@@ -157,6 +148,12 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
                     '@' => array(
                         'translate' => 'label',
                     ),
+                    'values' => array(
+                        'default' => array(
+                            'value' => 'product/widget/link/link_block.phtml',
+                            'label' => 'Template'
+                        )
+                    ),
                     'type' => 'select',
                     'visible' => 'true',
                     'label' => 'Template',
@@ -171,7 +168,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $expectedTemplates = array(
             'default' => array(
                 'value' => 'product/widget/link/link_block.phtml',
-                'label' => 'Default Template',
+                'label' => 'Template',
             ),
         );
         $this->assertEquals($expectedTemplates, $this->_model->getWidgetTemplates());
@@ -288,6 +285,12 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
                     '@' => array(
                         'translate' => 'label',
                     ),
+                    'values' => array(
+                        'default' => array(
+                            'value' => 'product/widget/link/link_block.phtml',
+                            'label' => 'Template'
+                        )
+                    ),
                     'type' => 'select',
                     'visible' => 'true',
                     'label' => 'Template',
@@ -302,7 +305,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $expectedContainers = array(
             'default' => array(
                 'value' => 'product/widget/link/link_block.phtml',
-                'label' => 'Default Template',
+                'label' => 'Template',
             ),
         );
         $this->assertEquals($expectedContainers, $this->_model->getWidgetSupportedTemplatesByContainer('content'));
