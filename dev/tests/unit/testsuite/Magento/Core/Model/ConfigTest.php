@@ -22,6 +22,11 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_configScopeMock;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_objectManagerMock;
+
+    /**
      * @var Magento_Core_Model_ModuleListInterface
      */
     protected $_moduleListMock;
@@ -59,7 +64,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                 </config>';
 
         $configBase = new Magento_Core_Model_Config_Base($xml);
-        $objectManagerMock = $this->getMock('Magento_Core_Model_ObjectManager', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento_Core_Model_ObjectManager', array(), array(), '', false);
         $appMock = $this->getMock('Magento_Core_Model_AppInterface');
         $configStorageMock = $this->getMock('Magento_Core_Model_Config_StorageInterface');
         $configStorageMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($configBase));
@@ -69,7 +74,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
 
         $this->_model = new Magento_Core_Model_Config(
-            $objectManagerMock, $configStorageMock, $appMock, $modulesReaderMock, $this->_moduleListMock,
+            $this->_objectManagerMock, $configStorageMock, $appMock, $modulesReaderMock, $this->_moduleListMock,
             $invalidatorMock, $this->_configScopeMock
         );
     }
@@ -142,5 +147,35 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($expected, $this->_model->getRouters());
+    }
+
+    public function testGetFieldset()
+    {
+        $fieldsetConfigMock = $this->getMockBuilder('Magento_Core_Model_Fieldset_Config')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getFieldsets'))
+            ->getMock();
+
+        $expectedFieldset = array(
+            'aspect' => 'firstAspect'
+        );
+
+        $fieldsets = array(
+            'test' => $expectedFieldset,
+            'test_second' => array(
+                'aspect' => 'secondAspect'
+            ),
+        );
+
+        $fieldsetConfigMock->expects($this->once())
+            ->method('getFieldsets')
+            ->with($this->equalTo('global'))
+            ->will($this->returnValue($fieldsets));
+
+        $this->_objectManagerMock->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo('Magento_Core_Model_Fieldset_Config'))
+            ->will($this->returnValue($fieldsetConfigMock));
+        $this->assertEquals($expectedFieldset, $this->_model->getFieldset('test'));
     }
 }
