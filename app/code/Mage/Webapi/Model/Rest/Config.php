@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Rest_Config extends Mage_Webapi_Model_Config
+class Mage_Webapi_Model_Rest_Config
 {
     /**#@+
      * HTTP methods supported by REST.
@@ -18,22 +18,21 @@ class Mage_Webapi_Model_Rest_Config extends Mage_Webapi_Model_Config
     const HTTP_METHOD_POST = 'POST';
     /**#@-*/
 
+    /** @var Mage_Webapi_Model_Config  */
+    protected $_config;
+
     /** @var Magento_Controller_Router_Route_Factory */
     protected $_routeFactory;
 
     /**
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
-     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Mage_Webapi_Model_Config
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      */
     public function __construct(
-        Mage_Core_Model_Config $config,
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
-        Mage_Core_Model_Config_Modules_Reader $moduleReader,
+        Mage_Webapi_Model_Config $config,
         Magento_Controller_Router_Route_Factory $routeFactory
     ) {
-        parent::__construct($config, $configCacheType, $moduleReader);
+        $this->_config = $config;
         $this->_routeFactory = $routeFactory;
     }
 
@@ -62,8 +61,8 @@ class Mage_Webapi_Model_Rest_Config extends Mage_Webapi_Model_Config
         $route->setServiceId($routeData['serviceId'])
             ->setHttpMethod($routeData['httpMethod'])
             ->setServiceMethod($routeData['serviceMethod'])
-            ->setServiceVersion(self::VERSION_NUMBER_PREFIX . $routeData['version'])
-            ->setSecure($routeData[self::SECURE_ATTR_NAME]);
+            ->setServiceVersion(Mage_Webapi_Model_Config::VERSION_NUMBER_PREFIX . $routeData['version'])
+            ->setSecure($routeData[Mage_Webapi_Model_Config::SECURE_ATTR_NAME]);
         return $route;
     }
 
@@ -93,7 +92,7 @@ class Mage_Webapi_Model_Rest_Config extends Mage_Webapi_Model_Config
         $serviceBaseUrl = $this->_getServiceBaseUrl($request);
         $httpMethod = $request->getHttpMethod();
         $routes = array();
-        foreach ($this->getServices() as $serviceName => $serviceData) {
+        foreach ($this->_config->getServices() as $serviceName => $serviceData) {
             // skip if baseurl is not null and does not match
             if (
                 !isset($serviceData['baseUrl'])
@@ -104,10 +103,10 @@ class Mage_Webapi_Model_Rest_Config extends Mage_Webapi_Model_Config
                 continue;
             }
             // TODO: skip if version is not null and does not match
-            foreach ($serviceData[self::KEY_OPERATIONS] as $operationName => $operationData) {
+            foreach ($serviceData[Mage_Webapi_Model_Config::KEY_OPERATIONS] as $operationName => $operationData) {
                 if (strtoupper($operationData['httpMethod']) == strtoupper($httpMethod)) {
-                    $secure = isset($operationData[self::SECURE_ATTR_NAME])
-                        ? $operationData[self::SECURE_ATTR_NAME]
+                    $secure = isset($operationData[Mage_Webapi_Model_Config::SECURE_ATTR_NAME])
+                        ? $operationData[Mage_Webapi_Model_Config::SECURE_ATTR_NAME]
                         : false;
                     $methodRoute = isset($operationData['route']) ? $operationData['route'] : '';
                     $routes[] = $this->_createRoute(
@@ -117,7 +116,7 @@ class Mage_Webapi_Model_Rest_Config extends Mage_Webapi_Model_Config
                             'serviceId' => $serviceName,
                             'serviceMethod' => $operationName,
                             'httpMethod' => $httpMethod,
-                            self::SECURE_ATTR_NAME => $secure
+                            Mage_Webapi_Model_Config::SECURE_ATTR_NAME => $secure
                         )
                     );
                 }

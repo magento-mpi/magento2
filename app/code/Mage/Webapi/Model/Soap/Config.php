@@ -7,13 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
+class Mage_Webapi_Model_Soap_Config
 {
     /** @var Magento_Filesystem */
     protected $_filesystem;
 
     /** @var Mage_Core_Model_Dir */
     protected $_dir;
+
+    /** @var Mage_Webapi_Model_Config */
+    protected $_config;
 
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
@@ -37,27 +40,22 @@ class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
     protected $_soapOperations;
 
     /**
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
-     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Mage_Core_Model_ObjectManager $objectManager
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Dir $dir
+     * @param Mage_Webapi_Model_Config $config
      * @param Mage_Webapi_Helper_Data $helper
      */
-
     public function __construct(
-        Mage_Core_Model_Config $config,
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
-        Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Mage_Core_Model_ObjectManager $objectManager,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Dir $dir,
+        Mage_Webapi_Model_Config $config,
         Mage_Webapi_Helper_Data $helper
     ) {
-        parent::__construct($config, $configCacheType, $moduleReader);
         $this->_filesystem = $filesystem;
         $this->_dir = $dir;
+        $this->_config = $config;
         $this->_helper = $helper;
         $this->_objectManager = $objectManager;
     }
@@ -80,12 +78,13 @@ class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
         if (null == $this->_soapOperations) {
             $this->_soapOperations = array();
             foreach ($this->getRequestedSoapServices($requestedService) as $serviceData) {
-                foreach ($serviceData[self::KEY_OPERATIONS] as $method => $methodData) {
+                foreach ($serviceData[Mage_Webapi_Model_Config::KEY_OPERATIONS] as $method => $methodData) {
                     $operationName = $this->_helper->getSoapOperation($serviceData['class'], $method);
                     $this->_soapOperations[$operationName] = array(
                         'class' => $serviceData['class'],
                         'method' => $method,
-                        self::SECURE_ATTR_NAME => $methodData[self::SECURE_ATTR_NAME]
+                        Mage_Webapi_Model_Config::SECURE_ATTR_NAME
+                            => $methodData[Mage_Webapi_Model_Config::SECURE_ATTR_NAME]
                     );
                 }
             }
@@ -100,20 +99,21 @@ class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
      *
      * @return array
      */
-    public function getSoapServices()
+    protected function _getSoapServices()
     {
         // TODO: Implement caching if this approach is approved
         if (is_null($this->_soapServices)) {
             $this->_soapServices = array();
-            foreach ($this->getServices() as $serviceData) {
+            foreach ($this->_config->getServices() as $serviceData) {
                 $reflection = new ReflectionClass($serviceData['class']);
                 foreach ($reflection->getMethods() as $method) {
                     // find if method is secure, look into rest operation definition of each operation
                     // if operation is not defined, assume operation is not secure
                     $isOperationSecure = false;
-                    if (isset($serviceData[self::KEY_OPERATIONS][$method->getName()][self::SECURE_ATTR_NAME])) {
-                        $secureFlagValue = $serviceData[self::KEY_OPERATIONS]
-                        [$method->getName()][self::SECURE_ATTR_NAME];
+                    if (isset($serviceData[Mage_Webapi_Model_Config::KEY_OPERATIONS][$method->getName()]
+                    [Mage_Webapi_Model_Config::SECURE_ATTR_NAME])) {
+                        $secureFlagValue = $serviceData[Mage_Webapi_Model_Config::KEY_OPERATIONS]
+                        [$method->getName()][Mage_Webapi_Model_Config::SECURE_ATTR_NAME];
                         $isOperationSecure = (strtolower($secureFlagValue) === 'true');
                     }
 
@@ -121,7 +121,7 @@ class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
                     $this->_soapServices[$serviceData['class']]['operations'][$method->getName()] = array(
                         'method' => $method->getName(),
                         'inputRequired' => (bool)$method->getNumberOfParameters(),
-                        self::SECURE_ATTR_NAME => $isOperationSecure
+                        Mage_Webapi_Model_Config::SECURE_ATTR_NAME => $isOperationSecure
                     );
                     $this->_soapServices[$serviceData['class']]['class'] = $serviceData['class'];
                 };
@@ -187,7 +187,7 @@ class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
                 Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
         }
-        return $soapOperations[$soapOperation][self::SECURE_ATTR_NAME];
+        return $soapOperations[$soapOperation][Mage_Webapi_Model_Config::SECURE_ATTR_NAME];
     }
 
     /**
@@ -204,7 +204,7 @@ class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
     {
         $services = array();
         foreach ($requestedServices as $serviceName) {
-            foreach ($this->getSoapServices() as $serviceData) {
+            foreach ($this->_getSoapServices() as $serviceData) {
                 $serviceWithVersion = $this->_helper->getServiceName($serviceData['class']);
                 if ($serviceWithVersion === $serviceName) {
                     $services[] = $serviceData;
