@@ -21,7 +21,11 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         $dirs = Mage::getObjectManager()->create(
             'Magento_Core_Model_Dir', array(
                 'baseDir' => BP,
-                'dirs' => array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files'))
+                'dirs' => array(
+                    Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files',
+                    Magento_Core_Model_Dir::CONFIG => __DIR__ . '/_files'
+                )
+            )
         );
 
         /** @var Magento_Core_Model_Module_Declaration_FileResolver $modulesDeclarations */
