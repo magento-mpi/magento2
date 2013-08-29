@@ -8,12 +8,15 @@
 class Magento_Core_Model_Fieldset_Config_Reader extends Magento_Config_Reader_Filesystem
 {
     /**
-     * List of id attributes for merge
+     * List of identifier attributes for merging
      *
      * @var array
      */
     protected $_idAttributes = array(
-
+        '/config/scope' => 'id',
+        '/config/scope/fieldset' => 'id',
+        '/config/scope/fieldset/field' => 'name',
+        '/config/scope/fieldset/field/aspect' => 'name',
     );
 
     /**
