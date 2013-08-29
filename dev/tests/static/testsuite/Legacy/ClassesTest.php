@@ -22,7 +22,6 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
     {
         $classes = self::collectPhpCodeClasses(file_get_contents($file));
         $this->_assertNonFactoryName($classes);
-        $this->_assertDeprecatedMage($classes);
     }
 
     /**
@@ -169,31 +168,6 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
         }
         if ($factoryNames) {
             $this->fail('Obsolete factory name(s) detected:' . "\n" . implode("\n", $factoryNames));
-        }
-    }
-
-    /**
-     * Check if the Class contains the string 'Mage_'.  'Mage_' has been refactored to 'Magento_'
-     *
-     * @param array $names
-     */
-    protected function _assertDeprecatedMage($names)
-    {
-        if (!$names) {
-            return;
-        }
-        $obsoleteClasses = array();
-        foreach ($names as $name) {
-            try {
-                $this->assertStringStartsNotWith('Mage_', $name);
-            }
-            catch (PHPUnit_Framework_AssertionFailedError $e) {
-                $obsoleteClasses[] = $name;
-            }
-        }
-
-        if ($obsoleteClasses) {
-            $this->fail('Obsolete class name(s) detected:' . "\n" . implode("\n", $obsoleteClasses));
         }
     }
 }

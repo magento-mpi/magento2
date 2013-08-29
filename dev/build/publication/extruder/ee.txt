@@ -14,7 +14,6 @@ dev/tests/integration/testsuite/Theme
 dev/tests/integration/testsuite/integrity/modular/_files/view_files_ee.php
 dev/tests/static/testsuite/Integrity/Enterprise
 dev/tests/static/testsuite/Js/_files/{whitelist,blacklist}/ee.txt
-dev/tests/static/testsuite/Legacy/ClassesEnterpriseTest.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_classes_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_config_nodes_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_constants_ee.php
