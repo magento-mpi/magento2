@@ -1,17 +1,15 @@
 <?php
 /**
+ * Logging configuration model
+ *
+ * Provides access to nodes and labels
+ *
  * {license_notice}
  *
  * @category    Enterprise
  * @package     Enterprise_Logging
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Logging configuration model
- *
- * Merges logging.xml files and provides access to nodes and labels
  */
 class Enterprise_Logging_Model_Config
 {
@@ -32,25 +30,17 @@ class Enterprise_Logging_Model_Config
     protected $_systemConfigValues = null;
 
     /**
-     * Load config from cache or merged from logging.xml files
-     *
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @var Magento_Core_Model_Fieldset_Config_Data
      */
-    public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType
-    ) {
-        $configXml = $configCacheType->load('enterprise_logging_config');
-        if ($configXml) {
-            $this->_xmlConfig = new Magento_Simplexml_Config($configXml);
-        } else {
-            $config = new Magento_Simplexml_Config;
-            $config->loadString('<?xml version="1.0"?><logging></logging>');
-            $configReader->loadModulesConfiguration('logging.xml', $config);
-            $this->_xmlConfig = $config;
-            $configCacheType->save($config->getXmlString(), 'enterprise_logging_config');
-        }
+    protected $_dataStorage;
+
+    /**
+     * @param Magento_Core_Model_Fieldset_Config_Data $dataStorage
+     */
+    public function __construct(Enterprise_Logging_Model_Config_Data $dataStorage)
+    {
+        $this->_dataStorage = $dataStorage;
+        $this->_xmlConfig = $this->_dataStorage->get('/logging');
     }
 
     /**
@@ -108,6 +98,9 @@ class Enterprise_Logging_Model_Config
      */
     public function getNode($fullActionName)
     {
+        if (!$fullActionName) {
+            return array();
+        }
         foreach ($this->_getNodesByFullActionName($fullActionName) as $actionConfig) {
             return $actionConfig;
         }
@@ -122,8 +115,8 @@ class Enterprise_Logging_Model_Config
     public function getLabels()
     {
         if (!$this->_labels) {
-            foreach ($this->_xmlConfig->getXpath('/logging/*/label') as $labelNode) {
-                $this->_labels[$labelNode->getParent()->getName()] = __((string)$labelNode);
+            foreach ($this->_xmlConfig as $logName => $logConfig) {
+                $this->_labels[$logName] = __($logConfig['label'])->render();
             }
             asort($this->_labels);
         }
@@ -139,13 +132,14 @@ class Enterprise_Logging_Model_Config
     public function getActionLabel($action)
     {
         $xpath = 'actions/' . $action . '/label';
-        $actionLabelNode = $this->_xmlConfig->getNode($xpath);
+        $actionLabelNode = $this->_xmlConfig['actions'][$action]['label'];
+
 
         if (!$actionLabelNode) {
             return $action;
         }
 
-        return __((string)$actionLabelNode);
+        return __($actionLabelNode);
     }
 
     /**
