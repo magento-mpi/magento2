@@ -16,7 +16,7 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'admin/url/use_custom';
     const XML_PATH_USE_CUSTOM_ADMIN_PATH        = 'admin/url/use_custom_path';
     const XML_PATH_CUSTOM_ADMIN_PATH            = 'admin/url/custom_path';
-    const XML_PATH_BACKEND_AREA_FRONTNAME       = 'backend/frontName';
+    const XML_PATH_BACKEND_AREA_FRONTNAME       = 'default/backend/frontName';
     const BACKEND_AREA_CODE                     = 'adminhtml';
 
     protected $_pageHelpUrl;
@@ -25,6 +25,11 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
      * @var Mage_Core_Model_Config
      */
     protected $_config;
+
+    /**
+     * @var Mage_Core_Model_Config_Primary
+     */
+    protected $_primaryConfig;
 
     /**
      * @var string
@@ -38,20 +43,24 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected $_routerList;
 
+
     /**
      * @param Mage_Core_Model_Config $applicationConfig
+     * @param Mage_Core_Model_Config_Primary $primaryConfig
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_RouterList $routerList
      * @param string $defaultAreaFrontName
      */
     public function __construct(
         Mage_Core_Model_Config $applicationConfig,
+        Mage_Core_Model_Config_Primary $primaryConfig,
         Mage_Core_Helper_Context $context,
         Mage_Core_Model_RouterList $routerList,
         $defaultAreaFrontName
     ) {
         parent::__construct($context);
         $this->_config = $applicationConfig;
+        $this->_primaryConfig = $primaryConfig;
         $this->_defaultAreaFrontName = $defaultAreaFrontName;
         $this->_routerList = $routerList;
     }
@@ -176,7 +185,7 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (null === $this->_areaFrontName) {
             $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default');
-            $configAreaFrontName = (string)$this->_config->getValue(self::XML_PATH_BACKEND_AREA_FRONTNAME, 'default');
+            $configAreaFrontName = (string)$this->_primaryConfig->getNode(self::XML_PATH_BACKEND_AREA_FRONTNAME);
 
             if ($isCustomPathUsed) {
                 $this->_areaFrontName = (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH, 'default');
