@@ -103,4 +103,29 @@ class Mage_Webapi_Controller_Rest_Response extends Mage_Webapi_Controller_Respon
         $this->setBody($this->_renderer->render($formattedMessages));
         return $this;
     }
+
+    /**
+     * Perform rendering of action results.
+     *
+     * @param array|null $outputData
+     */
+    public function prepareResponse($outputData = null)
+    {
+        $this->_render($outputData);
+        if ($this->getMessages()) {
+            $this->_render(array('messages' => $this->getMessages()));
+        };
+    }
+
+    /**
+     * Render data using registered Renderer.
+     *
+     * @param mixed $data
+     */
+    protected function _render($data)
+    {
+        $mimeType = $this->_renderer->getMimeType();
+        $body = $this->_renderer->render($data);
+        $this->setMimeType($mimeType)->setBody($body);
+    }
 }

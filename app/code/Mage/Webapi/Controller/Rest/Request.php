@@ -194,4 +194,31 @@ class Mage_Webapi_Controller_Rest_Request extends Mage_Webapi_Controller_Request
         $this->_serviceVersion = $versionNumber;
         return $this;
     }
+
+    /**
+     * Fetch data from request and prepare it for passing to specified action.
+     *
+     * @return array
+     */
+    public function getRequestData()
+    {
+        $requestParams = array_merge($this->_getRequestBody(), $this->getParams());
+        return $requestParams;
+    }
+
+    /**
+     * Retrieve request data.
+     *
+     * @return array
+     */
+    protected function _getRequestBody()
+    {
+        $requestBody = array();
+        $httpMethod = $this->getHttpMethod();
+        if ($httpMethod == Mage_Webapi_Model_Rest_Config::HTTP_METHOD_POST
+            || $httpMethod == Mage_Webapi_Model_Rest_Config::HTTP_METHOD_PUT) {
+            $requestBody = $this->getBodyParams();
+        }
+        return $requestBody;
+    }
 }
