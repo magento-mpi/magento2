@@ -83,12 +83,12 @@ class Mage_Webapi_Controller_Soap_Handler
                 $this->_unpackArguments($arguments);
                 $arguments = get_object_vars($arguments);
 
-                $requestedService = $this->_request->getRequestedServices();
-                $serviceId = $this->_apiConfig->getClassBySoapOperation($operation, $requestedService);
-                $serviceMethod = $this->_apiConfig->getMethodBySoapOperation($operation, $requestedService);
+                $requestedServices = $this->_request->getRequestedServices();
+                $serviceId = $this->_apiConfig->getClassBySoapOperation($operation, $requestedServices);
+                $serviceMethod = $this->_apiConfig->getMethodBySoapOperation($operation, $requestedServices);
 
                 // check if the operation is a secure operation & whether the request was made in HTTPS
-                if ($this->_apiConfig->isSoapOperationSecure($operation, $requestedService)
+                if ($this->_apiConfig->isSoapOperationSecure($operation, $requestedServices)
                     && !$this->_request->isSecure()
                 ) {
                     throw new Mage_Webapi_Exception(
