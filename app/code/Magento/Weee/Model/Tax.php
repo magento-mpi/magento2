@@ -48,7 +48,7 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Weee_Helper_Data $weeeData
      * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Weee_Model_Resource_Tax $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
@@ -56,7 +56,7 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
         Magento_Tax_Helper_Data $taxData,
         Magento_Weee_Helper_Data $weeeData,
         Magento_Core_Model_Context $context,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Weee_Model_Resource_Tax $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

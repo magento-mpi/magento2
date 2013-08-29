@@ -16,13 +16,8 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Block_Template
+class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Backend_Block_Template
 {
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
-
     /**
      * Chooser source URL getter
      *

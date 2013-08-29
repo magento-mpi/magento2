@@ -44,14 +44,14 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     /**
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Tax_Model_Resource_Calculation $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Customer_Helper_Data $customerData,
         Magento_Core_Model_Context $context,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Tax_Model_Resource_Calculation $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

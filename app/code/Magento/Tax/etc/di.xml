@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Tax_Helper_Data">
+        <param name="taxConfig">
+            <instance type="Magento_Tax_Model_ConfigProxy" />
+        </param>
+    </type>
+</config>

@@ -23,8 +23,8 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form_Container extends
 
     /**
      * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Registry $context
-     * @param Magento_Backend_Block_Template_Context $registry
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(

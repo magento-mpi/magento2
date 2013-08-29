@@ -113,7 +113,7 @@ class Magento_User_Model_User
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_User_Model_Resource_User $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
@@ -122,7 +122,7 @@ class Magento_User_Model_User
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Sender $sender,
         Magento_Core_Model_Context $context,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_User_Model_Resource_User $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
