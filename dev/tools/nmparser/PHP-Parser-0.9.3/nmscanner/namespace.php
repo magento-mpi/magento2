@@ -81,7 +81,7 @@ class namespacer
         $this->path = $path;
         $this->gitShell = new Magento_Shell(null);
         //$this->gitClassMove();
-       // $this->gitListPackageMove();
+        // $this->gitListPackageMove();
         $this->rootDirectory = $rootDirectory;
         $this->renameFileLogger = time() . $this->renameFileLogger;
         $this->renameClassLogger = time() . $this->renameClassLogger;
@@ -223,7 +223,7 @@ class namespacer
                 echo "skipping already-moved $params[0]\n";
             }
         } catch (Exception $e) {
-            $string = 'Message: ' . $e->getMessage()."\n";
+            $string = 'Message: ' . $e->getMessage() . "\n";
             $this->logFile($this->errorLog, $string);
         }
 
@@ -634,8 +634,8 @@ class namespacer
     public function replaceThirdParty($path)
     {
         foreach ($this->addSlashArray as $key) {
-            $libSearch[] ="/\\s" . $key . "/";
-            $libSearch[] ="/\\(" . $key . "/";
+            $libSearch[] = "/\\s" . $key . "/";
+            $libSearch[] = "/\\(" . $key . "/";
             $libReplace[] = " \\$key";
             $libReplace[] = "(\\$key";
         }
@@ -669,14 +669,14 @@ class namespacer
     private function getRelativePath($from, $to)
     {
         // some compatibility fixes for Windows paths
-        $windows=false;
+        $windows = false;
         $from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
         $to = is_dir($to) ? rtrim($to, '\/') . '/' : $to;
         $from = str_replace('\\', '/', $from);
         $to = str_replace('\\', '/', $to);
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $windows=true;
+            $windows = true;
         }
 
         $from = explode('/', $from);
@@ -702,9 +702,9 @@ class namespacer
             }
         }
 
-        $path= implode('/', $relPath);
-        if(!$windows){
-            $path=str_replace("\\","/",$path);
+        $path = implode('/', $relPath);
+        if (!$windows) {
+            $path = str_replace("\\", "/", $path);
         }
 
         return $path;
@@ -745,13 +745,16 @@ if (isset($argv[1])) {
     }
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         if (is_dir('C:\Program Files (x86)\Git\cmd')) {
-            exec("PATH=C:\\Program Files (x86)\\Git\\cmd");
+            exec('PATH=C:\Program Files (x86)\Git\cmd');
         } elseif (is_dir('C:\Program Files\Git\cmd')) {
             exec("PATH=C:\\Program Files\\Git\\cmd");
-        } else {
-            die('Git is not installed or the git path in script is incorrect');
+        }
+        exec("git", $output, $ret);
+        if (empty($output)) {
+            die("Please set the git path Manually");
         }
     }
+
     $PSRX = new namespacer($src, $rootDirectory);
     $PSRX->convertToPSRX();
 } else {
