@@ -31,7 +31,13 @@ class Mage_Core_Model_Router_NoRouteHandler implements Mage_Core_Model_Router_No
      */
     public function process(Mage_Core_Controller_Request_Http $request)
     {
-        $noRoute        = explode('/', $this->_config->getNode('web/default/no_route'));
+        $noRoutePath = $this->_config->getNode('web/default/no_route', 'default');
+
+        if ($noRoutePath) {
+            $noRoute = explode('/', $noRoutePath);
+        } else {
+            $noRoute = array();
+        }
 
         $moduleName     = isset($noRoute[0]) ? $noRoute[0] : 'core';
         $controllerName = isset($noRoute[1]) ? $noRoute[1] : 'index';

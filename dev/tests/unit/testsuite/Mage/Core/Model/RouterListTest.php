@@ -18,7 +18,7 @@ class Mage_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
     /**
      * @var Magento_ObjectManager
      */
-    protected $_objectMangerMock;
+    protected $_objectManagerMock;
 
     /**
      * @var array
@@ -29,24 +29,24 @@ class Mage_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
     {
         $this->_routerList = array(
             'adminRouter' => array(
-                'class'     => 'AdminClass',
+                'instance'     => 'AdminClass',
                 'disable'   => true,
                 'sortOrder' => 10
             ),
             'frontendRouter' => array(
-                'class'     => 'FrontClass',
+                'instance'     => 'FrontClass',
                 'disable'   => false,
                 'sortOrder' => 10
             ),
             'defaultRouter' => array(
-                'class'     => 'DefaultClass',
+                'instance'     => 'DefaultClass',
                 'disable'   => false,
                 'sortOrder' => 5
             ),
         );
 
-        $this->_objectMangerMock = $this->getMock('Magento_ObjectManager');
-        $this->_model = new Mage_Core_Model_RouterList($this->_objectMangerMock, $this->_routerList);
+        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_model = new Mage_Core_Model_RouterList($this->_objectManagerMock, $this->_routerList);
     }
 
     public function testGetRoutes()
@@ -56,8 +56,14 @@ class Mage_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
             'frontendRouter' => new FrontClass(),
         );
 
-        $this->_objectMangerMock->expects($this->at(0))->method('create')->will($this->returnValue(new DefaultClass()));
-        $this->_objectMangerMock->expects($this->at(1))->method('create')->will($this->returnValue(new FrontClass()));
+        $this->_objectManagerMock
+            ->expects($this->at(0))
+            ->method('create')
+            ->will($this->returnValue(new DefaultClass()));
+        $this->_objectManagerMock
+            ->expects($this->at(1))
+            ->method('create')
+            ->will($this->returnValue(new FrontClass()));
 
         $this->assertEquals($this->_model->getRouters(), $expectedResult);
     }

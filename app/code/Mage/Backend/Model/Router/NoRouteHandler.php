@@ -11,6 +11,19 @@
 class Mage_Backend_Model_Router_NoRouteHandler implements Mage_Core_Model_Router_NoRouteHandlerInterface
 {
     /**
+     * @var Mage_Backend_Helper_Data
+     */
+    protected $_helper;
+
+    /**
+     * @param Mage_Backend_Helper_Data $helper
+     */
+    public function __construct(Mage_Backend_Helper_Data $helper)
+    {
+        $this->_helper = $helper;
+    }
+
+    /**
      * Check and process no route request
      *
      * @param Mage_Core_Controller_Request_Http $request
@@ -18,7 +31,11 @@ class Mage_Backend_Model_Router_NoRouteHandler implements Mage_Core_Model_Router
      */
     public function process(Mage_Core_Controller_Request_Http $request)
     {
-        if (Mage::app()->getStore()->isAdmin()) {
+        $requestPathParams = explode('/', trim($request->getPathInfo(), '/'));
+        $areaFrontName = array_shift($requestPathParams);
+
+        if ($areaFrontName == $this->_helper->getAreaFrontName()) {
+
             $moduleName     = 'core';
             $controllerName = 'index';
             $actionName     = 'noRoute';
