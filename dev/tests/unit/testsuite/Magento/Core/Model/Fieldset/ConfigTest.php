@@ -28,7 +28,7 @@ class Magento_Core_Model_Fieldset_ConfigTest extends PHPUnit_Framework_TestCase
         $expected = array('val1', 'val2');
         $this->_storageMock->expects($this->once())->method('get')
             ->will($this->returnValue($expected));
-        $result = $this->_model->getFieldsets();
+        $result = $this->_model->getFieldsets('global/fieldsets');
         $this->assertEquals($expected, $result);
     }
 }
