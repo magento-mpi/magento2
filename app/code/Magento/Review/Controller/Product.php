@@ -17,7 +17,6 @@
  */
 class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Action
 {
-
     /**
      * Action list where need check enabled cookie
      *
@@ -38,8 +37,10 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
         if (!$allowGuest && $action == 'post' && $this->getRequest()->isPost()) {
             if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-                Mage::getSingleton('Magento_Customer_Model_Session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current' => true)));
-                Mage::getSingleton('Magento_Review_Model_Session')->setFormData($this->getRequest()->getPost())
+                Mage::getSingleton('Magento_Customer_Model_Session')
+                    ->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current' => true)));
+                Mage::getSingleton('Magento_Review_Model_Session')
+                    ->setFormData($this->getRequest()->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
                 $this->_redirectUrl($this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl());
             }
@@ -113,7 +114,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
      * Load review model with data by passed id.
      * Return false if review was not loaded or review is not approved.
      *
-     * @param int $productId
+     * @param $reviewId
      * @return bool|Magento_Review_Model_Review
      */
     protected function _loadReview($reviewId)
@@ -135,7 +136,6 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
 
     /**
      * Submit new review action
-     *
      */
     public function postAction()
     {
@@ -181,15 +181,13 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
                     $session->setFormData($data);
                     $session->addError(__('We cannot post the review.'));
                 }
-            }
-            else {
+            } else {
                 $session->setFormData($data);
                 if (is_array($validate)) {
                     foreach ($validate as $errorMessage) {
                         $session->addError($errorMessage);
                     }
-                }
-                else {
+                } else {
                     $session->addError(__('We cannot post the review.'));
                 }
             }

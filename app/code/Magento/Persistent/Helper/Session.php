@@ -114,9 +114,9 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
                 return $isRememberMeChecked;
             }
 
-            /** @var $helper Magento_Persistent_Helper_Data */
-            $helper = $this->_persistentData;
-            return $helper->isEnabled() && $helper->isRememberMeEnabled() && $helper->isRememberMeCheckedDefault();
+            return $this->_persistentData->isEnabled()
+                && $this->_persistentData->isRememberMeEnabled()
+                && $this->_persistentData->isRememberMeCheckedDefault();
         }
 
         return (bool)$this->_isRememberMeChecked;

@@ -21,13 +21,6 @@ class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Templat
     protected $_product = null;
 
     /**
-     * Helper instance
-     *
-     * @var null|Magento_ProductAlert_Helper_Data
-     */
-    protected $_helper = null;
-
-    /**
      * Product alert data
      *
      * @var Magento_ProductAlert_Helper_Data
@@ -57,11 +50,12 @@ class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Templat
      */
     public function prepareStockAlertData()
     {
-        if (!$this->_getHelper()->isStockAlertAllowed() || !$this->_product || $this->_product->isAvailable()) {
+        if (!$this->_productAlertData->isStockAlertAllowed()
+            || !$this->_product || $this->_product->isAvailable()) {
             $this->setTemplate('');
             return;
         }
-        $this->setSignupUrl($this->_getHelper()->getSaveUrl('stock'));
+        $this->setSignupUrl($this->_productAlertData->getSaveUrl('stock'));
     }
 
     /**
@@ -71,13 +65,13 @@ class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Templat
      */
     public function preparePriceAlertData()
     {
-        if (!$this->_getHelper()->isPriceAlertAllowed()
+        if (!$this->_productAlertData->isPriceAlertAllowed()
             || !$this->_product || false === $this->_product->getCanShowPrice()
         ) {
             $this->setTemplate('');
             return;
         }
-        $this->setSignupUrl($this->_getHelper()->getSaveUrl('price'));
+        $this->setSignupUrl($this->_productAlertData->getSaveUrl('price'));
     }
 
     /**
@@ -93,18 +87,5 @@ class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Templat
         }
 
         return parent::_prepareLayout();
-    }
-
-    /**
-     * Retrieve helper instance
-     *
-     * @return Magento_ProductAlert_Helper_Data|null
-     */
-    protected function _getHelper()
-    {
-        if (is_null($this->_helper)) {
-            $this->_helper = $this->_productAlertData;
-        }
-        return $this->_helper;
     }
 }

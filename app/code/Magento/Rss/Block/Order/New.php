@@ -41,7 +41,7 @@ class Magento_Rss_Block_Order_New extends Magento_Core_Block_Abstract
     protected function _toHtml()
     {
         $order = Mage::getModel('Magento_Sales_Model_Order');
-        $passDate = $order->getResource()->formatDate(mktime(0,0,0,date('m'),date('d')-7));
+        $passDate = $order->getResource()->formatDate(mktime(0, 0, 0, date('m'), date('d')-7));
 
         $newurl = $this->_adminhtmlData->getUrl(
             'adminhtml/sales_order',
@@ -62,15 +62,17 @@ class Magento_Rss_Block_Order_New extends Magento_Core_Block_Abstract
 
         $collection = $order->getCollection()
             ->addAttributeToFilter('created_at', array('date'=>true, 'from'=> $passDate))
-            ->addAttributeToSort('created_at','desc')
+            ->addAttributeToSort('created_at', 'desc')
         ;
 
         $detailBlock = Mage::getBlockSingleton('Magento_Rss_Block_Order_Details');
 
         Mage::dispatchEvent('rss_order_new_collection_select', array('collection' => $collection));
 
-        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')
-            ->walk($collection->getSelect(), array(array($this, 'addNewOrderXmlCallback')), array('rssObj'=> $rssObj, 'order'=>$order , 'detailBlock' => $detailBlock));
+        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk($collection->getSelect(),
+            array(array($this, 'addNewOrderXmlCallback')),
+            array('rssObj'=> $rssObj, 'order'=>$order , 'detailBlock' => $detailBlock)
+        );
 
         return $rssObj->createRssXml();
     }

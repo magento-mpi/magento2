@@ -247,10 +247,6 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     protected $_catalogData = null;
 
     /**
-     * Constructor
-     *
-     *
-     *
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param array $data
      */
@@ -259,11 +255,13 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
+
         if (isset($data['connection'])) {
             $this->_connection = $data['connection'];
         } else {
             $this->_connection = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
         }
+
         if (isset($data['resource_helper'])) {
             $this->_resourceHelper = $data['resource_helper'];
         } else {
@@ -277,9 +275,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
         if (isset($data['is_price_global'])) {
             $this->_isPriceGlobal = $data['is_price_global'];
         } else {
-            /** @var $catalogHelper Magento_Catalog_Helper_Data */
-            $catalogHelper = $this->_catalogData;
-            $this->_isPriceGlobal = $catalogHelper->isPriceGlobal();
+            $this->_isPriceGlobal = $this->_catalogData->isPriceGlobal();
         }
 
         $this->_initSourceEntities($data)

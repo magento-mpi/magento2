@@ -18,7 +18,6 @@
  */
 class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Template
 {
-
     protected $_entity = null;
     protected $_type   = null;
     protected $_giftMessage = null;
@@ -51,7 +50,8 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     /**
      * Set entity
      *
-     * @return mixed
+     * @param $entity
+     * @return Magento_GiftMessage_Block_Message_Inline
      */
     public function setEntity($entity)
     {
@@ -62,7 +62,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     /**
      * Get entity
      *
-     * @return mixed
+     * @return Magento_GiftMessage_Block_Message_Inline
      */
     public function getEntity()
     {
@@ -272,6 +272,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     /**
      * Check availability of giftmessages for specified entity item
      *
+     * @param $item
      * @return bool
      */
     public function isItemMessagesAvailable($item)
@@ -301,5 +302,4 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     {
         return $this->getVar('product_thumbnail_image_size', 'Magento_Catalog');
     }
-
 }

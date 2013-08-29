@@ -356,7 +356,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             $profiles = $this->_checkout->getRecurringPaymentProfiles();
             if ($profiles) {
                 $ids = array();
-                foreach($profiles as $profile) {
+                foreach ($profiles as $profile) {
                     $ids[] = $profile->getId();
                 }
                 $session->setLastRecurringProfileIds($ids);
@@ -390,7 +390,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
     {
         $quote = $this->_getQuote();
         if (!$quote->hasItems() || $quote->getHasError()) {
-            $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
+            $this->getResponse()->setHeader('HTTP/1.1', '403 Forbidden');
             Mage::throwException(__('We can\'t initialize Express Checkout.'));
         }
         if (false === isset($this->_checkoutTypes[$this->_checkoutType])) {

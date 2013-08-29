@@ -64,22 +64,20 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      *
      * @var Magento_Core_Helper_File_Storage_Database
      */
-    protected $_coreFileStorageDatabase = null;
+    protected $_fileStorageDatabase = null;
 
     /**
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
-     * @param array $data
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDatabase
      * @param Magento_Core_Helper_Data $coreData
-     * @param  $context
-     * @param  $objectManager
-     * @param  $page
-     * @param  $assetMergeService
-     * @param  $assetMinifyService
-     * @param  $data
+     * @param \Magento_Core_Block_Template_Context $context
+     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento_Core_Model_Page $page
+     * @param \Magento_Core_Model_Page_Asset_MergeService $assetMergeService
+     * @param \Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService
+     * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
-        array $data,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDatabase,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
@@ -88,8 +86,8 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
         Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService,
         array $data = array()
     ) {
-        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
-        parent::__construct($coreData, $data, $context, $data);
+        $this->_fileStorageDatabase = $fileStorageDatabase;
+        parent::__construct($coreData, $context, $data);
         $this->_objectManager = $objectManager;
         $this->_assetMergeService = $assetMergeService;
         $this->_assetMinifyService = $assetMinifyService;
@@ -547,8 +545,8 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      */
     protected function _isFile($filename)
     {
-        if ($this->_coreFileStorageDatabase->checkDbUsage() && !is_file($filename)) {
-            $this->_coreFileStorageDatabase->saveFileToFilesystem($filename);
+        if ($this->_fileStorageDatabase->checkDbUsage() && !is_file($filename)) {
+            $this->_fileStorageDatabase->saveFileToFilesystem($filename);
         }
         return is_file($filename);
     }

@@ -136,8 +136,6 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
 
     /**
      * Update catalog session from GET or cookies
-     *
-     * @internal param string $queryParams
      */
     protected function _prepareCatalogSession()
     {

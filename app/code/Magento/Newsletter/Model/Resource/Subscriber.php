@@ -54,10 +54,6 @@ class Magento_Newsletter_Model_Resource_Subscriber extends Magento_Core_Model_Re
     protected $_coreData = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Resource $resource
      */

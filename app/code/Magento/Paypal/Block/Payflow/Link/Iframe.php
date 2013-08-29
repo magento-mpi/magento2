@@ -26,16 +26,18 @@ class Magento_Paypal_Block_Payflow_Link_Iframe extends Magento_Paypal_Block_Ifra
 
     /**
      * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

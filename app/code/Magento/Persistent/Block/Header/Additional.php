@@ -27,16 +27,18 @@ class Magento_Persistent_Block_Header_Additional extends Magento_Core_Block_Html
 
     /**
      * @param Magento_Persistent_Helper_Session $persistentSession
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Persistent_Helper_Session $persistentSession,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_persistentSession = $persistentSession;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

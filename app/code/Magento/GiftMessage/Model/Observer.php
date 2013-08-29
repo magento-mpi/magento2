@@ -18,7 +18,6 @@
  */
 class Magento_GiftMessage_Model_Observer extends Magento_Object
 {
-
     /**
      * Gift message message
      *
@@ -27,11 +26,6 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
     protected $_giftMessageMessage = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
      */
     public function __construct(
@@ -51,11 +45,8 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
         $orderItem = $observer->getEvent()->getOrderItem();
         $quoteItem = $observer->getEvent()->getItem();
 
-        $isAvailable = $this->_giftMessageMessage->getIsMessagesAvailable(
-            'item',
-            $quoteItem,
-            $quoteItem->getStoreId()
-        );
+        $isAvailable = $this->_giftMessageMessage
+            ->getIsMessagesAvailable('item', $quoteItem, $quoteItem->getStoreId());
 
         $orderItem->setGiftMessageId($quoteItem->getGiftMessageId())
             ->setGiftMessageAvailable($isAvailable);
@@ -70,7 +61,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
      */
     public function salesEventConvertQuoteAddressToOrder($observer)
     {
-        if($observer->getEvent()->getAddress()->getGiftMessageId()) {
+        if ($observer->getEvent()->getAddress()->getGiftMessageId()) {
             $observer->getEvent()->getOrder()
                 ->setGiftMessageId($observer->getEvent()->getAddress()->getGiftMessageId());
         }
@@ -101,7 +92,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
         $giftMessages = $observer->getEvent()->getRequest()->getParam('giftmessage');
         $quote = $observer->getEvent()->getQuote();
         /* @var $quote Magento_Sales_Model_Quote */
-        if(is_array($giftMessages)) {
+        if (is_array($giftMessages)) {
             foreach ($giftMessages as $entityId=>$message) {
 
                 $giftMessage = Mage::getModel('Magento_GiftMessage_Model_Message');
@@ -124,12 +115,12 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
                         break;
                 }
 
-                if($entity->getGiftMessageId()) {
+                if ($entity->getGiftMessageId()) {
                     $giftMessage->load($entity->getGiftMessageId());
                 }
 
-                if(trim($message['message'])=='') {
-                    if($giftMessage->getId()) {
+                if (trim($message['message'])=='') {
+                    if ($giftMessage->getId()) {
                         try{
                             $giftMessage->delete();
                             $entity->setGiftMessageId(0)
@@ -170,11 +161,11 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
             return $this;
         }
 
-        if (!$this->_giftMessageMessage->isMessagesAvailable('order', $order, $order->getStore())){
+        if (!$this->_giftMessageMessage->isMessagesAvailable('order', $order, $order->getStore())) {
             return $this;
         }
         $giftMessageId = $order->getGiftMessageId();
-        if($giftMessageId) {
+        if ($giftMessageId) {
             $giftMessage = Mage::getModel('Magento_GiftMessage_Model_Message')->load($giftMessageId)
                 ->setId(null)
                 ->save();

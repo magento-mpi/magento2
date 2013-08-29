@@ -19,12 +19,6 @@
 class Magento_Rss_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
-     * Disable using of flat catalog and/or product model to prevent limiting results to single store. Probably won't
-     * work inside a controller.
-     *
-     * @return null
-     */
-    /**
      * Catalog product flat
      *
      * @var Magento_Catalog_Helper_Product_Flat
@@ -43,11 +37,15 @@ class Magento_Rss_Helper_Data extends Magento_Core_Helper_Abstract
         parent::__construct($context);
     }
 
+    /**
+     * Disable using of flat catalog and/or product model to prevent limiting results to single store. Probably won't
+     * work inside a controller.
+     *
+     * @return null
+     */
     public function disableFlat()
     {
-        /* @var $flatHelper Magento_Catalog_Helper_Product_Flat */
-        $flatHelper = $this->_catalogProductFlat;
-        if ($flatHelper->isAvailable()) {
+        if ($this->_catalogProductFlat->isAvailable()) {
             /* @var $emulationModel Magento_Core_Model_App_Emulation */
             $emulationModel = Mage::getModel('Magento_Core_Model_App_Emulation');
             // Emulate admin environment to disable using flat model - otherwise we won't get global stats

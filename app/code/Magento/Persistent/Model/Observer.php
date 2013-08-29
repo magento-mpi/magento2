@@ -69,15 +69,14 @@ class Magento_Persistent_Model_Observer
      */
     public function applyPersistentData($observer)
     {
-        $helper = $this->_persistentData;
-        if (!$helper->canProcess($observer)
-            || !$this->_getPersistentHelper()->isPersistent()
+        if (!$this->_persistentData->canProcess($observer)
+            || !$this->_persistentSession->isPersistent()
             || Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
         ) {
             return $this;
         }
         Mage::getModel('Magento_Persistent_Model_Persistent_Config')
-            ->setConfigFilePath($helper->getPersistentConfigFilePath())
+            ->setConfigFilePath($this->_persistentData->getPersistentConfigFilePath())
             ->fire();
         return $this;
     }
@@ -90,7 +89,7 @@ class Magento_Persistent_Model_Observer
      */
     public function applyBlockPersistentData($observer)
     {
-        if (!$this->_getPersistentHelper()->isPersistent() || Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if (!$this->_persistentSession->isPersistent() || Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
             return $this;
         }
 
@@ -126,10 +125,8 @@ class Magento_Persistent_Model_Observer
      */
     public function emulateWelcomeBlock($block)
     {
-        $escapedName = $this->_coreData->escapeHtml(
-            $this->_getPersistentCustomer()->getName(),
-            null
-        );
+        $escapedName = $this->_coreData
+            ->escapeHtml($this->_getPersistentCustomer()->getName(), null);
 
         $this->_applyAccountLinksPersistentData();
         $welcomeMessage = __('Welcome, %1!', $escapedName)
@@ -172,7 +169,7 @@ class Magento_Persistent_Model_Observer
         );
 
         if (!$this->_persistentData->canProcess($observer)
-            || !$this->_getPersistentHelper()->isPersistent()
+            || !$this->_persistentSession->isPersistent()
             || Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
         ) {
             return;
@@ -316,7 +313,7 @@ class Magento_Persistent_Model_Observer
             return;
         }
 
-        $this->_getPersistentHelper()->getSession()->removePersistentCookie();
+        $this->_persistentSession->getSession()->removePersistentCookie();
         /** @var $customerSession Magento_Customer_Model_Session */
         $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
         if (!$customerSession->isLoggedIn()) {
@@ -333,7 +330,7 @@ class Magento_Persistent_Model_Observer
      */
     public function disableGuestCheckout($observer)
     {
-        if ($this->_getPersistentHelper()->isPersistent()) {
+        if ($this->_persistentSession->isPersistent()) {
             $observer->getEvent()->getResult()->setIsAllowed(false);
         }
     }
@@ -373,18 +370,8 @@ class Magento_Persistent_Model_Observer
     protected function _getPersistentCustomer()
     {
         return Mage::getModel('Magento_Customer_Model_Customer')->load(
-            $this->_getPersistentHelper()->getSession()->getCustomerId()
+            $this->_persistentSession->getSession()->getCustomerId()
         );
-    }
-
-    /**
-     * Retrieve persistent helper
-     *
-     * @return Magento_Persistent_Helper_Session
-     */
-    protected function _getPersistentHelper()
-    {
-        return $this->_persistentSession;
     }
 
     /**
@@ -416,7 +403,7 @@ class Magento_Persistent_Model_Observer
      */
     protected function _isPersistent()
     {
-        return $this->_getPersistentHelper()->isPersistent();
+        return $this->_persistentSession->isPersistent();
     }
 
     /**
@@ -475,7 +462,7 @@ class Magento_Persistent_Model_Observer
             $quote->collectTotals()->save();
         }
 
-        $this->_getPersistentHelper()->getSession()->removePersistentCookie();
+        $this->_persistentSession->getSession()->removePersistentCookie();
     }
 
     /**
@@ -578,7 +565,7 @@ class Magento_Persistent_Model_Observer
         if ($this->_isLoggedOut()) {
             /** @var $customer Magento_Customer_Model_Customer */
             $customer = Mage::getModel('Magento_Customer_Model_Customer')->load(
-                $this->_getPersistentHelper()->getSession()->getCustomerId()
+                $this->_persistentSession->getSession()->getCustomerId()
             );
             Mage::getSingleton('Magento_Customer_Model_Session')
                 ->setCustomerId($customer->getId())

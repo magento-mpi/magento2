@@ -111,8 +111,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
                     foreach ($messages as $message) {
                         $errorMessages[] = $message;
                     }
-                }
-                else {
+                } else {
                     $errorMessages[] = $messages;
                 }
             }
@@ -149,7 +148,8 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      *
      * @return int|string
      */
-    public function getType(){
+    public function getType()
+    {
         return $this->getTemplateType();
     }
 
@@ -269,8 +269,9 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     {
         if (!$this->getData('template_text') && !$this->getId()) {
             $this->setData('template_text',
-                __('Follow this link to unsubscribe <!-- This tag is for unsubscribe link  --><a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a>')
-            );
+                __('Follow this link to unsubscribe <!-- This tag is for unsubscribe link  -->'
+                    . '<a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}'
+                    . '</a>'));
         }
 
         return $this->getData('template_text');

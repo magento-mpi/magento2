@@ -243,10 +243,6 @@ class Magento_Paypal_Model_Config
     protected $_coreData = null;
 
     /**
-     * Set method and store id, if specified
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param array $params
      */

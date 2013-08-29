@@ -78,25 +78,6 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     protected $_debugReplacePrivateDataKeys = array();
 
     /**
-     * Payment data
-     *
-     * @var Magento_Payment_Helper_Data
-     */
-    protected $_paymentData = null;
-
-    /**
-     * @param Magento_Payment_Helper_Data $paymentData
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Payment_Helper_Data $paymentData,
-        array $data = array()
-    ) {
-        $this->_paymentData = $paymentData;
-        parent::__construct($data);
-    }
-
-    /**
      * Check order availability
      *
      * @return bool
@@ -310,16 +291,6 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     {
         return $this->_canManageRecurringProfiles
                && ($this instanceof Magento_Payment_Model_Recurring_Profile_MethodInterface);
-    }
-
-    /**
-     * Retrieve model helper
-     *
-     * @return Magento_Payment_Helper_Data
-     */
-    protected function _getHelper()
-    {
-        return $this->_paymentData;
     }
 
     /**

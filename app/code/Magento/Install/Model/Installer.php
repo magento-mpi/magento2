@@ -248,15 +248,20 @@ class Magento_Install_Model_Installer extends Magento_Object
          */
         $locale = $this->getDataModel()->getLocaleData();
         if (!empty($locale['locale'])) {
-            $setupModel->setConfigData(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $locale['locale']);
+            $setupModel->setConfigData(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE,
+                $locale['locale']);
         }
         if (!empty($locale['timezone'])) {
-            $setupModel->setConfigData(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $locale['timezone']);
+            $setupModel->setConfigData(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+                $locale['timezone']);
         }
         if (!empty($locale['currency'])) {
-            $setupModel->setConfigData(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, $locale['currency']);
-            $setupModel->setConfigData(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT, $locale['currency']);
-            $setupModel->setConfigData(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_ALLOW, $locale['currency']);
+            $setupModel->setConfigData(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
+                $locale['currency']);
+            $setupModel->setConfigData(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT,
+                $locale['currency']);
+            $setupModel->setConfigData(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_ALLOW,
+                $locale['currency']);
         }
 
         if (!empty($data['order_increment_prefix'])) {
@@ -293,7 +298,9 @@ class Magento_Install_Model_Installer extends Magento_Object
     public function createAdministrator($data)
     {
         // Magento_User_Model_User belongs to adminhtml area
-        Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
+        Mage::app()
+            ->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
+
         /** @var $user Magento_User_Model_User */
         $user = Mage::getModel('Magento_User_Model_User');
         $user->loadByUsername($data['username']);
@@ -312,9 +319,7 @@ class Magento_Install_Model_Installer extends Magento_Object
      */
     public function installEncryptionKey($key)
     {
-        /** @var $helper Magento_Core_Helper_Data */
-        $helper = $this->_coreData;
-        $helper->validateKey($key);
+        $this->_coreData->validateKey($key);
         Mage::getSingleton('Magento_Install_Model_Installer_Config')->replaceTmpEncryptKey($key);
         $this->_refreshConfig();
         return $this;
@@ -328,12 +333,10 @@ class Magento_Install_Model_Installer extends Magento_Object
      */
     public function getValidEncryptionKey($key = null)
     {
-        /** @var $helper Magento_Core_Helper_Data */
-        $helper = $this->_coreData;
         if (!$key) {
-            $key = md5($helper->getRandomString(10));
+            $key = md5($this->_coreData->getRandomString(10));
         }
-        $helper->validateKey($key);
+        $this->_coreData->validateKey($key);
         return $key;
     }
 

@@ -18,8 +18,8 @@
 class Magento_Newsletter_Controller_Subscriber extends Magento_Core_Controller_Front_Action
 {
     /**
-      * New subscription action
-      */
+     * New subscription action
+     */
     public function newAction()
     {
         if ($this->getRequest()->isPost() && $this->getRequest()->getPost('email')) {
@@ -32,9 +32,11 @@ class Magento_Newsletter_Controller_Subscriber extends Magento_Core_Controller_F
                     Mage::throwException(__('Please enter a valid email address.'));
                 }
 
-                if (Mage::getStoreConfig(Magento_Newsletter_Model_Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1 && 
-                    !$customerSession->isLoggedIn()) {
-                    Mage::throwException(__('Sorry, but the administrator denied subscription for guests. Please <a href="%1">register</a>.', $this->_objectManager->get('Magento_Customer_Helper_Data')->getRegisterUrl()));
+                if (Mage::getStoreConfig(Magento_Newsletter_Model_Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1
+                    && !$customerSession->isLoggedIn()) {
+                    Mage::throwException(__('Sorry, but the administrator denied subscription for guests. '
+                        . 'Please <a href="%1">register</a>.',
+                        $this->_objectManager->get('Magento_Customer_Helper_Data')->getRegisterUrl()));
                 }
 
                 $ownerId = Mage::getModel('Magento_Customer_Model_Customer')
@@ -48,8 +50,7 @@ class Magento_Newsletter_Controller_Subscriber extends Magento_Core_Controller_F
                 $status = Mage::getModel('Magento_Newsletter_Model_Subscriber')->subscribe($email);
                 if ($status == Magento_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE) {
                     $session->addSuccess(__('The confirmation request has been sent.'));
-                }
-                else {
+                } else {
                     $session->addSuccess(__('Thank you for your subscription.'));
                 }
             }
@@ -75,8 +76,8 @@ class Magento_Newsletter_Controller_Subscriber extends Magento_Core_Controller_F
             $subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber')->load($id);
             $session = Mage::getSingleton('Magento_Core_Model_Session');
 
-            if($subscriber->getId() && $subscriber->getCode()) {
-                if($subscriber->confirm($code)) {
+            if ($subscriber->getId() && $subscriber->getCode()) {
+                if ($subscriber->confirm($code)) {
                     $session->addSuccess(__('Your subscription has been confirmed.'));
                 } else {
                     $session->addError(__('This is an invalid subscription confirmation code.'));

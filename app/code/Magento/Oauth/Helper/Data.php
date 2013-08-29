@@ -91,10 +91,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected function _generateRandomString($length)
     {
-        /** @var $helper Magento_Core_Helper_Data */
-        $helper = $this->_coreData;
-
-        return $helper->getRandomString(
+        return $this->_coreData->getRandomString(
             $length, Magento_Core_Helper_Data::CHARS_DIGITS . Magento_Core_Helper_Data::CHARS_LOWERS
         );
     }
@@ -267,6 +264,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      * Get authorize endpoint url
      *
      * @param string $userType
+     * @throws Exception
      * @return string
      */
     public function getAuthorizeUrl($userType)

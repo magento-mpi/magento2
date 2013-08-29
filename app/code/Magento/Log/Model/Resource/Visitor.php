@@ -26,10 +26,6 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     protected $_coreString = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Resource $resource
      */
@@ -43,7 +39,6 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
 
     /**
      * Define main table
-     *
      */
     protected function _construct()
     {
@@ -129,7 +124,7 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     /**
      * Perform actions after object load
      *
-     * @param Magento_Object $object
+     * @param \Magento_Core_Model_Abstract|\Magento_Object $object
      * @return Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _afterLoad(Magento_Core_Model_Abstract $object)
@@ -154,19 +149,18 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
      */
     protected function _saveVisitorInfo($visitor)
     {
-        /* @var $stringHelper Magento_Core_Helper_String */
-        $stringHelper = $this->_coreString;
+        $referer    = $this->_coreString->cleanString($visitor->getHttpReferer());
+        $referer    = $this->_coreString->substr($referer, 0, 255);
 
-        $referer    = $stringHelper->cleanString($visitor->getHttpReferer());
-        $referer    = $stringHelper->substr($referer, 0, 255);
-        $userAgent  = $stringHelper->cleanString($visitor->getHttpUserAgent());
-        $userAgent  = $stringHelper->substr($userAgent, 0, 255);
-        $charset    = $stringHelper->cleanString($visitor->getHttpAcceptCharset());
-        $charset    = $stringHelper->substr($charset, 0, 255);
-        $language   = $stringHelper->cleanString($visitor->getHttpAcceptLanguage());
-        $language   = $stringHelper->substr($language, 0, 255);
+        $userAgent  = $this->_coreString->cleanString($visitor->getHttpUserAgent());
+        $userAgent  = $this->_coreString->substr($userAgent, 0, 255);
 
-        $adapter = $this->_getWriteAdapter();
+        $charset    = $this->_coreString->cleanString($visitor->getHttpAcceptCharset());
+        $charset    = $this->_coreString->substr($charset, 0, 255);
+
+        $language   = $this->_coreString->cleanString($visitor->getHttpAcceptLanguage());
+        $language   = $this->_coreString->substr($language, 0, 255);
+
         $data = new Magento_Object(array(
             'visitor_id'            => $visitor->getId(),
             'http_referer'          => $referer,
@@ -176,9 +170,12 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
             'server_addr'           => $visitor->getServerAddr(),
             'remote_addr'           => $visitor->getRemoteAddr(),
         ));
+
         $bind = $this->_prepareDataForTable($data, $this->getTable('log_visitor_info'));
 
+        $adapter = $this->_getWriteAdapter();
         $adapter->insert($this->getTable('log_visitor_info'), $bind);
+
         return $this;
     }
 

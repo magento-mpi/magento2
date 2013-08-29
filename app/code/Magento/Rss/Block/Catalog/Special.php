@@ -24,11 +24,6 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
      */
     protected static $_currentDate = null;
 
-    public function __construct(Magento_Catalog_Helper_Data $catalogData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($catalogData, $context, $data);
-    }
-
     protected function _construct()
     {
         /*
@@ -92,7 +87,7 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
         );
 
         if (sizeof($results)>0) {
-            foreach($results as $result){
+            foreach ($results as $result) {
                 // render a row for RSS feed
                 $product->setData($result);
                 $html = sprintf('<table><tr>
@@ -115,7 +110,9 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
                     } else {
                         $special = '';
                         if ($result['use_special']) {
-                            $special = '<br />' . __('Special Expires On: %1', $this->formatDate($result['special_to_date'], Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM));
+                            $special = '<br />' . __('Special Expires On: %1',
+                                    $this->formatDate($result['special_to_date'],
+                                        Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM));
                         }
                         $html .= sprintf('<p>%s %s%s</p>',
                             __('Price: %1', $this->_coreData->currency($result['price'])),
@@ -163,21 +160,22 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
         if (isset($row['special_to_date']) && $row['final_price'] <= $row['special_price']
             && $row['allowed_price_in_rss']
         ) {
-            $compareDate = self::$_currentDate->compareDate($row['special_to_date'], Magento_Date::DATE_INTERNAL_FORMAT);
+            $compareDate = self::$_currentDate->compareDate($row['special_to_date'],
+                Magento_Date::DATE_INTERNAL_FORMAT);
             if (-1 === $compareDate || 0 === $compareDate) {
                 $row['use_special'] = true;
             }
         }
 
-       $args['results'][] = $row;
+        $args['results'][] = $row;
     }
 
 
     /**
      * Function for comparing two items in collection
      *
-     * @param   Magento_Object $item1
-     * @param   Magento_Object $item2
+     * @param $a
+     * @param $b
      * @return  boolean
      */
     public function sortByStartDate($a, $b)

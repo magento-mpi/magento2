@@ -28,16 +28,18 @@ class Magento_Paypal_Block_Express_Form extends Magento_Paypal_Block_Standard_Fo
 
     /**
      * @param Magento_Paypal_Helper_Data $paypalData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Paypal_Helper_Data $paypalData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_paypalData = $paypalData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

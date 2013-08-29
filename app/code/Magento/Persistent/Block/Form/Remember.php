@@ -48,9 +48,8 @@ class Magento_Persistent_Block_Form_Remember extends Magento_Core_Block_Template
      */
     protected function _toHtml()
     {
-        /** @var $helper Magento_Persistent_Helper_Data */
-        $helper = $this->_persistentData;
-        return ($helper->isEnabled() && $helper->isRememberMeEnabled()) ? parent::_toHtml() : '';
+        return ($this->_persistentData->isEnabled() && $this->_persistentData->isRememberMeEnabled())
+            ? parent::_toHtml() : '';
     }
 
     /**
@@ -60,8 +59,8 @@ class Magento_Persistent_Block_Form_Remember extends Magento_Core_Block_Template
      */
     public function isRememberMeChecked()
     {
-        /** @var $helper Magento_Persistent_Helper_Data */
-        $helper = $this->_persistentData;
-        return $helper->isEnabled() && $helper->isRememberMeEnabled() && $helper->isRememberMeCheckedDefault();
+        return $this->_persistentData->isEnabled()
+            && $this->_persistentData->isRememberMeEnabled()
+            && $this->_persistentData->isRememberMeCheckedDefault();
     }
 }

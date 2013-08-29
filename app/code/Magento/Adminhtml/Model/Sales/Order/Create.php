@@ -865,8 +865,6 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      *
      * @param Magento_Sales_Model_Quote_Item $item
      * @param $additionalOptions
-     * @internal param \Magento_Sales_Model_Quote_Item $product
-     * @internal param array $options
      * @return array
      */
     protected function _parseOptions(Magento_Sales_Model_Quote_Item $item, $additionalOptions)

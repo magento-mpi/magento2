@@ -69,10 +69,8 @@ class Magento_Oauth_Model_Nonce extends Magento_Core_Model_Abstract
         parent::_afterSave();
 
         //Cleanup old entries
-        /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = $this->_oauthData;
-        if ($helper->isCleanupProbability()) {
-            $this->_getResource()->deleteOldEntries($helper->getCleanupExpirationPeriod());
+        if ($this->_oauthData->isCleanupProbability()) {
+            $this->_getResource()->deleteOldEntries($this->_oauthData->getCleanupExpirationPeriod());
         }
         return $this;
     }

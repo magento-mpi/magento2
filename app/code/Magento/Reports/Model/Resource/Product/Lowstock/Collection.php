@@ -44,13 +44,9 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
      *
      * @var Magento_CatalogInventory_Helper_Data
      */
-    protected $_catalogInventoryData = null;
+    protected $_inventoryData = null;
 
     /**
-     * Init main class options
-     *
-     *
-     *
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -64,7 +60,7 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Catalog_Model_Resource_Product $product
     ) {
-        $this->_catalogInventoryData = $catalogInventoryData;
+        $this->_inventoryData = $catalogInventoryData;
         parent::__construct($catalogProductFlat, $catalogData, $fetchStrategy, $product);
     }
 
@@ -153,8 +149,8 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
     /**
      * Join catalog inventory stock item table for further stock_item values filters
      *
-     * @param unknown_type $fields
-     * @return Magento_Reports_Model_Resource_Product_Lowstock_Collection
+     * @param array $fields
+     * @return $this
      */
     public function joinInventoryItem($fields = array())
     {
@@ -214,7 +210,7 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
     public function filterByIsQtyProductTypes()
     {
         $this->filterByProductType(
-            array_keys(array_filter($this->_catalogInventoryData->getIsQtyTypeIds()))
+            array_keys(array_filter($this->_inventoryData->getIsQtyTypeIds()))
         );
         return $this;
     }

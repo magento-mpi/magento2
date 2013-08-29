@@ -254,13 +254,22 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = Mage::getStoreConfigFlag(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $storeId);
+        $active = Mage::getStoreConfigFlag(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE,
+            $storeId
+        );
         if (!$active) {
             return '';
         }
 
-        $schedule = Mage::getStoreConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_SCHEDULE, $storeId);
-        $method   = Mage::getStoreConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_METHOD, $storeId);
+        $schedule = Mage::getStoreConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_SCHEDULE,
+            $storeId
+        );
+        $method   = Mage::getStoreConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_METHOD,
+            $storeId
+        );
 
         $xml = "<display-disposition>{$schedule}</display-disposition>";
 
@@ -432,8 +441,14 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = Mage::getStoreConfigFlag(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId);
-        $methods = Mage::getStoreConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_METHODS, $storeId);
+        $active = Mage::getStoreConfigFlag(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ACTIVE,
+            $storeId
+        );
+        $methods = Mage::getStoreConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_METHODS,
+            $storeId
+        );
 
         if (!$active || !$methods) {
             return '';
@@ -576,7 +591,11 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        if (!Mage::getStoreConfigFlag(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_FLATRATE_ACTIVE, $storeId)) {
+        $isFlatrateActive = Mage::getStoreConfigFlag(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_FLATRATE_ACTIVE,
+            $storeId
+        );
+        if (!$isFlatrateActive) {
             return '';
         }
 

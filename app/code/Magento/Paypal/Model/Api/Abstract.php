@@ -69,7 +69,7 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
      */
     protected $_recurringPaymentProfiles = array();
 
-   /**
+    /**
      * Fields that should be replaced in debug with '***'
      *
      * @var array
@@ -328,7 +328,7 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
     /**
      * Export $this public data to private request array
      *
-     * @param array $internalRequestMap
+     * @param array $privateRequestMap
      * @param array $request
      * @return array
      */
@@ -522,7 +522,7 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
      * (keys should go as 3rd, 4th[...] parameters)
      *
      * @param Magento_Object $address
-     * @param array $request
+     * @param array $to
      */
     protected function _importStreetFromAddress(Magento_Object $address, array &$to)
     {

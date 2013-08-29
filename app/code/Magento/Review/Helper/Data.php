@@ -36,7 +36,8 @@ class Magento_Review_Helper_Data extends Magento_Core_Helper_Abstract
         parent::__construct($context);
     }
 
-    public function getDetail($origDetail){
+    public function getDetail($origDetail)
+    {
         return nl2br($this->_coreString->truncate($origDetail, 50));
     }
 
@@ -45,7 +46,8 @@ class Magento_Review_Helper_Data extends Magento_Core_Helper_Abstract
      * @param string $origDetail Full detail info
      * @return string
      */
-    public function getDetailHtml($origDetail){
+    public function getDetailHtml($origDetail)
+    {
         return nl2br($this->_coreString->truncate($this->escapeHtml($origDetail), 50));
     }
 

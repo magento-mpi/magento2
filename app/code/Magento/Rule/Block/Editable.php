@@ -60,9 +60,6 @@ class Magento_Rule_Block_Editable
             $valueName = '...';
         }
 
-        $coreHelper = $this->_coreData;
-        $stringHelper = $this->_coreString;
-
         if ($element->getShowAsText()) {
             $html = ' <input type="hidden" class="hidden" id="' . $element->getHtmlId()
                 . '" name="' . $element->getName() . '" value="' . $element->getValue() . '"/> '
@@ -73,9 +70,9 @@ class Magento_Rule_Block_Editable
                 . '<a href="javascript:void(0)" class="label">';
 
             if ($this->_translator->isAllowed()) {
-                $html .= $coreHelper->escapeHtml($valueName);
+                $html .= $this->_coreData->escapeHtml($valueName);
             } else {
-                $html .= $coreHelper->escapeHtml($stringHelper->truncate($valueName, 33, '...'));
+                $html .= $this->_coreData->escapeHtml($this->_coreString->truncate($valueName, 33, '...'));
             }
 
             $html .= '</a><span class="element"> ' . $element->getElementHtml();

@@ -406,7 +406,6 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     protected function _getOrderDescription($order)
     {
         $invoiceDesc = '';
-        $lengs = 0;
         foreach ($order->getAllItems() as $item) {
             if ($item->getParentItem()) {
                 continue;

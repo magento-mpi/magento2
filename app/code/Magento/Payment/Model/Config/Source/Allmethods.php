@@ -28,7 +28,6 @@ class Magento_Payment_Model_Config_Source_Allmethods implements Magento_Core_Mod
 
     public function toOptionArray()
     {
-        $methods = $this->_paymentData->getPaymentMethodList(true, true, true);
-        return $methods;
+        return $this->_paymentData->getPaymentMethodList(true, true, true);
     }
 }

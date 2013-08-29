@@ -29,7 +29,6 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
      * @param Magento_Catalog_Helper_Product_Configuration $productConfig
      * @param Magento_Backend_Block_Context $context
      * @param array $data
-     * @internal param \Magento_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Magento_Catalog_Helper_Product_Configuration $productConfig,

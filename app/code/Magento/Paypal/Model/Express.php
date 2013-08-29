@@ -9,7 +9,6 @@
  */
 
 /**
- *
  * PayPal Express Module
  */
 class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
