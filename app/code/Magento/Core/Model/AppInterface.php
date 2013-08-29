@@ -113,14 +113,6 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
     public function getLayout();
 
     /**
-     * Retrieve helper object
-     *
-     * @param string $name
-     * @return Magento_Core_Helper_Abstract
-     */
-    public function getHelper($name);
-
-    /**
      * Retrieve application base currency code
      *
      * @return string

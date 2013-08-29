@@ -18,6 +18,28 @@
 class Enterprise_Logging_Model_Handler_Controllers
 {
     /**
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * @var Enterprise_Logging_Helper_Data
+     */
+    protected $_loggingData = null;
+
+    /**
+     * @param Enterprise_Logging_Helper_Data $loggingData
+     * @param Magento_Backend_Helper_Data $backendData
+     */
+    public function __construct(
+        Enterprise_Logging_Helper_Data $loggingData,
+        Magento_Backend_Helper_Data $backendData
+    ) {
+        $this->_loggingData = $loggingData;
+        $this->_backendData = $backendData;
+    }
+
+    /**
      * Generic Action handler
      *
      * @param Magento_Simplexml_Element $config
@@ -30,7 +52,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         $collectedIds = $processorModel->getCollectedIds();
         if ($collectedIds) {
             $eventModel->setInfo(
-                $this->_objectManager->get('Enterprise_Logging_Helper_Data')->implodeValues($collectedIds)
+                $this->_loggingData->implodeValues($collectedIds)
             );
             return true;
         }
@@ -238,7 +260,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         //Need when in request data there are was no period info
         if ($filter) {
-            $filterData = Mage::app()->getHelper('Magento_Adminhtml_Helper_Data')->prepareFilterString($filter);
+            $filterData = $this->_backendData->prepareFilterString($filter);
             $data = array_merge($data, (array)$filterData);
         }
 

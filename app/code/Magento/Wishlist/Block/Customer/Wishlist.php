@@ -18,10 +18,32 @@
  */
 class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Abstract
 {
-    /*
-     * List of product options rendering configurations by product type
+    /**
+     * @var Magento_Catalog_Helper_Product_Configuration_ConfigurationPool
      */
-    protected $_optionsCfg = array();
+    protected $_helperPool;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Configuration_ConfigurationPool $helperPool
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Configuration_ConfigurationPool $helperPool,
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_helperPool = $helperPool;
+        parent::__construct($wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+    }
 
     /**
      * Add wishlist conditions to collection
@@ -130,12 +152,7 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
             return '';
         }
 
-        $helper = Mage::helper($cfg['helper']);
-        if (!($helper instanceof Magento_Catalog_Helper_Product_Configuration_Interface)) {
-            Mage::throwException(__("Helper for wish list options rendering doesn't implement required interface."));
-        }
-
-        $block = $this->getChildBlock('item_options');
+        $block  = $this->getChildBlock('item_options');
         if (!$block) {
             return '';
         }
@@ -151,7 +168,7 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
         }
 
         return $block->setTemplate($template)
-            ->setOptionList($helper->getOptions($item))
+            ->setOptionList($this->_helperPool($cfg['helper'])->getOptions($item))
             ->toHtml();
     }
 

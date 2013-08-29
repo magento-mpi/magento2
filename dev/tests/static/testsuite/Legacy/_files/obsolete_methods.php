@@ -680,4 +680,8 @@ return array(
     array('setOneRowLimit', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
     array('getCastToIntExpression', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
     array('_helper', 'Magento_Catalog_Model_Product_Type_Abstract'),
+    array('getHelper', 'Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection'),
+    array('getHelper', 'Magento_Cms_Model_Wysiwyg_Images_Storage'),
+    array('getHelper', 'Magento_Core_Model_AppProxy'),
+    array('getHelper', 'Magento_Core_Model_App'),
 );

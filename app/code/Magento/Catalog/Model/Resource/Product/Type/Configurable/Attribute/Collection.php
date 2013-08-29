@@ -50,12 +50,12 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     /**
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute $resource
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute  $resource
     ) {
         $this->_catalogData = $catalogData;
         parent::__construct($fetchStrategy, $resource);
@@ -73,16 +73,6 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
         );
         $this->_labelTable = $this->getTable('catalog_product_super_attribute_label');
         $this->_priceTable = $this->getTable('catalog_product_super_attribute_pricing');
-    }
-
-    /**
-     * Retrieve catalog helper
-     *
-     * @return Magento_Catalog_Helper_Data
-     */
-    public function getHelper()
-    {
-        return $this->_catalogData;
     }
 
     /**
@@ -236,7 +226,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
                 0 => array()
             );
 
-            if ($this->getHelper()->isPriceGlobal()) {
+            if ($this->_catalogData->isPriceGlobal()) {
                 $websiteId = 0;
             } else {
                 $websiteId = (int)Mage::app()->getStore($this->getStoreId())->getWebsiteId();
