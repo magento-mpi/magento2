@@ -28,6 +28,7 @@ class Mage_Core_Model_Router_NoRouteHandler implements Mage_Core_Model_Router_No
      *
      * @param Mage_Core_Controller_Request_Http $request
      * @return bool
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function process(Mage_Core_Controller_Request_Http $request)
     {
