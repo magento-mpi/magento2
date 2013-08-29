@@ -16,7 +16,7 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'admin/url/use_custom';
     const XML_PATH_USE_CUSTOM_ADMIN_PATH        = 'admin/url/use_custom_path';
     const XML_PATH_CUSTOM_ADMIN_PATH            = 'admin/url/custom_path';
-    const XML_PATH_BACKEND_AREA_FRONTNAME       = 'default/backend/frontName';
+    const XML_PATH_BACKEND_AREA_FRONTNAME       = 'backend/frontName';
     const BACKEND_AREA_CODE                     = 'adminhtml';
 
     protected $_pageHelpUrl;
@@ -175,11 +175,16 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAreaFrontName()
     {
         if (null === $this->_areaFrontName) {
-            $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH, false);
-            $this->_areaFrontName = $isCustomPathUsed
-                ? (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH, $this->_defaultAreaFrontName)
-                : (string)$this->_config->getNode(self::XML_PATH_BACKEND_FRONTNAME);
+            $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default');
+            $configAreaFrontName = (string)$this->_config->getValue(self::XML_PATH_BACKEND_AREA_FRONTNAME, 'default');
 
+            if ($isCustomPathUsed) {
+                $this->_areaFrontName = (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH, 'default');
+            } elseif ($configAreaFrontName) {
+                $this->_areaFrontName = $configAreaFrontName;
+            } else {
+                $this->_areaFrontName = $this->_defaultAreaFrontName;
+            }
         }
 
         return $this->_areaFrontName;
