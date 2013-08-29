@@ -81,7 +81,6 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      * @param Magento_Widget_Model_Config_Reader $reader,
      * @param Magento_Widget_Model_Widget $widgetModel,
      * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Translate $translator
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
