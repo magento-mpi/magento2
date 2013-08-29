@@ -45,7 +45,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      * @param Mage_Webapi_Model_Soap_Config $apiConfig
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
-    */
+     */
     public function __construct(
         Mage_Webapi_Model_Soap_Config $apiConfig,
         Mage_Core_Helper_Data $helper,
