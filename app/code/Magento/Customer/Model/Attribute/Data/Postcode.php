@@ -34,19 +34,17 @@ class Magento_Customer_Model_Attribute_Data_Postcode extends Magento_Eav_Model_A
     protected $_directoryData = null;
 
     /**
-     * Constructor
-     *
-     *
-     *
      * @param Magento_Directory_Helper_Data $directoryData
+     * @param Magento_Core_Helper_String $coreString
      * @param array $arguments
      */
     public function __construct(
         Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Helper_String $coreString,
         array $arguments = array()
     ) {
         $this->_directoryData = $directoryData;
-        parent::__construct($arguments);
+        parent::__construct($coreString, $arguments);
     }
 
     public function validateValue($value)

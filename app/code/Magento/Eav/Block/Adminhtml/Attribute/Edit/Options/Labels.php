@@ -30,7 +30,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Magento_
 
     /**
      * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
