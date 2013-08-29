@@ -10,5 +10,5 @@
  * @license     {license_link}
  */
 return array(
-    array('/app/code/core/Enterprise'),
+    array('/app/code/core/Enterprise', '/app/code/Magento'),
 );

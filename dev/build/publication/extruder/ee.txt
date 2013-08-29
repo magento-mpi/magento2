@@ -18,6 +18,7 @@ dev/tests/static/testsuite/Legacy/_files/obsolete_classes_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_config_nodes_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_constants_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_methods_ee.php
+dev/tests/static/testsuite/Legacy/_files/obsolete_namespaces_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_properties_ee.php
 dev/tests/static/testsuite/Legacy/_files/words_ee.xml
 dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/ee.txt
