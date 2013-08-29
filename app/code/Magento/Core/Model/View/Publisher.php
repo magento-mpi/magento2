@@ -94,18 +94,13 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     /**
      * Publish file identified by $fileId basing on information about parent file path and name.
      *
-     * The method is public only because PHP 5.3 does not permit usage of protected methods inside the closures,
-     * even if a closure is created in the same class. The method is not intended to be used by a client of this class.
-     * If you ever need to call this method externally, then ensure you have a good reason for it. As such the method
-     * would need to be added to the class's interface and proxy.
-     *
      * @param string $fileId URL to the file that was extracted from $parentFilePath
      * @param string $parentFilePath path to the file
      * @param string $parentFileName original file name identifier that was requested for processing
      * @param array $params theme/module parameters array
      * @return string
      */
-    public function _publishRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params)
+    protected function _publishRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params)
     {
         $relativeFilePath = $this->_getRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params);
         return $this->_getPublishedFilePath($relativeFilePath, $params);
