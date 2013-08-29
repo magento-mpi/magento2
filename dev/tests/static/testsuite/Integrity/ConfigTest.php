@@ -11,9 +11,8 @@
 
 class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
 {
-    protected $_possibleLocales = array('de_DE', 'en_AU', 'en_GB', 'en_US', 'es_ES', 'es_XC', 'fr_FR',
-        'fr_XC', 'it_IT', 'ja_JP', 'nl_NL', 'pl_PL', 'zh_CN', 'zh_XC', 'pt_BR'
-    );
+    protected $_possibleLocales = array('de_DE', 'en_AU', 'en_GB', 'en_US', 'es_ES', 'es_XC', 'fr_FR', 'fr_XC',
+        'it_IT', 'ja_JP', 'nl_NL', 'pl_PL', 'zh_CN', 'zh_XC', 'pt_BR');
 
     public function testExistingFilesDeclared()
     {
@@ -24,14 +23,13 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
             foreach ($localeFiles as $file) {
                 $file = realpath($file);
                 $assertLocale = str_replace('.csv', '', basename($file));
-                if (array_search($assertLocale, $this->_possibleLocales) === false) {
+                if (!in_array($assertLocale, $this->_possibleLocales)) {
                     $failures[] = $file;
                 }
             }
         }
         $this->assertEmpty($failures,
-            'Translation files exist, but not declared in configuration:' . "\n" . var_export($failures, 1)
-        );
+            'Translation files exist, but not declared in configuration:' . "\n" . var_export($failures, 1));
     }
 
     /**

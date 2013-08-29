@@ -151,9 +151,9 @@ class Magento_Core_Model_Translate
     protected $_moduleList;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Core_Model_Config_Modules_Reader
      */
-    protected $_configObject;
+    protected $_modulesReader;
 
     /**
      * Initialize translate model
@@ -165,7 +165,7 @@ class Magento_Core_Model_Translate
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Phrase_Renderer_Placeholder $placeholderRender
      * @param Magento_Core_Model_ModuleList $moduleList
-     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $viewDesign,
@@ -175,7 +175,7 @@ class Magento_Core_Model_Translate
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Phrase_Renderer_Placeholder $placeholderRender,
         Magento_Core_Model_ModuleList $moduleList,
-        Magento_Core_Model_Config $config
+        Magento_Core_Model_Config_Modules_Reader $modulesReader
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $loader->load();
@@ -184,7 +184,7 @@ class Magento_Core_Model_Translate
         $this->_viewFileSystem = $viewFileSystem;
         $this->_placeholderRender = $placeholderRender;
         $this->_moduleList = $moduleList;
-        $this->_configObject = $config;
+        $this->_modulesReader = $modulesReader;
     }
 
     /**
@@ -311,7 +311,7 @@ class Magento_Core_Model_Translate
     {
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
-            $moduleFilePath = $this->_getModuleFilePath($moduleName, $locale);
+            $moduleFilePath = $this->_getModuleTranslationFile($moduleName, $locale);
             $this->_addData($this->_getFileData($moduleFilePath));
         }
         return $this;
@@ -394,7 +394,7 @@ class Magento_Core_Model_Translate
 
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
-            $file = $this->_viewFileSystem->getFilename('locale/' . $locale . '.csv');
+            $file = $this->_getThemeTranslationFile($locale);
             $this->_addData(
                 $this->_getFileData($file),
                 self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME],
@@ -423,15 +423,26 @@ class Magento_Core_Model_Translate
     /**
      * Retrieve translation file for module
      *
-     * @param $moduleName string
-     * @param $locale string
+     * @param string $moduleName
+     * @param string $locale
      * @return string
      */
-    protected function _getModuleFilePath($moduleName, $locale)
+    protected function _getModuleTranslationFile($moduleName, $locale)
     {
-        $file = $this->_configObject->getModuleDir(Magento_Core_Model_Dir::LOCALE, $moduleName);
+        $file = $this->_modulesReader->getModuleDir(Magento_Core_Model_Dir::LOCALE, $moduleName);
         $file .= DS . $locale . '.csv';
         return $file;
+    }
+
+    /**
+     * Retrieve translation file for theme
+     *
+     * @param string $locale
+     * @return string
+     */
+    protected function _getThemeTranslationFile($locale)
+    {
+        return $this->_viewFileSystem->getFilename(Magento_Core_Model_Dir::LOCALE . DS . $locale . '.csv');
     }
 
     /**

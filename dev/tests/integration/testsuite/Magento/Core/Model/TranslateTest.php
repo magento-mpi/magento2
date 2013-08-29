@@ -36,7 +36,6 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->_viewFileSystem = $this->getMock('Magento_Core_Model_View_FileSystem',
             array('getFilename'), array(), '', false);
 
-
         $this->_viewFileSystem->expects($this->any())
             ->method('getFilename')
             ->will($this->returnValue(implode(DIRECTORY_SEPARATOR, $pathChunks)));
