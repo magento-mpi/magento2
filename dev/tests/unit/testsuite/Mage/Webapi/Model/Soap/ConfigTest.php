@@ -10,9 +10,9 @@
 
 
 /**
- * Class implements tests for Mage_Webapi_Helper_Data class.
+ * Class implements tests for Mage_Webapi_Model_Soap_Config class.
  */
-class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Model_Soap_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Webapi_Model_Soap_Config */
     protected $_soapConfig;
