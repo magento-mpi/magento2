@@ -82,6 +82,11 @@ class Enterprise_PageCache_Model_Observer
     protected $_designRules;
 
     /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_typeList;
+
+    /**
      * @param Enterprise_PageCache_Model_Processor $processor
      * @param Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier
      * @param Enterprise_PageCache_Model_Config $config
@@ -90,6 +95,7 @@ class Enterprise_PageCache_Model_Observer
      * @param Enterprise_PageCache_Model_Cookie $cookie
      * @param Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
      * @param Enterprise_PageCache_Model_DesignPackage_Rules $designRules
+     * @param Magento_Core_Model_Cache_TypeListInterface $typeList
      */
     public function __construct(
         Enterprise_PageCache_Model_Processor $processor,
@@ -99,10 +105,11 @@ class Enterprise_PageCache_Model_Observer
         Enterprise_PageCache_Model_Cache $fpcCache,
         Enterprise_PageCache_Model_Cookie $cookie,
         Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
-        Enterprise_PageCache_Model_DesignPackage_Rules $designRules
+        Enterprise_PageCache_Model_DesignPackage_Rules $designRules,
+        Magento_Core_Model_Cache_TypeListInterface $typeList
     ) {
         $this->_processor = $processor;
-        $this->_config    = $config;
+        $this->_config = $config;
         $this->_cacheState = $cacheState;
         $this->_fpcCache = $fpcCache;
         $this->_cookie = $cookie;
@@ -110,6 +117,7 @@ class Enterprise_PageCache_Model_Observer
         $this->_requestIdentifier = $_requestIdentifier;
         $this->_designRules = $designRules;
         $this->_isEnabled = $this->_cacheState->isEnabled('full_page');
+        $this->_typeList = $typeList;
     }
 
     /**
@@ -301,9 +309,7 @@ class Enterprise_PageCache_Model_Observer
      */
     public function invalidateCache()
     {
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
-        $cacheTypeList->invalidate('full_page');
+        $this->_typeList->invalidate('full_page');
         return $this;
     }
 

@@ -31,15 +31,23 @@ abstract class Enterprise_PageCache_Model_Container_Abstract implements Enterpri
     protected $_fpcCache;
 
     /**
+     * @var Enterprise_PageCache_Helper_Url
+     */
+    protected $_urlHelper;
+
+    /**
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Enterprise_PageCache_Model_Container_Placeholder $placeholder
+     * @param Enterprise_PageCache_Helper_Url $urlHelper
      */
     public function __construct(
         Enterprise_PageCache_Model_Cache $fpcCache,
-        Enterprise_PageCache_Model_Container_Placeholder $placeholder
+        Enterprise_PageCache_Model_Container_Placeholder $placeholder,
+        Enterprise_PageCache_Helper_Url $urlHelper
     ) {
         $this->_placeholder = $placeholder;
         $this->_fpcCache = $fpcCache;
+        $this->_urlHelper = $urlHelper;
     }
 
     /**
@@ -72,7 +80,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract implements Enterpri
             return false;
         }
 
-        $block = Enterprise_PageCache_Helper_Url::replaceUenc($block);
+        $block = $this->_urlHelper->replaceUenc($block);
         $this->_applyToContent($content, $block);
         return true;
     }

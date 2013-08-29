@@ -55,6 +55,30 @@ class Enterprise_PageCache_Model_Crawler extends Magento_Core_Model_Abstract
     protected $_visitedUrls = array();
 
     /**
+     * @var Magento_Core_Model_Cache_StateInterface
+     */
+    protected $_cacheState;
+
+    /**
+     * @param Magento_Core_Model_Cache_StateInterface $cacheState
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Cache_StateInterface $cacheState,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_cacheState = $cacheState;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+
+    /**
      * Set resource model
      */
     protected function _construct()
@@ -122,9 +146,7 @@ class Enterprise_PageCache_Model_Crawler extends Magento_Core_Model_Abstract
      */
     public function crawl()
     {
-        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
-        if (!$cacheState->isEnabled('full_page')) {
+        if (!$this->_cacheState->isEnabled('full_page')) {
             return $this;
         }
         $storesInfo  = $this->getStoresInfo();
