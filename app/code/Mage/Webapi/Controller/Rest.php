@@ -32,7 +32,7 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
     /** @var Magento_ObjectManager */
     protected $_objectManager;
 
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Core_Helper_Data */
     protected $_helper;
 
     /** @var Mage_Core_Model_StoreManagerInterface */
@@ -50,7 +50,9 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
      * @param Mage_Webapi_Controller_Rest_Router $router
      * @param Mage_Webapi_Controller_Rest_Authentication $authentication
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Core_Helper_Data $helper
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Core_Model_App_State $appState
      */
     public function __construct(
         Mage_Webapi_Controller_Rest_Request $request,
@@ -60,7 +62,7 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
         // TODO: Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Rest_Authentication $authentication,
         Magento_ObjectManager $objectManager,
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Helper_Data $helper,
         Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_App_State $appState
     ) {

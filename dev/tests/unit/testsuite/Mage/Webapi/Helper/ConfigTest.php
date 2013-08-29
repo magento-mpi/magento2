@@ -12,18 +12,30 @@
 /**
  * Class implements tests for Mage_Webapi_Helper_Data class.
  */
-class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_helper;
+    /** @var Mage_Webapi_Model_Soap_Config */
+    protected $_soapConfig;
 
     /**
      * Set up helper.
      */
     protected function setUp()
     {
-        $mockContext = $this->getMockBuilder('Mage_Core_Helper_Context')->disableOriginalConstructor()->getMock();
-        $this->_helper = new Mage_Webapi_Helper_Data($mockContext);
+        $objectManagerMock = $this->getMockBuilder('Mage_Core_Model_ObjectManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $fileSystemMock = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $dirMock = $this->getMockBuilder('Mage_Core_Model_Dir')->disableOriginalConstructor()->getMock();
+        $configMock = $this->getMockBuilder('Mage_Webapi_Model_Config')->disableOriginalConstructor()->getMock();
+        $helperMock = $this->getMockBuilder('Mage_Core_Helper_Data')->disableOriginalConstructor()->getMock();
+        $this->_soapConfig = new Mage_Webapi_Model_Soap_Config(
+            $objectManagerMock,
+            $fileSystemMock,
+            $dirMock,
+            $configMock,
+            $helperMock
+        );
         parent::setUp();
     }
 
@@ -34,7 +46,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetServiceNameParts($className, $preserveVersion, $expected)
     {
-        $actual = $this->_helper->getServiceNameParts(
+        $actual = $this->_soapConfig->getServiceNameParts(
             $className,
             $preserveVersion
         );
@@ -58,5 +70,4 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
             array('Mage_Catalog_Service_ProductV2Interface', true, array('CatalogProduct', 'V2'))
         );
     }
-
 }

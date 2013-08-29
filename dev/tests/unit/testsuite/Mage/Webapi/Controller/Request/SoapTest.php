@@ -9,7 +9,7 @@
  */
 class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Core_Helper_Data */
     protected $_helperMock;
 
     /** @var Mage_Core_Model_Config */
@@ -21,7 +21,7 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
+        $this->_helperMock = $this->getMockBuilder('Mage_Core_Helper_Data')
             ->setMethods(array('__'))
             ->disableOriginalConstructor()
             ->getMock();

@@ -21,7 +21,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
     protected $_wsdlFactory;
 
     /**
-     * @var Mage_Webapi_Helper_Data
+     * @var Mage_Core_Helper_Data
      */
     protected $_helper;
 
@@ -43,14 +43,12 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Model_Soap_Config $newApiConfig
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Core_Helper_Data $helper
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
-     *
-     * @throws InvalidArgumentException
-     */
+    */
     public function __construct(
         Mage_Webapi_Model_Soap_Config $newApiConfig,
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Helper_Data $helper,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
     ) {
         $this->_newApiConfig = $newApiConfig;

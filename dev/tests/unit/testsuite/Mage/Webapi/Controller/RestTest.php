@@ -33,7 +33,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     /** @var Magento_ObjectManager */
     protected $_objectManagerMock;
 
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Core_Helper_Data */
     protected $_helperMock;
 
     /** @var stdClass */
@@ -85,7 +85,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
+        $this->_helperMock = $this->getMockBuilder('Mage_Core_Helper_Data')
             ->setMethods(array('__'))
             ->disableOriginalConstructor()
             ->getMock();

@@ -9,23 +9,16 @@
  */
 class Mage_Webapi_Controller_Rest_Presentation_Request
 {
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var Mage_Webapi_Controller_Rest_Request */
     protected $_request;
 
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      */
-    public function __construct(
-        Mage_Webapi_Helper_Data $helper,
-        Mage_Webapi_Controller_Request_Factory $requestFactory
-    ) {
-        $this->_helper = $helper;
+    public function __construct(Mage_Webapi_Controller_Request_Factory $requestFactory)
+    {
         $this->_request = $requestFactory->get();
     }
 

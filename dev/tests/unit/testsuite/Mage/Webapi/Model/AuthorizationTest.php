@@ -12,7 +12,7 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_coreAuthorization;
 
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Core_Helper_Data */
     protected $_helperMock;
 
     /** @var Mage_Webapi_Model_Authorization */
@@ -23,7 +23,7 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
         /** Prepare mocks for SUT constructor. */
         $this->_coreAuthorization = $this->getMockBuilder('Magento_AuthorizationInterface')
             ->getMock();
-        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
+        $this->_helperMock = $this->getMockBuilder('Mage_Core_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('__'))
             ->getMock();

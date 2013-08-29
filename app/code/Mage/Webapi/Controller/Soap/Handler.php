@@ -31,7 +31,7 @@ class Mage_Webapi_Controller_Soap_Handler
     /** @var Mage_Webapi_Model_Soap_Config */
     protected $_apiConfig;
 
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Core_Helper_Data */
     protected $_helper;
 
     /**
@@ -43,7 +43,7 @@ class Mage_Webapi_Controller_Soap_Handler
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Webapi_Model_Soap_Config $apiConfig
      * @param Mage_Webapi_Controller_Soap_Security $security
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Core_Helper_Data $helper
      */
     public function __construct(
         Mage_Core_Model_App $application,
@@ -52,7 +52,7 @@ class Mage_Webapi_Controller_Soap_Handler
         Magento_ObjectManager $objectManager,
         Mage_Webapi_Model_Soap_Config $apiConfig,
         Mage_Webapi_Controller_Soap_Security $security,
-        Mage_Webapi_Helper_Data $helper
+        Mage_Core_Helper_Data $helper
     ) {
         $this->_application = $application;
         $this->_request = $request;

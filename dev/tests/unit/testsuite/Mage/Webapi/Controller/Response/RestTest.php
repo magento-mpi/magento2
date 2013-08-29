@@ -31,14 +31,12 @@ class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCas
         $rendererFactoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_rendererMock));
         $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_ErrorProcessor')
             ->disableOriginalConstructor()->getMock();
-        $helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
         $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
 
         /** Init SUP. */
         $this->_responseRest = new Mage_Webapi_Controller_Rest_Response(
             $rendererFactoryMock,
             $this->_errorProcessorMock,
-            $helperMock,
             $this->_appMock
         );
         $this->_responseRest->headersSentThrowsException = false;
