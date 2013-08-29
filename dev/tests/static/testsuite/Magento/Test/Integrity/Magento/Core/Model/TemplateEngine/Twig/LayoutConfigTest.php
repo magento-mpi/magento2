@@ -53,65 +53,36 @@ class Magento_Test_Integrity_Magento_Core_Model_TemplateEngine_Twig_LayoutConfig
     }
 
     /**
-     * Given a layout file, test whetehr all of its service calls are valid
+     * Given a layout file, test whether all of its service calls are valid
      *
      * @param $layoutFile
-     * @param bool $dummy Describes whether a dummy array was passed in, indicating that no files were found
      *
-     * @dataProvider xmlDataProvider
+     * @dataProvider xmlFileDataProvider
      */
-    public function testXmlFile($layoutFile, $dummy = false)
+    public function testXmlFile($layoutFile)
     {
-        if (!$dummy) {
-            /**
-             * @var DOMDocument $dom
-             */
-            $dom = new DOMDocument();
-            $dom->loadXML(file_get_contents($layoutFile));
-            $this->assertNotNull($dom);
-
-            /**
-             * @var DOMNodeList $dataList
-             */
-            $dataList = $dom->getElementsByTagName('data');
-
-            /**
-             * @var DOMNode $data
-             */
-            foreach ($dataList as $data) {
-                if ($data->hasAttributes()) {
-                    /** @var DOMNode $serviceCallAttribute */
-                    $serviceCallAttribute = $data->attributes->getNamedItem('service_call');
-                    if ($serviceCallAttribute) {
-
-                        /**
-                         * @var string $serviceCall
-                         */
-                        $serviceCall = $serviceCallAttribute->nodeValue;
-                        $this->assertTrue(
-                            in_array($serviceCall, self::$_serviceCalls),
-                            "Unknown service call: $serviceCall"
-                        );
-                    }
+        $dom = new DOMDocument();
+        $dom->loadXML(file_get_contents($layoutFile));
+        $dataList = $dom->getElementsByTagName('data');
+        /** @var DOMNode $data */
+        foreach ($dataList as $data) {
+            if ($data->hasAttributes()) {
+                /** @var DOMNode $serviceCallAttribute */
+                $serviceCallAttribute = $data->attributes->getNamedItem('service_call');
+                if ($serviceCallAttribute) {
+                    /** @var string $serviceCall */
+                    $serviceCall = $serviceCallAttribute->nodeValue;
+                    $this->assertContains($serviceCall, self::$_serviceCalls, "Unknown service call: $serviceCall");
                 }
             }
         }
     }
 
     /**
-     * Provides a list of layout files to test, or a dummy array if no files are found
-     *
      * @return array
      */
-    public function xmlDataProvider()
+    public function xmlFileDataProvider()
     {
-        $files = Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
-        if (empty($files)) {
-            $files = array(
-                array('dummy', true)
-            );
-        }
-
-        return $files;
+        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
     }
 }
