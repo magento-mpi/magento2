@@ -59,8 +59,6 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $this->_collectResourceHelpersPhp($contents, $classes);
 
         $this->_assertClassesExist($classes);
-
-        $this->_assertValidNamespace($file, $contents);
     }
 
     /**
@@ -178,17 +176,17 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     /**
      * Assert PHP classes have valid pseudo-namespaces according to file locations
      *
-     * Suppressing "unused variable" because of the "catch" block
      *
      * @param array $file
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @dataProvider phpClassDataProvider
      */
-    protected function _assertValidNamespace($file, $contents)
+    public function testClassNamespace($file)
     {
+        $contents = file_get_contents($file);
         $relativePath = str_replace(Utility_Files::init()->getPathToSource(), "", $file);
 
-        $classPattern = '/class\s[A-Z][^\s\/]+/';
-        $namespacePattern = '/[A-Z][a-z]+\/[a-zA-Z]+[^\.]+/';
+        $classPattern = '/^class\s[A-Z][^\s\/]+/m';
+        $namespacePattern = '/(Maged|Magento|Zend)\/[a-zA-Z]+[^\.]+/';
 
         $classNameMatch = array();
         $namespaceMatch = array();
@@ -210,7 +208,16 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             $namespace = str_replace('/', '_', $namespaceMatch[0]);
         }
         if ($className != null && $namespace != null) {
-            $this->assertEquals($className, $namespace);
+            $this->assertEquals($className, $namespace,
+                "Declaration of $file does not match namespace: $namespace\n");
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function phpClassDataProvider()
+    {
+        return Utility_Files::init()->getClassFiles();
     }
 }
