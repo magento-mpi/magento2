@@ -34,7 +34,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test_default', 'i18n', 'en_US.csv');
 
         $this->_viewFileSystem = $this->getMock('Magento_Core_Model_View_FileSystem',
-            array('getLocaleFileName', 'getDesignTheme'), array(), '', false);
+            array('getFilename', 'getDesignTheme'), array(), '', false);
 
         $this->_viewFileSystem->expects($this->any())
             ->method('getFilename')

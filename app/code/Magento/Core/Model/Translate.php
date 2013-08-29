@@ -281,10 +281,10 @@ class Magento_Core_Model_Translate
     public function processAjaxPost($translate)
     {
         /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = $this->_translateFactory->create('Magento_Core_Model_Cache_TypeListInterface');
+        $cacheTypeList = $this->_translateFactory->create(array(), 'Magento_Core_Model_Cache_TypeListInterface');
         $cacheTypeList->invalidate(Magento_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER);
         /** @var $parser Magento_Core_Model_Translate_InlineParser */
-        $parser = $this->_translateFactory->create('Magento_Core_Model_Translate_InlineParser');
+        $parser = $this->_translateFactory->create(array(), 'Magento_Core_Model_Translate_InlineParser');
         $parser->processAjaxPost($translate, $this->getInlineObject());
     }
 
