@@ -53,7 +53,6 @@ class ContextDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidPathGivenException()
     {
-        //$this->setExpectedException('\InvalidArgumentException', 'Invalid path given: invalid_path/invalid_path');
         $this->_contextDetector->getContext('invalid_path/invalid_path');
     }
 }
