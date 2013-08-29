@@ -18,11 +18,6 @@
  */
 class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order_Pdf_Abstract
 {
-    public function __construct(Magento_Payment_Helper_Data $paymentData, Magento_Core_Helper_Data $coreData, Magento_Core_Helper_String $coreString)
-    {
-        parent::__construct($paymentData, $coreData, $coreString);
-    }
-
     /**
      * Draw table header for product items
      *

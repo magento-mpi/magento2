@@ -18,25 +18,11 @@
 class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
 {
     /**
-     * Api data
-     *
-     * @var Magento_Api_Helper_Data
-     */
-    protected $_apiData = null;
-
-    /**
-     * Initialize attributes map
-     *
-     *
-     *
-     * @param Magento_Api_Helper_Data $apiData
-     * @param  $apiHelper
+     * @param Magento_Api_Helper_Data $apiHelper
      */
     public function __construct(
-        Magento_Api_Helper_Data $apiData,
         Magento_Api_Helper_Data $apiHelper
     ) {
-        $this->_apiData = $apiData;
         parent::__construct($apiHelper);
         $this->_attributesMap = array(
             'order' => array('order_id' => 'entity_id'),
@@ -104,9 +90,7 @@ class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
                 array('shipping_firstname' => $shippingFirstnameField, 'shipping_lastname' => $shippingLastnameField)
         );
 
-        /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = $this->_apiData;
-        $filters = $apiHelper->parseFilters($filters, $this->_attributesMap['order']);
+        $filters = $this->_apiHelper->parseFilters($filters, $this->_attributesMap['order']);
         try {
             foreach ($filters as $field => $value) {
                 $orderCollection->addFieldToFilter($field, $value);

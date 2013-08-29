@@ -44,10 +44,6 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
     protected $_coreString = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Resource $resource
      */

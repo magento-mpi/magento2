@@ -26,17 +26,15 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
     protected $_coreData = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        Magento_Core_Helper_Data $coreData,
+        array $data = array()
     ) {
         $this->_coreData = $coreData;
+        parent::__construct($data);
     }
 
     /**

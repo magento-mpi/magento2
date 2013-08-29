@@ -18,21 +18,11 @@
 class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Resource
 {
     /**
-     * Api data
-     *
-     * @var Magento_Api_Helper_Data
-     */
-    protected $_apiData = null;
-
-    /**
-     * @param Magento_Api_Helper_Data $apiData
-     * @param  $apiHelper
+     * @param Magento_Api_Helper_Data $apiHelper
      */
     public function __construct(
-        Magento_Api_Helper_Data $apiData,
         Magento_Api_Helper_Data $apiHelper
     ) {
-        $this->_apiData = $apiData;
         parent::__construct($apiHelper);
         $this->_attributesMap['shipment'] = array('shipment_id' => 'entity_id');
 
@@ -63,10 +53,8 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
             ->joinAttribute('order_increment_id', 'order/increment_id', 'order_id', null, 'left')
             ->joinAttribute('order_created_at', 'order/created_at', 'order_id', null, 'left');
 
-        /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = $this->_apiData;
         try {
-            $filters = $apiHelper->parseFilters($filters, $this->_attributesMap['shipment']);
+            $filters = $this->_apiHelper->parseFilters($filters, $this->_attributesMap['shipment']);
             foreach ($filters as $field => $value) {
                 $shipmentCollection->addFieldToFilter($field, $value);
             }

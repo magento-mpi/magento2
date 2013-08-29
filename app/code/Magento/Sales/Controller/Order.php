@@ -18,7 +18,6 @@
 
 class Magento_Sales_Controller_Order extends Magento_Sales_Controller_Abstract
 {
-
     /**
      * Action predispatch
      *

@@ -202,10 +202,6 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
     protected $_coreData = null;
 
     /**
-     * Enforce format of the street field
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Context $context

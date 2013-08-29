@@ -84,23 +84,21 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     protected $_paymentData = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
+     * @param array $data
      */
     public function __construct(
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_String $coreString
+        Magento_Core_Helper_String $coreString,
+        array $data = array()
     ) {
         $this->_paymentData = $paymentData;
         $this->_coreData = $coreData;
         $this->_coreString = $coreString;
+        parent::__construct($data);
     }
 
     /**

@@ -249,7 +249,6 @@
  * @method Magento_Sales_Model_Order setRelationParentRealId(string $value)
  * @method string getRemoteIp()
  * @method Magento_Sales_Model_Order setRemoteIp(string $value)
- * @method string getShippingMethod()
  * @method Magento_Sales_Model_Order setShippingMethod(string $value)
  * @method string getStoreCurrencyCode()
  * @method Magento_Sales_Model_Order setStoreCurrencyCode(string $value)

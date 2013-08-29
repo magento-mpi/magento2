@@ -24,6 +24,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Admin
     protected $_paymentData = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -31,6 +32,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Admin
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -38,7 +40,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Admin
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     protected function _construct()

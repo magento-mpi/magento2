@@ -46,11 +46,6 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
      */
     protected $_relatedOrders = array();
 
-    public function __construct(Magento_Payment_Helper_Data $paymentData, Magento_Core_Model_Context $context, Magento_Core_Model_Resource_Abstract $resource = null, Magento_Data_Collection_Db $resourceCollection = null, array $data = array())
-    {
-        parent::__construct($paymentData, $context, $resource, $resourceCollection, $data);
-    }
-
     /**
      * Init model
      *
