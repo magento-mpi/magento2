@@ -7,12 +7,12 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Test_Integrity_Phrase_Legacy_PhraseCollector extends Magento_Tokenizer_PhraseCollector
+class Magento_Tokenizer_Translate_MethodCollector extends Magento_Tokenizer_PhraseCollector
 {
     /**
      * Find phrases into given tokens. e.g.: __('phrase', ...)
      */
-    protected function findPhrases()
+    protected function _findPhrases()
     {
         if ($this->_tokenizer->getNextToken()->getName() == T_OBJECT_OPERATOR) {
             $phraseStartToken = $this->_tokenizer->getNextToken();
@@ -22,8 +22,8 @@ class Magento_Test_Integrity_Phrase_Legacy_PhraseCollector extends Magento_Token
                 && $this->_tokenizer->getNextToken()->getValue() == '('
             ) {
                 $arguments = $this->_tokenizer->getFunctionArgumentsTokens();
-                $phrase = $this->collectPhrase(array_shift($arguments));
-                $this->addPhrase($phrase, count($arguments), $this->_file, $phraseStartToken->getLine());
+                $phrase = $this->_collectPhrase(array_shift($arguments));
+                $this->_addPhrase($phrase, count($arguments), $this->_file, $phraseStartToken->getLine());
             }
         }
     }

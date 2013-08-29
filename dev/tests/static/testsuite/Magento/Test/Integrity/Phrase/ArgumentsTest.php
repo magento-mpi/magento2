@@ -8,8 +8,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Phrase_ArgumentsTest extends Magento_Test_Integrity_Phrase_TestAbstract
+class Magento_Test_Integrity_Phrase_ArgumentsTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Magento_Tokenizer_PhraseCollector
+     */
+    protected $_phraseCollector;
+
     protected function setUp()
     {
         $this->_phraseCollector = new Magento_Tokenizer_PhraseCollector();
@@ -17,20 +22,24 @@ class Magento_Test_Integrity_Phrase_ArgumentsTest extends Magento_Test_Integrity
 
     public function testCase()
     {
-        foreach ($this->_getFiles() as $file) {
+        $errors = array();
+        $path = Utility_Files::init()->getPathToSource() . '/app/';
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+        foreach (new RegexIterator($files, '/\.(php|phtml)$/') as $file) {
             $this->_phraseCollector->parse($file);
             foreach ($this->_phraseCollector->getPhrases() as $phrase) {
                 if (preg_match_all('/%(\d+)/', $phrase['phrase'], $matches) || $phrase['arguments'] > 0) {
                     $placeholdersInPhrase = array_unique($matches[1]);
                     if (count($placeholdersInPhrase) != $phrase['arguments']) {
-                        $this->addError($phrase);
+                        $errors[] = "\nPhrase: " . $phrase['phrase'] .
+                            "\nFile: " . $phrase['file'] .
+                            "\nLine: " . $phrase['line'];
                     }
                 }
             }
         }
-        $message = $this->_prepareErrorMessage('%d usages of inconsistency the number of arguments and placeholders '
-            . 'were discovered: %s', $this->_errors);
-        $this->assertEmpty($this->_errors, $message);
-
+        $message = sprintf("\n%d usages of inconsistency the number of arguments and placeholders were discovered: %s",
+            count($errors), "\n" . implode("\n\n", $errors));
+        $this->assertEmpty($errors, $message);
     }
 }

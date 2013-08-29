@@ -7,25 +7,33 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Phrase_Legacy_SignatureTest extends Magento_Test_Integrity_Phrase_TestAbstract
+class Magento_Test_Integrity_Phrase_Legacy_SignatureTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Magento_Tokenizer_Translate_MethodCollector
+     */
+    protected $_phraseCollector;
+
     protected function setUp()
     {
-        $this->_phraseCollector = new Magento_Test_Integrity_Phrase_Legacy_PhraseCollector();
+        $this->_phraseCollector = new Magento_Tokenizer_Translate_MethodCollector();
     }
 
     public function testCase()
     {
-        foreach ($this->_getFiles() as $file) {
+        $errors = array();
+        $path = Utility_Files::init()->getPathToSource() . '/app/';
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+        foreach (new RegexIterator($files, '/\.(php|phtml)$/') as $file) {
             $this->_phraseCollector->parse($file);
             foreach ($this->_phraseCollector->getPhrases() as $phrase) {
-                $this->addError($phrase);
+                $errors[] = "\nPhrase: " . $phrase['phrase'] .
+                    "\nFile: " . $phrase['file'] .
+                    "\nLine: " . $phrase['line'];
             }
         }
-        $this->assertEmpty(
-            $this->_errors,
-            $this->_prepareErrorMessage('%d usages of the old translation method call were discovered: %s',
-                $this->_errors)
-        );
+        $message = sprintf('%d usages of the old translation method call were discovered: %s',
+            count($errors), "\n" );
+        $this->assertEmpty($errors, $message);
     }
 }

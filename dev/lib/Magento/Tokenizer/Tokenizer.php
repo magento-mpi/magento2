@@ -40,12 +40,12 @@ class Magento_Tokenizer_Tokenizer
      * Whenever token is phrase function
      *
      * @param Magento_Tokenizer_Token $token
-     * @param string $funtionName
+     * @param string $functionName
      * @return bool
      */
-    public function tokenIsEqualFunction(Magento_Tokenizer_Token $token, $funtionName)
+    public function tokenIsEqualFunction(Magento_Tokenizer_Token $token, $functionName)
     {
-        return $token->getName() == T_STRING && $token->getValue() == $funtionName;
+        return $token->getName() == T_STRING && $token->getValue() == $functionName;
     }
 
     /**
@@ -122,7 +122,7 @@ class Magento_Tokenizer_Tokenizer
     public function getCurrentToken()
     {
         $token = current($this->_tokens);
-        return $this->buildToken($token);
+        return $this->_buildToken($token);
     }
 
     /**
@@ -135,7 +135,7 @@ class Magento_Tokenizer_Tokenizer
     {
         $token = next($this->_tokens);
         if ($token) {
-            return $this->buildToken($token);
+            return $this->_buildToken($token);
         }
         throw new Exception('Tokens is ended');
     }
@@ -146,7 +146,7 @@ class Magento_Tokenizer_Tokenizer
      * @param array $tokenData
      * @return Magento_Tokenizer_Token
      */
-    private function buildToken($tokenData)
+    private function _buildToken($tokenData)
     {
         return new Magento_Tokenizer_Token($tokenData);
     }
