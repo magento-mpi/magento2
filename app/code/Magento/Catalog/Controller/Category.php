@@ -92,7 +92,7 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
             $this->generateLayoutXml()->generateLayoutBlocks();
             // apply custom layout (page) template once the blocks are generated
             if ($settings->getPageLayout()) {
-                $this->getLayout()->helper('Magento_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
+                $this->_objectManager->get('Magento_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
             }
 
             $root = $this->getLayout()->getBlock('root');

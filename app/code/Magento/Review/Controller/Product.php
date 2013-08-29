@@ -17,7 +17,6 @@
  */
 class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Action
 {
-
     /**
      * Action list where need check enabled cookie
      *
@@ -270,13 +269,13 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
         );
 
         if ($product->getPageLayout()) {
-            $this->getLayout()->helper('Magento_Page_Helper_Layout')
+            $this->_objectManager->get('Magento_Page_Helper_Layout')
                 ->applyHandle($product->getPageLayout());
         }
         $this->loadLayoutUpdates();
 
         if ($product->getPageLayout()) {
-            $this->getLayout()->helper('Magento_Page_Helper_Layout')
+            $this->_objectManager->get('Magento_Page_Helper_Layout')
                 ->applyTemplate($product->getPageLayout());
         }
         $update->addUpdate($product->getCustomLayoutUpdate());

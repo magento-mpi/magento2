@@ -1587,21 +1587,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     }
 
     /**
-     * Retrieve helper object
-     *
-     * @param   string $name
-     * @return  Magento_Core_Helper_Abstract
-     */
-    public function helper($name)
-    {
-        $helper = Mage::helper($name);
-        if (!$helper) {
-            return false;
-        }
-        return $helper->setLayout($this);
-    }
-
-    /**
      * Retrieve block factory
      *
      * @return Magento_Core_Model_BlockFactory

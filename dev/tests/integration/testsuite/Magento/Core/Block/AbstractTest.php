@@ -498,16 +498,11 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento_Core_Helper_Data', $this->_block->helper('Magento_Core_Helper_Data'));
 
         // With layout
-        $this->_block->setLayout(Mage::getModel('Magento_Core_Model_Layout'));
         $helper = $this->_block->helper('Magento_Core_Helper_Data');
 
         try {
             $this->assertInstanceOf('Magento_Core_Helper_Data', $helper);
-            $this->assertInstanceOf('Magento_Core_Model_Layout', $helper->getLayout());
-            /* Helper is a 'singleton', so assigned layout may affect further helper usage */
-            $helper->setLayout(null);
         } catch (Exception $e) {
-            $helper->setLayout(null);
             throw $e;
         }
     }

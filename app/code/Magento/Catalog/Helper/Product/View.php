@@ -41,16 +41,26 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
     protected $_catalogProduct = null;
 
     /**
+     * Catalog product
+     *
+     * @var Magento_Page_Helper_Layout
+     */
+    protected $_pageLayout = null;
+
+    /**
      * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Page_Helper_Layout $pageLayout
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      */
     public function __construct(
         Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Page_Helper_Layout $pageLayout,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config
     ) {
         $this->_catalogProduct = $catalogProduct;
+        $this->_pageLayout = $pageLayout;
         parent::__construct($context);
         $this->_config = $config;
     }
@@ -91,7 +101,7 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
 
         // Apply custom layout (page) template once the blocks are generated
         if ($settings->getPageLayout()) {
-            $controller->getLayout()->helper('Magento_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
+            $this->_pageLayout->applyTemplate($settings->getPageLayout());
         }
 
         $currentCategory = Mage::registry('current_category');

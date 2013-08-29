@@ -413,11 +413,4 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento_Core_Block_Text', $block);
         $this->assertSame($block, $this->_layout->getBlockSingleton('Magento_Core_Block_Text'));
     }
-
-    public function testHelper()
-    {
-        $helper = $this->_layout->helper('Magento_Core_Helper_Data');
-        $this->assertInstanceOf('Magento_Core_Helper_Data', $helper);
-        $this->assertSame($this->_layout, $helper->getLayout());
-    }
 }
