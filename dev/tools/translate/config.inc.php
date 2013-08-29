@@ -554,16 +554,13 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/importexport',
         'app/design/adminhtml/default/default/layout/importexport.xml',
     ),
-    'Enterprise_Tag' => array(
-        'app/code/Enterprise/Tag/',
-    ),
 );
 
 $CONFIG['helpers']  = array(
     'adminhtml'         => 'Magento_Adminhtml',
     'adminnotification' => 'Magento_AdminNotification',
     'api'               => 'Magento_Api',
-    'webapi'              => 'Magento_Webapi',
+    'webapi'            => 'Magento_Webapi',
     'oauth'             => 'Magento_Oauth',
     'importexport'      => 'Magento_ImportExport',
     'backup'            => 'Magento_Backup',

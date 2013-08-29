@@ -102,7 +102,7 @@ class Legacy_ClassesEnterpriseTest extends PHPUnit_Framework_TestCase
             return;
         }
         $obsoleteClasses = array();
-        $exceptions = array('Enterprise_Tag', 'Magento_Enterprise');
+        $exceptions = array('Magento_Enterprise');
         foreach ($names as $name) {
             $excludeItem = false;
             foreach ($exceptions as $exception) {
