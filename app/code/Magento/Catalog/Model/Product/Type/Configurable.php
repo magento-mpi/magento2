@@ -78,27 +78,6 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
     protected $_canConfigure            = true;
 
     /**
-     * Core data
-     *
-     * @var Magento_Core_Helper_Data
-     */
-    protected $_coreData = null;
-
-    /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Filesystem $filesystem
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Filesystem $filesystem,
-        array $data = array()
-    ) {
-        $this->_coreData = $coreData;
-        parent::__construct($filesystem, $data);
-    }
-
-    /**
      * Return relation info about used products
      *
      * @return Magento_Object Object with information data

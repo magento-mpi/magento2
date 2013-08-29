@@ -76,13 +76,6 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     protected $_attributes = null;
 
     /**
-     * Helpers list
-     *
-     * @var array
-     */
-    protected $_helpers = array();
-
-    /**
      * Store instance
      *
      * @var Magento_Core_Model_Store
@@ -139,7 +132,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Store $store
      * @param Magento_Core_Model_Config $applicationConfig
      * @param Magento_Core_Model_Translate $translate
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Enterprise_GiftRegistry_Model_Resource_Entity $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
@@ -151,7 +144,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         Magento_Core_Model_Store $store,
         Magento_Core_Model_Config $applicationConfig,
         Magento_Core_Model_Translate $translate,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Enterprise_GiftRegistry_Model_Resource_Entity $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data= array()
     ) {
@@ -159,7 +152,6 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         $this->_giftRegistryData = $giftRegistryData;
         $this->_app = $application;
         $this->_config = $applicationConfig;
-        $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
         $this->_store = $store;
         $this->_translate = $translate;
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -168,7 +160,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Init resource model
      */
-    protected function _construct() {
+    protected function _construct()
+    {
         $this->_init('Enterprise_GiftRegistry_Model_Resource_Entity');
         parent::_construct();
     }
@@ -334,7 +327,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             'entity' => $this,
             'message' => $message,
             'recipient_name' => $recipientName,
-            'url' => $this->_helper('Enterprise_GiftRegistry_Helper_Data')->getRegistryLink($this)
+            'url' => $this->_giftRegistryData->getRegistryLink($this)
         );
 
         $mail->setDesignConfig(array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
@@ -362,8 +355,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     public function sendShareRegistryEmails()
     {
         $senderMessage = $this->getSenderMessage();
-        $senderName = $this->_helper('Enterprise_GiftRegistry_Helper_Data')->escapeHtml($this->getSenderName());
-        $senderEmail = $this->_helper('Enterprise_GiftRegistry_Helper_Data')->escapeHtml($this->getSenderEmail());
+        $senderName = $this->_giftRegistryData->escapeHtml($this->getSenderName());
+        $senderEmail = $this->_giftRegistryData->escapeHtml($this->getSenderEmail());
         $result = new Magento_Object(array('is_success' => false));
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
@@ -387,7 +380,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
                 );
             }
 
-            $recipient['name'] = $this->_helper('Enterprise_GiftRegistry_Helper_Data')->escapeHtml($recipient['name']);
+            $recipient['name'] = $this->_giftRegistryData->escapeHtml($recipient['name']);
             if (empty($recipient['name'])) {
                 return $result->setErrorMessage(
                     __('Please enter a recipient name.')
@@ -980,19 +973,5 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             }
         }
         return $this;
-    }
-
-    /**
-     * Retrieve helper by specified name
-     *
-     * @param string $name
-     * @return Magento_Core_Helper_Abstract
-     */
-    protected function _helper($name)
-    {
-        if (!isset($this->_helpers[$name])) {
-            $this->_helpers[$name] = Mage::helper($name);
-        }
-        return $this->_helpers[$name];
     }
 }

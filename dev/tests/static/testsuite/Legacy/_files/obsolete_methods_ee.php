@@ -84,4 +84,5 @@ return array(
     array('_saveCustomerSegmentRelations', 'Enterprise_TargetRule_Model_Resource_Rule'),
     array('_prepareRuleProducts', 'Enterprise_TargetRule_Model_Resource_Rule'),
     array('getInetNtoaExpr', 'Enterprise_Logging_Model_Resource_Helper_Mysql4'),
+    array('_helper', 'Enterprise_GiftRegistry_Model_Entity'),
 );

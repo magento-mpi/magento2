@@ -58,13 +58,6 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
      */
     protected $_fileQueue       = array();
 
-    /**
-     * Helpers list
-     *
-     * @var array
-     */
-    protected $_helpers = array();
-
     const CALCULATE_CHILD = 0;
     const CALCULATE_PARENT = 1;
 
@@ -101,6 +94,16 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     protected $_filesystem;
 
     /**
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData;
+
+    /**
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_fileStorageDb;
+
+    /**
      * Delete data specific for this product type
      *
      * @param Magento_Catalog_Model_Product $product
@@ -110,13 +113,20 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     /**
      * Initialize data
      *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
+        Magento_Filesystem $filesystem,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_fileStorageDb = $fileStorageDb;
         $this->_filesystem = $filesystem;
-        $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
     }
 
     /**
@@ -424,13 +434,13 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
                             }
                             Mage::throwException(__("The file upload failed."));
                         }
-                        $this->_helper('Magento_Core_Helper_File_Storage_Database')->saveFile($dst);
+                        $this->_fileStorageDb->saveFile($dst);
                         break;
                     case 'move_uploaded_file':
                         $src = $queueOptions['src_name'];
                         $dst = $queueOptions['dst_name'];
                         move_uploaded_file($src, $dst);
-                        $this->_helper('Magento_Core_Helper_File_Storage_Database')->saveFile($dst);
+                        $this->_fileStorageDb->saveFile($dst);
                         break;
                     default:
                         break;
@@ -955,17 +965,6 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     public function isMapEnabledInOptions($product, $visibility = null)
     {
         return false;
-    }
-
-    /**
-     * Retrieve helper by specified name
-     *
-     * @param string $name
-     * @return Magento_Core_Helper_Abstract
-     */
-    protected function _helper($name)
-    {
-        return isset($this->_helpers[$name]) ? $this->_helpers[$name] : Mage::helper($name);
     }
 
     /**

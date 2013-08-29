@@ -50,14 +50,22 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Ca
     /**
      * Initialize data
      *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
+        Magento_Filesystem $filesystem,
+        array $data = array()
+    ) {
         $this->_store = isset($data['store']) ? $data['store'] : Mage::app()->getStore();
         $this->_locale = isset($data['locale']) ? $data['locale'] : Mage::app()->getLocale();
-        parent::__construct($filesystem, $data);
+        parent::__construct($coreData, $fileStorageDb, $filesystem, $data);
     }
 
     /**
@@ -329,13 +337,13 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Ca
             if (!$maxAmount || $maxAmount && $customAmount <= $maxAmount) {
                 return $customAmount;
             } elseif ($customAmount > $maxAmount && $isStrict) {
-                $messageAmount = $this->_helper('Magento_Core_Helper_Data')->currency($maxAmount, true, false);
+                $messageAmount = $this->_coreData->currency($maxAmount, true, false);
                 Mage::throwException(
                     __('Gift Card max amount is %1', $messageAmount)
                 );
             }
         } elseif ($customAmount < $minAmount && $isStrict) {
-            $messageAmount = $this->_helper('Magento_Core_Helper_Data')->currency($minAmount, true, false);
+            $messageAmount = $this->_coreData->currency($minAmount, true, false);
             Mage::throwException(
                 __('Gift Card min amount is %1', $messageAmount)
             );

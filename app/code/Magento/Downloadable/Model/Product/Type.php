@@ -20,13 +20,6 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     const TYPE_DOWNLOADABLE = 'downloadable';
 
     /**
-     * Core data
-     *
-     * @var Magento_Core_Helper_Data
-     */
-    protected $_coreData = null;
-
-    /**
      * Downloadable file
      *
      * @var Magento_Downloadable_Helper_File
@@ -36,22 +29,21 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     /**
      * Initialize data
      *
-     *
-     *
      * @param Magento_Downloadable_Helper_File $downloadableFile
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
         Magento_Downloadable_Helper_File $downloadableFile,
         Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
         Magento_Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_downloadableFile = $downloadableFile;
-        $this->_coreData = $coreData;
-        parent::__construct($filesystem, $data);
+        parent::__construct($coreData, $fileStorageDb, $filesystem, $data);
     }
 
     /**

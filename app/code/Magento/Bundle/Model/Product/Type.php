@@ -90,22 +90,24 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * Initialize data
      *
-     *
-     *
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
         Magento_Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_catalogData = $catalogData;
-        parent::__construct($filesystem, $data);
+        parent::__construct($coreData, $fileStorageDb, $filesystem, $data);
     }
 
     /**

@@ -40,23 +40,6 @@ class Enterprise_Tag_Block_Reward_Tooltip extends Enterprise_Reward_Block_Toolti
     ) {
         parent::__construct($rewardData, $coreData, $context, $data);
 
-        if (isset($data['helpers'])) {
-            $this->_helpers = $data['helpers'];
-        }
-
         $tagData->addActionClassToRewardModel();
-    }
-
-    /**
-     * Helper getter
-     *
-     * @param string $helperName
-     * @return Magento_Core_Helper_Abstract
-     */
-    protected function _helper($helperName)
-    {
-        return isset($this->_helpers[$helperName])
-            ? $this->_helpers[$helperName]
-            : Mage::helper($helperName);
     }
 }
