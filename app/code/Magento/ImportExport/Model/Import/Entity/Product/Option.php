@@ -66,13 +66,6 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     protected $_resourceHelper;
 
     /**
-     * Array of data helpers
-     *
-     * @var array
-     */
-    protected $_helpers;
-
-    /**
      * Flag for global prices property
      *
      * @var bool
@@ -268,10 +261,6 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             $this->_resourceHelper = Mage::getResourceHelper('Magento_ImportExport');
         }
 
-        if (isset($data['helpers'])) {
-            $this->_helpers = $data['helpers'];
-        }
-
         if (isset($data['is_price_global'])) {
             $this->_isPriceGlobal = $data['is_price_global'];
         } else {
@@ -331,17 +320,6 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
         );
         // @codingStandardsIgnoreEnd
         return $this;
-    }
-
-    /**
-     * Helper getter
-     *
-     * @param string $helperName
-     * @return Magento_Core_Helper_Abstract
-     */
-    protected function _helper($helperName)
-    {
-        return isset($this->_helpers[$helperName]) ? $this->_helpers[$helperName] : Mage::helper($helperName);
     }
 
     /**

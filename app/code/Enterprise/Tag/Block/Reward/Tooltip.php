@@ -18,13 +18,6 @@
 class Enterprise_Tag_Block_Reward_Tooltip extends Enterprise_Reward_Block_Tooltip
 {
     /**
-     * Array of data helpers
-     *
-     * @var array
-     */
-    protected $_helpers;
-
-    /**
      * @param Enterprise_Tag_Helper_Data $tagData
      * @param Magento_Core_Helper_Data $coreData
      * @param Enterprise_Reward_Helper_Data $rewardData
