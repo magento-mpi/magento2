@@ -212,7 +212,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
         if ($className != null && $namespace != null) {
             try {
-                $this->assertTrue($className == $namespace);
+                $this->assertEquals($className, $namespace);
             } catch (PHPUnit_Framework_AssertionFailedError $e) {
                 $this->fail("$file does not match namespace: $namespace\n");
             }
