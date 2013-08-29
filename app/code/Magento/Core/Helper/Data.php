@@ -67,14 +67,27 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected $_config;
 
+    /** @var  Magento_Core_Model_Config */
+    protected $_coreConfig;
+
+    /** @var  Magento_Core_Model_Event_Manager */
+    protected $_eventManager;
     /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config_Modules $config
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Event_Manager $eventManager
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Config_Modules $config)
-    {
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config_Modules $config,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Event_Manager $eventManager
+    ) {
         parent::__construct($context);
         $this->_config = $config;
+        $this->_coreConfig = $coreConfig;
+        $this->_eventManager = $eventManager;
     }
 
     /**
@@ -411,8 +424,8 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
 
             return false;
         }
-        $fields = Mage::getConfig()->getFieldset($fieldset, $root);
-        if (!$fields) {
+        $fields = $this->_coreConfig->getFieldset($fieldset, $root);
+        if (is_null($fields)) {
             return false;
         }
 
@@ -421,7 +434,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
 
         $result = false;
         foreach ($fields as $code=>$node) {
-            if (empty($node->$aspect)) {
+            if (empty($node[$aspect])) {
                 continue;
             }
 
@@ -431,7 +444,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
                 $value = $source->getDataUsingMethod($code);
             }
 
-            $targetCode = (string)$node->$aspect;
+            $targetCode = (string)$node[$aspect];
             $targetCode = $targetCode == '*' ? $code : $targetCode;
 
             if ($targetIsArray) {
@@ -444,7 +457,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         $eventName = sprintf('core_copy_fieldset_%s_%s', $fieldset, $aspect);
-        Mage::dispatchEvent($eventName, array(
+        $this->_eventManager->dispatch($eventName, array(
             'target' => $target,
             'source' => $source,
             'root'   => $root
