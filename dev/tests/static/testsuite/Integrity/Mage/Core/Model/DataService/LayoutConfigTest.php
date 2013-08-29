@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Core_Model_TemplateEngine_Twig_LayoutConfigTest extends PHPUnit_Framework_TestCase
+class Integrity_Mage_Core_Model_DataService_LayoutConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var array string[] $_serviceCalls Array of valid service calls available to layouts
@@ -22,7 +22,7 @@ class Magento_Test_Integrity_Magento_Core_Model_TemplateEngine_Twig_LayoutConfig
         /**
          * @var array string[] $configFiles
          */
-        $configFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles('service_calls.xml', array());
+        $configFiles = Utility_Files::init()->getConfigFiles('service_calls.xml', array());
         /**
          * @var string $file
          */
@@ -83,6 +83,6 @@ class Magento_Test_Integrity_Magento_Core_Model_TemplateEngine_Twig_LayoutConfig
      */
     public function xmlFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+        return Utility_Files::init()->getLayoutFiles();
     }
 }
