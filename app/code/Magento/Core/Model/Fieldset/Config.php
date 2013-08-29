@@ -24,10 +24,13 @@ class Magento_Core_Model_Fieldset_Config
     }
 
     /**
+     * Get fieldsets by $path
+     *
+     * @param string $path
      * @return array
      */
-    public function getFieldsets()
+    public function getFieldsets($path)
     {
-        return $this->_dataStorage->get();
+        return $this->_dataStorage->get($path);
     }
 }

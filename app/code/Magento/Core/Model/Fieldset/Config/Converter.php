@@ -19,10 +19,10 @@ class Magento_Core_Model_Fieldset_Config_Converter implements Magento_Config_Con
         $fieldsets = array();
         $xpath = new DOMXPath($source);
         /** @var DOMNode $fieldset */
-        foreach ($xpath->query('/config/global/fieldsets') as $fieldset) {
+        foreach ($xpath->query('/config') as $fieldset) {
             $fieldsets[$fieldset->nodeName] = $this->_convert($fieldset);
         }
-        return $fieldsets['fieldsets'];
+        return $fieldsets['config'];
     }
 
     /**
