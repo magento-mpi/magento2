@@ -52,7 +52,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element minOccurs="0" maxOccurs="unbounded" name="field" type="aspectType"/>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="aspect" type="aspectType"/>
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
