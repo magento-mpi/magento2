@@ -10,7 +10,7 @@
  */
 -->
 <project name="Magento2" basedir="../../" default="init">
-    <import file="dev/build/core_dev/util.xml"/>
+    <import file="core_dev/util.xml"/>
 
     <property file="dev/build/build.properties" />
     <property environment="env"/>
