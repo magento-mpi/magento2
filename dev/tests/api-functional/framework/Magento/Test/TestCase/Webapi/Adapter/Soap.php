@@ -202,7 +202,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
             }
             $data[$key] = $value;
         }
-        return 1 === count($data) ? reset($data) : $data;
+        return isset($arg['complexObjectArray']) ? reset($data) : $data;
     }
 
     /**
