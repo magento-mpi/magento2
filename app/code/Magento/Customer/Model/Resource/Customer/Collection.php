@@ -53,8 +53,8 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
     {
         $fields = array();
         $customerAccount = Mage::getConfig()->getFieldset('customer_account');
-        foreach ($customerAccount as $code => $node) {
-            if ($node->is('name')) {
+        foreach ($customerAccount as $code => $field) {
+            if (isset($field['name'])) {
                 $fields[$code] = $code;
             }
         }
