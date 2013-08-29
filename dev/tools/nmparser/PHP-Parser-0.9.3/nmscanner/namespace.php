@@ -65,7 +65,11 @@ class namespacer
         'SimpleXMLElement',
         'RecursiveDirectoryIterator',
         "Mage::",
-        "Zend\\\\"
+        "Zend\\\\",
+        "DOMException",
+        "DOMNode",
+        "RecursiveIteratorIterator",
+        "DOMNodeList"
     );
     private $gitShell = null;
 
@@ -75,9 +79,9 @@ class namespacer
 
         $this->rootDirPath = realpath(__DIR__);
         $this->path = $path;
-        $this->gitShell = new Magento_Shell(null);
-        $this->gitClassMove();
-        $this->gitListPackageMove();
+        $this->gitShell = new \Magento\Shell(null);
+        //$this->gitClassMove();
+       // $this->gitListPackageMove();
         $this->rootDirectory = $rootDirectory;
         $this->renameFileLogger = time() . $this->renameFileLogger;
         $this->renameClassLogger = time() . $this->renameClassLogger;
