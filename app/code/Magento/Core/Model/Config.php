@@ -445,7 +445,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     {
         /** @var $config Magento_Core_Model_Fieldset_Config */
         $config = $this->_objectManager->get('Magento_Core_Model_Fieldset_Config');
-        $fieldsets = $config->getFieldsets($root . '/fieldsets');
+        $fieldsets = $config->getFieldsets($root);
         if (empty($fieldsets)) {
             return null;
         }
