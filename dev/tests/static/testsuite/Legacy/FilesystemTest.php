@@ -37,9 +37,9 @@ class Legacy_FilesystemTest extends PHPUnit_Framework_TestCase
             'Dissolved into themes under app/design ' => array('skin'),
             'Dissolved into different modules\' view/frontend' => array('app/design/frontend/base'),
             'Dissolved into different modules\' view/email/*.html' => array('app/locale/en_US/template'),
-            'Relocated to Magento' => array('app/code/core'),
-            'Relocated to Magento' => array('app/code/local'),
-            'Relocated to Magento' => array('app/code/community'),
+            'The "core" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array('app/code/core'),
+            'The "local" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array('app/code/local'),
+            'The "community" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array('app/code/community'),
         );
     }
 
