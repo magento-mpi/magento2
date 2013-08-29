@@ -64,7 +64,8 @@ class namespacer
         'ArrayAccess',
         'SimpleXMLElement',
         'RecursiveDirectoryIterator',
-        "Mage::"
+        "Mage::",
+        "Zend\\\\"
     );
     private $gitShell = null;
 
