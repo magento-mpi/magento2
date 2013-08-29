@@ -238,8 +238,12 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     protected function _testObsoleteNamespace($file)
     {
         foreach (self::$_namespaces as $row) {
-            list($namespace, , $replacement) = $row;
+            list($namespacePath, , $replacementPath) = $row;
             $relativePath = str_replace(Utility_Files::init()->getPathToSource(), "", $file);
+            $namespacePathArray = explode('/', $namespacePath);
+            $namespace = $namespacePathArray[4];
+            $replacementPathArray = explode('/', $replacementPath);
+            $replacement = $replacementPathArray[3];
             $message = $this->_suggestReplacement("Namespace '{$namespace}' is obsolete.", $replacement);
             $this->assertStringStartsNotWith($namespace, $relativePath, $message);
         }
