@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Enterprise_TargetRule_Model_Index">
+        <param name="customerSession">
+            <instance type="Mage_Customer_Model_SessionProxy" />
+        </param>
+    </type>
+</config>

@@ -90,7 +90,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Widget_Model_Resource_Widget_Instance $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

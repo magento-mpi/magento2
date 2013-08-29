@@ -110,7 +110,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      *
      * @var Magento_Usa_Model_Simplexml_ElementFactory
      */
-    protected $_simpleXmlElementFactory;
+    protected $_xmlElFactory;
 
     /**
      * Usa data
@@ -122,17 +122,20 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Usps constructor
      *
-     *
-     *
      * @param Magento_Usa_Helper_Data $usaData
-     * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
+     * @param Magento_Directory_Helper_Data $directoryData
+     * @param array $data
      */
     public function __construct(
         Magento_Usa_Helper_Data $usaData,
-        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
+        Magento_Directory_Helper_Data $directoryData,
+        array $data = array()
     ) {
         $this->_usaData = $usaData;
-        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
+        $this->_xmlElFactory = $xmlElFactory;
+        parent::__construct($directoryData, $data);
     }
 
     /**
@@ -334,7 +337,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         }
 
         if ($this->_isUSCountry($r->getDestCountryId())) {
-            $xml = $this->_simpleXmlElementFactory->create(
+            $xml = $this->_xmlElFactory->create(
                 array('<?xml version="1.0" encoding="UTF-8"?><RateV4Request/>')
             );
             $xml->addAttribute('USERID', $r->getUserId());
@@ -376,7 +379,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
 
             $api = 'RateV4';
         } else {
-            $xml = $this->_simpleXmlElementFactory->create(
+            $xml = $this->_xmlElFactory->create(
                 array('<?xml version = "1.0" encoding = "UTF-8"?><IntlRateV2Request/>')
             );
             $xml->addAttribute('USERID', $r->getUserId());
@@ -827,7 +830,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
          $r = $this->_rawTrackRequest;
 
          foreach ($trackings as $tracking) {
-             $xml = $this->_simpleXmlElementFactory->create(
+             $xml = $this->_xmlElFactory->create(
                  array('<?xml version = "1.0" encoding = "UTF-8"?><TrackRequest/>')
              );
              $xml->addAttribute('USERID', $r->getUserId());
@@ -1245,7 +1248,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
 
         $rootNode = 'ExpressMailLabelRequest';
         // the wrap node needs for remove xml declaration above
-        $xmlWrap = $this->_simpleXmlElementFactory->create(
+        $xmlWrap = $this->_xmlElFactory->create(
             array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
         );
         $xml = $xmlWrap->addChild($rootNode);
@@ -1334,7 +1337,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
             $rootNode = 'SigConfirmCertifyV3.0Request';
         }
         // the wrap node needs for remove xml declaration above
-        $xmlWrap = $this->_simpleXmlElementFactory->create(
+        $xmlWrap = $this->_xmlElFactory->create(
             array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
         );
         $xml = $xmlWrap->addChild($rootNode);
@@ -1452,7 +1455,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         list($fromZip5, $fromZip4) = $this->_parseZip($request->getShipperAddressPostalCode());
 
         // the wrap node needs for remove xml declaration above
-        $xmlWrap = $this->_simpleXmlElementFactory->create(
+        $xmlWrap = $this->_xmlElFactory->create(
             array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
         );
         $method = '';

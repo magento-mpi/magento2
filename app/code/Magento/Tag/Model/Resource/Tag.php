@@ -28,8 +28,6 @@ class Magento_Tag_Model_Resource_Tag extends Magento_Core_Model_Resource_Db_Abst
     /**
      * Class constructor
      *
-     *
-     *
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Resource $resource
      */

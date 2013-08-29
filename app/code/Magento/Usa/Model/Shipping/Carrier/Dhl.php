@@ -82,7 +82,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
      *
      * @var Magento_Usa_Model_Simplexml_ElementFactory
      */
-    protected $_simpleXmlElementFactory;
+    protected $_xmlElFactory;
 
     /**
      * Container types that could be customized
@@ -122,20 +122,23 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Dhl constructor
      *
-     *
-     *
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Usa_Helper_Data $usaData
-     * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
+     * @param Magento_Directory_Helper_Data $directoryData
+     * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
         Magento_Usa_Helper_Data $usaData,
-        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
+        Magento_Directory_Helper_Data $directoryData,
+        array $data = array()
     ) {
         $this->_coreString = $coreString;
         $this->_usaData = $usaData;
-        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
+        $this->_xmlElFactory = $xmlElFactory;
+        parent::__construct($directoryData, $data);
     }
 
     /**
@@ -497,7 +500,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     {
         $r = $this->_rawRequest;
 
-        $xml = $this->_simpleXmlElementFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
+        $xml = $this->_xmlElFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
         $xml->addAttribute('action', 'Request');
         $xml->addAttribute('version', '1.1');
 
@@ -1067,7 +1070,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     {
         $r = $this->_rawTrackRequest;
 
-        $xml = $this->_simpleXmlElementFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
+        $xml = $this->_xmlElFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
         $xml->addAttribute('action', 'Request');
         $xml->addAttribute('version', '1.1');
 

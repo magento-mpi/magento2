@@ -142,7 +142,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
      *
      * @var Magento_Usa_Model_Simplexml_ElementFactory
      */
-    protected $_simpleXmlElementFactory;
+    protected $_xmlElFactory;
 
     /**
      * Core string
@@ -173,21 +173,26 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Usa_Helper_Data $usaData
      * @param Magento_Core_Helper_String $coreString
-     * @param  $simpleXmlElementFactory
+     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
+     * @param Magento_Directory_Helper_Data $directoryData
+     * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Usa_Helper_Data $usaData,
         Magento_Core_Helper_String $coreString,
-        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
+        Magento_Directory_Helper_Data $directoryData,
+        array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_usaData = $usaData;
         $this->_coreString = $coreString;
-        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
+        $this->_xmlElFactory = $xmlElFactory;
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
             $this->_freeMethod = 'free_method_doc';
         }
+        parent::__construct($directoryData, $data);
     }
 
     /**
@@ -815,7 +820,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                 . 'xmlns:p2="http://www.dhl.com/DCTRequestdatatypes" '
                 . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                 . 'xsi:schemaLocation="http://www.dhl.com DCT-req.xsd "/>';
-        $xml = $this->_simpleXmlElementFactory->create(array($xmlStr));
+        $xml = $this->_xmlElFactory->create(array($xmlStr));
         $nodeGetQuote = $xml->addChild('GetQuote', '', '');
         $nodeRequest = $nodeGetQuote->addChild('Request');
 
@@ -1255,7 +1260,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
             . ' xsi:schemaLocation="http://www.dhl.com ship-val-req'
             . ($originRegion ? '_' . $originRegion : '') . '.xsd" />';
-        $xml = $this->_simpleXmlElementFactory->create(array($xmlStr));
+        $xml = $this->_xmlElFactory->create(array($xmlStr));
 
         $nodeRequest = $xml->addChild('Request', '', '');
         $nodeServiceHeader = $nodeRequest->addChild('ServiceHeader');
@@ -1538,7 +1543,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
             . ' xsi:schemaLocation="http://www.dhl.com TrackingRequestKnown.xsd" />';
 
-        $xml = $this->_simpleXmlElementFactory->create(array($xmlStr));
+        $xml = $this->_xmlElFactory->create(array($xmlStr));
 
         $requestNode = $xml->addChild('Request', '', '');
         $serviceHeaderNode = $requestNode->addChild('ServiceHeader', '', '');

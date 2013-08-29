@@ -15,7 +15,8 @@
  * @package     Magento_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tag_Model_Resource_Reports_Customer_Detail_Collection extends Magento_Tag_Model_Resource_Product_Collection
+class Magento_Tag_Model_Resource_Reports_Customer_Detail_Collection
+    extends Magento_Tag_Model_Resource_Product_Collection
 {
     /**
      * @var Magento_Core_Controller_Request_Http

@@ -53,7 +53,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Tax_Model_Config $taxConfig
      */
-    public function  __construct(
+    public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
         Magento_Tax_Model_Config $taxConfig

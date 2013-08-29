@@ -72,8 +72,6 @@ class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Q
     /**
      * Class constructor
      *
-     *
-     *
      * @param Magento_Tax_Helper_Data $taxData
      */
     public function __construct(
