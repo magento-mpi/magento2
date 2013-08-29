@@ -27,8 +27,8 @@ class Magento_TestFramework_Performance_Scenario_Handler_FileFormat
      * @return Magento_TestFramework_Performance_Scenario_Handler_FileFormat
      */
     public function register($fileExtension,
-        Magento_TestFramework_Performance_Scenario_HandlerInterface $handlerInstance)
-    {
+        Magento_TestFramework_Performance_Scenario_HandlerInterface $handlerInstance
+    ) {
         $this->_handlers[$fileExtension] = $handlerInstance;
         return $this;
     }

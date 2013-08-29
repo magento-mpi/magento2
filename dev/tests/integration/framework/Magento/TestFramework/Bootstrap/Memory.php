@@ -35,8 +35,8 @@ class Magento_TestFramework_Bootstrap_Memory
      * @throws InvalidArgumentException
      */
     public function __construct(Magento_TestFramework_MemoryLimit $memoryLimit,
-        $activationPolicy = self::POLICY_SHUTDOWN)
-    {
+        $activationPolicy = self::POLICY_SHUTDOWN
+    ) {
         if (!is_callable($activationPolicy)) {
             throw new InvalidArgumentException('Activation policy is expected to be a callable.');
         }

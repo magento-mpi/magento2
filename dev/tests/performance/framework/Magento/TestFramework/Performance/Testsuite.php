@@ -191,8 +191,8 @@ class Magento_TestFramework_Performance_Testsuite
      * @param Magento_TestFramework_Performance_Scenario_FailureException $scenarioFailure
      */
     protected function _notifyScenarioFailure(
-        Magento_TestFramework_Performance_Scenario_FailureException $scenarioFailure)
-    {
+        Magento_TestFramework_Performance_Scenario_FailureException $scenarioFailure
+    ) {
         if ($this->_onScenarioFailure) {
             call_user_func($this->_onScenarioFailure, $scenarioFailure);
         }

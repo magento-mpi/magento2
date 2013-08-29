@@ -44,8 +44,8 @@ class Magento_TestFramework_CodingStandard_Tool_CodeSniffer
      * @param Magento_TestFramework_CodingStandard_Tool_CodeSniffer_Wrapper $wrapper
      */
     public function __construct($rulesetDir, $reportFile,
-        Magento_TestFramework_CodingStandard_Tool_CodeSniffer_Wrapper $wrapper)
-    {
+        Magento_TestFramework_CodingStandard_Tool_CodeSniffer_Wrapper $wrapper
+    ) {
         $this->_reportFile = $reportFile;
         $this->_rulesetDir = $rulesetDir;
         $this->_wrapper = $wrapper;
