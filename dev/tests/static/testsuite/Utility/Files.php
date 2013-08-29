@@ -141,7 +141,7 @@ class Utility_Files
             return self::$_cache[$key];
         }
         if (!isset(self::$_cache[$key])) {
-            $namespace = $module = $area = $package = $theme = '*';
+            $namespace = '*';
 
             $files = array_merge(
                 self::_getFiles(array("{$this->_path}/app/code/{$namespace}"), '*.php'),
