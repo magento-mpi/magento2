@@ -65,7 +65,7 @@ class Magento_Rss_Controller_CatalogTest extends Magento_Test_TestCase_Controlle
         );
     }
 
-     /**
+    /**
      * @dataProvider authorizationFailedDataProvider
      */
     public function testAuthorizationFailed($action)
