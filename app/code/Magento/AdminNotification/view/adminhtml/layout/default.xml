@@ -11,8 +11,8 @@
     <handle id="default">
         <reference name="root">
             <container name="notifications" as="notifications" label="Notifications" after="header">
-                <block class="Magento_AdminNotification_Block_System_Messages" name="system_messages" as="system_messages" label="System Messages" before="-" template="Magento_AdminNotification::system/messages.phtml"/>
-                <block class="Magento_AdminNotification_Block_System_Messages_UnreadMessagePopup" name="unread_system_messages" as="unread_system_messages" label="Unread System Messages" after="system_messages" template="Magento_AdminNotification::system/messages/popup.phtml"/>
+                <block class="Magento_AdminNotification_Block_System_Messages" name="system_messages" as="system_messages" before="-" template="Magento_AdminNotification::system/messages.phtml"/>
+                <block class="Magento_AdminNotification_Block_System_Messages_UnreadMessagePopup" name="unread_system_messages" as="unread_system_messages" after="system_messages" template="Magento_AdminNotification::system/messages/popup.phtml"/>
                 <block class="Magento_AdminNotification_Block_Window" name="notification_window" as="notification_window" acl="Magento_AdminNotification::show_toolbar" template="notification/window.phtml"/>
             </container>
             <reference name="head">
