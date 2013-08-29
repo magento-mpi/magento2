@@ -196,26 +196,21 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $namespace = null;
 
         // exception made because the file is already using formal namespace
-        $exclusion = "/app/code/Zend/Soap/Wsdl.php";
-        if ($relativePath == $exclusion) {
+        if ($relativePath == "/app/code/Zend/Soap/Wsdl.php") {
             return;
         }
 
         // if no class declaration found for $file, then skip this file
-        if (preg_match($classPattern, $contents, $classNameMatch) != 0) {
-            $className = substr($classNameMatch[0], 6);
-        } else {
+        if (!preg_match($classPattern, $contents, $classNameMatch) != 0) {
             return;
         }
+        $className = substr($classNameMatch[0], 6);
+
         if (preg_match($namespacePattern, $relativePath, $namespaceMatch) != 0) {
             $namespace = str_replace('/', '_', $namespaceMatch[0]);
         }
         if ($className != null && $namespace != null) {
-            try {
-                $this->assertEquals($className, $namespace);
-            } catch (PHPUnit_Framework_AssertionFailedError $e) {
-                $this->fail("$file does not match namespace: $namespace\n");
-            }
+            $this->assertEquals($className, $namespace);
         }
     }
 }
