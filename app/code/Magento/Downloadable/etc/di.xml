@@ -13,4 +13,9 @@
             <instance type="Magento_Core_Helper_File_Storage_DatabaseProxy" />
         </param>
     </type>
+    <type name="Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo">
+        <param name="helper">
+            <instance type="Magento_Core_Helper_StringProxy" />
+        </param>
+    </type>
 </config>

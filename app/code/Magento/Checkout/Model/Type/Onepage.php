@@ -62,20 +62,18 @@ class Magento_Checkout_Model_Type_Onepage
     protected $_customerData = null;
 
     /**
-     * Class constructor
-     *
-     * Set customer already exists message
-     *
+     * @param Magento_Checkout_Helper_Data $helper
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Helper_Data $coreData
      */
     public function __construct(
+        Magento_Checkout_Helper_Data $helper,
         Magento_Customer_Helper_Data $customerData,
         Magento_Core_Helper_Data $coreData
     ) {
         $this->_customerData = $customerData;
         $this->_coreData = $coreData;
-        $this->_helper = $this->_helper;
+        $this->_helper = $helper;
         $this->_customerEmailExistsMessage = __('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.');
         $this->_checkoutSession = Mage::getSingleton('Magento_Checkout_Model_Session');
         $this->_customerSession = Mage::getSingleton('Magento_Customer_Model_Session');

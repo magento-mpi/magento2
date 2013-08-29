@@ -134,6 +134,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Helper_Data $helper
      * @param string $resourceName
      * @param array $data
      */
@@ -144,10 +145,12 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Filesystem $filesystem,
+        Magento_Core_Helper_Data $helper,
         $resourceName,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
+        $this->_coreHelper = $helper;
         if (!isset($data['resource_config'])
             || !isset($data['connection_config'])
             || !isset($data['module_config'])
@@ -165,11 +168,6 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
             }
 
             $this->_initConfigs($data);
-        }
-        if (isset($data['core_helper'])) {
-            $this->_coreHelper = $data['core_helper'];
-        } else {
-            $this->_coreHelper = $this->_coreHelper;
         }
 
         if (isset($data['base_dir'])) {

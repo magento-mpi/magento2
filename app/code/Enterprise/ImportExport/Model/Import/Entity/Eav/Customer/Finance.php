@@ -105,17 +105,21 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected $_importedRowPks = array();
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_String $coreString
      * @param Enterprise_ImportExport_Helper_Data $importExportData
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_String $coreString,
         Enterprise_ImportExport_Helper_Data $importExportData,
         array $data = array()
     ) {
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
-        parent::__construct($data);
+        parent::__construct($coreData, $coreString, $data);
 
         $this->_importExportData = isset($data['module_helper']) ? $data['module_helper']
             : $importExportData;

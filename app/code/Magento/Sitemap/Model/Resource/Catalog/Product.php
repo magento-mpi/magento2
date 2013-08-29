@@ -51,10 +51,6 @@ class Magento_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_
     protected $_sitemapData = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_Sitemap_Helper_Data $sitemapData
      * @param Magento_Core_Model_Resource $resource
      */

@@ -232,11 +232,14 @@ abstract class Magento_ImportExport_Model_Import_EntityAbstract
     protected $_helpers;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_String $coreString
      * @param array $data
      */
-    public function __construct(array $data = array())
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_String $coreString,
+        array $data = array())
     {
         if (isset($data['helpers'])) {
             $this->_helpers = $data['helpers'];
@@ -247,9 +250,9 @@ abstract class Magento_ImportExport_Model_Import_EntityAbstract
         $this->_connection          = isset($data['connection']) ? $data['connection']
             : Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
         $this->_jsonHelper          = isset($data['json_helper']) ? $data['json_helper']
-            : $this->_jsonHelper;
+            : $coreData;
         $this->_stringHelper        = isset($data['string_helper']) ? $data['string_helper']
-            : $this->_stringHelper;
+            : $coreString;
         $this->_pageSize            = isset($data['page_size']) ? $data['page_size']
             : (static::XML_PATH_PAGE_SIZE ? (int) Mage::getStoreConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_maxDataSize         = isset($data['max_data_size']) ? $data['max_data_size']

@@ -26,17 +26,15 @@ class Magento_Shipping_Model_Info extends Magento_Object
     protected $_shippingData = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_Shipping_Helper_Data $shippingData
+     * @param array $data
      */
     public function __construct(
-        Magento_Shipping_Helper_Data $shippingData
+        Magento_Shipping_Helper_Data $shippingData,
+        array $data = array()
     ) {
         $this->_shippingData = $shippingData;
+        parent::__construct($data);
     }
 
     /**
