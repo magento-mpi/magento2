@@ -339,14 +339,14 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
      * attributes This behavior may change in child classes
      *
      * @param Magento_Core_Helper_Data $coreData
-     * @param array $data
+     * @param Magento_Customer_Helper_Address $customerAddress
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        array $data = array()
+        Magento_Customer_Helper_Address $customerAddress
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($data);
+        parent::__construct($customerAddress);
     }
 
     /**
@@ -539,7 +539,7 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
     /**
      * Generate Request ID
      *
-     * @return
+     * @return string
      */
     protected function getRequestId()
     {

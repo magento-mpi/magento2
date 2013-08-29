@@ -149,7 +149,6 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
 
     /**
      * Redirect to login page
-     *
      */
     public function redirectLogin()
     {
@@ -161,5 +160,4 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
             )
         );
     }
-
 }

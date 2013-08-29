@@ -84,7 +84,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Set product entity id
      *
-     * @param int $value
+     * @param $entityId
      * @return Magento_Reports_Model_Resource_Product_Collection
      */
     public function setProductEntityId($entityId)

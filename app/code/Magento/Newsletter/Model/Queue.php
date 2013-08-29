@@ -151,7 +151,7 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
      */
     public function setQueueStartAtByString($startAt)
     {
-        if(is_null($startAt) || $startAt == '') {
+        if (is_null($startAt) || $startAt == '') {
             $this->setQueueStartAt(null);
         } else {
             $locale = Mage::app()->getLocale();
@@ -160,7 +160,7 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
             $this->setQueueStartAt(Mage::getModel('Magento_Core_Model_Date')->gmtDate(null, $time));
         }
         return $this;
-     }
+    }
 
     /**
      * Send messages to subscribers for this queue
@@ -314,7 +314,7 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
      */
     public function getStores()
     {
-        if(!$this->_stores) {
+        if (!$this->_stores) {
             $this->_stores = $this->_getResource()->getStores($this);
         }
 

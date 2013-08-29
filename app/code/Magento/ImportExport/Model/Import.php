@@ -449,7 +449,8 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
 
         $entity    = $this->getEntity();
         /** @var $uploader Magento_Core_Model_File_Uploader */
-        $uploader  = Mage::getModel('Magento_Core_Model_File_Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
+        $uploader  = Mage::getModel('Magento_Core_Model_File_Uploader',
+            array('fileId' => self::FIELD_NAME_SOURCE_FILE));
         $uploader->skipDbProcessing(true);
         $result    = $uploader->save(self::getWorkingDir());
         $extension = pathinfo($result['file'], PATHINFO_EXTENSION);

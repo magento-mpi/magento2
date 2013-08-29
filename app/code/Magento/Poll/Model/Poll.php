@@ -189,6 +189,7 @@ class Magento_Poll_Model_Poll extends Magento_Core_Model_Abstract
     /**
      * Add vote to poll
      *
+     * @param Magento_Poll_Model_Poll_Vote $vote
      * @return unknown
      */
     public function addVote(Magento_Poll_Model_Poll_Vote $vote)
@@ -212,8 +213,7 @@ class Magento_Poll_Model_Poll extends Magento_Core_Model_Abstract
         $answerId = false;
         if (is_numeric($answer)) {
             $answerId = $answer;
-        }
-        elseif ($answer instanceof Magento_Poll_Model_Poll_Answer) {
+        } elseif ($answer instanceof Magento_Poll_Model_Poll_Answer) {
             $answerId = $answer->getId();
         }
 
@@ -292,5 +292,4 @@ class Magento_Poll_Model_Poll extends Magento_Core_Model_Abstract
     {
         return $this->_getData('votes_count');
     }
-
 }

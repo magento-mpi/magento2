@@ -210,7 +210,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         }
         $limitCarrier = array_values($limitCarrier);
 
-        foreach($googleAddresses as $googleAddress) {
+        foreach ($googleAddresses as $googleAddress) {
             $addressId = $googleAddress['id'];
             $regionCode = $googleAddress['region']['VALUE'];
             $countryCode = $googleAddress['country-code']['VALUE'];
@@ -279,7 +279,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
                                 'google/checkout_shipping_flatrate/price_'.$i,
                                 $quote->getStoreId()
                             );
-                            $price = number_format($price, 2, '.','');
+                            $price = number_format($price, 2, '.', '');
                             $price = (float) $this->_taxData->getShippingPrice($price, false, false);
                             $address->setShippingMethod(null);
                             $address->setCollectShippingRates(true)->collectTotals();
@@ -538,8 +538,8 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
             );
             $quote->setBaseGrandTotal($grandTotal);
 
-            $message = __('The tax amount has been applied based on the information received from Google Checkout, because tax amount received from Google Checkout is different from the calculated tax amount');
-            return $message;
+            return __('The tax amount has been applied based on the information received from Google Checkout, '
+                . 'because tax amount received from Google Checkout is different from the calculated tax amount');
         }
 
         return false;
@@ -596,6 +596,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
      * Includes internal GoogleCheckout shipping methods, that can be created
      * after successful Google Checkout
      *
+     * @param null $storeId
      * @return array
      */
     protected function _getShippingInfos($storeId = null)
@@ -667,6 +668,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
      * so it will get in order description properly
      *
      * @param string $code
+     * @param null $storeId
      * @return Magento_Sales_Model_Quote_Address_Rate
      */
     protected function _createShippingRate($code, $storeId = null)
@@ -786,8 +788,11 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         $msg .= '<br />' . __('CC Partial: xxxx-%1', '<strong>' . $payment->getCcLast4() . '</strong>');
         $msg .= '<br />' . __('AVS Status: %1', '<strong>' . $payment->getCcAvsStatus() . '</strong>');
         $msg .= '<br />' . __('CID Status: %1', '<strong>' . $payment->getCcCidStatus() . '</strong>');
-        $msg .= '<br />' . __('Eligible for Protection: %1', '<strong>' . ($this->getData('root/risk-information/eligible-for-protection/VALUE')=='true' ? 'Yes' : 'No') . '</strong>');
-        $msg .= '<br />' . __('Buyer Account Age: %1 days', '<strong>' . $this->getData('root/risk-information/buyer-account-age/VALUE') . '</strong>');
+        $msg .= '<br />' . __('Eligible for Protection: %1', '<strong>'
+                . ($this->getData('root/risk-information/eligible-for-protection/VALUE')=='true' ? 'Yes' : 'No')
+                . '</strong>');
+        $msg .= '<br />' . __('Buyer Account Age: %1 days', '<strong>'
+                . $this->getData('root/risk-information/buyer-account-age/VALUE') . '</strong>');
 
         $order->addStatusToHistory($order->getStatus(), $msg);
         $order->save();
@@ -808,7 +813,8 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         $expDate = $this->getData('root/authorization-expiration-date/VALUE');
         $expDate = new Zend_Date($expDate);
         $msg = __('Google Authorization:');
-        $msg .= '<br />' . __('Amount: %1', '<strong>' . $this->_formatAmount($payment->getAmountAuthorized()) . '</strong>');
+        $msg .= '<br />' . __('Amount: %1', '<strong>'
+                . $this->_formatAmount($payment->getAmountAuthorized()) . '</strong>');
         $msg .= '<br />' . __('Expiration: %1', '<strong>' . $expDate->toString() . '</strong>');
 
         $order->addStatusToHistory($order->getStatus(), $msg);
@@ -927,8 +933,10 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
             $creditmemo->save();
         }
         $msg = __('Google Chargeback:');
-        $msg .= '<br />' . __('Latest Chargeback: %1', '<strong>' . $this->_formatAmount($latestChargeback) . '</strong>');
-        $msg .= '<br />' . __('Total Chargeback: %1', '<strong>' . $this->_formatAmount($totalChargeback) . '</strong>');
+        $msg .= '<br />' . __('Latest Chargeback: %1', '<strong>'
+                . $this->_formatAmount($latestChargeback) . '</strong>');
+        $msg .= '<br />' . __('Total Chargeback: %1', '<strong>'
+                . $this->_formatAmount($totalChargeback) . '</strong>');
 
         $this->_addChildTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
             Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE);
@@ -994,10 +1002,12 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
 
         $msg = __('Google Order Status Change:');
         if ($prevFinancial!=$newFinancial) {
-            $msg .= "<br />" . __('Financial: %1 -> %2', '<strong>' . $prevFinancial . '</strong>', '<strong>' . $newFinancial . '</strong>');
+            $msg .= "<br />" . __('Financial: %1 -> %2', '<strong>' . $prevFinancial . '</strong>',
+                    '<strong>' . $newFinancial . '</strong>');
         }
         if ($prevFulfillment!=$newFulfillment) {
-            $msg .= "<br />" . __('Fulfillment: %1 -> %2', '<strong>' . $prevFulfillment . '</strong>', '<strong>' . $newFulfillment . '</strong>');
+            $msg .= "<br />" . __('Fulfillment: %1 -> %2', '<strong>' . $prevFulfillment . '</strong>',
+                    '<strong>' . $newFulfillment . '</strong>');
         }
         $this->getOrder()
             ->addStatusToHistory($this->getOrder()->getStatus(), $msg)
@@ -1023,8 +1033,8 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
      */
     protected function _addChildTransaction(
         $typeTarget,
-        $typeParent = Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH)
-    {
+        $typeParent = Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH
+    ) {
         $payment                = $this->getOrder()->getPayment();
         $googleOrderId          = $this->getGoogleOrderNumber();
         $parentTransactionId    = $googleOrderId;
@@ -1128,5 +1138,4 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         // format currency in currency format, but don't enclose it into <span>
         return $this->_coreData->currency($amount, true, false);
     }
-
 }

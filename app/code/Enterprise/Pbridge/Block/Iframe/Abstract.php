@@ -269,8 +269,6 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Magento_Payment_
     /**
      * Generate unique identifier for current merchant and customer
      *
-     *
-     * @internal param $storeId
      * @return null|string
      */
     public function getCustomerIdentifier()
@@ -287,8 +285,6 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Magento_Payment_
     /**
      * Return current merchant and customer email
      *
-     *
-     * @internal param $storeId
      * @return null|string
      */
     public function getCustomerEmail()

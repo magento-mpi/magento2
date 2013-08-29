@@ -13,11 +13,11 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract extends Magento_Payment_Model_Method_Abstract
+abstract class Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract
+    extends Magento_Payment_Model_Method_Abstract
 {
     /**
      * Transport billing agreement id
-     *
      */
     const TRANSPORT_BILLING_AGREEMENT_ID = 'ba_agreement_id';
     const PAYMENT_INFO_REFERENCE_ID      = 'ba_reference_id';
@@ -84,8 +84,6 @@ abstract class Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract exte
     }
 
     /**
-     *
-     *
      * @param unknown_type $quote
      */
     abstract protected function _isAvailable($quote);

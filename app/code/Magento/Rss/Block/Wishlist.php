@@ -47,7 +47,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
                     $this->_wishlist->unsetData();
                 }
             } else {
-                if($this->_getCustomer()->getId()) {
+                if ($this->_getCustomer()->getId()) {
                     $this->_wishlist->loadByCustomer($this->_getCustomer());
                 }
             }
@@ -137,7 +137,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
                     . '<p>';
 
                 if ($product->getAllowedPriceInRss()) {
-                    $description .= $this->getPriceHtml($product,true);
+                    $description .= $this->getPriceHtml($product, true);
                 }
                 $description .= '</p>';
                 if ($this->hasDescription($product)) {
@@ -156,8 +156,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
                     'description'   => $description,
                 ));
             }
-        }
-        else {
+        } else {
             $rssObj->_addHeader(array(
                 'title'         => __('We cannot retrieve the wish list.'),
                 'description'   => __('We cannot retrieve the wish list.'),

@@ -50,16 +50,18 @@ class Magento_Rss_Block_Catalog_Abstract extends Magento_Rss_Block_Abstract
 
     /**
      * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -108,13 +110,13 @@ class Magento_Rss_Block_Catalog_Abstract extends Magento_Rss_Block_Abstract
      */
     public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix='')
     {
-        $type_id = $product->getTypeId();
+        $typeId = $product->getTypeId();
         if ($this->_catalogData->canApplyMsrp($product)) {
-            $type_id = $this->_mapRenderer;
+            $typeId = $this->_mapRenderer;
         }
 
-        return $this->_getPriceBlock($type_id)
-            ->setTemplate($this->_getPriceBlockTemplate($type_id))
+        return $this->_getPriceBlock($typeId)
+            ->setTemplate($this->_getPriceBlockTemplate($typeId))
             ->setProduct($product)
             ->setDisplayMinimalPrice($displayMinimalPrice)
             ->setIdSuffix($idSuffix)

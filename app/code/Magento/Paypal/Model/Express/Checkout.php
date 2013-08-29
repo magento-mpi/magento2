@@ -152,10 +152,6 @@ class Magento_Paypal_Model_Express_Checkout
     protected $_customerData = null;
 
     /**
-     * Set config, session and quote instances
-     *
-     *
-     *
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Tax_Helper_Data $taxData
@@ -163,6 +159,7 @@ class Magento_Paypal_Model_Express_Checkout
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param array $params
+     * @throws Exception
      */
     public function __construct(
         Magento_Customer_Helper_Data $customerData,
@@ -294,7 +291,8 @@ class Magento_Paypal_Model_Express_Checkout
         $this->_quote->collectTotals();
 
         if (!$this->_quote->getGrandTotal() && !$this->_quote->hasNominalItems()) {
-            Mage::throwException(__('PayPal can\'t process orders with a zero balance due. To finish your purchase, please go through the standard checkout process.'));
+            Mage::throwException(__('PayPal can\'t process orders with a zero balance due. '
+                . 'To finish your purchase, please go through the standard checkout process.'));
         }
 
         $this->_quote->reserveOrderId()->save();
@@ -1006,9 +1004,9 @@ class Magento_Paypal_Model_Express_Checkout
         if ($customer->isConfirmationRequired()) {
             $customer->sendNewAccountEmail('confirmation');
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
-            $this->getCustomerSession()->addSuccess(
-                __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
-            );
+            $this->getCustomerSession()->addSuccess(__('Account confirmation is required. '
+                . 'Please, check your e-mail for confirmation link. '
+                . 'To resend confirmation email please <a href="%1">click here</a>.', $url));
         } else {
             $customer->sendNewAccountEmail();
             $this->getCustomerSession()->loginById($customer->getId());

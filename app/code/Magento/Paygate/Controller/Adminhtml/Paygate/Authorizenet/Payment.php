@@ -17,7 +17,6 @@
  */
 class Magento_Paygate_Controller_Adminhtml_Paygate_Authorizenet_Payment extends Magento_Adminhtml_Controller_Action
 {
-
     /**
      * Cancel active partail authorizations
      */
@@ -27,9 +26,14 @@ class Magento_Paygate_Controller_Adminhtml_Paygate_Authorizenet_Payment extends 
         try {
             $paymentMethod = $this->_objectManager->get('Magento_Payment_Helper_Data')
                 ->getMethodInstance(Magento_Paygate_Model_Authorizenet::METHOD_CODE);
+
             if ($paymentMethod) {
-                $paymentMethod->setStore(Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getStoreId());
-                $paymentMethod->cancelPartialAuthorization(Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getPayment());
+                $paymentMethod->setStore(
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getStoreId()
+                );
+                $paymentMethod->cancelPartialAuthorization(
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getPayment()
+                );
             }
 
             $result['success']  = true;
@@ -54,10 +58,13 @@ class Magento_Paygate_Controller_Adminhtml_Paygate_Authorizenet_Payment extends 
     protected function _getPaymentMethodsHtml()
     {
         $layout = $this->getLayout();
+
         $update = $layout->getUpdate();
         $update->load('checkout_onepage_paymentmethod');
+
         $layout->generateXml();
         $layout->generateElements();
+
         $output = $layout->getOutput();
         return $output;
     }

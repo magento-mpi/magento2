@@ -94,20 +94,17 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      */
     public function initServerData()
     {
-        /* @var $helper Magento_Core_Helper_Http */
-        $helper = $this->_coreHttp;
-
         $this->addData(array(
-            'server_addr'           => $helper->getServerAddr(true),
-            'remote_addr'           => $helper->getRemoteAddr(true),
+            'server_addr'           => $this->_coreHttp->getServerAddr(true),
+            'remote_addr'           => $this->_coreHttp->getRemoteAddr(true),
             'http_secure'           => Mage::app()->getStore()->isCurrentlySecure(),
-            'http_host'             => $helper->getHttpHost(true),
-            'http_user_agent'       => $helper->getHttpUserAgent(true),
-            'http_accept_language'  => $helper->getHttpAcceptLanguage(true),
-            'http_accept_charset'   => $helper->getHttpAcceptCharset(true),
-            'request_uri'           => $helper->getRequestUri(true),
+            'http_host'             => $this->_coreHttp->getHttpHost(true),
+            'http_user_agent'       => $this->_coreHttp->getHttpUserAgent(true),
+            'http_accept_language'  => $this->_coreHttp->getHttpAcceptLanguage(true),
+            'http_accept_charset'   => $this->_coreHttp->getHttpAcceptCharset(true),
+            'request_uri'           => $this->_coreHttp->getRequestUri(true),
             'session_id'            => $this->_getSession()->getSessionId(),
-            'http_referer'          => $helper->getHttpReferer(true),
+            'http_referer'          => $this->_coreHttp->getHttpReferer(true),
         ));
 
         return $this;

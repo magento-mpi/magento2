@@ -130,6 +130,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      *
      * @param string $paymentAction
      * @param Magento_Object $stateObject
+     * @return \Magento_Payment_Model_Abstract|void
      */
     public function initialize($paymentAction, $stateObject)
     {
@@ -459,7 +460,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
         }
     }
 
-    /**
+     /**
       * Return unique value for secure token id
       *
       * @return string
@@ -481,7 +482,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
         return sprintf($format, $string);
     }
 
-    /**
+     /**
       * If response is failed throw exception
       * Set token data in payment object
       *

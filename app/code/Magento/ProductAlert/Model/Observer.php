@@ -140,8 +140,7 @@ class Magento_ProductAlert_Model_Observer
                         $previousCustomer = $customer;
                         $email->clean();
                         $email->setCustomer($customer);
-                    }
-                    else {
+                    } else {
                         $customer = $previousCustomer;
                     }
 
@@ -230,8 +229,7 @@ class Magento_ProductAlert_Model_Observer
                         $previousCustomer = $customer;
                         $email->clean();
                         $email->setCustomer($customer);
-                    }
-                    else {
+                    } else {
                         $customer = $previousCustomer;
                     }
 

@@ -109,10 +109,8 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
         parent::_afterSave();
 
         //Cleanup old entries
-        /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = $this->_oauthData;
-        if ($helper->isCleanupProbability()) {
-            $this->_getResource()->deleteOldEntries($helper->getCleanupExpirationPeriod());
+        if ($this->_oauthData->isCleanupProbability()) {
+            $this->_getResource()->deleteOldEntries($this->_oauthData->getCleanupExpirationPeriod());
         }
         return $this;
     }
@@ -139,10 +137,8 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
         } else {
             Mage::throwException('User type is unknown');
         }
-        /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = $this->_oauthData;
 
-        $this->setVerifier($helper->generateVerifier());
+        $this->setVerifier($this->_oauthData->generateVerifier());
         $this->setAuthorized(1);
         $this->save();
 
@@ -161,12 +157,10 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
         if (Magento_Oauth_Model_Token::TYPE_REQUEST != $this->getType()) {
             Mage::throwException('Can not convert due to token is not request type');
         }
-        /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = $this->_oauthData;
 
         $this->setType(self::TYPE_ACCESS);
-        $this->setToken($helper->generateToken());
-        $this->setSecret($helper->generateTokenSecret());
+        $this->setToken($this->_oauthData->generateToken());
+        $this->setSecret($this->_oauthData->generateTokenSecret());
         $this->save();
 
         return $this;
@@ -181,14 +175,11 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      */
     public function createRequestToken($consumerId, $callbackUrl)
     {
-        /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = $this->_oauthData;
-
         $this->setData(array(
             'consumer_id'  => $consumerId,
             'type'         => self::TYPE_REQUEST,
-            'token'        => $helper->generateToken(),
-            'secret'       => $helper->generateTokenSecret(),
+            'token'        => $this->_oauthData->generateToken(),
+            'secret'       => $this->_oauthData->generateTokenSecret(),
             'callback_url' => $callbackUrl
         ));
         $this->save();

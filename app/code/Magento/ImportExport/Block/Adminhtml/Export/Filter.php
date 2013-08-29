@@ -33,6 +33,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
 
     /**
      * @param Magento_ImportExport_Helper_Data $importExportData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
@@ -40,13 +41,14 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
      */
     public function __construct(
         Magento_ImportExport_Helper_Data $importExportData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
         $this->_importExportData = $importExportData;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     /**
@@ -80,7 +82,8 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
             'name'         => $this->getFilterElementName($attribute->getAttributeCode()) . '[]',
             'id'           => $this->getFilterElementId($attribute->getAttributeCode()),
             'class'        => 'input-text input-text-range-date',
-            'date_format'  => Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT),
+            'date_format'  => Mage::app()->getLocale()
+                ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif')
         );
         /** @var $selectBlock Magento_Core_Block_Html_Date */
@@ -93,7 +96,6 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
             $fromValue = $this->_helper->escapeHtml(reset($value));
             $toValue   = $this->_helper->escapeHtml(next($value));
         }
-
 
         return '<strong>' . __('From') . ':</strong>&nbsp;'
             . $dateBlock->setValue($fromValue)->getHtml()
@@ -115,7 +117,6 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
         if ($value) {
             $html .= ' value="' . $this->_helper->escapeHtml($value) . '"';
         }
-
         return $html . ' />';
     }
 
@@ -340,6 +341,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
     /**
      * Get row edit URL.
      *
+     * @param $row
      * @return string|boolean
      */
     public function getRowUrl($row)

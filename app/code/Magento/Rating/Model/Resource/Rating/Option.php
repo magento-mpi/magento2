@@ -60,17 +60,17 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
     protected $_ratingStoreTable;
 
     /**
-    * Option data
-    *
-    * @var array
-    */
+     * Option data
+     *
+     * @var array
+     */
     protected $_optionData;
 
     /**
-    * Option id
-    *
-    * @var int
-    */
+     * Option id
+     *
+     * @var int
+     */
     protected $_optionId;
 
     /**
@@ -81,10 +81,6 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
     protected $_coreHttp = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Resource $resource
      */
@@ -224,7 +220,8 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
                 'vote_count'       => $row['vote_count'],
                 'vote_value_sum'   => $row['vote_value_sum'],
                 'percent'          => (($row['vote_value_sum']/$row['vote_count'])/5) * 100,
-                'percent_approved' => ($row['app_vote_count'] ? ((($row['app_vote_value_sum']/$row['app_vote_count'])/5) * 100) : 0),
+                'percent_approved' => ($row['app_vote_count']
+                    ? ((($row['app_vote_value_sum']/$row['app_vote_count'])/5) * 100) : 0),
                 'store_id'         => $row['store_id'],
             );
 
@@ -270,5 +267,4 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
 
         return $this->_optionData;
     }
-
 }

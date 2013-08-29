@@ -19,11 +19,6 @@ class Magento_Paygate_Block_Authorizenet_Info_Cc extends Magento_Payment_Block_I
 
     protected $_template = 'Magento_Paygate::info/cc.phtml';
 
-    public function __construct(Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
-
     /**
      * Render as PDF
      *

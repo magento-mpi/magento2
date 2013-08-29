@@ -199,10 +199,6 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
     protected $_coreString = null;
 
     /**
-     * Constructor.
-     *
-     *
-     *
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_ImportExport_Helper_Data $importExportData
@@ -215,7 +211,10 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
         $this->_coreString = $coreString;
         $this->_coreData = $coreData;
         $this->_importExportData = $importExportData;
-        $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType($this->getEntityTypeCode());
+
+        $entityType = Mage::getSingleton('Magento_Eav_Model_Config')
+            ->getEntityType($this->getEntityTypeCode());
+
         $this->_entityTypeId    = $entityType->getEntityTypeId();
         $this->_dataSourceModel = Magento_ImportExport_Model_Import::getDataSourceModel();
         $this->_connection      = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
@@ -368,8 +367,10 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
      * @param array $indexValAttrs OPTIONAL Additional attributes' codes with index values.
      * @return array
      */
-    public function getAttributeOptions(Magento_Eav_Model_Entity_Attribute_Abstract $attribute, $indexValAttrs = array())
-    {
+    public function getAttributeOptions(
+        Magento_Eav_Model_Entity_Attribute_Abstract $attribute,
+        $indexValAttrs = array()
+    ) {
         $options = array();
 
         if ($attribute->usesSource()) {
@@ -439,9 +440,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
      */
     public function getErrorMessages()
     {
-        $translator = $this->_importExportData;
         $messages   = array();
-
         foreach ($this->_errors as $errorCode => $errorRows) {
             if (isset($this->_messageTemplates[$errorCode])) {
                 $errorCode = __($this->_messageTemplates[$errorCode]);
@@ -679,9 +678,6 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
     public function validateData()
     {
         if (!$this->_dataValidated) {
-            /** @var $helper Magento_ImportExport_Helper_Data */
-            $helper = $this->_importExportData;
-
             // do all permanent columns exist?
             if ($absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames())) {
                 Mage::throwException(

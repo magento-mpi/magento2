@@ -43,11 +43,6 @@ class Magento_ImportExport_Block_Adminhtml_Import_Frame_Result extends Magento_A
         'notice'  => array()
     );
 
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
-    }
-
     /**
      * Add action for response.
      *
