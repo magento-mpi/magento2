@@ -46,7 +46,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Depends
             'name'      => 'depends_php_max',
             'label'     => __('Maximum'),
             'required'  => true,
-            'value'     => PHP_MAJOR_VERSION . '.' . max(PHP_MINOR_VERSION - 1, 0) . '.0',
+            'value'     => PHP_MAJOR_VERSION . '.' . (PHP_MINOR_VERSION + 1) . '.0',
         ));
 
         $form->setValues($this->getData());
