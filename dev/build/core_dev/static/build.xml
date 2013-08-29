@@ -75,7 +75,7 @@
         </antcall>
     </target>
 
-    <target name="static_tests_js" depends="_server_info, _product_location" description="JS static tests">
+    <target name="static_tests_js" depends="_server_info,_product_location" description="JS static tests">
         <copy file="${basedir}/dev/build/core_dev/static/phpunit.js.xml"
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
         <antcall target="_jshint_path_substitution">
