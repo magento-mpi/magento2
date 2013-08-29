@@ -80,18 +80,17 @@ abstract class AbstractParser implements ParserInterface
      * Add phrase
      *
      * @param string $phrase
-     * @param \SplFileInfo $file
+     * @param string $file
      * @param string|int $line
      * @throws \InvalidArgumentException
      */
     protected function _addPhrase($phrase, $file, $line = '')
     {
         if (!$phrase) {
-            throw new \InvalidArgumentException(
-                sprintf('Phrase cannot be empty. File: "%s" Line: "%s"', $file->getRealPath(), $line));
+            throw new \InvalidArgumentException(sprintf('Phrase cannot be empty. File: "%s" Line: "%s"', $file, $line));
         }
         $phrase = $this->_stripQuotes($phrase);
-        list($contextType, $contextValue) = $this->_contextDetector->getContext($file->getRealPath());
+        list($contextType, $contextValue) = $this->_contextDetector->getContext($file);
         $phraseKey = $contextType . '::' . $phrase;
 
         if (isset($this->_phrases[$phraseKey])) {
