@@ -9,20 +9,19 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <global>
-        <fieldsets>
-            <sales_convert_quote_address>
-                <discount_description>
-                    <to_order>*</to_order>
-                </discount_description>
-                <shipping_discount_amount>
-                    <to_order>*</to_order>
-                </shipping_discount_amount>
-                <base_shipping_discount_amount>
-                    <to_order>*</to_order>
-                </base_shipping_discount_amount>
-            </sales_convert_quote_address>
-        </fieldsets>
-    </global>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Magento/Core/etc/fieldset.xsd">
+    <scope id="global">
+        <fieldset id="sales_convert_quote_address">
+            <field name="discount_description">
+                <aspect name="to_order"/>
+            </field>
+            <field name="shipping_discount_amount">
+                <aspect name="to_order"/>
+            </field>
+            <field name="base_shipping_discount_amount">
+                <aspect name="to_order"/>
+            </field>
+        </fieldset>
+    </scope>
 </config>

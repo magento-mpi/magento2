@@ -9,21 +9,19 @@
  * @license     {license_link}
  */
 -->
-
-<config>
-    <global>
-        <fieldsets>
-            <sales_convert_quote_address>
-                <base_gift_cards_amount>
-                    <to_order>*</to_order>
-                </base_gift_cards_amount>
-                <gift_cards_amount>
-                    <to_order>*</to_order>
-                </gift_cards_amount>
-                <used_gift_cards>
-                    <to_order>gift_cards</to_order>
-                </used_gift_cards>
-            </sales_convert_quote_address>
-        </fieldsets>
-    </global>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Magento/Core/etc/fieldset.xsd">
+    <scope id="global">
+        <fieldset id="sales_convert_quote_address">
+            <field name="base_gift_cards_amount">
+                <aspect name="to_order"/>
+            </field>
+            <field name="gift_cards_amount">
+                <aspect name="to_order"/>
+            </field>
+            <field name="used_gift_cards">
+                <aspect name="to_order" targetField="gift_cards"/>
+            </field>
+        </fieldset>
+    </scope>
 </config>

@@ -7,7 +7,8 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Magento/Core/etc/fieldset.xsd">
     <scope id="global">
         <fieldset id="sales_convert_quote_address">
             <field name="company">

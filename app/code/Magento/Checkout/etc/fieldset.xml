@@ -9,93 +9,92 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <global>
-        <fieldsets>
-            <customer_account>
-                <prefix>
-                    <to_order>customer_prefix</to_order>
-                </prefix>
-                <firstname>
-                    <to_order>customer_firstname</to_order>
-                </firstname>
-                <middlename>
-                    <to_order>customer_middlename</to_order>
-                </middlename>
-                <lastname>
-                    <to_order>customer_lastname</to_order>
-                </lastname>
-                <suffix>
-                    <to_order>customer_suffix</to_order>
-                </suffix>
-                <email>
-                    <to_order>customer_email</to_order>
-                </email>
-                <group_id>
-                    <to_order>customer_group_id</to_order>
-                </group_id>
-                <tax_class_id>
-                    <to_order>customer_tax_class_id</to_order>
-                </tax_class_id>
-            </customer_account>
-            <checkout_onepage_billing>
-                <prefix>
-                    <to_customer>*</to_customer>
-                </prefix>
-                <firstname>
-                    <to_customer>*</to_customer>
-                </firstname>
-                <middlename>
-                    <to_customer>*</to_customer>
-                </middlename>
-                <lastname>
-                    <to_customer>*</to_customer>
-                </lastname>
-                <suffix>
-                    <to_customer>*</to_customer>
-                </suffix>
-                <email>
-                    <to_customer>*</to_customer>
-                </email>
-                <customer_dob>
-                    <to_customer>dob</to_customer>
-                </customer_dob>
-                <customer_taxvat>
-                    <to_customer>taxvat</to_customer>
-                </customer_taxvat>
-                <customer_gender>
-                    <to_customer>gender</to_customer>
-                </customer_gender>
-            </checkout_onepage_billing>
-            <checkout_onepage_quote>
-                <customer_prefix>
-                    <to_customer>prefix</to_customer>
-                </customer_prefix>
-                <customer_firstname>
-                    <to_customer>firstname</to_customer>
-                </customer_firstname>
-                <customer_middlename>
-                    <to_customer>middlename</to_customer>
-                </customer_middlename>
-                <customer_lastname>
-                    <to_customer>lastname</to_customer>
-                </customer_lastname>
-                <customer_suffix>
-                    <to_customer>suffix</to_customer>
-                </customer_suffix>
-                <customer_email>
-                    <to_customer>email</to_customer>
-                </customer_email>
-                <customer_dob>
-                    <to_customer>dob</to_customer>
-                </customer_dob>
-                <customer_taxvat>
-                    <to_customer>taxvat</to_customer>
-                </customer_taxvat>
-                <customer_gender>
-                    <to_customer>gender</to_customer>
-                </customer_gender>
-            </checkout_onepage_quote>
-        </fieldsets>
-    </global>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Magento/Core/etc/fieldset.xsd">
+    <scope id="global">
+        <fieldset id="customer_account">
+            <field name="prefix">
+                <aspect name="to_order" targetField="customer_prefix"/>
+            </field>
+            <field name="firstname">
+                <aspect name="to_order" targetField="customer_firstname"/>
+            </field>
+            <field name="middlename">
+                <aspect name="to_order" targetField="customer_middlename"/>
+            </field>
+            <field name="lastname">
+                <aspect name="to_order" targetField="customer_lastname"/>
+            </field>
+            <field name="suffix">
+                <aspect name="to_order" targetField="customer_suffix"/>
+            </field>
+            <field name="email">
+                <aspect name="to_order" targetField="customer_email"/>
+            </field>
+            <field name="group_id">
+                <aspect name="to_order" targetField="customer_group_id"/>
+            </field>
+            <field name="tax_class_id">
+                <aspect name="to_order" targetField="customer_tax_class_id"/>
+            </field>
+        </fieldset>
+        <fieldset id="checkout_onepage_billing">
+            <field name="prefix">
+                <aspect name="to_customer"/>
+            </field>
+            <field name="firstname">
+                <aspect name="to_customer"/>
+            </field>
+            <field name="middlename">
+                <aspect name="to_customer"/>
+            </field>
+            <field name="lastname">
+                <aspect name="to_customer"/>
+            </field>
+            <field name="suffix">
+                <aspect name="to_customer"/>
+            </field>
+            <field name="email">
+                <aspect name="to_customer"/>
+            </field>
+            <field name="customer_dob">
+                <aspect name="to_customer" targetField="dob"/>
+            </field>
+            <field name="customer_taxvat">
+                <aspect name="to_customer" targetField="taxvat"/>
+            </field>
+            <field name="customer_gender">
+                <aspect name="to_customer" targetField="gender"/>
+            </field>
+        </fieldset>
+        <fieldset id="checkout_onepage_quote">
+            <field name="customer_prefix">
+                <aspect name="to_customer" targetField="prefix"/>
+            </field>
+            <field name="customer_firstname">
+                <aspect name="to_customer" targetField="firstname"/>
+            </field>
+            <field name="customer_middlename">
+                <aspect name="to_customer" targetField="middlename"/>
+            </field>
+            <field name="customer_lastname">
+                <aspect name="to_customer" targetField="lastname"/>
+            </field>
+            <field name="customer_suffix">
+                <aspect name="to_customer" targetField="suffix"/>
+            </field>
+            <field name="customer_email">
+                <aspect name="to_customer" targetField="email"/>
+            </field>
+            <field name="customer_dob">
+                <aspect name="to_customer" targetField="dob"/>
+            </field>
+            <field name="customer_taxvat">
+                <aspect name="to_customer" targetField="taxvat"/>
+            </field>
+            <field name="customer_gender">
+                <aspect name="to_customer" targetField="gender"/>
+            </field>
+        </fieldset>
+    </scope>
 </config>

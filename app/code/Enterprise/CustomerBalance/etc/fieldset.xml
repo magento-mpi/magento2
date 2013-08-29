@@ -9,17 +9,16 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <global>
-        <fieldsets>
-            <sales_convert_quote_address>
-                <base_customer_balance_amount>
-                    <to_order>*</to_order>
-                </base_customer_balance_amount>
-                <customer_balance_amount>
-                    <to_order>*</to_order>
-                </customer_balance_amount>
-            </sales_convert_quote_address>
-        </fieldsets>
-    </global>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Magento/Core/etc/fieldset.xsd">
+    <scope id="global">
+        <fieldset id="sales_convert_quote_address">
+            <field name="base_customer_balance_amount">
+                <aspect name="to_order"/>
+            </field>
+            <field name="customer_balance_amount">
+                <aspect name="to_order"/>
+            </field>
+        </fieldset>
+    </scope>
 </config>
