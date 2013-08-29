@@ -3,7 +3,6 @@
 #
 LICENSE_EE.html
 LICENSE_EE.txt
-app/code/Enterprise
 app/design/adminhtml/magento_enterprise
 app/design/frontend/magento_fixed_width
 app/design/frontend/magento_iphone_html5
@@ -25,7 +24,6 @@ dev/tests/static/testsuite/Legacy/_files/words_ee.xml
 dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/ee.txt
 dev/tests/static/testsuite/Php/_files/whitelist/ee_additional.txt
 dev/tests/static/testsuite/Php/_files/phpcpd/blacklist/ee.txt
-dev/tests/unit/testsuite/Enterprise
 dev/tests/unit/testsuite/Magento/JobQueue
 dev/tools/migration/factory_table_names/replace_ee.php
 dev/tools/migration/aliases_map/composite_modules_ee.php
