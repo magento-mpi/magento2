@@ -27,11 +27,7 @@ class Magento_Rss_Controller_CatalogTest extends Magento_Test_TestCase_Controlle
      */
     public function actionNoFeedDataProvider()
     {
-        $actions = array(array('new'), array('special'), array('salesrule'), array('category'));
-        if (Mage::getSingleton('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Tag')) {
-            $actions[] = array('tag');
-        }
-        return $actions;
+        return array(array('new'), array('special'), array('salesrule'), array('category'));
     }
 
     /**
@@ -69,21 +65,7 @@ class Magento_Rss_Controller_CatalogTest extends Magento_Test_TestCase_Controlle
         );
     }
 
-    /**
-     * @magentoConfigFixture current_store rss/catalog/tag 1
-     */
-    public function testTagAction()
-    {
-        if (!Mage::getSingleton('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Tag')) {
-            $this->markTestSkipped('"Magento_Tag" module is required for this test.');
-        }
-        $this->dispatch('rss/catalog/tag');
-        // this test is also inaccurate without a fixture of product with tags
-        $this->assertEquals('nofeed', $this->getRequest()->getActionName());
-        $this->assertHeaderPcre('Status', '/^404 File not found$/');
-    }
-
-    /**
+     /**
      * @dataProvider authorizationFailedDataProvider
      */
     public function testAuthorizationFailed($action)

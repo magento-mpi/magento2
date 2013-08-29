@@ -313,12 +313,6 @@ $CONFIG['translates'] = array(
     'Magento_Strikeiron' => array(
         'app/code/Magento/Strikeiron/',
     ),
-    'Magento_Tag' => array(
-        'app/code/Magento/Tag/',
-        'app/design/frontend/base/default/template/tag/',
-        'app/design/frontend/base/default/layout/tag.xml',
-        'app/design/frontend/default/modern/layout/tag.xml',
-    ),
     'Magento_Tax' => array(
         'app/code/Magento/Tax/',
     ),
@@ -622,7 +616,6 @@ $CONFIG['helpers']  = array(
     'shipping'          => 'Magento_Shipping',
     'sitemap'           => 'Magento_Sitemap',
     'strikeiron'        => 'Magento_Strikeiron',
-    'tag'               => 'Magento_Tag',
     'tax'               => 'Magento_Tax',
     'usa'               => 'Magento_Usa',
     'weee'              => 'Magento_Weee',
