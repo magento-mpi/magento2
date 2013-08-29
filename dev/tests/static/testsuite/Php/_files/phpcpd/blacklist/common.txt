@@ -34,8 +34,6 @@ Magento/Oauth/Controller
 Magento/Sales/Block/Order
 Magento/Sales/Model/Resource/Helper
 Magento/Sales/Model/Resource/Order
-Magento/Tag/Block
-Magento/Tag/Model/Resource
 Magento/Catalog/Model/Resource/Product
 Magento/Core/Model/Store
 Magento/Cron/Model/Config/Backend/Product
