@@ -4,15 +4,21 @@
  *
  * {license_notice}
  *
- * @category    tests
- * @package     static
- * @subpackage  Integrity
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  static_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-interface Integrity_DependencyTest_RuleInterface
+interface Dependency_RuleInterface
 {
+    /**
+     * Types of dependencies between modules
+     */
+    const TYPE_SOFT = 'soft';
+    const TYPE_HARD = 'hard';
+
     /**
      * Gets alien dependencies information for current module by analyzing file's contents
      *

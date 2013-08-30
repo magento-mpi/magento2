@@ -4,13 +4,13 @@
  *
  * {license_notice}
  *
- * @category    tests
- * @package     static
- * @subpackage  Integrity
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  static_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_RuleInterface
+class Dependency_TemplateRule implements Dependency_RuleInterface
 {
     /**
      * Cases to search dependencies
@@ -18,13 +18,13 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @var array
      */
     protected $_cases = array(
-        '_caseAttributeModule',
-        '_caseElementBlock',
-        '_caseElementAction',
-        '_caseLayoutHandle',
-        '_caseLayoutHandleParent',
-        '_caseLayoutHandleUpdate',
-        '_caseLayoutReference',
+        '_caseModelSingleton',
+        '_caseHelper',
+        '_caseCreateBlock',
+        '_caseConstant',
+        '_caseAddFile',
+        '_caseGetUrl',
+        '_caseLayoutBlock',
     );
 
     /**
@@ -71,18 +71,6 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected $_mapLayoutBlocks = array();
 
     /**
-     * List of layout handles
-     *
-     * Format: array(
-     *  '{Area}' => array(
-     *   '{Handle_Name}' => array('{Module_Name}' => '{Module_Name}')
-     * ))
-     *
-     * @var array
-     */
-    protected $_mapLayoutHandles = array();
-
-    /**
      * List of exceptions
      *
      * Format: array(
@@ -97,11 +85,6 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * Display exceptions
      */
     const EXCEPTION_ALLOWED = false;
-
-    /**
-     * Unknown layout handle
-     */
-    const EXCEPTION_TYPE_UNKNOWN_HANDLE = 'UNKNOWN_HANDLE';
 
     /**
      * Unknown layout block
@@ -126,9 +109,6 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
             if (isset($args[0]['mapLayoutBlocks'])) {
                 $this->_mapLayoutBlocks = $args[0]['mapLayoutBlocks'];
             }
-            if (isset($args[0]['mapLayoutHandles'])) {
-                $this->_mapLayoutHandles = $args[0]['mapLayoutHandles'];
-            }
         }
 
         $this->_namespaces = implode('|', Utility_Files::init()->getNamespaces());
@@ -145,7 +125,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      */
     public function getDependencyInfo($currentModule, $fileType, $file, &$contents)
     {
-        if ('layout' != $fileType) {
+        if ('template' != $fileType) {
             return array();
         }
 
@@ -189,9 +169,11 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     }
 
     /**
-     * Check dependencies for 'module' attribute
+     * Check models calls
      *
-     * Ex.: <element module="{module}">
+     * Ex.: Mage::getModel('{Class_Name}')
+     *      Mage::getSingleton('{Class_Name}')
+     *      Mage::getBlockSingleton('{Class_Name}')
      *
      * @param $currentModule
      * @param $fileType
@@ -201,21 +183,22 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _caseAttributeModule($currentModule, $fileType, $file, &$contents)
+    protected function _caseModelSingleton($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><.+module\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)[\'"].*>)/',
+            Dependency_RuleInterface::TYPE_HARD =>
+            '/(?<source>Mage::(?:getModel|getSingleton|getBlockSingleton)+\([\'"]'
+                . '(?<namespace>' . $this->_namespaces . ')_'
+                . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
 
     /**
-     * Check dependencies for <block> element
+     * Check helpers calls
      *
-     * Ex.: <block type="{name}">
-     *      <block template="{path}">
+     * Ex.: Mage::helper('{Class_Name}')
+     *      $this->helper('{Class_Name}')
      *
      * @param $currentModule
      * @param $fileType
@@ -225,26 +208,20 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _caseElementBlock($currentModule, $fileType, $file, &$contents)
+    protected function _caseHelper($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::TYPE_HARD =>
-            '/(?<source><block.*type\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}[\'"].*>)/',
-            Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><block.*template\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+[\'"].*>)/',
+            Dependency_RuleInterface::TYPE_HARD =>
+            '/(?<source>[$a-zA-Z0-9_\->:]+helper\([\'"](?<namespace>' . $this->_namespaces . ')_'
+                . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
 
     /**
-     * Check dependencies for <action> element
+     * Check createBlock() methods
      *
-     * Ex.: <block>{name}
-     *      <template>{path}
-     *      <file>{path}
-     *      <element helper="{name}">
+     * Ex.: createBlock('{Class_Name}')
      *
      * @param $currentModule
      * @param $fileType
@@ -254,29 +231,20 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _caseElementAction($currentModule, $fileType, $file, &$contents)
+    protected function _caseCreateBlock($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><block\s*>(?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}<\/block\s*>)/',
-            Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><template\s*>(?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+<\/template\s*>)/',
-            Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><file\s*>(?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+<\/file\s*>)/',
-            Integrity_DependencyTest::TYPE_SOFT =>
-            '/(?<source><.*helper\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
-                . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-z]+_?){1,}::[\w]+[\'"].*>)/',
+            Dependency_RuleInterface::TYPE_HARD =>
+            '/[\->:]+(?<source>createBlock\([\'"](?<namespace>' . $this->_namespaces . ')_'
+                . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
 
     /**
-     * Check layout handles
+     * Check using of constants
      *
-     * Ex.: <layout><{name}>...</layout>
+     * Ex.: {Class_Name}::{Constant_Name}
      *
      * @param $currentModule
      * @param $fileType
@@ -286,30 +254,20 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _caseLayoutHandle($currentModule, $fileType, $file, &$contents)
+    protected function _caseConstant($currentModule, $fileType, $file, &$contents)
     {
-        $xml = simplexml_load_file($file);
-
-        $area = $this->_getAreaByFile($file);
-
-        $result = array();
-        foreach ((array)$xml->xpath('/layout/child::*') as $element) {
-            $check = $this->_checkDependencyLayoutHandle($currentModule, $area, $element->getName());
-            $module = isset($check['module']) ? $check['module'] : null;
-            if ($module) {
-                $result[$module] = array(
-                    'type' => Integrity_DependencyTest::TYPE_SOFT,
-                    'source' => $element->getName(),
-                );
-            }
-        }
-        return $this->_getUniqueDependencies($result);
+        $patterns = array(
+            Dependency_RuleInterface::TYPE_HARD =>
+            '/(?<source>(?<namespace>' . $this->_namespaces . ')_(?<module>[A-Z][a-zA-Z]+)_'
+                . '(?:[A-Z][a-z]+_?){1,}::[A-Z_]+)/',
+        );
+        return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
 
     /**
-     * Check layout handles parents
+     * Check adding additional files
      *
-     * Ex.: <layout_name  parent="{name}">
+     * Ex.: $this->getViewFileUrl('{Module_name}::{File_Name}')
      *
      * @param $currentModule
      * @param $fileType
@@ -319,30 +277,20 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _caseLayoutHandleParent($currentModule, $fileType, $file, &$contents)
+    protected function _caseAddFile($currentModule, $fileType, $file, &$contents)
     {
-        $xml = simplexml_load_file($file);
-
-        $area = $this->_getAreaByFile($file);
-
-        $result = array();
-        foreach ((array)$xml->xpath('/layout/child::*/@parent') as $element) {
-            $check = $this->_checkDependencyLayoutHandle($currentModule, $area, (string)$element);
-            $module = isset($check['module']) ? $check['module'] : null;
-            if ($module) {
-                $result[$module] = array(
-                    'type' => Integrity_DependencyTest::TYPE_HARD,
-                    'source' => (string)$element,
-                );
-            }
-        }
-        return $this->_getUniqueDependencies($result);
+        $patterns = array(
+            Dependency_RuleInterface::TYPE_SOFT =>
+            '/(?<source>[$a-zA-Z0-9_\->:]+getViewFileUrl\([\'"](?<namespace>' . $this->_namespaces . ')_'
+                . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+[\'"]\))/',
+        );
+        return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
 
     /**
-     * Check layout handles updates
+     * Check get URL method
      *
-     * Ex.: <update handle="{name}" />
+     * Ex.: getUrl('{path}')
      *
      * @param $currentModule
      * @param $fileType
@@ -352,30 +300,31 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _caseLayoutHandleUpdate($currentModule, $fileType, $file, &$contents)
+    protected function _caseGetUrl($currentModule, $fileType, $file, &$contents)
     {
-        $xml = simplexml_load_file($file);
+        $pattern = '/[\->:]+(?<source>getUrl\([\'"](?<router>[\w\/*]+)[\'"])/';
 
-        $area = $this->_getAreaByFile($file);
-
-        $result = array();
-        foreach ((array)$xml->xpath('//update/@handle') as $element) {
-            $check = $this->_checkDependencyLayoutHandle($currentModule, $area, (string)$element);
-            $module = isset($check['module']) ? $check['module'] : null;
-            if ($module) {
-                $result[$module] = array(
-                    'type' => Integrity_DependencyTest::TYPE_SOFT,
-                    'source' => (string)$element,
-                );
+        $dependencies = array();
+        if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
+            foreach ($matches as $item) {
+                $router = str_replace('/', '_', $item['router']);
+                if (isset($this->_mapRouters[$router])) {
+                    $moduleName = $this->_mapRouters[$router];
+                    if ($currentModule != $moduleName) {
+                        $dependencies[] = array(
+                            'module' => $moduleName,
+                            'type' => Dependency_RuleInterface::TYPE_SOFT,
+                            'source' => $item['source'],
+                        );
+                    }
+                }
             }
         }
-        return $this->_getUniqueDependencies($result);
+        return $dependencies;
     }
 
     /**
-     * Check layout references
-     *
-     * Ex.: <reference name="{name}">
+     * Check layout blocks
      *
      * @param $currentModule
      * @param $fileType
@@ -385,21 +334,23 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _caseLayoutReference($currentModule, $fileType, $file, &$contents)
+    protected function _caseLayoutBlock($currentModule, $fileType, $file, &$contents)
     {
-        $xml = simplexml_load_file($file);
+        $pattern = '/[\->:]+(?<source>(?:getBlock|getBlockHtml)\([\'"](?<block>[\w\.\-]+)[\'"]\))/';
 
         $area = $this->_getAreaByFile($file);
 
         $result = array();
-        foreach ((array)$xml->xpath('//reference/@name') as $element) {
-            $check = $this->_checkDependencyLayoutBlock($currentModule, $area, (string)$element);
-            $module = isset($check['module']) ? $check['module'] : null;
-            if ($module) {
-                $result[$module] = array(
-                    'type' => Integrity_DependencyTest::TYPE_SOFT,
-                    'source' => (string)$element,
-                );
+        if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
+            foreach ($matches as $match) {
+                $check = $this->_checkDependencyLayoutBlock($currentModule, $area, $match['block']);
+                $module = isset($check['module']) ? $check['module'] : null;
+                if ($module) {
+                    $result[$module] = array(
+                        'type' => Dependency_RuleInterface::TYPE_HARD,
+                        'source' => $match['source'],
+                    );
+                }
             }
         }
         return $this->_getUniqueDependencies($result);
@@ -413,7 +364,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param array $patterns
      * @return array
      */
-    protected function _checkDependenciesByRegexp($currentModule, &$contents, $patterns = array())
+    protected function _checkDependenciesByRegexp($currentModule, $contents, $patterns = array())
     {
         $result = array();
         foreach ($patterns as $type => $pattern) {
@@ -430,62 +381,6 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
             }
         }
         return $this->_getUniqueDependencies($result);
-    }
-
-    /**
-     * Check layout handle dependency
-     *
-     * Return: array(
-     *  'module'  // dependent module
-     *  'source'  // source text
-     * )
-     *
-     * @param $currentModule
-     * @param $area
-     * @param $handle
-     * @return array
-     */
-    protected function _checkDependencyLayoutHandle($currentModule, $area, $handle)
-    {
-        $chunks = explode('_', $handle);
-        if (count($chunks) > 1) {
-            array_pop($chunks); // Remove 'action' part from handle name
-        }
-        $router = implode('_', $chunks);
-        if (isset($this->_mapRouters[$router])) {
-            // CASE 1: Single dependency
-            $module = $this->_mapRouters[$router];
-            if ($currentModule != $module) {
-                return array('module' => $module);
-            }
-        }
-
-        if (isset($this->_mapLayoutHandles[$area][$handle])) {
-            // CASE 2: No dependencies
-            $modules = $this->_mapLayoutHandles[$area][$handle];
-            if (isset($modules[$currentModule])) {
-                return array('module' => null);
-            }
-
-            // CASE 3: Single dependency
-            if (1 == count($modules)) {
-                return array('module' => current($modules));
-            }
-
-            // CASE 4: Default module dependency
-            $defaultModule = $this->_getDefaultModuleName($area);
-            if (isset($modules[$defaultModule])) {
-                return array('module' => $defaultModule);
-            }
-
-            // CASE 5: Exception - Undefined dependency
-            $undefinedDependency = implode(', ', $modules);
-            $this->_exceptions[self::EXCEPTION_TYPE_UNDEFINED_DEPENDENCY][$undefinedDependency] = $undefinedDependency;
-        }
-
-        // CASE 6: Exception - Undefined handle
-        $this->_exceptions[self::EXCEPTION_TYPE_UNKNOWN_HANDLE][$handle] = $handle;
-        return array();
     }
 
     /**

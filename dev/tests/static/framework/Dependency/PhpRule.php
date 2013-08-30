@@ -4,14 +4,14 @@
  *
  * {license_notice}
  *
- * @category    tests
- * @package     static
- * @subpackage  Integrity
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  static_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Integrity_DependencyTest_PhpRule implements Integrity_DependencyTest_RuleInterface
+class Dependency_PhpRule implements Dependency_RuleInterface
 {
     /**
      * Gets alien dependencies information for current module by analyzing file's contents
@@ -35,12 +35,12 @@ class Integrity_DependencyTest_PhpRule implements Integrity_DependencyTest_RuleI
         if (preg_match_all($pattern, $contents, $matches)) {
             $matches['module'] = array_unique($matches['module']);
             foreach ($matches['module'] as $i => $referenceModule) {
-                if ($currentModule == $referenceModule || $referenceModule == 'Mage_Exception') {
+                if ($currentModule == $referenceModule || $referenceModule == 'Magento_Exception') {
                     continue;
                 }
                 $dependenciesInfo[] = array(
                     'module' => $referenceModule,
-                    'type'   => Integrity_DependencyTest::TYPE_HARD,
+                    'type'   => Dependency_RuleInterface::TYPE_HARD,
                     'source' => trim($matches['class'][$i]),
                 );
             }

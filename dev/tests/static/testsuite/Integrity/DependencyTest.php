@@ -121,10 +121,10 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected static $_rules = array(
-        'Integrity_DependencyTest_PhpRule',
-        'Integrity_DependencyTest_DbRule',
-        'Integrity_DependencyTest_LayoutRule',
-        'Integrity_DependencyTest_TemplateRule',
+        'Dependency_PhpRule',
+        'Dependency_DbRule',
+        'Dependency_LayoutRule',
+        'Dependency_TemplateRule',
     );
 
     /**
@@ -177,13 +177,13 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         self::$_rulesInstances = array();
         foreach (self::$_rules as $ruleClass) {
             if (class_exists($ruleClass)) {
-                /** @var Integrity_DependencyTest_RuleInterface $rule */
+                /** @var Dependency_RuleInterface $rule */
                 $rule = new $ruleClass(array(
                     'mapRouters'        => self::$_mapRouters,
                     'mapLayoutBlocks'   => self::$_mapLayoutBlocks,
                     'mapLayoutHandles'  => self::$_mapLayoutHandles,
                 ));
-                if ($rule instanceof Integrity_DependencyTest_RuleInterface) {
+                if ($rule instanceof Dependency_RuleInterface) {
                     self::$_rulesInstances[$ruleClass] = $rule;
                 }
             }
@@ -263,7 +263,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         // Apply rules
         $dependencies = array();
         foreach (self::$_rulesInstances as $rule) {
-            /** @var Integrity_DependencyTest_RuleInterface $rule */
+            /** @var Dependency_RuleInterface $rule */
             $dependencies = array_merge($dependencies,
                 $rule->getDependencyInfo($module, $fileType, $file, $contents));
         }

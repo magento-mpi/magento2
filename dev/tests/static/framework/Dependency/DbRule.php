@@ -4,13 +4,13 @@
  *
  * {license_notice}
  *
- * @category    tests
- * @package     static
- * @subpackage  Integrity
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  static_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_DependencyTest_DbRule implements Integrity_DependencyTest_RuleInterface
+class Dependency_DbRule implements Dependency_RuleInterface
 {
     /**
      * Map of tables and modules
@@ -60,7 +60,7 @@ class Integrity_DependencyTest_DbRule implements Integrity_DependencyTest_RuleIn
                 if (strtolower($currentModule) !== strtolower($this->_moduleTableMap[$table])) {
                     $dependenciesInfo[] = array(
                         'module' => $this->_moduleTableMap[$table],
-                        'type'   => Integrity_DependencyTest::TYPE_HARD,
+                        'type'   => Dependency_RuleInterface::TYPE_HARD,
                         'source' => $table,
                     );
                 }
