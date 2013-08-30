@@ -8,8 +8,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Phrase_ArgumentsTest extends Magento_Test_Integrity_Phrase_TestAbstract
+class Magento_Test_Integrity_Phrase_ArgumentsTest extends Magento_Test_Integrity_Phrase_AbstractTestCase
 {
+    /**
+     * @var Magento_Tokenizer_PhraseCollector
+     */
+    protected $_phraseCollector;
+
     protected function setUp()
     {
         $this->_phraseCollector = new Magento_Tokenizer_PhraseCollector();
@@ -17,20 +22,22 @@ class Magento_Test_Integrity_Phrase_ArgumentsTest extends Magento_Test_Integrity
 
     public function testCase()
     {
+        $errors = array();
         foreach ($this->_getFiles() as $file) {
             $this->_phraseCollector->parse($file);
             foreach ($this->_phraseCollector->getPhrases() as $phrase) {
-                if (preg_match_all('/%(\d+)/', $phrase['phrase'], $matches) || $phrase['arguments'] > 0) {
+                if (preg_match_all('/%(\d+)/', $phrase['phrase'], $matches) || $phrase['arguments']) {
                     $placeholdersInPhrase = array_unique($matches[1]);
                     if (count($placeholdersInPhrase) != $phrase['arguments']) {
-                        $this->addError($phrase);
+                        $errors[] = $this->_createPhraseError($phrase);
                     }
                 }
             }
         }
-        $message = $this->_prepareErrorMessage('%d usages of inconsistency the number of arguments and placeholders '
-            . 'were discovered: %s', $this->_errors);
-        $this->assertEmpty($this->_errors, $message);
-
+        $this->assertEmpty(
+            $errors,
+            sprintf("\n%d usages of inconsistency the number of arguments and placeholders were discovered: \n%s",
+                count($errors), implode("\n\n", $errors))
+        );
     }
 }

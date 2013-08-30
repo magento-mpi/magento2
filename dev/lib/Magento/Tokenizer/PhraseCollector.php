@@ -25,7 +25,7 @@ class Magento_Tokenizer_PhraseCollector
     protected $_file;
 
     /**
-     * Contruct
+     * Construct
      */
     public function __construct()
     {
@@ -52,28 +52,22 @@ class Magento_Tokenizer_PhraseCollector
         $this->_phrases = array();
         $this->_file = $file;
         $this->_tokenizer->parse($file);
-        try {
-            for (; ;) {
-                $this->findPhrases();
-            }
-        } catch (Exception $pe) {
-            // tokens is ended in file
+        while (!$this->_tokenizer->isLastToken()) {
+            $this->_extractPhrases();
         }
     }
 
     /**
-     * Find phrases into given tokens. e.g.: __('phrase', ...)
+     * Extract phrases from given tokens. e.g.: __('phrase', ...)
      */
-    protected function findPhrases()
+    protected function _extractPhrases()
     {
         $phraseStartToken = $this->_tokenizer->getNextToken();
-        if ($this->_tokenizer->tokenIsEqualFunction($phraseStartToken, '__')
-            && $this->_tokenizer->getNextToken()->getValue() == '('
-        ) {
+        if ($phraseStartToken->isEqualFunction('__') && $this->_tokenizer->getNextToken()->isOpenBrace()) {
             $arguments = $this->_tokenizer->getFunctionArgumentsTokens();
-            $phrase = $this->collectPhrase(array_shift($arguments));
+            $phrase = $this->_collectPhrase(array_shift($arguments));
             if (null !== $phrase) {
-                $this->addPhrase($phrase, count($arguments), $this->_file, $phraseStartToken->getLine());
+                $this->_addPhrase($phrase, count($arguments), $this->_file, $phraseStartToken->getLine());
             }
         }
     }
@@ -84,23 +78,21 @@ class Magento_Tokenizer_PhraseCollector
      * @param array $phraseTokens
      * @return string|null
      */
-    protected function collectPhrase($phraseTokens)
+    protected function _collectPhrase($phraseTokens)
     {
         $phrase = array();
         if ($phraseTokens) {
-            $isNotLiteral = true;
             /** @var $phraseToken Magento_Tokenizer_Token*/
             foreach ($phraseTokens as $phraseToken) {
-                if ($phraseToken->getName() == T_CONSTANT_ENCAPSED_STRING) {
+                if ($phraseToken->isConstantEncapsedString()) {
                     $phrase[] = $phraseToken->getValue();
-                    $isNotLiteral = false;
                 }
             }
-            if ($isNotLiteral) {
-                return null;
+            if ($phrase) {
+                return implode(' ', $phrase);
             }
         }
-        return implode(' ', $phrase);
+        return null;
     }
 
     /**
@@ -111,7 +103,7 @@ class Magento_Tokenizer_PhraseCollector
      * @param SplFileInfo $file
      * @param int $line
      */
-    protected function addPhrase($phrase, $argumentsAmount, $file, $line)
+    protected function _addPhrase($phrase, $argumentsAmount, $file, $line)
     {
         $this->_phrases[] = array(
             'phrase' => $phrase,

@@ -25,7 +25,7 @@ class FilesCollector
         $files = array();
         foreach ($paths as $path) {
             foreach ($this->_getIterator($path, $fileMask) as $file) {
-                $files[] = $file;
+                $files[] = (string)$file;
             }
         }
         return $files;
@@ -42,7 +42,9 @@ class FilesCollector
     protected function _getIterator($path, $fileMask = false)
     {
         try {
-            $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+            $directoryIterator = new \RecursiveDirectoryIterator($path,
+                \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS);
+            $iterator = new \RecursiveIteratorIterator($directoryIterator);
         } catch (\UnexpectedValueException $valueException) {
             throw new \InvalidArgumentException(sprintf('Cannot read directory for parse phrase: "%s"', $path));
         }

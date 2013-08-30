@@ -13,7 +13,12 @@ class Magento_Tokenizer_Tokenizer
     /**
      * @var array
      */
-    protected $_tokens = array();
+    private $_tokens = array();
+
+    /**
+     * @var int
+     */
+    private $_tokensCount;
 
     /**
      * @var int
@@ -32,20 +37,8 @@ class Magento_Tokenizer_Tokenizer
      */
     public function parse($filePath)
     {
-        $content = file_get_contents($filePath);
-        $this->_tokens = token_get_all($content);
-    }
-
-    /**
-     * Whenever token is phrase function
-     *
-     * @param Magento_Tokenizer_Token $token
-     * @param string $funtionName
-     * @return bool
-     */
-    public function tokenIsEqualFunction(Magento_Tokenizer_Token $token, $funtionName)
-    {
-        return $token->getName() == T_STRING && $token->getValue() == $funtionName;
+        $this->_tokens = token_get_all(file_get_contents($filePath));
+        $this->_tokensCount = count($this->_tokens);
     }
 
     /**
@@ -62,18 +55,18 @@ class Magento_Tokenizer_Tokenizer
             $argumentN = 0;
             while (true) {
                 $token = $this->getNextToken();
-                if ($token->getValue() == ';') {
+                if ($token->isSemicolon()) {
                     break;
                 }
-                if ($token->getValue() == '(') {
+                if ($token->isOpenBrace()) {
                     $this->_skipInnerArgumentInvoke();
                     continue;
                 }
-                if ($token->getValue() == ')') {
+                if ($token->isCloseBrace()) {
                     $this->_closeBrackets++;
                 }
                 $arguments[$argumentN][] = $token;
-                if ($token->getName() == ',' && $this->_isInnerArgumentClosed()) {
+                if ($token->isComma() && $this->_isInnerArgumentClosed()) {
                     array_pop($arguments[$argumentN]);
                     $argumentN++;
                 }
@@ -103,11 +96,11 @@ class Magento_Tokenizer_Tokenizer
     private function _skipInnerArgumentInvoke()
     {
         $this->_openBrackets++;
-        while ($this->getNextToken()->getValue() != ')') {
-            if ($this->getCurrentToken()->getValue() == ')') {
+        while (!$this->getNextToken()->isCloseBrace()) {
+            if ($this->getCurrentToken()->isCloseBrace()) {
                 $this->_closeBrackets++;
             }
-            if ($this->getCurrentToken()->getValue() == '(') {
+            if ($this->getCurrentToken()->isOpenBrace()) {
                 $this->_openBrackets++;
             }
         }
@@ -121,33 +114,39 @@ class Magento_Tokenizer_Tokenizer
      */
     public function getCurrentToken()
     {
-        $token = current($this->_tokens);
-        return $this->buildToken($token);
+        return $this->_createToken(current($this->_tokens));
     }
 
     /**
      * Get next token
      *
-     * @return Magento_Tokenizer_Token
-     * @throws Exception
+     * @return bool|Magento_Tokenizer_Token
      */
     public function getNextToken()
     {
-        $token = next($this->_tokens);
-        if ($token) {
-            return $this->buildToken($token);
-        }
-        throw new Exception('Tokens is ended');
+        return ($token = next($this->_tokens)) ? $this->_createToken($token) : false;
     }
 
     /**
-     * Build token from array
+     * Check is it last token
+     */
+    public function isLastToken()
+    {
+        return (key($this->_tokens) + 1) == $this->_tokensCount;
+    }
+
+    /**
+     * Create token from array|string
      *
-     * @param array $tokenData
+     * @param array|string $tokenData
      * @return Magento_Tokenizer_Token
      */
-    private function buildToken($tokenData)
+    private function _createToken($tokenData)
     {
-        return new Magento_Tokenizer_Token($tokenData);
+        if (is_array($tokenData)) {
+            return new Magento_Tokenizer_Token($tokenData[0], $tokenData[1], $tokenData[2]);
+        } else {
+            return new Magento_Tokenizer_Token($tokenData, $tokenData);
+        }
     }
 }

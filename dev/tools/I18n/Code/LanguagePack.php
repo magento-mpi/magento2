@@ -196,6 +196,8 @@ class LanguagePack
 
     /**
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     private function _getLanguagePack()
     {

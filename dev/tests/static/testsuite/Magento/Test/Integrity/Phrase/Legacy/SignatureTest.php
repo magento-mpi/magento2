@@ -7,25 +7,31 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Phrase_Legacy_SignatureTest extends Magento_Test_Integrity_Phrase_TestAbstract
+class Magento_Test_Integrity_Phrase_Legacy_SignatureTest extends Magento_Test_Integrity_Phrase_AbstractTestCase
 {
+    /**
+     * @var Magento_Tokenizer_Translate_MethodCollector
+     */
+    protected $_phraseCollector;
+
     protected function setUp()
     {
-        $this->_phraseCollector = new Magento_Test_Integrity_Phrase_Legacy_PhraseCollector();
+        $this->_phraseCollector = new Magento_Tokenizer_Translate_MethodCollector();
     }
 
     public function testCase()
     {
+        $errors = array();
         foreach ($this->_getFiles() as $file) {
             $this->_phraseCollector->parse($file);
             foreach ($this->_phraseCollector->getPhrases() as $phrase) {
-                $this->addError($phrase);
+                $errors[] = $this->_createPhraseError($phrase);
             }
         }
         $this->assertEmpty(
-            $this->_errors,
-            $this->_prepareErrorMessage('%d usages of the old translation method call were discovered: %s',
-                $this->_errors)
+            $errors,
+            sprintf('%d usages of the old translation method call were discovered: %s', count($errors),
+                implode("\n\n", $errors))
         );
     }
 }

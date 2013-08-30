@@ -22,7 +22,7 @@ class Xml extends AbstractParser
      */
     protected function _parse($file)
     {
-        $this->_mockErrorHandler();
+        $this->_setErrorHandler();
         foreach ($this->_getNodes($file) as $element) {
             if (!$element instanceof \Magento_Simplexml_Element) {
                 continue;
@@ -44,9 +44,9 @@ class Xml extends AbstractParser
     }
 
     /**
-     * Mock error handler
+     * Set error handler
      */
-    protected function _mockErrorHandler()
+    protected function _setErrorHandler()
     {
         set_error_handler(function () {
             return true;

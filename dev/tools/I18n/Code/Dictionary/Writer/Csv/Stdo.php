@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code\Dictionary\Writer;
+namespace Magento\Tools\I18n\Code\Dictionary\Writer\Csv;
+
+use Magento\Tools\I18n\Code\Dictionary\Writer\Csv;
 
 /**
  * Stdout writer

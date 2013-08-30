@@ -60,7 +60,7 @@ class Factory
         }
 
         $writer = isset($options['outputFilename']) ? new Dictionary\Writer\Csv($options['outputFilename'])
-            : new Dictionary\Writer\Stdo();
+            : new Dictionary\Writer\Csv\Stdo();
 
         return new Dictionary\Generator($parser, $writer);
     }
