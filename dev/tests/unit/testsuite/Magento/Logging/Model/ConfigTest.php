@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Logging_Model_ConfigTest extends PHPUnit_Framework_TestCase
+class Magento_Logging_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Enterprise_Logging_Model_Config_Data|PHPUnit_Framework_MockObject_MockObject
@@ -21,7 +21,7 @@ class Enterprise_Logging_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_storageMock = $this->getMock('Enterprise_Logging_Model_Config_Data', array('get'), array(), '', false);
+        $this->_storageMock = $this->getMock('Magento_Logging_Model_Config_Data', array('get'), array(), '', false);
         $loggingConfig = array(
             'test' => array(
                 'label' => 'Test Label'
@@ -31,7 +31,7 @@ class Enterprise_Logging_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->method('get')
             ->with($this->equalTo('/logging'))
             ->will($this->returnValue($loggingConfig));
-        $this->_model = new Enterprise_Logging_Model_Config($this->_storageMock);
+        $this->_model = new Magento_Logging_Model_Config($this->_storageMock);
     }
 
     public function testLabels()

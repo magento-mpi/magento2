@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Logging_Model_Config_Data extends Magento_Config_Data
+class Magento_Logging_Model_Config_Data extends Magento_Config_Data
 {
     /**
      * Scope priority loading scheme

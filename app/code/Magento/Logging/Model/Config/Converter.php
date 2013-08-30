@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Enterprise_Logging_Model_Config_Converter implements Magento_Config_ConverterInterface
+class Magento_Logging_Model_Config_Converter implements Magento_Config_ConverterInterface
 {
     /**
      * Convert dom node tree to array

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Logging_Model_Config_Reader extends Magento_Config_Reader_Filesystem
+class Magento_Logging_Model_Config_Reader extends Magento_Config_Reader_Filesystem
 {
     /**
      * List of identifier attributes for merging
