@@ -43,10 +43,10 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $model = new Magento_Test_ObjectManager(
             $primaryConfig, $instanceConfig,
             array(
-                'Mage_Core_Model_Dir_Verification' => $verification,
-                'Mage_Core_Model_Cache_Type_Config' => $cache,
-                'Mage_Core_Model_ObjectManager_ConfigLoader' => $configLoader,
-                'Mage_Core_Model_ObjectManager_ConfigCache' => $configCache,
+                'Magento_Core_Model_Dir_Verification' => $verification,
+                'Magento_Core_Model_Cache_Type_Config' => $cache,
+                'Magento_Core_Model_ObjectManager_ConfigLoader' => $configLoader,
+                'Magento_Core_Model_ObjectManager_ConfigCache' => $configCache,
                 'Magento_Config_ReaderInterface' => $this->getMock('Magento_Config_ReaderInterface'),
                 'Magento_Config_ScopeInterface' => $this->getMock('Magento_Config_ScopeInterface'),
                 'Magento_Config_CacheInterface' => $this->getMock('Magento_Config_CacheInterface'),

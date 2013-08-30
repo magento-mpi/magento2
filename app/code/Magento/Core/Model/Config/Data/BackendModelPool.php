@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Data_BackendModelPool
+class Magento_Core_Model_Config_Data_BackendModelPool
 {
     /**
      * @var Magento_ObjectManager
@@ -15,7 +15,7 @@ class Mage_Core_Model_Config_Data_BackendModelPool
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Config_Data_BackendModelInterface[]
+     * @var Magento_Core_Model_Config_Data_BackendModelInterface[]
      */
     protected $_pool;
 
@@ -31,16 +31,16 @@ class Mage_Core_Model_Config_Data_BackendModelPool
      * Get backend model instance
      *
      * @param string $model
-     * @return Mage_Core_Model_Config_Data_BackendModelInterface
+     * @return Magento_Core_Model_Config_Data_BackendModelInterface
      * @throws InvalidArgumentException
      */
     public function get($model)
     {
         if (!isset($this->_pool[$model])) {
             $instance = $this->_objectManager->create($model);
-            if (!($instance instanceof Mage_Core_Model_Config_Data_BackendModelInterface)) {
+            if (!($instance instanceof Magento_Core_Model_Config_Data_BackendModelInterface)) {
                 throw new InvalidArgumentException(
-                    $model . ' does not instance of Mage_Core_Model_Config_Data_BackendModelInterface'
+                    $model . ' does not instance of Magento_Core_Model_Config_Data_BackendModelInterface'
                 );
             }
             $this->_pool[$model] = $instance;

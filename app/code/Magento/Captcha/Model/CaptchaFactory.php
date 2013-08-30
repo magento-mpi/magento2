@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Captcha_Model_CaptchaFactory
+class Magento_Captcha_Model_CaptchaFactory
 {
     /**
      * @var Magento_ObjectManager
@@ -27,14 +27,14 @@ class Mage_Captcha_Model_CaptchaFactory
      *
      * @param string $instanceName
      * @param array $params
-     * @return Mage_Captcha_Model_Interface
+     * @return Magento_Captcha_Model_Interface
      * @throws InvalidArgumentException
      */
     public function create($instanceName, array $params = array())
     {
         $instance = $this->_objectManager->create($instanceName, $params);
-        if (!($instance instanceof Mage_Captcha_Model_Interface)) {
-            throw new InvalidArgumentException($instanceName . ' does not implements Mage_Captcha_Model_Interface');
+        if (!($instance instanceof Magento_Captcha_Model_Interface)) {
+            throw new InvalidArgumentException($instanceName . ' does not implements Magento_Captcha_Model_Interface');
         }
         return $instance;
     }

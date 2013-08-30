@@ -57,16 +57,16 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                     </global>
                 </config>';
 
-        $configBase = new Mage_Core_Model_Config_Base($xml);
-        $objectManagerMock = $this->getMock('Mage_Core_Model_ObjectManager', array(), array(), '', false);
-        $configStorageMock = $this->getMock('Mage_Core_Model_Config_StorageInterface');
+        $configBase = new Magento_Core_Model_Config_Base($xml);
+        $objectManagerMock = $this->getMock('Magento_Core_Model_ObjectManager', array(), array(), '', false);
+        $configStorageMock = $this->getMock('Magento_Core_Model_Config_StorageInterface');
         $configStorageMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($configBase));
-        $modulesReaderMock = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false);
+        $modulesReaderMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false);
         $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
-        $this->_moduleListMock = $this->getMock('Mage_Core_Model_ModuleListInterface');
-        $this->_sectionPoolMock = $this->getMock('Mage_Core_Model_Config_SectionPool', array(), array(), '', false);
+        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
+        $this->_sectionPoolMock = $this->getMock('Magento_Core_Model_Config_SectionPool', array(), array(), '', false);
 
-        $this->_model = new Mage_Core_Model_Config(
+        $this->_model = new Magento_Core_Model_Config(
             $objectManagerMock, $configStorageMock, $modulesReaderMock, $this->_moduleListMock,
             $this->_configScopeMock, $this->_sectionPoolMock
         );

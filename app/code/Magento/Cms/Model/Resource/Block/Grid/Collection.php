@@ -7,11 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Cms_Model_Resource_Block_Grid_Collection extends Mage_Cms_Model_Resource_Block_Collection
+class Magento_Cms_Model_Resource_Block_Grid_Collection extends Magento_Cms_Model_Resource_Block_Collection
 {
 
     /**
-     * @return Mage_Cms_Model_Resource_Block_Grid_Collection
+     * @return Magento_Cms_Model_Resource_Block_Grid_Collection
      */
     protected function _afterLoad()
     {
@@ -22,7 +22,7 @@ class Mage_Cms_Model_Resource_Block_Grid_Collection extends Mage_Cms_Model_Resou
     /**
      * @param string $field
      * @param null $condition
-     * @return Mage_Cms_Model_Resource_Block_Grid_Collection
+     * @return Magento_Cms_Model_Resource_Block_Grid_Collection
      */
     public function addFieldToFilter($field, $condition = null)
     {

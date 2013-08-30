@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Event_Config_Reader extends Magento_Config_Reader_Filesystem
+class Magento_Core_Model_Event_Config_Reader extends Magento_Config_Reader_Filesystem
 {
     /**
      * List of id attributes for merge
@@ -21,17 +21,17 @@ class Mage_Core_Model_Event_Config_Reader extends Magento_Config_Reader_Filesyst
 
     /**
      * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Mage_Core_Model_Event_Config_Converter $converter
+     * @param Magento_Core_Model_Event_Config_Converter $converter
      * @param Magento_Config_ValidationStateInterface $validationState
-     * @param Mage_Core_Model_Event_Config_SchemaLocator $schemaLocator
+     * @param Magento_Core_Model_Event_Config_SchemaLocator $schemaLocator
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
         Magento_Config_FileResolverInterface $fileResolver,
-        Mage_Core_Model_Event_Config_Converter $converter,
-        Mage_Core_Model_Event_Config_SchemaLocator $schemaLocator,
+        Magento_Core_Model_Event_Config_Converter $converter,
+        Magento_Core_Model_Event_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState,
         $fileName = 'events.xml',
         $idAttributes = array(),

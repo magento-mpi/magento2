@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Mage_Core_Model_Route_ConfigInterface
+interface Magento_Core_Model_Route_ConfigInterface
 {
 
     /**

@@ -79,7 +79,7 @@ class Magento_GiftMessage_Model_Api_V2 extends Magento_GiftMessage_Model_Api
          */
         try {
             /** Frontend area events must be loaded as we emulate frontend behavior. */
-            $this->_configScope->setCurrentScope(Mage_Core_Model_App_Area::AREA_FRONTEND);
+            $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_FRONTEND);
             $this->_eventManager->dispatch(
                 'checkout_controller_onepage_save_shipping_method',
                 array('request' => $request, 'quote' => $quote)

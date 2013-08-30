@@ -38,12 +38,12 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
     protected $_defaultRouteId;
 
     /**
-     * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
+     * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_Config_Scope $configScope
-     * @param Mage_Core_Model_Route_Config $routeConfig
-     * @param Mage_Backend_Helper_Data $dataHelper
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_Config_Scope $configScope
+     * @param Magento_Core_Model_Route_Config $routeConfig
+     * @param Magento_Backend_Helper_Data $dataHelper
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -54,10 +54,10 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
     public function __construct(
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_App $app,
-        Mage_Core_Model_Config_Scope $configScope,
-        Mage_Core_Model_Route_Config $routeConfig,
-        Mage_Backend_Helper_Data $dataHelper,
+        Magento_Core_Model_App $app,
+        Magento_Core_Model_Config_Scope $configScope,
+        Magento_Core_Model_Route_Config $routeConfig,
+        Magento_Backend_Helper_Data $dataHelper,
         $areaCode,
         $baseController,
         $routerId,
@@ -66,7 +66,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
         parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $areaCode,
             $baseController, $routerId);
 
-        $this->_areaFrontName = Mage::helper('Mage_Backend_Helper_Data')->getAreaFrontName();
+        $this->_areaFrontName = Mage::helper('Magento_Backend_Helper_Data')->getAreaFrontName();
         if (empty($this->_areaFrontName)) {
             throw new InvalidArgumentException('Area Front Name should be defined');
         }
@@ -160,7 +160,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
     protected function _shouldBeSecure($path)
     {
         return substr((string)Mage::getConfig()->getValue('web/unsecure/base_url', 'default'), 0, 5) === 'https'
-            || Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
+            || Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
                 && substr((string)Mage::getConfig()->getValue('web/secure/base_url', 'default'), 0, 5) === 'https';
     }
 

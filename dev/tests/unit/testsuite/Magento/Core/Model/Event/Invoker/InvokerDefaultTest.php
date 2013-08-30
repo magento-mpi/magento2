@@ -42,7 +42,7 @@ class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framew
             false);
         $this->_appStateMock = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
 
-        $this->_invokerDefault = new Mage_Core_Model_Event_Invoker_InvokerDefault(
+        $this->_invokerDefault = new Magento_Core_Model_Event_Invoker_InvokerDefault(
             $this->_observerFactoryMock,
             $this->_appStateMock
         );

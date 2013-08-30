@@ -42,10 +42,10 @@ class Magento_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framewo
         $this->_menuSubModel = new Magento_Backend_Model_Menu($logger);
 
         $this->_factoryMock = $this->getMock(
-            'Mage_Backend_Model_Menu_Filter_IteratorFactory', array('create'), array(), '', false
+            'Magento_Backend_Model_Menu_Filter_IteratorFactory', array('create'), array(), '', false
         );
 
-        $itemOne = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $itemOne = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false);
         $itemOne->expects($this->any())->method('getId')->will($this->returnValue('item1'));
         $itemOne->expects($this->any())->method('getTitle')->will($this->returnValue('Item 1'));
         $itemOne->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
@@ -55,7 +55,7 @@ class Magento_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framewo
         $itemOne->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
         $this->_menuModel->add($itemOne);
 
-        $itemTwo = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $itemTwo = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false);
         $itemTwo->expects($this->any())->method('getId')->will($this->returnValue('item2'));
         $itemTwo->expects($this->any())->method('getTitle')->will($this->returnValue('Item 2'));
         $itemTwo->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
@@ -64,10 +64,10 @@ class Magento_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framewo
         $itemTwo->expects($this->any())->method('hasChildren')->will($this->returnValue(false));
         $this->_menuSubModel->add($itemTwo);
 
-        $menuConfig = $this->getMock('Mage_Backend_Model_Menu_Config', array(), array(), '', false);
+        $menuConfig = $this->getMock('Magento_Backend_Model_Menu_Config', array(), array(), '', false);
         $menuConfig->expects($this->once())->method('getMenu')->will($this->returnValue($this->_menuModel));
 
-        $this->_model = new Mage_Backend_Model_Config_Source_Admin_Page($this->_factoryMock, $menuConfig);
+        $this->_model = new Magento_Backend_Model_Config_Source_Admin_Page($this->_factoryMock, $menuConfig);
     }
 
     public function testToOptionArray()

@@ -26,21 +26,21 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
     protected $_cache;
 
     /**
-     * @param Mage_Core_Model_Config_Resource $resourcesConfig
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_ModuleListInterface $moduleList
-     * @param Mage_Core_Model_Resource $resource
-     * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Mage_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Config_Resource $resourcesConfig
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_CacheInterface $cache
      * @param $resourceName
      */
     public function __construct(
-        Mage_Core_Model_Config_Resource $resourcesConfig,
-        Mage_Core_Model_Config $config,
-        Mage_Core_Model_ModuleListInterface $moduleList,
-        Mage_Core_Model_Resource $resource,
-        Mage_Core_Model_Config_Modules_Reader $modulesReader,
-        Mage_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Config_Resource $resourcesConfig,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_CacheInterface $cache,
         $resourceName
     ) {
         parent::__construct($resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName);

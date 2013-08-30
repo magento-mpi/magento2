@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Config_Source_Admin_Page implements Mage_Core_Model_Option_ArrayInterface
+class Magento_Backend_Model_Config_Source_Admin_Page implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Menu model
@@ -24,17 +24,17 @@ class Mage_Backend_Model_Config_Source_Admin_Page implements Mage_Core_Model_Opt
     protected $_objectFactory;
 
     /**
-     * @var Mage_Backend_Model_Menu_Filter_IteratorFactory
+     * @var Magento_Backend_Model_Menu_Filter_IteratorFactory
      */
     protected $_iteratorFactory;
 
     /**
-     * @param Mage_Backend_Model_Menu_Filter_IteratorFactory $iteratorFactory
-     * @param Mage_Backend_Model_Menu_Config $menuConfig
+     * @param Magento_Backend_Model_Menu_Filter_IteratorFactory $iteratorFactory
+     * @param Magento_Backend_Model_Menu_Config $menuConfig
      */
     public function __construct(
-        Mage_Backend_Model_Menu_Filter_IteratorFactory $iteratorFactory,
-        Mage_Backend_Model_Menu_Config $menuConfig
+        Magento_Backend_Model_Menu_Filter_IteratorFactory $iteratorFactory,
+        Magento_Backend_Model_Menu_Config $menuConfig
     ) {
         $this->_menu = $menuConfig->getMenu();
         $this->_iteratorFactory = $iteratorFactory;

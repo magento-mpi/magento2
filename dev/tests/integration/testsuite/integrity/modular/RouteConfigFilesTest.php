@@ -10,7 +10,7 @@ class Integrity_Modular_RouteConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * attributes represent merging rules
-     * copied from original class Mage_Core_Model_Route_Config_Reader
+     * copied from original class Magento_Core_Model_Route_Config_Reader
      * @var array
      */
     protected $_idAttributes = array(

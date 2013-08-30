@@ -5,17 +5,17 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Mage_Core_Model_Config_SectionPool
+class Magento_Core_Model_Config_SectionPool
 {
     const CACHE_TAG = 'config_sections';
 
     /**
-     * @var Mage_Core_Model_Config_Section_ReaderPool
+     * @var Magento_Core_Model_Config_Section_ReaderPool
      */
     protected $_readerPool;
 
     /**
-     * @var Mage_Core_Model_Config_DataFactory
+     * @var Magento_Core_Model_Config_DataFactory
      */
     protected $_dataFactory;
 
@@ -30,19 +30,19 @@ class Mage_Core_Model_Config_SectionPool
     protected $_cacheId;
 
     /**
-     * @var Mage_Core_Model_Config_Data[]
+     * @var Magento_Core_Model_Config_Data[]
      */
     protected $_sections = array();
 
     /**
-     * @param Mage_Core_Model_Config_Section_ReaderPool $readerList
-     * @param Mage_Core_Model_Config_DataFactory $dataFactory
+     * @param Magento_Core_Model_Config_Section_ReaderPool $readerList
+     * @param Magento_Core_Model_Config_DataFactory $dataFactory
      * @param Magento_Cache_FrontendInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Mage_Core_Model_Config_Section_ReaderPool $readerList,
-        Mage_Core_Model_Config_DataFactory $dataFactory,
+        Magento_Core_Model_Config_Section_ReaderPool $readerList,
+        Magento_Core_Model_Config_DataFactory $dataFactory,
         Magento_Cache_FrontendInterface $cache,
         $cacheId = 'default_config_cache'
     ) {
@@ -57,7 +57,7 @@ class Mage_Core_Model_Config_SectionPool
      *
      * @param string $scopeType
      * @param string $scopeCode
-     * @return Mage_Core_Model_Config_Data
+     * @return Magento_Core_Model_Config_Data
      */
     public function getSection($scopeType, $scopeCode = null)
     {

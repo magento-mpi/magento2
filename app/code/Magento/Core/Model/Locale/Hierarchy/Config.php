@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Locale_Hierarchy_Config
+class Magento_Core_Model_Locale_Hierarchy_Config
 {
     /**
      * Configuration data reader
      *
-     * @var Mage_Core_Model_Locale_Hierarchy_Config_Reader
+     * @var Magento_Core_Model_Locale_Hierarchy_Config_Reader
      */
     protected $_reader;
 
@@ -38,12 +38,12 @@ class Mage_Core_Model_Locale_Hierarchy_Config
     protected $_scope = 'global';
 
     /**
-     * @param Mage_Core_Model_Locale_Hierarchy_Config_Reader $reader
+     * @param Magento_Core_Model_Locale_Hierarchy_Config_Reader $reader
      * @param Magento_Config_CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Mage_Core_Model_Locale_Hierarchy_Config_Reader $reader,
+        Magento_Core_Model_Locale_Hierarchy_Config_Reader $reader,
         Magento_Config_CacheInterface $cache,
         $cacheId = 'local_hierarchy_cache'
     ) {

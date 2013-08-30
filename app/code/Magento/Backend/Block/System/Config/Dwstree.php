@@ -18,18 +18,18 @@
 class Magento_Backend_Block_System_Config_Dwstree extends Magento_Backend_Block_Widget_Tabs
 {
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -59,7 +59,7 @@ class Magento_Backend_Block_System_Config_Dwstree extends Magento_Backend_Block_
             'class' => 'default',
         ));
 
-        /** @var $website Mage_Core_Model_Website */
+        /** @var $website Magento_Core_Model_Website */
         foreach ($this->_storeManager->getWebsites(true) as $website) {
             $wCode = $website->getCode();
             $wName = $website->getName();
@@ -76,7 +76,7 @@ class Magento_Backend_Block_System_Config_Dwstree extends Magento_Backend_Block_
                     $this->_addBreadcrumb($wName);
                 }
             }
-            /** @var $store Mage_Core_Model_Store */
+            /** @var $store Magento_Core_Model_Store */
             foreach ($website->getStores() as $store) {
                 $sCode = $store->getCode();
                 $sName = $store->getName();

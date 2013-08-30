@@ -17,10 +17,10 @@ class Magento_Core_Model_EntryPoint_Cron extends Magento_Core_Model_EntryPointAb
         $app->setUseSessionInUrl(false);
         $app->requireInstalledInstance();
 
-        /** @var $eventManager Mage_Core_Model_Event_Manager */
-        $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
-        /** @var Mage_Core_Model_Config_Scope $configScope */
-        $configScope = $this->_objectManager->get('Mage_Core_Model_Config_Scope');
+        /** @var $eventManager Magento_Core_Model_Event_Manager */
+        $eventManager = $this->_objectManager->get('Magento_Core_Model_Event_Manager');
+        /** @var Magento_Core_Model_Config_Scope $configScope */
+        $configScope = $this->_objectManager->get('Magento_Core_Model_Config_Scope');
         $configScope->setCurrentScope('crontab');
         $eventManager->dispatch('default');
     }

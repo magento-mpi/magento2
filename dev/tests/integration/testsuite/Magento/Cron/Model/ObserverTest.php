@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Cron_Model_ObserverTest extends PHPUnit_Framework_TestCase
+class Magento_Cron_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Cron_Model_Observer

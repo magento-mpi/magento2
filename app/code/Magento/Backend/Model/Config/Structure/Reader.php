@@ -41,8 +41,8 @@ class Magento_Backend_Model_Config_Structure_Reader extends Magento_Config_Reade
 
     /**
      * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Mage_Backend_Model_Config_Structure_Converter $converter
-     * @param Mage_Backend_Model_Config_SchemaLocator $schemaLocator
+     * @param Magento_Backend_Model_Config_Structure_Converter $converter
+     * @param Magento_Backend_Model_Config_SchemaLocator $schemaLocator
      * @param Magento_Config_ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
@@ -50,8 +50,8 @@ class Magento_Backend_Model_Config_Structure_Reader extends Magento_Config_Reade
      */
     public function __construct(
         Magento_Config_FileResolverInterface $fileResolver,
-        Mage_Backend_Model_Config_Structure_Converter $converter,
-        Mage_Backend_Model_Config_SchemaLocator $schemaLocator,
+        Magento_Backend_Model_Config_Structure_Converter $converter,
+        Magento_Backend_Model_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState,
         $fileName = 'system.xml',
         $idAttributes = array(),

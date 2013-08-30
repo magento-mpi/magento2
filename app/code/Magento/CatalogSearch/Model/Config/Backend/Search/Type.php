@@ -16,7 +16,7 @@
  * @package    Magento_CatalogSearch
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Config_Backend_Search_Type extends Magento_Core_Model_Config_Data
+class Magento_CatalogSearch_Model_Config_Backend_Search_Type extends Magento_Core_Model_Config_Value
 {
     /**
      * After change Catalog Search Type process
@@ -27,7 +27,7 @@ class Magento_CatalogSearch_Model_Config_Backend_Search_Type extends Magento_Cor
     {
         $newValue = $this->getValue();
         $oldValue = Mage::getConfig()->getValue(
-            Mage_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
+            Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
             $this->getScope(),
             $this->getScopeId()
         );

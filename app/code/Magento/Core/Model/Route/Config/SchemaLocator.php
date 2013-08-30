@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Route_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
+class Magento_Core_Model_Route_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged config
@@ -24,12 +24,12 @@ class Mage_Core_Model_Route_Config_SchemaLocator implements Magento_Config_Schem
     protected $_perFileSchema = null;
 
     /**
-     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      */
-    public function __construct(Mage_Core_Model_Config_Modules_Reader $moduleReader)
+    public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_perFileSchema = $moduleReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'routes.xsd';
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'routes_merged.xsd';
+        $this->_perFileSchema = $moduleReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'routes.xsd';
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'routes_merged.xsd';
     }
 
     /**

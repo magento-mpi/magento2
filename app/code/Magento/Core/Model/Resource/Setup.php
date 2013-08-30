@@ -88,24 +88,24 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_modulesReader;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
     /**
-     * @param Mage_Core_Model_Config_Resource $resourcesConfig
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_ModuleListInterface $moduleList
-     * @param Mage_Core_Model_Resource $resource
-     * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_Config_Resource $resourcesConfig
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param string $resourceName
      */
     public function __construct(
-        Mage_Core_Model_Config_Resource $resourcesConfig,
-        Mage_Core_Model_Config $config,
-        Mage_Core_Model_ModuleListInterface $moduleList,
-        Mage_Core_Model_Resource $resource,
-        Mage_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_Config_Resource $resourcesConfig,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
         $resourceName
     ) {
         $this->_config = $config;

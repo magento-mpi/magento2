@@ -11,4 +11,4 @@
     <event name="controller_action_predispatch_install">
         <observer name="enterprise_install" instance="Magento_Enterprise_Model_Observer_Install" method="setDesignTheme" />
     </event>
-</config>
+</config>

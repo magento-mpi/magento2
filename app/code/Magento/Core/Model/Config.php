@@ -101,7 +101,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     protected $_moduleList;
 
     /**
-     * @var Mage_Core_Model_Config_SectionPool
+     * @var Magento_Core_Model_Config_SectionPool
      */
     protected $_sectionPool;
 
@@ -116,7 +116,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Config_ScopeInterface $configScope
-     * @param Mage_Core_Model_Config_SectionPool $sectionPool
+     * @param Magento_Core_Model_Config_SectionPool $sectionPool
      */
     public function __construct(
         Magento_Core_Model_ObjectManager $objectManager,
@@ -124,7 +124,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Config_ScopeInterface $configScope,
-        Mage_Core_Model_Config_SectionPool $sectionPool
+        Magento_Core_Model_Config_SectionPool $sectionPool
     ) {
         Magento_Profiler::start('config_load');
         $this->_objectManager = $objectManager;
@@ -301,7 +301,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     {
         // @todo inject custom store collection that corresponds to the following requirements
         if (is_null($this->_storeCollection)) {
-            $this->_storeCollection = $this->_objectManager->create('Mage_Core_Model_Resource_Store_Collection');
+            $this->_storeCollection = $this->_objectManager->create('Magento_Core_Model_Resource_Store_Collection');
             $this->_storeCollection->setLoadDefault(true);
         }
         $storeValues = array();

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
+class Magento_Backend_Model_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged config
@@ -24,14 +24,14 @@ class Mage_Backend_Model_Config_SchemaLocator implements Magento_Config_SchemaLo
     protected $_perFileSchema = null;
 
     /**
-     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      */
-    public function __construct(Mage_Core_Model_Config_Modules_Reader $moduleReader)
+    public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Mage_Backend')
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Backend')
             . DIRECTORY_SEPARATOR . 'system.xsd';
 
-        $this->_perFileSchema = $moduleReader->getModuleDir('etc', 'Mage_Backend')
+        $this->_perFileSchema = $moduleReader->getModuleDir('etc', 'Magento_Backend')
             . DIRECTORY_SEPARATOR . 'system_file.xsd';
     }
 

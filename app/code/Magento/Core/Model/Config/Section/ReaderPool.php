@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Mage_Core_Model_Config_Section_ReaderPool
+class Magento_Core_Model_Config_Section_ReaderPool
 {
     /**
      * List of readers
@@ -15,14 +15,14 @@ class Mage_Core_Model_Config_Section_ReaderPool
     protected $_readers = array();
 
     /**
-     * @param Mage_Core_Model_Config_Section_Reader_DefaultReader $default
-     * @param Mage_Core_Model_Config_Section_Reader_Website $website
-     * @param Mage_Core_Model_Config_Section_Reader_Store $store
+     * @param Magento_Core_Model_Config_Section_Reader_DefaultReader $default
+     * @param Magento_Core_Model_Config_Section_Reader_Website $website
+     * @param Magento_Core_Model_Config_Section_Reader_Store $store
      */
     public function __construct(
-        Mage_Core_Model_Config_Section_Reader_DefaultReader $default,
-        Mage_Core_Model_Config_Section_Reader_Website $website,
-        Mage_Core_Model_Config_Section_Reader_Store $store
+        Magento_Core_Model_Config_Section_Reader_DefaultReader $default,
+        Magento_Core_Model_Config_Section_Reader_Website $website,
+        Magento_Core_Model_Config_Section_Reader_Store $store
     ) {
         $this->_readers = array(
             'default' => $default,

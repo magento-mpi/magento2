@@ -10,7 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Base extends Magento_Simplexml_Config implements Mage_Core_Model_ConfigInterface
+class Magento_Core_Model_Config_Base extends Magento_Simplexml_Config implements Magento_Core_Model_ConfigInterface
 {
     /**
      * List of instances

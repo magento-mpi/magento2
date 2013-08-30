@@ -27,7 +27,7 @@ class Magento_Core_Model_Event_Manager
     /**
      * Event config
      *
-     * @var Mage_Core_Model_Event_ConfigInterface
+     * @var Magento_Core_Model_Event_ConfigInterface
      */
     protected $_eventConfig;
 
@@ -46,14 +46,14 @@ class Magento_Core_Model_Event_Manager
     protected $_eventObserverFactory;
 
     /**
-     * @param Mage_Core_Model_Event_InvokerInterface $invoker
-     * @param Mage_Core_Model_Event_ConfigInterface $eventConfig
+     * @param Magento_Core_Model_Event_InvokerInterface $invoker
+     * @param Magento_Core_Model_Event_ConfigInterface $eventConfig
      * @param Magento_EventFactory $eventFactory
      * @param Magento_Event_ObserverFactory $eventObserverFactory
      */
     public function __construct(
-        Mage_Core_Model_Event_InvokerInterface $invoker,
-        Mage_Core_Model_Event_ConfigInterface $eventConfig,
+        Magento_Core_Model_Event_InvokerInterface $invoker,
+        Magento_Core_Model_Event_ConfigInterface $eventConfig,
         Magento_EventFactory $eventFactory,
         Magento_Event_ObserverFactory $eventObserverFactory
     ) {

@@ -26,13 +26,13 @@ class Magento_Core_Model_Module_Declaration_Reader_FilesystemTest extends PHPUni
                         $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'code',
                 ),
             )));
-        $fileResolver = new Mage_Core_Model_Module_Declaration_FileResolver($applicationDirs);
-        $converter = new Mage_Core_Model_Module_Declaration_Converter_Dom();
+        $fileResolver = new Magento_Core_Model_Module_Declaration_FileResolver($applicationDirs);
+        $converter = new Magento_Core_Model_Module_Declaration_Converter_Dom();
         $schemaLocatorMock = $this->getMock(
-            'Mage_Core_Model_Module_Declaration_SchemaLocator', array(), array(), '', false
+            'Magento_Core_Model_Module_Declaration_SchemaLocator', array(), array(), '', false
         );
         $validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
-        $this->_model = new Mage_Core_Model_Module_Declaration_Reader_Filesystem(
+        $this->_model = new Magento_Core_Model_Module_Declaration_Reader_Filesystem(
             $fileResolver, $converter, $schemaLocatorMock, $validationStateMock
         );
     }

@@ -20,7 +20,7 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
     {
         $options = array(
             'areaCode' => 'frontend',
-            'baseController' => 'Mage_Core_Controller_Front_Action',
+            'baseController' => 'Magento_Core_Controller_Front_Action',
             'routerId' => 'standard'
         );
         $this->_model = Mage::getModel('Magento_Core_Controller_Varien_Router_Base', $options);
@@ -47,7 +47,7 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
 
         $request = new Magento_Test_Request();
 
-        $this->assertInstanceOf('Mage_Core_Controller_Varien_Action', $this->_model->match($request));
+        $this->assertInstanceOf('Magento_Core_Controller_Varien_Action', $this->_model->match($request));
         $request->setRequestUri('core/index/index');
         $this->assertInstanceOf('Magento_Core_Controller_Varien_Action', $this->_model->match($request));
 
@@ -59,13 +59,13 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @covers Mage_Core_Controller_Varien_Router_Base::getModulesByFrontName
-     * @covers Mage_Core_Controller_Varien_Router_Base::getRouteByFrontName
-     * @covers Mage_Core_Controller_Varien_Router_Base::getFrontNameByRoute
+     * @covers Magento_Core_Controller_Varien_Router_Base::getModulesByFrontName
+     * @covers Magento_Core_Controller_Varien_Router_Base::getRouteByFrontName
+     * @covers Magento_Core_Controller_Varien_Router_Base::getFrontNameByRoute
      */
     public function testGetters()
     {
-        $this->assertEquals(array('Mage_Catalog'), $this->_model->getModulesByFrontName('catalog'));
+        $this->assertEquals(array('Magento_Catalog'), $this->_model->getModulesByFrontName('catalog'));
         $this->assertEquals('cms', $this->_model->getRouteByFrontName('cms'));
         $this->assertEquals('cms', $this->_model->getFrontNameByRoute('cms'));
     }

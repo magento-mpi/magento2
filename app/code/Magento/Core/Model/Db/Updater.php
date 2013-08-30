@@ -11,7 +11,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
     /**
      * Modules configuration
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
@@ -44,14 +44,14 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
     protected $_appState;
 
     /**
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_Resource_SetupFactory $factory
-     * @param Mage_Core_Model_App_State $appState
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Resource_SetupFactory $factory
+     * @param Magento_Core_Model_App_State $appState
      */
     public function __construct(
-        Mage_Core_Model_Config $config,
-        Mage_Core_Model_Resource_SetupFactory $factory,
-        Mage_Core_Model_App_State $appState
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Resource_SetupFactory $factory,
+        Magento_Core_Model_App_State $appState
     ) {
         $this->_config = $config;
         $this->_factory = $factory;

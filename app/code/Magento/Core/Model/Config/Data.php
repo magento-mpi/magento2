@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Data implements Mage_Core_Model_Config_DataInterface
+class Magento_Core_Model_Config_Data implements Magento_Core_Model_Config_DataInterface
 {
     /**
      * Config data
@@ -17,10 +17,10 @@ class Mage_Core_Model_Config_Data implements Mage_Core_Model_Config_DataInterfac
     protected $_data = array();
 
     /**
-     * @param Mage_Core_Model_Config_MetadataProcessor $processor
+     * @param Magento_Core_Model_Config_MetadataProcessor $processor
      * @param array $data
      */
-    public function __construct(Mage_Core_Model_Config_MetadataProcessor $processor, array $data)
+    public function __construct(Magento_Core_Model_Config_MetadataProcessor $processor, array $data)
     {
         $this->_data = $processor->process($data);
     }

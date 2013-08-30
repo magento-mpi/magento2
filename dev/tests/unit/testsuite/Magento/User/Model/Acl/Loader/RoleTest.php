@@ -38,12 +38,12 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_resourceMock = $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false, false);
-        $this->_groupFactoryMock = $this->getMock('Mage_User_Model_Acl_Role_GroupFactory',
+        $this->_resourceMock = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false);
+        $this->_groupFactoryMock = $this->getMock('Magento_User_Model_Acl_Role_GroupFactory',
             array('create'), array(), '', false
         );
         $this->_roleFactoryMock = $this->getMock(
-            'Mage_User_Model_Acl_Role_UserFactory', array('create'), array(), '', false
+            'Magento_User_Model_Acl_Role_UserFactory', array('create'), array(), '', false
         );
 
         $this->_resourceMock->expects($this->once())
@@ -66,7 +66,7 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->will($this->returnValue($this->_adapterMock));
 
-        $this->_model = new Mage_User_Model_Acl_Loader_Role(
+        $this->_model = new Magento_User_Model_Acl_Loader_Role(
             $this->_groupFactoryMock,
             $this->_roleFactoryMock,
             $this->_resourceMock

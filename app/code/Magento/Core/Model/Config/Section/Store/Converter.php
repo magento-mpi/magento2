@@ -7,17 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Section_Store_Converter extends Mage_Core_Model_Config_Section_Converter
+class Magento_Core_Model_Config_Section_Store_Converter extends Magento_Core_Model_Config_Section_Converter
 {
     /**
-     * @var Mage_Core_Model_Config_Section_Processor_Placeholder
+     * @var Magento_Core_Model_Config_Section_Processor_Placeholder
      */
     protected $_processor;
 
     /**
-     * @param Mage_Core_Model_Config_Section_Processor_Placeholder $processor
+     * @param Magento_Core_Model_Config_Section_Processor_Placeholder $processor
      */
-    public function __construct(Mage_Core_Model_Config_Section_Processor_Placeholder $processor)
+    public function __construct(Magento_Core_Model_Config_Section_Processor_Placeholder $processor)
     {
         $this->_processor = $processor;
     }

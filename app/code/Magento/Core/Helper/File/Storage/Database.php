@@ -68,8 +68,8 @@ class Magento_Core_Helper_File_Storage_Database extends Magento_Core_Helper_Abst
     {
         if (null === $this->_useDb) {
             $currentStorage = (int) Mage::app()->getConfig()
-                ->getValue(Mage_Core_Model_File_Storage::XML_PATH_STORAGE_MEDIA, 'default');
-            $this->_useDb = ($currentStorage == Mage_Core_Model_File_Storage::STORAGE_MEDIA_DATABASE);
+                ->getValue(Magento_Core_Model_File_Storage::XML_PATH_STORAGE_MEDIA, 'default');
+            $this->_useDb = ($currentStorage == Magento_Core_Model_File_Storage::STORAGE_MEDIA_DATABASE);
         }
 
         return $this->_useDb;

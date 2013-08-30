@@ -358,7 +358,7 @@ class Magento_Core_Model_Store_Storage_Db implements Magento_Core_Model_Store_St
         $groupStores   = array();
 
         foreach ($storeCollection as $store) {
-            /** @var $store Mage_Core_Model_Store */
+            /** @var $store Magento_Core_Model_Store */
             $store->setWebsite($websiteCollection->getItemById($store->getWebsiteId()));
             $store->setGroup($groupCollection->getItemById($store->getGroupId()));
 
@@ -519,7 +519,7 @@ class Magento_Core_Model_Store_Storage_Db implements Magento_Core_Model_Store_St
             // load method will load website by code if given ID is not a numeric value
             $website->load($websiteId);
             if (!$website->hasWebsiteId()) {
-                throw Mage::exception('Mage_Core', 'Invalid website id/code requested.');
+                throw Mage::exception('Magento_Core', 'Invalid website id/code requested.');
             }
             $this->_websites[$website->getWebsiteId()] = $website;
             $this->_websites[$website->getCode()] = $website;

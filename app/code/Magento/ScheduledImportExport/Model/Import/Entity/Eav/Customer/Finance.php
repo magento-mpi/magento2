@@ -98,32 +98,32 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected $_importedRowPks = array();
 
     /**
-     * @var Mage_Customer_Model_CustomerFactory
+     * @var Magento_Customer_Model_CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Enterprise_CustomerBalance_Model_BalanceFactory
+     * @var Magento_CustomerBalance_Model_BalanceFactory
      */
     protected $_balanceFactory;
 
     /**
-     * @var Enterprise_Reward_Model_RewardFactory
+     * @var Magento_Reward_Model_RewardFactory
      */
     protected $_rewardFactory;
 
     /**
-     * @param Enterprise_ImportExport_Helper_Data $helper
-     * @param Mage_Customer_Model_CustomerFactory $customerFactory
-     * @param Enterprise_CustomerBalance_Model_BalanceFactory $balanceFactory
-     * @param Enterprise_Reward_Model_RewardFactory $rewardFactory
+     * @param Magento_ScheduledImportExport_Helper_Data $helper
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_CustomerBalance_Model_BalanceFactory $balanceFactory
+     * @param Magento_Reward_Model_RewardFactory $rewardFactory
      * @param array $data
      */
     public function __construct(
-        Enterprise_ImportExport_Helper_Data $helper,
-        Mage_Customer_Model_CustomerFactory $customerFactory,
-        Enterprise_CustomerBalance_Model_BalanceFactory $balanceFactory,
-        Enterprise_Reward_Model_RewardFactory $rewardFactory,
+        Magento_ScheduledImportExport_Helper_Data $helper,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_CustomerBalance_Model_BalanceFactory $balanceFactory,
+        Magento_Reward_Model_RewardFactory $rewardFactory,
         array $data = array()
     ) {
         // entity type id has no meaning for finance import
@@ -181,7 +181,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
             return false;
         }
 
-        /** @var $customer Mage_Customer_Model_Customer */
+        /** @var $customer Magento_Customer_Model_Customer */
         $customer = $this->_customerFactory->create();
         $rewardPointsKey =
             Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
@@ -243,7 +243,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
      */
     protected function _updateRewardPointsForCustomer(Magento_Customer_Model_Customer $customer, $websiteId, $value)
     {
-        /** @var $rewardModel Enterprise_Reward_Model_Reward */
+        /** @var $rewardModel Magento_Reward_Model_Reward */
         $rewardModel = $this->_rewardFactory->create();
         $rewardModel->setCustomer($customer)
             ->setWebsiteId($websiteId)

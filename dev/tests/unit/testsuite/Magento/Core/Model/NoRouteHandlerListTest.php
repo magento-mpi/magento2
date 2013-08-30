@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_NoRouteHandlerListTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_NoRouteHandlerListTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_ObjectManager
@@ -13,7 +13,7 @@ class Mage_Core_Model_NoRouteHandlerListTest extends PHPUnit_Framework_TestCase
     protected $_objectManagerMock;
 
     /**
-     * @var Mage_Core_Model_NoRouteHandlerList
+     * @var Magento_Core_Model_NoRouteHandlerList
      */
     protected $_model;
 
@@ -22,31 +22,31 @@ class Mage_Core_Model_NoRouteHandlerListTest extends PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $handlersList = array(
             'default_handler' => array(
-                'instance' => 'Mage_Core_Model_Router_NoRouteHandler',
+                'instance' => 'Magento_Core_Model_Router_NoRouteHandler',
                 'sortOrder' => 100
             ),
             'backend_handler' => array(
-                'instance'  => 'Mage_Backend_Model_Router_NoRouteHandler',
+                'instance'  => 'Magento_Backend_Model_Router_NoRouteHandler',
                 'sortOrder' => 10
             ),
         );
 
-        $this->_model = new Mage_Core_Model_NoRouteHandlerList($this->_objectManagerMock, $handlersList);
+        $this->_model = new Magento_Core_Model_NoRouteHandlerList($this->_objectManagerMock, $handlersList);
     }
 
     public function testGetHandlers()
     {
-        $backendHandlerMock = $this->getMock('Mage_Backend_Model_Router_NoRouteHandler', array(), array(), '', false);
-        $defaultHandlerMock = $this->getMock('Mage_Core_Model_Router_NoRouteHandler', array(), array(), '', false);
+        $backendHandlerMock = $this->getMock('Magento_Backend_Model_Router_NoRouteHandler', array(), array(), '', false);
+        $defaultHandlerMock = $this->getMock('Magento_Core_Model_Router_NoRouteHandler', array(), array(), '', false);
 
         $this->_objectManagerMock->expects($this->at(0))
             ->method('create')
-            ->with('Mage_Backend_Model_Router_NoRouteHandler')
+            ->with('Magento_Backend_Model_Router_NoRouteHandler')
             ->will($this->returnValue($backendHandlerMock));
 
         $this->_objectManagerMock->expects($this->at(1))
             ->method('create')
-            ->with('Mage_Core_Model_Router_NoRouteHandler')
+            ->with('Magento_Core_Model_Router_NoRouteHandler')
             ->will($this->returnValue($defaultHandlerMock));
 
 

@@ -67,13 +67,13 @@ class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
             $this->returnValue($structureMock)
         );
         $this->_transFactoryMock = $this->getMock(
-            'Mage_Core_Model_Resource_TransactionFactory', array('create'), array(), '', false
+            'Magento_Core_Model_Resource_TransactionFactory', array('create'), array(), '', false
         );
-        $this->_appConfigMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_configLoaderMock = $this->getMock('Mage_Backend_Model_Config_Loader', array(), array(), '', false);
-        $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
-        $this->_dataFactoryMock = $this->getMock('Mage_Core_Model_Config_ValueFactory', array(), array(), '', false);
-        $this->_storeManager = $this->getMockForAbstractClass('Mage_Core_Model_StoreManagerInterface');
+        $this->_appConfigMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $this->_configLoaderMock = $this->getMock('Magento_Backend_Model_Config_Loader', array(), array(), '', false);
+        $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
+        $this->_dataFactoryMock = $this->getMock('Magento_Core_Model_Config_ValueFactory', array(), array(), '', false);
+        $this->_storeManager = $this->getMockForAbstractClass('Magento_Core_Model_StoreManagerInterface');
 
         $this->_model = new Magento_Backend_Model_Config(
             $this->_applicationMock,

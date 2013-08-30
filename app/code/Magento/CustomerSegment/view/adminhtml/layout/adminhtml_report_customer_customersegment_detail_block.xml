@@ -10,111 +10,111 @@
 <layout version="0.1.0">
     <adminhtml_report_customer_customersegment_detail_block>
         <reference name="report.customersegment.detail.grid.container">
-            <block type="Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid" name="report.customersegment.detail.grid" as="grid">
+            <block type="Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid" name="report.customersegment.detail.grid" as="grid">
                 <arguments>
                     <id>segmentGrid</id>
-                    <dataSource type="object">Enterprise_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection</dataSource>
+                    <dataSource type="object">Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection</dataSource>
                     <use_ajax>1</use_ajax>
                     <grid_url type="url">
-                        <generatorClass>Enterprise_CustomerSegment_Model_Segment_Report_Detail_Grid_UrlGenerator</generatorClass>
+                        <generatorClass>Magento_CustomerSegment_Model_Segment_Report_Detail_Grid_UrlGenerator</generatorClass>
                         <path>*/*/customerGrid</path>
                         <params>
                             <_current>1</_current>
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_Export" name="report.customersegment.detail.grid.export" as="grid.export">
+                <block type="Magento_Backend_Block_Widget_Grid_Export" name="report.customersegment.detail.grid.export" as="grid.export">
                     <arguments>
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportCsv</urlPath>
-                                <label translate="true" module="Enterprise_CustomerSegment">CSV</label>
+                                <label translate="true" module="Magento_CustomerSegment">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportExcel</urlPath>
-                                <label translate="true" module="Enterprise_CustomerSegment">Excel XML</label>
+                                <label translate="true" module="Magento_CustomerSegment">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="customersegment.detail.grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="customersegment.detail.grid.columnSet">
                     <arguments>
                         <id>segmentGrid</id>
                         <rowUrl>
-                            <generatorClass>Enterprise_CustomerSegment_Model_Segment_Report_Detail_Row_UrlGenerator</generatorClass>
+                            <generatorClass>Magento_CustomerSegment_Model_Segment_Report_Detail_Row_UrlGenerator</generatorClass>
                         </rowUrl>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="grid_entity_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="grid_entity_id">
                         <arguments>
-                            <header translate="true" module="Enterprise_CustomerSegment">ID</header>
+                            <header translate="true" module="Magento_CustomerSegment">ID</header>
                             <index>entity_id</index>
                             <type>number</type>
                             <header_css_class>col-id</header_css_class>
                             <column_css_class>col-id</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="grid_name">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="grid_name">
                         <arguments>
-                            <header translate="true" module="Enterprise_CustomerSegment">Name</header>
+                            <header translate="true" module="Magento_CustomerSegment">Name</header>
                             <index>name</index>
                             <header_css_class>col-name</header_css_class>
                             <column_css_class>col-name</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="grid_email">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="grid_email">
                         <arguments>
-                            <header translate="true" module="Enterprise_CustomerSegment">Email</header>
+                            <header translate="true" module="Magento_CustomerSegment">Email</header>
                             <index>email</index>
                             <header_css_class>col-mail</header_css_class>
                             <column_css_class>col-mail</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="grid_group">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="grid_group">
                         <arguments>
-                            <header translate="true" module="Enterprise_CustomerSegment">Group</header>
+                            <header translate="true" module="Magento_CustomerSegment">Group</header>
                             <index>group_id</index>
                             <type>options</type>
-                            <options type="options">Enterprise_CustomerSegment_Model_Resource_Segment_Report_Detail_Group_Option</options>
+                            <options type="options">Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Group_Option</options>
                             <header_css_class>col-group</header_css_class>
                             <column_css_class>col-group</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="grid_telephone">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="grid_telephone">
                         <arguments>
-                            <header translate="true" module="Enterprise_CustomerSegment">Phone</header>
+                            <header translate="true" module="Magento_CustomerSegment">Phone</header>
                             <index>billing_telephone</index>
                             <header_css_class>col-phone</header_css_class>
                             <column_css_class>col-phone</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="grid_billing_postcode">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="grid_billing_postcode">
                         <arguments>
-                            <header translate="true" module="Enterprise_CustomerSegment">ZIP</header>
+                            <header translate="true" module="Magento_CustomerSegment">ZIP</header>
                             <index>billing_postcode</index>
                             <header_css_class>col-zip</header_css_class>
                             <column_css_class>col-zip</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="grid_billing_country_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="grid_billing_country_id">
                         <arguments>
-                            <header translate="true" module="Enterprise_CustomerSegment">Country</header>
+                            <header translate="true" module="Magento_CustomerSegment">Country</header>
                             <index>billing_country_id</index>
                             <type>country</type>
                             <header_css_class>col-country</header_css_class>
                             <column_css_class>col-country</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="grid_billing_region">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="grid_billing_region">
                         <arguments>
-                            <header translate="true" module="Enterprise_CustomerSegment">State/Province</header>
+                            <header translate="true" module="Magento_CustomerSegment">State/Province</header>
                             <index>billing_region</index>
                             <header_css_class>col-state</header_css_class>
                             <column_css_class>col-state</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="grid_customer_since">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="grid_customer_since">
                         <arguments>
-                            <header translate="true" module="Enterprise_CustomerSegment">Customer Since</header>
+                            <header translate="true" module="Magento_CustomerSegment">Customer Since</header>
                             <index>created_at</index>
                             <type>datetime</type>
                             <gmtoffset>1</gmtoffset>

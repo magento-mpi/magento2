@@ -10,33 +10,33 @@
 <layout version="0.1.0">
     <adminhtml_customer_balance_grid>
         <reference name="customerbalance.balance">
-            <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid" name="customer.balance.grid" as="grid">
+            <block type="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid" name="customer.balance.grid" as="grid">
             <arguments>
                 <id>balanceGrid</id>
-                <dataSource type="object">Enterprise_CustomerBalance_Model_Balance</dataSource>
+                <dataSource type="object">Magento_CustomerBalance_Model_Balance</dataSource>
                 <use_ajax>1</use_ajax>
                 <default_sort>website_id</default_sort>
                 <pager_visibility>0</pager_visibility>
             </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="customer.balance.grid.columnSet" as="grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="customer.balance.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <filter_visibility>0</filter_visibility>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="amount">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="amount">
                         <arguments>
-                            <header translate="true" module="Enterprise_CustomerBalance">Balance</header>
+                            <header translate="true" module="Magento_CustomerBalance">Balance</header>
                             <sortable>0</sortable>
                             <width>50</width>
-                            <renderer>Enterprise_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency</renderer>
+                            <renderer>Magento_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency</renderer>
                             <index>amount</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="website_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website_id">
                         <arguments>
-                            <header translate="true" module="Enterprise_CustomerBalance">Website</header>
+                            <header translate="true" module="Magento_CustomerBalance">Website</header>
                             <index>website_id</index>
                             <type>options</type>
-                            <options type="options">Mage_Backend_Model_Config_Source_Website_OptionHash</options>
+                            <options type="options">Magento_Backend_Model_Config_Source_Website_OptionHash</options>
                             <sortable>0</sortable>
                         </arguments>
                     </block>

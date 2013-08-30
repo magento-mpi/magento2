@@ -58,7 +58,7 @@ class Magento_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
             array('getStores', 'isSingleStoreMode')
         );
         $this->_configData = $this->getMock(
-            'Mage_Core_Model_Config_Value', array('getCollection', 'addFieldToFilter'), array(), '', false
+            'Magento_Core_Model_Config_Value', array('getCollection', 'addFieldToFilter'), array(), '', false
         );
         $this->_configCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
         $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');

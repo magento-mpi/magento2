@@ -5,29 +5,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Router_NoRouteHandlerTest extends PHPUnit_Framework_TestCase
+class Magento_Backend_Model_Router_NoRouteHandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Backend_Helper_Data
+     * @var Magento_Backend_Helper_Data
      */
     protected $_helperMock;
 
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_requestMock;
 
     /**
-     * @var Mage_Backend_Model_Router_NoRouteHandler
+     * @var Magento_Backend_Model_Router_NoRouteHandler
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
-        $this->_helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
         $this->_helperMock->expects($this->any())->method('getAreaFrontName')->will($this->returnValue('backend'));
-        $this->_model = new Mage_Backend_Model_Router_NoRouteHandler($this->_helperMock);
+        $this->_model = new Magento_Backend_Model_Router_NoRouteHandler($this->_helperMock);
     }
 
     public function testProcessWithBackendAreaFrontName()

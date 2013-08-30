@@ -7,10 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_MetadataProcessor
+class Magento_Core_Model_Config_MetadataProcessor
 {
     /**
-     * @var Mage_Core_Model_Config_Data_BackendModelPool
+     * @var Magento_Core_Model_Config_Data_BackendModelPool
      */
     protected $_backendModelPool;
 
@@ -20,12 +20,12 @@ class Mage_Core_Model_Config_MetadataProcessor
     protected $_metadata = array();
 
     /**
-     * @param Mage_Core_Model_Config_Data_BackendModelPool $backendModelPool
-     * @param Mage_Core_Model_Config_Initial $initialConfig
+     * @param Magento_Core_Model_Config_Data_BackendModelPool $backendModelPool
+     * @param Magento_Core_Model_Config_Initial $initialConfig
      */
     public function __construct(
-        Mage_Core_Model_Config_Data_BackendModelPool $backendModelPool,
-        Mage_Core_Model_Config_Initial $initialConfig
+        Magento_Core_Model_Config_Data_BackendModelPool $backendModelPool,
+        Magento_Core_Model_Config_Initial $initialConfig
     ) {
         $this->_backendModelPool = $backendModelPool;
         $this->_metadata = $initialConfig->getMetadata();
@@ -80,7 +80,7 @@ class Mage_Core_Model_Config_MetadataProcessor
     public function process(array $data)
     {
         foreach ($this->_metadata as $path => $metadata) {
-            /** @var Mage_Core_Model_Config_Data_BackendModelInterface $backendModel */
+            /** @var Magento_Core_Model_Config_Data_BackendModelInterface $backendModel */
             $backendModel = $this->_backendModelPool->get($metadata['backendModel']);
             $value = $backendModel->processValue($this->_getValue($data, $path));
             $this->_setValue($data, $path, $value);

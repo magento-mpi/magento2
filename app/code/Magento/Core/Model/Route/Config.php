@@ -7,10 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Route_Config implements Mage_Core_Model_Route_ConfigInterface
+class Magento_Core_Model_Route_Config implements Magento_Core_Model_Route_ConfigInterface
 {
     /**
-     * @var Mage_Core_Model_Route_Config_Reader
+     * @var Magento_Core_Model_Route_Config_Reader
      */
     protected $_reader;
 
@@ -25,12 +25,12 @@ class Mage_Core_Model_Route_Config implements Mage_Core_Model_Route_ConfigInterf
     protected $_cacheId;
 
     /**
-     * @param Mage_Core_Model_Route_Config_Reader $reader
+     * @param Magento_Core_Model_Route_Config_Reader $reader
      * @param Magento_Config_CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Mage_Core_Model_Route_Config_Reader $reader,
+        Magento_Core_Model_Route_Config_Reader $reader,
         Magento_Config_CacheInterface $cache,
         $cacheId = 'RoutesConfig'
     ) {

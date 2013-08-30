@@ -175,12 +175,12 @@ class Magento_Install_Model_Installer extends Magento_Object
             ->setConfigData($data)
             ->install();
 
-        /** @var $primaryConfig  Mage_Core_Model_Config_Primary*/
-        $primaryConfig = Mage::getSingleton('Mage_Core_Model_Config_Primary');
+        /** @var $primaryConfig  Magento_Core_Model_Config_Primary*/
+        $primaryConfig = Mage::getSingleton('Magento_Core_Model_Config_Primary');
         $primaryConfig->reinit();
 
-        /** @var $config Mage_Core_Model_Config */
-        $config = Mage::getSingleton('Mage_Core_Model_Config');
+        /** @var $config Magento_Core_Model_Config */
+        $config = Mage::getSingleton('Magento_Core_Model_Config');
         $config->reloadConfig();
 
         return $this;
@@ -331,16 +331,16 @@ class Magento_Install_Model_Installer extends Magento_Object
      */
     public function finish()
     {
-        Mage::getSingleton('Mage_Install_Model_Installer_Config')->replaceTmpInstallDate();
+        Mage::getSingleton('Magento_Install_Model_Installer_Config')->replaceTmpInstallDate();
 
-        /** @var Mage_Core_Model_Config_Primary $primary */
-        $primary = Mage::getSingleton('Mage_Core_Model_Config_Primary');
+        /** @var Magento_Core_Model_Config_Primary $primary */
+        $primary = Mage::getSingleton('Magento_Core_Model_Config_Primary');
         $primary->reinit();
 
         $this->_refreshConfig();
 
-        /** @var $config Mage_Core_Model_Config */
-        $config = Mage::getSingleton('Mage_Core_Model_Config');
+        /** @var $config Magento_Core_Model_Config */
+        $config = Mage::getSingleton('Magento_Core_Model_Config');
         $config->reloadConfig();
 
         /* Enable all cache types */

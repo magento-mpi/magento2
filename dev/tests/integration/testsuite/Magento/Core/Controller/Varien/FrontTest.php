@@ -53,7 +53,7 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
 
     public function testGetRouter()
     {
-        $this->assertInstanceOf('Mage_Core_Controller_Varien_Router_Default', $this->_model->getRouter('default'));
+        $this->assertInstanceOf('Magento_Core_Controller_Varien_Router_Default', $this->_model->getRouter('default'));
     }
 
     public function testGetRouters()
@@ -62,7 +62,7 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
         $routerIds = array_keys($routers);
         foreach (array('admin', 'standard', 'default', 'cms', 'vde') as $routerId) {
             $this->assertContains($routerId, $routerIds);
-            $this->assertInstanceOf('Mage_Core_Controller_Varien_Router_Abstract', $routers[$routerId]);
+            $this->assertInstanceOf('Magento_Core_Controller_Varien_Router_Abstract', $routers[$routerId]);
         }
     }
 

@@ -28,7 +28,7 @@ class Magento_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
                 $configuration->getNode('global/skip_process_modules_updates')
             ),
         );
-        $configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $configMock->expects($this->any())
             ->method('getNode')
             ->will($this->returnValueMap($map));
@@ -54,7 +54,7 @@ class Magento_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
         $appState->expects($this->any())
             ->method('getMode')
             ->will($this->returnValue($appMode));
-        $updater = new Mage_Core_Model_Db_Updater($configMock, $factory, $appState);
+        $updater = new Magento_Core_Model_Db_Updater($configMock, $factory, $appState);
 
         // Run and verify
         $updater->updateScheme();

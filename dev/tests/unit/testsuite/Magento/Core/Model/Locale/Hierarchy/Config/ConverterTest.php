@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Locale_Hierarchy_Config_ConverterTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Locale_Hierarchy_Config_ConverterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Locale_Hierarchy_Config_Converter
+     * @var Magento_Core_Model_Locale_Hierarchy_Config_Converter
      */
     protected $_model;
 
@@ -23,7 +23,7 @@ class Mage_Core_Model_Locale_Hierarchy_Config_ConverterTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $this->_model = new Mage_Core_Model_Locale_Hierarchy_Config_Converter();
+        $this->_model = new Magento_Core_Model_Locale_Hierarchy_Config_Converter();
     }
 
     /**

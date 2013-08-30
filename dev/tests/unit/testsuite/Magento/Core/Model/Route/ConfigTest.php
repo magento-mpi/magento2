@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Route_ConfigTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Route_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Route_Config
+     * @var Magento_Core_Model_Route_Config
      */
     protected $_config;
 
@@ -24,9 +24,9 @@ class Mage_Core_Model_Route_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Mage_Core_Model_Route_Config_Reader', array(), array(), '', false);
+        $this->_readerMock = $this->getMock('Magento_Core_Model_Route_Config_Reader', array(), array(), '', false);
         $this->_cacheMock = new Cache_Mock_Wrapper();
-        $this->_config = new Mage_Core_Model_Route_Config(
+        $this->_config = new Magento_Core_Model_Route_Config(
             $this->_readerMock,
             $this->_cacheMock
         );

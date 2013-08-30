@@ -12,36 +12,36 @@ class Magento_Core_Model_Config_Loader implements Magento_Core_Model_Config_Load
     /**
      * Primary application configuration
      *
-     * @var Mage_Core_Model_Config_Primary
+     * @var Magento_Core_Model_Config_Primary
      */
     protected $_primaryConfig;
 
     /**
-     * @var Mage_Core_Model_Config_Resource
+     * @var Magento_Core_Model_Config_Resource
      */
     protected $_resourceConfig;
 
     /**
-     * @var Mage_Core_Model_Config_Modules_Reader
+     * @var Magento_Core_Model_Config_Modules_Reader
      */
     protected $_fileReader;
 
     /**
-     * @var Mage_Core_Model_Config_Loader_Local
+     * @var Magento_Core_Model_Config_Loader_Local
      */
     protected $_localLoader;
 
     /**
-     * @param Mage_Core_Model_Config_Primary $primaryConfig
-     * @param Mage_Core_Model_Config_Resource $resourceConfig
-     * @param Mage_Core_Model_Config_Modules_Reader $fileReader
-     * @param Mage_Core_Model_Config_Loader_Local $localLoader
+     * @param Magento_Core_Model_Config_Primary $primaryConfig
+     * @param Magento_Core_Model_Config_Resource $resourceConfig
+     * @param Magento_Core_Model_Config_Modules_Reader $fileReader
+     * @param Magento_Core_Model_Config_Loader_Local $localLoader
      */
     public function __construct(
-        Mage_Core_Model_Config_Primary $primaryConfig,
-        Mage_Core_Model_Config_Resource $resourceConfig,
-        Mage_Core_Model_Config_Modules_Reader $fileReader,
-        Mage_Core_Model_Config_Loader_Local $localLoader
+        Magento_Core_Model_Config_Primary $primaryConfig,
+        Magento_Core_Model_Config_Resource $resourceConfig,
+        Magento_Core_Model_Config_Modules_Reader $fileReader,
+        Magento_Core_Model_Config_Loader_Local $localLoader
     ) {
         $this->_primaryConfig = $primaryConfig;
         $this->_resourceConfig = $resourceConfig;

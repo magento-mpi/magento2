@@ -40,7 +40,7 @@ class Magento_Core_Model_ObjectManager_ConfigLoader_Primary
             new Magento_Core_Model_Config_FileResolver_Primary($this->_dirs),
             new Magento_ObjectManager_Config_Mapper_Dom(),
             new Magento_ObjectManager_Config_SchemaLocator(),
-            new Mage_Core_Model_Config_ValidationState(new Mage_Core_Model_App_State($this->_appMode))
+            new Magento_Core_Model_Config_ValidationState(new Magento_Core_Model_App_State($this->_appMode))
         );
 
         return $reader->read('primary');

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_User_Model_Acl_Loader_Role implements Magento_Acl_LoaderInterface
+class Magento_User_Model_Acl_Loader_Role implements Magento_Acl_LoaderInterface
 {
     /**
      * @var Magento_Core_Model_Resource
@@ -15,24 +15,24 @@ class Mage_User_Model_Acl_Loader_Role implements Magento_Acl_LoaderInterface
     protected $_resource;
 
     /**
-     * @var Mage_User_Model_Acl_Role_GroupFactory
+     * @var Magento_User_Model_Acl_Role_GroupFactory
      */
     protected $_groupFactory;
 
     /**
-     * @var Mage_User_Model_Acl_Role_UserFactory
+     * @var Magento_User_Model_Acl_Role_UserFactory
      */
     protected $_roleFactory;
 
     /**
-     * @param Mage_User_Model_Acl_Role_GroupFactory $groupFactory
-     * @param Mage_User_Model_Acl_Role_UserFactory $roleFactory
-     * @param Mage_Core_Model_Resource $resource
+     * @param Magento_User_Model_Acl_Role_GroupFactory $groupFactory
+     * @param Magento_User_Model_Acl_Role_UserFactory $roleFactory
+     * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
-        Mage_User_Model_Acl_Role_GroupFactory $groupFactory,
-        Mage_User_Model_Acl_Role_UserFactory $roleFactory,
-        Mage_Core_Model_Resource $resource
+        Magento_User_Model_Acl_Role_GroupFactory $groupFactory,
+        Magento_User_Model_Acl_Role_UserFactory $roleFactory,
+        Magento_Core_Model_Resource $resource
     ) {
         $this->_resource = $resource;
         $this->_groupFactory = $groupFactory;

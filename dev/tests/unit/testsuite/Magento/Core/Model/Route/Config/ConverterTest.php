@@ -5,16 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Route_Config_ConverterTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Route_Config_ConverterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Route_Config_Converter
+     * @var Magento_Core_Model_Route_Config_Converter
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Mage_Core_Model_Route_Config_Converter();
+        $this->_model = new Magento_Core_Model_Route_Config_Converter();
     }
 
     public function testConvert()

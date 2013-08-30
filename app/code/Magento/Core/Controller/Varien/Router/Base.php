@@ -63,7 +63,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     protected $_configScope;
 
     /**
-     * @var Mage_Core_Model_Route_Config
+     * @var Magento_Core_Model_Route_Config
      */
     protected $_routeConfig;
 
@@ -73,11 +73,11 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     protected $_routes;
 
     /**
-     * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
+     * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_Config_Scope $configScope
-     * @param Mage_Core_Model_Route_Config $routeConfig
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_Config_Scope $configScope
+     * @param Magento_Core_Model_Route_Config $routeConfig
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -86,9 +86,9 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     public function __construct(
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_App $app,
-        Mage_Core_Model_Config_Scope $configScope,
-        Mage_Core_Model_Route_Config $routeConfig,
+        Magento_Core_Model_App $app,
+        Magento_Core_Model_Config_Scope $configScope,
+        Magento_Core_Model_Route_Config $routeConfig,
         $areaCode,
         $baseController,
         $routerId
@@ -470,7 +470,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
      * @param $controllerFileName
      * @param $controllerClassName
      * @return bool
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _includeControllerClass($controllerFileName, $controllerClassName)
     {
@@ -481,8 +481,8 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
             include $controllerFileName;
 
             if (!class_exists($controllerClassName, false)) {
-                throw Mage::exception('Mage_Core',
-                    Mage::helper('Mage_Core_Helper_Data')->__('Controller file was loaded but class does not exist')
+                throw Mage::exception('Magento_Core',
+                    Mage::helper('Magento_Core_Helper_Data')->__('Controller file was loaded but class does not exist')
                 );
             }
         }

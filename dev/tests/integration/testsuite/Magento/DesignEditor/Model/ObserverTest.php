@@ -57,12 +57,12 @@ class Magento_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         }
 
 
-        /** @var Mage_Core_Model_Config_Scope $configScope */
-        $configScope = $objectManager->get('Mage_Core_Model_Config_Scope');
+        /** @var Magento_Core_Model_Config_Scope $configScope */
+        $configScope = $objectManager->get('Magento_Core_Model_Config_Scope');
         $configScope->setCurrentScope($area);
 
-        /** @var $eventManager Mage_Core_Model_Event_Manager */
-        $eventManager = $objectManager->get('Mage_Core_Model_Event_Manager');
+        /** @var $eventManager Magento_Core_Model_Event_Manager */
+        $eventManager = $objectManager->get('Magento_Core_Model_Event_Manager');
         $eventManager->dispatch('controller_action_layout_generate_blocks_after', array('layout' => $layout));
 
         $actualAssets = array_keys($pageAssets->getAll());

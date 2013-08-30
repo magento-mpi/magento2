@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
+class Magento_Backend_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -13,16 +13,16 @@ class Mage_Backend_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_Test
     protected $_moduleReaderMock;
 
     /**
-     * @var Mage_Backend_Model_Config_SchemaLocator
+     * @var Magento_Backend_Model_Config_SchemaLocator
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_moduleReaderMock = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false);
+        $this->_moduleReaderMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false);
         $this->_moduleReaderMock->expects($this->any())
-            ->method('getModuleDir')->with('etc', 'Mage_Backend')->will($this->returnValue('schema_dir'));
-        $this->_model = new Mage_Backend_Model_Config_SchemaLocator($this->_moduleReaderMock);
+            ->method('getModuleDir')->with('etc', 'Magento_Backend')->will($this->returnValue('schema_dir'));
+        $this->_model = new Magento_Backend_Model_Config_SchemaLocator($this->_moduleReaderMock);
     }
 
     public function testGetSchema()

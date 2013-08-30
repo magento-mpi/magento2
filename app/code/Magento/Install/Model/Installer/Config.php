@@ -27,7 +27,7 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
     protected $_localConfigFile;
 
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
@@ -51,15 +51,15 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
     protected $_filesystem;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_Config_Resource $resourceConfig
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Model_Dir $dirs
+     * @param Magento_Core_Model_Config_Resource $resourceConfig
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Config_Resource $resourceConfig,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Model_Dir $dirs,
+        Magento_Core_Model_Config_Resource $resourceConfig,
         Magento_Filesystem $filesystem
     ) {
         $this->_localConfigFile = $dirs->getDir(Magento_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
@@ -90,9 +90,9 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
         $data = $this->getConfigData();
 
         $defaults = array(
-            'root_dir' => $this->_dirs->getDir(Mage_Core_Model_Dir::ROOT),
-            'app_dir'  => $this->_dirs->getDir(Mage_Core_Model_Dir::APP),
-            'var_dir'  => $this->_dirs->getDir(Mage_Core_Model_Dir::VAR_DIR),
+            'root_dir' => $this->_dirs->getDir(Magento_Core_Model_Dir::ROOT),
+            'app_dir'  => $this->_dirs->getDir(Magento_Core_Model_Dir::APP),
+            'var_dir'  => $this->_dirs->getDir(Magento_Core_Model_Dir::VAR_DIR),
             'base_url' => $this->_request->getDistroBaseUrl(),
         );
         foreach ($defaults as $index => $value) {

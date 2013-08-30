@@ -8,17 +8,17 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Router_NoRouteHandler implements Mage_Core_Model_Router_NoRouteHandlerInterface
+class Magento_Backend_Model_Router_NoRouteHandler implements Magento_Core_Model_Router_NoRouteHandlerInterface
 {
     /**
-     * @var Mage_Backend_Helper_Data
+     * @var Magento_Backend_Helper_Data
      */
     protected $_helper;
 
     /**
-     * @param Mage_Backend_Helper_Data $helper
+     * @param Magento_Backend_Helper_Data $helper
      */
-    public function __construct(Mage_Backend_Helper_Data $helper)
+    public function __construct(Magento_Backend_Helper_Data $helper)
     {
         $this->_helper = $helper;
     }
@@ -26,10 +26,10 @@ class Mage_Backend_Model_Router_NoRouteHandler implements Mage_Core_Model_Router
     /**
      * Check and process no route request
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @return bool
      */
-    public function process(Mage_Core_Controller_Request_Http $request)
+    public function process(Magento_Core_Controller_Request_Http $request)
     {
         $requestPathParams = explode('/', trim($request->getPathInfo(), '/'));
         $areaFrontName = array_shift($requestPathParams);

@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_CustomerSegment_Model_Resource_Segment_Report_Collection
-    extends Enterprise_CustomerSegment_Model_Resource_Segment_Collection
+class Magento_CustomerSegment_Model_Resource_Segment_Report_Collection
+    extends Magento_CustomerSegment_Model_Resource_Segment_Collection
 {
     /**
-     * @return Enterprise_CustomerSegment_Model_Resource_Segment_Report_Collection
+     * @return Magento_CustomerSegment_Model_Resource_Segment_Report_Collection
      */
     protected function _initSelect()
     {

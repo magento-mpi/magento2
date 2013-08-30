@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Config_Data
+     * @var Magento_Core_Model_Config_Data
      */
     protected $_model;
 
@@ -20,7 +20,7 @@ class Mage_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_metaDataProcessor = $this->getMock(
-            'Mage_Core_Model_Config_MetadataProcessor',
+            'Magento_Core_Model_Config_MetadataProcessor',
             array(),
             array(),
             '',
@@ -29,7 +29,7 @@ class Mage_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
         $this->_metaDataProcessor->expects($this->any())
             ->method('process')
             ->will($this->returnArgument(0));
-        $this->_model = new Mage_Core_Model_Config_Data($this->_metaDataProcessor, array());
+        $this->_model = new Magento_Core_Model_Config_Data($this->_metaDataProcessor, array());
     }
 
     /**

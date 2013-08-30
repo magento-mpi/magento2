@@ -50,7 +50,7 @@ class Magento_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false, false);
         $this->_cacheMock = $this->getMock('Magento_Core_Model_Config_Cache',
             array(), array(), '', false, false);
-        $this->_loaderMock = $this->getMock('Mage_Core_Model_Config_Loader',
+        $this->_loaderMock = $this->getMock('Magento_Core_Model_Config_Loader',
             array(), array(), '', false, false);
         $this->_factoryMock = $this->getMock('Magento_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);

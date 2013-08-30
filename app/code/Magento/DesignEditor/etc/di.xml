@@ -8,23 +8,23 @@
  */
 -->
 <config>
-    <type name="Mage_Core_Model_RouterList">
+    <type name="Magento_Core_Model_RouterList">
         <param name="routerList">
             <value>
                 <vde>
-                    <instance>Mage_DesignEditor_Controller_Varien_Router_Standard</instance>
+                    <instance>Magento_DesignEditor_Controller_Varien_Router_Standard</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>40</sortOrder>
                 </vde>
             </value>
         </param>
     </type>
-    <type name="Mage_DesignEditor_Controller_Varien_Router_Standard">
+    <type name="Magento_DesignEditor_Controller_Varien_Router_Standard">
         <param name="areaCode">
             <value>frontend</value>
         </param>
         <param name="baseController">
-            <value>Mage_Core_Controller_Varien_Action</value>
+            <value>Magento_Core_Controller_Varien_Action</value>
         </param>
         <param name="routerId">
             <value>vde</value>

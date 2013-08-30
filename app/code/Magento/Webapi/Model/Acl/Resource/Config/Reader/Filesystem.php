@@ -10,7 +10,7 @@ class Magento_Webapi_Model_Acl_Resource_Config_Reader_Filesystem extends Magento
     /**
      * @param Magento_Config_FileResolverInterface $fileResolver
      * @param Magento_Config_ConverterInterface $converter
-     * @param Mage_Webapi_Model_Acl_Resource_Config_SchemaLocator $schemaLocator
+     * @param Magento_Webapi_Model_Acl_Resource_Config_SchemaLocator $schemaLocator
      * @param Magento_Config_ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
@@ -19,7 +19,7 @@ class Magento_Webapi_Model_Acl_Resource_Config_Reader_Filesystem extends Magento
     public function __construct(
         Magento_Config_FileResolverInterface $fileResolver,
         Magento_Config_ConverterInterface $converter,
-        Mage_Webapi_Model_Acl_Resource_Config_SchemaLocator $schemaLocator,
+        Magento_Webapi_Model_Acl_Resource_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState,
         $fileName = 'acl.xml',
         $idAttributes = array(),

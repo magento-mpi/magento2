@@ -61,7 +61,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     /**
      * App isolation is enabled to protect next tests from polluted registry by getUrl()
      *
-     * @covers Mage_Backend_Model_Url::getSecure
+     * @covers Magento_Backend_Model_Url::getSecure
      * @magentoAppIsolation enabled
      */
     public function testGetUrl()
@@ -96,8 +96,8 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function getSecretKeyDataProvider()
     {
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::getObjectManager()->get('Mage_Core_Helper_Data');
+        /** @var $helper Magento_Core_Helper_Data */
+        $helper = Mage::getObjectManager()->get('Magento_Core_Helper_Data');
         return array(
             array('', '', '',
                 $helper->getHash('default_router' . 'default_controller' . 'default_action' . 'salt')),
@@ -123,14 +123,14 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSecretKeyForwarded()
     {
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::getObjectManager()->get('Mage_Core_Helper_Data');
-        /** @var $request Mage_Core_Controller_Request_Http */
-        $request = Mage::getModel('Mage_Core_Controller_Request_Http');
+        /** @var $helper Magento_Core_Helper_Data */
+        $helper = Mage::getObjectManager()->get('Magento_Core_Helper_Data');
+        /** @var $request Magento_Core_Controller_Request_Http */
+        $request = Mage::getModel('Magento_Core_Controller_Request_Http');
         $request->setControllerName('controller')->setActionName('action');
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);
-        Mage::getSingleton('Mage_Core_Model_Session')->setData('_form_key', 'salt');
+        Mage::getSingleton('Magento_Core_Model_Session')->setData('_form_key', 'salt');
         $this->assertEquals(
             $helper->getHash('controller' . 'action' . 'salt'),
             $this->_model->getSecretKey()

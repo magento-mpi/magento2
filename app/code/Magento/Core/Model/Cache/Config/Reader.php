@@ -18,8 +18,8 @@ class Magento_Core_Model_Cache_Config_Reader extends Magento_Config_Reader_Files
 
     /**
      * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Mage_Core_Model_Cache_Config_Converter $converter
-     * @param Mage_Core_Model_Cache_Config_SchemaLocator $schemeLocator
+     * @param Magento_Core_Model_Cache_Config_Converter $converter
+     * @param Magento_Core_Model_Cache_Config_SchemaLocator $schemeLocator
      * @param Magento_Config_ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
@@ -27,8 +27,8 @@ class Magento_Core_Model_Cache_Config_Reader extends Magento_Config_Reader_Files
      */
     public function __construct(
         Magento_Config_FileResolverInterface $fileResolver,
-        Mage_Core_Model_Cache_Config_Converter $converter,
-        Mage_Core_Model_Cache_Config_SchemaLocator $schemeLocator,
+        Magento_Core_Model_Cache_Config_Converter $converter,
+        Magento_Core_Model_Cache_Config_SchemaLocator $schemeLocator,
         Magento_Config_ValidationStateInterface $validationState,
         $fileName = 'cache.xml',
         $idAttributes = array(),

@@ -38,7 +38,7 @@ class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
         $this->_fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
         $this->_converterMock = $this->getMock('Magento_Config_ConverterInterface', array(), array(), '', false);
         $this->_schemaLocatorMock = $this->getMock(
-            'Mage_Core_Model_Module_Declaration_SchemaLocator', array(), array(), '', false
+            'Magento_Core_Model_Module_Declaration_SchemaLocator', array(), array(), '', false
         );
         $this->_validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
     }

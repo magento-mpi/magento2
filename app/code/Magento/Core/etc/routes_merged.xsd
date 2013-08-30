@@ -112,7 +112,7 @@
     <xs:simpleType name="moduleNameType">
         <xs:annotation>
             <xs:documentation>
-                Module name. For example, Mage_User.
+                Module name. For example, Magento_User.
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">

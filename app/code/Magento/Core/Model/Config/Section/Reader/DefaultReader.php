@@ -7,39 +7,39 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Mage_Core_Model_Config_Section_Reader_DefaultReader
+class Magento_Core_Model_Config_Section_Reader_DefaultReader
 {
     /**
-     * @var Mage_Core_Model_Config_Initial
+     * @var Magento_Core_Model_Config_Initial
      */
     protected $_initialConfig;
 
     /**
-     * @var Mage_Core_Model_Config_Section_Converter
+     * @var Magento_Core_Model_Config_Section_Converter
      */
     protected $_converter;
 
     /**
-     * @var Mage_Core_Model_Resource_Config_Value_Collection_ScopedFactory
+     * @var Magento_Core_Model_Resource_Config_Value_Collection_ScopedFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @var Mage_Core_Model_App_State
+     * @var Magento_Core_Model_App_State
      */
     protected $_appState;
 
     /**
-     * @param Mage_Core_Model_Config_Initial $initialConfig
-     * @param Mage_Core_Model_Config_Section_Converter $converter
-     * @param Mage_Core_Model_Resource_Config_Value_Collection_ScopedFactory $collectionFactory
-     * @param Mage_Core_Model_App_State $appState
+     * @param Magento_Core_Model_Config_Initial $initialConfig
+     * @param Magento_Core_Model_Config_Section_Converter $converter
+     * @param Magento_Core_Model_Resource_Config_Value_Collection_ScopedFactory $collectionFactory
+     * @param Magento_Core_Model_App_State $appState
      */
     public function __construct(
-        Mage_Core_Model_Config_Initial $initialConfig,
-        Mage_Core_Model_Config_Section_Converter $converter,
-        Mage_Core_Model_Resource_Config_Value_Collection_ScopedFactory $collectionFactory,
-        Mage_Core_Model_App_State $appState
+        Magento_Core_Model_Config_Initial $initialConfig,
+        Magento_Core_Model_Config_Section_Converter $converter,
+        Magento_Core_Model_Resource_Config_Value_Collection_ScopedFactory $collectionFactory,
+        Magento_Core_Model_App_State $appState
     ) {
         $this->_initialConfig = $initialConfig;
         $this->_converter = $converter;

@@ -90,7 +90,7 @@ class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
             array('Magento_Core_Model_File_Storage_Synchronization', $this->_sync),
         );
 
-        $this->_model = new Mage_Core_Model_EntryPoint_Media(
+        $this->_model = new Magento_Core_Model_EntryPoint_Media(
             $this->_config,
             $this->_requestMock,
             $this->_closure,
@@ -119,7 +119,7 @@ class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
 
     public function testProcessRequestCreatesConfigFileMediaDirectoryIsNotProvided()
     {
-        $this->_model = new Mage_Core_Model_EntryPoint_Media(
+        $this->_model = new Magento_Core_Model_EntryPoint_Media(
             $this->_config,
             $this->_requestMock,
             $this->_closure,
@@ -144,7 +144,7 @@ class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
         $this->_closure = function () {
             return false;
         };
-        $this->_model = new Mage_Core_Model_EntryPoint_Media(
+        $this->_model = new Magento_Core_Model_EntryPoint_Media(
             $this->_config, $this->_requestMock, $this->_closure, 'var', false, 'cacheFile', 'relativeFileName',
                 $this->_objectManagerMock, $this->_responseMock);
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));

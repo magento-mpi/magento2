@@ -27,10 +27,10 @@ class Magento_Core_Model_Config_CacheTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_cacheMock = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false, false);
-        $this->_baseFactoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
+        $this->_cacheMock = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(), '', false, false);
+        $this->_baseFactoryMock = $this->getMock('Magento_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);
-        $this->_model = new Mage_Core_Model_Config_Cache($this->_cacheMock, $this->_baseFactoryMock);
+        $this->_model = new Magento_Core_Model_Config_Cache($this->_cacheMock, $this->_baseFactoryMock);
     }
 
     protected function tearDown()
@@ -71,7 +71,7 @@ class Magento_Core_Model_Config_CacheTest extends PHPUnit_Framework_TestCase
 
     public function testSave()
     {
-        $configMock = $this->getMock('Mage_Core_Model_Config_Base', array(), array(), '', false);
+        $configMock = $this->getMock('Magento_Core_Model_Config_Base', array(), array(), '', false);
         $nodeMock = $this->getMock('stdClass', array('asNiceXml'));
 
         $configMock->expects($this->once())->method('getNode')->will($this->returnValue($nodeMock));

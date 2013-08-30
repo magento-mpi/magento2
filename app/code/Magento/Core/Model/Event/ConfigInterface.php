@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Mage_Core_Model_Event_ConfigInterface
+interface Magento_Core_Model_Event_ConfigInterface
 {
     /**
      * Get observers by event name

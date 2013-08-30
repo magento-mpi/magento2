@@ -15,7 +15,7 @@ class Integrity_Modular_EventConfigFilesTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = Mage::getObjectManager();
-        $this->_schemaFile = $objectManager->get('Mage_Core_Model_Event_Config_SchemaLocator')->getSchema();
+        $this->_schemaFile = $objectManager->get('Magento_Core_Model_Event_Config_SchemaLocator')->getSchema();
     }
 
     /**

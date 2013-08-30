@@ -38,7 +38,7 @@ class Magento_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
     protected $_eventConfigMock;
 
     /**
-     * @var Mage_Core_Model_Event_Manager
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager;
 
@@ -50,9 +50,9 @@ class Magento_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
         $this->_observerFactory = $this->getMock('Magento_Event_ObserverFactory', array('create'), array(), '',
             false);
         $this->_observer = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
-        $this->_eventConfigMock = $this->getMock('Mage_Core_Model_Event_ConfigInterface');
+        $this->_eventConfigMock = $this->getMock('Magento_Core_Model_Event_ConfigInterface');
 
-        $this->_eventManager = new Mage_Core_Model_Event_Manager(
+        $this->_eventManager = new Magento_Core_Model_Event_Manager(
             $this->_invoker, $this->_eventConfigMock, $this->_eventFactory, $this->_observerFactory
         );
     }

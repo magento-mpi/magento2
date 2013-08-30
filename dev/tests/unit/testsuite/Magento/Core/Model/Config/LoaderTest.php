@@ -43,26 +43,26 @@ class Magento_Core_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_primaryConfigMock = $this->getMock(
-            'Mage_Core_Model_Config_Primary', array(), array(), '', false, false
+            'Magento_Core_Model_Config_Primary', array(), array(), '', false, false
         );
 
         $this->_resourceConfigMock = $this->getMock(
-            'Mage_Core_Model_Config_Resource', array(), array(), '', false, false
+            'Magento_Core_Model_Config_Resource', array(), array(), '', false, false
         );
 
         $this->_modulesReaderMock = $this->getMock(
-            'Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false
+            'Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false
         );
 
         $this->_loaderLocalMock = $this->getMock(
-            'Mage_Core_Model_Config_Loader_Local', array(), array(), '', false, false
+            'Magento_Core_Model_Config_Loader_Local', array(), array(), '', false, false
         );
 
         $this->_baseConfigMock = $this->getMock(
-            'Mage_Core_Model_Config_Base', array(), array(), '', false, false
+            'Magento_Core_Model_Config_Base', array(), array(), '', false, false
         );
 
-        $this->_model = new Mage_Core_Model_Config_Loader(
+        $this->_model = new Magento_Core_Model_Config_Loader(
             $this->_primaryConfigMock,
             $this->_resourceConfigMock,
             $this->_modulesReaderMock,

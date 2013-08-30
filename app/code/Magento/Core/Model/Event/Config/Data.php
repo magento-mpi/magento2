@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Event_Config_Data extends Magento_Config_Data
+class Magento_Core_Model_Event_Config_Data extends Magento_Config_Data
 {
     /**
      * Scope priority loading scheme
@@ -17,22 +17,22 @@ class Mage_Core_Model_Event_Config_Data extends Magento_Config_Data
     protected $_scopePriorityScheme = array('global');
 
     /**
-     * @var Mage_Core_Model_App_State
+     * @var Magento_Core_Model_App_State
      */
     protected $_appState;
 
     /**
-     * @param Mage_Core_Model_Event_Config_Reader $reader
+     * @param Magento_Core_Model_Event_Config_Reader $reader
      * @param Magento_Config_ScopeInterface $configScope
      * @param Magento_Config_CacheInterface $cache
-     * @param Mage_Core_Model_App_State $appState
+     * @param Magento_Core_Model_App_State $appState
      * @param string $cacheId
      */
     public function __construct(
-        Mage_Core_Model_Event_Config_Reader $reader,
+        Magento_Core_Model_Event_Config_Reader $reader,
         Magento_Config_ScopeInterface $configScope,
         Magento_Config_CacheInterface $cache,
-        Mage_Core_Model_App_State $appState,
+        Magento_Core_Model_App_State $appState,
         $cacheId = "event_config_cache"
     ) {
         $this->_appState = $appState;

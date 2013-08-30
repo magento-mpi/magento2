@@ -10,7 +10,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
     Magento_Backend_Block_Widget_Grid
 {
     /**
-     * @return Mage_Backend_Block_Widget_Grid
+     * @return Magento_Backend_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {

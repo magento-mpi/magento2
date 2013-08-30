@@ -17,7 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_CatalogInventory_Model_Config_Backend_Managestock
-    extends Magento_Core_Model_Config_Data
+    extends Magento_Core_Model_Config_Value
 {
 /**
      * After change Catalog Inventory Manage value process
@@ -28,7 +28,7 @@ class Magento_CatalogInventory_Model_Config_Backend_Managestock
     {
         $newValue = $this->getValue();
         $oldValue = Mage::getConfig()->getValue(
-            Mage_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
+            Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
             $this->getScope(),
             $this->getScopeId()
         );

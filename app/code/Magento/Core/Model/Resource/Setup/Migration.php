@@ -128,21 +128,21 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
     protected $_filesystem;
 
     /**
-     * @param Mage_Core_Model_Config_Resource $resourcesConfig
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_ModuleListInterface $moduleList
-     * @param Mage_Core_Model_Resource $resource
-     * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_Config_Resource $resourcesConfig
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Filesystem $filesystem
      * @param $resourceName
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Config_Resource $resourcesConfig,
-        Mage_Core_Model_Config $config,
-        Mage_Core_Model_ModuleListInterface $moduleList,
-        Mage_Core_Model_Resource $resource,
-        Mage_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_Config_Resource $resourcesConfig,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Filesystem $filesystem,
         $resourceName,
         array $data = array()

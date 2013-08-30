@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,24 +12,24 @@
 /**
  * Config data model
  *
- * @method Mage_Core_Model_Resource_Config_Data _getResource()
- * @method Mage_Core_Model_Resource_Config_Data getResource()
+ * @method Magento_Core_Model_Resource_Config_Data _getResource()
+ * @method Magento_Core_Model_Resource_Config_Data getResource()
  * @method string getScope()
- * @method Mage_Core_Model_Config_Value setScope(string $value)
+ * @method Magento_Core_Model_Config_Value setScope(string $value)
  * @method int getScopeId()
- * @method Mage_Core_Model_Config_Value setScopeId(int $value)
+ * @method Magento_Core_Model_Config_Value setScopeId(int $value)
  * @method string getPath()
- * @method Mage_Core_Model_Config_Value setPath(string $value)
+ * @method Magento_Core_Model_Config_Value setPath(string $value)
  * @method string getValue()
- * @method Mage_Core_Model_Config_Value setValue(string $value)
+ * @method Magento_Core_Model_Config_Value setValue(string $value)
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Mage_Core_Model_Config_Value extends Mage_Core_Model_Abstract
+class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
 {
     const ENTITY = 'core_config_data';
     /**
@@ -53,7 +53,7 @@ class Mage_Core_Model_Config_Value extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Mage_Core_Model_Resource_Config_Data');
+        $this->_init('Magento_Core_Model_Resource_Config_Data');
     }
 
     /**

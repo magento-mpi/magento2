@@ -29,9 +29,9 @@ class Magento_Backend_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_configValueFactory = $this->getMock(
-            'Mage_Core_Model_Config_ValueFactory', array('create', 'getCollection'), array(), '', false
+            'Magento_Core_Model_Config_ValueFactory', array('create', 'getCollection'), array(), '', false
         );
-        $this->_model = new Mage_Backend_Model_Config_Loader($this->_configValueFactory);
+        $this->_model = new Magento_Backend_Model_Config_Loader($this->_configValueFactory);
 
         $this->_configCollection = $this->getMock(
             'Magento_Core_Model_Resource_Config_Data_Collection', array(), array(), '', false
@@ -39,7 +39,7 @@ class Magento_Backend_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
         $this->_configCollection->expects($this->once())->method('addScopeFilter')->with('scope', 'scopeId', 'section')
             ->will($this->returnSelf());
 
-        $configDataMock = $this->getMock('Mage_Core_Model_Config_Value', array(), array(), '', false);
+        $configDataMock = $this->getMock('Magento_Core_Model_Config_Value', array(), array(), '', false);
         $this->_configValueFactory->expects($this->once())->method('create')->will($this->returnValue($configDataMock));
         $configDataMock->expects($this->any())->method('getCollection')
             ->will($this->returnValue($this->_configCollection));

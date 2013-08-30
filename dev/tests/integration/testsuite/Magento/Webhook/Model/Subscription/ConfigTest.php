@@ -66,21 +66,21 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
             ->method('load')
             ->will($this->returnValue(false));
 
-        /** @var Mage_Core_Model_Config_Modules_Reader $moduleReader */
+        /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
         $moduleReader = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config_Modules_Reader', array(
+            'Magento_Core_Model_Config_Modules_Reader', array(
                 'dirs' => $dirs,
                 'moduleList' => $moduleList
             )
         );
 
         $loader = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config_Loader',
+            'Magento_Core_Model_Config_Loader',
             array('fileReader' => $moduleReader)
         );
-        /** @var Mage_Core_Model_Config_Storage $storage */
+        /** @var Magento_Core_Model_Config_Storage $storage */
         $storage = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config_Storage', array(
+            'Magento_Core_Model_Config_Storage', array(
                 'loader' => $loader,
                 'cache' => $cache
             )

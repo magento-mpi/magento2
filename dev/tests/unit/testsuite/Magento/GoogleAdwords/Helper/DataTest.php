@@ -34,9 +34,9 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_ConfigInterface', array(), array(), '', false);
-        $this->_registryMock = $this->getMock('Mage_Core_Model_Registry', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_ConfigInterface', array(), array(), '', false);
+        $this->_registryMock = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
 
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_helper = $objectManager->getObject('Magento_GoogleAdwords_Helper_Data', array(
@@ -85,7 +85,7 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $languages = array('en', 'ru', 'uk');
         $this->_configMock->expects($this->once())->method('getValue')
-            ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_LANGUAGES, 'default')
+            ->with(Magento_GoogleAdwords_Helper_Data::XML_PATH_LANGUAGES, 'default')
             ->will($this->returnValue($languages));
         $this->assertEquals($languages, $this->_helper->getLanguageCodes());
     }
@@ -109,7 +109,7 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $convertArray = array('zh_TW' => 'zh_Hant', 'iw' => 'he', 'zh_CN' => 'zh_Hans');
         $this->_configMock->expects($this->once())->method('getValue')
-            ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_LANGUAGE_CONVERT, 'default')
+            ->with(Magento_GoogleAdwords_Helper_Data::XML_PATH_LANGUAGE_CONVERT, 'default')
             ->will($this->returnValue($convertArray));
         $this->assertEquals($returnLanguage, $this->_helper->convertLanguageCodeToLocaleCode($language));
     }
@@ -121,7 +121,7 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
         $imgSrc = sprintf('https://www.googleadservices.com/pagead/conversion/%s/?label=%s&amp;guid=ON&amp;script=0',
             $conversionId, $label);
         $this->_configMock->expects($this->once())->method('getValue')
-            ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_IMG_SRC, 'default')
+            ->with(Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_IMG_SRC, 'default')
             ->will($this->returnValue($imgSrc));
         $this->assertEquals($imgSrc, $this->_helper->getConversionImgSrc());
     }
@@ -130,7 +130,7 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $jsSrc = 'some-js-src';
         $this->_configMock->expects($this->once())->method('getNode')
-            ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_JS_SRC)->will($this->returnValue($jsSrc));
+            ->with(Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_JS_SRC)->will($this->returnValue($jsSrc));
         $this->assertEquals($jsSrc, $this->_helper->getConversionJsSrc());
     }
 

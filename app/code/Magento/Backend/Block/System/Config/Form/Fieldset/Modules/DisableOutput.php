@@ -9,10 +9,10 @@
  */
 
 /**
- * @method Mage_Backend_Block_System_Config_Form getForm()
+ * @method Magento_Backend_Block_System_Config_Form getForm()
  */
-class Mage_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
-    extends Mage_Backend_Block_System_Config_Form_Fieldset
+class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
+    extends Magento_Backend_Block_System_Config_Form_Fieldset
 {
     /**
      * @var Magento_Object

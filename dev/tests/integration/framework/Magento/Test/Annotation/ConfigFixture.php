@@ -69,11 +69,11 @@ class Magento_Test_Annotation_ConfigFixture
             if (strpos($configPath, 'default/') === 0) {
                 $configPath = substr($configPath, 8);
                 Mage::getConfig()->setValue($configPath, $value);
-                Mage::getObjectManager()->get('Mage_Core_Model_Config')->setValue($configPath, $value);
+                Mage::getObjectManager()->get('Magento_Core_Model_Config')->setValue($configPath, $value);
             } else {
                 Mage::getConfig()->setNode($configPath, $value);
-                Mage::getObjectManager()->get('Mage_Core_Model_Config')->setNode($configPath, $value);
-                Mage::getObjectManager()->get('Mage_Core_Model_Config_Primary')->setNode($configPath, $value);
+                Mage::getObjectManager()->get('Magento_Core_Model_Config')->setNode($configPath, $value);
+                Mage::getObjectManager()->get('Magento_Core_Model_Config_Primary')->setNode($configPath, $value);
             }
         } else {
             Mage::app()->getStore($storeCode)->setConfig($configPath, $value);

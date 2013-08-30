@@ -355,7 +355,7 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
             Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
 
             Mage::app()->getStore()->resetConfig();
-            Mage::getSingleton('Mage_Core_Model_Db_UpdaterInterface')->updateData();
+            Mage::getSingleton('Magento_Core_Model_Db_UpdaterInterface')->updateData();
 
             $this->getResponse()->setRedirect(Mage::getUrl($step->getNextUrlPath()));
         } catch (Exception $e) {

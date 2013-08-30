@@ -7,10 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_Core_Controller_FrontInterface
+class Magento_Core_Controller_Varien_Front extends Magento_Object implements Magento_Core_Controller_FrontInterface
 {
     /**
-     * @var Mage_Core_Model_Url_RewriteFactory
+     * @var Magento_Core_Model_Url_RewriteFactory
      */
     protected $_rewriteFactory;
 
@@ -20,20 +20,20 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
     protected $_defaults = array();
 
     /**
-     * @var Mage_Core_Model_RouterList
+     * @var Magento_Core_Model_RouterList
      */
     protected $_routerList;
 
     /**
-     * @param Mage_Core_Model_Url_RewriteFactory $rewriteFactory
-     * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Core_Model_RouterList $routerList
+     * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_RouterList $routerList
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Url_RewriteFactory $rewriteFactory,
-        Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Model_RouterList $routerList,
+        Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_RouterList $routerList,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -86,7 +86,7 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
     /**
      * Get routerList model
      *
-     * @return Mage_Core_Model_RouterList
+     * @return Magento_Core_Model_RouterList
      */
     public function getRouterList()
     {
@@ -140,11 +140,11 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
         Magento_Profiler::start('routers_match');
         $routingCycleCounter = 0;
         while (!$request->isDispatched() && $routingCycleCounter++ < 100) {
-            /** @var $router Mage_Core_Controller_Varien_Router_Abstract */
+            /** @var $router Magento_Core_Controller_Varien_Router_Abstract */
             foreach ($this->_routerList->getRouters() as $router) {
                 $router->setFront($this);
 
-                /** @var $controllerInstance Mage_Core_Controller_Varien_Action */
+                /** @var $controllerInstance Magento_Core_Controller_Varien_Action */
                 $controllerInstance = $router->match($this->getRequest());
                 if ($controllerInstance) {
                     $controllerInstance->dispatch($request->getActionName());

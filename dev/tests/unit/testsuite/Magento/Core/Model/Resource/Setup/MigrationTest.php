@@ -133,12 +133,12 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
      */
     public function testAppendClassAliasReplace()
     {
-        $setupModel = new Mage_Core_Model_Resource_Setup_Migration(
-            $this->getMock('Mage_Core_Model_Config_Resource', array(), array(), '', false, false),
-            $this->getMock('Mage_Core_Model_Config', array(), array(), '', false, false),
-            $this->getMock('Mage_Core_Model_ModuleListInterface'),
-            $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false, false),
-            $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
+        $setupModel = new Magento_Core_Model_Resource_Setup_Migration(
+            $this->getMock('Magento_Core_Model_Config_Resource', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_Config', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_ModuleListInterface'),
+            $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
             $this->getMock('Magento_Filesystem', array(), array(), '', false),
             'core_setup',
             $this->_getModelDependencies()
@@ -190,12 +190,12 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
 
         $tableRowsCount = count($tableData);
 
-        $setupModel = new Mage_Core_Model_Resource_Setup_Migration(
-            $this->getMock('Mage_Core_Model_Config_Resource', array(), array(), '', false, false),
-            $this->getMock('Mage_Core_Model_Config', array(), array(), '', false, false),
-            $this->getMock('Mage_Core_Model_ModuleListInterface'),
-            $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false, false),
-            $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
+        $setupModel = new Magento_Core_Model_Resource_Setup_Migration(
+            $this->getMock('Magento_Core_Model_Config_Resource', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_Config', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_ModuleListInterface'),
+            $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
             $this->getMock('Magento_Filesystem', array(), array(), '', false),
             'core_setup',
             $this->_getModelDependencies($tableRowsCount, $tableData, $aliasesMap)

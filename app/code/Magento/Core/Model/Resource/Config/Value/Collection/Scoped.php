@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Mage_Core_Model_Resource_Config_Value_Collection_Scoped extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Magento_Core_Model_Resource_Config_Value_Collection_Scoped extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Scope to filter by
@@ -25,13 +25,13 @@ class Mage_Core_Model_Resource_Config_Value_Collection_Scoped extends Mage_Core_
 
     /**
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Mage_Core_Model_Resource_Config_Data $resource
+     * @param Magento_Core_Model_Resource_Config_Data $resource
      * @param string $scope
      * @param int $scopeId
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Mage_Core_Model_Resource_Config_Data $resource,
+        Magento_Core_Model_Resource_Config_Data $resource,
         $scope,
         $scopeId = null
     ) {
@@ -43,7 +43,7 @@ class Mage_Core_Model_Resource_Config_Value_Collection_Scoped extends Mage_Core_
     /**
      * Initialize select
      *
-     * @return $this|Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return $this|Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _initSelect()
     {

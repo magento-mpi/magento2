@@ -42,7 +42,7 @@ class Magento_Core_Helper_File_Storage extends Magento_Core_Helper_Abstract
     {
         if (is_null($this->_currentStorage)) {
             $this->_currentStorage = (int) Mage::app()
-                ->getConfig()->getValue(Mage_Core_Model_File_Storage::XML_PATH_STORAGE_MEDIA, 'default');
+                ->getConfig()->getValue(Magento_Core_Model_File_Storage::XML_PATH_STORAGE_MEDIA, 'default');
         }
 
         return $this->_currentStorage;

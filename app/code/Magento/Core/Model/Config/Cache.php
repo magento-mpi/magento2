@@ -18,12 +18,12 @@ class Magento_Core_Model_Config_Cache
     /**
      * Container factory model
      *
-     * @var Mage_Core_Model_Config_BaseFactory
+     * @var Magento_Core_Model_Config_BaseFactory
      */
     protected $_containerFactory;
 
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
 
@@ -37,17 +37,17 @@ class Magento_Core_Model_Config_Cache
     /**
      * Config container
      *
-     * @var Mage_Core_Model_Config_Base
+     * @var Magento_Core_Model_Config_Base
      */
     protected $_loadedConfig = null;
 
     /**
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
-     * @param Mage_Core_Model_Config_BaseFactory $containerFactory
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Config_BaseFactory $containerFactory
      */
     public function __construct(
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
-        Mage_Core_Model_Config_BaseFactory $containerFactory
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Config_BaseFactory $containerFactory
     ) {
         $this->_containerFactory = $containerFactory;
         $this->_configCacheType = $configCacheType;

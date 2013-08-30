@@ -6,28 +6,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
-    extends Enterprise_CustomerSegment_Model_Resource_Report_Customer_Collection
+class Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
+    extends Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
 {
     /**
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
 
     /**
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Mage_Core_Model_Registry $registryManager
+     * @param Magento_Core_Model_Registry $registryManager
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Mage_Core_Model_Registry $registryManager
+        Magento_Core_Model_Registry $registryManager
     ) {
         $this->_registryManager = $registryManager;
         parent::__construct($fetchStrategy);
     }
 
     /**
-     * @return Enterprise_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
+     * @return Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
      */
     protected function _initSelect()
     {

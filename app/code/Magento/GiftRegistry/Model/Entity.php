@@ -112,27 +112,27 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     protected $_translate;
 
     /**
-     * @var Mage_Core_Model_Email_TemplateFactory
+     * @var Magento_Core_Model_Email_TemplateFactory
      */
     protected $_templateFactory;
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_App $application
-     * @param Mage_Core_Model_Store $store
-     * @param Mage_Core_Model_Translate $translate
-     * @param Mage_Core_Model_Email_TemplateFactory $templateFactory
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_App $application
+     * @param Magento_Core_Model_Store $store
+     * @param Magento_Core_Model_Translate $translate
+     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_App $application,
-        Mage_Core_Model_Store $store,
-        Mage_Core_Model_Translate $translate,
-        Mage_Core_Model_Email_TemplateFactory $templateFactory,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_App $application,
+        Magento_Core_Model_Store $store,
+        Magento_Core_Model_Translate $translate,
+        Magento_Core_Model_Email_TemplateFactory $templateFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data= array()
     ) {

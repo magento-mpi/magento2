@@ -181,8 +181,8 @@ class Magento_Test_Application
             $objectManager = new Magento_Test_ObjectManager($config, new Magento_Test_ObjectManager_Config());
             $primaryLoader = new Magento_Core_Model_ObjectManager_ConfigLoader_Primary($config->getDirectories());
             $this->_primaryConfig = $primaryLoader->load();
-            $objectManager->get('Mage_Core_Model_Resource')
-                ->setResourceConfig(Mage::getObjectManager()->get('Mage_Core_Model_Config_Resource'));
+            $objectManager->get('Magento_Core_Model_Resource')
+                ->setResourceConfig(Mage::getObjectManager()->get('Magento_Core_Model_Config_Resource'));
 
         } else {
             $objectManager = Mage::getObjectManager();
@@ -190,27 +190,27 @@ class Magento_Test_Application
             $objectManager->addSharedInstance($config, 'Magento_Core_Model_Config_Primary');
             $objectManager->addSharedInstance($config->getDirectories(), 'Magento_Core_Model_Dir');
             $objectManager->loadPrimaryConfig($this->_primaryConfig);
-            /** @var $configResource Mage_Core_Model_Config_Resource */
-            $configResource = $objectManager->get('Mage_Core_Model_Config_Resource');
+            /** @var $configResource Magento_Core_Model_Config_Resource */
+            $configResource = $objectManager->get('Magento_Core_Model_Config_Resource');
             $configResource->setConfig($config);
-            $objectManager->get('Mage_Core_Model_Resource')->setResourceConfig($configResource);
-			$verification = $objectManager->get('Mage_Core_Model_Dir_Verification');
+            $objectManager->get('Magento_Core_Model_Resource')->setResourceConfig($configResource);
+			$verification = $objectManager->get('Magento_Core_Model_Dir_Verification');
             $verification->createAndVerifyDirectories();
             $objectManager->configure(
-                $objectManager->get('Mage_Core_Model_ObjectManager_ConfigLoader')->load('global')
+                $objectManager->get('Magento_Core_Model_ObjectManager_ConfigLoader')->load('global')
             );
         }
 
-        $objectManager->get('Mage_Core_Model_Resource')
-            ->setCache(Mage::getObjectManager()->get('Mage_Core_Model_CacheInterface'));
+        $objectManager->get('Magento_Core_Model_Resource')
+            ->setCache(Mage::getObjectManager()->get('Magento_Core_Model_CacheInterface'));
         $objectManager->get('Magento_Core_Model_Resource')
             ->setResourceConfig(Mage::getObjectManager()->get('Magento_Core_Model_Config_Resource'));
         $objectManager->get('Magento_Core_Model_Resource')
             ->setCache(Mage::getObjectManager()->get('Magento_Core_Model_CacheInterface'));
 
         /** Register event observer of Integration Framework */
-        /** @var Mage_Core_Model_Event_Config_Data $eventConfigData */
-        $eventConfigData = $objectManager->get('Mage_Core_Model_Event_Config_Data');
+        /** @var Magento_Core_Model_Event_Config_Data $eventConfigData */
+        $eventConfigData = $objectManager->get('Magento_Core_Model_Event_Config_Data');
         $eventConfigData->merge(
             array('core_app_init_current_store_after' =>
                 array('integration_tests' =>
@@ -453,7 +453,7 @@ class Magento_Test_Application
     {
         $this->_appArea = $area;
         if ($area == Magento_Test_Application::DEFAULT_APP_AREA) {
-            Mage::app()->loadAreaPart($area, Mage_Core_Model_App_Area::PART_CONFIG);
+            Mage::app()->loadAreaPart($area, Magento_Core_Model_App_Area::PART_CONFIG);
         } else {
             Mage::app()->loadArea($area);
         }

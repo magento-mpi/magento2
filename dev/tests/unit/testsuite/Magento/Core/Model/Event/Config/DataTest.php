@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Event_Config_DataTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Event_Config_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Event_Config_Data
+     * @var Magento_Core_Model_Event_Config_Data
      */
     protected $_model;
 
@@ -34,11 +34,11 @@ class Mage_Core_Model_Event_Config_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Mage_Core_Model_Event_Config_Reader', array(), array(), '', false);
+        $this->_readerMock = $this->getMock('Magento_Core_Model_Event_Config_Reader', array(), array(), '', false);
         $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
         $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
-        $this->_appStateMock = $this->getMock('Mage_Core_Model_App_State', array(), array(), '', false);
-        $this->_model = new Mage_Core_Model_Event_Config_Data(
+        $this->_appStateMock = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
+        $this->_model = new Magento_Core_Model_Event_Config_Data(
             $this->_readerMock,
             $this->_configScopeMock,
             $this->_cacheMock,

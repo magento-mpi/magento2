@@ -7,17 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Section_Processor_Placeholder
+class Magento_Core_Model_Config_Section_Processor_Placeholder
 {
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      */
-    public function __construct(Mage_Core_Controller_Request_Http $request)
+    public function __construct(Magento_Core_Controller_Request_Http $request)
     {
         $this->_request = $request;
     }
@@ -67,16 +67,16 @@ class Mage_Core_Model_Config_Section_Processor_Placeholder
         if ($placeholder) {
             $url = false;
             if ($placeholder == 'unsecure_base_url') {
-                $url = $this->_getValue(Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL, $data);
+                $url = $this->_getValue(Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL, $data);
             } elseif ($placeholder == 'secure_base_url') {
-                $url = $this->_getValue(Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL, $data);
+                $url = $this->_getValue(Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL, $data);
             }
 
             if ($url) {
                 $value = str_replace('{{' . $placeholder . '}}', $url, $value);
-            } elseif (strpos($value, Mage_Core_Model_Store::BASE_URL_PLACEHOLDER) !== false) {
+            } elseif (strpos($value, Magento_Core_Model_Store::BASE_URL_PLACEHOLDER) !== false) {
                 $distroBaseUrl = $this->_request->getDistroBaseUrl();
-                $value = str_replace(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER, $distroBaseUrl, $value);
+                $value = str_replace(Magento_Core_Model_Store::BASE_URL_PLACEHOLDER, $distroBaseUrl, $value);
             }
 
             if (null !== $this->_getPlaceholder($value)) {
@@ -98,7 +98,7 @@ class Mage_Core_Model_Config_Section_Processor_Placeholder
             $placeholder = $matches[1];
             if ($placeholder == 'unsecure_base_url'
                 || $placeholder == 'secure_base_url'
-                || strpos($value, Mage_Core_Model_Store::BASE_URL_PLACEHOLDER) !== false
+                || strpos($value, Magento_Core_Model_Store::BASE_URL_PLACEHOLDER) !== false
             ) {
                 return $placeholder;
             }

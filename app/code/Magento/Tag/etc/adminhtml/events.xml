@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="catalog_product_delete_before">
-        <observer name="tag" instance="Mage_Tag_Model_Tag" method="productDeleteEventAction" shared="false" />
+        <observer name="tag" instance="Magento_Tag_Model_Tag" method="productDeleteEventAction" shared="false" />
     </event>
 </config>

@@ -177,7 +177,7 @@ class Magento_DesignEditor_Model_State
                 $themeId
             );
             $this->_application->getConfig()->setValue(
-                Mage_Core_Model_View_Design::XML_PATH_THEME_ID,
+                Magento_Core_Model_View_Design::XML_PATH_THEME_ID,
                 $themeId
             );
         }

@@ -11,17 +11,17 @@
 class Magento_Core_Controller_Varien_Router_Default extends Magento_Core_Controller_Varien_Router_Abstract
 {
     /**
-     * @var Mage_Core_Model_NoRouteHandlerList
+     * @var Magento_Core_Model_NoRouteHandlerList
      */
     protected $_noRouteHandlerList;
 
     /**
-     * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
-     * @param Mage_Core_Model_NoRouteHandlerList $noRouteHandlerList
+     * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
+     * @param Magento_Core_Model_NoRouteHandlerList $noRouteHandlerList
      */
     public function __construct(
-        Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
-        Mage_Core_Model_NoRouteHandlerList $noRouteHandlerList
+        Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
+        Magento_Core_Model_NoRouteHandlerList $noRouteHandlerList
     ) {
         parent::__construct($controllerFactory);
         $this->_noRouteHandlerList = $noRouteHandlerList;

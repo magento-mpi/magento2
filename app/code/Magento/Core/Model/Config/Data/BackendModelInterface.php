@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Mage_Core_Model_Config_Data_BackendModelInterface
+interface Magento_Core_Model_Config_Data_BackendModelInterface
 {
     /**
      * Process config value

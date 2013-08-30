@@ -192,7 +192,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
         }
 
         $lifetime = Mage::getConfig()->getValue(
-            Mage_Persistent_Helper_Data::XML_PATH_LIFE_TIME,
+            Magento_Persistent_Helper_Data::XML_PATH_LIFE_TIME,
             'website',
             intval($websiteId)
         );

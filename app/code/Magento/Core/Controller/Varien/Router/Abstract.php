@@ -78,8 +78,8 @@ abstract class Magento_Core_Controller_Varien_Router_Abstract
     /**
      * Match controller by request
      *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @return Mage_Core_Controller_Varien_Action
+     * @param Magento_Core_Controller_Request_Http $request
+     * @return Magento_Core_Controller_Varien_Action
      */
-    abstract public function match(Mage_Core_Controller_Request_Http $request);
+    abstract public function match(Magento_Core_Controller_Request_Http $request);
 }

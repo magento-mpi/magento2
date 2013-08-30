@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Mage_Core_Model_Config_DataInterface
+interface Magento_Core_Model_Config_DataInterface
 {
     /**
      * @param $path

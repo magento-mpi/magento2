@@ -10,18 +10,18 @@
 <config>
     <router id="backend">
         <route id="adminhtml" frontName="admin">
-            <module name="Mage_Adminhtml" />
-            <module name="Mage_Catalog" before="Mage_Adminhtml" />
-            <module name="Mage_Wishlist" before="Mage_Adminhtml" />
-            <module name="Mage_Sales" before="Mage_Catalog" />
-            <module name="Mage_GiftCard" />
-            <module name="Mage_GiftCardAccount" after="Mage_GiftCard" />
+            <module name="Magento_Adminhtml" />
+            <module name="Magento_Catalog" before="Magento_Adminhtml" />
+            <module name="Magento_Wishlist" before="Magento_Adminhtml" />
+            <module name="Magento_Sales" before="Magento_Catalog" />
+            <module name="Magento_GiftCard" />
+            <module name="Magento_GiftCardAccount" after="Magento_GiftCard" />
         </route>
         <route id="customer" frontName="customer">
-            <module name="Mage_Customer" before="Mage_Wishlist" />
+            <module name="Magento_Customer" before="Magento_Wishlist" />
         </route>
         <route id="wishlist" frontName="wishlist">
-            <module name="Mage_Wishlist" />
+            <module name="Magento_Wishlist" />
         </route>
     </router>
     <router id="front" />

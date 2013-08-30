@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Initial
+class Magento_Core_Model_Config_Initial
 {
     /**
      * Config data
@@ -24,13 +24,13 @@ class Mage_Core_Model_Config_Initial
     protected $_metadata = array();
 
     /**
-     * @param Mage_Core_Model_Config_Initial_Reader $reader
-     * @param Mage_Core_Model_Cache_Type_Config $cache
+     * @param Magento_Core_Model_Config_Initial_Reader $reader
+     * @param Magento_Core_Model_Cache_Type_Config $cache
      * @param string $cacheId
      */
     public function __construct(
-        Mage_Core_Model_Config_Initial_Reader $reader,
-        Mage_Core_Model_Cache_Type_Config $cache,
+        Magento_Core_Model_Config_Initial_Reader $reader,
+        Magento_Core_Model_Cache_Type_Config $cache,
         $cacheId = 'initial_config'
     ) {
         $data = $cache->load($cacheId);

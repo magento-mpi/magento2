@@ -194,13 +194,13 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
     /**
      * Initialize config field group
      *
-     * @param Mage_Backend_Model_Config_Structure_Element_Group $group
-     * @param Mage_Backend_Model_Config_Structure_Element_Section $section
+     * @param Magento_Backend_Model_Config_Structure_Element_Group $group
+     * @param Magento_Backend_Model_Config_Structure_Element_Section $section
      * @param Magento_Data_Form_Abstract $form
      */
     protected function _initGroup(
-        Mage_Backend_Model_Config_Structure_Element_Group $group,
-        Mage_Backend_Model_Config_Structure_Element_Section $section,
+        Magento_Backend_Model_Config_Structure_Element_Group $group,
+        Magento_Backend_Model_Config_Structure_Element_Section $section,
         Magento_Data_Form_Abstract $form
     ) {
         $frontendModelClass = $group->getFrontendModel();

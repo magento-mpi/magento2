@@ -18,24 +18,24 @@
 class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_Product
 {
     /**
-     * @var Mage_Core_Model_Event_Manager
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Mage_Core_Model_Config_Scope
+     * @var Magento_Core_Model_Config_Scope
      */
     protected $_configScope;
 
     /**
-     * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Core_Model_Config_Scope $configScope
-     * @param Mage_Api_Helper_Data $apiHelper
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Config_Scope $configScope
+     * @param Magento_Api_Helper_Data $apiHelper
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Model_Config_Scope $configScope,
-        Mage_Api_Helper_Data $apiHelper
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Config_Scope $configScope,
+        Magento_Api_Helper_Data $apiHelper
     ) {
         $this->_configScope = $configScope;
         $this->_eventManager = $eventManager;
@@ -60,8 +60,8 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
      * Raise event for setting a giftMessage.
      *
      * @param string $entityId
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Sales_Model_Quote $quote
      * @return array
      */
     protected function _setGiftMessage($entityId, $request, $quote)
@@ -73,7 +73,7 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
          */
         try {
             /** Frontend area events must be loaded as we emulate frontend behavior. */
-            $this->_configScope->setCurrentScope(Mage_Core_Model_App_Area::AREA_FRONTEND);
+            $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_FRONTEND);
             $this->_eventManager->dispatch(
                 'checkout_controller_onepage_save_shipping_method',
                 array('request' => $request, 'quote' => $quote)
