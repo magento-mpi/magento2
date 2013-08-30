@@ -8,7 +8,7 @@
  */
 
 require __DIR__ . '/../../../../../app/autoload.php';
-\Magento\Autoload\IncludePath::addIncludePath(__DIR__ . '/../../../../../lib');
+Magento_Autoload_IncludePath::addIncludePath(__DIR__ . '/../../../../../lib');
 
 class namespacer
 {
@@ -182,7 +182,7 @@ class namespacer
 
         $this->rootDirPath = realpath(__DIR__);
         $this->path = $path;
-        $this->gitShell = new \Magento\Shell(null);
+        $this->gitShell = new Magento_Shell(null);
         //$this->gitClassMove();
         // $this->gitListPackageMove();
         $this->rootDirectory = $rootDirectory;
