@@ -10,7 +10,6 @@
 class Mage_Webapi_Controller_Request extends Zend_Controller_Request_Http
 {
     const PARAM_REQUEST_TYPE = 'request_type';
-    const VERSION_NUMBER_PREFIX = 'V';
 
     /**
      * Modify pathInfo: strip down the request type and query.
