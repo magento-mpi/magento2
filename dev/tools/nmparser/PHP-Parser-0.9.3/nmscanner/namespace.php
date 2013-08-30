@@ -40,7 +40,7 @@ class namespacer
     private $rootDirectory = null;
     private $classSearch = array();
     private $classReplace = array();
-    private $allowedFileExtensions = array('php', 'phtml', 'html');
+    private $allowedFileExtensions = array('php', 'phtml', 'html','xml','sql');
     private $ignoreFile = "blacklist.txt";
     private $blackListArray = array();
     private $addSlashArray = array(
