@@ -34,6 +34,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     protected $_fileSize;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_Theme_Image_Path $themeImagePath
@@ -41,6 +42,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
         Magento_Core_Model_Theme_Image_Path $themeImagePath,
@@ -49,7 +51,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     ) {
         $this->_themeImagePath = $themeImagePath;
         $this->_fileSize = $fileSize;
-        parent::__construct($context, $objectManager, $data);
+        parent::__construct($coreData, $context, $objectManager, $data);
     }
 
     /**
