@@ -32,14 +32,12 @@ class Magento_AdminNotification_Model_System_Message_Baseurl
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
      */
     public function __construct(
         Magento_Core_Model_Config $config,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Model_Factory_Helper $helperFactory,
         Magento_Core_Model_Config_ValueFactory $configValueFactory
     ) {
         $this->_urlBuilder = $urlBuilder;

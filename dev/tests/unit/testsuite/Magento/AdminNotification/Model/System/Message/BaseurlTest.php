@@ -72,7 +72,6 @@ class Magento_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit
         $arguments = array(
             'config' => $this->_configMock,
             'urlBuilder' => $this->_urlBuilderMock,
-            'helperFactory' => $this->_helperFactoryMock,
             'configValueFactory' => $configFactoryMock,
             'storeManager' => $this->_storeManagerMock,
         );

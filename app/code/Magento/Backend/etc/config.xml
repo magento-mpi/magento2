@@ -13,10 +13,9 @@
     <global>
         <areas>
             <adminhtml>
-                <base_controller>Magento_Backend_Controller_ActionAbstract</base_controller>
                 <frontName>backend</frontName>
                 <auth />
             </adminhtml>
         </areas>
     </global>
-</config>
+</config>

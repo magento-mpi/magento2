@@ -45,6 +45,7 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
         $reader = new Magento_ObjectManager_Config_Reader_Dom(
             $fileResolverMock,
             new Magento_ObjectManager_Config_Mapper_Dom(),
+            new Magento_ObjectManager_Config_SchemaLocator(),
             $validationStateMock
         );
         $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');

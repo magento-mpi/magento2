@@ -299,14 +299,14 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
 
         $storeLabelRule = new Zend_Validate_NotEmpty();
         $storeLabelRule->setMessage(
-            Mage::helper('Magento_Core_Helper_Data')->__('Name is required'),
+            __('Name is required'),
             Zend_Validate_NotEmpty::IS_EMPTY
         );
         $validator->addRule($storeLabelRule, 'name');
 
         $storeCodeRule = new Zend_Validate_Regex('/^[a-z]+[a-z0-9_]*$/');
         $storeCodeRule->setMessage(
-            Mage::helper('Magento_Core_Helper_Data')->__('The store code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'),
+            __('The store code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'),
             Zend_Validate_Regex::NOT_MATCH
         );
         $validator->addRule($storeCodeRule, 'code');
