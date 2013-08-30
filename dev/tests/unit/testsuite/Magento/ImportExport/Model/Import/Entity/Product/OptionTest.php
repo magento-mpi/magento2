@@ -299,8 +299,12 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             $doubleOptions = true;
         }
 
+        $this->_catalogDataMock = $this->getMock(
+            'Magento_Catalog_Helper_Data', array('__construct'), array(), '', false
+        );
+
         $this->_model = new Magento_ImportExport_Model_Import_Entity_Product_Option(
-            $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
+            $this->_catalogDataMock, $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
         );
     }
 
