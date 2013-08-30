@@ -12,7 +12,7 @@
         <label>Customer My Account (All Pages)</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>2columns-left.phtml</template>
+                <argument name="template" xsi:type="string">2columns-left.phtml</argument>
             </action>
         </reference>
         <reference name="content">
@@ -21,19 +21,19 @@
         <reference name="left">
             <block class="Magento_Customer_Block_Account_Navigation" name="customer_account_navigation" before="-" template="account/navigation.phtml">
                 <action method="addLink" translate="label">
-                    <name>account</name>
-                    <path>customer/account/</path>
-                    <label>Account Dashboard</label>
+                    <argument name="name" xsi:type="string">account</argument>
+                    <argument name="path" xsi:type="string">customer/account/</argument>
+                    <argument name="label" xsi:type="string">Account Dashboard</argument>
                 </action>
                 <action method="addLink" translate="label">
-                    <name>account_edit</name>
-                    <path>customer/account/edit/</path>
-                    <label>Account Information</label>
+                    <argument name="name" xsi:type="string">account_edit</argument>
+                    <argument name="path" xsi:type="string">customer/account/edit/</argument>
+                    <argument name="label" xsi:type="string">Account Information</argument>
                 </action>
                 <action method="addLink" translate="label">
-                    <name>address_book</name>
-                    <path>customer/address/</path>
-                    <label>Address Book</label>
+                    <argument name="name" xsi:type="string">address_book</argument>
+                    <argument name="path" xsi:type="string">customer/address/</argument>
+                    <argument name="label" xsi:type="string">Address Book</argument>
                 </action>
             </block>
             <move element="cart_sidebar" destination="left" before="catalog.compare.sidebar"/>

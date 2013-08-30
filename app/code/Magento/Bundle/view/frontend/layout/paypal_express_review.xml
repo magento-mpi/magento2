@@ -11,9 +11,9 @@
     <handle id="paypal_express_review">
         <reference name="paypal.express.review.details">
             <action method="addItemRender">
-                <type>bundle</type>
-                <block>Magento_Bundle_Block_Checkout_Cart_Item_Renderer</block>
-                <template>Magento_Checkout::onepage/review/item.phtml</template>
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Checkout_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">Magento_Checkout::onepage/review/item.phtml</argument>
             </action>
         </reference>
     </handle>

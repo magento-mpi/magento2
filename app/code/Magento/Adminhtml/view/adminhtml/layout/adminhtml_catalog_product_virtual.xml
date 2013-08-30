@@ -19,8 +19,8 @@
                 </block>
             </block>
             <action method="addTab">
-                <name>super_config</name>
-                <block>admin.product.edit.tab.super.config.grid.container</block>
+                <argument name="name" xsi:type="string">super_config</argument>
+                <argument name="block" xsi:type="string">admin.product.edit.tab.super.config.grid.container</argument>
             </action>
         </reference>
     </handle>

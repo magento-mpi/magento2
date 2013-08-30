@@ -11,22 +11,22 @@
     <handle id="default">
         <reference name="top.links">
             <action method="addLink" translate="label title">
-                <label>My Account</label>
-                <url helper="Magento_Customer_Helper_Data::getAccountUrl"/>
-                <title>My Account</title>
-                <prepare/>
-                <urlParams/>
-                <position>10</position>
+                <argument name="label" xsi:type="string">My Account</argument>
+                <argument name="url" xsi:type="string"/>
+                <argument name="title" xsi:type="string">My Account</argument>
+                <argument name="prepare" xsi:type="string"/>
+                <argument name="urlParams" xsi:type="string"/>
+                <argument name="position" xsi:type="string">10</argument>
             </action>
         </reference>
         <reference name="account.links">
             <action method="addLink" translate="label title before_text">
-                <label>Register</label>
-                <url helper="Magento_Customer_Helper_Data::getRegisterUrl"/>
-                <title>Register</title>
-                <prepare/>
-                <urlParams/>
-                <position>100</position>
+                <argument name="label" xsi:type="string">Register</argument>
+                <argument name="url" xsi:type="string"/>
+                <argument name="title" xsi:type="string">Register</argument>
+                <argument name="prepare" xsi:type="string"/>
+                <argument name="urlParams" xsi:type="string"/>
+                <argument name="position" xsi:type="string">100</argument>
             </action>
         </reference>
     </handle>

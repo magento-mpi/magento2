@@ -13,98 +13,98 @@
             <block class="Magento_Adminhtml_Block_Customer_Online" name="adminhtml.block.customer.online.grid.container">
                 <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.customer.online.grid" as="grid">
                     <arguments>
-                        <id>onlineGrid</id>
-                        <dataSource type="object">Magento_Log_Model_Resource_Visitor_Online_Grid_Collection</dataSource>
-                        <default_sort>last_activity</default_sort>
-                        <default_dir>DESC</default_dir>
-                        <save_parameters_in_session>1</save_parameters_in_session>
+                        <argument name="id" xsi:type="string">onlineGrid</argument>
+                        <argument name="dataSource" xsi:type="string">Magento_Log_Model_Resource_Visitor_Online_Grid_Collection</argument>
+                        <argument name="default_sort" xsi:type="string">last_activity</argument>
+                        <argument name="default_dir" xsi:type="string">DESC</argument>
+                        <argument name="save_parameters_in_session" xsi:type="string">1</argument>
                     </arguments>
                     <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.customer.online.grid.columnSet">
                         <arguments>
-                            <rowUrl>
-                                <generatorClass>Magento_Log_Model_Resource_Visitor_Online_Grid_Row_UrlGenerator</generatorClass>
-                                <path>*/customer/edit</path>
-                                <extraParamsTemplate>
-                                    <id>getCustomerId</id>
-                                </extraParamsTemplate>
-                            </rowUrl>
+                            <argument name="rowUrl" xsi:type="array">
+                                <item name="generatorClass" xsi:type="string">Magento_Log_Model_Resource_Visitor_Online_Grid_Row_UrlGenerator</item>
+                                <item name="path" xsi:type="string">*/customer/edit</item>
+                                <item name="extraParamsTemplate" xsi:type="array">
+                                    <item name="id" xsi:type="string">getCustomerId</item>
+                                </item>
+                            </argument>
                         </arguments>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="customer_id">
                             <arguments>
-                                <header translate="true">ID</header>
-                                <width>50px</width>
-                                <align>right</align>
-                                <type>number</type>
-                                <default translate="true">n/a</default>
-                                <index>customer_id</index>
+                                <argument name="header" xsi:type="string" translate="true">ID</argument>
+                                <argument name="width" xsi:type="string">50px</argument>
+                                <argument name="align" xsi:type="string">right</argument>
+                                <argument name="type" xsi:type="string">number</argument>
+                                <argument name="default" xsi:type="string" translate="true">n/a</argument>
+                                <argument name="index" xsi:type="string">customer_id</argument>
                             </arguments>
                         </block>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="firstname">
                             <arguments>
-                                <header translate="true">First Name</header>
-                                <default>Guest</default>
-                                <index>customer_firstname</index>
+                                <argument name="header" xsi:type="string" translate="true">First Name</argument>
+                                <argument name="default" xsi:type="string">Guest</argument>
+                                <argument name="index" xsi:type="string">customer_firstname</argument>
                             </arguments>
                         </block>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="lastname">
                             <arguments>
-                                <header translate="true">Last Name</header>
-                                <default>n/a</default>
-                                <index>customer_lastname</index>
+                                <argument name="header" xsi:type="string" translate="true">Last Name</argument>
+                                <argument name="default" xsi:type="string">n/a</argument>
+                                <argument name="index" xsi:type="string">customer_lastname</argument>
                             </arguments>
                         </block>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
                             <arguments>
-                                <header translate="true">Email</header>
-                                <default>n/a</default>
-                                <index>customer_email</index>
+                                <argument name="header" xsi:type="string" translate="true">Email</argument>
+                                <argument name="default" xsi:type="string">n/a</argument>
+                                <argument name="index" xsi:type="string">customer_email</argument>
                             </arguments>
                         </block>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="ip_address">
                             <arguments>
-                                <header translate="true">IP Address</header>
-                                <default>n/a</default>
-                                <filter>0</filter>
-                                <renderer>Magento_Adminhtml_Block_Customer_Online_Grid_Renderer_Ip</renderer>
-                                <index>remote_addr</index>
+                                <argument name="header" xsi:type="string" translate="true">IP Address</argument>
+                                <argument name="default" xsi:type="string">n/a</argument>
+                                <argument name="filter" xsi:type="string">0</argument>
+                                <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_Customer_Online_Grid_Renderer_Ip</argument>
+                                <argument name="index" xsi:type="string">remote_addr</argument>
                             </arguments>
                         </block>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="session_start_time">
                             <arguments>
-                                <header translate="true">Session Start Time</header>
-                                <default>n/a</default>
-                                <align>left</align>
-                                <width>200px</width>
-                                <type>datetime</type>
-                                <index>first_visit_at</index>
+                                <argument name="header" xsi:type="string" translate="true">Session Start Time</argument>
+                                <argument name="default" xsi:type="string">n/a</argument>
+                                <argument name="align" xsi:type="string">left</argument>
+                                <argument name="width" xsi:type="string">200px</argument>
+                                <argument name="type" xsi:type="string">datetime</argument>
+                                <argument name="index" xsi:type="string">first_visit_at</argument>
                             </arguments>
                         </block>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="last_activity">
                             <arguments>
-                                <header translate="true">Last Activity</header>
-                                <default>n/a</default>
-                                <align>left</align>
-                                <width>200px</width>
-                                <type>datetime</type>
-                                <index>last_visit_at</index>
+                                <argument name="header" xsi:type="string" translate="true">Last Activity</argument>
+                                <argument name="default" xsi:type="string">n/a</argument>
+                                <argument name="align" xsi:type="string">left</argument>
+                                <argument name="width" xsi:type="string">200px</argument>
+                                <argument name="type" xsi:type="string">datetime</argument>
+                                <argument name="index" xsi:type="string">last_visit_at</argument>
                             </arguments>
                         </block>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="type">
                             <arguments>
-                                <header translate="true">Type</header>
-                                <type>options</type>
-                                <options type="options">Magento_Customer_Model_Resource_Customer_CustomersTypeOptions</options>
-                                <index>visitor_type</index>
+                                <argument name="header" xsi:type="string" translate="true">Type</argument>
+                                <argument name="type" xsi:type="string">options</argument>
+                                <argument name="options" xsi:type="options" model="Magento_Customer_Model_Resource_Customer_CustomersTypeOptions"/>
+                                <argument name="index" xsi:type="string">visitor_type</argument>
                             </arguments>
                         </block>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="last_url">
                             <arguments>
-                                <header translate="true">Last URL</header>
-                                <default>n/a</default>
-                                <linelength>60</linelength>
-                                <type>wrapline</type>
-                                <index>last_url</index>
-                                <renderer>Magento_Adminhtml_Block_Customer_Online_Grid_Renderer_Url</renderer>
+                                <argument name="header" xsi:type="string" translate="true">Last URL</argument>
+                                <argument name="default" xsi:type="string">n/a</argument>
+                                <argument name="linelength" xsi:type="string">60</argument>
+                                <argument name="type" xsi:type="string">wrapline</argument>
+                                <argument name="index" xsi:type="string">last_url</argument>
+                                <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_Customer_Online_Grid_Renderer_Url</argument>
                             </arguments>
                         </block>
                     </block>

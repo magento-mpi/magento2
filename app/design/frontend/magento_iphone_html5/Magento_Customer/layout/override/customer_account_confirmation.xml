@@ -12,10 +12,10 @@
         <label>Customer Account Confirmation</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
             <action method="setHeaderTitle" translate="title">
-                <title>Send confirmation link</title>
+                <argument name="title" xsi:type="string">Send confirmation link</argument>
             </action>
         </reference>
         <reference name="content">

@@ -13,7 +13,7 @@
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
             <action method="setActive">
-                <path>magento_invitation/index/index</path>
+                <argument name="path" xsi:type="string">magento_invitation/index/index</argument>
             </action>
         </reference>
         <reference name="my.account.wrapper">

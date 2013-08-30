@@ -12,22 +12,22 @@
         <update handle="editor"/>
         <reference name="head">
             <action method="addCss">
-                <file>jquery/fileUploader/css/jquery.fileupload-ui.css</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.iframe-transport.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.iframe-transport.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/load-image.min.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/load-image.min.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/canvas-to-blob.min.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/canvas-to-blob.min.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload-fp.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload-fp.js</argument>
             </action>
         </reference>
         <reference name="content">

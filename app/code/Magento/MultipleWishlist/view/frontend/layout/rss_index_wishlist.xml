@@ -11,9 +11,9 @@
     <handle id="rss_index_wishlist">
         <block class="Magento_MultipleWishlist_Block_Rss" name="rss.wishlist" output="1">
             <action method="addPriceBlockType">
-                <type>msrp_rss</type>
-                <block>Magento_Catalog_Block_Product_Price</block>
-                <template>Magento_Wishlist::render/item/price_msrp_rss.phtml</template>
+                <argument name="type" xsi:type="string">msrp_rss</argument>
+                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+                <argument name="template" xsi:type="string">Magento_Wishlist::render/item/price_msrp_rss.phtml</argument>
             </action>
         </block>
     </handle>

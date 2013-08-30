@@ -16,7 +16,7 @@
         </reference>
         <reference name="root">
             <action method="setHeaderTitle" translate="title">
-                <title>My Downloadable Products</title>
+                <argument name="title" xsi:type="string">My Downloadable Products</argument>
             </action>
         </reference>
     </handle>

@@ -21,28 +21,28 @@
                 <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents" name="tab_contents" template="extension/custom/contents.phtml"/>
                 <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Local" name="tab_local"/>
                 <action method="addTab">
-                    <name>package_info</name>
-                    <block>tab_package</block>
+                    <argument name="name" xsi:type="string">package_info</argument>
+                    <argument name="block" xsi:type="string">tab_package</argument>
                 </action>
                 <action method="addTab">
-                    <name>release_info</name>
-                    <block>tab_release</block>
+                    <argument name="name" xsi:type="string">release_info</argument>
+                    <argument name="block" xsi:type="string">tab_release</argument>
                 </action>
                 <action method="addTab">
-                    <name>authors</name>
-                    <block>tab_authors</block>
+                    <argument name="name" xsi:type="string">authors</argument>
+                    <argument name="block" xsi:type="string">tab_authors</argument>
                 </action>
                 <action method="addTab">
-                    <name>dependencies</name>
-                    <block>tab_depends</block>
+                    <argument name="name" xsi:type="string">dependencies</argument>
+                    <argument name="block" xsi:type="string">tab_depends</argument>
                 </action>
                 <action method="addTab">
-                    <name>contents</name>
-                    <block>tab_contents</block>
+                    <argument name="name" xsi:type="string">contents</argument>
+                    <argument name="block" xsi:type="string">tab_contents</argument>
                 </action>
                 <action method="addTab">
-                    <name>load_local_package</name>
-                    <block>tab_local</block>
+                    <argument name="name" xsi:type="string">load_local_package</argument>
+                    <argument name="block" xsi:type="string">tab_local</argument>
                 </action>
             </block>
         </reference>

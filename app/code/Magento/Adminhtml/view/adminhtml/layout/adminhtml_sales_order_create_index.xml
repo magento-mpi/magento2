@@ -12,35 +12,35 @@
         <update handle="adminhtml_sales_order_create_customer_block"/>
         <reference name="page-title">
             <action method="setTitleId" translate="id">
-                <id>order-header</id>
+                <argument name="id" xsi:type="string">order-header</argument>
             </action>
             <!--action method="setTitlePrefix" translate="value"><value>Prefix</value></action-->
             <!--action method="setTitleSuffix" translate="value"><value>suffix</value></action-->
         </reference>
         <reference name="left">
             <action method="setIsCollapsed">
-                <value>true</value>
+                <argument name="value" xsi:type="string">true</argument>
             </action>
         </reference>
         <reference name="head">
             <action method="addJs">
-                <file>Magento_Adminhtml::sales/order/create/scripts.js</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/create/scripts.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Adminhtml::sales/order/create/giftmessage.js</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/create/giftmessage.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Adminhtml::catalog/product/composite/configure.js</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
             </action>
             <action method="addJs">
-                <file>varien/configurable.js</file>
+                <argument name="file" xsi:type="string">varien/configurable.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Adminhtml::sales/order/giftoptions_tooltip.js</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/giftoptions_tooltip.js</argument>
             </action>
             <block class="Magento_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Magento_Directory::js/optional_zip_countries.phtml"/>
             <action method="addCss">
-                <file>Magento_Core::prototype/magento.css</file>
+                <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
             </action>
         </reference>
         <reference name="js">

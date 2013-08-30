@@ -11,13 +11,13 @@
     <handle id="checkout_multishipping_overview">
         <reference name="head">
             <action method="addJs">
-                <file>Magento_Centinel::centinel-authenticate.js</file>
+                <argument name="file" xsi:type="string">Magento_Centinel::centinel-authenticate.js</argument>
             </action>
         </reference>
         <reference name="checkout.multishipping.overview.items.after">
             <block class="Magento_Centinel_Block_Authentication" name="centinel.frame" template="authentication.phtml">
                 <action method="setAuthenticationStartMode">
-                    <mode>window</mode>
+                    <argument name="mode" xsi:type="string">window</argument>
                 </action>
             </block>
         </reference>

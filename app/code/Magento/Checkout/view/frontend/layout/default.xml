@@ -21,19 +21,19 @@
         <reference name="right">
             <block class="Magento_Checkout_Block_Cart_Sidebar" name="cart_sidebar" template="cart/sidebar.phtml" before="-">
                 <action method="addItemRender">
-                    <type>simple</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer</block>
-                    <template>cart/sidebar/default.phtml</template>
+                    <argument name="type" xsi:type="string">simple</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
-                    <type>grouped</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Grouped</block>
-                    <template>cart/sidebar/default.phtml</template>
+                    <argument name="type" xsi:type="string">grouped</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
-                    <type>configurable</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Configurable</block>
-                    <template>cart/sidebar/default.phtml</template>
+                    <argument name="type" xsi:type="string">configurable</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
                 </action>
                 <container name="cart_sidebar.extra_actions" as="extra_actions" label="My Cart Extra Actions"/>
             </block>

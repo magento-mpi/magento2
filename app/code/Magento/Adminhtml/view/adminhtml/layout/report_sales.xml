@@ -11,7 +11,7 @@
     <handle id="report_sales">
         <reference name="messages">
             <action method="addNotice" translate="message">
-                <message>This report uses timezone configuration data. Be sure to refresh lifetime statistics any time you change store timezone.</message>
+                <argument name="message" xsi:type="string">This report uses timezone configuration data. Be sure to refresh lifetime statistics any time you change store timezone.</argument>
             </action>
         </reference>
     </handle>

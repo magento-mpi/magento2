@@ -11,7 +11,7 @@
     <handle id="default">
         <reference name="head">
             <action method="addCss">
-                <file>Magento_Cms::widgets.css</file>
+                <argument name="file" xsi:type="string">Magento_Cms::widgets.css</argument>
             </action>
         </reference>
         <reference name="footer">
@@ -21,7 +21,7 @@
                     You can manage it in admin CMS -> Static Blocks
                 -->
                 <action method="setBlockId">
-                    <block_id>footer_links</block_id>
+                    <argument name="block_id" xsi:type="string">footer_links</argument>
                 </action>
             </block>
         </reference>

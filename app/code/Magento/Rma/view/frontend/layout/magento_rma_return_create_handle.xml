@@ -13,24 +13,24 @@
         <reference name="content">
             <block class="Magento_CustomAttribute_Block_Form_Template" name="magento_rma_item_form_template">
                 <action method="addRenderer">
-                    <type>text</type>
-                    <renderer_block>Magento_CustomAttribute_Block_Form_Renderer_Text</renderer_block>
-                    <template>Magento_Rma::form/renderer/text.phtml</template>
+                    <argument name="type" xsi:type="string">text</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_CustomAttribute_Block_Form_Renderer_Text</argument>
+                    <argument name="template" xsi:type="string">Magento_Rma::form/renderer/text.phtml</argument>
                 </action>
                 <action method="addRenderer">
-                    <type>textarea</type>
-                    <renderer_block>Magento_CustomAttribute_Block_Form_Renderer_Textarea</renderer_block>
-                    <template>Magento_Rma::form/renderer/textarea.phtml</template>
+                    <argument name="type" xsi:type="string">textarea</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_CustomAttribute_Block_Form_Renderer_Textarea</argument>
+                    <argument name="template" xsi:type="string">Magento_Rma::form/renderer/textarea.phtml</argument>
                 </action>
                 <action method="addRenderer">
-                    <type>select</type>
-                    <renderer_block>Magento_Rma_Block_Form_Renderer_Select</renderer_block>
-                    <template>form/renderer/select.phtml</template>
+                    <argument name="type" xsi:type="string">select</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_Rma_Block_Form_Renderer_Select</argument>
+                    <argument name="template" xsi:type="string">form/renderer/select.phtml</argument>
                 </action>
                 <action method="addRenderer">
-                    <type>image</type>
-                    <renderer_block>Magento_Rma_Block_Form_Renderer_Image</renderer_block>
-                    <template>form/renderer/image.phtml</template>
+                    <argument name="type" xsi:type="string">image</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_Rma_Block_Form_Renderer_Image</argument>
+                    <argument name="template" xsi:type="string">form/renderer/image.phtml</argument>
                 </action>
             </block>
         </reference>

@@ -11,10 +11,10 @@
     <handle id="adminhtml_rma_edit">
         <reference name="head">
             <action method="addJs">
-                <file>Magento_Adminhtml::sales/order/shipment/packaging.js</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/shipment/packaging.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Rma::rma.js</file>
+                <argument name="file" xsi:type="string">Magento_Rma::rma.js</argument>
             </action>
         </reference>
         <reference name="content">
@@ -37,12 +37,12 @@
                     <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid" name="items_grid"/>
                 </block>
                 <action method="addTab">
-                    <name>general_section</name>
-                    <block>magento_rma_edit_tab_general</block>
+                    <argument name="name" xsi:type="string">general_section</argument>
+                    <argument name="block" xsi:type="string">magento_rma_edit_tab_general</argument>
                 </action>
                 <action method="addTab">
-                    <name>items_section</name>
-                    <block>magento_rma_edit_tab_items</block>
+                    <argument name="name" xsi:type="string">items_section</argument>
+                    <argument name="block" xsi:type="string">magento_rma_edit_tab_items</argument>
                 </action>
             </block>
         </reference>

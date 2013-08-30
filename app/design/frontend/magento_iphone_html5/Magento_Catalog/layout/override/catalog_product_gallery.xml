@@ -12,10 +12,10 @@
         <label>Catalog Product Image Gallery Popup</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
             <action method="setMyClass">
-                <value>product-gallery-view</value>
+                <argument name="value" xsi:type="string">product-gallery-view</argument>
             </action>
         </reference>
         <reference name="content">

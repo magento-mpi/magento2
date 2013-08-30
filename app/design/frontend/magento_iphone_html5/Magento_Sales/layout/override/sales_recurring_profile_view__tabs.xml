@@ -12,24 +12,24 @@
         <label>Recurring Profile View Tabs</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
         </reference>
         <reference name="my.account.wrapper">
             <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view" template="recurring/profile/view.phtml">
                 <action method="prepareViewData"/>
                 <action method="setShouldPrepareInfoTabs">
-                    <value>1</value>
+                    <argument name="value" xsi:type="string">1</argument>
                 </action>
                 <block class="Magento_Core_Block_Text" as="profile_info" name="sales.recurring.profile.view.tab.profile">
                     <action method="addToParentGroup">
-                        <value>info_tabs</value>
+                        <argument name="value" xsi:type="string">info_tabs</argument>
                     </action>
                     <action method="setViewLabel" translate="value">
-                        <value>Profile Information</value>
+                        <argument name="value" xsi:type="string">Profile Information</argument>
                     </action>
                     <action method="setViewAction">
-                        <value>view</value>
+                        <argument name="value" xsi:type="string">view</argument>
                     </action>
                 </block>
                 <!-- not implemented
@@ -41,13 +41,13 @@
 -->
                 <block class="Magento_Core_Block_Text" as="related_orders" name="sales.recurring.profile.view.tab.orders">
                     <action method="addToParentGroup">
-                        <value>info_tabs</value>
+                        <argument name="value" xsi:type="string">info_tabs</argument>
                     </action>
                     <action method="setViewLabel" translate="value">
-                        <value>Related Orders</value>
+                        <argument name="value" xsi:type="string">Related Orders</argument>
                     </action>
                     <action method="setViewAction">
-                        <value>orders</value>
+                        <argument name="value" xsi:type="string">orders</argument>
                     </action>
                 </block>
                 <!-- not implemented

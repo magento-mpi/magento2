@@ -12,12 +12,12 @@
         <label>Advanced Search Form</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>2columns-right.phtml</template>
+                <argument name="template" xsi:type="string">2columns-right.phtml</argument>
             </action>
         </reference>
         <reference name="head">
             <action method="setTitle" translate="title">
-                <title>Advanced Search</title>
+                <argument name="title" xsi:type="string">Advanced Search</argument>
             </action>
         </reference>
         <update handle="page_calendar"/>

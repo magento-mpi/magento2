@@ -12,12 +12,12 @@
         <update handle="adminhtml_sales_order_grid_block"/>
         <reference name="sales.order.grid">
             <arguments>
-                <dataSource>
+                <argument name="dataSource" xsi:type="array">
                     <updater>Magento_Sales_Model_Billing_Agreement_OrdersUpdater</updater>
-                </dataSource>
-                <grid_url>
-                    <path>*/*/ordersgrid</path>
-                </grid_url>
+                </argument>
+                <argument name="grid_url" xsi:type="array">
+                    <item name="path" xsi:type="string">*/*/ordersgrid</item>
+                </argument>
             </arguments>
         </reference>
         <remove name="sales.order.grid.export"/>
@@ -28,13 +28,13 @@
         <reference name="left">
             <block class="Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tabs" name="sales.billing.agreement.tabs">
                 <action method="addTab">
-                    <name>billing_agreement_info</name>
-                    <block>Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info</block>
+                    <argument name="name" xsi:type="string">billing_agreement_info</argument>
+                    <argument name="block" xsi:type="string">Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info</argument>
                 </action>
                 <block class="Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders" name="sales_order.grid.container"/>
                 <action method="addTab">
-                    <name>billing_agreement_orders</name>
-                    <block>sales_order.grid.container</block>
+                    <argument name="name" xsi:type="string">billing_agreement_orders</argument>
+                    <argument name="block" xsi:type="string">sales_order.grid.container</argument>
                 </action>
             </block>
         </reference>

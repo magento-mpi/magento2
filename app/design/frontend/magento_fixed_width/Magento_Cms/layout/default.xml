@@ -12,7 +12,7 @@
         <reference name="header">
             <block class="Magento_Cms_Block_Block" name="header.callout" as="headerCallout">
                 <action method="setBlockId">
-                    <block_id>header_callout</block_id>
+                    <argument name="block_id" xsi:type="string">header_callout</argument>
                 </action>
             </block>
         </reference>

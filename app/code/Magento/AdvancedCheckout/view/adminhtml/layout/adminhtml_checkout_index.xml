@@ -11,13 +11,13 @@
     <handle id="adminhtml_checkout_index">
         <reference name="head">
             <action method="addJs">
-                <file>Magento_Adminhtml::catalog/product/composite/configure.js</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
             </action>
             <action method="addJs">
-                <file>varien/configurable.js</file>
+                <argument name="file" xsi:type="string">varien/configurable.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_AdvancedCheckout::shopping_cart.js</file>
+                <argument name="file" xsi:type="string">Magento_AdvancedCheckout::shopping_cart.js</argument>
             </action>
         </reference>
         <reference name="content">

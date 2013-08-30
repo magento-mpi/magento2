@@ -12,13 +12,13 @@
         <reference name="form.additional.info">
             <block class="Magento_Captcha_Block_Captcha" name="captcha">
                 <action method="setFormId">
-                    <formId>contact_us</formId>
+                    <argument name="formId" xsi:type="string">contact_us</argument>
                 </action>
                 <action method="setImgWidth">
-                    <width>230</width>
+                    <argument name="width" xsi:type="string">230</argument>
                 </action>
                 <action method="setImgHeight">
-                    <width>50</width>
+                    <argument name="width" xsi:type="string">50</argument>
                 </action>
             </block>
         </reference>

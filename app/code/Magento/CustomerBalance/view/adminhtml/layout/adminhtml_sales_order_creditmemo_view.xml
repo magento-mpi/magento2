@@ -13,19 +13,19 @@
             <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Magento_CustomerBalance::sales/creditmemo/totals/view.phtml" after="-"/>
             <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
                 <action method="setSourceField">
-                    <value>customer_bal_total_refunded</value>
+                    <argument name="value" xsi:type="string">customer_bal_total_refunded</argument>
                 </action>
                 <action method="setAfterCondition">
-                    <condition>last</condition>
+                    <argument name="condition" xsi:type="string">last</argument>
                 </action>
                 <action method="setLabel">
-                    <value>Refunded to Store Credit</value>
+                    <argument name="value" xsi:type="string">Refunded to Store Credit</argument>
                 </action>
                 <action method="setDisplayArea">
-                    <value>footer</value>
+                    <argument name="value" xsi:type="string">footer</argument>
                 </action>
                 <action method="setStrong">
-                    <flag>true</flag>
+                    <argument name="flag" xsi:type="string">true</argument>
                 </action>
             </block>
         </reference>

@@ -12,8 +12,8 @@
         <reference name="customer_edit_tabs">
             <block class="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance" name="customerbalance"/>
             <action method="addTab">
-                <name>customerbalance</name>
-                <block>customerbalance</block>
+                <argument name="name" xsi:type="string">customerbalance</argument>
+                <argument name="block" xsi:type="string">customerbalance</argument>
             </action>
         </reference>
         <reference name="customer_edit_tab_view">

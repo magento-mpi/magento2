@@ -11,7 +11,7 @@
     <handle id="adminhtml_catalog_product_review_new">
         <reference name="head">
             <action method="addJs">
-                <file>Magento_Catalog::js/rating.js</file>
+                <argument name="file" xsi:type="string">Magento_Catalog::js/rating.js</argument>
             </action>
         </reference>
     </handle>

@@ -15,19 +15,19 @@
                     <block class="Magento_ProductAlert_Block_Product_View" name="productalert.price" as="productalert_price" template="product/view.phtml">
                         <action method="preparePriceAlertData"/>
                         <action method="setHtmlClass">
-                            <value>alert-price link-price-alert</value>
+                            <argument name="value" xsi:type="string">alert-price link-price-alert</argument>
                         </action>
                         <action method="setSignupLabel" translate="value">
-                            <value>Sign up for price alert</value>
+                            <argument name="value" xsi:type="string">Sign up for price alert</argument>
                         </action>
                     </block>
                     <block class="Magento_ProductAlert_Block_Product_View" name="productalert.stock" as="productalert_stock" template="product/view.phtml">
                         <action method="prepareStockAlertData"/>
                         <action method="setHtmlClass">
-                            <value>alert-stock link-stock-alert</value>
+                            <argument name="value" xsi:type="string">alert-stock link-stock-alert</argument>
                         </action>
                         <action method="setSignupLabel" translate="value">
-                            <value>Sign up to be notified when this product is back in stock.</value>
+                            <argument name="value" xsi:type="string">Sign up to be notified when this product is back in stock.</argument>
                         </action>
                     </block>
                 </reference>

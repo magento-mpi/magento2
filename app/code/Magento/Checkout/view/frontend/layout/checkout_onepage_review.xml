@@ -13,19 +13,19 @@
         <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
             <block class="Magento_Checkout_Block_Onepage_Review_Info" name="order_review" template="onepage/review/info.phtml">
                 <action method="addItemRender">
-                    <type>default</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer</block>
-                    <template>onepage/review/item.phtml</template>
+                    <argument name="type" xsi:type="string">default</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                    <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
                 </action>
                 <action method="addItemRender">
-                    <type>grouped</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Grouped</block>
-                    <template>onepage/review/item.phtml</template>
+                    <argument name="type" xsi:type="string">grouped</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                    <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
                 </action>
                 <action method="addItemRender">
-                    <type>configurable</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Configurable</block>
-                    <template>onepage/review/item.phtml</template>
+                    <argument name="type" xsi:type="string">configurable</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                    <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
                 </action>
                 <block class="Magento_Checkout_Block_Cart_Totals" name="checkout.onepage.review.info.totals" as="totals" template="onepage/review/totals.phtml"/>
                 <container name="checkout.onepage.review.info.items.before" as="items_before" label="Items Before"/>

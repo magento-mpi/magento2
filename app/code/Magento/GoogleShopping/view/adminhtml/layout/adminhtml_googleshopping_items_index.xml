@@ -11,7 +11,7 @@
     <handle id="adminhtml_googleshopping_items_index">
         <reference name="head">
             <action method="addJs">
-                <file>Magento_GoogleShopping::googleshopping.js</file>
+                <argument name="file" xsi:type="string">Magento_GoogleShopping::googleshopping.js</argument>
             </action>
         </reference>
     </handle>

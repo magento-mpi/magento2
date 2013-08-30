@@ -11,8 +11,8 @@
     <handle id="default">
         <reference name="head">
             <action method="removeItem">
-                <type>css</type>
-                <file>Magento_Cms::widgets.css</file>
+                <argument name="type" xsi:type="string">css</argument>
+                <argument name="file" xsi:type="string">Magento_Cms::widgets.css</argument>
             </action>
         </reference>
         <remove name="header.callout"/>

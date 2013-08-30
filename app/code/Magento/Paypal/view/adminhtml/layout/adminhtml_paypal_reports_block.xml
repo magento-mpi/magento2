@@ -12,112 +12,110 @@
         <reference name="adminhtml.paypal.report.grid.container">
             <block class="Magento_Backend_Block_Widget_Grid" name="paypal.report.grid" as="grid">
                 <arguments>
-                    <id>settlementGrid</id>
-                    <dataSource type="object">Magento_Paypal_Model_Resource_Report_Settlement_Row_Collection</dataSource>
-                    <default_sort>row_id</default_sort>
-                    <default_dir>DESC</default_dir>
-                    <save_parameters_in_session>1</save_parameters_in_session>
-                    <use_ajax>1</use_ajax>
-                    <grid_url type="url">
-                        <path>*/*/grid</path>
-                    </grid_url>
+                    <argument name="id" xsi:type="string">settlementGrid</argument>
+                    <argument name="dataSource" xsi:type="string">Magento_Paypal_Model_Resource_Report_Settlement_Row_Collection</argument>
+                    <argument name="default_sort" xsi:type="string">row_id</argument>
+                    <argument name="default_dir" xsi:type="string">DESC</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+                    <argument name="use_ajax" xsi:type="string">1</argument>
+                    <argument name="grid_url" xsi:type="url" path="*/*/grid"/>
                 </arguments>
                 <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="paypal.report.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <rowUrl>
-                            <path>*/*/details</path>
-                            <extraParamsTemplate>
-                                <id>getId</id>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/details</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
                     </arguments>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="report_date">
                         <arguments>
-                            <header translate="true">Report Date</header>
-                            <index>report_date</index>
-                            <type>date</type>
-                            <header_css_class>col-date</header_css_class>
-                            <column_css_class>col-date</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Report Date</argument>
+                            <argument name="index" xsi:type="string">report_date</argument>
+                            <argument name="type" xsi:type="string">date</argument>
+                            <argument name="header_css_class" xsi:type="string">col-date</argument>
+                            <argument name="column_css_class" xsi:type="string">col-date</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="account_id">
                         <arguments>
-                            <header translate="true">Merchant Account</header>
-                            <index>account_id</index>
-                            <header_css_class>col-merchant</header_css_class>
-                            <column_css_class>col-merchant</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Merchant Account</argument>
+                            <argument name="index" xsi:type="string">account_id</argument>
+                            <argument name="header_css_class" xsi:type="string">col-merchant</argument>
+                            <argument name="column_css_class" xsi:type="string">col-merchant</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="transaction_id">
                         <arguments>
-                            <header translate="true">Transaction ID</header>
-                            <index>transaction_id</index>
-                            <header_css_class>col-transaction</header_css_class>
-                            <column_css_class>col-transaction</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Transaction ID</argument>
+                            <argument name="index" xsi:type="string">transaction_id</argument>
+                            <argument name="header_css_class" xsi:type="string">col-transaction</argument>
+                            <argument name="column_css_class" xsi:type="string">col-transaction</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="invoice_id">
                         <arguments>
-                            <header translate="true">Invoice ID</header>
-                            <index>invoice_id</index>
-                            <header_css_class>col-invoice</header_css_class>
-                            <column_css_class>col-invoice</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Invoice ID</argument>
+                            <argument name="index" xsi:type="string">invoice_id</argument>
+                            <argument name="header_css_class" xsi:type="string">col-invoice</argument>
+                            <argument name="column_css_class" xsi:type="string">col-invoice</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="paypal_reference_id">
                         <arguments>
-                            <header translate="true">PayPal Reference ID</header>
-                            <index>paypal_reference_id</index>
-                            <header_css_class>col-reference</header_css_class>
-                            <column_css_class>col-reference</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">PayPal Reference ID</argument>
+                            <argument name="index" xsi:type="string">paypal_reference_id</argument>
+                            <argument name="header_css_class" xsi:type="string">col-reference</argument>
+                            <argument name="column_css_class" xsi:type="string">col-reference</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="transaction_event_code">
                         <arguments>
-                            <header translate="true">Event</header>
-                            <index>transaction_event_code</index>
-                            <type>options</type>
-                            <options type="options">Magento_Paypal_Model_Resource_Report_Settlement_Options_TransactionEvents</options>
-                            <header_css_class>ol-event</header_css_class>
-                            <column_css_class>ol-event</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Event</argument>
+                            <argument name="index" xsi:type="string">transaction_event_code</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Paypal_Model_Resource_Report_Settlement_Options_TransactionEvents"/>
+                            <argument name="header_css_class" xsi:type="string">ol-event</argument>
+                            <argument name="column_css_class" xsi:type="string">ol-event</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="transaction_initiation_date">
                         <arguments>
-                            <header translate="true">Start Date</header>
-                            <index>transaction_initiation_date</index>
-                            <type>datetime</type>
-                            <header_css_class>col-initiation</header_css_class>
-                            <column_css_class>col-initiation</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Start Date</argument>
+                            <argument name="index" xsi:type="string">transaction_initiation_date</argument>
+                            <argument name="type" xsi:type="string">datetime</argument>
+                            <argument name="header_css_class" xsi:type="string">col-initiation</argument>
+                            <argument name="column_css_class" xsi:type="string">col-initiation</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="transaction_completion_date">
                         <arguments>
-                            <header translate="true">Finish Date</header>
-                            <index>transaction_completion_date</index>
-                            <type>datetime</type>
-                            <header_css_class>col-completion</header_css_class>
-                            <column_css_class>col-completion</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Finish Date</argument>
+                            <argument name="index" xsi:type="string">transaction_completion_date</argument>
+                            <argument name="type" xsi:type="string">datetime</argument>
+                            <argument name="header_css_class" xsi:type="string">col-completion</argument>
+                            <argument name="column_css_class" xsi:type="string">col-completion</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="gross_transaction_amount">
                         <arguments>
-                            <header translate="true">Gross Amount</header>
-                            <index>gross_transaction_amount</index>
-                            <type>currency</type>
-                            <currency>gross_transaction_currency</currency>
-                            <header_css_class>col-amount</header_css_class>
-                            <column_css_class>col-amount</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Gross Amount</argument>
+                            <argument name="index" xsi:type="string">gross_transaction_amount</argument>
+                            <argument name="type" xsi:type="string">currency</argument>
+                            <argument name="currency" xsi:type="string">gross_transaction_currency</argument>
+                            <argument name="header_css_class" xsi:type="string">col-amount</argument>
+                            <argument name="column_css_class" xsi:type="string">col-amount</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="fee_amount">
                         <arguments>
-                            <header translate="true">Fee Amount</header>
-                            <index>fee_amount</index>
-                            <type>currency</type>
-                            <currency>gross_transaction_currency</currency>
-                            <header_css_class>col-fee-amount</header_css_class>
-                            <column_css_class>col-fee-amount</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Fee Amount</argument>
+                            <argument name="index" xsi:type="string">fee_amount</argument>
+                            <argument name="type" xsi:type="string">currency</argument>
+                            <argument name="currency" xsi:type="string">gross_transaction_currency</argument>
+                            <argument name="header_css_class" xsi:type="string">col-fee-amount</argument>
+                            <argument name="column_css_class" xsi:type="string">col-fee-amount</argument>
                         </arguments>
                     </block>
                 </block>

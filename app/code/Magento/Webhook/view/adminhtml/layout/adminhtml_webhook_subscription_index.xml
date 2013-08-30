@@ -11,10 +11,10 @@
     <handle id="adminhtml_webhook_subscription_index">
         <reference name="head">
             <action method="addCss">
-                <file>Magento_Webhook::css/modal.css</file>
+                <argument name="file" xsi:type="string">Magento_Webhook::css/modal.css</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Webhook::js/webhook.js</file>
+                <argument name="file" xsi:type="string">Magento_Webhook::js/webhook.js</argument>
             </action>
         </reference>
         <update handle="adminhtml_webhook_subscription_grid"/>

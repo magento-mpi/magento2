@@ -12,15 +12,15 @@
         <label>Catalog Product Compare List</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>popup.phtml</template>
+                <argument name="template" xsi:type="string">popup.phtml</argument>
             </action>
         </reference>
         <reference name="head">
             <action method="addJs">
-                <file>scriptaculous/scriptaculous.js</file>
+                <argument name="file" xsi:type="string">scriptaculous/scriptaculous.js</argument>
             </action>
             <action method="addJs">
-                <file>varien/product.js</file>
+                <argument name="file" xsi:type="string">varien/product.js</argument>
             </action>
         </reference>
         <reference name="content">

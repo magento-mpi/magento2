@@ -11,7 +11,7 @@
     <handle id="catalog_product_view_type_bundle">
         <reference name="product.info">
             <action method="setTemplate">
-                <template>Magento_Bundle::catalog/product/view.phtml</template>
+                <argument name="template" xsi:type="string">Magento_Bundle::catalog/product/view.phtml</argument>
             </action>
             <block class="Magento_Bundle_Block_Catalog_Product_View" name="bundle.summary" as="bundleSummary" after="product.info.bundle" template="catalog/product/view/summary.phtml" translate="label">
                 <block class="Magento_Catalog_Block_Product_View" name="product.info.addtocart.bundle" as="addtocart" template="product/view/addtocart.phtml"/>
@@ -26,13 +26,13 @@
         <reference name="product.info.options.wrapper.bottom">
             <block class="Magento_Bundle_Block_Catalog_Product_View" name="bundle.back.button" as="backButton" after="-" template="catalog/product/view/backbutton.phtml"/>
             <action method="unsetChild">
-                <block>addtocart</block>
+                <argument name="block" xsi:type="string">addtocart</argument>
             </action>
             <action method="setHideRequiredNotice">
-                <flag>1</flag>
+                <argument name="flag" xsi:type="string">1</argument>
             </action>
             <action method="unsetChild">
-                <block>addto</block>
+                <argument name="block" xsi:type="string">addto</argument>
             </action>
         </reference>
     </handle>

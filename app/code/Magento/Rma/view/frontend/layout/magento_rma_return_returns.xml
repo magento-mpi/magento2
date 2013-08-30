@@ -21,29 +21,29 @@
         </reference>
         <reference name="sales.order.info">
             <action method="addLink" translate="label" module="Magento_Sales">
-                <name>view</name>
-                <path>sales/order/view</path>
-                <label>Order Information</label>
+                <argument name="name" xsi:type="string">view</argument>
+                <argument name="path" xsi:type="string">sales/order/view</argument>
+                <argument name="label" xsi:type="string">Order Information</argument>
             </action>
             <action method="addLink" translate="label" module="Magento_Sales">
-                <name>invoice</name>
-                <path>sales/order/invoice</path>
-                <label>Invoices</label>
+                <argument name="name" xsi:type="string">invoice</argument>
+                <argument name="path" xsi:type="string">sales/order/invoice</argument>
+                <argument name="label" xsi:type="string">Invoices</argument>
             </action>
             <action method="addLink" translate="label" module="Magento_Sales">
-                <name>shipment</name>
-                <path>sales/order/shipment</path>
-                <label>Shipments</label>
+                <argument name="name" xsi:type="string">shipment</argument>
+                <argument name="path" xsi:type="string">sales/order/shipment</argument>
+                <argument name="label" xsi:type="string">Shipments</argument>
             </action>
             <action method="addLink" translate="label" module="Magento_Sales">
-                <name>creditmemo</name>
-                <path>sales/order/creditmemo</path>
-                <label>Refunds</label>
+                <argument name="name" xsi:type="string">creditmemo</argument>
+                <argument name="path" xsi:type="string">sales/order/creditmemo</argument>
+                <argument name="label" xsi:type="string">Refunds</argument>
             </action>
             <action method="addLink" translate="label" module="Magento_Sales">
-                <name>returns</name>
-                <path/>
-                <label>Returns</label>
+                <argument name="name" xsi:type="string">returns</argument>
+                <argument name="path" xsi:type="string"/>
+                <argument name="label" xsi:type="string">Returns</argument>
             </action>
         </reference>
     </handle>

@@ -12,15 +12,15 @@
         <label>Contact Us Form</label>
         <reference name="head">
             <action method="setTitle" translate="title">
-                <title>Contact Us</title>
+                <argument name="title" xsi:type="string">Contact Us</argument>
             </action>
         </reference>
         <reference name="root">
             <action method="setTemplate">
-                <template>2columns-right.phtml</template>
+                <argument name="template" xsi:type="string">2columns-right.phtml</argument>
             </action>
             <action method="setHeaderTitle" translate="title">
-                <title>Contact Us</title>
+                <argument name="title" xsi:type="string">Contact Us</argument>
             </action>
         </reference>
         <reference name="content">

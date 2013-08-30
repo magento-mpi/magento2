@@ -11,23 +11,23 @@
     <handle id="review_product_list">
         <reference name="root">
             <action method="setMyClass">
-                <value>review-product-page</value>
+                <argument name="value" xsi:type="string">review-product-page</argument>
             </action>
         </reference>
         <reference name="head">
             <action method="removeItem">
-                <type>js</type>
-                <name>jquery/jqzoom/js/jquery.jqzoom-core-pack.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
             </action>
             <action method="removeItem">
-                <type>css</type>
-                <name>jquery/jqzoom/css/jquery.jqzoom.css</name>
+                <argument name="type" xsi:type="string">css</argument>
+                <argument name="name" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
             </action>
             <action method="addJs">
-                <file>varien/product.js</file>
+                <argument name="file" xsi:type="string">varien/product.js</argument>
             </action>
             <action method="addJs">
-                <file>varien/configurable.js</file>
+                <argument name="file" xsi:type="string">varien/configurable.js</argument>
             </action>
         </reference>
         <remove name="product.info.media"/>

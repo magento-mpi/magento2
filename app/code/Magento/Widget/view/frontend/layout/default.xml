@@ -11,7 +11,7 @@
     <handle id="default">
         <reference name="head">
             <action method="addCss">
-                <file>Magento_Widget::widgets.css</file>
+                <argument name="file" xsi:type="string">Magento_Widget::widgets.css</argument>
             </action>
         </reference>
     </handle>

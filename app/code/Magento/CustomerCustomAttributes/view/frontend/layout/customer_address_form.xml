@@ -12,7 +12,7 @@
         <reference name="customer_address_edit">
             <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
                 <action method="setFormCode">
-                    <code>customer_address_edit</code>
+                    <argument name="code" xsi:type="string">customer_address_edit</argument>
                 </action>
             </block>
         </reference>

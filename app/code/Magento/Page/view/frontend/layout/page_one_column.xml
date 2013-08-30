@@ -12,14 +12,14 @@
         <label>All One-Column Layout Pages</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
             <!-- Mark root page block that template is applied -->
             <action method="setIsHandle">
-                <applied>1</applied>
+                <argument name="applied" xsi:type="string">1</argument>
             </action>
             <action method="setLayoutCode">
-                <name>one_column</name>
+                <argument name="name" xsi:type="string">one_column</argument>
             </action>
         </reference>
     </handle>

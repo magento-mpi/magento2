@@ -11,22 +11,22 @@
     <handle id="adminhtml_widget_instance_edit">
         <reference name="head">
             <action method="setCanLoadExtJs">
-                <flag>1</flag>
+                <argument name="flag" xsi:type="string">1</argument>
             </action>
             <action method="addJs">
-                <file>mage/adminhtml/wysiwyg/widget.js</file>
+                <argument name="file" xsi:type="string">mage/adminhtml/wysiwyg/widget.js</argument>
             </action>
             <action method="addJs">
-                <file>prototype/window.js</file>
+                <argument name="file" xsi:type="string">prototype/window.js</argument>
             </action>
             <action method="addCss">
-                <file>prototype/windows/themes/default.css</file>
+                <argument name="file" xsi:type="string">prototype/windows/themes/default.css</argument>
             </action>
             <action method="addCss">
-                <file>Magento_Core::prototype/magento.css</file>
+                <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
             </action>
             <action method="addCss">
-                <file>Magento_Widget::css/styles.css</file>
+                <argument name="file" xsi:type="string">Magento_Widget::css/styles.css</argument>
             </action>
         </reference>
         <reference name="content">
@@ -38,16 +38,16 @@
                 <block class="Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main" name="widget_instance_edit_tab_main"/>
                 <block class="Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties" name="widget_instance_edit_tab_properties"/>
                 <action method="addTab">
-                    <name>settings_section</name>
-                    <block>widget_instance_edit_tab_settings</block>
+                    <argument name="name" xsi:type="string">settings_section</argument>
+                    <argument name="block" xsi:type="string">widget_instance_edit_tab_settings</argument>
                 </action>
                 <action method="addTab">
-                    <name>main_section</name>
-                    <block>widget_instance_edit_tab_main</block>
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">widget_instance_edit_tab_main</argument>
                 </action>
                 <action method="addTab">
-                    <name>properties_section</name>
-                    <block>widget_instance_edit_tab_properties</block>
+                    <argument name="name" xsi:type="string">properties_section</argument>
+                    <argument name="block" xsi:type="string">widget_instance_edit_tab_properties</argument>
                 </action>
             </block>
         </reference>

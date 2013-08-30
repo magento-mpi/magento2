@@ -12,198 +12,195 @@
         <reference name="sales_order.grid.container">
             <block class="Magento_Adminhtml_Block_Sales_Order_Grid" name="sales.order.grid" as="grid">
                 <arguments>
-                    <id>sales_order_grid</id>
-                    <dataSource type="object">Magento_Sales_Model_Resource_Order_Grid_Collection</dataSource>
-                    <use_ajax>true</use_ajax>
-                    <default_sort>created_at</default_sort>
-                    <default_dir>DESC</default_dir>
-                    <save_parameters_in_session>1</save_parameters_in_session>
-                    <grid_url type="url">
-                        <path>*/*/grid</path>
-                        <params>
-                            <_current>1</_current>
-                        </params>
-                    </grid_url>
-                    <rssList>
-                        <orders>
-                            <url>rss/order/new</url>
-                            <label translate="true">New Order RSS</label>
-                        </orders>
-                    </rssList>
+                    <argument name="id" xsi:type="string">sales_order_grid</argument>
+                    <argument name="dataSource" xsi:type="string">Magento_Sales_Model_Resource_Order_Grid_Collection</argument>
+                    <argument name="use_ajax" xsi:type="string">true</argument>
+                    <argument name="default_sort" xsi:type="string">created_at</argument>
+                    <argument name="default_dir" xsi:type="string">DESC</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+                    <argument name="grid_url" xsi:type="url" path="*/*/grid">
+                        <param name="_current">1</param>
+                    </argument>
+                    <argument name="rssList" xsi:type="array">
+                        <item name="orders" xsi:type="array">
+                            <item name="url" xsi:type="string">rss/order/new</item>
+                            <item name="label" xsi:type="string" translate="true">New Order RSS</item>
+                        </item>
+                    </argument>
                 </arguments>
                 <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="sales.order.grid.massaction" as="grid.massaction">
                     <arguments>
-                        <massaction_id_field>entity_id</massaction_id_field>
-                        <form_field_name>order_ids</form_field_name>
-                        <use_select_all>0</use_select_all>
-                        <options>
+                        <argument name="massaction_id_field" xsi:type="string">entity_id</argument>
+                        <argument name="form_field_name" xsi:type="string">order_ids</argument>
+                        <argument name="use_select_all" xsi:type="string">0</argument>
+                        <argument name="options" xsi:type="array">
                             <updater>Magento_Sales_Model_Order_Grid_Massaction_ItemsUpdater</updater>
-                            <cancel_order>
-                                <label translate="true">Cancel</label>
-                                <url>*/sales_order/massCancel</url>
-                            </cancel_order>
-                            <hold_order>
-                                <label translate="true">Hold</label>
-                                <url>*/sales_order/massHold</url>
-                            </hold_order>
-                            <unhold_order>
-                                <label translate="true">Unhold</label>
-                                <url>*/sales_order/massUnhold</url>
-                            </unhold_order>
-                            <pdfinvoices_order>
-                                <label translate="true">Print Invoices</label>
-                                <url>*/sales_order/pdfinvoices</url>
-                            </pdfinvoices_order>
-                            <pdfshipments_order>
-                                <label translate="true">Print Packing Slips</label>
-                                <url>*/sales_order/pdfshipments</url>
-                            </pdfshipments_order>
-                            <pdfcreditmemos_order>
-                                <label translate="true">Print Credit Memos</label>
-                                <url>*/sales_order/pdfcreditmemos</url>
-                            </pdfcreditmemos_order>
-                            <pdfdocs_order>
-                                <label translate="true">Print All</label>
-                                <url>*/sales_order/pdfdocs</url>
-                            </pdfdocs_order>
-                            <print_shipping_label>
-                                <label translate="true">Print Shipping Labels</label>
-                                <url>*/sales_order_shipment/massPrintShippingLabel</url>
-                            </print_shipping_label>
-                        </options>
+                            <item name="cancel_order" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Cancel</item>
+                                <item name="url" xsi:type="string">*/sales_order/massCancel</item>
+                            </item>
+                            <item name="hold_order" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Hold</item>
+                                <item name="url" xsi:type="string">*/sales_order/massHold</item>
+                            </item>
+                            <item name="unhold_order" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Unhold</item>
+                                <item name="url" xsi:type="string">*/sales_order/massUnhold</item>
+                            </item>
+                            <item name="pdfinvoices_order" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Print Invoices</item>
+                                <item name="url" xsi:type="string">*/sales_order/pdfinvoices</item>
+                            </item>
+                            <item name="pdfshipments_order" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Print Packing Slips</item>
+                                <item name="url" xsi:type="string">*/sales_order/pdfshipments</item>
+                            </item>
+                            <item name="pdfcreditmemos_order" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Print Credit Memos</item>
+                                <item name="url" xsi:type="string">*/sales_order/pdfcreditmemos</item>
+                            </item>
+                            <item name="pdfdocs_order" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Print All</item>
+                                <item name="url" xsi:type="string">*/sales_order/pdfdocs</item>
+                            </item>
+                            <item name="print_shipping_label" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Print Shipping Labels</item>
+                                <item name="url" xsi:type="string">*/sales_order_shipment/massPrintShippingLabel</item>
+                            </item>
+                        </argument>
                     </arguments>
                 </block>
                 <block class="Magento_Backend_Block_Widget_Grid_Export" name="sales.order.grid.export" as="grid.export">
                     <arguments>
-                        <exportTypes>
-                            <csv>
-                                <urlPath>*/*/exportCsv</urlPath>
-                                <label translate="true">CSV</label>
-                            </csv>
-                            <excel>
-                                <urlPath>*/*/exportExcel</urlPath>
-                                <label translate="true">Excel XML</label>
-                            </excel>
-                        </exportTypes>
+                        <argument name="exportTypes" xsi:type="array">
+                            <item name="csv" xsi:type="array">
+                                <item name="urlPath" xsi:type="string">*/*/exportCsv</item>
+                                <item name="label" xsi:type="string" translate="true">CSV</item>
+                            </item>
+                            <item name="excel" xsi:type="array">
+                                <item name="urlPath" xsi:type="string">*/*/exportExcel</item>
+                                <item name="label" xsi:type="string" translate="true">Excel XML</item>
+                            </item>
+                        </argument>
                     </arguments>
                 </block>
                 <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="sales.order.grid.columnSet">
                     <arguments>
-                        <id>sales_order_grid</id>
-                        <rowUrl>
-                            <generatorClass>Magento_Sales_Model_Order_Grid_Row_UrlGenerator</generatorClass>
-                            <path>*/sales_order/view</path>
-                            <extraParamsTemplate>
-                                <order_id>getId</order_id>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="id" xsi:type="string">sales_order_grid</argument>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="generatorClass" xsi:type="string">Magento_Sales_Model_Order_Grid_Row_UrlGenerator</item>
+                            <item name="path" xsi:type="string">*/sales_order/view</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="order_id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
                     </arguments>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="real_order_id">
                         <arguments>
-                            <header translate="true">Order</header>
-                            <type>text</type>
-                            <index>increment_id</index>
-                            <id>real_order_id</id>
-                            <header_css_class>col-order-number</header_css_class>
-                            <column_css_class>col-order-number</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Order</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">increment_id</argument>
+                            <argument name="id" xsi:type="string">real_order_id</argument>
+                            <argument name="header_css_class" xsi:type="string">col-order-number</argument>
+                            <argument name="column_css_class" xsi:type="string">col-order-number</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
-                            <header translate="true">Purchase Point</header>
-                            <type>store</type>
-                            <store_view>1</store_view>
-                            <display_deleted>1</display_deleted>
-                            <index>store_id</index>
-                            <id>store_id</id>
-                            <header_css_class>col-from-store</header_css_class>
-                            <column_css_class>col-from-store</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Purchase Point</argument>
+                            <argument name="type" xsi:type="string">store</argument>
+                            <argument name="store_view" xsi:type="string">1</argument>
+                            <argument name="display_deleted" xsi:type="string">1</argument>
+                            <argument name="index" xsi:type="string">store_id</argument>
+                            <argument name="id" xsi:type="string">store_id</argument>
+                            <argument name="header_css_class" xsi:type="string">col-from-store</argument>
+                            <argument name="column_css_class" xsi:type="string">col-from-store</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="created_at">
                         <arguments>
-                            <header translate="true">Purchase Date</header>
-                            <type>datetime</type>
-                            <index>created_at</index>
-                            <id>created_at</id>
-                            <header_css_class>col-period</header_css_class>
-                            <column_css_class>col-period</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Purchase Date</argument>
+                            <argument name="type" xsi:type="string">datetime</argument>
+                            <argument name="index" xsi:type="string">created_at</argument>
+                            <argument name="id" xsi:type="string">created_at</argument>
+                            <argument name="header_css_class" xsi:type="string">col-period</argument>
+                            <argument name="column_css_class" xsi:type="string">col-period</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="billing_name">
                         <arguments>
-                            <id>billing_name</id>
-                            <header translate="true">Bill-to Name</header>
-                            <index>billing_name</index>
-                            <header_css_class>col-bill-to-name</header_css_class>
-                            <column_css_class>col-bill-to-name</column_css_class>
+                            <argument name="id" xsi:type="string">billing_name</argument>
+                            <argument name="header" xsi:type="string" translate="true">Bill-to Name</argument>
+                            <argument name="index" xsi:type="string">billing_name</argument>
+                            <argument name="header_css_class" xsi:type="string">col-bill-to-name</argument>
+                            <argument name="column_css_class" xsi:type="string">col-bill-to-name</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="shipping_name">
                         <arguments>
-                            <id>shipping_name</id>
-                            <header translate="true">Ship-to Name</header>
-                            <index>shipping_name</index>
-                            <header_css_class>col-ship-to-name</header_css_class>
-                            <column_css_class>col-ship-to-name</column_css_class>
+                            <argument name="id" xsi:type="string">shipping_name</argument>
+                            <argument name="header" xsi:type="string" translate="true">Ship-to Name</argument>
+                            <argument name="index" xsi:type="string">shipping_name</argument>
+                            <argument name="header_css_class" xsi:type="string">col-ship-to-name</argument>
+                            <argument name="column_css_class" xsi:type="string">col-ship-to-name</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="base_grand_total">
                         <arguments>
-                            <id>base_grand_total</id>
-                            <header translate="true">Grand Total (Base)</header>
-                            <type>currency</type>
-                            <currency>base_currency_code</currency>
-                            <index>base_grand_total</index>
-                            <header_css_class>col-gtbase</header_css_class>
-                            <column_css_class>col-gtbase</column_css_class>
+                            <argument name="id" xsi:type="string">base_grand_total</argument>
+                            <argument name="header" xsi:type="string" translate="true">Grand Total (Base)</argument>
+                            <argument name="type" xsi:type="string">currency</argument>
+                            <argument name="currency" xsi:type="string">base_currency_code</argument>
+                            <argument name="index" xsi:type="string">base_grand_total</argument>
+                            <argument name="header_css_class" xsi:type="string">col-gtbase</argument>
+                            <argument name="column_css_class" xsi:type="string">col-gtbase</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="grand_total">
                         <arguments>
-                            <id>grand_total</id>
-                            <header translate="true">Grand Total (Purchased)</header>
-                            <type>currency</type>
-                            <currency>order_currency_code</currency>
-                            <rate>1</rate>
-                            <index>grand_total</index>
-                            <header_css_class>col-gtpurchased</header_css_class>
-                            <column_css_class>col-gtpurchased</column_css_class>
+                            <argument name="id" xsi:type="string">grand_total</argument>
+                            <argument name="header" xsi:type="string" translate="true">Grand Total (Purchased)</argument>
+                            <argument name="type" xsi:type="string">currency</argument>
+                            <argument name="currency" xsi:type="string">order_currency_code</argument>
+                            <argument name="rate" xsi:type="string">1</argument>
+                            <argument name="index" xsi:type="string">grand_total</argument>
+                            <argument name="header_css_class" xsi:type="string">col-gtpurchased</argument>
+                            <argument name="column_css_class" xsi:type="string">col-gtpurchased</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
-                            <id>status</id>
-                            <header translate="true">Status</header>
-                            <type>options</type>
-                            <currency>order_currency_code</currency>
-                            <index>status</index>
-                            <options type="options">Magento_Sales_Model_Resource_Order_Grid_StatusesArray</options>
-                            <header_css_class>col-status</header_css_class>
-                            <column_css_class>col-status</column_css_class>
+                            <argument name="id" xsi:type="string">status</argument>
+                            <argument name="header" xsi:type="string" translate="true">Status</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="currency" xsi:type="string">order_currency_code</argument>
+                            <argument name="index" xsi:type="string">status</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Sales_Model_Resource_Order_Grid_StatusesArray"/>
+                            <argument name="header_css_class" xsi:type="string">col-status</argument>
+                            <argument name="column_css_class" xsi:type="string">col-status</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="action" acl="Magento_Sales::actions_view">
                         <arguments>
-                            <id>action</id>
-                            <header translate="true">Action</header>
-                            <type>action</type>
-                            <getter>getId</getter>
-                            <filter>0</filter>
-                            <sortable>0</sortable>
-                            <index>stores</index>
-                            <is_system>1</is_system>
-                            <actions>
-                                <view_action>
-                                    <caption translate="true">View</caption>
-                                    <url>
-                                        <base>*/sales_order/view</base>
-                                    </url>
-                                    <field>order_id</field>
-                                </view_action>
-                            </actions>
-                            <header_css_class>col-actions</header_css_class>
-                            <column_css_class>col-actions</column_css_class>
+                            <argument name="id" xsi:type="string">action</argument>
+                            <argument name="header" xsi:type="string" translate="true">Action</argument>
+                            <argument name="type" xsi:type="string">action</argument>
+                            <argument name="getter" xsi:type="string">getId</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="index" xsi:type="string">stores</argument>
+                            <argument name="is_system" xsi:type="string">1</argument>
+                            <argument name="actions" xsi:type="array">
+                                <item name="view_action" xsi:type="array">
+                                    <item name="caption" xsi:type="string" translate="true">View</item>
+                                    <item name="url" xsi:type="array">
+                                        <item name="base" xsi:type="string">*/sales_order/view</item>
+                                    </item>
+                                    <item name="field" xsi:type="string">order_id</item>
+                                </item>
+                            </argument>
+                            <argument name="header_css_class" xsi:type="string">col-actions</argument>
+                            <argument name="column_css_class" xsi:type="string">col-actions</argument>
                         </arguments>
                     </block>
                 </block>

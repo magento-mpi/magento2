@@ -14,22 +14,22 @@
             <block class="Magento_Adminhtml_Block_Report_Sales_Sales" template="report/grid/container.phtml" name="sales.report.grid.container">
                 <block class="Magento_Backend_Block_Store_Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName">
-                        <var_name>store_ids</var_name>
+                        <argument name="var_name" xsi:type="string">store_ids</argument>
                     </action>
                 </block>
                 <block class="Magento_Sales_Block_Adminhtml_Report_Filter_Form_Order" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
-                        <key>created_at_order</key>
-                        <value>Order Created Date</value>
+                        <argument name="key" xsi:type="string">created_at_order</argument>
+                        <argument name="value" xsi:type="string">Order Created Date</argument>
                     </action>
                     <action method="addReportTypeOption" translate="value">
-                        <key>updated_at_order</key>
-                        <value>Order Updated Date</value>
+                        <argument name="key" xsi:type="string">updated_at_order</argument>
+                        <argument name="value" xsi:type="string">Order Updated Date</argument>
                     </action>
                     <action method="setFieldOption" translate="value">
-                        <field>report_type</field>
-                        <option>note</option>
-                        <value>The Order Updated Date report is displayed in real-time, and does not need to be refreshed.</value>
+                        <argument name="field" xsi:type="string">report_type</argument>
+                        <argument name="option" xsi:type="string">note</argument>
+                        <argument name="value" xsi:type="string">The Order Updated Date report is displayed in real-time, and does not need to be refreshed.</argument>
                     </action>
                 </block>
             </block>

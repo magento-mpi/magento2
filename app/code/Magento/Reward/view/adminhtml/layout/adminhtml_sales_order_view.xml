@@ -12,15 +12,15 @@
         <reference name="order_totals">
             <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward_points" template="Magento_Reward::sales/order/total.phtml">
                 <action method="setBeforeCondition">
-                    <condition>customerbalance</condition>
+                    <argument name="condition" xsi:type="string">customerbalance</argument>
                 </action>
             </block>
             <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward.points.refunded" template="Magento_Reward::sales/order/refunded.phtml">
                 <action method="setDisplayArea">
-                    <area>footer</area>
+                    <argument name="area" xsi:type="string">footer</argument>
                 </action>
                 <action method="setAfterCondition">
-                    <condition>last</condition>
+                    <argument name="condition" xsi:type="string">last</argument>
                 </action>
             </block>
         </reference>

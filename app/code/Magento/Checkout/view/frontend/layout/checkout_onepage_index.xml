@@ -12,7 +12,7 @@
         <label>One Page Checkout</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>2columns-right.phtml</template>
+                <argument name="template" xsi:type="string">2columns-right.phtml</argument>
             </action>
         </reference>
         <reference name="right">
@@ -35,8 +35,8 @@
                 <block class="Magento_Checkout_Block_Onepage_Payment" name="checkout.onepage.payment" as="payment" template="onepage/payment.phtml">
                     <block class="Magento_Checkout_Block_Onepage_Payment_Methods" name="checkout.payment.methods" as="methods" template="onepage/payment/methods.phtml">
                         <action method="setMethodFormTemplate">
-                            <method>purchaseorder</method>
-                            <template>Magento_Payment::form/purchaseorder.phtml</template>
+                            <argument name="method" xsi:type="string">purchaseorder</argument>
+                            <argument name="template" xsi:type="string">Magento_Payment::form/purchaseorder.phtml</argument>
                         </action>
                     </block>
                 </block>

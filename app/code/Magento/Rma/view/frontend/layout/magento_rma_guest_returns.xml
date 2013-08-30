@@ -12,7 +12,7 @@
         <label>Guest Order Returns View</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
         </reference>
         <reference name="content">
@@ -25,29 +25,29 @@
         </reference>
         <reference name="sales.order.info">
             <action method="addLink" translate="label">
-                <name>view</name>
-                <path>sales/guest/view</path>
-                <label>Order Information</label>
+                <argument name="name" xsi:type="string">view</argument>
+                <argument name="path" xsi:type="string">sales/guest/view</argument>
+                <argument name="label" xsi:type="string">Order Information</argument>
             </action>
             <action method="addLink" translate="label">
-                <name>invoice</name>
-                <path>sales/guest/invoice</path>
-                <label>Invoices</label>
+                <argument name="name" xsi:type="string">invoice</argument>
+                <argument name="path" xsi:type="string">sales/guest/invoice</argument>
+                <argument name="label" xsi:type="string">Invoices</argument>
             </action>
             <action method="addLink" translate="label">
-                <name>shipment</name>
-                <path>sales/guest/shipment</path>
-                <label>Shipments</label>
+                <argument name="name" xsi:type="string">shipment</argument>
+                <argument name="path" xsi:type="string">sales/guest/shipment</argument>
+                <argument name="label" xsi:type="string">Shipments</argument>
             </action>
             <action method="addLink" translate="label">
-                <name>creditmemo</name>
-                <path>sales/guest/creditmemo</path>
-                <label>Refunds</label>
+                <argument name="name" xsi:type="string">creditmemo</argument>
+                <argument name="path" xsi:type="string">sales/guest/creditmemo</argument>
+                <argument name="label" xsi:type="string">Refunds</argument>
             </action>
             <action method="addLink" translate="label">
-                <name>returns</name>
-                <path/>
-                <label>Returns</label>
+                <argument name="name" xsi:type="string">returns</argument>
+                <argument name="path" xsi:type="string"/>
+                <argument name="label" xsi:type="string">Returns</argument>
             </action>
         </reference>
     </handle>

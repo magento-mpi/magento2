@@ -13,21 +13,21 @@
         <update handle="customer_account"/>
         <reference name="root">
             <action method="setHeaderTitle" translate="title">
-                <title>Edit Account Info</title>
+                <argument name="title" xsi:type="string">Edit Account Info</argument>
             </action>
         </reference>
         <reference name="my.account.wrapper">
             <block class="Magento_Customer_Block_Form_Edit" name="customer_edit" template="form/edit.phtml">
                 <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
                     <action method="setFormCode">
-                        <code>customer_account_edit</code>
+                        <argument name="code" xsi:type="string">customer_account_edit</argument>
                     </action>
                 </block>
             </block>
         </reference>
         <reference name="left">
             <action method="unsetChild">
-                <name>left.permanent.callout</name>
+                <argument name="name" xsi:type="string">left.permanent.callout</argument>
             </action>
         </reference>
         <update handle="customer_form_template_handle"/>

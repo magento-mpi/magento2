@@ -11,23 +11,23 @@
     <handle id="adminhtml_cms_page_edit_changes">
         <reference name="head">
             <action method="addJs">
-                <file>Magento_VersionsCms::cms.js</file>
+                <argument name="file" xsi:type="string">Magento_VersionsCms::cms.js</argument>
             </action>
         </reference>
         <reference name="cms_page_edit_tabs">
             <action method="removeTab">
-                <name>content_section</name>
+                <argument name="name" xsi:type="string">content_section</argument>
             </action>
             <action method="removeTab">
-                <name>design_section</name>
+                <argument name="name" xsi:type="string">design_section</argument>
             </action>
             <action method="removeTab">
-                <name>meta_section</name>
+                <argument name="name" xsi:type="string">meta_section</argument>
             </action>
             <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions" name="cms_page_edit_tab_versions"/>
             <action method="addTab">
-                <name>versions</name>
-                <block>cms_page_edit_tab_versions</block>
+                <argument name="name" xsi:type="string">versions</argument>
+                <argument name="block" xsi:type="string">cms_page_edit_tab_versions</argument>
             </action>
         </reference>
     </handle>

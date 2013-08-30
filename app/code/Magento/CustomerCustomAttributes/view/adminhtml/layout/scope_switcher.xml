@@ -13,10 +13,10 @@
         <reference name="left">
             <block class="Magento_Backend_Block_Store_Switcher" name="website_switcher" before="-" template="Magento_CustomerCustomAttributes::website/switcher.phtml">
                 <action method="setStoreVarName">
-                    <value>website</value>
+                    <argument name="value" xsi:type="string">website</argument>
                 </action>
                 <action method="setDefaultStoreName" translate="name">
-                    <name>Default Values</name>
+                    <argument name="name" xsi:type="string">Default Values</argument>
                 </action>
             </block>
         </reference>

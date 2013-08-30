@@ -12,7 +12,7 @@
         <reference name="top.container">
             <block class="Magento_Cms_Block_Block" name="cms.top.callout" before="-">
                 <action method="setBlockId">
-                    <block_id>top_callout</block_id>
+                    <argument name="block_id" xsi:type="string">top_callout</argument>
                 </action>
             </block>
         </reference>
@@ -22,19 +22,19 @@
         <block class="Magento_Catalog_Block_Product_Price_Template" name="catalog_product_price_template"/>
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
-                <type>msrp</type>
-                <block>Magento_Catalog_Block_Product_Price</block>
-                <template>product/price_msrp.phtml</template>
+                <argument name="type" xsi:type="string">msrp</argument>
+                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+                <argument name="template" xsi:type="string">product/price_msrp.phtml</argument>
             </action>
             <action method="addPriceBlockType">
-                <type>msrp_item</type>
-                <block>Magento_Catalog_Block_Product_Price</block>
-                <template>product/price_msrp_item.phtml</template>
+                <argument name="type" xsi:type="string">msrp_item</argument>
+                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+                <argument name="template" xsi:type="string">product/price_msrp_item.phtml</argument>
             </action>
             <action method="addPriceBlockType">
-                <type>msrp_noform</type>
-                <block>Magento_Catalog_Block_Product_Price</block>
-                <template>product/price_msrp_noform.phtml</template>
+                <argument name="type" xsi:type="string">msrp_noform</argument>
+                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+                <argument name="template" xsi:type="string">product/price_msrp_noform.phtml</argument>
             </action>
         </reference>
     </handle>

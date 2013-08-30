@@ -11,9 +11,9 @@
     <handle id="customer_account">
         <reference name="customer_account_navigation">
             <action method="addLink" translate="label" ifconfig="payment/pbridge/profilestatus">
-                <name>pbridge_payment_profile</name>
-                <path>magento_pbridge/payment_profile/</path>
-                <label>My Credit Cards</label>
+                <argument name="name" xsi:type="string">pbridge_payment_profile</argument>
+                <argument name="path" xsi:type="string">magento_pbridge/payment_profile/</argument>
+                <argument name="label" xsi:type="string">My Credit Cards</argument>
             </action>
         </reference>
     </handle>

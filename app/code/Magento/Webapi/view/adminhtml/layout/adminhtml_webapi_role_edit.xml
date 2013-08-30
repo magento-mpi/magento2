@@ -22,7 +22,7 @@
         </reference>
         <reference name="head">
             <action method="setCanLoadExtJs">
-                <flag>1</flag>
+                <argument name="flag" xsi:type="string">1</argument>
             </action>
         </reference>
         <reference name="js">

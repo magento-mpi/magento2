@@ -14,9 +14,9 @@
                 <block class="Magento_Rma_Block_Adminhtml_Rma" name="magento_rma"/>
             </block>
             <action method="addTabAfter">
-                <name>customer_edit_tab_rma</name>
-                <block>customer_edit_tab_rma</block>
-                <after>orders</after>
+                <argument name="name" xsi:type="string">customer_edit_tab_rma</argument>
+                <argument name="block" xsi:type="string">customer_edit_tab_rma</argument>
+                <argument name="after" xsi:type="string">orders</argument>
             </action>
         </reference>
     </handle>

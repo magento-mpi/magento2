@@ -19,8 +19,8 @@
                 </block>
             </block>
             <action method="addTab">
-                <name>grouped</name>
-                <block>catalog.product.edit.grouped.container</block>
+                <argument name="name" xsi:type="string">grouped</argument>
+                <argument name="block" xsi:type="string">catalog.product.edit.grouped.container</argument>
             </action>
         </reference>
     </handle>

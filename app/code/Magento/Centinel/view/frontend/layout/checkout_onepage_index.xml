@@ -11,7 +11,7 @@
     <handle id="checkout_onepage_index">
         <reference name="head">
             <action method="addJs">
-                <file>Magento_Centinel::centinel-authenticate.js</file>
+                <argument name="file" xsi:type="string">Magento_Centinel::centinel-authenticate.js</argument>
             </action>
         </reference>
     </handle>

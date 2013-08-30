@@ -11,7 +11,7 @@
     <handle id="customer_account_index">
         <reference name="right">
             <action method="unsetChild">
-                <name>wishlist</name>
+                <argument name="name" xsi:type="string">wishlist</argument>
             </action>
         </reference>
     </handle>

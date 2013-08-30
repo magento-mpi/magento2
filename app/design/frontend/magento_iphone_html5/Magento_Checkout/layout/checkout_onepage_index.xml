@@ -11,8 +11,8 @@
     <handle id="checkout_onepage_index">
         <reference name="head">
             <action method="removeItem">
-                <type>js</type>
-                <file>Magento_Checkout::js/opcheckout.js</file>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="file" xsi:type="string">Magento_Checkout::js/opcheckout.js</argument>
             </action>
         </reference>
         <remove name="checkout.progress"/>

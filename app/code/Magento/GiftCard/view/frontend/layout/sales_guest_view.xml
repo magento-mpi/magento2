@@ -11,9 +11,9 @@
     <handle id="sales_guest_view">
         <reference name="order_items">
             <action method="addItemRender">
-                <type>giftcard</type>
-                <block>Magento_GiftCard_Block_Sales_Order_Item_Renderer</block>
-                <template>Magento_Sales::order/items/renderer/default.phtml</template>
+                <argument name="type" xsi:type="string">giftcard</argument>
+                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Sales_Order_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">Magento_Sales::order/items/renderer/default.phtml</argument>
             </action>
         </reference>
     </handle>

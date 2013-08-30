@@ -11,24 +11,24 @@
     <handle id="print">
         <reference name="head">
             <action method="addCss">
-                <file>css/styles.css</file>
+                <argument name="file" xsi:type="string">css/styles.css</argument>
             </action>
             <action method="addCss">
-                <file>css/styles-ie.css</file>
-                <params/>
-                <if>lt IE 8</if>
+                <argument name="file" xsi:type="string">css/styles-ie.css</argument>
+                <argument name="params" xsi:type="string"/>
+                <argument name="if" xsi:type="string">lt IE 8</argument>
             </action>
             <action method="addCss">
-                <file>css/widgets.css</file>
+                <argument name="file" xsi:type="string">css/widgets.css</argument>
             </action>
             <action method="addCss">
-                <file>css/print.css</file>
-                <params>media="print"</params>
+                <argument name="file" xsi:type="string">css/print.css</argument>
+                <argument name="params" xsi:type="string">media="print"</argument>
             </action>
             <action method="addJs">
-                <file>lib/ds-sleight.js</file>
-                <params/>
-                <if>lt IE 7</if>
+                <argument name="file" xsi:type="string">lib/ds-sleight.js</argument>
+                <argument name="params" xsi:type="string"/>
+                <argument name="if" xsi:type="string">lt IE 7</argument>
             </action>
         </reference>
     </handle>

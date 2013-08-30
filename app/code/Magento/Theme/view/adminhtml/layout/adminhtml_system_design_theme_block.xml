@@ -12,57 +12,54 @@
         <reference name="design_theme">
             <block class="Magento_Backend_Block_Widget_Grid" name="theme.grid" as="grid">
                 <arguments>
-                    <id>theme_grid</id>
-                    <dataSource type="object">Magento_Core_Model_Resource_Theme_Grid_Collection</dataSource>
-                    <save_parameters_in_session>1</save_parameters_in_session>
-                    <use_ajax>1</use_ajax>
-                    <grid_url type="url">
-                        <path>*/*/grid</path>
-                        <params>
-                            <_current>1</_current>
-                        </params>
-                    </grid_url>
+                    <argument name="id" xsi:type="string">theme_grid</argument>
+                    <argument name="dataSource" xsi:type="string">Magento_Core_Model_Resource_Theme_Grid_Collection</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+                    <argument name="use_ajax" xsi:type="string">1</argument>
+                    <argument name="grid_url" xsi:type="url" path="*/*/grid">
+                        <param name="_current">1</param>
+                    </argument>
                 </arguments>
                 <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="theme.grid.columnSet">
                     <arguments>
-                        <id>theme_grid</id>
-                        <rowUrl>
-                            <path>*/*/edit</path>
-                            <extraParamsTemplate>
-                                <id>getId</id>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="id" xsi:type="string">theme_grid</argument>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
                     </arguments>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="theme_title">
                         <arguments>
-                            <header translate="true">Theme Title</header>
-                            <index>theme_title</index>
-                            <filter_index>main_table.theme_title</filter_index>
-                            <column_css_class>theme-title</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Theme Title</argument>
+                            <argument name="index" xsi:type="string">theme_title</argument>
+                            <argument name="filter_index" xsi:type="string">main_table.theme_title</argument>
+                            <argument name="column_css_class" xsi:type="string">theme-title</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="parent_theme_title">
                         <arguments>
-                            <header translate="true">Parent Theme</header>
-                            <index>parent_theme_title</index>
-                            <filter_index>parent.theme_title</filter_index>
-                            <column_css_class>parent-theme-title</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Parent Theme</argument>
+                            <argument name="index" xsi:type="string">parent_theme_title</argument>
+                            <argument name="filter_index" xsi:type="string">parent.theme_title</argument>
+                            <argument name="column_css_class" xsi:type="string">parent-theme-title</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="theme_path">
                         <arguments>
-                            <header translate="true">Theme Path</header>
-                            <index>theme_path</index>
-                            <filter_index>main_table.theme_path</filter_index>
-                            <column_css_class>theme-path</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Theme Path</argument>
+                            <argument name="index" xsi:type="string">theme_path</argument>
+                            <argument name="filter_index" xsi:type="string">main_table.theme_path</argument>
+                            <argument name="column_css_class" xsi:type="string">theme-path</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="theme_version">
                         <arguments>
-                            <header translate="true">Theme Version</header>
-                            <index>theme_version</index>
-                            <filter_index>main_table.theme_version</filter_index>
-                            <column_css_class>theme-version</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Theme Version</argument>
+                            <argument name="index" xsi:type="string">theme_version</argument>
+                            <argument name="filter_index" xsi:type="string">main_table.theme_version</argument>
+                            <argument name="column_css_class" xsi:type="string">theme-version</argument>
                         </arguments>
                     </block>
                 </block>

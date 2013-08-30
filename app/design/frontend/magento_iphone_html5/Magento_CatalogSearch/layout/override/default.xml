@@ -11,7 +11,7 @@
     <handle id="default">
         <reference name="head">
             <action method="addJS">
-                <file>Magento_CatalogSearch::form-mini.js</file>
+                <argument name="file" xsi:type="string">Magento_CatalogSearch::form-mini.js</argument>
             </action>
         </reference>
         <reference name="header">

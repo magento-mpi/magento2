@@ -15,10 +15,10 @@
         </reference>
         <reference name="product.info.options.wrapper.bottom">
             <action method="unsetChild">
-                <name>product.info.addto.additional</name>
+                <argument name="name" xsi:type="string">product.info.addto.additional</argument>
             </action>
             <action method="append">
-                <element>product.info.addto.additional</element>
+                <argument name="element" xsi:type="string">product.info.addto.additional</argument>
             </action>
         </reference>
     </handle>

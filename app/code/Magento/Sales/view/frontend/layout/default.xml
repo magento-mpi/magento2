@@ -15,7 +15,7 @@
         <reference name="footer_links">
             <block class="Magento_Sales_Block_Guest_Links" name="return_link"/>
             <action method="addLinkBlock">
-                <blockName>return_link</blockName>
+                <argument name="blockName" xsi:type="string">return_link</argument>
             </action>
         </reference>
     </handle>

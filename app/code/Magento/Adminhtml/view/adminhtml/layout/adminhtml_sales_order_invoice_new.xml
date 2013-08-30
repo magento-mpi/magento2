@@ -16,25 +16,25 @@
                     <block class="Magento_Adminhtml_Block_Sales_Order_Payment" name="order_payment"/>
                     <block class="Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items" name="order_items" template="sales/order/invoice/create/items.phtml">
                         <action method="addItemRender">
-                            <type>default</type>
-                            <block>Magento_Adminhtml_Block_Sales_Items_Renderer_Default</block>
-                            <template>sales/order/invoice/create/items/renderer/default.phtml</template>
+                            <argument name="type" xsi:type="string">default</argument>
+                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Renderer_Default</argument>
+                            <argument name="template" xsi:type="string">sales/order/invoice/create/items/renderer/default.phtml</argument>
                         </action>
                         <action method="addColumnRender">
-                            <column>qty</column>
-                            <block>Magento_Adminhtml_Block_Sales_Items_Column_Qty</block>
-                            <template>sales/items/column/qty.phtml</template>
+                            <argument name="column" xsi:type="string">qty</argument>
+                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Qty</argument>
+                            <argument name="template" xsi:type="string">sales/items/column/qty.phtml</argument>
                         </action>
                         <action method="addColumnRender">
-                            <column>name</column>
-                            <block>Magento_Adminhtml_Block_Sales_Items_Column_Name</block>
-                            <template>sales/items/column/name.phtml</template>
+                            <argument name="column" xsi:type="string">name</argument>
+                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Name</argument>
+                            <argument name="template" xsi:type="string">sales/items/column/name.phtml</argument>
                         </action>
                         <action method="addColumnRender">
-                            <column>name</column>
-                            <block>Magento_Adminhtml_Block_Sales_Items_Column_Name_Grouped</block>
-                            <template>sales/items/column/name.phtml</template>
-                            <type>grouped</type>
+                            <argument name="column" xsi:type="string">name</argument>
+                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Name_Grouped</argument>
+                            <argument name="template" xsi:type="string">sales/items/column/name.phtml</argument>
+                            <argument name="type" xsi:type="string">grouped</argument>
                         </action>
                         <block class="Magento_Core_Block_Text_List" name="order_item_extra_info"/>
                         <block class="Magento_Adminhtml_Block_Sales_Order_Totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"/>

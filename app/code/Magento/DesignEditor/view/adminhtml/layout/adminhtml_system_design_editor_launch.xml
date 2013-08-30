@@ -11,75 +11,75 @@
     <handle id="adminhtml_system_design_editor_launch">
         <reference name="root">
             <action method="setTemplate">
-                <file>Magento_DesignEditor::editor.phtml</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::editor.phtml</argument>
             </action>
         </reference>
         <reference name="head">
             <action method="setCanLoadExtJs">
-                <flag>1</flag>
+                <argument name="flag" xsi:type="string">1</argument>
             </action>
             <action method="addCss">
-                <file>jquery/fileUploader/css/jquery.fileupload-ui.css</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
             </action>
             <action method="addJs">
-                <file>jquery/jquery.tabs.js</file>
+                <argument name="file" xsi:type="string">jquery/jquery.tabs.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/jstree/jquery.jstree.js</file>
+                <argument name="file" xsi:type="string">jquery/jstree/jquery.jstree.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/slimScroll/slimScroll.min.js</file>
+                <argument name="file" xsi:type="string">jquery/slimScroll/slimScroll.min.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/tools.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/tools.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/tools-panel.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/tools-panel.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/custom-css.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/custom-css.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Theme::js/custom-js-list.js</file>
+                <argument name="file" xsi:type="string">Magento_Theme::js/custom-js-list.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/dialog.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/dialog.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/theme-assign.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/theme-assign.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/vde-frame.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/vde-frame.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/theme-save.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/theme-save.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/image-sizing.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/image-sizing.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/quick-style-element.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/quick-style-element.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.iframe-transport.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.iframe-transport.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload-fp.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload-fp.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/quick-style-uploader.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/quick-style-uploader.js</argument>
             </action>
             <action method="addCss">
-                <file>Magento_DesignEditor::css/styles.css</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::css/styles.css</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/message.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/message.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/tools-files.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/tools-files.js</argument>
             </action>
         </reference>
         <reference name="content">

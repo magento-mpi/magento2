@@ -11,13 +11,13 @@
     <handle id="adminhtml_catalog_product_bundle">
         <reference name="head">
             <action method="addCss">
-                <file>Magento_Bundle::css/bundle-product.css</file>
+                <argument name="file" xsi:type="string">Magento_Bundle::css/bundle-product.css</argument>
             </action>
         </reference>
         <reference name="product_tabs">
             <action method="addTab">
-                <name>bundle</name>
-                <block>Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle</block>
+                <argument name="name" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle</argument>
             </action>
         </reference>
     </handle>

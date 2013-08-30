@@ -15,17 +15,17 @@
                 <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="banners_grid_serializer">
                     <reference name="banners_grid_serializer">
                         <action method="initSerializerBlock">
-                            <grid_block_name>related_catalogrule_banners_grid</grid_block_name>
-                            <data_callback>getRelatedBannersByRule</data_callback>
-                            <hidden_input_name>related_banners</hidden_input_name>
-                            <reload_param_name>selected_catalogrule_banners</reload_param_name>
+                            <argument name="grid_block_name" xsi:type="string">related_catalogrule_banners_grid</argument>
+                            <argument name="data_callback" xsi:type="string">getRelatedBannersByRule</argument>
+                            <argument name="hidden_input_name" xsi:type="string">related_banners</argument>
+                            <argument name="reload_param_name" xsi:type="string">selected_catalogrule_banners</argument>
                         </action>
                     </reference>
                 </block>
             </block>
             <action method="addTab">
-                <name>banners_section</name>
-                <block>catalogrule.related.banners</block>
+                <argument name="name" xsi:type="string">banners_section</argument>
+                <argument name="block" xsi:type="string">catalogrule.related.banners</argument>
             </action>
             <block class="Magento_Banner_Block_Adminhtml_Permission_Monitor" name="bannner.permission.monitor"/>
         </reference>

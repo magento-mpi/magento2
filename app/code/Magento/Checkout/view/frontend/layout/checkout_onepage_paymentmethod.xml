@@ -13,8 +13,8 @@
         <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
             <block class="Magento_Checkout_Block_Onepage_Payment_Methods" name="payment_method" template="onepage/payment/methods.phtml">
                 <action method="setMethodFormTemplate">
-                    <method>purchaseorder</method>
-                    <template>Magento_Payment::form/purchaseorder.phtml</template>
+                    <argument name="method" xsi:type="string">purchaseorder</argument>
+                    <argument name="template" xsi:type="string">Magento_Payment::form/purchaseorder.phtml</argument>
                 </action>
             </block>
         </block>

@@ -12,7 +12,7 @@
         <update handle="page_one_column"/>
         <reference name="head">
             <action method="addJs">
-                <file>Magento_Checkout::js/opcheckout.js</file>
+                <argument name="file" xsi:type="string">Magento_Checkout::js/opcheckout.js</argument>
             </action>
         </reference>
         <move element="checkout.progress" destination="checkout.onepage" as="checkoutProgress" before="-"/>

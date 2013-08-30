@@ -11,7 +11,7 @@
     <handle id="adminhtml_sales_order_create_index">
         <reference name="head">
             <action method="addJs">
-                <file>mage/directpost.js</file>
+                <argument name="file" xsi:type="string">mage/directpost.js</argument>
             </action>
         </reference>
     </handle>

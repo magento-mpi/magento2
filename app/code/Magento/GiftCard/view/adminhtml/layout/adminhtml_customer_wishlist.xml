@@ -11,9 +11,9 @@
     <handle id="adminhtml_customer_wishlist">
         <reference name="customer.wishlist.edit.tab">
             <arguments>
-                <product_configuration_helpers>
-                    <giftcard>Magento_GiftCard_Helper_Catalog_Product_Configuration</giftcard>
-                </product_configuration_helpers>
+                <argument name="product_configuration_helpers" xsi:type="array">
+                    <item name="giftcard" xsi:type="string">Magento_GiftCard_Helper_Catalog_Product_Configuration</item>
+                </argument>
             </arguments>
         </reference>
     </handle>

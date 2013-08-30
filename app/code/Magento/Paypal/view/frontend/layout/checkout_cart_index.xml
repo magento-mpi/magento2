@@ -12,14 +12,14 @@
         <reference name="checkout.cart.top_methods">
             <block class="Magento_Paypal_Block_Express_Shortcut" name="checkout.cart.methods.paypal_express.top" before="-" template="express/shortcut.phtml">
                 <action method="setIsQuoteAllowed">
-                    <value>1</value>
+                    <argument name="value" xsi:type="string">1</argument>
                 </action>
             </block>
         </reference>
         <reference name="checkout.cart.methods">
             <block class="Magento_Paypal_Block_Express_Shortcut" name="checkout.cart.methods.paypal_express.bottom" before="-" template="express/shortcut.phtml">
                 <action method="setIsQuoteAllowed">
-                    <value>1</value>
+                    <argument name="value" xsi:type="string">1</argument>
                 </action>
             </block>
         </reference>

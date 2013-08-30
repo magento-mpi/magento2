@@ -11,9 +11,9 @@
     <handle id="sales_email_order_shipment_items">
         <block class="Magento_Sales_Block_Order_Email_Shipment_Items" name="items" template="email/shipment/items.phtml">
             <action method="addItemRender">
-                <type>default</type>
-                <block>Magento_Sales_Block_Order_Email_Items_Default</block>
-                <template>email/items/shipment/default.phtml</template>
+                <argument name="type" xsi:type="string">default</argument>
+                <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Email_Items_Default</argument>
+                <argument name="template" xsi:type="string">email/items/shipment/default.phtml</argument>
             </action>
         </block>
         <container name="additional.product.info" label="Additional Product Info"/>

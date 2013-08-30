@@ -11,9 +11,9 @@
     <handle id="customer_account">
         <reference name="customer_account_navigation">
             <action method="addLink" translate="label">
-                <name>downloadable_products</name>
-                <path>downloadable/customer/products</path>
-                <label>My Downloadable Products</label>
+                <argument name="name" xsi:type="string">downloadable_products</argument>
+                <argument name="path" xsi:type="string">downloadable/customer/products</argument>
+                <argument name="label" xsi:type="string">My Downloadable Products</argument>
             </action>
         </reference>
     </handle>

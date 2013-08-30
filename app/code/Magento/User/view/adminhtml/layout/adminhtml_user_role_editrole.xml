@@ -13,9 +13,9 @@
             <block class="Magento_User_Block_Role_Edit" name="adminhtml.user.editroles">
                 <block class="Magento_User_Block_Role_Tab_Edit" name="adminhtml.user.tab.rolesedit"/>
                 <action method="addTabAfter">
-                    <name>account</name>
-                    <block>adminhtml.user.tab.rolesedit</block>
-                    <after>info</after>
+                    <argument name="name" xsi:type="string">account</argument>
+                    <argument name="block" xsi:type="string">adminhtml.user.tab.rolesedit</argument>
+                    <argument name="after" xsi:type="string">info</argument>
                 </action>
             </block>
         </reference>

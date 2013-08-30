@@ -11,9 +11,9 @@
     <handle id="customer_account">
         <reference name="customer_account_navigation">
             <action method="addLink" translate="label">
-                <name>newsletter</name>
-                <path>newsletter/manage/</path>
-                <label>Newsletter Subscriptions</label>
+                <argument name="name" xsi:type="string">newsletter</argument>
+                <argument name="path" xsi:type="string">newsletter/manage/</argument>
+                <argument name="label" xsi:type="string">Newsletter Subscriptions</argument>
             </action>
         </reference>
         <remove name="newsletter_subscription"/>

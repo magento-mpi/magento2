@@ -12,14 +12,14 @@
         <update handle="page_one_column"/>
         <reference name="head">
             <action method="addJs">
-                <file>jquery/jqzoom/js/jquery.jqzoom-core-pack.js</file>
+                <argument name="file" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
             </action>
             <action method="addCss">
-                <file>jquery/jqzoom/css/jquery.jqzoom.css</file>
+                <argument name="file" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
             </action>
             <action method="removeItem">
-                <type>css</type>
-                <name>Magento_Catalog::zoom.css</name>
+                <argument name="type" xsi:type="string">css</argument>
+                <argument name="name" xsi:type="string">Magento_Catalog::zoom.css</argument>
             </action>
         </reference>
         <reference name="product.info">

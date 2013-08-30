@@ -11,9 +11,9 @@
     <handle id="customer_account">
         <reference name="customer_account_navigation">
             <action method="addLink" translate="label">
-                <name>magento_customerbalance</name>
-                <path>magento_customerbalance/info/</path>
-                <label>Store Credit</label>
+                <argument name="name" xsi:type="string">magento_customerbalance</argument>
+                <argument name="path" xsi:type="string">magento_customerbalance/info/</argument>
+                <argument name="label" xsi:type="string">Store Credit</argument>
             </action>
         </reference>
     </handle>

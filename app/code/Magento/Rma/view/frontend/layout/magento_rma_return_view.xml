@@ -12,7 +12,7 @@
         <label>Customer My Account Return View</label>
         <reference name="customer_account_navigation">
             <action method="setActive">
-                <path>rma/return/history/</path>
+                <argument name="path" xsi:type="string">rma/return/history/</argument>
             </action>
         </reference>
         <update handle="customer_account"/>

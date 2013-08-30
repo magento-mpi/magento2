@@ -12,19 +12,19 @@
         <reference name="checkout.onepage.billing">
             <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
                 <action method="setFormCode">
-                    <code>checkout_register</code>
+                    <argument name="code" xsi:type="string">checkout_register</argument>
                 </action>
             </block>
             <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes">
                 <action method="setFormCode">
-                    <code>customer_register_address</code>
+                    <argument name="code" xsi:type="string">customer_register_address</argument>
                 </action>
             </block>
         </reference>
         <reference name="checkout.onepage.shipping">
             <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
                 <action method="setFormCode">
-                    <code>customer_register_address</code>
+                    <argument name="code" xsi:type="string">customer_register_address</argument>
                 </action>
             </block>
         </reference>

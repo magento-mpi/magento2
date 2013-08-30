@@ -12,27 +12,27 @@
         <reference name="order_totals">
             <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Magento_CustomerBalance::sales/order/totals/customerbalance.phtml">
                 <action method="setSourceField">
-                    <value>customer_balance_amount</value>
+                    <argument name="value" xsi:type="string">customer_balance_amount</argument>
                 </action>
                 <action method="setLabel">
-                    <value>Store Credit</value>
+                    <argument name="value" xsi:type="string">Store Credit</argument>
                 </action>
             </block>
             <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
                 <action method="setSourceField">
-                    <value>customer_bal_total_refunded</value>
+                    <argument name="value" xsi:type="string">customer_bal_total_refunded</argument>
                 </action>
                 <action method="setLabel">
-                    <value>Refunded to Store Credit</value>
+                    <argument name="value" xsi:type="string">Refunded to Store Credit</argument>
                 </action>
                 <action method="setDisplayArea">
-                    <value>footer</value>
+                    <argument name="value" xsi:type="string">footer</argument>
                 </action>
                 <action method="setStrong">
-                    <flag>true</flag>
+                    <argument name="flag" xsi:type="string">true</argument>
                 </action>
                 <action method="setHtmlClass">
-                    <class>emph</class>
+                    <argument name="class" xsi:type="string">emph</argument>
                 </action>
             </block>
         </reference>

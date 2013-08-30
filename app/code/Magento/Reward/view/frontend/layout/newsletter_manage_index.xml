@@ -12,13 +12,13 @@
         <reference name="customer.newsletter.form.before">
             <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <type>Magento_Reward_Model_Action_Newsletter</type>
+                    <argument name="type" xsi:type="string">Magento_Reward_Model_Action_Newsletter</argument>
                 </action>
                 <action method="setWrapperClass">
-                    <class>reward-newsletter</class>
+                    <argument name="class" xsi:type="string">reward-newsletter</argument>
                 </action>
                 <action method="setRewardMessage" translate="message">
-                    <message>Subscribe to our newsletter now and earn %1.</message>
+                    <argument name="message" xsi:type="string">Subscribe to our newsletter now and earn %1.</argument>
                 </action>
             </block>
         </reference>

@@ -11,9 +11,9 @@
     <handle id="checkout_onepage_review">
         <reference name="order_review">
             <action method="addItemRender">
-                <type>giftcard</type>
-                <block>Magento_GiftCard_Block_Checkout_Cart_Item_Renderer</block>
-                <template>Magento_Checkout::onepage/review/item.phtml</template>
+                <argument name="type" xsi:type="string">giftcard</argument>
+                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Checkout_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">Magento_Checkout::onepage/review/item.phtml</argument>
             </action>
         </reference>
     </handle>

@@ -12,12 +12,12 @@
         <update handle="adminhtml_sales_order_grid_block"/>
         <reference name="sales.order.grid">
             <arguments>
-                <dataSource>
+                <argument name="dataSource" xsi:type="array">
                     <updater>Magento_Sales_Model_Billing_Agreement_OrdersUpdater</updater>
-                </dataSource>
-                <grid_url>
-                    <path>*/*/ordersgrid</path>
-                </grid_url>
+                </argument>
+                <argument name="grid_url" xsi:type="array">
+                    <item name="path" xsi:type="string">*/*/ordersgrid</item>
+                </argument>
             </arguments>
         </reference>
         <remove name="sales.order.grid.export"/>

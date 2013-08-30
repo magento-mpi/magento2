@@ -11,7 +11,7 @@
     <handle id="checkout_multishipping">
         <reference name="cart_sidebar">
             <action method="setIsLinkMode">
-                <param>1</param>
+                <argument name="param" xsi:type="string">1</argument>
             </action>
         </reference>
     </handle>

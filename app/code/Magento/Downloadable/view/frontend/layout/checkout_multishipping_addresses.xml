@@ -11,9 +11,9 @@
     <handle id="checkout_multishipping_addresses">
         <reference name="checkout_addresses">
             <action method="addItemRender">
-                <type>downloadable</type>
-                <block>Magento_Downloadable_Block_Checkout_Cart_Item_Renderer</block>
-                <template>checkout/multishipping/item/downloadable.phtml</template>
+                <argument name="type" xsi:type="string">downloadable</argument>
+                <argument name="block" xsi:type="string">Magento_Downloadable_Block_Checkout_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">checkout/multishipping/item/downloadable.phtml</argument>
             </action>
         </reference>
     </handle>

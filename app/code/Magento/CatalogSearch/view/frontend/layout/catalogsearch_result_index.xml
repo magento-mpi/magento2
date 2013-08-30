@@ -12,7 +12,7 @@
         <label>Quick Search Form</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>3columns.phtml</template>
+                <argument name="template" xsi:type="string">3columns.phtml</argument>
             </action>
         </reference>
         <reference name="left">
@@ -25,30 +25,30 @@
                         <block class="Magento_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                     </block>
                     <action method="addColumnCountLayoutDepend">
-                        <layout>empty</layout>
-                        <count>6</count>
+                        <argument name="layout" xsi:type="string">empty</argument>
+                        <argument name="count" xsi:type="string">6</argument>
                     </action>
                     <action method="addColumnCountLayoutDepend">
-                        <layout>one_column</layout>
-                        <count>5</count>
+                        <argument name="layout" xsi:type="string">one_column</argument>
+                        <argument name="count" xsi:type="string">5</argument>
                     </action>
                     <action method="addColumnCountLayoutDepend">
-                        <layout>two_columns_left</layout>
-                        <count>4</count>
+                        <argument name="layout" xsi:type="string">two_columns_left</argument>
+                        <argument name="count" xsi:type="string">4</argument>
                     </action>
                     <action method="addColumnCountLayoutDepend">
-                        <layout>two_columns_right</layout>
-                        <count>4</count>
+                        <argument name="layout" xsi:type="string">two_columns_right</argument>
+                        <argument name="count" xsi:type="string">4</argument>
                     </action>
                     <action method="addColumnCountLayoutDepend">
-                        <layout>three_columns</layout>
-                        <count>3</count>
+                        <argument name="layout" xsi:type="string">three_columns</argument>
+                        <argument name="count" xsi:type="string">3</argument>
                     </action>
                     <action method="setToolbarBlockName">
-                        <name>product_list_toolbar</name>
+                        <argument name="name" xsi:type="string">product_list_toolbar</argument>
                     </action>
                     <action method="setPageLayout">
-                        <layout>three_columns</layout>
+                        <argument name="layout" xsi:type="string">three_columns</argument>
                     </action>
                 </block>
                 <action method="setListOrders"/>

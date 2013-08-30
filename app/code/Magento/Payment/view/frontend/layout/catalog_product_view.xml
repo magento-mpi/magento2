@@ -12,10 +12,10 @@
         <reference name="product.info">
             <block class="Magento_Payment_Block_Catalog_Product_View_Profile" name="product.info.additional.recurring.schedule" as="recurring_info" template="catalog/product/view/profile/schedule.phtml">
                 <action method="addToParentGroup">
-                    <group>detailed_info</group>
+                    <argument name="group" xsi:type="string">detailed_info</argument>
                 </action>
                 <action method="setTitle" translate="value">
-                    <value>Recurring Profile</value>
+                    <argument name="value" xsi:type="string">Recurring Profile</argument>
                 </action>
             </block>
         </reference>

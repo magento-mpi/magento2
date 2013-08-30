@@ -12,7 +12,7 @@
         <reference name="creditmemo_totals">
             <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward_points" template="Magento_Reward::sales/order/total.phtml">
                 <action method="setBeforeCondition">
-                    <condition>customerbalance</condition>
+                    <argument name="condition" xsi:type="string">customerbalance</argument>
                 </action>
             </block>
         </reference>

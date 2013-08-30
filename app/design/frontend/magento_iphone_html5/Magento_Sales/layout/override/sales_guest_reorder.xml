@@ -11,7 +11,7 @@
     <handle id="sales_guest_reorder">
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
         </reference>
         <reference name="content">

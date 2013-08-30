@@ -12,60 +12,57 @@
         <reference name="adminhtml.system.design.container">
             <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.design.grid" as="grid">
                 <arguments>
-                    <id>designGrid</id>
-                    <dataSource type="object">Magento_Core_Model_Resource_Design_Collection</dataSource>
-                    <use_ajax>1</use_ajax>
-                    <save_parameters_in_session>1</save_parameters_in_session>
-                    <grid_url type="url">
-                        <path>*/*/grid</path>
-                        <params>
-                            <_current>1</_current>
-                        </params>
-                    </grid_url>
+                    <argument name="id" xsi:type="string">designGrid</argument>
+                    <argument name="dataSource" xsi:type="string">Magento_Core_Model_Resource_Design_Collection</argument>
+                    <argument name="use_ajax" xsi:type="string">1</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+                    <argument name="grid_url" xsi:type="url" path="*/*/grid">
+                        <param name="_current">1</param>
+                    </argument>
                 </arguments>
                 <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.system.design.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <id>designGrid</id>
-                        <rowUrl>
-                            <path>*/*/edit</path>
-                            <extraParamsTemplate>
-                                <id>getId</id>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="id" xsi:type="string">designGrid</argument>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
                     </arguments>
                     <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
-                            <header translate="true">Store</header>
-                            <width>100px</width>
-                            <type>store</type>
-                            <store_view>1</store_view>
-                            <sortable>0</sortable>
-                            <index>store_id</index>
+                            <argument name="header" xsi:type="string" translate="true">Store</argument>
+                            <argument name="width" xsi:type="string">100px</argument>
+                            <argument name="type" xsi:type="string">store</argument>
+                            <argument name="store_view" xsi:type="string">1</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="index" xsi:type="string">store_id</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="package">
                         <arguments>
-                            <header translate="true">Design</header>
-                            <width>150px</width>
-                            <index>design</index>
+                            <argument name="header" xsi:type="string" translate="true">Design</argument>
+                            <argument name="width" xsi:type="string">150px</argument>
+                            <argument name="index" xsi:type="string">design</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="date_from">
                         <arguments>
-                            <header translate="true">Date From</header>
-                            <align>left</align>
-                            <width>100px</width>
-                            <type>date</type>
-                            <index>date_from</index>
+                            <argument name="header" xsi:type="string" translate="true">Date From</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="width" xsi:type="string">100px</argument>
+                            <argument name="type" xsi:type="string">date</argument>
+                            <argument name="index" xsi:type="string">date_from</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="date_to">
                         <arguments>
-                            <header translate="true">Date To</header>
-                            <align>left</align>
-                            <width>100px</width>
-                            <type>date</type>
-                            <index>date_to</index>
+                            <argument name="header" xsi:type="string" translate="true">Date To</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="width" xsi:type="string">100px</argument>
+                            <argument name="type" xsi:type="string">date</argument>
+                            <argument name="index" xsi:type="string">date_to</argument>
                         </arguments>
                     </block>
                 </block>

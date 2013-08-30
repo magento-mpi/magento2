@@ -11,9 +11,9 @@
     <handle id="checkout_onepage_review">
         <reference name="order_review">
             <action method="addItemRender">
-                <type>downloadable</type>
-                <block>Magento_Downloadable_Block_Checkout_Cart_Item_Renderer</block>
-                <template>checkout/onepage/review/item.phtml</template>
+                <argument name="type" xsi:type="string">downloadable</argument>
+                <argument name="block" xsi:type="string">Magento_Downloadable_Block_Checkout_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">checkout/onepage/review/item.phtml</argument>
             </action>
         </reference>
     </handle>

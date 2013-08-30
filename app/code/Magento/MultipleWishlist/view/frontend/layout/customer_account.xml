@@ -11,9 +11,9 @@
     <handle id="customer_account">
         <reference name="customer_account_navigation">
             <action method="addLink" translate="label" ifconfig="wishlist/general/multiple_enabled">
-                <name>wishlist</name>
-                <path>wishlist/</path>
-                <label>My Wish Lists</label>
+                <argument name="name" xsi:type="string">wishlist</argument>
+                <argument name="path" xsi:type="string">wishlist/</argument>
+                <argument name="label" xsi:type="string">My Wish Lists</argument>
             </action>
         </reference>
     </handle>

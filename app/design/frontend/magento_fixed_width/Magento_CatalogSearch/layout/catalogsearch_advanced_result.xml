@@ -12,7 +12,7 @@
         <update handle="page_three_columns"/>
         <reference name="search_result_list">
             <action method="setPageLayout">
-                <layout>three_columns</layout>
+                <argument name="layout" xsi:type="string">three_columns</argument>
             </action>
         </reference>
     </handle>

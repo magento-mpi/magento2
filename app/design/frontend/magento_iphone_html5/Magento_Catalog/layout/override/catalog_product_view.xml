@@ -12,15 +12,15 @@
         <label>Catalog Product View (Any)</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
         </reference>
         <reference name="head">
             <action method="addJs">
-                <file>varien/product.js</file>
+                <argument name="file" xsi:type="string">varien/product.js</argument>
             </action>
             <action method="addJs">
-                <file>varien/configurable.js</file>
+                <argument name="file" xsi:type="string">varien/configurable.js</argument>
             </action>
         </reference>
         <update handle="page_calendar"/>
@@ -32,28 +32,28 @@
                 <block class="Magento_Catalog_Block_Product_View" name="product.tierprices" as="tierprices" template="product/view/tierprices.phtml"/>
                 <block class="Magento_Catalog_Block_Product_List_Upsell" name="product.info.upsell" as="upsell_products" template="product/list/upsell.phtml">
                     <action method="setColumnCount">
-                        <columns>4</columns>
+                        <argument name="columns" xsi:type="string">4</argument>
                     </action>
                     <action method="setItemLimit">
-                        <type>upsell</type>
-                        <limit>4</limit>
+                        <argument name="type" xsi:type="string">upsell</argument>
+                        <argument name="limit" xsi:type="string">4</argument>
                     </action>
                 </block>
                 <block class="Magento_Catalog_Block_Product_View_Additional" name="product.info.additional" as="product_additional_data"/>
                 <block class="Magento_Catalog_Block_Product_View_Description" name="product.description" as="description" template="product/view/description.phtml">
                     <action method="addToParentGroup">
-                        <group>detailed_info</group>
+                        <argument name="group" xsi:type="string">detailed_info</argument>
                     </action>
                     <action method="setTitle" translate="value">
-                        <value>Details</value>
+                        <argument name="value" xsi:type="string">Details</argument>
                     </action>
                 </block>
                 <block class="Magento_Catalog_Block_Product_View_Attributes" name="product.attributes" as="additional" template="product/view/attributes.phtml">
                     <action method="addToParentGroup">
-                        <group>detailed_info</group>
+                        <argument name="group" xsi:type="string">detailed_info</argument>
                     </action>
                     <action method="setTitle" translate="value">
-                        <value>Additional Information</value>
+                        <argument name="value" xsi:type="string">Additional Information</argument>
                     </action>
                 </block>
                 <block class="Magento_Catalog_Block_Product_View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
@@ -66,24 +66,24 @@
                         <block class="Magento_Core_Block_Template" name="options_js" template="Magento_Catalog::product/view/options/js.phtml"/>
                         <block class="Magento_Catalog_Block_Product_View_Options" name="product.info.options" as="product_options" template="product/view/options.phtml">
                             <action method="addOptionRenderer">
-                                <type>text</type>
-                                <block>Magento_Catalog_Block_Product_View_Options_Type_Text</block>
-                                <template>product/view/options/type/text.phtml</template>
+                                <argument name="type" xsi:type="string">text</argument>
+                                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_Text</argument>
+                                <argument name="template" xsi:type="string">product/view/options/type/text.phtml</argument>
                             </action>
                             <action method="addOptionRenderer">
-                                <type>file</type>
-                                <block>Magento_Catalog_Block_Product_View_Options_Type_File</block>
-                                <template>product/view/options/type/file.phtml</template>
+                                <argument name="type" xsi:type="string">file</argument>
+                                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_File</argument>
+                                <argument name="template" xsi:type="string">product/view/options/type/file.phtml</argument>
                             </action>
                             <action method="addOptionRenderer">
-                                <type>select</type>
-                                <block>Magento_Catalog_Block_Product_View_Options_Type_Select</block>
-                                <template>product/view/options/type/select.phtml</template>
+                                <argument name="type" xsi:type="string">select</argument>
+                                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_Select</argument>
+                                <argument name="template" xsi:type="string">product/view/options/type/select.phtml</argument>
                             </action>
                             <action method="addOptionRenderer">
-                                <type>date</type>
-                                <block>Magento_Catalog_Block_Product_View_Options_Type_Date</block>
-                                <template>product/view/options/type/date.phtml</template>
+                                <argument name="type" xsi:type="string">date</argument>
+                                <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_Date</argument>
+                                <argument name="template" xsi:type="string">product/view/options/type/date.phtml</argument>
                             </action>
                         </block>
                         <block class="Magento_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>

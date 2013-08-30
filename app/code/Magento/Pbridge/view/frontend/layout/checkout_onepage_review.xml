@@ -11,10 +11,10 @@
     <handle id="checkout_onepage_review">
         <reference name="checkout.onepage.review.button">
             <action method="setTemplate">
-                <template helper="Magento_Pbridge_Helper_Data::getReviewButtonTemplate">
-                    <name>Magento_Pbridge::checkout/review/button.phtml</name>
-                    <block>checkout.onepage.review.button</block>
-                </template>
+                <argument name="template" xsi:type="array">
+                    <item name="name" xsi:type="string">Magento_Pbridge::checkout/review/button.phtml</item>
+                    <item name="block" xsi:type="string">checkout.onepage.review.button</item>
+                </argument>
             </action>
         </reference>
         <reference name="checkout.onepage.review.info.items.after">

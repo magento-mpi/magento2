@@ -11,12 +11,10 @@
     <handle id="page_calendar">
         <reference name="head">
             <action method="addJs">
-                <file>jquery/jquery-ui-timepicker-addon.js</file>
-                <!--<if/><condition>can_load_calendar_js</condition>-->
+                <argument name="file" xsi:type="string">jquery/jquery-ui-timepicker-addon.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/calendar.js</file>
-                <!--<if/><condition>can_load_calendar_js</condition>-->
+                <argument name="file" xsi:type="string">mage/calendar.js</argument>
             </action>
         </reference>
         <reference name="content">

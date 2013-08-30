@@ -17,13 +17,13 @@
             <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tabs" name="magento_customercustomattributes_attribute_edit_tabs">
                 <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main" name="magento_customercustomattributes_attribute_edit_tab_general"/>
                 <action method="addTab">
-                    <name>general</name>
-                    <block>magento_customercustomattributes_attribute_edit_tab_general</block>
+                    <argument name="name" xsi:type="string">general</argument>
+                    <argument name="block" xsi:type="string">magento_customercustomattributes_attribute_edit_tab_general</argument>
                 </action>
                 <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options" name="magento_customercustomattributes_attribute_edit_tab_options"/>
                 <action method="addTab">
-                    <name>options</name>
-                    <block>magento_customercustomattributes_attribute_edit_tab_options</block>
+                    <argument name="name" xsi:type="string">options</argument>
+                    <argument name="block" xsi:type="string">magento_customercustomattributes_attribute_edit_tab_options</argument>
                 </action>
             </block>
         </reference>

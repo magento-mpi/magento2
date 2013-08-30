@@ -11,34 +11,34 @@
     <handle id="editor">
         <reference name="head">
             <action method="setCanLoadExtJs">
-                <flag>1</flag>
+                <argument name="flag" xsi:type="string">1</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Adminhtml::variables.js</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::variables.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/adminhtml/wysiwyg/widget.js</file>
+                <argument name="file" xsi:type="string">mage/adminhtml/wysiwyg/widget.js</argument>
             </action>
             <action method="addJs">
-                <file>lib/flex.js</file>
+                <argument name="file" xsi:type="string">lib/flex.js</argument>
             </action>
             <action method="addJs">
-                <file>lib/FABridge.js</file>
+                <argument name="file" xsi:type="string">lib/FABridge.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/adminhtml/flexuploader.js</file>
+                <argument name="file" xsi:type="string">mage/adminhtml/flexuploader.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/adminhtml/browser.js</file>
+                <argument name="file" xsi:type="string">mage/adminhtml/browser.js</argument>
             </action>
             <action method="addJs">
-                <file>prototype/window.js</file>
+                <argument name="file" xsi:type="string">prototype/window.js</argument>
             </action>
             <action method="addCss">
-                <file>prototype/windows/themes/default.css</file>
+                <argument name="file" xsi:type="string">prototype/windows/themes/default.css</argument>
             </action>
             <action method="addCss">
-                <file>Magento_Core::prototype/magento.css</file>
+                <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
             </action>
         </reference>
     </handle>

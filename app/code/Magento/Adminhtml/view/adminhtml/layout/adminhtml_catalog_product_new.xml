@@ -12,55 +12,55 @@
         <update handle="editor"/>
         <reference name="head">
             <action method="addCss">
-                <file>jquery/fileUploader/css/jquery.fileupload-ui.css</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.iframe-transport.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.iframe-transport.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/load-image.min.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/load-image.min.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/canvas-to-blob.min.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/canvas-to-blob.min.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload-fp.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload-fp.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/proxy-event.js</file>
+                <argument name="file" xsi:type="string">mage/proxy-event.js</argument>
             </action>
             <action method="addCss">
-                <file>Magento_Adminhtml::catalog/category-selector.css</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/category-selector.css</argument>
             </action>
             <action method="addJs">
-                <file>jquery/jstree/jquery.hotkeys.js</file>
+                <argument name="file" xsi:type="string">jquery/jstree/jquery.hotkeys.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/jstree/jquery.jstree.js</file>
+                <argument name="file" xsi:type="string">jquery/jstree/jquery.jstree.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Adminhtml::catalog/type-switcher.js</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/type-switcher.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Adminhtml::catalog/product-variation.js</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product-variation.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Adminhtml::catalog/base-image-uploader.js</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/base-image-uploader.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Catalog::js/product-gallery.js</file>
+                <argument name="file" xsi:type="string">Magento_Catalog::js/product-gallery.js</argument>
             </action>
             <action method="addCss">
-                <file>Magento_Catalog::product/product.css</file>
+                <argument name="file" xsi:type="string">Magento_Catalog::product/product.css</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Catalog::js/custom-options.js</file>
+                <argument name="file" xsi:type="string">Magento_Catalog::js/custom-options.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Catalog::js/new-category-dialog.js</file>
+                <argument name="file" xsi:type="string">Magento_Catalog::js/new-category-dialog.js</argument>
             </action>
         </reference>
         <reference name="content">

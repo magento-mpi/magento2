@@ -14,20 +14,20 @@
         <reference name="my.account.wrapper">
             <block class="Magento_Wishlist_Block_Customer_Wishlist" name="customer.wishlist" template="view.phtml">
                 <action method="setTitle" translate="title">
-                    <title>My Wish List</title>
+                    <argument name="title" xsi:type="string">My Wish List</argument>
                 </action>
                 <block class="Magento_Wishlist_Block_Customer_Wishlist_Items" name="customer.wishlist.items" as="items" template="item/list.phtml">
                     <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column_Remove" name="customer.wishlist.item.remove" template="item/column/remove.phtml"/>
                     <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column_Image" name="customer.wishlist.item.image" template="item/column/image.phtml"/>
                     <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column_Cart" name="customer.wishlist.item.cart" template="item/column/cart.phtml">
                         <action method="setTitle" translate="title">
-                            <title>Add to Cart</title>
+                            <argument name="title" xsi:type="string">Add to Cart</argument>
                         </action>
                         <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options"/>
                     </block>
                     <block class="Magento_Wishlist_Block_Customer_Wishlist_Item_Column_Comment" name="customer.wishlist.item.info" template="item/column/info.phtml">
                         <action method="setTitle" translate="title">
-                            <title>Product Details and Comment</title>
+                            <argument name="title" xsi:type="string">Product Details and Comment</argument>
                         </action>
                     </block>
                 </block>
@@ -40,7 +40,7 @@
         </reference>
         <reference name="right">
             <action method="unsetChild">
-                <name>wishlist_customer_sidebar</name>
+                <argument name="name" xsi:type="string">wishlist_customer_sidebar</argument>
             </action>
         </reference>
     </handle>

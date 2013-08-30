@@ -13,8 +13,8 @@
         <update handle="adminhtml_logging_archive_grid_block"/>
         <reference name="content">
             <block class="Magento_Logging_Block_Adminhtml_Container" name="adminhtml.logging.archive.grid.container">
-                <arguments translate="header_text">
-                    <header_text>Admin Actions Log Archive</header_text>
+                <arguments>
+                    <argument name="header_text" xsi:type="string">Admin Actions Log Archive</argument>
                 </arguments>
             </block>
         </reference>

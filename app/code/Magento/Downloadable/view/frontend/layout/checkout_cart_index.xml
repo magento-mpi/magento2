@@ -11,9 +11,9 @@
     <handle id="checkout_cart_index">
         <reference name="checkout.cart">
             <action method="addItemRender">
-                <type>downloadable</type>
-                <block>Magento_Downloadable_Block_Checkout_Cart_Item_Renderer</block>
-                <template>checkout/cart/item/default.phtml</template>
+                <argument name="type" xsi:type="string">downloadable</argument>
+                <argument name="block" xsi:type="string">Magento_Downloadable_Block_Checkout_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">checkout/cart/item/default.phtml</argument>
             </action>
         </reference>
     </handle>

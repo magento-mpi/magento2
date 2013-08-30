@@ -13,7 +13,7 @@
             <block class="Magento_CustomerBalance_Block_Sales_Order_Customerbalance" name="customerbalance" template="order/customerbalance.phtml"/>
             <block class="Magento_CustomerBalance_Block_Sales_Order_Customerbalance" name="customerbalance_total_refunded" template="order/customerbalance_refunded.phtml" after="-">
                 <action method="setAfterTotal">
-                    <value>grand_total</value>
+                    <argument name="value" xsi:type="string">grand_total</argument>
                 </action>
             </block>
         </reference>

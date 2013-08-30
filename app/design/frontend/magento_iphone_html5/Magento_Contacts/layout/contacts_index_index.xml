@@ -13,19 +13,19 @@
         <reference name="content">
             <block class="Magento_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
                 <action method="addCrumb" translate="crumbName">
-                    <crumbName>home</crumbName>
-                    <crumbInfo>
-                        <label>Home</label>
-                        <title>Home</title>
-                        <link>/</link>
-                    </crumbInfo>
+                    <argument name="crumbName" xsi:type="string">home</argument>
+                    <argument name="crumbInfo" xsi:type="array">
+                        <item name="label" xsi:type="string">Home</item>
+                        <item name="title" xsi:type="string">Home</item>
+                        <item name="link" xsi:type="string">/</item>
+                    </argument>
                 </action>
                 <action method="addCrumb" translate="crumbName">
-                    <crumbName>categories</crumbName>
-                    <crumbInfo>
-                        <label>Categories</label>
-                        <title>Categories</title>
-                    </crumbInfo>
+                    <argument name="crumbName" xsi:type="string">categories</argument>
+                    <argument name="crumbInfo" xsi:type="array">
+                        <item name="label" xsi:type="string">Categories</item>
+                        <item name="title" xsi:type="string">Categories</item>
+                    </argument>
                 </action>
             </block>
         </reference>

@@ -13,7 +13,7 @@
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
             <action method="setActive">
-                <path>rma/return/history/</path>
+                <argument name="path" xsi:type="string">rma/return/history/</argument>
             </action>
         </reference>
         <reference name="my.account.wrapper">

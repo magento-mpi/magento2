@@ -13,16 +13,16 @@
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
             <action method="setActive">
-                <path>rma/return/history/</path>
+                <argument name="path" xsi:type="string">rma/return/history/</argument>
             </action>
         </reference>
         <reference name="my.account.wrapper">
             <block class="Magento_Rma_Block_Return_Create" as="create" name="rma.return.create" template="return/create.phtml">
                 <action method="setFormCode">
-                    <code>default</code>
+                    <argument name="code" xsi:type="string">default</argument>
                 </action>
                 <action method="setEntityModelClass">
-                    <code>Magento_Rma_Model_Item</code>
+                    <argument name="code" xsi:type="string">Magento_Rma_Model_Item</argument>
                 </action>
             </block>
         </reference>

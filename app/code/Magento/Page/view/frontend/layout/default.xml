@@ -39,57 +39,57 @@
         </block>
         <reference name="head">
             <action method="addCss">
-                <file>mage/calendar.css</file>
-                <params/>
+                <argument name="file" xsi:type="string">mage/calendar.css</argument>
+                <argument name="params" xsi:type="string"/>
             </action>
             <action method="addJs">
-                <file>jquery/jquery.js</file>
+                <argument name="file" xsi:type="string">jquery/jquery.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/jquery-no-conflict.js</file>
+                <argument name="file" xsi:type="string">mage/jquery-no-conflict.js</argument>
             </action>
             <action method="addJs">
-                <file>head.load.min.js</file>
+                <argument name="file" xsi:type="string">head.load.min.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/mage.js</file>
+                <argument name="file" xsi:type="string">mage/mage.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/decorate.js</file>
+                <argument name="file" xsi:type="string">mage/decorate.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/translate.js</file>
+                <argument name="file" xsi:type="string">mage/translate.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/cookies.js</file>
+                <argument name="file" xsi:type="string">mage/cookies.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/jquery-ui.js</file>
+                <argument name="file" xsi:type="string">jquery/jquery-ui.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/jquery.tmpl.min.js</file>
+                <argument name="file" xsi:type="string">jquery/jquery.tmpl.min.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/bootstrap.js</file>
+                <argument name="file" xsi:type="string">mage/bootstrap.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Page::js/truncate.js</file>
+                <argument name="file" xsi:type="string">Magento_Page::js/truncate.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/common.js</file>
+                <argument name="file" xsi:type="string">mage/common.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/toggle.js</file>
+                <argument name="file" xsi:type="string">mage/toggle.js</argument>
             </action>
             <action method="addJs">
-                <file>mage/popup-window.js</file>
+                <argument name="file" xsi:type="string">mage/popup-window.js</argument>
             </action>
             <action method="addCss">
-                <file>Magento_Page::css/tabs.css</file>
-                <params/>
+                <argument name="file" xsi:type="string">Magento_Page::css/tabs.css</argument>
+                <argument name="params" xsi:type="string"/>
             </action>
             <action method="addJs">
-                <file>mage/loader.js</file>
+                <argument name="file" xsi:type="string">mage/loader.js</argument>
             </action>
             <!-- Preload resources for widgets -->
             <block class="Magento_Core_Block_Template" name="head.components" as="components" template="Magento_Page::js/components.phtml"/>

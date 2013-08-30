@@ -12,106 +12,106 @@
         <reference name="content">
             <block class="Magento_Sales_Block_Adminhtml_Recurring_Profile_View" name="sales.recurring.profile.view" template="Magento_Backend::widget/view/container.phtml">
                 <action method="setDestElementId">
-                    <value>sales_recurring_profile_view</value>
+                    <argument name="value" xsi:type="string">sales_recurring_profile_view</argument>
                 </action>
             </block>
         </reference>
         <reference name="left">
             <block class="Magento_Adminhtml_Block_Widget_Tabs" name="sales.recurring.profile.view.tabs">
                 <action method="setDestElementId">
-                    <value>sales_recurring_profile_view</value>
+                    <argument name="value" xsi:type="string">sales_recurring_profile_view</argument>
                 </action>
                 <action method="setTitle" translate="value">
-                    <value>Recurring Profile View</value>
+                    <argument name="value" xsi:type="string">Recurring Profile View</argument>
                 </action>
                 <action method="setId">
-                    <value>sales_recurring_profile_view_tabs</value>
+                    <argument name="value" xsi:type="string">sales_recurring_profile_view_tabs</argument>
                 </action>
                 <block class="Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Info" as="info_tab" name="sales.recurring.profile.tab.info" template="recurring/profile/view.phtml">
                     <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.general" as="general" template="recurring/profile/view/info.phtml">
                         <action method="prepareReferenceInfo"/>
                         <action method="addToParentGroup">
-                            <value>info_blocks_row_1</value>
+                            <argument name="value" xsi:type="string">info_blocks_row_1</argument>
                         </action>
                         <action method="setViewColumn">
-                            <value>1</value>
+                            <argument name="value" xsi:type="string">1</argument>
                         </action>
                         <action method="setViewLabel" translate="value">
-                            <value>Reference</value>
+                            <argument name="value" xsi:type="string">Reference</argument>
                         </action>
                     </block>
                     <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.item" as="item" template="recurring/profile/view/info.phtml">
                         <action method="prepareItemInfo"/>
                         <action method="addToParentGroup">
-                            <value>info_blocks_row_1</value>
+                            <argument name="value" xsi:type="string">info_blocks_row_1</argument>
                         </action>
                         <action method="setViewColumn">
-                            <value>2</value>
+                            <argument name="value" xsi:type="string">2</argument>
                         </action>
                         <action method="setViewLabel" translate="value">
-                            <value>Purchased Item</value>
+                            <argument name="value" xsi:type="string">Purchased Item</argument>
                         </action>
                     </block>
                     <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.schedule" as="profile" template="recurring/profile/view/info.phtml">
                         <action method="prepareScheduleInfo"/>
                         <action method="addToParentGroup">
-                            <value>info_blocks_row_2</value>
+                            <argument name="value" xsi:type="string">info_blocks_row_2</argument>
                         </action>
                         <action method="setViewColumn">
-                            <value>1</value>
+                            <argument name="value" xsi:type="string">1</argument>
                         </action>
                         <action method="setViewLabel" translate="value">
-                            <value>Profile Schedule</value>
+                            <argument name="value" xsi:type="string">Profile Schedule</argument>
                         </action>
                     </block>
                     <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.fees" as="fees" template="recurring/profile/view/info.phtml">
                         <action method="prepareFeesInfo"/>
                         <action method="addToParentGroup">
-                            <value>info_blocks_row_2</value>
+                            <argument name="value" xsi:type="string">info_blocks_row_2</argument>
                         </action>
                         <action method="setViewColumn">
-                            <value>2</value>
+                            <argument name="value" xsi:type="string">2</argument>
                         </action>
                         <action method="setViewLabel" translate="value">
-                            <value>Profile Payments</value>
+                            <argument name="value" xsi:type="string">Profile Payments</argument>
                         </action>
                     </block>
                     <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.billing" as="billing_address" template="recurring/profile/view/info.phtml">
                         <action method="prepareAddressInfo"/>
                         <action method="addToParentGroup">
-                            <value>info_blocks_row_3</value>
+                            <argument name="value" xsi:type="string">info_blocks_row_3</argument>
                         </action>
                         <action method="setViewColumn">
-                            <value>1</value>
+                            <argument name="value" xsi:type="string">1</argument>
                         </action>
                         <action method="setViewLabel" translate="value">
-                            <value>Billing Address</value>
+                            <argument name="value" xsi:type="string">Billing Address</argument>
                         </action>
                     </block>
                     <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.shipping" as="shipping_address" template="recurring/profile/view/info.phtml">
                         <action method="setAddressType">
-                            <value>shipping</value>
+                            <argument name="value" xsi:type="string">shipping</argument>
                         </action>
                         <action method="prepareAddressInfo"/>
                         <action method="addToParentGroup">
-                            <value>info_blocks_row_3</value>
+                            <argument name="value" xsi:type="string">info_blocks_row_3</argument>
                         </action>
                         <action method="setViewColumn">
-                            <value>2</value>
+                            <argument name="value" xsi:type="string">2</argument>
                         </action>
                         <action method="setViewLabel" translate="value">
-                            <value>Shipping Address</value>
+                            <argument name="value" xsi:type="string">Shipping Address</argument>
                         </action>
                     </block>
                 </block>
                 <block class="Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders" as="orders_tab" name="sales.recurring.profile.tab.orders"/>
                 <action method="addTab">
-                    <name>recurring_profile_info</name>
-                    <block>info_tab</block>
+                    <argument name="name" xsi:type="string">recurring_profile_info</argument>
+                    <argument name="block" xsi:type="string">info_tab</argument>
                 </action>
                 <action method="addTab">
-                    <name>recurring_profile_orders</name>
-                    <block>orders_tab</block>
+                    <argument name="name" xsi:type="string">recurring_profile_orders</argument>
+                    <argument name="block" xsi:type="string">orders_tab</argument>
                 </action>
             </block>
         </reference>

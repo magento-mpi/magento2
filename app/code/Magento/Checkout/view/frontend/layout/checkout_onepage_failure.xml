@@ -12,7 +12,7 @@
         <label>One Page Checkout Failure</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>2columns-right.phtml</template>
+                <argument name="template" xsi:type="string">2columns-right.phtml</argument>
             </action>
         </reference>
         <reference name="content">

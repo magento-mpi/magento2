@@ -11,8 +11,8 @@
     <handle id="adminhtml_customer_edit">
         <reference name="customer_edit_tabs">
             <action method="addTab">
-                <tab>giftregistry</tab>
-                <content>Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry</content>
+                <argument name="tab" xsi:type="string">giftregistry</argument>
+                <argument name="content" xsi:type="string">Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry</argument>
             </action>
         </reference>
     </handle>

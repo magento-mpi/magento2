@@ -13,9 +13,9 @@
         <reference name="content">
             <block class="Magento_CustomAttribute_Block_Form_Template" name="magento_rma_item_form_template">
                 <action method="addRenderer">
-                    <type>image</type>
-                    <renderer_block>Magento_Rma_Block_Form_Renderer_Image</renderer_block>
-                    <template>form/view/image.phtml</template>
+                    <argument name="type" xsi:type="string">image</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_Rma_Block_Form_Renderer_Image</argument>
+                    <argument name="template" xsi:type="string">form/view/image.phtml</argument>
                 </action>
             </block>
         </reference>

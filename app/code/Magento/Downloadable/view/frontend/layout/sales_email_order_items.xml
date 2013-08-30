@@ -11,9 +11,9 @@
     <handle id="sales_email_order_items">
         <reference name="items">
             <action method="addItemRender">
-                <type>downloadable</type>
-                <block>Magento_Downloadable_Block_Sales_Order_Email_Items_Order_Downloadable</block>
-                <template>email/order/items/order/downloadable.phtml</template>
+                <argument name="type" xsi:type="string">downloadable</argument>
+                <argument name="block" xsi:type="string">Magento_Downloadable_Block_Sales_Order_Email_Items_Order_Downloadable</argument>
+                <argument name="template" xsi:type="string">email/order/items/order/downloadable.phtml</argument>
             </action>
         </reference>
     </handle>

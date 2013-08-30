@@ -11,16 +11,16 @@
     <handle id="default">
         <reference name="wishlist_sidebar">
             <action method="addPriceBlockType">
-                <type>giftcard</type>
-                <block>Magento_GiftCard_Block_Catalog_Product_Price</block>
-                <template>catalog/product/price.phtml</template>
+                <argument name="type" xsi:type="string">giftcard</argument>
+                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Catalog_Product_Price</argument>
+                <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </reference>
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
-                <type>giftcard</type>
-                <block>Magento_GiftCard_Block_Catalog_Product_Price</block>
-                <template>catalog/product/price.phtml</template>
+                <argument name="type" xsi:type="string">giftcard</argument>
+                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Catalog_Product_Price</argument>
+                <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </reference>
     </handle>

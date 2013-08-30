@@ -12,7 +12,7 @@
         <update handle="adminhtml_sku_errors_block"/>
         <reference name="head">
             <action method="addJs">
-                <file>Magento_Adminhtml::catalog/product/composite/configure.js</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
             </action>
         </reference>
         <reference name="data">

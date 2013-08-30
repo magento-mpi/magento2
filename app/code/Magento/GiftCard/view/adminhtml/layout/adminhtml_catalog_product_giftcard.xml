@@ -11,8 +11,8 @@
     <handle id="adminhtml_catalog_product_giftcard">
         <reference name="product_tabs">
             <action method="addTab">
-                <name>giftcard_info</name>
-                <block>Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard</block>
+                <argument name="name" xsi:type="string">giftcard_info</argument>
+                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard</argument>
             </action>
         </reference>
     </handle>

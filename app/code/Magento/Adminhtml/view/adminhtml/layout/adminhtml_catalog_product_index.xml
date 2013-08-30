@@ -11,17 +11,17 @@
     <handle id="adminhtml_catalog_product_index">
         <reference name="menu">
             <action method="setActive">
-                <itemId>Magento_Catalog::catalog_products</itemId>
+                <argument name="itemId" xsi:type="string">Magento_Catalog::catalog_products</argument>
             </action>
         </reference>
         <reference name="page-title">
             <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher">
                 <action method="setUseConfirm">
-                    <params>1</params>
+                    <argument name="params" xsi:type="string">1</argument>
                 </action>
             </block>
             <action method="setTitleClass">
-                <class>complex</class>
+                <argument name="class" xsi:type="string">complex</argument>
             </action>
         </reference>
         <reference name="content">

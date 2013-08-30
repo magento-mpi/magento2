@@ -12,7 +12,7 @@
         <reference name="invoice_totals">
             <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="giftcardaccount" template="Magento_GiftCardAccount::sales/creditmemo/totals/view.phtml" after="-">
                 <action method="setBeforeCondition">
-                    <param>customerbalance</param>
+                    <argument name="param" xsi:type="string">customerbalance</argument>
                 </action>
             </block>
         </reference>

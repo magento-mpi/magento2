@@ -12,10 +12,10 @@
         <reference name="creditmemo_totals">
             <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward.points.refunded" template="Magento_Reward::sales/order/refunded.phtml">
                 <action method="setDisplayArea">
-                    <area>footer</area>
+                    <argument name="area" xsi:type="string">footer</argument>
                 </action>
                 <action method="setBeforeCondition">
-                    <condition>customerbalance_refunded</condition>
+                    <argument name="condition" xsi:type="string">customerbalance_refunded</argument>
                 </action>
             </block>
         </reference>

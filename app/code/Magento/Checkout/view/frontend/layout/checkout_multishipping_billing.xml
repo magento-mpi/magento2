@@ -14,8 +14,8 @@
         <reference name="content">
             <block class="Magento_Checkout_Block_Multishipping_Billing" name="checkout_billing" template="multishipping/billing.phtml">
                 <action method="setMethodFormTemplate">
-                    <method>purchaseorder</method>
-                    <template>Magento_Payment::form/purchaseorder.phtml</template>
+                    <argument name="method" xsi:type="string">purchaseorder</argument>
+                    <argument name="template" xsi:type="string">Magento_Payment::form/purchaseorder.phtml</argument>
                 </action>
             </block>
         </reference>

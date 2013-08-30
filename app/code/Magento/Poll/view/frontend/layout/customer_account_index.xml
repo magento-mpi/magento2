@@ -11,7 +11,7 @@
     <handle id="customer_account_index">
         <reference name="right">
             <action method="unsetChild">
-                <name>right.poll</name>
+                <argument name="name" xsi:type="string">right.poll</argument>
             </action>
         </reference>
     </handle>

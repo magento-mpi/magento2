@@ -12,79 +12,79 @@
         <update handle="adminhtml_report_grid"/>
         <reference name="adminhtml.report.grid">
             <arguments>
-                <id>report_invitation_customer</id>
-                <dataSource type="object">Magento_Invitation_Model_Resource_Report_Invitation_Customer_Collection_Initial</dataSource>
+                <argument name="id" xsi:type="string">report_invitation_customer</argument>
+                <argument name="dataSource" xsi:type="string">Magento_Invitation_Model_Resource_Report_Invitation_Customer_Collection_Initial</argument>
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.export">
             <arguments>
-                <exportTypes>
-                    <csv>
-                        <urlPath>*/*/exportCustomerCsv</urlPath>
-                    </csv>
-                    <excel>
-                        <urlPath>*/*/exportCustomerExcel</urlPath>
-                    </excel>
-                </exportTypes>
+                <argument name="exportTypes" xsi:type="array">
+                    <item name="csv" xsi:type="array">
+                        <item name="urlPath" xsi:type="string">*/*/exportCustomerCsv</item>
+                    </item>
+                    <item name="excel" xsi:type="array">
+                        <item name="urlPath" xsi:type="string">*/*/exportCustomerExcel</item>
+                    </item>
+                </argument>
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.columnSet">
             <block class="Magento_Backend_Block_Widget_Grid_Column" as="id">
                 <arguments>
-                    <header translate="true">ID</header>
-                    <type>number</type>
-                    <index>entity_id</index>
-                    <id>id</id>
-                    <header_css_class>col-id</header_css_class>
-                    <column_css_class>col-id</column_css_class>
+                    <argument name="header" xsi:type="string" translate="true">ID</argument>
+                    <argument name="type" xsi:type="string">number</argument>
+                    <argument name="index" xsi:type="string">entity_id</argument>
+                    <argument name="id" xsi:type="string">id</argument>
+                    <argument name="header_css_class" xsi:type="string">col-id</argument>
+                    <argument name="column_css_class" xsi:type="string">col-id</argument>
                 </arguments>
             </block>
             <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
                 <arguments>
-                    <header translate="true">Name</header>
-                    <type>text</type>
-                    <index>name</index>
-                    <id>name</id>
-                    <header_css_class>col-name</header_css_class>
-                    <column_css_class>col-name</column_css_class>
+                    <argument name="header" xsi:type="string" translate="true">Name</argument>
+                    <argument name="type" xsi:type="string">text</argument>
+                    <argument name="index" xsi:type="string">name</argument>
+                    <argument name="id" xsi:type="string">name</argument>
+                    <argument name="header_css_class" xsi:type="string">col-name</argument>
+                    <argument name="column_css_class" xsi:type="string">col-name</argument>
                 </arguments>
             </block>
             <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
                 <arguments>
-                    <header translate="true">Email</header>
-                    <index>email</index>
-                    <id>email</id>
-                    <header_css_class>col-email</header_css_class>
-                    <column_css_class>col-email</column_css_class>
+                    <argument name="header" xsi:type="string" translate="true">Email</argument>
+                    <argument name="index" xsi:type="string">email</argument>
+                    <argument name="id" xsi:type="string">email</argument>
+                    <argument name="header_css_class" xsi:type="string">col-email</argument>
+                    <argument name="column_css_class" xsi:type="string">col-email</argument>
                 </arguments>
             </block>
             <block class="Magento_Backend_Block_Widget_Grid_Column" as="group">
                 <arguments>
-                    <header translate="true">Group</header>
-                    <index>group_name</index>
-                    <id>group</id>
-                    <header_css_class>col-group</header_css_class>
-                    <column_css_class>col-group</column_css_class>
+                    <argument name="header" xsi:type="string" translate="true">Group</argument>
+                    <argument name="index" xsi:type="string">group_name</argument>
+                    <argument name="id" xsi:type="string">group</argument>
+                    <argument name="header_css_class" xsi:type="string">col-group</argument>
+                    <argument name="column_css_class" xsi:type="string">col-group</argument>
                 </arguments>
             </block>
             <block class="Magento_Backend_Block_Widget_Grid_Column" as="sent">
                 <arguments>
-                    <header translate="true">Invitations Sent</header>
-                    <index>sent</index>
-                    <type>number</type>
-                    <id>sent</id>
-                    <header_css_class>col-inv-sent</header_css_class>
-                    <column_css_class>col-inv-sent</column_css_class>
+                    <argument name="header" xsi:type="string" translate="true">Invitations Sent</argument>
+                    <argument name="index" xsi:type="string">sent</argument>
+                    <argument name="type" xsi:type="string">number</argument>
+                    <argument name="id" xsi:type="string">sent</argument>
+                    <argument name="header_css_class" xsi:type="string">col-inv-sent</argument>
+                    <argument name="column_css_class" xsi:type="string">col-inv-sent</argument>
                 </arguments>
             </block>
             <block class="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
                 <arguments>
-                    <header translate="true">Invitations Accepted</header>
-                    <index>accepted</index>
-                    <type>number</type>
-                    <id>accepted</id>
-                    <header_css_class>col-inv-acc</header_css_class>
-                    <column_css_class>col-inv-acc</column_css_class>
+                    <argument name="header" xsi:type="string" translate="true">Invitations Accepted</argument>
+                    <argument name="index" xsi:type="string">accepted</argument>
+                    <argument name="type" xsi:type="string">number</argument>
+                    <argument name="id" xsi:type="string">accepted</argument>
+                    <argument name="header_css_class" xsi:type="string">col-inv-acc</argument>
+                    <argument name="column_css_class" xsi:type="string">col-inv-acc</argument>
                 </arguments>
             </block>
         </reference>

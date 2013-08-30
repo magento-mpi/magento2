@@ -11,7 +11,7 @@
     <handle id="customer_account_index">
         <reference name="right">
             <action method="unsetChild">
-                <name>catalog.compare.sidebar</name>
+                <argument name="name" xsi:type="string">catalog.compare.sidebar</argument>
             </action>
         </reference>
     </handle>

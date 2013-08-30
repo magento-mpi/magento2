@@ -12,7 +12,7 @@
         <reference name="top.links">
             <block class="Magento_Wishlist_Block_Links" name="wishlist_link"/>
             <action method="addLinkBlock">
-                <blockName>wishlist_link</blockName>
+                <argument name="blockName" xsi:type="string">wishlist_link</argument>
             </action>
         </reference>
         <reference name="right">

@@ -12,12 +12,12 @@
         <label>Popular Search Terms</label>
         <reference name="head">
             <action method="setTitle" translate="title">
-                <title>Search Terms</title>
+                <argument name="title" xsi:type="string">Search Terms</argument>
             </action>
         </reference>
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
         </reference>
         <reference name="content">

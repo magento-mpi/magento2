@@ -15,13 +15,13 @@
         <reference name="head">
             <block class="Magento_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Magento_Directory::js/optional_zip_countries.phtml"/>
             <action method="addJs">
-                <file>Magento_Adminhtml::catalog/product/composite/configure.js</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
             </action>
             <action method="addJs">
-                <file>varien/configurable.js</file>
+                <argument name="file" xsi:type="string">varien/configurable.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_Adminhtml::customer/edit/tab/js/addresses.js</file>
+                <argument name="file" xsi:type="string">Magento_Adminhtml::customer/edit/tab/js/addresses.js</argument>
             </action>
         </reference>
         <reference name="left">
@@ -31,8 +31,8 @@
                     <block class="Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion" name="accordion"/>
                 </block>
                 <action method="addTab">
-                    <name>customer_edit_tab_view</name>
-                    <block>customer_edit_tab_view</block>
+                    <argument name="name" xsi:type="string">customer_edit_tab_view</argument>
+                    <argument name="block" xsi:type="string">customer_edit_tab_view</argument>
                 </action>
             </block>
         </reference>
@@ -41,12 +41,12 @@
         </reference>
         <reference name="customer_edit_tabs">
             <action method="addTab">
-                <name>customer_edit_tab_agreements</name>
-                <block>Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement</block>
+                <argument name="name" xsi:type="string">customer_edit_tab_agreements</argument>
+                <argument name="block" xsi:type="string">Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement</argument>
             </action>
             <action method="addTab">
-                <name>customer_edit_tab_recurring_profile</name>
-                <block>Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile</block>
+                <argument name="name" xsi:type="string">customer_edit_tab_recurring_profile</argument>
+                <argument name="block" xsi:type="string">Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile</argument>
             </action>
         </reference>
     </handle>

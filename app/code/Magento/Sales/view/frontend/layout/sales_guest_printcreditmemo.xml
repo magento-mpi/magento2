@@ -13,21 +13,21 @@
         <reference name="content">
             <block class="Magento_Sales_Block_Order_Print_Creditmemo" name="sales.order.print.creditmemo" template="order/print/creditmemo.phtml">
                 <action method="addItemRender">
-                    <type>default</type>
-                    <block>Magento_Sales_Block_Order_Item_Renderer_Default</block>
-                    <template>order/creditmemo/items/renderer/default.phtml</template>
+                    <argument name="type" xsi:type="string">default</argument>
+                    <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Item_Renderer_Default</argument>
+                    <argument name="template" xsi:type="string">order/creditmemo/items/renderer/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
-                    <type>grouped</type>
-                    <block>Magento_Sales_Block_Order_Item_Renderer_Grouped</block>
-                    <template>order/creditmemo/items/renderer/default.phtml</template>
+                    <argument name="type" xsi:type="string">grouped</argument>
+                    <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Item_Renderer_Grouped</argument>
+                    <argument name="template" xsi:type="string">order/creditmemo/items/renderer/default.phtml</argument>
                 </action>
                 <block class="Magento_Sales_Block_Order_Creditmemo_Totals" name="creditmemo_totals" template="order/totals.phtml">
                     <action method="setLabelProperties">
-                        <value>colspan="6" class="a-right"</value>
+                        <argument name="value" xsi:type="string">colspan="6" class="a-right"</argument>
                     </action>
                     <action method="setValueProperties">
-                        <value>class="a-right"</value>
+                        <argument name="value" xsi:type="string">class="a-right"</argument>
                     </action>
                     <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
                 </block>

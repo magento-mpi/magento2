@@ -12,15 +12,15 @@
         <reference name="product.info">
             <block class="Magento_GiftRegistry_Block_Product_View" name="giftregistry.product.view.customize.button">
                 <action method="setGiftRegistryTemplate">
-                    <blockName>customize.button</blockName>
-                    <template>Magento_GiftRegistry::product/customize.phtml</template>
+                    <argument name="blockName" xsi:type="string">customize.button</argument>
+                    <argument name="template" xsi:type="string">Magento_GiftRegistry::product/customize.phtml</argument>
                 </action>
                 <action method="setGiftRegistryTemplate">
-                    <blockName>product.info.addtocart.bundle</blockName>
-                    <template>Magento_GiftRegistry::product/addtocart.phtml</template>
+                    <argument name="blockName" xsi:type="string">product.info.addtocart.bundle</argument>
+                    <argument name="template" xsi:type="string">Magento_GiftRegistry::product/addtocart.phtml</argument>
                 </action>
                 <action method="setGiftRegistryUrl">
-                    <blockName>product.info.addtocart.bundle</blockName>
+                    <argument name="blockName" xsi:type="string">product.info.addtocart.bundle</argument>
                 </action>
             </block>
         </reference>

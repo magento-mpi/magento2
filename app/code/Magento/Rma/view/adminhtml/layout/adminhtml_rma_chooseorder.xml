@@ -11,7 +11,7 @@
     <handle id="adminhtml_rma_chooseorder">
         <reference name="left">
             <action method="setIsCollapsed">
-                <value>true</value>
+                <argument name="value" xsi:type="string">true</argument>
             </action>
         </reference>
         <reference name="root">

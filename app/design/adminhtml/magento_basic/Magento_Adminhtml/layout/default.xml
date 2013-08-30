@@ -11,36 +11,36 @@
     <handle id="default">
         <reference name="head">
             <action method="addCss">
-                <file>reset.css</file>
+                <argument name="file" xsi:type="string">reset.css</argument>
             </action>
             <action method="addCss">
-                <file>boxes.css</file>
+                <argument name="file" xsi:type="string">boxes.css</argument>
             </action>
             <action method="addCss">
-                <file>custom.css</file>
+                <argument name="file" xsi:type="string">custom.css</argument>
             </action>
             <action method="addCss">
-                <file>iestyles.css</file>
-                <params/>
-                <if>lt IE 8</if>
+                <argument name="file" xsi:type="string">iestyles.css</argument>
+                <argument name="params" xsi:type="string"/>
+                <argument name="if" xsi:type="string">lt IE 8</argument>
             </action>
             <action method="addCss">
-                <file>below_ie7.css</file>
-                <params/>
-                <if>lt IE 7</if>
+                <argument name="file" xsi:type="string">below_ie7.css</argument>
+                <argument name="params" xsi:type="string"/>
+                <argument name="if" xsi:type="string">lt IE 7</argument>
             </action>
             <action method="addCss">
-                <file>ie7.css</file>
-                <params/>
-                <if>IE 7</if>
+                <argument name="file" xsi:type="string">ie7.css</argument>
+                <argument name="params" xsi:type="string"/>
+                <argument name="if" xsi:type="string">IE 7</argument>
             </action>
             <action method="addCss">
-                <file>menu.css</file>
-                <params>media="screen, projection"</params>
+                <argument name="file" xsi:type="string">menu.css</argument>
+                <argument name="params" xsi:type="string">media="screen, projection"</argument>
             </action>
             <action method="addCss">
-                <file>print.css</file>
-                <params>media="print"</params>
+                <argument name="file" xsi:type="string">print.css</argument>
+                <argument name="params" xsi:type="string">media="print"</argument>
             </action>
         </reference>
     </handle>

@@ -11,36 +11,36 @@
     <handle id="adminhtml_system_design_editor_index">
         <reference name="head">
             <action method="addJs">
-                <file>Magento_DesignEditor::js/dialog.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/dialog.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/infinitescroll.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/infinitescroll.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/theme-selector.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/theme-selector.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/theme-assign.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/theme-assign.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/theme-delete.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/theme-delete.js</argument>
             </action>
             <action method="addJs">
-                <file>Magento_DesignEditor::js/theme-edit.js</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::js/theme-edit.js</argument>
             </action>
             <action method="addCss">
-                <file>Magento_DesignEditor::css/styles.css</file>
+                <argument name="file" xsi:type="string">Magento_DesignEditor::css/styles.css</argument>
             </action>
         </reference>
         <reference name="content">
             <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tabs" name="theme.selector.tabs">
                 <action method="addTab">
-                    <name>available_themes</name>
-                    <block>available.themes.tab</block>
+                    <argument name="name" xsi:type="string">available_themes</argument>
+                    <argument name="block" xsi:type="string">available.themes.tab</argument>
                 </action>
                 <action method="addTab">
-                    <name>customizations</name>
-                    <block>customizations.themes.tab</block>
+                    <argument name="name" xsi:type="string">customizations</argument>
+                    <argument name="block" xsi:type="string">customizations.themes.tab</argument>
                 </action>
                 <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Available" name="available.themes.tab">
                     <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available" name="available.theme.list" template="Magento_DesignEditor::theme/list/available.phtml">

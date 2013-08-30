@@ -17,15 +17,15 @@
         <reference name="left">
             <block class="Magento_Invitation_Block_Adminhtml_Invitation_View_Tabs" name="invitation_view_tabs" as="tabs">
                 <action method="addTab">
-                    <tab>general</tab>
-                    <content>Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General</content>
+                    <argument name="tab" xsi:type="string">general</argument>
+                    <argument name="content" xsi:type="string">Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General</argument>
                 </action>
                 <action method="addTab">
-                    <tab>history</tab>
-                    <content>Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History</content>
+                    <argument name="tab" xsi:type="string">history</argument>
+                    <argument name="content" xsi:type="string">Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History</argument>
                 </action>
                 <action method="setDestElementId">
-                    <id>invitation-elements</id>
+                    <argument name="id" xsi:type="string">invitation-elements</argument>
                 </action>
             </block>
         </reference>

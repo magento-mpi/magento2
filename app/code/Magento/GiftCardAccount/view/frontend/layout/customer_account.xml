@@ -11,9 +11,9 @@
     <handle id="customer_account">
         <reference name="customer_account_navigation">
             <action method="addLink" translate="label">
-                <name>magento_giftcardaccount</name>
-                <path>magento_giftcardaccount/customer/</path>
-                <label>Gift Card</label>
+                <argument name="name" xsi:type="string">magento_giftcardaccount</argument>
+                <argument name="path" xsi:type="string">magento_giftcardaccount/customer/</argument>
+                <argument name="label" xsi:type="string">Gift Card</argument>
             </action>
         </reference>
     </handle>

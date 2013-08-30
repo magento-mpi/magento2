@@ -13,9 +13,9 @@
         <reference name="content">
             <block class="Magento_Sales_Block_Order_Print_Shipment" name="sales.order.print.shipment" template="order/print/shipment.phtml">
                 <action method="addItemRender">
-                    <type>default</type>
-                    <block>Magento_Catalog_Block_Product_Price</block>
-                    <template>Magento_Sales::order/shipment/items/renderer/default.phtml</template>
+                    <argument name="type" xsi:type="string">default</argument>
+                    <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+                    <argument name="template" xsi:type="string">Magento_Sales::order/shipment/items/renderer/default.phtml</argument>
                 </action>
             </block>
         </reference>

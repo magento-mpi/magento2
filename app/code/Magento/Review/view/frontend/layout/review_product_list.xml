@@ -12,12 +12,12 @@
         <label>Catalog Product Reviews List</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>2columns-right.phtml</template>
+                <argument name="template" xsi:type="string">2columns-right.phtml</argument>
             </action>
         </reference>
         <reference name="head">
             <action method="addCss">
-                <file>Magento_Catalog::zoom.css</file>
+                <argument name="file" xsi:type="string">Magento_Catalog::zoom.css</argument>
             </action>
         </reference>
         <reference name="content">
@@ -31,7 +31,7 @@
                     <container name="review.product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
                         <block class="Magento_Paypal_Block_Express_Shortcut" name="review.product.info.addtocart.paypal" template="express/shortcut.phtml">
                             <action method="setIsInCatalogProduct">
-                                <value>1</value>
+                                <argument name="value" xsi:type="string">1</argument>
                             </action>
                         </block>
                     </container>

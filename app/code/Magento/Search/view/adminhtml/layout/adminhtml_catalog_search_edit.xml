@@ -15,13 +15,13 @@
             <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="related_grid_serializer">
                 <reference name="related_grid_serializer">
                     <action method="initSerializerBlock">
-                        <grid_block_name>search.edit.grid</grid_block_name>
-                        <data_callback>getSelectedQueries</data_callback>
-                        <hidden_input_name>selected_queries_grid</hidden_input_name>
-                        <reload_param_name>selected_queries_grid</reload_param_name>
+                        <argument name="grid_block_name" xsi:type="string">search.edit.grid</argument>
+                        <argument name="data_callback" xsi:type="string">getSelectedQueries</argument>
+                        <argument name="hidden_input_name" xsi:type="string">selected_queries_grid</argument>
+                        <argument name="reload_param_name" xsi:type="string">selected_queries_grid</argument>
                     </action>
                     <action method="setFormId">
-                        <value>edit_form</value>
+                        <argument name="value" xsi:type="string">edit_form</argument>
                     </action>
                 </reference>
             </block>

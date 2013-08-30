@@ -13,10 +13,10 @@
         <update handle="customer_account"/>
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
             <action method="setMyClass">
-                <value>billing-agreement-view</value>
+                <argument name="value" xsi:type="string">billing-agreement-view</argument>
             </action>
         </reference>
         <reference name="my.account.wrapper">

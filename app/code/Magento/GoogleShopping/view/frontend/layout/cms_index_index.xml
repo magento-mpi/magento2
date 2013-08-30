@@ -11,7 +11,7 @@
     <handle id="cms_index_index">
         <reference name="head">
             <action method="addMetaTag" ifconfig="google/googleshopping/verify_meta_tag">
-                <metadata helper="Magento_GoogleShopping_Helper_SiteVerification::getMetaTag"/>
+                <argument name="metadata" xsi:type="string"/>
             </action>
         </reference>
     </handle>

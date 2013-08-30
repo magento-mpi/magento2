@@ -15,7 +15,7 @@
             <block class="Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount" name="adminhtml.gift.card.account.grid.container" as="giftcardaccount_list">
                 <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher" as="store_switcher">
                     <action method="setUseConfirm">
-                        <params>0</params>
+                        <argument name="params" xsi:type="string">0</argument>
                     </action>
                 </block>
             </block>

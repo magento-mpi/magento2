@@ -13,7 +13,7 @@
         <update handle="customer_account"/>
         <reference name="root">
             <action method="setTemplate">
-                <template>2columns-left.phtml</template>
+                <argument name="template" xsi:type="string">2columns-left.phtml</argument>
             </action>
         </reference>
         <reference name="my.account.wrapper">
@@ -21,10 +21,10 @@
                 <block class="Magento_Sales_Block_Recurring_Profiles" name="sales.recurring.profiles.grid" as="grid" template="recurring/grid.phtml">
                     <action method="prepareProfilesGrid"/>
                     <action method="setEmptyGridMessage" translate="value">
-                        <value>There are no recurring profiles yet.</value>
+                        <argument name="value" xsi:type="string">There are no recurring profiles yet.</argument>
                     </action>
                     <action method="setGridHtmlId">
-                        <value>recurring_profile_list_view</value>
+                        <argument name="value" xsi:type="string">recurring_profile_list_view</argument>
                     </action>
                 </block>
             </block>

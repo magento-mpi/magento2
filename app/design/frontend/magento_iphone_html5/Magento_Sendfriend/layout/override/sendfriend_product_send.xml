@@ -12,12 +12,12 @@
         <label>Catalog Product Email to a Friend</label>
         <reference name="root">
             <action method="setMyClass">
-                <value>send-to-friend</value>
+                <argument name="value" xsi:type="string">send-to-friend</argument>
             </action>
         </reference>
         <reference name="head">
             <action method="addJs">
-                <file>varien/product.js</file>
+                <argument name="file" xsi:type="string">varien/product.js</argument>
             </action>
         </reference>
         <reference name="content">

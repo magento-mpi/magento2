@@ -14,7 +14,7 @@
         <remove name="menu"/>
         <reference name="root">
             <action method="setTemplate">
-                <template>admin/popup.phtml</template>
+                <argument name="template" xsi:type="string">admin/popup.phtml</argument>
             </action>
         </reference>
     </handle>

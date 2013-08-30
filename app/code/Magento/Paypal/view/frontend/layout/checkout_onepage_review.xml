@@ -14,10 +14,10 @@
         </reference>
         <reference name="checkout.onepage.review.button">
             <action method="setTemplate">
-                <template helper="Magento_Paypal_Helper_Hss::getReviewButtonTemplate">
-                    <name>Magento_Paypal::hss/review/button.phtml</name>
-                    <block>checkout.onepage.review.button</block>
-                </template>
+                <argument name="template" xsi:type="array">
+                    <item name="name" xsi:type="string">Magento_Paypal::hss/review/button.phtml</item>
+                    <item name="block" xsi:type="string">checkout.onepage.review.button</item>
+                </argument>
             </action>
         </reference>
     </handle>

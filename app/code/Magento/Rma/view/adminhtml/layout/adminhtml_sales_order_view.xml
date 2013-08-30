@@ -14,9 +14,9 @@
                 <block class="Magento_Rma_Block_Adminhtml_Rma" name="magento_rma"/>
             </block>
             <action method="addTabAfter">
-                <name>order_rma</name>
-                <block>magento_rma_order_view_tab_rma</block>
-                <after>order_shipments</after>
+                <argument name="name" xsi:type="string">order_rma</argument>
+                <argument name="block" xsi:type="string">magento_rma_order_view_tab_rma</argument>
+                <argument name="after" xsi:type="string">order_shipments</argument>
             </action>
         </reference>
         <reference name="sales_order_edit">

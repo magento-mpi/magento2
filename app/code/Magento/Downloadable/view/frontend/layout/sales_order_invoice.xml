@@ -11,9 +11,9 @@
     <handle id="sales_order_invoice">
         <reference name="invoice_items">
             <action method="addItemRender">
-                <type>downloadable</type>
-                <block>Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable</block>
-                <template>sales/order/invoice/items/renderer/downloadable.phtml</template>
+                <argument name="type" xsi:type="string">downloadable</argument>
+                <argument name="block" xsi:type="string">Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable</argument>
+                <argument name="template" xsi:type="string">sales/order/invoice/items/renderer/downloadable.phtml</argument>
             </action>
         </reference>
     </handle>

@@ -12,7 +12,7 @@
         <reference name="checkout.onepage">
             <block class="Magento_Cms_Block_Block" name="checkout.callout" as="checkoutCallout" before="checkout.progress">
                 <action method="setBlockId">
-                    <block_id>checkout_callout</block_id>
+                    <argument name="block_id" xsi:type="string">checkout_callout</argument>
                 </action>
             </block>
         </reference>

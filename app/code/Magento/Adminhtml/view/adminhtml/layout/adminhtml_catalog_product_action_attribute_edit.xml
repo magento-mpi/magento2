@@ -16,16 +16,16 @@
                 <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory" name="tab_inventory" template="catalog/product/edit/action/inventory.phtml"/>
                 <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Websites" name="tab_websites" template="catalog/product/edit/action/websites.phtml"/>
                 <action method="addTab">
-                    <name>attributes</name>
-                    <block>tab_attributes</block>
+                    <argument name="name" xsi:type="string">attributes</argument>
+                    <argument name="block" xsi:type="string">tab_attributes</argument>
                 </action>
                 <action method="addTab">
-                    <name>inventory</name>
-                    <block>tab_inventory</block>
+                    <argument name="name" xsi:type="string">inventory</argument>
+                    <argument name="block" xsi:type="string">tab_inventory</argument>
                 </action>
                 <action method="addTab">
-                    <name>websites</name>
-                    <block>tab_websites</block>
+                    <argument name="name" xsi:type="string">websites</argument>
+                    <argument name="block" xsi:type="string">tab_websites</argument>
                 </action>
             </block>
         </reference>

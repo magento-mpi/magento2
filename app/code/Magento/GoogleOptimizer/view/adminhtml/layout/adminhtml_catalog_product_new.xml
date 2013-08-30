@@ -11,8 +11,8 @@
     <handle id="adminhtml_catalog_product_new">
         <reference name="product_tabs">
             <action method="addTab">
-                <name>google-experiment</name>
-                <block>Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimizer</block>
+                <argument name="name" xsi:type="string">google-experiment</argument>
+                <argument name="block" xsi:type="string">Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimizer</argument>
             </action>
         </reference>
     </handle>

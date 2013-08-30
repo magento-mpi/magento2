@@ -15,7 +15,7 @@
             <block class="Magento_Core_Block_Template" name="checkout.customer.order" template="Magento_AdvancedCheckout::customer/sku.phtml">
                 <block class="Magento_AdvancedCheckout_Block_Customer_Sku" name="checkout.customer.sku" template="widget/sku.phtml">
                     <action method="setIsTitleHidden">
-                        <value>true</value>
+                        <argument name="value" xsi:type="string">true</argument>
                     </action>
                     <block class="Magento_Core_Block_Template" template="Magento_AdvancedCheckout::customer/file.phtml"/>
                 </block>

@@ -11,9 +11,9 @@
     <handle id="default">
         <reference name="footer_links">
             <action method="addLink" translate="label title" ifconfig="contacts/contacts/enabled">
-                <label>Contact Us</label>
-                <url>contacts</url>
-                <title>Contact Us</title>
+                <argument name="label" xsi:type="string">Contact Us</argument>
+                <argument name="url" xsi:type="string">contacts</argument>
+                <argument name="title" xsi:type="string">Contact Us</argument>
             </action>
         </reference>
     </handle>

@@ -13,133 +13,133 @@
             <block class="Magento_GiftWrapping_Block_Adminhtml_Giftwrapping" name="magento_giftwrapping">
                 <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.giftwrapping.grid" as="grid">
                     <arguments>
-                        <id>giftwrappingGrid</id>
-                        <dataSource type="object">Magento_GiftWrapping_Model_Resource_Wrapping_Grid_Collection</dataSource>
-                        <default_sort>wrapping_id</default_sort>
-                        <default_dir>ASC</default_dir>
+                        <argument name="id" xsi:type="string">giftwrappingGrid</argument>
+                        <argument name="dataSource" xsi:type="string">Magento_GiftWrapping_Model_Resource_Wrapping_Grid_Collection</argument>
+                        <argument name="default_sort" xsi:type="string">wrapping_id</argument>
+                        <argument name="default_dir" xsi:type="string">ASC</argument>
                     </arguments>
                     <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.giftwrapping.massactions" as="grid.massaction">
                         <arguments>
-                            <massaction_id_field>wrapping_id</massaction_id_field>
-                            <form_field_name>wrapping_ids</form_field_name>
-                            <use_select_all>1</use_select_all>
-                            <options>
-                                <delete>
-                                    <label translate="true">Delete</label>
-                                    <url>*/*/massDelete</url>
-                                    <confirm translate="true">Are you sure you want to delete the selected gift wrappings?</confirm>
-                                </delete>
-                                <status>
-                                    <label translate="true">Change status</label>
-                                    <url>*/*/changeStatus</url>
-                                    <block_name>status</block_name>
-                                </status>
-                            </options>
+                            <argument name="massaction_id_field" xsi:type="string">wrapping_id</argument>
+                            <argument name="form_field_name" xsi:type="string">wrapping_ids</argument>
+                            <argument name="use_select_all" xsi:type="string">1</argument>
+                            <argument name="options" xsi:type="array">
+                                <item name="delete" xsi:type="array">
+                                    <item name="label" xsi:type="string" translate="true">Delete</item>
+                                    <item name="url" xsi:type="string">*/*/massDelete</item>
+                                    <item name="confirm" xsi:type="string" translate="true">Are you sure you want to delete the selected gift wrappings?</item>
+                                </item>
+                                <item name="status" xsi:type="array">
+                                    <item name="label" xsi:type="string" translate="true">Change status</item>
+                                    <item name="url" xsi:type="string">*/*/changeStatus</item>
+                                    <item name="block_name" xsi:type="string">status</item>
+                                </item>
+                            </argument>
                         </arguments>
                         <block class="Magento_Backend_Block_Widget_Grid_Massaction_Additional" name="adminhtml.block.giftwrapping.massactions.status" as="status">
                             <arguments>
-                                <fields>
-                                    <visibility>
-                                        <name>status</name>
-                                        <type>select</type>
-                                        <class>required-entry</class>
-                                        <label translate="true">Status</label>
-                                        <values>Magento_GiftWrapping_Model_MassOptions</values>
-                                    </visibility>
-                                </fields>
+                                <argument name="fields" xsi:type="array">
+                                    <item name="visibility" xsi:type="array">
+                                        <item name="name" xsi:type="string">status</item>
+                                        <item name="type" xsi:type="string">select</item>
+                                        <item name="class" xsi:type="string">required-entry</item>
+                                        <item name="label" xsi:type="string" translate="true">Status</item>
+                                        <item name="values" xsi:type="string">Magento_GiftWrapping_Model_MassOptions</item>
+                                    </item>
+                                </argument>
                             </arguments>
                         </block>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet">
                         <arguments>
-                            <id>giftwrappingGrid</id>
-                            <rowUrl>
-                                <path>*/*/edit</path>
-                                <extraParamsTemplate>
-                                    <id>getId</id>
-                                </extraParamsTemplate>
-                            </rowUrl>
+                            <argument name="id" xsi:type="string">giftwrappingGrid</argument>
+                            <argument name="rowUrl" xsi:type="array">
+                                <item name="path" xsi:type="string">*/*/edit</item>
+                                <item name="extraParamsTemplate" xsi:type="array">
+                                    <item name="id" xsi:type="string">getId</item>
+                                </item>
+                            </argument>
                         </arguments>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="wrapping_id">
                             <arguments>
-                                <header translate="true">ID</header>
-                                <type>number</type>
-                                <index>wrapping_id</index>
-                                <header_css_class>col-id</header_css_class>
-                                <column_css_class>col-id</column_css_class>
+                                <argument name="header" xsi:type="string" translate="true">ID</argument>
+                                <argument name="type" xsi:type="string">number</argument>
+                                <argument name="index" xsi:type="string">wrapping_id</argument>
+                                <argument name="header_css_class" xsi:type="string">col-id</argument>
+                                <argument name="column_css_class" xsi:type="string">col-id</argument>
                             </arguments>
                         </block>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="design">
                             <arguments>
-                                <header translate="true">Gift Wrap Design</header>
-                                <index>design</index>
-                                <header_css_class>col-design</header_css_class>
-                                <column_css_class>col-design</column_css_class>
+                                <argument name="header" xsi:type="string" translate="true">Gift Wrap Design</argument>
+                                <argument name="index" xsi:type="string">design</argument>
+                                <argument name="header_css_class" xsi:type="string">col-design</argument>
+                                <argument name="column_css_class" xsi:type="string">col-design</argument>
                             </arguments>
                         </block>
                         <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="websites">
                             <arguments>
-                                <header translate="true">Websites</header>
-                                <type>options</type>
-                                <sortable>0</sortable>
-                                <index>website_ids</index>
-                                <id>websites</id>
-                                <options type="options">Magento_Backend_Model_Config_Source_Website_OptionHash</options>
-                                <header_css_class>col-websites</header_css_class>
-                                <column_css_class>col-websites</column_css_class>
+                                <argument name="header" xsi:type="string" translate="true">Websites</argument>
+                                <argument name="type" xsi:type="string">options</argument>
+                                <argument name="sortable" xsi:type="string">0</argument>
+                                <argument name="index" xsi:type="string">website_ids</argument>
+                                <argument name="id" xsi:type="string">websites</argument>
+                                <argument name="options" xsi:type="options" model="Magento_Backend_Model_Config_Source_Website_OptionHash"/>
+                                <argument name="header_css_class" xsi:type="string">col-websites</argument>
+                                <argument name="column_css_class" xsi:type="string">col-websites</argument>
                             </arguments>
                         </block>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="status">
                             <arguments>
-                                <header translate="true">Status</header>
-                                <type>options</type>
-                                <sortable>0</sortable>
-                                <index>status</index>
-                                <id>status</id>
-                                <options>
-                                    <disabled>
-                                        <value>0</value>
-                                        <label translate="true">Disabled</label>
-                                    </disabled>
-                                    <enabled>
-                                        <value>1</value>
-                                        <label translate="true">Enabled</label>
-                                    </enabled>
-                                </options>
-                                <header_css_class>col-status</header_css_class>
-                                <column_css_class>col-status</column_css_class>
+                                <argument name="header" xsi:type="string" translate="true">Status</argument>
+                                <argument name="type" xsi:type="string">options</argument>
+                                <argument name="sortable" xsi:type="string">0</argument>
+                                <argument name="index" xsi:type="string">status</argument>
+                                <argument name="id" xsi:type="string">status</argument>
+                                <argument name="options" xsi:type="array">
+                                    <item name="disabled" xsi:type="array">
+                                        <item name="value" xsi:type="string">0</item>
+                                        <item name="label" xsi:type="string" translate="true">Disabled</item>
+                                    </item>
+                                    <item name="enabled" xsi:type="array">
+                                        <item name="value" xsi:type="string">1</item>
+                                        <item name="label" xsi:type="string" translate="true">Enabled</item>
+                                    </item>
+                                </argument>
+                                <argument name="header_css_class" xsi:type="string">col-status</argument>
+                                <argument name="column_css_class" xsi:type="string">col-status</argument>
                             </arguments>
                         </block>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="base_price">
                             <arguments>
-                                <header translate="true">Price</header>
-                                <index>base_price</index>
-                                <type>price</type>
-                                <id>base_price</id>
-                                <header_css_class>col-price</header_css_class>
-                                <column_css_class>col-price</column_css_class>
+                                <argument name="header" xsi:type="string" translate="true">Price</argument>
+                                <argument name="index" xsi:type="string">base_price</argument>
+                                <argument name="type" xsi:type="string">price</argument>
+                                <argument name="id" xsi:type="string">base_price</argument>
+                                <argument name="header_css_class" xsi:type="string">col-price</argument>
+                                <argument name="column_css_class" xsi:type="string">col-price</argument>
                             </arguments>
                         </block>
                         <block class="Magento_Backend_Block_Widget_Grid_Column" as="action">
                             <arguments>
-                                <id>action</id>
-                                <header translate="true">Action</header>
-                                <type>action</type>
-                                <getter>getId</getter>
-                                <filter>0</filter>
-                                <sortable>0</sortable>
-                                <is_system>1</is_system>
-                                <actions>
-                                    <edit_action>
-                                        <caption translate="true">Edit</caption>
-                                        <url>
-                                            <base>*/*/edit</base>
-                                        </url>
-                                        <field>id</field>
-                                    </edit_action>
-                                </actions>
-                                <header_css_class>col-actions</header_css_class>
-                                <column_css_class>col-actions</column_css_class>
+                                <argument name="id" xsi:type="string">action</argument>
+                                <argument name="header" xsi:type="string" translate="true">Action</argument>
+                                <argument name="type" xsi:type="string">action</argument>
+                                <argument name="getter" xsi:type="string">getId</argument>
+                                <argument name="filter" xsi:type="string">0</argument>
+                                <argument name="sortable" xsi:type="string">0</argument>
+                                <argument name="is_system" xsi:type="string">1</argument>
+                                <argument name="actions" xsi:type="array">
+                                    <item name="edit_action" xsi:type="array">
+                                        <item name="caption" xsi:type="string" translate="true">Edit</item>
+                                        <item name="url" xsi:type="array">
+                                            <item name="base" xsi:type="string">*/*/edit</item>
+                                        </item>
+                                        <item name="field" xsi:type="string">id</item>
+                                    </item>
+                                </argument>
+                                <argument name="header_css_class" xsi:type="string">col-actions</argument>
+                                <argument name="column_css_class" xsi:type="string">col-actions</argument>
                             </arguments>
                         </block>
                     </block>

@@ -12,108 +12,108 @@
         <reference name="invitation_grid_container">
             <block class="Magento_Backend_Block_Widget_Grid" name="invitation.grid.grid" as="grid">
                 <arguments>
-                    <id>invitationGrid</id>
-                    <dataSource type="object">Magento_Invitation_Model_Resource_Invitation_Grid_Collection</dataSource>
-                    <default_sort>date</default_sort>
-                    <default_dir>DESC</default_dir>
-                    <save_parameters_in_session>1</save_parameters_in_session>
+                    <argument name="id" xsi:type="string">invitationGrid</argument>
+                    <argument name="dataSource" xsi:type="string">Magento_Invitation_Model_Resource_Invitation_Grid_Collection</argument>
+                    <argument name="default_sort" xsi:type="string">date</argument>
+                    <argument name="default_dir" xsi:type="string">DESC</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
                 </arguments>
                 <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.invitation.massactions" as="grid.massaction">
                     <arguments>
-                        <massaction_id_field>invitation_id</massaction_id_field>
-                        <form_field_name>invitations</form_field_name>
-                        <use_select_all>1</use_select_all>
-                        <options>
-                            <cancel>
-                                <label translate="true">Discard Selected</label>
-                                <url>*/*/massCancel</url>
-                                <confirm translate="true">Are you sure you want to do this?</confirm>
-                            </cancel>
-                            <resend>
-                                <label translate="true">Send Selected</label>
-                                <url>*/*/massResend</url>
-                            </resend>
-                        </options>
+                        <argument name="massaction_id_field" xsi:type="string">invitation_id</argument>
+                        <argument name="form_field_name" xsi:type="string">invitations</argument>
+                        <argument name="use_select_all" xsi:type="string">1</argument>
+                        <argument name="options" xsi:type="array">
+                            <item name="cancel" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Discard Selected</item>
+                                <item name="url" xsi:type="string">*/*/massCancel</item>
+                                <item name="confirm" xsi:type="string" translate="true">Are you sure you want to do this?</item>
+                            </item>
+                            <item name="resend" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Send Selected</item>
+                                <item name="url" xsi:type="string">*/*/massResend</item>
+                            </item>
+                        </argument>
                     </arguments>
                 </block>
                 <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <id>tax_rate_grid</id>
-                        <rowUrl>
-                            <path>*/*/view</path>
-                            <extraParamsTemplate>
-                                <id>getId</id>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="id" xsi:type="string">tax_rate_grid</argument>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/view</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
                     </arguments>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="magento_invitation_id">
                         <arguments>
-                            <header translate="true">ID</header>
-                            <width>80</width>
-                            <align>right</align>
-                            <type>text</type>
-                            <index>invitation_id</index>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
+                            <argument name="width" xsi:type="string">80</argument>
+                            <argument name="align" xsi:type="string">right</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">invitation_id</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
                         <arguments>
-                            <header translate="true">Email</header>
-                            <type>text</type>
-                            <index>invitation_email</index>
+                            <argument name="header" xsi:type="string" translate="true">Email</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">invitation_email</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="invitee">
                         <arguments>
-                            <header translate="true">Invitee</header>
-                            <type>text</type>
-                            <index>invitee_email</index>
-                            <renderer>Magento_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee</renderer>
+                            <argument name="header" xsi:type="string" translate="true">Invitee</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">invitee_email</argument>
+                            <argument name="renderer" xsi:type="string">Magento_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="invitation_date">
                         <arguments>
-                            <header translate="true">Sent</header>
-                            <type>datetime</type>
-                            <gmtoffset>1</gmtoffset>
-                            <width>170</width>
-                            <index>invitation_date</index>
+                            <argument name="header" xsi:type="string" translate="true">Sent</argument>
+                            <argument name="type" xsi:type="string">datetime</argument>
+                            <argument name="gmtoffset" xsi:type="string">1</argument>
+                            <argument name="width" xsi:type="string">170</argument>
+                            <argument name="index" xsi:type="string">invitation_date</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="signup_date">
                         <arguments>
-                            <header translate="true">Registered</header>
-                            <type>datetime</type>
-                            <gmtoffset>1</gmtoffset>
-                            <width>150</width>
-                            <index>signup_date</index>
+                            <argument name="header" xsi:type="string" translate="true">Registered</argument>
+                            <argument name="type" xsi:type="string">datetime</argument>
+                            <argument name="gmtoffset" xsi:type="string">1</argument>
+                            <argument name="width" xsi:type="string">150</argument>
+                            <argument name="index" xsi:type="string">signup_date</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
-                            <header translate="true">Status</header>
-                            <type>options</type>
-                            <width>140</width>
-                            <index>status</index>
-                            <options type="options">Magento_Invitation_Model_Source_Invitation_Options</options>
+                            <argument name="header" xsi:type="string" translate="true">Status</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="width" xsi:type="string">140</argument>
+                            <argument name="index" xsi:type="string">status</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Invitation_Model_Source_Invitation_Options"/>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="website_id">
                         <arguments>
-                            <header translate="true">Valid Website</header>
-                            <type>options</type>
-                            <width>150</width>
-                            <index>website_id</index>
-                            <options type="options">Magento_Invitation_Model_Source_Invitation_WebsiteId</options>
+                            <argument name="header" xsi:type="string" translate="true">Valid Website</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="width" xsi:type="string">150</argument>
+                            <argument name="index" xsi:type="string">website_id</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Invitation_Model_Source_Invitation_WebsiteId"/>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="group_id">
                         <arguments>
-                            <header translate="true">Invitee Group</header>
-                            <type>options</type>
-                            <width>140</width>
-                            <index>group_id</index>
-                            <filter_index>invitee_group_id</filter_index>
-                            <options type="options">Magento_Invitation_Model_Source_Invitation_GroupId</options>
+                            <argument name="header" xsi:type="string" translate="true">Invitee Group</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="width" xsi:type="string">140</argument>
+                            <argument name="index" xsi:type="string">group_id</argument>
+                            <argument name="filter_index" xsi:type="string">invitee_group_id</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Invitation_Model_Source_Invitation_GroupId"/>
                         </arguments>
                     </block>
                 </block>

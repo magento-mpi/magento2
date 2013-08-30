@@ -12,7 +12,7 @@
         <update handle="editor"/>
         <reference name="head">
             <action method="addJs">
-                <file>Magento_VersionsCms::cms.js</file>
+                <argument name="file" xsi:type="string">Magento_VersionsCms::cms.js</argument>
             </action>
         </reference>
         <reference name="head.components">
@@ -26,16 +26,16 @@
         <reference name="left">
             <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tabs" name="cms_page_revision_edit_tabs">
                 <action method="addTab">
-                    <name>content_section</name>
-                    <block>Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content</block>
+                    <argument name="name" xsi:type="string">content_section</argument>
+                    <argument name="block" xsi:type="string">Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content</argument>
                 </action>
                 <action method="addTab">
-                    <name>design_section</name>
-                    <block>Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Design</block>
+                    <argument name="name" xsi:type="string">design_section</argument>
+                    <argument name="block" xsi:type="string">Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Design</argument>
                 </action>
                 <action method="addTab">
-                    <name>meta_section</name>
-                    <block>Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Meta</block>
+                    <argument name="name" xsi:type="string">meta_section</argument>
+                    <argument name="block" xsi:type="string">Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Meta</argument>
                 </action>
             </block>
         </reference>

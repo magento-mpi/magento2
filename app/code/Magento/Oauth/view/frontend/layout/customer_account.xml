@@ -11,9 +11,9 @@
     <handle id="customer_account">
         <reference name="customer_account_navigation">
             <action method="addLink" translate="label">
-                <name>OAuth Customer Tokens</name>
-                <path>oauth/customer_token</path>
-                <label>My Applications</label>
+                <argument name="name" xsi:type="string">OAuth Customer Tokens</argument>
+                <argument name="path" xsi:type="string">oauth/customer_token</argument>
+                <argument name="label" xsi:type="string">My Applications</argument>
             </action>
         </reference>
     </handle>

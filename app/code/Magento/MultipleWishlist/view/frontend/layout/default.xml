@@ -11,11 +11,11 @@
     <handle id="default">
         <reference name="top.links">
             <action method="removeLinkBlock">
-                <blockName>wishlist_link</blockName>
+                <argument name="blockName" xsi:type="string">wishlist_link</argument>
             </action>
             <block class="Magento_MultipleWishlist_Block_Links" name="wishlist_link"/>
             <action method="addLinkBlock">
-                <blockName>wishlist_link</blockName>
+                <argument name="blockName" xsi:type="string">wishlist_link</argument>
             </action>
         </reference>
         <block class="Magento_MultipleWishlist_Block_Customer_Sidebar" name="wishlist_sidebar" template="Magento_Wishlist::sidebar.phtml"/>

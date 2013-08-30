@@ -12,22 +12,22 @@
         <update handle="editor"/>
         <reference name="head">
             <action method="addCss">
-                <file>jquery/fileUploader/css/jquery.fileupload-ui.css</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.iframe-transport.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.iframe-transport.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/load-image.min.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/load-image.min.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/canvas-to-blob.min.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/canvas-to-blob.min.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload-fp.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload-fp.js</argument>
             </action>
         </reference>
         <reference name="left">
@@ -39,10 +39,10 @@
                     <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="salesrule_grid_serializer">
                         <reference name="salesrule_grid_serializer">
                             <action method="initSerializerBlock">
-                                <grid_block_name>banner_salesrule_grid</grid_block_name>
-                                <data_callback>getRelatedSalesRule</data_callback>
-                                <hidden_input_name>banner_sales_rules</hidden_input_name>
-                                <reload_param_name>selected_salesrules</reload_param_name>
+                                <argument name="grid_block_name" xsi:type="string">banner_salesrule_grid</argument>
+                                <argument name="data_callback" xsi:type="string">getRelatedSalesRule</argument>
+                                <argument name="hidden_input_name" xsi:type="string">banner_sales_rules</argument>
+                                <argument name="reload_param_name" xsi:type="string">selected_salesrules</argument>
                             </action>
                         </reference>
                     </block>
@@ -50,25 +50,25 @@
                     <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="catalogrule_grid_serializer">
                         <reference name="catalogrule_grid_serializer">
                             <action method="initSerializerBlock">
-                                <grid_block_name>banner_catalogrule_grid</grid_block_name>
-                                <data_callback>getRelatedCatalogRule</data_callback>
-                                <hidden_input_name>banner_catalog_rules</hidden_input_name>
-                                <reload_param_name>selected_catalogrules</reload_param_name>
+                                <argument name="grid_block_name" xsi:type="string">banner_catalogrule_grid</argument>
+                                <argument name="data_callback" xsi:type="string">getRelatedCatalogRule</argument>
+                                <argument name="hidden_input_name" xsi:type="string">banner_catalog_rules</argument>
+                                <argument name="reload_param_name" xsi:type="string">selected_catalogrules</argument>
                             </action>
                         </reference>
                     </block>
                 </block>
                 <action method="addTab">
-                    <name>properties_section</name>
-                    <block>banner_edit_tab_properties</block>
+                    <argument name="name" xsi:type="string">properties_section</argument>
+                    <argument name="block" xsi:type="string">banner_edit_tab_properties</argument>
                 </action>
                 <action method="addTab">
-                    <name>content_section</name>
-                    <block>banner_edit_tab_content</block>
+                    <argument name="name" xsi:type="string">content_section</argument>
+                    <argument name="block" xsi:type="string">banner_edit_tab_content</argument>
                 </action>
                 <action method="addTab">
-                    <name>promotions_section</name>
-                    <block>banner_edit_tab_promotions</block>
+                    <argument name="name" xsi:type="string">promotions_section</argument>
+                    <argument name="block" xsi:type="string">banner_edit_tab_promotions</argument>
                 </action>
             </block>
         </reference>

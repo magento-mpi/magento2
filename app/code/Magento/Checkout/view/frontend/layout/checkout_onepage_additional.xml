@@ -13,7 +13,7 @@
         <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
             <block class="Magento_Checkout_Block_Onepage_Shipping_Method_Additional" name="shipping_method_additional" template="onepage/shipping_method/additional.phtml">
                 <action method="setDontDisplayContainer">
-                    <param>1</param>
+                    <argument name="param" xsi:type="string">1</argument>
                 </action>
             </block>
         </block>

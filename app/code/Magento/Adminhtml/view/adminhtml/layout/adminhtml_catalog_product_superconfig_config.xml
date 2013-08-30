@@ -12,75 +12,72 @@
         <reference name="admin.product.edit.tab.super.config.grid.container">
             <block class="Magento_Backend_Block_Widget_Grid" name="admin.product.edit.tab.super.config.grid" as="grid">
                 <arguments>
-                    <id>configurable_associated_products_grid</id>
-                    <dataSource type="object">Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct</dataSource>
-                    <use_ajax>true</use_ajax>
-                    <default_sort>entity_id</default_sort>
-                    <default_dir>DESC</default_dir>
-                    <save_parameters_in_session>0</save_parameters_in_session>
-                    <grid_url type="url">
-                        <path>*/*/superConfig</path>
-                        <params>
-                            <_current>1</_current>
-                        </params>
-                    </grid_url>
+                    <argument name="id" xsi:type="string">configurable_associated_products_grid</argument>
+                    <argument name="dataSource" xsi:type="string">Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct</argument>
+                    <argument name="use_ajax" xsi:type="string">true</argument>
+                    <argument name="default_sort" xsi:type="string">entity_id</argument>
+                    <argument name="default_dir" xsi:type="string">DESC</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">0</argument>
+                    <argument name="grid_url" xsi:type="url" path="*/*/superConfig">
+                        <param name="_current">1</param>
+                    </argument>
                 </arguments>
                 <block class="Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSet" as="grid.columnSet" name="admin.product.edit.tab.super.config.grid.columnSet">
                     <arguments>
-                        <id>super_product_links</id>
+                        <argument name="id" xsi:type="string">super_product_links</argument>
                     </arguments>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="entity_id">
                         <arguments>
-                            <header translate="true">ID</header>
-                            <width>60px</width>
-                            <type>text</type>
-                            <index>entity_id</index>
-                            <id>entity_id</id>
-                            <filter>0</filter>
-                            <sortable>1</sortable>
-                            <renderer>Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Renderer_Id</renderer>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
+                            <argument name="width" xsi:type="string">60px</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">entity_id</argument>
+                            <argument name="id" xsi:type="string">entity_id</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">1</argument>
+                            <argument name="renderer" xsi:type="string">Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Renderer_Id</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true">Name</header>
-                            <type>text</type>
-                            <escape>1</escape>
-                            <index>name</index>
-                            <id>name</id>
-                            <filter>0</filter>
-                            <sortable>1</sortable>
+                            <argument name="header" xsi:type="string" translate="true">Name</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="escape" xsi:type="string">1</argument>
+                            <argument name="index" xsi:type="string">name</argument>
+                            <argument name="id" xsi:type="string">name</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">1</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="price">
                         <arguments>
-                            <header translate="true">Price</header>
-                            <type>currency</type>
-                            <index>price</index>
-                            <id>price</id>
-                            <filter>0</filter>
-                            <sortable>1</sortable>
+                            <argument name="header" xsi:type="string" translate="true">Price</argument>
+                            <argument name="type" xsi:type="string">currency</argument>
+                            <argument name="index" xsi:type="string">price</argument>
+                            <argument name="id" xsi:type="string">price</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">1</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="sku" name="admin.product.edit.tab.super.config.grid.sku">
                         <arguments>
-                            <header translate="true">SKU</header>
-                            <type>text</type>
-                            <escape>1</escape>
-                            <index>sku</index>
-                            <id>sku</id>
-                            <filter>0</filter>
-                            <sortable>1</sortable>
+                            <argument name="header" xsi:type="string" translate="true">SKU</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="escape" xsi:type="string">1</argument>
+                            <argument name="index" xsi:type="string">sku</argument>
+                            <argument name="id" xsi:type="string">sku</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">1</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="weight">
                         <arguments>
-                            <header translate="true">Weight</header>
-                            <type>text</type>
-                            <index>weight</index>
-                            <id>weight</id>
-                            <filter>0</filter>
-                            <sortable>1</sortable>
+                            <argument name="header" xsi:type="string" translate="true">Weight</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">weight</argument>
+                            <argument name="id" xsi:type="string">weight</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">1</argument>
                         </arguments>
                     </block>
                 </block>

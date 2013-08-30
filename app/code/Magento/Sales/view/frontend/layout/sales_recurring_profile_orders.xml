@@ -14,23 +14,23 @@
         <update handle="sales_recurring_profile_view__tabs"/>
         <reference name="sales.recurring.profile.view.tab.orders">
             <action method="setIsViewCurrent">
-                <v>1</v>
+                <argument name="v" xsi:type="string">1</argument>
             </action>
         </reference>
         <reference name="sales.recurring.profile.view">
             <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.orders" as="table" template="recurring/grid.phtml">
                 <action method="prepareRelatedOrdersFrontendGrid"/>
                 <action method="setViewLabel" translate="value">
-                    <value>Orders Based on This Profile</value>
+                    <argument name="value" xsi:type="string">Orders Based on This Profile</argument>
                 </action>
                 <action method="setEmptyGridMessage" translate="value">
-                    <value>There are no orders yet.</value>
+                    <argument name="value" xsi:type="string">There are no orders yet.</argument>
                 </action>
                 <action method="setGridHtmlClass">
-                    <value>info-box</value>
+                    <argument name="value" xsi:type="string">info-box</argument>
                 </action>
                 <action method="setGridHtmlCss">
-                    <value>border:0</value>
+                    <argument name="value" xsi:type="string">border:0</argument>
                 </action>
             </block>
         </reference>

@@ -11,130 +11,130 @@
     <handle id="oauth_root_handle">
         <reference name="root">
             <action method="setTemplate">
-                <template>Magento_Oauth::empty.phtml</template>
+                <argument name="template" xsi:type="string">Magento_Oauth::empty.phtml</argument>
             </action>
         </reference>
         <reference name="head">
             <action method="removeItem">
-                <type>js</type>
-                <name>scriptaculous/controls.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/controls.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>prototype/window.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">prototype/window.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>scriptaculous/builder.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/builder.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>scriptaculous/dragdrop.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/dragdrop.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>scriptaculous/controls.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/controls.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>scriptaculous/slider.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/slider.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>lib/ccard.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">lib/ccard.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>varien/js.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">varien/js.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/hash.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/hash.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/events.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/events.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/varienLoader.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/varienLoader.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/grid.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/grid.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/tabs.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/tabs.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/accordion.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/accordion.js</argument>
             </action>
             <!--            <action method="removeItem"><type>js</type><name>mage/adminhtml/tools.js</name></action>-->
             <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/product.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/product.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/rules.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/rules.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/wysiwyg/tiny_mce/setup.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/wysiwyg/tiny_mce/setup.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>lib/ds-sleight.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">lib/ds-sleight.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>varien/iehover-fix.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">varien/iehover-fix.js</argument>
             </action>
             <action method="removeItem">
-                <type>css</type>
-                <name>print.css</name>
+                <argument name="type" xsi:type="string">css</argument>
+                <argument name="name" xsi:type="string">print.css</argument>
             </action>
             <action method="removeItem">
-                <type>js_css</type>
-                <name>extjs/resources/css/ext-all.css</name>
+                <argument name="type" xsi:type="string">js_css</argument>
+                <argument name="name" xsi:type="string">extjs/resources/css/ext-all.css</argument>
             </action>
             <action method="removeItem">
-                <type>js_css</type>
-                <name>extjs/resources/css/ytheme-magento.css</name>
+                <argument name="type" xsi:type="string">js_css</argument>
+                <argument name="name" xsi:type="string">extjs/resources/css/ytheme-magento.css</argument>
             </action>
             <action method="removeItem">
-                <type>js_css</type>
-                <name>menu.css</name>
+                <argument name="type" xsi:type="string">js_css</argument>
+                <argument name="name" xsi:type="string">menu.css</argument>
             </action>
             <action method="removeItem">
-                <type>js_css</type>
-                <name>mage/calendar.css</name>
+                <argument name="type" xsi:type="string">js_css</argument>
+                <argument name="name" xsi:type="string">mage/calendar.css</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>jquery/jquery-ui-timepicker-addon.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">jquery/jquery-ui-timepicker-addon.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>mage/calendar.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/calendar.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>extjs/fix-defer-before.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">extjs/fix-defer-before.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>extjs/ext-tree.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">extjs/ext-tree.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>extjs/fix-defer.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">extjs/fix-defer.js</argument>
             </action>
             <action method="removeItem">
-                <type>js</type>
-                <name>extjs/ext-tree-checkbox.js</name>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">extjs/ext-tree-checkbox.js</argument>
             </action>
         </reference>
     </handle>

@@ -12,7 +12,7 @@
         <update handle="popup"/>
         <reference name="root">
             <action method="setTemplate">
-                <template>admin/overlay_popup.phtml</template>
+                <argument name="template" xsi:type="string">admin/overlay_popup.phtml</argument>
             </action>
         </reference>
     </handle>

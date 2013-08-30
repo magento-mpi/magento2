@@ -11,9 +11,9 @@
     <handle id="adminhtml_customer_wishlist">
         <reference name="customer.wishlist.edit.tab">
             <arguments>
-                <product_configuration_helpers>
-                    <bundle>Magento_Bundle_Helper_Catalog_Product_Configuration</bundle>
-                </product_configuration_helpers>
+                <argument name="product_configuration_helpers" xsi:type="array">
+                    <item name="bundle" xsi:type="string">Magento_Bundle_Helper_Catalog_Product_Configuration</item>
+                </argument>
             </arguments>
         </reference>
     </handle>

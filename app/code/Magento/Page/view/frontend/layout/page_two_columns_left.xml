@@ -12,14 +12,14 @@
         <label>All Two-Column Layout Pages (Left Column)</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>2columns-left.phtml</template>
+                <argument name="template" xsi:type="string">2columns-left.phtml</argument>
             </action>
             <!-- Mark root page block that template is applied -->
             <action method="setIsHandle">
-                <applied>1</applied>
+                <argument name="applied" xsi:type="string">1</argument>
             </action>
             <action method="setLayoutCode">
-                <name>two_columns_left</name>
+                <argument name="name" xsi:type="string">two_columns_left</argument>
             </action>
         </reference>
     </handle>

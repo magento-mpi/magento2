@@ -14,8 +14,8 @@
             <block class="Magento_Checkout_Block_Onepage_Progress" name="progress" template="onepage/progress.phtml">
                 <block class="Magento_Checkout_Block_Onepage_Payment_Info" name="payment_info">
                     <action method="setInfoTemplate">
-                        <method/>
-                        <template/>
+                        <argument name="method" xsi:type="string"/>
+                        <argument name="template" xsi:type="string"/>
                     </action>
                 </block>
             </block>

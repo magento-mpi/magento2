@@ -11,9 +11,9 @@
     <handle id="sales_email_order_shipment_items">
         <reference name="items">
             <action method="addItemRender">
-                <type>bundle</type>
-                <block>Magento_Bundle_Block_Sales_Order_Items_Renderer</block>
-                <template>email/order/items/shipment/default.phtml</template>
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Sales_Order_Items_Renderer</argument>
+                <argument name="template" xsi:type="string">email/order/items/shipment/default.phtml</argument>
             </action>
         </reference>
     </handle>

@@ -11,9 +11,9 @@
     <handle id="checkout_multishipping_overview">
         <reference name="checkout_overview">
             <action method="addItemRender">
-                <type>giftcard</type>
-                <block>Magento_GiftCard_Block_Checkout_Cart_Item_Renderer</block>
-                <template>Magento_Checkout::multishipping/item/default.phtml</template>
+                <argument name="type" xsi:type="string">giftcard</argument>
+                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Checkout_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">Magento_Checkout::multishipping/item/default.phtml</argument>
             </action>
         </reference>
     </handle>

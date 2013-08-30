@@ -16,7 +16,7 @@
         </reference>
         <reference name="right">
             <action method="unsetChild">
-                <name>wishlist_customer_sidebar</name>
+                <argument name="name" xsi:type="string">wishlist_customer_sidebar</argument>
             </action>
         </reference>
     </handle>

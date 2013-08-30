@@ -12,14 +12,14 @@
         <label>All Three-Column Layout Pages</label>
         <reference name="root">
             <action method="setTemplate">
-                <template>3columns.phtml</template>
+                <argument name="template" xsi:type="string">3columns.phtml</argument>
             </action>
             <!-- Mark root page block that template is applied -->
             <action method="setIsHandle">
-                <applied>1</applied>
+                <argument name="applied" xsi:type="string">1</argument>
             </action>
             <action method="setLayoutCode">
-                <name>three_columns</name>
+                <argument name="name" xsi:type="string">three_columns</argument>
             </action>
         </reference>
     </handle>

@@ -17,7 +17,7 @@
         <move element="cart_sidebar" destination="header" as="topCart"/>
         <reference name="cart_sidebar">
             <action method="setTemplate">
-                <template>cart/cartheader.phtml</template>
+                <argument name="template" xsi:type="string">cart/cartheader.phtml</argument>
             </action>
         </reference>
     </handle>

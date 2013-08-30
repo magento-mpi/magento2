@@ -14,7 +14,7 @@
             <block class="Magento_MultipleWishlist_Block_Adminhtml_Report_Customer_Wishlist" name="adminhtml.block.report.customer.wishlist.container" template="Magento_Adminhtml::report/grid/container.phtml">
                 <block class="Magento_Backend_Block_Store_Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName">
-                        <var_name>store_ids</var_name>
+                        <argument name="var_name" xsi:type="string">store_ids</argument>
                     </action>
                 </block>
             </block>

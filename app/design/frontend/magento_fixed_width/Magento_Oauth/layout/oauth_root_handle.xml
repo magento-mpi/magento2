@@ -11,8 +11,8 @@
     <handle id="oauth_root_handle">
         <reference name="head">
             <action method="removeItem">
-                <type>js</type>
-                <file>js/enterprise/catalogevent.js</file>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="file" xsi:type="string">js/enterprise/catalogevent.js</argument>
             </action>
         </reference>
         <remove name="account.links"/>
