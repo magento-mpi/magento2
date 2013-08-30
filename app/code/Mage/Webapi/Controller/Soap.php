@@ -32,9 +32,6 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
     /** @var Mage_Webapi_Controller_Soap_Handler */
     protected $_soapHandler;
 
-    /** @var Mage_Core_Model_StoreManagerInterface */
-    protected $_storeManager;
-
     /** @var Mage_Core_Model_App_State */
     protected $_appState;
 
@@ -48,7 +45,6 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
      * @param Mage_Webapi_Model_Soap_Fault $soapFault
      * @param Mage_Webapi_Controller_ErrorProcessor $errorProcessor
      * @param Mage_Webapi_Controller_Soap_Handler $soapHandler
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Model_App_State $appState
      */
     public function __construct(
@@ -59,17 +55,15 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
         Mage_Webapi_Model_Soap_Fault $soapFault,
         Mage_Webapi_Controller_ErrorProcessor $errorProcessor,
         Mage_Webapi_Controller_Soap_Handler $soapHandler,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_App_State $appState
     ) {
+        $this->_request = $request;
+        $this->_response = $response;
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
-        $this->_request = $request;
         $this->_soapFault = $soapFault;
-        $this->_response = $response;
         $this->_errorProcessor = $errorProcessor;
         $this->_soapHandler = $soapHandler;
-        $this->_storeManager = $storeManager;
         $this->_appState = $appState;
     }
 
@@ -94,7 +88,7 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
     public function dispatch()
     {
         if (!$this->_appState->isInstalled()) {
-            $this->_response->setRedirect($this->_storeManager->getStore()->getBaseUrl() . 'install')->sendHeaders();
+            $this->_processBadRequest('Magento is not yet installed');
         } else {
             try {
                 if ($this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {

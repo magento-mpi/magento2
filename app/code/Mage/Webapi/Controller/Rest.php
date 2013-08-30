@@ -35,9 +35,6 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
-    /** @var Mage_Core_Model_StoreManagerInterface */
-    protected $_storeManager;
-
     /** @var Mage_Core_Model_App_State */
     protected $_appState;
 
@@ -50,7 +47,8 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
      * @param Mage_Webapi_Controller_Rest_Router $router
      * @param Mage_Webapi_Controller_Rest_Authentication $authentication
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Helper_Data $helper,
+     * @param Mage_Core_Model_App_State $appState
      */
     public function __construct(
         Mage_Webapi_Controller_Rest_Request $request,
@@ -61,7 +59,6 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
         Mage_Webapi_Controller_Rest_Authentication $authentication,
         Magento_ObjectManager $objectManager,
         Mage_Webapi_Helper_Data $helper,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_App_State $appState
     ) {
         $this->_restPresentation = $restPresentation;
@@ -72,7 +69,6 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
         $this->_response = $response;
         $this->_objectManager = $objectManager;
         $this->_helper = $helper;
-        $this->_storeManager = $storeManager;
         $this->_appState = $appState;
     }
 
@@ -97,7 +93,12 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
     public function dispatch()
     {
         if (!$this->_appState->isInstalled()) {
-            $this->_response->setRedirect($this->_storeManager->getStore()->getBaseUrl() . 'install')->sendHeaders();
+            $this->_response->setException(
+                new Mage_Webapi_Exception(
+                    $this->_helper->__('Magento is not yet installed'),
+                    Mage_Webapi_Exception::HTTP_BAD_REQUEST
+                )
+            );
         } else {
             try {
                 // TODO: $this->_authentication->authenticate();

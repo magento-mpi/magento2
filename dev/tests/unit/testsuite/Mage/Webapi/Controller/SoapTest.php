@@ -30,8 +30,8 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Controller_ErrorProcessor */
     protected $_errorProcessorMock;
 
-    /** @var Mage_Core_Model_StoreManager */
-    protected $_storeManagerMock;
+    /** @var Mage_Webapi_Controller_Soap_Handler */
+    protected $_soapHandlerMock;
 
     /** @var Mage_Core_Model_App_State */
     protected $_appStateMock;
@@ -46,43 +46,42 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
         $this->_soapServerMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Server')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_soapServerMock->expects($this->any())->method('setWSDL')->will($this->returnSelf());
-        $this->_soapServerMock->expects($this->any())->method('setEncoding')->will($this->returnSelf());
-        $this->_soapServerMock->expects($this->any())->method('setSoapVersion')->will($this->returnSelf());
-        $this->_soapServerMock->expects($this->any())->method('setClassmap')->will($this->returnSelf());
-        $this->_soapServerMock->expects($this->any())->method('setReturnResponse')->will($this->returnSelf());
-        $this->_soapServerMock->expects($this->any())->method('setObject')->will($this->returnSelf());
         $this->_autoDiscoverMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_AutoDiscover')
             ->disableOriginalConstructor()
             ->setMethods(array('handle'))
             ->getMock();
         $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Request')
-            ->setMethods(array('getParam', 'getRequestedServices'))
+//            ->setMethods(array('getParam', 'getRequestedServices'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_responseMock = $this->getMockBuilder('Mage_Webapi_Controller_Response')
             ->disableOriginalConstructor()
-            ->setMethods(array('clearHeaders', 'setHeader', 'setBody', 'sendResponse', 'setHttpResponseCode'))
+            ->setMethods(array('clearHeaders', 'setHeader', 'sendResponse'))
             ->getMock();
         $this->_soapFaultMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Fault')
             ->disableOriginalConstructor()
-            ->setMethods(array('getSoapFaultMessage', 'getLanguage'))
+//            ->setMethods(array('getSoapFaultMessage', 'getLanguage'))
             ->getMock();
         $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_ErrorProcessor')
             ->disableOriginalConstructor()
             ->setMethods(array('maskException'))
             ->getMock();
-        $soapHandlerMock = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Handler')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_storeManagerMock =  $this->getMockBuilder('Mage_Core_Model_StoreManager')
+        $this->_soapHandlerMock = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Handler')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_appStateMock =  $this->getMockBuilder('Mage_Core_Model_App_State')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
 
+        $this->_responseMock->expects($this->any())->method('clearHeaders')->will($this->returnSelf());
+        $this->_soapServerMock->expects($this->any())->method('setWSDL')->will($this->returnSelf());
+        $this->_soapServerMock->expects($this->any())->method('setEncoding')->will($this->returnSelf());
+        $this->_soapServerMock->expects($this->any())->method('setReturnResponse')->will($this->returnSelf());
+            /*
+        $this->_soapServerMock->expects($this->any())->method('setSoapVersion')->will($this->returnSelf());
+        $this->_soapServerMock->expects($this->any())->method('setClassmap')->will($this->returnSelf());
+        $this->_soapServerMock->expects($this->any())->method('setObject')->will($this->returnSelf());
+            */
 
         $this->_dispatcher = new Mage_Webapi_Controller_Soap(
             $this->_requestMock,
@@ -91,8 +90,7 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
             $this->_soapServerMock,
             $this->_soapFaultMock,
             $this->_errorProcessorMock,
-            $soapHandlerMock,
-            $this->_storeManagerMock,
+            $this->_soapHandlerMock,
             $this->_appStateMock
         );
     }
@@ -109,10 +107,27 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
         unset($this->_soapServerMock);
         unset($this->_soapFaultMock);
         unset($this->_errorProcessorMock);
-        unset($this->_storeManagerMock);
+        unset($this->_soapHandlerMock);
         unset($this->_appStateMock);
 
         parent::tearDown();
+    }
+
+
+    /**
+     * Test redirected to install page
+     */
+    public function testRedirectToInstallPage()
+    {
+        $this->_appStateMock->expects($this->any())
+            ->method('isInstalled')
+            ->will($this->returnValue(false));
+        $this->_soapFaultMock->expects($this->any())
+            ->method('getSoapFaultMessage')
+            ->will($this->returnArgument(0));
+
+        $this->_dispatcher->dispatch();
+        $this->assertEquals('Magento is not yet installed', $this->_responseMock->getBody());
     }
 
     /**
@@ -120,29 +135,17 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchWsdl()
     {
-        $this->_mockGetParam(1);
-
-        $charset = 'utf8';
-        $contentType = 'text/xml';
-        $this->_mockSetResponseContentType($contentType, $charset);
-
-        $expectedWsdl = '<?xml version="1.0" encoding="' . $charset .'"?><root>WSDL_CONTENT</root>';
-        $expectedResources = array('foo' => 'v1');
-        $expectedUrl = 'http://magento.host/soap?wsdl=1&services=testModule3ErrorV1';
-        $this->_requestMock->expects($this->once())
-            ->method('getRequestedServices')
-            ->will($this->returnValue($expectedResources));
-        $this->_soapServerMock->expects($this->once())
-            ->method('generateUri')
-            ->will($this->returnValue($expectedUrl));
-        $this->_autoDiscoverMock->expects($this->once())
+        $this->_appStateMock->expects($this->any())
+            ->method('isInstalled')
+            ->will($this->returnValue(true));
+        $this->_mockGetParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL, 1);
+        $wsdl = 'Some WSDL content';
+        $this->_autoDiscoverMock->expects($this->any())
             ->method('handle')
-            ->with($expectedResources, $expectedUrl)
-            ->will($this->returnValue($expectedWsdl));
-
-        $this->_mockSetResponse($expectedWsdl);
+            ->will($this->returnValue($wsdl));
 
         $this->_dispatcher->dispatch();
+        $this->assertEquals($wsdl, $this->_responseMock->getBody());
     }
 
     /**
@@ -150,23 +153,16 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchSoapRequest()
     {
-        $this->_mockGetParam(null);
-
-        $charset = 'utf8';
-        $contentType = 'application/soap+xml';
-        $this->_mockSetResponseContentType($contentType, $charset);
-        $expectedResponse = '<?xml version="1.0" encoding="' . $charset .'"?><root>SOAP_RESPONSE</root>';
-
-        $this->_soapServerMock->expects($this->once())
-            ->method('initWsdlCache')
-            ->with();
-        $this->_soapServerMock->expects($this->once())
+        $this->_appStateMock->expects($this->any())
+            ->method('isInstalled')
+            ->will($this->returnValue(true));
+        $soapResponse = 'Some some response';
+        $this->_soapServerMock->expects($this->any())
             ->method('handle')
-            ->will($this->returnValue($expectedResponse));
-
-        $this->_mockSetResponse($expectedResponse);
+            ->will($this->returnValue($soapResponse));
 
         $this->_dispatcher->dispatch();
+        $this->assertEquals($soapResponse, $this->_responseMock->getBody());
     }
 
     /**
@@ -174,42 +170,23 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchWithException()
     {
-        $this->_mockGetParam(null);
-
-        $expectedException = new Mage_Webapi_Exception('Test message', Mage_Webapi_Exception::HTTP_BAD_REQUEST);
-        $this->_soapServerMock->expects($this->once())
-            ->method('handle')
-            ->will($this->throwException($expectedException));
-
-        $this->_mockSetResponseContentType('text/xml');
-        $this->_errorProcessorMock->expects($this->once())
-            ->method('maskException')
-            ->with($expectedException)
-            ->will($this->returnArgument(0));
-        $this->_responseMock->expects($this->once())
-            ->method('setHttpResponseCode')
-            ->with(400);
-
-        $expectedUrl = 'http://magento.host/soap';
-
+        $this->_appStateMock->expects($this->any())
+            ->method('isInstalled')
+            ->will($this->returnValue(true));
+        $exceptionMessage = 'some error message';
+        $exception = new Mage_Webapi_Exception($exceptionMessage, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         $this->_soapServerMock->expects($this->any())
-            ->method('getEndpointUri')
-            ->will($this->returnValue($expectedUrl));
-
-        $expectedFault = '<?xml version="1.0" encoding="utf8"?><root>SOAP_FAULT</root>';
-        $this->_soapFaultMock->expects($this->once())
-            ->method('getLanguage')
-            ->will($this->returnValue('en'));
-        $this->_soapFaultMock->expects($this->once())
+            ->method('handle')
+            ->will($this->throwException($exception));
+        $this->_errorProcessorMock->expects($this->any())
+            ->method('maskException')
+            ->will($this->returnValue($exception));
+        $this->_soapFaultMock->expects($this->any())
             ->method('getSoapFaultMessage')
-            ->with(
-                $expectedException->getMessage(),
-                Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER,
-                'en'
-            )
-            ->will($this->returnValue($expectedFault));
+            ->will($this->returnArgument(0));
 
         $this->_dispatcher->dispatch();
+        $this->assertEquals($exceptionMessage, $this->_responseMock->getBody());
     }
 
     /**
@@ -217,45 +194,12 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
      *
      * @param $value
      */
-    protected function _mockGetParam($value)
+    protected function _mockGetParam($param, $value)
     {
         $this->_requestMock->expects($this->once())
             ->method('getParam')
-            ->with(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL)
+            ->with($param)
             ->will($this->returnValue($value));
     }
 
-    /**
-     * Mock dispatcher _setResponseContentType() method.
-     *
-     * @param $charset
-     * @param $contentType
-     */
-    protected function _mockSetResponseContentType($contentType = 'application/soap+xml', $charset = 'utf8')
-    {
-        $this->_responseMock->expects($this->once())
-            ->method('clearHeaders')
-            ->will($this->returnSelf());
-        $this->_soapServerMock->expects($this->any())
-            ->method('getApiCharset')
-            ->will($this->returnValue($charset));
-        $this->_responseMock->expects($this->once())
-            ->method('setHeader')
-            ->with('Content-Type', "{$contentType}; charset={$charset}");
-    }
-
-    /**
-     * Mock setting response object to expect given response body.
-     *
-     * @param $expectedResponse
-     */
-    protected function _mockSetResponse($expectedResponse)
-    {
-        $this->_responseMock->expects($this->once())
-            ->method('setBody')
-            ->with($expectedResponse);
-        $this->_responseMock->expects($this->once())
-            ->method('sendResponse')
-            ->with();
-    }
 }

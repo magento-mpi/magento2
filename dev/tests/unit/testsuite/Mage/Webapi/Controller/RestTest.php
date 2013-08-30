@@ -39,9 +39,6 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     /** @var stdClass */
     protected $_serviceMock;
 
-    /** @var Mage_Core_Model_StoreManager */
-    protected $_storeManagerMock;
-
     /** @var Mage_Core_Model_App_State */
     protected $_appStateMock;
 
@@ -70,7 +67,6 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-
         $this->_routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Router_Route')
             ->setMethods(array('isSecure', 'getServiceMethod', 'getServiceId', 'getServiceVersion'))
             ->disableOriginalConstructor()
@@ -95,10 +91,6 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_storeManagerMock =  $this->getMockBuilder('Mage_Core_Model_StoreManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->_appStateMock =  $this->getMockBuilder('Mage_Core_Model_App_State')
             ->disableOriginalConstructor()
             ->getMock();
@@ -112,7 +104,6 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             $this->_authenticationMock,
             $this->_objectManagerMock,
             $this->_helperMock,
-            $this->_storeManagerMock,
             $this->_appStateMock
         );
 
@@ -133,8 +124,6 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
         /** Assert that response sendResponse method will be executed once. */
         $this->_responseMock->expects($this->once())->method('sendResponse');
 
-        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
-
         parent::setUp();
     }
 
@@ -149,24 +138,26 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
         unset($this->_authorizationMock);
         unset($this->_restPresentation);
         unset($this->_helperMock);
-        unset($this->_storeManagerMock);
         unset($this->_appStateMock);
         parent::tearDown();
     }
-
 
     /**
      * Test redirected to install page
      */
     public function testRedirectToInstallPage()
     {
-        $redirectUrl = 'http://magento.ll/';
         $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(false));
+        $expectedMsg = 'Magento is not yet installed';
+        $this->_helperMock
+            ->expects($this->once())
+            ->method('__')
+            ->will($this->returnValue($expectedMsg));
 
-        $this->_responseMock->expects($this->once())->method('getHeaders')->will($this->returnValue(array('Location' => $redirectUrl)));
         $this->_restDispatcher->dispatch();
-        $headers = $this->_responseMock->getHeaders();
-        $this->assertEquals($redirectUrl, $headers['Location']);
+        $this->assertTrue($this->_responseMock->isException());
+        $exceptionArray = $this->_responseMock->getException();
+        $this->assertEquals($expectedMsg, $exceptionArray[0]->getMessage());
     }
 
     /**
@@ -174,6 +165,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchAuthenticationException()
     {
+        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(array()));
         $this->markTestIncomplete(
             "Test should be fixed after Mage_Webapi_Controller_Rest::dispatch() enforces authentication"
@@ -187,6 +179,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
      */
     public function testSecureRouteAndRequest($isSecureRoute, $isSecureRequest)
     {
+        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_serviceMock
             ->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(array()));
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue($isSecureRoute));
@@ -225,6 +218,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
      */
     public function testInSecureRequestOverSecureRoute()
     {
+        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(array()));
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue(true));
         $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
@@ -246,6 +240,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidReturnTypeFromService()
     {
+        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue("invalid"));
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
         $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
