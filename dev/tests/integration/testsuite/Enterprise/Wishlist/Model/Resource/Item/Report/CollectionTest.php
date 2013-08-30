@@ -1,5 +1,7 @@
 <?php
 /**
+ * Enterprise_Wishlist_Model_Resource_Item_Report_Collection
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
