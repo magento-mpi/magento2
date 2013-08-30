@@ -42,16 +42,18 @@ class Magento_Backend_Block_System_Config_Edit extends Magento_Backend_Block_Wid
     protected $_configStructure;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Backend_Model_Config_Structure $configStructure
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Backend_Model_Config_Structure $configStructure,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_configStructure = $configStructure;
     }
 
