@@ -10,7 +10,7 @@
 ?>
 
 <div class="page-title">
-    <h1><?php echo Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Gift Registry'); ?></h1>
+    <h1><?php echo $this->helper('Magento_GiftRegistry_Helper_Data')->__('Gift Registry'); ?></h1>
 </div>
 <div class="giftregistry">
 <?php $entityCollection = $this->getEntityCollection(); ?>
@@ -39,7 +39,7 @@
     </ul>
     <?php echo $this->getChildHtml('pager') ?>
 <?php else:?>
-    <p><?php echo Mage::helper('Magento_GiftRegistry_Helper_Data')->__('There are no created gift registries yet.'); ?></p>
+    <p><?php echo $this->helper('Magento_GiftRegistry_Helper_Data')->__('There are no created gift registries yet.'); ?></p>
 <?php endif;?>
 
 <?php if ($this->canAddNewEntity()):?>
