@@ -26,6 +26,7 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($storeConfigData));
 
         $model = new Enterprise_Rma_Helper_Data(
+            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false),
             $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
             $this->_getAppMock($mockConfig),
             $storeConfigMock,

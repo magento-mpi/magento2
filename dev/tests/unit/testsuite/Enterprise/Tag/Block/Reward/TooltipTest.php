@@ -19,14 +19,15 @@ class Enterprise_Tag_Block_Reward_TooltipTest extends PHPUnit_Framework_TestCase
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
         $helperMock = $this->getMock('Enterprise_Tag_Helper_Data', array('addActionClassToRewardModel'), array(), '',
-            false
-        );
+            false);
         $helperMock->expects($this->once())
             ->method('addActionClassToRewardModel');
 
-        $data = array(
-            'data' => array('helpers' => array('Enterprise_Tag_Helper_Data' => $helperMock))
+        $arguments = array(
+            'tagData' => $helperMock,
+            'coreData' => $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false),
+            'rewardData' => $this->getMock('Enterprise_Reward_Helper_Data', array(), array(), '', false),
         );
-        $objectManagerHelper->getObject('Enterprise_Tag_Block_Reward_Tooltip', $data);
+        $objectManagerHelper->getObject('Enterprise_Tag_Block_Reward_Tooltip', $arguments);
     }
 }

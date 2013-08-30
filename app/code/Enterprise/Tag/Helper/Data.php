@@ -28,8 +28,10 @@ class Enterprise_Tag_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Helper_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Core_Helper_Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        array $data = array()
+    ) {
         if (isset($data['reward_model'])) {
             $this->_rewardModel = $data['reward_model'];
         } else {
