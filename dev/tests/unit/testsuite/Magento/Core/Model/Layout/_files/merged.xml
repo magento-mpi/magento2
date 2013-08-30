@@ -36,6 +36,8 @@
     </handle>
     <handle id="checkout_onepage_index" label="One Page Checkout" type="page" parent="default">
     </handle>
+    <handle id="checkout_onepage_progress" label="One Page Checkout Progress" type="fragment" owner="checkout_onepage_index">
+    </handle>
     <handle id="fixture_handle_one">
         <block class="Magento_Core_Block_Template" template="fixture_template_one.phtml"/>
     </handle>

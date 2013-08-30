@@ -127,17 +127,14 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
      */
     public function testProcessWithEmptyArgumentValueAndSpecifiedType($arguments)
     {
-        $this->_model->process(array($arguments));
+        $this->_model->process($arguments);
     }
 
     public function processWhitEmptyArgumentValueAndSpecifiedTypeDataProvider()
     {
         return array(
             'no value'      => array(array('argKey' => array('type' => 'Dummy_Type'))),
-            'zero value'    => array(array('argKey' => array('value' => 0, 'type' => 'Dummy_Type'))),
-            'empty value'   => array(array('argKey' => array('value' => '', 'type' => 'Dummy_Type'))),
             'null value'    => array(array('argKey' => array('value' => null, 'type' => 'Dummy_Type'))),
-            'false value'   => array(array('argKey' => array('value' => false, 'type' => 'Dummy_Type'))),
         );
     }
 
