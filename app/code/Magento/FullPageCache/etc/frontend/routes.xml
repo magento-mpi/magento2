@@ -9,8 +9,8 @@
 -->
 <config>
     <router id="standard">
-        <route id="enterprise_pagecache" frontName="pagecache">
-            <module name="Enterprise_PageCache" />
+        <route id="magento_fullpagecache" frontName="pagecache">
+            <module name="Magento_FullPageCache" />
         </route>
     </router>
 </config>

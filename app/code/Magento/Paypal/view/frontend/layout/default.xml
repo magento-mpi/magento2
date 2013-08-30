@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="cart_sidebar.extra_actions">
+            <block type="Magento_Paypal_Block_Express_Shortcut" name="paypal.partner.cart_sidebar.shortcut" template="express/shortcut.phtml"/>
+        </reference>
+    </default>
+</layout>

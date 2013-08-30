@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_auth_login>
+        <reference name="form.buttons">
+            <block type="Magento_Backend_Block_Template" name="adminhtml_auth_login_forgotpassword" template="Magento_User::admin/forgotpassword_url.phtml"/>
+        </reference>
+    </adminhtml_auth_login>
+</layout>

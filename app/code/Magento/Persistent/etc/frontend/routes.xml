@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="persistent" frontName="persistent">
-            <module name="Mage_Persistent" />
+            <module name="Magento_Persistent" />
         </route>
     </router>
 </config>

@@ -10,7 +10,7 @@
 <config>
     <router id="admin">
         <route id="adminhtml">
-            <module name="Enterprise_GiftWrapping_Adminhtml" before="Mage_Adminhtml" />
+            <module name="Magento_GiftWrapping_Adminhtml" before="Magento_Adminhtml" />
         </route>
     </router>
 </config>

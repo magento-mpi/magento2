@@ -9,8 +9,8 @@
 -->
 <config>
     <router id="standard">
-        <route id="enterprise_giftcardaccount" frontName="giftcard">
-            <module name="Enterprise_GiftCardAccount" />
+        <route id="magento_giftcardaccount" frontName="giftcard">
+            <module name="Magento_GiftCardAccount" />
         </route>
     </router>
 </config>

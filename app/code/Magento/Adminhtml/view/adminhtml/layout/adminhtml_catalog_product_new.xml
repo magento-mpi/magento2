@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_catalog_product_new>
+        <update handle="editor"/>
+        <reference name="head">
+            <action method="addCss">
+                <file>jquery/fileUploader/css/jquery.fileupload-ui.css</file>
+            </action>
+            <action method="addJs">
+                <file>jquery/fileUploader/jquery.iframe-transport.js</file>
+            </action>
+            <action method="addJs">
+                <file>jquery/fileUploader/jquery.fileupload.js</file>
+            </action>
+            <action method="addJs">
+                <file>jquery/fileUploader/load-image.min.js</file>
+            </action>
+            <action method="addJs">
+                <file>jquery/fileUploader/canvas-to-blob.min.js</file>
+            </action>
+            <action method="addJs">
+                <file>jquery/fileUploader/jquery.fileupload-fp.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/proxy-event.js</file>
+            </action>
+            <action method="addCss">
+                <file>Magento_Adminhtml::catalog/category-selector.css</file>
+            </action>
+            <action method="addJs">
+                <file>jquery/jstree/jquery.hotkeys.js</file>
+            </action>
+            <action method="addJs">
+                <file>jquery/jstree/jquery.jstree.js</file>
+            </action>
+            <action method="addJs">
+                <file>Magento_Adminhtml::catalog/type-switcher.js</file>
+            </action>
+            <action method="addJs">
+                <file>Magento_Adminhtml::catalog/product-variation.js</file>
+            </action>
+            <action method="addJs">
+                <file>Magento_Adminhtml::catalog/base-image-uploader.js</file>
+            </action>
+            <action method="addJs">
+                <file>Magento_Catalog::js/product-gallery.js</file>
+            </action>
+            <action method="addCss">
+                <file>Magento_Catalog::product/product.css</file>
+            </action>
+            <action method="addJs">
+                <file>Magento_Catalog::js/custom-options.js</file>
+            </action>
+            <action method="addJs">
+                <file>Magento_Catalog::js/new-category-dialog.js</file>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit" name="product_edit">
+                <container name="product-type-tabs" label="Tabs">
+                </container>
+            </block>
+            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Magento_Adminhtml::catalog/product/edit/attribute_set.phtml"/>
+            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category" template="Magento_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
+            <block type="Magento_Core_Block_Template" name="affected-attribute-set-form" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
+        </reference>
+        <reference name="left">
+            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"/>
+        </reference>
+        <reference name="js">
+            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Js" name="catalog_product_js" template="catalog/product/js.phtml"/>
+            <block type="Magento_Core_Block_Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml"/>
+            <block type="Magento_Catalog_Block_Product_Configurable_AttributeSelector" template="Magento_Catalog::product/configurable/attribute-selector/js.phtml"/>
+            <block type="Magento_Catalog_Block_Product_Configurable_AttributeSelector" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/js.phtml"/>
+        </reference>
+    </adminhtml_catalog_product_new>
+</layout>

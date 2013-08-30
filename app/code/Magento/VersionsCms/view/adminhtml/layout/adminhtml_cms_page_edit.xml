@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_cms_page_edit>
+        <reference name="head.components">
+            <block type="Magento_Core_Block_Template" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
+        </reference>
+        <reference name="cms_page_edit_tabs">
+            <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit" name="cms_page_edit_extender"/>
+            <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy" name="cms_page_edit_tab_hierarchy" template="page/tab/hierarchy.phtml"/>
+            <action method="addTab">
+                <name>hierarchy</name>
+                <block>cms_page_edit_tab_hierarchy</block>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="setCanLoadExtJs">
+                <flag>1</flag>
+            </action>
+        </reference>
+    </adminhtml_cms_page_edit>
+</layout>

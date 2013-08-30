@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="authorizenet" frontName="authorizenet">
-            <module name="Mage_Authorizenet" />
+            <module name="Magento_Authorizenet" />
         </route>
     </router>
 </config>

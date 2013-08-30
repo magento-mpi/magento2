@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addCss"><file>mui/reset.css</file></action>
+            <action method="addCss"><file>mui/base.css</file></action>
+            <action method="addCss"><file>mui/elements.css</file></action>
+            <action method="addCss"><file>mui/form.css</file></action>
+            <action method="addCss"><file>mui/components.css</file></action>
+            <action method="addCss"><file>css/admin.css</file></action>
+            <action method="addCss"><file>jquery/farbtastic/css/farbtastic.css</file></action>
+            <action method="addCss"><file>css/header.css</file></action>
+            <action method="addCss"><file>css/pages.css</file></action>
+            <action method="addCss"><file>mui/utils.css</file></action>
+            <action method="addCss"><file>Magento_Core::prototype/magento.css</file></action>
+
+            <action method="addCss"><file>css/debug.css</file></action> <!-- temporary to debug -->
+
+            <action method="addCss"><file>mui/print.css</file><params>media="print"</params></action>
+
+            <action method="addJs"><file>lib/modernizr.js</file></action>
+            <action method="addJs"><file>js/head.js</file></action>
+            <action method="addJs"><file>mage/dropdown.js</file></action>
+            <action method="addJs"><file>jquery/jquery.tabs.js</file></action>
+            <action method="addJs"><file>jquery/farbtastic/jquery.farbtastic.js</file></action>
+            <action method="addJs"><file>js/theme.js</file></action>
+            <action method="addJs"><file>js/jquery.details.js</file></action>
+        </reference>
+    </default>
+</layout>

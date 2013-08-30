@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="media" frontName="media">
-            <module name="Mage_Media" />
+            <module name="Magento_Media" />
         </route>
     </router>
 </config>

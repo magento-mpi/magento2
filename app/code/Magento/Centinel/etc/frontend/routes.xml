@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="centinel" frontName="centinel">
-            <module name="Mage_Centinel" />
+            <module name="Magento_Centinel" />
         </route>
     </router>
-</config>
+</config>

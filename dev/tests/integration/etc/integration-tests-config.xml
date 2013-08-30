@@ -24,12 +24,12 @@
     <frontend>
         <translate>
             <modules>
-                <Mage_Core>
+                <Magento_Core>
                     <files>
                         <!-- Translation files are relative to app/code/<Namespace>/<Module>/locale/<locale> -->
-                        <fixture>../../../../../../dev/tests/integration/testsuite/Mage/Core/_files/fixture.csv</fixture>
+                        <fixture>../../../../../../dev/tests/integration/testsuite/Magento/Core/_files/fixture.csv</fixture>
                     </files>
-                </Mage_Core>
+                </Magento_Core>
             </modules>
         </translate>
     </frontend>

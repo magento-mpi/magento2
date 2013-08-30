@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_order_create_load_block_comment>
+        <reference name="content">
+            <block type="Magento_Adminhtml_Block_Sales_Order_Create_Comment" template="sales/order/create/comment.phtml" name="comment"/>
+        </reference>
+    </adminhtml_sales_order_create_load_block_comment>
+</layout>

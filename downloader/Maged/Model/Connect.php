@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,10 +11,10 @@
 include_once "Maged/Connect.php";
 
 /**
- * Class for initialize Mage_Connect lib
+ * Class for initialize Magento_Connect lib
  *
- * @category   Mage
- * @package    Mage_Connect
+ * @category   Magento
+ * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
@@ -43,7 +43,7 @@ class Maged_Model_Connect extends Maged_Model
             $options['force'] = 1;
         }
         $packages = array(
-            'Mage_All_Latest',
+            'Magento_All_Latest',
         );
         $connectConfig = $this->connect()->getConfig();
         $ftp = $connectConfig->remote_config;
@@ -160,7 +160,7 @@ class Maged_Model_Connect extends Maged_Model
         foreach ($packages as $channel=>&$package) {
             foreach ($package as $name=>&$data) {
                 $actions = array();
-                $systemPkg = $name==='Mage_Downloader';
+                $systemPkg = $name==='Magento_Downloader';
                 if (!empty($data['upgrade_latest'])) {
                     $status = 'upgrade-available';
                     $releases = array();

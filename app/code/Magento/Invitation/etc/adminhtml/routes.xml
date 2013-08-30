@@ -10,7 +10,7 @@
 <config>
     <router id="admin">
         <route id="adminhtml">
-            <module name="Enterprise_Invitation_Adminhtml" before="Mage_Adminhtml" />
+            <module name="Magento_Invitation_Adminhtml" before="Magento_Adminhtml" />
         </route>
     </router>
 </config>

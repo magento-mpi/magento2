@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="core" frontName="core">
-            <module name="Mage_Core" />
+            <module name="Magento_Core" />
         </route>
     </router>
 </config>

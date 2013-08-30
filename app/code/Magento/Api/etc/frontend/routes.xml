@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="api" frontName="api">
-            <module name="Mage_Api" />
+            <module name="Magento_Api" />
         </route>
     </router>
 </config>

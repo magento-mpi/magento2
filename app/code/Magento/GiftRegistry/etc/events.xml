@@ -9,18 +9,18 @@
 -->
 <config>
     <event name="customer_address_load_before">
-        <observer name="enterprise_giftregistry" instance="Enterprise_GiftRegistry_Model_Observer" method="addressDataBeforeLoad" />
+        <observer name="magento_giftregistry" instance="Magento_GiftRegistry_Model_Observer" method="addressDataBeforeLoad" />
     </event>
     <event name="customer_address_load_after">
-        <observer name="enterprise_giftregistry" instance="Enterprise_GiftRegistry_Model_Observer" method="addressDataAfterLoad" />
+        <observer name="magento_giftregistry" instance="Magento_GiftRegistry_Model_Observer" method="addressDataAfterLoad" />
     </event>
     <event name="sales_convert_quote_item_to_order_item">
-        <observer name="enterprise_giftregistry" instance="Enterprise_GiftRegistry_Model_Observer" method="convertItems" />
+        <observer name="magento_giftregistry" instance="Magento_GiftRegistry_Model_Observer" method="convertItems" />
     </event>
     <event name="sales_order_place_after">
-        <observer name="enterprise_giftregistry" instance="Enterprise_GiftRegistry_Model_Observer" method="orderPlaced" />
+        <observer name="magento_giftregistry" instance="Magento_GiftRegistry_Model_Observer" method="orderPlaced" />
     </event>
     <event name="catalog_product_delete_after">
-        <observer name="enterprise_giftregistry" instance="Enterprise_GiftRegistry_Model_Observer" method="deleteProduct" />
+        <observer name="magento_giftregistry" instance="Magento_GiftRegistry_Model_Observer" method="deleteProduct" />
     </event>
 </config>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Downloadable
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_Downloadable::report_products_downloads" title="Downloads" module="Magento_Reports" sortOrder="50" parent="Magento_Reports::report_products" action="adminhtml/report_product/downloads" resource="Magento_Reports::downloads"/>
+    </menu>
+</config>

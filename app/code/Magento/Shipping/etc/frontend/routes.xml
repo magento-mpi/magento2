@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="shipping" frontName="shipping">
-            <module name="Mage_Shipping" />
+            <module name="Magento_Shipping" />
         </route>
     </router>
 </config>

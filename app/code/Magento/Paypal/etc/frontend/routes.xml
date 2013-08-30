@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="paypal" frontName="paypal">
-            <module name="Mage_Paypal" />
+            <module name="Magento_Paypal" />
         </route>
     </router>
 </config>

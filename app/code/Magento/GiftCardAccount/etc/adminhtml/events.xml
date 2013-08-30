@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="order_cancel_after">
-        <observer name="enterprise_giftcardaccount" instance="Enterprise_GiftCardAccount_Model_Observer" method="returnFundsToStoreCredit" />
+        <observer name="magento_giftcardaccount" instance="Magento_GiftCardAccount_Model_Observer" method="returnFundsToStoreCredit" />
     </event>
     <event name="sales_prepare_amount_expression">
-        <observer name="enterprise_giftcardaccount" instance="Enterprise_GiftCardAccount_Model_Observer" method="extendSalesAmountExpression" />
+        <observer name="magento_giftcardaccount" instance="Magento_GiftCardAccount_Model_Observer" method="extendSalesAmountExpression" />
     </event>
 </config>

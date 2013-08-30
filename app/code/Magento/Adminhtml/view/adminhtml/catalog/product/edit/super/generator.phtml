@@ -1,0 +1,29 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/** @var $this Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
+?>
+<div data-role="product-variations-generator">
+    <!-- Configurable Attributes list -->
+    <div id="configurable-attributes-container" data-mage-init="{variationsAttributes:{}}">
+        <?php echo $this->getChildHtml('template'); ?>
+        <?php
+        foreach ($this->getAttributes() as $attribute) {
+            echo $this->getChildBlock('attribute-renderer')->render(array(
+                'attribute' => $attribute,
+            ));
+        } ?>
+    </div>
+
+    <!-- "Generate Variations" button -->
+    <?php echo $this->getChildHtml('generate'); ?>
+
+    <!-- Variations -->
+    <div id="product-variations-matrix" data-role="product-variations-matrix">
+        <?php echo $this->getChildHtml('matrix'); ?>
+    </div>
+</div>

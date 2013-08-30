@@ -10,7 +10,7 @@
 <config>
     <router id="admin">
         <route id="adminhtml">
-            <module name="Enterprise_Pbridge_Adminhtml" after="Mage_Adminhtml" />
+            <module name="Magento_Pbridge_Adminhtml" after="Magento_Adminhtml" />
         </route>
     </router>
 </config>

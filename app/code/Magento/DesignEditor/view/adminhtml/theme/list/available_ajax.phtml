@@ -1,0 +1,16 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Magento_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available */ ?>
+<?php echo join("\n", $this->getListItems()) ?>
+
+<script type="text/javascript">
+    jQuery('.infinite_scroll').infinite_scroll({url :'<?php echo $this->getNextPageUrl() ?>'});
+</script>

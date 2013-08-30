@@ -9,12 +9,12 @@
 -->
 <config>
     <event name="core_block_abstract_to_html_before">
-        <observer name="enterprise_promotionpermissions" instance="Enterprise_PromotionPermissions_Model_Observer" method="coreBlockAbstractToHtmlBefore" />
+        <observer name="magento_promotionpermissions" instance="Magento_PromotionPermissions_Model_Observer" method="coreBlockAbstractToHtmlBefore" />
     </event>
     <event name="adminhtml_block_html_before">
-        <observer name="enterprise_promotionpermissions" instance="Enterprise_PromotionPermissions_Model_Observer" method="adminhtmlBlockHtmlBefore" />
+        <observer name="magento_promotionpermissions" instance="Magento_PromotionPermissions_Model_Observer" method="adminhtmlBlockHtmlBefore" />
     </event>
     <event name="controller_action_predispatch">
-        <observer name="enterprise_promotionpermissions" instance="Enterprise_PromotionPermissions_Model_Observer" method="controllerActionPredispatch" />
+        <observer name="magento_promotionpermissions" instance="Magento_PromotionPermissions_Model_Observer" method="controllerActionPredispatch" />
     </event>
 </config>

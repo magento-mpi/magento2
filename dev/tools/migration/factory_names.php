@@ -98,7 +98,7 @@ function getModuleName($factoryName)
         $name = false;
     }
     if (false === strpos($module, '_')) {
-        $module = "Mage_{$module}";
+        $module = "Magento_{$module}";
     }
     return array($module, $name);
 }

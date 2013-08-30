@@ -9,12 +9,12 @@
 -->
 <config>
     <event name="catalog_product_save_after">
-        <observer name="enterprise_targetrule" instance="Enterprise_TargetRule_Model_Observer" method="catalogProductAfterSave" />
+        <observer name="magento_targetrule" instance="Magento_TargetRule_Model_Observer" method="catalogProductAfterSave" />
     </event>
     <event name="catalog_product_save_commit_after">
-        <observer name="enterprise_targetrule" instance="Enterprise_TargetRule_Model_Observer" method="catalogProductSaveCommitAfter" />
+        <observer name="magento_targetrule" instance="Magento_TargetRule_Model_Observer" method="catalogProductSaveCommitAfter" />
     </event>
     <event name="core_config_data_save_commit_after">
-        <observer name="enterprise_targetrule" instance="Enterprise_TargetRule_Model_Observer" method="coreConfigSaveCommitAfter" />
+        <observer name="magento_targetrule" instance="Magento_TargetRule_Model_Observer" method="coreConfigSaveCommitAfter" />
     </event>
 </config>

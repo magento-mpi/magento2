@@ -9,30 +9,30 @@
 -->
 <config>
     <event name="core_block_abstract_to_html_before">
-        <observer name="enterprise_pricepermissions" instance="Enterprise_PricePermissions_Model_Observer" method="coreBlockAbstractToHtmlBefore" />
+        <observer name="magento_pricepermissions" instance="Magento_PricePermissions_Model_Observer" method="coreBlockAbstractToHtmlBefore" />
     </event>
     <event name="adminhtml_block_html_before">
-        <observer name="enterprise_pricepermissions" instance="Enterprise_PricePermissions_Model_Observer" method="adminhtmlBlockHtmlBefore" />
+        <observer name="magento_pricepermissions" instance="Magento_PricePermissions_Model_Observer" method="adminhtmlBlockHtmlBefore" />
     </event>
     <event name="catalog_product_load_after">
-        <observer name="enterprise_pricepermissions" instance="Enterprise_PricePermissions_Model_Observer" method="catalogProductLoadAfter" />
+        <observer name="magento_pricepermissions" instance="Magento_PricePermissions_Model_Observer" method="catalogProductLoadAfter" />
     </event>
     <event name="adminhtml_catalog_product_edit_prepare_form">
-        <observer name="enterprise_pricepermissions" instance="Enterprise_PricePermissions_Model_Observer" method="adminhtmlCatalogProductEditPrepareForm" />
+        <observer name="magento_pricepermissions" instance="Magento_PricePermissions_Model_Observer" method="adminhtmlCatalogProductEditPrepareForm" />
     </event>
     <event name="catalog_product_save_before">
-        <observer name="enterprise_pricepermissions" instance="Enterprise_PricePermissions_Model_Observer" method="catalogProductSaveBefore" />
+        <observer name="magento_pricepermissions" instance="Magento_PricePermissions_Model_Observer" method="catalogProductSaveBefore" />
     </event>
     <event name="catalog_product_prepare_save">
-        <observer name="enterprise_pricepermissions" instance="Enterprise_PricePermissions_Model_Observer" method="catalogProductPrepareSave" />
+        <observer name="magento_pricepermissions" instance="Magento_PricePermissions_Model_Observer" method="catalogProductPrepareSave" />
     </event>
     <event name="adminhtml_catalog_product_form_prepare_excluded_field_list">
-        <observer name="enterprise_pricepermissions" instance="Enterprise_PricePermissions_Model_Observer" method="adminhtmlCatalogProductFormPrepareExcludedFieldList" />
+        <observer name="magento_pricepermissions" instance="Magento_PricePermissions_Model_Observer" method="adminhtmlCatalogProductFormPrepareExcludedFieldList" />
     </event>
     <event name="catalog_product_attribute_update_before">
-        <observer name="enterprise_pricepermissions" instance="Enterprise_PricePermissions_Model_Observer" method="catalogProductAttributeUpdateBefore" />
+        <observer name="magento_pricepermissions" instance="Magento_PricePermissions_Model_Observer" method="catalogProductAttributeUpdateBefore" />
     </event>
     <event name="controller_action_predispatch">
-        <observer name="enterprise_pricepermissions" instance="Enterprise_PricePermissions_Model_Observer" method="adminControllerPredispatch" />
+        <observer name="magento_pricepermissions" instance="Magento_PricePermissions_Model_Observer" method="adminControllerPredispatch" />
     </event>
 </config>

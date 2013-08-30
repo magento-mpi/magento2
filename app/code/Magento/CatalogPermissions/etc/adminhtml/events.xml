@@ -9,39 +9,39 @@
 -->
 <config>
     <event name="catalog_category_save_after">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Adminhtml_Observer" method="saveCategoryPermissions" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Adminhtml_Observer" method="saveCategoryPermissions" />
     </event>
     <event name="category_move">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Adminhtml_Observer" method="reindexCategoryPermissionOnMove" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Adminhtml_Observer" method="reindexCategoryPermissionOnMove" />
     </event>
     <event name="store_add">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Adminhtml_Observer" method="reindexProducts" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Adminhtml_Observer" method="reindexProducts" />
     </event>
     <event name="website_add">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Adminhtml_Observer" method="reindexProducts" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Adminhtml_Observer" method="reindexProducts" />
     </event>
     <event name="customer_group_save_after">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Adminhtml_Observer" method="reindex" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Adminhtml_Observer" method="reindex" />
     </event>
     <event name="controller_action_postdispatch">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Adminhtml_Observer" method="reindexPermissions" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Adminhtml_Observer" method="reindexPermissions" />
     </event>
     <event name="catalog_product_save_after">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Adminhtml_Observer" method="saveProductPermissionIndex" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Adminhtml_Observer" method="saveProductPermissionIndex" />
     </event>
     <event name="adminhtml_catalog_category_tabs">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Adminhtml_Observer" method="addCategoryPermissionTab" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Adminhtml_Observer" method="addCategoryPermissionTab" />
     </event>
     <event name="catalog_product_import_after">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Adminhtml_Observer" method="reindexProducts" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Adminhtml_Observer" method="reindexProducts" />
     </event>
     <event name="catalog_product_to_website_change">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Adminhtml_Observer" method="reindexAfterProductAssignedWebsite" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Adminhtml_Observer" method="reindexAfterProductAssignedWebsite" />
     </event>
-    <event name="admin_system_config_changed_section_enterprise_catalogpermissions">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Adminhtml_Observer" method="cleanCacheOnConfigChange" />
+    <event name="admin_system_config_changed_section_magento_catalogpermissions">
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Adminhtml_Observer" method="cleanCacheOnConfigChange" />
     </event>
     <event name="after_reindex_process_catalog_category_product">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Adminhtml_Observer" method="applyPermissionsAfterReindex" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Adminhtml_Observer" method="applyPermissionsAfterReindex" />
     </event>
 </config>

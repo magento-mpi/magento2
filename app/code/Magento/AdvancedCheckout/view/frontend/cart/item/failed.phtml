@@ -1,0 +1,37 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Order by SKU Failed Items renderer
+ */
+
+/** @var $this Magento_Checkout_Block_Cart_Item_Renderer */
+$_item = $this->getItem();
+$displayBothPrices = $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices();
+$additionalInfoBlock = $this->getProductAdditionalInformationBlock();
+?>
+<tr>
+    <td>
+        <img src="<?php echo $this->getProductThumbnailUrl() ?>" width="<?php echo $this->getThumbnailSize() ?>" height="<?php echo $this->getThumbnailSize() ?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" />
+    </td>
+    <td>
+        <h3 class="product-name"><?php echo $this->escapeHtml($this->getProductName()) ?></h3>
+        <?php if ($additionalInfoBlock):?>
+            <?php echo $additionalInfoBlock->setItem($_item)->toHtml() ?>
+        <?php endif;?>
+    </td>
+    <td class="a-center"></td>
+    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllowInCart()) : ?><td class="a-center"></td><?php endif ?>
+    <td class="a-right"<?php if ($displayBothPrices): ?> colspan="2"<?php endif; ?>></td>
+    <td class="a-center">
+        <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo __('Qty') ?>" class="input-text qty disabled" maxlength="12" disabled="disabled" />
+    </td>
+    <td class="a-center last"><a href="<?php echo $this->getDeleteUrl()?>" title="<?php echo __('Remove item')?>" class="btn-remove btn-remove2"><?php echo __('Remove item')?></a></td>
+</tr>

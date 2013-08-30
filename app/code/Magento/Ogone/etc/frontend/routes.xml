@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="ogone" frontName="ogone">
-            <module name="Mage_Ogone" />
+            <module name="Magento_Ogone" />
         </route>
     </router>
 </config>

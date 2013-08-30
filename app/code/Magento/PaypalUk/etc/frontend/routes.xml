@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="paypaluk" frontName="paypaluk">
-            <module name="Mage_PaypalUk" />
+            <module name="Magento_PaypalUk" />
         </route>
     </router>
 </config>

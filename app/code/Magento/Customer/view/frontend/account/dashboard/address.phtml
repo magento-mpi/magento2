@@ -1,0 +1,34 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="col2-set">
+    <div class="box">
+        <div class="box-title">
+            <h3><?php echo __('Address Book') ?></h3>
+            <a href="<?php echo $this->getAddressBookUrl() ?>"><?php echo __('Manage Addresses') ?></a>
+        </div>
+        <div class="box-content">
+            <div class="col-1">
+                <h4><?php echo __('Default Billing Address') ?></h4>
+                <address>
+                    <?php echo $this->getPrimaryBillingAddressHtml() ?><br />
+                    <a href="<?php echo $this->getPrimaryBillingAddressEditUrl() ?>"><?php echo __('Edit Address') ?></a>
+                </address>
+            </div>
+            <div class="col-2">
+                <h4><?php echo __('Default Shipping Address') ?></h4>
+                <address>
+                    <?php echo $this->getPrimaryShippingAddressHtml() ?><br />
+                    <a href="<?php echo $this->getPrimaryShippingAddressEditUrl() ?>"><?php echo __('Edit Address') ?></a>
+                </address>
+            </div>
+        </div>
+    </div>
+</div>

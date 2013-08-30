@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CustomerBalance
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<logging>
+    <magento_customerbalance translate="label">
+        <label>Store Credit</label>
+        <actions>
+            <adminhtml_customerbalance_form>
+                <action>view</action>
+                <expected_models>
+                    <Magento_CustomerBalance_Model_Balance/>
+                </expected_models>
+            </adminhtml_customerbalance_form>
+        </actions>
+    </magento_customerbalance>
+    <customer>
+        <actions>
+            <adminhtml_customer_save>
+                <expected_models extends="merge">
+                    <Magento_CustomerBalance_Model_Balance/>
+                </expected_models>
+                <skip_on_back>
+                    <adminhtml_customerbalance_form/>
+                    <adminhtml_customer_edit/>
+                </skip_on_back>
+            </adminhtml_customer_save>
+        </actions>
+    </customer>
+</logging>

@@ -9,80 +9,80 @@
 -->
 <config>
     <event name="websiterestriction_frontend">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="skipWebsiteRestriction" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="skipWebsiteRestriction" />
     </event>
     <event name="controller_action_layout_generate_blocks_after">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="applyPersistentData" />
-        <observer name="enterprise_persistent_cart" instance="Enterprise_Persistent_Model_Observer" method="removeCartLink" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="applyPersistentData" />
+        <observer name="magento_persistenthistory_cart" instance="Magento_PersistentHistory_Model_Observer" method="removeCartLink" />
     </event>
     <event name="controller_action_predispatch_catalog_product_compare_clear">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="applyCustomerId" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="applyCustomerId" />
     </event>
     <event name="controller_action_predispatch_catalog_product_compare_remove">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="applyCustomerId" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="applyCustomerId" />
     </event>
     <event name="controller_action_predispatch">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateCustomer" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateCustomer" />
         <observer name="persistent_customer" disabled="true" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_index">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_remove">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_add">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_cart">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_allcart">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_configure">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_update">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_updateItemOptions">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_createwishlist">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_editwishlist">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_deletewishlist">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_copyitem">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_copyitems">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_moveitems">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="controller_action_predispatch_wishlist_index_moveitem">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="emulateWishlist" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="emulateWishlist" />
     </event>
     <event name="sales_quote_save_before">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="setQuotePersistentData" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="setQuotePersistentData" />
     </event>
     <event name="controller_action_predispatch_checkout_onepage_saveMethod">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="preventSettingQuotePersistent" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="preventSettingQuotePersistent" />
     </event>
     <event name="controller_action_predispatch_checkout_onepage_saveOrder">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="preventSettingQuotePersistent" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="preventSettingQuotePersistent" />
     </event>
     <event name="render_block">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="applyBlockPersistentData" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="applyBlockPersistentData" />
     </event>
     <event name="persistent_session_expired">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="expireSidebars" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="expireSidebars" />
     </event>
 </config>

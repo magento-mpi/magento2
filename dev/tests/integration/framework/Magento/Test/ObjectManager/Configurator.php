@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-class Magento_Test_ObjectManager_Configurator implements Mage_Core_Model_ObjectManager_DynamicConfigInterface
+class Magento_Test_ObjectManager_Configurator implements Magento_Core_Model_ObjectManager_DynamicConfigInterface
 {
     /**
      * Map application initialization params to Object Manager configuration format
@@ -17,7 +17,7 @@ class Magento_Test_ObjectManager_Configurator implements Mage_Core_Model_ObjectM
     {
         return array(
             'preferences' => array(
-                'Mage_Core_Model_Cookie' => 'Magento_Test_Cookie'
+                'Magento_Core_Model_Cookie' => 'Magento_Test_Cookie'
             )
         );
     }

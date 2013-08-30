@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="downloadable" frontName="downloadable">
-            <module name="Mage_Downloadable" />
+            <module name="Magento_Downloadable" />
         </route>
     </router>
 </config>

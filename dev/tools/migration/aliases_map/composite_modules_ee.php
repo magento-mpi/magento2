@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category   Mage
+ * @category   Magento
  * @package    Mage
  * @copyright  {copyright}
  * @license    {license_link}
@@ -13,10 +13,10 @@
  */
 
 require_once realpath(dirname(dirname(dirname(dirname(__DIR__)))))
-    . '/app/code/Mage/Core/Model/Resource/Setup.php';
+    . '/app/code/Magento/Core/Model/Resource/Setup.php';
 require_once realpath(dirname(dirname(dirname(dirname(__DIR__)))))
-    . '/app/code/Mage/Core/Model/Resource/Setup/Migration.php';
+    . '/app/code/Magento/Core/Model/Resource/Setup/Migration.php';
 require_once realpath(dirname(dirname(dirname(dirname(__DIR__)))))
-    . '/app/code/Enterprise/Enterprise/Model/Resource/Setup/Migration.php';
+    . '/app/code/Magento/Enterprise/Model/Resource/Setup/Migration.php';
 
-return Enterprise_Enterprise_Model_Resource_Setup_Migration::getCompositeModules();
+return Magento_Enterprise_Model_Resource_Setup_Migration::getCompositeModules();

@@ -9,8 +9,8 @@
 -->
 <config>
     <router id="standard">
-        <route id="enterprise_invitation" frontName="invitation">
-            <module name="Enterprise_Invitation" />
+        <route id="magento_invitation" frontName="invitation">
+            <module name="Magento_Invitation" />
         </route>
     </router>
 </config>

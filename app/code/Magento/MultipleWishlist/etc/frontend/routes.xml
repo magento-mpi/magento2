@@ -10,10 +10,10 @@
 <config>
     <router id="standard">
         <route id="wishlist">
-            <module name="Enterprise_Wishlist" before="Mage_Wishlist" />
+            <module name="Magento_MultipleWishlist" before="Magento_Wishlist" />
         </route>
-        <route id="enterprise_wishlist" frontName="wishlists">
-            <module name="Enterprise_Wishlist" />
+        <route id="magento_multiplewishlist" frontName="wishlists">
+            <module name="Magento_MultipleWishlist" />
         </route>
     </router>
 </config>

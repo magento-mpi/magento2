@@ -19,13 +19,11 @@ return array(
         'children' => array(
             0 => array(
                 'id' => 'One_Module::resource_child_one',
-                'module' => 'One_Module',
                 'title' => 'Resource Child',
                 'sortOrder' => 15,
                 'children' => array(
                     0 => array(
                         'id' => 'One_Module::resource_child_two',
-                        'module' => 'Custom_Module',
                         'title' => 'Child Resource Level 2 Title',
                         'sortOrder' => 40,
                         'children' => array(),

@@ -10,10 +10,10 @@
 <config>
     <router id="standard">
         <route id="checkout">
-            <module name="Enterprise_Checkout" before="Mage_Checkout" />
+            <module name="Magento_AdvancedCheckout" before="Magento_Checkout" />
         </route>
-        <route id="enterprise_checkout" frontName="customer_order">
-            <module name="Enterprise_Checkout" />
+        <route id="magento_advancedcheckout" frontName="customer_order">
+            <module name="Magento_AdvancedCheckout" />
         </route>
     </router>
 </config>

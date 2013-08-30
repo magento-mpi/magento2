@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Configuration of Webapi module menu in Magento admin panel.
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_Webapi::system_webapi" title="REST" module="Magento_Webapi" sortOrder="40" parent="Magento_Adminhtml::system" resource="Magento_Webapi::webapi"/>
+        <add id="Magento_Webapi::system_api_webapi_roles" title="Roles" module="Magento_Webapi" sortOrder="10" parent="Magento_Webapi::system_webapi" action="adminhtml/webapi_role" resource="Magento_Webapi::webapi_roles"/>
+        <add id="Magento_Webapi::system_api_webapi_users" title="Users" module="Magento_Webapi" sortOrder="1" parent="Magento_Webapi::system_webapi" action="adminhtml/webapi_user" resource="Magento_Webapi::webapi_users"/>
+
+    </menu>
+</config>

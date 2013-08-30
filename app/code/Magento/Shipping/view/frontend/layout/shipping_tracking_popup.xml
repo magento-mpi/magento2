@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <shipping_tracking_popup translate="label" type="page" parent="default">
+        <label>Shipment Tracking Popup</label>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>popup.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="Magento_Shipping_Block_Tracking_Popup" name="shipping.tracking.popup" template="tracking/popup.phtml"/>
+        </reference>
+    </shipping_tracking_popup>
+</layout>

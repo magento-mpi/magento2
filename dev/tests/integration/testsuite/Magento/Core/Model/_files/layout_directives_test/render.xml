@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <!-- Despite reference element is not declared yet, it will "save this action for later" -->
+    <reference name="block1">
+        <action method="addText"><value>1</value></action>
+    </reference>
+    <container name="container1" label="Container 1">
+        <block type="Magento_Core_Block_Text" name="block1">
+            <action method="addText"><value>2</value></action>
+        </block>
+        <block type="Magento_Core_Block_Text" name="block2">
+            <action method="setText"><value>3</value></action>
+        </block>
+    </container>
+    <!-- A conventional use of reference - after element is declared -->
+    <reference name="block2">
+        <action method="setText"><value>4</value></action>
+    </reference>
+    <!-- Reference to non-existing element will remain ignored -->
+    <reference name="nonexistent">
+        <action method="addText"><value>5</value></action>
+    </reference>
+</layout>

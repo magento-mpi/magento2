@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if ($this->getCanDisplayTotalPaid()): ?>
+<tr>
+    <td class="label"><strong><?php echo __('Total Paid') ?></strong></td>
+    <td class="emph"><?php echo $this->displayPriceAttribute('total_paid', true) ?>
+    </td>
+</tr>
+<?php endif; ?>

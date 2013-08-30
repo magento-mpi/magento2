@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<input type="hidden" name="creditmemo[refund_giftcardaccount]" value="0">
+<?php if ($this->canRefundToCustomerBalance()): ?>
+    <p>
+        <label for="creditmemo_refund_giftcardaccount"><?php echo __('Refund Gift Cards to Store Credit') ?></label>
+        <input type="checkbox" name="creditmemo[refund_giftcardaccount]" value="1" id="creditmemo_refund_giftcardaccount">
+    </p>
+<?php endif; ?>

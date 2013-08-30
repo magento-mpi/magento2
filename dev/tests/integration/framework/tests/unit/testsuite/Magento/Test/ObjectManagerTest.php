@@ -28,16 +28,16 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
     {
         $resource = new stdClass;
         $instanceConfig = new Magento_Test_ObjectManager_Config();
-        $primaryConfig = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false);
-        $dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
-        $verification = $this->getMock('Mage_Core_Model_Dir_Verification', array(), array(), '', false);
-        $cache = $this->getMock('Mage_Core_Model_CacheInterface');
-        $configLoader = $this->getMock('Mage_Core_Model_ObjectManager_ConfigLoader', array(), array(), '', false);
+        $primaryConfig = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
+        $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+        $verification = $this->getMock('Magento_Core_Model_Dir_Verification', array(), array(), '', false);
+        $cache = $this->getMock('Magento_Core_Model_CacheInterface');
+        $configLoader = $this->getMock('Magento_Core_Model_ObjectManager_ConfigLoader', array(), array(), '', false);
         $configLoader->expects($this->once())->method('load')->will($this->returnValue(array()));
-        $configCache = $this->getMock('Mage_Core_Model_ObjectManager_ConfigCache', array(), array(), '', false);
+        $configCache = $this->getMock('Magento_Core_Model_ObjectManager_ConfigCache', array(), array(), '', false);
         $primaryConfig->expects($this->any())->method('getDirectories')->will($this->returnValue($dirs));
         $primaryLoaderMock = $this->getMock(
-            'Mage_Core_Model_ObjectManager_ConfigLoader_Primary', array(), array(), '', false
+            'Magento_Core_Model_ObjectManager_ConfigLoader_Primary', array(), array(), '', false
         );
 
         $model = new Magento_Test_ObjectManager(
@@ -55,13 +55,13 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
             $primaryLoaderMock
         );
 
-        $model->addSharedInstance($resource, 'Mage_Core_Model_Resource');
+        $model->addSharedInstance($resource, 'Magento_Core_Model_Resource');
         $instance1 = $model->get('Magento_Test_Request');
 
         $this->assertSame($instance1, $model->get('Magento_Test_Request'));
         $this->assertSame($model, $model->clearCache());
         $this->assertSame($model, $model->get('Magento_ObjectManager'));
-        $this->assertSame($resource, $model->get('Mage_Core_Model_Resource'));
+        $this->assertSame($resource, $model->get('Magento_Core_Model_Resource'));
         $this->assertNotSame($instance1, $model->get('Magento_Test_Request'));
     }
 }

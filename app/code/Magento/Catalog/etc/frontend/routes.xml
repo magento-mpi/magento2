@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="catalog" frontName="catalog">
-            <module name="Mage_Catalog" />
+            <module name="Magento_Catalog" />
         </route>
     </router>
 </config>

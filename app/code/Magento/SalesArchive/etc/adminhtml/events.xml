@@ -9,18 +9,18 @@
 -->
 <config>
     <event name="sales_order_load_after">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="salesObjectAfterLoad" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="salesObjectAfterLoad" />
     </event>
     <event name="sales_order_invoice_load_after">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="salesObjectAfterLoad" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="salesObjectAfterLoad" />
     </event>
     <event name="sales_order_shipment_load_after">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="salesObjectAfterLoad" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="salesObjectAfterLoad" />
     </event>
     <event name="sales_order_creditmemo_load_after">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="salesObjectAfterLoad" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="salesObjectAfterLoad" />
     </event>
     <event name="sales_order_grid_collection_load_before">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="appendGridCollection" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="appendGridCollection" />
     </event>
 </config>

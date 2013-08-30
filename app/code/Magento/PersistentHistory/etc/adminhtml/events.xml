@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <event name="enterprise_persistent_options_shopping_cart_save_after">
-        <observer name="enterprise_persistent" instance="Enterprise_Persistent_Model_Observer" method="updateOptionCustomerSegmentation" />
+    <event name="magento_persistenthistory_options_shopping_cart_save_after">
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="updateOptionCustomerSegmentation" />
     </event>
 </config>

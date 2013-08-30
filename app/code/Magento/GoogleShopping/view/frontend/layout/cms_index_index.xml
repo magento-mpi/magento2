@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <cms_index_index>
+        <reference name="head">
+            <action method="addMetaTag" ifconfig="google/googleshopping/verify_meta_tag">
+                <metadata helper="Magento_GoogleShopping_Helper_SiteVerification::getMetaTag"/>
+            </action>
+        </reference>
+    </cms_index_index>
+</layout>

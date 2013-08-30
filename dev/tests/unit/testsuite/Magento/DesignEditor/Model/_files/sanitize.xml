@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_DesignEditor
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <block name="root" type="Magento_Core_Block_Template" template="template.phtml">
+        <block name="head" type="Magento_Page_Block_Html_Head">
+            <action method="safeMethod"><arg>1</arg></action>
+        </block>
+        <block name="custom.safe" type="Namespace_Module_Block_Safe"/>
+        <container name="content">
+            <block name="custom.not_safe" type="Namespace_Module_Block_NotSafe">
+                <action method="setTemplate"><arg>some_template.phtml</arg></action>
+            </block>
+            <block type="Magento_Page_Block_Safe"/>
+        </container>
+    </block>
+    <reference name="head">
+        <action method="safeMethod"><arg>1</arg></action>
+    </reference>
+    <reference name="custom.not_safe">
+        <action method="rogueMethod"><block>1</block></action>
+    </reference>
+</layout>

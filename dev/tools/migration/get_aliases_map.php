@@ -170,7 +170,7 @@ function getModuleName($factoryName, $compositeModules = array())
     if (array_key_exists($module, $compositeModules)) {
         $module = $compositeModules[$module];
     } elseif (false === strpos($module, '_')) {
-        $module = "Mage_{$module}";
+        $module = "Magento_{$module}";
     }
     return array($module, $name);
 }

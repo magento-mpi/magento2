@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="wishlist" frontName="wishlist">
-            <module name="Mage_Wishlist" />
+            <module name="Magento_Wishlist" />
         </route>
     </router>
 </config>

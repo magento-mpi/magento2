@@ -9,39 +9,39 @@
 -->
 <config>
     <event name="sales_order_resource_update_grid_records">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="salesUpdateGridRecords" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="salesUpdateGridRecords" />
     </event>
     <event name="sales_order_invoice_resource_update_grid_records">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="salesUpdateGridRecords" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="salesUpdateGridRecords" />
     </event>
     <event name="sales_order_shipment_resource_update_grid_records">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="salesUpdateGridRecords" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="salesUpdateGridRecords" />
     </event>
     <event name="sales_order_creditmemo_resource_update_grid_records">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="salesUpdateGridRecords" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="salesUpdateGridRecords" />
     </event>
     <event name="controller_action_postdispatch_adminhtml_sales_order_shipment_massPrintShippingLabel">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
     </event>
     <event name="controller_action_postdispatch_adminhtml_sales_order_pdfshipments">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
     </event>
     <event name="controller_action_postdispatch_adminhtml_sales_order_pdfinvoices">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
     </event>
     <event name="controller_action_postdispatch_adminhtml_sales_order_pdfcreditmemos">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
     </event>
     <event name="controller_action_postdispatch_adminhtml_sales_order_pdfdocs">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
     </event>
     <event name="controller_action_postdispatch_adminhtml_sales_order_massHold">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
     </event>
     <event name="controller_action_postdispatch_adminhtml_sales_order_massUnhold">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
     </event>
     <event name="controller_action_postdispatch_adminhtml_sales_order_massCancel">
-        <observer name="enterprise_salesarchive" instance="Enterprise_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
+        <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="replaceSalesOrderRedirect" />
     </event>
 </config>

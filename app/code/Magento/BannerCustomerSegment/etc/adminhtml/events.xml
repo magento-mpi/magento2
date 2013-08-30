@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="banner_edit_tab_properties_after_prepare_form">
-        <observer name="enterprise_bannercustomersegment" instance="Enterprise_BannerCustomerSegment_Model_Observer" method="addFieldsToBannerForm" />
+        <observer name="magento_bannercustomersegment" instance="Magento_BannerCustomerSegment_Model_Observer" method="addFieldsToBannerForm" />
     </event>
 </config>

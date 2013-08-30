@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_catalog_category_edit>
+        <update handle="editor"/>
+        <reference name="head">
+            <action method="addCss">
+                <file>jquery/fileUploader/css/jquery.fileupload-ui.css</file>
+            </action>
+            <action method="addJs">
+                <file>jquery/fileUploader/jquery.iframe-transport.js</file>
+            </action>
+            <action method="addJs">
+                <file>jquery/fileUploader/jquery.fileupload.js</file>
+            </action>
+            <action method="addJs">
+                <file>jquery/fileUploader/load-image.min.js</file>
+            </action>
+            <action method="addJs">
+                <file>jquery/fileUploader/canvas-to-blob.min.js</file>
+            </action>
+            <action method="addJs">
+                <file>jquery/fileUploader/jquery.fileupload-fp.js</file>
+            </action>
+        </reference>
+        <reference name="left">
+            <block name="category.tree" type="Magento_Adminhtml_Block_Catalog_Category_Tree" template="catalog/category/tree.phtml"/>
+        </reference>
+        <reference name="content">
+            <block name="category.edit" type="Magento_Adminhtml_Block_Catalog_Category_Edit" template="catalog/category/edit.phtml"/>
+        </reference>
+        <reference name="js">
+            <block type="Magento_Core_Block_Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js"/>
+        </reference>
+    </adminhtml_catalog_category_edit>
+</layout>

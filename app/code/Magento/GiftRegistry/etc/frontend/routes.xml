@@ -9,8 +9,8 @@
 -->
 <config>
     <router id="standard">
-        <route id="enterprise_giftregistry" frontName="giftregistry">
-            <module name="Enterprise_GiftRegistry" />
+        <route id="magento_giftregistry" frontName="giftregistry">
+            <module name="Magento_GiftRegistry" />
         </route>
     </router>
 </config>

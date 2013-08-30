@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="contacts" frontName="contacts">
-            <module name="Mage_Contacts" />
+            <module name="Magento_Contacts" />
         </route>
     </router>
 </config>

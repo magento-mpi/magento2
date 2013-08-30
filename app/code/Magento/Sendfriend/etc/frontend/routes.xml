@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="sendfriend" frontName="sendfriend">
-            <module name="Mage_Sendfriend" />
+            <module name="Magento_Sendfriend" />
         </route>
     </router>
 </config>

@@ -10,7 +10,7 @@
 <config>
     <router id="admin">
         <route id="adminhtml">
-            <module name="Mage_User_Adminhtml" before="Mage_Backend" />
+            <module name="Magento_User_Adminhtml" before="Magento_Backend" />
         </route>
     </router>
 </config>

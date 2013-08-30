@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <magento_versionscms_hierarchy_menu_content>
+        <reference name="content">
+            <block type="Magento_VersionsCms_Block_Hierarchy_Menu" name="hierarchy_menu" template="hierarchy/menu.phtml" before="-"/>
+        </reference>
+    </magento_versionscms_hierarchy_menu_content>
+</layout>

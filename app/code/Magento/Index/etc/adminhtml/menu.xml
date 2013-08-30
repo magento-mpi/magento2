@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Index
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_Index::system_index" title="Index Management" module="Magento_Index" sortOrder="20" parent="Magento_Adminhtml::system_tools" action="adminhtml/process/list" resource="Magento_Index::index"/>
+    </menu>
+</config>

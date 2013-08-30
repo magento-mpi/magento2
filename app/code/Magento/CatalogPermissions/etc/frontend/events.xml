@@ -9,57 +9,57 @@
 -->
 <config>
     <event name="catalog_product_collection_before_add_count_to_categories">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="applyCategoryPermissionOnProductCount" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="applyCategoryPermissionOnProductCount" />
     </event>
     <event name="catalog_product_is_salable_after">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="applyIsSalableToProduct" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="applyIsSalableToProduct" />
     </event>
     <event name="catalog_category_collection_load_after">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="applyCategoryPermissionOnLoadCollection" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="applyCategoryPermissionOnLoadCollection" />
     </event>
     <event name="catalog_category_collection_add_is_active_filter">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="applyCategoryPermissionOnIsActiveFilterToCollection" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="applyCategoryPermissionOnIsActiveFilterToCollection" />
     </event>
     <event name="catalog_category_tree_init_inactive_category_ids">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="applyCategoryInactiveIds" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="applyCategoryInactiveIds" />
     </event>
     <event name="catalog_product_collection_apply_limitations_after">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="applyProductPermissionOnCollection" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="applyProductPermissionOnCollection" />
     </event>
     <event name="catalog_product_collection_load_after">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="applyProductPermissionOnCollectionAfterLoad" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="applyProductPermissionOnCollectionAfterLoad" />
     </event>
     <event name="catalog_controller_product_init_after">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="applyProductPermission" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="applyProductPermission" />
     </event>
     <event name="review_controller_product_init_after">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="applyProductPermission" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="applyProductPermission" />
     </event>
     <event name="catalog_controller_category_init_after">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="applyCategoryPermission" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="applyCategoryPermission" />
     </event>
     <event name="checkout_cart_product_add_after">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="checkQuoteItemSetProduct" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="checkQuoteItemSetProduct" />
     </event>
     <event name="checkout_cart_save_before">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="checkQuotePermissions" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="checkQuotePermissions" />
     </event>
     <event name="controller_action_predispatch_catalogsearch">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="checkCatalogSearchPreDispatch" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="checkCatalogSearchPreDispatch" />
     </event>
     <event name="controller_action_layout_load_before">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="checkCatalogSearchLayout" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="checkCatalogSearchLayout" />
     </event>
     <event name="rss_catalog_new_xml_callback">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="checkIfProductAllowedInRss" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="checkIfProductAllowedInRss" />
     </event>
     <event name="rss_catalog_special_xml_callback">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="checkIfProductAllowedInRss" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="checkIfProductAllowedInRss" />
     </event>
     <event name="rss_catalog_tagged_item_xml_callback">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="checkIfProductAllowedInRss" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="checkIfProductAllowedInRss" />
     </event>
     <event name="rss_catalog_category_xml_callback">
-        <observer name="enterprise_catalogpermissions" instance="Enterprise_CatalogPermissions_Model_Observer" method="checkIfProductAllowedInRss" />
+        <observer name="magento_catalogpermissions" instance="Magento_CatalogPermissions_Model_Observer" method="checkIfProductAllowedInRss" />
     </event>
 </config>

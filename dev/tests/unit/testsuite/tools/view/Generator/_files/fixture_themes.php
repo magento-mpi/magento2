@@ -45,17 +45,17 @@ return array(
         'filesystem_glob_map' => array(
             array(
                 '/base/dir/area_one/fixture/theme_one/', '*_*',
-                array('/base/dir/area_one/fixture/theme_one/Mage_Core'),
+                array('/base/dir/area_one/fixture/theme_one/Magento_Core'),
             ),
         ),
         'expected_result' => array(
             array(
-                'source' => '/base/dir/area_one/fixture/theme_one/Mage_Core',
+                'source' => '/base/dir/area_one/fixture/theme_one/Magento_Core',
                 'destinationContext' => array(
                     'area' => 'area_one',
                     'themePath' => 'fixture/theme_one',
                     'locale' => null,
-                    'module' => 'Mage_Core',
+                    'module' => 'Magento_Core',
                 ),
             ),
             array(

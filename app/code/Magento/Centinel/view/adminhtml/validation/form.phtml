@@ -1,0 +1,21 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="centinel">
+    <div class="authentication">
+        <iframe frameborder="0" border="0" id="<?php echo $this->getContainerId() ?>" src="" style="display:none;"></iframe>
+    </div>
+</div>
+<button onclick="cardValidator.validate()" class="scalable" type="button"><span><span><span><?php echo __('Start/Reset Validation...')?></span></span></span></button>
+<script type="text/javascript">
+//<![CDATA[
+cardValidator = new centinelValidator('<?php echo $this->getMethodCode() ?>', '<?php echo $this->getFrameUrl() ?>', '<?php echo $this->getContainerId() ?>');
+//]]>
+</script>

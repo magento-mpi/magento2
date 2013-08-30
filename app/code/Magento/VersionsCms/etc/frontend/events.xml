@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="cms_page_render">
-        <observer name="enterprise_cms" instance="Enterprise_Cms_Model_Observer" method="affectCmsPageRender" />
+        <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="affectCmsPageRender" />
     </event>
 </config>

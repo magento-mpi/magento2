@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Centinel
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <frontend>
+        <translate>
+            <modules>
+                <Magento_Centinel>
+                    <files>
+                        <default>Magento_Centinel.csv</default>
+                    </files>
+                </Magento_Centinel>
+            </modules>
+        </translate>
+        <secure_url>
+            <centinel>/centinel/</centinel>
+        </secure_url>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Centinel>
+                    <files>
+                        <default>Magento_Centinel.csv</default>
+                    </files>
+                </Magento_Centinel>
+            </modules>
+        </translate>
+    </adminhtml>
+    <global>
+        <payment>
+            <cc>
+                <types>
+                    <VI>
+                        <validator>
+                            <centinel>
+                                <state>Magento_Centinel_Model_State_Visa</state>
+                            </centinel>
+                        </validator>
+                    </VI>
+                    <MC>
+                        <validator>
+                            <centinel>
+                                <state>Magento_Centinel_Model_State_Mastercard</state>
+                            </centinel>
+                        </validator>
+                    </MC>
+                    <JCB>
+                        <validator>
+                            <centinel>
+                                <state>Magento_Centinel_Model_State_Jcb</state>
+                            </centinel>
+                        </validator>
+                    </JCB>
+                    <SM>
+                        <validator>
+                            <centinel>
+                                <state>Magento_Centinel_Model_State_Mastercard</state>
+                            </centinel>
+                        </validator>
+                    </SM>
+                </types>
+            </cc>
+        </payment>
+    </global>
+</config>

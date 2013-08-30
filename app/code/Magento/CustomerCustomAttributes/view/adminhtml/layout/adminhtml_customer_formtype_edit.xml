@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_customer_formtype_edit>
+        <reference name="head">
+            <action method="setCanLoadExtJs">
+                <flag>1</flag>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit" name="magento_customercustomattributes_formtype_edit"/>
+        </reference>
+        <reference name="left">
+            <block type="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tabs" name="magento_customercustomattributes_formtype_edit_tabs">
+                <block type="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tab_General" name="magento_customercustomattributes_formtype_edit_tab_general"/>
+                <action method="addTab">
+                    <name>magento_customercustomattributes_formtype_edit_tab_general</name>
+                    <block>magento_customercustomattributes_formtype_edit_tab_general</block>
+                </action>
+                <block type="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree" name="magento_customercustomattributes_formtype_edit_tab_tree" template="formtype/edit/tab/tree.phtml"/>
+                <action method="addTab">
+                    <name>magento_customercustomattributes_formtype_edit_tab_tree</name>
+                    <block>magento_customercustomattributes_formtype_edit_tab_tree</block>
+                </action>
+            </block>
+        </reference>
+    </adminhtml_customer_formtype_edit>
+</layout>

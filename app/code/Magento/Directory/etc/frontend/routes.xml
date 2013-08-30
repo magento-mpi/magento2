@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="directory" frontName="directory">
-            <module name="Mage_Directory" />
+            <module name="Magento_Directory" />
         </route>
     </router>
 </config>

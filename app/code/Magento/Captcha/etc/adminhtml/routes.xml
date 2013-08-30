@@ -10,7 +10,7 @@
 <config>
     <router id="admin">
         <route id="adminhtml">
-            <module name="Mage_Captcha_Adminhtml" />
+            <module name="Magento_Captcha_Adminhtml" />
         </route>
     </router>
 </config>

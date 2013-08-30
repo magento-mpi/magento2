@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_banner_grid>
+        <remove name="root"/>
+        <update handle="formkey"/>
+        <block type="Magento_Banner_Block_Adminhtml_Banner_Grid" name="banner_grid" output="1"/>
+    </adminhtml_banner_grid>
+</layout>

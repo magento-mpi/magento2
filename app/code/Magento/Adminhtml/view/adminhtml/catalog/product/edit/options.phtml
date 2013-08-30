@@ -1,0 +1,48 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options */ ?>
+
+<div class="fieldset-wrapper collapsable-wrapper opened" id="product-custom-options-wrapper">
+    <div class="fieldset-wrapper-title">
+        <strong class="title" data-toggle="collapse" data-target="#product-custom-options-content">
+            <span><?php echo __('Custom Options') ?></span>
+        </strong>
+    </div>
+    <div class="fieldset-wrapper-content in collapse" id="product-custom-options-content">
+        <fieldset class="fieldset">
+            <div class="message message-error" id="dynamic-price-warning" style="display: none;">
+                <div class="message-inner">
+                    <div class="message-content"><?php echo __('Bundle with dynamic pricing cannot include custom defined options. Options will not be saved.') ?></div>
+                </div>
+            </div>
+
+            <div id="product_options_container">
+                <div id="product_options_container_top"></div>
+                <?php echo $this->getOptionsBoxHtml() ?>
+            </div>
+
+            <div class="actions">
+                <?php echo $this->getChildHtml('import_button') ?>
+                <?php echo $this->getAddButtonHtml() ?>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<script type="text/javascript">
+jQuery(function ($) {
+    var priceType = $('#price_type');
+    var priceWarning = $('#dynamic-price-warning');
+    if (priceType && priceType.val() == 0 && priceWarning) {
+        priceWarning.show();
+    }
+});
+</script>

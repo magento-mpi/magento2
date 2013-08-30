@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="poll" frontName="poll">
-            <module name="Mage_Poll" />
+            <module name="Magento_Poll" />
         </route>
     </router>
 </config>

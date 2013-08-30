@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_order_create_load_block_giftmessage>
+        <reference name="content">
+            <block type="Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage" template="sales/order/create/giftmessage.phtml" name="giftmessage"/>
+        </reference>
+    </adminhtml_sales_order_create_load_block_giftmessage>
+</layout>

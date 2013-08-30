@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_system_design_theme_index>
+        <update handle="formkey"/>
+        <update handle="adminhtml_system_design_theme_block"/>
+        <reference name="content">
+            <block type="Magento_Theme_Block_Adminhtml_System_Design_Theme" name="design_theme"/>
+        </reference>
+    </adminhtml_system_design_theme_index>
+</layout>

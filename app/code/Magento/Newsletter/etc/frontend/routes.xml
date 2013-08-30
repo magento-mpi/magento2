@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="newsletter" frontName="newsletter">
-            <module name="Mage_Newsletter" />
+            <module name="Magento_Newsletter" />
         </route>
     </router>
 </config>

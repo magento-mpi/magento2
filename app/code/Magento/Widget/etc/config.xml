@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Widget
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <widget_setup>
+                <setup>
+                    <module>Magento_Widget</module>
+                </setup>
+            </widget_setup>
+        </resources>
+        <cms>
+            <page>
+                <tempate_filter>Magento_Widget_Model_Template_Filter</tempate_filter>
+            </page>
+            <block>
+                <tempate_filter>Magento_Widget_Model_Template_Filter</tempate_filter>
+            </block>
+        </cms>
+        <widget>
+            <related_cache_types>
+                <block_html />
+                <layout />
+            </related_cache_types>
+        </widget>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Widget>
+                    <files>
+                        <default>Magento_Widget.csv</default>
+                    </files>
+                </Magento_Widget>
+            </modules>
+        </translate>
+    </adminhtml>
+</config>

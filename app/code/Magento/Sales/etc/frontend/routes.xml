@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="sales" frontName="sales">
-            <module name="Mage_Sales" />
+            <module name="Magento_Sales" />
         </route>
     </router>
-</config>
+</config>

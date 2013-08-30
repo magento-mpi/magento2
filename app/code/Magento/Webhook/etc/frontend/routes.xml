@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="webhook" frontName="webhook">
-            <module name="Mage_Webhook" />
+            <module name="Magento_Webhook" />
         </route>
     </router>
 </config>

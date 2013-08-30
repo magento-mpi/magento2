@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Core_Model_ModuleManager">
+        <param name="outputConfigPaths">
+            <value>
+                <Magento_CustomerBalance>Magento_CustomerBalance_Helper_Data::XML_PATH_ENABLED</Magento_CustomerBalance>
+            </value>
+        </param>
+    </type>
+</config>

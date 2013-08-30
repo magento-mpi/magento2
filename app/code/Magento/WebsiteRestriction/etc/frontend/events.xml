@@ -9,12 +9,12 @@
 -->
 <config>
     <event name="controller_action_predispatch">
-        <observer name="enterprise_websiterestriction" instance="Enterprise_WebsiteRestriction_Model_Observer" method="restrictWebsite" />
+        <observer name="magento_websiterestriction" instance="Magento_WebsiteRestriction_Model_Observer" method="restrictWebsite" />
     </event>
     <event name="customer_registration_is_allowed">
-        <observer name="enterprise_websiterestriction" instance="Enterprise_WebsiteRestriction_Model_Observer" method="restrictCustomersRegistration" />
+        <observer name="magento_websiterestriction" instance="Magento_WebsiteRestriction_Model_Observer" method="restrictCustomersRegistration" />
     </event>
     <event name="controller_action_layout_load_before">
-        <observer name="enterprise_websiterestriction" instance="Enterprise_WebsiteRestriction_Model_Observer" method="addPrivateSalesLayoutUpdate" />
+        <observer name="magento_websiterestriction" instance="Magento_WebsiteRestriction_Model_Observer" method="addPrivateSalesLayoutUpdate" />
     </event>
 </config>

@@ -1,0 +1,34 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_iphone
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="page-title">
+    <h1><?php echo __('Gift Registry Items') ?></h1>
+</div>
+<div class="giftregistry giftregistry-items">
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<?php if (count($this->getItems()) > 0): ?>
+<form action="<?php echo $this->getActionUpdateUrl() ?>" method="post">
+    <fieldset>
+        <?php echo $this->getBlockHtml('formkey')?>
+        <ul class="list">
+            <?php foreach($this->getItems() as $_item): ?>
+                <?php echo $this->getItemHtml($_item) ?>
+            <?php endforeach ?>
+        </ul>
+        <div class="buttons-set">
+            <button type="submit" class="button btn-update"><?php echo __('Update Gift Registry') ?></button>
+        </div>
+    </fieldset>
+</form>
+<?php else: ?>
+    <p><?php echo __('Gift Registry has no items.') ?></p>
+<?php endif ?>
+</div>

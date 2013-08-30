@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="cms_controller_router_match_before">
-        <observer name="enterprise_cms" instance="Enterprise_Cms_Model_Observer" method="cmsControllerRouterMatchBefore" />
+        <observer name="magento_versionscms" instance="Magento_VersionsCms_Model_Observer" method="cmsControllerRouterMatchBefore" />
     </event>
     <event name="page_block_html_topmenu_gethtml_before">
-        <observer name="enterprise_cms_add_topmenu_items" instance="Enterprise_Cms_Model_Observer" method="addCmsToTopmenuItems" />
+        <observer name="magento_versionscms_add_topmenu_items" instance="Magento_VersionsCms_Model_Observer" method="addCmsToTopmenuItems" />
     </event>
 </config>

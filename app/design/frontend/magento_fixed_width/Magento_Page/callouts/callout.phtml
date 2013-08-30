@@ -1,0 +1,19 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if(strtolower(substr($this->getLinkUrl(),0,4))==='http'): ?>
+    <a href="<?php echo $this->getLinkUrl() ?>" title="<?php echo __($this->getImgAlt()) ?>">
+<?php elseif($this->getLinkUrl()): ?>
+    <a href="<?php echo $this->getUrl($this->getLinkUrl()) ?>" title="<?php echo __($this->getImgAlt()) ?>">
+<?php endif; ?>
+<img src="<?php echo $this->getViewFileUrl($this->getImgSrc()) ?>"<?php if(!$this->getLinkUrl()): ?> title="<?php echo __($this->getImgAlt()) ?>"<?php endif; ?> alt="<?php echo __($this->getImgAlt()) ?>" class="callout" />
+<?php if($this->getLinkUrl()): ?>
+    </a>
+<?php endif ?>

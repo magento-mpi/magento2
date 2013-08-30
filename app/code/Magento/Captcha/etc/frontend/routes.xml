@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="captcha" frontName="captcha">
-            <module name="Mage_Captcha" />
+            <module name="Magento_Captcha" />
         </route>
     </router>
 </config>

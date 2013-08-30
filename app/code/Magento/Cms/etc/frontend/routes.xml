@@ -10,7 +10,7 @@
 <config>
     <router id="standard">
         <route id="cms" frontName="cms">
-            <module name="Mage_Cms" />
+            <module name="Magento_Cms" />
         </route>
     </router>
 </config>

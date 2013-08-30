@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_rating_block>
+        <reference name="adminhtml.rating.container">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.rating.grid" as="grid">
+                <arguments>
+                    <id>ratingsGrid</id>
+                    <dataSource type="object">Magento_Rating_Model_Resource_Rating_Grid_Collection</dataSource>
+                    <default_sort>rating_code</default_sort>
+                    <default_dir>ASC</default_dir>
+                    <save_parameters_in_session>1</save_parameters_in_session>
+                </arguments>
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.rating.grid.columnSet" as="grid.columnSet">
+                    <arguments>
+                        <rowUrl>
+                            <path>*/*/edit</path>
+                            <extraParamsTemplate>
+                                <id>getId</id>
+                            </extraParamsTemplate>
+                        </rowUrl>
+                    </arguments>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="rating_id">
+                        <arguments>
+                            <header translate="true">ID</header>
+                            <align>right</align>
+                            <width>50px</width>
+                            <index>rating_id</index>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="rating_code">
+                        <arguments>
+                            <header translate="true">Rating</header>
+                            <index>rating_code</index>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="position">
+                        <arguments>
+                            <header translate="true">Sort Order</header>
+                            <align>left</align>
+                            <width>100px</width>
+                            <index>position</index>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
+                        <arguments>
+                            <header translate="true">Is Active</header>
+                            <align>left</align>
+                            <index>is_active</index>
+                            <type>options</type>
+                            <options>
+                                <active>
+                                    <value>1</value>
+                                    <label translate="true">Active</label>
+                                </active>
+                                <inative>
+                                    <value>0</value>
+                                    <label translate="true">Inactive</label>
+                                </inative>
+                            </options>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_rating_block>
+</layout>

@@ -1,0 +1,38 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php
+/* @var $this Magento_Adminhtml_Block_Cms_Page_Edit_Form */
+?>
+
+<div class="entry-edit">
+    <?php echo $this->getFormHtml() ?>
+<?php /*if( $form->getUseContainer() === true ): ?>
+<form id="<?php echo $form->getFormId() ?>" method="<?php echo ( $form->getFormMethod() ) ? $form->getFormMethod() : 'post' ; ?>" action="<?php echo $form->getFormAction() ?>" <?php echo ( $form->getFormEnctype() ) ? 'enctype="' . $this->getForm()->getFormEnctype() . '"' : '' ?> >
+<?php endif; ?>
+    <?php foreach ($form->getElements() as $_element): ?>
+    <?php echo $this->drawElement($_element) ?>
+    <?php endforeach; ?>
+<?php if( $form->getUseContainer() === true ): ?>
+</form>
+<?php endif;*/ ?>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+<?php if ($this->getSelectedTabId()): ?>
+    jQuery(function() {
+        if (jQuery('#<?php echo $this->getSelectedTabId() ?>').length) {
+            jQuery('#<?php echo $this->getSelectedTabId() ?>').trigger('click');
+        }
+    });
+<?php endif; ?>
+</script>
+

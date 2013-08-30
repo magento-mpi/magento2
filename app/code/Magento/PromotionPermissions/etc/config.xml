@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_PromotionPermissions
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_PromotionPermissions>
+                    <files>
+                        <default>Magento_PromotionPermissions.csv</default>
+                    </files>
+                </Magento_PromotionPermissions>
+            </modules>
+        </translate>
+    </adminhtml>
+</config>

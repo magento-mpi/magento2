@@ -9,12 +9,12 @@
 -->
 <config>
     <event name="sales_quote_collect_totals_before">
-        <observer name="enterprise_giftwrapping" instance="Enterprise_GiftWrapping_Model_Observer" method="quoteCollectTotalsBefore" />
+        <observer name="magento_giftwrapping" instance="Magento_GiftWrapping_Model_Observer" method="quoteCollectTotalsBefore" />
     </event>
     <event name="googlecheckout_checkout_before">
-        <observer name="enterprise_giftwrapping" instance="Enterprise_GiftWrapping_Model_Observer" method="googlecheckoutCheckoutBefore" />
+        <observer name="magento_giftwrapping" instance="Magento_GiftWrapping_Model_Observer" method="googlecheckoutCheckoutBefore" />
     </event>
     <event name="paypal_prepare_line_items">
-        <observer name="enterprise_giftwrapping" instance="Enterprise_GiftWrapping_Model_Observer" method="addPaypalGiftWrappingItem" />
+        <observer name="magento_giftwrapping" instance="Magento_GiftWrapping_Model_Observer" method="addPaypalGiftWrappingItem" />
     </event>
 </config>

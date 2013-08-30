@@ -10,7 +10,7 @@
 <config>
     <router id="admin">
         <route id="adminhtml">
-            <module name="Enterprise_Rma_Adminhtml" />
+            <module name="Magento_Rma_Adminhtml" />
         </route>
     </router>
 </config>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_AdminNotification_Model_System_MessageList">
+        <param name="messages">
+            <value>
+                <baseurl>Magento_AdminNotification_Model_System_Message_Baseurl</baseurl>
+                <security>Magento_AdminNotification_Model_System_Message_Security</security>
+                <cacheOutdated>Magento_AdminNotification_Model_System_Message_CacheOutdated</cacheOutdated>
+                <survey>Magento_AdminNotification_Model_System_Message_Survey</survey>
+                <media_synchronization_error>Magento_AdminNotification_Model_System_Message_Media_Synchronization_Error</media_synchronization_error>
+                <media_synchronization_success>Magento_AdminNotification_Model_System_Message_Media_Synchronization_Success</media_synchronization_success>
+            </value>
+        </param>
+    </type>
+</config>
