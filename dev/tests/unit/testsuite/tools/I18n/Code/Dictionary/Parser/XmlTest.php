@@ -23,8 +23,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         // dev/tests/unit/testsuite/tools/I18n/_files/layout.xml
-        $this->_testFile = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../../') . '/_files/')
-            . 'layout.xml';
+        $this->_testFile = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../..')) . '/_files/layout.xml';
 
         $this->_contextDetector = $this->getMock('Magento\Tools\I18n\Code\Dictionary\ContextDetector', array(), array(),
             '', false);
@@ -41,13 +40,15 @@ class XmlTest extends \PHPUnit_Framework_TestCase
             'contextDetector' => $this->_contextDetector,
         ));
 
+        $parser->parse();
+
         $expectedResult = array(
             'contextType::Phrase 2' => array(
                 'phrase' => 'Phrase 2',
                 'file' => $this->_testFile,
                 'line' => '',
                 'context' => array(
-                    'contextValue' => 1
+                    'contextValue' => 1,
                 ),
                 'context_type' => 'contextType',
             ),
@@ -56,7 +57,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
                 'file' => $this->_testFile,
                 'line' => '',
                 'context' => array(
-                    'contextValue' => 1
+                    'contextValue' => 1,
                 ),
                 'context_type' => 'contextType',
             ),
@@ -65,13 +66,12 @@ class XmlTest extends \PHPUnit_Framework_TestCase
                 'file' => $this->_testFile,
                 'line' => '',
                 'context' => array(
-                    'contextValue' => 1
+                    'contextValue' => 1,
                 ),
                 'context_type' => 'contextType',
             ),
         );
 
-        $parser->parse();
         $this->assertEquals($expectedResult, $parser->getPhrases());
     }
 }
