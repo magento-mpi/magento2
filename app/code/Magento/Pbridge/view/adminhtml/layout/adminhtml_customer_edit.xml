@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <action method="addTab">
+                <name>customer_edit_tab_payment_profile</name>
+                <block>Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile</block>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+</layout>

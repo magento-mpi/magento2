@@ -30,7 +30,7 @@ edit_theme:
                                         css_print: //div[@id='theme_css_view_']/a[contains(text(), 'css/print.css')]
                                         css_style_ie: //div[@id='theme_css_view_']/a[contains(text(), 'css/styles-ie.css')]
                                         css_style: //div[@id='theme_css_view_']/a[contains(text(), 'css/styles.css')]
-                                        enterprise_cms_widgets: //*[@id='theme_css_view_Framework files']/a[contains(text(), 'Enterprise_Cms::widgets.css')]
+                                        enterprise_cms_widgets: //*[@id='theme_css_view_Framework files']/a[contains(text(), 'Magento_VersionsCms::widgets.css')]
                                         enterprise_banner_widgets: //*[@id='theme_css_view_Framework files']/a[contains(text(), 'Enterprise_Banner::widgets.css')]
                                         enterprise_catalog_event_widgets: //*[@id='theme_css_view_Framework files']/a[contains(text(), 'Enterprise_CatalogEvent::widgets.css')]
                                         mage_page_css_tabs: //*[@id='theme_css_view_']/a[contains(text(), 'Magento_Page::css/tabs.css')]

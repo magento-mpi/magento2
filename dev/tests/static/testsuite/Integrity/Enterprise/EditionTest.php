@@ -35,14 +35,10 @@ class Integrity_Enterprise_EditionTest extends PHPUnit_Framework_TestCase
             $moduleNames[] = $moduleName;
         }
 
-        $poolPath = $root . '/app/code/Enterprise';
-        foreach (new DirectoryIterator($poolPath) as $dir) {
+        $magentoPoolPath = $root . '/app/code/Magento';
+        foreach (new DirectoryIterator($magentoPoolPath) as $dir) {
             if (!$dir->isDot()) {
-                $moduleName = 'Enterprise_' . $dir->getFilename();
-                $this->assertTrue(
-                    in_array($moduleName, $moduleNames),
-                    "Module {$moduleName} not found in {$xmlFile} file."
-                );
+                $moduleName = 'Magento_' . $dir->getFilename();
                 $moduleNames = array_diff($moduleNames, array($moduleName));
             }
         }
@@ -50,7 +46,7 @@ class Integrity_Enterprise_EditionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             0,
             count($moduleNames),
-            implode(', ', $moduleNames) . " module(s) not found in {$poolPath}."
+            implode(', ', $moduleNames) . " module(s) not found in {$magentoPoolPath}."
         );
     }
 }

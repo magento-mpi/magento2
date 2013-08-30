@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_customer_attribute_index>
+        <reference name="content">
+            <block type="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute" name="magento_customercustomattributes_attribute"/>
+        </reference>
+    </adminhtml_customer_attribute_index>
+</layout>

@@ -1,0 +1,55 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/** @var $this Magento_Rma_Block_Return_Returns */
+?>
+<?php $_returns = $this->getReturns(); ?>
+<?php if($_returns->getSize()): ?>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getChildHtml('info');?>
+    <?php echo $this->getPagerHtml(); ?>
+
+    <h2 class="table-caption"><?php echo __('My Returns') ?></h2>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getChildHtml('info');?>
+    <table class="data-table" id="my-returns-table">
+        <col width="1" />
+        <col width="1" />
+        <col />
+        <col width="1" />
+        <col width="1" />
+        <thead>
+            <tr>
+                <th><?php echo __('Return #') ?></th>
+                <th><?php echo __('Date') ?></th>
+                <th><?php echo __('Ship From') ?></th>
+                <th><span class="nobr"><?php echo __('Return Status') ?></span></th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $_odd = ''; ?>
+            <?php foreach ($_returns as $_return): ?>
+            <tr>
+                <td><?php echo $_return->getIncrementId() ?></td>
+                <td><span class="nobr"><?php echo $this->helper('Magento_Rma_Helper_Data')->getFormatedDate($_return->getDateRequested()) ?></span></td>
+                <td><?php echo $this->escapeHtml($_return->getCustomerName()) ?></td>
+                <td><?php echo $this->escapeHtml($_return->getStatusLabel()) ?></td>
+                <td>
+                    <span class="nobr"><a href="<?php echo $this->getViewUrl($_return) ?>"><?php echo __('View Return') ?></a></span>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">(function($) {$('#my-returns-table').decorate('table')})(jQuery)</script>
+    <?php echo $this->getPagerHtml(); ?>
+<?php else: ?>
+    <p><?php echo __('You have placed no returns.'); ?></p>
+<?php endif ?>

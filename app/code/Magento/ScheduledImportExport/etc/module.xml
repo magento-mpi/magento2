@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_ScheduledImportExport" version="1.11.0.3" active="false">
+        <depends>
+            <module name="Magento_ImportExport" />
+        </depends>
+    </module>
+</config>

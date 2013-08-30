@@ -1,0 +1,77 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Pbridge
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<script data-template="pbridge-input" type="text/x-jquery-tmpl">
+    <input {{each $data}}${$index}="${$value}"{{/each}} />
+</script>
+<div id="payment-method-message" style="font: normal normal normal 11px/1.35 Arial, Helvetica, sans-serif;color: #444;float: left;font-size: 12px;font-weight: bold;padding: 2px 15px 0px 0px;text-align: left;"></div>
+<script type="text/javascript">
+    (function($) {
+        $.template('pBridgeInput', $('[data-template="pbridge-input"]', $(document)));
+        /*
+         * @TODO Code of setPaymentMethod need to be moved to opcheckout widget
+         */
+        function setPaymentMethod() {
+            var jsonParams = <?php echo $this->getJsonHiddenPbridgeParams() ?>;
+            if (jsonParams.original_payment_method) {
+                var containerElement = $('#payment_form_pbridge_' + jsonParams.original_payment_method);
+                if (!containerElement.length) {
+                    containerElement = $('#payment_form_' + jsonParams.original_payment_method);
+                }
+
+                var listElements = containerElement.find('li');
+                containerElement = listElements.length ? listElements.eq(0) : containerElement;
+
+                $.each(jsonParams, function(i, param) {
+                    var paramId = '#pbridge_' + jsonParams.original_payment_method + '_' + i,
+                        field = $(paramId);
+                    if (field.length) {
+                        field.val(param);
+                    } else {
+                        $.tmpl('pBridgeInput', {
+                            'id':    paramId,
+                            'type':  'hidden',
+                            'name':  'payment[pbridge_data][' + i + ']',
+                            'value': param
+                        }).appendTo(containerElement);
+                    }
+                });
+
+                try {
+                    // skip buttons hide for multishipping
+                    var continueButton = $('#payment-buttons-container button:first');
+                    if (continueButton.length) {
+                        continueButton.show();
+                        // For saving initial behaviour of pBridge
+                        continueButton.trigger('click');
+                    }
+                    var pbridgeReload = containerElement.find('span.pbridge-reload a');
+                    if (pbridgeReload.length) {
+                        pbridgeReload.hide();
+                    }
+                    var message = $('#payment-method-message', $(document));
+                    if(message.length) {
+                        // @TODO refactor payment method message - remove <a> from js code, remove inline color style and use a CSS class instead
+                        message.html('<?php echo $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('We submitted your payment information to the server. To make changes, please click <a style="color: #1E75B4" href="#">here</a> .')) ?>')
+                            .find('a').on('click', function(e) {
+                                e.preventDefault();
+                                e.stopImmediatePropagation();
+                                pbridgeReload.trigger('click');
+                            });
+                    }
+                    document.getElementById('pbridge-reload').onclick = function () { parent.jQuery('#payment_form_pbridge_authorizenet_container').trigger('reloadPbridgeIframe'); return false; };
+                } catch (e) {}
+            }
+        }
+        $(document).ready(function() {
+            setPaymentMethod();
+        });
+    })(parent.jQuery);
+</script>

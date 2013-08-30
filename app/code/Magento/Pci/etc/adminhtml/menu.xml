@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Pci
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_Pci::system_crypt_key" title="Manage Encryption Key" module="Magento_Pci" sortOrder="30" parent="Magento_Adminhtml::system_other_settings" action="adminhtml/crypt_key" dependsOnModule="Magento_Pci" resource="Magento_Pci::crypt_key"/>
+        <add id="Magento_Pci::system_acl_locks" title="Locked Users" module="Magento_Pci" sortOrder="20" parent="Magento_User::system_acl" action="adminhtml/locks" resource="Magento_Pci::locks"/>
+    </menu>
+</config>
