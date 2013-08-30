@@ -8,14 +8,14 @@
 
 namespace Magento\Tools\I18n\Code\Dictionary\Writer\Csv;
 
-use Magento\Tools\I18n\Code\Dictionary\Writer\Csv as BaseCsv;
+use Magento\Tools\I18n\Code\Dictionary\Writer\Csv;
 
 /**
  * Stdout writer
  *
  * Output csv format to stdout
  */
-class Stdo extends BaseCsv
+class Stdo extends Csv
 {
     /**
      * Writer construct

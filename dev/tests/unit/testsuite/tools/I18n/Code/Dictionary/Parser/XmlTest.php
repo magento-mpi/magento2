@@ -22,6 +22,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        // dev/tests/unit/testsuite/tools/I18n/_files/layout.xml
         $this->_testFile = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../../') . '/_files/')
             . 'layout.xml';
 
@@ -39,8 +40,6 @@ class XmlTest extends \PHPUnit_Framework_TestCase
             'files' => array($this->_testFile),
             'contextDetector' => $this->_contextDetector,
         ));
-
-        $parser->parse();
 
         $expectedResult = array(
             'contextType::Phrase 2' => array(
@@ -72,6 +71,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
+        $parser->parse();
         $this->assertEquals($expectedResult, $parser->getPhrases());
     }
 }

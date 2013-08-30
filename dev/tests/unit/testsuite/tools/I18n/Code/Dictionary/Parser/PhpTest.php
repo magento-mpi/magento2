@@ -49,8 +49,6 @@ class PhpTest extends \PHPUnit_Framework_TestCase
             array('phrase' => 'phrase1', 'file' => 'file1', 'line' => 15),
         )));
 
-        $this->_parser->parse();
-
         $expectedResult = array(
             'contextType::phrase1' => array(
                 'phrase' => 'phrase1',
@@ -63,6 +61,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
+        $this->_parser->parse();
         $this->assertEquals($expectedResult, $this->_parser->getPhrases());
     }
 }
