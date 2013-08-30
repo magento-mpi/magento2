@@ -10,21 +10,28 @@
 class Magento_Tokenizer_Translate_MethodCollector extends Magento_Tokenizer_PhraseCollector
 {
     /**
-     * Find phrases into given tokens. e.g.: __('phrase', ...)
+     * Extract phrases from given tokens. e.g.: __('phrase', ...)
      */
-    protected function _findPhrases()
+    protected function _extractPhrases()
     {
-        if ($this->_tokenizer->getNextToken()->getName() == T_OBJECT_OPERATOR) {
+        if ($this->_tokenizer->getNextToken()->isObjectOperator()) {
             $phraseStartToken = $this->_tokenizer->getNextToken();
-            if (($this->_tokenizer->tokenIsEqualFunction($phraseStartToken, '__')
-                || ($phraseStartToken->getName() == T_WHITESPACE
-                    && $this->_tokenizer->tokenIsEqualFunction($this->_tokenizer->getNextToken(), '__')))
-                && $this->_tokenizer->getNextToken()->getValue() == '('
-            ) {
+            if ($this->_isTranslateFunction($phraseStartToken)) {
                 $arguments = $this->_tokenizer->getFunctionArgumentsTokens();
                 $phrase = $this->_collectPhrase(array_shift($arguments));
                 $this->_addPhrase($phrase, count($arguments), $this->_file, $phraseStartToken->getLine());
             }
         }
+    }
+
+    /**
+     * @param Magento_Tokenizer_Token $token
+     * @return bool
+     */
+    protected function _isTranslateFunction($token)
+    {
+        return ($token->isEqualFunction('__') || ($token->isWhitespace()
+                && $this->_tokenizer->getNextToken()->isEqualFunction('__')))
+            && $this->_tokenizer->getNextToken()->isOpenBrace();
     }
 }

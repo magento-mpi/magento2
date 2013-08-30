@@ -12,26 +12,30 @@ class Magento_Tokenizer_Token
     /**
      * @var int|string
      */
-    protected $_value;
+    private $_value;
 
     /**
      * @var int|string
      */
-    protected $_name = '';
+    private $_name;
 
     /**
      * @var int
      */
-    protected $_line = 0;
+    private $_line;
 
     /**
-     * Get line of token beginning
+     * Token construct
      *
-     * @return int
+     * @param int|string $name
+     * @param int|string $value
+     * @param int $line
      */
-    public function getLine()
+    public function __construct($name, $value, $line = 0)
     {
-        return $this->_line;
+        $this->_name = $name;
+        $this->_value = $value;
+        $this->_line = $line;
     }
 
     /**
@@ -55,18 +59,93 @@ class Magento_Tokenizer_Token
     }
 
     /**
-     * Build token
+     * Get line of token beginning
      *
-     * @param array $tokenData
+     * @return int
      */
-    public function __construct($tokenData)
+    public function getLine()
     {
-        if (is_array($tokenData)) {
-            $this->_name = $tokenData[0];
-            $this->_value = $tokenData[1];
-            $this->_line = $tokenData[2];
-        } else {
-            $this->_value = $this->_name = $tokenData;
-        }
+        return $this->_line;
+    }
+
+    /**
+     * Whenever token is equal function
+     *
+     * @param string $functionName
+     * @return bool
+     */
+    public function isEqualFunction($functionName)
+    {
+        return $this->getName() == T_STRING && $this->getValue() == $functionName;
+    }
+
+    /**
+     * Is object operator
+     *
+     * @return bool
+     */
+    public function isObjectOperator()
+    {
+        return $this->getName() == T_OBJECT_OPERATOR;
+    }
+
+    /**
+     * Is whitespace
+     *
+     * @return bool
+     */
+    public function isWhitespace()
+    {
+        return $this->getName() == T_WHITESPACE;
+    }
+
+    /**
+     * Is constant encapsed string
+     *
+     * @return bool
+     */
+    public function isConstantEncapsedString()
+    {
+        return $this->getName() == T_CONSTANT_ENCAPSED_STRING;
+    }
+
+    /**
+     * Is open brace
+     *
+     * @return bool
+     */
+    public function isOpenBrace()
+    {
+        return $this->getValue() == '(';
+    }
+
+    /**
+     * Is close brace
+     *
+     * @return bool
+     */
+    public function isCloseBrace()
+    {
+        return $this->getValue() == ')';
+    }
+
+    /**
+     * Is comma
+     *
+     * @return bool
+     */
+    public function isComma()
+    {
+        return $this->getValue() == ',';
+    }
+
+    /**
+     * Is semicolon
+     *
+     * @return bool
+     */
+    public function isSemicolon()
+    {
+        return $this->getValue() == ';';
     }
 }

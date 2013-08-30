@@ -52,24 +52,18 @@ class Magento_Tokenizer_PhraseCollector
         $this->_phrases = array();
         $this->_file = $file;
         $this->_tokenizer->parse($file);
-        try {
-            for (; ;) {
-                $this->_findPhrases();
-            }
-        } catch (Exception $pe) {
-            // tokens is ended in file
+        while (!$this->_tokenizer->isLastToken()) {
+            $this->_extractPhrases();
         }
     }
 
     /**
-     * Find phrases in given tokens. e.g.: __('phrase', ...)
+     * Extract phrases from given tokens. e.g.: __('phrase', ...)
      */
-    protected function _findPhrases()
+    protected function _extractPhrases()
     {
         $phraseStartToken = $this->_tokenizer->getNextToken();
-        if ($this->_tokenizer->tokenIsEqualFunction($phraseStartToken, '__')
-            && $this->_tokenizer->getNextToken()->getValue() == '('
-        ) {
+        if ($phraseStartToken->isEqualFunction('__') && $this->_tokenizer->getNextToken()->isOpenBrace()) {
             $arguments = $this->_tokenizer->getFunctionArgumentsTokens();
             $phrase = $this->_collectPhrase(array_shift($arguments));
             if (null !== $phrase) {
@@ -88,19 +82,17 @@ class Magento_Tokenizer_PhraseCollector
     {
         $phrase = array();
         if ($phraseTokens) {
-            $isNotLiteral = true;
             /** @var $phraseToken Magento_Tokenizer_Token*/
             foreach ($phraseTokens as $phraseToken) {
-                if ($phraseToken->getName() == T_CONSTANT_ENCAPSED_STRING) {
+                if ($phraseToken->isConstantEncapsedString()) {
                     $phrase[] = $phraseToken->getValue();
-                    $isNotLiteral = false;
                 }
             }
-            if ($isNotLiteral) {
-                return null;
+            if ($phrase) {
+                return implode(' ', $phrase);
             }
         }
-        return implode(' ', $phrase);
+        return null;
     }
 
     /**
