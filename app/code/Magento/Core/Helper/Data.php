@@ -415,7 +415,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * @param array|Magento_Object $source
      * @param array|Magento_Object $target
      * @param string $root
-     * @return array|Magento_Object|null
+     * @return array|Magento_Object|null the value of $target
      */
     public function copyFieldset($fieldset, $aspect, $source, $target, $root='global')
     {
