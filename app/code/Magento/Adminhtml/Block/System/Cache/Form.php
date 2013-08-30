@@ -43,15 +43,12 @@ class Magento_Adminhtml_Block_System_Cache_Form extends Magento_Adminhtml_Block_
             ),
         ));
 
-        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
-
         foreach (Mage::helper('Magento_Core_Helper_Data')->getCacheTypes() as $type=>$label) {
             $fieldset->addField('enable_'.$type, 'checkbox', array(
-                'name'=>'enable['.$type.']',
-                'label'=>__($label),
-                'value'=>1,
-                'checked'=>(int)$cacheState->isEnabled($type),
+                'name'    => 'enable['.$type.']',
+                'label'   => __($label),
+                'value'   => 1,
+                'checked' => (int)$this->_cacheState->isEnabled($type),
                 //'options'=>$options,
             ));
         }

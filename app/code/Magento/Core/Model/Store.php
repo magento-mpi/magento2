@@ -231,10 +231,16 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     protected $_appState;
 
     /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -244,6 +250,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_App_State $appState,
+        Magento_Core_Model_Dir $dir,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -251,6 +258,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         $this->_urlModel = $urlModel;
         $this->_configCacheType = $configCacheType;
         $this->_appState = $appState;
+        $this->_dir = $dir;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
@@ -556,9 +564,6 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         $cacheKey = $type . '/' . (is_null($secure) ? 'null' : ($secure ? 'true' : 'false'));
         if (!isset($this->_baseUrlCache[$cacheKey])) {
             $secure = is_null($secure) ? $this->isCurrentlySecure() : (bool)$secure;
-            /** @var $dirs Magento_Core_Model_Dir */
-            $dirs = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
-
             switch ($type) {
                 case self::URL_TYPE_WEB:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_URL : self::XML_PATH_UNSECURE_BASE_URL;
@@ -583,7 +588,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
                     $url = $this->getConfig($path);
                     if (!$url) {
                         $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
-                            . $dirs->getUri(Magento_Core_Model_Dir::PUB_LIB);
+                            . $this->_dir->getUri(Magento_Core_Model_Dir::PUB_LIB);
                     }
                     break;
 
@@ -592,7 +597,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
                     $url = $this->getConfig($path);
                     if (!$url) {
                         $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
-                            . $dirs->getUri(Magento_Core_Model_Dir::STATIC_VIEW);
+                            . $this->_dir->getUri(Magento_Core_Model_Dir::STATIC_VIEW);
                     }
                     break;
 
@@ -601,18 +606,18 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
                     $url = $this->getConfig($path);
                     if (!$url) {
                         $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
-                            . $dirs->getUri(Magento_Core_Model_Dir::PUB_VIEW_CACHE);
+                            . $this->_dir->getUri(Magento_Core_Model_Dir::PUB_VIEW_CACHE);
                     }
                     break;
 
                 case self::URL_TYPE_MEDIA:
-                    $url = $this->_getMediaScriptUrl($dirs, $secure);
+                    $url = $this->_getMediaScriptUrl($this->_dir, $secure);
                     if (!$url) {
                         $path = $secure ? self::XML_PATH_SECURE_BASE_MEDIA_URL : self::XML_PATH_UNSECURE_BASE_MEDIA_URL;
                         $url = $this->getConfig($path);
                         if (!$url) {
                             $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
-                                . $dirs->getUri(Magento_Core_Model_Dir::MEDIA);
+                                . $this->_dir->getUri(Magento_Core_Model_Dir::MEDIA);
                         }
                     }
                     break;

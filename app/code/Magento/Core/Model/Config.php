@@ -158,6 +158,11 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     protected $_moduleList;
 
     /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_httpRequest;
+
+    /**
      * @param Magento_Core_Model_ObjectManager $objectManager
      * @param Magento_Core_Model_Config_StorageInterface $storage
      * @param Magento_Core_Model_AppInterface $app
@@ -165,6 +170,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Config_InvalidatorInterface $invalidator
      * @param Magento_Config_ScopeInterface $configScope
+     * @param Magento_Core_Controller_Request_Http $httpRequest
      */
     public function __construct(
         Magento_Core_Model_ObjectManager $objectManager,
@@ -173,7 +179,8 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Config_InvalidatorInterface $invalidator,
-        Magento_Config_ScopeInterface $configScope
+        Magento_Config_ScopeInterface $configScope,
+        Magento_Core_Controller_Request_Http $httpRequest
     ) {
         Magento_Profiler::start('config_load');
         $this->_objectManager = $objectManager;
@@ -184,6 +191,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         $this->_moduleList = $moduleList;
         $this->_invalidator = $invalidator;
         $this->_configScope = $configScope;
+        $this->_httpRequest = $httpRequest;
         Magento_Profiler::stop('config_load');
     }
 
@@ -495,7 +503,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
             $port = isset($hostArr[1]) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443)
                 ? ':'. $hostArr[1]
                 : '';
-            $path = Mage::getObjectManager()->get('Magento_Core_Controller_Request_Http')->getBasePath();
+            $path = $this->_httpRequest->getBasePath();
 
             return $scheme . $host . $port . rtrim($path, '/') . '/';
         }

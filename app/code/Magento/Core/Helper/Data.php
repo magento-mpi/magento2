@@ -68,6 +68,16 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_config;
 
     /**
+     * @var Magento_Core_Model_Cache_Config
+     */
+    protected $_cacheConfig;
+
+    /**
+     * @var Magento_Core_Model_EncryptionFactory
+     */
+    protected $_encryptorFactory;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config_Modules $config
      */
@@ -75,10 +85,12 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     {
         parent::__construct($context);
         $this->_config = $config;
+        $this->_cacheConfig = $context->getCacheConfig();
+        $this->_encryptorFactory = $context->getEncryptorFactory();
     }
 
     /**
-     * @return Magento_Core_Model_Encryption
+     * @return Magento_Core_Model_EncryptionInterface
      */
     public function getEncryptor()
     {
@@ -88,9 +100,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
             if (!$encryptionModel) {
                 $encryptionModel = 'Magento_Core_Model_Encryption';
             }
-
-            $this->_encryptor = Mage::getObjectManager()->create($encryptionModel);
-
+            $this->_encryptor = $this->_encryptorFactory->create($encryptionModel);
             $this->_encryptor->setHelper($this);
         }
         return $this->_encryptor;
@@ -381,10 +391,8 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCacheTypes()
     {
-        /** @var Magento_Core_Model_Cache_Config $config */
-        $config = Mage::getObjectManager()->get('Magento_Core_Model_Cache_Config');
         $types = array();
-        foreach ($config->getTypes() as $type => $node) {
+        foreach ($this->_cacheConfig->getTypes() as $type => $node) {
             $types[$type] = $node['label'];
         }
         return $types;

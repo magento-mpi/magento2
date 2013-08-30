@@ -146,6 +146,16 @@ class Magento_Core_Model_Translate
     protected $_placeholderRender;
 
     /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_cacheTypeList;
+
+    /**
+     * @var Magento_Core_Model_Translate_InlineParserProxy
+     */
+    protected $_inlineParser;
+
+    /**
      * Initialize translate model
      *
      * @param Magento_Core_Model_View_DesignInterface $viewDesign
@@ -154,6 +164,8 @@ class Magento_Core_Model_Translate
      * @param Magento_Cache_FrontendInterface $cache
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Phrase_Renderer_Placeholder $placeholderRender
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param Magento_Core_Model_Translate_InlineParserProxy $inlineParser
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $viewDesign,
@@ -161,7 +173,9 @@ class Magento_Core_Model_Translate
         Magento_Core_Model_Translate_Factory $translateFactory,
         Magento_Cache_FrontendInterface $cache,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Phrase_Renderer_Placeholder $placeholderRender
+        Magento_Phrase_Renderer_Placeholder $placeholderRender,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
+        Magento_Core_Model_Translate_InlineParserProxy $inlineParser
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $loader->load();
@@ -169,6 +183,8 @@ class Magento_Core_Model_Translate
         $this->_cache = $cache;
         $this->_viewFileSystem = $viewFileSystem;
         $this->_placeholderRender = $placeholderRender;
+        $this->_cacheTypeList = $cacheTypeList;
+        $this->_inlineParser = $inlineParser;
     }
 
     /**
@@ -284,11 +300,8 @@ class Magento_Core_Model_Translate
      */
     public function processAjaxPost($translate)
     {
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
-        $cacheTypeList->invalidate(Magento_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER);
-        Mage::getObjectManager()->get('Magento_Core_Model_Translate_InlineParser')
-            ->processAjaxPost($translate, $this->getInlineObject());
+        $this->_cacheTypeList->invalidate(Magento_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER);
+        $this->_inlineParser->processAjaxPost($translate, $this->getInlineObject());
     }
 
     /**

@@ -63,8 +63,14 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_viewFileSystem;
 
     /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_typeList;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Core_Model_Cache_TypeListInterface $typeList
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -72,12 +78,14 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Core_Model_Cache_TypeListInterface $typeList,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_typeList = $typeList;
     }
 
     /**
@@ -437,9 +445,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         $types = Mage::getConfig()->getNode(self::XML_NODE_RELATED_CACHE);
         if ($types) {
             $types = $types->asArray();
-            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
-            $cacheTypeList->invalidate($types);
+            $this->_typeList->invalidate($types);
         }
         return $this;
     }

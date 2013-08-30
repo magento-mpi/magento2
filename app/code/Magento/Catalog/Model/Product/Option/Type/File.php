@@ -34,17 +34,24 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     protected $_filesystem;
 
     /**
+     * @var Magento_File_Size
+     */
+    protected $_fileSize;
+
+    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object attributes
      * This behavior may change in child classes
      *
      * @param Magento_Filesystem $filesystem
+     * @param Magento_File_Size $fileSize
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, $data = array())
+    public function __construct(Magento_Filesystem $filesystem, Magento_File_Size $fileSize, $data = array())
     {
         $this->_filesystem = $filesystem;
+        $this->_fileSize = $fileSize;
         $this->_data = $data;
     }
 
@@ -813,6 +820,6 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
      */
     public function getFileSizeService()
     {
-        return Mage::getObjectManager()->get('Magento_File_Size');
+        return $this->_fileSize;
     }
 }

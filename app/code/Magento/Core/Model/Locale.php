@@ -45,8 +45,18 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
 
     protected static $_currencyCache = array();
 
-    public function __construct($locale = null)
+    /**
+     * @var Magento_Core_Helper_Translate
+     */
+    protected $_translate;
+
+    /**
+     * @param Magento_Core_Helper_Translate $translate
+     * @param null $locale
+     */
+    public function __construct(Magento_Core_Helper_Translate $translate, $locale = null)
     {
+        $this->_translate = $translate;
         $this->setLocale($locale);
     }
 
@@ -631,13 +641,11 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
     {
         if ($storeId) {
             $this->_emulatedLocales[] = clone $this->getLocale();
-            $this->_locale = new Zend_Locale(Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId));
+            $this->_locale = new Zend_Locale(
+                Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId)
+            );
             $this->_localeCode = $this->_locale->toString();
-
-            /** @var $app Magento_Core_Model_App */
-            $app = Mage::getObjectManager()->get('Magento_Core_Model_App');
-            Mage::getObjectManager()->get('Magento_Core_Helper_Translate')
-                ->initTranslate($this->_localeCode, Magento_Core_Model_App_Area::AREA_FRONTEND, true);
+            $this->_translate->initTranslate($this->_localeCode, Magento_Core_Model_App_Area::AREA_FRONTEND, true);
         } else {
             $this->_emulatedLocales[] = false;
         }
@@ -653,11 +661,7 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
         if ($locale) {
             $this->_locale = $locale;
             $this->_localeCode = $this->_locale->toString();
-
-            /** @var $app Magento_Core_Model_App */
-            $app = Mage::getObjectManager()->get('Magento_Core_Model_App');
-            Mage::getObjectManager()->get('Magento_Core_Helper_Translate')
-                ->initTranslate($this->_localeCode, Magento_Core_Model_App_Area::AREA_ADMINHTML, true);
+            $this->_translate->initTranslate($this->_localeCode, Magento_Core_Model_App_Area::AREA_ADMINHTML, true);
         }
     }
 

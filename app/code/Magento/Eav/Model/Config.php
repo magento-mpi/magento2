@@ -85,6 +85,19 @@ class Magento_Eav_Model_Config
     protected $_collectionAttributes              = array();
 
     /**
+     * @var Magento_Core_Model_Cache_StateInterface
+     */
+    protected $_cacheState;
+
+    /**
+     * @param Magento_Core_Model_Cache_StateInterface $cacheState
+     */
+    public function __construct(Magento_Core_Model_Cache_StateInterface $cacheState)
+    {
+        $this->_cacheState = $cacheState;
+    }
+
+    /**
      * Reset object state
      *
      * @return Magento_Eav_Model_Config
@@ -209,9 +222,7 @@ class Magento_Eav_Model_Config
     protected function _isCacheEnabled()
     {
         if ($this->_isCacheEnabled === null) {
-            /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-            $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
-            $this->_isCacheEnabled = $cacheState->isEnabled(Magento_Eav_Model_Cache_Type::TYPE_IDENTIFIER);
+            $this->_isCacheEnabled = $this->_cacheState->isEnabled(Magento_Eav_Model_Cache_Type::TYPE_IDENTIFIER);
         }
         return $this->_isCacheEnabled;
     }

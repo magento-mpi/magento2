@@ -14,6 +14,21 @@
 class Magento_Core_Helper_Translate extends Magento_Core_Helper_Abstract
 {
     /**
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     */
+    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Event_Manager $eventManager)
+    {
+        $this->_eventManager = $eventManager;
+        parent::__construct($context);
+    }
+
+    /**
      * Save translation data to database for specific area
      *
      * @param array $translate
@@ -51,8 +66,7 @@ class Magento_Core_Helper_Translate extends Magento_Core_Helper_Abstract
             'inline_type' => null,
             'params' => array('area' => $area)
         ));
-        $eventManager = Mage::getObjectManager()->get('Magento_Core_Model_Event_Manager');
-        $eventManager->dispatch('translate_initialization_before', array(
+        $this->_eventManager->dispatch('translate_initialization_before', array(
             'translate_object' => $this->_translator,
             'result' => $dispatchResult
         ));

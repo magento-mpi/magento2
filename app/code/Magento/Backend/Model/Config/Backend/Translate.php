@@ -18,6 +18,29 @@
 class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_Config_Data
 {
     /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_cacheTypeList;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_cacheTypeList = $cacheTypeList;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Path to config node with list of caches
      *
      * @var string
@@ -33,9 +56,7 @@ class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_
     {
         $types = array_keys(Mage::getStoreConfig(self::XML_PATH_INVALID_CACHES));
         if ($this->isValueChanged()) {
-            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
-            $cacheTypeList->invalidate($types);
+            $this->_cacheTypeList->invalidate($types);
         }
 
         return $this;

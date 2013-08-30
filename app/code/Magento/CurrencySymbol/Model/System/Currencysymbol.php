@@ -65,6 +65,19 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     const CONFIG_SECTION = 'currency';
 
     /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_cacheTypeList;
+
+    /**
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     */
+    public function __construct(Magento_Core_Model_Cache_TypeListInterface $cacheTypeList)
+    {
+        $this->_cacheTypeList = $cacheTypeList;
+    }
+
+    /**
      * Sets store Id
      *
      * @param  $storeId
@@ -239,11 +252,9 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      */
     public function clearCache()
     {
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
         // clear cache for frontend
         foreach ($this->_cacheTypes as $cacheType) {
-            $cacheTypeList->invalidate($cacheType);
+            $this->_cacheTypeList->invalidate($cacheType);
         }
         return $this;
     }
