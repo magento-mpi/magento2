@@ -1,5 +1,7 @@
 <?php
 /**
+ * Wishlist item report collection
+ *
  * {license_notice}
  *
  * @category    Enterprise
@@ -8,13 +10,6 @@
  * @license     {license_link}
  */
 
-/**
- * Wishlist item report collection
- *
- * @category    Enterprise
- * @package     Enterprise_Wishlist
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
     extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {

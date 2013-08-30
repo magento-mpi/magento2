@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Magento_Customer_Model_Resource_Customer_Collection
+ * Magento_Customer_Model_Resource_Customer_Collection
  *
  * {license_notice}
  *
