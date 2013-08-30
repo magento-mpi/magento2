@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_cart_configure_type_giftcard" translate="label" type="page" parent="checkout_cart_configure">
-        <label>Configure Cart Item (Gift Card)</label>
+    <handle label="Configure Cart Item (Gift Card)" id="checkout_cart_configure_type_giftcard" type="page" parent="checkout_cart_configure">
         <reference name="product.info">
             <block class="Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard" name="product.info.giftcard" as="product_type_data" template="catalog/product/view/type/giftcard.phtml">
                 <action method="addPriceBlockType">

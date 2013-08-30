@@ -11,8 +11,8 @@
     <handle id="adminhtml_noroute">
         <reference name="content">
             <block class="Magento_Core_Block_Text" name="content.noRoute">
-                <action method="setText" translate="text">
-                    <argument name="text" xsi:type="array">
+                <action method="setText">
+                    <argument translate="true" name="text" xsi:type="array">
                         <item name="h1" xsi:type="string" class="page-heading">404 Error</item>
                         <item name="p" xsi:type="string">Page not found.</item>
                     </argument>

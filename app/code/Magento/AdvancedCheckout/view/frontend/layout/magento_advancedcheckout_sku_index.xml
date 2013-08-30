@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="magento_advancedcheckout_sku_index" translate="label" type="page" parent="checkout_cart_index">
-        <label>Customer Checkout by SKU</label>
+    <handle label="Customer Checkout by SKU" id="magento_advancedcheckout_sku_index" type="page" parent="checkout_cart_index">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block class="Magento_Core_Block_Template" name="checkout.customer.order" template="Magento_AdvancedCheckout::customer/sku.phtml">

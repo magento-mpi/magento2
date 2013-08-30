@@ -21,8 +21,8 @@
                 <action method="setDestElementId">
                     <argument name="value" xsi:type="string">sales_recurring_profile_view</argument>
                 </action>
-                <action method="setTitle" translate="value">
-                    <argument name="value" xsi:type="string">Recurring Profile View</argument>
+                <action method="setTitle">
+                    <argument translate="true" name="value" xsi:type="string">Recurring Profile View</argument>
                 </action>
                 <action method="setId">
                     <argument name="value" xsi:type="string">sales_recurring_profile_view_tabs</argument>
@@ -36,8 +36,8 @@
                         <action method="setViewColumn">
                             <argument name="value" xsi:type="string">1</argument>
                         </action>
-                        <action method="setViewLabel" translate="value">
-                            <argument name="value" xsi:type="string">Reference</argument>
+                        <action method="setViewLabel">
+                            <argument translate="true" name="value" xsi:type="string">Reference</argument>
                         </action>
                     </block>
                     <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.item" as="item" template="recurring/profile/view/info.phtml">
@@ -48,8 +48,8 @@
                         <action method="setViewColumn">
                             <argument name="value" xsi:type="string">2</argument>
                         </action>
-                        <action method="setViewLabel" translate="value">
-                            <argument name="value" xsi:type="string">Purchased Item</argument>
+                        <action method="setViewLabel">
+                            <argument translate="true" name="value" xsi:type="string">Purchased Item</argument>
                         </action>
                     </block>
                     <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.schedule" as="profile" template="recurring/profile/view/info.phtml">
@@ -60,8 +60,8 @@
                         <action method="setViewColumn">
                             <argument name="value" xsi:type="string">1</argument>
                         </action>
-                        <action method="setViewLabel" translate="value">
-                            <argument name="value" xsi:type="string">Profile Schedule</argument>
+                        <action method="setViewLabel">
+                            <argument translate="true" name="value" xsi:type="string">Profile Schedule</argument>
                         </action>
                     </block>
                     <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.fees" as="fees" template="recurring/profile/view/info.phtml">
@@ -72,8 +72,8 @@
                         <action method="setViewColumn">
                             <argument name="value" xsi:type="string">2</argument>
                         </action>
-                        <action method="setViewLabel" translate="value">
-                            <argument name="value" xsi:type="string">Profile Payments</argument>
+                        <action method="setViewLabel">
+                            <argument translate="true" name="value" xsi:type="string">Profile Payments</argument>
                         </action>
                     </block>
                     <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.billing" as="billing_address" template="recurring/profile/view/info.phtml">
@@ -84,8 +84,8 @@
                         <action method="setViewColumn">
                             <argument name="value" xsi:type="string">1</argument>
                         </action>
-                        <action method="setViewLabel" translate="value">
-                            <argument name="value" xsi:type="string">Billing Address</argument>
+                        <action method="setViewLabel">
+                            <argument translate="true" name="value" xsi:type="string">Billing Address</argument>
                         </action>
                     </block>
                     <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.shipping" as="shipping_address" template="recurring/profile/view/info.phtml">
@@ -99,8 +99,8 @@
                         <action method="setViewColumn">
                             <argument name="value" xsi:type="string">2</argument>
                         </action>
-                        <action method="setViewLabel" translate="value">
-                            <argument name="value" xsi:type="string">Shipping Address</argument>
+                        <action method="setViewLabel">
+                            <argument translate="true" name="value" xsi:type="string">Shipping Address</argument>
                         </action>
                     </block>
                 </block>

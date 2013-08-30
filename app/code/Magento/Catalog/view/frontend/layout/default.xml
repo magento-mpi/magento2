@@ -19,8 +19,8 @@
                 <action method="setImgSrc">
                     <argument name="src" xsi:type="string">Magento_Catalog::images/media/col_left_callout.jpg</argument>
                 </action>
-                <action method="setImgAlt" translate="alt">
-                    <argument name="alt" xsi:type="string">Our customer service is available 24/7.</argument>
+                <action method="setImgAlt">
+                    <argument translate="true" name="alt" xsi:type="string">Our customer service is available 24/7.</argument>
                 </action>
                 <action method="setLinkUrl">
                     <argument name="url" xsi:type="string">checkout/cart</argument>
@@ -33,8 +33,8 @@
                 <action method="setImgSrc">
                     <argument name="src" xsi:type="string">Magento_Catalog::images/media/col_right_callout.jpg</argument>
                 </action>
-                <action method="setImgAlt" translate="alt">
-                    <argument name="alt" xsi:type="string">Look for our special back-to-school items and save bunches!</argument>
+                <action method="setImgAlt">
+                    <argument translate="true" name="alt" xsi:type="string">Look for our special back-to-school items and save bunches!</argument>
                 </action>
             </block>
         </reference>

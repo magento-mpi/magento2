@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="magento_giftregistry_index_edit" translate="label" module="Magento_GiftRegistry" type="page" parent="magento_giftregistry_view_index">
-        <label>Customer My Account GiftRegistry Edit</label>
+    <handle label="Customer My Account GiftRegistry Edit" id="magento_giftregistry_index_edit" module="Magento_GiftRegistry" type="page" parent="magento_giftregistry_view_index">
         <update handle="customer_account"/>
         <update handle="page_calendar"/>
         <reference name="customer_account_navigation">

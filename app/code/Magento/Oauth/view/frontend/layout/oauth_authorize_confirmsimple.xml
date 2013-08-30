@@ -8,9 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="oauth_authorize_confirmsimple" translate="label" type="page">
+    <handle label="Confirm Oauth token authorization (Simple)" id="oauth_authorize_confirmsimple" type="page">
         <update handle="oauth_root_handle_simple"/>
-        <label>Confirm Oauth token authorization (Simple)</label>
         <remove name="header"/>
         <reference name="content">
             <block class="Magento_Oauth_Block_Authorize_Button" name="oauth.authorize.confirm" template="authorize/confirm-simple.phtml"/>

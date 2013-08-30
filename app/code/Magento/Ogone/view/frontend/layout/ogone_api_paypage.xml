@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="ogone_api_paypage" translate="label" type="page" parent="default">
-        <label>Ogone Paygate Payment</label>
+    <handle label="Ogone Paygate Payment" id="ogone_api_paypage" type="page" parent="default">
         <remove name="catalog.topnav"/>
         <reference name="header">
             <remove name="top.links"/>

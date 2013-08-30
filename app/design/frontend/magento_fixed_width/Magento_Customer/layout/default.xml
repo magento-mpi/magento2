@@ -17,10 +17,10 @@
                 <argument name="target" xsi:type="string">account.links</argument>
                 <argument name="position" xsi:type="string">100</argument>
             </action>
-            <action method="addRegisterLink" translate="text_before">
+            <action method="addRegisterLink">
                 <argument name="target" xsi:type="string">account.links</argument>
                 <argument name="position" xsi:type="string">100</argument>
-                <argument name="text_before" xsi:type="string"> or </argument>
+                <argument translate="true" name="text_before" xsi:type="string"> or </argument>
                 <argument name="text_after" xsi:type="string">.</argument>
             </action>
         </reference>

@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalogsearch_result_index" translate="label" type="page" parent="default">
-        <label>Quick Search Form</label>
+    <handle label="Quick Search Form" id="catalogsearch_result_index" type="page" parent="default">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">3columns.phtml</argument>

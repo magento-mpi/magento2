@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_category_view_type_layered" translate="label" type="page" parent="catalog_category_view">
-        <label>Catalog Category (Anchor)</label>
+    <handle label="Catalog Category (Anchor)" id="catalog_category_view_type_layered" type="page" parent="catalog_category_view">
         <reference name="breadcrumbs.container">
             <block class="Magento_Catalog_Block_Category_View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
         </reference>

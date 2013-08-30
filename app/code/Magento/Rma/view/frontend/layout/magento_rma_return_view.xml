@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="magento_rma_return_view" translate="label" type="page" parent="magento_rma_return_view_handle">
-        <label>Customer My Account Return View</label>
+    <handle label="Customer My Account Return View" id="magento_rma_return_view" type="page" parent="magento_rma_return_view_handle">
         <reference name="customer_account_navigation">
             <action method="setActive">
                 <argument name="path" xsi:type="string">rma/return/history/</argument>

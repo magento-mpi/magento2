@@ -13,15 +13,15 @@
             <block class="Magento_Core_Block_Template" name="top.search" as="topSearch" template="Magento_CatalogSearch::form.mini.phtml"/>
         </reference>
         <reference name="footer_links">
-            <action method="addLink" translate="label title" ifconfig="catalog/seo/search_terms">
-                <argument name="label" xsi:type="string">Search Terms</argument>
+            <action method="addLink" ifconfig="catalog/seo/search_terms">
+                <argument translate="true" name="label" xsi:type="string">Search Terms</argument>
                 <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getSearchTermUrl"/>
-                <argument name="title" xsi:type="string">Search Terms</argument>
+                <argument translate="true" name="title" xsi:type="string">Search Terms</argument>
             </action>
-            <action method="addLink" translate="label title">
-                <argument name="label" xsi:type="string">Advanced Search</argument>
+            <action method="addLink">
+                <argument translate="true" name="label" xsi:type="string">Advanced Search</argument>
                 <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getAdvancedSearchUrl"/>
-                <argument name="title" xsi:type="string">Advanced Search</argument>
+                <argument translate="true" name="title" xsi:type="string">Advanced Search</argument>
             </action>
         </reference>
     </handle>

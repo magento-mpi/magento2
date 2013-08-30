@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="magento_invitation_customer_account_create" translate="label" type="page" parent="magento_invitation_index_send">
-        <label>Customer Account Registration by Invitation Form</label>
+    <handle label="Customer Account Registration by Invitation Form" id="magento_invitation_customer_account_create" type="page" parent="magento_invitation_index_send">
         <update handle="customer_account_create"/>
         <reference name="content">
             <block class="Magento_Invitation_Block_Customer_Form_Register" name="customer_form_register_invitation" template="Magento_Customer::form/register.phtml"/>

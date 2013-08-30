@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_product_view_type_bundle" translate="label" type="page" parent="catalog_product_view">
-        <label>Catalog Product View (Bundle)</label>
+    <handle label="Catalog Product View (Bundle)" id="catalog_product_view_type_bundle" type="page" parent="catalog_product_view">
         <reference name="head">
             <action method="addJs">
                 <argument name="file" xsi:type="string">Magento_Bundle::bundle.js</argument>

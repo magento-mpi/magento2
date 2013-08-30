@@ -21,8 +21,8 @@
                         <param name="_current">1</param>
                     </argument>
                 </arguments>
-                <action method="setTitle" translate="value">
-                    <argument name="value" xsi:type="string">User Roles Information</argument>
+                <action method="setTitle">
+                    <argument translate="true" name="value" xsi:type="string">User Roles Information</argument>
                 </action>
                 <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="webapi.user.edit.tab.roles.grid.columnSet" as="grid.columnSet">
                     <arguments>

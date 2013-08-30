@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="cms_index_defaultnoroute" translate="label" type="page" parent="cms_page_view">
-        <label>CMS No-Route Default Page</label>
+    <handle label="CMS No-Route Default Page" id="cms_index_defaultnoroute" type="page" parent="cms_page_view">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">1column.phtml</argument>

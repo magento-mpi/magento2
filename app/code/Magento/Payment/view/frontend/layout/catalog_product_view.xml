@@ -14,8 +14,8 @@
                 <action method="addToParentGroup">
                     <argument name="group" xsi:type="string">detailed_info</argument>
                 </action>
-                <action method="setTitle" translate="value">
-                    <argument name="value" xsi:type="string">Recurring Profile</argument>
+                <action method="setTitle">
+                    <argument translate="true" name="value" xsi:type="string">Recurring Profile</argument>
                 </action>
             </block>
         </reference>

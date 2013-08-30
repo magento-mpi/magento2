@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_cart_index" translate="label" type="page" parent="default">
-        <label>Shopping Cart</label>
+    <handle label="Shopping Cart" id="checkout_cart_index" type="page" parent="default">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">1column.phtml</argument>

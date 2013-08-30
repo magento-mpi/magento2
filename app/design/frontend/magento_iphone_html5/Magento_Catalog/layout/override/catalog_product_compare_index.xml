@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_product_compare_index" translate="label" type="page" parent="default">
-        <label>Catalog Product Compare List</label>
+    <handle label="Catalog Product Compare List" id="catalog_product_compare_index" type="page" parent="default">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">popup.phtml</argument>

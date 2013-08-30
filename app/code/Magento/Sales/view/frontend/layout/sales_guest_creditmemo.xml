@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_guest_creditmemo" translate="label" type="page" parent="sales_guest_view">
-        <label>Guest Order Creditmemo View</label>
+    <handle label="Guest Order Creditmemo View" id="sales_guest_creditmemo" type="page" parent="sales_guest_view">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">1column.phtml</argument>
@@ -45,25 +44,25 @@
             </block>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">view</argument>
                 <argument name="path" xsi:type="string">*/*/view</argument>
-                <argument name="label" xsi:type="string">Order Information</argument>
+                <argument translate="true" name="label" xsi:type="string">Order Information</argument>
             </action>
-            <action method="addLink" translate="label">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">invoice</argument>
                 <argument name="path" xsi:type="string">*/*/invoice</argument>
-                <argument name="label" xsi:type="string">Invoices</argument>
+                <argument translate="true" name="label" xsi:type="string">Invoices</argument>
             </action>
-            <action method="addLink" translate="label">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">shipment</argument>
                 <argument name="path" xsi:type="string">*/*/shipment</argument>
-                <argument name="label" xsi:type="string">Shipments</argument>
+                <argument translate="true" name="label" xsi:type="string">Shipments</argument>
             </action>
-            <action method="addLink" translate="label">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">creditmemo</argument>
                 <argument name="path" xsi:type="string"/>
-                <argument name="label" xsi:type="string">Refunds</argument>
+                <argument translate="true" name="label" xsi:type="string">Refunds</argument>
             </action>
         </reference>
     </handle>

@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="googlecheckout_redirect_redirect" translate="label" type="page" parent="default">
-        <label>GoogleCheckout Redirect</label>
+    <handle label="GoogleCheckout Redirect" id="googlecheckout_redirect_redirect" type="page" parent="default">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">2columns-right.phtml</argument>

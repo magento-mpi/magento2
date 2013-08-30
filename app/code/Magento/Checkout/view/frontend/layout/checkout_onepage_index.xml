@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_index" translate="label" type="page" parent="default">
-        <label>One Page Checkout</label>
+    <handle label="One Page Checkout" id="checkout_onepage_index" type="page" parent="default">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">2columns-right.phtml</argument>

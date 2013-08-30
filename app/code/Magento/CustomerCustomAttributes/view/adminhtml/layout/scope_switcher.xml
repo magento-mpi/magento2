@@ -15,8 +15,8 @@
                 <action method="setStoreVarName">
                     <argument name="value" xsi:type="string">website</argument>
                 </action>
-                <action method="setDefaultStoreName" translate="name">
-                    <argument name="name" xsi:type="string">Default Values</argument>
+                <action method="setDefaultStoreName">
+                    <argument translate="true" name="name" xsi:type="string">Default Values</argument>
                 </action>
             </block>
         </reference>

@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="paypaluk_express_review_details" translate="label" type="fragment" owner="checkout_onepage_index">
-        <label>Paypal UK Express Review Details</label>
+    <handle label="Paypal UK Express Review Details" id="paypaluk_express_review_details" type="fragment" owner="checkout_onepage_index">
         <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml"/>
     </handle>
 </layout>

@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="magento_giftregistry_index_index" translate="label" type="page" parent="customer_account_index">
-        <label>Customer GiftRegistry</label>
+    <handle label="Customer GiftRegistry" id="magento_giftregistry_index_index" type="page" parent="customer_account_index">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block class="Magento_GiftRegistry_Block_Customer_List" name="giftregistry.customer.list" template="customer/list.phtml"/>

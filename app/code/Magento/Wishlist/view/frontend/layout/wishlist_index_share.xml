@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="wishlist_index_share" translate="label" type="page" parent="wishlist_index_index">
-        <label>Customer My Account Wish List Sharing Form</label>
+    <handle label="Customer My Account Wish List Sharing Form" id="wishlist_index_share" type="page" parent="wishlist_index_index">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block class="Magento_Wishlist_Block_Customer_Sharing" name="wishlist.sharing" template="sharing.phtml"/>

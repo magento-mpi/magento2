@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="magento_rma_return_history" translate="label" type="page" parent="magento_rma_return_view">
-        <label>Customer My Returns History</label>
+    <handle label="Customer My Returns History" id="magento_rma_return_history" type="page" parent="magento_rma_return_view">
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
             <action method="setActive">

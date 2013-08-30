@@ -28,8 +28,8 @@
                         <param name="_current">1</param>
                     </argument>
                 </arguments>
-                <action method="setTitle" translate="value">
-                    <argument name="value" xsi:type="string">Role Users Information</argument>
+                <action method="setTitle">
+                    <argument translate="true" name="value" xsi:type="string">Role Users Information</argument>
                 </action>
                 <action method="setDefaultFilter">
                     <argument name="value" xsi:type="array">

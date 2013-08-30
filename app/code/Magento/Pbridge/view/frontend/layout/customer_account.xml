@@ -10,10 +10,10 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="customer_account">
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" ifconfig="payment/pbridge/profilestatus">
+            <action method="addLink" ifconfig="payment/pbridge/profilestatus">
                 <argument name="name" xsi:type="string">pbridge_payment_profile</argument>
                 <argument name="path" xsi:type="string">magento_pbridge/payment_profile/</argument>
-                <argument name="label" xsi:type="string">My Credit Cards</argument>
+                <argument translate="true" name="label" xsi:type="string">My Credit Cards</argument>
             </action>
         </reference>
     </handle>

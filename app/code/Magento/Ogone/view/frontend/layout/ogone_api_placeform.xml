@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="ogone_api_placeform" translate="label" type="page" parent="ogone_api_paypage">
-        <label>Ogone Paygate Payment Place</label>
+    <handle label="Ogone Paygate Payment Place" id="ogone_api_placeform" type="page" parent="ogone_api_paypage">
         <reference name="content">
             <block class="Magento_Ogone_Block_Placeform" name="ogone_placeform" template="placeform.phtml"/>
         </reference>

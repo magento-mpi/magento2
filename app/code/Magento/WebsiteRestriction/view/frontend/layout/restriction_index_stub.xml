@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="restriction_index_stub" translate="label" type="page" parent="cms_page_view">
-        <label>Website Closed Stub Page</label>
+    <handle label="Website Closed Stub Page" id="restriction_index_stub" type="page" parent="cms_page_view">
         <block class="Magento_Page_Block_Html" name="root" output="1" template="1column.phtml">
             <container name="after_body_start" as="after_body_start" label="Page Top"/>
             <block class="Magento_Page_Block_Html_Head" name="head" as="head"/>

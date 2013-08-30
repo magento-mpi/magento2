@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="customer_account" translate="label" type="page" parent="default">
-        <label>Customer My Account (All Pages)</label>
+    <handle label="Customer My Account (All Pages)" id="customer_account" type="page" parent="default">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">1column.phtml</argument>
@@ -20,20 +19,20 @@
                 <action method="setPosition">
                     <argument name="value" xsi:type="string">20</argument>
                 </action>
-                <action method="addLink" translate="label">
+                <action method="addLink">
                     <argument name="name" xsi:type="string">account</argument>
                     <argument name="path" xsi:type="string">customer/account/</argument>
-                    <argument name="label" xsi:type="string">Account Dashboard</argument>
+                    <argument translate="true" name="label" xsi:type="string">Account Dashboard</argument>
                 </action>
-                <action method="addLink" translate="label">
+                <action method="addLink">
                     <argument name="name" xsi:type="string">account_edit</argument>
                     <argument name="path" xsi:type="string">customer/account/edit/</argument>
-                    <argument name="label" xsi:type="string">Account Information</argument>
+                    <argument translate="true" name="label" xsi:type="string">Account Information</argument>
                 </action>
-                <action method="addLink" translate="label">
+                <action method="addLink">
                     <argument name="name" xsi:type="string">address_book</argument>
                     <argument name="path" xsi:type="string">customer/address/</argument>
-                    <argument name="label" xsi:type="string">Address Book</argument>
+                    <argument translate="true" name="label" xsi:type="string">Address Book</argument>
                 </action>
             </block>
             <action method="addLinkBlock">

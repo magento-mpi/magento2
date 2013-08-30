@@ -10,13 +10,13 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="wishlist_index_index">
         <reference name="head">
-            <action method="setTitle" translate="title" ifconfig="wishlist/general/multiple_enabled">
-                <argument name="title" xsi:type="string">My Wish Lists</argument>
+            <action method="setTitle" ifconfig="wishlist/general/multiple_enabled">
+                <argument translate="true" name="title" xsi:type="string">My Wish Lists</argument>
             </action>
         </reference>
         <reference name="customer.wishlist">
-            <action method="setTitle" translate="title" ifconfig="wishlist/general/multiple_enabled">
-                <argument name="title" xsi:type="string">My Wish Lists</argument>
+            <action method="setTitle" ifconfig="wishlist/general/multiple_enabled">
+                <argument translate="true" name="title" xsi:type="string">My Wish Lists</argument>
             </action>
             <block class="Magento_MultipleWishlist_Block_Customer_Wishlist_Management" name="customer.wishlist.management" as="top" template="view/management.phtml">
             </block>

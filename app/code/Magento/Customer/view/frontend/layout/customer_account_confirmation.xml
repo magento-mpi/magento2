@@ -8,14 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="customer_account_confirmation" translate="label" type="page" parent="customer_account">
-        <label>Customer Account Confirmation</label>
+    <handle label="Customer Account Confirmation" id="customer_account_confirmation" type="page" parent="customer_account">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
-            <action method="setHeaderTitle" translate="title">
-                <argument name="title" xsi:type="string">Send confirmation link</argument>
+            <action method="setHeaderTitle">
+                <argument translate="true" name="title" xsi:type="string">Send confirmation link</argument>
             </action>
         </reference>
         <reference name="content">

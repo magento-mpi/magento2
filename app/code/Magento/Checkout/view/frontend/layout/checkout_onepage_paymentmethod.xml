@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_paymentmethod" translate="label" type="fragment" owner="checkout_onepage_index">
-        <label>One Page Checkout Choose Payment Method</label>
+    <handle label="One Page Checkout Choose Payment Method" id="checkout_onepage_paymentmethod" type="fragment" owner="checkout_onepage_index">
         <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
             <block class="Magento_Checkout_Block_Onepage_Payment_Methods" name="payment_method" template="onepage/payment/methods.phtml">
                 <action method="setMethodFormTemplate">

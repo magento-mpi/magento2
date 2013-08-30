@@ -10,10 +10,10 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
         <reference name="footer_links">
-            <action method="addLink" translate="label title" ifconfig="contacts/contacts/enabled">
-                <argument name="label" xsi:type="string">Contact Us</argument>
+            <action method="addLink" ifconfig="contacts/contacts/enabled">
+                <argument translate="true" name="label" xsi:type="string">Contact Us</argument>
                 <argument name="url" xsi:type="string">contacts</argument>
-                <argument name="title" xsi:type="string">Contact Us</argument>
+                <argument translate="true" name="title" xsi:type="string">Contact Us</argument>
             </action>
         </reference>
     </handle>

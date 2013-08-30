@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalogsearch_advanced_result" translate="label" type="page" parent="catalogsearch_advanced_index">
-        <label>Advanced Search Result</label>
+    <handle label="Advanced Search Result" id="catalogsearch_advanced_result" type="page" parent="catalogsearch_advanced_index">
         <update handle="page_two_columns_right"/>
         <reference name="content">
             <block class="Magento_CatalogSearch_Block_Advanced_Result" name="catalogsearch_advanced_result" template="advanced/result.phtml">

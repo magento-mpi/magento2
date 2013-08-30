@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_multishipping_success" translate="label" type="page" parent="checkout_multishipping">
-        <label>Multishipping Checkout Success</label>
+    <handle label="Multishipping Checkout Success" id="checkout_multishipping_success" type="page" parent="checkout_multishipping">
         <update handle="checkout_multishipping"/>
         <reference name="content">
             <block class="Magento_Checkout_Block_Multishipping_Success" name="checkout_success" template="multishipping/success.phtml"/>

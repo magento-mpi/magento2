@@ -17,8 +17,8 @@
                 <action method="setWrapperClass">
                     <argument name="class" xsi:type="string">reward-newsletter</argument>
                 </action>
-                <action method="setRewardMessage" translate="message">
-                    <argument name="message" xsi:type="string">Subscribe to our newsletter now and earn %1.</argument>
+                <action method="setRewardMessage">
+                    <argument translate="true" name="message" xsi:type="string">Subscribe to our newsletter now and earn %1.</argument>
                 </action>
             </block>
         </reference>

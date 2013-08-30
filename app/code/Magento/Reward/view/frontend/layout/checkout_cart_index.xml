@@ -17,8 +17,8 @@
                 <action method="setWrapperClass">
                     <argument name="class" xsi:type="string">reward-checkout</argument>
                 </action>
-                <action method="setRewardMessage" translate="message">
-                    <argument name="message" xsi:type="string">Check out now and earn %1 for this order.</argument>
+                <action method="setRewardMessage">
+                    <argument translate="true" name="message" xsi:type="string">Check out now and earn %1 for this order.</argument>
                 </action>
                 <action method="setIsGuestNote">
                     <argument name="value" xsi:type="string">1</argument>
@@ -33,8 +33,8 @@
                 <action method="setWrapperClass">
                     <argument name="class" xsi:type="string">reward-checkout</argument>
                 </action>
-                <action method="setRewardMessage" translate="message">
-                    <argument name="message" xsi:type="string">Check out now and earn %1 for this order.</argument>
+                <action method="setRewardMessage">
+                    <argument translate="true" name="message" xsi:type="string">Check out now and earn %1 for this order.</argument>
                 </action>
                 <action method="setIsGuestNote">
                     <argument name="value" xsi:type="string">1</argument>

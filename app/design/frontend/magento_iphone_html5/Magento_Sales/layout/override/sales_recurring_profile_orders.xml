@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_recurring_profile_orders" translate="label" type="page" parent="sales_recurring_profile_view__tabs">
-        <label>Recurring Profile Orders List</label>
+    <handle label="Recurring Profile Orders List" id="sales_recurring_profile_orders" type="page" parent="sales_recurring_profile_view__tabs">
         <update handle="customer_account"/>
         <update handle="sales_recurring_profile_view__tabs"/>
         <reference name="sales.recurring.profile.view.tab.orders">
@@ -20,11 +19,11 @@
         <reference name="sales.recurring.profile.view">
             <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.orders" as="table" template="recurring/grid.phtml">
                 <action method="prepareRelatedOrdersFrontendGrid"/>
-                <action method="setViewLabel" translate="value">
-                    <argument name="value" xsi:type="string">Orders Based on This Profile</argument>
+                <action method="setViewLabel">
+                    <argument translate="true" name="value" xsi:type="string">Orders Based on This Profile</argument>
                 </action>
-                <action method="setEmptyGridMessage" translate="value">
-                    <argument name="value" xsi:type="string">There are no orders yet.</argument>
+                <action method="setEmptyGridMessage">
+                    <argument translate="true" name="value" xsi:type="string">There are no orders yet.</argument>
                 </action>
                 <action method="setGridHtmlClass">
                     <argument name="value" xsi:type="string">info-box</argument>

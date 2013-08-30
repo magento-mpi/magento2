@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_multishipping_address_editaddress" translate="label" type="page" parent="checkout_multishipping_customer_address">
-        <label>Multishipping Checkout One Address Edit Form</label>
+    <handle label="Multishipping Checkout One Address Edit Form" id="checkout_multishipping_address_editaddress" type="page" parent="checkout_multishipping_customer_address">
         <update handle="checkout_multishipping"/>
         <update handle="checkout_multishipping_customer_address"/>
     </handle>

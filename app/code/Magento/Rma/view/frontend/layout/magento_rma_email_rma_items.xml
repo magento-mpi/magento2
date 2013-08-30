@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="magento_rma_email_rma_items" translate="label" type="page" parent="magento_rma_return_view">
-        <label>RMA Email Items List</label>
+    <handle label="RMA Email Items List" id="magento_rma_email_rma_items" type="page" parent="magento_rma_return_view">
         <block class="Magento_Rma_Block_Email_Items" name="magento_rma_email_items" template="email/items.phtml"/>
     </handle>
 </layout>

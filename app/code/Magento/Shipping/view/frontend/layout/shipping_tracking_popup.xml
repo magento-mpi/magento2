@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="shipping_tracking_popup" translate="label" type="page" parent="default">
-        <label>Shipment Tracking Popup</label>
+    <handle label="Shipment Tracking Popup" id="shipping_tracking_popup" type="page" parent="default">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">popup.phtml</argument>

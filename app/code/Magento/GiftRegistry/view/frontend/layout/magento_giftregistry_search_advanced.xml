@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="magento_giftregistry_search_advanced" translate="label" type="page" parent="magento_giftregistry_search_index">
-        <label>Customer GiftRegistry Advanced Search Form</label>
+    <handle label="Customer GiftRegistry Advanced Search Form" id="magento_giftregistry_search_advanced" type="page" parent="magento_giftregistry_search_index">
         <block class="Magento_GiftRegistry_Block_Search_Advanced" name="root" template="search/advanced.phtml"/>
     </handle>
 </layout>

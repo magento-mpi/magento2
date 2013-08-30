@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="page_empty" translate="label" type="page" parent="default">
-        <label>All Empty Layout Pages</label>
+    <handle label="All Empty Layout Pages" id="page_empty" type="page" parent="default">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">empty.phtml</argument>

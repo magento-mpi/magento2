@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="magento_giftregistry_view_index" translate="label" type="page" parent="magento_giftregistry_index_share">
-        <label>Customer GiftRegistry Gift View</label>
+    <handle label="Customer GiftRegistry Gift View" id="magento_giftregistry_view_index" type="page" parent="magento_giftregistry_index_share">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">1column.phtml</argument>

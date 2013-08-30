@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_guest_form" translate="label" type="page" parent="sales_guest_view">
-        <label>Returns</label>
+    <handle label="Returns" id="sales_guest_form" type="page" parent="sales_guest_view">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">1column.phtml</argument>

@@ -17,8 +17,8 @@
                         <action method="setHtmlClass">
                             <argument name="value" xsi:type="string">alert-price link-price-alert</argument>
                         </action>
-                        <action method="setSignupLabel" translate="value">
-                            <argument name="value" xsi:type="string">Sign up for price alert</argument>
+                        <action method="setSignupLabel">
+                            <argument translate="true" name="value" xsi:type="string">Sign up for price alert</argument>
                         </action>
                     </block>
                     <block class="Magento_ProductAlert_Block_Product_View" name="productalert.stock" as="productalert_stock" template="product/view.phtml">
@@ -26,8 +26,8 @@
                         <action method="setHtmlClass">
                             <argument name="value" xsi:type="string">alert-stock link-stock-alert</argument>
                         </action>
-                        <action method="setSignupLabel" translate="value">
-                            <argument name="value" xsi:type="string">Sign up to be notified when this product is back in stock.</argument>
+                        <action method="setSignupLabel">
+                            <argument translate="true" name="value" xsi:type="string">Sign up to be notified when this product is back in stock.</argument>
                         </action>
                     </block>
                 </reference>

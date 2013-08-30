@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_product_view_type_downloadable" translate="label" type="page" parent="catalog_product_view">
-        <label>Catalog Product View (Downloadable)</label>
+    <handle label="Catalog Product View (Downloadable)" id="catalog_product_view_type_downloadable" type="page" parent="catalog_product_view">
         <reference name="product.info">
             <block class="Magento_Downloadable_Block_Catalog_Product_View_Type" name="product.info.downloadable" as="product_type_data" template="catalog/product/type.phtml">
                 <block class="Magento_Downloadable_Block_Catalog_Product_Samples" name="product.info.downloadable.samples" as="samples" template="catalog/product/samples.phtml"/>

@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_cart_configurefailed" translate="label" type="page" parent="checkout_cart_configure">
-        <label>Configure Cart Item Failed</label>
+    <handle label="Configure Cart Item Failed" id="checkout_cart_configurefailed" type="page" parent="checkout_cart_configure">
         <update handle="catalog_product_view"/>
         <reference name="product.info">
             <block class="Magento_AdvancedCheckout_Block_Cart_Item_Configure" name="checkout.cart.item.configure.block"/>

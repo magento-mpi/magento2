@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_multishipping" translate="label" type="page" parent="checkout_cart_index">
-        <label>Multishipping Checkout</label>
+    <handle label="Multishipping Checkout" id="checkout_multishipping" type="page" parent="checkout_cart_index">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">1column.phtml</argument>

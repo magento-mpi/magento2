@@ -8,11 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalogsearch_term_popular" translate="label" type="page" parent="default">
-        <label>Popular Search Terms</label>
+    <handle label="Popular Search Terms" id="catalogsearch_term_popular" type="page" parent="default">
         <reference name="head">
-            <action method="setTitle" translate="title">
-                <argument name="title" xsi:type="string">Search Terms</argument>
+            <action method="setTitle">
+                <argument translate="true" name="title" xsi:type="string">Search Terms</argument>
             </action>
         </reference>
         <reference name="root">

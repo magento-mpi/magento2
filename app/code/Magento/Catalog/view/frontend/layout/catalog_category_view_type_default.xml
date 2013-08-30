@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_category_view_type_default" translate="label" type="page" parent="catalog_category_view">
-        <label>Non Anchor Catalog Category</label>
+    <handle label="Non Anchor Catalog Category" id="catalog_category_view_type_default" type="page" parent="catalog_category_view">
         <reference name="left">
             <block class="Magento_Catalog_Block_Navigation" name="catalog.leftnav" after="currency" template="navigation/left.phtml"/>
         </reference>

@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_cart_configure_type_simple" translate="label" type="page" parent="checkout_cart_configure">
-        <label>Configure Cart Item (Simple)</label>
+    <handle label="Configure Cart Item (Simple)" id="checkout_cart_configure_type_simple" type="page" parent="checkout_cart_configure">
         <update handle="catalog_product_view_type_simple"/>
     </handle>
 </layout>

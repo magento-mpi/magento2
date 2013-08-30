@@ -8,8 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_multishipping_addresses" translate="label" type="page" parent="checkout_multishipping">
-        <label>Multishipping Checkout Address (Any) Form</label>
+    <handle label="Multishipping Checkout Address (Any) Form" id="checkout_multishipping_addresses" type="page" parent="checkout_multishipping">
         <update handle="checkout_multishipping"/>
         <reference name="content">
             <block class="Magento_Checkout_Block_Multishipping_Addresses" name="checkout_addresses" template="multishipping/addresses.phtml">
