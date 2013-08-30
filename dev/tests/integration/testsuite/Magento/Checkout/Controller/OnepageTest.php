@@ -12,7 +12,7 @@
 /**
  * @magentoDataFixture Magento/Sales/_files/quote.php
  */
-class Magento_Checkout_Controller_OnepageTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Checkout_Controller_OnepageTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     protected function setUp()
     {

@@ -31,7 +31,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTe
         $request = $this->getMock('Magento_Core_Controller_Request_Http');
         $request->expects($this->any())->method('setActionName')->will($this->returnSelf());
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         /** @var $layoutMock Magento_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject */
         $layoutMock = $this->getMock('Magento_Core_Model_Layout',

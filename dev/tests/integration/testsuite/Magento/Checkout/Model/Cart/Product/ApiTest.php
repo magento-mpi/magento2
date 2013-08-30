@@ -23,7 +23,7 @@ class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model
         $this->assertEquals(1, $quoteItem->getQty(), 'Quote item should have qty = 1.');
 
         $qtyToUpdate = 5;
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartProductUpdate',
             array(
@@ -57,7 +57,7 @@ class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model
         $quote = $this->_getQuote();
         $this->assertCount(1, $quote->getAllItems(), 'Quote should have exactly 1 item.');
 
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartProductRemove',
             array(
@@ -101,7 +101,7 @@ class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model
         $activeQuote->save();
 
         /** Move products from inactive quote via API. */
-        $isSuccessful = Magento_Test_Helper_Api::call(
+        $isSuccessful = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartProductMoveToCustomerQuote',
             array(

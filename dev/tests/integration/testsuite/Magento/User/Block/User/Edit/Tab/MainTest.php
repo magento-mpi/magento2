@@ -43,7 +43,7 @@ class Magento_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_
 
     public function testToHtmlPasswordFieldsExistingEntry()
     {
-        $this->_user->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
+        $this->_user->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
         $actualHtml = $this->_block->toHtml();
         $this->assertSelectCount(
             'input.required-entry[type="password"]', 0, $actualHtml,

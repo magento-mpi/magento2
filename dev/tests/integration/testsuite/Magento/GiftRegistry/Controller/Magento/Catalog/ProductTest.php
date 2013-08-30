@@ -6,7 +6,8 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Controller_Magento_Catalog_ProductTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_GiftRegistry_Controller_Magento_Catalog_ProductTest
+    extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php

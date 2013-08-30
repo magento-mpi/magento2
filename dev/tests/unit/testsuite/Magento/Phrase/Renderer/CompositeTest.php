@@ -23,7 +23,7 @@ class Magento_Phrase_Renderer_CompositeTest extends PHPUnit_Framework_TestCase
      */
     protected function _createComposite($renderers = array())
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         return $objectManagerHelper->getObject('Magento_Phrase_Renderer_Composite', array(
             'rendererFactory' => $this->_rendererFactory,

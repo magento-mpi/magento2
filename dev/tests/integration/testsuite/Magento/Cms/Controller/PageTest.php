@@ -12,7 +12,7 @@
 /**
  * Test class for Magento_Cms_Controller_Page.
  */
-class Magento_Cms_Controller_PageTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Cms_Controller_PageTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     public function testViewAction()
     {

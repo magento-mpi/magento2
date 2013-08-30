@@ -26,7 +26,7 @@ class Magento_Customer_Model_Customer_ApiTest extends PHPUnit_Framework_TestCase
             'group_id' => 1
         );
         /** Create new customer. */
-        $customerId = Magento_Test_Helper_Api::call(
+        $customerId = Magento_TestFramework_Helper_Api::call(
             $this,
             'customerCustomerCreate',
             array('customerData' => $customerData)
@@ -50,7 +50,7 @@ class Magento_Customer_Model_Customer_ApiTest extends PHPUnit_Framework_TestCase
     {
         $customerId = 1;
         /** Retrieve customer data. */
-        $customerData = Magento_Test_Helper_Api::call(
+        $customerData = Magento_TestFramework_Helper_Api::call(
             $this,
             'customerCustomerInfo',
             array($customerId)
@@ -74,7 +74,7 @@ class Magento_Customer_Model_Customer_ApiTest extends PHPUnit_Framework_TestCase
     public function testList()
     {
         /** Retrieve the list of customers. */
-        $customersList = Magento_Test_Helper_Api::call(
+        $customersList = Magento_TestFramework_Helper_Api::call(
             $this,
             'customerCustomerList',
             array()
@@ -104,7 +104,7 @@ class Magento_Customer_Model_Customer_ApiTest extends PHPUnit_Framework_TestCase
             'email' => 'new_email@example.org'
         );
         /** Update customer. */
-        $updateResult = Magento_Test_Helper_Api::call(
+        $updateResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'customerCustomerUpdate',
             array('customerId' => $customerId, 'customerData' => $updateCustomerData)
@@ -135,7 +135,7 @@ class Magento_Customer_Model_Customer_ApiTest extends PHPUnit_Framework_TestCase
     {
         $customerId = 1;
         /** Delete customer. */
-        $deleteResult = Magento_Test_Helper_Api::call(
+        $deleteResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'customerCustomerDelete',
             array('customerId' => $customerId)

@@ -74,7 +74,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function testSetGetRequest()
     {
         $this->assertInstanceOf('Zend_Controller_Request_Http', $this->_model->getRequest());
-        $request = new Magento_Test_Request;
+        $request = new Magento_TestFramework_Request;
         $this->_model->setRequest($request);
         $this->assertSame($request, $this->_model->getRequest());
     }

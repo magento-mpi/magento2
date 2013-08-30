@@ -12,7 +12,7 @@
 /**
  * @magentoDataFixture Magento/Catalog/controllers/_files/products.php
  */
-class Magento_Catalog_Controller_Product_CompareTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Catalog_Controller_Product_CompareTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     public function testAddAction()
     {

@@ -29,7 +29,7 @@ class Magento_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framewo
      */
     protected function setUp()
     {
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $this->_ruleResource = $this->getMock('Magento_Webapi_Model_Resource_Acl_Rule',
             array('getRuleList'), array(), '', false);

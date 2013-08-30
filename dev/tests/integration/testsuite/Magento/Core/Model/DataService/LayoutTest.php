@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     private $_dataServiceGraph;
 

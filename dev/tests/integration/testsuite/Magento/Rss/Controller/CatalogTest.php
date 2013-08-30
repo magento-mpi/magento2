@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Rss_Controller_CatalogTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Rss_Controller_CatalogTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @param string $action
@@ -138,8 +138,8 @@ class Magento_Rss_Controller_CatalogTest extends Magento_Test_TestCase_Controlle
     {
         Mage::getDesign()->setArea('adminhtml')->setDefaultDesignTheme();
         $this->getRequest()->setServer(array(
-            'PHP_AUTH_USER' => Magento_Test_Bootstrap::ADMIN_NAME,
-            'PHP_AUTH_PW' => Magento_Test_Bootstrap::ADMIN_PASSWORD
+            'PHP_AUTH_USER' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
+            'PHP_AUTH_PW' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
         ));
     }
 }

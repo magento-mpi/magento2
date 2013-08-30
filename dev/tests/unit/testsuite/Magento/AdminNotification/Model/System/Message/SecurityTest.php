@@ -41,7 +41,7 @@ class Magento_AdminNotification_Model_System_Message_SecurityTest extends PHPUni
         $this->_curlFactoryMock = $this->getMock('Magento_HTTP_Adapter_CurlFactory',
             array('create'), array(), '', false);
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = array(
             'cache' => $this->_cacheMock,
             'storeConfig' => $this->_storeConfigMock,

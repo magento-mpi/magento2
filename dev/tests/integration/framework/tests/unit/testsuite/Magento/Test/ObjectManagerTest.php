@@ -27,7 +27,7 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
     public function testClearCache()
     {
         $resource = new stdClass;
-        $instanceConfig = new Magento_Test_ObjectManager_Config();
+        $instanceConfig = new Magento_TestFramework_ObjectManager_Config();
         $primaryConfig = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
         $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
         $verification = $this->getMock('Magento_Core_Model_Dir_Verification', array(), array(), '', false);
@@ -40,7 +40,7 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
             'Magento_Core_Model_ObjectManager_ConfigLoader_Primary', array(), array(), '', false
         );
 
-        $model = new Magento_Test_ObjectManager(
+        $model = new Magento_TestFramework_ObjectManager(
             $primaryConfig, $instanceConfig,
             array(
                 'Magento_Core_Model_Dir_Verification' => $verification,
@@ -52,12 +52,12 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
         );
 
         $model->addSharedInstance($resource, 'Magento_Core_Model_Resource');
-        $instance1 = $model->get('Magento_Test_Request');
+        $instance1 = $model->get('Magento_TestFramework_Request');
 
-        $this->assertSame($instance1, $model->get('Magento_Test_Request'));
+        $this->assertSame($instance1, $model->get('Magento_TestFramework_Request'));
         $this->assertSame($model, $model->clearCache());
         $this->assertSame($model, $model->get('Magento_ObjectManager'));
         $this->assertSame($resource, $model->get('Magento_Core_Model_Resource'));
-        $this->assertNotSame($instance1, $model->get('Magento_Test_Request'));
+        $this->assertNotSame($instance1, $model->get('Magento_TestFramework_Request'));
     }
 }
