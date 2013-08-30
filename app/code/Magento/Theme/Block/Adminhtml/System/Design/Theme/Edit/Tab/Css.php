@@ -35,18 +35,20 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     protected $_customCssFile;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Theme_Model_Uploader_Service $uploaderService
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
         Magento_Theme_Model_Uploader_Service $uploaderService,
         array $data = array()
     ) {
-        parent::__construct($context, $objectManager, $data);
+        parent::__construct($coreData, $context, $objectManager, $data);
         $this->_uploaderService = $uploaderService;
     }
 

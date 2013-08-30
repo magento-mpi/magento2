@@ -140,6 +140,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
             $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false),
             $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
             $this->getMock('Magento_Filesystem', array(), array(), '', false),
+            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false),
             'core_setup',
             $this->_getModelDependencies()
         );
@@ -197,6 +198,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
             $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false),
             $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
             $this->getMock('Magento_Filesystem', array(), array(), '', false),
+            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false),
             'core_setup',
             $this->_getModelDependencies($tableRowsCount, $tableData, $aliasesMap)
         );
