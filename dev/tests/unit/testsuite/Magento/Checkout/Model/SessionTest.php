@@ -26,11 +26,12 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
         $orderFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($orderMock));
+        $coreHttp = $this->getMock('Magento_Core_Helper_Http', array(), array(), '', false);
 
-        $session = $this->getMockBuilder('Magento_Checkout_Model_Session')
-            ->setConstructorArgs(array($orderFactory))
-            ->setMethods(array('init'))
-            ->getMock();
+        /** @var Magento_Checkout_Model_Session $session */
+        $session = $this->getMock(
+            'Magento_Checkout_Model_Session', array('init'), array($orderFactory, $coreHttp), ''
+        );
         $session->setLastRealOrderId($orderId);
 
         $this->assertSame($orderMock, $session->getLastRealOrder());
