@@ -30,7 +30,7 @@
         <xs:sequence>
             <xs:element minOccurs="1" maxOccurs="unbounded" name="fieldset" type="fieldsetType"/>
         </xs:sequence>
-        <xs:attribute name="id" type="xs:id" use="required"/>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="fieldsetType">
@@ -42,7 +42,7 @@
         <xs:sequence>
             <xs:element minOccurs="1" maxOccurs="unbounded" name="field" type="fieldType"/>
         </xs:sequence>
-        <xs:attribute name="id" type="xs:id" use="required"/>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="fieldType">
