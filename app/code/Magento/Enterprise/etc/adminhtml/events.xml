@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="backend_auth_user_login_success">
+        <observer name="magento_enterprise" instance="Magento_Enterprise_Model_Observer" method="setHideSurveyQuestion" />
+    </event>
+</config>

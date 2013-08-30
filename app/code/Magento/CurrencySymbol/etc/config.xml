@@ -10,29 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <events>
-            <currency_display_options_forming>
-                <observers>
-                    <magento_currencysymbol_currency_display_options>
-                        <class>Magento_CurrencySymbol_Model_Observer</class>
-                        <method>currencyDisplayOptions</method>
-                    </magento_currencysymbol_currency_display_options>
-                </observers>
-            </currency_display_options_forming>
-        </events>
-    </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <currencysymbol>Magento_CurrencySymbol_Adminhtml</currencysymbol>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -44,4 +21,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

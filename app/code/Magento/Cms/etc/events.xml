@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="controller_front_init_routers">
+        <observer name="cms" instance="Magento_Cms_Controller_Router" method="initControllerRouters" />
+    </event>
+</config>

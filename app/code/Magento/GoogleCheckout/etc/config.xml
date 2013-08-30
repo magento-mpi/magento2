@@ -44,15 +44,6 @@
                 </Magento_GoogleCheckout>
             </modules>
         </translate>
-        <routers>
-            <googlecheckout>
-                <use>standard</use>
-                <args>
-                    <module>Magento_GoogleCheckout</module>
-                    <frontName>googlecheckout</frontName>
-                </args>
-            </googlecheckout>
-        </routers>
     </frontend>
     <adminhtml>
         <translate>
@@ -64,26 +55,6 @@
                 </Magento_GoogleCheckout>
             </modules>
         </translate>
-        <events>
-            <sales_order_shipment_track_save_after>
-                <observers>
-                    <googlecheckout>
-                        <type>model</type>
-                        <class>Magento_GoogleCheckout_Model_Observer</class>
-                        <method>salesOrderShipmentTrackSaveAfter</method>
-                    </googlecheckout>
-                </observers>
-            </sales_order_shipment_track_save_after>
-            <sales_order_shipment_save_after>
-                <observers>
-                    <googlecheckout>
-                        <type>model</type>
-                        <class>Magento_GoogleCheckout_Model_Observer</class>
-                        <method>salesOrderShipmentSaveAfter</method>
-                    </googlecheckout>
-                </observers>
-            </sales_order_shipment_save_after>
-        </events>
     </adminhtml>
     <default>
         <carriers>
@@ -127,4 +98,4 @@
             </checkout_shipping_virtual>
         </google>
     </default>
-</config>
+</config>

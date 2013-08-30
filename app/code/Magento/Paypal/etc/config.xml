@@ -55,15 +55,6 @@
             <paypal_express>/paypal/express</paypal_express>
             <paypal_standard>/paypal/standard</paypal_standard>
         </secure_url>
-        <routers>
-            <paypal>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Paypal</module>
-                    <frontName>paypal</frontName>
-                </args>
-            </paypal>
-        </routers>
         <translate>
             <modules>
                 <Magento_Paypal>
@@ -76,24 +67,6 @@
         <secure_url>
             <paypal_express_callbackshippingoptions>paypal/express/callbackshippingoptions</paypal_express_callbackshippingoptions>
         </secure_url>
-        <events>
-            <checkout_submit_all_after>
-                <observers>
-                    <hss_save_order_after_submit>
-                        <class>Magento_Paypal_Model_Observer</class>
-                        <method>saveOrderAfterSubmit</method>
-                    </hss_save_order_after_submit>
-                </observers>
-            </checkout_submit_all_after>
-            <controller_action_postdispatch_checkout_onepage_saveOrder>
-                <observers>
-                    <hss_save_order_onepage>
-                        <class>Magento_Paypal_Model_Observer</class>
-                        <method>setResponseAfterSaveOrder</method>
-                    </hss_save_order_onepage>
-                </observers>
-            </controller_action_postdispatch_checkout_onepage_saveOrder>
-        </events>
     </frontend>
     <adminhtml>
         <translate>
@@ -248,15 +221,4 @@
             </paypal_fetch_settlement_reports>
         </jobs>
     </crontab>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Magento_Paypal before="Magento_Adminhtml">Magento_Paypal_Adminhtml</Magento_Paypal>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
-</config>
+</config>

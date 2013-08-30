@@ -43,27 +43,7 @@
                 </Magento_Paygate>
             </modules>
         </translate>
-        <routers>
-            <paygate>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Paygate</module>
-                    <frontName>paygate</frontName>
-                </args>
-            </paygate>
-        </routers>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Magento_Paygate before="Magento_Adminhtml">Magento_Paygate_Adminhtml</Magento_Paygate>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <payment>
             <authorizenet>
@@ -86,4 +66,4 @@
             </authorizenet>
         </payment>
     </default>
-</config>
+</config>

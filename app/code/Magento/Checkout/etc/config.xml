@@ -43,41 +43,6 @@
             <checkout_onepage>/checkout/onepage</checkout_onepage>
             <checkout_multishipping>/checkout/multishipping</checkout_multishipping>
         </secure_url>
-        <events>
-            <customer_login>
-                <observers>
-                    <loadCustomerQuote>
-                        <class>Magento_Checkout_Model_Observer</class>
-                        <method>loadCustomerQuote</method>
-                    </loadCustomerQuote>
-                </observers>
-            </customer_login>
-            <customer_logout>
-                <observers>
-                    <unsetAll>
-                        <class>Magento_Checkout_Model_Observer</class>
-                        <method>unsetAll</method>
-                    </unsetAll>
-                </observers>
-            </customer_logout>
-            <sales_quote_save_after>
-                <observers>
-                    <set_checkout_quote_id>
-                        <class>Magento_Checkout_Model_Observer</class>
-                        <method>salesQuoteSaveAfter</method>
-                    </set_checkout_quote_id>
-                </observers>
-            </sales_quote_save_after>
-        </events>
-        <routers>
-            <checkout>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Checkout</module>
-                    <frontName>checkout</frontName>
-                </args>
-            </checkout>
-        </routers>
         <translate>
             <modules>
                 <Magento_Checkout>
@@ -125,4 +90,4 @@
             </payment_failed>
         </checkout>
     </default>
-</config>
+</config>

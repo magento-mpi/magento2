@@ -19,18 +19,6 @@
             </cron_setup>
         </resources>
     </global>
-    <crontab>
-        <events>
-            <default>
-                <observers>
-                    <cron_observer>
-                        <class>Magento_Cron_Model_Observer</class>
-                        <method>dispatch</method>
-                    </cron_observer>
-                </observers>
-            </default>
-        </events>
-    </crontab>
     <default>
         <system>
             <cron>
@@ -54,4 +42,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

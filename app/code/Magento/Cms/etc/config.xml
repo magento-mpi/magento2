@@ -11,33 +11,6 @@
 -->
 <config>
     <frontend>
-        <routers>
-            <cms>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Cms</module>
-                    <frontName>cms</frontName>
-                </args>
-            </cms>
-        </routers>
-        <events>
-            <controller_action_noroute>
-                <observers>
-                    <cms>
-                        <class>Magento_Cms_Model_Observer</class>
-                        <method>noRoute</method>
-                    </cms>
-                </observers>
-            </controller_action_noroute>
-            <controller_action_nocookies>
-                <observers>
-                    <cms>
-                        <class>Magento_Cms_Model_Observer</class>
-                        <method>noCookies</method>
-                    </cms>
-                </observers>
-            </controller_action_nocookies>
-        </events>
         <translate>
             <modules>
                 <Magento_Cms>
@@ -101,16 +74,6 @@
                 </setup>
             </cms_setup>
         </resources>
-        <events>
-            <controller_front_init_routers>
-                <observers>
-                    <cms>
-                        <class>Magento_Cms_Controller_Router</class>
-                        <method>initControllerRouters</method>
-                    </cms>
-                </observers>
-            </controller_front_init_routers>
-        </events>
         <cms>
             <page>
                 <tempate_filter>Magento_Cms_Model_Template_Filter</tempate_filter>
@@ -144,4 +107,4 @@
             </media_storage_configuration>
         </system>
     </default>
-</config>
+</config>

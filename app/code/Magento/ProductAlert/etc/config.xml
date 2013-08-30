@@ -59,15 +59,6 @@
                 </Magento_ProductAlert>
             </modules>
         </translate>
-        <routers>
-            <productalert>
-                <use>standard</use>
-                <args>
-                    <module>Magento_ProductAlert</module>
-                    <frontName>productalert</frontName>
-                </args>
-            </productalert>
-        </routers>
     </frontend>
     <default>
         <catalog>
@@ -94,4 +85,4 @@
             </catalog_product_alert>
         </jobs>
     </crontab>
-</config>
+</config>

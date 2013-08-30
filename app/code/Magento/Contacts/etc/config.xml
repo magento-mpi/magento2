@@ -14,15 +14,6 @@
         <secure_url>
             <customer>/contacts/</customer>
         </secure_url>
-        <routers>
-            <contacts>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Contacts</module>
-                    <frontName>contacts</frontName>
-                </args>
-            </contacts>
-        </routers>
         <translate>
             <modules>
                 <Magento_Contacts>
@@ -76,4 +67,4 @@
             </email>
         </contacts>
     </default>
-</config>
+</config>

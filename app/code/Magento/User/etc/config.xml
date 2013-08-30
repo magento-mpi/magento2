@@ -50,15 +50,4 @@
             </emails>
         </admin>
     </default>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Magento_User before="Magento_Backend">Magento_User_Adminhtml</Magento_User>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
-</config>
+</config>

@@ -23,15 +23,6 @@
         <secure_url>
             <paypaluk_express>/paypaluk/express</paypaluk_express>
         </secure_url>
-        <routers>
-            <paypaluk>
-                <use>standard</use>
-                <args>
-                    <module>Magento_PaypalUk</module>
-                    <frontName>paypaluk</frontName>
-                </args>
-            </paypaluk>
-        </routers>
         <translate>
             <modules>
                 <Magento_PaypalUk>
@@ -63,4 +54,4 @@
             </paypaluk_direct>
         </payment>
     </default>
-</config>
+</config>

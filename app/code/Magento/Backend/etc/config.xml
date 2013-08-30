@@ -14,37 +14,9 @@
         <areas>
             <adminhtml>
                 <base_controller>Magento_Backend_Controller_ActionAbstract</base_controller>
-                <routers>
-                    <admin>
-                        <class>Magento_Backend_Controller_Router_Default</class>
-                    </admin>
-                </routers>
                 <frontName>backend</frontName>
                 <auth />
             </adminhtml>
         </areas>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <use>admin</use>
-                <args>
-                    <module>Magento_Backend</module>
-                    <frontName>admin</frontName>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
-    <adminhtml>
-        <events>
-            <translate_initialization_before>
-                <observers>
-                    <initialize_translation>
-                        <class>Magento_Backend_Model_Observer</class>
-                        <method>initializeTranslation</method>
-                    </initialize_translation>
-                </observers>
-            </translate_initialization_before>
-        </events>
-    </adminhtml>
-</config>
+</config>

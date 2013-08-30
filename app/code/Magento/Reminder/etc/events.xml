@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="salesrule_rule_get_coupon_types">
+        <observer name="magento_reminder" instance="Magento_Reminder_Model_Observer" method="getCouponTypes" />
+    </event>
+    <event name="adminhtml_promo_quote_edit_tab_main_prepare_form">
+        <observer name="magento_reminder" instance="Magento_Reminder_Model_Observer" method="updatePromoQuoteTabMainForm" />
+        <observer name="magento_reminder" instance="Magento_Reminder_Model_Observer" method="addUseAutoGenerationNotice" />
+    </event>
+    <event name="salesrule_rule_save_after">
+        <observer name="magento_reminder" instance="Magento_Reminder_Model_Observer" method="detachUnsupportedSalesRule" />
+    </event>
+    <event name="adminhtml_block_promo_widget_chooser_prepare_collection">
+        <observer name="magento_reminder" instance="Magento_Reminder_Model_Observer" method="addSalesRuleFilter" />
+    </event>
+</config>
