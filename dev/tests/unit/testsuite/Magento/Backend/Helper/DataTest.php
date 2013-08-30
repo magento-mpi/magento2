@@ -23,19 +23,26 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false, false);
-        $this->_helper = new Magento_Backend_Helper_Data($this->_configMock,
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array('getNode'), array(), '', false, false);
+
+        $data = array(
+            'applicationConfig' => $this->_configMock,
         );
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_helper = $helper->getObject('Magento_Backend_Helper_Data', $data);
     }
 
     public function testGetAreaFrontNameReturnsDefaultValueWhenCustomNotSet()
     {
-        $this->_configMock->expects($this->at(0))->method('getNode')
+        $this->_configMock
+            ->expects($this->at(0))
+            ->method('getNode')
             ->with(Magento_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH)
             ->will($this->returnValue(false));
 
-        $this->_configMock->expects($this->at(1))->method('getNode')
+        $this->_configMock
+            ->expects($this->at(1))
+            ->method('getNode')
             ->with(Magento_Backend_Helper_Data::XML_PATH_BACKEND_FRONTNAME)
             ->will($this->returnValue('backend'));
 
@@ -44,11 +51,15 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetAreaFrontNameReturnsDefaultValueWhenCustomIsSet()
     {
-        $this->_configMock->expects($this->at(0))->method('getNode')
+        $this->_configMock
+            ->expects($this->at(0))
+            ->method('getNode')
             ->with(Magento_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH)
             ->will($this->returnValue(true));
 
-        $this->_configMock->expects($this->at(1))->method('getNode')
+        $this->_configMock
+            ->expects($this->at(1))
+            ->method('getNode')
             ->with(Magento_Backend_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH)
             ->will($this->returnValue('control'));
 
@@ -57,11 +68,15 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetAreaFrontNameReturnsEmptyStringIfAreaFrontNameDoesntExist()
     {
-        $this->_configMock->expects($this->at(0))->method('getNode')
+        $this->_configMock
+            ->expects($this->at(0))
+            ->method('getNode')
             ->with(Magento_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH)
             ->will($this->returnValue(false));
 
-        $this->_configMock->expects($this->at(1))->method('getNode')
+        $this->_configMock
+            ->expects($this->at(1))
+            ->method('getNode')
             ->with(Magento_Backend_Helper_Data::XML_PATH_BACKEND_FRONTNAME)
             ->will($this->returnValue(null));
 

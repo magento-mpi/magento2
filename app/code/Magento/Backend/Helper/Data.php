@@ -166,9 +166,9 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
     public function getAreaFrontName()
     {
         if (null === $this->_areaFrontName) {
-            $this->_areaFrontName = (bool)(string)$this->_config->getNode(self::XML_PATH_USE_CUSTOM_ADMIN_PATH) ?
-                (string)$this->_config->getNode(self::XML_PATH_CUSTOM_ADMIN_PATH) :
-                (string)$this->_config->getNode(self::XML_PATH_BACKEND_FRONTNAME);
+            $this->_areaFrontName = (bool)(string)$this->_config->getNode(self::XML_PATH_USE_CUSTOM_ADMIN_PATH)
+                ? (string)$this->_config->getNode(self::XML_PATH_CUSTOM_ADMIN_PATH)
+                : (string)$this->_config->getNode(self::XML_PATH_BACKEND_FRONTNAME);
         }
         return $this->_areaFrontName;
     }
