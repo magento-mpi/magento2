@@ -21,7 +21,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
     protected $_wsdlFactory;
 
     /**
-     * @var Mage_Webapi_Helper_Data
+     * @var Mage_Core_Helper_Data
      */
     protected $_helper;
 
@@ -30,7 +30,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      *
      * @var Mage_Webapi_Model_Soap_Config
      */
-    protected $_newApiConfig;
+    protected $_apiConfig;
 
     /**
      * The list of registered complex types.
@@ -42,18 +42,16 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Soap_Config $newApiConfig
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Model_Soap_Config $apiConfig
+     * @param Mage_Core_Helper_Data $helper
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
-     *
-     * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Webapi_Model_Soap_Config $newApiConfig,
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Webapi_Model_Soap_Config $apiConfig,
+        Mage_Core_Helper_Data $helper,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
     ) {
-        $this->_newApiConfig = $newApiConfig;
+        $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_helper = $helper;
     }
@@ -131,7 +129,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      */
     protected function _getServiceSchemaDOM($serviceName)
     {
-        return $this->_newApiConfig->getServiceSchemaDOM($serviceName);
+        return $this->_apiConfig->getServiceSchemaDOM($serviceName);
     }
 
     /**
@@ -385,7 +383,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      */
     protected function _prepareServiceData($serviceName)
     {
-        $requestedServices = $this->_newApiConfig->getRequestedSoapServices(array($serviceName));
+        $requestedServices = $this->_apiConfig->getRequestedSoapServices(array($serviceName));
         if (empty($requestedServices)) {
             throw new Mage_Webapi_Exception(
                 $this->_helper->__('Service "%s" is not available.', $serviceName),

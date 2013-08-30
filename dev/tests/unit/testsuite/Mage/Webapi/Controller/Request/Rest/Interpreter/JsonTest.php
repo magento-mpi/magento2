@@ -15,10 +15,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
     /** @var Mage_Webapi_Controller_Rest_Request_Interpreter_Json */
     protected $_jsonInterpreter;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_coreHelperMock;
-
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Core_Helper_Data */
     protected $_helperMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -28,17 +25,11 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
     {
         /** Prepare mocks for SUT constructor. */
         $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper');
-        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
+        $this->_helperMock = $this->getMockBuilder('Mage_Core_Helper_Data')->disableOriginalConstructor()->getMock();
         $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
-        $this->_coreHelperMock = $this->getMock('Mage_Core_Helper_Data',
-            array('jsonDecode'), array(), '', false, false
-        );
         $this->_helperFactoryMock->expects($this->any())
             ->method('get')
-            ->will($this->returnValueMap(array(
-                array('Mage_Core_Helper_Data', $this->_coreHelperMock),
-                array('Mage_Webapi_Helper_Data', $this->_helperMock)
-            )));
+            ->will($this->returnValue($this->_helperMock));
         $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')
             ->setMethods(array('isDeveloperMode'))
             ->disableOriginalConstructor()
@@ -55,7 +46,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
     {
         unset($this->_helperFactoryMock);
         unset($this->_jsonInterpreter);
-        unset($this->_coreHelperMock);
+        unset($this->_helperMock);
         unset($this->_appMock);
         parent::tearDown();
     }
@@ -78,7 +69,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
                 'test02' => 'some2',
             )
         );
-        $this->_coreHelperMock->expects($this->once())
+        $this->_helperMock->expects($this->once())
             ->method('jsonDecode')
             ->will($this->returnValue($expectedDecodedJson));
         /** Initialize SUT. */
@@ -92,13 +83,13 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
     public function testInterpretInvalidEncodedBodyExceptionDeveloperModeOff()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_coreHelperMock->expects($this->once())
+        $this->_helperMock->expects($this->once())
             ->method('jsonDecode')
             ->will($this->throwException(new Zend_Json_Exception));
         $this->_appMock->expects($this->once())
             ->method('isDeveloperMode')
             ->will($this->returnValue(false));
-        $this->_coreHelperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
+        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $this->setExpectedException(
             'Mage_Webapi_Exception',
             'Decoding error.',
@@ -112,7 +103,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
     public function testInterpretInvalidEncodedBodyExceptionDeveloperModeOn()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_coreHelperMock->expects($this->once())
+        $this->_helperMock->expects($this->once())
             ->method('jsonDecode')
             ->will(
             $this->throwException(

@@ -17,7 +17,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Controller_Rest_Request */
     protected $_request;
 
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Core_Helper_Data */
     protected $_helperMock;
 
     /** @var Mage_Webapi_Model_Rest_Config */
@@ -35,7 +35,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
         $interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request_Interpreter_Factory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
+        $this->_helperMock = $this->getMockBuilder('Mage_Core_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('__'))
             ->getMock();

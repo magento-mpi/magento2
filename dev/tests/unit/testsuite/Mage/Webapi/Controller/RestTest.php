@@ -27,13 +27,10 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Controller_Rest_Router_Route */
     protected $_routeMock;
 
-    /** @var Mage_Webapi_Controller_Rest_Presentation */
-    protected $_restPresentation;
-
     /** @var Magento_ObjectManager */
     protected $_objectManagerMock;
 
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Core_Helper_Data */
     protected $_helperMock;
 
     /** @var stdClass */
@@ -48,17 +45,12 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request')
-            ->setMethods(array('isSecure'))
+            ->setMethods(array('isSecure', 'getRequestData'))
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->_responseMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Response')
-            ->setMethods(array('sendResponse', 'getHeaders'))
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->_restPresentation = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Presentation')
-            ->setMethods(array('prepareResponse', 'getRequestData'))
+            ->setMethods(array('sendResponse', 'getHeaders', 'prepareResponse'))
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -81,7 +73,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
+        $this->_helperMock = $this->getMockBuilder('Mage_Core_Helper_Data')
             ->setMethods(array('__'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -99,7 +91,6 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
         $this->_restDispatcher = new Mage_Webapi_Controller_Rest(
             $this->_requestMock,
             $this->_responseMock,
-            $this->_restPresentation,
             $this->_routerMock,
             $this->_authenticationMock,
             $this->_objectManagerMock,
@@ -118,8 +109,8 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
         $this->_routerMock->expects($this->any())->method('match')->will($this->returnValue($this->_routeMock));
 
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValue($this->_serviceMock));
-        $this->_restPresentation->expects($this->any())->method('prepareResponse')->will($this->returnValue(array()));
-        $this->_restPresentation->expects($this->any())->method('getRequestData')->will($this->returnValue(array()));
+        $this->_responseMock->expects($this->any())->method('prepareResponse')->will($this->returnValue(array()));
+        $this->_requestMock->expects($this->any())->method('getRequestData')->will($this->returnValue(array()));
 
         /** Assert that response sendResponse method will be executed once. */
         $this->_responseMock->expects($this->once())->method('sendResponse');
@@ -136,7 +127,6 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
         unset($this->_routerMock);
         unset($this->_objectManagerMock);
         unset($this->_authorizationMock);
-        unset($this->_restPresentation);
         unset($this->_helperMock);
         unset($this->_appStateMock);
         parent::tearDown();
@@ -223,8 +213,8 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue(true));
         $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
 
-        //Override default prepareResponse. It should never be called in this case
-        $this->_restPresentation->expects($this->never())->method('prepareResponse');
+        // Override default prepareResponse. It should never be called in this case
+        $this->_responseMock->expects($this->never())->method('prepareResponse');
 
         $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
@@ -245,8 +235,8 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
         $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
 
-        //Override default prepareResponse. It should never be called in this case
-        $this->_restPresentation->expects($this->never())->method('prepareResponse');
+        // Override default prepareResponse. It should never be called in this case
+        $this->_responseMock->expects($this->never())->method('prepareResponse');
 
         $expectedMsg = 'The method' . self::SERVICE_METHOD . ' of service '
             . self::SERVICE_ID . ' must return an array.';
@@ -260,5 +250,4 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
         $exceptionArray = $this->_responseMock->getException();
         $this->assertEquals($expectedMsg, $exceptionArray[0]->getMessage());
     }
-
 }

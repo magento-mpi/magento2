@@ -15,7 +15,7 @@ class Mage_Webapi_Model_Resource_Acl_TestAbstract extends PHPUnit_Framework_Test
     protected $_helper;
 
     /**
-     * @var Mage_Webapi_Helper_Data
+     * @var Mage_Core_Helper_Data
      */
     protected $_helperData;
 
@@ -38,7 +38,7 @@ class Mage_Webapi_Model_Resource_Acl_TestAbstract extends PHPUnit_Framework_Test
     {
         $this->_helper = new Magento_Test_Helper_ObjectManager($this);
 
-        $this->_helperData = $this->getMockBuilder('Mage_Webapi_Helper_Data')
+        $this->_helperData = $this->getMockBuilder('Mage_Core_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('__'))
             ->getMock();

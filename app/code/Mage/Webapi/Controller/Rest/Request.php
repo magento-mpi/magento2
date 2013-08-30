@@ -23,15 +23,13 @@ class Mage_Webapi_Controller_Rest_Request extends Mage_Webapi_Controller_Request
     /** @var string */
     protected $_serviceVersion;
 
-    /**
-     * @var Mage_Webapi_Controller_Rest_Request_InterpreterInterface
-     */
+    /** @var Mage_Webapi_Controller_Rest_Request_InterpreterInterface */
     protected $_interpreter;
 
     /** @var array */
     protected $_bodyParams;
 
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Core_Helper_Data */
     protected $_helper;
 
     /** @var Mage_Webapi_Controller_Rest_Request_Interpreter_Factory */
@@ -42,13 +40,13 @@ class Mage_Webapi_Controller_Rest_Request extends Mage_Webapi_Controller_Request
      *
      * @param Mage_Core_Model_Config $config
      * @param Mage_Webapi_Controller_Rest_Request_Interpreter_Factory $interpreterFactory
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Core_Helper_Data $helper
      * @param string|null $uri
      */
     public function __construct(
         Mage_Core_Model_Config $config,
         Mage_Webapi_Controller_Rest_Request_Interpreter_Factory $interpreterFactory,
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Helper_Data $helper,
         $uri = null
     ) {
         parent::__construct($config, Mage_Webapi_Controller_Rest::REQUEST_TYPE, $uri);
@@ -184,7 +182,7 @@ class Mage_Webapi_Controller_Rest_Request extends Mage_Webapi_Controller_Request
      */
     public function setServiceVersion($serviceVersion)
     {
-        $versionPrefix = self::VERSION_NUMBER_PREFIX;
+        $versionPrefix = Mage_Webapi_Model_Config::VERSION_NUMBER_PREFIX;
         if (preg_match("/^{$versionPrefix}?(\d+)$/i", $serviceVersion, $matches)) {
             $versionNumber = (int)$matches[1];
         } else {
@@ -195,5 +193,32 @@ class Mage_Webapi_Controller_Rest_Request extends Mage_Webapi_Controller_Request
         }
         $this->_serviceVersion = $versionNumber;
         return $this;
+    }
+
+    /**
+     * Fetch data from request and prepare it for passing to specified action.
+     *
+     * @return array
+     */
+    public function getRequestData()
+    {
+        $requestParams = array_merge($this->_getRequestBody(), $this->getParams());
+        return $requestParams;
+    }
+
+    /**
+     * Retrieve request data.
+     *
+     * @return array
+     */
+    protected function _getRequestBody()
+    {
+        $requestBody = array();
+        $httpMethod = $this->getHttpMethod();
+        if ($httpMethod == Mage_Webapi_Model_Rest_Config::HTTP_METHOD_POST
+            || $httpMethod == Mage_Webapi_Model_Rest_Config::HTTP_METHOD_PUT) {
+            $requestBody = $this->getBodyParams();
+        }
+        return $requestBody;
     }
 }

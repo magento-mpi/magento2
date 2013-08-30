@@ -11,9 +11,6 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
 {
     const REQUEST_TYPE = 'rest';
 
-    /** @var Mage_Webapi_Controller_Rest_Presentation */
-    protected $_restPresentation;
-
     /** @var Mage_Webapi_Controller_Rest_Router */
     protected $_router;
 
@@ -32,7 +29,7 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
     /** @var Magento_ObjectManager */
     protected $_objectManager;
 
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Core_Helper_Data */
     protected $_helper;
 
     /** @var Mage_Core_Model_App_State */
@@ -43,25 +40,22 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
      *
      * @param Mage_Webapi_Controller_Rest_Request $request
      * @param Mage_Webapi_Controller_Rest_Response $response
-     * @param Mage_Webapi_Controller_Rest_Presentation $restPresentation
      * @param Mage_Webapi_Controller_Rest_Router $router
      * @param Mage_Webapi_Controller_Rest_Authentication $authentication
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Webapi_Helper_Data $helper,
+     * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_App_State $appState
      */
     public function __construct(
         Mage_Webapi_Controller_Rest_Request $request,
         Mage_Webapi_Controller_Rest_Response $response,
-        Mage_Webapi_Controller_Rest_Presentation $restPresentation,
         Mage_Webapi_Controller_Rest_Router $router,
         // TODO: Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Rest_Authentication $authentication,
         Magento_ObjectManager $objectManager,
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Helper_Data $helper,
         Mage_Core_Model_App_State $appState
     ) {
-        $this->_restPresentation = $restPresentation;
         $this->_router = $router;
         $this->_authentication = $authentication;
         // TODO: $this->_authorization = $authorization;
@@ -111,8 +105,8 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
                         Mage_Webapi_Exception::HTTP_BAD_REQUEST
                     );
                 }
-                /** @var Mage_Webapi_Controller_Rest_Presentation $inputData */
-                $inputData = $this->_restPresentation->getRequestData();
+                /** @var array $inputData */
+                $inputData = $this->_request->getRequestData();
                 // TODO: $this->_authorization->checkResourceAcl($route->getServiceId(), $route->getServiceMethod());
                 $serviceMethod = $route->getServiceMethod();
                 $service = $this->_objectManager->get($route->getServiceId());
@@ -123,7 +117,7 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
                             $route->getServiceId())
                     );
                 }
-                $this->_restPresentation->prepareResponse($outputData);
+                $this->_response->prepareResponse($outputData);
             } catch (Exception $e) {
                 $this->_response->setException($e);
             }

@@ -12,7 +12,7 @@ class Mage_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_TestCa
     /** @var Mage_Webapi_Controller_ErrorProcessor */
     protected $_errorProcessor;
 
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Core_Helper_Data */
     protected $_helperMock;
 
     /** @var Mage_Core_Model_App */

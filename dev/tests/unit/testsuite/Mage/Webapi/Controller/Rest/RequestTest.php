@@ -27,7 +27,7 @@ class Mage_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('interpret', 'get'))
             ->disableOriginalConstructor()
             ->getMock();
-        $helper = $this->getMockBuilder('Mage_Webapi_Helper_Data')
+        $helper = $this->getMockBuilder('Mage_Core_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('__'))
             ->getMock();
@@ -44,6 +44,7 @@ class Mage_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
+        unset($this->_interpreterFactory);
         unset($this->_request);
         parent::tearDown();
     }

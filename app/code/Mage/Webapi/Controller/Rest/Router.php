@@ -12,7 +12,7 @@ class Mage_Webapi_Controller_Rest_Router
     /** @var array */
     protected $_routes = array();
 
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Core_Helper_Data */
     protected $_helper;
 
     /** @var Mage_Webapi_Model_Rest_Config */
@@ -21,11 +21,11 @@ class Mage_Webapi_Controller_Rest_Router
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Core_Helper_Data $helper
      * @param Mage_Webapi_Model_Rest_Config $apiConfig
      */
     public function __construct(
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Helper_Data $helper,
         Mage_Webapi_Model_Rest_Config $apiConfig
     ) {
         $this->_helper = $helper;

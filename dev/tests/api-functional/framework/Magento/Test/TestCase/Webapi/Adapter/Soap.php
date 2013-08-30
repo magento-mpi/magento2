@@ -19,16 +19,16 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
     protected $_soapClients = array();
 
     /**
-     * @var Mage_Webapi_Helper_Data
+     * @var Mage_Webapi_Model_Soap_Config
      */
-    protected $_soapHelper;
+    protected $_soapConfig;
 
     /**
      * Initialize dependencies.
      */
     public function __construct()
     {
-        $this->_soapHelper = Mage::getObjectManager()->get('Mage_Webapi_Helper_Data');
+        $this->_soapConfig = Mage::getObjectManager()->get('Mage_Webapi_Model_Soap_Config');
     }
 
     /**
@@ -113,7 +113,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
         if (isset($serviceInfo['soap']['operation'])) {
             $soapOperation = $serviceInfo['soap']['operation'];
         } else if (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
-            $soapOperation = $this->_soapHelper->getSoapOperation(
+            $soapOperation = $this->_soapConfig->getSoapOperation(
                 $serviceInfo['serviceInterface'],
                 $serviceInfo['method']
             );
@@ -165,7 +165,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
         if (isset($serviceInfo['soap']['service'])) {
             $serviceName = $serviceInfo['soap']['service'];
         } else if (isset($serviceInfo['serviceInterface'])) {
-            $serviceName = $this->_soapHelper->getServiceName($serviceInfo['serviceInterface'], false);
+            $serviceName = $this->_soapConfig->getServiceName($serviceInfo['serviceInterface'], false);
         } else {
             throw new LogicException("Service name cannot be identified.");
         }

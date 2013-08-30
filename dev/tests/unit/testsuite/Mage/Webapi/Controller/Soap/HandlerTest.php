@@ -15,7 +15,7 @@ class Mage_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_apiConfigMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Mage_Core_Helper_Data */
     protected $_helperMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -52,8 +52,8 @@ class Mage_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestCase
                 )
             )->disableOriginalConstructor()
             ->getMock();
-        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
-            ->setMethods(array('__', 'prepareMethodParams'))
+        $this->_helperMock = $this->getMockBuilder('Mage_Core_Helper_Data')
+            ->setMethods(array('__'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_authenticationMock = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Authentication')
@@ -242,10 +242,6 @@ class Mage_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestCase
             ->with($service, $method, $versionAfterFallback);
         $arguments = reset($this->_arguments);
         $arguments = get_object_vars($arguments);
-        $this->_helperMock->expects($this->once())
-            ->method('prepareMethodParams')
-            ->with('Vendor_Module_Controller_Webapi_Resource', $action, $arguments, $this->_apiConfigMock)
-            ->will($this->returnValue($arguments));
         $expectedResult = array('foo' => 'bar');
         $controllerMock->expects($this->once())
             ->method($action)
