@@ -27,10 +27,6 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools extends Magento_Backend_
     protected $_themeContext;
 
     /**
-     * Initialize dependencies
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_DesignEditor_Model_Theme_Context $themeContext

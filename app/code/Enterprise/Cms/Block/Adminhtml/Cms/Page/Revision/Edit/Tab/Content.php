@@ -29,18 +29,20 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
 
     /**
      * @param Enterprise_Cms_Helper_Data $cmsData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param array $data
      */
     public function __construct(
         Enterprise_Cms_Helper_Data $cmsData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Event_Manager $eventManager,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
-        parent::__construct($context, $eventManager, $data);
+        parent::__construct($coreData, $context, $eventManager, $data);
     }
 
     /**

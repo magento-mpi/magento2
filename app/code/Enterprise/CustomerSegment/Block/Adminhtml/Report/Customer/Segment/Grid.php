@@ -27,6 +27,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
 
     /**
      * @param Enterprise_CustomerSegment_Helper_Data $customerSegmentData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
@@ -34,13 +35,14 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
      */
     public function __construct(
         Enterprise_CustomerSegment_Helper_Data $customerSegmentData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
         $this->_customerSegmentData = $customerSegmentData;
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     /**

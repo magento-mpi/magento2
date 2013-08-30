@@ -36,6 +36,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
 
     /**
      * @param Enterprise_Rma_Helper_Eav $rmaEav
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel

@@ -83,10 +83,6 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
     protected $_storeFactory;
 
     /**
-     * Constructor
-     *
-     *
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_App $application
