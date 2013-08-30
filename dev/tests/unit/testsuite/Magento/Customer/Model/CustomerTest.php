@@ -16,6 +16,12 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Customer_Model_Customer */
     protected $_model;
 
+    /** @var  Magento_Customer_Helper_Data */
+    protected $_customerData;
+
+    /** @var  Magento_Core_Helper_Data */
+    protected $_coreData;
+
     /** @var Magento_Core_Model_Website|PHPUnit_Framework_MockObject_MockObject */
     protected $_website;
 
@@ -45,6 +51,14 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        $this->_customerData = $this->getMockBuilder('Magento_Customer_Helper_Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getResetPasswordLinkExpirationPeriod'))
+            ->getMock();
+        $this->_coreData = $this->getMockBuilder('Magento_Core_Helper_Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array())
+            ->getMock();
         $this->_website = $this->getMockBuilder('Magento_Core_Model_Website')
             ->disableOriginalConstructor()
             ->setMethods(array('getStoreIds'))
@@ -69,7 +83,7 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $this->_resourceMock = $this->getMockBuilder('Magento_Customer_Model_Resource_Address')
+        $this->_resourceMock = $this->getMockBuilder('Magento_Customer_Model_Resource_Customer')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
@@ -79,8 +93,15 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_model = new Magento_Customer_Model_Customer(
-            $this->_contextMock, $this->_senderMock, $this->_storeManager, $this->_config, $this->_resourceMock,
-            $this->_collectionMock, array()
+            $this->_customerData,
+            $this->_coreData,
+            $this->_contextMock,
+            $this->_senderMock,
+            $this->_storeManager,
+            $this->_config,
+            $this->_resourceMock,
+            $this->_collectionMock,
+            array()
         );
     }
 
