@@ -40,9 +40,10 @@ class namespacer
     private $rootDirectory = null;
     private $classSearch = array();
     private $classReplace = array();
-    private $allowedFileExtensions = array('php', 'phtml', 'html','xml','sql');
+    private $allowedFileExtensions = array('php', 'phtml', 'html', 'xml', 'sql');
     private $ignoreFile = "blacklist.txt";
     private $blackListArray = array();
+    private $testDir=array();
     private $addSlashArray = array(
         "Zend_",
         "Twig_",
@@ -176,7 +177,11 @@ class namespacer
     );
     private $gitShell = null;
 
-    public function __construct($path, $rootDirectory, $def = false)
+
+    private $xmlFile=array();
+    private $phpFile=array();
+
+    public function __construct($path, $rootDirectory, $tesDir = false)
     {
 
 
@@ -186,6 +191,9 @@ class namespacer
         //$this->gitClassMove();
         // $this->gitListPackageMove();
         $this->rootDirectory = $rootDirectory;
+        if($tesDir){
+            $this->testDir=$path;
+        }
         $this->renameFileLogger = time() . $this->renameFileLogger;
         $this->renameClassLogger = time() . $this->renameClassLogger;
         $this->globalScanner = time() . $this->globalScanner;
@@ -463,8 +471,41 @@ class namespacer
 
         $this->replaceThirdParty($this->path);
         echo "Finished Third Party  Replacement \n";
+
+        echo "=====================\n";
+        echo "Started Started Sanity check Cleanup \n";
+        $this->sanityCheckCleanup();
     }
 
+    private function sanityCheckCleanup()
+    {
+
+        $sanitySearchXML = array("type name=\"\\Magento\\", "preference for=\"\\Magento","['\\Magento\\",
+            "module name=\"\\Magento\\","type=\"\\Magento\\");
+        $sanityReplaceXMl=array("type name=\"Magento\\", "preference for=\"Magento","['Magento\\",
+            "module name=\"Magento\\","type=\"Magento\\");
+
+        echo "=====================\n";
+        echo "XML Sanity check  Started\n";
+        foreach($this->xmlFile as $key){
+            $contentsXml=str_replace($sanitySearchXML,$sanityReplaceXMl,file_get_contents($key));
+            file_put_contents($key, $contentsXml);
+        }
+        echo "XML Sanity check Completed \n";
+
+        echo "=====================\n";
+        echo "php Sanity check  Started\n";
+        $sanityPhpSearch = array("['\\Magento\\", "get('\\Magento\\","\\\\Magento");
+        $sanityphpReplace = array("['Magento\\", "get('Magento\\","\\Magento");
+        echo "php Sanity check  Completed\n";
+
+        foreach($this->phpFile as $key){
+            $contentsPhp=str_replace($sanityPhpSearch,$sanityphpReplace,file_get_contents($key));
+            file_put_contents($key, $contentsPhp);
+        }
+
+
+    }
     private function globalClassnameScanner()
     {
         clearstatcache();
@@ -478,12 +519,20 @@ class namespacer
             if (count($search) === count($this->classReplace) && count($search) === count($this->classSearch)) {
                 $this->classSearch = $search;
                 foreach ($files as $file) {
+                    $ext=strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                    if($ext=='xml'){
+                        $this->xmlFile[]=$file;
+                    }
+                    if($ext=='php'||$ext=='phtml'){
+                        $this->phpFile[]=$file;
+                    }
 
                     $this->logFile($this->globalScanner, $file . "Start Processing \n");
                     clearstatcache();
                     //$contents=str_replace($this->classSearch,$this->classReplace,file_get_contents($file));
                     $contents = preg_replace($this->classSearch, $this->classReplace, file_get_contents($file));
                     file_put_contents($file, $contents);
+                    $contents=str_replace("\\\\Magento\\","\\Magento\\",$contents);
                     $this->logFile($this->globalScanner, $file . "Scanning completed \n");
                 }
             } else {
@@ -748,6 +797,7 @@ class namespacer
         foreach ($files as $file) {
             if (file_exists($file)) {
                 $contents = preg_replace($libSearch, $libReplace, file_get_contents($file));
+                $contents=str_replace("\\\\Magento\\","\\Magento\\",$contents);
                 file_put_contents($file, $contents);
             }
         }
