@@ -54,7 +54,7 @@
         <xs:sequence>
             <xs:element minOccurs="1" maxOccurs="unbounded" name="aspect" type="aspectType"/>
         </xs:sequence>
-        <xs:attribute name="name" type="xs:NMTOKEN" use="required"/>
+        <xs:attribute name="name" type="xs:token" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="aspectType">
@@ -64,8 +64,8 @@
                 provided under the name specified by targetField.
             </xs:documentation>
         </xs:annotation>
-        <xs:attribute name="name" type="xs:NMTOKEN" use="required"/>
-        <xs:attribute name="targetField" type="xs:NMTOKEN" use="optional"/>
+        <xs:attribute name="name" type="xs:token" use="required"/>
+        <xs:attribute name="targetField" type="xs:token" use="optional"/>
     </xs:complexType>
 
 </xs:schema>
