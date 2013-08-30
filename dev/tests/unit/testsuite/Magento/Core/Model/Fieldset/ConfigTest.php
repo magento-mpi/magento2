@@ -21,7 +21,14 @@ class Magento_Core_Model_Fieldset_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_storageMock = $this->getMock('Magento_Core_Model_Fieldset_Config_Data', array('get'), array(), '', false);
+        $this->_storageMock = $this->getMock(
+            'Magento_Core_Model_Fieldset_Config_Data',
+            array('get'),
+            array(),
+            '',
+            false
+        );
+
         $this->_model = new Magento_Core_Model_Fieldset_Config($this->_storageMock);
     }
 
