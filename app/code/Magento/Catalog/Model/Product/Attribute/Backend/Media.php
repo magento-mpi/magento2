@@ -58,10 +58,10 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
      *
      * @var Magento_Core_Helper_File_Storage_Database
      */
-    protected $_coreFileStorageDatabase = null;
+    protected $_fileStorageDb = null;
 
     /**
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig
      * @param Magento_Core_Model_Dir $dirs
@@ -69,14 +69,14 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
         Magento_Core_Helper_Data $coreData,
         Magento_Catalog_Model_Product_Media_Config $mediaConfig,
         Magento_Core_Model_Dir $dirs,
         Magento_Filesystem $filesystem,
         $data = array()
     ) {
-        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
+        $this->_fileStorageDb = $fileStorageDb;
         $this->_coreData = $coreData;
         if (isset($data['resourceModel'])) {
             $this->_resourceModel = $data['resourceModel'];
@@ -347,7 +347,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
 
         try {
             /** @var $storageHelper Magento_Core_Helper_File_Storage_Database */
-            $storageHelper = $this->_coreFileStorageDatabase;
+            $storageHelper = $this->_fileStorageDb;
             if ($move) {
                 $this->_filesystem->rename($file, $destinationFile, $this->_baseTmpMediaPath);
 
@@ -604,7 +604,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         $destinationFile = $this->_getUniqueFileName($file);
 
         /** @var $storageHelper Magento_Core_Helper_File_Storage_Database */
-        $storageHelper = $this->_coreFileStorageDatabase;
+        $storageHelper = $this->_fileStorageDb;
 
         if ($storageHelper->checkDbUsage()) {
             $storageHelper->renameFile(
@@ -634,8 +634,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
      */
     protected function _getUniqueFileName($file)
     {
-        if ($this->_coreFileStorageDatabase->checkDbUsage()) {
-            $destFile = $this->_coreFileStorageDatabase
+        if ($this->_fileStorageDb->checkDbUsage()) {
+            $destFile = $this->_fileStorageDb
                 ->getUniqueFilename(
                     Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaUrlAddition(),
                     $file
@@ -663,8 +663,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
                 throw new Exception();
             }
 
-            if ($this->_coreFileStorageDatabase->checkDbUsage()) {
-                $this->_coreFileStorageDatabase
+            if ($this->_fileStorageDb->checkDbUsage()) {
+                $this->_fileStorageDb
                     ->copyFile($this->_mediaConfig->getMediaShortUrl($file),
                                $this->_mediaConfig->getMediaShortUrl($destinationFile));
 

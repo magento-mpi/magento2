@@ -19,7 +19,17 @@ class Magento_Bundle_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
-        $this->_model = new Magento_Bundle_Model_Product_Type($filesystem);
+        $catalogProduct = $this->getMock('Magento_Catalog_Helper_Product', array(), array(), '', false);
+        $catalogData = $this->getMock('Magento_Catalog_Helper_Data', array(), array(), '', false);
+        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $fileStorageDb = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
+        $this->_model = new Magento_Bundle_Model_Product_Type(
+            $catalogProduct,
+            $catalogData,
+            $coreData,
+            $fileStorageDb,
+            $filesystem
+        );
     }
 
     public function testHasWeightTrue()
