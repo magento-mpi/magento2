@@ -96,7 +96,7 @@
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
             "<?php echo $this->getViewFileUrl('Magento_Customer::set-password.js') ?>",
             <?php if ($userDefinedAttributes->hasUserDefinedAttributes()): ?>
-                "<?php echo $this->getViewFileUrl('Enterprise_Customer::file-element.js')?>",
+                "<?php echo $this->getViewFileUrl('Magento_CustomerCustomAttributes::file-element.js')?>",
             <?php endif ?>
             <?php if ($_dob->isEnabled()): ?>
                 "<?php echo $this->getViewFileUrl('mage/validation/dob-rule.js') ?>",

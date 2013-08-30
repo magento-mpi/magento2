@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_GiftRegistry
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<logging>
+    <actions>
+        <share translate="label">
+            <label>Share</label>
+        </share>
+    </actions>
+
+    <magento_giftregistry_type translate="label">
+        <label>Gift Registry Type</label>
+        <expected_models>
+            <Magento_GiftRegistry_Model_Type/>
+        </expected_models>
+        <actions>
+
+            <adminhtml_giftregistry_edit>
+                <action>edit</action>
+            </adminhtml_giftregistry_edit>
+
+            <adminhtml_giftregistry_save>
+                <action>save</action>
+                <post_dispatch>Magento_GiftRegistry_Model_Type::postDispatchTypeSave</post_dispatch>
+            </adminhtml_giftregistry_save>
+
+            <adminhtml_giftregistry_delete>
+                <action>delete</action>
+            </adminhtml_giftregistry_delete>
+        </actions>
+    </magento_giftregistry_type>
+
+    <magento_giftregistry_entity>
+        <label>Gift Registry Entity</label>
+        <expected_models>
+            <Magento_GiftRegistry_Model_Entity/>
+            <Magento_GiftRegistry_Model_Item/>
+        </expected_models>
+        <actions>
+
+            <adminhtml_giftregistry_customer_add>
+                <action>new</action>
+            </adminhtml_giftregistry_customer_add>
+
+            <adminhtml_giftregistry_customer_edit>
+                <action>edit</action>
+            </adminhtml_giftregistry_customer_edit>
+
+            <adminhtml_giftregistry_customer_share>
+                <action>share</action>
+                <post_dispatch>Magento_GiftRegistry_Model_Entity::postDispatchShare</post_dispatch>
+            </adminhtml_giftregistry_customer_share>
+
+            <adminhtml_giftregistry_customer_delete>
+                <action>delete</action>
+            </adminhtml_giftregistry_customer_delete>
+        </actions>
+    </magento_giftregistry_entity>
+</logging>

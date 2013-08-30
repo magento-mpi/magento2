@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Invitation
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<logging>
+    <magento_invitation translate="label">
+        <label>Customer Invitations</label>
+        <expected_models>
+            <Magento_Invitation_Model_Invitation/>
+        </expected_models>
+        <actions>
+            <adminhtml_invitation_view>
+                <action>view</action>
+            </adminhtml_invitation_view>
+
+            <adminhtml_invitation_save>
+                <action>save</action>
+            </adminhtml_invitation_save>
+
+            <adminhtml_invitation_saveInvitation>
+                <action>save</action>
+            </adminhtml_invitation_saveInvitation>
+
+            <adminhtml_invitation_massCancel>
+                <action>massUpdate</action>
+            </adminhtml_invitation_massCancel>
+
+            <adminhtml_invitation_massResend>
+                <action>massUpdate</action>
+                <post_dispatch>Magento_Invitation_Model_Observer::postDispatchInvitationMassUpdate</post_dispatch>
+            </adminhtml_invitation_massResend>
+        </actions>
+    </magento_invitation>
+</logging>

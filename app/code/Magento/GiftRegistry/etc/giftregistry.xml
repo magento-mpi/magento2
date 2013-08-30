@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_GiftRegistry
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <prototype>
+        <attribute_types>
+            <text translate="label">
+                <label>Text</label>
+            </text>
+            <select translate="label">
+                <label>Select</label>
+            </select>
+            <date translate="label">
+                <label>Date</label>
+            </date>
+            <country translate="label">
+                <label>Country</label>
+            </country>
+        </attribute_types>
+        <attribute_groups>
+            <event_information translate="label">
+                <label>Event Information</label>
+                <sort_order>5</sort_order>
+                <visible>1</visible>
+            </event_information>
+            <registry translate="label">
+                <label>Gift Registry Properties</label>
+                <sort_order>10</sort_order>
+                <visible>1</visible>
+            </registry>
+            <privacy translate="label">
+                <label>Privacy Settings</label>
+                <sort_order>15</sort_order>
+                <visible>1</visible>
+            </privacy>
+            <registrant translate="label">
+                <label>Recipients Information</label>
+                <sort_order>20</sort_order>
+                <visible>1</visible>
+            </registrant>
+            <shipping translate="label">
+                <label>Shipping Address</label>
+                <sort_order>25</sort_order>
+                <visible>0</visible>
+            </shipping>
+        </attribute_groups>
+        <registry>
+            <attributes>
+                <static>
+                    <event_date translate="label">
+                        <label>Event Date</label>
+                        <type>date</type>
+                        <group>event_information</group>
+                        <visible>1</visible>
+                    </event_date>
+                    <event_country translate="label">
+                        <label>Event Country</label>
+                        <type>country</type>
+                        <group>event_information</group>
+                        <visible>1</visible>
+                    </event_country> 
+                    <event_country_region translate="label">
+                        <label>Event Region Id</label>
+                        <type>region</type>
+                        <visible>0</visible>
+                    </event_country_region >
+                    <event_country_region_text translate="label">
+                        <label>Event Region Text</label>
+                        <type>text</type>
+                        <group>event_information</group>
+                        <visible>0</visible>
+                    </event_country_region_text>
+                    <event_location translate="label">
+                        <label>Event Location</label>
+                        <type>text</type>
+                        <group>event_information</group>
+                        <visible>1</visible>
+                    </event_location>
+                </static>
+                <custom/>
+            </attributes>
+        </registry>
+        <registrant>
+            <attributes>
+                <static>
+                    <role translate="label">
+                        <label>Role</label>
+                        <type>select</type>
+                        <group>registrant</group>
+                        <visible>1</visible>
+                    </role>
+                </static>
+                <custom/>
+            </attributes>
+        </registrant>
+    </prototype>
+</config>

@@ -20,7 +20,6 @@
             <module name="Magento_Cms"/>
             <module name="Magento_Newsletter"/>
             <module name="Magento_Review"/>
-            <module name="Magento_Tag"/>
             <module name="Magento_AdminNotification"/>
             <module name="Magento_Api"/>
             <module name="Magento_Backup"/>
