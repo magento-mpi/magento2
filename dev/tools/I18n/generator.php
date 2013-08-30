@@ -12,13 +12,13 @@ use Magento\Tools\I18n\Code\Dictionary;
 try {
     $console = new Zend_Console_Getopt(array(
         'directory|d=s' => 'Absolute path to base directory, Magento code base by default',
-        'with_context|wc=s' => 'Whether to infuse output with additional meta-information, by default "yes"',
+        'context|c=s' => 'Whether to infuse output with additional meta-information, by default "yes"',
         'output|o=s' => 'Path to output file name, by default output the results into standard output stream',
     ));
     $console->parse();
     $specificDirectory = $console->getOption('directory') ? $baseDirectory . $console->getOption('directory') : null;
     $outputFilename = $console->getOption('output') ?: null;
-    $withContext = !in_array($console->getOption('with_context'), array('n', 'no', 'N', 'No', 'NO'));
+    $withContext = !in_array($console->getOption('context'), array('n', 'no', 'N', 'No', 'NO'));
 
     $options = array(
         'php' => array(
