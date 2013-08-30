@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Locale_Hierarchy_LoaderTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Locale_Hierarchy_Config_ConverterTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_Locale_Hierarchy_Config_Converter
