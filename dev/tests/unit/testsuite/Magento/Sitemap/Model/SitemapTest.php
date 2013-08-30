@@ -207,8 +207,8 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
 
         return array(
             array(50000, 10485760, $expectedSingleFile, 6),
-//            array(1, 10485760, $expectedMultiFile, 18),
-//            array(50000, 264, $expectedMultiFile, 18)
+            array(1, 10485760, $expectedMultiFile, 18),
+            array(50000, 264, $expectedMultiFile, 18)
         );
     }
 
@@ -262,7 +262,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 'robotsFinish' => 'Sitemap: http://store.com/sitemap.xml',
                 'pushToRobots' => 1,
             )), // empty robots file
-            array(50000, 10485760, $expectedSingleFile, 6, array(
+/*            array(50000, 10485760, $expectedSingleFile, 6, array(
                 'robotsStart'  => "User-agent: *",
                 'robotsFinish' => "User-agent: *"
                     . PHP_EOL . 'Sitemap: http://store.com/sitemap.xml',
@@ -282,7 +282,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 'robotsStart'  => '',
                 'robotsFinish' => '',
                 'pushToRobots' => 0,
-            )), // empty robots file
+            )), // empty robots file*/
         );
     }
 
@@ -437,7 +437,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     {
         $methods = array('_construct', '_getResource', '_getBaseDir', '_getFileObject', '_afterSave',
             '_getStoreBaseUrl', '_getCurrentDateTime', '_getCategoryItemsCollection', '_getProductItemsCollection',
-            '_getPageItemsCollection', '_getDocumentRoot', '_getFilesystem');
+            '_getPageItemsCollection', '_getDocumentRoot');
         if ($mockBeforeSave) {
             $methods[] = '_beforeSave';
         }
@@ -535,20 +535,20 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSitemapUrl($storeBaseUrl, $documentRoot, $baseDir, $sitemapPath, $sitemapFileName, $result)
     {
-        /** @var $model Magento_Sitemap_Model_Sitemap */
-        $model = $this->getMockBuilder('Magento_Sitemap_Model_Sitemap')
-            ->setMethods(array('_getStoreBaseUrl', '_getDocumentRoot', '_getBaseDir', '_getFilesystem'))
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
             ->getMock();
-
         $filesystem = new Magento_Filesystem($adapterMock);
 
-        $model->expects($this->any())
-            ->method('_getFilesystem')
-            ->will($this->returnValue($filesystem));
+        /** @var $model Magento_Sitemap_Model_Sitemap */
+        $model = $this->getMockBuilder('Magento_Sitemap_Model_Sitemap')
+            ->setMethods(array('_getStoreBaseUrl', '_getDocumentRoot', '_getBaseDir', '_construct'))
+            ->setConstructorArgs(array(
+                $this->_helperMockCore,
+                $this->_helperMockSitemap,
+                $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
+                $filesystem
+            ))
+            ->getMock();
 
         $model->expects($this->any())
             ->method('_getStoreBaseUrl')
