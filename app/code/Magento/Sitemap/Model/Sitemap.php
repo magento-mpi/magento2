@@ -124,9 +124,9 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
         Magento_Core_Helper_Data $coreData,
         Magento_Sitemap_Helper_Data $sitemapData,
         Magento_Core_Model_Context $context,
+        Magento_Filesystem $filesystem,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
-        Magento_Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
