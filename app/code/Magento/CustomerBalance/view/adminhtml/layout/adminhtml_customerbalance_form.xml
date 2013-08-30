@@ -9,10 +9,9 @@
 -->
 <layout version="0.1.0">
     <adminhtml_customerbalance_form>
+        <update handle="adminhtml_customer_balance_grid"/>
         <container name="root" label="Root" output="1">
-            <block type="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance" name="customerbalance.balance" template="balance.phtml">
-                <block type="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid" name="customer.balance.grid" as="grid"/>
-            </block>
+            <block type="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance" name="customerbalance.balance" template="balance.phtml"/>
             <block type="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Form" name="customerbalance.form"/>
             <block type="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History" name="customerbalance.history"/>
         </container>
