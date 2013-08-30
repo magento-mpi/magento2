@@ -1,5 +1,7 @@
 <?php
 /**
+ * Magento_Core_Model_Config
+ * 
  * {license_notice}
  *
  * @category    Magento
@@ -8,7 +10,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
