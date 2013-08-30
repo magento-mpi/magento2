@@ -68,7 +68,7 @@ class Magento_TestFramework_CodingStandard_Tool_CopyPasteDetector
             . ' --log-pmd ' . escapeshellarg($this->_reportFile)
             . ' --min-lines 13'
             . $blackListStr
-            . ' ' .realpath(__DIR__ . '/../../../../../../');
+            . ' ' .realpath(__DIR__ . '/../../../../../../../../');
 
         exec($command, $output, $exitCode);
 
