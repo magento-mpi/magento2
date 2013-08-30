@@ -21,19 +21,19 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
     /**
      * Catalog helper
      *
-     * @var Magento_Core_Helper_String
+     * @var Magento_Catalog_Helper_Data
      */
     protected $_helper;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
+        Magento_Catalog_Helper_Data $catalogData,
         $data = array()
     ) {
-        $this->_helper = $coreString;
+        $this->_helper = $catalogData;
     }
 
     /**
