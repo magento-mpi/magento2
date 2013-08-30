@@ -12,7 +12,7 @@
 namespace Magento\Code\Generator\TestAsset;
 use Zend\Code\Generator\DocBlockGenerator;
 
-class ParentClassWithNamespace
+class Magento_Code_Generator_TestAsset_ParentClassWithNamespace
 {
     /**
      * Public parent method
