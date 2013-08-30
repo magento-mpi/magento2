@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
 
     public function testSetForm()
     {
-        $this->_virtual = new Magento_Object();
+        $form = new Magento_Data_Form();
 
         $helper = $this->getMock('Magento_Catalog_Helper_Product', array('getTypeSwitcherControlLabel'),
             array(), '', false, false
@@ -33,24 +33,24 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
         $helper->expects($this->any())->method('getTypeSwitcherControlLabel')
             ->will($this->returnValue('Virtual / Downloadable'));
 
-        $this->assertNull($this->_virtual->getId());
-        $this->assertNull($this->_virtual->getName());
-        $this->assertNull($this->_virtual->getLabel());
-        $this->assertNull($this->_virtual->getForm());
+        $this->_virtual = $this->getMock('Magento_Data_Form_Element_Checkbox',
+            array('setId', 'setName', 'setLabel', 'setForm'),
+            array(), '', false, false);
+        $this->_virtual->expects($this->any())
+            ->method('setId')
+            ->will($this->returnSelf());
+        $this->_virtual->expects($this->any())
+            ->method('setName')
+            ->will($this->returnSelf());
+        $this->_virtual->expects($this->any())
+            ->method('setLabel')
+            ->will($this->returnSelf());
+        $this->_virtual->expects($this->any())
+            ->method('setForm')
+            ->with($this->equalTo($form))
+            ->will($this->returnSelf());
 
-        $this->_model = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight(
-            array('element' => $this->_virtual, 'helper' => $helper)
-        );
-
-        $form = new Magento_Data_Form();
+        $this->_model = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight($helper, $this->_virtual);
         $this->_model->setForm($form);
-
-        $this->assertEquals(
-            Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight::VIRTUAL_FIELD_HTML_ID,
-            $this->_virtual->getId()
-        );
-        $this->assertEquals('is_virtual', $this->_virtual->getName());
-        $this->assertEquals('Virtual / Downloadable', $this->_virtual->getLabel());
-        $this->assertSame($form, $this->_virtual->getForm());
     }
 }

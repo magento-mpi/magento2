@@ -30,6 +30,11 @@ class Magento_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framewor
     protected $_helper;
 
     /**
+     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_coreData;
+
+    /**
      * @var array
      */
     protected $_testData = array('themeId' => 1, 'mode' => 'test');
@@ -38,12 +43,14 @@ class Magento_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framewor
     {
         $this->_helper = $this->getMock('Magento_DesignEditor_Helper_Data', array('getFrontName'),
             array(), '', false);
+        $this->_coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array('getAlias'), array(), '', false);
         $requestMock->expects($this->any())->method('getAlias')->will($this->returnValueMap(array(
              array('editorMode', 'navigation'),
              array('themeId', 1)
         )));
-        $this->_model = new Magento_DesignEditor_Model_Url_NavigationMode($this->_helper, $this->_testData);
+        $this->_model = new Magento_DesignEditor_Model_Url_NavigationMode($this->_helper, $this->_coreData,
+            $this->_testData);
         $this->_model->setRequest($requestMock);
     }
 

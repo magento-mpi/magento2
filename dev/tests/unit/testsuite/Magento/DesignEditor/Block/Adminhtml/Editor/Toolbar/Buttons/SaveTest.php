@@ -32,11 +32,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest exten
             ->method('escapeHtml')
             ->will($this->returnArgument(0));
 
-        // 2. Inject helper to layout
-        /** @var $layout Magento_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject */
-        $layout = $this->getMock('Magento_Core_Model_Layout', array('helper'), array(), '', false);
-        $layout->expects($this->any())
-            ->method('helper')
+        // 2. Inject helper to helper factory
+        /** @var $helperFactory Magento_Core_Model_Factory_Helper|PHPUnit_Framework_MockObject_MockObject */
+        $helperFactory = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'), array(), '', false);
+        $helperFactory->expects($this->any())
+            ->method('get')
             ->with('Magento_Backend_Helper_Data')
             ->will($this->returnValue($helper));
 
@@ -54,9 +54,9 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest exten
         //5. Run functionality
         $testHelper = new Magento_Test_Helper_ObjectManager($this);
         $data = array(
-            'layout'     => $layout,
-            'service'    => $service,
-            'urlBuilder' => $urlBuilder
+            'helperFactory' => $helperFactory,
+            'service'       => $service,
+            'urlBuilder'    => $urlBuilder
         );
         $this->_block = $testHelper->getObject('Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save',
             $data);

@@ -24,18 +24,20 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_
     protected $_themeContext;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Theme_Model_Config_Customization $customizationConfig
      * @param Magento_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Theme_Model_Config_Customization $customizationConfig,
         Magento_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_customizationConfig = $customizationConfig;
         $this->_themeContext = $themeContext;
     }
