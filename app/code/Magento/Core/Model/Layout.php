@@ -187,6 +187,14 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected $_coreData = null;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Model_Factory_Helper
+     */
+    protected $_factoryHelper = null;
+
+    /**
+     * @param Magento_Core_Model_Factory_Helper $factoryHelper
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_BlockFactory $blockFactory
@@ -198,6 +206,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param string $area
      */
     public function __construct(
+        Magento_Core_Model_Factory_Helper $factoryHelper,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_BlockFactory $blockFactory,
@@ -208,6 +217,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         Magento_Core_Model_DataService_Graph $dataServiceGraph,
         $area = Magento_Core_Model_View_DesignInterface::DEFAULT_AREA
     ) {
+        $this->_factoryHelper = $factoryHelper;
         $this->_coreData = $coreData;
         $this->_design = $design;
         $this->_blockFactory = $blockFactory;
@@ -1225,7 +1235,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         list($helperName, $helperMethod) = explode('::', $helper);
         $arg = $arg->asArray();
         unset($arg['@']);
-        return call_user_func_array(array(Mage::helper($helperName), $helperMethod), $arg);
+        return call_user_func_array(array($this->_factoryHelper->get($helperName), $helperMethod), $arg);
     }
 
     /**
