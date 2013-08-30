@@ -8,7 +8,7 @@
 class Magento_ScheduledImportExport_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoConfigFixture current_store crontab/jobs/enterprise_import_export_log_clean/schedule/cron_expr 1
+     * @magentoConfigFixture current_store crontab/jobs/magento_scheduled_import_export_log_clean/schedule/cron_expr 1
      */
     public function testScheduledLogClean()
     {
