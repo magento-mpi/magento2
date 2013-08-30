@@ -1,0 +1,32 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @see Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General
+ */
+?>
+<div class="clearfix">
+    <div class="rma-request-details">
+        <?php echo $this->getChildHtml('request_details') ?>
+    </div>
+    <div class="order-shipping-method">
+        <?php echo $this->getChildHtml('shipping_method') ?>
+    </div>
+</div>
+<div class="clearfix">
+    <div class="order-shipping-address">
+        <?php echo $this->getChildHtml('shipping_address') ?>
+    </div>
+    <div class="order-return-address">
+        <?php echo $this->getChildHtml('return_address') ?>
+    </div>
+</div>
+<?php echo $this->getChildHtml('comments_history') ?>

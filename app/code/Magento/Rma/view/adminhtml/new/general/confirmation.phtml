@@ -1,0 +1,28 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/** @var $this Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History" */
+?>
+<div class="fieldset-wrapper">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?php echo __('Return Confirmation') ?></span>
+    </div>
+    <div class="order-totals content">
+        <div class="rma-history-form">
+            <?php if ($this->canSendConfirmationEmail()): ?>
+                <label class="bold" for="rma_confirmation"><?php echo __('Email Returns Confirmation') ?></label>
+                <input name="rma_confirmation" type="checkbox" id="rma_confirmation" value="1" checked="checked"/>
+            <?php endif; ?>
+            <div class="actions">
+                <button data-mage-init="{&quot;button&quot;:{&quot;event&quot;:&quot;save&quot;,&quot;target&quot;:&quot;#edit_form&quot;}}" class="scalable save" type="button" id="rma_confirmation_submit"><span><?php echo __('Submit Returns') ?></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+

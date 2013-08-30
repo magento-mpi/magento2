@@ -53,20 +53,20 @@ system_configuration:
                         fieldsets:
                             -
                                 category_permissions:
-                                    xpath: //fieldset[@id='catalog_enterprise_catalogpermissions']
+                                    xpath: //fieldset[@id='catalog_magento_catalogpermissions']
                                     links:
-                                        category_permissions_link: //parent::div//a[@id='catalog_enterprise_catalogpermissions-head']
+                                        category_permissions_link: //parent::div//a[@id='catalog_magento_catalogpermissions-head']
                                     dropdowns:
-                                        permission_enable: //select[@id='catalog_enterprise_catalogpermissions_enabled']
-                                        allow_browsing: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_category_view']
-                                        landing_page: //select[@id='catalog_enterprise_catalogpermissions_restricted_landing_page']
-                                        display_prices: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_product_price']
-                                        allow_adding_to_cart: //select[@id='catalog_enterprise_catalogpermissions_grant_checkout_items']
+                                        permission_enable: //select[@id='catalog_magento_catalogpermissions_enabled']
+                                        allow_browsing: //select[@id='catalog_magento_catalogpermissions_grant_catalog_category_view']
+                                        landing_page: //select[@id='catalog_magento_catalogpermissions_restricted_landing_page']
+                                        display_prices: //select[@id='catalog_magento_catalogpermissions_grant_catalog_product_price']
+                                        allow_adding_to_cart: //select[@id='catalog_magento_catalogpermissions_grant_checkout_items']
                                     multiselects:
-                                        disallow_catalog_search: //select[@id='catalog_enterprise_catalogpermissions_deny_catalog_search']
-                                        allow_browsing_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_category_view_groups']
-                                        display_prices_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_product_price_groups']
-                                        allow_adding_to_cart_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_checkout_items_groups']
+                                        disallow_catalog_search: //select[@id='catalog_magento_catalogpermissions_deny_catalog_search']
+                                        allow_browsing_customer_groups: //select[@id='catalog_magento_catalogpermissions_grant_catalog_category_view_groups']
+                                        display_prices_customer_groups: //select[@id='catalog_magento_catalogpermissions_grant_catalog_product_price_groups']
+                                        allow_adding_to_cart_customer_groups: //select[@id='catalog_magento_catalogpermissions_grant_checkout_items_groups']
                             -
                                 catalog_catalog_event:
                                     xpath: //fieldset[@id='catalog_enterprise_catalogevent']
@@ -80,20 +80,20 @@ system_configuration:
                                         enable_catalog_event_widget: //select[@id="catalog_enterprise_catalogevent_lister_output"]
                             -
                                 catalog_rule_based_product_relations:
-                                    xpath: //fieldset[@id='catalog_enterprise_targetrule']
+                                    xpath: //fieldset[@id='catalog_magento_targetrule']
                                     links:
-                                        catalog_rule_based_product_relations_link: //parent::div//a[@id='catalog_enterprise_targetrule-head']
+                                        catalog_rule_based_product_relations_link: //parent::div//a[@id='catalog_magento_targetrule-head']
                                     fields:
-                                        maximum_number_in_related_list: //input[@id="catalog_enterprise_targetrule_related_position_limit"]
-                                        maximum_number_in_cross_sell: //input[@id="catalog_enterprise_targetrule_crosssell_position_limit"]
-                                        maximum_number_inupsell: //input[@id="catalog_enterprise_targetrule_upsell_position_limit"]
+                                        maximum_number_in_related_list: //input[@id="catalog_magento_targetrule_related_position_limit"]
+                                        maximum_number_in_cross_sell: //input[@id="catalog_magento_targetrule_crosssell_position_limit"]
+                                        maximum_number_inupsell: //input[@id="catalog_magento_targetrule_upsell_position_limit"]
                                     dropdowns:
-                                        show_related_products: //select[@id="catalog_enterprise_targetrule_related_position_behavior"]
-                                        rotation_mode_related_product: //select[@id="catalog_enterprise_targetrule_related_rotation_mode"]
-                                        show_cross_sell: //select[@id="catalog_enterprise_targetrule_crosssell_position_behavior"]
-                                        rotation_mode_cross_sell: //select[@id="catalog_enterprise_targetrule_crosssell_rotation_mode"]
-                                        show_upsell: //select[@id="catalog_enterprise_targetrule_upsell_position_behavior"]
-                                        rotation_mode_upsell: //select[@id="catalog_enterprise_targetrule_upsell_rotation_mode"]
+                                        show_related_products: //select[@id="catalog_magento_targetrule_related_position_behavior"]
+                                        rotation_mode_related_product: //select[@id="catalog_magento_targetrule_related_rotation_mode"]
+                                        show_cross_sell: //select[@id="catalog_magento_targetrule_crosssell_position_behavior"]
+                                        rotation_mode_cross_sell: //select[@id="catalog_magento_targetrule_crosssell_rotation_mode"]
+                                        show_upsell: //select[@id="catalog_magento_targetrule_upsell_position_behavior"]
+                                        rotation_mode_upsell: //select[@id="catalog_magento_targetrule_upsell_rotation_mode"]
                             -
                                 price:
                                     xpath: //fieldset[@id='catalog_price']
@@ -105,168 +105,168 @@ system_configuration:
                                         default_product_price: //input[@id='catalog_price_default_product_price']
                 -
                     customer_invitations:
-                        xpath: //a[contains(@href, 'edit/section/enterprise_invitation/')]
+                        xpath: //a[contains(@href, 'edit/section/magento_invitation/')]
                         fieldsets:
                             -
                                 general_invitation:
-                                    xpath: //fieldset[@id='enterprise_invitation_general']
+                                    xpath: //fieldset[@id='magento_invitation_general']
                                     links:
-                                        general_invitation_link: //parent::div//a[@id='enterprise_invitation_general-head']
+                                        general_invitation_link: //parent::div//a[@id='magento_invitation_general-head']
                                     fields:
-                                        max_invitations_allowed: //input[@id="enterprise_invitation_general_max_invitation_amount_per_send"]
+                                        max_invitations_allowed: //input[@id="magento_invitation_general_max_invitation_amount_per_send"]
                                     dropdowns:
-                                        enable_invitations_functionality: //select[@id="enterprise_invitation_general_enabled"]
-                                        enable_invitations_on_frontend: //select[@id="enterprise_invitation_general_enabled_on_front"]
-                                        referred_customer_group: //select[@id="enterprise_invitation_general_registration_use_inviter_group"]
-                                        new_account_registration: //select[@id="enterprise_invitation_general_registration_required_invitation"]
-                                        allow_customers_to_add_messege: //select[@id="enterprise_invitation_general_allow_customer_message"]
+                                        enable_invitations_functionality: //select[@id="magento_invitation_general_enabled"]
+                                        enable_invitations_on_frontend: //select[@id="magento_invitation_general_enabled_on_front"]
+                                        referred_customer_group: //select[@id="magento_invitation_general_registration_use_inviter_group"]
+                                        new_account_registration: //select[@id="magento_invitation_general_registration_required_invitation"]
+                                        allow_customers_to_add_messege: //select[@id="magento_invitation_general_allow_customer_message"]
                             -
                                 email_invitations:
-                                    xpath: //fieldset[@id='enterprise_invitation_email']
+                                    xpath: //fieldset[@id='magento_invitation_email']
                                     links:
-                                        email_invitations_link: //parent::div//a[@id='enterprise_invitation_email-head']
+                                        email_invitations_link: //parent::div//a[@id='magento_invitation_email-head']
                                     dropdowns:
-                                        customer_invitation_email_sender: //select[@id="enterprise_invitation_email_identity"]
-                                        customer_invitation_email_template: //select[@id="enterprise_invitation_email_template"]
+                                        customer_invitation_email_sender: //select[@id="magento_invitation_email_identity"]
+                                        customer_invitation_email_template: //select[@id="magento_invitation_email_template"]
                 -
                     customer_reward_points:
-                        xpath: //a[contains(@href, 'edit/section/enterprise_reward/')]
+                        xpath: //a[contains(@href, 'edit/section/magento_reward/')]
                         fieldsets:
                             -
                                 reward_reward_points:
-                                    xpath: //fieldset[@id='enterprise_reward_general']
+                                    xpath: //fieldset[@id='magento_reward_general']
                                     links:
-                                        reward_reward_points_link: //parent::div//a[@id='enterprise_reward_general-head']
+                                        reward_reward_points_link: //parent::div//a[@id='magento_reward_general-head']
                                     fields:
-                                        minimum_reward_points_balance: //input[@id="enterprise_reward_general_min_points_balance"]
-                                        cap_rewerd_points: //input[@id="enterprise_reward_general_max_points_balance"]
-                                        reward_points_expire: //input[@id="enterprise_reward_general_expiration_days"]
+                                        minimum_reward_points_balance: //input[@id="magento_reward_general_min_points_balance"]
+                                        cap_rewerd_points: //input[@id="magento_reward_general_max_points_balance"]
+                                        reward_points_expire: //input[@id="magento_reward_general_expiration_days"]
                                     dropdowns:
-                                        enable_reward_points: //select[@id="enterprise_reward_general_is_enabled"]
-                                        enable_reward_points_on_frontend: //select[@id="enterprise_reward_general_is_enabled_on_front"]
-                                        customer_may_see_reward_points_history: //select[@id="enterprise_reward_general_publish_history"]
-                                        reward_points_expiry_calculation: //select[@id="enterprise_reward_general_expiry_calculation"]
-                                        refund_reward_points_automatically: //select[@id="enterprise_reward_general_refund_automatically"]
-                                        landing_page: //select[@id="enterprise_reward_general_landing_page"]
+                                        enable_reward_points: //select[@id="magento_reward_general_is_enabled"]
+                                        enable_reward_points_on_frontend: //select[@id="magento_reward_general_is_enabled_on_front"]
+                                        customer_may_see_reward_points_history: //select[@id="magento_reward_general_publish_history"]
+                                        reward_points_expiry_calculation: //select[@id="magento_reward_general_expiry_calculation"]
+                                        refund_reward_points_automatically: //select[@id="magento_reward_general_refund_automatically"]
+                                        landing_page: //select[@id="magento_reward_general_landing_page"]
                             -
                                 reward_reward_actions:
-                                    xpath: //fieldset[@id='enterprise_reward_points']
+                                    xpath: //fieldset[@id='magento_reward_points']
                                     links:
-                                        reward_reward_actions_link: //parent::div//a[@id='enterprise_reward_points-head']
+                                        reward_reward_actions_link: //parent::div//a[@id='magento_reward_points-head']
                                     fields:
-                                        registration: //input[@id="enterprise_reward_points_register"]
-                                        newsletter_signup: //input[@id="enterprise_reward_points_newsletter"]
-                                        converting_invitatio_to_customer: //input[@id="enterprise_reward_points_invitation_customer"]
-                                        invitation_to_customer_conversions_quantity_limit: //input[@id="enterprise_reward_points_invitation_customer_limit"]
-                                        converting_invitation_to_order: //input[@id="enterprise_reward_points_invitation_order"]
-                                        invitation_to_order_conversions_quantity_limit: //input[@id="enterprise_reward_points_invitation_order_limit"]
-                                        review_submission: //input[@id="enterprise_reward_points_review"]
-                                        rewarded_reviews_submission_quantity_limit: //input[@id="enterprise_reward_points_review_limit"]
-                                        new_tag_submission: //input[@id="enterprise_reward_points_tag"]
-                                        rewarded_tag_submission_quantity_limit: //input[@id="enterprise_reward_points_tag_limit"]
+                                        registration: //input[@id="magento_reward_points_register"]
+                                        newsletter_signup: //input[@id="magento_reward_points_newsletter"]
+                                        converting_invitatio_to_customer: //input[@id="magento_reward_points_invitation_customer"]
+                                        invitation_to_customer_conversions_quantity_limit: //input[@id="magento_reward_points_invitation_customer_limit"]
+                                        converting_invitation_to_order: //input[@id="magento_reward_points_invitation_order"]
+                                        invitation_to_order_conversions_quantity_limit: //input[@id="magento_reward_points_invitation_order_limit"]
+                                        review_submission: //input[@id="magento_reward_points_review"]
+                                        rewarded_reviews_submission_quantity_limit: //input[@id="magento_reward_points_review_limit"]
+                                        new_tag_submission: //input[@id="magento_reward_points_tag"]
+                                        rewarded_tag_submission_quantity_limit: //input[@id="magento_reward_points_tag_limit"]
                                     dropdowns:
-                                        purchase: //select[@id="enterprise_reward_points_order"]
-                                        invitation_conversion_to_order_reward: //select[@id="enterprise_reward_points_invitation_order_frequency"]
+                                        purchase: //select[@id="magento_reward_points_order"]
+                                        invitation_conversion_to_order_reward: //select[@id="magento_reward_points_invitation_order_frequency"]
                             -
                                 reward_email:
-                                    xpath: //fieldset[@id='enterprise_reward_notification']
+                                    xpath: //fieldset[@id='magento_reward_notification']
                                     links:
-                                        reward_email_link: //parent::div//a[@id='enterprise_reward_notification-head']
+                                        reward_email_link: //parent::div//a[@id='magento_reward_notification-head']
                                     fields:
-                                        expiry_warning_before: //input[@id="enterprise_reward_notification_expiry_day_before"]
+                                        expiry_warning_before: //input[@id="magento_reward_notification_expiry_day_before"]
                                     dropdowns:
-                                        email_sender: //select[@id="enterprise_reward_notification_email_sender"]
-                                        subscribe_customer_by_default: //select[@id="enterprise_reward_notification_subscribe_by_default"]
-                                        balance_update_email: //select[@id="enterprise_reward_notification_balance_update_template"]
-                                        reward_points_expiry_warning_email: //select[@id="enterprise_reward_notification_expiry_warning_template"]
+                                        email_sender: //select[@id="magento_reward_notification_email_sender"]
+                                        subscribe_customer_by_default: //select[@id="magento_reward_notification_subscribe_by_default"]
+                                        balance_update_email: //select[@id="magento_reward_notification_balance_update_template"]
+                                        reward_points_expiry_warning_email: //select[@id="magento_reward_notification_expiry_warning_template"]
                 -
                     customers_promotions:
                         xpath: //a[contains(@href, 'edit/section/promo')]
                         fieldsets:
                             -
                                 customer_automated_email_rule:
-                                    xpath: //fieldset[@id='promo_enterprise_reminder']
+                                    xpath: //fieldset[@id='promo_magento_reminder']
                                     links:
-                                        customer_automated_email_rule_link: //parent::div//a[@id='promo_enterprise_reminder-head']
+                                        customer_automated_email_rule_link: //parent::div//a[@id='promo_magento_reminder-head']
                                     dropdowns:
-                                        enable_reminder_emails: //select[@id="promo_enterprise_reminder_enabled"]
-                                        frequency: //select[@id="promo_enterprise_reminder_frequency"]
-                                        interval: //select[@id="promo_enterprise_reminder_interval"]
+                                        enable_reminder_emails: //select[@id="promo_magento_reminder_enabled"]
+                                        frequency: //select[@id="promo_magento_reminder_frequency"]
+                                        interval: //select[@id="promo_magento_reminder_interval"]
                                         start_time_hour: //select[@data-ui-id="time-groups-enterprise-reminder-fields-time-value-hour"]
                                         start_time_minute: //select[@data-ui-id="time-groups-enterprise-reminder-fields-time-value-minute"]
                                         start_time_second: //select[@data-ui-id="time-groups-enterprise-reminder-fields-time-value-second"]
-                                        reminder_email_sender: //select[@id="promo_enterprise_reminder_identity"]
+                                        reminder_email_sender: //select[@id="promo_magento_reminder_identity"]
                                     fields:
-                                        maximum_emails_per_run: //input[@id="promo_enterprise_reminder_limit"]
-                                        email_send_failure_threshold: //input[@id="promo_enterprise_reminder_threshold"]
+                                        maximum_emails_per_run: //input[@id="promo_magento_reminder_limit"]
+                                        email_send_failure_threshold: //input[@id="promo_magento_reminder_threshold"]
                 -
                     customer_reward_points:
-                        xpath: //a[contains(@href, '/edit/section/enterprise_reward/')]
+                        xpath: //a[contains(@href, '/edit/section/magento_reward/')]
                         fieldsets:
                             -
                                 reward_points:
-                                    xpath: //fieldset[@id='enterprise_reward_general']
+                                    xpath: //fieldset[@id='magento_reward_general']
                                     links:
-                                        reward_points_link: //parent::div//a[@id='enterprise_reward_general-head']
+                                        reward_points_link: //parent::div//a[@id='magento_reward_general-head']
                                     dropdowns:
                                         enable_reward_points: //select[@name='groups[general][fields][is_enabled][value]']
                             -
                                 actions_for_acquiring_reward_points:
-                                    xpath: //fieldset[@id='enterprise_reward_points']
+                                    xpath: //fieldset[@id='magento_reward_points']
                                     links:
-                                        actions_for_acquiring_reward_points_link: //parent::div//a[@id='enterprise_reward_points-head']
+                                        actions_for_acquiring_reward_points_link: //parent::div//a[@id='magento_reward_points-head']
                                     fields:
-                                        new_tag_submission: //input[@id ='enterprise_reward_points_tag']
-                                        rewarded_tag_submission_limit: //input[@id ='enterprise_reward_points_tag_limit']
+                                        new_tag_submission: //input[@id ='magento_reward_points_tag']
+                                        rewarded_tag_submission_limit: //input[@id ='magento_reward_points_tag_limit']
                 -
                     customer_gift_registry:
-                        xpath: //a[contains(@href, 'edit/section/enterprise_giftregistry/')]
+                        xpath: //a[contains(@href, 'edit/section/magento_giftregistry/')]
                         fieldsets:
                             -
                                 gift_registry_general:
-                                    xpath: //fieldset[@id='enterprise_giftregistry_general']
+                                    xpath: //fieldset[@id='magento_giftregistry_general']
                                     links:
-                                        gift_registry_general_link: //parent::div//a[@id='enterprise_giftregistry_general-head']
+                                        gift_registry_general_link: //parent::div//a[@id='magento_giftregistry_general-head']
                                     fields:
-                                        max_recipients_limit: //input[@id="enterprise_giftregistry_general_max_registrant"]
+                                        max_recipients_limit: //input[@id="magento_giftregistry_general_max_registrant"]
                                     dropdowns:
-                                        enable_gift_registry: //select[@id="enterprise_giftregistry_general_enabled"]
+                                        enable_gift_registry: //select[@id="magento_giftregistry_general_enabled"]
                             -
                                 order_notification:
-                                    xpath: //fieldset[@id='enterprise_giftregistry_owner_email']
+                                    xpath: //fieldset[@id='magento_giftregistry_owner_email']
                                     links:
-                                        order_notification_link: //parent::div//a[@id='enterprise_giftregistry_owner_email-head']
+                                        order_notification_link: //parent::div//a[@id='magento_giftregistry_owner_email-head']
                                     dropdowns:
-                                        email_template: //select[@id="enterprise_giftregistry_owner_email_template"]
-                                        email_sender: //select[@id="enterprise_giftregistry_owner_email_identity"]
+                                        email_template: //select[@id="magento_giftregistry_owner_email_template"]
+                                        email_sender: //select[@id="magento_giftregistry_owner_email_identity"]
                             -
                                 gift_registry_sharing:
-                                    xpath: //fieldset[@id='enterprise_giftregistry_sharing_email']
+                                    xpath: //fieldset[@id='magento_giftregistry_sharing_email']
                                     links:
-                                        gift_registry_sharing_link: //parent::div//a[@id='enterprise_giftregistry_sharing_email-head']
+                                        gift_registry_sharing_link: //parent::div//a[@id='magento_giftregistry_sharing_email-head']
                                     fields:
-                                        max_email_allowed_to_be_sent: //input[@id="enterprise_giftregistry_sharing_email_send_limit"]
+                                        max_email_allowed_to_be_sent: //input[@id="magento_giftregistry_sharing_email_send_limit"]
                                     dropdowns:
-                                        email_template: //select[@id="enterprise_giftregistry_sharing_email_template"]
-                                        email_sender: //select[@id="enterprise_giftregistry_sharing_email_identity"]
+                                        email_template: //select[@id="magento_giftregistry_sharing_email_template"]
+                                        email_sender: //select[@id="magento_giftregistry_sharing_email_identity"]
                             -
                                 gift_registry_update:
-                                    xpath: //fieldset[@id='enterprise_giftregistry_update_email']
+                                    xpath: //fieldset[@id='magento_giftregistry_update_email']
                                     links:
-                                        gift_registry_update_link: //parent::div//a[@id='enterprise_giftregistry_update_email-head']
+                                        gift_registry_update_link: //parent::div//a[@id='magento_giftregistry_update_email-head']
                                     dropdowns:
-                                        email_template: //select[@id="enterprise_giftregistry_update_email_template"]
-                                        email_sender: //select[@id="enterprise_giftregistry_update_email_identity"]
+                                        email_template: //select[@id="magento_giftregistry_update_email_template"]
+                                        email_sender: //select[@id="magento_giftregistry_update_email_identity"]
                 -
                     customers_customer_configuration:
                         fieldsets:
                             -
                                 customer_customer_segment:
-                                    xpath: //fieldset[@id='customer_enterprise_customersegment']
+                                    xpath: //fieldset[@id='customer_magento_customersegment']
                                     links:                
-                                        customer_customer_segment_link: //parent::div//a[@id='customer_enterprise_customersegment-head']
+                                        customer_customer_segment_link: //parent::div//a[@id='customer_magento_customersegment-head']
                                     dropdowns:
-                                        enable_customer_segment: //select[@id='customer_enterprise_customersegment_is_enabled']
+                                        enable_customer_segment: //select[@id='customer_magento_customersegment_is_enabled']
                 -
                     sales_sales:
                         fieldsets:
@@ -296,24 +296,24 @@ system_configuration:
                                         sku_allowed_groups: //*[@id='sales_product_sku_allowed_groups']
                             -
                                 orders_invoices_shipments_archiving:
-                                    xpath: //fieldset[@id='sales_enterprise_salesarchive']
+                                    xpath: //fieldset[@id='sales_magento_salesarchive']
                                     links:
-                                        orders_invoices_shipments_archiving_link: //parent::div//a[@id='sales_enterprise_salesarchive-head']
+                                        orders_invoices_shipments_archiving_link: //parent::div//a[@id='sales_magento_salesarchive-head']
                                     dropdowns:
-                                        enable_archiving: //select[@id="sales_enterprise_salesarchive_active"]
+                                        enable_archiving: //select[@id="sales_magento_salesarchive_active"]
                                     fields:
-                                        archive_orders_purchased: //select[@id="sales_enterprise_salesarchive_age"]
+                                        archive_orders_purchased: //select[@id="sales_magento_salesarchive_age"]
                                     multiselects:
-                                        order_statuses_to_be_archived: //select[@id="sales_enterprise_salesarchive_order_statuses"]
+                                        order_statuses_to_be_archived: //select[@id="sales_magento_salesarchive_order_statuses"]
                             -
                                 rma_settings:
-                                    xpath: //*[@id='sales_enterprise_rma']
+                                    xpath: //*[@id='sales_magento_rma']
                                     dropdowns:
-                                        enable_rma_on_frontend: //*[@id='sales_enterprise_rma_enabled']
-                                        enable_rma_on_product_level: //*[@id='sales_enterprise_rma_enabled_on_product']
-                                        use_store_address: //*[@id='sales_enterprise_rma_use_store_address']
+                                        enable_rma_on_frontend: //*[@id='sales_magento_rma_enabled']
+                                        enable_rma_on_product_level: //*[@id='sales_magento_rma_enabled_on_product']
+                                        use_store_address: //*[@id='sales_magento_rma_use_store_address']
                                     links:
-                                        rma_settings_link: //parent::div//a[@id='sales_enterprise_rma-head']
+                                        rma_settings_link: //parent::div//a[@id='sales_magento_rma-head']
                 -
                     sales_tax:
                         fieldsets:
@@ -463,56 +463,56 @@ system_configuration:
                         fieldsets:
                             -
                                 rma_sales:
-                                    xpath: //fieldset[@id='sales_email_enterprise_rma']
+                                    xpath: //fieldset[@id='sales_email_magento_rma']
                                     links:
-                                        rma_sales_link: //parent::div//a[@id='sales_email_enterprise_rma-head']
+                                        rma_sales_link: //parent::div//a[@id='sales_email_magento_rma-head']
                                     dropdowns:
-                                        enable_sales_rma: //select[@id="sales_email_enterprise_rma_enabled"]
-                                        rma_email_sender: //select[@id="sales_email_enterprise_rma_identity"]
-                                        rma_email_template: //select[@id="sales_email_enterprise_rma_template"]
-                                        rma_email_template_for_guest: //select[@id="sales_email_enterprise_rma_guest_template"]
-                                        send_rma_email_copy_method: //select[@id="sales_email_enterprise_rma_copy_method"]
+                                        enable_sales_rma: //select[@id="sales_email_magento_rma_enabled"]
+                                        rma_email_sender: //select[@id="sales_email_magento_rma_identity"]
+                                        rma_email_template: //select[@id="sales_email_magento_rma_template"]
+                                        rma_email_template_for_guest: //select[@id="sales_email_magento_rma_guest_template"]
+                                        send_rma_email_copy_method: //select[@id="sales_email_magento_rma_copy_method"]
                                     fields:
-                                        send_rma_email_copy_to: //input[@id="sales_email_enterprise_rma_copy_to"]
+                                        send_rma_email_copy_to: //input[@id="sales_email_magento_rma_copy_to"]
                             -
                                 rma_authorization:
-                                    xpath: //fieldset[@id='sales_email_enterprise_rma_auth']
+                                    xpath: //fieldset[@id='sales_email_magento_rma_auth']
                                     links:
-                                        rma_authorization_link: //parent::div//a[@id='sales_email_enterprise_rma_auth-head']
+                                        rma_authorization_link: //parent::div//a[@id='sales_email_magento_rma_auth-head']
                                     dropdowns:
-                                        enable_authorization_rma: //select[@id="sales_email_enterprise_rma_auth_enabled"]
-                                        rma_authorization_email_sender: //select[@id="sales_email_enterprise_rma_auth_identity"]
-                                        rma_authorization_email_template: //select[@id="sales_email_enterprise_rma_auth_template"]
-                                        rma_authorization_email_template_for_guest: //select[@id="sales_email_enterprise_rma_auth_guest_template"]
-                                        send_authorization_rma_email_copy_method: //select[@id="sales_email_enterprise_rma_auth_copy_method"]
+                                        enable_authorization_rma: //select[@id="sales_email_magento_rma_auth_enabled"]
+                                        rma_authorization_email_sender: //select[@id="sales_email_magento_rma_auth_identity"]
+                                        rma_authorization_email_template: //select[@id="sales_email_magento_rma_auth_template"]
+                                        rma_authorization_email_template_for_guest: //select[@id="sales_email_magento_rma_auth_guest_template"]
+                                        send_authorization_rma_email_copy_method: //select[@id="sales_email_magento_rma_auth_copy_method"]
                                     fields:
-                                        send_authorization_rma_email_copy_to: //input[@id="sales_email_enterprise_rma_auth_copy_to"]
+                                        send_authorization_rma_email_copy_to: //input[@id="sales_email_magento_rma_auth_copy_to"]
                             -
                                 rma_admin_comments:
-                                    xpath: //fieldset[@id='sales_email_enterprise_rma_comment']
+                                    xpath: //fieldset[@id='sales_email_magento_rma_comment']
                                     links:
-                                        rma_admin_comments_link: //parent::div//a[@id='sales_email_enterprise_rma_comment-head']
+                                        rma_admin_comments_link: //parent::div//a[@id='sales_email_magento_rma_comment-head']
                                     dropdowns:
-                                        enable_admin_comment_rma: //select[@id="sales_email_enterprise_rma_comment_enabled"]
-                                        rma_admin_commen_email_sender: //select[@id="sales_email_enterprise_rma_comment_identity"]
-                                        rma_admin_commen_email_template: //select[@id="sales_email_enterprise_rma_comment_template"]
-                                        rma_admin_commen_email_template_for_guest: //select[@id="sales_email_enterprise_rma_comment_guest_template"]
-                                        send_admin_commen_rma_email_copy_method: //select[@id="sales_email_enterprise_rma_comment_copy_method"]
+                                        enable_admin_comment_rma: //select[@id="sales_email_magento_rma_comment_enabled"]
+                                        rma_admin_commen_email_sender: //select[@id="sales_email_magento_rma_comment_identity"]
+                                        rma_admin_commen_email_template: //select[@id="sales_email_magento_rma_comment_template"]
+                                        rma_admin_commen_email_template_for_guest: //select[@id="sales_email_magento_rma_comment_guest_template"]
+                                        send_admin_commen_rma_email_copy_method: //select[@id="sales_email_magento_rma_comment_copy_method"]
                                     fields:
-                                        send_admin_commen_rma_email_copy_to: //input[@id="sales_email_enterprise_rma_comment_copy_to"]
+                                        send_admin_commen_rma_email_copy_to: //input[@id="sales_email_magento_rma_comment_copy_to"]
                             -
                                 rma_customer_comments:
-                                    xpath: //fieldset[@id='sales_email_enterprise_rma_customer_comment']
+                                    xpath: //fieldset[@id='sales_email_magento_rma_customer_comment']
                                     links:
-                                        rma_customer_comments_link: //parent::div//a[@id='sales_email_enterprise_rma_customer_comment-head']
+                                        rma_customer_comments_link: //parent::div//a[@id='sales_email_magento_rma_customer_comment-head']
                                     dropdowns:
-                                        enable_customer_comment_rma: //select[@id="sales_email_enterprise_rma_customer_comment_enabled"]
-                                        rma_customer_comment_email_sender: //select[@id="sales_email_enterprise_rma_customer_comment_identity"]
-                                        rma_customer_comment_email_template: //select[@id="sales_email_enterprise_rma_customer_comment_recipient"]
-                                        rma_customer_comment_email_template_for_guest: //select[@id="sales_email_enterprise_rma_customer_comment_template"]
-                                        send_customer_comment_rma_email_copy_method: //select[@id="sales_email_enterprise_rma_customer_comment_copy_method"]
+                                        enable_customer_comment_rma: //select[@id="sales_email_magento_rma_customer_comment_enabled"]
+                                        rma_customer_comment_email_sender: //select[@id="sales_email_magento_rma_customer_comment_identity"]
+                                        rma_customer_comment_email_template: //select[@id="sales_email_magento_rma_customer_comment_recipient"]
+                                        rma_customer_comment_email_template_for_guest: //select[@id="sales_email_magento_rma_customer_comment_template"]
+                                        send_customer_comment_rma_email_copy_method: //select[@id="sales_email_magento_rma_customer_comment_copy_method"]
                                     fields:
-                                        send_customer_comment_rma_email_copy_to: //input[@id="sales_email_enterprise_rma_customer_comment_copy_to"]
+                                        send_customer_comment_rma_email_copy_to: //input[@id="sales_email_magento_rma_customer_comment_copy_to"]
                 -
                     advanced_admin:
                         fieldsets:
@@ -583,70 +583,70 @@ system_configuration:
                                         enterprise_admingws: //select[@name='groups[modules_disable_output][fields][Enterprise_AdminGws][value]']
                                         enterprise_banner: //select[@name='groups[modules_disable_output][fields][Enterprise_Banner][value]']
                                         enterprise_catalogevent: //select[@name='groups[modules_disable_output][fields][Enterprise_CatalogEvent][value]']
-                                        enterprise_catalogpermissions: //select[@name='groups[modules_disable_output][fields][Enterprise_CatalogPermissions][value]']
-                                        enterprise_checkout: //select[@name='groups[modules_disable_output][fields][Enterprise_Checkout][value]']
-                                        enterprise_cms: //select[@name='groups[modules_disable_output][fields][Enterprise_Cms][value]']
-                                        enterprise_customer: //select[@name='groups[modules_disable_output][fields][Enterprise_Customer][value]']
-                                        enterprise_customerbalance: //select[@name='groups[modules_disable_output][fields][Enterprise_CustomerBalance][value]']
-                                        enterprise_customersegment: //select[@name='groups[modules_disable_output][fields][Enterprise_CustomerSegment][value]']
-                                        enterprise_eav: //select[@name='groups[modules_disable_output][fields][Enterprise_Eav][value]']
-                                        enterprise_enterprise: //select[@name='groups[modules_disable_output][fields][Enterprise_Enterprise][value]']
-                                        enterprise_giftcard: //select[@name='groups[modules_disable_output][fields][Enterprise_GiftCard][value]']
-                                        enterprise_giftcardaccount: //select[@name='groups[modules_disable_output][fields][Enterprise_GiftCardAccount][value]']
-                                        enterprise_giftregistry: //select[@name='groups[modules_disable_output][fields][Enterprise_GiftRegistry][value]']
-                                        enterprise_giftwrapping: //select[@name='groups[modules_disable_output][fields][Enterprise_GiftWrapping][value]']
-                                        enterprise_importexport: //select[@name='groups[modules_disable_output][fields][Enterprise_ImportExport][value]']
-                                        enterprise_invitation: //select[@name='groups[modules_disable_output][fields][Enterprise_Invitation][value]']
-                                        enterprise_license: //select[@name='groups[modules_disable_output][fields][Enterprise_License][value]']
-                                        enterprise_logging: //select[@name='groups[modules_disable_output][fields][Enterprise_Logging][value]']
-                                        enterprise_pagecache: //select[@name='groups[modules_disable_output][fields][Enterprise_PageCache][value]']
-                                        enterprise_pbridge: //select[@name='groups[modules_disable_output][fields][Enterprise_Pbridge][value]']
-                                        enterprise_pci: //select[@name='groups[modules_disable_output][fields][Enterprise_Pci][value]']
-                                        enterprise_persistent: //select[@name='groups[modules_disable_output][fields][Enterprise_Persistent][value]']
-                                        enterprise_pricepermissions: //select[@name='groups[modules_disable_output][fields][Enterprise_PricePermissions][value]']
-                                        enterprise_promotionpermissions: //select[@name='groups[modules_disable_output][fields][Enterprise_PromotionPermissions][value]']
-                                        enterprise_reminder: //select[@name='groups[modules_disable_output][fields][Enterprise_Reminder][value]']
-                                        enterprise_reward: //select[@name='groups[modules_disable_output][fields][Enterprise_Reward][value]']
-                                        enterprise_rma: //select[@name='groups[modules_disable_output][fields][Enterprise_Rma][value]']
-                                        enterprise_salesarchive: //select[@name='groups[modules_disable_output][fields][Enterprise_SalesArchive][value]']
-                                        enterprise_search: //select[@name='groups[modules_disable_output][fields][Enterprise_Search][value]']
-                                        enterprise_targetrule: //select[@name='groups[modules_disable_output][fields][Enterprise_TargetRule][value]']
-                                        enterprise_websiterestriction: //select[@name='groups[modules_disable_output][fields][Enterprise_WebsiteRestriction][value]']
-                                        enterprise_wishlist: //select[@id='Enterprise_Wishlist']
+                                        enterprise_catalogpermissions: //select[@name='groups[modules_disable_output][fields][Magento_CatalogPermissions][value]']
+                                        enterprise_checkout: //select[@name='groups[modules_disable_output][fields][Magento_AdvancedCheckout][value]']
+                                        enterprise_cms: //select[@name='groups[modules_disable_output][fields][Magento_VersionsCms][value]']
+                                        enterprise_customer: //select[@name='groups[modules_disable_output][fields][Magento_CustomerCustomAttributes][value]']
+                                        enterprise_customerbalance: //select[@name='groups[modules_disable_output][fields][Magento_CustomerBalance][value]']
+                                        enterprise_customersegment: //select[@name='groups[modules_disable_output][fields][Magento_CustomerSegment][value]']
+                                        enterprise_eav: //select[@name='groups[modules_disable_output][fields][Magento_CustomAttribute][value]']
+                                        enterprise_enterprise: //select[@name='groups[modules_disable_output][fields][Magento_Enterprise][value]']
+                                        enterprise_giftcard: //select[@name='groups[modules_disable_output][fields][Magento_GiftCard][value]']
+                                        enterprise_giftcardaccount: //select[@name='groups[modules_disable_output][fields][Magento_GiftCardAccount][value]']
+                                        enterprise_giftregistry: //select[@name='groups[modules_disable_output][fields][Magento_GiftRegistry][value]']
+                                        enterprise_giftwrapping: //select[@name='groups[modules_disable_output][fields][Magento_GiftWrapping][value]']
+                                        enterprise_importexport: //select[@name='groups[modules_disable_output][fields][Magento_ScheduledImportExport][value]']
+                                        enterprise_invitation: //select[@name='groups[modules_disable_output][fields][Magento_Invitation][value]']
+                                        enterprise_license: //select[@name='groups[modules_disable_output][fields][Magento_License][value]']
+                                        enterprise_logging: //select[@name='groups[modules_disable_output][fields][Magento_Logging][value]']
+                                        enterprise_pagecache: //select[@name='groups[modules_disable_output][fields][Magento_FullPageCache][value]']
+                                        enterprise_pbridge: //select[@name='groups[modules_disable_output][fields][Magento_Pbridge][value]']
+                                        enterprise_pci: //select[@name='groups[modules_disable_output][fields][Magento_Pci][value]']
+                                        enterprise_persistent: //select[@name='groups[modules_disable_output][fields][Magento_PersistentHistory][value]']
+                                        enterprise_pricepermissions: //select[@name='groups[modules_disable_output][fields][Magento_PricePermissions][value]']
+                                        enterprise_promotionpermissions: //select[@name='groups[modules_disable_output][fields][Magento_PromotionPermissions][value]']
+                                        enterprise_reminder: //select[@name='groups[modules_disable_output][fields][Magento_Reminder][value]']
+                                        enterprise_reward: //select[@name='groups[modules_disable_output][fields][Magento_Reward][value]']
+                                        enterprise_rma: //select[@name='groups[modules_disable_output][fields][Magento_Rma][value]']
+                                        enterprise_salesarchive: //select[@name='groups[modules_disable_output][fields][Magento_SalesArchive][value]']
+                                        enterprise_search: //select[@name='groups[modules_disable_output][fields][Magento_Search][value]']
+                                        enterprise_targetrule: //select[@name='groups[modules_disable_output][fields][Magento_TargetRule][value]']
+                                        enterprise_websiterestriction: //select[@name='groups[modules_disable_output][fields][Magento_WebsiteRestriction][value]']
+                                        enterprise_wishlist: //select[@id='Magento_MultipleWishlist']
                                     checkboxes:
                                         enterprise_admingws_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_AdminGws][inherit]']
                                         enterprise_banner_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Banner][inherit]']
                                         enterprise_catalogevent_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_CatalogEvent][inherit]']
-                                        enterprise_catalogpermissions_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_CatalogPermissions][inherit]']
-                                        enterprise_checkout_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Checkout][inherit]']
-                                        enterprise_cms_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Cms][inherit]']
-                                        enterprise_customer_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Customer][inherit]']
-                                        enterprise_customerbalance_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_CustomerBalance][inherit]']
-                                        enterprise_customersegment_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_CustomerSegment][inherit]']
-                                        enterprise_eav_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Eav][inherit]']
-                                        enterprise_enterprise_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Enterprise][inherit]']
-                                        enterprise_giftcard_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_GiftCard][inherit]']
-                                        enterprise_giftcardaccount_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_GiftCardAccount][inherit]']
-                                        enterprise_giftregistry_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_GiftRegistry][inherit]']
-                                        enterprise_giftwrapping_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_GiftWrapping][inherit]']
-                                        enterprise_importexport_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_ImportExport][inherit]']
-                                        enterprise_invitation_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Invitation][inherit]']
-                                        enterprise_license_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_License][inherit]']
-                                        enterprise_logging_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Logging][inherit]']
-                                        enterprise_pagecache_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_PageCache][inherit]']
-                                        enterprise_pbridge_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Pbridge][inherit]']
-                                        enterprise_pci_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Pci][inherit]']
-                                        enterprise_persistent_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Persistent][inherit]']
-                                        enterprise_pricepermissions_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_PricePermissions][inherit]']
-                                        enterprise_promotionpermissions_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_PromotionPermissions][inherit]']
-                                        enterprise_reminder_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Reminder][inherit]']
-                                        enterprise_reward_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Reward][inherit]']
-                                        enterprise_rma_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Rma][inherit]']
-                                        enterprise_salesarchive_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_SalesArchive][inherit]']
-                                        enterprise_search_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Search][inherit]']
-                                        enterprise_targetrule_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_TargetRule][inherit]']
-                                        enterprise_websiterestriction_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_WebsiteRestriction][inherit]']
-                                        enterprise_wishlist_use_default: //input[@id='Enterprise_Wishlist_inherit']
+                                        enterprise_catalogpermissions_use_default: //input[@name='groups[modules_disable_output][fields][Magento_CatalogPermissions][inherit]']
+                                        enterprise_checkout_use_default: //input[@name='groups[modules_disable_output][fields][Magento_AdvancedCheckout][inherit]']
+                                        enterprise_cms_use_default: //input[@name='groups[modules_disable_output][fields][Magento_VersionsCms][inherit]']
+                                        enterprise_customer_use_default: //input[@name='groups[modules_disable_output][fields][Magento_CustomerCustomAttributes][inherit]']
+                                        enterprise_customerbalance_use_default: //input[@name='groups[modules_disable_output][fields][Magento_CustomerBalance][inherit]']
+                                        enterprise_customersegment_use_default: //input[@name='groups[modules_disable_output][fields][Magento_CustomerSegment][inherit]']
+                                        enterprise_eav_use_default: //input[@name='groups[modules_disable_output][fields][Magento_CustomAttribute][inherit]']
+                                        enterprise_enterprise_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Enterprise][inherit]']
+                                        enterprise_giftcard_use_default: //input[@name='groups[modules_disable_output][fields][Magento_GiftCard][inherit]']
+                                        enterprise_giftcardaccount_use_default: //input[@name='groups[modules_disable_output][fields][Magento_GiftCardAccount][inherit]']
+                                        enterprise_giftregistry_use_default: //input[@name='groups[modules_disable_output][fields][Magento_GiftRegistry][inherit]']
+                                        enterprise_giftwrapping_use_default: //input[@name='groups[modules_disable_output][fields][Magento_GiftWrapping][inherit]']
+                                        enterprise_importexport_use_default: //input[@name='groups[modules_disable_output][fields][Magento_ScheduledImportExport][inherit]']
+                                        enterprise_invitation_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Invitation][inherit]']
+                                        enterprise_license_use_default: //input[@name='groups[modules_disable_output][fields][Magento_License][inherit]']
+                                        enterprise_logging_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Logging][inherit]']
+                                        enterprise_pagecache_use_default: //input[@name='groups[modules_disable_output][fields][Magento_FullPageCache][inherit]']
+                                        enterprise_pbridge_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Pbridge][inherit]']
+                                        enterprise_pci_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Pci][inherit]']
+                                        enterprise_persistent_use_default: //input[@name='groups[modules_disable_output][fields][Magento_PersistentHistory][inherit]']
+                                        enterprise_pricepermissions_use_default: //input[@name='groups[modules_disable_output][fields][Magento_PricePermissions][inherit]']
+                                        enterprise_promotionpermissions_use_default: //input[@name='groups[modules_disable_output][fields][Magento_PromotionPermissions][inherit]']
+                                        enterprise_reminder_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Reminder][inherit]']
+                                        enterprise_reward_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Reward][inherit]']
+                                        enterprise_rma_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Rma][inherit]']
+                                        enterprise_salesarchive_use_default: //input[@name='groups[modules_disable_output][fields][Magento_SalesArchive][inherit]']
+                                        enterprise_search_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Search][inherit]']
+                                        enterprise_targetrule_use_default: //input[@name='groups[modules_disable_output][fields][Magento_TargetRule][inherit]']
+                                        enterprise_websiterestriction_use_default: //input[@name='groups[modules_disable_output][fields][Magento_WebsiteRestriction][inherit]']
+                                        enterprise_wishlist_use_default: //input[@id='Magento_MultipleWishlist_inherit']
 
 system_configuration_tabs:
     uimap: *system_configuration_uimap

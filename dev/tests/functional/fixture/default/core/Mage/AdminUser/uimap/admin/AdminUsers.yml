@@ -242,7 +242,6 @@ new_admin_role:
                                         marketing-seo_search-site_map: //*[@data-id='Magento_Sitemap::sitemap']//*[@class='jstree-checkbox']
                                         marketing-user_content: //*[@data-id='Magento_Adminhtml::marketing_user_content']//*[@class='jstree-checkbox']
                                         marketing-user_content-reviews: //*[@data-id='Magento_Review::reviews_all']//*[@class='jstree-checkbox']
-                                        marketing-user_content-tags: //*[@data-id='Magento_Tag::tag_all']//*[@class='jstree-checkbox']
                                         my_account: //*[@data-id='Magento_Adminhtml::myaccount']//*[@class='jstree-checkbox']
                                         content: //*[@data-id='Magento_Adminhtml::content']//*[@class='jstree-checkbox']
                                         content-elements: //*[@data-id='Magento_Adminhtml::content_elements']//*[@class='jstree-checkbox']

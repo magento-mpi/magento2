@@ -1,0 +1,27 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Invitaion view block template
+ *
+ * @see Magento_Invitation_Block_Adminhtml_Invitation_View
+ */
+?>
+<div class="page-actions">
+    <?php echo $this->getButtonsHtml(); ?>
+</div>
+<form id="invitation-elements" action="<?php echo $this->getSaveMessageUrl(); ?>" method="POST">
+<?php echo $this->getBlockHtml('formkey')?>
+</form>
+
+<script type="text/javascript">
+    jQuery('#invitation-elements').mage('form').mage('validation');
+</script>

@@ -13,7 +13,7 @@
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block type="Magento_Customer_Block_Address_Edit" name="customer_address_edit" template="address/edit.phtml">
-                <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+                <block type="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
                     <action method="setFormCode">
                         <code>customer_address_edit</code>
                     </action>

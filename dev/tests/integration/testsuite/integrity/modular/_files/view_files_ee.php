@@ -10,6 +10,6 @@
  * @license     {license_link}
  */
 return array(
-    array('frontend', 'Enterprise_Reward::images/payment.gif'),
-    array('frontend', 'Enterprise_Reward::images/my_account.gif')
+    array('frontend', 'Magento_Reward::images/payment.gif'),
+    array('frontend', 'Magento_Reward::images/my_account.gif')
 );
