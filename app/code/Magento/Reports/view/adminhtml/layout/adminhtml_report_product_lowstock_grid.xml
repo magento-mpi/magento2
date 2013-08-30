@@ -14,7 +14,7 @@
                 <arguments>
                     <argument name="id" xsi:type="string">gridLowstock</argument>
                     <argument name="use_ajax" xsi:type="string">0</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Reports_Model_Resource_Product_Lowstock_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Reports_Model_Resource_Product_Lowstock_Collection</argument>
                 </arguments>
                 <block class="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.block.report.product.lowstock.export" as="grid.export">
                     <arguments>

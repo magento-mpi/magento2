@@ -13,7 +13,7 @@
             <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.sitemap.container.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">sitemapGrid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Sitemap_Model_Resource_Sitemap_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Sitemap_Model_Resource_Sitemap_Collection</argument>
                     <argument name="default_sort" xsi:type="string">sitemap_id</argument>
                 </arguments>
                 <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.sitemap.container.grid.columnSet" as="grid.columnSet">

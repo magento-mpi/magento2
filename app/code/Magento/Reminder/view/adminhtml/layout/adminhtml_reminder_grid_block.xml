@@ -13,7 +13,7 @@
             <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.reminder.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">reminderGrid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Reminder_Model_Resource_Reminder_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Reminder_Model_Resource_Reminder_Collection</argument>
                     <argument name="default_sort" xsi:type="string">rule_id</argument>
                     <argument name="default_dir" xsi:type="string">ASC</argument>
                 </arguments>

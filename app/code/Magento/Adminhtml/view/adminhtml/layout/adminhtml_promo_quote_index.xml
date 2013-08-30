@@ -14,7 +14,7 @@
                 <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.promo.quote.grid" as="grid">
                     <arguments>
                         <argument name="id" xsi:type="string">promo_quote_grid</argument>
-                        <argument name="dataSource" xsi:type="string">Magento_SalesRule_Model_Resource_Rule_Quote_Collection</argument>
+                        <argument name="dataSource" xsi:type="object">Magento_SalesRule_Model_Resource_Rule_Quote_Collection</argument>
                         <argument name="default_sort" xsi:type="string">sort_order</argument>
                         <argument name="default_dir" xsi:type="string">ASC</argument>
                         <argument name="save_parameters_in_session" xsi:type="string">1</argument>

@@ -12,7 +12,7 @@
         <reference name="webhook.subscriptions.list">
             <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml_subscription.grid" as="grid">
                 <arguments>
-                    <argument name="dataSource" xsi:type="string">Magento_Webhook_Model_Resource_Subscription_Grid_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Webhook_Model_Resource_Subscription_Grid_Collection</argument>
                     <argument name="id" xsi:type="string">subscriptionGrid</argument>
                     <argument name="default_sort" xsi:type="string">subscription_id</argument>
                     <argument name="default_dir" xsi:type="string">ASC</argument>

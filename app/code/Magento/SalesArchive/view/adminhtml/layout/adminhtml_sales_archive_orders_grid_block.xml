@@ -13,7 +13,7 @@
         <reference name="sales.order.grid">
             <arguments>
                 <argument name="id" xsi:type="string">sales_order_grid_archive</argument>
-                <argument name="dataSource" xsi:type="string">Magento_SalesArchive_Model_Resource_Order_Collection</argument>
+                <argument name="dataSource" xsi:type="object">Magento_SalesArchive_Model_Resource_Order_Collection</argument>
                 <argument name="default_sort" xsi:type="string">0</argument>
                 <argument name="grid_url" xsi:type="url" path="*/*/ordersgrid"/>
                 <argument name="rssList" xsi:type="string">null</argument>

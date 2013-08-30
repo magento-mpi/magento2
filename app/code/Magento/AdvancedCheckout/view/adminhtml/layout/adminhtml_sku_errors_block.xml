@@ -13,7 +13,7 @@
             <block class="Magento_Backend_Block_Widget_Grid" name="sku_error_grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">sku_errors</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection</argument>
                     <argument name="pager_visibility" xsi:type="string">0</argument>
                 </arguments>
                 <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_ColumnSet_SkuErrors" name="sku_error_grid.columnSet" as="grid.columnSet">

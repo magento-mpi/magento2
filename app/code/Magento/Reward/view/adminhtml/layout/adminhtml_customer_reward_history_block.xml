@@ -13,7 +13,7 @@
             <block class="Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid" name="adminhtml.reward.history.customer.edit.tab.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">rewardPointsHistoryGrid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Reward_Model_Resource_Reward_History_Grid_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Reward_Model_Resource_Reward_History_Grid_Collection</argument>
                     <argument name="use_ajax" xsi:type="string">1</argument>
                     <argument name="grid_url" xsi:type="url" path="*/*/historyGrid">
                         <param name="_current">1</param>

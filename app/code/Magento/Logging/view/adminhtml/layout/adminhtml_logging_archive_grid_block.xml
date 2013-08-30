@@ -13,7 +13,7 @@
             <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.logging.archive.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">loggingArchiveGrid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Logging_Model_Archive_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Logging_Model_Archive_Collection</argument>
                     <argument name="default_sort" xsi:type="string">basename</argument>
                     <argument name="default_dir" xsi:type="string">DESC</argument>
                     <argument name="save_parameters_in_session" xsi:type="string">1</argument>

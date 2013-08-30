@@ -14,7 +14,7 @@
                 <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.urlrewrite.grid" as="grid">
                     <arguments>
                         <argument name="id" xsi:type="string">urlrewriteGrid</argument>
-                        <argument name="dataSource" xsi:type="string">Magento_Core_Model_Resource_Url_Rewrite_Collection</argument>
+                        <argument name="dataSource" xsi:type="object">Magento_Core_Model_Resource_Url_Rewrite_Collection</argument>
                         <argument name="default_sort" xsi:type="string">url_rewrite_id</argument>
                     </arguments>
                     <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.urlrewrite.grid.columnSet">

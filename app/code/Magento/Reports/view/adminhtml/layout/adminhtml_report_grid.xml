@@ -15,7 +15,7 @@
                     <argument name="use_ajax" xsi:type="string">0</argument>
                     <argument name="pager_visibility" xsi:type="string">0</argument>
                     <argument name="id" xsi:type="string">gridReport</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Reports_Model_Resource_Report_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Reports_Model_Resource_Report_Collection</argument>
                 </arguments>
                 <block class="Magento_Backend_Block_Store_Switcher" name="adminhtml.report.grid.store_switcher" as="store_switcher" template="Magento_Reports::store/switcher.phtml">
                     <arguments>

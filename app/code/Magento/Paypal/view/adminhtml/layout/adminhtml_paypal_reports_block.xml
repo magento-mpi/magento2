@@ -13,7 +13,7 @@
             <block class="Magento_Backend_Block_Widget_Grid" name="paypal.report.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">settlementGrid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Paypal_Model_Resource_Report_Settlement_Row_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Paypal_Model_Resource_Report_Settlement_Row_Collection</argument>
                     <argument name="default_sort" xsi:type="string">row_id</argument>
                     <argument name="default_dir" xsi:type="string">DESC</argument>
                     <argument name="save_parameters_in_session" xsi:type="string">1</argument>

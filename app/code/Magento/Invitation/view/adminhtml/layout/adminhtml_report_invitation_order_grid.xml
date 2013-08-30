@@ -13,7 +13,7 @@
         <reference name="adminhtml.report.grid">
             <arguments>
                 <argument name="id" xsi:type="string">invitation_order_grid</argument>
-                <argument name="dataSource" xsi:type="string">Magento_Invitation_Model_Resource_Report_Invitation_Order_Initial_Collection</argument>
+                <argument name="dataSource" xsi:type="object">Magento_Invitation_Model_Resource_Report_Invitation_Order_Initial_Collection</argument>
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.export">

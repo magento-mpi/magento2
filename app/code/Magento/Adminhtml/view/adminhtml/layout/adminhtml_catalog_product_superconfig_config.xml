@@ -13,7 +13,7 @@
             <block class="Magento_Backend_Block_Widget_Grid" name="admin.product.edit.tab.super.config.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">configurable_associated_products_grid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct</argument>
                     <argument name="use_ajax" xsi:type="string">true</argument>
                     <argument name="default_sort" xsi:type="string">entity_id</argument>
                     <argument name="default_dir" xsi:type="string">DESC</argument>

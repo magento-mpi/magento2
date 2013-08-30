@@ -13,7 +13,7 @@
             <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.notification.container.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">notificationGrid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_AdminNotification_Model_Resource_Grid_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_AdminNotification_Model_Resource_Grid_Collection</argument>
                     <argument name="default_dir" xsi:type="string">DESC</argument>
                     <argument name="default_sort" xsi:type="string">date_added</argument>
                     <argument name="save_parameters_in_session" xsi:type="string">1</argument>

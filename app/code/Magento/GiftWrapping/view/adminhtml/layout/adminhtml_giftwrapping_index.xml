@@ -14,7 +14,7 @@
                 <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.giftwrapping.grid" as="grid">
                     <arguments>
                         <argument name="id" xsi:type="string">giftwrappingGrid</argument>
-                        <argument name="dataSource" xsi:type="string">Magento_GiftWrapping_Model_Resource_Wrapping_Grid_Collection</argument>
+                        <argument name="dataSource" xsi:type="object">Magento_GiftWrapping_Model_Resource_Wrapping_Grid_Collection</argument>
                         <argument name="default_sort" xsi:type="string">wrapping_id</argument>
                         <argument name="default_dir" xsi:type="string">ASC</argument>
                     </arguments>

@@ -14,7 +14,7 @@
                 <arguments>
                     <argument name="id" xsi:type="string">storeGrid</argument>
                     <argument name="save_parameters_in_session" xsi:type="string">1</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Core_Model_Resource_Website_Grid_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Core_Model_Resource_Website_Grid_Collection</argument>
                 </arguments>
                 <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.system.store.grid.columnSet" as="grid.columnSet">
                     <arguments>

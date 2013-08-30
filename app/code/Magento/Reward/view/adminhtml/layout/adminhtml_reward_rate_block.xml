@@ -13,7 +13,7 @@
             <block class="Magento_Backend_Block_Widget_Grid" name="reward.rate.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">rewardRatesGrid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Reward_Model_Resource_Reward_Rate_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Reward_Model_Resource_Reward_Rate_Collection</argument>
                 </arguments>
                 <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="reward.rate.grid.columnSet">
                     <arguments>

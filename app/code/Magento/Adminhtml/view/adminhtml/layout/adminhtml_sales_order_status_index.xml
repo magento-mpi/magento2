@@ -14,7 +14,7 @@
                 <block class="Magento_Backend_Block_Widget_Grid" name="sales_order_status.grid" as="grid">
                     <arguments>
                         <argument name="id" xsi:type="string">sales_order_status_grid</argument>
-                        <argument name="dataSource" xsi:type="string">Magento_Sales_Model_Resource_Status_Collection</argument>
+                        <argument name="dataSource" xsi:type="object">Magento_Sales_Model_Resource_Status_Collection</argument>
                         <argument name="default_sort" xsi:type="string">state</argument>
                         <argument name="default_dir" xsi:type="string">desc</argument>
                         <argument name="pager_visibility" xsi:type="string">0</argument>

@@ -13,7 +13,7 @@
             <block class="Magento_MultipleWishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid" name="adminhtml.block.report.customer.wishlist.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">gridReportWishlists</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_MultipleWishlist_Model_Resource_Item_Report_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_MultipleWishlist_Model_Resource_Item_Report_Collection</argument>
                 </arguments>
                 <block class="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.block.report.customer.wishlist.grid.export" as="grid.export">
                     <arguments>

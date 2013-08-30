@@ -15,7 +15,7 @@
                     <argument name="id" xsi:type="string">customers_grid</argument>
                     <argument name="default_sort" xsi:type="string">review_cnt</argument>
                     <argument name="default_dir" xsi:type="string">desc</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Reports_Model_Resource_Review_Customer_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Reports_Model_Resource_Review_Customer_Collection</argument>
                 </arguments>
                 <block class="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.block.report.review.customer.export" as="grid.export">
                     <arguments>

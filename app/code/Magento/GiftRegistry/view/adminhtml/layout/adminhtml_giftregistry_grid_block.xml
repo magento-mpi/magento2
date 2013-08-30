@@ -13,7 +13,7 @@
             <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.giftregistry.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">giftregistryGrid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_GiftRegistry_Model_Resource_GiftRegistry_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_GiftRegistry_Model_Resource_GiftRegistry_Collection</argument>
                     <argument name="default_sort" xsi:type="string">type_id</argument>
                     <argument name="default_dir" xsi:type="string">ASC</argument>
                 </arguments>

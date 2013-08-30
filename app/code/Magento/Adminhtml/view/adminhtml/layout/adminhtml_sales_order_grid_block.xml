@@ -13,7 +13,7 @@
             <block class="Magento_Adminhtml_Block_Sales_Order_Grid" name="sales.order.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">sales_order_grid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Sales_Model_Resource_Order_Grid_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Sales_Model_Resource_Order_Grid_Collection</argument>
                     <argument name="use_ajax" xsi:type="string">true</argument>
                     <argument name="default_sort" xsi:type="string">created_at</argument>
                     <argument name="default_dir" xsi:type="string">DESC</argument>
