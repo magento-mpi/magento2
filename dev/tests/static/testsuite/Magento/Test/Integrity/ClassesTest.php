@@ -185,7 +185,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     public function testClassNamespace($file)
     {
         $contents = file_get_contents($file);
-        $relativePath = str_replace(Utility_Files::init()->getPathToSource(), "", $file);
+        $relativePath = str_replace(Magento_TestFramework_Utility_Files::init()->getPathToSource(), "", $file);
 
         $classPattern = '/^class\s[A-Z][^\s\/]+/m';
         $namespacePattern = '/(Maged|Magento|Zend)\/[a-zA-Z]+[^\.]+/';
@@ -220,6 +220,6 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function phpClassDataProvider()
     {
-        return Utility_Files::init()->getClassFiles();
+        return Magento_TestFramework_Utility_Files::init()->getClassFiles();
     }
 }
