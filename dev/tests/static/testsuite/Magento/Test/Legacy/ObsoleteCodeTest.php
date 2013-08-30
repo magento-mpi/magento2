@@ -239,7 +239,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     {
         foreach (self::$_namespaces as $row) {
             list($namespacePath, , $replacementPath) = $row;
-            $relativePath = str_replace(Utility_Files::init()->getPathToSource(), "", $file);
+            $relativePath = str_replace(Magento_TestFramework_Utility_Files::init()->getPathToSource(), "", $file);
             $namespacePathArray = explode('/', $namespacePath);
             $namespace = $namespacePathArray[4];
             $replacementPathArray = explode('/', $replacementPath);
