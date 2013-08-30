@@ -26,7 +26,7 @@
         <item>
             <!-- MUST be refactored -->
             <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Magento_VersionsCms__widgets.css</path>
+            <path>dev/tests/functional/fixture/_testFiles/Enterprise_Cms__widgets.css</path>
         </item>
         <item>
             <!-- MUST be refactored -->
@@ -140,11 +140,11 @@
         </item>
         <item>
             <word>enterprise</word>
-	    <path>dev/tests/static/testsuite/Integrity/DependencyTest/_files/tables_ee.php</path>
+            <path>dev/tests/static/framework/Dependency/_files/tables_ee.php</path>
         </item>
         <item>
             <word>enterprise</word>
-	    <path>dev/tests/static/testsuite/Legacy/FilesystemEnterpriseTest.php</path>
+            <path>dev/tests/static/testsuite/Legacy/FilesystemEnterpriseTest.php</path>
         </item>
         <item>
             <word>enterprise</word>
