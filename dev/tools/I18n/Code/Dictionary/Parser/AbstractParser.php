@@ -114,11 +114,8 @@ abstract class AbstractParser implements ParserInterface
      */
     protected function _stripQuotes($phrase)
     {
-        $quote = '';
-        if($phrase[0] == $phrase[strlen($phrase)-1]) {
-            $quote = $phrase[0];
-        }
-        if ($quote == '"' || $quote == "'") {
+        $firstChar = $phrase[0];
+        if (($firstChar == '"' || $firstChar == "'") && $firstChar == $phrase[strlen($phrase)-1]) {
             $phrase = substr($phrase, 1, strlen($phrase)-2);
         }
         return $phrase;
