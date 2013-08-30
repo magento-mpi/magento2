@@ -25,7 +25,7 @@ class Magento_Test_Integrity_Phrase_Legacy_SignatureTest extends Magento_Test_In
         foreach ($this->_getFiles() as $file) {
             $this->_phraseCollector->parse($file);
             foreach ($this->_phraseCollector->getPhrases() as $phrase) {
-                $errors[] = $this->_createPhraseErrorMessage($phrase);
+                $errors[] = $this->_createPhraseError($phrase);
             }
         }
         $this->assertEmpty(

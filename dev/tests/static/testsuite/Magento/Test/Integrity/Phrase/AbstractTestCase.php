@@ -14,7 +14,7 @@ class Magento_Test_Integrity_Phrase_AbstractTestCase extends PHPUnit_Framework_T
      * @param array $phrase
      * @return string
      */
-    protected function _createPhraseErrorMessage($phrase)
+    protected function _createPhraseError($phrase)
     {
         return "\nPhrase: {$phrase['phrase']} \nFile: {$phrase['file']} \nLine: {$phrase['line']}";
     }

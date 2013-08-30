@@ -29,7 +29,7 @@ class Magento_Test_Integrity_Phrase_ArgumentsTest extends Magento_Test_Integrity
                 if (preg_match_all('/%(\d+)/', $phrase['phrase'], $matches) || $phrase['arguments']) {
                     $placeholdersInPhrase = array_unique($matches[1]);
                     if (count($placeholdersInPhrase) != $phrase['arguments']) {
-                        $errors[] = $this->_createPhraseErrorMessage($phrase);
+                        $errors[] = $this->_createPhraseError($phrase);
                     }
                 }
             }
