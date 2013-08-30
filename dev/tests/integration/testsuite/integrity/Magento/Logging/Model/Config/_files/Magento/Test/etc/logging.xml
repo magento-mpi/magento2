@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+
+<logging>
+    <title action="apply_coupon">Apply Coupon</title>
+    <title action="add_to_cart">Add to Cart</title>
+    <event id="enterprise_checkout" translate="label">
+        <label>Shopping Cart Management</label>
+        <expected_model class="Enterprise_GiftRegistry_Model_Entity" />
+        <expected_model class="Enterprise_GiftRegistry_Model_Item" />
+        <handle name="adminhtml_checkout_index" action="view">
+            <expected_model class="Mage_Sales_Model_Quote" />
+        </handle>
+        <handle name="adminhtml_checkout_applyCoupon" action="apply_coupon"
+                post_dispatch="postDispatchAdminCheckoutApplyCoupon">
+            <expected_model class="Mage_Sales_Model_Quote" />
+        </handle>
+        <handle name="adminhtml_checkout_updateItems" action="save"
+                skip_on_back="adminhtml_cms_page_version_edit">
+            <expected_model class="Magento_Sales_Model_Quote_Item" />
+        </handle>
+        <handle name="adminhtml_checkout_addToCart" action="add_to_cart">
+            <expected_model class="Magento_Sales_Model_Quote_Item" additional_fields="item_id quote_id" />
+        </handle>
+        <handle name="adminhtml_customer_save" extends_expected_models="true"
+                skip_on_back="adminhtml_customerbalance_form adminhtml_customer_edit">
+            <expected_model class="Enterprise_CustomerBalance_Model_Balance" />
+        </handle>
+        <handle name="adminhtml_customersegment_match" action="refresh_data"
+                post_dispatch="Enterprise_CustomerSegment_Model_Logging::postDispatchCustomerSegmentMatch">
+        </handle>
+    </event>
+    <event id="customer" translate="label">
+        <label>Customers</label>
+        <expected_model class="Magento_Customer_Model_Customer" skip_fields="new_password password password_hash"/>
+        <handle name="adminhtml_customer_edit" action="view" />
+        <handle name="adminhtml_customer_save" action="save" skip_on_back="adminhtml_customer_edit" />
+    </event>
+</logging>

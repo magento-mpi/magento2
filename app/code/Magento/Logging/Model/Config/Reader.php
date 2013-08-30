@@ -32,7 +32,7 @@ class Magento_Logging_Model_Config_Reader extends Magento_Config_Reader_Filesyst
     public function __construct(
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Config_FileResolverInterface $fileResolver,
-        Enterprise_Logging_Model_Config_Converter $converter,
+        Magento_Logging_Model_Config_Converter $converter,
         Magento_Config_ValidationStateInterface $validationState,
         $fileName = 'logging.xml',
         $idAttributes = array(),
