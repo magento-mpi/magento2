@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Layout_HandleTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Pattern for attribute elements, compatible with HTML ID

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Core_DataService_Model_LayoutConfigTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Magento_Core_Model_TemplateEngine_Twig_LayoutConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var array string[] $_serviceCalls Array of valid service calls available to layouts

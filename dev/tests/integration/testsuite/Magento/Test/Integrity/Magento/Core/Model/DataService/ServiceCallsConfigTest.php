@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Core_DataService_Model_ServiceCallsConfigTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Magento_Core_Model_DataService_ServiceCallsConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider xmlDataProvider
