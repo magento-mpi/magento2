@@ -58,13 +58,12 @@
             var path = this.options.currentPath;
             var tree = this.element;
             var recursiveOpen = function() {
+                var el = $("[data-id=\"" + path.pop() + "\"]");
                 if (path.length > 1) {
-                    var el = $("[data-id=\"" + path.pop() + "\"]");
                     tree.jstree('open_node', el, recursiveOpen);
                 } else {
-                    var el = $("[data-id=\"" + path.pop() + "\"]");
                     tree.jstree('open_node', el, function() {
-                        tree.jstree('select_node', el)
+                        tree.jstree('select_node', el);
                     });
                 }
             };

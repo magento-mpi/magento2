@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_MultipleWishlist
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <placeholders>
+        <wishlist>
+            <block>Magento_MultipleWishlist_Block_Customer_Sidebar</block>
+            <placeholder>WISHLIST</placeholder>
+            <container>Magento_FullPageCache_Model_Container_Wishlist</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </wishlist>
+        <wishlist_links>
+            <block>Magento_MultipleWishlist_Block_Links</block>
+            <placeholder>WISHLISTLINKS</placeholder>
+            <container>Magento_FullPageCache_Model_Container_Wishlistlinks</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </wishlist_links>
+        <wishlist_list>
+            <block>Magento_MultipleWishlist_Block_Behaviour</block>
+            <placeholder>WISHLISTS</placeholder>
+            <container>Magento_FullPageCache_Model_Container_Wishlists</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </wishlist_list>
+    </placeholders>
+</config>

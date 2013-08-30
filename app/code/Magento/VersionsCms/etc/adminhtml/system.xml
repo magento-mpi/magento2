@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_VersionsCms
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <system>
+        <section id="cms">
+            <group id="hierarchy" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>CMS Page Hierarchy</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Hierarchy Functionality</label>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                </field>
+                <field id="metadata_enabled" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Hierarchy Metadata</label>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                </field>
+                <field id="menu_layout" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Default Layout for Hierarchy Menu</label>
+                    <source_model>Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout</source_model>
+                </field>
+            </group>
+            <group id="content" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>CMS Versioning</label>
+                <field id="versioning" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>CMS Page Default Versioning</label>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

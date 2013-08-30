@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_AdvancedCheckout
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <system>
+        <section id="sales">
+            <group id="product_sku" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Order by SKU Settings</label>
+                <field id="my_account_enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Order by SKU on My Account in Frontend</label>
+                    <source_model>Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings</source_model>
+                </field>
+                <field id="allowed_groups" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0" type="multiselect">
+                    <label>Customer Groups</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento_Customer_Model_Config_Source_Group_Multiselect</source_model>
+                    <depends>
+                        <field id="my_account_enable">2</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

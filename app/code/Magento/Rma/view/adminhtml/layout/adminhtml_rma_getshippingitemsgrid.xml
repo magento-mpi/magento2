@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_rma_getshippingitemsgrid>
+        <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid" name="magento_rma_getshippingitemsgrid" template="edit/shipping/grid.phtml" output="1"/>
+    </adminhtml_rma_getshippingitemsgrid>
+</layout>

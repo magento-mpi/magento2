@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_catalog_search_block>
+        <reference name='related_grid_edit'>
+            <block type='Magento_Search_Block_Adminhtml_Search_Grid' name='search.edit.grid' as='grid'>
+                <arguments>
+                    <id>catalog_search_grid</id>
+                    <dataSource type='object'>Magento_Search_Model_Resource_Search_Grid_Collection</dataSource>
+                    <default_sort>name</default_sort>
+                    <default_dir>ASC</default_dir>
+                    <save_parameters_in_session>1</save_parameters_in_session>
+                    <use_ajax>1</use_ajax>
+                    <grid_url type="url">
+                        <path>*/*/relatedGrid</path>
+                        <params>
+                            <_current>1</_current>
+                        </params>
+                    </grid_url>
+                </arguments>
+                <block type='Magento_Backend_Block_Widget_Grid_ColumnSet' name='search.edit.grid.columnSet' as='grid.columnSet'>
+                    <arguments>
+                        <rowUrl>
+                            <path>*/*/edit</path>
+                            <extraParamsTemplate>
+                                <id>getId</id>
+                            </extraParamsTemplate>
+                        </rowUrl>
+                    </arguments>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='query_id_selected'>
+                        <arguments>
+                            <index>query_id</index>
+                            <id>query_id_selected</id>
+                            <header_css_class>a-center</header_css_class>
+                            <type>checkbox</type>
+                            <name>query_id_selected</name>
+                            <values type="options">Magento_Search_Model_Adminhtml_Search_Grid_Options</values>
+                            <align>center</align>
+                        </arguments>
+                    </block>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='query_id'>
+                        <arguments>
+                            <header translate='true'>ID</header>
+                            <index>query_id</index>
+                            <width>50px</width>
+                        </arguments>
+                    </block>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='search_query'>
+                        <arguments>
+                            <header translate='true'>Search Query</header>
+                            <index>query_text</index>
+                        </arguments>
+                    </block>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column_Multistore' as='store_id'>
+                        <arguments>
+                            <header translate='true'>Store</header>
+                            <index>store_id</index>
+                            <type>store</type>
+                            <store_view>1</store_view>
+                            <sortable>0</sortable>
+                        </arguments>
+                    </block>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='num_results'>
+                        <arguments>
+                            <header translate='true'>Results</header>
+                            <index>num_results</index>
+                            <type>number</type>
+                        </arguments>
+                    </block>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='popularity'>
+                        <arguments>
+                            <header translate='true'>Uses</header>
+                            <index>popularity</index>
+                            <type>number</type>
+                        </arguments>
+                    </block>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='synonym_for'>
+                        <arguments>
+                            <header translate='true'>Synonym</header>
+                            <index>synonym_for</index>
+                            <align>left</align>
+                            <width>160px</width>
+                        </arguments>
+                    </block>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='redirect'>
+                        <arguments>
+                            <header translate='true'>Redirect URL</header>
+                            <index>redirect</index>
+                            <align>left</align>
+                            <width>200px</width>
+                        </arguments>
+                    </block>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='display_in_terms'>
+                        <arguments>
+                            <header translate='true'>Suggested Term</header>
+                            <sortable>1</sortable>
+                            <index>display_in_terms</index>
+                            <type>options</type>
+                            <width>100px</width>
+                            <align>left</align>
+                            <options>
+                                <yes>
+                                    <value>1</value>
+                                    <label translate="true">Yes</label>
+                                </yes>
+                                <no>
+                                    <value>0</value>
+                                    <label translate="true">No</label>
+                                </no>
+                            </options>
+                        </arguments>
+                    </block>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='action'>
+                        <arguments>
+                            <header translate='true'>Action</header>
+                            <index>catalog</index>
+                            <width>100px</width>
+                            <type>action</type>
+                            <getter>getId</getter>
+                            <filter>0</filter>
+                            <sortable>0</sortable>
+                            <actions>
+                                <edit_action>
+                                    <caption translate="true">Edit</caption>
+                                    <url>
+                                        <base>*/*/edit</base>
+                                    </url>
+                                    <field>id</field>
+                                </edit_action>
+                            </actions>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_catalog_search_block>
+</layout>

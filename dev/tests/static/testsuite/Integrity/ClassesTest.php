@@ -172,4 +172,52 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             $this->markTestIncomplete('Bug MAGE-4763');
         }
     }
+
+    /**
+     * Assert PHP classes have valid pseudo-namespaces according to file locations
+     *
+     *
+     * @param array $file
+     * @dataProvider phpClassDataProvider
+     */
+    public function testClassNamespace($file)
+    {
+        $contents = file_get_contents($file);
+        $relativePath = str_replace(Utility_Files::init()->getPathToSource(), "", $file);
+
+        $classPattern = '/^class\s[A-Z][^\s\/]+/m';
+        $namespacePattern = '/(Maged|Magento|Zend)\/[a-zA-Z]+[^\.]+/';
+
+        $classNameMatch = array();
+        $namespaceMatch = array();
+        $className = null;
+        $namespace = null;
+
+        // exception made because the file is already using formal namespace
+        if ($relativePath == "/app/code/Zend/Soap/Wsdl.php") {
+            return;
+        }
+
+        // if no class declaration found for $file, then skip this file
+        if (!preg_match($classPattern, $contents, $classNameMatch) != 0) {
+            return;
+        }
+        $className = substr($classNameMatch[0], 6);
+
+        if (preg_match($namespacePattern, $relativePath, $namespaceMatch) != 0) {
+            $namespace = str_replace('/', '_', $namespaceMatch[0]);
+        }
+        if ($className != null && $namespace != null) {
+            $this->assertEquals($className, $namespace,
+                "Declaration of $file does not match namespace: $namespace\n");
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function phpClassDataProvider()
+    {
+        return Utility_Files::init()->getClassFiles();
+    }
 }
