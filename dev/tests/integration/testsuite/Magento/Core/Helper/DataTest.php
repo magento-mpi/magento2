@@ -164,10 +164,10 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
         $expectedTarget = new Magento_Object($data);
         $expectedTarget->setDataChanges(true); // hack for assertion
 
-        $this->assertNull($this->_helper->copyFieldset($fieldset, $aspect, 'invalid_source', array()));
-        $this->assertNull($this->_helper->copyFieldset($fieldset, $aspect, array(), 'invalid_target'));
-        $this->assertEquals($target, $this->_helper->copyFieldset('invalid_fieldset', $aspect, $source, $target));
-        $this->assertSame($target, $this->_helper->copyFieldset($fieldset, $aspect, $source, $target));
+        $this->assertNull($this->_helper->copyFieldsetToTarget($fieldset, $aspect, 'invalid_source', array()));
+        $this->assertNull($this->_helper->copyFieldsetToTarget($fieldset, $aspect, array(), 'invalid_target'));
+        $this->assertEquals($target, $this->_helper->copyFieldsetToTarget('invalid_fieldset', $aspect, $source, $target));
+        $this->assertSame($target, $this->_helper->copyFieldsetToTarget($fieldset, $aspect, $source, $target));
         $this->assertEquals($expectedTarget, $target);
     }
 
@@ -183,8 +183,8 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
         $target = array();
         $expectedTarget = $data;
 
-        $this->assertEquals($target, $this->_helper->copyFieldset('invalid_fieldset', $aspect, $source, $target));
-        $this->assertEquals($expectedTarget, $this->_helper->copyFieldset($fieldset, $aspect, $source, $target));
+        $this->assertEquals($target, $this->_helper->copyFieldsetToTarget('invalid_fieldset', $aspect, $source, $target));
+        $this->assertEquals($expectedTarget, $this->_helper->copyFieldsetToTarget($fieldset, $aspect, $source, $target));
     }
 
     public function testDecorateArray()

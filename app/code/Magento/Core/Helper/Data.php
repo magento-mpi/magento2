@@ -417,7 +417,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * @param string $root
      * @return array|Magento_Object|null the value of $target
      */
-    public function copyFieldset($fieldset, $aspect, $source, $target, $root='global')
+    public function copyFieldsetToTarget($fieldset, $aspect, $source, $target, $root='global')
     {
         if (!$this->_isFieldsetInputValid($source, $target)) {
             return null;

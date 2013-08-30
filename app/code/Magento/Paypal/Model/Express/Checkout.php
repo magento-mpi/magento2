@@ -902,7 +902,7 @@ class Magento_Paypal_Model_Express_Checkout
             $billing->setCustomerGender($quote->getCustomerGender());
         }
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldsetToTarget('checkout_onepage_billing', 'to_customer', $billing, $customer);
         $customer->setEmail($quote->getCustomerEmail());
         $customer->setPrefix($quote->getCustomerPrefix());
         $customer->setFirstname($quote->getCustomerFirstname());
