@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <magento_invitation_index_send translate="label" type="page" parent="magento_invitation_index_index">
+        <label>Customer My Account Invitations Form</label>
+        <update handle="customer_account"/>
+        <reference name="customer_account_navigation">
+            <action method="setActive">
+                <path>magento_invitation/index/index</path>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="Magento_Invitation_Block_Form" name="invitationForm" template="Magento_Invitation::form.phtml">
+                <container name="invitations.form.form.before" as="form_before" label="Invitation Form Before" htmlTag="div" htmlClass="rewards"/>
+            </block>
+        </reference>
+    </magento_invitation_index_send>
+</layout>

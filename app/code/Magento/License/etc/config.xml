@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_License
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_License>
+                    <files>
+                        <default>Magento_License.csv</default>
+                    </files>
+                </Magento_License>
+            </modules>
+        </translate>
+        <events>
+            <admin_user_authenticate_after>
+                <observers>
+                    <magento_license>
+                        <class>Magento_License_Model_Observer</class>
+                        <method>adminUserAuthenticateAfter</method>
+                    </magento_license>
+                </observers>
+            </admin_user_authenticate_after>
+            <controller_action_predispatch>
+                <observers>
+                    <magento_license>
+                        <class>Magento_License_Model_Observer</class>
+                        <method>preDispatch</method>
+                    </magento_license>
+                </observers>
+            </controller_action_predispatch>
+        </events>
+    </adminhtml>
+</config>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Core_Model_ModuleManager">
+        <param name="outputConfigPaths">
+            <value>
+                <Magento_Reward>Magento_Reward_Helper_Data::XML_PATH_ENABLED</Magento_Reward>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Reward_Model_Observer">
+        <param name="authorization">
+            <instance type="Magento_Authorization_Proxy" />
+        </param>
+    </type>
+</config>
