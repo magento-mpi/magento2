@@ -1,5 +1,7 @@
 <?php
 /**
+ * Fieldset configuration reader
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

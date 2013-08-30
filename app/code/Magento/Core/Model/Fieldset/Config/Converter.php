@@ -1,5 +1,7 @@
 <?php
 /**
+ * Fieldset Configuration Converter
+ *
  * {license_notice}
  *
  * @copyright {copyright}
@@ -28,17 +30,14 @@ class Magento_Core_Model_Fieldset_Config_Converter implements Magento_Config_Con
     /**
      * Convert Scope node to Magento array
      *
-     * @param DOMNode $node
+     * @param DOMNode $scope
      * @return array
      */
     protected function _convertScope($scope)
     {
         $result = array();
-        if (!$scope->hasChildNodes()) {
-            return $result;
-        }
         foreach ($scope->childNodes as $fieldset) {
-            if (!$fieldset instanceof DOMElement) {
+            if (!($fieldset instanceof DOMElement)) {
                 continue;
             }
             $fieldsetName = $fieldset->attributes->getNamedItem('id')->nodeValue;
@@ -50,17 +49,14 @@ class Magento_Core_Model_Fieldset_Config_Converter implements Magento_Config_Con
     /**
      * Convert Fieldset node to Magento array
      *
-     * @param DOMNode $node
+     * @param DOMNode $fieldset
      * @return array
      */
     protected function _convertFieldset($fieldset)
     {
         $result = array();
-        if (!$fieldset->hasChildNodes()) {
-            return $result;
-        }
         foreach ($fieldset->childNodes as $field) {
-            if (!$field instanceof DOMElement) {
+            if (!($field instanceof DOMElement)) {
                 continue;
             }
             $fieldName = $field->attributes->getNamedItem('name')->nodeValue;
@@ -72,23 +68,20 @@ class Magento_Core_Model_Fieldset_Config_Converter implements Magento_Config_Con
     /**
      * Convert Field node to Magento array
      *
-     * @param DOMNode $node
+     * @param DOMNode $field
      * @return array
      */
     protected function _convertField($field)
     {
         $result = array();
-        if (!$field->hasChildNodes()) {
-            return $result;
-        }
         foreach ($field->childNodes as $aspect) {
-            if (!$aspect instanceof DOMElement) {
+            if (!($aspect instanceof DOMElement)) {
                 continue;
             }
-            /** @var DOMNamedNodeMap $aspectdAttributes */
-            $aspectdAttributes = $aspect->attributes;
-            $aspectName = $aspectdAttributes->getNamedItem('name')->nodeValue;
-            $targetField = $aspectdAttributes->getNamedItem('targetField');
+            /** @var DOMNamedNodeMap $aspectAttributes */
+            $aspectAttributes = $aspect->attributes;
+            $aspectName = $aspectAttributes->getNamedItem('name')->nodeValue;
+            $targetField = $aspectAttributes->getNamedItem('targetField');
             $result[$aspectName] = is_null($targetField) ? '*' : $targetField->nodeValue;
         }
         return $result;

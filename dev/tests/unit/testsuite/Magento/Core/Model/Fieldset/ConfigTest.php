@@ -1,5 +1,7 @@
 <?php
 /**
+ * Magento_Core_Model_Fieldset_Config
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -25,10 +27,11 @@ class Magento_Core_Model_Fieldset_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetFieldsets()
     {
-        $expected = array('val1', 'val2');
+        $convertedFile = __DIR__ . '/_files/fieldset_config.php';
+        $expected = include $convertedFile;
         $this->_storageMock->expects($this->once())->method('get')
-            ->will($this->returnValue($expected));
-        $result = $this->_model->getFieldsets('global/fieldsets');
+            ->will($this->returnValue($expected['global']));
+        $result = $this->_model->getFieldsets('global');
         $this->assertEquals($expected, $result);
     }
 }

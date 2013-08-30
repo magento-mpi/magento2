@@ -204,7 +204,7 @@
         </param>
     </type>
     <type name="Magento_Core_Model_Fieldset_Config_Data">
-        <param name='reader'>
+        <param name="reader">
             <instance type="Magento_Core_Model_Fieldset_Config_Reader" />
         </param>
         <param name="cacheId">

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Magento_Core_Model_Fieldset_Config_Converter
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

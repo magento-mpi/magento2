@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Core_Model_Fieldset_Config
 {
     /**
