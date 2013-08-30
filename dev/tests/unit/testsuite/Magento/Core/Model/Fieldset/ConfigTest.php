@@ -34,10 +34,22 @@ class Magento_Core_Model_Fieldset_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetFieldsets()
     {
-        $convertedFile = __DIR__ . '/_files/fieldset_config.php';
-        $expected = include $convertedFile;
+        $expected = array(
+            'sales_convert_quote_address' => array(
+                'company' => array(
+                    'to_order_address' => '*',
+                    'to_customer_address' => '*'
+                ),
+                'street_full' => array(
+                    'to_order_address' => 'street'
+                ),
+                'street' => array(
+                    'to_customer_address' => '*'
+                )
+            )
+        );
         $this->_storageMock->expects($this->once())->method('get')
-            ->will($this->returnValue($expected['global']));
+            ->will($this->returnValue($expected));
         $result = $this->_model->getFieldsets('global');
         $this->assertEquals($expected, $result);
     }
