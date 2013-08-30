@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_email_order_shipment_items>
-        <block type="Magento_Sales_Block_Order_Email_Shipment_Items" name="items" template="email/shipment/items.phtml">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_email_order_shipment_items">
+        <block class="Magento_Sales_Block_Order_Email_Shipment_Items" name="items" template="email/shipment/items.phtml">
             <action method="addItemRender">
                 <type>default</type>
                 <block>Magento_Sales_Block_Order_Email_Items_Default</block>
@@ -17,5 +17,5 @@
             </action>
         </block>
         <container name="additional.product.info" label="Additional Product Info"/>
-    </sales_email_order_shipment_items>
+    </handle>
 </layout>

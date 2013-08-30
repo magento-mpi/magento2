@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <magento_invitation_index_send>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="magento_invitation_index_send">
         <reference name="invitations.form.form.before">
-            <block type="Magento_Reward_Block_Tooltip" name="reward.tooltip.invitation" template="tooltip.phtml">
+            <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.invitation" template="tooltip.phtml">
                 <action method="initRewardType">
                     <type>Magento_Reward_Model_Action_InvitationCustomer</type>
                 </action>
@@ -27,7 +27,7 @@
                     <message>You can reward up to %s invitee registration(s).</message>
                 </action>
             </block>
-            <block type="Magento_Reward_Block_Tooltip" name="reward.tooltip.invitation.order" template="tooltip.phtml">
+            <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.invitation.order" template="tooltip.phtml">
                 <action method="initRewardType">
                     <type>Magento_Reward_Model_Action_InvitationOrder</type>
                 </action>
@@ -45,5 +45,5 @@
                 </action>
             </block>
         </reference>
-    </magento_invitation_index_send>
+    </handle>
 </layout>

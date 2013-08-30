@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <customer_account_create>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="customer_account_create">
         <reference name="customer.form.register.fields.before">
-            <block type="Magento_Reward_Block_Tooltip" name="reward.tooltip.register" template="tooltip.phtml">
+            <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.register" template="tooltip.phtml">
                 <action method="initRewardType">
                     <type>Magento_Reward_Model_Action_Register</type>
                 </action>
@@ -21,7 +21,7 @@
                     <message>Register on our site now and earn %1.</message>
                 </action>
             </block>
-            <block type="Magento_Reward_Block_Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml" after="reward.tooltip.register">
+            <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml" after="reward.tooltip.register">
                 <action method="initRewardType">
                     <type>Magento_Reward_Model_Action_Newsletter</type>
                 </action>
@@ -33,5 +33,5 @@
                 </action>
             </block>
         </reference>
-    </customer_account_create>
+    </handle>
 </layout>

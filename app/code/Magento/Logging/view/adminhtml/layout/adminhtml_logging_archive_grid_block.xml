@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_logging_archive_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_logging_archive_grid_block">
         <reference name="adminhtml.logging.archive.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.logging.archive.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.logging.archive.grid" as="grid">
                 <arguments>
                     <id>loggingArchiveGrid</id>
                     <dataSource type="object">Magento_Logging_Model_Archive_Collection</dataSource>
@@ -25,15 +25,15 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.logging.archive.grid.columnSet" as="grid.columnSet">
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="download">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.logging.archive.grid.columnSet" as="grid.columnSet">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="download">
                         <arguments>
                             <header translate="true">Archive File</header>
                             <index>basename</index>
                             <renderer>Magento_Logging_Block_Adminhtml_Grid_Renderer_Download</renderer>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="date">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="date">
                         <arguments>
                             <header translate="true">Date</header>
                             <index>time</index>
@@ -44,5 +44,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_logging_archive_grid_block>
+    </handle>
 </layout>

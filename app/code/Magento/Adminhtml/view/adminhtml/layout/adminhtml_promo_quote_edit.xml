@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_promo_quote_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_promo_quote_edit">
         <reference name="head">
             <action method="setCanLoadExtJs">
                 <flag>1</flag>
@@ -18,14 +18,14 @@
             </action>
         </reference>
         <reference name="left">
-            <block type="Magento_Adminhtml_Block_Promo_Quote_Edit_Tabs" name="promo_quote_edit_tabs">
-                <block type="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main" name="promo_quote_edit_tab_main"/>
-                <block type="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions" name="promo_quote_edit_tab_conditions"/>
-                <block type="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions" name="promo_quote_edit_tab_actions"/>
-                <block type="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels" name="promo_quote_edit_tab_labels"/>
-                <block type="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons" name="promo_quote_edit_tab_coupons">
-                    <block type="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form" name="promo_quote_edit_tab_coupons_form"/>
-                    <block type="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid" name="promo_quote_edit_tab_coupons_grid"/>
+            <block class="Magento_Adminhtml_Block_Promo_Quote_Edit_Tabs" name="promo_quote_edit_tabs">
+                <block class="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main" name="promo_quote_edit_tab_main"/>
+                <block class="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions" name="promo_quote_edit_tab_conditions"/>
+                <block class="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions" name="promo_quote_edit_tab_actions"/>
+                <block class="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels" name="promo_quote_edit_tab_labels"/>
+                <block class="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons" name="promo_quote_edit_tab_coupons">
+                    <block class="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form" name="promo_quote_edit_tab_coupons_form"/>
+                    <block class="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid" name="promo_quote_edit_tab_coupons_grid"/>
                 </block>
                 <action method="addTab">
                     <name>main_section</name>
@@ -48,10 +48,10 @@
                     <block>promo_quote_edit_tab_coupons</block>
                 </action>
             </block>
-            <block type="Magento_Adminhtml_Block_Template" template="promo/salesrulejs.phtml" name="promo_quote_edit_jsinit"/>
+            <block class="Magento_Adminhtml_Block_Template" template="promo/salesrulejs.phtml" name="promo_quote_edit_jsinit"/>
         </reference>
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Promo_Quote_Edit" name="promo_quote_edit"/>
+            <block class="Magento_Adminhtml_Block_Promo_Quote_Edit" name="promo_quote_edit"/>
         </reference>
-    </adminhtml_promo_quote_edit>
+    </handle>
 </layout>

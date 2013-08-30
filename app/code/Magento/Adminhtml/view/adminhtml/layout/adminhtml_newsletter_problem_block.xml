@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_newsletter_problem_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_newsletter_problem_block">
         <reference name="adminhtml.newsletter.problem.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.newslettrer.problem.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.newslettrer.problem.grid" as="grid">
                 <arguments>
                     <id>problemGrid</id>
                     <dataSource type="object">Magento_Newsletter_Model_Resource_Grid_Collection</dataSource>
@@ -18,12 +18,12 @@
                     <use_ajax>true</use_ajax>
                     <save_parameters_in_session>1</save_parameters_in_session>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.newslettrer.problem.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.newslettrer.problem.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <id>problemGrid</id>
                         <empty_text translate="true">We found no problems.</empty_text>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="checkbox">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="checkbox">
                         <arguments>
                             <sortable>0</sortable>
                             <filter>Magento_Adminhtml_Block_Newsletter_Problem_Grid_Filter_Checkbox</filter>
@@ -32,7 +32,7 @@
                             <column_css_class>col-select</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="problem_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="problem_id">
                         <arguments>
                             <header translate="true">ID</header>
                             <index>problem_id</index>
@@ -40,7 +40,7 @@
                             <column_css_class>col-id</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="subscriber">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="subscriber">
                         <arguments>
                             <header translate="true">Subscriber</header>
                             <format>#$subscriber_id $customer_name ($subscriber_email)</format>
@@ -49,7 +49,7 @@
                             <column_css_class>col-subscriber</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="queue_start">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="queue_start">
                         <arguments>
                             <header translate="true">Queue Start Date</header>
                             <index>queue_start_at</index>
@@ -59,7 +59,7 @@
                             <column_css_class>col-start</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="queue">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="queue">
                         <arguments>
                             <header translate="true">Queue Subject</header>
                             <index>template_subject</index>
@@ -67,7 +67,7 @@
                             <column_css_class>col-subject</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="problem_code">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="problem_code">
                         <arguments>
                             <header translate="true">Error Code</header>
                             <index>problem_error_code</index>
@@ -76,7 +76,7 @@
                             <column_css_class>col-error-code</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="problem_text">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="problem_text">
                         <arguments>
                             <header translate="true">Error Text</header>
                             <index>problem_error_text</index>
@@ -87,5 +87,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_newsletter_problem_block>
+    </handle>
 </layout>

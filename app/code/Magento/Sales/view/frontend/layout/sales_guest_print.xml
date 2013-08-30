@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_guest_print translate="label" type="page" parent="print">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_guest_print" translate="label" type="page" parent="print">
         <label>Sales Order Print View</label>
         <reference name="content">
-            <block type="Magento_Sales_Block_Order_Print" name="sales.order.print" template="order/print.phtml">
+            <block class="Magento_Sales_Block_Order_Print" name="sales.order.print" template="order/print.phtml">
                 <action method="addItemRender">
                     <type>default</type>
                     <block>Magento_Sales_Block_Order_Item_Renderer_Default</block>
@@ -22,14 +22,14 @@
                     <block>Magento_Sales_Block_Order_Item_Renderer_Grouped</block>
                     <template>order/items/renderer/default.phtml</template>
                 </action>
-                <block type="Magento_Sales_Block_Order_Totals" name="order_totals" template="order/totals.phtml">
+                <block class="Magento_Sales_Block_Order_Totals" name="order_totals" template="order/totals.phtml">
                     <action method="setLabelProperties">
                         <value>colspan="4" class="a-right"</value>
                     </action>
                     <action method="setValueProperties">
                         <value>class="last a-right"</value>
                     </action>
-                    <block type="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml">
+                    <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml">
                         <action method="setIsPlaneMode">
                             <value>1</value>
                         </action>
@@ -37,5 +37,5 @@
                 </block>
             </block>
         </reference>
-    </sales_guest_print>
+    </handle>
 </layout>

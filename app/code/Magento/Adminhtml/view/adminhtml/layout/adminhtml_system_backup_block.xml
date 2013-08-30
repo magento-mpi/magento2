@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_system_backup_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_system_backup_block">
         <reference name="adminhtml.system.backup.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.backup.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.backup.grid" as="grid">
                 <arguments>
                     <id>backupsGrid</id>
                     <dataSource type="object">Magento_Backup_Model_Fs_Collection</dataSource>
                     <default_sort>time</default_sort>
                     <default_dir>desc</default_dir>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.system.backup.grid.massaction" as="grid.massaction">
+                <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.system.backup.grid.massaction" as="grid.massaction">
                     <arguments>
                         <massaction_id_field>id</massaction_id_field>
                         <form_field_name>ids</form_field_name>
@@ -31,11 +31,11 @@
                         </options>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <id>backupsGrid</id>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="time">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="time">
                         <arguments>
                             <header translate="true">Time</header>
                             <index>date_object</index>
@@ -43,7 +43,7 @@
                             <width>200px</width>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="display_name">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="display_name">
                         <arguments>
                             <header translate="true">Name</header>
                             <index>display_name</index>
@@ -52,7 +52,7 @@
                             <width>350px</width>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="size">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="size">
                         <arguments>
                             <header translate="true">Size(bytes)</header>
                             <index>size</index>
@@ -61,7 +61,7 @@
                             <sortable>1</sortable>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="type">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="type">
                         <arguments>
                             <header translate="true">Type</header>
                             <index>type</index>
@@ -70,7 +70,7 @@
                             <width>300px</width>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="download">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="download">
                         <arguments>
                             <header translate="true">Download</header>
                             <index>type</index>
@@ -80,7 +80,7 @@
                             <renderer>Magento_Backup_Block_Adminhtml_Grid_Column_Renderer_Download</renderer>
                         </arguments>
                     </block>
-                    <block type="Magento_Backup_Block_Adminhtml_Grid_Column_Rollback" as="action">
+                    <block class="Magento_Backup_Block_Adminhtml_Grid_Column_Rollback" as="action">
                         <arguments>
                             <header translate="true">Action</header>
                             <index>type</index>
@@ -102,5 +102,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_system_backup_block>
+    </handle>
 </layout>

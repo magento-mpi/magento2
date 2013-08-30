@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_invoice_new>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_invoice_new">
         <reference name="order_items">
             <action method="addItemRender">
                 <type>bundle</type>
@@ -16,5 +16,5 @@
                 <template>sales/invoice/create/items/renderer.phtml</template>
             </action>
         </reference>
-    </adminhtml_sales_order_invoice_new>
+    </handle>
 </layout>

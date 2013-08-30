@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_create_customer_block>
-        <reference name='customer.grid.container'>
-            <block type="Magento_Backend_Block_Widget_Grid" name='adminhtml.customer.grid.container' as='grid'>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_create_customer_block">
+        <reference name="customer.grid.container">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.customer.grid.container" as="grid">
                 <arguments>
                     <id>sales_order_create_customer_grid</id>
                     <use_ajax>1</use_ajax>
@@ -25,66 +25,66 @@
                     </grid_url>
                     <row_click_callback>order.selectCustomer.bind(order)</row_click_callback>
                 </arguments>
-                <block type='Magento_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.customer.grid.columnSet' as='grid.columnSet'>
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.customer.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <filter_visibility>1</filter_visibility>
                         <rowUrl>
                             <generatorClass>Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorId</generatorClass>
                         </rowUrl>
                     </arguments>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='entity_id'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="entity_id">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>ID</header>
+                            <header translate="true" module="Magento_Sales">ID</header>
                             <index>entity_id</index>
                             <width>50</width>
                             <align>right</align>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='name'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>Name</header>
+                            <header translate="true" module="Magento_Sales">Name</header>
                             <index>name</index>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='email'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>Email</header>
+                            <header translate="true" module="Magento_Sales">Email</header>
                             <index>email</index>
                             <width>150</width>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='Telephone'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="Telephone">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>Phone</header>
+                            <header translate="true" module="Magento_Sales">Phone</header>
                             <index>billing_telephone</index>
                             <width>100</width>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='billing_postcode'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="billing_postcode">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>ZIP/Post Code</header>
+                            <header translate="true" module="Magento_Sales">ZIP/Post Code</header>
                             <index>billing_postcode</index>
                             <width>120</width>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='billing_country_id'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="billing_country_id">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>Country</header>
+                            <header translate="true" module="Magento_Sales">Country</header>
                             <index>billing_country_id</index>
                             <width>100</width>
                             <type>country</type>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='billing_regione'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="billing_regione">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>State/Province</header>
+                            <header translate="true" module="Magento_Sales">State/Province</header>
                             <index>billing_regione</index>
                             <width>100</width>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='store_name'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="store_name">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>Signed-up Point</header>
+                            <header translate="true" module="Magento_Sales">Signed-up Point</header>
                             <index>store_name</index>
                             <width>130</width>
                             <align>center</align>
@@ -93,5 +93,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_sales_order_create_customer_block>
+    </handle>
 </layout>

@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_multishipping_addresses>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_multishipping_addresses">
         <reference name="checkout_addresses">
             <action method="addItemRender">
                 <type>downloadable</type>
@@ -16,5 +16,5 @@
                 <template>checkout/multishipping/item/downloadable.phtml</template>
             </action>
         </reference>
-    </checkout_multishipping_addresses>
+    </handle>
 </layout>

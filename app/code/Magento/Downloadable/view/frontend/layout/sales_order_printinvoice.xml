@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_order_printinvoice>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_order_printinvoice">
         <reference name="sales.order.print.invoice">
             <action method="addItemRender">
                 <type>downloadable</type>
@@ -16,5 +16,5 @@
                 <template>sales/order/invoice/items/renderer/downloadable.phtml</template>
             </action>
         </reference>
-    </sales_order_printinvoice>
+    </handle>
 </layout>

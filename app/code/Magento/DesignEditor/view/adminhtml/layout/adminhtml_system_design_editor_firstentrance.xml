@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_system_design_editor_firstentrance>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_system_design_editor_firstentrance">
         <reference name="head">
             <action method="addJs">
                 <file>Magento_DesignEditor::js/dialog.js</file>
@@ -30,14 +30,14 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Backend_Block_Template" name="available.theme.list.container" as="theme_container" template="Magento_DesignEditor::theme/selector/first_entrance.phtml">
-                <block type="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available" name="available.theme.list" template="Magento_DesignEditor::theme/list/available.phtml">
-                    <block type="Magento_DesignEditor_Block_Adminhtml_Theme" name="design.editor.theme" as="theme" template="Magento_DesignEditor::theme/available.phtml"/>
+            <block class="Magento_Backend_Block_Template" name="available.theme.list.container" as="theme_container" template="Magento_DesignEditor::theme/selector/first_entrance.phtml">
+                <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available" name="available.theme.list" template="Magento_DesignEditor::theme/list/available.phtml">
+                    <block class="Magento_DesignEditor_Block_Adminhtml_Theme" name="design.editor.theme" as="theme" template="Magento_DesignEditor::theme/available.phtml"/>
                 </block>
             </block>
-            <block type="Magento_Backend_Block_Template" name="theme.dialog" template="Magento_DesignEditor::dialog.phtml"/>
-            <block type="Magento_Backend_Block_Template" name="theme.dialog.edit" template="Magento_DesignEditor::theme/selector/theme_edit.phtml"/>
-            <block type="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Magento_DesignEditor::theme/selector/storeview.phtml"/>
+            <block class="Magento_Backend_Block_Template" name="theme.dialog" template="Magento_DesignEditor::dialog.phtml"/>
+            <block class="Magento_Backend_Block_Template" name="theme.dialog.edit" template="Magento_DesignEditor::theme/selector/theme_edit.phtml"/>
+            <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Magento_DesignEditor::theme/selector/storeview.phtml"/>
         </reference>
-    </adminhtml_system_design_editor_firstentrance>
+    </handle>
 </layout>

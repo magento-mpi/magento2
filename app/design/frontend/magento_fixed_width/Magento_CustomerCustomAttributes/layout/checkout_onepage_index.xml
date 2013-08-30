@@ -7,27 +7,27 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_index">
         <reference name="checkout.onepage.billing">
-            <block type="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
+            <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
                 <action method="setFormCode">
                     <code>checkout_register</code>
                 </action>
             </block>
-            <block type="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes">
+            <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes">
                 <action method="setFormCode">
                     <code>customer_register_address</code>
                 </action>
             </block>
         </reference>
         <reference name="checkout.onepage.shipping">
-            <block type="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
+            <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
                 <action method="setFormCode">
                     <code>customer_register_address</code>
                 </action>
             </block>
         </reference>
         <update handle="customer_form_template_handle"/>
-    </checkout_onepage_index>
+    </handle>
 </layout>

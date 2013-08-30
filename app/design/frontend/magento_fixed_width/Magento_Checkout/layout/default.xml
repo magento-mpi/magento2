@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <remove name="checkout_page_head_components"/>
         <move element="checkout_cart_link" destination="checkout.links"/>
         <reference name="checkout_cart_link">
@@ -20,5 +20,5 @@
                 <template>cart/cartheader.phtml</template>
             </action>
         </reference>
-    </default>
+    </handle>
 </layout>

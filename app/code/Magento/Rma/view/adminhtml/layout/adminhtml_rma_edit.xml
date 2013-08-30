@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_rma_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_rma_edit">
         <reference name="head">
             <action method="addJs">
                 <file>Magento_Adminhtml::sales/order/shipment/packaging.js</file>
@@ -18,23 +18,23 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Rma_Block_Adminhtml_Rma_Edit" name="magento_rma_edit"/>
-            <block type="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/details.phtml"/>
-            <block type="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/reason.phtml"/>
+            <block class="Magento_Rma_Block_Adminhtml_Rma_Edit" name="magento_rma_edit"/>
+            <block class="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/details.phtml"/>
+            <block class="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/reason.phtml"/>
         </reference>
         <reference name="left">
-            <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tabs" name="magento_rma_edit_tabs">
-                <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General" template="edit/general.phtml" name="magento_rma_edit_tab_general">
-                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Details" template="edit/general/details.phtml" name="request_details"/>
-                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod" template="edit/shippingmethod.phtml" name="shipping_method">
-                        <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking" name="magento_rma_shipment_tracking" template="edit/shipping/tracking.phtml"/>
+            <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tabs" name="magento_rma_edit_tabs">
+                <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General" template="edit/general.phtml" name="magento_rma_edit_tab_general">
+                    <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Details" template="edit/general/details.phtml" name="request_details"/>
+                    <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod" template="edit/shippingmethod.phtml" name="shipping_method">
+                        <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking" name="magento_rma_shipment_tracking" template="edit/shipping/tracking.phtml"/>
                     </block>
-                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingaddress" template="edit/general/shippingaddress.phtml" name="shipping_address"/>
-                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Returnaddress" template="edit/general/returnadress.phtml" name="return_address"/>
-                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History" template="edit/general/history.phtml" name="comments_history"/>
+                    <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingaddress" template="edit/general/shippingaddress.phtml" name="shipping_address"/>
+                    <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Returnaddress" template="edit/general/returnadress.phtml" name="return_address"/>
+                    <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History" template="edit/general/history.phtml" name="comments_history"/>
                 </block>
-                <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items" template="edit/items.phtml" name="magento_rma_edit_tab_items">
-                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid" name="items_grid"/>
+                <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items" template="edit/items.phtml" name="magento_rma_edit_tab_items">
+                    <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid" name="items_grid"/>
                 </block>
                 <action method="addTab">
                     <name>general_section</name>
@@ -47,8 +47,8 @@
             </block>
         </reference>
         <reference name="before_body_end">
-            <block type="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/mask.phtml"/>
-            <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Js" template="edit/js.phtml" name="magento_rma_js_create"/>
+            <block class="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/mask.phtml"/>
+            <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Js" template="edit/js.phtml" name="magento_rma_js_create"/>
         </reference>
-    </adminhtml_rma_edit>
+    </handle>
 </layout>

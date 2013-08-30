@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <catalogsearch_result_index translate="label" type="page" parent="default">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalogsearch_result_index" translate="label" type="page" parent="default">
         <label>Quick Search Form</label>
         <reference name="root">
             <action method="setTemplate">
@@ -16,13 +16,13 @@
             </action>
         </reference>
         <reference name="left">
-            <block type="Magento_CatalogSearch_Block_Layer" name="catalogsearch.leftnav" after="currency" template="Magento_Catalog::layer/view.phtml"/>
+            <block class="Magento_CatalogSearch_Block_Layer" name="catalogsearch.leftnav" after="currency" template="Magento_Catalog::layer/view.phtml"/>
         </reference>
         <reference name="content">
-            <block type="Magento_CatalogSearch_Block_Result" name="search.result" template="result.phtml">
-                <block type="Magento_Catalog_Block_Product_List" name="search_result_list" template="product/list.phtml">
-                    <block type="Magento_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
-                        <block type="Magento_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
+            <block class="Magento_CatalogSearch_Block_Result" name="search.result" template="result.phtml">
+                <block class="Magento_Catalog_Block_Product_List" name="search_result_list" template="product/list.phtml">
+                    <block class="Magento_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+                        <block class="Magento_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                     </block>
                     <action method="addColumnCountLayoutDepend">
                         <layout>empty</layout>
@@ -56,5 +56,5 @@
                 <action method="setListCollection"/>
             </block>
         </reference>
-    </catalogsearch_result_index>
+    </handle>
 </layout>

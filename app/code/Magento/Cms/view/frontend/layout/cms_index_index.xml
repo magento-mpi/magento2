@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <cms_index_index translate="label" type="page" parent="cms_page_view">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="cms_index_index" translate="label" type="page" parent="cms_page_view">
         <label>CMS Home Page</label>
-    </cms_index_index>
+    </handle>
 </layout>

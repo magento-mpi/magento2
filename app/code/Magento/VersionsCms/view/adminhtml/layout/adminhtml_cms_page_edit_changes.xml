@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_cms_page_edit_changes>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_cms_page_edit_changes">
         <reference name="head">
             <action method="addJs">
                 <file>Magento_VersionsCms::cms.js</file>
@@ -24,11 +24,11 @@
             <action method="removeTab">
                 <name>meta_section</name>
             </action>
-            <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions" name="cms_page_edit_tab_versions"/>
+            <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions" name="cms_page_edit_tab_versions"/>
             <action method="addTab">
                 <name>versions</name>
                 <block>cms_page_edit_tab_versions</block>
             </action>
         </reference>
-    </adminhtml_cms_page_edit_changes>
+    </handle>
 </layout>

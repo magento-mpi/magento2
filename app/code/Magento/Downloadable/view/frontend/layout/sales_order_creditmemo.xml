@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_order_creditmemo>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_order_creditmemo">
         <reference name="creditmemo_items">
             <action method="addItemRender">
                 <type>downloadable</type>
@@ -16,5 +16,5 @@
                 <template>sales/order/creditmemo/items/renderer/downloadable.phtml</template>
             </action>
         </reference>
-    </sales_order_creditmemo>
+    </handle>
 </layout>

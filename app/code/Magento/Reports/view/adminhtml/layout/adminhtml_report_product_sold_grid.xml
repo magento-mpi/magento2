@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_product_sold_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_product_sold_grid">
         <update handle="adminhtml_report_grid"/>
         <reference name="adminhtml.report.grid">
             <arguments>
@@ -33,7 +33,7 @@
                 <id>report_product_sold</id>
                 <count_totals>1</count_totals>
             </arguments>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
                 <arguments>
                     <header translate="true">Product</header>
                     <type>text</type>
@@ -43,7 +43,7 @@
                     <header_css_class>col-product</header_css_class>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="ordered_qty">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="ordered_qty">
                 <arguments>
                     <header translate="true">Ordered Quantity</header>
                     <total>sum</total>
@@ -55,5 +55,5 @@
                 </arguments>
             </block>
         </reference>
-    </adminhtml_report_product_sold_grid>
+    </handle>
 </layout>

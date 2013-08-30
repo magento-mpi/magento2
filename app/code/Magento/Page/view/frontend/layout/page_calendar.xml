@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <page_calendar>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="page_calendar">
         <reference name="head">
             <action method="addJs">
                 <file>jquery/jquery-ui-timepicker-addon.js</file>
@@ -20,7 +20,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
+            <block class="Magento_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
         </reference>
-    </page_calendar>
+    </handle>
 </layout>

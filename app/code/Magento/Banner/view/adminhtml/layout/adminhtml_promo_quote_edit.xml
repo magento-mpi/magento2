@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_promo_quote_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_promo_quote_edit">
         <reference name="promo_quote_edit_tabs">
-            <block type="Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners" name="salesrule.related.banners">
-                <block type="Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid" name="related_salesrule_banners_grid"/>
-                <block type="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="banners_grid_serializer">
+            <block class="Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners" name="salesrule.related.banners">
+                <block class="Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid" name="related_salesrule_banners_grid"/>
+                <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="banners_grid_serializer">
                     <reference name="banners_grid_serializer">
                         <action method="initSerializerBlock">
                             <grid_block_name>related_salesrule_banners_grid</grid_block_name>
@@ -27,7 +27,7 @@
                 <name>banners_section</name>
                 <block>salesrule.related.banners</block>
             </action>
-            <block type="Magento_Banner_Block_Adminhtml_Permission_Monitor" name="bannner.permission.monitor"/>
+            <block class="Magento_Banner_Block_Adminhtml_Permission_Monitor" name="bannner.permission.monitor"/>
         </reference>
-    </adminhtml_promo_quote_edit>
+    </handle>
 </layout>

@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_order_shipment>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_order_shipment">
         <reference name="shipment_items">
             <action method="addItemRender">
                 <type>giftcard</type>
@@ -16,5 +16,5 @@
                 <template>Magento_Sales::order/shipment/items/renderer/default.phtml</template>
             </action>
         </reference>
-    </sales_order_shipment>
+    </handle>
 </layout>

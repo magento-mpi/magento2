@@ -7,18 +7,18 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_process_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_process_edit">
         <reference name="content">
-            <block type="Magento_Index_Block_Adminhtml_Process_Edit" name="process_edit"/>
+            <block class="Magento_Index_Block_Adminhtml_Process_Edit" name="process_edit"/>
         </reference>
         <reference name="left">
-            <block type="Magento_Index_Block_Adminhtml_Process_Edit_Tabs" name="index_edit_tabs">
+            <block class="Magento_Index_Block_Adminhtml_Process_Edit_Tabs" name="index_edit_tabs">
                 <action method="addTab">
                     <name>main_section</name>
                     <block>Magento_Index_Block_Adminhtml_Process_Edit_Tab_Main</block>
                 </action>
             </block>
         </reference>
-    </adminhtml_process_edit>
+    </handle>
 </layout>

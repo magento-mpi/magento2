@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_view">
         <reference name="order_totals">
-            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Magento_CustomerBalance::sales/order/totals/customerbalance.phtml">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Magento_CustomerBalance::sales/order/totals/customerbalance.phtml">
                 <action method="setSourceField">
                     <value>customer_balance_amount</value>
                 </action>
@@ -18,7 +18,7 @@
                     <value>Store Credit</value>
                 </action>
             </block>
-            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
                 <action method="setSourceField">
                     <value>customer_bal_total_refunded</value>
                 </action>
@@ -36,5 +36,5 @@
                 </action>
             </block>
         </reference>
-    </adminhtml_sales_order_view>
+    </handle>
 </layout>

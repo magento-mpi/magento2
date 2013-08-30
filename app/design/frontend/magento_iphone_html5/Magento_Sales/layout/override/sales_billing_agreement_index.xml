@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_billing_agreement_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_billing_agreement_index">
         <update handle="customer_account"/>
         <reference name="root">
             <action method="setTemplate">
@@ -16,7 +16,7 @@
             </action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="Magento_Sales_Block_Billing_Agreements" name="customer.account.billing.agreement" template="billing/agreements.phtml"/>
+            <block class="Magento_Sales_Block_Billing_Agreements" name="customer.account.billing.agreement" template="billing/agreements.phtml"/>
         </reference>
-    </sales_billing_agreement_index>
+    </handle>
 </layout>

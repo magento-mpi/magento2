@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <rss_index_index translate="label" type="page" parent="default">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="rss_index_index" translate="label" type="page" parent="default">
         <label>RSS Feeds List</label>
         <reference name="root">
             <action method="setTemplate">
@@ -16,7 +16,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Rss_Block_List" name="rss.list" template="list.phtml"/>
+            <block class="Magento_Rss_Block_List" name="rss.list" template="list.phtml"/>
         </reference>
-    </rss_index_index>
+    </handle>
 </layout>

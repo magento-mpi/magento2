@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_system_design_theme_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_system_design_theme_edit">
         <reference name="head">
             <action method="setCanLoadExtJs">
                 <flag>1</flag>
@@ -60,13 +60,13 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit" name="theme_edit"/>
+            <block class="Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit" name="theme_edit"/>
         </reference>
         <reference name="left">
-            <block type="Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tabs" name="theme_edit_tabs">
-                <block template="tabs/css.phtml" type="Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css" name="theme_edit_tabs_tab_css_tab"/>
-                <block template="tabs/js.phtml" type="Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js" name="theme_edit_tabs_tab_js_tab">
-                    <block template="Magento_Theme::tabs/fieldset/js.phtml" type="Magento_Backend_Block_Widget_Form_Renderer_Fieldset" name="theme_edit_tabs_tab_js_tab_content"/>
+            <block class="Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tabs" name="theme_edit_tabs">
+                <block class="Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css" template="tabs/css.phtml" name="theme_edit_tabs_tab_css_tab"/>
+                <block class="Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js" template="tabs/js.phtml" name="theme_edit_tabs_tab_js_tab">
+                    <block class="Magento_Backend_Block_Widget_Form_Renderer_Fieldset" template="Magento_Theme::tabs/fieldset/js.phtml" name="theme_edit_tabs_tab_js_tab_content"/>
                 </block>
                 <action method="addTab">
                     <name>general_section</name>
@@ -82,5 +82,5 @@
                 </action>
             </block>
         </reference>
-    </adminhtml_system_design_theme_edit>
+    </handle>
 </layout>

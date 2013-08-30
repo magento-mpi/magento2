@@ -7,13 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_index">
         <reference name="checkout.onepage.payment.methods_additional">
-            <block type="Magento_Reward_Block_Checkout_Payment_Additional" template="checkout/onepage/payment/additional.phtml" name="reward.points" before="-"/>
+            <block class="Magento_Reward_Block_Checkout_Payment_Additional" template="checkout/onepage/payment/additional.phtml" name="reward.points" before="-"/>
         </reference>
         <reference name="checkout.onepage.login.before">
-            <block type="Magento_Reward_Block_Tooltip_Checkout" name="reward.tooltip.checkout" template="tooltip.phtml">
+            <block class="Magento_Reward_Block_Tooltip_Checkout" name="reward.tooltip.checkout" template="tooltip.phtml">
                 <action method="initRewardType">
                     <type>Magento_Reward_Model_Action_OrderExtra</type>
                 </action>
@@ -29,7 +29,7 @@
             </block>
         </reference>
         <reference name="checkout.onepage.login.before">
-            <block type="Magento_Reward_Block_Tooltip_Checkout" name="reward.tooltip.checkout.salesrule" template="tooltip.phtml">
+            <block class="Magento_Reward_Block_Tooltip_Checkout" name="reward.tooltip.checkout.salesrule" template="tooltip.phtml">
                 <action method="initRewardType">
                     <type>Magento_Reward_Model_Action_Salesrule</type>
                 </action>
@@ -44,5 +44,5 @@
                 </action>
             </block>
         </reference>
-    </checkout_onepage_index>
+    </handle>
 </layout>

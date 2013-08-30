@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_product_superconfig_config>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_product_superconfig_config">
         <reference name="admin.product.edit.tab.super.config.grid">
             <arguments>
                 <dataSource>
@@ -16,7 +16,7 @@
                 </dataSource>
             </arguments>
             <reference name="admin.product.edit.tab.super.config.grid.columnSet">
-                <block type="Magento_Backend_Block_Widget_Grid_Column" as="inventory_in_stock" after="admin.product.edit.tab.super.config.grid.sku">
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="inventory_in_stock" after="admin.product.edit.tab.super.config.grid.sku">
                     <arguments>
                         <header translate="true">Stock Availability</header>
                         <type>text</type>
@@ -27,7 +27,7 @@
                         <renderer>Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Inventory</renderer>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_Column" as="qty" after="admin.product.edit.tab.super.config.grid.sku">
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="qty" after="admin.product.edit.tab.super.config.grid.sku">
                     <arguments>
                         <header translate="true">Qty</header>
                         <type>text</type>
@@ -39,5 +39,5 @@
                 </block>
             </reference>
         </reference>
-    </adminhtml_catalog_product_superconfig_config>
+    </handle>
 </layout>

@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="root">
             <action method="setTemplate">
                 <template>1column.phtml</template>
@@ -38,5 +38,5 @@
                 <content>width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no</content>
             </action>
         </reference>
-    </default>
+    </handle>
 </layout>

@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_scheduled_operation_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_scheduled_operation_block">
         <reference name="adminhtml.block.scheduled.operation.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.scheduled.operation.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.scheduled.operation.grid" as="grid">
                 <arguments>
                     <id>operationGrid</id>
                     <dataSource type="object">Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection</dataSource>
@@ -24,7 +24,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.scheduled.operation.massactions" as="grid.massaction">
+                <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.scheduled.operation.massactions" as="grid.massaction">
                     <arguments>
                         <massaction_id_field>id</massaction_id_field>
                         <form_field_name>operation</form_field_name>
@@ -42,7 +42,7 @@
                             </status>
                         </options>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Massaction_Additional" name="adminhtml.block.scheduled.operation.massactions.status" as="status">
+                    <block class="Magento_Backend_Block_Widget_Grid_Massaction_Additional" name="adminhtml.block.scheduled.operation.massactions.status" as="status">
                         <arguments>
                             <fields>
                                 <visibility>
@@ -56,7 +56,7 @@
                         </arguments>
                     </block>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet">
                     <arguments>
                         <id>operationGrid</id>
                         <rowUrl>
@@ -66,7 +66,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
                             <header translate="true">Name</header>
                             <index>name</index>
@@ -74,57 +74,57 @@
                             <escape>1</escape>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="operation_type">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="operation_type">
                         <arguments>
                             <header translate="true">Operation</header>
                             <index>operation_type</index>
                             <type>options</type>
                             <width>30</width>
-                            <options type='options'>Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Options_Operations</options>
+                            <options type="options">Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Options_Operations</options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="entity_type">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="entity_type">
                         <arguments>
                             <header translate="true">Entity Type</header>
                             <index>entity_type</index>
                             <type>options</type>
-                            <options type='options'>Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Options_Entities</options>
+                            <options type="options">Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Options_Entities</options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="last_run_date">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="last_run_date">
                         <arguments>
                             <header translate="true">Last Run</header>
                             <index>last_run_date</index>
                             <type>datetime</type>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="freq">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="freq">
                         <arguments>
                             <header translate="true">Frequency</header>
                             <index>freq</index>
                             <width>100</width>
                             <type>options</type>
-                            <options type='options'>Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Options_Frequency</options>
+                            <options type="options">Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Options_Frequency</options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
                             <header translate="true">Status</header>
                             <index>status</index>
                             <type>options</type>
-                            <options type='options'>Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Options_Statuses</options>
+                            <options type="options">Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Options_Statuses</options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_success">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="is_success">
                         <arguments>
                             <header translate="true">Last Outcome</header>
                             <index>is_success</index>
                             <type>options</type>
                             <width>200</width>
-                            <options type='options'>Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Options_Result</options>
+                            <options type="options">Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Options_Result</options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
                             <header translate="true">Action</header>
                             <index>id</index>
@@ -154,5 +154,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_scheduled_operation_block>
+    </handle>
 </layout>

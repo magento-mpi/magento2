@@ -7,22 +7,22 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_cart_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_cart_index">
         <reference name="checkout.cart.top_methods">
-            <block type="Magento_Paypal_Block_Express_Shortcut" name="checkout.cart.methods.paypal_express.top" before="-" template="express/shortcut.phtml">
+            <block class="Magento_Paypal_Block_Express_Shortcut" name="checkout.cart.methods.paypal_express.top" before="-" template="express/shortcut.phtml">
                 <action method="setIsQuoteAllowed">
                     <value>1</value>
                 </action>
             </block>
         </reference>
         <reference name="checkout.cart.methods">
-            <block type="Magento_Paypal_Block_Express_Shortcut" name="checkout.cart.methods.paypal_express.bottom" before="-" template="express/shortcut.phtml">
+            <block class="Magento_Paypal_Block_Express_Shortcut" name="checkout.cart.methods.paypal_express.bottom" before="-" template="express/shortcut.phtml">
                 <action method="setIsQuoteAllowed">
                     <value>1</value>
                 </action>
             </block>
         </reference>
         <update handle="SHORTCUT_popup"/>
-    </checkout_cart_index>
+    </handle>
 </layout>

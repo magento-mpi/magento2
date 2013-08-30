@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_statistics_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_statistics_index">
         <reference name="content">
-            <block type="Magento_Reports_Block_Adminhtml_Refresh_Statistics" name="adminhtml.block.report.refresh.statistics">
-                <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.report.refresh.statistics.grid" as="grid">
+            <block class="Magento_Reports_Block_Adminhtml_Refresh_Statistics" name="adminhtml.block.report.refresh.statistics">
+                <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.report.refresh.statistics.grid" as="grid">
                     <arguments>
                         <id>gridRefreshStatistics</id>
                         <use_ajax>0</use_ajax>
@@ -19,7 +19,7 @@
                         <pager_visibility>0</pager_visibility>
                         <dataSource type="object">Magento_Reports_Model_Resource_Refresh_Collection</dataSource>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.refresh.statistics.massactions" as="grid.massaction">
+                    <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.refresh.statistics.massactions" as="grid.massaction">
                         <arguments>
                             <massaction_id_field>id</massaction_id_field>
                             <form_field_name>code</form_field_name>
@@ -39,12 +39,12 @@
                             </options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.block.reportrefresh.statistics.columnSet">
+                    <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.block.reportrefresh.statistics.columnSet">
                         <arguments>
                             <filter_visibility>0</filter_visibility>
                             <id>gridRefreshStatistics</id>
                         </arguments>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="report">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column" as="report">
                             <arguments>
                                 <header translate="true">Report</header>
                                 <type>string</type>
@@ -55,7 +55,7 @@
                                 <header_css_class>col-report</header_css_class>
                             </arguments>
                         </block>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="comment">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column" as="comment">
                             <arguments>
                                 <header translate="true">Description</header>
                                 <type>string</type>
@@ -66,7 +66,7 @@
                                 <header_css_class>col-description</header_css_class>
                             </arguments>
                         </block>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="updated_at">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column" as="updated_at">
                             <arguments>
                                 <header translate="true">Updated</header>
                                 <type>datetime</type>
@@ -82,5 +82,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_report_statistics_index>
+    </handle>
 </layout>

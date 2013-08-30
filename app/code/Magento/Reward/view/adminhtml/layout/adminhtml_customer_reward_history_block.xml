@@ -7,11 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_customer_reward_history_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_customer_reward_history_block">
         <reference name="adminhtml.reward.history.customer.edit.tab.container">
-            <block type="Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid"
-                   name="adminhtml.reward.history.customer.edit.tab.grid" as="grid">
+            <block class="Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid" name="adminhtml.reward.history.customer.edit.tab.grid" as="grid">
                 <arguments>
                     <id>rewardPointsHistoryGrid</id>
                     <dataSource type="object">Magento_Reward_Model_Resource_Reward_History_Grid_Collection</dataSource>
@@ -23,14 +22,13 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet"
-                       name="adminhtml.reward.history.customer.edit.tab.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.reward.history.customer.edit.tab.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <rowUrl>
-                            <path></path>
+                            <path/>
                         </rowUrl>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="points_balance">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="points_balance">
                         <arguments>
                             <header translate="true">Balance</header>
                             <type>number</type>
@@ -40,7 +38,7 @@
                             <width>1</width>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="currency_amount">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="currency_amount">
                         <arguments>
                             <header translate="true">Amount Balance</header>
                             <type>currency</type>
@@ -52,7 +50,7 @@
                             <width>1</width>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="points_delta">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="points_delta">
                         <arguments>
                             <type>number</type>
                             <index>points_delta</index>
@@ -63,7 +61,7 @@
                             <width>1</width>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="currency_delta">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="currency_delta">
                         <arguments>
                             <type>currency</type>
                             <currency>base_currency_code</currency>
@@ -76,7 +74,7 @@
                             <width>1</width>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="rate">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="rate">
                         <arguments>
                             <getter>getRateText</getter>
                             <header translate="true">Rate</header>
@@ -85,7 +83,7 @@
                             <width>1</width>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website">
                         <arguments>
                             <header translate="true">Website</header>
                             <type>options</type>
@@ -94,7 +92,7 @@
                             <sortable>0</sortable>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="message">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="message">
                         <arguments>
                             <index>message</index>
                             <header translate="true">Reason</header>
@@ -105,7 +103,7 @@
                             <renderer>Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid_Column_Renderer_Reason</renderer>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="created_at">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="created_at">
                         <arguments>
                             <type>datetime</type>
                             <index>created_at</index>
@@ -114,7 +112,7 @@
                             <align>left</align>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="expiration_date">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="expiration_date">
                         <arguments>
                             <type>datetime</type>
                             <getter>getExpiresAt</getter>
@@ -124,7 +122,7 @@
                             <align>left</align>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="comment">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="comment">
                         <arguments>
                             <index>comment</index>
                             <header translate="true">Comment</header>
@@ -136,5 +134,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_customer_reward_history_block>
+    </handle>
 </layout>

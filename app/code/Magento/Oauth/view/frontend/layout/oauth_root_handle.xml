@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <oauth_root_handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="oauth_root_handle">
         <reference name="root">
             <action method="setTemplate">
                 <template>1column.phtml</template>
@@ -52,5 +52,5 @@
         <remove name="top.search"/>
         <remove name="top.menu"/>
         <remove name="footer"/>
-    </oauth_root_handle>
+    </handle>
 </layout>

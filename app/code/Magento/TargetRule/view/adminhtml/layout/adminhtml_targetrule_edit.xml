@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_targetrule_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_targetrule_edit">
         <reference name="head">
             <action method="setCanLoadExtJs">
                 <flag>1</flag>
@@ -18,13 +18,13 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit" name="magento_targetrule_edit"/>
+            <block class="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit" name="magento_targetrule_edit"/>
         </reference>
         <reference name="left">
-            <block type="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs" name="magento_targetrule_edit_tabs">
-                <block type="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main" name="magento_targetrule_edit_tab_main"/>
-                <block type="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions" name="magento_targetrule_edit_tab_conditions"/>
-                <block type="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions" name="magento_targetrule_edit_tab_actions"/>
+            <block class="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs" name="magento_targetrule_edit_tabs">
+                <block class="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main" name="magento_targetrule_edit_tab_main"/>
+                <block class="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions" name="magento_targetrule_edit_tab_conditions"/>
+                <block class="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions" name="magento_targetrule_edit_tab_actions"/>
                 <action method="addTab">
                     <name>magento_targetrule_edit_tab_main</name>
                     <block>magento_targetrule_edit_tab_main</block>
@@ -39,5 +39,5 @@
                 </action>
             </block>
         </reference>
-    </adminhtml_targetrule_edit>
+    </handle>
 </layout>

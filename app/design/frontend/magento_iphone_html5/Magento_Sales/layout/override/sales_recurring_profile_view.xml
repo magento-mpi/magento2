@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_recurring_profile_view translate="label" type="page" parent="sales_recurring_profile_view__tabs">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_recurring_profile_view" translate="label" type="page" parent="sales_recurring_profile_view__tabs">
         <label>Recurring Profile View</label>
         <update handle="customer_account"/>
         <update handle="sales_recurring_profile_view__tabs"/>
@@ -18,7 +18,7 @@
             </action>
         </reference>
         <reference name="sales.recurring.profile.view">
-            <block type="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.general" as="general" template="recurring/profile/view/info.phtml">
+            <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.general" as="general" template="recurring/profile/view/info.phtml">
                 <action method="prepareReferenceInfo"/>
                 <action method="addToParentGroup">
                     <value>info_blocks_row_1</value>
@@ -30,7 +30,7 @@
                     <value>Reference</value>
                 </action>
             </block>
-            <block type="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.item" as="item" template="recurring/profile/view/info.phtml">
+            <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.item" as="item" template="recurring/profile/view/info.phtml">
                 <action method="prepareItemInfo"/>
                 <action method="addToParentGroup">
                     <value>info_blocks_row_1</value>
@@ -42,7 +42,7 @@
                     <value>Purchased Item</value>
                 </action>
             </block>
-            <block type="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.schedule" as="profile" template="recurring/profile/view/info.phtml">
+            <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.schedule" as="profile" template="recurring/profile/view/info.phtml">
                 <action method="prepareScheduleInfo"/>
                 <action method="addToParentGroup">
                     <value>info_blocks_row_2</value>
@@ -54,7 +54,7 @@
                     <value>Profile Schedule</value>
                 </action>
             </block>
-            <block type="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.fees" as="fees" template="recurring/profile/view/info.phtml">
+            <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.fees" as="fees" template="recurring/profile/view/info.phtml">
                 <action method="prepareFeesInfo"/>
                 <action method="addToParentGroup">
                     <value>info_blocks_row_2</value>
@@ -66,7 +66,7 @@
                     <value>Profile Payments</value>
                 </action>
             </block>
-            <block type="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.billing" as="billing_address" template="recurring/profile/view/info.phtml">
+            <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.billing" as="billing_address" template="recurring/profile/view/info.phtml">
                 <action method="prepareAddressInfo"/>
                 <action method="addToParentGroup">
                     <value>info_blocks_row_3</value>
@@ -78,7 +78,7 @@
                     <value>Billing Address</value>
                 </action>
             </block>
-            <block type="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.shipping" as="shipping_address" template="recurring/profile/view/info.phtml">
+            <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.shipping" as="shipping_address" template="recurring/profile/view/info.phtml">
                 <action method="setAddressType">
                     <value>shipping</value>
                 </action>
@@ -94,5 +94,5 @@
                 </action>
             </block>
         </reference>
-    </sales_recurring_profile_view>
+    </handle>
 </layout>

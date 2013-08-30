@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <contacts_index_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="contacts_index_index">
         <remove name="form.additional.info"/>
         <reference name="content">
-            <block type="Magento_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
+            <block class="Magento_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
                 <action method="addCrumb" translate="crumbName">
                     <crumbName>home</crumbName>
                     <crumbInfo>
@@ -29,5 +29,5 @@
                 </action>
             </block>
         </reference>
-    </contacts_index_index>
+    </handle>
 </layout>

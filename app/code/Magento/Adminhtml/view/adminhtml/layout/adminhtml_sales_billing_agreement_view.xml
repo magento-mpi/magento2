@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_billing_agreement_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_billing_agreement_view">
         <update handle="adminhtml_sales_order_grid_block"/>
         <reference name="sales.order.grid">
             <arguments>
@@ -23,20 +23,20 @@
         <remove name="sales.order.grid.export"/>
         <remove name="sales.order.grid.massaction"/>
         <reference name="content">
-            <block type="Magento_Sales_Block_Adminhtml_Billing_Agreement_View" name="sales.billing.agreement.view"/>
+            <block class="Magento_Sales_Block_Adminhtml_Billing_Agreement_View" name="sales.billing.agreement.view"/>
         </reference>
         <reference name="left">
-            <block type="Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tabs" name="sales.billing.agreement.tabs">
+            <block class="Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tabs" name="sales.billing.agreement.tabs">
                 <action method="addTab">
                     <name>billing_agreement_info</name>
                     <block>Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info</block>
                 </action>
-                <block name="sales_order.grid.container" type="Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders"/>
+                <block class="Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders" name="sales_order.grid.container"/>
                 <action method="addTab">
                     <name>billing_agreement_orders</name>
                     <block>sales_order.grid.container</block>
                 </action>
             </block>
         </reference>
-    </adminhtml_sales_billing_agreement_view>
+    </handle>
 </layout>

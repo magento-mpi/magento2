@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_user_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_user_grid_block">
         <reference name="adminhtml.user.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.user.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.user.grid" as="grid">
                 <arguments>
                     <id>permissionsUserGrid</id>
                     <dataSource type="object">Magento_User_Model_Resource_User_Collection</dataSource>
@@ -21,7 +21,7 @@
                         <path>*/*/roleGrid</path>
                     </grid_url>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="permission.user.grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="permission.user.grid.columnSet">
                     <arguments>
                         <id>permissionsUserGrid</id>
                         <rowUrl>
@@ -32,7 +32,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="user_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="user_id">
                         <arguments>
                             <header translate="true">ID</header>
                             <width>5px</width>
@@ -41,7 +41,7 @@
                             <index>user_id</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="username">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="username">
                         <arguments>
                             <header translate="true">User Name</header>
                             <type>text</type>
@@ -49,7 +49,7 @@
                             <escape>1</escape>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="firstname">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="firstname">
                         <arguments>
                             <header translate="true">First Name</header>
                             <type>text</type>
@@ -57,7 +57,7 @@
                             <escape>1</escape>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="lastname">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="lastname">
                         <arguments>
                             <header translate="true">Last Name</header>
                             <type>text</type>
@@ -65,7 +65,7 @@
                             <escape>1</escape>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="email">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
                         <arguments>
                             <header translate="true">Email</header>
                             <type>text</type>
@@ -74,7 +74,7 @@
                             <index>email</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
                         <arguments>
                             <header translate="true">Status</header>
                             <type>options</type>
@@ -94,5 +94,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_user_grid_block>
+    </handle>
 </layout>

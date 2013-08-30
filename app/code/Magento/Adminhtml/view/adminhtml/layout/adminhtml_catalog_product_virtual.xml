@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_product_virtual>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_product_virtual">
         <update handle="adminhtml_catalog_product_superconfig_config"/>
         <reference name="product_tabs">
-            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
-                <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
-                    <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
-                    <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute" template="Magento_Adminhtml::catalog/product/edit/super/attribute-template.phtml" as="attribute-renderer"/>
-                    <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix" template="Magento_Adminhtml::catalog/product/edit/super/matrix.phtml" as="matrix"/>
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
+                <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
+                    <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
+                    <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute" template="Magento_Adminhtml::catalog/product/edit/super/attribute-template.phtml" as="attribute-renderer"/>
+                    <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix" template="Magento_Adminhtml::catalog/product/edit/super/matrix.phtml" as="matrix"/>
                 </block>
             </block>
             <action method="addTab">
@@ -23,5 +23,5 @@
                 <block>admin.product.edit.tab.super.config.grid.container</block>
             </action>
         </reference>
-    </adminhtml_catalog_product_virtual>
+    </handle>
 </layout>

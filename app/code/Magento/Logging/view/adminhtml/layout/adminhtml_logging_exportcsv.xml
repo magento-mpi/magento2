@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_logging_exportcsv>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_logging_exportcsv">
         <update handle="adminhtml_logging_block"/>
         <container name="adminhtml.logging.grid.container" label="Logging Grid Container"/>
-    </adminhtml_logging_exportcsv>
+    </handle>
 </layout>

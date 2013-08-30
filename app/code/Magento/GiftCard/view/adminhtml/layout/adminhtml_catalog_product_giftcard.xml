@@ -7,13 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_product_giftcard>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_product_giftcard">
         <reference name="product_tabs">
             <action method="addTab">
                 <name>giftcard_info</name>
                 <block>Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard</block>
             </action>
         </reference>
-    </adminhtml_catalog_product_giftcard>
+    </handle>
 </layout>

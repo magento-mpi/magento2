@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_review translate="label" type="fragment" owner="checkout_onepage_index">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_review" translate="label" type="fragment" owner="checkout_onepage_index">
         <label>One Page Checkout Overview</label>
-        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-            <block type="Magento_Checkout_Block_Onepage_Review_Info" name="order_review" template="onepage/review/info.phtml">
+        <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block class="Magento_Checkout_Block_Onepage_Review_Info" name="order_review" template="onepage/review/info.phtml">
                 <action method="addItemRender">
                     <type>default</type>
                     <block>Magento_Checkout_Block_Cart_Item_Renderer</block>
@@ -27,12 +27,12 @@
                     <block>Magento_Checkout_Block_Cart_Item_Renderer_Configurable</block>
                     <template>onepage/review/item.phtml</template>
                 </action>
-                <block type="Magento_Checkout_Block_Cart_Totals" name="checkout.onepage.review.info.totals" as="totals" template="onepage/review/totals.phtml"/>
+                <block class="Magento_Checkout_Block_Cart_Totals" name="checkout.onepage.review.info.totals" as="totals" template="onepage/review/totals.phtml"/>
                 <container name="checkout.onepage.review.info.items.before" as="items_before" label="Items Before"/>
                 <container name="checkout.onepage.review.info.items.after" as="items_after" label="Items After"/>
-                <block type="Magento_Checkout_Block_Agreements" name="checkout.onepage.agreements" as="agreements" template="onepage/agreements.phtml"/>
-                <block type="Magento_Core_Block_Template" name="checkout.onepage.review.button" as="button" template="Magento_Checkout::onepage/review/button.phtml"/>
+                <block class="Magento_Checkout_Block_Agreements" name="checkout.onepage.agreements" as="agreements" template="onepage/agreements.phtml"/>
+                <block class="Magento_Core_Block_Template" name="checkout.onepage.review.button" as="button" template="Magento_Checkout::onepage/review/button.phtml"/>
             </block>
         </block>
-    </checkout_onepage_review>
+    </handle>
 </layout>

@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_index">
         <reference name="head">
             <action method="addJs">
                 <file>Magento_Centinel::centinel-authenticate.js</file>
             </action>
         </reference>
-    </checkout_onepage_index>
+    </handle>
 </layout>

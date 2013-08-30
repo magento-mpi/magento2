@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <catalog_product_view_type_simple>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_product_view_type_simple">
         <reference name="product.info.upsell">
             <action method="addPriceBlockType">
                 <type>bundle</type>
@@ -20,5 +20,5 @@
                 <limit>4</limit>
             </action>
         </reference>
-    </catalog_product_view_type_simple>
+    </handle>
 </layout>

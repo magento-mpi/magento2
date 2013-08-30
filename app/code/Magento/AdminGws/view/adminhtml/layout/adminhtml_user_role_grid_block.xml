@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_user_role_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_user_role_grid_block">
         <reference name="permission.role.grid.columnSet">
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="gws">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="gws">
                 <arguments>
                     <header translate="true">Allowed Scopes</header>
                     <width>200px</width>
@@ -20,5 +20,5 @@
                 </arguments>
             </block>
         </reference>
-    </adminhtml_user_role_grid_block>
+    </handle>
 </layout>

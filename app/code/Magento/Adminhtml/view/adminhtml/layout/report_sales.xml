@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <report_sales>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="report_sales">
         <reference name="messages">
             <action method="addNotice" translate="message">
                 <message>This report uses timezone configuration data. Be sure to refresh lifetime statistics any time you change store timezone.</message>
             </action>
         </reference>
-    </report_sales>
+    </handle>
 </layout>

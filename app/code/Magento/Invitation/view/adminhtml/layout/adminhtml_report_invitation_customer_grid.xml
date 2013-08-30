@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_invitation_customer_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_invitation_customer_grid">
         <update handle="adminhtml_report_grid"/>
         <reference name="adminhtml.report.grid">
             <arguments>
@@ -29,7 +29,7 @@
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.columnSet">
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="id">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="id">
                 <arguments>
                     <header translate="true">ID</header>
                     <type>number</type>
@@ -39,7 +39,7 @@
                     <column_css_class>col-id</column_css_class>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
                 <arguments>
                     <header translate="true">Name</header>
                     <type>text</type>
@@ -49,7 +49,7 @@
                     <column_css_class>col-name</column_css_class>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="email">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
                 <arguments>
                     <header translate="true">Email</header>
                     <index>email</index>
@@ -58,7 +58,7 @@
                     <column_css_class>col-email</column_css_class>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="group">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="group">
                 <arguments>
                     <header translate="true">Group</header>
                     <index>group_name</index>
@@ -67,7 +67,7 @@
                     <column_css_class>col-group</column_css_class>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="sent">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="sent">
                 <arguments>
                     <header translate="true">Invitations Sent</header>
                     <index>sent</index>
@@ -77,7 +77,7 @@
                     <column_css_class>col-inv-sent</column_css_class>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
                 <arguments>
                     <header translate="true">Invitations Accepted</header>
                     <index>accepted</index>
@@ -88,5 +88,5 @@
                 </arguments>
             </block>
         </reference>
-    </adminhtml_report_invitation_customer_grid>
+    </handle>
 </layout>

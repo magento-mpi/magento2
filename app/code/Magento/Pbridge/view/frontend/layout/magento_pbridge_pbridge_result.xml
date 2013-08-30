@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <magento_pbridge_pbridge_result translate="label" type="fragment" owner="checkout_onepage_index">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="magento_pbridge_pbridge_result" translate="label" type="fragment" owner="checkout_onepage_index">
         <label>Payment Bridge Checkout Payment Result</label>
-        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-            <block type="Magento_Pbridge_Block_Checkout_Payment_Result" name="pbridge.checkout.payment.result" template="checkout/payment/result.phtml"/>
+        <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block class="Magento_Pbridge_Block_Checkout_Payment_Result" name="pbridge.checkout.payment.result" template="checkout/payment/result.phtml"/>
         </block>
-    </magento_pbridge_pbridge_result>
+    </handle>
 </layout>

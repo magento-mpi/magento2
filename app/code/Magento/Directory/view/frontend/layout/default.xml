@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="head">
-            <block type="Magento_Core_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Magento_Directory::js/optional_zip_countries.phtml"/>
+            <block class="Magento_Core_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Magento_Directory::js/optional_zip_countries.phtml"/>
         </reference>
-    </default>
+    </handle>
 </layout>

@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <ogone_api_paypage translate="label" type="page" parent="default">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="ogone_api_paypage" translate="label" type="page" parent="default">
         <label>Ogone Paygate Payment</label>
         <remove name="catalog.topnav"/>
         <reference name="header">
@@ -28,7 +28,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Ogone_Block_Paypage" name="ogone_paypage" template="paypage.phtml"/>
+            <block class="Magento_Ogone_Block_Paypage" name="ogone_paypage" template="paypage.phtml"/>
         </reference>
-    </ogone_api_paypage>
+    </handle>
 </layout>

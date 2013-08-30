@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_reward_rate_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_reward_rate_block">
         <reference name="reward.rate.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="reward.rate.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="reward.rate.grid" as="grid">
                 <arguments>
                     <id>rewardRatesGrid</id>
                     <dataSource type="object">Magento_Reward_Model_Resource_Reward_Rate_Collection</dataSource>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="reward.rate.grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="reward.rate.grid.columnSet">
                     <arguments>
                         <id>rewardRatesGrid</id>
                         <rowUrl>
@@ -25,7 +25,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="rate_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="rate_id">
                         <arguments>
                             <header translate="true">ID</header>
                             <align>left</align>
@@ -33,7 +33,7 @@
                             <index>rate_id</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website_id">
                         <arguments>
                             <header translate="true">Website</header>
                             <index>website_id</index>
@@ -41,7 +41,7 @@
                             <options type="options">Magento_Reward_Model_Source_Website</options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="customer_group_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="customer_group_id">
                         <arguments>
                             <header translate="true">Customer Group</header>
                             <index>customer_group_id</index>
@@ -49,7 +49,7 @@
                             <options type="options">Magento_Reward_Model_Source_Customer_Groups</options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="rate">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="rate">
                         <arguments>
                             <header translate="true">Rate</header>
                             <filter>0</filter>
@@ -61,5 +61,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_reward_rate_block>
+    </handle>
 </layout>

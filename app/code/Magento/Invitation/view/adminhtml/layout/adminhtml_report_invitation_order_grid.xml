@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_invitation_order_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_invitation_order_grid">
         <update handle="adminhtml_report_grid"/>
         <reference name="adminhtml.report.grid">
             <arguments>
@@ -29,7 +29,7 @@
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.columnSet">
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="sent">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="sent">
                 <arguments>
                     <header translate="true">Invitations Sent</header>
                     <type>number</type>
@@ -39,7 +39,7 @@
                     <column_css_class>col-inv-sent</column_css_class>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
                 <arguments>
                     <header translate="true">Invitations Accepted</header>
                     <type>number</type>
@@ -49,7 +49,7 @@
                     <column_css_class>col-inv-acc</column_css_class>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="purchased">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="purchased">
                 <arguments>
                     <header translate="true">Accepted and Purchased</header>
                     <type>number</type>
@@ -59,7 +59,7 @@
                     <column_css_class>col-acc</column_css_class>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="purchased_rate">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="purchased_rate">
                 <arguments>
                     <header translate="true">Conversion Rate</header>
                     <renderer>Magento_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent</renderer>
@@ -71,5 +71,5 @@
                 </arguments>
             </block>
         </reference>
-    </adminhtml_report_invitation_order_grid>
+    </handle>
 </layout>

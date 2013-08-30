@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_order_printinvoice translate="label" type="page" parent="sales_order_print">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_order_printinvoice" translate="label" type="page" parent="sales_order_print">
         <label>Sales Invoice Print View</label>
         <reference name="content">
-            <block type="Magento_Sales_Block_Order_Print_Invoice" name="sales.order.print.invoice" template="order/print/invoice.phtml">
+            <block class="Magento_Sales_Block_Order_Print_Invoice" name="sales.order.print.invoice" template="order/print/invoice.phtml">
                 <action method="addItemRender">
                     <type>default</type>
                     <block>Magento_Sales_Block_Order_Item_Renderer_Default</block>
@@ -22,17 +22,17 @@
                     <block>Magento_Sales_Block_Order_Item_Renderer_Grouped</block>
                     <template>order/invoice/items/renderer/default.phtml</template>
                 </action>
-                <block type="Magento_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="order/totals.phtml">
+                <block class="Magento_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="order/totals.phtml">
                     <action method="setLabelProperties">
                         <value>colspan="4" class="a-right"</value>
                     </action>
                     <action method="setValueProperties">
                         <value>class="last a-right"</value>
                     </action>
-                    <block type="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
+                    <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
                 </block>
             </block>
         </reference>
         <container name="additional.product.info" label="Additional Product Info"/>
-    </sales_order_printinvoice>
+    </handle>
 </layout>

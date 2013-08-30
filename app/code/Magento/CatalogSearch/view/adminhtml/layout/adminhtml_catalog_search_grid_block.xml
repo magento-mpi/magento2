@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_search_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_search_grid_block">
         <reference name="adminhtml.catalog.search.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.catalog.search.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.catalog.search.grid" as="grid">
                 <arguments>
                     <id>catalog_search_grid</id>
                     <dataSource type="object">Magento_CatalogSearch_Model_Resource_Query_Collection</dataSource>
@@ -18,7 +18,7 @@
                     <default_dir>ASC</default_dir>
                     <save_parameters_in_session>1</save_parameters_in_session>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.catalog.search.grid.massaction" as="grid.massaction">
+                <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.catalog.search.grid.massaction" as="grid.massaction">
                     <arguments>
                         <massaction_id_field>query_id</massaction_id_field>
                         <form_field_name>search</form_field_name>
@@ -32,7 +32,7 @@
                         </options>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.catalog.search.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.catalog.search.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -41,13 +41,13 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="search_query">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="search_query">
                         <arguments>
                             <header translate="true">Search Query</header>
                             <index>query_text</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
                             <header translate="true">Store</header>
                             <type>store</type>
@@ -57,21 +57,21 @@
                             <sortable>0</sortable>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="num_results">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="num_results">
                         <arguments>
                             <header translate="true">Results</header>
                             <index>num_results</index>
                             <type>number</type>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="popularity">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="popularity">
                         <arguments>
                             <header translate="true">Uses</header>
                             <index>popularity</index>
                             <type>number</type>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="synonym_for">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="synonym_for">
                         <arguments>
                             <header translate="true">Synonym</header>
                             <index>synonym_for</index>
@@ -79,7 +79,7 @@
                             <width>160px</width>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="redirect">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="redirect">
                         <arguments>
                             <header translate="true">Redirect URL</header>
                             <align>left</align>
@@ -87,7 +87,7 @@
                             <width>200px</width>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="display_in_terms">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="display_in_terms">
                         <arguments>
                             <header translate="true">Suggested Terms</header>
                             <sortable>1</sortable>
@@ -107,7 +107,7 @@
                             </options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
                             <type>action</type>
                             <header translate="true">Action</header>
@@ -129,5 +129,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_catalog_search_grid_block>
+    </handle>
 </layout>

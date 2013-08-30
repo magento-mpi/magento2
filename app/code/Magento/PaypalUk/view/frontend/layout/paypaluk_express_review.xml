@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <paypaluk_express_review translate="label" type="page" parent="default">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="paypaluk_express_review" translate="label" type="page" parent="default">
         <label>PayPal Express Order Review Form</label>
         <reference name="root">
             <action method="setTemplate">
@@ -16,11 +16,11 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Paypal_Block_Express_Review" name="paypal.express.review" template="Magento_PaypalUk::express/review.phtml">
+            <block class="Magento_Paypal_Block_Express_Review" name="paypal.express.review" template="Magento_PaypalUk::express/review.phtml">
                 <action method="setPaypalActionPrefix">
                     <prefix>paypaluk</prefix>
                 </action>
-                <block type="Magento_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="express/review/details.phtml">
+                <block class="Magento_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="express/review/details.phtml">
                     <action method="addItemRender">
                         <type>default</type>
                         <block>Magento_Checkout_Block_Cart_Item_Renderer</block>
@@ -36,10 +36,10 @@
                         <block>Magento_Checkout_Block_Cart_Item_Renderer_Configurable</block>
                         <template>onepage/review/item.phtml</template>
                     </action>
-                    <block type="Magento_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="onepage/review/totals.phtml"/>
+                    <block class="Magento_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="onepage/review/totals.phtml"/>
                 </block>
-                <block type="Magento_Checkout_Block_Agreements" name="paypal.express.review.details.agreements" as="agreements" template="onepage/agreements.phtml"/>
+                <block class="Magento_Checkout_Block_Agreements" name="paypal.express.review.details.agreements" as="agreements" template="onepage/agreements.phtml"/>
             </block>
         </reference>
-    </paypaluk_express_review>
+    </handle>
 </layout>

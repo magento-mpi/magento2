@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_api_user_block>
-        <reference name='adminhtml.api.user.container'>
-            <block type="Magento_Backend_Block_Widget_Grid" name='adminhtml.api.user.grid' as='grid'>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_api_user_block">
+        <reference name="adminhtml.api.user.container">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.api.user.grid" as="grid">
                 <arguments>
                     <id>permissionsUserGrid</id>
                     <dataSource type="object">Magento_Api_Model_Resource_User_Collection</dataSource>
@@ -21,7 +21,7 @@
                         <path>*/*/roleGrid</path>
                     </grid_url>
                 </arguments>
-                <block type='Magento_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.api.user.grid.columnSet' as='grid.columnSet'>
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.api.user.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -30,44 +30,44 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='user_id'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="user_id">
                         <arguments>
-                            <header translate='true' module='Magento_Adminhtml'>ID</header>
+                            <header translate="true" module="Magento_Adminhtml">ID</header>
                             <index>user_id</index>
                             <align>right</align>
                             <sortable>1</sortable>
                             <width>5</width>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='username'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="username">
                         <arguments>
-                            <header translate='true' module='Magento_Adminhtml'>User Name</header>
+                            <header translate="true" module="Magento_Adminhtml">User Name</header>
                             <index>username</index>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='firstname'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="firstname">
                         <arguments>
-                            <header translate='true' module='Magento_Adminhtml'>First Name</header>
+                            <header translate="true" module="Magento_Adminhtml">First Name</header>
                             <index>firstname</index>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='lastname'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="lastname">
                         <arguments>
-                            <header translate='true' module='Magento_Adminhtml'>Last Name</header>
+                            <header translate="true" module="Magento_Adminhtml">Last Name</header>
                             <index>lastname</index>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='email'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
                         <arguments>
-                            <header translate='true' module='Magento_Adminhtml'>Email</header>
+                            <header translate="true" module="Magento_Adminhtml">Email</header>
                             <index>email</index>
                             <width>40</width>
                             <align>left</align>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='is_active'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
                         <arguments>
-                            <header translate='true' module='Magento_Adminhtml'>Status</header>
+                            <header translate="true" module="Magento_Adminhtml">Status</header>
                             <index>is_active</index>
                             <type>options</type>
                             <options>
@@ -85,5 +85,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_api_user_block>
+    </handle>
 </layout>

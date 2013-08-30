@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <paypal_payflowadvanced_form translate="label" type="fragment" owner="checkout_onepage_index">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="paypal_payflowadvanced_form" translate="label" type="fragment" owner="checkout_onepage_index">
         <label>Paypal Payflow Advanced Form</label>
-        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-            <block type="Magento_Paypal_Block_Payflow_Advanced_Iframe" name="payflow.advanced.iframe" template="payflowadvanced/form.phtml"/>
+        <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block class="Magento_Paypal_Block_Payflow_Advanced_Iframe" name="payflow.advanced.iframe" template="payflowadvanced/form.phtml"/>
         </block>
-    </paypal_payflowadvanced_form>
+    </handle>
 </layout>

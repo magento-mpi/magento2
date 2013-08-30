@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <customer_account translate="label" type="page" parent="default">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="customer_account" translate="label" type="page" parent="default">
         <label>Customer My Account (All Pages)</label>
         <reference name="root">
             <action method="setTemplate">
@@ -19,7 +19,7 @@
             <container name="my.account.wrapper" label="My Account Wrapper" htmlTag="div" htmlClass="my-account"/>
         </reference>
         <reference name="left">
-            <block type="Magento_Customer_Block_Account_Navigation" name="customer_account_navigation" before="-" template="account/navigation.phtml">
+            <block class="Magento_Customer_Block_Account_Navigation" name="customer_account_navigation" before="-" template="account/navigation.phtml">
                 <action method="addLink" translate="label">
                     <name>account</name>
                     <path>customer/account/</path>
@@ -37,8 +37,8 @@
                 </action>
             </block>
             <move element="cart_sidebar" destination="left" before="catalog.compare.sidebar"/>
-            <block type="Magento_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
+            <block class="Magento_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
             <remove name="tags_popular"/>
         </reference>
-    </customer_account>
+    </handle>
 </layout>

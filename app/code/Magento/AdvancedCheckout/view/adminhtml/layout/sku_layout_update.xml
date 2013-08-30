@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sku_layout_update>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sku_layout_update">
         <update handle="adminhtml_sku_errors_block"/>
         <reference name="head">
             <action method="addJs">
@@ -16,10 +16,10 @@
             </action>
         </reference>
         <reference name="data">
-            <block type="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku" name="additional_area" template="Magento_Adminhtml::sales/order/create/abstract.phtml">
-                <block type="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Add"/>
+            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku" name="additional_area" template="Magento_Adminhtml::sales/order/create/abstract.phtml">
+                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Add"/>
             </block>
-            <block type="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors"/>
+            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors"/>
         </reference>
-    </sku_layout_update>
+    </handle>
 </layout>

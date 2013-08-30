@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <paypaluk_express_review_details translate="label" type="fragment" owner="checkout_onepage_index">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="paypaluk_express_review_details" translate="label" type="fragment" owner="checkout_onepage_index">
         <label>Paypal UK Express Review Details</label>
-        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml"/>
-    </paypaluk_express_review_details>
+        <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml"/>
+    </handle>
 </layout>

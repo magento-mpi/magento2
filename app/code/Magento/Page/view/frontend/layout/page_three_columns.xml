@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <page_three_columns translate="label" type="page" parent="default">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="page_three_columns" translate="label" type="page" parent="default">
         <label>All Three-Column Layout Pages</label>
         <reference name="root">
             <action method="setTemplate">
@@ -22,5 +22,5 @@
                 <name>three_columns</name>
             </action>
         </reference>
-    </page_three_columns>
+    </handle>
 </layout>

@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <magento_giftregistry_view_index translate="label" type="page" parent="magento_giftregistry_index_share">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="magento_giftregistry_view_index" translate="label" type="page" parent="magento_giftregistry_index_share">
         <label>Customer GiftRegistry Gift View</label>
         <reference name="root">
             <action method="setTemplate">
@@ -16,9 +16,9 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_GiftRegistry_Block_View" name="enterprise.giftregistry.view" template="view.phtml">
-                <block type="Magento_GiftRegistry_Block_Items" name="giftregistry_items" template="view/items.phtml">
-                    <block type="Magento_Catalog_Block_Product_Price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price"/>
+            <block class="Magento_GiftRegistry_Block_View" name="enterprise.giftregistry.view" template="view.phtml">
+                <block class="Magento_GiftRegistry_Block_Items" name="giftregistry_items" template="view/items.phtml">
+                    <block class="Magento_Catalog_Block_Product_Price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price"/>
                     <action method="addItemRender">
                         <type>default</type>
                         <block>Magento_Checkout_Block_Cart_Item_Renderer</block>
@@ -50,13 +50,13 @@
                         <template>Magento_GiftRegistry::view/items/default.phtml</template>
                     </action>
                 </block>
-                <block type="Magento_GiftRegistry_Block_Customer_Items" name="giftregistry.view.items" template="view/items.phtml"/>
+                <block class="Magento_GiftRegistry_Block_Customer_Items" name="giftregistry.view.items" template="view/items.phtml"/>
             </block>
         </reference>
         <update handle="MAP_popup"/>
         <reference name="product.tooltip">
             <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
-                <block type="Magento_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml" module="Magento_Paypal">
+                <block class="Magento_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml" module="Magento_Paypal">
                     <action method="setIsInCatalogProduct">
                         <value>1</value>
                     </action>
@@ -66,5 +66,5 @@
                 </block>
             </container>
         </reference>
-    </magento_giftregistry_view_index>
+    </handle>
 </layout>

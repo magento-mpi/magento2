@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_customer_accounts_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_customer_accounts_grid">
         <update handle="adminhtml_report_grid"/>
         <reference name="adminhtml.report.grid">
             <arguments>
@@ -33,7 +33,7 @@
                 <id>gridAccounts</id>
                 <count_totals>1</count_totals>
             </arguments>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="accounts">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="accounts">
                 <arguments>
                     <header translate="true">New Accounts</header>
                     <index>accounts</index>
@@ -45,5 +45,5 @@
                 </arguments>
             </block>
         </reference>
-    </adminhtml_report_customer_accounts_grid>
+    </handle>
 </layout>

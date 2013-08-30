@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_grid">
         <reference name="adminhtml.report.grid.container">
-            <block type="Magento_Reports_Block_Adminhtml_Grid" name="adminhtml.report.grid" as="grid">
+            <block class="Magento_Reports_Block_Adminhtml_Grid" name="adminhtml.report.grid" as="grid">
                 <arguments>
                     <use_ajax>0</use_ajax>
                     <pager_visibility>0</pager_visibility>
                     <id>gridReport</id>
                     <dataSource type="object">Magento_Reports_Model_Resource_Report_Collection</dataSource>
                 </arguments>
-                <block type="Magento_Backend_Block_Store_Switcher" name="adminhtml.report.grid.store_switcher" as="store_switcher" template="Magento_Reports::store/switcher.phtml">
+                <block class="Magento_Backend_Block_Store_Switcher" name="adminhtml.report.grid.store_switcher" as="store_switcher" template="Magento_Reports::store/switcher.phtml">
                     <arguments>
                         <use_confirm>0</use_confirm>
                         <switch_url type="url">
@@ -28,7 +28,7 @@
                         </switch_url>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.report.grid.export" as="grid.export">
+                <block class="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.report.grid.export" as="grid.export">
                     <arguments>
                         <exportTypes>
                             <csv>
@@ -42,13 +42,13 @@
                         </exportTypes>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.grid.columnSet">
                     <arguments>
                         <filter_visibility>0</filter_visibility>
                         <empty_text translate="true">We couldn't find records for this period.</empty_text>
                         <empty_cell_label translate="true">We couldn't find records for this period.</empty_cell_label>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="period">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="period">
                         <arguments>
                             <header translate="true">Interval</header>
                             <sortable>0</sortable>
@@ -64,5 +64,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_report_grid>
+    </handle>
 </layout>

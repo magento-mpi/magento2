@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="head">
             <action method="addCss">
                 <file>Magento_Catalog::widgets.css</file>
             </action>
         </reference>
         <reference name="left">
-            <block type="Magento_Core_Block_Template" name="left.permanent.callout" template="Magento_Page::callouts/left_col.phtml">
+            <block class="Magento_Core_Block_Template" name="left.permanent.callout" template="Magento_Page::callouts/left_col.phtml">
                 <action method="setImgSrc">
                     <src>Magento_Catalog::images/media/col_left_callout.jpg</src>
                 </action>
@@ -28,8 +28,8 @@
             </block>
         </reference>
         <reference name="right">
-            <block type="Magento_Catalog_Block_Product_Compare_Sidebar" before="cart_sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
-            <block type="Magento_Core_Block_Template" name="right.permanent.callout" template="Magento_Page::callouts/right_col.phtml">
+            <block class="Magento_Catalog_Block_Product_Compare_Sidebar" before="cart_sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
+            <block class="Magento_Core_Block_Template" name="right.permanent.callout" template="Magento_Page::callouts/right_col.phtml">
                 <action method="setImgSrc">
                     <src>Magento_Catalog::images/media/col_right_callout.jpg</src>
                 </action>
@@ -38,7 +38,7 @@
                 </action>
             </block>
         </reference>
-        <block type="Magento_Catalog_Block_Product_Price_Template" name="catalog_product_price_template"/>
+        <block class="Magento_Catalog_Block_Product_Price_Template" name="catalog_product_price_template"/>
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
                 <type>msrp</type>
@@ -56,5 +56,5 @@
                 <template>product/price_msrp_noform.phtml</template>
             </action>
         </reference>
-    </default>
+    </handle>
 </layout>

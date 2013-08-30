@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <popup>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="popup">
         <update handle="default"/>
         <remove name="header"/>
         <remove name="menu"/>
@@ -17,5 +17,5 @@
                 <template>admin/popup.phtml</template>
             </action>
         </reference>
-    </popup>
+    </handle>
 </layout>

@@ -7,16 +7,16 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="top.links">
-            <block type="Magento_Wishlist_Block_Links" name="wishlist_link"/>
+            <block class="Magento_Wishlist_Block_Links" name="wishlist_link"/>
             <action method="addLinkBlock">
                 <blockName>wishlist_link</blockName>
             </action>
         </reference>
         <reference name="right">
-            <block type="Magento_Wishlist_Block_Customer_Sidebar" name="wishlist_sidebar" as="wishlist" after="cart_sidebar" template="sidebar.phtml"/>
+            <block class="Magento_Wishlist_Block_Customer_Sidebar" name="wishlist_sidebar" as="wishlist" after="cart_sidebar" template="sidebar.phtml"/>
         </reference>
-    </default>
+    </handle>
 </layout>

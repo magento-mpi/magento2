@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_tax_rule_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_tax_rule_edit">
         <reference name="head">
             <action method="addJs">
                 <file>jquery/editableMultiselect/js/jquery.editable.js</file>
@@ -27,10 +27,10 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Tax_Rule_Edit"/>
-            <block type="Magento_Adminhtml_Block_Tax_Rule_Edit_Form" name="tax-rule-edit" template="Magento_Adminhtml::tax/rule/edit.phtml"/>
-            <block type="Magento_Adminhtml_Block_Tax_Rate_Form" name="tax-rate-form" template="tax/rule/rate/form.phtml"/>
-            <block type="Magento_Adminhtml_Block_Tax_Rate_ImportExport" name="tax-rate-importExport" template="tax/importExport.phtml"/>
+            <block class="Magento_Adminhtml_Block_Tax_Rule_Edit"/>
+            <block class="Magento_Adminhtml_Block_Tax_Rule_Edit_Form" name="tax-rule-edit" template="Magento_Adminhtml::tax/rule/edit.phtml"/>
+            <block class="Magento_Adminhtml_Block_Tax_Rate_Form" name="tax-rate-form" template="tax/rule/rate/form.phtml"/>
+            <block class="Magento_Adminhtml_Block_Tax_Rate_ImportExport" name="tax-rate-importExport" template="tax/importExport.phtml"/>
         </reference>
-    </adminhtml_tax_rule_edit>
+    </handle>
 </layout>

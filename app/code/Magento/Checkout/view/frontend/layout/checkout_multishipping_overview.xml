@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_multishipping_overview translate="label" type="page" parent="checkout_multishipping">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_multishipping_overview" translate="label" type="page" parent="checkout_multishipping">
         <label>Multishipping Checkout Overview</label>
         <update handle="checkout_multishipping"/>
         <reference name="content">
-            <block type="Magento_Checkout_Block_Multishipping_Overview" name="checkout_overview" template="multishipping/overview.phtml">
+            <block class="Magento_Checkout_Block_Multishipping_Overview" name="checkout_overview" template="multishipping/overview.phtml">
                 <action method="addItemRender">
                     <type>default</type>
                     <block>Magento_Checkout_Block_Cart_Item_Renderer</block>
@@ -38,16 +38,16 @@
                     <block>Magento_Checkout_Block_Cart_Item_Renderer_Configurable</block>
                     <template>multishipping/overview/item.phtml</template>
                 </action>
-                <block type="Magento_Checkout_Block_Multishipping_Payment_Info" name="payment_info">
+                <block class="Magento_Checkout_Block_Multishipping_Payment_Info" name="payment_info">
                     <action method="setInfoTemplate">
                         <method/>
                         <template/>
                     </action>
                 </block>
-                <block type="Magento_Checkout_Block_Agreements" name="checkout.multishipping.agreements" as="agreements" template="multishipping/agreements.phtml"/>
-                <block type="Magento_Checkout_Block_Cart_Totals" name="totals"/>
+                <block class="Magento_Checkout_Block_Agreements" name="checkout.multishipping.agreements" as="agreements" template="multishipping/agreements.phtml"/>
+                <block class="Magento_Checkout_Block_Cart_Totals" name="totals"/>
                 <container name="checkout.multishipping.overview.items.after" as="items_after" label="Overview Items After"/>
             </block>
         </reference>
-    </checkout_multishipping_overview>
+    </handle>
 </layout>

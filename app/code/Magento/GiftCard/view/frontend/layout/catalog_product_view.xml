@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <catalog_product_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_product_view">
         <reference name="catalog.product.related">
             <action method="addPriceBlockType">
                 <type>giftcard</type>
@@ -16,5 +16,5 @@
                 <template>catalog/product/price.phtml</template>
             </action>
         </reference>
-    </catalog_product_view>
+    </handle>
 </layout>

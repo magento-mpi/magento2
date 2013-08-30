@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <paypal_standard_redirect translate="label" type="fragment" owner="checkout_onepage_index">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="paypal_standard_redirect" translate="label" type="fragment" owner="checkout_onepage_index">
         <label>Paypal Standard Redirect</label>
-        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-            <block type="Magento_Paypal_Block_Standard_Redirect" name="standard.redirect"/>
+        <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block class="Magento_Paypal_Block_Standard_Redirect" name="standard.redirect"/>
         </block>
-    </paypal_standard_redirect>
+    </handle>
 </layout>

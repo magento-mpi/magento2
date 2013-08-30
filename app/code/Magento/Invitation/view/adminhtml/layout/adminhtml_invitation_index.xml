@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_invitation_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_invitation_index">
         <update handle="formkey"/>
         <update handle="adminhtml_invitation_block"/>
         <reference name="content">
-            <block name="invitation_grid_container" type="Magento_Invitation_Block_Adminhtml_Invitation"/>
+            <block class="Magento_Invitation_Block_Adminhtml_Invitation" name="invitation_grid_container"/>
         </reference>
-    </adminhtml_invitation_index>
+    </handle>
 </layout>

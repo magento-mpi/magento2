@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <review_product_list>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="review_product_list">
         <update handle="page_one_column"/>
         <reference name="head">
             <action method="removeItem">
@@ -22,5 +22,5 @@
                 <file>jquery/jqzoom/css/jquery.jqzoom.css</file>
             </action>
         </reference>
-    </review_product_list>
+    </handle>
 </layout>

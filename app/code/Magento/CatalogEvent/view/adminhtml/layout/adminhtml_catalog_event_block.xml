@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_event_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_event_block">
         <reference name="adminhtml.catalog.event.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.catalog.event.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.catalog.event.grid" as="grid">
                 <arguments>
                     <id>catalogEventGrid</id>
                     <dataSource type="object">Magento_CatalogEvent_Model_Resource_Event_Grid_Collection</dataSource>
@@ -18,7 +18,7 @@
                     <default_dir>ASC</default_dir>
                     <save_parameters_in_session>1</save_parameters_in_session>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.catalog.event.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.catalog.event.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -27,7 +27,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="event_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="event_id">
                         <arguments>
                             <header translate="true">ID</header>
                             <width>80px</width>
@@ -35,7 +35,7 @@
                             <index>event_id</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="category_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="category_id">
                         <arguments>
                             <header translate="true">Category ID</header>
                             <width>70</width>
@@ -43,14 +43,14 @@
                             <index>category_id</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="category">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="category">
                         <arguments>
                             <header translate="true">Category</header>
                             <type>text</type>
                             <index>category_name</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_start">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="date_start">
                         <arguments>
                             <header translate="true">Start On</header>
                             <type>datetime</type>
@@ -59,7 +59,7 @@
                             <width>150</width>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_end">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="date_end">
                         <arguments>
                             <header translate="true">End On</header>
                             <type>datetime</type>
@@ -68,7 +68,7 @@
                             <width>150</width>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
                             <header translate="true">Status</header>
                             <type>options</type>
@@ -77,7 +77,7 @@
                             <options type="options">Magento_CatalogEvent_Model_Resource_Event_Grid_Statuses</options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="display_state">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="display_state">
                         <arguments>
                             <header translate="true">Countdown Ticker</header>
                             <type>options</type>
@@ -86,7 +86,7 @@
                             <options type="options">Magento_CatalogEvent_Model_Resource_Event_Grid_State</options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sort_order">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="sort_order">
                         <arguments>
                             <header translate="true">Sort Order</header>
                             <type>text</type>
@@ -94,7 +94,7 @@
                             <width>70</width>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="actions">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="actions">
                         <arguments>
                             <header translate="true">Action</header>
                             <width>15</width>
@@ -116,5 +116,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_catalog_event_block>
+    </handle>
 </layout>

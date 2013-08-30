@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_index">
         <reference name="checkout.onepage">
-            <block type="Magento_Cms_Block_Block" name="checkout.callout" as="checkoutCallout" before="checkout.progress">
+            <block class="Magento_Cms_Block_Block" name="checkout.callout" as="checkoutCallout" before="checkout.progress">
                 <action method="setBlockId">
                     <block_id>checkout_callout</block_id>
                 </action>
             </block>
         </reference>
-    </checkout_onepage_index>
+    </handle>
 </layout>

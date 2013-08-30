@@ -7,16 +7,16 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <oauth_root_handle_simple>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="oauth_root_handle_simple">
         <remove name="js_cookie"/>
-        <block type="Magento_Page_Block_Html" name="root" output="1" template="empty.phtml">
-            <block type="Magento_Page_Block_Html_Head" name="head" as="head" template="Magento_Oauth::authorize/head-simple.phtml">
+        <block class="Magento_Page_Block_Html" name="root" output="1" template="empty.phtml">
+            <block class="Magento_Page_Block_Html_Head" name="head" as="head" template="Magento_Oauth::authorize/head-simple.phtml">
                 <action method="addCss">
                     <stylesheet>Magento_Oauth::css/oauth-simple.css</stylesheet>
                 </action>
             </block>
             <container name="content" label="Content"/>
         </block>
-    </oauth_root_handle_simple>
+    </handle>
 </layout>

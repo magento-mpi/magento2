@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_guest_printcreditmemo>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_guest_printcreditmemo">
         <reference name="content">
-            <block type="Magento_Sales_Block_Order_Print_Creditmemo" name="sales.order.print.creditmemo" template="order/print/creditmemo.phtml">
+            <block class="Magento_Sales_Block_Order_Print_Creditmemo" name="sales.order.print.creditmemo" template="order/print/creditmemo.phtml">
                 <action method="addItemRender">
                     <type>default</type>
                     <block>Magento_Catalog_Block_Product_Price</block>
@@ -21,16 +21,16 @@
                     <block>Magento_Sales_Block_Order_Item_Renderer_Grouped</block>
                     <template>order/creditmemo/items/renderer/default.phtml</template>
                 </action>
-                <block type="Magento_Sales_Block_Order_Creditmemo_Totals" name="creditmemo_totals" template="order/totals.phtml">
+                <block class="Magento_Sales_Block_Order_Creditmemo_Totals" name="creditmemo_totals" template="order/totals.phtml">
                     <action method="setLabelProperties">
                         <value>colspan="6" class="a-right"</value>
                     </action>
                     <action method="setValueProperties">
                         <value>class="a-right"</value>
                     </action>
-                    <block type="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
+                    <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
                 </block>
             </block>
         </reference>
-    </sales_guest_printcreditmemo>
+    </handle>
 </layout>

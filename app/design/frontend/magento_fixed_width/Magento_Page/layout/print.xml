@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <!--
 /**
  * {license_notice}
@@ -7,12 +7,21 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <print>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="print">
         <reference name="head">
-            <action method="addCss"><file>css/styles.css</file></action>
-            <action method="addCss"><file>css/styles-ie.css</file><params/><if>lt IE 8</if></action>
-            <action method="addCss"><file>css/print.css</file><params>media="print"</params></action>
+            <action method="addCss">
+                <file>css/styles.css</file>
+            </action>
+            <action method="addCss">
+                <file>css/styles-ie.css</file>
+                <params/>
+                <if>lt IE 8</if>
+            </action>
+            <action method="addCss">
+                <file>css/print.css</file>
+                <params>media="print"</params>
+            </action>
         </reference>
-    </print>
+    </handle>
 </layout>

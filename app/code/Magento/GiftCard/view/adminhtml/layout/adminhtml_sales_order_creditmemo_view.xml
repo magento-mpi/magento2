@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_creditmemo_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_creditmemo_view">
         <reference name="order_items">
             <action method="addColumnRender">
                 <column>name</column>
@@ -17,5 +17,5 @@
                 <type>giftcard</type>
             </action>
         </reference>
-    </adminhtml_sales_order_creditmemo_view>
+    </handle>
 </layout>

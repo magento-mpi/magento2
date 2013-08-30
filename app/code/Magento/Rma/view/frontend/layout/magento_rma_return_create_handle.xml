@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <magento_rma_return_create_handle translate="label" type="page" parent="default">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="magento_rma_return_create_handle" translate="label" type="page" parent="default">
         <label>RMA Return Create</label>
         <reference name="content">
-            <block name="magento_rma_item_form_template" type="Magento_CustomAttribute_Block_Form_Template">
+            <block class="Magento_CustomAttribute_Block_Form_Template" name="magento_rma_item_form_template">
                 <action method="addRenderer">
                     <type>text</type>
                     <renderer_block>Magento_CustomAttribute_Block_Form_Renderer_Text</renderer_block>
@@ -34,5 +34,5 @@
                 </action>
             </block>
         </reference>
-    </magento_rma_return_create_handle>
+    </handle>
 </layout>

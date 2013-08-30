@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_webapi_user_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_webapi_user_grid_block">
         <reference name="webapi_user.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" as="grid" name="webapi.user.grid">
+            <block class="Magento_Backend_Block_Widget_Grid" as="grid" name="webapi.user.grid">
                 <arguments>
                     <id>permissionsUserGrid</id>
                     <dataSource type="object">Magento_Webapi_Model_Resource_Acl_User_Collection</dataSource>
@@ -24,7 +24,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="webapi.user.grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="webapi.user.grid.columnSet">
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -34,7 +34,7 @@
                         </rowUrl>
                         <empty_text translate="true">No Users Found</empty_text>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="user_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="user_id">
                         <arguments>
                             <header translate="true">ID</header>
                             <width>80px</width>
@@ -42,19 +42,19 @@
                             <index>user_id</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="contact_email">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="contact_email">
                         <arguments>
                             <header translate="true">Contact Email</header>
                             <index>contact_email</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="api_key">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="api_key">
                         <arguments>
                             <header translate="true">API Key</header>
                             <index>api_key</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="role_name">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_name">
                         <arguments>
                             <header translate="true">Role Name</header>
                             <index>role_id</index>
@@ -66,5 +66,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_webapi_user_grid_block>
+    </handle>
 </layout>

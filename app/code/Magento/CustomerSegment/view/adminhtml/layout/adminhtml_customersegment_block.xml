@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_customersegment_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_customersegment_block">
         <reference name="customersegment.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="customer.segment.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="customer.segment.grid" as="grid">
                 <arguments>
                     <id>customersegmentGrid</id>
                     <dataSource type="object">Magento_CustomerSegment_Model_Resource_Grid_Collection</dataSource>
@@ -25,7 +25,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="customer.segment.grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="customer.segment.grid.columnSet">
                     <arguments>
                         <id>customersegmentGrid</id>
                         <rowUrl>
@@ -35,7 +35,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="grid_segment_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="grid_segment_id">
                         <arguments>
                             <header translate="true">ID</header>
                             <align>right</align>
@@ -43,14 +43,14 @@
                             <index>segment_id</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="grid_segment_name">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="grid_segment_name">
                         <arguments>
                             <header translate="true">Segment</header>
                             <align>left</align>
                             <index>name</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="grid_segment_is_active">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="grid_segment_is_active">
                         <arguments>
                             <header translate="true">Status</header>
                             <align>left</align>
@@ -69,7 +69,7 @@
                             </options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="grid_segment_website">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="grid_segment_website">
                         <arguments>
                             <header translate="true">Website</header>
                             <align>left</align>
@@ -83,5 +83,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_customersegment_block>
+    </handle>
 </layout>

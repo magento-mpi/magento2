@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <customer_account>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="customer_account">
         <reference name="customer_account_navigation">
             <action method="addLink" translate="label">
                 <name>billing_agreements</name>
@@ -24,7 +24,7 @@
             </action>
         </reference>
         <reference name="left">
-            <block type="Magento_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
+            <block class="Magento_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
         </reference>
         <reference name="customer_account_navigation">
             <action method="addLink" translate="label">
@@ -33,5 +33,5 @@
                 <label>Recurring Profiles</label>
             </action>
         </reference>
-    </customer_account>
+    </handle>
 </layout>

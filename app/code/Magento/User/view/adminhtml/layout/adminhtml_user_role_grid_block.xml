@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_user_role_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_user_role_grid_block">
         <reference name="adminhtml.user.role.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.role.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.role.grid" as="grid">
                 <arguments>
                     <id>roleGrid</id>
                     <dataSource type="object">Magento_User_Model_Resource_Role_Grid_Collection</dataSource>
@@ -25,7 +25,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="permission.role.grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="permission.role.grid.columnSet">
                     <arguments>
                         <id>roleGrid</id>
                         <rowUrl>
@@ -35,7 +35,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="role_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_id">
                         <arguments>
                             <header translate="true">ID</header>
                             <width>50px</width>
@@ -43,7 +43,7 @@
                             <index>role_id</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="role_name">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_name">
                         <arguments>
                             <header translate="true">Role</header>
                             <type>text</type>
@@ -54,5 +54,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_user_role_grid_block>
+    </handle>
 </layout>

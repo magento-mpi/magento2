@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <catalog_product_view_type_bundle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_product_view_type_bundle">
         <reference name="product.info">
-            <block type="Magento_GiftRegistry_Block_Product_View" name="giftregistry.product.view.customize.button">
+            <block class="Magento_GiftRegistry_Block_Product_View" name="giftregistry.product.view.customize.button">
                 <action method="setGiftRegistryTemplate">
                     <blockName>customize.button</blockName>
                     <template>Magento_GiftRegistry::product/customize.phtml</template>
@@ -24,5 +24,5 @@
                 </action>
             </block>
         </reference>
-    </catalog_product_view_type_bundle>
+    </handle>
 </layout>

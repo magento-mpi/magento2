@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_creditmemo_new>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_creditmemo_new">
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create" name="sales_creditmemo_create">
-                <block type="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form" name="form" template="sales/order/creditmemo/create/form.phtml">
-                    <block type="Magento_Adminhtml_Block_Sales_Order_View_Info" name="order_info" template="sales/order/view/info.phtml"/>
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Payment" name="order_payment"/>
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items" name="order_items" template="sales/order/creditmemo/create/items.phtml">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create" name="sales_creditmemo_create">
+                <block class="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form" name="form" template="sales/order/creditmemo/create/form.phtml">
+                    <block class="Magento_Adminhtml_Block_Sales_Order_View_Info" name="order_info" template="sales/order/view/info.phtml"/>
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Payment" name="order_payment"/>
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items" name="order_items" template="sales/order/creditmemo/create/items.phtml">
                         <action method="addItemRender">
                             <type>default</type>
                             <block>Magento_Adminhtml_Block_Sales_Items_Renderer_Default</block>
@@ -36,11 +36,11 @@
                             <template>sales/items/column/name.phtml</template>
                             <type>grouped</type>
                         </action>
-                        <block type="Magento_Core_Block_Text_List" name="order_item_extra_info"/>
-                        <block type="Magento_Adminhtml_Block_Sales_Order_Totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"/>
-                        <block type="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
-                            <block type="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml"/>
-                            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Tax" name="tax" template="sales/order/totals/tax.phtml"/>
+                        <block class="Magento_Core_Block_Text_List" name="order_item_extra_info"/>
+                        <block class="Magento_Adminhtml_Block_Sales_Order_Totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"/>
+                        <block class="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
+                            <block class="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml"/>
+                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Tax" name="tax" template="sales/order/totals/tax.phtml"/>
                             <!--<block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="footer" template="sales/order/totals/footer.phtml">
                                 <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="grand" template="sales/order/totals/grand.phtml">
                                     <action method="setGrandTotalTitle"><title>Total Refund</title></action>
@@ -64,5 +64,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_sales_order_creditmemo_new>
+    </handle>
 </layout>

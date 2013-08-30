@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <paypal_express_review_details>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="paypal_express_review_details">
         <reference name="paypal.express.review.details">
             <action method="addItemRender">
                 <type>bundle</type>
@@ -16,5 +16,5 @@
                 <template>Magento_Checkout::onepage/review/item.phtml</template>
             </action>
         </reference>
-    </paypal_express_review_details>
+    </handle>
 </layout>

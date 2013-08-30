@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_multishipping>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_multishipping">
         <reference name="cart_sidebar">
             <action method="setIsLinkMode">
                 <param>1</param>
             </action>
         </reference>
-    </checkout_multishipping>
+    </handle>
 </layout>

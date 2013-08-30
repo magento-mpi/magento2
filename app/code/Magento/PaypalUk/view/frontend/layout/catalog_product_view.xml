@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <catalog_product_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_product_view">
         <reference name="product.info.addtocart">
             <container name="product.info.addtocart.paypaluk.wrapper" label="PayPal Express Checkout (Payflow Edition) Shortcut Wrapper" htmlTag="p" htmlClass="paypal-logo">
-                <block type="Magento_PaypalUk_Block_Express_Shortcut" name="product.info.addtocart.paypaluk" template="Magento_Paypal::express/shortcut.phtml">
+                <block class="Magento_PaypalUk_Block_Express_Shortcut" name="product.info.addtocart.paypaluk" template="Magento_Paypal::express/shortcut.phtml">
                     <action method="setIsInCatalogProduct">
                         <value>1</value>
                     </action>
@@ -19,5 +19,5 @@
             </container>
         </reference>
         <update handle="SHORTCUT_uk_popup"/>
-    </catalog_product_view>
+    </handle>
 </layout>

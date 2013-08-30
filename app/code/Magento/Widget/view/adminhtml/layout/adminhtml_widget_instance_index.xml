@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_widget_instance_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_widget_instance_index">
         <update handle="adminhtml_widget_instance_block"/>
         <reference name="content">
-            <block type="Magento_Widget_Block_Adminhtml_Widget_Instance" name="adminhtml.widget.instance.grid.container"/>
+            <block class="Magento_Widget_Block_Adminhtml_Widget_Instance" name="adminhtml.widget.instance.grid.container"/>
         </reference>
-    </adminhtml_widget_instance_index>
+    </handle>
 </layout>

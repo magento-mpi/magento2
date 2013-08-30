@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <customer_account_login>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="customer_account_login">
         <reference name="customer_form_login">
             <container name="form.additional.info" label="Form Additional Info">
-                <block type="Magento_Captcha_Block_Captcha" name="captcha">
+                <block class="Magento_Captcha_Block_Captcha" name="captcha">
                     <action method="setFormId">
                         <formId>user_login</formId>
                     </action>
@@ -24,5 +24,5 @@
                 </block>
             </container>
         </reference>
-    </customer_account_login>
+    </handle>
 </layout>

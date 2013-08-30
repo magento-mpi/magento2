@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_cms_page_revision_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_cms_page_revision_edit">
         <update handle="editor"/>
         <reference name="head">
             <action method="addJs">
@@ -16,15 +16,15 @@
             </action>
         </reference>
         <reference name="head.components">
-            <block type="Magento_Core_Block_Template" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
+            <block class="Magento_Core_Block_Template" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
         </reference>
         <reference name="content">
-            <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit" name="cms_page_revision_edit">
-                <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info" name="revision_info" template="page/revision/info.phtml"/>
+            <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit" name="cms_page_revision_edit">
+                <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info" name="revision_info" template="page/revision/info.phtml"/>
             </block>
         </reference>
         <reference name="left">
-            <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tabs" name="cms_page_revision_edit_tabs">
+            <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tabs" name="cms_page_revision_edit_tabs">
                 <action method="addTab">
                     <name>content_section</name>
                     <block>Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content</block>
@@ -39,5 +39,5 @@
                 </action>
             </block>
         </reference>
-    </adminhtml_cms_page_revision_edit>
+    </handle>
 </layout>

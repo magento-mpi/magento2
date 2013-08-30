@@ -7,20 +7,20 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_index">
         <reference name="checkout.onepage.login">
             <action method="setTemplate">
                 <template>Magento_Persistent::checkout/onepage/login.phtml</template>
             </action>
-            <block type="Magento_Persistent_Block_Form_Remember" name="persistent.remember.me" template="remember_me.phtml"/>
+            <block class="Magento_Persistent_Block_Form_Remember" name="persistent.remember.me" template="remember_me.phtml"/>
         </reference>
         <reference name="checkout.onepage.billing">
             <action method="setTemplate">
                 <template>Magento_Persistent::checkout/onepage/billing.phtml</template>
             </action>
-            <block type="Magento_Persistent_Block_Form_Remember" name="persistent.remember.me" template="remember_me.phtml"/>
-            <block type="Magento_Core_Block_Template" name="persistent.remember.me.tooltip" template="Magento_Persistent::remember_me_tooltip.phtml"/>
+            <block class="Magento_Persistent_Block_Form_Remember" name="persistent.remember.me" template="remember_me.phtml"/>
+            <block class="Magento_Core_Block_Template" name="persistent.remember.me.tooltip" template="Magento_Persistent::remember_me_tooltip.phtml"/>
         </reference>
-    </checkout_onepage_index>
+    </handle>
 </layout>

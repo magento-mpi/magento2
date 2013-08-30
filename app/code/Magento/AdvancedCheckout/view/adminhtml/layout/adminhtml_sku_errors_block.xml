@@ -7,31 +7,31 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sku_errors_block>
-        <reference name='errors'>
-            <block type="Magento_Backend_Block_Widget_Grid" name='sku_error_grid' as='grid'>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sku_errors_block">
+        <reference name="errors">
+            <block class="Magento_Backend_Block_Widget_Grid" name="sku_error_grid" as="grid">
                 <arguments>
                     <id>sku_errors</id>
                     <dataSource type="object">Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection</dataSource>
                     <pager_visibility>0</pager_visibility>
                 </arguments>
-                <block type='Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_ColumnSet_SkuErrors' name='sku_error_grid.columnSet' as='grid.columnSet'>
+                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_ColumnSet_SkuErrors" name="sku_error_grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <filter_visibility>0</filter_visibility>
                     </arguments>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='description'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="description">
                         <arguments>
-                            <header translate='true' module='Magento_AdvancedCheckout'>Product</header>
+                            <header translate="true" module="Magento_AdvancedCheckout">Product</header>
                             <index>description</index>
                             <class>no-link</class>
                             <sortable>0</sortable>
                             <renderer>Magento_AdvancedCheckout_Block_Sku_Column_Renderer_Description</renderer>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='price'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="price">
                         <arguments>
-                            <header translate='true' module='Magento_AdvancedCheckout'>Price</header>
+                            <header translate="true" module="Magento_AdvancedCheckout">Price</header>
                             <index>price</index>
                             <class>no-link</class>
                             <sortable>0</sortable>
@@ -39,9 +39,9 @@
                             <width>100</width>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='qty'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="qty">
                         <arguments>
-                            <header translate='true' module='Magento_AdvancedCheckout'>Quantity</header>
+                            <header translate="true" module="Magento_AdvancedCheckout">Quantity</header>
                             <index>qty</index>
                             <class>no-link sku-error-qty</class>
                             <sortable>0</sortable>
@@ -50,9 +50,9 @@
                             <renderer>Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Qty</renderer>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='remove'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="remove">
                         <arguments>
-                            <header translate='true' module='Magento_AdvancedCheckout'>Remove</header>
+                            <header translate="true" module="Magento_AdvancedCheckout">Remove</header>
                             <index>remove_button</index>
                             <class>no-link</class>
                             <sortable>0</sortable>
@@ -64,5 +64,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_sku_errors_block>
+    </handle>
 </layout>

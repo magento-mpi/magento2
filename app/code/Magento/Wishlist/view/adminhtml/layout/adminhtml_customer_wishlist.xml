@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_customer_wishlist>
-        <block type="Magento_Backend_Block_Widget_Grid" name="customer.wishlist.edit.tab" output="1">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_customer_wishlist">
+        <block class="Magento_Backend_Block_Widget_Grid" name="customer.wishlist.edit.tab" output="1">
             <arguments>
                 <dataSource type="object">Magento_Wishlist_Model_Resource_Item_Collection_Grid</dataSource>
                 <id>wishlistGrid</id>
@@ -25,7 +25,7 @@
                     <default>Magento_Catalog_Helper_Product_Configuration</default>
                 </product_configuration_helpers>
             </arguments>
-            <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="customer.wishlist.edit.tab.columnSet">
+            <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="customer.wishlist.edit.tab.columnSet">
                 <arguments>
                     <rowUrl>
                         <path>*/catalog_product/edit</path>
@@ -34,7 +34,7 @@
                     </rowUrl>
                     <empty_text translate="true">No Items Found</empty_text>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_Column" as="product_name">
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="product_name">
                     <arguments>
                         <header translate="true">Product</header>
                         <id>product_name</id>
@@ -42,7 +42,7 @@
                         <renderer>Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item</renderer>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_Column" as="description">
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="description">
                     <arguments>
                         <header translate="true">User description</header>
                         <index>description</index>
@@ -50,7 +50,7 @@
                         <renderer>Magento_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Description</renderer>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_Column" as="qty">
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="qty">
                     <arguments>
                         <header translate="true">Quantity</header>
                         <index>qty</index>
@@ -59,7 +59,7 @@
                         <id>qty</id>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store">
+                <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store">
                     <arguments>
                         <header translate="true">Add Locale</header>
                         <index>store_id</index>
@@ -67,7 +67,7 @@
                         <width>160px</width>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_Column" as="added_at">
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="added_at">
                     <arguments>
                         <header translate="true">Add Date</header>
                         <index>added_at</index>
@@ -76,7 +76,7 @@
                         <id>added_at</id>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_Column" as="days">
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="days">
                     <arguments>
                         <header translate="true">Days in Wish List</header>
                         <index>days_in_wishlist</index>
@@ -84,7 +84,7 @@
                         <id>days</id>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="action">
                     <arguments>
                         <header translate="true">Action</header>
                         <index>wishlist_item_id</index>
@@ -107,12 +107,12 @@
                     </arguments>
                 </block>
             </block>
-            <block type="Magento_Core_Block_Template" as="grid.js">
+            <block class="Magento_Core_Block_Template" as="grid.js">
                 <arguments>
                     <js_object_name>wishlistGridJsObject</js_object_name>
                     <template>Magento_Wishlist::customer/edit/tab/wishlist.phtml</template>
                 </arguments>
             </block>
         </block>
-    </adminhtml_customer_wishlist>
+    </handle>
 </layout>

@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <install_wizard_config>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="install_wizard_config">
         <reference name="database">
             <action method="setTemplate">
                 <template>db/main.phtml</template>
@@ -19,5 +19,5 @@
                 <template>db/mysql4.phtml</template>
             </action>
         </reference>
-    </install_wizard_config>
+    </handle>
 </layout>

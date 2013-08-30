@@ -7,19 +7,19 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="top.container">
-            <block type="Magento_Cms_Block_Block" name="cms.top.callout" before="-">
+            <block class="Magento_Cms_Block_Block" name="cms.top.callout" before="-">
                 <action method="setBlockId">
                     <block_id>top_callout</block_id>
                 </action>
             </block>
         </reference>
         <reference name="right">
-            <block type="Magento_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
+            <block class="Magento_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
         </reference>
-        <block type="Magento_Catalog_Block_Product_Price_Template" name="catalog_product_price_template"/>
+        <block class="Magento_Catalog_Block_Product_Price_Template" name="catalog_product_price_template"/>
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
                 <type>msrp</type>
@@ -37,5 +37,5 @@
                 <template>product/price_msrp_noform.phtml</template>
             </action>
         </reference>
-    </default>
+    </handle>
 </layout>

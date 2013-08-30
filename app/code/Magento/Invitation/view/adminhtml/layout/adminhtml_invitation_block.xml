@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_invitation_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_invitation_block">
         <reference name="invitation_grid_container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="invitation.grid.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="invitation.grid.grid" as="grid">
                 <arguments>
                     <id>invitationGrid</id>
                     <dataSource type="object">Magento_Invitation_Model_Resource_Invitation_Grid_Collection</dataSource>
@@ -18,7 +18,7 @@
                     <default_dir>DESC</default_dir>
                     <save_parameters_in_session>1</save_parameters_in_session>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.invitation.massactions" as="grid.massaction">
+                <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.invitation.massactions" as="grid.massaction">
                     <arguments>
                         <massaction_id_field>invitation_id</massaction_id_field>
                         <form_field_name>invitations</form_field_name>
@@ -36,7 +36,7 @@
                         </options>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <id>tax_rate_grid</id>
                         <rowUrl>
@@ -46,7 +46,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="magento_invitation_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="magento_invitation_id">
                         <arguments>
                             <header translate="true">ID</header>
                             <width>80</width>
@@ -55,14 +55,14 @@
                             <index>invitation_id</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="email">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
                         <arguments>
                             <header translate="true">Email</header>
                             <type>text</type>
                             <index>invitation_email</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="invitee">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="invitee">
                         <arguments>
                             <header translate="true">Invitee</header>
                             <type>text</type>
@@ -70,7 +70,7 @@
                             <renderer>Magento_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee</renderer>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="invitation_date">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="invitation_date">
                         <arguments>
                             <header translate="true">Sent</header>
                             <type>datetime</type>
@@ -79,7 +79,7 @@
                             <index>invitation_date</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="signup_date">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="signup_date">
                         <arguments>
                             <header translate="true">Registered</header>
                             <type>datetime</type>
@@ -88,7 +88,7 @@
                             <index>signup_date</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
                             <header translate="true">Status</header>
                             <type>options</type>
@@ -97,7 +97,7 @@
                             <options type="options">Magento_Invitation_Model_Source_Invitation_Options</options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="website_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="website_id">
                         <arguments>
                             <header translate="true">Valid Website</header>
                             <type>options</type>
@@ -106,7 +106,7 @@
                             <options type="options">Magento_Invitation_Model_Source_Invitation_WebsiteId</options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="group_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="group_id">
                         <arguments>
                             <header translate="true">Invitee Group</header>
                             <type>options</type>
@@ -119,5 +119,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_invitation_block>
+    </handle>
 </layout>

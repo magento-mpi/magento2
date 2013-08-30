@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <rss_catalog_new>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="rss_catalog_new">
         <reference name="rss.catalog.new">
             <action method="addPriceBlockType">
                 <type>giftcard</type>
@@ -16,5 +16,5 @@
                 <template>rss/catalog/product/price.phtml</template>
             </action>
         </reference>
-    </rss_catalog_new>
+    </handle>
 </layout>

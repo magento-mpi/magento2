@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_customer_orders_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_customer_orders_grid">
         <update handle="adminhtml_report_grid"/>
         <reference name="adminhtml.report.grid">
             <arguments>
@@ -32,7 +32,7 @@
             <arguments>
                 <count_totals>1</count_totals>
             </arguments>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
                 <arguments>
                     <header translate="true">Customer</header>
                     <sortable>0</sortable>
@@ -43,7 +43,7 @@
                     <header_css_class>col-name</header_css_class>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="orders_count">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="orders_count">
                 <arguments>
                     <header translate="true">Orders</header>
                     <sortable>0</sortable>
@@ -55,7 +55,7 @@
                     <header_css_class>col-qty</header_css_class>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="orders_avg_amount">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="orders_avg_amount">
                 <arguments>
                     <header translate="true">Average</header>
                     <sortable>0</sortable>
@@ -67,7 +67,7 @@
                     <header_css_class>col-average</header_css_class>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="orders_sum_amount">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="orders_sum_amount">
                 <arguments>
                     <header translate="true">Total</header>
                     <sortable>0</sortable>
@@ -80,5 +80,5 @@
                 </arguments>
             </block>
         </reference>
-    </adminhtml_report_customer_orders_grid>
+    </handle>
 </layout>

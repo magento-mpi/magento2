@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_product_related>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_product_related">
         <reference name="adminhtml.targetrule.grid.container">
-            <block type="Magento_TargetRule_Block_Adminhtml_Product" name="targetrule.adminhtml.product" template="product.phtml" before="catalog.product.edit.tab.related">
+            <block class="Magento_TargetRule_Block_Adminhtml_Product" name="targetrule.adminhtml.product" template="product.phtml" before="catalog.product.edit.tab.related">
                 <action method="setFormPrefix">
                     <params>related</params>
                 </action>
             </block>
         </reference>
-    </adminhtml_catalog_product_related>
+    </handle>
 </layout>

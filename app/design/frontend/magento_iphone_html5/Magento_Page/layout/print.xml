@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <print>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="print">
         <reference name="head">
             <action method="addCss">
                 <file>css/styles.css</file>
@@ -31,5 +31,5 @@
                 <if>lt IE 7</if>
             </action>
         </reference>
-    </print>
+    </handle>
 </layout>

@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <page_three_columns>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="page_three_columns">
         <reference name="root">
             <action method="setTemplate">
                 <template>1column.phtml</template>
             </action>
         </reference>
-    </page_three_columns>
+    </handle>
 </layout>

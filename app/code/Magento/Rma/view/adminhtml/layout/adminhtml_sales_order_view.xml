@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_view">
         <reference name="sales_order_tabs">
-            <block type="Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma" name="magento_rma_order_view_tab_rma" after="order_shipments">
-                <block type="Magento_Rma_Block_Adminhtml_Rma" name="magento_rma"/>
+            <block class="Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma" name="magento_rma_order_view_tab_rma" after="order_shipments">
+                <block class="Magento_Rma_Block_Adminhtml_Rma" name="magento_rma"/>
             </block>
             <action method="addTabAfter">
                 <name>order_rma</name>
@@ -20,9 +20,9 @@
             </action>
         </reference>
         <reference name="sales_order_edit">
-            <block name="rma_buttons" type="Magento_Rma_Block_Adminhtml_Order_View_Buttons">
+            <block class="Magento_Rma_Block_Adminhtml_Order_View_Buttons" name="rma_buttons">
                 <action method="addButtons"/>
             </block>
         </reference>
-    </adminhtml_sales_order_view>
+    </handle>
 </layout>

@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_index">
         <reference name="sales.order.grid.massaction">
             <arguments>
                 <options>
@@ -21,7 +21,7 @@
             </arguments>
         </reference>
         <reference name="sales_order.grid.container">
-            <block type="Magento_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button" name="sales_order.grid.archive.button"/>
+            <block class="Magento_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button" name="sales_order.grid.archive.button"/>
         </reference>
-    </adminhtml_sales_order_index>
+    </handle>
 </layout>

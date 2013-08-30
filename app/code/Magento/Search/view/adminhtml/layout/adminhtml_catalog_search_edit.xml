@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_search_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_search_edit">
         <update handle="adminhtml_catalog_search_block"/>
         <reference name="content">
-            <block type="Magento_Search_Block_Adminhtml_Search_Edit" name="related_grid_edit"/>
-            <block type="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="related_grid_serializer">
+            <block class="Magento_Search_Block_Adminhtml_Search_Edit" name="related_grid_edit"/>
+            <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="related_grid_serializer">
                 <reference name="related_grid_serializer">
                     <action method="initSerializerBlock">
                         <grid_block_name>search.edit.grid</grid_block_name>
@@ -20,9 +20,11 @@
                         <hidden_input_name>selected_queries_grid</hidden_input_name>
                         <reload_param_name>selected_queries_grid</reload_param_name>
                     </action>
-                    <action method="setFormId"><value>edit_form</value></action>
+                    <action method="setFormId">
+                        <value>edit_form</value>
+                    </action>
                 </reference>
             </block>
         </reference>
-    </adminhtml_catalog_search_edit>
+    </handle>
 </layout>

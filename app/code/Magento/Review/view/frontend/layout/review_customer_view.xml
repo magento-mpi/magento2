@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <review_customer_view translate="label" type="page" parent="review_customer_index">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="review_customer_view" translate="label" type="page" parent="review_customer_index">
         <label>Customer My Account Review Details</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="Magento_Review_Block_Customer_View" name="customers_review"/>
+            <block class="Magento_Review_Block_Customer_View" name="customers_review"/>
         </reference>
-    </review_customer_view>
+    </handle>
 </layout>

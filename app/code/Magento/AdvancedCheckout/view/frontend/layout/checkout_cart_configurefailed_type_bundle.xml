@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_cart_configurefailed_type_bundle translate="label" type="page" parent="checkout_cart_configurefailed">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_cart_configurefailed_type_bundle" translate="label" type="page" parent="checkout_cart_configurefailed">
         <label>Configure Bundle Cart Item</label>
         <update handle="catalog_product_view_type_bundle"/>
         <reference name="product.info.addtocart.bundle">
@@ -16,5 +16,5 @@
                 <template>Magento_Checkout::cart/item/configure/updatecart.phtml</template>
             </action>
         </reference>
-    </checkout_cart_configurefailed_type_bundle>
+    </handle>
 </layout>

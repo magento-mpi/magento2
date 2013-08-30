@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="head">
             <action method="addCss">
                 <file>Magento_Cms::widgets.css</file>
             </action>
         </reference>
         <reference name="footer">
-            <block type="Magento_Cms_Block_Block" name="cms_footer_links" before="footer_links">
+            <block class="Magento_Cms_Block_Block" name="cms_footer_links" before="footer_links">
                 <!--
                     The content of this block is taken from the database by its block_id.
                     You can manage it in admin CMS -> Static Blocks
@@ -25,5 +25,5 @@
                 </action>
             </block>
         </reference>
-    </default>
+    </handle>
 </layout>

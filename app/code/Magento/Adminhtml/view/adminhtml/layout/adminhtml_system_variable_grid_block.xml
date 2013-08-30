@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_system_variable_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_system_variable_grid_block">
         <reference name="adminhtml.system.variable.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.variable.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.variable.grid" as="grid">
                 <arguments>
                     <id>customVariablesGrid</id>
                     <dataSource type="object">Magento_Core_Model_Resource_Variable_Collection</dataSource>
                     <default_sort>variable_id</default_sort>
                     <default_dir>ASC</default_dir>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.system.variable.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.system.variable.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -26,20 +26,20 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="variable_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="variable_id">
                         <arguments>
                             <header translate="true">Variable ID</header>
                             <width>1px</width>
                             <index>variable_id</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="code">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
                             <header translate="true">Variable Code</header>
                             <index>code</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
                             <header translate="true">Name</header>
                             <index>name</index>
@@ -48,5 +48,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_system_variable_grid_block>
+    </handle>
 </layout>

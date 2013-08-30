@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_authorizenet_directpost_payment_redirect>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_authorizenet_directpost_payment_redirect">
         <container name="root" label="Root" output="1">
-            <block type="Magento_Authorizenet_Block_Directpost_Iframe" name="iframe" template="directpost/iframe.phtml"/>
+            <block class="Magento_Authorizenet_Block_Directpost_Iframe" name="iframe" template="directpost/iframe.phtml"/>
         </container>
-    </adminhtml_authorizenet_directpost_payment_redirect>
+    </handle>
 </layout>

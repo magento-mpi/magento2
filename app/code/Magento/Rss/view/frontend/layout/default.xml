@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="footer_links">
             <action method="addLink" translate="label title" ifconfig="rss/config/active">
                 <label>RSS</label>
@@ -21,6 +21,6 @@
                 <a>class="link-rss"</a>
             </action>
         </reference>
-        <block type="Magento_Rss_Block_List" name="head_rss" ifconfig="rss/config/active"/>
-    </default>
+        <block class="Magento_Rss_Block_List" name="head_rss" ifconfig="rss/config/active"/>
+    </handle>
 </layout>

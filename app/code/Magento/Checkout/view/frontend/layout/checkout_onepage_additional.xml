@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_additional translate="label" type="fragment" owner="checkout_onepage_index">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_additional" translate="label" type="fragment" owner="checkout_onepage_index">
         <label>One Page Checkout Additional Address Form</label>
-        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-            <block type="Magento_Checkout_Block_Onepage_Shipping_Method_Additional" name="shipping_method_additional" template="onepage/shipping_method/additional.phtml">
+        <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block class="Magento_Checkout_Block_Onepage_Shipping_Method_Additional" name="shipping_method_additional" template="onepage/shipping_method/additional.phtml">
                 <action method="setDontDisplayContainer">
                     <param>1</param>
                 </action>
             </block>
         </block>
-    </checkout_onepage_additional>
+    </handle>
 </layout>

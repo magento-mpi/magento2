@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <tag_product_list>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="tag_product_list">
         <reference name="search_result_list">
             <action method="addPriceBlockType">
                 <type>bundle</type>
@@ -16,5 +16,5 @@
                 <template>catalog/product/price.phtml</template>
             </action>
         </reference>
-    </tag_product_list>
+    </handle>
 </layout>

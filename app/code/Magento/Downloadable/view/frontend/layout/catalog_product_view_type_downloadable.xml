@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <catalog_product_view_type_downloadable translate="label" type="page" parent="catalog_product_view">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_product_view_type_downloadable" translate="label" type="page" parent="catalog_product_view">
         <label>Catalog Product View (Downloadable)</label>
         <reference name="product.info">
-            <block type="Magento_Downloadable_Block_Catalog_Product_View_Type" name="product.info.downloadable" as="product_type_data" template="catalog/product/type.phtml">
-                <block type="Magento_Downloadable_Block_Catalog_Product_Samples" name="product.info.downloadable.samples" as="samples" template="catalog/product/samples.phtml"/>
-                <block type="Magento_CatalogInventory_Block_Stockqty_Default" name="product.info.downloadable.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>
+            <block class="Magento_Downloadable_Block_Catalog_Product_View_Type" name="product.info.downloadable" as="product_type_data" template="catalog/product/type.phtml">
+                <block class="Magento_Downloadable_Block_Catalog_Product_Samples" name="product.info.downloadable.samples" as="samples" template="catalog/product/samples.phtml"/>
+                <block class="Magento_CatalogInventory_Block_Stockqty_Default" name="product.info.downloadable.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>
             </block>
         </reference>
         <reference name="product.info.options.wrapper">
-            <block type="Magento_Downloadable_Block_Catalog_Product_Links" name="product.info.downloadable.options" as="type_downloadable_options" before="-" template="catalog/product/links.phtml"/>
+            <block class="Magento_Downloadable_Block_Catalog_Product_Links" name="product.info.downloadable.options" as="type_downloadable_options" before="-" template="catalog/product/links.phtml"/>
         </reference>
-    </catalog_product_view_type_downloadable>
+    </handle>
 </layout>

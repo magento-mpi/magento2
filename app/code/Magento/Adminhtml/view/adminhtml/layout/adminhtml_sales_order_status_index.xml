@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_status_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_status_index">
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Sales_Order_Status" name="sales_order_status.grid.container">
-                <block type="Magento_Backend_Block_Widget_Grid" name="sales_order_status.grid" as="grid">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Status" name="sales_order_status.grid.container">
+                <block class="Magento_Backend_Block_Widget_Grid" name="sales_order_status.grid" as="grid">
                     <arguments>
                         <id>sales_order_status_grid</id>
                         <dataSource type="object">Magento_Sales_Model_Resource_Status_Collection</dataSource>
@@ -19,7 +19,7 @@
                         <default_dir>desc</default_dir>
                         <pager_visibility>0</pager_visibility>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="sales_order_status.grid.columnSet">
+                    <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="sales_order_status.grid.columnSet">
                         <arguments>
                             <rowUrl>
                                 <path>*/sales_order_status/edit</path>
@@ -29,13 +29,13 @@
                             </rowUrl>
                             <filter_visibility>1</filter_visibility>
                         </arguments>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="label">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column" as="label">
                             <arguments>
                                 <header translate="true">Status</header>
                                 <index>label</index>
                             </arguments>
                         </block>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column" as="status">
                             <arguments>
                                 <header translate="true">Status Code</header>
                                 <index>status</index>
@@ -44,7 +44,7 @@
                                 <width>200</width>
                             </arguments>
                         </block>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_default">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column" as="is_default">
                             <arguments>
                                 <header translate="true">Default Status</header>
                                 <index>is_default</index>
@@ -63,7 +63,7 @@
                                 </options>
                             </arguments>
                         </block>
-                        <block type="Magento_Sales_Block_Status_Grid_Column_State" as="state">
+                        <block class="Magento_Sales_Block_Status_Grid_Column_State" as="state">
                             <arguments>
                                 <header translate="true">State Code and Title</header>
                                 <index>state</index>
@@ -71,7 +71,7 @@
                                 <width>250</width>
                             </arguments>
                         </block>
-                        <block type="Magento_Sales_Block_Status_Grid_Column_Unassign" as="unassign">
+                        <block class="Magento_Sales_Block_Status_Grid_Column_Unassign" as="unassign">
                             <arguments>
                                 <header translate="true">Action</header>
                                 <index>unassign</index>
@@ -85,5 +85,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_sales_order_status_index>
+    </handle>
 </layout>

@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_product_upsell>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_product_upsell">
         <container name="root" label="Root" output="1">
-            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell" name="catalog.product.edit.tab.upsell"/>
-            <block type="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="upsell_grid_serializer">
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell" name="catalog.product.edit.tab.upsell"/>
+            <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="upsell_grid_serializer">
                 <reference name="upsell_grid_serializer">
                     <action method="initSerializerBlock">
                         <grid_block_name>catalog.product.edit.tab.upsell</grid_block_name>
@@ -25,5 +25,5 @@
                 </reference>
             </block>
         </container>
-    </adminhtml_catalog_product_upsell>
+    </handle>
 </layout>

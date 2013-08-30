@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_widget_instance_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_widget_instance_block">
         <reference name="adminhtml.widget.instance.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.widget.instance.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.widget.instance.grid" as="grid">
                 <arguments>
                     <id>widgetInstanceGrid</id>
                     <default_sort>instance_id</default_sort>
                     <default_dir>ASC</default_dir>
                     <dataSource type="object">Magento_Widget_Model_Resource_Widget_Instance_Collection</dataSource>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.widget.instance.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.widget.instance.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -26,21 +26,21 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="instance_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="instance_id">
                         <arguments>
                             <header translate="true">Widget ID</header>
                             <align>left</align>
                             <index>instance_id</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="title">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="title">
                         <arguments>
                             <header translate="true">Widget Instance</header>
                             <align>left</align>
                             <index>title</index>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="type">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="type">
                         <arguments>
                             <header translate="true">Type</header>
                             <align>left</align>
@@ -49,7 +49,7 @@
                             <options type="options">Magento_Widget_Model_Resource_Widget_Instance_Options_Types</options>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="theme_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="theme_id">
                         <arguments>
                             <header translate="true">Design Theme</header>
                             <align>left</align>
@@ -59,7 +59,7 @@
                             <with_empty>1</with_empty>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sort_order">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="sort_order">
                         <arguments>
                             <header translate="true">Sort Order</header>
                             <align>center</align>
@@ -70,5 +70,5 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_widget_instance_block>
+    </handle>
 </layout>
