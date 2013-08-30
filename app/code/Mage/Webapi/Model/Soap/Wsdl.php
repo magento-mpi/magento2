@@ -22,9 +22,9 @@ class Mage_Webapi_Model_Soap_Wsdl extends Wsdl
      *
      * @param string $name
      * @param string|Zend\Uri\Uri $uri
-     * @param Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased $strategy
+     * @param Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_AnyComplexType $strategy
      */
-    public function __construct($name, $uri, Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased $strategy)
+    public function __construct($name, $uri, Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_AnyComplexType $strategy)
     {
         $this->_uri = $uri;
         parent::__construct($name, $uri, $strategy);
@@ -34,7 +34,7 @@ class Mage_Webapi_Model_Soap_Wsdl extends Wsdl
      * Add complex type definition
      *
      * @param DOMNode $complexTypeNode XSD of service method for input/output
-     * @return string
+     * @return string|null
      */
     public function addComplexType($complexTypeNode)
     {
