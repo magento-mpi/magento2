@@ -114,10 +114,20 @@ abstract class AbstractParser implements ParserInterface
      */
     protected function _stripQuotes($phrase)
     {
-        $firstChar = $phrase[0];
-        if (($firstChar == '"' || $firstChar == "'") && $firstChar == $phrase[strlen($phrase)-1]) {
-            $phrase = substr($phrase, 1, strlen($phrase)-2);
+        if ($this->_isFirstAndLastCharIsQuote($phrase)) {
+            $phrase = substr($phrase, 1, strlen($phrase) - 2);
         }
         return $phrase;
+    }
+
+    /**
+     * Check if first and last char is quote
+     *
+     * @param string $phrase
+     * @return bool
+     */
+    protected function _isFirstAndLastCharIsQuote($phrase)
+    {
+        return ($phrase[0] == '"' || $phrase[0] == "'") && $phrase[0] == $phrase[strlen($phrase) - 1];
     }
 }
