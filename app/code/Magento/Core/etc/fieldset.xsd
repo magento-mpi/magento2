@@ -30,7 +30,7 @@
         <xs:sequence>
             <xs:element minOccurs="1" maxOccurs="unbounded" name="fieldset" type="fieldsetType"/>
         </xs:sequence>
-        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:id" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="fieldsetType">
@@ -42,7 +42,7 @@
         <xs:sequence>
             <xs:element minOccurs="1" maxOccurs="unbounded" name="field" type="fieldType"/>
         </xs:sequence>
-        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:id" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="fieldType">
@@ -52,9 +52,9 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element minOccurs="0" maxOccurs="unbounded" name="aspect" type="aspectType"/>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="aspect" type="aspectType"/>
         </xs:sequence>
-        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="name" type="xs:token" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="aspectType">
@@ -64,7 +64,7 @@
                 provided under the name specified by targetField.
             </xs:documentation>
         </xs:annotation>
-        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="name" type="xs:token" use="required"/>
         <xs:attribute name="targetField" type="xs:string" use="optional"/>
     </xs:complexType>
 
