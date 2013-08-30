@@ -24,7 +24,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUni
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper');
+        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_coreHelperMock = $this->getMock('Magento_Core_Helper_Data',
             array('jsonDecode'), array(), '', false, false
         );
