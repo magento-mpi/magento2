@@ -813,6 +813,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      */
     protected function _requestShippingRates($items, $address, $store, $subtotal, $weight, $qty)
     {
+        /** @var Magento_Sales_Model_Quote_Address $shippingDestinationInfo */
         $shippingDestinationInfo = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel(
             $this->getStoreId()
         );
@@ -823,7 +824,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         $request->setDestCountryId($shippingDestinationInfo->getCountryId());
         $request->setDestRegionId($shippingDestinationInfo->getRegionId());
         $request->setDestRegionCode($shippingDestinationInfo->getRegionId());
-        $request->setDestStreet($shippingDestinationInfo->getStreet(-1));
+        $request->setDestStreet($shippingDestinationInfo->getStreetFull());
         $request->setDestCity($shippingDestinationInfo->getCity());
         $request->setDestPostcode($shippingDestinationInfo->getPostcode());
         $request->setDestCompanyName($shippingDestinationInfo->getCompany());

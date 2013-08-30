@@ -45,7 +45,7 @@ class Magento_GoogleAdwords_Model_Validator_ColorFactoryTest extends PHPUnit_Fra
         $this->_validatorBuilderMock = $this->getMock('Magento_Validator_Builder', array(), array(), '', false);
         $this->_validatorMock = $this->getMock('Magento_Validator_ValidatorInterface', array(), array(), '', false);
 
-        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_factory = $objectManager->getObject('Magento_GoogleAdwords_Model_Validator_Factory', array(
             'validatorBuilderFactory' => $this->_validatorBuilderFactoryMock,
         ));

@@ -82,7 +82,7 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPlaceholderImageUrlAtTheme()
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )

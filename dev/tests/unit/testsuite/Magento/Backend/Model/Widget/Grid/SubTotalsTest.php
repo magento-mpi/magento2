@@ -49,7 +49,7 @@ class Magento_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_
             'parser' =>  $this->_parserMock
         );
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_Backend_Model_Widget_Grid_SubTotals', $arguments);
 
         // setup columns

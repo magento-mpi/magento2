@@ -22,7 +22,7 @@ class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )

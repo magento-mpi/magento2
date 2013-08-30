@@ -191,7 +191,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $this->assertEmpty($this->_product->getTypeHasRequiredOptions());
 
         $this->_product->setCanSaveConfigurableAttributes(true);
-        $this->_product->setConfigurableAttributesData(array('values' => 'not empty'));
+        $this->_product->setConfigurableAttributesData(array(array('values' => 'not empty')));
         $this->_model->beforeSave($this->_product);
         $this->assertTrue($this->_product->getTypeHasOptions());
         $this->assertTrue($this->_product->getTypeHasRequiredOptions());

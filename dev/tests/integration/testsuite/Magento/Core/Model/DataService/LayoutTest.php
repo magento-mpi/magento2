@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     private $_dataServiceGraph;
 
@@ -33,11 +33,8 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_Co
 
     protected function _loadServiceCallsConfig()
     {
-        /** @var Magento_Core_Model_Dir $dirs */
-        $dirs = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Dir', array(
-                'baseDir' => array(BP),
-                'dirs' => array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files'))
+        $dirs = new Magento_Core_Model_Dir(
+            __DIR__, array(), array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files')
         );
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */

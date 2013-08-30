@@ -17,4 +17,4 @@ require_once("lib/Magento/Autoload/Simple.php");
 Magento_Autoload_Simple::register();
 
 umask(0);
-Maged_Controller::run();
+Magento_Downloader_Controller::run();

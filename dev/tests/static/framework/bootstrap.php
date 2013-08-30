@@ -16,4 +16,4 @@ Magento_Autoload_IncludePath::addIncludePath(array(
     dirname(__DIR__) . '/testsuite',
     $baseDir . '/lib',
 ));
-Utility_Files::init(new Utility_Files($baseDir));
+Magento_TestFramework_Utility_Files::init(new Magento_TestFramework_Utility_Files($baseDir));

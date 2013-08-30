@@ -17,7 +17,7 @@
  */
 class Magento_VersionsCms_Model_Hierarchy_Config
 {
-    const XML_PATH_CONTEXT_MENU_LAYOUTS = 'global/enterprise_cms/hierarchy/menu/layouts';
+    const XML_PATH_CONTEXT_MENU_LAYOUTS = 'global/magento_versionscms/hierarchy/menu/layouts';
 
     /**
      * Menu layouts configuration

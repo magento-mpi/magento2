@@ -20,7 +20,7 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected $_eventObserver;
 
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 

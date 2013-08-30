@@ -14,7 +14,7 @@
 class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 

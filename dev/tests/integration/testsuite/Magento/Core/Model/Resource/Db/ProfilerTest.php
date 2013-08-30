@@ -61,7 +61,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
     public function testProfilerInit($selectQuery, $queryType)
     {
         $connReadConfig = $this->_getConnectionReadConfig();
-        /** @var Magento_Test_Db_Adapter_Mysql $connection */
+        /** @var Magento_TestFramework_Db_Adapter_Mysql $connection */
         $connection = $this->_model->getConnection('core_read');
 
         /** @var Magento_Core_Model_Resource $resource */

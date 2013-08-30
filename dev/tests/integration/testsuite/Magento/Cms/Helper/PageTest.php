@@ -18,8 +18,8 @@ class Magento_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
     public function testRenderPage()
     {
         $arguments = array(
-            'request' => new Magento_Test_Request(),
-            'response' => new Magento_Test_Response()
+            'request' => new Magento_TestFramework_Request(),
+            'response' => new Magento_TestFramework_Response()
         );
         $context = Mage::getModel('Magento_Core_Controller_Varien_Action_Context', $arguments);
         $page = Mage::getSingleton('Magento_Cms_Model_Page');

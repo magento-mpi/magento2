@@ -61,12 +61,12 @@ class Magento_Test_Profiler_OutputBambooTestFilter extends php_user_filter
 }
 
 /**
- * Test class for Magento_Test_Profiler_OutputBamboo.
+ * Test class for Magento_TestFramework_Profiler_OutputBamboo.
  */
 class Magento_Test_Profiler_OutputBambooTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Profiler_OutputBamboo
+     * @var Magento_TestFramework_Profiler_OutputBamboo
      */
     protected $_output;
 
@@ -85,7 +85,7 @@ class Magento_Test_Profiler_OutputBambooTest extends PHPUnit_Framework_TestCase
         /**
          * @link http://php.net/manual/en/wrappers.php.php
          */
-        $this->_output = new Magento_Test_Profiler_OutputBamboo(array(
+        $this->_output = new Magento_TestFramework_Profiler_OutputBamboo(array(
             'filePath' => 'php://filter/write=dataCollectorFilter/resource=php://memory',
             'metrics' => array('sample metric (ms)' => array('profiler_key_for_sample_metric'))
         ));

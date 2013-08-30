@@ -43,7 +43,7 @@ class Magento_Core_Model_Config_ContainerTest extends PHPUnit_Framework_TestCase
             'factory' => $factoryMock,
             'configCache' => $this->_configCacheMock,
         );
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $helper->getObject('Magento_Core_Model_Config_Container', $arguments);
     }
 

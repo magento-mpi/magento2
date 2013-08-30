@@ -21,7 +21,7 @@ $options = array();
 foreach ($product->getOptions() as $option) {
     switch ($option->getGroupByType()) {
         case Magento_Catalog_Model_Product_Option::OPTION_GROUP_DATE:
-            $value = Mage::getModel('Magento_Core_Model_Date')->date();
+            $value = array('year' => 2013, 'month' => 8, 'day' => 9, 'hour' => 13, 'minute' => 35);
             break;
         case Magento_Catalog_Model_Product_Option::OPTION_GROUP_SELECT:
             $value = key($option->getValues());
@@ -46,6 +46,6 @@ $cart->save();
 
 Mage::unregister('_singleton/Magento_Checkout_Model_Session');
 
-/** @var $objectManager Magento_Test_ObjectManager */
+/** @var $objectManager Magento_TestFramework_ObjectManager */
 $objectManager = Mage::getObjectManager();
 $objectManager->removeSharedInstance('Magento_Checkout_Model_Session');

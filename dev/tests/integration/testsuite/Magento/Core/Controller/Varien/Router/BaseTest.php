@@ -46,11 +46,11 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
 
     public function testMatch()
     {
-        if (!Magento_Test_Helper_Bootstrap::canTestHeaders()) {
+        if (!Magento_TestFramework_Helper_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test get match without sending headers');
         }
 
-        $request = new Magento_Test_Request();
+        $request = new Magento_TestFramework_Request();
         $this->assertNull($this->_model->match($request));
 
         $this->_model->collectRoutes('frontend', 'standard');

@@ -36,7 +36,7 @@ class Magento_User_Model_RulesTest extends PHPUnit_Framework_TestCase
             ->setRoleId(1)
             ->setPermission('allow');
 
-        $crud = new Magento_Test_Entity($this->_model, array('permission' => 'deny'));
+        $crud = new Magento_TestFramework_Entity($this->_model, array('permission' => 'deny'));
         $crud->testCrud();
     }
 

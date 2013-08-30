@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Test_Workaround_Cleanup_TestCaseProperties.
+ * Test class for Magento_TestFramework_Workaround_Cleanup_TestCaseProperties.
  */
 class Magento_Test_Workaround_Cleanup_TestCasePropertiesTest extends PHPUnit_Framework_TestCase
 {
@@ -39,7 +39,7 @@ class Magento_Test_Workaround_Cleanup_TestCasePropertiesTest extends PHPUnit_Fra
         /** @var $testSuite PHPUnit_Framework_TestSuite */
         $testSuite = $phpUnitTestSuite->testAt(0);
         $testSuite->run();
-        /** @var $testClass Magento_Test_Workaround_Cleanup_DummyTestCase */
+        /** @var $testClass Magento_TestFramework_Workaround_Cleanup_DummyTestCase */
         $testClass = $testSuite->testAt(0);
 
         $propertyObjectMock = $this->getMock('stdClass', array('__destruct'));
@@ -57,7 +57,7 @@ class Magento_Test_Workaround_Cleanup_TestCasePropertiesTest extends PHPUnit_Fra
             }
         }
 
-        $clearProperties = new Magento_Test_Workaround_Cleanup_TestCaseProperties();
+        $clearProperties = new Magento_TestFramework_Workaround_Cleanup_TestCaseProperties();
         $clearProperties->endTestSuite($testSuite);
 
         foreach ($this->_fixtureProperties as $property) {

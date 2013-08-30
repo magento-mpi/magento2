@@ -15,7 +15,7 @@
 class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 

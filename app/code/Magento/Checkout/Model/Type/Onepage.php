@@ -256,8 +256,6 @@ class Magento_Checkout_Model_Type_Onepage
             return array('error' => 1, 'message' => $validateRes);
         }
 
-        $address->implodeStreetAddress();
-
         if (true !== ($result = $this->_validateCustomerData($data))) {
             return $result;
         }
@@ -457,7 +455,6 @@ class Magento_Checkout_Model_Type_Onepage
             $address->setSameAsBilling(empty($data['same_as_billing']) ? 0 : 1);
         }
 
-        $address->implodeStreetAddress();
         $address->setCollectShippingRates(true);
 
         if (($validateRes = $address->validate())!==true) {

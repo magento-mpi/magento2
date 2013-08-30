@@ -162,7 +162,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
     public function testFinish()
     {
         $this->_emulateInstallerConfigDir(self::$_tmpDir);
-        $configFile = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/etc/local.xml';
+        $configFile = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/etc/local.xml';
         copy($configFile, self::$_tmpConfigFile);
 
         $this->_model->finish();

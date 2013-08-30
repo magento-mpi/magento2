@@ -32,7 +32,7 @@ class Magento_Tax_Model_Class_Type_ProductTest extends PHPUnit_Framework_TestCas
             ->method('getCollection')
             ->will($this->returnValue($collectionMock));
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model Magento_Tax_Model_Class_Type_Product */
         $model = $objectManagerHelper->getObject(
             'Magento_Tax_Model_Class_Type_Product',

@@ -14,7 +14,7 @@
  *
  * @magentoAppArea frontend
  */
-class Magento_Checkout_Controller_MultishippingTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Checkout_Controller_MultishippingTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * Covers app/code/Magento/Checkout/Block/Multishipping/Payment/Info.php

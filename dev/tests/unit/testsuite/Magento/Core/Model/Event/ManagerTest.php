@@ -46,7 +46,7 @@ class Magento_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
             false);
         $this->_observer = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_eventManager = $objectManagerHelper->getObject('Magento_Core_Model_Event_Manager', array(
             'invoker' => $this->_invoker,
             'eventFactory' => $this->_eventFactory,

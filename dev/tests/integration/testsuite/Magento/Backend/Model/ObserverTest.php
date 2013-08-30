@@ -90,8 +90,8 @@ class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $request->setPost(
             'login',
             array(
-                'username' => Magento_Test_Bootstrap::ADMIN_NAME,
-                'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD
+                'username' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
+                'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
             )
         );
 

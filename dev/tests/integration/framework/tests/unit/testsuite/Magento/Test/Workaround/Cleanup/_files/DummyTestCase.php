@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Workaround_Cleanup_DummyTestCase extends PHPUnit_Framework_TestCase
+class Magento_TestFramework_Workaround_Cleanup_DummyTestCase extends PHPUnit_Framework_TestCase
 {
     /**
      * @var string

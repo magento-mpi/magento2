@@ -39,7 +39,7 @@
         </actions>
     </magento_versionscms_hierarchy>
 
-    <enterprise_cms_page_versioning translate="label">
+    <magento_versionscms_page_versioning translate="label">
         <label>CMS Versioning</label>
         <actions>
 <!--
@@ -133,5 +133,5 @@
                 </skip_on_back>
             </adminhtml_cms_page_revision_publish>
         </actions>
-    </enterprise_cms_page_versioning>
+    </magento_versionscms_page_versioning>
 </logging>

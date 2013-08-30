@@ -127,23 +127,31 @@ class Magento_Core_Model_Translate_InlineParser
     protected $_storeManager;
 
     /**
+     * @var Zend_Filter_Interface
+     */
+    protected $_inputFilter;
+
+    /**
      * Initialize base inline translation model
      *
      * @param Magento_Core_Model_Resource_Translate_String $resource
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_View_Design $design
      * @param Magento_Core_Helper_Data $helper
+     * @param Zend_Filter_Interface $inputFilter
      */
     public function __construct(
         Magento_Core_Model_Resource_Translate_String $resource,
         Magento_Core_Model_View_Design $design,
         Magento_Core_Helper_Data $helper,
-        Magento_Core_Model_StoreManager $storeManager
+        Magento_Core_Model_StoreManager $storeManager,
+        Zend_Filter_Interface $inputFilter
     ) {
         $this->_resource = $resource;
         $this->_design = $design;
         $this->_helper = $helper;
         $this->_storeManager = $storeManager;
+        $this->_inputFilter = $inputFilter;
     }
 
     /**
@@ -177,11 +185,15 @@ class Magento_Core_Model_Translate_InlineParser
      * @param Magento_Core_Model_Translate_InlineInterface $inlineInterface
      * @return Magento_Core_Model_Translate_InlineParser
      */
-    public function processAjaxPost($translateParams, $inlineInterface)
+    public function processAjaxPost(array $translateParams, $inlineInterface)
     {
         if (!$inlineInterface->isAllowed()) {
             return $this;
         }
+
+        $this->_validateTranslationParams($translateParams);
+        $this->_filterTranslationParams($translateParams, array('custom'));
+
         /** @var $validStoreId int */
         $validStoreId = $this->_storeManager->getStore()->getId();
 
@@ -197,6 +209,38 @@ class Magento_Core_Model_Translate_InlineParser
             $this->_resource->saveTranslate($param['original'], $param['custom'], null, $storeId);
         }
         return $this;
+    }
+
+    /**
+     * Validate the structure of translation parameters
+     *
+     * @param array $translateParams
+     * @throws InvalidArgumentException
+     */
+    protected function _validateTranslationParams(array $translateParams)
+    {
+        foreach ($translateParams as $param) {
+            if (!is_array($param) || !isset($param['original']) || !isset($param['custom'])) {
+                throw new InvalidArgumentException(
+                    'Both original and custom phrases are required for inline translation.'
+                );
+            }
+        }
+    }
+
+    /**
+     * Apply input filter to values of translation parameters
+     *
+     * @param array $translateParams
+     * @param array $fieldNames Names of fields values of which are to be filtered
+     */
+    protected function _filterTranslationParams(array &$translateParams, array $fieldNames)
+    {
+        foreach ($translateParams as &$param) {
+            foreach ($fieldNames as $fieldName) {
+                $param[$fieldName] = $this->_inputFilter->filter($param[$fieldName]);
+            }
+        }
     }
 
     /**

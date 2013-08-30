@@ -28,7 +28,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     /**
      * Object Manager instance
      *
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 

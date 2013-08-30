@@ -26,6 +26,6 @@ $cart->save();
 
 Mage::unregister('_singleton/Magento_Checkout_Model_Session');
 
-/** @var $objectManager Magento_Test_ObjectManager */
+/** @var $objectManager Magento_TestFramework_ObjectManager */
 $objectManager = Mage::getObjectManager();
 $objectManager->removeSharedInstance('Magento_Checkout_Model_Session');

@@ -23,7 +23,7 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $themeModel = Mage::getObjectManager()->create('Magento_Core_Model_Theme');
         $themeModel->setData($this->_getThemeValidData());
 
-        $crud = new Magento_Test_Entity($themeModel, array('theme_version' => '2.0.0.1'));
+        $crud = new Magento_TestFramework_Entity($themeModel, array('theme_version' => '2.0.0.1'));
         $crud->testCrud();
     }
 
