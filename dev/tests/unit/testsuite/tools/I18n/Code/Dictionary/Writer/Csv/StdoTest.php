@@ -8,8 +8,6 @@
 
 namespace Magento\Tools\I18n\Code\Dictionary\Writer\Csv;
 
-use Magento\Tools\I18n\Code\Dictionary\Writer\Csv as BaseCsv;
-
 class StdoTest extends \PHPUnit_Framework_TestCase
 {
     /**

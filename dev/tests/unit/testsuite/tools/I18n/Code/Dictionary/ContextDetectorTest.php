@@ -8,8 +8,6 @@
 
 namespace Magento\Tools\I18n\Code\Dictionary;
 
-use Magento\Tools\I18n\Code\Dictionary\ContextDetector;
-
 class ContextDetectorTest extends \PHPUnit_Framework_TestCase
 {
     /**
