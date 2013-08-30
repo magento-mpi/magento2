@@ -60,8 +60,10 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
 
     public function setUp()
     {
-        $this->_model
-            = new Enterprise_ImportExport_Model_Export_Entity_Customer_Finance($this->_getModelDependencies());
+        $this->_model = new Enterprise_ImportExport_Model_Export_Entity_Customer_Finance(
+            $this->getMock('Enterprise_ImportExport_Helper_Data', array(), array(), '', false, false),
+            $this->_getModelDependencies()
+        );
     }
 
     public function tearDown()

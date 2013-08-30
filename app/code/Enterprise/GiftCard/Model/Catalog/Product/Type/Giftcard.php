@@ -54,6 +54,8 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Ca
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Store $store
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -61,10 +63,12 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Ca
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_File_Storage_Database $fileStorageDb,
         Magento_Filesystem $filesystem,
+        Magento_Core_Model_Store $store,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
-        $this->_store = isset($data['store']) ? $data['store'] : Mage::app()->getStore();
-        $this->_locale = isset($data['locale']) ? $data['locale'] : Mage::app()->getLocale();
+        $this->_store = $store;
+        $this->_locale = $locale;
         parent::__construct($coreData, $fileStorageDb, $filesystem, $data);
     }
 

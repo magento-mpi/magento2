@@ -62,34 +62,23 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
      */
     protected function _mockModel($mockedMethods)
     {
-        $helpers = array(
-            'Enterprise_GiftCard_Helper_Data'        => $this->getMock(
-                'Enterprise_GiftCard_Helper_Data', array(), array(), '', false, false
-            ),
-            'Magento_Core_Helper_Data'                  => $this->getMock(
-                'Magento_Core_Helper_Data', array(), array(), '', false, false
-            ),
-            'Magento_Catalog_Helper_Data'               => $this->getMock(
-                'Magento_Catalog_Helper_Data', array(), array(), '', false, false
-            ),
-            'Magento_Core_Helper_File_Storage_Database' => $this->getMock(
-                'Magento_Core_Helper_File_Storage_Database', array(), array(), '', false, false
-            )
-        );
-
+        $coreData = $this->getMockBuilder('Magento_Core_Helper_Data')->disableOriginalConstructor()->getMock();
+        $catalogData = $this->getMockBuilder('Magento_Catalog_Helper_Data')->disableOriginalConstructor()->getMock();
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $storage = $this->getMockBuilder('Magento_Core_Helper_File_Storage_Database')->disableOriginalConstructor()
+            ->getMock();
         $locale = $this->getMock('Magento_Core_Model_Locale', array('getNumber'), array(), '', false);
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
         $this->_model = $this->getMock(
             'Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard',
             $mockedMethods,
             array(
+                $coreData,
+                $catalogData,
+                $storage,
                 $filesystem,
-                array(
-                    'store'     => $this->_store,
-                    'helpers'   => $helpers,
-                    'locale'    => $locale,
-                )
+                $this->_store,
+                $locale,
             )
         );
     }

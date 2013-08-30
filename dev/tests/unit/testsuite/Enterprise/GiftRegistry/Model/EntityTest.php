@@ -72,9 +72,18 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
         $eventDispatcher = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false, false);
         $cacheManager = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false, false);
         $context = new Magento_Core_Model_Context($eventDispatcher, $cacheManager);
+        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false);
+        $giftRegistryData = $this->getMock('Enterprise_GiftRegistry_Helper_Data', array('escapeHtml', 'getRegistryLink'),
+            array(), '', false, false);
+        $giftRegistryData->expects($this->any())
+            ->method('escapeHtml')
+            ->will($this->returnArgument(0));
+        $giftRegistryData->expects($this->any())
+            ->method('getRegistryLink')
+            ->will($this->returnArgument(0));
 
         $this->_model = new Enterprise_GiftRegistry_Model_Entity(
-            $context, $app, $this->_store, $config, $translate, $resource, null, array(
+            $coreData, $giftRegistryData, $context, $app, $this->_store, $config, $translate, $resource, null, array(
                 'helpers' => array('Enterprise_GiftRegistry_Helper_Data' => $helper)
             )
         );

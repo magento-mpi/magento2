@@ -238,10 +238,8 @@ abstract class Magento_ImportExport_Model_Import_EntityAbstract
             : Magento_ImportExport_Model_Import::getDataSourceModel();
         $this->_connection          = isset($data['connection']) ? $data['connection']
             : Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
-        $this->_jsonHelper          = isset($data['json_helper']) ? $data['json_helper']
-            : $coreData;
-        $this->_stringHelper        = isset($data['string_helper']) ? $data['string_helper']
-            : $coreString;
+        $this->_jsonHelper          =  $coreData;
+        $this->_stringHelper        =  $coreString;
         $this->_pageSize            = isset($data['page_size']) ? $data['page_size']
             : (static::XML_PATH_PAGE_SIZE ? (int) Mage::getStoreConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_maxDataSize         = isset($data['max_data_size']) ? $data['max_data_size']

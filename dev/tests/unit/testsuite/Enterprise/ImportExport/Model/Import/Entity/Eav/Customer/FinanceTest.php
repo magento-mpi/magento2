@@ -46,12 +46,12 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
      */
     protected $_customers = array(
         array(
-            'id'         => 1,
+            'entity_id'  => 1,
             'email'      => 'test1@email.com',
             'website_id' => 1
         ),
         array(
-            'id'         => 2,
+            'entity_id'  => 2,
             'email'      => 'test2@email.com',
             'website_id' => 2
         ),
@@ -133,7 +133,22 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         } else {
             $dependencies = $this->_getModelDependencies();
         }
-        $this->_model = new Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance($dependencies);
+
+        $moduleHelper = $this->getMock('Enterprise_ImportExport_Helper_Data',
+            array('isRewardPointsEnabled', 'isCustomerBalanceEnabled'), array(), '', false);
+        $moduleHelper->expects($this->any())->method('isRewardPointsEnabled')->will($this->returnValue(true));
+        $moduleHelper->expects($this->any())->method('isCustomerBalanceEnabled')->will($this->returnValue(true));
+
+        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+
+        $coreString = $this->getMock('Magento_Core_Helper_String', array(), array(), '', false);
+
+        $this->_model = new Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance(
+            $coreData,
+            $coreString,
+            $moduleHelper,
+            $dependencies
+        );
     }
 
     /**
@@ -170,17 +185,19 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         /** @var $customerStorage Magento_ImportExport_Model_Resource_Customer_Storage */
         $customerStorage = $this->getMock('Magento_ImportExport_Model_Resource_Customer_Storage', array('load'),
             array(), '', false);
+        $customerResource = $this->getMock('Magento_Customer_Model_Resource_Customer', array('getIdFieldName'),
+            array(), '', false);
+        $customerResource->expects($this->any())
+            ->method('getIdFieldName')
+            ->will($this->returnValue('entity_id'));
         foreach ($this->_customers as $customerData) {
             /** @var $customer Magento_Customer_Model_Customer */
             $arguments = $objectManagerHelper->getConstructArguments('Magento_Customer_Model_Customer');
+            $arguments['resource'] = $customerResource;
             $arguments['data'] = $customerData;
             $customer = $this->getMock('Magento_Customer_Model_Customer', array('_construct'), $arguments);
             $customerStorage->addCustomer($customer);
         }
-
-        $moduleHelper = $this->getMock('stdClass', array('isRewardPointsEnabled', 'isCustomerBalanceEnabled'));
-        $moduleHelper->expects($this->any())->method('isRewardPointsEnabled')->will($this->returnValue(true));
-        $moduleHelper->expects($this->any())->method('isCustomerBalanceEnabled')->will($this->returnValue(true));
 
         $objectFactory = $this->getMock('stdClass', array('getModelInstance'));
         $objectFactory->expects($this->any())->method('getModelInstance')
@@ -217,7 +234,6 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'store_manager'                => 'not_used',
             'entity_type_id'               => 1,
             'customer_storage'             => $customerStorage,
-            'module_helper'                => $moduleHelper,
             'object_factory'               => $objectFactory,
             'attribute_collection'         => $attributeCollection,
             'admin_user'                   => $adminUser

@@ -26,7 +26,9 @@ class Enterprise_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCas
      */
     public function setUp()
     {
-        $this->_model = new Enterprise_ImportExport_Model_Import();
+        $this->_model = new Enterprise_ImportExport_Model_Import(
+            $this->getMock('Magento_ImportExport_Helper_Data', array(), array(), '', false, false)
+        );
     }
 
     /**
