@@ -36,27 +36,29 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
             ->with('etc', 'Magento_Core')
             ->will($this->returnValue('dummyDir'));
 
-        $domConfig = $this->getMockBuilder('Magento_Config_Dom')
+        $domConfig = $this->getMockBuilder('Magento_Config_DomFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $domConfig->expects($this->any())
-            ->method('setSchemaFile')
-            ->with('dummyDir' . DIRECTORY_SEPARATOR .  'layouts.xsd')
+
+        $params = array(
+            'xml' => '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+                . '<handle id="handleId">' . trim($value) . '</handle>'
+                . '</layout>',
+            'schemaFile' => 'dummyDir' . DIRECTORY_SEPARATOR .  'layouts.xsd'
+        );
+
+        $domConfig->expects($this->once())
+            ->method('getDom')
+            ->with($this->equalTo($params))
             ->will(
                 $isValid
                 ? $this->returnSelf()
                 : $this->throwException(new Magento_Config_Dom_ValidationException)
             );
-        $domConfig->expects($this->any())
-            ->method('loadXml')
-            ->with('<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
-            . '<handle id="handleId">' . trim($value) . '</handle>'
-            . '</layout>')
-            ->will($this->returnSelf());
 
         $model = $this->_objectHelper->getObject('Magento_Adminhtml_Model_LayoutUpdate_Validator', array(
             'modulesReader' => $modulesReader,
-            'domConfig' => $domConfig,
+            'domConfigFactory' => $domConfig,
         ));
 
         $this->assertEquals($model->isValid($value), $expectedResult);

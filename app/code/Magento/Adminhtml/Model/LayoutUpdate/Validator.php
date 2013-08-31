@@ -45,9 +45,9 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     protected $_modulesReader;
 
     /**
-     * @var Magento_Config_Dom
+     * @var Magento_Config_DomFactory
      */
-    protected $_domConfig;
+    protected $_domConfigFactory;
 
     /**
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
@@ -55,10 +55,10 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
      */
     public function __construct(
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Config_Dom $domConfig
+        Magento_Config_DomFactory $domConfigFactory
     ) {
         $this->_modulesReader = $modulesReader;
-        $this->_domConfig = $domConfig;
+        $this->_domConfigFactory = $domConfigFactory;
         $this->_initMessageTemplates();
     }
 
@@ -96,11 +96,12 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
             $value = '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
                 . '<handle id="handleId">' . trim($value) . '</handle>'
                 . '</layout>';
-            $this->_domConfig
-                ->setSchemaFile(
-                    $this->_modulesReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'layouts.xsd'
-                )
-                ->loadXml($value);
+
+            $schema = $this->_modulesReader->getModuleDir('etc', 'Magento_Core'). DIRECTORY_SEPARATOR . 'layouts.xsd';
+            $dom = $this->_domConfigFactory->getDom(array(
+                'xml' => $value,
+                'schemaFile' => $schema
+            ));
             $value = new Magento_Simplexml_Element($value);
         } catch (Exception $e) {
             $this->_error(self::XML_INVALID);
