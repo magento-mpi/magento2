@@ -467,7 +467,9 @@ class Magento_Core_Model_Layout_Merge
             Magento_Profiler::stop($_profilerKey);
             return false;
         }
-        $updateStr = '<update_xml>' . $updateStr . '</update_xml>';
+        $updateStr = '<update_xml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+            . $updateStr
+            . '</update_xml>';
         $updateStr = $this->_substitutePlaceholders($updateStr);
         $updateXml = $this->_loadXmlString($updateStr);
         $this->_fetchRecursiveUpdates($updateXml);
