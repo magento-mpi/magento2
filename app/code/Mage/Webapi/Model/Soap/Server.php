@@ -180,7 +180,6 @@ class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
     {
         // @TODO: Implement proper endpoint URL retrieval mechanism in APIA-718 story
         return $this->_application->getStore()->getBaseUrl()
-        . $this->_application->getConfig()->getAreaFrontName() . '/'
         . Mage_Webapi_Controller_Soap::REQUEST_TYPE;
     }
 }

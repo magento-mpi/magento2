@@ -100,8 +100,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetEndpointUri()
     {
-        $expectedResult = 'http://magento.com/' . Mage_Webapi_Controller_Soap::REQUEST_TYPE . '/'
-            . Mage_Webapi_Controller_Soap::REQUEST_TYPE;
+        $expectedResult = 'http://magento.com/' . Mage_Webapi_Controller_Soap::REQUEST_TYPE;
         $actualResult = $this->_soapServer->getEndpointUri();
         $this->assertEquals($expectedResult, $actualResult, 'Endpoint URI building is invalid.');
     }
@@ -140,7 +139,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         $serviceKey = Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES;
         $this->_requestMock->expects($this->any())->method('getParam')
             ->will($this->returnValue($param));
-        $expectedResult = "http://magento.com/soap/soap?{$serviceKey}={$param}&wsdl=1";
+        $expectedResult = "http://magento.com/soap?{$serviceKey}={$param}&wsdl=1";
         $actualResult = $this->_soapServer->generateUri(true);
         $this->assertEquals($expectedResult, urldecode($actualResult), 'URI (with WSDL param) generated is invalid.');
     }
@@ -154,7 +153,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         $serviceKey = Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES;
         $this->_requestMock->expects($this->any())->method('getParam')
             ->will($this->returnValue($param));
-        $expectedResult = "http://magento.com/soap/soap?{$serviceKey}={$param}";
+        $expectedResult = "http://magento.com/soap?{$serviceKey}={$param}";
         $actualResult = $this->_soapServer->generateUri(false);
         $this->assertEquals(
             $expectedResult,
