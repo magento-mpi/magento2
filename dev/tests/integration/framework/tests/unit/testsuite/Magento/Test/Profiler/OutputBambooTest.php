@@ -14,7 +14,7 @@
  *
  * @link http://php.net/manual/en/function.stream-filter-register.php
  */
-class Magento_Test_Profiler_OutputBambooTest extends php_user_filter
+class Magento_Test_Profiler_OutputBambooTestFilter extends php_user_filter
 {
     private static $_collectedData = '';
 
@@ -72,7 +72,7 @@ class Magento_Test_Profiler_OutputBambooTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        stream_filter_register('dataCollectorFilter', 'Magento_Test_Profiler_OutputBambooTest');
+        stream_filter_register('dataCollectorFilter', 'Magento_Test_Profiler_OutputBambooTestFilter');
     }
 
     /**
@@ -80,7 +80,7 @@ class Magento_Test_Profiler_OutputBambooTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        Magento_Test_Profiler_OutputBambooTest::resetCollectedData();
+        Magento_Test_Profiler_OutputBambooTestFilter::resetCollectedData();
 
         /**
          * @link http://php.net/manual/en/wrappers.php.php
@@ -94,6 +94,6 @@ class Magento_Test_Profiler_OutputBambooTest extends PHPUnit_Framework_TestCase
     public function testDisplay()
     {
         $this->_output->display(new Magento_Profiler_Driver_Standard_Stat());
-        Magento_Test_Profiler_OutputBambooTest::assertCollectedData("Timestamp,\"sample metric (ms)\"\n%d,%d");
+        Magento_Test_Profiler_OutputBambooTestFilter::assertCollectedData("Timestamp,\"sample metric (ms)\"\n%d,%d");
     }
 }
