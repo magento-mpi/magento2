@@ -14,12 +14,11 @@ class Mage_Webapi_Controller_Request extends Zend_Controller_Request_Http
     /**
      * Modify pathInfo: strip down the request type and query.
      *
-     * @param Mage_Core_Model_Config $config
      * @param string $requestType
      * @param null|string|Zend_Uri $uri
      * @throws LogicException
      */
-    public function __construct(Mage_Core_Model_Config $config, $requestType, $uri = null)
+    public function __construct($requestType, $uri = null)
     {
         parent::__construct($uri);
         $pattern = '#.*?/' . $requestType . '/#';

@@ -12,9 +12,6 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Core_Helper_Data */
     protected $_helperMock;
 
-    /** @var Mage_Core_Model_Config */
-    protected $_configMock;
-
     /** @var Mage_Webapi_Controller_Soap_Request */
     protected $_soapRequest;
 
@@ -26,20 +23,14 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_configMock = $this->getMockBuilder('Mage_Core_Model_Config')
-            ->setMethods(array('getNode'))
-            ->disableOriginalConstructor()
-            ->getMock();
-
         /** Initialize SUT. */
-        $this->_soapRequest = new Mage_Webapi_Controller_Soap_Request($this->_configMock, $this->_helperMock);
+        $this->_soapRequest = new Mage_Webapi_Controller_Soap_Request($this->_helperMock);
         parent::setUp();
     }
 
     protected function tearDown()
     {
         unset($this->_helperMock);
-        unset($this->_configMock);
         unset($this->_soapRequest);
         parent::tearDown();
     }
