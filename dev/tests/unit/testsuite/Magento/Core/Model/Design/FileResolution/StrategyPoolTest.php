@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Design_StrategyPoolTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Design_File_Resolution_StrategyPoolTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Core_Model_ObjectManager|PHPUnit_Framework_MockObject_MockObject
