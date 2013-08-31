@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_From_Element_FileTest extends PHPUnit_Framework_TestCase
+class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_FileTest extends PHPUnit_Framework_TestCase
 {
     public function testGetHtmlAttributes()
     {

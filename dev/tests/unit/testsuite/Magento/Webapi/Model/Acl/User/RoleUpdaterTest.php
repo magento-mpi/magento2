@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_User_RoleUpdaterrTest extends PHPUnit_Framework_TestCase
+class Magento_Webapi_Model_Acl_User_RoleUpdaterTest extends PHPUnit_Framework_TestCase
 {
     public function testUpdate()
     {

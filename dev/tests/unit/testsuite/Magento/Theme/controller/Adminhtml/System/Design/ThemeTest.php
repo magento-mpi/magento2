@@ -12,7 +12,7 @@
 /**
  * Test backend controller for the theme
  */
-class Magento_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends PHPUnit_Framework_TestCase
+class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Theme_Controller_Adminhtml_System_Design_Theme

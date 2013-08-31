@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 require_once __DIR__ . '/_files/Data.php';
-class Magento_Webhook_Model_Formatter_JsonTest extends PHPUnit_Framework_TestCase
+class Magento_Outbound_Formatter_JsonTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Outbound_Formatter_Json

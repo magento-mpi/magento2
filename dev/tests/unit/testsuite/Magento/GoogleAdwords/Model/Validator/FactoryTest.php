@@ -6,7 +6,7 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_GoogleAdwords_Model_Validator_ColorFactoryTest extends PHPUnit_Framework_TestCase
+class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
