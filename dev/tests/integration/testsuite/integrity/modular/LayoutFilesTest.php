@@ -29,7 +29,7 @@ class Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_TestCase
         $modulesReader = $this->_objectManager->get('Magento_Core_Model_Config_Modules_Reader');
         $domLayout = $this->_objectManager->create('Magento_Config_Dom', array('xml' => file_get_contents($layout)));
         $result = $domLayout->validate(
-            $modulesReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'layouts.xsd', $errors
+            $modulesReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'layouts.xsd', $errors
         );
         $this->assertTrue($result, print_r($errors, true));
     }

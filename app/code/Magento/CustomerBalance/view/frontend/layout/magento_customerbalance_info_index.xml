@@ -12,7 +12,6 @@
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block class="Magento_Core_Block_Template" name="customerbalance.wrapper" template="Magento_CustomerBalance::account/wrapper.phtml">
-                <label>Store Credit Balance and History Wrapper</label>
                 <block class="Magento_CustomerBalance_Block_Account_Balance" name="balance" template="account/balance.phtml" before="-"/>
                 <block class="Magento_CustomerBalance_Block_Account_History" name="history" template="account/history.phtml" after="-"/>
             </block>

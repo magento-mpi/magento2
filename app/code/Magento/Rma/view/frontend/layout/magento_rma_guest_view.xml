@@ -28,27 +28,27 @@
         </reference>
         <update handle="magento_rma_return_view_handle"/>
         <reference name="sales.order.info">
-            <action method="addLink" module="Magento_Sales">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">view</argument>
                 <argument name="path" xsi:type="string">sales/guest/view</argument>
                 <argument translate="true" name="label" xsi:type="string">Order Information</argument>
             </action>
-            <action method="addLink" module="Magento_Sales">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">invoice</argument>
                 <argument name="path" xsi:type="string">sales/guest/invoice</argument>
                 <argument translate="true" name="label" xsi:type="string">Invoices</argument>
             </action>
-            <action method="addLink" module="Magento_Sales">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">shipment</argument>
                 <argument name="path" xsi:type="string">sales/guest/shipment</argument>
                 <argument translate="true" name="label" xsi:type="string">Shipments</argument>
             </action>
-            <action method="addLink" module="Magento_Sales">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">creditmemo</argument>
                 <argument name="path" xsi:type="string">sales/guest/creditmemo</argument>
                 <argument translate="true" name="label" xsi:type="string">Refunds</argument>
             </action>
-            <action method="addLink" module="Magento_Sales">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">returns</argument>
                 <argument name="path" xsi:type="string"/>
                 <argument translate="true" name="label" xsi:type="string">Returns</argument>

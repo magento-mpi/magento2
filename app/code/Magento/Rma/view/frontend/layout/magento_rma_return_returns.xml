@@ -19,27 +19,27 @@
             <block class="Magento_Rma_Block_Return_Returns" name="rma.return.returns"/>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" module="Magento_Sales">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">view</argument>
                 <argument name="path" xsi:type="string">sales/order/view</argument>
                 <argument translate="true" name="label" xsi:type="string">Order Information</argument>
             </action>
-            <action method="addLink" module="Magento_Sales">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">invoice</argument>
                 <argument name="path" xsi:type="string">sales/order/invoice</argument>
                 <argument translate="true" name="label" xsi:type="string">Invoices</argument>
             </action>
-            <action method="addLink" module="Magento_Sales">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">shipment</argument>
                 <argument name="path" xsi:type="string">sales/order/shipment</argument>
                 <argument translate="true" name="label" xsi:type="string">Shipments</argument>
             </action>
-            <action method="addLink" module="Magento_Sales">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">creditmemo</argument>
                 <argument name="path" xsi:type="string">sales/order/creditmemo</argument>
                 <argument translate="true" name="label" xsi:type="string">Refunds</argument>
             </action>
-            <action method="addLink" module="Magento_Sales">
+            <action method="addLink">
                 <argument name="name" xsi:type="string">returns</argument>
                 <argument name="path" xsi:type="string"/>
                 <argument translate="true" name="label" xsi:type="string">Returns</argument>
