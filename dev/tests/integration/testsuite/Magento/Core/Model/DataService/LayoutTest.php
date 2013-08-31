@@ -36,7 +36,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_Co
         /** @var Magento_Core_Model_Dir $dirs */
         $dirs = Mage::getObjectManager()->create(
             'Magento_Core_Model_Dir', array(
-                'baseDir' => array(BP),
+                'baseDir' => BP,
                 'dirs' => array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files'))
         );
 
