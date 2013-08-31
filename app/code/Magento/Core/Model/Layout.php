@@ -1668,7 +1668,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @return $this
      */
     public function addAdjustableRenderer($namespace, $staticType, $dynamicType, $type, $template,
-                                          $dataServiceName = '', $data = array()
+        $dataServiceName = '', $data = array()
     ) {
         if (!isset($namespace)) {
             $this->_renderers[$namespace] = array();
