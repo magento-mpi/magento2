@@ -42,7 +42,6 @@
                 <action method="addTab">
                     <argument name="name" xsi:type="string">general_section</argument>
                     <argument name="block" xsi:type="string">magento_rma_edit_tab_general</argument>
-                </block>
                 </action>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">general_section</argument>

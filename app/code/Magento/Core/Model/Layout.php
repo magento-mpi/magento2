@@ -888,9 +888,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         }
 
         // create block
-        if (!empty($node['class'])) {
-            $className = (string)$node['class'];
-        }
+        $className = (string)$node['class'];
 
         $arguments = $this->_argumentProcessor->process($arguments);
         $dictionary = $this->_dataServiceGraph->getByNamespace((string)$node['name']);

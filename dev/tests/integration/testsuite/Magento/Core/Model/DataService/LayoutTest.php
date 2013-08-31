@@ -17,7 +17,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_Co
         $config = $this->_loadServiceCallsConfig();
         parent::setUp();
         $this->dispatch("catalog/category/view/foo/bar");
-        $fixtureFileName = __DIR__ . DS . "_files" . DS . 'Mage' . DS . 'Catalog' . DS . 'Service'
+        $fixtureFileName = __DIR__ . DS . "_files" . DS . 'Magento' . DS . 'Catalog' . DS . 'Service'
             . DS . 'TestProduct.php';
         include $fixtureFileName;
         $invoker = Mage::getObjectManager()->create(
