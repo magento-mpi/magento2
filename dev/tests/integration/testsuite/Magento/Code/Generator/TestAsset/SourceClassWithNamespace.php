@@ -12,7 +12,7 @@
 namespace Magento\Code\Generator\TestAsset;
 use Zend\Code\Generator\ClassGenerator;
 
-class Magento_Code_Generator_TestAsset_SourceClassWithNamespace extends ParentClassWithNamespace
+class SourceClassWithNamespace extends ParentClassWithNamespace
 {
     /**
      * Public child constructor
