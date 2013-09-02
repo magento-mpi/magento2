@@ -24,6 +24,38 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
      */
     protected $_attributesCollection;
 
+    /**
+     * @var Magento_GoogleShopping_Helper_Product
+     */
+    protected $_gsProduct;
+
+    /**
+     * @var Magento_GoogleShopping_Helper_Data
+     */
+    protected $_gsData;
+
+    /**
+     * @param Magento_GoogleShopping_Helper_Product $gsProduct
+     * @param Magento_GoogleShopping_Helper_Data $gsData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_GoogleShopping_Model_Resource_Type $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GoogleShopping_Helper_Product $gsProduct,
+        Magento_GoogleShopping_Helper_Data $gsData,
+        Magento_Core_Model_Context $context,
+        Magento_GoogleShopping_Model_Resource_Type $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_gsProduct = $gsProduct;
+        $this->_gsData = $gsData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento_GoogleShopping_Model_Resource_Type');
@@ -74,19 +106,18 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
         $result = array();
         $group = Mage::getSingleton('Magento_GoogleShopping_Model_Config')->getAttributeGroupsFlat();
         foreach ($this->_getAttributesCollection() as $attribute) {
-            $productAttribute = Mage::helper('Magento_GoogleShopping_Helper_Product')
-                ->getProductAttribute($product, $attribute->getAttributeId());
+            $productAttribute = $this->_gsProduct->getProductAttribute($product, $attribute->getAttributeId());
 
             if (!is_null($productAttribute)) {
                 // define final attribute name
                 if ($attribute->getGcontentAttribute()) {
                     $name = $attribute->getGcontentAttribute();
                 } else {
-                    $name = Mage::helper('Magento_GoogleShopping_Helper_Product')->getAttributeLabel($productAttribute, $product->getStoreId());
+                    $name = $this->_gsProduct->getAttributeLabel($productAttribute, $product->getStoreId());
                 }
 
                 if (!is_null($name)) {
-                    $name = Mage::helper('Magento_GoogleShopping_Helper_Data')->normalizeName($name);
+                    $name = $this->_gsData->normalizeName($name);
                     if (isset($group[$name])) {
                         // if attribute is in the group
                         if (!isset($result[$group[$name]])) {
@@ -155,7 +186,7 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
      */
     protected function _prepareModelName($string)
     {
-        return uc_words(Mage::helper('Magento_GoogleShopping_Helper_Data')->normalizeName($string));
+        return uc_words($this->_gsData->normalizeName($string));
     }
 
     /**
@@ -220,7 +251,7 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
 
         $contentAttributes = $entry->getContentAttributes();
         foreach ($contentAttributes as $contentAttribute) {
-            $name = Mage::helper('Magento_GoogleShopping_Helper_Data')->normalizeName($contentAttribute->getName());
+            $name = $this->_gsData->normalizeName($contentAttribute->getName());
             if (!in_array($name, $ignoredAttributes) &&
                 !in_array($existAttributes, $existAttributes)) {
                     $entry->removeContentAttribute($name);

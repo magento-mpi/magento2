@@ -16,8 +16,29 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Backend_Block_Widget_Form
 {
+    /**
+     * @var Magento_GoogleShopping_Helper_Category|null
+     */
+    protected $_googleShoppingCategory = null;
+
+    /**
+     * @param Magento_GoogleShopping_Helper_Category $googleShoppingCategory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GoogleShopping_Helper_Category $googleShoppingCategory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_googleShoppingCategory = $googleShoppingCategory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Prepare form before rendering HTML
      *
@@ -62,7 +83,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
             'text'      => '<div id="attribute_set_select">' . $attributeSetsSelect->toHtml() . '</div>',
         ));
 
-        $categories = Mage::helper('Magento_GoogleShopping_Helper_Category')->getCategories();
+        $categories = $this->_googleShoppingCategory->getCategories();
         $fieldset->addField('category', 'select', array(
             'label'     => __('Google Product Category'),
             'title'     => __('Google Product Category'),

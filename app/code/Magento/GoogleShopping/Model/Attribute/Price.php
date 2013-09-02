@@ -18,6 +18,35 @@
 class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShopping_Model_Attribute_Default
 {
     /**
+     * @var Magento_Tax_Helper_Data|null
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_GoogleShopping_Helper_Data $gsData
+     * @param Magento_GoogleShopping_Helper_Product $gsProduct
+     * @param Magento_GoogleShopping_Helper_Price $gsPrice
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_GoogleShopping_Model_Resource_Attribute $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_GoogleShopping_Helper_Data $gsData,
+        Magento_GoogleShopping_Helper_Product $gsProduct,
+        Magento_GoogleShopping_Helper_Price $gsPrice,
+        Magento_Core_Model_Context $context,
+        Magento_GoogleShopping_Model_Resource_Attribute $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($gsData, $gsProduct, $gsPrice, $context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Set current attribute to entry (for specified product)
      *
      * @param Magento_Catalog_Model_Product $product
@@ -36,7 +65,7 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
         $isSalePriceAllowed = ($targetCountry == 'US');
 
         // get tax settings
-        $taxHelp = Mage::helper('Magento_Tax_Helper_Data');
+        $taxHelp = $this->_taxData;
         $priceDisplayType = $taxHelp->getPriceDisplayType($product->getStoreId());
         $inclTax = ($priceDisplayType == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
 
@@ -50,7 +79,7 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
         if (!is_null($salePriceMapValue) && floatval($salePriceMapValue) > .0001) {
             $finalPrice = $salePriceMapValue;
         } else if ($isSalePriceAllowed) {
-            $finalPrice = Mage::helper('Magento_GoogleShopping_Helper_Price')->getCatalogPrice($product, $store, $inclTax);
+            $finalPrice = $this->_gsPrice->getCatalogPrice($product, $store, $inclTax);
         }
         if ($product->getTypeId() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
             $finalPrice = $taxHelp->getPrice($product, $finalPrice, $inclTax, null, null, null, $product->getStoreId());
@@ -62,10 +91,10 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
         if (!is_null($priceMapValue) && floatval($priceMapValue) > .0001) {
             $price = $priceMapValue;
         } else if ($isSalePriceAllowed) {
-            $price = Mage::helper('Magento_GoogleShopping_Helper_Price')->getCatalogRegularPrice($product, $store);
+            $price = $this->_gsPrice->getCatalogRegularPrice($product, $store);
         } else {
             $inclTax = ($priceDisplayType != Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX);
-            $price = Mage::helper('Magento_GoogleShopping_Helper_Price')->getCatalogPrice($product, $store, $inclTax);
+            $price = $this->_gsPrice->getCatalogPrice($product, $store, $inclTax);
         }
         if ($product->getTypeId() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
             $price = $taxHelp->getPrice($product, $price, $inclTax, null, null, null, $product->getStoreId());

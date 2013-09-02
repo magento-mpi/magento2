@@ -18,17 +18,17 @@
 class Magento_Logging_Model_Handler_Controllers
 {
     /**
-     * @var Magento_Backend_Helper_Data
+     * @var Magento_ObjectManager_ObjectManager
      */
-    protected $_backendData = null;
+    protected $_objectManager = null;
 
     /**
-     * @param Magento_Backend_Helper_Data $backendData
+     * @param Magento_ObjectManager_ObjectManager $objectManager
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData
+        Magento_ObjectManager_ObjectManager $objectManager
     ) {
-        $this->_backendData = $backendData;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -253,7 +253,7 @@ class Magento_Logging_Model_Handler_Controllers
 
         //Need when in request data there are was no period info
         if ($filter) {
-            $filterData = $this->_backendData->prepareFilterString($filter);
+            $filterData = $this->_objectManager->get('Magento_Backend_Helper_Data')->prepareFilterString($filter);
             $data = array_merge($data, (array)$filterData);
         }
 
@@ -674,7 +674,7 @@ class Magento_Logging_Model_Handler_Controllers
 
         $success = true;
         $body = Mage::app()->getResponse()->getBody();
-        $messages = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($body);
+        $messages = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode($body);
         if (!empty($messages['success'])) {
             $success = $messages['success'];
             if (empty($classId) && !empty($messages['class_id'])) {

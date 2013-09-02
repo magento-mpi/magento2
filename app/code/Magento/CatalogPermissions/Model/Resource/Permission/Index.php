@@ -68,9 +68,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
 
     /**
      * Class constructor
-     *
-     *
-     *
+     * 
      * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
      * @param Magento_Core_Model_Resource $resource
      */
@@ -873,7 +871,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
      * @param Magento_Catalog_Model_Resource_Category_Collection|Magento_Catalog_Model_Resource_Category_Flat_Collection $collection
      * @param int $customerGroupId
      * @param int $websiteId
-     * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
+     * @return Magento_CatalogPermissions_Model_Resource_Permission_Index
      */
     public function addIndexToCategoryCollection($collection, $customerGroupId, $websiteId)
     {
@@ -892,7 +890,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
             array()
         );
 
-        if (!Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->isAllowedCategoryView()) {
+        if (!$this->_catalogPermData->isAllowedCategoryView()) {
             $collection->getSelect()
                 ->where('permission_index.grant_catalog_category_view = ?',
                     Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -946,7 +944,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
                         'grant_catalog_product_price',
                         'grant_checkout_items')
                 );
-            if (!Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->isAllowedCategoryView()) {
+            if (!$this->_catalogPermData->isAllowedCategoryView()) {
                 $collection->getSelect()
                     ->where('permission_index_product.grant_catalog_category_view = ?',
                         Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -973,7 +971,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
                  */
                 if (in_array($linkTypeId, $linkTypeIds)) {
 
-                    if (!Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->isAllowedProductPrice()) {
+                    if (!$this->_catalogPermData->isAllowedProductPrice()) {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_catalog_product_price = ?',
                                 Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
@@ -984,7 +982,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
                                 Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
                     }
 
-                    if (!Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->isAllowedCheckoutItems()) {
+                    if (!$this->_catalogPermData->isAllowedCheckoutItems()) {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_checkout_items = ?',
                                 Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
