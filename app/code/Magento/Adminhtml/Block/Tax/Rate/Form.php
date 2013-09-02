@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
     protected function _prepareForm()
     {
         $rateObject = new Magento_Object(Mage::getSingleton('Magento_Tax_Model_Calculation_Rate')->getData());
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $countries = Mage::getModel('Magento_Directory_Model_Config_Source_Country')->toOptionArray(false, 'US');
         unset($countries[0]);

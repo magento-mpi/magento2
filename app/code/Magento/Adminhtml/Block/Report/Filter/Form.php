@@ -101,7 +101,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block
     protected function _prepareForm()
     {
         $actionUrl = $this->getUrl('*/*/sales');
-        $form = new Magento_Data_Form(
+        $form = $this->_createForm(
             array('id' => 'filter_form', 'action' => $actionUrl, 'method' => 'get')
         );
         $htmlIdPrefix = 'sales_report_';

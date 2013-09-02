@@ -120,7 +120,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
      */
     public function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $fieldset = $form->addFieldset('main', array('no_container'=>true));
 
         $fieldset->addField('type','hidden',

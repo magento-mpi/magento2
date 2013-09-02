@@ -26,7 +26,9 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array('id' => 'wysiwyg_edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        $form = $this->_createForm(
+            array('id' => 'wysiwyg_edit_form', 'action' => $this->getData('action'), 'method' => 'post')
+        );
 
         $config['document_base_url']     = $this->getData('store_media_url');
         $config['store_id']              = $this->getData('store_id');

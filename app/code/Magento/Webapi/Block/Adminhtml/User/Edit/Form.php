@@ -19,7 +19,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Form extends Magento_Backend_Bloc
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $form->setId('edit_form');
         $form->setAction($this->getUrl('*/*/save'));
         $form->setMethod('post');

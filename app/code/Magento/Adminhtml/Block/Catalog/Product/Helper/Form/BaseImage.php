@@ -47,11 +47,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
     /**
      * Constructor
      *
+     * @param Magento_Data_Form_ElementFactory $elementFactory
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(Magento_Data_Form_ElementFactory $elementFactory, array $attributes = array())
     {
-        parent::__construct($attributes);
+        parent::__construct($elementFactory, $attributes);
 
         $this->_viewUrl = Mage::getModel('Magento_Core_Model_View_Url');
 

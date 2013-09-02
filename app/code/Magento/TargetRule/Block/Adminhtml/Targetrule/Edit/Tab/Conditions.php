@@ -29,7 +29,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
         /* @var $model Magento_TargetRule_Model_Rule */
         $model  = Mage::registry('current_target_rule');
 
-        $form   = new Magento_Data_Form();
+        $form   = $this->_createForm();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset   = $form->addFieldset('conditions_fieldset', array(

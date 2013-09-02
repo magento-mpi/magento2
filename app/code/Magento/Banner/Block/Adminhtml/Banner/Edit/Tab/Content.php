@@ -52,6 +52,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adm
      * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_App $app
+     * @param Magento_Data_Form_Factory $elementFactory
      * @param array $data
      */
     public function __construct(
@@ -59,13 +60,14 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adm
         Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_App $app,
+        Magento_Data_Form_Factory $elementFactory,
         array $data = array()
     ) {
         $this->_wysiwygConfigModel = $wysiwygConfig;
         $this->_registryManager = $registry;
         $this->_app = $app;
 
-        parent::__construct($context, $data);
+        parent::__construct($context, $elementFactory, $data);
     }
 
 
@@ -116,7 +118,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adm
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $form->setHtmlIdPrefix('banner_content_');
 
         $model = $this->_registryManager->registry('current_banner');

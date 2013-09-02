@@ -138,7 +138,7 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $formFactory, $data);
         $this->_configFactory = $configFactory;
         $this->_formFactory = $formFactory;
         $this->_cloneModelFactory = $cloneModelFactory;

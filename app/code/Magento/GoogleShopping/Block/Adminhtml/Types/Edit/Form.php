@@ -25,7 +25,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $itemType = $this->getItemType();
 
@@ -111,7 +111,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
         $field = new Magento_Data_Form_Element_Select();
         $field->setName('attribute_set_id')
             ->setId('select_attribute_set')
-            ->setForm(new Magento_Data_Form())
+            ->setForm($this->_createForm())
             ->addClass('required-entry')
             ->setValues($this->_getAttributeSetsArray($targetCountry));
         return $field;

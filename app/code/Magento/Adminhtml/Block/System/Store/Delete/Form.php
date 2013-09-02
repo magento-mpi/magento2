@@ -33,7 +33,9 @@ class Magento_Adminhtml_Block_System_Store_Delete_Form extends Magento_Adminhtml
     {
         $dataObject = $this->getDataObject();
 
-        $form = new Magento_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        $form = $this->_createForm(
+            array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
+        );
 
         $form->setHtmlIdPrefix('store_');
 

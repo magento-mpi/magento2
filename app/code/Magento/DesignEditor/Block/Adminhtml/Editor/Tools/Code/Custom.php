@@ -26,14 +26,16 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage
     /**
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_DesignEditor_Model_Theme_Context $themeContext
+     * @param Magento_Data_Form_Factory $elementFactory
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
         Magento_DesignEditor_Model_Theme_Context $themeContext,
+        Magento_Data_Form_Factory $elementFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $elementFactory, $data);
         $this->_themeContext = $themeContext;
     }
 
@@ -45,7 +47,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        $form = $this->_createForm(array(
             'action'   => '#',
             'method'   => 'post'
         ));

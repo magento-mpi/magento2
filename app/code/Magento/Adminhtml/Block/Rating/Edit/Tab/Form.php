@@ -27,16 +27,18 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($context, $data);
+        parent::__construct($context, $formFactory, $data);
     }
 
 
@@ -47,7 +49,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $this->setForm($form);
 
         $fieldset = $form->addFieldset('rating_form', array(

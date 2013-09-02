@@ -91,7 +91,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
             $columns = $this->_initColumns($form, $data['tab']);
             $this->_populateColumns($columns, $data['tab']);
         } else {
-            $form = new Magento_Data_Form(array('action' => '#'));
+            $form = $this->_formFactory->create(array('action' => '#'));
         }
 
         if ($this->_isFormEmpty($form)) {

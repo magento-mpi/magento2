@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
         }
 
 
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $form->setHtmlIdPrefix('page_');
 

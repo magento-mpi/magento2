@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Main extends Magento_Adminhtml_B
     {
         $model = Mage::registry('api_user');
 
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $form->setHtmlIdPrefix('user_');
 

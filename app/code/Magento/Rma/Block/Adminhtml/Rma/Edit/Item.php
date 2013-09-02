@@ -24,7 +24,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Adminhtml_Block_
      */
     public function initForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $form->setHtmlIdPrefix('_rma');
         $form->setFieldNameSuffix();
 

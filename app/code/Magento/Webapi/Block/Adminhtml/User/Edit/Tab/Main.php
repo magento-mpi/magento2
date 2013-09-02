@@ -19,7 +19,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_Main extends Magento_Backend_
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Account Information'))

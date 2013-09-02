@@ -22,7 +22,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
     protected function _prepareForm()
     {
         $isEditable = ($this->getCanEditReminderRule() !== false) ? true : false;
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $model = Mage::registry('current_reminder_rule');
 
         $fieldset = $form->addFieldset('base_fieldset', array(

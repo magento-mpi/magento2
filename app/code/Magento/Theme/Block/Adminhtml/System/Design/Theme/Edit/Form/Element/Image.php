@@ -14,6 +14,25 @@
 class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image extends Magento_Data_Form_Element_Image
 {
     /**
+     * @var Magento_Core_Model_Theme_Image_Path
+     */
+    protected $_imagePath;
+
+    /**
+     * @param Magento_Data_Form_ElementFactory $elementFactory
+     * @param Magento_Core_Model_Theme_Image_Path $imagePath
+     * @param array $attributes
+     */
+    public function __construct(
+        Magento_Data_Form_ElementFactory $elementFactory,
+        Magento_Core_Model_Theme_Image_Path $imagePath,
+        $attributes = array()
+    ) {
+        $this->_imagePath = $imagePath;
+        parent::__construct($elementFactory, $attributes);
+    }
+
+    /**
      * Get image preview url
      *
      * @return string
@@ -22,8 +41,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image 
     {
         $url = false;
         if ($this->getValue()) {
-            $url = Mage::getObjectManager()->get('Magento_Core_Model_Theme_Image_Path')->getPreviewImageDirectoryUrl()
-                . $this->getValue();
+            $url = $this->_imagePath->getPreviewImageDirectoryUrl() . $this->getValue();
         }
         return $url;
     }

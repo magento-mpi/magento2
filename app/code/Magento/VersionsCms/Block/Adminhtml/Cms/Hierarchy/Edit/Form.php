@@ -34,15 +34,17 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $formFactory, $data);
 
         $this->setTemplate('hierarchy/edit.phtml');
 
@@ -58,7 +60,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        $form = $this->_createForm(array(
             'id'        => 'edit_form',
             'action'    => $this->getUrl('*/*/save'),
             'method'    => 'post'

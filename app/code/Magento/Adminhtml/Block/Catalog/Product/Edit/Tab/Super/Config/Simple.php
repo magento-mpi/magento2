@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
 
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $form->setFieldNameSuffix('simple_product');
         $form->setDataObject($this->getProduct());

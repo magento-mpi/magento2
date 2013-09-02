@@ -25,11 +25,12 @@ class Magento_Data_Form_Element_Button extends Magento_Data_Form_Element_Abstrac
     protected $_htmlAttributes = array('data-mage-init');
 
     /**
+     * @param Magento_Data_Form_ElementFactory $elementFactory
      * @param array $attributes
      */
-    public function __construct($attributes=array()) 
+    public function __construct(Magento_Data_Form_ElementFactory $elementFactory, $attributes = array())
     {
-        parent::__construct($attributes);
+        parent::__construct($elementFactory, $attributes);
         $this->setType('button');
         $this->setExtType('textfield');
     }

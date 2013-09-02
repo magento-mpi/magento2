@@ -23,9 +23,10 @@ class Magento_Backend_Block_System_Config_Form_Field_Export extends Magento_Data
     protected $_helperFactory;
 
     /**
+     * @param Magento_Data_Form_ElementFactory $elementFactory
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(Magento_Data_Form_ElementFactory $elementFactory, array $attributes = array())
     {
         if (isset($attributes['helperFactory'])) {
             $this->_helperFactory = $attributes['helperFactory'];
@@ -34,7 +35,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Export extends Magento_Data
             $this->_helperFactory = Mage::getSingleton('Magento_Core_Model_Factory_Helper');
         }
 
-        parent::__construct($attributes);
+        parent::__construct($elementFactory, $attributes);
     }
 
     public function getElementHtml()

@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Poll_Answer_Edit_Form extends Magento_Adminhtml_Bl
 {
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $fieldset = $form->addFieldset('edit_answer_form', array('legend' => __('Edit Poll Answer')));
 

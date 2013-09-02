@@ -16,19 +16,22 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
 {
     protected $_bootstrap;
 
+    /**
+     * @varMagento_Test_ObjectManager
+     */
+    protected $_objectManager;
+
     protected function setUp()
     {
-        if (!Mage::getObjectManager()) {
+        if (!$this->_objectManager) {
             $instanceConfig = new Magento_Test_ObjectManager_Config();
             $primaryConfig = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
             $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
             $primaryConfig->expects($this->any())->method('getDirectories')->will($this->returnValue($dirs));
 
-            Mage::setObjectManager(
-                new Magento_Test_ObjectManager(
-                    $primaryConfig,
-                    $instanceConfig
-                )
+            $this->_objectManager =  new Magento_Test_ObjectManager(
+                $primaryConfig,
+                $instanceConfig
             );
         }
         parent::setUp();

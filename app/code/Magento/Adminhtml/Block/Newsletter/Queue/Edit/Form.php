@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
         /* @var $queue Magento_Newsletter_Model_Queue */
         $queue = Mage::getSingleton('Magento_Newsletter_Model_Queue');
 
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend'    =>  __('Queue Information'),

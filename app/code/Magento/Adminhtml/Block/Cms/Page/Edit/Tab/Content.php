@@ -25,19 +25,20 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
      */
     protected $_eventManager;
 
-
     /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($context, $data);
+        parent::__construct($context, $formFactory, $data);
     }
 
     /**
@@ -66,8 +67,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
         }
 
 
-        $form = new Magento_Data_Form();
-
+        $form = $this->_createForm();
         $form->setHtmlIdPrefix('page_');
 
         $fieldset = $form->addFieldset('content_fieldset', array('legend'=>__('Content'),'class'=>'fieldset-wide'));

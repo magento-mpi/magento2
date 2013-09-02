@@ -33,6 +33,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory
      * @param Magento_DesignEditor_Model_Theme_Context $themeContext
+     * @param Magento_Data_Form_Factory $formFactory
      * @param array $data
      */
     public function __construct(
@@ -40,9 +41,10 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
         Magento_Eav_Model_Config $eavConfig,
         Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory,
         Magento_DesignEditor_Model_Theme_Context $themeContext,
+        Magento_Data_Form_Factory $formFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $formFactory, $data);
         $this->_eavConfig = $eavConfig;
         $this->_controlFactory = $controlFactory;
         $this->_themeContext = $themeContext;
@@ -66,7 +68,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        $form = $this->_createForm(array(
             'action'   => '#',
             'method'   => 'post'
         ));

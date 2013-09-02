@@ -53,7 +53,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
         if ($model->getId()) {
             $actionParams['id'] = $model->getId();
         }
-        $form = new Magento_Data_Form(array(
+        $form = $this->_createForm(array(
             'id' => 'edit_form',
             'action' => $this->getUrl('*/*/save', $actionParams),
             'method' => 'post',

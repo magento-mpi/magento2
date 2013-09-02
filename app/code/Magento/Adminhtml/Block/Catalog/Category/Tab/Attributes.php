@@ -57,7 +57,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ad
         $group      = $this->getGroup();
         $attributes = $this->getAttributes();
 
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $form->setHtmlIdPrefix('group_' . $group->getId());
         $form->setDataObject($this->getCategory());
 

@@ -23,7 +23,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Adminhtml_Block
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend'    => __('Widget')

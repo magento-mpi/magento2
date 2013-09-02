@@ -14,7 +14,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
 
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        $form = $this->_createForm(array(
             'id' => 'edit_form',
             'action' => $this->getActionUrl(),
             'method' => 'post'

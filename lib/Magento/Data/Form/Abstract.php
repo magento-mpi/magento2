@@ -27,6 +27,11 @@ class Magento_Data_Form_Abstract extends Magento_Object
     protected $_elements;
 
     /**
+     * @var Magento_Data_Form_ElementFactory
+     */
+    protected $_elementFactory;
+
+    /**
      * Element type classes
      *
      * @var unknown_type
@@ -34,12 +39,12 @@ class Magento_Data_Form_Abstract extends Magento_Object
     protected $_types = array();
 
     /**
-     * Enter description here...
-     *
+     * @param Magento_Data_Form_ElementFactory $elementFactory
      * @param array $attributes
      */
-    public function __construct($attributes = array())
+    public function __construct(Magento_Data_Form_ElementFactory $elementFactory, $attributes = array())
     {
+        $this->_elementFactory = $elementFactory;
         parent::__construct($attributes);
         $this->_construct();
     }
@@ -137,7 +142,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
         } else {
             $className = 'Magento_Data_Form_Element_' . ucfirst(strtolower($type));
         }
-        $element = new $className($config);
+        $element = $this->_elementFactory->create($className, array('attributes' => $config));
         $element->setId($elementId);
         $this->addElement($element, $after);
         return $element;
@@ -166,7 +171,8 @@ class Magento_Data_Form_Abstract extends Magento_Object
      */
     public function addFieldset($elementId, $config, $after = false, $isAdvanced = false)
     {
-        $element = new Magento_Data_Form_Element_Fieldset($config);
+        /** @var $element Magento_Data_Form_Element_Fieldset */
+        $element = $this->_elementFactory->create('Magento_Data_Form_Element_Fieldset', array('attributes' => $config));
         $element->setId($elementId);
         $element->setAdvanced($isAdvanced);
         $this->addElement($element, $after);
@@ -182,7 +188,8 @@ class Magento_Data_Form_Abstract extends Magento_Object
      */
     public function addColumn($elementId, $config)
     {
-        $element = new Magento_Data_Form_Element_Column($config);
+        /** @var $element Magento_Data_Form_Element_Column */
+        $element = $this->_elementFactory->create('Magento_Data_Form_Element_Column', array('attributes' => $config));
         $element->setForm($this)
             ->setId($elementId);
         $this->addElement($element);

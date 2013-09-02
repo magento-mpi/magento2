@@ -21,7 +21,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Form extends Magent
 
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        $form = $this->_createForm(
+            array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
+        );
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();

@@ -21,11 +21,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image extends Magen
     /**
      * Initialize Form Element
      *
+     * @param Magento_Data_Form_ElementFactory $elementFactory
      * @param array $attributes
      */
-    public function __construct($attributes = array())
+    public function __construct(Magento_Data_Form_ElementFactory $elementFactory, $attributes = array())
     {
-        parent::__construct($attributes);
+        parent::__construct($elementFactory, $attributes);
         $this->setType('file');
     }
 

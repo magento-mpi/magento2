@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         /**
          * @var Magento_SalesRule_Helper_Coupon $couponHelper

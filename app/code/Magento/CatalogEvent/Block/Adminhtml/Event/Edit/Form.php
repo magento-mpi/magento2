@@ -51,7 +51,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(
+        $form = $this->_createForm(
             array(
                 'id'      => 'edit_form',
                 'action'  => $this->getActionUrl(),

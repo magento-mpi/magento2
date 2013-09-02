@@ -19,11 +19,12 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links
     /**
      * Initialize form element
      *
+     * @param Magento_Data_Form_ElementFactory $elementFactory
      * @param array $attributes
      */
-    public function __construct($attributes=array())
+    public function __construct(Magento_Data_Form_ElementFactory $elementFactory, $attributes = array())
     {
-        parent::__construct($attributes);
+        parent::__construct($elementFactory, $attributes);
         $this->setType('links');
     }
 

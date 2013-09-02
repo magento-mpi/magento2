@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_System_Account_Edit_Form extends Magento_Adminhtml
             ->load($userId);
         $user->unsetData('password');
 
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account Information')));
 

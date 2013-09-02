@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes e
     protected function _prepareForm()
     {
 
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         /**
          * Initialize product object as form property
          * for using it in elements generation

@@ -22,7 +22,26 @@ class Magento_Backend_Block_Widget_Form extends Magento_Backend_Block_Widget
      */
     protected $_form;
 
+    /**
+     * @var Magento_Data_Form_Factory
+     */
+    protected $_formFactory;
+
     protected $_template = 'Magento_Backend::widget/form.phtml';
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        array $data = array()
+    ) {
+        $this->_formFactory = $formFactory;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Class constructor
@@ -65,6 +84,17 @@ class Magento_Backend_Block_Widget_Form extends Magento_Backend_Block_Widget
         );
 
         return parent::_prepareLayout();
+    }
+
+    /**
+     * Create form
+     *
+     * @param array $attributes
+     * @return Magento_Data_Form
+     */
+    protected function _createForm(array $attributes = array())
+    {
+        return $this->_formFactory->create($attributes);
     }
 
     /**

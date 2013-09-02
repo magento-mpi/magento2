@@ -44,7 +44,7 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Adminhtml_Bloc
     {
         $model = Mage::registry('cms_block');
 
-        $form = new Magento_Data_Form(
+        $form = $this->_createForm(
             array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
         );
 

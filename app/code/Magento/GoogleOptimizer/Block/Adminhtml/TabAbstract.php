@@ -32,29 +32,29 @@ abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_GoogleOptimizer_Helper_Data $helperData
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_GoogleOptimizer_Helper_Code $codeHelper
      * @param Magento_GoogleOptimizer_Helper_Form $formHelper
-     * @param Magento_Data_Form $form
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
         Magento_GoogleOptimizer_Helper_Data $helperData,
         Magento_Core_Model_Registry $registry,
         Magento_GoogleOptimizer_Helper_Code $codeHelper,
         Magento_GoogleOptimizer_Helper_Form $formHelper,
-        Magento_Data_Form $form,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $formFactory, $data);
 
         $this->_helperData = $helperData;
         $this->_registry = $registry;
         $this->_codeHelper = $codeHelper;
         $this->_formHelper = $formHelper;
-        $this->setForm($form);
+        $this->setForm($this->_createForm());
     }
 
     /**

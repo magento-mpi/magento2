@@ -27,7 +27,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
     {
         parent::_prepareForm();
 
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $form->setHtmlIdPrefix('_package');
 
         $fieldset = $form->addFieldset('package_fieldset', array(

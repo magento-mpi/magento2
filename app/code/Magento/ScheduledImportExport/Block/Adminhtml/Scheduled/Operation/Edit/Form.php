@@ -36,7 +36,7 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
     {
         /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
         $operation = Mage::registry('current_operation');
-        $form = new Magento_Data_Form(array(
+        $form = $this->_createForm(array(
             'id'     => 'edit_form',
             'name'   => 'scheduled_operation'
         ));

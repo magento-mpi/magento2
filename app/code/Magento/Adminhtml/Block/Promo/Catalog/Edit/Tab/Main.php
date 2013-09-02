@@ -63,7 +63,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
     {
         $model = Mage::registry('current_promo_catalog_rule');
 
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $form->setHtmlIdPrefix('rule_');
 

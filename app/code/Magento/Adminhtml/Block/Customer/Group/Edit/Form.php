@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Adminhtml
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $customerGroup = Mage::registry('current_group');
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group Information')));

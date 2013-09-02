@@ -23,7 +23,7 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Item_Additional_Default
 
     public function createFromConfiguration(array $configuration)
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         foreach ($configuration as $itemId=>$item) {
             $item['class'] = isset($item['class']) ? $item['class'] . ' absolute-advice' : 'absolute-advice';

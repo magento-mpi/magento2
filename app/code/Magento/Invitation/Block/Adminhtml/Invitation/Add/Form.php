@@ -33,7 +33,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Adm
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(
+        $form = $this->_createForm(
             array(
                 'id' => 'edit_form',
                 'action' => $this->getActionUrl(),

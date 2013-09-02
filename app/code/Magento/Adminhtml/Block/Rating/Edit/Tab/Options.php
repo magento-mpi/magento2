@@ -18,7 +18,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Options extends Magento_Adminhtml_
 
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $fieldset = $form->addFieldset('options_form', array('legend'=>__('Assigned Options')));
 

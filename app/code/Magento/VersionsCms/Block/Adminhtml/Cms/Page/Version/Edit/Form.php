@@ -28,11 +28,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mag
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
-                'id' => 'edit_form',
-                'action' => $this->getUrl('*/*/save', array('_current' => true)),
-                'method' => 'post'
-            ));
+        $form = $this->_createForm(array(
+            'id' => 'edit_form',
+            'action' => $this->getUrl('*/*/save', array('_current' => true)),
+            'method' => 'post'
+        ));
 
         $form->setUseContainer(true);
 

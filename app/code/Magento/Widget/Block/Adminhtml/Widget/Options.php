@@ -47,7 +47,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
         if ($this->_form instanceof Magento_Data_Form) {
             return $this->_form;
         }
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $this->setForm($form);
         return $form;
     }

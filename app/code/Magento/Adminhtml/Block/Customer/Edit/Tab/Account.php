@@ -30,7 +30,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
      */
     public function initForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $form->setHtmlIdPrefix('_account');
         $form->setFieldNameSuffix('account');
 

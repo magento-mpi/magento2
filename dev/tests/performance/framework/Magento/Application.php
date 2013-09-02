@@ -33,6 +33,11 @@ class Magento_Application
     protected $_shell;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * Whether application is installed
      *
      * @var bool
@@ -179,12 +184,13 @@ class Magento_Application
      */
     protected function _bootstrap()
     {
-        if (!Mage::getObjectManager()) {
-            new Magento_Core_Model_ObjectManager(new Magento_Core_Model_Config_Primary(BP, $_SERVER));
+        if (!$this->_objectManager) {
+            $this->_objectManager = new Magento_Core_Model_ObjectManager(
+                new Magento_Core_Model_Config_Primary(BP, $_SERVER)
+            );
         }
-
         /** @var $app Magento_Core_Model_App */
-        Mage::getObjectManager()->get('Magento_Core_Model_App');
+        $this->_objectManager->get('Magento_Core_Model_App');
         return $this;
     }
 

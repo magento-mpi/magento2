@@ -30,15 +30,17 @@ class Magento_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Acl_RootResource $rootResource
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Acl_RootResource $rootResource,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $formFactory, $data);
         $this->_rootResource = $rootResource;
     }
 

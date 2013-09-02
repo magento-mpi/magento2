@@ -25,7 +25,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Form extends Magento_
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        $form = $this->_createForm(array(
                 'id' => 'preview_form',
                 'action' => $this->getUrl('*/*/drop', array('_current' => true)),
                 'method' => 'post'

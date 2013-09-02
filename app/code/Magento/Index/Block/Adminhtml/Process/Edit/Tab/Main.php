@@ -15,7 +15,7 @@ class Magento_Index_Block_Adminhtml_Process_Edit_Tab_Main
     protected function _prepareForm()
     {
         $model = Mage::registry('current_index_process');
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $form->setHtmlIdPrefix('index_process_');
         $fieldset = $form->addFieldset(
             'base_fieldset',

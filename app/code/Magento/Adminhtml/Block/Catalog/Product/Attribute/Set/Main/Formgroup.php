@@ -19,7 +19,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup exten
 
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $fieldset = $form->addFieldset('set_fieldset', array('legend'=>__('Add New Group')));
 

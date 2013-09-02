@@ -25,7 +25,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $prefix = '_customerbalance';
         $form->setHtmlIdPrefix($prefix);
         $form->setFieldNameSuffix('customerbalance');

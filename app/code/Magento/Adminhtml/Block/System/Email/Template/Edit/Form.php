@@ -42,7 +42,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Template Information'),

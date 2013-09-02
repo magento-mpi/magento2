@@ -42,7 +42,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Fo
             $saveUrl = $this->getUrl('*/*/create');
             $showNew = true;
         }
-        $form = new Magento_Data_Form(array(
+        $form = $this->_createForm(array(
             'id'        => 'edit_form',
             'action'    => $saveUrl,
             'method'    => 'post'

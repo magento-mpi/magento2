@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Customer_Online_Filter extends Magento_Adminhtml_B
 
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $form->addField('filter_value', 'select',
                 array(

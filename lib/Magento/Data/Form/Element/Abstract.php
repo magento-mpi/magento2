@@ -32,9 +32,9 @@ abstract class Magento_Data_Form_Element_Abstract extends Magento_Data_Form_Abst
      */
     protected $_advanced = false;
 
-    public function __construct($attributes = array())
+    public function __construct(Magento_Data_Form_ElementFactory $elementFactory, $attributes = array())
     {
-        parent::__construct($attributes);
+        parent::__construct($elementFactory, $attributes);
         $this->_renderer = Magento_Data_Form::getElementRenderer();
     }
 

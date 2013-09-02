@@ -9,11 +9,30 @@
  */
 class Magento_Paypal_Block_Standard_Redirect extends Magento_Core_Block_Abstract
 {
+    /**
+     * @var Magento_Data_Form_Factory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        array $data = array()
+    ) {
+        $this->_formFactory = $formFactory;
+        parent::__construct($context, $data);
+    }
+
     protected function _toHtml()
     {
         $standard = Mage::getModel('Magento_Paypal_Model_Standard');
 
-        $form = new Magento_Data_Form();
+        $form = $this->_formFactory->create();
         $form->setAction($standard->getConfig()->getPaypalUrl())
             ->setId('paypal_standard_checkout')
             ->setName('paypal_standard_checkout')

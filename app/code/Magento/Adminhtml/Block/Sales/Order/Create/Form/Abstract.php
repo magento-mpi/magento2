@@ -27,6 +27,25 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     protected $_form;
 
     /**
+     * @var Magento_Data_Form_Factory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        array $data = array()
+    ) {
+        $this->_formFactory = $formFactory;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare global layout
      * Add renderers to Magento_Data_Form
      *
@@ -66,7 +85,7 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     public function getForm()
     {
         if (is_null($this->_form)) {
-            $this->_form = new Magento_Data_Form();
+            $this->_form = $this->_formFactory->create();
             $this->_prepareForm();
         }
 

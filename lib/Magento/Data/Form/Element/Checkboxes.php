@@ -20,11 +20,12 @@ class Magento_Data_Form_Element_Checkboxes extends Magento_Data_Form_Element_Abs
     /**
      * Init Element
      *
+     * @param Magento_Data_Form_ElementFactory $elementFactory
      * @param array $attributes
      */
-    public function __construct($attributes=array())
+    public function __construct(Magento_Data_Form_ElementFactory $elementFactory, $attributes = array())
     {
-        parent::__construct($attributes);
+        parent::__construct($elementFactory, $attributes);
         $this->setType('checkbox');
         $this->setExtType('checkboxes');
     }

@@ -21,15 +21,17 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($context, $data);
+        parent::__construct($context, $formFactory, $data);
     }
 
     /**
@@ -75,7 +77,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
     protected function _prepareForm()
     {
         $rule = Mage::registry('current_promo_quote_rule');
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('default_label_fieldset', array(

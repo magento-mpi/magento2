@@ -22,9 +22,9 @@ class Magento_Data_Form_Element_Image extends Magento_Data_Form_Element_Abstract
      *
      * @param array $data
      */
-    public function __construct($data = array())
+    public function __construct(Magento_Data_Form_ElementFactory $elementFactory, $attributes = array())
     {
-        parent::__construct($data);
+        parent::__construct($elementFactory, $attributes);
         $this->setType('file');
     }
 

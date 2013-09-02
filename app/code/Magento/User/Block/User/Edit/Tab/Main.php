@@ -29,7 +29,7 @@ class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget
         /** @var $model Magento_User_Model_User */
         $model = Mage::registry('permissions_user');
 
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $form->setHtmlIdPrefix('user_');
 

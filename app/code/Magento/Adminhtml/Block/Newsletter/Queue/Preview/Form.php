@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Preview_Form extends Magento_Admi
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        $form = $this->_createForm(array(
             'id' => 'preview_form',
             'action' => $this->getUrl('*/*/drop', array('_current' => true)),
             'method' => 'post'

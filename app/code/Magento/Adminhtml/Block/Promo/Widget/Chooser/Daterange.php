@@ -48,7 +48,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
         }
 
         $idSuffix = Mage::helper('Magento_Core_Helper_Data')->uniqHash();
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         foreach (array(
             'from' => __('From'),
             'to'   => __('To')) as $key => $label) {

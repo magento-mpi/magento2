@@ -26,13 +26,17 @@ class Magento_Adminhtml_Block_Customer_Form_Element_File extends Magento_Data_Fo
     /**
      * Initialize Form Element
      *
+     * @param Magento_Data_Form_ElementFactory $elementFactory
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $attributes
      */
-    public  function __construct(Magento_Core_Model_View_Url $viewUrl, $attributes = array())
-    {
+    public  function __construct(
+        Magento_Data_Form_ElementFactory $elementFactory,
+        Magento_Core_Model_View_Url $viewUrl,
+        $attributes = array()
+    ) {
         $this->_viewUrl = $viewUrl;
-        parent::__construct($attributes);
+        parent::__construct($elementFactory, $attributes);
         $this->setType('file');
     }
 

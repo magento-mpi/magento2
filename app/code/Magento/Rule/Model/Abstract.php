@@ -35,6 +35,11 @@ abstract class Magento_Rule_Model_Abstract extends Magento_Core_Model_Abstract
     protected $_form;
 
     /**
+     * @var Magento_Data_Form_Factory
+     */
+    protected $_formFactory;
+
+    /**
      * Is model can be deleted flag
      *
      * @var bool
@@ -61,6 +66,24 @@ abstract class Magento_Rule_Model_Abstract extends Magento_Core_Model_Abstract
      * @return Magento_Rule_Model_Action_Collection
      */
     abstract public function getActionsInstance();
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_formFactory = $formFactory;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Prepare data before saving
@@ -236,7 +259,7 @@ abstract class Magento_Rule_Model_Abstract extends Magento_Core_Model_Abstract
     public function getForm()
     {
         if (!$this->_form) {
-            $this->_form = new Magento_Data_Form();
+            $this->_form = $this->_formFactory->create();
         }
         return $this->_form;
     }

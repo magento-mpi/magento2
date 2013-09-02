@@ -17,7 +17,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send exte
      */
     public function initForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $form->setHtmlIdPrefix('_send');
 
         $model = Mage::registry('current_giftcardaccount');

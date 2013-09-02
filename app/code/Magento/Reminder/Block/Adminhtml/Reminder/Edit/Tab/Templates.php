@@ -21,7 +21,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         $model = Mage::registry('current_reminder_rule');
 
         $fieldset = $form->addFieldset('email_fieldset', array(

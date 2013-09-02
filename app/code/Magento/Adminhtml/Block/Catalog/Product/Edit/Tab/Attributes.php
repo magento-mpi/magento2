@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
         /** @var $group Magento_Eav_Model_Entity_Attribute_Group */
         $group = $this->getGroup();
         if ($group) {
-            $form = new Magento_Data_Form();
+            $form = $this->_createForm();
             $product = Mage::registry('product');
             $isWrapped = Mage::registry('use_wrapper');
             if (!isset($isWrapped)) {

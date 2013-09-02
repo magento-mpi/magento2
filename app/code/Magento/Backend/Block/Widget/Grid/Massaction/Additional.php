@@ -27,15 +27,16 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Ba
     /**
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
+     * @param Magento_Data_Form_Factory $elementFactory
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory,
+        Magento_Data_Form_Factory $elementFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
-
+        parent::__construct($context, $elementFactory, $data);
         $this->_handlerFactory = $handlerFactory;
     }
 
@@ -46,7 +47,7 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Ba
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
         foreach ($this->getData('fields') as $itemId => $item) {
             $this->_prepareFormItem($item);
             $form->addField($itemId, $item['type'], $item);

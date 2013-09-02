@@ -18,9 +18,6 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Bac
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
     const DATA_ALIAS = 'alias';
 
-    /** @var Magento_Data_Form_Factory $_formFactory */
-    private $_formFactory;
-
     /** @var  Magento_Core_Model_Registry $_registry */
     private $_registry;
 
@@ -34,25 +31,24 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Bac
     private $_hook;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Webhook_Model_Source_Format $format
      * @param Magento_Webhook_Model_Source_Authentication $authentication
      * @param Magento_Webhook_Model_Source_Hook $hook
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Registry $registry,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Webhook_Model_Source_Format $format,
         Magento_Webhook_Model_Source_Authentication $authentication,
         Magento_Webhook_Model_Source_Hook $hook,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
-        $this->_formFactory = $formFactory;
+        parent::__construct($context, $formFactory, $data);
         $this->_registry = $registry;
         $this->_format = $format;
         $this->_authentication = $authentication;
@@ -72,7 +68,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Bac
         $subscriptionId = isset($subscriptionData[self::DATA_SUBSCRIPTION_ID])
             ? $subscriptionData[self::DATA_SUBSCRIPTION_ID]
             : 0;
-        $form = $this->_formFactory->create(
+        $form = $this->_createForm(
             array(
                  'id'     => 'edit_form',
                  'action' => $this->getUrl(

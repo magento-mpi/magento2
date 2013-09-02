@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Adminhtml_Block_Wi
 {
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_createForm();
 
         $fieldset = $form->addFieldset('add_review_form', array('legend' => __('Review Details')));
 
