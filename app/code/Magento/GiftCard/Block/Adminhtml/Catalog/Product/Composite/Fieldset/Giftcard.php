@@ -28,7 +28,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Giftca
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data, $context, $data);
+        parent::__construct($context, $coreStoreConfig, $data);
         $this->_storeManager = $storeManager;
     }
 

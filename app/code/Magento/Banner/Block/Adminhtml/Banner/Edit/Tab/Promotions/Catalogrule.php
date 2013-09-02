@@ -13,6 +13,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
 {
     /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_CatalogRule_Model_Resource_Rule_Collection $ruleCollection
@@ -20,12 +21,13 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_CatalogRule_Model_Resource_Rule_Collection $ruleCollection,
         array $data = array()
     ) {
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($context, $coreStoreConfig, $storeManager, $urlModel, $data);
         $this->setCollection($ruleCollection);
     }
 

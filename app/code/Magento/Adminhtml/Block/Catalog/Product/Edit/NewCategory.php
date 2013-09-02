@@ -19,15 +19,17 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_B
 {
     /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Catalog_Model_CategoryFactory $categoryFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $coreStoreConfig, $data);
         $this->setUseContainer(true);
         $this->_categoryFactory = $categoryFactory;
     }

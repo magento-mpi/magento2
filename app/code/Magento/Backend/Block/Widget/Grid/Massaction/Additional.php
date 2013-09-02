@@ -26,15 +26,17 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Ba
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $coreStoreConfig, $data);
 
         $this->_handlerFactory = $handlerFactory;
     }

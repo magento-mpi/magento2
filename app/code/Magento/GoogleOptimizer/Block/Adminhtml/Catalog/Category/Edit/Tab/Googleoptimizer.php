@@ -27,6 +27,7 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_GoogleOptimizer_Helper_Code $codeHelper
      * @param Magento_GoogleOptimizer_Helper_Form $formHelper
@@ -35,13 +36,14 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Registry $registry,
         Magento_GoogleOptimizer_Helper_Code $codeHelper,
         Magento_GoogleOptimizer_Helper_Form $formHelper,
         Magento_Data_Form $form,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $coreStoreConfig, $data);
 
         $this->_codeHelper = $codeHelper;
         $this->_formHelper = $formHelper;

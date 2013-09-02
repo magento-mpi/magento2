@@ -25,16 +25,18 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size $sourceSizeModel
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size $sourceSizeModel,
         array $data = array()
     ) {
         $this->_sourceSizeModel = $sourceSizeModel;
-        parent::__construct($context, $data);
+        parent::__construct($context, $coreStoreConfig, $data);
     }
 
     /**

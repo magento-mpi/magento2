@@ -32,19 +32,21 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Magento_
      * @inheritdoc
      *
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_registry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($context, $coreStoreConfig, $data);
     }
 
     /**
