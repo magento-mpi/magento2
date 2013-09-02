@@ -37,8 +37,8 @@ class Integrity_Modular_RouteConfigFilesTest extends PHPUnit_Framework_TestCase
     {
         global $magentoBaseDir;
 
-        $this->_schemaFile = $magentoBaseDir . '/app/code/Mage/Core/etc/routes.xsd';
-        $this->_mergedSchemaFile = $magentoBaseDir . '/app/code/Mage/Core/etc/routes_merged.xsd';
+        $this->_schemaFile = $magentoBaseDir . '/app/code/Magento/Core/etc/routes.xsd';
+        $this->_mergedSchemaFile = $magentoBaseDir . '/app/code/Magento/Core/etc/routes_merged.xsd';
     }
 
     public function testRouteConfigsValidation()
