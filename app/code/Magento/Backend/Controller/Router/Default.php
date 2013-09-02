@@ -34,8 +34,8 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config_Scope $configScope
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string $areaCode
      * @param string $baseController
      * @throws InvalidArgumentException
@@ -44,16 +44,17 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_App $app,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config_Scope $configScope,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $areaCode,
         $baseController
     ) {
         parent::__construct(
             $controllerFactory,
-            $filesystem, $app,
-            $coreStoreConfig,
+            $filesystem,
+            $app,
             $configScope,
+            $coreStoreConfig,
             $areaCode,
             $baseController
         );
