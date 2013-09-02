@@ -20,7 +20,15 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
     protected $_emailTemplateModel;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection
      * @param array $data
@@ -28,10 +36,12 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         if (isset($data['email_template_model'])) {
             if (!$data['email_template_model'] instanceof Magento_Core_Model_Email_Template) {
                 throw new InvalidArgumentException(
@@ -119,7 +129,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         // set is_redeemable
         $isRedeemable = 0;
         if ($product->getUseConfigIsRedeemable()) {
-            $isRedeemable = Mage::getStoreConfigFlag(
+            $isRedeemable = $this->_coreStoreConfig->getConfigFlag(
                 Magento_GiftCard_Model_Giftcard::XML_PATH_IS_REDEEMABLE,
                 $orderItem->getStore()
             );

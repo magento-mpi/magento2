@@ -25,10 +25,21 @@ class Magento_Downloadable_Model_Observer
     protected $_helper;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_helper = isset($data['helper']) ? $data['helper'] : Mage::helper('Magento_Core_Helper_Data');
     }
 
@@ -301,7 +312,7 @@ class Magento_Downloadable_Model_Observer
             }
         }
 
-        if ($isContain && Mage::getStoreConfigFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, $store)) {
+        if ($isContain && $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, $store)) {
             $result->setIsAllowed(false);
         }
 

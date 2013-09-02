@@ -57,6 +57,25 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_wishlistItemCollection = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Retreive customer session
      *
      * @return Magento_Customer_Model_Session
@@ -119,11 +138,9 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
         if (is_null($this->_wishlist)) {
             if (Mage::registry('shared_wishlist')) {
                 $this->_wishlist = Mage::registry('shared_wishlist');
-            }
-            elseif (Mage::registry('wishlist')) {
+            } elseif (Mage::registry('wishlist')) {
                 $this->_wishlist = Mage::registry('wishlist');
-            }
-            else {
+            } else {
                 $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
                 if ($this->getCustomer()) {
                     $this->_wishlist->loadByCustomer($this->getCustomer());
@@ -197,8 +214,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
         if ($product) {
             if ($product->isVisibleInSiteVisibility()) {
                 $storeId = $product->getStoreId();
-            }
-            else if ($product->hasUrlDataObject()) {
+            } else if ($product->hasUrlDataObject()) {
                 $storeId = $product->getUrlDataObject()->getStoreId();
             }
         }
@@ -435,7 +451,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isRssAllow()
     {
-        return Mage::getStoreConfigFlag('rss/wishlist/active');
+        return $this->_coreStoreConfig->getConfigFlag('rss/wishlist/active');
     }
 
     /**

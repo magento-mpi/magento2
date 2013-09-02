@@ -40,6 +40,27 @@ class Magento_GoogleCheckout_Model_Api_Xml_Checkout extends Magento_GoogleChecko
     protected $_shippingCalculated = false;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Translate $translator
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Translate $translator,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($translator, $data);
+    }
+
+    /**
      * API URL getter
      *
      * @return string
@@ -203,7 +224,7 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = Mage::getStoreConfigFlag(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $storeId);
+        $active = $this->_coreStoreConfig->getConfigFlag(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $storeId);
         if (!$active) {
             return '';
         }
@@ -381,7 +402,7 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = Mage::getStoreConfigFlag(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId);
+        $active = $this->_coreStoreConfig->getConfigFlag(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId);
         $methods = Mage::getStoreConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_METHODS, $storeId);
 
         if (!$active || !$methods) {
@@ -525,7 +546,7 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        if (!Mage::getStoreConfigFlag(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_FLATRATE_ACTIVE, $storeId)) {
+        if (!$this->_coreStoreConfig->getConfigFlag(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_FLATRATE_ACTIVE, $storeId)) {
             return '';
         }
 
@@ -541,7 +562,7 @@ EOT;
             $price         = (float)Mage::getStoreConfig('google/checkout_shipping_flatrate/price_' . $i, $storeId);
             $price         = number_format($price, 2, '.', '');
             $price         = (float)Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($price, false, false);
-            $allowSpecific = Mage::getStoreConfigFlag(
+            $allowSpecific = $this->_coreStoreConfig->getConfigFlag(
                 'google/checkout_shipping_flatrate/sallowspecific_' . $i,
                 $storeId
             );
@@ -611,7 +632,7 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = Mage::getStoreConfigFlag(
+        $active = $this->_coreStoreConfig->getConfigFlag(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_MERCHANT_ACTIVE,
             $storeId
         );
@@ -834,7 +855,7 @@ EOT;
      */
     protected function _getAllTaxTablesXml()
     {
-        $isDefaultTaxTablesDisabled = Mage::getStoreConfigFlag(
+        $isDefaultTaxTablesDisabled = $this->_coreStoreConfig->getConfigFlag(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_DISABLE_DEFAULT_TAX_TABLES,
             $this->getQuote()->getStoreId()
         );

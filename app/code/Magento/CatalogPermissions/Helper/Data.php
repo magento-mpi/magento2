@@ -29,13 +29,32 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
     const GRANT_NONE            = 0;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve config value for permission enabled
      *
      * @return boolean
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED);
     }
 
     /**

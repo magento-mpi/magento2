@@ -33,6 +33,27 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
     protected $_configFileName = 'persistent.xml';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config_Modules $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config_Modules $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $config);
+    }
+
+    /**
      * Checks whether Persistence Functionality is enabled
      *
      * @param int|string|Magento_Core_Model_Store $store
@@ -40,7 +61,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function isEnabled($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED, $store);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED, $store);
     }
 
     /**
@@ -51,7 +72,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function isRememberMeEnabled($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_REMEMBER_ME_ENABLED, $store);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_REMEMBER_ME_ENABLED, $store);
     }
 
     /**
@@ -62,7 +83,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function isRememberMeCheckedDefault($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_REMEMBER_ME_DEFAULT, $store);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_REMEMBER_ME_DEFAULT, $store);
     }
 
     /**
@@ -73,7 +94,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function isShoppingCartPersist($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_PERSIST_SHOPPING_CART, $store);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_PERSIST_SHOPPING_CART, $store);
     }
 
     /**
@@ -95,7 +116,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getClearOnLogout()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_LOGOUT_CLEAR);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_LOGOUT_CLEAR);
     }
 
     /**
@@ -115,7 +136,10 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getPersistentName()
     {
-        return __('(Not %1?)', $this->escapeHtml(Mage::helper('Magento_Persistent_Helper_Session')->getCustomer()->getName()));
+        return __(
+            '(Not %1?)',
+            $this->escapeHtml(Mage::helper('Magento_Persistent_Helper_Session')->getCustomer()->getName())
+        );
     }
 
     /**

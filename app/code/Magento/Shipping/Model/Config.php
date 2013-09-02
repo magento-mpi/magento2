@@ -22,6 +22,30 @@ class Magento_Shipping_Model_Config extends Magento_Object
     protected static $_carriers;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($data);
+    }
+
+    /**
      * Retrieve active system carriers
      *
      * @param   mixed $store
@@ -32,7 +56,7 @@ class Magento_Shipping_Model_Config extends Magento_Object
         $carriers = array();
         $config = Mage::getStoreConfig('carriers', $store);
         foreach ($config as $code => $carrierConfig) {
-            if (Mage::getStoreConfigFlag('carriers/'.$code.'/active', $store)) {
+            if ($this->_coreStoreConfig->getConfigFlag('carriers/'.$code.'/active', $store)) {
                 $carrierModel = $this->_getCarrier($code, $carrierConfig, $store);
                 if ($carrierModel) {
                     $carriers[$code] = $carrierModel;

@@ -105,7 +105,7 @@ class Magento_Rss_Controller_Catalog extends Magento_Core_Controller_Front_Actio
      */
     protected function _isEnabled($code)
     {
-        return Mage::getStoreConfigFlag("rss/catalog/{$code}");
+        return $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfigFlag("rss/catalog/{$code}");
     }
 
     /**

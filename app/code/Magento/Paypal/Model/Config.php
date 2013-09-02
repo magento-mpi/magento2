@@ -236,12 +236,25 @@ class Magento_Paypal_Model_Config
     );
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * Set method and store id, if specified
      *
+     *
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $params
      */
-    public function __construct($params = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        $params = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         if ($params) {
             $method = array_shift($params);
             $this->setMethod($method);
@@ -299,7 +312,7 @@ class Magento_Paypal_Model_Config
     public function isMethodActive($method)
     {
         return $this->isMethodSupportedForCountry($method)
-            && Mage::getStoreConfigFlag("payment/{$method}/active", $this->_storeId);
+            && $this->_coreStoreConfig->getConfigFlag("payment/{$method}/active", $this->_storeId);
     }
 
     /**

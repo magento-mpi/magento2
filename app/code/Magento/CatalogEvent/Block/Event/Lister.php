@@ -25,6 +25,27 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
     protected $_events = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve html id
      *
      * @return string
@@ -46,7 +67,7 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
     public function canDisplay()
     {
         return Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()
-            && Mage::getStoreConfigFlag('catalog/magento_catalogevent/lister_output')
+            && $this->_coreStoreConfig->getConfigFlag('catalog/magento_catalogevent/lister_output')
             && (count($this->getEvents()) > 0);
     }
 

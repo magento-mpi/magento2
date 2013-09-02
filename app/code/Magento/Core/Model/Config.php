@@ -158,6 +158,13 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     protected $_moduleList;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Model_ObjectManager $objectManager
      * @param Magento_Core_Model_Config_StorageInterface $storage
      * @param Magento_Core_Model_AppInterface $app
@@ -165,6 +172,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Config_InvalidatorInterface $invalidator
      * @param Magento_Config_ScopeInterface $configScope
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_ObjectManager $objectManager,
@@ -173,8 +181,10 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Config_InvalidatorInterface $invalidator,
-        Magento_Config_ScopeInterface $configScope
+        Magento_Config_ScopeInterface $configScope,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         Magento_Profiler::start('config_load');
         $this->_objectManager = $objectManager;
         $this->_app = $app;
@@ -461,7 +471,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      */
     public function shouldUrlBeSecure($url)
     {
-        if (!Mage::getStoreConfigFlag(Magento_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND)) {
+        if (!$this->_coreStoreConfig->getConfigFlag(Magento_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND)) {
             return false;
         }
 

@@ -20,6 +20,25 @@ class Magento_CatalogEvent_Helper_Data extends Magento_Core_Helper_Abstract
     const XML_PATH_ENABLED = 'catalog/magento_catalogevent/enabled';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Retreive event image url
      *
      * @param Magento_CatalogEvent_Model_Event
@@ -41,6 +60,6 @@ class Magento_CatalogEvent_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED);
     }
 }

@@ -24,13 +24,23 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
     protected $_configScope;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Api_Helper_Data $apiHelper
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config_Scope $configScope
      */
     public function __construct(
         Magento_Api_Helper_Data $apiHelper,
-        Magento_Core_Model_Config_Scope $configScope
+        Magento_Core_Model_Config_Scope $configScope,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_configScope = $configScope;
         parent::__construct($apiHelper);
         $this->_storeIdSessionField = "cart_store_id";
@@ -346,7 +356,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
         $storeId = $quote->getStoreId();
 
         $agreements = array();
-        if (Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
+        if ($this->_coreStoreConfig->getConfigFlag('checkout/options/enable_agreements')) {
             $agreementsCollection = Mage::getModel('Magento_Checkout_Model_Agreement')->getCollection()
                     ->addStoreFilter($storeId)
                     ->addFieldToFilter('is_active', 1);

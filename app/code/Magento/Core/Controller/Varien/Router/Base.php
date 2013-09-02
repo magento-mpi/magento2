@@ -50,10 +50,18 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     protected $_configScope;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string $areaCode
      * @param string $baseController
      * @throws InvalidArgumentException
@@ -63,6 +71,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         Magento_Filesystem $filesystem,
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $areaCode,
         $baseController
     ) {
@@ -73,6 +82,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         $this->_areaCode       = $areaCode;
         $this->_baseController = $baseController;
         $this->_configScope  = $configScope;
+        $this->_coreStoreConfig = $coreStoreConfig;
 
         if (is_null($this->_areaCode) || is_null($this->_baseController)) {
             throw new InvalidArgumentException("Not enough options to initialize router.");
@@ -591,7 +601,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     protected function _shouldBeSecure($path)
     {
         return substr(Mage::getStoreConfig('web/unsecure/base_url'), 0, 5) === 'https'
-            || Mage::getStoreConfigFlag('web/secure/use_in_frontend')
+            || $this->_coreStoreConfig->getConfigFlag('web/secure/use_in_frontend')
                 && substr(Mage::getStoreConfig('web/secure/base_url'), 0, 5) == 'https'
                 && Mage::getConfig()->shouldUrlBeSecure($path);
     }

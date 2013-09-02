@@ -25,11 +25,24 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
     protected $_quoteShippingAddressesItems;
 
     /**
-     * Constructor
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
      */
-    public function __construct()
-    {
-        parent::__construct();
+    protected $_coreStoreConfig = null;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($data);
         $this->_init();
     }
 
@@ -556,8 +569,8 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
      */
     public function validateMinimumAmount()
     {
-        return !(Mage::getStoreConfigFlag('sales/minimum_order/active')
-            && Mage::getStoreConfigFlag('sales/minimum_order/multi_address')
+        return !($this->_coreStoreConfig->getConfigFlag('sales/minimum_order/active')
+            && $this->_coreStoreConfig->getConfigFlag('sales/minimum_order/multi_address')
             && !$this->getQuote()->validateMinimumAmount());
     }
 

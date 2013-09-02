@@ -95,7 +95,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfigFlag(Magento_Rma_Model_Rma::XML_PATH_ENABLED);
+        return $this->_storeConfig->getConfigFlag(Magento_Rma_Model_Rma::XML_PATH_ENABLED);
     }
 
     /**
@@ -206,7 +206,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     public function getReturnContactName($storeId = null)
     {
         $contactName = new Magento_Object();
-        if (Mage::getStoreConfigFlag(Magento_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
+        if ($this->_storeConfig->getConfigFlag(Magento_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
             $admin = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
             $contactName->setFirstName($admin->getFirstname());
             $contactName->setLastName($admin->getLastname());

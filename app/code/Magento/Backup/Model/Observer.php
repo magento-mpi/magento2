@@ -30,17 +30,33 @@ class Magento_Backup_Model_Observer
     protected $_errors = array();
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Create Backup
      *
      * @return Magento_Log_Model_Cron
      */
     public function scheduledBackup()
     {
-        if (!Mage::getStoreConfigFlag(self::XML_PATH_BACKUP_ENABLED)) {
+        if (!$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_BACKUP_ENABLED)) {
             return $this;
         }
 
-        if (Mage::getStoreConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {
+        if ($this->_coreStoreConfig->getConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {
             Mage::helper('Magento_Backup_Helper_Data')->turnOnMaintenanceMode();
         }
 
@@ -70,7 +86,7 @@ class Magento_Backup_Model_Observer
             Mage::logException($e);
         }
 
-        if (Mage::getStoreConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {
+        if ($this->_coreStoreConfig->getConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {
             Mage::helper('Magento_Backup_Helper_Data')->turnOffMaintenanceMode();
         }
 

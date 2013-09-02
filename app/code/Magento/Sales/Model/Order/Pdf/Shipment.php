@@ -18,6 +18,30 @@
 class Magento_Sales_Model_Order_Pdf_Shipment extends Magento_Sales_Model_Order_Pdf_Abstract
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($data);
+    }
+
+    /**
      * Draw table header for product items
      *
      * @param  Zend_Pdf_Page $page
@@ -91,8 +115,10 @@ class Magento_Sales_Model_Order_Pdf_Shipment extends Magento_Sales_Model_Order_P
             $this->insertOrder(
                 $page,
                 $shipment,
-                Mage::getStoreConfigFlag(self::XML_PATH_SALES_PDF_SHIPMENT_PUT_ORDER_ID, $order->getStoreId())
-            );
+                $this->_coreStoreConfig->getConfigFlag(
+                    self::XML_PATH_SALES_PDF_SHIPMENT_PUT_ORDER_ID,
+                    $order->getStoreId()
+            ));
             /* Add document text and number */
             $this->insertDocumentNumber(
                 $page,

@@ -88,7 +88,7 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     protected function _isProfileEnable()
     {
-        return Mage::getStoreConfigFlag('payment/pbridge/profilestatus', $this->_getCurrentStore());
+        return $this->_coreStoreConfig->getConfigFlag('payment/pbridge/profilestatus', $this->_getCurrentStore());
     }
 
     /**

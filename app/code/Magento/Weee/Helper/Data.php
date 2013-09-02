@@ -23,6 +23,25 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_storeDisplayConfig   = array();
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Get weee amount display type on product view page
      *
      * @param   mixed $store
@@ -74,7 +93,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isDiscounted($store = null)
     {
-        return Mage::getStoreConfigFlag('tax/weee/discount', $store);
+        return $this->_coreStoreConfig->getConfigFlag('tax/weee/discount', $store);
     }
 
     /**
@@ -85,7 +104,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isTaxable($store = null)
     {
-        return Mage::getStoreConfigFlag('tax/weee/apply_vat', $store);
+        return $this->_coreStoreConfig->getConfigFlag('tax/weee/apply_vat', $store);
     }
 
     /**
@@ -96,7 +115,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function includeInSubtotal($store = null)
     {
-        return Mage::getStoreConfigFlag('tax/weee/include_in_subtotal', $store);
+        return $this->_coreStoreConfig->getConfigFlag('tax/weee/include_in_subtotal', $store);
     }
 
     /**

@@ -15,6 +15,22 @@
 class Magento_WebsiteRestriction_Model_Observer
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Implement website stub or private sales restriction
      *
      * @param Magento_Event_Observer $observer
@@ -106,14 +122,15 @@ class Magento_WebsiteRestriction_Model_Observer
                             $response->setRedirect($redirectUrl);
                             $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                         }
-                        if (Mage::getStoreConfigFlag(
+                        if ($this->_coreStoreConfig->getConfigFlag(
                             Magento_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
                         )) {
                             $afterLoginUrl = Mage::helper('Magento_Customer_Helper_Data')->getDashboardUrl();
                         } else {
                             $afterLoginUrl = Mage::getUrl();
                         }
-                        Mage::getSingleton('Magento_Core_Model_Session')->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
+                        Mage::getSingleton('Magento_Core_Model_Session')
+                            ->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
                     } elseif (Mage::getSingleton('Magento_Core_Model_Session')->hasWebsiteRestrictionAfterLoginUrl()) {
                         $response->setRedirect(
                             Mage::getSingleton('Magento_Core_Model_Session')->getWebsiteRestrictionAfterLoginUrl(true)

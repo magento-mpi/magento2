@@ -25,12 +25,27 @@ class Magento_Core_Model_Email extends Magento_Object
     protected $_tplVars = array();
     protected $_block;
 
-    public function __construct()
-    {
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         // TODO: move to config
         $this->setFromName('Magento');
         $this->setFromEmail('magento@varien.com');
         $this->setType('text');
+        parent::__construct($data);
     }
 
     public function setTemplateVar($var, $value = null)
@@ -80,7 +95,7 @@ class Magento_Core_Model_Email extends Magento_Object
 
     public function send()
     {
-        if (Mage::getStoreConfigFlag('system/smtp/disable')) {
+        if ($this->_coreStoreConfig->getConfigFlag('system/smtp/disable')) {
             return $this;
         }
 

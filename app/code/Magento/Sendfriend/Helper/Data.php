@@ -31,6 +31,25 @@ class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
     const CHECK_COOKIE  = 0;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Check is enabled Module
      *
      * @param int $store
@@ -38,7 +57,7 @@ class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isEnabled($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED, $store);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED, $store);
     }
 
     /**
@@ -49,7 +68,7 @@ class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isAllowForGuest($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ALLOW_FOR_GUEST, $store);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ALLOW_FOR_GUEST, $store);
     }
 
     /**

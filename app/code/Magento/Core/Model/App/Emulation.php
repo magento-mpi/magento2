@@ -18,6 +18,30 @@
 class Magento_Core_Model_App_Emulation extends Magento_Object
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($data);
+    }
+
+    /**
      * Start environment emulation of the specified store
      *
      * Function returns information about initial store environment and emulates environment of another store
@@ -86,9 +110,9 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
             $newTranslateInline = false;
         } else {
             if ($area == Magento_Core_Model_App_Area::AREA_ADMIN) {
-                $newTranslateInline = Mage::getStoreConfigFlag('dev/translate_inline/active_admin', $storeId);
+                $newTranslateInline = $this->_coreStoreConfig->getConfigFlag('dev/translate_inline/active_admin', $storeId);
             } else {
-                $newTranslateInline = Mage::getStoreConfigFlag('dev/translate_inline/active', $storeId);
+                $newTranslateInline = $this->_coreStoreConfig->getConfigFlag('dev/translate_inline/active', $storeId);
             }
         }
         /** @var $translateModel Magento_Core_Model_Translate */

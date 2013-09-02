@@ -60,6 +60,13 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     protected $_menuConfig;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Backend_Helper_Data $backendHelper
      * @param Magento_Core_Helper_Data $coreHelper
      * @param Magento_Core_Model_Session $coreSession
@@ -75,6 +82,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         Magento_Backend_Model_Menu_Config $menuConfig,
         array $data = array()
     ) {
+        $this->_coreStoreConfig = $storeConfig;
         parent::__construct($data);
         $this->_startupMenuItemId = $storeConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
@@ -93,7 +101,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         if ($this->hasData('secure_is_forced')) {
             return $this->getData('secure');
         }
-        return Mage::getStoreConfigFlag('web/secure/use_in_adminhtml');
+        return $this->_coreStoreConfig->getConfigFlag('web/secure/use_in_adminhtml');
     }
 
     /**
@@ -206,7 +214,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     public function useSecretKey()
     {
-        return Mage::getStoreConfigFlag('admin/security/use_form_key') && !$this->getNoSecret();
+        return $this->_coreStoreConfig->getConfigFlag('admin/security/use_form_key') && !$this->getNoSecret();
     }
 
     /**

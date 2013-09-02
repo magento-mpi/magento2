@@ -140,8 +140,10 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      */
     protected function _shouldBeSecure($path)
     {
+        $useInAdminhtml = $this->_coreStoreConfig
+            ->getConfigFlag('web/secure/use_in_adminhtml', Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         return substr((string)Mage::getConfig()->getNode('default/web/unsecure/base_url'), 0, 5) === 'https'
-            || Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+            || $useInAdminhtml
                 && substr((string)Mage::getConfig()->getNode('default/web/secure/base_url'), 0, 5) === 'https';
     }
 

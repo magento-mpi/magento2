@@ -26,6 +26,25 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
     protected $_product = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Get current product instance
      *
      * @return Magento_Catalog_Model_Product
@@ -94,7 +113,7 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
      */
     public function isStockAlertAllowed()
     {
-        return Mage::getStoreConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_STOCK_ALLOW);
+        return $this->_coreStoreConfig->getConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_STOCK_ALLOW);
     }
 
     /**
@@ -104,6 +123,6 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
      */
     public function isPriceAlertAllowed()
     {
-        return Mage::getStoreConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_PRICE_ALLOW);
+        return $this->_coreStoreConfig->getConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_PRICE_ALLOW);
     }
 }

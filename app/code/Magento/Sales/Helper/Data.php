@@ -23,6 +23,27 @@ class Magento_Sales_Helper_Data extends Magento_Core_Helper_Data
     const MAXIMUM_AVAILABLE_NUMBER = 99999999;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config_Modules $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config_Modules $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $config);
+    }
+
+    /**
      * Check quote amount
      *
      * @param Magento_Sales_Model_Quote $quote
@@ -48,7 +69,7 @@ class Magento_Sales_Helper_Data extends Magento_Core_Helper_Data
      */
     public function canSendNewOrderConfirmationEmail($store = null)
     {
-        return Mage::getStoreConfigFlag(Magento_Sales_Model_Order::XML_PATH_EMAIL_ENABLED, $store);
+        return $this->_coreStoreConfig->getConfigFlag(Magento_Sales_Model_Order::XML_PATH_EMAIL_ENABLED, $store);
     }
 
     /**
@@ -70,7 +91,7 @@ class Magento_Sales_Helper_Data extends Magento_Core_Helper_Data
      */
     public function canSendOrderCommentEmail($store = null)
     {
-        return Mage::getStoreConfigFlag(Magento_Sales_Model_Order::XML_PATH_UPDATE_EMAIL_ENABLED, $store);
+        return $this->_coreStoreConfig->getConfigFlag(Magento_Sales_Model_Order::XML_PATH_UPDATE_EMAIL_ENABLED, $store);
     }
 
     /**
@@ -81,7 +102,8 @@ class Magento_Sales_Helper_Data extends Magento_Core_Helper_Data
      */
     public function canSendNewShipmentEmail($store = null)
     {
-        return Mage::getStoreConfigFlag(Magento_Sales_Model_Order_Shipment::XML_PATH_EMAIL_ENABLED, $store);
+        return $this->_coreStoreConfig
+            ->getConfigFlag(Magento_Sales_Model_Order_Shipment::XML_PATH_EMAIL_ENABLED, $store);
     }
 
     /**
@@ -92,7 +114,8 @@ class Magento_Sales_Helper_Data extends Magento_Core_Helper_Data
      */
     public function canSendShipmentCommentEmail($store = null)
     {
-        return Mage::getStoreConfigFlag(Magento_Sales_Model_Order_Shipment::XML_PATH_UPDATE_EMAIL_ENABLED, $store);
+        return $this->_coreStoreConfig
+            ->getConfigFlag(Magento_Sales_Model_Order_Shipment::XML_PATH_UPDATE_EMAIL_ENABLED, $store);
     }
 
     /**
@@ -103,7 +126,8 @@ class Magento_Sales_Helper_Data extends Magento_Core_Helper_Data
      */
     public function canSendNewInvoiceEmail($store = null)
     {
-        return Mage::getStoreConfigFlag(Magento_Sales_Model_Order_Invoice::XML_PATH_EMAIL_ENABLED, $store);
+        return $this->_coreStoreConfig
+            ->getConfigFlag(Magento_Sales_Model_Order_Invoice::XML_PATH_EMAIL_ENABLED, $store);
     }
 
     /**
@@ -114,7 +138,8 @@ class Magento_Sales_Helper_Data extends Magento_Core_Helper_Data
      */
     public function canSendInvoiceCommentEmail($store = null)
     {
-        return Mage::getStoreConfigFlag(Magento_Sales_Model_Order_Invoice::XML_PATH_UPDATE_EMAIL_ENABLED, $store);
+        return $this->_coreStoreConfig
+            ->getConfigFlag(Magento_Sales_Model_Order_Invoice::XML_PATH_UPDATE_EMAIL_ENABLED, $store);
     }
 
     /**
@@ -125,7 +150,8 @@ class Magento_Sales_Helper_Data extends Magento_Core_Helper_Data
      */
     public function canSendNewCreditmemoEmail($store = null)
     {
-        return Mage::getStoreConfigFlag(Magento_Sales_Model_Order_Creditmemo::XML_PATH_EMAIL_ENABLED, $store);
+        return $this->_coreStoreConfig
+            ->getConfigFlag(Magento_Sales_Model_Order_Creditmemo::XML_PATH_EMAIL_ENABLED, $store);
     }
 
     /**
@@ -136,6 +162,7 @@ class Magento_Sales_Helper_Data extends Magento_Core_Helper_Data
      */
     public function canSendCreditmemoCommentEmail($store = null)
     {
-        return Mage::getStoreConfigFlag(Magento_Sales_Model_Order_Creditmemo::XML_PATH_UPDATE_EMAIL_ENABLED, $store);
+        return $this->_coreStoreConfig
+            ->getConfigFlag(Magento_Sales_Model_Order_Creditmemo::XML_PATH_UPDATE_EMAIL_ENABLED, $store);
     }
 }

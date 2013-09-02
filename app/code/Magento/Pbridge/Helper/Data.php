@@ -62,25 +62,46 @@ class Magento_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_storeId = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Check if Payment Bridge Magento Module is enabled in configuration
      *
      * @param Magento_Core_Model_Store $store
-     * @return boolean
+     * @return bool
      */
     public function isEnabled($store = null)
     {
-        return (bool)Mage::getStoreConfigFlag('payment/pbridge/active', $store) && $this->isAvailable($store);
+        return $this->_coreStoreConfig->getConfigFlag('payment/pbridge/active', $store) && $this->isAvailable($store);
     }
 
     /**
      * Check if Payment Bridge supports Payment Profiles
      *
      * @param Magento_Core_Model_Store $store
-     * @return boolean
+     * @return bool
      */
     public function arePaymentProfilesEnables($store = null)
     {
-        return (bool)Mage::getStoreConfigFlag('payment/pbridge/profilestatus', $store) && $this->isEnabled($store);
+        return $this->_coreStoreConfig->getConfigFlag('payment/pbridge/profilestatus', $store)
+            &&
+            $this->isEnabled($store);
     }
 
     /**

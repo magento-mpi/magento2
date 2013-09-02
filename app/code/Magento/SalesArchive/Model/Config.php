@@ -19,13 +19,29 @@ class Magento_SalesArchive_Model_Config
     const XML_PATH_ARCHIVE_ORDER_STATUSES = 'sales/magento_salesarchive/order_statuses';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Check archiving activity
      *
      * @return boolean
      */
     public function isArchiveActive()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ARCHIVE_ACTIVE);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ARCHIVE_ACTIVE);
     }
 
     /**

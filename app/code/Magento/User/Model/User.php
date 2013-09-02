@@ -95,19 +95,29 @@ class Magento_User_Model_User
     protected $_sender;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Sender $sender,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Sender $sender,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_sender = $sender;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
@@ -443,7 +453,7 @@ class Magento_User_Model_User
      */
     public function authenticate($username, $password)
     {
-        $config = Mage::getStoreConfigFlag('admin/security/use_case_sensitive_login');
+        $config = $this->_coreStoreConfig->getConfigFlag('admin/security/use_case_sensitive_login');
         $result = false;
 
         try {

@@ -19,6 +19,27 @@ class Magento_Downloadable_Block_Catalog_Product_Samples extends Magento_Catalog
 {
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Enter description here...
      *
      * @return boolean
@@ -65,6 +86,6 @@ class Magento_Downloadable_Block_Catalog_Product_Samples extends Magento_Catalog
      */
     public function getIsOpenInNewWindow()
     {
-        return Mage::getStoreConfigFlag(Magento_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
+        return $this->_coreStoreConfig->getConfigFlag(Magento_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
     }
 }

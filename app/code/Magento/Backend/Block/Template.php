@@ -25,11 +25,23 @@ class Magento_Backend_Block_Template extends Magento_Core_Block_Template
     protected $_authorization;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_authorization = $context->getAuthorization();
         parent::__construct($context, $data);
     }
@@ -58,7 +70,7 @@ class Magento_Backend_Block_Template extends Magento_Core_Block_Template
         if ($moduleName === null) {
             $moduleName = $this->getModuleName();
         }
-        return !Mage::getStoreConfigFlag('advanced/modules_disable_output/' . $moduleName);
+        return !$this->_coreStoreConfig->getConfigFlag('advanced/modules_disable_output/' . $moduleName);
     }
     
     /**

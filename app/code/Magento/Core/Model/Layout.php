@@ -180,6 +180,13 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected $_renderers = array();
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_BlockFactory $blockFactory
      * @param Magento_Data_Structure $structure
@@ -187,6 +194,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param Magento_Core_Model_Layout_Translator $translator
      * @param Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure
      * @param Magento_Core_Model_DataService_Graph $dataServiceGraph
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string $area
      */
     public function __construct(
@@ -197,8 +205,10 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         Magento_Core_Model_Layout_Translator $translator,
         Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure,
         Magento_Core_Model_DataService_Graph $dataServiceGraph,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $area = Magento_Core_Model_View_DesignInterface::DEFAULT_AREA
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_design = $design;
         $this->_blockFactory = $blockFactory;
         $this->_area = $area;
@@ -899,7 +909,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected function _generateAction($node, $parent)
     {
         $configPath = $node->getAttribute('ifconfig');
-        if ($configPath && !Mage::getStoreConfigFlag($configPath)) {
+        if ($configPath && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
             return;
         }
 

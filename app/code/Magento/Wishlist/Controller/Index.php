@@ -63,7 +63,7 @@ class Magento_Wishlist_Controller_Index
             }
             $customerSession->setBeforeWishlistRequest($this->getRequest()->getParams());
         }
-        if (!Mage::getStoreConfigFlag('wishlist/general/active')) {
+        if (!$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfigFlag('wishlist/general/active')) {
             $this->norouteAction();
             return;
         }

@@ -48,13 +48,25 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     protected $_giftcardAmounts = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * Initialize data
      *
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, array $data = array())
-    {
+    public function __construct(
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_store = isset($data['store']) ? $data['store'] : Mage::app()->getStore();
         $this->_locale = isset($data['locale']) ? $data['locale'] : Mage::app()->getLocale();
         parent::__construct($filesystem, $data);
@@ -167,7 +179,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
 
         $messageAllowed = false;
         if ($product->getUseConfigAllowMessage()) {
-            $messageAllowed = Mage::getStoreConfigFlag(Magento_GiftCard_Model_Giftcard::XML_PATH_ALLOW_MESSAGE);
+            $messageAllowed = $this->_coreStoreConfig->getConfigFlag(Magento_GiftCard_Model_Giftcard::XML_PATH_ALLOW_MESSAGE);
         } else {
             $messageAllowed = (int) $product->getAllowMessage();
         }

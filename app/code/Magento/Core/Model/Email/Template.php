@@ -91,10 +91,18 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
     static protected $_defaultTemplates;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
@@ -102,8 +110,10 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         Magento_Filesystem $filesystem,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_filesystem = $filesystem;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
@@ -339,7 +349,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     public function isValidForSend()
     {
-        return !Mage::getStoreConfigFlag('system/smtp/disable')
+        return !$this->_coreStoreConfig->getConfigFlag('system/smtp/disable')
             && $this->getSenderName()
             && $this->getSenderEmail()
             && $this->getTemplateSubject();

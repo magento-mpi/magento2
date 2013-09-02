@@ -79,6 +79,25 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_groups;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Check customer is logged in
      *
      * @return bool
@@ -171,7 +190,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
 
         $referer = $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME);
 
-        if (!$referer && !Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
+        if (!$referer && !$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
             && !Mage::getSingleton('Magento_Customer_Model_Session')->getNoReferer()
         ) {
             $referer = Mage::getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
@@ -552,7 +571,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         $message = '';
         $isError = true;
         $customerVatClass = $this->getCustomerVatClass($customerAddress->getCountryId(), $validationResult);
-        $groupAutoAssignDisabled = Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN);
+        $groupAutoAssignDisabled = $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN);
 
         $willChargeTaxMessage    = __('You will be charged tax.');
         $willNotChargeTaxMessage = __('You will not be charged tax.');

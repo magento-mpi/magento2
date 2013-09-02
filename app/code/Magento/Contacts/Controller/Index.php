@@ -29,7 +29,7 @@ class Magento_Contacts_Controller_Index extends Magento_Core_Controller_Front_Ac
     {
         parent::preDispatch();
 
-        if( !Mage::getStoreConfigFlag(self::XML_PATH_ENABLED) ) {
+        if (!$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfigFlag(self::XML_PATH_ENABLED)) {
             $this->norouteAction();
         }
     }

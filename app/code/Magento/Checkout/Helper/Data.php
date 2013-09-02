@@ -21,6 +21,25 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_agreements = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve checkout session model
      *
      * @return Magento_Checkout_Model_Session
@@ -53,7 +72,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     public function getRequiredAgreementIds()
     {
         if (is_null($this->_agreements)) {
-            if (!Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
+            if (!$this->_coreStoreConfig->getConfigFlag('checkout/options/enable_agreements')) {
                 $this->_agreements = array();
             } else {
                 $this->_agreements = Mage::getModel('Magento_Checkout_Model_Agreement')->getCollection()
@@ -258,7 +277,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
         if ($store === null) {
             $store = $quote->getStoreId();
         }
-        $guestCheckout = Mage::getStoreConfigFlag(self::XML_PATH_GUEST_CHECKOUT, $store);
+        $guestCheckout = $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_GUEST_CHECKOUT, $store);
 
         if ($guestCheckout == true) {
             $result = new Magento_Object();
@@ -292,6 +311,6 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isCustomerMustBeLogged()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_MUST_BE_LOGGED);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CUSTOMER_MUST_BE_LOGGED);
     }
 }

@@ -71,6 +71,30 @@ abstract class Magento_Shipping_Model_Carrier_Abstract extends Magento_Object
     protected $_debugReplacePrivateDataKeys = array();
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($data);
+    }
+
+    /**
      * Retrieve information from carrier configuration
      *
      * @param   string $field
@@ -97,7 +121,7 @@ abstract class Magento_Shipping_Model_Carrier_Abstract extends Magento_Object
             return false;
         }
         $path = 'carriers/'.$this->_code.'/'.$field;
-        return Mage::getStoreConfigFlag($path, $this->getStore());
+        return $this->_coreStoreConfig->getConfigFlag($path, $this->getStore());
     }
 
     /**

@@ -195,6 +195,33 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
     protected $_nominalOnly = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * Enforce format of the street field
+     *
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource
      */
     protected function _construct()
@@ -974,7 +1001,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
     public function validateMinimumAmount()
     {
         $storeId = $this->getQuote()->getStoreId();
-        if (!Mage::getStoreConfigFlag('sales/minimum_order/active', $storeId)) {
+        if (!$this->_coreStoreConfig->getConfigFlag('sales/minimum_order/active', $storeId)) {
             return true;
         }
 

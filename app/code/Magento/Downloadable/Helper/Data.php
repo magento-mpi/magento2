@@ -18,6 +18,25 @@
 class Magento_Downloadable_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Check is link shareable or not
      *
      * @param Magento_Downloadable_Model_Link | Magento_Downloadable_Model_Link_Purchased_Item $link
@@ -32,7 +51,7 @@ class Magento_Downloadable_Helper_Data extends Magento_Core_Helper_Abstract
                 $shareable = (bool) $link->getIsShareable();
                 break;
             case Magento_Downloadable_Model_Link::LINK_SHAREABLE_CONFIG:
-                $shareable = (bool) Mage::getStoreConfigFlag(Magento_Downloadable_Model_Link::XML_PATH_CONFIG_IS_SHAREABLE);
+                $shareable = (bool) $this->_coreStoreConfig->getConfigFlag(Magento_Downloadable_Model_Link::XML_PATH_CONFIG_IS_SHAREABLE);
         }
         return $shareable;
     }

@@ -133,6 +133,27 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
 
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve Catalog Config object
      *
      * @return Magento_Catalog_Model_Config
@@ -685,6 +706,7 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
     /**
      * Retrieve available limits for specified view mode
      *
+     * @param string $mode
      * @return array
      */
     protected function _getAvailableLimit($mode)
@@ -696,7 +718,7 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
         $perPageValues = (string)Mage::getStoreConfig($perPageConfigKey);
         $perPageValues = explode(',', $perPageValues);
         $perPageValues = array_combine($perPageValues, $perPageValues);
-        if (Mage::getStoreConfigFlag('catalog/frontend/list_allow_all')) {
+        if ($this->_coreStoreConfig->getConfigFlag('catalog/frontend/list_allow_all')) {
             return ($perPageValues + array('all'=>__('All')));
         } else {
             return $perPageValues;

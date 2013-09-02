@@ -45,6 +45,22 @@ class Magento_Sitemap_Model_Observer
     const XML_PATH_ERROR_RECIPIENT = 'sitemap/generate/error_email';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Generate sitemaps
      *
      * @param Magento_Cron_Model_Schedule $schedule
@@ -54,7 +70,7 @@ class Magento_Sitemap_Model_Observer
         $errors = array();
 
         // check if scheduled generation enabled
-        if (!Mage::getStoreConfigFlag(self::XML_PATH_GENERATION_ENABLED)) {
+        if (!$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_GENERATION_ENABLED)) {
             return;
         }
 
