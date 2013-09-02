@@ -18,15 +18,9 @@ class Magento_Config_DomFactory
     const CLASS_NAME = 'Magento_Config_Dom';
 
     /**
-     * Object manager
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
-
-    /**
-     * @var Magento_Config_Dom
-     */
-    protected $_dom;
 
     /**
      * @param Magento_ObjectManager $objectManger
@@ -37,15 +31,13 @@ class Magento_Config_DomFactory
     }
 
     /**
-     * Retrieve DOM object
+     * Create DOM object
      *
+     * @param array $arguments
      * @return Magento_Config_Dom
      */
-    public function getDom(array $arguments = array())
+    public function createDom(array $arguments = array())
     {
-        if (!$this->_dom) {
-            $this->_dom = $this->_objectManager->create(self::CLASS_NAME, $arguments);
-        }
-        return $this->_dom;
+        return $this->_objectManager->create(self::CLASS_NAME, $arguments);
     }
 }

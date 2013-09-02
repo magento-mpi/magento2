@@ -51,7 +51,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
 
     /**
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Config_Dom $domConfig
+     * @param Magento_Config_DomFactory $domConfigFactory
      */
     public function __construct(
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
@@ -97,8 +97,8 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
                 . '<handle id="handleId">' . trim($value) . '</handle>'
                 . '</layout>';
 
-            $schema = $this->_modulesReader->getModuleDir('etc', 'Magento_Core'). DIRECTORY_SEPARATOR . 'layouts.xsd';
-            $dom = $this->_domConfigFactory->getDom(array(
+            $schema = $this->_modulesReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'layouts.xsd';
+            $dom = $this->_domConfigFactory->createDom(array(
                 'xml' => $value,
                 'schemaFile' => $schema
             ));

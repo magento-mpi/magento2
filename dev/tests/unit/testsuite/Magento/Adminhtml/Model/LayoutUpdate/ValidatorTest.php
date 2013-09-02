@@ -36,7 +36,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
             ->with('etc', 'Magento_Core')
             ->will($this->returnValue('dummyDir'));
 
-        $domConfig = $this->getMockBuilder('Magento_Config_DomFactory')
+        $domConfigFactory = $this->getMockBuilder('Magento_Config_DomFactory')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -47,8 +47,8 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
             'schemaFile' => 'dummyDir' . DIRECTORY_SEPARATOR .  'layouts.xsd'
         );
 
-        $domConfig->expects($this->once())
-            ->method('getDom')
+        $domConfigFactory->expects($this->once())
+            ->method('createDom')
             ->with($this->equalTo($params))
             ->will(
                 $isValid
@@ -58,7 +58,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
 
         $model = $this->_objectHelper->getObject('Magento_Adminhtml_Model_LayoutUpdate_Validator', array(
             'modulesReader' => $modulesReader,
-            'domConfigFactory' => $domConfig,
+            'domConfigFactory' => $domConfigFactory,
         ));
 
         $this->assertEquals($model->isValid($value), $expectedResult);
