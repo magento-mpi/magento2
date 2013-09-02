@@ -25,7 +25,7 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
      *
      * This flag makes code style problems with methods and methods params parsing reported
      */
-    const IGNORE_CODE_STYLE_PROBLEMS = true;
+    const IGNORE_CODE_STYLE_PROBLEMS = false;
 
     /**
      * Pattern for nicely styled code

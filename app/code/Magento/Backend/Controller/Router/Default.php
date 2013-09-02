@@ -34,6 +34,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param string $areaCode
      * @param string $baseController
@@ -43,11 +44,19 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_App $app,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config_Scope $configScope,
         $areaCode,
         $baseController
     ) {
-        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $areaCode, $baseController);
+        parent::__construct(
+            $controllerFactory,
+            $filesystem, $app,
+            $coreStoreConfig,
+            $configScope,
+            $areaCode,
+            $baseController
+        );
 
         $this->_areaFrontName = Mage::helper('Magento_Backend_Helper_Data')->getAreaFrontName();
         if (empty($this->_areaFrontName)) {
