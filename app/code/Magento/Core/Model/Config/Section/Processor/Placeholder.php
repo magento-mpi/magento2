@@ -42,7 +42,7 @@ class Magento_Core_Model_Config_Section_Processor_Placeholder
      * @param array $data
      * @param string $path
      */
-    public function _processData(&$data, $path)
+    protected function _processData(&$data, $path)
     {
         $configValue = $this->_getValue($path, $data);
         if (is_array($configValue)) {

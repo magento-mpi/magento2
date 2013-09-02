@@ -56,4 +56,17 @@ class Magento_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
             ),
         );
     }
+
+    public function testGetData()
+    {
+        $model = new Magento_Core_Model_Config_Data(
+            $this->_metaDataProcessor,
+            array(
+                'test' => array(
+                    'path' => 'value',
+                )
+            )
+        );
+        $this->assertEquals('value', $model->getValue('test/path'));
+    }
 }

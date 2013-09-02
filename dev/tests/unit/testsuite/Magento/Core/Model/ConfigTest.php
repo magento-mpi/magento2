@@ -104,4 +104,36 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->method('getCurrentScope')->will($this->returnValue($areaCode));
         $this->assertEquals($expected, $this->_model->getAreas());
     }
+
+    public function testSetValue()
+    {
+        $scope = 'default';
+        $scopeCode = null;
+        $value = 'test';
+        $path = 'test/path';
+        $sectionMock = $this->getMock('Magento_Core_Model_Config_Data', array(), array(), '', false);
+        $this->_sectionPoolMock->expects($this->once())
+            ->method('getSection')
+            ->with($scope, $scopeCode)
+            ->will($this->returnValue($sectionMock));
+        $sectionMock->expects($this->once())
+            ->method('setValue')
+            ->with($path, $value);
+        $this->_model->setValue($path, $value);
+    }
+
+    public function testGetValue()
+    {
+        $path = 'test/path';
+        $scope = 'default';
+        $scopeCode = null;
+        $sectionMock = $this->getMock('Magento_Core_Model_Config_Data', array(), array(), '', false);
+        $this->_sectionPoolMock->expects($this->once())->method('getSection')->with($scope, $scopeCode)
+            ->will($this->returnValue($sectionMock));
+        $sectionMock->expects($this->once())
+            ->method('getValue')
+            ->with($path);
+        $this->_model->getValue($path);
+    }
+
 }
