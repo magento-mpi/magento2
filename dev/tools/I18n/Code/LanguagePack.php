@@ -62,6 +62,11 @@ class LanguagePack
     /**
      * @var string
      */
+    protected $_localeFileName;
+
+    /**
+     * @var string
+     */
     protected $_saveMode;
 
     /**
@@ -152,7 +157,7 @@ class LanguagePack
     public function getSuccessSavedMessage()
     {
         if ($this->_savedPackN) {
-            return sprintf("\nSuccessfully saved %d language package(s)", $this->_savedPackN);
+            return sprintf("\nSuccessfully saved %s language package", $this->_targetLocale);
         }
         return '';
     }
@@ -165,7 +170,7 @@ class LanguagePack
     private function _init()
     {
         $this->_checkTargetLocale();
-        $this->_targetLocale .= '.csv';
+        $this->_localeFileName = $this->_targetLocale . '.csv';
 
         $sourceHandler = false;
         if (!$this->_sourceFilename) {
@@ -266,7 +271,7 @@ class LanguagePack
     {
         foreach ($languagePack as $contextType => $dictionaryData) {
             foreach ($dictionaryData as $contextValue => $dictionary) {
-                $directories = $this->_getDictionaryPathes($contextType, $contextValue);
+                $directories = $this->_getDictionaryPaths($contextType, $contextValue);
                 foreach ($directories as $directory) {
                     $this->_saveLanguagePack($directory, $dictionary);
                 }
@@ -282,7 +287,7 @@ class LanguagePack
      */
     private function _saveLanguagePack($directory, $dictionary)
     {
-        $languagePackFile = $directory . $this->_targetLocale;
+        $languagePackFile = $directory . $this->_localeFileName;
         if ($this->_saveMode == self::MODE_MERGE) {
             $dictionary = $this->_mergeDictionaries($languagePackFile, $dictionary);
         }
@@ -334,7 +339,7 @@ class LanguagePack
      * @return array
      * @throws \Exception
      */
-    private function _getDictionaryPathes($contextType, $contextValue)
+    private function _getDictionaryPaths($contextType, $contextValue)
     {
         $paths = array();
         $contextValues = explode(',', $contextValue);

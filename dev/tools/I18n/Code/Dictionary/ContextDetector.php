@@ -19,6 +19,7 @@ class ContextDetector
     const CONTEXT_TYPE_MODULE = 'module';
     const CONTEXT_TYPE_THEME = 'theme';
     const CONTEXT_TYPE_PUB = 'pub';
+    const CONTEXT_TYPE_PATH = 'path';
     /**#@-*/
 
     /**
@@ -45,7 +46,8 @@ class ContextDetector
             $contextType = self::CONTEXT_TYPE_PUB;
             $contextValue = ltrim($contextValue, '/');
         } else {
-            throw new \InvalidArgumentException('Invalid path given: ' . $filePath);
+            $contextType = self::CONTEXT_TYPE_PATH;
+            $contextValue = $filePath;
         }
         return array($contextType, $contextValue);
     }
