@@ -52,8 +52,8 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
             $this->assertEquals($translatedText, $model->getTranslate());
             $model->delete();
         } catch (Exception $e) {
-            Mage::logException($e);
             $model->delete();
+            throw $e;
         }
     }
 
