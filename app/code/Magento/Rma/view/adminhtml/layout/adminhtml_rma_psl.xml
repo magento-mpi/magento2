@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_rma_psl>
+        <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging" name="magento_rma_shipment_packaging" template="edit/shipping/popup.phtml"/>
+    </adminhtml_rma_psl>
+</layout>

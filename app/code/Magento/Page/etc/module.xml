@@ -13,10 +13,10 @@
             <module name="Magento_Core"/>
         </sequence>
         <depends>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Customer" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Cms" type="hard"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Cms"/>
         </depends>
     </module>
 </config>

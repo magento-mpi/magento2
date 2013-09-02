@@ -16,11 +16,11 @@
             <module name="Magento_Widget"/>
         </sequence>
         <depends>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Customer" type="hard"/>
-            <module name="Magento_Widget" type="hard"/>
-            <module name="Magento_Catalog" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Widget"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Backend"/>
             <module name="Magento_Adminhtml" type="soft"/>
             <module name="Magento_Page" type="soft"/>
         </depends>

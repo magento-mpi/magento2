@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Invitation
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <invitation_setup>
+                <setup>
+                    <module>Magento_Invitation</module>
+                </setup>
+            </invitation_setup>
+        </resources>
+        <template>
+            <email>
+                <magento_invitation_email_template translate="label" module="Magento_Invitation">
+                    <label>Customer Invitation</label>
+                    <file>email/invitation.html</file>
+                    <type>html</type>
+                </magento_invitation_email_template>
+            </email>
+        </template>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <magento_invitation before="Magento_Adminhtml">Magento_Invitation_Adminhtml</magento_invitation>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Invitation>
+                    <files>
+                        <default>Magento_Invitation.csv</default>
+                    </files>
+                </Magento_Invitation>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frontend>
+        <magento>
+            <websiterestriction>
+                <full_action_names>
+                    <generic>
+                        <magento_invitation_customer_account_create />
+                        <magento_invitation_customer_account_createpost />
+                    </generic>
+                </full_action_names>
+            </websiterestriction>
+        </magento>
+        <translate>
+            <modules>
+                <Magento_Invitation>
+                    <files>
+                        <default>Magento_Invitation.csv</default>
+                    </files>
+                </Magento_Invitation>
+            </modules>
+        </translate>
+        <routers>
+            <magento_invitation>
+                <use>standard</use>
+                <args>
+                    <module>Magento_Invitation</module>
+                    <frontName>invitation</frontName>
+                </args>
+            </magento_invitation>
+        </routers>
+        <events>
+            <customer_registration_is_allowed>
+                <observers>
+                    <magento_invitation>
+                        <class>Magento_Invitation_Model_Observer</class>
+                        <method>restrictCustomerRegistration</method>
+                    </magento_invitation>
+                </observers>
+            </customer_registration_is_allowed>
+        </events>
+        <secure_url>
+            <invitation>/invitation/</invitation>
+        </secure_url>
+    </frontend>
+    <default>
+        <magento_invitation>
+            <email>
+                <identity>general</identity>
+                <template>magento_invitation_email_template</template>
+            </email>
+            <general>
+                <enabled>1</enabled>
+                <enabled_on_front>1</enabled_on_front>
+                <registration_use_inviter_group>1</registration_use_inviter_group>
+                <registration_required_invitation>0</registration_required_invitation>
+                <max_invitation_amount_per_send>5</max_invitation_amount_per_send>
+                <allow_customer_message>1</allow_customer_message>
+            </general>
+        </magento_invitation>
+    </default>
+</config>

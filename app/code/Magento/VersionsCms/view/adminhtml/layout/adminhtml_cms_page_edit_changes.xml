@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_cms_page_edit_changes>
+        <reference name="head">
+            <action method="addJs">
+                <file>Magento_VersionsCms::cms.js</file>
+            </action>
+        </reference>
+        <reference name="cms_page_edit_tabs">
+            <action method="removeTab">
+                <name>content_section</name>
+            </action>
+            <action method="removeTab">
+                <name>design_section</name>
+            </action>
+            <action method="removeTab">
+                <name>meta_section</name>
+            </action>
+            <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions" name="cms_page_edit_tab_versions"/>
+            <action method="addTab">
+                <name>versions</name>
+                <block>cms_page_edit_tab_versions</block>
+            </action>
+        </reference>
+    </adminhtml_cms_page_edit_changes>
+</layout>

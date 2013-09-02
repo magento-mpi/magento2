@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento_Reward_Model_Observer_PlaceOrder_RestrictionInterface" type="Magento_Reward_Model_Observer_PlaceOrder_Restriction_Backend" />
+</config>

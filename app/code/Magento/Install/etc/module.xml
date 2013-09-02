@@ -13,13 +13,13 @@
             <module name="Magento_Core"/>
         </sequence>
         <depends>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_AdminNotification" type="hard"/>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Directory" type="hard"/>
-            <module name="Magento_User" type="hard"/>
-            <module name="Magento_Index" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_AdminNotification"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Directory"/>
+            <module name="Magento_User"/>
+            <module name="Magento_Index"/>
+            <module name="Magento_Backend"/>
             <module name="Magento_Page" type="soft"/>
         </depends>
     </module>

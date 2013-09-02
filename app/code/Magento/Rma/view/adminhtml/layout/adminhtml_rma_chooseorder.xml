@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_rma_chooseorder>
+        <reference name="left">
+            <action method="setIsCollapsed">
+                <value>true</value>
+            </action>
+        </reference>
+        <reference name="root">
+            <block type="Magento_Rma_Block_Adminhtml_Rma_Create" name="content">
+                <block type="Magento_Rma_Block_Adminhtml_Rma_Create_Form" template="create/form.phtml" name="form">
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_Create_Order" template="create/order.phtml" name="rma_create_order">
+                        <block type="Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid" name="grid"/>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_rma_chooseorder>
+</layout>

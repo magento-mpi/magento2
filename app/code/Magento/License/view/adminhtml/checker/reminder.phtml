@@ -1,0 +1,34 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * License_Checker block template
+ *
+ * @see Magento_License_Block_Adminhtml_Checker
+ */
+?>
+<?php if($this->shouldDispalyNotification()): ?>
+<div class="wrapper">
+    <div class="header-right" id="license-checker-content">
+        <div id="license-checker-message">
+            <ul class="messages">
+                <li class="error-msg">
+                    <ul>
+                        <li>
+                            <h2><?php echo $this->getMessage(); ?></h2>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

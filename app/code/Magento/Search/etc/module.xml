@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Search" version="1.11.0.0" active="false">
+        <sequence>
+            <module name="Magento_CatalogSearch"/>
+        </sequence>
+        <depends>
+            <module name="Magento_CatalogSearch"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Index"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_CatalogInventory"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Tax"/>
+            <module name="Magento_Page" type="soft"/>
+        </depends>
+    </module>
+</config>

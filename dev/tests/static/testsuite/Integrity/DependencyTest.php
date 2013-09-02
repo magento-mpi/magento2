@@ -121,10 +121,10 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected static $_rules = array(
-        'Integrity_DependencyTest_PhpRule',
-        'Integrity_DependencyTest_DbRule',
-        'Integrity_DependencyTest_LayoutRule',
-        'Integrity_DependencyTest_TemplateRule',
+        'Dependency_PhpRule',
+        'Dependency_DbRule',
+        'Dependency_LayoutRule',
+        'Dependency_TemplateRule',
     );
 
     /**
@@ -177,13 +177,13 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         self::$_rulesInstances = array();
         foreach (self::$_rules as $ruleClass) {
             if (class_exists($ruleClass)) {
-                /** @var Integrity_DependencyTest_RuleInterface $rule */
+                /** @var Dependency_RuleInterface $rule */
                 $rule = new $ruleClass(array(
                     'mapRouters'        => self::$_mapRouters,
                     'mapLayoutBlocks'   => self::$_mapLayoutBlocks,
                     'mapLayoutHandles'  => self::$_mapLayoutHandles,
                 ));
-                if ($rule instanceof Integrity_DependencyTest_RuleInterface) {
+                if ($rule instanceof Dependency_RuleInterface) {
                     self::$_rulesInstances[$ruleClass] = $rule;
                 }
             }
@@ -263,7 +263,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         // Apply rules
         $dependencies = array();
         foreach (self::$_rulesInstances as $rule) {
-            /** @var Integrity_DependencyTest_RuleInterface $rule */
+            /** @var Dependency_RuleInterface $rule */
             $dependencies = array_merge($dependencies,
                 $rule->getDependencyInfo($module, $fileType, $file, $contents));
         }
@@ -500,7 +500,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 // Read module's config.xml file
                 $config = simplexml_load_file(self::$_listConfigXml[$module]);
 
-                if ($module == 'Mage_Adminhtml') {
+                if ($module == 'Magento_Adminhtml') {
                     $nodes = $config->xpath("/config/admin/routers/*") ?: array();
                 } elseif ('adminhtml' == $chunks[0]) {
                     array_shift($chunks);
@@ -519,7 +519,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 foreach ($nodes as $node) {
                     /** @var SimpleXMLElement $node */
                     $path = $node->getName() ? $node->getName() . '_' . $controllerName : $controllerName;
-                    if (isset(self::$_mapRouters[$path]) && (self::$_mapRouters[$path] == 'Mage_Adminhtml')) {
+                    if (isset(self::$_mapRouters[$path]) && (self::$_mapRouters[$path] == 'Magento_Adminhtml')) {
                         continue;
                     }
                     self::$_mapRouters[$path] = $module;
@@ -611,6 +611,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      * Initialise map of dependencies
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected static function _initDependencies()
     {
@@ -637,7 +638,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
             foreach ($module[0]->depends->children() as $dependency) {
                 /** @var SimpleXMLElement $dependency */
-                $type = ((string)$dependency->attributes()->type == self::TYPE_SOFT) ? self::TYPE_SOFT
+                $type = (isset($dependency['type']) && (string)$dependency['type'] == self::TYPE_SOFT) ? self::TYPE_SOFT
                     : self::TYPE_HARD;
                 if ($dependency->getName() == 'module') {
                     self::_addDependencies($moduleName, $type, self::MAP_TYPE_DECLARED,

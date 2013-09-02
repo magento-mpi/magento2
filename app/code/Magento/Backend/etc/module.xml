@@ -13,13 +13,13 @@
             <module name="Magento_Directory"/>
         </sequence>
         <depends>
-            <module name="Magento_Directory" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Eav" type="hard"/>
-            <module name="Magento_AdminNotification" type="hard"/>
-            <module name="Magento_Cron" type="hard"/>
-            <module name="Magento_Sendfriend" type="hard"/>
+            <module name="Magento_Directory"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_AdminNotification"/>
+            <module name="Magento_Cron"/>
+            <module name="Magento_Sendfriend"/>
             <module name="Magento_Page" type="soft"/>
         </depends>
     </module>

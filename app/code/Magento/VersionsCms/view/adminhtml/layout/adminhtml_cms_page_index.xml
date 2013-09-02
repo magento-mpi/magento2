@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_cms_page_index>
+        <reference name="cms_page">
+            <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page" name="cms_page_extender"/>
+        </reference>
+    </adminhtml_cms_page_index>
+</layout>
