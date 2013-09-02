@@ -17,6 +17,8 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
     }
 
     /**
+     * @param $serverVariables array
+     * @param $expectedResult string
      * @dataProvider serverVariablesProvider
      */
     public function testGetDistroBaseUrl($serverVariables, $expectedResult)
