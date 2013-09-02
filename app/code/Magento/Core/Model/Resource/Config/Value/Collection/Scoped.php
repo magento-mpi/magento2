@@ -51,7 +51,7 @@ class Magento_Core_Model_Resource_Config_Value_Collection_Scoped extends Magento
         $this->addFieldToSelect(array('path', 'value'))
             ->addFieldToFilter('scope', $this->_scope);
 
-        if ($this->_scopeId) {
+        if (!is_null($this->_scopeId)) {
             $this->addFieldToFilter('scope_id', $this->_scopeId);
         }
         return $this;

@@ -64,7 +64,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
         parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $areaCode,
             $baseController, $routerId);
 
-        $this->_areaFrontName = Mage::helper('Magento_Backend_Helper_Data')->getAreaFrontName();
+        $this->_areaFrontName = $dataHelper->getAreaFrontName();
         $this->_defaultRouteId = $defaultRouteId;
         if (empty($this->_areaFrontName)) {
             throw new InvalidArgumentException('Area Front Name should be defined');
