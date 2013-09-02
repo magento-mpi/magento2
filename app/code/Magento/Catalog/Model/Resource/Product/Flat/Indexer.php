@@ -85,6 +85,21 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     protected $_preparedFlatTables   = array();
 
     /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_productType;
+
+    /**
+     * @param Magento_Catalog_Model_Product_Type $productType
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(Magento_Catalog_Model_Product_Type $productType, Magento_Core_Model_Resource $resource)
+    {
+        $this->_productType = $productType;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection
      *
      */
@@ -961,7 +976,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             $this->_productTypes = array();
             $productEmulator     = new Magento_Object();
 
-            foreach (array_keys(Magento_Catalog_Model_Product_Type::getTypes()) as $typeId) {
+            foreach (array_keys($this->_productType->getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
                 $this->_productTypes[$typeId] = Mage::getSingleton('Magento_Catalog_Model_Product_Type')
                     ->factory($productEmulator);

@@ -68,9 +68,15 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_typeList;
 
     /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_productType;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_Cache_TypeListInterface $typeList
+     * @param Magento_Catalog_Model_Product_Type $productType
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -79,13 +85,15 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_Cache_TypeListInterface $typeList,
+        Magento_Catalog_Model_Product_Type $productType,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_viewFileSystem = $viewFileSystem;
         $this->_typeList = $typeList;
+        $this->_productType = $productType;
+        parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -106,7 +114,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             'notanchor_categories' => self::SINGLE_CATEGORY_LAYOUT_HANDLE,
             'all_products' => self::SINGLE_PRODUCT_LAYOUT_HANLDE,
         );
-        foreach (array_keys(Magento_Catalog_Model_Product_Type::getTypes()) as $typeId) {
+        foreach (array_keys($this->_productType->getTypes()) as $typeId) {
             $layoutHandle = str_replace('{{TYPE}}', $typeId, self::PRODUCT_TYPE_LAYOUT_HANDLE);
             $this->_layoutHandles[$typeId . '_products'] = $layoutHandle;
             $this->_specificEntitiesLayoutHandles[$typeId . '_products'] = self::SINGLE_PRODUCT_LAYOUT_HANLDE;

@@ -11,6 +11,29 @@
 class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
 {
     /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_productType;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Catalog_Model_Product_Type $productType
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Catalog_Model_Product_Type $productType,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_productType = $productType;
+    }
+
+    /**
      * Assign custom renderer for product create/edit form weee attribute element
      *
      * @param Magento_Event_Observer $observer
@@ -115,7 +138,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
             $object->setBackendModel($backendModel);
             if (!$object->getApplyTo()) {
                 $applyTo = array();
-                foreach (Magento_Catalog_Model_Product_Type::getOptions() as $option) {
+                foreach ($this->_productType->getOptions() as $option) {
                     if ($option['value'] == Magento_Catalog_Model_Product_Type::TYPE_GROUPED) {
                         continue;
                     }

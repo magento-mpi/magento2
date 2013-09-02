@@ -12,6 +12,17 @@
 class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_productType;
+
+    protected function setUp()
+    {
+        $this->_productType = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Product_Type');
+    }
+
+    /**
      * @param sring|null $typeId
      * @param string $expectedClass
      * @dataProvider factoryDataProvider
@@ -22,7 +33,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
         if ($typeId) {
             $product->setTypeId($typeId);
         }
-        $type = Magento_Catalog_Model_Product_Type::factory($product);
+        $type = $this->_productType->factory($product);
         $this->assertInstanceOf($expectedClass, $type);
     }
 
@@ -57,8 +68,8 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
             $product->setTypeId($typeId);
         }
 
-        $type = Magento_Catalog_Model_Product_Type::factory($product);
-        $otherType = Magento_Catalog_Model_Product_Type::factory($product);
+        $type = $this->_productType->factory($product);
+        $otherType = $this->_productType->factory($product);
         $this->assertSame($otherType, $type);
     }
 
@@ -85,7 +96,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
      */
     public function testPriceFactory($typeId, $expectedClass)
     {
-        $type = Magento_Catalog_Model_Product_Type::priceFactory($typeId);
+        $type = $this->_productType->priceFactory($typeId);
         $this->assertInstanceOf($expectedClass, $type);
     }
 
@@ -108,7 +119,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 
     public function testGetOptionArray()
     {
-        $options = Magento_Catalog_Model_Product_Type::getOptionArray();
+        $options = $this->_productType->getOptionArray();
         $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE, $options);
         $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL, $options);
         $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, $options);
@@ -119,7 +130,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 
     public function testGetAllOption()
     {
-        $options = Magento_Catalog_Model_Product_Type::getAllOption();
+        $options = $this->_productType->getAllOption();
         $this->assertTrue(isset($options[0]['value']));
         $this->assertTrue(isset($options[0]['label']));
         // doesn't make sense to test other values, because the structure of resulting array is inconsistent
@@ -127,14 +138,14 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 
     public function testGetAllOptions()
     {
-        $options = Magento_Catalog_Model_Product_Type::getAllOptions();
+        $options = $this->_productType->getAllOptions();
         $types = $this->_assertOptions($options);
         $this->assertContains('', $types);
     }
 
     public function testGetOptions()
     {
-        $options = Magento_Catalog_Model_Product_Type::getOptions();
+        $options = $this->_productType->getOptions();
         $this->_assertOptions($options);
     }
 
@@ -144,7 +155,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
      */
     public function testGetOptionText($typeId)
     {
-        $this->assertNotEmpty(Magento_Catalog_Model_Product_Type::getOptionText($typeId));
+        $this->assertNotEmpty($this->_productType->getOptionText($typeId));
     }
 
     public function getOptionTextDataProvider()
@@ -161,7 +172,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 
     public function testGetTypes()
     {
-        $types = Magento_Catalog_Model_Product_Type::getTypes();
+        $types = $this->_productType->getTypes();
         $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE, $types);
         $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL, $types);
         $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, $types);
@@ -178,7 +189,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 
     public function testGetCompositeTypes()
     {
-        $types = Magento_Catalog_Model_Product_Type::getCompositeTypes();
+        $types = $this->_productType->getCompositeTypes();
         $this->assertInternalType('array', $types);
         $this->assertContains(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, $types);
         $this->assertContains(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $types);
@@ -187,8 +198,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 
     public function testGetTypesByPriority()
     {
-        $types = Magento_Catalog_Model_Product_Type::getTypesByPriority();
-
+        $types = $this->_productType->getTypesByPriority();
         // collect the types and priority in the same order as the method returns
         $result = array();
         foreach ($types as $typeId => $type) {

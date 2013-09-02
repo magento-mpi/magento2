@@ -18,6 +18,19 @@
 class Magento_Catalog_Model_Product_Type_Api extends Magento_Api_Model_Resource_Abstract
 {
     /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_productType;
+
+    /**
+     * @param Magento_Catalog_Model_Product_Type $productType
+     */
+    public function __construct(Magento_Catalog_Model_Product_Type $productType)
+    {
+        $this->_productType = $productType;
+    }
+
+    /**
      * Retrieve product type list
      *
      * @return array
@@ -25,14 +38,12 @@ class Magento_Catalog_Model_Product_Type_Api extends Magento_Api_Model_Resource_
     public function items()
     {
         $result = array();
-
-        foreach (Magento_Catalog_Model_Product_Type::getOptionArray() as $type=>$label) {
+        foreach ($this->_productType->getOptionArray() as $type => $label) {
             $result[] = array(
                 'type'  => $type,
                 'label' => $label
             );
         }
-
         return $result;
     }
 } // Class Magento_Catalog_Model_Product_Type_Api End
