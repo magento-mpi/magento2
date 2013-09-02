@@ -31,7 +31,7 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
         $this->_observer = $this->getMock('Magento_PricePermissions_Model_Observer',
             array('_removeColumnFromGrid', '_hidePriceElements'),
             array(
-                $this->getMock('Enterprise_PricePermissions_Helper_Data', array(), array(), '', false),
+                $this->getMock('Magento_PricePermissions_Helper_Data', array(), array(), '', false),
                 array(
                     'request' => false,
                     'can_edit_product_price' => false,

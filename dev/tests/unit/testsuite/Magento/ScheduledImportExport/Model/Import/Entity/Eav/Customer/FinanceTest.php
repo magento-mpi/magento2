@@ -136,7 +136,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             $dependencies = $this->_getModelDependencies();
         }
 
-        $moduleHelper = $this->getMock('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance',
+        $moduleHelper = $this->getMock('Magento_ScheduledImportExport_Helper_Data',
             array('isRewardPointsEnabled', 'isCustomerBalanceEnabled'), array(), '', false);
         $moduleHelper->expects($this->any())->method('isRewardPointsEnabled')->will($this->returnValue(true));
         $moduleHelper->expects($this->any())->method('isCustomerBalanceEnabled')->will($this->returnValue(true));

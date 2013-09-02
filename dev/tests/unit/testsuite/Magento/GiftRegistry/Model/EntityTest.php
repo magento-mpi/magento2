@@ -39,9 +39,6 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
     {
         $app = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $resource = $this->getMock('Magento_GiftRegistry_Model_Resource_Entity', array(), array(), '', false);
-        $helper = $this->getMock('Magento_GiftRegistry_Helper_Data',
-            array('getRegistryLink'), array(), '', false, false
-        );
         $translate = $this->getMock('Magento_Core_Model_Translate', array(), array(), '', false);
 
         $config = $this->getMock('Magento_Core_Model_Config', array('getModelInstance'), array(), '', false);
@@ -73,7 +70,7 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
         $cacheManager = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false, false);
         $context = new Magento_Core_Model_Context($eventDispatcher, $cacheManager);
         $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false);
-        $giftRegistryData = $this->getMock('Enterprise_GiftRegistry_Helper_Data', array('escapeHtml', 'getRegistryLink'),
+        $giftRegistryData = $this->getMock('Magento_GiftRegistry_Helper_Data', array('escapeHtml', 'getRegistryLink'),
             array(), '', false, false);
         $giftRegistryData->expects($this->any())
             ->method('escapeHtml')
@@ -83,9 +80,7 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $this->_model = new Magento_GiftRegistry_Model_Entity(
-            $coreData, $giftRegistryData, $context, $app, $this->_store, $config, $translate, $resource, null, array(
-                'helpers' => array('Magento_GiftRegistry_Helper_Data' => $helper)
-            )
+            $coreData, $giftRegistryData, $context, $app, $this->_store, $config, $translate, $resource, null, array()
         );
     }
 
