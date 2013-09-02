@@ -194,7 +194,7 @@ class Magento_Test_Application
             $configResource = $objectManager->get('Magento_Core_Model_Config_Resource');
             $configResource->setConfig($config);
             $objectManager->get('Magento_Core_Model_Resource')->setResourceConfig($configResource);
-			$verification = $objectManager->get('Magento_Core_Model_Dir_Verification');
+            $verification = $objectManager->get('Magento_Core_Model_Dir_Verification');
             $verification->createAndVerifyDirectories();
             $objectManager->configure(
                 $objectManager->get('Magento_Core_Model_ObjectManager_ConfigLoader')->load('global')
@@ -213,13 +213,13 @@ class Magento_Test_Application
         $eventConfigData = $objectManager->get('Magento_Core_Model_Event_Config_Data');
         $eventConfigData->merge(
             array('core_app_init_current_store_after' =>
-                array('integration_tests' =>
-                    array(
-                        'instance' => 'Magento_Test_Event_Magento',
-                        'method' => 'initStoreAfter',
-                        'name' => 'integration_tests'
-                    )
-                )
+            array('integration_tests' =>
+            array(
+                'instance' => 'Magento_Test_Event_Magento',
+                'method' => 'initStoreAfter',
+                'name' => 'integration_tests'
+            )
+            )
             )
         );
         /** @var Magento_Core_Model_Dir_Verification $verification */

@@ -26,9 +26,18 @@ class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
 
     public function testGetRouterByRoute()
     {
-        $this->assertInstanceOf('Magento_Core_Controller_Varien_Router_Base', $this->_model->getRouterByRoute(''));
-        $this->assertInstanceOf('Magento_Core_Controller_Varien_Router_Base', $this->_model->getRouterByRoute('checkout'));
-        $this->assertInstanceOf('Magento_Core_Controller_Varien_Router_Default', $this->_model->getRouterByRoute('test'));
+        $this->assertInstanceOf(
+            'Magento_Core_Controller_Varien_Router_Base',
+            $this->_model->getRouterByRoute('')
+        );
+        $this->assertInstanceOf(
+            'Magento_Core_Controller_Varien_Router_Base',
+            $this->_model->getRouterByRoute('checkout')
+        );
+        $this->assertInstanceOf(
+            'Magento_Core_Controller_Varien_Router_Default',
+            $this->_model->getRouterByRoute('test')
+        );
     }
 
     public function testGetRouterByFrontName()

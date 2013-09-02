@@ -19,7 +19,9 @@ class Magento_Core_Model_Router_Config_SchemaLocatorTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        $this->_moduleReaderMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false);
+        $this->_moduleReaderMock = $this->getMock(
+            'Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false
+        );
         $this->_moduleReaderMock->expects($this->any())
             ->method('getModuleDir')->with('etc', 'Magento_Core')->will($this->returnValue('schema_dir'));
         $this->_model = new Magento_Core_Model_Route_Config_SchemaLocator($this->_moduleReaderMock);

@@ -28,7 +28,14 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
         file_put_contents(self::$_tmpDir . '/local.xml.template', "test; {{date}}; {{base_url}}; {{unknown}}");
         $expectedFile = self::$_tmpDir . '/local.xml';
 
-        $request = $this->getMock('Magento_Core_Controller_Request_Http', array('getDistroBaseUrl'), array(), '', false);
+        $request = $this->getMock(
+            'Magento_Core_Controller_Request_Http',
+            array('getDistroBaseUrl'),
+            array(),
+            '',
+            false
+        );
+
         $request->expects($this->once())->method('getDistroBaseUrl')->will($this->returnValue('http://example.com/'));
         $expectedContents = "test; <![CDATA[d-d-d-d-d]]>; <![CDATA[http://example.com/]]>; {{unknown}}";
         $dirs = new Magento_Core_Model_Dir(

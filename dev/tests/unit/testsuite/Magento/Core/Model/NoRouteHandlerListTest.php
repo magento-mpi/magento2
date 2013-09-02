@@ -36,7 +36,9 @@ class Magento_Core_Model_NoRouteHandlerListTest extends PHPUnit_Framework_TestCa
 
     public function testGetHandlers()
     {
-        $backendHandlerMock = $this->getMock('Magento_Backend_Model_Router_NoRouteHandler', array(), array(), '', false);
+        $backendHandlerMock = $this->getMock(
+            'Magento_Backend_Model_Router_NoRouteHandler', array(), array(), '', false
+        );
         $defaultHandlerMock = $this->getMock('Magento_Core_Model_Router_NoRouteHandler', array(), array(), '', false);
 
         $this->_objectManagerMock->expects($this->at(0))

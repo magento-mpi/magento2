@@ -35,7 +35,9 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
-        $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_ConfigInterface', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock(
+            'Magento_Core_Model_Store_ConfigInterface', array(), array(), '', false
+        );
         $this->_registryMock = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
 
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
