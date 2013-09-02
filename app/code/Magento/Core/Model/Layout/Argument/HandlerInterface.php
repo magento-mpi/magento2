@@ -18,18 +18,19 @@
 interface Magento_Core_Model_Layout_Argument_HandlerInterface
 {
     /**
-     * Process argument value
-     * @param array $value
-     * @return mixed
-     */
-    public function process($value);
-
-    /**
-     * Parse given argument
+     * Parse specified argument node
      *
      * @param Magento_Core_Model_Layout_Element $argument
-     * @throws InvalidArgumentException
      * @return array
      */
     public function parse(Magento_Core_Model_Layout_Element $argument);
+
+    /**
+     * Process argument value
+     *
+     * @param array $argument
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    public function process(array $argument);
 }

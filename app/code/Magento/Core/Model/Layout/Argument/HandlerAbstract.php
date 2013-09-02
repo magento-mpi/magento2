@@ -30,4 +30,26 @@ abstract class Magento_Core_Model_Layout_Argument_HandlerAbstract
     {
         $this->_objectManager = $objectManager;
     }
+
+    /**
+     * @param Magento_ObjectManager $argument
+     * @return array
+     */
+    public abstract function parse(Magento_Core_Model_Layout_Element $argument);
+
+    /**
+     * Retrieve value from argument
+     *
+     * @param Magento_Core_Model_Layout_Element $argument
+     * @return mixed
+     */
+    protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
+    {
+        if (isset($argument->value)) {
+            $value = $argument->value;
+        } else {
+            $value = $argument;
+        }
+        return trim((string)$value);
+    }
 }
