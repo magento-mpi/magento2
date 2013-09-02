@@ -31,21 +31,6 @@ abstract class Magento_Core_Model_Layout_Argument_HandlerAbstract
         $this->_objectManager = $objectManager;
     }
 
-    /**
-     * @param Magento_Core_Model_Layout_Element $argument
-     * @return array
-     */
-    public function parse(Magento_Core_Model_Layout_Element $argument)
-    {
-        $result = array();
-        $updaters = array();
-        $result['type'] = (string)$argument->attributes('xsi', true)->type;
-        foreach ($argument->xpath('./updater') as $updaterNode) {
-            /** @var $updaterNode Magento_Core_Model_Layout_Element */
-            $updaters[] = trim((string)$updaterNode);
-        }
-        return !empty($updaters) ? $result + array('updaters' => $updaters) : $result;
-    }
 
     /**
      * Retrieve value from argument
@@ -61,5 +46,33 @@ abstract class Magento_Core_Model_Layout_Argument_HandlerAbstract
             $value = $argument;
         }
         return trim((string)$value);
+    }
+
+    /**
+     * Retrieve xsi:type attribute value from argument
+     *
+     * @param Magento_Core_Model_Layout_Element $argument
+     * @return string
+     */
+    protected function _getArgumentType(Magento_Core_Model_Layout_Element $argument)
+    {
+        return (string)$argument->attributes('xsi', true)->type;
+    }
+
+    /**
+     * Parse argument node
+     * @param Magento_Core_Model_Layout_Element $argument
+     * @return array
+     */
+    public function parse(Magento_Core_Model_Layout_Element $argument)
+    {
+        $result = array();
+        $updaters = array();
+        $result['type'] = $this->_getArgumentType($argument);
+        foreach ($argument->xpath('./updater') as $updaterNode) {
+            /** @var $updaterNode Magento_Core_Model_Layout_Element */
+            $updaters[] = trim((string)$updaterNode);
+        }
+        return !empty($updaters) ? $result + array('updater' => $updaters) : $result;
     }
 }

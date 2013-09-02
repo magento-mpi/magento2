@@ -1,0 +1,111 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Core
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Layout argument. Type Array
+ *
+ * @category    Magento
+ * @package     Magento_Core
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Magento_Core_Model_Layout_Argument_Handler_Array extends Magento_Core_Model_Layout_Argument_HandlerAbstract
+{
+    /**
+     * @var Magento_Core_Model_Layout_Argument_HandlerFactory
+     */
+    protected $_handlerFactory;
+
+    /**
+     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
+     */
+    public function __construct(
+        Magento_ObjectManager $objectManager,
+        Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
+    ) {
+        parent::__construct($objectManager);
+        $this->_handlerFactory = $handlerFactory;
+    }
+
+    /**
+     * Process Array argument
+     *
+     * @param array $argument
+     * @throws InvalidArgumentException
+     * @return array
+     */
+    public function process(array $argument)
+    {
+        $this->_validate($argument);
+        $result = array();
+        foreach ($argument['value'] as $name => $item) {
+            $result[$name] = $this->_handlerFactory
+                ->getArgumentHandlerByType($item['type'])
+                ->process($item);
+        }
+        return $result;
+    }
+
+    /**
+     * @param array $argument
+     * @throws InvalidArgumentException
+     */
+    protected function _validate(array $argument)
+    {
+        if (!isset($argument['value'])) {
+            throw new InvalidArgumentException('Value is required for array argument');
+        }
+        $items = $argument['value'];
+        if (!is_array($items)) {
+            throw new InvalidArgumentException('Passed value has incorrect format');
+        }
+        foreach ($items as $name => $item) {
+            if (!is_array($item) || !isset($item['type']) || !isset($item['value'])) {
+                throw new InvalidArgumentException('Array item: "' . $name . '" has incorrect format');
+            }
+        }
+    }
+
+    /**
+     * Parse Array argument
+     *
+     * @param Magento_Core_Model_Layout_Element $argument
+     * @return array
+     */
+    public function parse(Magento_Core_Model_Layout_Element $argument)
+    {
+        $result = parent::parse($argument);
+        $result = array_merge_recursive($result, array(
+            'value' => $this->_getArgumentValue($argument)
+        ));
+
+        return $result;
+    }
+
+    /**
+     * Retrive value from Array argument
+     *
+     * @param Magento_Core_Model_Layout_Element $argument
+     * @return array
+     */
+    protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
+    {
+        $result = array();
+        /** @var $item Magento_Core_Model_Layout_Element */
+        foreach ($argument->xpath('item') as $item) {
+            $itemName = (string)$item['name'];
+            $itemType = $this->_getArgumentType($item);
+            $result[$itemName] = $this->_handlerFactory
+                ->getArgumentHandlerByType($itemType)
+                ->parse($item);
+        }
+        return $result;
+    }
+}

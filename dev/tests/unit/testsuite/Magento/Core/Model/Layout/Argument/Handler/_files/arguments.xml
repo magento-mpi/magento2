@@ -33,6 +33,20 @@
                     <updater>Magento_Test_Updater</updater>
                 </argument>
                 <argument name="testParseWithoutUpdater" xsi:type="string">Some Value</argument>
+                <argument name="testSimpleArray" xsi:type="array">
+                    <item name="csv" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">CSV</item>
+                    </item>
+                    <item name="urlPath" xsi:type="url" path="*/*/exportMsxml"/>
+                    <item name="label" xsi:type="string">Excel XML</item>
+                </argument>
+                <argument name="testArrayWithUpdater" xsi:type="array">
+                    <updater>Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater</updater>
+                    <item name="add" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Move to Archive</item>
+                        <item name="url" xsi:type="string">*/sales_archive/massAdd</item>
+                    </item>
+                </argument>
             </arguments>
         </block>
     </handle>
