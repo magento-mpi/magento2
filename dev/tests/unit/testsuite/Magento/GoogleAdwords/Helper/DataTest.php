@@ -129,7 +129,7 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetConversionJsSrc()
     {
         $jsSrc = 'some-js-src';
-        $this->_configMock->expects($this->once())->method('getNode')
+        $this->_configMock->expects($this->once())->method('getValue')
             ->with(Magento_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_JS_SRC)->will($this->returnValue($jsSrc));
         $this->assertEquals($jsSrc, $this->_helper->getConversionJsSrc());
     }
