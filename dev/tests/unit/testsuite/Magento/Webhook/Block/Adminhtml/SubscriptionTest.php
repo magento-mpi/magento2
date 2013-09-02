@@ -13,7 +13,8 @@ class Magento_Webhook_Block_Adminhtml_SubscriptionTest extends Magento_Test_Bloc
 {
     public function testConstruct()
     {
-        $block = new Magento_Webhook_Block_Adminhtml_Subscription($this->_context);
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $block = new Magento_Webhook_Block_Adminhtml_Subscription($this->_context, $coreStoreConfig);
         $this->assertEquals('Subscriptions', $block->getHeaderText());
         $this->assertEquals('Add Subscription', $block->getAddButtonLabel());
     }

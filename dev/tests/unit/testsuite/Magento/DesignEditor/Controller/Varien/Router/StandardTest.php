@@ -180,7 +180,8 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
                     return $stateModel;
                 case 'Magento_Core_Model_Config':
                     return $configuration;
-                default: return null;
+                default:
+                    return null;
             }
         };
         $objectManager->expects($this->any())
@@ -205,6 +206,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
             $filesystem,
             $app,
             $this->getMock('Magento_Core_Model_Config_Scope', array(), array(), '', false),
+            $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
             'frontend',
             'Magento_Core_Controller_Varien_Action'
         );

@@ -24,15 +24,17 @@ abstract class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstrac
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_ObjectManager $objectManager,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $coreStoreConfig, $data);
         $this->_objectManager = $objectManager;
     }
 

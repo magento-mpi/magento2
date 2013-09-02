@@ -32,7 +32,10 @@ class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('jsonEncode'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_model = new Magento_Downloadable_Model_Observer(array('helper' => $this->_helperJsonEncode));
+        $this->_model = new Magento_Downloadable_Model_Observer(
+            $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
+            array('helper' => $this->_helperJsonEncode)
+        );
     }
 
     protected function tearDown()

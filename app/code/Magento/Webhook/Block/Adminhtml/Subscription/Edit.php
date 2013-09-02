@@ -21,16 +21,18 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit extends Magento_Backend_
     protected $_subscriptionData;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $coreStoreConfig, $data);
 
         $this->_objectId = 'id';
         $this->_blockGroup = 'Magento_Webhook';

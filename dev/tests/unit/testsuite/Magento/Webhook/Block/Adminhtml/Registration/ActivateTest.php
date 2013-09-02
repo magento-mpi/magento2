@@ -38,7 +38,12 @@ class Magento_Webhook_Block_Adminhtml_Registration_ActivateTest extends PHPUnit_
             ->method('registry')
             ->with('current_subscription')
             ->will($this->returnValue($this->_subscription));
-        $this->_block = new Magento_Webhook_Block_Adminhtml_Registration_Activate($context, $registry);
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $this->_block = new Magento_Webhook_Block_Adminhtml_Registration_Activate(
+            $context,
+            $coreStoreConfig,
+            $registry
+        );
     }
 
     public function testGetAcceptUrl()

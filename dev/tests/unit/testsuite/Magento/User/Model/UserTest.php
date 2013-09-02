@@ -49,9 +49,12 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $this->_model = new Magento_User_Model_User(
-            $this->_senderMock, $this->_contextMock, $this->_resourceMock,
+            $this->_contextMock,
+            $this->_senderMock,
+            $coreStoreConfig,
+            $this->_resourceMock,
             $this->_collectionMock
         );
     }

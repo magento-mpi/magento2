@@ -34,24 +34,26 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Bac
     private $_hook;
 
     /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Webhook_Model_Source_Format $format
      * @param Magento_Webhook_Model_Source_Authentication $authentication
      * @param Magento_Webhook_Model_Source_Hook $hook
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Registry $registry,
-        Magento_Backend_Block_Template_Context $context,
         Magento_Webhook_Model_Source_Format $format,
         Magento_Webhook_Model_Source_Authentication $authentication,
         Magento_Webhook_Model_Source_Hook $hook,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $coreStoreConfig, $data);
         $this->_formFactory = $formFactory;
         $this->_registry = $registry;
         $this->_format = $format;

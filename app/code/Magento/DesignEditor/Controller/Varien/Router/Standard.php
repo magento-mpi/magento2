@@ -28,6 +28,7 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string $areaCode
      * @param string $baseController
      */
@@ -37,10 +38,19 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
         Magento_Filesystem $filesystem,
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $areaCode,
         $baseController
     ) {
-        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $areaCode, $baseController);
+        parent::__construct(
+            $controllerFactory,
+            $filesystem,
+            $app,
+            $configScope,
+            $coreStoreConfig,
+            $areaCode,
+            $baseController
+        );
         $this->_objectManager = $objectManager;
     }
 

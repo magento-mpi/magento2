@@ -43,10 +43,13 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magen
         $collectionMock = $this->_makeMock('Magento_Data_Collection_Db');
         $this->_setStub($collectionMock, 'getSelect', $selectMock);
 
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+
         $arguments = array(
+            $this->_context,
+            $coreStoreConfig,
             $this->_coreHelperMock,
             $this->_registry,
-            $this->_context,
             $this->_formFactoryMock
         );
 

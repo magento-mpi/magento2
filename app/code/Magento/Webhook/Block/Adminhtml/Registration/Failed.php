@@ -15,16 +15,18 @@ class Magento_Webhook_Block_Adminhtml_Registration_Failed extends Magento_Backen
     protected $_session;
 
     /**
-     * @param Magento_Backend_Model_Session $session
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Backend_Model_Session $session
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Session $session,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Backend_Model_Session $session,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $coreStoreConfig, $data);
         $this->_session = $session;
     }
 

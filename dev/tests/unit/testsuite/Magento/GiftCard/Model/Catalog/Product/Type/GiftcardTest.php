@@ -85,6 +85,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
             $mockedMethods,
             array(
                 $filesystem,
+                $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
                 array(
                     'store'     => $this->_store,
                     'helpers'   => $helpers,

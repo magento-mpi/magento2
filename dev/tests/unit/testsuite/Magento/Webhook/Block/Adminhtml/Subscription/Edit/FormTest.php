@@ -59,11 +59,14 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento
             ->method('addField')
             ->will($this->returnCallback(array($this, 'logAddFieldArguments')));
 
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+
         // Arguments passed to UUT's constructor
         $arguments = array(
+            $this->_context,
+            $coreStoreConfig,
             $this->_formFactoryMock,
             $this->_registry,
-            $this->_context,
             $this->_formatMock,
             $this->_authenticationMock,
             $this->_hookMock,
