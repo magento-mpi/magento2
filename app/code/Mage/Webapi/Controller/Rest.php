@@ -9,8 +9,6 @@
  */
 class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
 {
-    const REQUEST_TYPE = 'rest';
-
     /** @var Mage_Webapi_Controller_Rest_Router */
     protected $_router;
 

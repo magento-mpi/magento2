@@ -80,7 +80,7 @@ class Mage_Webapi_Controller_Request_FactoryTest extends PHPUnit_Framework_TestC
             ->getMock();
         $this->_objectManager->expects($this->once())->method('get')->will($this->returnValue($expectedController));
         $this->_request->expects($this->once())
-            ->method('getOriginalPathInfo')->will($this->returnValue(Mage_Webapi_Controller_Rest::REQUEST_TYPE));
+            ->method('getOriginalPathInfo')->will($this->returnValue('rest'));
         $this->assertEquals($expectedController, $this->_requestFactory->get());
     }
 }
