@@ -16,17 +16,15 @@ class Magento_Backend_Block_Cache_Grid_Column_Statuses extends Magento_Backend_B
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
         array $data = array()
     ) {
-        parent::__construct ($context, $coreStoreConfig, $data);
+        parent::__construct ($context, $data);
         $this->_cacheTypeList = $cacheTypeList;
     }
 

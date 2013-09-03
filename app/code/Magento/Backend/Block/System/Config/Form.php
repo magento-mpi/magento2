@@ -118,7 +118,6 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Backend_Model_Config_Factory $configFactory
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Backend_Model_Config_Clone_Factory $cloneModelFactory
@@ -132,7 +131,6 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Backend_Model_Config_Factory $configFactory,
         Magento_Data_Form_Factory $formFactory,
         Magento_Backend_Model_Config_Clone_Factory $cloneModelFactory,
@@ -142,7 +140,7 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
         $this->_configFactory = $configFactory;
         $this->_formFactory = $formFactory;
         $this->_cloneModelFactory = $cloneModelFactory;

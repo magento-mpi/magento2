@@ -17,17 +17,15 @@ class Magento_Sales_Block_Status_Grid_Column_State extends Magento_Backend_Block
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Sales_Model_Order_Config $config
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Sales_Model_Order_Config $config,
         array $data = array()
     ) {
-        parent::__construct ($context, $coreStoreConfig, $data);
+        parent::__construct ($context, $data);
 
         $this->_config = $config;
     }

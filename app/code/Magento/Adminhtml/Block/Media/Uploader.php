@@ -35,21 +35,19 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_File_Size $fileSize
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_File_Size $fileSize,
         array $data = array()
     ) {
         $this->_viewUrl = $viewUrl;
         $this->_fileSizeService = $fileSize;
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _construct()

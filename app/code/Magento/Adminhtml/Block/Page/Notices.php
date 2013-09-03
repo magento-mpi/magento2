@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Page_Notices extends Magento_Adminhtml_Block_Templ
      */
     public function displayNoscriptNotice()
     {
-        return $this->_coreStoreConfig->getConfig('web/browser_capabilities/javascript');
+        return $this->_storeConfig->getConfig('web/browser_capabilities/javascript');
     }
 
     /**
@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Page_Notices extends Magento_Adminhtml_Block_Templ
      */
     public function displayDemoNotice()
     {
-        return $this->_coreStoreConfig->getConfig('design/head/demonotice');
+        return $this->_storeConfig->getConfig('design/head/demonotice');
     }
 
 }

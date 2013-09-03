@@ -22,23 +22,13 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
     protected $_actionNames = null;
 
     /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
-     */
-    protected $_coreStoreConfig = null;
-
-    /**
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $data);
     }
 
@@ -49,7 +39,7 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
      */
     public function canShow()
     {
-        return $this->_coreStoreConfig->getConfigFlag('customer/magento_customerbalance/show_history');
+        return $this->_storeConfig->getConfigFlag('customer/magento_customerbalance/show_history');
     }
 
     /**

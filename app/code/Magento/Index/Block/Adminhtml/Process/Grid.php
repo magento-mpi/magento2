@@ -33,7 +33,6 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Index_Model_EventRepository $eventRepository
@@ -41,13 +40,12 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Index_Model_EventRepository $eventRepository,
         array $data = array()
     ) {
-        parent::__construct($context, $coreStoreConfig, $storeManager, $urlModel, $data);
+        parent::__construct($context, $storeManager, $urlModel, $data);
         $this->_eventRepository = $eventRepository;
     }
 

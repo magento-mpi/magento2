@@ -77,7 +77,7 @@ class Magento_Page_Block_Switch extends Magento_Core_Block_Template
                 if (!$store->getIsActive()) {
                     continue;
                 }
-                $store->setLocaleCode($this->_coreStoreConfig->getConfig('general/locale/code', $store->getId()));
+                $store->setLocaleCode($this->_storeConfig->getConfig('general/locale/code', $store->getId()));
 
                 $params = array(
                     '_query' => array()
@@ -107,7 +107,7 @@ class Magento_Page_Block_Switch extends Magento_Core_Block_Template
             $rawStores = $this->getRawStores();
 
             $groups = array();
-            $localeCode = $this->_coreStoreConfig->getConfig('general/locale/code');
+            $localeCode = $this->_storeConfig->getConfig('general/locale/code');
             foreach ($rawGroups as $group) {
                 /* @var $group Magento_Core_Model_Store_Group */
                 if (!isset($rawStores[$group->getId()])) {

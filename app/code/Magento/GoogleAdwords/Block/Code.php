@@ -19,16 +19,14 @@ class Magento_GoogleAdwords_Block_Code extends Magento_Core_Block_Template
      *
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_GoogleAdwords_Helper_Data $helper
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
         Magento_GoogleAdwords_Helper_Data $helper,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
         $this->_helper = $helper;
     }
 

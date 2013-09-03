@@ -78,7 +78,7 @@ class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_
 
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_coreStoreConfig->getConfig('carriers/'.$carrierCode.'/title')) {
+        if ($name = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/title')) {
             return $name;
         }
         return $carrierCode;

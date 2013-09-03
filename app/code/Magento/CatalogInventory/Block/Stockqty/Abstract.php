@@ -55,7 +55,7 @@ abstract class Magento_CatalogInventory_Block_Stockqty_Abstract extends Magento_
     public function getThresholdQty()
     {
         if (!$this->hasData('threshold_qty')) {
-            $qty = (float) $this->_coreStoreConfig->getConfig(self::XML_PATH_STOCK_THRESHOLD_QTY);
+            $qty = (float) $this->_storeConfig->getConfig(self::XML_PATH_STOCK_THRESHOLD_QTY);
             $this->setData('threshold_qty', $qty);
         }
         return $this->getData('threshold_qty');

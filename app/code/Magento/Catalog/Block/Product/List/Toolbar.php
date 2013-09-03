@@ -131,25 +131,14 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
 
     protected $_template = 'product/list/toolbar.phtml';
 
-
-    /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
-     */
-    protected $_coreStoreConfig = null;
-
     /**
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $data);
     }
 
@@ -170,13 +159,13 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
     protected function _construct()
     {
         parent::_construct();
-        $this->_orderField  = $this->_coreStoreConfig->getConfig(
+        $this->_orderField  = $this->_storeConfig->getConfig(
             Magento_Catalog_Model_Config::XML_PATH_LIST_DEFAULT_SORT_BY
         );
 
         $this->_availableOrder = $this->_getConfig()->getAttributeUsedForSortByArray();
 
-        switch ($this->_coreStoreConfig->getConfig('catalog/frontend/list_mode')) {
+        switch ($this->_storeConfig->getConfig('catalog/frontend/list_mode')) {
             case 'grid':
                 $this->_availableMode = array('grid' => __('Grid'));
                 break;
@@ -660,13 +649,13 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
             if ($default = $this->getDefaultListPerPage()) {
                 return $default;
             }
-            return $this->_coreStoreConfig->getConfig('catalog/frontend/list_per_page');
+            return $this->_storeConfig->getConfig('catalog/frontend/list_per_page');
         }
         elseif ($this->getCurrentMode() == 'grid') {
             if ($default = $this->getDefaultGridPerPage()) {
                 return $default;
             }
-            return $this->_coreStoreConfig->getConfig('catalog/frontend/grid_per_page');
+            return $this->_storeConfig->getConfig('catalog/frontend/grid_per_page');
         }
         return 0;
     }
@@ -715,10 +704,10 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
             return $this->_availableLimit[$mode];
         }
         $perPageConfigKey = 'catalog/frontend/' . $mode . '_per_page_values';
-        $perPageValues = (string)$this->_coreStoreConfig->getConfig($perPageConfigKey);
+        $perPageValues = (string)$this->_storeConfig->getConfig($perPageConfigKey);
         $perPageValues = explode(',', $perPageValues);
         $perPageValues = array_combine($perPageValues, $perPageValues);
-        if ($this->_coreStoreConfig->getConfigFlag('catalog/frontend/list_allow_all')) {
+        if ($this->_storeConfig->getConfigFlag('catalog/frontend/list_allow_all')) {
             return ($perPageValues + array('all'=>__('All')));
         } else {
             return $perPageValues;
@@ -828,8 +817,8 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
                 ->setLimitVarName($this->getLimitVarName())
                 ->setPageVarName($this->getPageVarName())
                 ->setLimit($this->getLimit())
-                ->setFrameLength($this->_coreStoreConfig->getConfig('design/pagination/pagination_frame'))
-                ->setJump($this->_coreStoreConfig->getConfig('design/pagination/pagination_frame_skip'))
+                ->setFrameLength($this->_storeConfig->getConfig('design/pagination/pagination_frame'))
+                ->setJump($this->_storeConfig->getConfig('design/pagination/pagination_frame_skip'))
                 ->setCollection($this->getCollection());
 
             return $pagerBlock->toHtml();

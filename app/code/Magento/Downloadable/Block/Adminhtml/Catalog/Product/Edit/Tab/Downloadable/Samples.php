@@ -34,17 +34,15 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
         $this->_storeManager = $storeManager;
     }
 
@@ -149,7 +147,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     {
         return $this->getProduct()->getId() && $this->getProduct()->getTypeId() == 'downloadable'
             ? $this->getProduct()->getSamplesTitle()
-            : $this->_coreStoreConfig->getConfig(Magento_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
+            : $this->_storeConfig->getConfig(Magento_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
     }
 
     /**

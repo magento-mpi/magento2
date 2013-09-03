@@ -26,17 +26,15 @@ class Magento_AdminNotification_Block_System_Messages_UnreadMessagePopup extends
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages,
         array $data = array()
     ) {
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
         $this->_messages = $messages;
     }
 

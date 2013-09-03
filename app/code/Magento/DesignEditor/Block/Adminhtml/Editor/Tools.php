@@ -30,18 +30,16 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools extends Magento_Backend_
      * Initialize dependencies
      *
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
         $this->_themeContext = $themeContext;
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
     }
 
     /**

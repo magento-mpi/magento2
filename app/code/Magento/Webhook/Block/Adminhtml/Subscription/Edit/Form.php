@@ -35,7 +35,6 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Bac
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Webhook_Model_Source_Format $format
@@ -45,7 +44,6 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Bac
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Registry $registry,
         Magento_Webhook_Model_Source_Format $format,
@@ -53,7 +51,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Bac
         Magento_Webhook_Model_Source_Hook $hook,
         array $data = array()
     ) {
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
         $this->_formFactory = $formFactory;
         $this->_registry = $registry;
         $this->_format = $format;

@@ -61,27 +61,6 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
     protected $_allowReload = true;
 
     /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
-     */
-    protected $_coreStoreConfig = null;
-
-    /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $data);
-    }
-
-    /**
      * Return redirect url for Payment Bridge application
      *
      * @return string
@@ -159,7 +138,7 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
      */
     public function getFrameParam($param = '')
     {
-        return $this->_coreStoreConfig->getConfig('payment_services/pbridge_styling/' . $param);
+        return $this->_storeConfig->getConfig('payment_services/pbridge_styling/' . $param);
     }
 
     /**
@@ -183,7 +162,7 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
         if (!$this->getFrameParam('use_theme')) {
             return '';
         }
-        $shouldMergeCss = $this->_coreStoreConfig->getConfigFlag('dev/css/merge_css_files');
+        $shouldMergeCss = $this->_storeConfig->getConfigFlag('dev/css/merge_css_files');
         if (!is_object($this->getLayout()->getBlock('head'))) {
             return Mage::getSingleton('Magento_Pbridge_Model_Session')->getCssUrl();
         }

@@ -86,7 +86,6 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
      * Constructor
      *
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_App $application
      * @param Magento_Core_Model_Website_Factory $websiteFactory
      * @param Magento_Core_Model_Store_Group_Factory $storeGroupFactory
@@ -95,14 +94,13 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_App $application,
         Magento_Core_Model_Website_Factory $websiteFactory,
         Magento_Core_Model_Store_Group_Factory $storeGroupFactory,
         Magento_Core_Model_StoreFactory $storeFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
         $this->_application = $application;
         $this->_websiteFactory = $websiteFactory;
         $this->_storeGroupFactory = $storeGroupFactory;

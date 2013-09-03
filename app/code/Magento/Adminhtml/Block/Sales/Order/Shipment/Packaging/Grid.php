@@ -56,7 +56,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Magent
         $storeId = $this->getShipment()->getStoreId();
         $order = $this->getShipment()->getOrder();
         $address = $order->getShippingAddress();
-        $shipperAddressCountryCode = $this->_coreStoreConfig->getConfig(
+        $shipperAddressCountryCode = $this->_storeConfig->getConfig(
             Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
             $storeId
         );

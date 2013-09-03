@@ -31,7 +31,6 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Website_Collection $websiteCollection
      * @param Magento_Theme_Model_Config_Customization $customizationConfig
      * @param array $data
@@ -39,7 +38,6 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Website_Collection $websiteCollection,
         Magento_Theme_Model_Config_Customization $customizationConfig,
         array $data = array()
@@ -47,7 +45,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage
         $this->_websiteCollection = $websiteCollection;
         $this->_customizationConfig = $customizationConfig;
 
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
     }
 
     /**

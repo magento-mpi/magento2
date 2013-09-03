@@ -19,16 +19,14 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Giftca
     /**
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
         $this->_storeManager = $storeManager;
     }
 

@@ -35,18 +35,16 @@ class Magento_Catalog_Block_Product_Grouped_AssociatedProducts_List extends Mage
      * @inheritdoc
      *
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Registry $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
         $this->_storeManager = $storeManager;
         $this->_registry = $registry;
     }

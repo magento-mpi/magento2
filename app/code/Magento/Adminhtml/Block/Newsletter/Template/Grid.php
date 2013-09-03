@@ -19,19 +19,17 @@ class Magento_Adminhtml_Block_Newsletter_Template_Grid extends Magento_Backend_B
 {
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
-        parent::__construct($context, $coreStoreConfig, $storeManager, $urlModel, $data);
+        parent::__construct($context, $storeManager, $urlModel, $data);
         $this->setEmptyText(__('No Templates Found'));
     }
 

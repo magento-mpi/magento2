@@ -127,7 +127,7 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
     public function NewProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/new';
-        if((bool)$this->_coreStoreConfig->getConfig($path)){
+        if((bool)$this->_storeConfig->getConfig($path)){
             $this->addRssFeed($path, __('New Products'));
         }
     }
@@ -135,7 +135,7 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
     public function SpecialProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/special';
-        if((bool)$this->_coreStoreConfig->getConfig($path)){
+        if((bool)$this->_storeConfig->getConfig($path)){
             $this->addRssFeed($path, __('Special Products'),array(),true);
         }
     }
@@ -143,7 +143,7 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
     public function SalesRuleProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/salesrule';
-        if((bool)$this->_coreStoreConfig->getConfig($path)){
+        if((bool)$this->_storeConfig->getConfig($path)){
             $this->addRssFeed($path, __('Coupons/Discounts'),array(),true);
         }
     }
@@ -151,7 +151,7 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
     public function CategoriesRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/category';
-        if((bool)$this->_coreStoreConfig->getConfig($path)){
+        if((bool)$this->_storeConfig->getConfig($path)){
             $category = Mage::getModel('Magento_Catalog_Model_Category');
 
             /* @var $collection Magento_Catalog_Model_Resource_Category_Collection */

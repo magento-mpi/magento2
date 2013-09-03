@@ -10,27 +10,6 @@
 
 class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_Catalog_Block_Product_View_Abstract
 {
-    /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
-     */
-    protected $_coreStoreConfig = null;
-
-    /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        array $data = array()
-    ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $data);
-    }
-
     public function getAmountSettingsJson($product)
     {
         $result = array('min'=>0, 'max'=>0);
@@ -87,7 +66,7 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
     public function isMessageAvailable($product)
     {
         if ($product->getUseConfigAllowMessage()) {
-            return $this->_coreStoreConfig->getConfigFlag(Magento_GiftCard_Model_Giftcard::XML_PATH_ALLOW_MESSAGE);
+            return $this->_storeConfig->getConfigFlag(Magento_GiftCard_Model_Giftcard::XML_PATH_ALLOW_MESSAGE);
         } else {
             return (int) $product->getAllowMessage();
         }
@@ -120,7 +99,7 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
 
     public function getMessageMaxLength()
     {
-        return (int) $this->_coreStoreConfig->getConfig(Magento_GiftCard_Model_Giftcard::XML_PATH_MESSAGE_MAX_LENGTH);
+        return (int) $this->_storeConfig->getConfig(Magento_GiftCard_Model_Giftcard::XML_PATH_MESSAGE_MAX_LENGTH);
     }
 
     /**

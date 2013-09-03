@@ -112,7 +112,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Admin
             'header'    => __('Price'),
             'type'  => 'currency',
             'width'     => '1',
-            'currency_code' => (string) $this->_coreStoreConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
         $this->addColumn('position', array(

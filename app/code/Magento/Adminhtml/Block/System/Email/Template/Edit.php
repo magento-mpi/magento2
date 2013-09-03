@@ -42,7 +42,6 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Backend_Model_Menu_Config $menuConfig
      * @param Magento_Backend_Model_Config_Structure $configStructure
@@ -50,13 +49,12 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Registry $registry,
         Magento_Backend_Model_Menu_Config $menuConfig,
         Magento_Backend_Model_Config_Structure $configStructure,
         array $data = array()
     ) {
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
         $this->_registryManager = $registry;
         $this->_menuConfig = $menuConfig;
         $this->_configStructure = $configStructure;

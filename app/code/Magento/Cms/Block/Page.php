@@ -19,26 +19,17 @@
 class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
 {
     /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
-     */
-    protected $_coreStoreConfig = null;
-
-    /**
      * @param Magento_Core_Block_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $data);
     }
 
+    /**
     /**
      * Retrieve Page instance
      *
@@ -69,10 +60,10 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
         $page = $this->getPage();
 
         // show breadcrumbs
-        if ($this->_coreStoreConfig->getConfig('web/default/show_cms_breadcrumbs')
+        if ($this->_storeConfig->getConfig('web/default/show_cms_breadcrumbs')
             && ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs'))
-            && ($page->getIdentifier()!==$this->_coreStoreConfig->getConfig('web/default/cms_home_page'))
-            && ($page->getIdentifier()!==$this->_coreStoreConfig->getConfig('web/default/cms_no_route'))) {
+            && ($page->getIdentifier()!==$this->_storeConfig->getConfig('web/default/cms_home_page'))
+            && ($page->getIdentifier()!==$this->_storeConfig->getConfig('web/default/cms_no_route'))) {
                 $breadcrumbs->addCrumb('home', array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
                 $breadcrumbs->addCrumb('cms_page', array('label'=>$page->getTitle(), 'title'=>$page->getTitle()));
         }

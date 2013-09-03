@@ -36,7 +36,7 @@ class Magento_Reports_Block_Product_Viewed extends Magento_Reports_Block_Product
         if ($this->hasData('page_size')) {
             return $this->getData('page_size');
         }
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_RECENTLY_VIEWED_COUNT);
+        return $this->_storeConfig->getConfig(self::XML_PATH_RECENTLY_VIEWED_COUNT);
     }
 
     /**

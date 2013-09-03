@@ -49,7 +49,6 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adm
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_App $app
@@ -57,7 +56,6 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adm
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_App $app,
@@ -67,7 +65,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adm
         $this->_registryManager = $registry;
         $this->_app = $app;
 
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
     }
 
 

@@ -25,18 +25,16 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size $sourceSizeModel
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size $sourceSizeModel,
         array $data = array()
     ) {
         $this->_sourceSizeModel = $sourceSizeModel;
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -120,7 +118,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
         $storeId = $this->getShipment()->getStoreId();
         $address = $order->getShippingAddress();
         $carrier = $order->getShippingCarrier();
-        $countryShipper = $this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryShipper = $this->_storeConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
             $params = new Magento_Object(array(
                 'method' => $order->getShippingMethod(true)->getMethod(),
@@ -243,7 +241,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
         $storeId = $this->getShipment()->getStoreId();
         $order = $this->getShipment()->getOrder();
         $address = $order->getShippingAddress();
-        $shipperAddressCountryCode = $this->_coreStoreConfig->getConfig(
+        $shipperAddressCountryCode = $this->_storeConfig->getConfig(
             Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
             $storeId
         );
@@ -313,7 +311,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
         $storeId = $this->getShipment()->getStoreId();
         $address = $order->getShippingAddress();
         $carrier = $order->getShippingCarrier();
-        $countryShipper = $this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryShipper = $this->_storeConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
             $params = new Magento_Object(array(
                 'method' => $order->getShippingMethod(true)->getMethod(),

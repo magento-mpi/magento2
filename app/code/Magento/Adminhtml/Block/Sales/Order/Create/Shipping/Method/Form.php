@@ -69,7 +69,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_coreStoreConfig->getConfig('carriers/'.$carrierCode.'/title', $this->getStore()->getId())) {
+        if ($name = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/title', $this->getStore()->getId())) {
             return $name;
         }
         return $carrierCode;

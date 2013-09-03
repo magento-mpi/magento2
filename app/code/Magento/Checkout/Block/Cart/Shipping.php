@@ -102,7 +102,7 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_coreStoreConfig->getConfig('carriers/'.$carrierCode.'/title')) {
+        if ($name = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/title')) {
             return $name;
         }
         return $carrierCode;
@@ -175,8 +175,8 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
      */
     public function getCityActive()
     {
-        return (bool)$this->_coreStoreConfig->getConfig('carriers/dhl/active')
-            || (bool)$this->_coreStoreConfig->getConfig('carriers/dhlint/active');
+        return (bool)$this->_storeConfig->getConfig('carriers/dhl/active')
+            || (bool)$this->_storeConfig->getConfig('carriers/dhlint/active');
     }
 
     /**
@@ -186,9 +186,9 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
      */
     public function getStateActive()
     {
-        return (bool)$this->_coreStoreConfig->getConfig('carriers/dhl/active')
-            || (bool)$this->_coreStoreConfig->getConfig('carriers/tablerate/active')
-            || (bool)$this->_coreStoreConfig->getConfig('carriers/dhlint/active');
+        return (bool)$this->_storeConfig->getConfig('carriers/dhl/active')
+            || (bool)$this->_storeConfig->getConfig('carriers/tablerate/active')
+            || (bool)$this->_storeConfig->getConfig('carriers/dhlint/active');
     }
 
     /**

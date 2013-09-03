@@ -30,7 +30,6 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory
      * @param Magento_DesignEditor_Model_Theme_Context $themeContext
@@ -38,13 +37,12 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Eav_Model_Config $eavConfig,
         Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory,
         Magento_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
         $this->_eavConfig = $eavConfig;
         $this->_controlFactory = $controlFactory;
         $this->_themeContext = $themeContext;

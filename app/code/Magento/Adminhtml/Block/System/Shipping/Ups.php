@@ -30,7 +30,6 @@ class Magento_Adminhtml_Block_System_Shipping_Ups extends Magento_Backend_Block_
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Usa_Model_Shipping_Carrier_Ups $shippingModel
      * @param Magento_Core_Model_Website $websiteModel
      * @param Magento_Core_Model_Store_Config $storeConfig
@@ -38,7 +37,6 @@ class Magento_Adminhtml_Block_System_Shipping_Ups extends Magento_Backend_Block_
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Usa_Model_Shipping_Carrier_Ups $shippingModel,
         Magento_Core_Model_Website $websiteModel,
         Magento_Core_Model_Store_Config $storeConfig,
@@ -47,7 +45,7 @@ class Magento_Adminhtml_Block_System_Shipping_Ups extends Magento_Backend_Block_
         $this->_shippingModel = $shippingModel;
         $this->_websiteModel = $websiteModel;
         $this->_storeConfig = $storeConfig;
-        parent::__construct($context, $coreStoreConfig, $data);
+        parent::__construct($context, $data);
     }
 
     /**
