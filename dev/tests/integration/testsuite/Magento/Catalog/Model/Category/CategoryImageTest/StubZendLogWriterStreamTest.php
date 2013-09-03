@@ -11,12 +11,13 @@
 
 Mage::app()->getStore()->setConfig('dev/log/active', 1);
 Mage::app()->getStore()->setConfig('dev/log/exception_file', 'save_category_without_image.log');
-Mage::getConfig()->setNode('global/log/core/writer_model',
-    'Stub_Magento_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream'
+Mage::getConfig()->setNode(
+    'global/log/core/writer_model',
+    'Magento_Catalog_Model_Category_CategoryImageTest_StubZendLogWriterStreamTest'
 );
 
 
-class Stub_Magento_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream extends Zend_Log_Writer_Stream
+class Magento_Catalog_Model_Category_CategoryImageTest_StubZendLogWriterStreamTest extends Zend_Log_Writer_Stream
 {
     /** @var array */
     public static $exceptions = array();
