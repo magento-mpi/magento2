@@ -1,8 +1,8 @@
 <?php
-namespace Magento\Code\Generator\TestAsset;
+namespace Magento\Code\GeneratorTest;
 
 /**
- * Factory class for Magento\Code\Generator\TestAsset\SourceClassWithNamespace
+ * Factory class for Magento\Code\GeneratorTest\SourceClassWithNamespace
  *
  * {license_notice}
  *
@@ -31,8 +31,10 @@ class SourceClassWithNamespaceFactory
      * @param \Magento_ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(\Magento_ObjectManager $objectManager, $instanceName = 'Magento\Code\Generator\TestAsset\SourceClassWithNamespace')
-    {
+    public function __construct(
+        \Magento_ObjectManager $objectManager,
+        $instanceName = 'Magento\Code\GeneratorTest\SourceClassWithNamespace'
+    ) {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
     }
@@ -41,7 +43,7 @@ class SourceClassWithNamespaceFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento\Code\Generator\TestAsset\SourceClassWithNamespace
+     * @return \Magento\Code\GeneratorTest\SourceClassWithNamespace
      */
     public function create(array $data = array())
     {

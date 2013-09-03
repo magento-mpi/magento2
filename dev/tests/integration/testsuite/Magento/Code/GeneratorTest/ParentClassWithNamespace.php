@@ -9,9 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Code\GeneratorTest;
+
 use Zend\Code\Generator\DocBlockGenerator;
 
-class Magento_Code_Generator_TestAsset_ParentClassWithoutNamespace
+class ParentClassWithNamespace
 {
     /**
      * Public parent method
@@ -24,8 +26,12 @@ class Magento_Code_Generator_TestAsset_ParentClassWithoutNamespace
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function publicParentMethod(DocBlockGenerator $docBlockGenerator, $param1 = '', $param2 = '\\',
-        $param3 = '\'', array $array = array()
+    public function publicParentMethod(
+        DocBlockGenerator $docBlockGenerator,
+        $param1 = '',
+        $param2 = '\\',
+        $param3 = '\'',
+        array $array = array()
     ) {
     }
 
@@ -40,8 +46,12 @@ class Magento_Code_Generator_TestAsset_ParentClassWithoutNamespace
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _protectedParentMethod(DocBlockGenerator $docBlockGenerator, $param1 = '', $param2 = '\\',
-        $param3 = '\'', array $array = array()
+    protected function _protectedParentMethod(
+        DocBlockGenerator $docBlockGenerator,
+        $param1 = '',
+        $param2 = '\\',
+        $param3 = '\'',
+        array $array = array()
     ) {
     }
 
@@ -57,8 +67,12 @@ class Magento_Code_Generator_TestAsset_ParentClassWithoutNamespace
      * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    private function _privateParentMethod(DocBlockGenerator $docBlockGenerator, $param1 = '', $param2 = '\\',
-        $param3 = '\'', array $array = array()
+    private function _privateParentMethod(
+        DocBlockGenerator $docBlockGenerator,
+        $param1 = '',
+        $param2 = '\\',
+        $param3 = '\'',
+        array $array = array()
     ) {
     }
 

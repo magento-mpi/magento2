@@ -1,13 +1,15 @@
 <?php
+namespace Magento\Code\GeneratorTest;
+
 /**
- * Interceptor class for Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespace
+ * Interceptor class for Magento\Code\GeneratorTest\SourceClassWithNamespace
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespaceInterceptor implements \Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespace
+class SourceClassWithNamespaceInterceptor extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
 {
     /**
      * Object Manager factory
@@ -33,7 +35,7 @@ class Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespaceIntercepto
     /**
      * Subject
      *
-     * @var \Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespace
+     * @var \Magento\Code\GeneratorTest\SourceClassWithNamespace
      */
     protected $_subject = null;
 
@@ -60,8 +62,13 @@ class Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespaceIntercepto
      * @param array $pluginList
      * @param array $arguments
      */
-    public function __construct(\Magento_ObjectManager_Factory $factory, \Magento_ObjectManager_ObjectManager $objectManager, $subjectType, array $pluginList, array $arguments)
-    {
+    public function __construct(
+        \Magento_ObjectManager_Factory $factory,
+        \Magento_ObjectManager_ObjectManager $objectManager,
+        $subjectType,
+        array $pluginList,
+        array $arguments
+    ) {
         $this->_factory = $factory;
         $this->_objectManager = $objectManager;
         $this->_subjectType = $subjectType;
@@ -95,7 +102,9 @@ class Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespaceIntercepto
         if (isset($this->_pluginList[$beforeMethodName])) {
             foreach ($this->_pluginList[$beforeMethodName] as $plugin) {
                 $methodArguments = $this->_objectManager->get($plugin)
-                    ->$beforeMethodName($methodArguments);
+                    ->$beforeMethodName(
+                        $methodArguments
+                    );
             }
         }
         $aroundMethodName = $methodName . 'Around';
@@ -112,7 +121,9 @@ class Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespaceIntercepto
         if (isset($this->_pluginList[$afterMethodName])) {
             foreach (array_reverse($this->_pluginList[$afterMethodName]) as $plugin) {
                 $invocationResult = $this->_objectManager->get($plugin)
-                    ->$afterMethodName($invocationResult);
+                    ->$afterMethodName(
+                        $invocationResult
+                    );
             }
         }
         return $invocationResult;
@@ -146,16 +157,53 @@ class Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespaceIntercepto
     /**
      * {@inheritdoc}
      */
-    public function doWorkWithParams($param1, array $param2)
-    {
-        return $this->_invoke('doWorkWithParams', func_get_args());
+    public function publicChildMethod(
+        \Zend\Code\Generator\ClassGenerator $classGenerator,
+        $param1 = '',
+        $param2 = '\\',
+        $param3 = '\'',
+        array $array = array()
+    ) {
+        return $this->_invoke('publicChildMethod', func_get_args());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function doWork()
+    public function publicMethodWithReference(
+        \Zend\Code\Generator\ClassGenerator &$classGenerator,
+        &$param1,
+        array &$array
+    ) {
+        return $this->_invoke('publicMethodWithReference', func_get_args());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function publicChildWithoutParameters()
     {
-        return $this->_invoke('doWork', func_get_args());
+        return $this->_invoke('publicChildWithoutParameters', func_get_args());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function publicParentMethod(
+        \Zend\Code\Generator\DocBlockGenerator $docBlockGenerator,
+        $param1 = '',
+        $param2 = '\\',
+        $param3 = '\'',
+        array $array = array()
+    ) {
+        return $this->_invoke('publicParentMethod', func_get_args());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function publicParentWithoutParameters()
+    {
+        return $this->_invoke('publicParentWithoutParameters', func_get_args());
     }
 }

@@ -9,10 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Code\GeneratorTest;
+
 use Zend\Code\Generator\ClassGenerator;
 
-class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace
-    extends Magento_Code_Generator_TestAsset_ParentClassWithoutNamespace
+class SourceClassWithNamespace extends ParentClassWithNamespace
 {
     /**
      * Public child constructor
@@ -39,7 +40,11 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function publicChildMethod(ClassGenerator $classGenerator, $param1 = '', $param2 = '\\', $param3 = '\'',
+    public function publicChildMethod(
+        ClassGenerator $classGenerator,
+        $param1 = '',
+        $param2 = '\\',
+        $param3 = '\'',
         array $array = array()
     ) {
     }
@@ -67,7 +72,10 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _protectedChildMethod(ClassGenerator $classGenerator, $param1 = '', $param2 = '\\',
+    protected function _protectedChildMethod(
+        ClassGenerator $classGenerator,
+        $param1 = '',
+        $param2 = '\\',
         $param3 = '\''
     ) {
     }
@@ -85,8 +93,12 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace
      * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    private function _privateChildMethod(ClassGenerator $classGenerator, $param1 = '', $param2 = '\\',
-        $param3 = '\'', array $array = array()
+    private function _privateChildMethod(
+        ClassGenerator $classGenerator,
+        $param1 = '',
+        $param2 = '\\',
+        $param3 = '\'',
+        array $array = array()
     ) {
     }
 

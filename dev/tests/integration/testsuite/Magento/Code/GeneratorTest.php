@@ -8,16 +8,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once __DIR__ . '/Generator/TestAsset/SourceClassWithNamespace.php';
-require_once __DIR__ . '/Generator/TestAsset/ParentClassWithNamespace.php';
+require_once __DIR__ . '/GeneratorTest/SourceClassWithNamespace.php';
+require_once __DIR__ . '/GeneratorTest/ParentClassWithNamespace.php';
 /**
  * @magentoAppIsolation enabled
  */
 class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
 {
-    const CLASS_NAME_WITHOUT_NAMESPACE = 'Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace';
-    const CLASS_NAME_WITH_NAMESPACE = 'Magento\Code\Generator\TestAsset\SourceClassWithNamespace';
-    const INTERFACE_NAME_WITHOUT_NAMESPACE = 'Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespace';
+    const CLASS_NAME_WITHOUT_NAMESPACE = 'Magento_Code_GeneratorTest_SourceClassWithoutNamespace';
+    const CLASS_NAME_WITH_NAMESPACE = 'Magento\Code\GeneratorTest\SourceClassWithNamespace';
+    const INTERFACE_NAME_WITHOUT_NAMESPACE = 'Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespace';
 
     /**
      * @var string
@@ -39,7 +39,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         $this->_includePath = get_include_path();
 
         /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir');
+        $dirs = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
         $generationDirectory = $dirs->getDir(Magento_Core_Model_Dir::VAR_DIR) . '/generation';
 
         Magento_Autoload_IncludePath::addIncludePath($generationDirectory);
@@ -49,15 +49,16 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
             new Magento_Autoload_IncludePath(),
             $generationDirectory
         );
-        $this->_generator = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Code_Generator', array('ioObject' => $this->_ioObject)
+        $this->_generator = Mage::getObjectManager()->create(
+            'Magento_Code_Generator',
+            array('ioObject' => $this->_ioObject)
         );
     }
 
     protected function tearDown()
     {
         /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir');
+        $dirs = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
         $generationDirectory = $dirs->getDir(Magento_Core_Model_Dir::VAR_DIR) . '/generation';
         Magento_Io_File::rmdirRecursive($generationDirectory);
 
@@ -79,15 +80,21 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var $factory Magento_ObjectManager_Factory */
-        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($factoryClassName);
+        $factory = Mage::getObjectManager()->create($factoryClassName);
         $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $object);
 
-        $content = $this->_clearDocBlock(file_get_contents($this->_ioObject->getResultFileName(
-            self::CLASS_NAME_WITHOUT_NAMESPACE . 'Factory')
-        ));
+        $content = $this->_clearDocBlock(
+            file_get_contents(
+                $this->_ioObject->getResultFileName(
+                    self::CLASS_NAME_WITHOUT_NAMESPACE . 'Factory'
+                )
+            )
+        );
         $expectedContent = $this->_clearDocBlock(
-            file_get_contents(__DIR__ . '/_files/generatedFactoryWithoutNamespace.php')
+            file_get_contents(
+                __DIR__ . '/GeneratorTest/Magento_Code_GeneratorTest_SourceClassWithoutNamespaceFactory.php'
+            )
         );
         $this->assertEquals($expectedContent, $content);
     }
@@ -95,63 +102,75 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     public function testGenerateClassFactoryWithNamespace()
     {
         $factoryClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Factory';
-        $this->assertEquals(
-            Magento_Code_Generator::GENERATION_SUCCESS,
-            $this->_generator->generateClass($factoryClassName)
-        );
+        $result = false;
+        $generatorResult = $this->_generator->generateClass($factoryClassName);
+        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult || Magento_Code_generator::GENERATION_SKIP == $generatorResult) {
+            $result = true;
+        }
+        $this->assertTrue($result);
 
         /** @var $factory Magento_ObjectManager_Factory */
-        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($factoryClassName);
+        $factory = Mage::getObjectManager()->create($factoryClassName);
 
         $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $object);
 
-        $content = $this->_clearDocBlock(
-            file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Factory'))
-        );
-        $expectedContent = $this->_clearDocBlock(
-            file_get_contents(__DIR__ . '/_files/generatedFactoryWithNamespace.php')
-        );
-        $this->assertEquals($expectedContent, $content);
+        // This test is only valid if the factory created the object if Autoloader did not pick it up automatically
+        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult) {
+            $content = $this->_clearDocBlock(
+                file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Factory'))
+            );
+            $expectedContent = $this->_clearDocBlock(
+                file_get_contents(__DIR__ . '/GeneratorTest/SourceClassWithNamespaceFactory.php')
+            );
+            $this->assertEquals($expectedContent, $content);
+        }
     }
 
     public function testGenerateClassProxyWithoutNamespace()
     {
-        $factoryClassName = self::CLASS_NAME_WITHOUT_NAMESPACE . 'Proxy';
+        $proxyClassName = self::CLASS_NAME_WITHOUT_NAMESPACE . 'Proxy';
         $this->assertEquals(
             Magento_Code_Generator::GENERATION_SUCCESS,
-            $this->_generator->generateClass($factoryClassName)
+            $this->_generator->generateClass($proxyClassName)
         );
 
-        $proxy = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($factoryClassName);
+        $proxy = Mage::getObjectManager()->create($proxyClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $proxy);
         $content = $this->_clearDocBlock(
             file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITHOUT_NAMESPACE . 'Proxy'))
         );
         $expectedContent = $this->_clearDocBlock(
-            file_get_contents(__DIR__ . '/_files/generatedProxyWithoutNamespace.php')
+            file_get_contents(
+                __DIR__ . '/GeneratorTest/Magento_Code_GeneratorTest_SourceClassWithoutNamespaceProxy.php'
+            )
         );
         $this->assertEquals($expectedContent, $content);
     }
 
     public function testGenerateClassProxyWithNamespace()
     {
-        $factoryClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Proxy';
-        $this->assertEquals(
-            Magento_Code_Generator::GENERATION_SUCCESS,
-            $this->_generator->generateClass($factoryClassName)
-        );
+        $proxyClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Proxy';
+        $result = false;
+        $generatorResult = $this->_generator->generateClass($proxyClassName);
+        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult || Magento_Code_generator::GENERATION_SKIP == $generatorResult) {
+            $result = true;
+        }
+        $this->assertTrue($result);
 
-        $proxy = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($factoryClassName);
+        $proxy = Mage::getObjectManager()->create($proxyClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $proxy);
 
-        $content = $this->_clearDocBlock(
-            file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Proxy'))
-        );
-        $expectedContent = $this->_clearDocBlock(
-            file_get_contents(__DIR__ . '/_files/generatedProxyWithNamespace.php')
-        );
-        $this->assertEquals($expectedContent, $content);
+        // This test is only valid if the factory created the object if Autoloader did not pick it up automatically
+        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult) {
+            $content = $this->_clearDocBlock(
+                file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Proxy'))
+            );
+            $expectedContent = $this->_clearDocBlock(
+                file_get_contents(__DIR__ . '/GeneratorTest/SourceClassWithNamespaceProxy.php')
+            );
+            $this->assertEquals($expectedContent, $content);
+        }
     }
 
     public function testGenerateClassInterceptorWithoutNamespace()
@@ -166,7 +185,9 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
             file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITHOUT_NAMESPACE . 'Interceptor'))
         );
         $expectedContent = $this->_clearDocBlock(
-            file_get_contents(__DIR__ . '/_files/generatedInterceptorWithoutNamespace.php')
+            file_get_contents(
+                __DIR__ . '/GeneratorTest/Magento_Code_GeneratorTest_SourceClassWithoutNamespaceInterceptor.php'
+            )
         );
         $this->assertEquals($expectedContent, $content);
     }
@@ -174,18 +195,22 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     public function testGenerateClassInterceptorWithNamespace()
     {
         $interceptorClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Interceptor';
-        $this->assertEquals(
-            Magento_Code_Generator::GENERATION_SUCCESS,
-            $this->_generator->generateClass($interceptorClassName)
-        );
+        $result = false;
+        $generatorResult = $this->_generator->generateClass($interceptorClassName);
+        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult || Magento_Code_generator::GENERATION_SKIP == $generatorResult) {
+            $result = true;
+        }
+        $this->assertTrue($result);
 
-        $content = $this->_clearDocBlock(
-            file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Interceptor'))
-        );
-        $expectedContent = $this->_clearDocBlock(
-            file_get_contents(__DIR__ . '/_files/generatedInterceptorWithNamespace.php')
-        );
-        $this->assertEquals($expectedContent, $content);
+        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult) {
+            $content = $this->_clearDocBlock(
+                file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Interceptor'))
+            );
+            $expectedContent = $this->_clearDocBlock(
+                file_get_contents(__DIR__ . '/GeneratorTest/SourceClassWithNamespaceInterceptor.php')
+            );
+            $this->assertEquals($expectedContent, $content);
+        }
     }
 
     public function testGenerateInterfaceInterceptorWithoutNamespace()
@@ -202,7 +227,9 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
             )
         );
         $expectedContent = $this->_clearDocBlock(
-            file_get_contents(__DIR__ . '/_files/generatedInterfaceInterceptorWithoutNamespace.php')
+            file_get_contents(
+                __DIR__ . '/GeneratorTest/Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespaceInterceptor.php'
+            )
         );
         $this->assertEquals($expectedContent, $content);
     }

@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Code_Generator_TestAsset_ParentInterfaceWithoutNamespace
+interface Magento_Code_GeneratorTest_ParentInterfaceWithoutNamespace
 {
     /**
      * Do some work
