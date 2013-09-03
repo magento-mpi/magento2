@@ -4,13 +4,13 @@
 * {license_notice}
 *
 * @category    Enterprise
-* @package     Enterprise_Rma
+* @package     Magento_Rma
 * @copyright   {copyright}
 * @license     {license_link}
 */
 -->
 <config>
-    <type name="Enterprise_Rma_Helper_Data">
+    <type name="Magento_Rma_Helper_Data">
         <param name="app">
             <instance type="Magento_Core_Model_AppProxy" />
         </param>

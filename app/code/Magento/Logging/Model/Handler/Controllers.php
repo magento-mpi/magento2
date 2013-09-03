@@ -476,8 +476,8 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for creating System Rollback
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event
      */
     public function postDispatchSystemRollback($config, $eventModel)
     {
@@ -502,8 +502,8 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for mass unlocking locked admin users
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event
      */
     public function postDispatchAdminAccountsMassUnlock($config, $eventModel)
     {
@@ -524,8 +524,8 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for mass reindex process on index management
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event
      */
     public function postDispatchReindexProcess($config, $eventModel)
     {
@@ -540,14 +540,14 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for System Currency save
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @param Enterprise_Logging_Model_Processor $processor
-     * @return Enterprise_Logging_Model_Event
+     * @param Magento_Logging_Model_Event $eventModel
+     * @param Magento_Logging_Model_Processor $processor
+     * @return Magento_Logging_Model_Event
      */
     public function postDispatchSystemCurrencySave($config, $eventModel, $processor)
     {
         $request = Mage::app()->getRequest();
-        $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
+        $change = Mage::getModel('Magento_Logging_Model_Event_Changes');
         $data = $request->getParam('rate');
         $values = array();
         if (!is_array($data)) {
@@ -578,9 +578,9 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for Cache Settings Save
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @param Enterprise_Logging_Model_Processor $processor
-     * @return Enterprise_Logging_Model_Event
+     * @param Magento_Logging_Model_Event $eventModel
+     * @param Magento_Logging_Model_Processor $processor
+     * @return Magento_Logging_Model_Event
      */
     public function postDispatchSaveCacheSettings($config, $eventModel, $processor)
     {
@@ -607,8 +607,8 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom tax export handler
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|bool
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event|bool
      */
     public function postDispatchTaxRatesExport($config, $eventModel)
     {
@@ -627,8 +627,8 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for sales archive operations
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event
      */
     public function postDispatchSalesArchiveManagement($config, $eventModel)
     {
@@ -644,8 +644,8 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for Recurring Profiles status update
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event
      */
     public function postDispatchRecurringProfilesUpdate($config, $eventModel)
     {
@@ -661,10 +661,10 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * Log tax class event
      * @param string $classType
-     * @param Enterprise_Logging_Model_Event $eventModel
+     * @param Magento_Logging_Model_Event $eventModel
      * @param int $classId
      *
-     * @return Enterprise_Logging_Model_Event
+     * @return Magento_Logging_Model_Event
      */
     protected function _logTaxClassEvent($classType, $eventModel, $classId)
     {

@@ -46,7 +46,7 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Enterprise_Wishlist_Model_Resource_Item $resource
+        Magento_MultipleWishlist_Model_Resource_Item $resource
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_catalogData = $catalogData;

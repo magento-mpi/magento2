@@ -56,7 +56,7 @@ class Magento_Reward_Block_Customer_Reward_Info extends Magento_Core_Block_Templ
     {
         $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
         if ($customer && $customer->getId()) {
-            $this->_rewardInstance = Mage::getModel('Enterprise_Reward_Model_Reward')
+            $this->_rewardInstance = Mage::getModel('Magento_Reward_Model_Reward')
                 ->setCustomer($customer)
                 ->setWebsiteId(Mage::app()->getWebsite()->getId())
                 ->loadByCustomer();

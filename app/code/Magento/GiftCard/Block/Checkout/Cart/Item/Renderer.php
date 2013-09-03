@@ -13,19 +13,19 @@ class Magento_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Checkou
     /**
      * Gift card catalog product configuration
      *
-     * @var Enterprise_GiftCard_Helper_Catalog_Product_Configuration
+     * @var Magento_GiftCard_Helper_Catalog_Product_Configuration
      */
     protected $_giftCardCtlgProdConfigur = null;
 
     /**
-     * @param Enterprise_GiftCard_Helper_Catalog_Product_Configuration $giftCardCtlgProdConfigur
+     * @param Magento_GiftCard_Helper_Catalog_Product_Configuration $giftCardCtlgProdConfigur
      * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Enterprise_GiftCard_Helper_Catalog_Product_Configuration $giftCardCtlgProdConfigur,
+        Magento_GiftCard_Helper_Catalog_Product_Configuration $giftCardCtlgProdConfigur,
         Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,

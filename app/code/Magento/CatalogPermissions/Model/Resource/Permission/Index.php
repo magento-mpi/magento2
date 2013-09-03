@@ -893,12 +893,12 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         if (!$this->_catalogPermData->isAllowedCategoryView()) {
             $collection->getSelect()
                 ->where('permission_index.grant_catalog_category_view = ?',
-                    Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
+                    Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
         } else {
             $collection->getSelect()
                 ->where('permission_index.grant_catalog_category_view != ?'
                     . ' OR permission_index.grant_catalog_category_view IS NULL',
-                    Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
+                    Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY);
         }
 
         return $this;
@@ -909,7 +909,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
      *
      * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      * @param int $customerGroupId
-     * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
+     * @return Magento_CatalogPermissions_Model_Resource_Permission_Index
      */
     public function addIndexToProductCollection($collection, $customerGroupId)
     {
@@ -947,12 +947,12 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
             if (!$this->_catalogPermData->isAllowedCategoryView()) {
                 $collection->getSelect()
                     ->where('permission_index_product.grant_catalog_category_view = ?',
-                        Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
+                        Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
             } else {
                 $collection->getSelect()
                     ->where('permission_index_product.grant_catalog_category_view != ?'
                         . ' OR permission_index_product.grant_catalog_category_view IS NULL',
-                        Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
+                        Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY);
             }
 
             /*
@@ -974,23 +974,23 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
                     if (!$this->_catalogPermData->isAllowedProductPrice()) {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_catalog_product_price = ?',
-                                Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
+                                Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
                     } else {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_catalog_product_price != ?'
                                 . ' OR permission_index_product.grant_catalog_product_price IS NULL',
-                                Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
+                                Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY);
                     }
 
                     if (!$this->_catalogPermData->isAllowedCheckoutItems()) {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_checkout_items = ?',
-                                Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
+                                Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
                     } else {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_checkout_items != ?'
                                 . ' OR permission_index_product.grant_checkout_items IS NULL',
-                                Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
+                                Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY);
                     }
                 }
             }
@@ -1004,7 +1004,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
      *
      * @param Magento_Catalog_Model_Product $product
      * @param int $customerGroupId
-     * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
+     * @return Magento_CatalogPermissions_Model_Resource_Permission_Index
      */
     public function addIndexToProduct($product, $customerGroupId)
     {
@@ -1078,7 +1078,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
      *
      * @param string $table
      * @param array $fields
-     * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
+     * @return Magento_CatalogPermissions_Model_Resource_Permission_Index
      */
     protected function _beginInsert($table, $fields)
     {
@@ -1091,7 +1091,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
      *
      * @param string $table
      * @param bool $forced
-     * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
+     * @return Magento_CatalogPermissions_Model_Resource_Permission_Index
      */
     protected function _commitInsert($table, $forced = true)
     {
@@ -1113,7 +1113,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
      *
      * @param string $table
      * @param array $data
-     * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
+     * @return Magento_CatalogPermissions_Model_Resource_Permission_Index
      */
     protected function _insert($table, $data)
     {
@@ -1125,7 +1125,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     /**
      * Reindex all
      *
-     * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
+     * @return Magento_CatalogPermissions_Model_Resource_Permission_Index
      */
     public function reindexAll()
     {

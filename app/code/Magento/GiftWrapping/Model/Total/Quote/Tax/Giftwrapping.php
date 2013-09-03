@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Enterprise
- * @package     Enterprise_GiftWrapping
+ * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */

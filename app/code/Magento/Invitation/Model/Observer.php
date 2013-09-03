@@ -26,7 +26,7 @@ class Magento_Invitation_Model_Observer
     /**
      * Invitation configuration
      *
-     * @var Enterprise_Invitation_Model_Config
+     * @var Magento_Invitation_Model_Config
      */
     protected $_config;
 

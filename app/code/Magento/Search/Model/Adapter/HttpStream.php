@@ -56,16 +56,16 @@ class Magento_Search_Model_Adapter_HttpStream extends Magento_Search_Model_Adapt
      * Initialize connect to Solr Client
      *
      * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
-     * @param Enterprise_Search_Model_Client_FactoryInterface $clientFactory
+     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Core_Model_Logger $logger
-     * @param Enterprise_Search_Helper_ClientInterface $clientHelper
+     * @param Magento_Search_Helper_ClientInterface $clientHelper
      * @param  $options
      */
     public function __construct(
         Magento_CatalogInventory_Helper_Data $ctlgInventData,
-        Enterprise_Search_Model_Client_FactoryInterface $clientFactory,
+        Magento_Search_Model_Client_FactoryInterface $clientFactory,
         Magento_Core_Model_Logger $logger,
-        Enterprise_Search_Helper_ClientInterface $clientHelper,
+        Magento_Search_Helper_ClientInterface $clientHelper,
         $options = array()
     ) {
         $this->_ctlgInventData = $ctlgInventData;

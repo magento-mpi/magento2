@@ -51,7 +51,7 @@ class Magento_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
      * Return text for invitation status
      *
      * @param $invitation
-     * @return \Enterprise_Invitation_Model_Invitation
+     * @return Magento_Invitation_Model_Invitation
      */
     public function getInvitationStatusText($invitation)
     {

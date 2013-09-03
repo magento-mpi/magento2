@@ -12,7 +12,7 @@ class Magento_Rma_Block_Order_Guest extends Magento_Core_Block_Template
     /**
      * Rma data
      *
-     * @var Enterprise_Rma_Helper_Data
+     * @var Magento_Rma_Helper_Data
      */
     protected $_rmaData = null;
 
