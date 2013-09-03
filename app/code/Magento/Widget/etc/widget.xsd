@@ -30,39 +30,38 @@
             <xs:documentation>Definition of a widget.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="label" type="xs:string" maxOccurs="1"
-                minOccurs="1" />
-            <xs:element name="description" type="xs:string" maxOccurs="1"
-                minOccurs="1" />
-            <xs:element name="parameter" type="parameterType"
-                maxOccurs="unbounded" minOccurs="0" />
-            <xs:element name="container" type="containerType"
-                maxOccurs="unbounded" minOccurs="0" />
+            <xs:element name="label" type="translatableType" maxOccurs="1" minOccurs="1" />
+            <xs:element name="description" type="translatableType" maxOccurs="1" minOccurs="1" />
+            <xs:element name="parameter" type="parameterType" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element name="container" type="containerType" maxOccurs="unbounded" minOccurs="0" />
         </xs:sequence>
         <xs:attribute name="id" type="xs:ID" use="required" />
-        <xs:attribute name="translate" type="xs:NMTOKENS" />
         <xs:attribute name="class" type="xs:string" use="required" />
         <xs:attribute name="is_email_compatible" type="xs:boolean" />
         <xs:attribute name="placeholder_image" type="xs:string" />
     </xs:complexType>
 
+    <xs:complexType name="translatableType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="translate" use="optional" fixed="true" type="xs:boolean"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
     <xs:complexType name="parameterType" abstract="true">
         <xs:annotation>
-            <xs:documentation>Abstract type which is parent of all
-                parameters. Contains attributes and elements common
-                across all parameter types.
+            <xs:documentation>
+                Abstract type which is parent of all parameters. Contains attributes
+                and elements common across all parameter types.
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="label" type="xs:string" minOccurs="0"
-                maxOccurs="1" />
-            <xs:element name="description" type="xs:string" minOccurs="0"
-                maxOccurs="1" />
-            <xs:element name="depends" type="dependsType"
-                minOccurs="0" maxOccurs="1" />
+            <xs:element name="label" type="translatableType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="description" type="translatableType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="depends" type="dependsType" minOccurs="0" maxOccurs="1" />
         </xs:sequence>
         <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
-        <xs:attribute name="translate" type="xs:NMTOKENS" />
         <xs:attribute name="visible" type="xs:boolean" />
         <xs:attribute name="sort_order" type="xs:int" />
         <xs:attribute name="required" type="xs:string" />
@@ -70,8 +69,9 @@
 
     <xs:complexType name="dependsParameterType">
         <xs:annotation>
-            <xs:documentation>The parameter name and the value it must be
-                to satisfy this dependency.</xs:documentation>
+            <xs:documentation>
+                The parameter name and the value it must be to satisfy this dependency.
+            </xs:documentation>
         </xs:annotation>
         <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
         <xs:attribute name="value" type="xs:string" use="required" />
@@ -79,8 +79,7 @@
 
     <xs:complexType name="block">
         <xs:annotation>
-            <xs:documentation>Parameter type which supplies a renderer.
-            </xs:documentation>
+            <xs:documentation>Parameter type which supplies a renderer.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="parameterType">
@@ -102,8 +101,7 @@
 
     <xs:complexType name="blockType">
         <xs:annotation>
-            <xs:documentation>Class and data needed to render the
-                parameter.</xs:documentation>
+            <xs:documentation>Class and data needed to render the parameter.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="data" minOccurs="0" type="dataType" />
@@ -118,8 +116,7 @@
         <xs:complexContent>
             <xs:extension base="parameterType">
                 <xs:sequence>
-                    <xs:element name="value" type="xs:string"
-                        minOccurs="0" maxOccurs="1" />
+                    <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="1" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -127,8 +124,7 @@
 
     <xs:complexType name="select">
         <xs:annotation>
-            <xs:documentation>Parameter type which has a list of options.
-            </xs:documentation>
+            <xs:documentation>Parameter type which has a list of options.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="parameterType">
@@ -142,22 +138,19 @@
 
     <xs:complexType name="optionType">
         <xs:annotation>
-            <xs:documentation>An option of a select parameter.
-            </xs:documentation>
+            <xs:documentation>An option of a select parameter.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="label" type="xs:string" />
+            <xs:element name="label" type="translatableType" />
         </xs:sequence>
         <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
-        <xs:attribute name="translate" type="xs:NMTOKENS" />
         <xs:attribute name="value" type="xs:string" use="required" />
         <xs:attribute name="selected" type="xs:boolean" />
     </xs:complexType>
 
     <xs:complexType name="multiselect">
         <xs:annotation>
-            <xs:documentation>Display a parameter with a multi-select box.
-            </xs:documentation>
+            <xs:documentation>Display a parameter with a multi-select box.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="parameterType">
@@ -168,12 +161,10 @@
 
     <xs:complexType name="containerType">
         <xs:annotation>
-            <xs:documentation>Specifies the widget's sections and
-                templates.</xs:documentation>
+            <xs:documentation>Specifies the widget's sections and templates.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="template" type="templateType"
-                minOccurs="1" maxOccurs="unbounded" />
+            <xs:element name="template" type="templateType" minOccurs="1" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="section" type="xs:string" use="required" />
         <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
@@ -189,8 +180,7 @@
 
     <xs:complexType name="dependsType">
         <xs:annotation>
-            <xs:documentation>List of parameters this parameter depends on.
-            </xs:documentation>
+            <xs:documentation>List of parameters this parameter depends on.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="parameter" type="dependsParameterType" />
