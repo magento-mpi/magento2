@@ -18,7 +18,8 @@ class Magento_Payment_Model_Method_CashondeliveryTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_object = new Magento_Payment_Model_Method_Cashondelivery;
+        $paymentDataMock = $this->getMock('Magento_Payment_Helper_Data', array(), array(), '', false);
+        $this->_object = new Magento_Payment_Model_Method_Cashondelivery($paymentDataMock);
     }
 
     public function testGetInfoBlockType()

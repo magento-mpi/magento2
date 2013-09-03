@@ -18,7 +18,8 @@ class Magento_Payment_Model_Method_BanktransferTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $this->_object = new Magento_Payment_Model_Method_Banktransfer;
+        $paymentDataMock = $this->getMock('Magento_Payment_Helper_Data', array(), array(), '', false);
+        $this->_object = new Magento_Payment_Model_Method_Banktransfer($paymentDataMock);
     }
 
     public function testGetInfoBlockType()

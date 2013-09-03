@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Helper_Product_Configuration_ConfigurationPool
+class Magento_Catalog_Helper_Product_ConfigurationPool
 {
     /**
      * @var Magento_ObjectManager

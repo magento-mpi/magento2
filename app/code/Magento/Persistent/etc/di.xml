@@ -8,9 +8,12 @@
  */
 -->
 <config>
-    <type name="Magento_Persistent_Helper_Session">
-        <param name="persistentData">
-            <instance type="Magento_Persistent_Helper_Data_Proxy" />
+    <type name="Magento_Persistent_Helper_Data">
+        <param name="persistentSession">
+            <instance type="Magento_Persistent_Helper_SessionProxy" />
+        </param>
+        <param name="config">
+            <instance type="Magento_Core_Model_Config_ModulesProxy" />
         </param>
     </type>
 </config>

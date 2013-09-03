@@ -27,7 +27,7 @@ class Magento_GoogleAdwords_Block_Code extends Magento_Core_Block_Template
         array $data = array()
     ) {
         $this->_googleAdwordsData = $googleAdwordsData;
-        parent::__construct($coreData, $data, $context);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

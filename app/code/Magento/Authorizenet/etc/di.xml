@@ -10,12 +10,10 @@
 <config>
     <type name="Magento_Authorizenet_Model_Directpost_Observer">
         <param name="authorizenetData">
-            <value>Magento_Authorizenet_Helper_Data_Proxy</value>
+            <instance type="Magento_Authorizenet_Helper_Data_Proxy" />
         </param>
-    </type>
-    <type name="Magento_Authorizenet_Model_Directpost_Observer">
         <param name="coreData">
-            <value>Magento_Core_Helper_Data_Proxy</value>
+            <instance type="Magento_Core_Helper_Data_Proxy" />
         </param>
     </type>
 </config>

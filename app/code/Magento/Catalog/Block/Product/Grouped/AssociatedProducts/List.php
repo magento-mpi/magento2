@@ -45,7 +45,7 @@ class Magento_Catalog_Block_Product_Grouped_AssociatedProducts_List extends Mage
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($coreData, $registry, $context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
         $this->_registry = $registry;
     }
