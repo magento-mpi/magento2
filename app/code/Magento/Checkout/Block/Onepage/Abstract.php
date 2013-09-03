@@ -42,6 +42,17 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
     }
 
     /**
+     * Get config
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public function getConfig($path)
+    {
+        return $this->_storeConfig->getConfig($path);
+    }
+
+    /**
      * Get logged in customer
      *
      * @return Magento_Customer_Model_Customer
@@ -202,7 +213,6 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
     {
         return array('login', 'billing', 'shipping', 'shipping_method', 'payment', 'review');
     }
-
 
     /**
      * Retrieve is allow and show block

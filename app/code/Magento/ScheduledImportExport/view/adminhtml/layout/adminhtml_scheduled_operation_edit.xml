@@ -12,7 +12,7 @@
         <reference name="content">
             <block class="Magento_ImportExport_Block_Adminhtml_Import_Edit_Before" template="Magento_ScheduledImportExport::scheduled/form/before.phtml" name="export.form.before" alias="form_before"/>
             <block class="Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit" name="operation.edit"/>
-            <block class="Magento_Adminhtml_Block_Template" template="Magento_ScheduledImportExport::scheduled/form/after.phtml" name="operation.form.after"/>
+            <block class="Magento_ImportExport_Block_Adminhtml_Form_After" template="Magento_ScheduledImportExport::scheduled/form/after.phtml" name="operation.form.after"/>
             <block class="Magento_Adminhtml_Block_Template" template="Magento_ImportExport::export/form/filter/after.phtml" name="export.form.after" alias="form_after"/>
         </reference>
     </handle>

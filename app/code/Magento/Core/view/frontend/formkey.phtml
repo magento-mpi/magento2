@@ -8,4 +8,5 @@
  * @license     {license_link}
  */
 ?>
-<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('Magento_Core_Model_Session')->getFormKey() ?>" />
+<?php /** @var $this Magento_Core_Block_Formkey */ ?>
+<input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />

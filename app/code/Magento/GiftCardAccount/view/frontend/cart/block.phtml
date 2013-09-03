@@ -38,7 +38,7 @@
                     $('#giftcard-form').giftCard({
                         giftCardCodeSelector: '#giftcard-code',
                         checkStatus: 'button.check-gc-status',
-                        giftCardStatusUrl: '<?php echo Mage::getUrl('magento_giftcardaccount/cart/quickCheck') ?>',
+                        giftCardStatusUrl: '<?php echo $this->getUrl('magento_giftcardaccount/cart/quickCheck') ?>',
                         giftCardStatusId: '#giftcard_balance_lookup',
                         giftCardSpinnerId: '#gc-please-wait'
                     }).validation();

@@ -41,7 +41,7 @@ class Magento_Index_Model_Process_FileTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager   = Mage::getObjectManager();
+        $this->_objectManager   = Magento_Test_Helper_Bootstrap::getObjectManager();
         $this->_model           = $this->_objectManager->create('Magento_Index_Model_Process_File');
         /** @var $dir Magento_Core_Model_Dir */
         $dir = $this->_objectManager->get('Magento_Core_Model_Dir');

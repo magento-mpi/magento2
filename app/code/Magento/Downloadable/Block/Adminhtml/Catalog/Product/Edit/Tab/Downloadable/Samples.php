@@ -28,6 +28,25 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     protected $_template = 'product/edit/downloadable/samples.phtml';
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Get model of the product that is being edited
      *
      * @return Magento_Catalog_Model_Product
@@ -191,5 +210,15 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         }
 
         return $this->_config;
+    }
+
+    /**
+     * Get is single store mode
+     *
+     * @return bool
+     */
+    public function isSingleStoreMode()
+    {
+        return $this->_storeManager->isSingleStoreMode();
     }
 }

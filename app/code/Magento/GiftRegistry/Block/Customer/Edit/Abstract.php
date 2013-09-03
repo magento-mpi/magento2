@@ -16,7 +16,6 @@
  */
 abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento_Directory_Block_Data
 {
-
     /**
      * Registry Entity object
      *
@@ -44,6 +43,17 @@ abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento
      * @var string
      */
     protected $_prefix;
+
+    /**
+     * Get config
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public function getConfig($path)
+    {
+        return $this->_storeConfig->getConfig($path);
+    }
 
     /**
      * Getter, return entity object , instantiated in controller
