@@ -25,7 +25,8 @@ class Magento_Payment_Block_Catalog_Product_View_ProfileTest extends PHPUnit_Fra
         Mage::register('current_product', $product);
         $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Payment_Block_Catalog_Product_View_Profile');
-        $block->setLayout(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout'));
+        $block->setLayout(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout'));
 
         $html = $block->getDateHtml();
         $this->assertNotEmpty($html);

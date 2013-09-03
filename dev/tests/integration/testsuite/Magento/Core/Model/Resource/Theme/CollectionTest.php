@@ -195,7 +195,8 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
         $themeCollection->load();
         foreach (self::getThemeList() as $themeData) {
             /** @var $themeModel Magento_Core_Model_Theme */
-            $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Theme');
+            $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->create('Magento_Core_Model_Theme');
             $themeModel->setData($themeData);
             $themeCollection->addItem($themeModel);
         }
@@ -211,7 +212,8 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
         $idByPath = array();
         foreach ($fixture as $themeData) {
             /** @var $themeModel Magento_Core_Model_Theme */
-            $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Theme');
+            $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->create('Magento_Core_Model_Theme');
             $themeModel->setData($themeData);
 
             if ($themeData['parent_id'] && isset($idByPath[$themeData['parent_id']])) {

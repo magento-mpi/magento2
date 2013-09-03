@@ -52,7 +52,8 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
 
         $this->_model->dispatch($topic, $data);
 
-        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_PubSub_Event_QueueReaderInterface');
+        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_PubSub_Event_QueueReaderInterface');
         $event = $queue->poll();
 
         $this->assertEquals($topic, $event->getTopic());

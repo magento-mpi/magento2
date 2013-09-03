@@ -191,7 +191,8 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
         $existingProductIds = array(10, 11, 12);
         $productsBeforeImport = array();
         foreach ($existingProductIds as $productId) {
-            $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Catalog_Model_Product');
+            $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->create('Magento_Catalog_Model_Product');
             $product->load($productId);
             $productsBeforeImport[$product->getSku()] = $product;
         }

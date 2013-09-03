@@ -17,10 +17,11 @@ class Magento_Test_Integrity_Magento_Widget_SkinFilesTest extends PHPUnit_Framew
     public function testWidgetPlaceholderImages($skinImage)
     {
         $this->assertFileExists(
-            Magento_TestFramework_Helper_Bootstrap::getObjectmanager()->get('Magento_Core_Model_View_FileSystem')->getViewFile(
-                $skinImage,
-                array('area' => 'adminhtml')
-            )
+            Magento_TestFramework_Helper_Bootstrap::getObjectmanager()
+                ->get('Magento_Core_Model_View_FileSystem')->getViewFile(
+                    $skinImage,
+                    array('area' => 'adminhtml')
+                )
         );
     }
 

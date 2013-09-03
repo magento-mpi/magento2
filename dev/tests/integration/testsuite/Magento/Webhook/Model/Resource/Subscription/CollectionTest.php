@@ -64,7 +64,8 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         Mage::getConfig()->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');
 
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setAlias('inactive')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/endpoint')
@@ -76,7 +77,8 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $this->_subscriptions[] = $subscription;
 
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setAlias('first')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/endpoint')
@@ -87,7 +89,8 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setAlias('second')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/unique_endpoint')
@@ -98,7 +101,8 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setAlias('third')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/unique_endpoint')

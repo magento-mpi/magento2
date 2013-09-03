@@ -35,7 +35,8 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
         }
 
         /** @var $factory Magento_Webhook_Model_Event_Factory */
-        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_PubSub_Event_FactoryInterface');
+        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_PubSub_Event_FactoryInterface');
 
         /** @var $event Magento_Webhook_Model_Event */
         $factory->create('testinstance/created', array(
@@ -67,7 +68,8 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
         ));
 
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setData(
             array(
                 'name' => 'test',
@@ -81,7 +83,8 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ))->save();
 
         // Simulate activating of the subscription
-        $webApiUser = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webapi_Model_Acl_User')
+        $webApiUser = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webapi_Model_Acl_User')
             ->setData('api_key', 'test')
             ->setData('secret', 'secret')
             ->save();
@@ -91,7 +94,8 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
             ->save();;
 
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_PubSub_Event_QueueHandler');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_PubSub_Event_QueueHandler');
     }
 
     /**
@@ -101,7 +105,8 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->handle();
         /** @var $queue Magento_PubSub_Job_QueueReaderInterface */
-        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_PubSub_Job_QueueReaderInterface');
+        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_PubSub_Job_QueueReaderInterface');
 
         /* First EVENT */
         $job = $queue->poll();

@@ -27,7 +27,8 @@ class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
                 Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_View_FileSystem');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_FileSystem');
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme('test_default');

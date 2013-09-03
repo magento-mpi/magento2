@@ -291,7 +291,8 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         // Without layout
         /** @var $blockFactory Magento_Core_Model_BlockFactory */
-        $blockFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_BlockFactory');
+        $blockFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_BlockFactory');
         $block1 = $blockFactory->createBlock('Magento_Core_Block_Text');
         $block1->setText('Block text');
         $block1->setNameInLayout('block');

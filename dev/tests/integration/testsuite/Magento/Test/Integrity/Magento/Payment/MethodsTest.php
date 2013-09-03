@@ -23,7 +23,8 @@ class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framewo
     public function testPaymentMethod($code, $methodClass)
     {
         /** @var $blockFactory Magento_Core_Model_BlockFactory */
-        $blockFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_BlockFactory');
+        $blockFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_BlockFactory');
         $storeId = Mage::app()->getStore()->getId();
         /** @var $model Magento_Payment_Model_Method_Abstract */
         if (empty($methodClass)) {

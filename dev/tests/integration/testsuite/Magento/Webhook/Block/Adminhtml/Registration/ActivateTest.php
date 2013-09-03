@@ -36,7 +36,8 @@ class Magento_Webhook_Block_Adminhtml_Registration_ActivateTest extends PHPUnit_
             $subscriptionData);
 
         /** @var Magento_Core_Block_Template_Context $context */
-        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Block_Template_Context');
+        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Block_Template_Context');
 
         /** @var Magento_Webhook_Block_Adminhtml_Registration_Activate $block */
         $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
