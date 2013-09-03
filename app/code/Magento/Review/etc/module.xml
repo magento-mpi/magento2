@@ -20,7 +20,6 @@
             <module name="Magento_Rating"/>
             <module name="Magento_Page"/>
             <module name="Magento_Backend"/>
-            <module name="Magento_Paypal"/>
         </depends>
     </module>
 </config>

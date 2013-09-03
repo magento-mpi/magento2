@@ -24,7 +24,7 @@
             <module name="Magento_Backend"/>
             <module name="Magento_Api"/>
             <module name="Magento_Paypal"/>
-            <module name="Magento_Page"/>
+            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>
