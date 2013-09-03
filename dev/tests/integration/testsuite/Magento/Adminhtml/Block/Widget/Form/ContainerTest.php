@@ -21,7 +21,10 @@ class Magento_Adminhtml_Block_Widget_Form_ContainerTest extends PHPUnit_Framewor
         // Create block with blocking _prepateLayout(), which is used by block to instantly add 'form' child
         /** @var $block Magento_Adminhtml_Block_Widget_Form_Container */
         $block = $this->getMock('Magento_Adminhtml_Block_Widget_Form_Container', array('_prepareLayout'),
-            array(Mage::getModel('Magento_Backend_Block_Template_Context'))
+            array(
+                Mage::getObjectManager()->create('Magento_Core_Helper_Data'),
+                Mage::getObjectManager()->create('Magento_Backend_Block_Template_Context'),
+            )
         );
 
         $layout->addBlock($block, 'block');

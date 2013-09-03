@@ -22,7 +22,8 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
     {
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $arguments = array(
-            Mage::getObjectManager()->get('Magento_Backend_Block_Template_Context')
+            Mage::getObjectManager()->get('Magento_Core_Helper_Data'),
+            Mage::getObjectManager()->get('Magento_Backend_Block_Template_Context'),
         );
         /** @var $block Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract */
         $block = $this->getMockForAbstractClass('Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract', $arguments);
