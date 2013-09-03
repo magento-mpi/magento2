@@ -7,70 +7,70 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_invitation_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_invitation_grid">
         <update handle="adminhtml_report_grid"/>
         <reference name="adminhtml.report.grid">
             <arguments>
-                <id>report_invitation_general</id>
-                <dataSource type="object">Magento_Invitation_Model_Resource_Report_Invitation_Collection_Initial</dataSource>
+                <argument name="id" xsi:type="string">report_invitation_general</argument>
+                <argument name="dataSource" xsi:type="object">Magento_Invitation_Model_Resource_Report_Invitation_Collection_Initial</argument>
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.columnSet">
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="sent">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="sent">
                 <arguments>
-                    <header translate="true">Sent</header>
-                    <type>number</type>
-                    <index>sent</index>
-                    <id>sent</id>
-                    <header_css_class>col-inv-sent</header_css_class>
-                    <column_css_class>col-inv-sent</column_css_class>
+                    <argument name="header" xsi:type="string" translate="true">Sent</argument>
+                    <argument name="type" xsi:type="string">number</argument>
+                    <argument name="index" xsi:type="string">sent</argument>
+                    <argument name="id" xsi:type="string">sent</argument>
+                    <argument name="header_css_class" xsi:type="string">col-inv-sent</argument>
+                    <argument name="column_css_class" xsi:type="string">col-inv-sent</argument>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
                 <arguments>
-                    <header translate="true">Accepted</header>
-                    <type>number</type>
-                    <index>accepted</index>
-                    <id>accepted</id>
-                    <header_css_class>col-inv-acc</header_css_class>
-                    <column_css_class>col-inv-acc</column_css_class>
+                    <argument name="header" xsi:type="string" translate="true">Accepted</argument>
+                    <argument name="type" xsi:type="string">number</argument>
+                    <argument name="index" xsi:type="string">accepted</argument>
+                    <argument name="id" xsi:type="string">accepted</argument>
+                    <argument name="header_css_class" xsi:type="string">col-inv-acc</argument>
+                    <argument name="column_css_class" xsi:type="string">col-inv-acc</argument>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="canceled">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="canceled">
                 <arguments>
-                    <header translate="true">Discarded</header>
-                    <type>number</type>
-                    <index>canceled</index>
-                    <id>canceled</id>
-                    <header_css_class>col-inv-disc</header_css_class>
-                    <column_css_class>col-inv-disc</column_css_class>
+                    <argument name="header" xsi:type="string" translate="true">Discarded</argument>
+                    <argument name="type" xsi:type="string">number</argument>
+                    <argument name="index" xsi:type="string">canceled</argument>
+                    <argument name="id" xsi:type="string">canceled</argument>
+                    <argument name="header_css_class" xsi:type="string">col-inv-disc</argument>
+                    <argument name="column_css_class" xsi:type="string">col-inv-disc</argument>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="accepted_rate">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="accepted_rate">
                 <arguments>
-                    <header translate="true">Accept Rate</header>
-                    <type>string</type>
-                    <index>accepted_rate</index>
-                    <id>accepted_rated</id>
-                    <width>170</width>
-                    <renderer>Magento_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent</renderer>
-                    <header_css_class>col-inv-acc-rate</header_css_class>
-                    <column_css_class>col-inv-acc-rate</column_css_class>
+                    <argument name="header" xsi:type="string" translate="true">Accept Rate</argument>
+                    <argument name="type" xsi:type="string">string</argument>
+                    <argument name="index" xsi:type="string">accepted_rate</argument>
+                    <argument name="id" xsi:type="string">accepted_rated</argument>
+                    <argument name="width" xsi:type="string">170</argument>
+                    <argument name="renderer" xsi:type="string">Magento_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent</argument>
+                    <argument name="header_css_class" xsi:type="string">col-inv-acc-rate</argument>
+                    <argument name="column_css_class" xsi:type="string">col-inv-acc-rate</argument>
                 </arguments>
             </block>
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="canceled_rate">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="canceled_rate">
                 <arguments>
-                    <header translate="true">Discard Rate</header>
-                    <type>number</type>
-                    <index>canceled_rate</index>
-                    <id>canceled_rate</id>
-                    <width>170</width>
-                    <renderer>Magento_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent</renderer>
-                    <header_css_class>col-inv-disc-rate</header_css_class>
-                    <column_css_class>col-inv-disc-rate</column_css_class>
+                    <argument name="header" xsi:type="string" translate="true">Discard Rate</argument>
+                    <argument name="type" xsi:type="string">number</argument>
+                    <argument name="index" xsi:type="string">canceled_rate</argument>
+                    <argument name="id" xsi:type="string">canceled_rate</argument>
+                    <argument name="width" xsi:type="string">170</argument>
+                    <argument name="renderer" xsi:type="string">Magento_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent</argument>
+                    <argument name="header_css_class" xsi:type="string">col-inv-disc-rate</argument>
+                    <argument name="column_css_class" xsi:type="string">col-inv-disc-rate</argument>
                 </arguments>
             </block>
         </reference>
-    </adminhtml_report_invitation_grid>
+    </handle>
 </layout>

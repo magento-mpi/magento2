@@ -7,26 +7,25 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <contacts_index_index translate="label" type="page" parent="cms_page_view">
-        <label>Contact Us Form</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Contact Us Form" id="contacts_index_index" type="page" parent="cms_page_view">
         <reference name="head">
-            <action method="setTitle" translate="title">
-                <title>Contact Us</title>
+            <action method="setTitle">
+                <argument translate="true" name="title" xsi:type="string">Contact Us</argument>
             </action>
         </reference>
         <reference name="root">
             <action method="setTemplate">
-                <template>2columns-right.phtml</template>
+                <argument name="template" xsi:type="string">2columns-right.phtml</argument>
             </action>
-            <action method="setHeaderTitle" translate="title">
-                <title>Contact Us</title>
+            <action method="setHeaderTitle">
+                <argument translate="true" name="title" xsi:type="string">Contact Us</argument>
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Core_Block_Template" name="contactForm" template="Magento_Contacts::form.phtml">
+            <block class="Magento_Core_Block_Template" name="contactForm" template="Magento_Contacts::form.phtml">
                 <container name="form.additional.info" label="Form Additional Info"/>
             </block>
         </reference>
-    </contacts_index_index>
+    </handle>
 </layout>

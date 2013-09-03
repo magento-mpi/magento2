@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_additional>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_additional">
         <reference name="root">
-            <block type="Magento_GiftWrapping_Block_Checkout_Options" name="checkout.options" output="1" template="checkout/options.phtml"/>
+            <block class="Magento_GiftWrapping_Block_Checkout_Options" name="checkout.options" output="1" template="checkout/options.phtml"/>
         </reference>
-    </checkout_onepage_additional>
+    </handle>
 </layout>

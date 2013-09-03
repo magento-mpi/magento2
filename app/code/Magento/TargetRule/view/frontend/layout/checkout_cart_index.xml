@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_cart_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_cart_index">
         <reference name="checkout.cart">
             <!-- remove name="checkout.cart.crosssell" / -->
-            <block type="Magento_TargetRule_Block_Checkout_Cart_Crosssell" name="checkout.cart.crosssell" as="crosssell" template="checkout/cart/crosssell.phtml">
+            <block class="Magento_TargetRule_Block_Checkout_Cart_Crosssell" name="checkout.cart.crosssell" as="crosssell" template="checkout/cart/crosssell.phtml">
             </block>
         </reference>
-    </checkout_cart_index>
+    </handle>
 </layout>

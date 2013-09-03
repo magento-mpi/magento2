@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_invoice_updateqty>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_invoice_updateqty">
         <reference name="invoice_totals">
-            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="giftcardaccount" template="Magento_GiftCardAccount::sales/invoice/totals/giftcardaccount.phtml">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="giftcardaccount" template="Magento_GiftCardAccount::sales/invoice/totals/giftcardaccount.phtml">
                 <action method="setBeforeCondition">
-                    <param>customerbalance</param>
+                    <argument name="param" xsi:type="string">customerbalance</argument>
                 </action>
             </block>
         </reference>
-    </adminhtml_sales_order_invoice_updateqty>
+    </handle>
 </layout>

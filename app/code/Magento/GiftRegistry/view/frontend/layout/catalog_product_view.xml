@@ -7,18 +7,18 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <catalog_product_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_product_view">
         <reference name="product.info">
-            <block type="Magento_GiftRegistry_Block_Product_View" name="giftregistry.product.view.customize.button">
+            <block class="Magento_GiftRegistry_Block_Product_View" name="giftregistry.product.view.customize.button">
                 <action method="setGiftRegistryTemplate">
-                    <blockName>product.info.addtocart.additional</blockName>
-                    <template>Magento_GiftRegistry::product/addtocart.phtml</template>
+                    <argument name="blockName" xsi:type="string">product.info.addtocart.additional</argument>
+                    <argument name="template" xsi:type="string">Magento_GiftRegistry::product/addtocart.phtml</argument>
                 </action>
                 <action method="setGiftRegistryUrl">
-                    <blockName>product.info.addtocart.additional</blockName>
+                    <argument name="blockName" xsi:type="string">product.info.addtocart.additional</argument>
                 </action>
             </block>
         </reference>
-    </catalog_product_view>
+    </handle>
 </layout>

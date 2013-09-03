@@ -7,32 +7,32 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_customer_totals_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_customer_totals_grid">
         <update handle="adminhtml_report_customer_orders_grid"/>
         <reference name="adminhtml.report.grid">
             <arguments>
-                <id>gridTotalsCustomer</id>
-                <dataSource type="object">Magento_Reports_Model_Resource_Customer_Totals_Collection_Initial</dataSource>
+                <argument name="id" xsi:type="string">gridTotalsCustomer</argument>
+                <argument name="dataSource" xsi:type="object">Magento_Reports_Model_Resource_Customer_Totals_Collection_Initial</argument>
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.export">
             <arguments>
-                <exportTypes>
-                    <csv>
-                        <urlPath>*/*/exportTotalsCsv</urlPath>
-                    </csv>
-                    <excel>
-                        <urlPath>*/*/exportTotalsExcel</urlPath>
-                    </excel>
-                </exportTypes>
+                <argument name="exportTypes" xsi:type="array">
+                    <item name="csv" xsi:type="array">
+                        <item name="urlPath" xsi:type="string">*/*/exportTotalsCsv</item>
+                    </item>
+                    <item name="excel" xsi:type="array">
+                        <item name="urlPath" xsi:type="string">*/*/exportTotalsExcel</item>
+                    </item>
+                </argument>
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.columnSet">
             <arguments>
-                <count_totals>1</count_totals>
-                <id>gridTotalsCustomerSet</id>
+                <argument name="count_totals" xsi:type="string">1</argument>
+                <argument name="id" xsi:type="string">gridTotalsCustomerSet</argument>
             </arguments>
         </reference>
-    </adminhtml_report_customer_totals_grid>
+    </handle>
 </layout>

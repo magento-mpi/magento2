@@ -7,11 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <wishlist_shared_index translate="label" type="page" parent="wishlist_index_share">
-        <label>Customer Shared Wishlist View</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer Shared Wishlist View" id="wishlist_shared_index" type="page" parent="wishlist_index_share">
         <reference name="content">
-            <block type="Magento_Wishlist_Block_Share_Wishlist" name="customer.wishlist" template="shared.phtml"/>
+            <block class="Magento_Wishlist_Block_Share_Wishlist" name="customer.wishlist" template="shared.phtml"/>
         </reference>
-    </wishlist_shared_index>
+    </handle>
 </layout>

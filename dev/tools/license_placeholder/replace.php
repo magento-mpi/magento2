@@ -13,7 +13,7 @@
 $sourceDir = realpath(__DIR__ . '/../../..');
 
 // scan for files (split up into several calls to overcome maximum limitation of 260 chars in glob pattern)
-$files = globDir($sourceDir, '*.{xml,xml.template,xml.additional,xml.dist,xml.sample,xsd,mxml}', GLOB_BRACE);
+$files = globDir($sourceDir, '*.{xml,xml.template,xml.additional,xml.dist,xml.sample,xsd,mxml,xsl}', GLOB_BRACE);
 $files = array_merge($files, globDir($sourceDir, '*.{php,php.sample,phtml,html,htm,css,js,as,sql,twig}', GLOB_BRACE));
 
 // exclude files from blacklist

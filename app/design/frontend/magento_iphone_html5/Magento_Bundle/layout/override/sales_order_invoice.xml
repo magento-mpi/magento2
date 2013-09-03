@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_order_invoice>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_order_invoice">
         <reference name="invoice_items">
             <action method="addItemRender">
-                <type>bundle</type>
-                <block>Magento_Bundle_Block_Sales_Order_Items_Renderer</block>
-                <template>sales/order/invoice/items/renderer.phtml</template>
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Sales_Order_Items_Renderer</argument>
+                <argument name="template" xsi:type="string">sales/order/invoice/items/renderer.phtml</argument>
             </action>
         </reference>
-    </sales_order_invoice>
+    </handle>
 </layout>

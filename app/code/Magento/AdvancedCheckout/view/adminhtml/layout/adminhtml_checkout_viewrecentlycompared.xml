@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_checkout_viewrecentlycompared>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_checkout_viewrecentlycompared">
         <remove name="root"/>
-        <block type="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared" name="checkout.accordion.rcompared" output="1"/>
-    </adminhtml_checkout_viewrecentlycompared>
+        <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared" name="checkout.accordion.rcompared" output="1"/>
+    </handle>
 </layout>

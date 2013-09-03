@@ -7,106 +7,106 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_newsletter_queue_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_newsletter_queue_grid_block">
         <reference name="adminhtml.newsletter.queue.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.newsletter.queue.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.newsletter.queue.grid" as="grid">
                 <arguments>
-                    <id>queueGrid</id>
-                    <dataSource type="object">Magento_Newsletter_Model_Resource_Queue_Grid_Collection</dataSource>
-                    <default_sort>start_at</default_sort>
-                    <default_dir>DESC</default_dir>
-                    <save_parameters_in_session>1</save_parameters_in_session>
-                    <use_ajax>1</use_ajax>
+                    <argument name="id" xsi:type="string">queueGrid</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Newsletter_Model_Resource_Queue_Grid_Collection</argument>
+                    <argument name="default_sort" xsi:type="string">start_at</argument>
+                    <argument name="default_dir" xsi:type="string">DESC</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+                    <argument name="use_ajax" xsi:type="string">1</argument>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.newsletter.queue.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.newsletter.queue.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <rowUrl>
-                            <path>*/*/edit</path>
-                            <extraParamsTemplate>
-                                <id>getId</id>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="queue_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="queue_id">
                         <arguments>
-                            <header translate="true">ID</header>
-                            <index>queue_id</index>
-                            <header_css_class>col-id</header_css_class>
-                            <column_css_class>col-id</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
+                            <argument name="index" xsi:type="string">queue_id</argument>
+                            <argument name="header_css_class" xsi:type="string">col-id</argument>
+                            <argument name="column_css_class" xsi:type="string">col-id</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="start_at">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="start_at">
                         <arguments>
-                            <header translate="true">Queue Start</header>
-                            <type>datetime</type>
-                            <index>queue_start_at</index>
-                            <gmtoffset>1</gmtoffset>
-                            <default> ---- </default>
-                            <header_css_class>col-start</header_css_class>
-                            <column_css_class>col-start</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Queue Start</argument>
+                            <argument name="type" xsi:type="string">datetime</argument>
+                            <argument name="index" xsi:type="string">queue_start_at</argument>
+                            <argument name="gmtoffset" xsi:type="string">1</argument>
+                            <argument name="default" xsi:type="string"> ---- </argument>
+                            <argument name="header_css_class" xsi:type="string">col-start</argument>
+                            <argument name="column_css_class" xsi:type="string">col-start</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="finish_at">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="finish_at">
                         <arguments>
-                            <header translate="true">Queue End</header>
-                            <type>datetime</type>
-                            <index>queue_finish_at</index>
-                            <gmtoffset>1</gmtoffset>
-                            <default> ---- </default>
-                            <header_css_class>col-finish</header_css_class>
-                            <column_css_class>col-finish</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Queue End</argument>
+                            <argument name="type" xsi:type="string">datetime</argument>
+                            <argument name="index" xsi:type="string">queue_finish_at</argument>
+                            <argument name="gmtoffset" xsi:type="string">1</argument>
+                            <argument name="default" xsi:type="string"> ---- </argument>
+                            <argument name="header_css_class" xsi:type="string">col-finish</argument>
+                            <argument name="column_css_class" xsi:type="string">col-finish</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="newsletter_subject">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="newsletter_subject">
                         <arguments>
-                            <header translate="true">Subject</header>
-                            <index>newsletter_subject</index>
-                            <header_css_class>col-subject</header_css_class>
-                            <column_css_class>col-subject</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Subject</argument>
+                            <argument name="index" xsi:type="string">newsletter_subject</argument>
+                            <argument name="header_css_class" xsi:type="string">col-subject</argument>
+                            <argument name="column_css_class" xsi:type="string">col-subject</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
-                            <header translate="true">Status</header>
-                            <index>queue_status</index>
-                            <type>options</type>
-                            <options type="options">Magento_Newsletter_Model_Queue_Options_Status</options>
-                            <header_css_class>col-status</header_css_class>
-                            <column_css_class>col-status</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Status</argument>
+                            <argument name="index" xsi:type="string">queue_status</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Newsletter_Model_Queue_Options_Status"/>
+                            <argument name="header_css_class" xsi:type="string">col-status</argument>
+                            <argument name="column_css_class" xsi:type="string">col-status</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="subscribers_sent">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="subscribers_sent">
                         <arguments>
-                            <header translate="true">Processed</header>
-                            <type>number</type>
-                            <index>subscribers_sent</index>
-                            <header_css_class>col-processed</header_css_class>
-                            <column_css_class>col-processed</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Processed</argument>
+                            <argument name="type" xsi:type="string">number</argument>
+                            <argument name="index" xsi:type="string">subscribers_sent</argument>
+                            <argument name="header_css_class" xsi:type="string">col-processed</argument>
+                            <argument name="column_css_class" xsi:type="string">col-processed</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="subscribers_total">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="subscribers_total">
                         <arguments>
-                            <header translate="true">Recipients</header>
-                            <type>number</type>
-                            <index>subscribers_total</index>
-                            <header_css_class>col-recipients</header_css_class>
-                            <column_css_class>col-recipients</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Recipients</argument>
+                            <argument name="type" xsi:type="string">number</argument>
+                            <argument name="index" xsi:type="string">subscribers_total</argument>
+                            <argument name="header_css_class" xsi:type="string">col-recipients</argument>
+                            <argument name="column_css_class" xsi:type="string">col-recipients</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
-                            <header translate="true">Action</header>
-                            <filter>0</filter>
-                            <sortable>0</sortable>
-                            <no_link>1</no_link>
-                            <renderer>Magento_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action</renderer>
-                            <header_css_class>col-actions</header_css_class>
-                            <column_css_class>col-actions</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Action</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="no_link" xsi:type="string">1</argument>
+                            <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action</argument>
+                            <argument name="header_css_class" xsi:type="string">col-actions</argument>
+                            <argument name="column_css_class" xsi:type="string">col-actions</argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_newsletter_queue_grid_block>
+    </handle>
 </layout>

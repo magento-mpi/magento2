@@ -7,35 +7,34 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <customer_account_create translate="label" type="page" parent="customer_account">
-        <label>Customer Account Registration Form</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer Account Registration Form" id="customer_account_create" type="page" parent="customer_account">
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Customer_Block_Form_Register" name="customer_form_register" template="form/register.phtml">
+            <block class="Magento_Customer_Block_Form_Register" name="customer_form_register" template="form/register.phtml">
                 <container name="customer.form.register.fields.before" as="form_fields_before" label="Form Fields Before" htmlTag="div" htmlClass="customer-form-before"/>
-                <block type="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+                <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
                     <action method="setFormCode">
-                        <code>customer_account_create</code>
+                        <argument name="code" xsi:type="string">customer_account_create</argument>
                     </action>
                     <action method="setEntityModelClass">
-                        <code>Magento_Customer_Model_Customer</code>
+                        <argument name="code" xsi:type="string">Magento_Customer_Model_Customer</argument>
                     </action>
                 </block>
-                <block type="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_address_user_attributes">
+                <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_address_user_attributes">
                     <action method="setFormCode">
-                        <code>customer_register_address</code>
+                        <argument name="code" xsi:type="string">customer_register_address</argument>
                     </action>
                     <action method="setEntityModelClass">
-                        <code>Magento_Customer_Model_Address</code>
+                        <argument name="code" xsi:type="string">Magento_Customer_Model_Address</argument>
                     </action>
                 </block>
             </block>
         </reference>
         <update handle="customer_form_template_handle"/>
-    </customer_account_create>
+    </handle>
 </layout>

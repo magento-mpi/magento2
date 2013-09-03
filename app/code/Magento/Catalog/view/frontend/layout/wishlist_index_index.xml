@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <wishlist_index_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="wishlist_index_index">
         <update handle="MAP_popup"/>
         <update handle="MAP_price_msrp_wishlist_item"/>
-    </wishlist_index_index>
+    </handle>
 </layout>

@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_newsletter_queue_preview>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_newsletter_queue_preview">
         <reference name="root">
             <action method="setTemplate">
-                <template>newsletter/preview/iframeswitcher.phtml</template>
+                <argument name="template" xsi:type="string">newsletter/preview/iframeswitcher.phtml</argument>
             </action>
-            <block type="Magento_Adminhtml_Block_Newsletter_Queue_Preview_Form" name="preview_form"/>
-            <block type="Magento_Backend_Block_Store_Switcher" name="store_switcher" template="Magento_Adminhtml::newsletter/preview/store.phtml"/>
+            <block class="Magento_Adminhtml_Block_Newsletter_Queue_Preview_Form" name="preview_form"/>
+            <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher" template="Magento_Adminhtml::newsletter/preview/store.phtml"/>
         </reference>
-    </adminhtml_newsletter_queue_preview>
+    </handle>
 </layout>

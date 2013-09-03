@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_order_printinvoice>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_order_printinvoice">
         <reference name="sales.order.print.invoice">
             <action method="addItemRender">
-                <type>giftcard</type>
-                <block>Magento_GiftCard_Block_Sales_Order_Item_Renderer_Noquote</block>
-                <template>Magento_Sales::order/invoice/items/renderer/default.phtml</template>
+                <argument name="type" xsi:type="string">giftcard</argument>
+                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Sales_Order_Item_Renderer_Noquote</argument>
+                <argument name="template" xsi:type="string">Magento_Sales::order/invoice/items/renderer/default.phtml</argument>
             </action>
         </reference>
-    </sales_order_printinvoice>
+    </handle>
 </layout>

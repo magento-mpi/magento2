@@ -7,72 +7,72 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_giftregistry_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_giftregistry_grid_block">
         <reference name="adminhtml.giftregistry.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.giftregistry.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.giftregistry.grid" as="grid">
                 <arguments>
-                    <id>giftregistryGrid</id>
-                    <dataSource type="object">Magento_GiftRegistry_Model_Resource_GiftRegistry_Collection</dataSource>
-                    <default_sort>type_id</default_sort>
-                    <default_dir>ASC</default_dir>
+                    <argument name="id" xsi:type="string">giftregistryGrid</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_GiftRegistry_Model_Resource_GiftRegistry_Collection</argument>
+                    <argument name="default_sort" xsi:type="string">type_id</argument>
+                    <argument name="default_dir" xsi:type="string">ASC</argument>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.giftregistry.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.giftregistry.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <rowUrl>
-                            <path>*/*/edit</path>
-                            <extraParamsTemplate>
-                                <id>getId</id>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="type_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="type_id">
                         <arguments>
-                            <header translate="true">ID</header>
-                            <align>right</align>
-                            <width>50px</width>
-                            <index>type_id</index>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
+                            <argument name="align" xsi:type="string">right</argument>
+                            <argument name="width" xsi:type="string">50px</argument>
+                            <argument name="index" xsi:type="string">type_id</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="code">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
-                            <header translate="true">Code</header>
-                            <index>code</index>
+                            <argument name="header" xsi:type="string" translate="true">Code</argument>
+                            <argument name="index" xsi:type="string">code</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="label">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="label">
                         <arguments>
-                            <header translate="true">Label</header>
-                            <index>label</index>
+                            <argument name="header" xsi:type="string" translate="true">Label</argument>
+                            <argument name="index" xsi:type="string">label</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sort_order">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="sort_order">
                         <arguments>
-                            <header translate="true">Sort Order</header>
-                            <index>sort_order</index>
-                            <default>-</default>
+                            <argument name="header" xsi:type="string" translate="true">Sort Order</argument>
+                            <argument name="index" xsi:type="string">sort_order</argument>
+                            <argument name="default" xsi:type="string">-</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_listed">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="is_listed">
                         <arguments>
-                            <header translate="true">Listed</header>
-                            <index>is_listed</index>
-                            <type>options</type>
-                            <type>options</type>
-                            <options>
-                                <yes>
-                                    <value>1</value>
-                                    <label translate="true">Yes</label>
-                                </yes>
-                                <no>
-                                    <value>0</value>
-                                    <label translate="true">No</label>
-                                </no>
-                            </options>
+                            <argument name="header" xsi:type="string" translate="true">Listed</argument>
+                            <argument name="index" xsi:type="string">is_listed</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="array">
+                                <item name="yes" xsi:type="array">
+                                    <item name="value" xsi:type="string">1</item>
+                                    <item name="label" xsi:type="string" translate="true">Yes</item>
+                                </item>
+                                <item name="no" xsi:type="array">
+                                    <item name="value" xsi:type="string">0</item>
+                                    <item name="label" xsi:type="string" translate="true">No</item>
+                                </item>
+                            </argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_giftregistry_grid_block>
+    </handle>
 </layout>
