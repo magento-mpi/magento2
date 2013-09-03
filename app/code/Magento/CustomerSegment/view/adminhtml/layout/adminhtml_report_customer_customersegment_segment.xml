@@ -14,7 +14,7 @@
                 <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.customersegment.report.grid" as="grid">
                     <arguments>
                         <argument name="id" xsi:type="string">gridReportCustomersegments</argument>
-                        <argument name="dataSource" xsi:type="string">Magento_CustomerSegment_Model_Resource_Segment_Report_Collection</argument>
+                        <argument name="dataSource" xsi:type="object">Magento_CustomerSegment_Model_Resource_Segment_Report_Collection</argument>
                     </arguments>
                     <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.customersegment.report.massactions" as="grid.massaction">
                         <arguments>

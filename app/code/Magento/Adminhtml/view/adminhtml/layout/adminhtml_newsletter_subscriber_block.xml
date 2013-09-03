@@ -13,7 +13,7 @@
             <block class="Magento_Adminhtml_Block_Newsletter_Subscriber_Grid" name="adminhtml.newslettrer.subscriber.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">subscriberGrid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Newsletter_Model_Resource_Subscriber_Grid_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Newsletter_Model_Resource_Subscriber_Grid_Collection</argument>
                     <argument name="default_sort" xsi:type="string">subscriber_id</argument>
                     <argument name="default_dir" xsi:type="string">desc</argument>
                     <argument name="use_ajax" xsi:type="string">1</argument>

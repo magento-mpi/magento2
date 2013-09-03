@@ -13,7 +13,7 @@
             <block class="Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid" name="report.customersegment.detail.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">segmentGrid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection</argument>
                     <argument name="use_ajax" xsi:type="string">1</argument>
                     <argument name="grid_url" xsi:type="url" path="*/*/customerGrid">
                         <param name="_current">1</param>

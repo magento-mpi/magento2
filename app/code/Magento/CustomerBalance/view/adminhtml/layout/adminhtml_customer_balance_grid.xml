@@ -13,7 +13,7 @@
             <block class="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid" name="customer.balance.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">balanceGrid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_CustomerBalance_Model_Balance</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_CustomerBalance_Model_Balance</argument>
                     <argument name="use_ajax" xsi:type="string">1</argument>
                     <argument name="default_sort" xsi:type="string">website_id</argument>
                     <argument name="pager_visibility" xsi:type="string">0</argument>
