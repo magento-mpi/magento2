@@ -29,8 +29,6 @@
             <module name="Magento_Logging"/>
             <module name="Magento_CatalogInventory"/>
             <module name="Magento_GiftCard"/>
-            <module name="Magento_Paypal"/>
-            <module name="Magento_Bundle" type="soft"/>
         </depends>
     </module>
 </config>

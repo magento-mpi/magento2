@@ -7,27 +7,27 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_invitation_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_invitation_view">
         <reference name="content">
-            <block name="invitation_view_page" type="Magento_Invitation_Block_Adminhtml_Invitation_View" template="view.phtml">
+            <block class="Magento_Invitation_Block_Adminhtml_Invitation_View" name="invitation_view_page" template="view.phtml">
                 
             </block>
         </reference>
         <reference name="left">
-            <block name="invitation_view_tabs" as="tabs" type="Magento_Invitation_Block_Adminhtml_Invitation_View_Tabs">
+            <block class="Magento_Invitation_Block_Adminhtml_Invitation_View_Tabs" name="invitation_view_tabs" as="tabs">
                 <action method="addTab">
-                    <tab>general</tab>
-                    <content>Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General</content>
+                    <argument name="tab" xsi:type="string">general</argument>
+                    <argument name="content" xsi:type="string">Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General</argument>
                 </action>
                 <action method="addTab">
-                    <tab>history</tab>
-                    <content>Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History</content>
+                    <argument name="tab" xsi:type="string">history</argument>
+                    <argument name="content" xsi:type="string">Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History</argument>
                 </action>
                 <action method="setDestElementId">
-                    <id>invitation-elements</id>
+                    <argument name="id" xsi:type="string">invitation-elements</argument>
                 </action>
             </block>
         </reference>
-    </adminhtml_invitation_view>
+    </handle>
 </layout>

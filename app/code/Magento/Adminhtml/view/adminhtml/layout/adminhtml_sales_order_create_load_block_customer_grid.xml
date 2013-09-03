@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_create_load_block_customer_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_create_load_block_customer_grid">
         <update handle="adminhtml_sales_order_create_customer_block"/>
         <reference name="content">
             <container name="customer.grid.container" label="Customer Grid" output="1"/>
         </reference>
-    </adminhtml_sales_order_create_load_block_customer_grid>
+    </handle>
 </layout>

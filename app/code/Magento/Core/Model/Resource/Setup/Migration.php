@@ -35,8 +35,8 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
      */
     const PLAIN_FIND_PATTERN         = '/^(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)::.*?$/sui';
     const WIKI_FIND_PATTERN
-        = '/{{(block|widget).*?type=\"(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?}}/sui';
-    const XML_FIND_PATTERN           = '/<block.*?type=\"(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?>/sui';
+        = '/{{(block|widget).*?(class|type)=\"(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?}}/sui';
+    const XML_FIND_PATTERN           = '/<block.*?class=\"(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?>/sui';
     const SERIALIZED_FIND_PATTERN    = '#(?P<string>s:\d+:"(?P<alias>[a-z]+[_a-z\d]*?/[a-z]+[_a-z\d]*?)")#sui';
     const SERIALIZED_REPLACE_PATTERN = 's:%d:"%s"';
     /**#@-*/

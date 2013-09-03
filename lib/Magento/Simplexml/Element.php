@@ -260,9 +260,17 @@ class Magento_Simplexml_Element extends SimpleXMLElement
 
         $out = $pad.'<'.$this->getName();
 
-        if ($attributes = $this->attributes()) {
+        $attributes = $this->attributes();
+        if ($attributes) {
             foreach ($attributes as $key=>$value) {
                 $out .= ' '.$key.'="'.str_replace('"', '\"', (string)$value).'"';
+            }
+        }
+
+        $attributes = $this->attributes('xsi', true);
+        if ($attributes) {
+            foreach ($attributes as $key=>$value) {
+                $out .= ' xsi:'.$key.'="'.str_replace('"', '\"', (string)$value).'"';
             }
         }
 

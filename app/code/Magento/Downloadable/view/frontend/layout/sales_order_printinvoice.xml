@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_order_printinvoice>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_order_printinvoice">
         <reference name="sales.order.print.invoice">
             <action method="addItemRender">
-                <type>downloadable</type>
-                <block>Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable</block>
-                <template>sales/order/invoice/items/renderer/downloadable.phtml</template>
+                <argument name="type" xsi:type="string">downloadable</argument>
+                <argument name="block" xsi:type="string">Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable</argument>
+                <argument name="template" xsi:type="string">sales/order/invoice/items/renderer/downloadable.phtml</argument>
             </action>
         </reference>
-    </sales_order_printinvoice>
+    </handle>
 </layout>

@@ -7,22 +7,21 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <catalog_product_compare_index translate="label" type="page" parent="default">
-        <label>Catalog Product Compare List</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Catalog Product Compare List" id="catalog_product_compare_index" type="page" parent="default">
         <reference name="root">
             <action method="setTemplate">
-                <template>popup.phtml</template>
+                <argument name="template" xsi:type="string">popup.phtml</argument>
             </action>
         </reference>
         <reference name="head">
             <action method="addJs">
-                <file>scriptaculous/scriptaculous.js</file>
+                <argument name="file" xsi:type="string">scriptaculous/scriptaculous.js</argument>
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Catalog_Block_Product_Compare_List" name="catalog.compare.list" template="product/compare/list.phtml"/>
+            <block class="Magento_Catalog_Block_Product_Compare_List" name="catalog.compare.list" template="product/compare/list.phtml"/>
         </reference>
         <update handle="MAP_popup"/>
-    </catalog_product_compare_index>
+    </handle>
 </layout>

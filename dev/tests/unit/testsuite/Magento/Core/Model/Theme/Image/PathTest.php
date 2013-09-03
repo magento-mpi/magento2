@@ -85,8 +85,11 @@ class Magento_Core_Model_Theme_Image_PathTest extends PHPUnit_Framework_TestCase
      */
     public function testImagePreviewDirectoryGetter()
     {
-        $this->assertEquals('/media' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR . 'preview',
-            $this->_model->getImagePreviewDirectory());
+        $expectedPath = implode(
+            Magento_Filesystem::DIRECTORY_SEPARATOR,
+            array('/media', 'theme', 'preview')
+        );
+        $this->assertEquals($expectedPath, $this->_model->getImagePreviewDirectory());
     }
 
     /**
@@ -94,7 +97,10 @@ class Magento_Core_Model_Theme_Image_PathTest extends PHPUnit_Framework_TestCase
      */
     public function testTemporaryDirectoryGetter()
     {
-        $this->assertEquals('/media' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR . 'origin',
-            $this->_model->getTemporaryDirectory());
+        $expectedPath = implode(
+            Magento_Filesystem::DIRECTORY_SEPARATOR,
+            array('/media', 'theme', 'origin')
+        );
+        $this->assertEquals($expectedPath, $this->_model->getTemporaryDirectory());
     }
 }

@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_paymentmethod>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_paymentmethod">
         <reference name="checkout.onepage.payment.methods.scripts">
-            <block type="Magento_Core_Block_Template" template="Magento_Pbridge::checkout/payment/scripts.phtml" name="pbridge.scripts"/>
+            <block class="Magento_Core_Block_Template" template="Magento_Pbridge::checkout/payment/scripts.phtml" name="pbridge.scripts"/>
         </reference>
-    </checkout_onepage_paymentmethod>
+    </handle>
 </layout>

@@ -7,8 +7,6 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <cms_index_nocookies translate="label" type="page" parent="cms_page_view">
-        <label>CMS No-Cookies Page</label>
-    </cms_index_nocookies>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="CMS No-Cookies Page" id="cms_index_nocookies" type="page" parent="cms_page_view"/>
 </layout>

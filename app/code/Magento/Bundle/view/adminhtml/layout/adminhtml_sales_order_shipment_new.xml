@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_shipment_new>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_shipment_new">
         <reference name="order_items">
             <action method="addItemRender">
-                <type>bundle</type>
-                <block>Magento_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer</block>
-                <template>sales/shipment/create/items/renderer.phtml</template>
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer</argument>
+                <argument name="template" xsi:type="string">sales/shipment/create/items/renderer.phtml</argument>
             </action>
         </reference>
-    </adminhtml_sales_order_shipment_new>
+    </handle>
 </layout>

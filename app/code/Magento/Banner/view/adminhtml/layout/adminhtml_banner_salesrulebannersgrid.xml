@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_banner_salesrulebannersgrid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_banner_salesrulebannersgrid">
         <remove name="root"/>
-        <block type="Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid" name="related_salesrule_banners_grid" output="1"/>
-    </adminhtml_banner_salesrulebannersgrid>
+        <block class="Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid" name="related_salesrule_banners_grid" output="1"/>
+    </handle>
 </layout>

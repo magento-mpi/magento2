@@ -7,68 +7,68 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_rating_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_rating_block">
         <reference name="adminhtml.rating.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.rating.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.rating.grid" as="grid">
                 <arguments>
-                    <id>ratingsGrid</id>
-                    <dataSource type="object">Magento_Rating_Model_Resource_Rating_Grid_Collection</dataSource>
-                    <default_sort>rating_code</default_sort>
-                    <default_dir>ASC</default_dir>
-                    <save_parameters_in_session>1</save_parameters_in_session>
+                    <argument name="id" xsi:type="string">ratingsGrid</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Rating_Model_Resource_Rating_Grid_Collection</argument>
+                    <argument name="default_sort" xsi:type="string">rating_code</argument>
+                    <argument name="default_dir" xsi:type="string">ASC</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.rating.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.rating.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <rowUrl>
-                            <path>*/*/edit</path>
-                            <extraParamsTemplate>
-                                <id>getId</id>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="rating_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="rating_id">
                         <arguments>
-                            <header translate="true">ID</header>
-                            <align>right</align>
-                            <width>50px</width>
-                            <index>rating_id</index>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
+                            <argument name="align" xsi:type="string">right</argument>
+                            <argument name="width" xsi:type="string">50px</argument>
+                            <argument name="index" xsi:type="string">rating_id</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="rating_code">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="rating_code">
                         <arguments>
-                            <header translate="true">Rating</header>
-                            <index>rating_code</index>
+                            <argument name="header" xsi:type="string" translate="true">Rating</argument>
+                            <argument name="index" xsi:type="string">rating_code</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="position">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="position">
                         <arguments>
-                            <header translate="true">Sort Order</header>
-                            <align>left</align>
-                            <width>100px</width>
-                            <index>position</index>
+                            <argument name="header" xsi:type="string" translate="true">Sort Order</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="width" xsi:type="string">100px</argument>
+                            <argument name="index" xsi:type="string">position</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
                         <arguments>
-                            <header translate="true">Is Active</header>
-                            <align>left</align>
-                            <index>is_active</index>
-                            <type>options</type>
-                            <options>
-                                <active>
-                                    <value>1</value>
-                                    <label translate="true">Active</label>
-                                </active>
-                                <inative>
-                                    <value>0</value>
-                                    <label translate="true">Inactive</label>
-                                </inative>
-                            </options>
+                            <argument name="header" xsi:type="string" translate="true">Is Active</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="index" xsi:type="string">is_active</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="array">
+                                <item name="active" xsi:type="array">
+                                    <item name="value" xsi:type="string">1</item>
+                                    <item name="label" xsi:type="string" translate="true">Active</item>
+                                </item>
+                                <item name="inative" xsi:type="array">
+                                    <item name="value" xsi:type="string">0</item>
+                                    <item name="label" xsi:type="string" translate="true">Inactive</item>
+                                </item>
+                            </argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_rating_block>
+    </handle>
 </layout>

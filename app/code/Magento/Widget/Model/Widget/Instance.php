@@ -430,15 +430,16 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         }
 
         $hash = $this->_coreData->uniqHash();
-        $xml .= '<block type="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
+        $xml .= '<block class="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
             if (is_array($value)) {
                 $value = implode(',', $value);
             }
             if ($name && strlen((string)$value)) {
                 $xml .= '<action method="setData">'
-                    . '<name>' . $name . '</name>'
-                    . '<value>' . $this->_widgetData->escapeHtml($value) . '</value>'
+                    . '<argument name="name" xsi:type="string">' . $name . '</argument>'
+                    . '<argument name="value" xsi:type="string">'
+                    . $this->_widgetData->escapeHtml($value) . '</argument>'
                     . '</action>';
             }
         }

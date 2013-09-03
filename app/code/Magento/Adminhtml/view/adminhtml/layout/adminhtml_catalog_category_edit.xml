@@ -7,37 +7,37 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_category_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_category_edit">
         <update handle="editor"/>
         <reference name="head">
             <action method="addCss">
-                <file>jquery/fileUploader/css/jquery.fileupload-ui.css</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.iframe-transport.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.iframe-transport.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/load-image.min.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/load-image.min.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/canvas-to-blob.min.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/canvas-to-blob.min.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload-fp.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload-fp.js</argument>
             </action>
         </reference>
         <reference name="left">
-            <block name="category.tree" type="Magento_Adminhtml_Block_Catalog_Category_Tree" template="catalog/category/tree.phtml"/>
+            <block class="Magento_Adminhtml_Block_Catalog_Category_Tree" name="category.tree" template="catalog/category/tree.phtml"/>
         </reference>
         <reference name="content">
-            <block name="category.edit" type="Magento_Adminhtml_Block_Catalog_Category_Edit" template="catalog/category/edit.phtml"/>
+            <block class="Magento_Adminhtml_Block_Catalog_Category_Edit" name="category.edit" template="catalog/category/edit.phtml"/>
         </reference>
         <reference name="js">
-            <block type="Magento_Core_Block_Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js"/>
+            <block class="Magento_Core_Block_Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js"/>
         </reference>
-    </adminhtml_catalog_category_edit>
+    </handle>
 </layout>
