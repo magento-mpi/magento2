@@ -13,7 +13,6 @@ app/code/Magento/Theme/view
 app/code/Magento/User/view
 app/code/Magento/Webapi/view
 app/code/Magento/Webhook/view
-dev/tests/integration/testsuite/Magento/Code/_files
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/TemplateFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Theme/TemplateFilesTest.php
 dev/tests/integration/testsuite/Magento/Backend/Block/System/Config/FormStub.php
