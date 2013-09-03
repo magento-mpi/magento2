@@ -11,7 +11,9 @@
  *
  * @todo re-implement as a cache frontend decorator similarly to Magento_Cache_Frontend_Decorator_*
  */
-class Magento_Cache_Backend_Decorator_Compression extends Magento_Cache_Backend_Decorator_DecoratorAbstract
+namespace Magento\Cache\Backend\Decorator;
+
+class Compression extends \Magento\Cache\Backend\Decorator\DecoratorAbstract
 {
     /**
      * Prefix of compressed strings

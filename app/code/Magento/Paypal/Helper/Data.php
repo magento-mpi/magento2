@@ -41,10 +41,10 @@ class Magento_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return backend config for element like JSON
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function getElementBackendConfig(Magento_Data_Form_Element_Abstract $element) {
+    public function getElementBackendConfig(\Magento\Data\Form\Element\AbstractElement $element) {
         $config = $element->getFieldConfig();
         if (!array_key_exists('backend_congif', $config)) {
             return false;

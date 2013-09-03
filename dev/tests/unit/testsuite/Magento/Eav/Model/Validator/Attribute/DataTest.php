@@ -126,11 +126,11 @@ class Magento_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_T
             'data_model' => $this->_getDataModelMock(null),
             'frontend_input' => 'text'
         ));
-        $collection = $this->getMockBuilder('Magento_Object')
+        $collection = $this->getMockBuilder('Magento\Object')
             ->setMethods(array('getItems'))
             ->getMock();
         $collection->expects($this->once())->method('getItems')->will($this->returnValue(array($attribute)));
-        $entityType = $this->getMockBuilder('Magento_Object')
+        $entityType = $this->getMockBuilder('Magento\Object')
             ->setMethods(array('getAttributeCollection'))
             ->getMock();
         $entityType->expects($this->once())->method('getAttributeCollection')->will($this->returnValue($collection));

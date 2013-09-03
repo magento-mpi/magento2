@@ -92,7 +92,7 @@ class Magento_Tools_Translate_Translate {
     {
         self::$CONFIG = $config;
         Magento_Tools_Translate_ModuleTranslations::setConfig($config);
-        self::$csv = new Magento_File_CsvMulty();
+        self::$csv = new \Magento\File\CsvMulty();
         try {
             self::$opts = new Magento_Tools_Translate_MultyGetopt(array(
                 'path=s'     => 'Path to root directory',
@@ -572,7 +572,7 @@ class Magento_Tools_Translate_Translate {
      * @return  none
      */
     static public function parseXml($file,&$data_arr,$mod_name=null){
-        $xml = new Magento_Simplexml_Config();
+        $xml = new \Magento\Simplexml\Config();
         $xml->loadFile($file,'SimpleXMLElement');
         $arr = $xml->getXpath("//*[@translate]");
         unset($xml);

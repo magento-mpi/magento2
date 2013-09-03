@@ -56,9 +56,9 @@ class Magento_Webhook_Model_Observer
     /**
      * Triggered after webapi user change
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function afterWebapiUserChange(Magento_Event_Observer $observer)
+    public function afterWebapiUserChange(\Magento\Event\Observer $observer)
     {
         try {
             $model = $observer->getEvent()->getObject();
@@ -72,9 +72,9 @@ class Magento_Webhook_Model_Observer
     /**
      * Triggered after webapi role change
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function afterWebapiRoleChange(Magento_Event_Observer $observer)
+    public function afterWebapiRoleChange(\Magento\Event\Observer $observer)
     {
         try {
             $model = $observer->getEvent()->getObject();

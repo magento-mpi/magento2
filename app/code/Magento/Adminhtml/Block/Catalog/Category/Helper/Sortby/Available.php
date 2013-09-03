@@ -17,7 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Catalog_Category_Helper_Sortby_Available
-    extends Magento_Data_Form_Element_Multiselect
+    extends \Magento\Data\Form\Element\Multiselect
 {
     /**
      * Returns js code that is used instead of default toggle code for "Use default config" checkbox

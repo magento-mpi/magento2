@@ -10,14 +10,14 @@
 class Magento_Core_Model_Config_BaseFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -25,7 +25,7 @@ class Magento_Core_Model_Config_BaseFactory
     /**
      * Create config model
      *
-     * @param string|Magento_Simplexml_Element $sourceData
+     * @param string|\Magento\Simplexml\Element $sourceData
      * @return Magento_Core_Model_Config_Base
      */
     public function create($sourceData = null)

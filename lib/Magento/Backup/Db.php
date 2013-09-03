@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category     Magento
- * @package      Magento_Backup
+ * @package      \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,12 @@
  * Class to work with database backups
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Db extends Magento_Backup_Abstract
+namespace Magento\Backup;
+
+class Db extends \Magento\Backup\AbstractBackup
 {
     /**
      * Implements Rollback functionality for Db
@@ -29,10 +31,10 @@ class Magento_Backup_Db extends Magento_Backup_Abstract
 
         $this->_lastOperationSucceed = false;
 
-        $archiveManager = new Magento_Archive();
+        $archiveManager = new \Magento\Archive();
         $source = $archiveManager->unpack($this->getBackupPath(), $this->getBackupsDir());
 
-        $file = new Magento_Backup_Filesystem_Iterator_File($source);
+        $file = new \Magento\Backup\Filesystem\Iterator\File($source);
         foreach ($file as $statement) {
             $this->getResourceModel()->runCommand($statement);
         }
@@ -77,13 +79,13 @@ class Magento_Backup_Db extends Magento_Backup_Abstract
 
         $this->_lastOperationSucceed = false;
 
-        $backup = Mage::getModel('Magento_Backup_Model_Backup')
+        $backup = \Mage::getModel('Magento_Backup_Model_Backup')
             ->setTime($this->getTime())
             ->setType($this->getType())
             ->setPath($this->getBackupsDir())
             ->setName($this->getName());
 
-        $backupDb = Mage::getModel('Magento_Backup_Model_Db');
+        $backupDb = \Mage::getModel('Magento_Backup_Model_Db');
         $backupDb->createBackup($backup);
 
         $this->_lastOperationSucceed = true;

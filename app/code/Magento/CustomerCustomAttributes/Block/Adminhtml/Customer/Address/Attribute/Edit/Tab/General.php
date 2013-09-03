@@ -29,8 +29,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     {
         $result = parent::_prepareLayout();
         $renderer = $this->getLayout()->getBlock('fieldset_element_renderer');
-        if ($renderer instanceof Magento_Data_Form_Element_Renderer_Interface) {
-            Magento_Data_Form::setFieldsetElementRenderer($renderer);
+        if ($renderer instanceof \Magento\Data\Form\Element\Renderer\RendererInterface) {
+            \Magento\Data\Form::setFieldsetElementRenderer($renderer);
         }
         return $result;
     }

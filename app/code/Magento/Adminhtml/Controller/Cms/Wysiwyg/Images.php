@@ -114,8 +114,8 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg_Images extends Magento_Adminhtml_
             foreach ($files as $file) {
                 $file = $helper->idDecode($file);
                 $_filePath = $path . DS . $file;
-                /** @var Magento_Filesystem $filesystem */
-                $filesystem = $this->_objectManager->get('Magento_Filesystem');
+                /** @var \Magento\Filesystem $filesystem */
+                $filesystem = $this->_objectManager->get('Magento\Filesystem');
                 $filesystem->setWorkingDirectory($helper->getStorageRoot());
                 if ($filesystem->isFile($_filePath)) {
                     $this->getStorage()->deleteFile($_filePath);

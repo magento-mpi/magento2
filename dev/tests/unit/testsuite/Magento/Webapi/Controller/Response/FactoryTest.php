@@ -15,14 +15,14 @@ class Magento_Webapi_Controller_Response_FactoryTest extends PHPUnit_Framework_T
     /** @var Magento_Webapi_Controller_Front */
     protected $_apiFrontController;
 
-    /** @var Magento_ObjectManager */
+    /** @var \Magento\ObjectManager */
     protected $_objectManager;
 
     protected function setUp()
     {
         $this->_apiFrontController = $this->getMockBuilder('Magento_Webapi_Controller_Front')
             ->disableOriginalConstructor()->getMock();
-        $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager')->disableOriginalConstructor()
+        $this->_objectManager = $this->getMockBuilder('Magento\ObjectManager')->disableOriginalConstructor()
             ->getMock();
         $this->_factory = new Magento_Webapi_Controller_Response_Factory(
             $this->_apiFrontController,

@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Module_Declaration_Converter_Dom implements Magento_Config_ConverterInterface
+class Magento_Core_Model_Module_Declaration_Converter_Dom implements \Magento\Config\ConverterInterface
 {
     /**
      * {@inheritdoc}

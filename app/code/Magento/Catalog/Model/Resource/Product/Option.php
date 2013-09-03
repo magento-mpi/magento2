@@ -76,7 +76,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                 if ($optionId) {
                     if ($object->getStoreId() == '0') {
                         $data = $this->_prepareDataForTable(
-                            new Magento_Object(
+                            new \Magento\Object(
                                 array(
                                     'price'      => $object->getPrice(),
                                     'price_type' => $object->getPriceType())
@@ -95,7 +95,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                     }
                 } else {
                     $data = $this->_prepareDataForTable(
-                         new Magento_Object(
+                         new \Magento\Object(
                             array(
                                 'option_id'  => $object->getId(),
                                 'store_id'   => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
@@ -137,7 +137,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
 
                         if ($readAdapter->fetchOne($statement)) {
                             $data = $this->_prepareDataForTable(
-                                new Magento_Object(
+                                new \Magento\Object(
                                     array(
                                         'price'      => $newPrice,
                                         'price_type' => $object->getPriceType()
@@ -156,7 +156,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                             );
                         } else {
                             $data = $this->_prepareDataForTable(
-                                new Magento_Object(
+                                new \Magento\Object(
                                     array(
                                         'option_id'  => $object->getId(),
                                         'store_id'   => $storeId,
@@ -206,7 +206,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
             if ($readAdapter->fetchOne($statement)) {
                 if ($object->getStoreId() == '0') {
                     $data = $this->_prepareDataForTable(
-                        new Magento_Object(
+                        new \Magento\Object(
                             array(
                                 'title' => $object->getTitle()
                             )
@@ -225,7 +225,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                 }
             } else {
                 $data = $this->_prepareDataForTable(
-                    new Magento_Object(
+                    new \Magento\Object(
                         array(
                             'option_id' => $object->getId(),
                             'store_id'  => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
@@ -247,7 +247,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
 
             if ($readAdapter->fetchOne($statement)) {
                 $data = $this->_prepareDataForTable(
-                    new Magento_Object(
+                    new \Magento\Object(
                         array(
                             'title' => $object->getTitle()
                         )
@@ -265,7 +265,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                 );
             } else {
                 $data = $this->_prepareDataForTable(
-                    new Magento_Object(
+                    new \Magento\Object(
                         array(
                             'option_id' => $object->getId(),
                             'store_id'  => $object->getStoreId(),
@@ -371,7 +371,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                 $select,
                 $table,
                 array('option_id', 'store_id', 'title'),
-                Magento_DB_Adapter_Interface::INSERT_ON_DUPLICATE
+                \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
             );
             $write->query($insertSelect);
 
@@ -390,7 +390,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                     'price',
                     'price_type'
                 ),
-                Magento_DB_Adapter_Interface::INSERT_ON_DUPLICATE
+                \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
             );
             $write->query($insertSelect);
 

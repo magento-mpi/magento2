@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Http_Handler implements Magento_HTTP_HandlerInterface
+class Magento_FullPageCache_Model_Http_Handler implements \Magento\HTTP\HandlerInterface
 {
     /**
      * List of available request processors

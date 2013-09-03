@@ -21,10 +21,10 @@ class Magento_Review_Model_Observer
     /**
      * Add review summary info for tagged product collection
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Review_Model_Observer
      */
-    public function tagProductCollectionLoadAfter(Magento_Event_Observer $observer)
+    public function tagProductCollectionLoadAfter(\Magento\Event\Observer $observer)
     {
         $collection = $observer->getEvent()->getCollection();
         Mage::getSingleton('Magento_Review_Model_Review')
@@ -36,10 +36,10 @@ class Magento_Review_Model_Observer
     /**
      * Cleanup product reviews after product delete
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Review_Model_Observer
      */
-    public function processProductAfterDeleteEvent(Magento_Event_Observer $observer)
+    public function processProductAfterDeleteEvent(\Magento\Event\Observer $observer)
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
@@ -53,13 +53,13 @@ class Magento_Review_Model_Observer
     /**
      * Append review summary before rendering html
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Review_Model_Observer
      */
-    public function catalogBlockProductCollectionBeforeToHtml(Magento_Event_Observer $observer)
+    public function catalogBlockProductCollectionBeforeToHtml(\Magento\Event\Observer $observer)
     {
         $productCollection = $observer->getEvent()->getCollection();
-        if ($productCollection instanceof Magento_Data_Collection) {
+        if ($productCollection instanceof \Magento\Data\Collection) {
             $productCollection->load();
             Mage::getModel('Magento_Review_Model_Review')->appendSummary($productCollection);
         }

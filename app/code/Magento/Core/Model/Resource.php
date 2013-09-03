@@ -101,7 +101,7 @@ class Magento_Core_Model_Resource
      * Creates a connection to resource whenever needed
      *
      * @param string $name
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     public function getConnection($name)
     {
@@ -162,7 +162,7 @@ class Magento_Core_Model_Resource
      *
      * @param string $type the connection type
      * @param Magento_Core_Model_Config_Element|array $config the connection configuration
-     * @return Magento_DB_Adapter_Interface|false
+     * @return \Magento\DB\Adapter\AdapterInterface|false
      */
     protected function _newConnection($type, $config)
     {
@@ -178,13 +178,13 @@ class Magento_Core_Model_Resource
         $className  = $this->_getConnectionAdapterClassName($type);
         if ($className) {
             $connection = new $className($config);
-            if ($connection instanceof Magento_DB_Adapter_Interface) {
+            if ($connection instanceof \Magento\DB\Adapter\AdapterInterface) {
                 /** @var Zend_Db_Adapter_Abstract $connection */
 
                 // Set additional params for Magento profiling tool
                 $profiler = $connection->getProfiler();
-                if ($profiler instanceof Magento_DB_Profiler) {
-                    /** @var Magento_DB_Profiler $profiler */
+                if ($profiler instanceof \Magento\DB\Profiler) {
+                    /** @var \Magento\DB\Profiler $profiler */
                     $profiler->setType($type);
 
                     $host = !empty($config['host']) ? $config['host'] : '';
@@ -205,7 +205,7 @@ class Magento_Core_Model_Resource
             $typeInstance = $this->getConnectionTypeInstance($type);
             /** @var Magento_Core_Model_Resource_Type_Abstract $typeInstance */
             $connection = $typeInstance->getConnection($config);
-            if (!$connection instanceof Magento_DB_Adapter_Interface) {
+            if (!$connection instanceof \Magento\DB\Adapter\AdapterInterface) {
                 $connection = false;
             }
         }
@@ -348,7 +348,7 @@ class Magento_Core_Model_Resource
      * @param string $indexType
      * @return string
      */
-    public function getIdxName($tableName, $fields, $indexType = Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX)
+    public function getIdxName($tableName, $fields, $indexType = \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX)
     {
         return $this->getConnection(self::DEFAULT_READ_RESOURCE)
             ->getIndexName($this->getTableName($tableName), $fields, $indexType);

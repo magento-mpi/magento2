@@ -36,7 +36,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_ArrayTest extends PHPUnit_Frame
     public function testValidate($data)
     {
         $this->_attribute->expects($this->atLeastOnce())->method('getAttributeCode')->will($this->returnValue('code'));
-        $product = new Magento_Object(array('code' => $data));
+        $product = new \Magento\Object(array('code' => $data));
         $this->_model->validate($product);
         $this->assertEquals('1,2,3', $product->getCode());
     }

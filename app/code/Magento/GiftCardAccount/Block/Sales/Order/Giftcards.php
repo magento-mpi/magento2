@@ -39,7 +39,7 @@ class Magento_GiftCardAccount_Block_Sales_Order_Giftcards extends Magento_Core_B
         }
         $cards = Mage::helper('Magento_GiftCardAccount_Helper_Data')->getCards($this->getOrder());
         foreach ($cards as $card) {
-            $obj = new Magento_Object();
+            $obj = new \Magento\Object();
             $obj->setBaseAmount($card['ba'])
                 ->setAmount($card['a'])
                 ->setCode($card['c']);
@@ -56,7 +56,7 @@ class Magento_GiftCardAccount_Block_Sales_Order_Giftcards extends Magento_Core_B
      */
     public function initTotals()
     {
-        $total = new Magento_Object(array(
+        $total = new \Magento\Object(array(
             'code'      => $this->getNameInLayout(),
             'block_name'=> $this->getNameInLayout(),
             'area'      => $this->getArea()

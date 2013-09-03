@@ -15,6 +15,8 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Ftp extends Magento_System_Ftp
+namespace Magento\Connect;
+
+class Ftp extends \Magento\System\Ftp
 {
 }

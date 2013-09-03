@@ -65,7 +65,7 @@ require_once __DIR__ . '/../../../app/bootstrap.php';
 
 $entryPoint = new Magento_Index_Model_EntryPoint_Indexer(
     $reportDir,
-    new Magento_Filesystem(new Magento_Filesystem_Adapter_Local()),
+    new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local()),
     new Magento_Core_Model_Config_Primary(BP, array())
 );
 $entryPoint->processRequest();

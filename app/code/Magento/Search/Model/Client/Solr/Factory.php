@@ -12,9 +12,9 @@ class Magento_Search_Model_Client_Solr_Factory implements Magento_Search_Model_C
     /**
      * Constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

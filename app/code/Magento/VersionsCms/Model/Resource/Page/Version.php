@@ -75,10 +75,10 @@ class Magento_VersionsCms_Model_Resource_Page_Version extends Magento_Core_Model
     /**
      * Add access restriction filters to allow load only by granted user.
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param int $accessLevel
      * @param int $userId
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _addAccessRestrictionsToSelect($select, $accessLevel, $userId)
     {

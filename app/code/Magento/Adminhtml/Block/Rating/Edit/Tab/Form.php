@@ -47,7 +47,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $this->setForm($form);
 
         $fieldset = $form->addFieldset('rating_form', array(

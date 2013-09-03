@@ -89,7 +89,7 @@ class Magento_TestFramework_Bootstrap_Settings
      *
      * @param string $settingName
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function getAsConfigFile($settingName)
     {
@@ -102,7 +102,7 @@ class Magento_TestFramework_Bootstrap_Settings
                 return $result;
             }
         }
-        throw new Magento_Exception("Setting '$settingName' specifies the non-existing file '$result'.");
+        throw new \Magento\MagentoException("Setting '$settingName' specifies the non-existing file '$result'.");
     }
 
     /**

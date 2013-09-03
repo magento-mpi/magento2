@@ -42,8 +42,8 @@ class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framewor
     {
         $this->_validatorBuilderFactoryMock = $this->getMock('Magento_Validator_BuilderFactory', array('create'),
             array(), '', false);
-        $this->_validatorBuilderMock = $this->getMock('Magento_Validator_Builder', array(), array(), '', false);
-        $this->_validatorMock = $this->getMock('Magento_Validator_ValidatorInterface', array(), array(), '', false);
+        $this->_validatorBuilderMock = $this->getMock('Magento\Validator\Builder', array(), array(), '', false);
+        $this->_validatorMock = $this->getMock('Magento\Validator\ValidatorInterface', array(), array(), '', false);
 
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_factory = $objectManager->getObject('Magento_GoogleAdwords_Model_Validator_Factory', array(
@@ -63,7 +63,7 @@ class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framewor
                     array(
                         'alias' => 'Regex',
                         'type' => '',
-                        'class' => 'Magento_Validator_Regex',
+                        'class' => '\Magento\Validator\Regex',
                         'options' => array(
                             'arguments' => array('/^[0-9a-f]{6}$/i'),
                             'methods' => array(
@@ -71,8 +71,8 @@ class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framewor
                                     'method' => 'setMessages',
                                     'arguments' => array(
                                         array(
-                                            Magento_Validator_Regex::NOT_MATCH => $message,
-                                            Magento_Validator_Regex::INVALID => $message,
+                                            \Magento\Validator\Regex::NOT_MATCH => $message,
+                                            \Magento\Validator\Regex::INVALID => $message,
                                         ),
                                     ),
                                 ),
@@ -100,15 +100,15 @@ class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framewor
                     array(
                         'alias' => 'Int',
                         'type' => '',
-                        'class' => 'Magento_Validator_Int',
+                        'class' => '\Magento\Validator\Int',
                         'options' => array(
                             'methods' => array(
                                 array(
                                     'method' => 'setMessages',
                                     'arguments' => array(
                                         array(
-                                            Magento_Validator_Int::NOT_INT => $message,
-                                            Magento_Validator_Int::INVALID => $message,
+                                            \Magento\Validator\Int::NOT_INT => $message,
+                                            \Magento\Validator\Int::INVALID => $message,
                                         ),
                                     ),
                                 ),

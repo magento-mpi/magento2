@@ -21,7 +21,7 @@ class Magento_Sales_Model_Resource_Order_Attribute_Backend_Billing extends Magen
     /**
      * Perform operation before save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      */
     public function beforeSave($object)
     {
@@ -34,7 +34,7 @@ class Magento_Sales_Model_Resource_Order_Attribute_Backend_Billing extends Magen
     /**
      * Perform operation after save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      */
     public function afterSave($object)
     {

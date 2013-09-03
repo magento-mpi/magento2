@@ -351,7 +351,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\MagentoException
      */
     public function testInsertWithoutCreateBlock()
     {

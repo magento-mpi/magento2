@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_PubSub_Message_DispatcherAsyncInterface
+namespace Magento\PubSub\Message;
+
+interface DispatcherAsyncInterface
 {
     /**
      * Dispatch some data on a given topic

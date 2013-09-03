@@ -22,7 +22,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
     protected function _prepareForm()
     {
         $isEditable = ($this->getCanEditReminderRule() !== false) ? true : false;
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $model = Mage::registry('current_reminder_rule');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
@@ -60,7 +60,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
         $model->unsSalesruleId();
         $helperBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Promo_Widget_Chooser');
 
-        if ($helperBlock instanceof Magento_Object) {
+        if ($helperBlock instanceof \Magento\Object) {
             $helperBlock->setConfig($this->getChooserConfig())
                 ->setFieldsetId($fieldset->getId())
                 ->prepareElementHtml($field);
@@ -105,7 +105,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             'label'  => __('From Date'),
             'title'  => __('From Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
@@ -113,7 +113,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             'label'  => __('To Date'),
             'title'  => __('To Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format' => $dateFormat
         ));
 

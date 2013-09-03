@@ -101,7 +101,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
             'height' => 20,
         ));
 
-        $this->_model->setItem(new Magento_Object(array(
+        $this->_model->setItem(new \Magento\Object(array(
             'name'              => 'Downloadable Documentation',
             'sku'               => 'downloadable-documentation',
             'row_total'         => 20.00,
@@ -109,7 +109,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
             'qty'               => 1,
             'tax_amount'        => 2.00,
             'hidden_tax_amount' => 0.00,
-            'order_item'        => new Magento_Object(array(
+            'order_item'        => new \Magento\Object(array(
                 'product_options' => array(
                     'options' => array(
                         array('label' => 'Test Custom Option', 'value' => 'test value'),
@@ -125,9 +125,9 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
         $this->_model
             ->expects($this->any())
             ->method('getLinks')
-            ->will($this->returnValue(new Magento_Object(array(
+            ->will($this->returnValue(new \Magento\Object(array(
                 'purchased_items' => array(
-                    new Magento_Object(array('link_title' => 'Magento User Guide')),
+                    new \Magento\Object(array('link_title' => 'Magento User Guide')),
                 )
             ))))
         ;

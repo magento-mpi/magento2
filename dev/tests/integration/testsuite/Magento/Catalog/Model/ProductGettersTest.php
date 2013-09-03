@@ -154,9 +154,9 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
 
         $this->_model->setMediaGallery(array('images' => array(array('file' => 'magento_image.jpg'))));
         $images = $this->_model->getMediaGalleryImages();
-        $this->assertInstanceOf('Magento_Data_Collection', $images);
+        $this->assertInstanceOf('\Magento\Data\Collection', $images);
         foreach ($images as $image) {
-            $this->assertInstanceOf('Magento_Object', $image);
+            $this->assertInstanceOf('\Magento\Object', $image);
             $image = $image->getData();
             $this->assertArrayHasKey('file', $image);
             $this->assertArrayHasKey('url', $image);
@@ -252,7 +252,7 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
 
     public function testGetPreconfiguredValues()
     {
-        $this->assertInstanceOf('Magento_Object', $this->_model->getPreconfiguredValues());
+        $this->assertInstanceOf('\Magento\Object', $this->_model->getPreconfiguredValues());
         $this->_model->setPreconfiguredValues('test');
         $this->assertEquals('test', $this->_model->getPreconfiguredValues());
     }
@@ -260,6 +260,6 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
     public static function tearDownAfterClass()
     {
         $mediaDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
-        Magento_Io_File::rmdirRecursive($mediaDir);
+        \Magento\Io\File::rmdirRecursive($mediaDir);
     }
 }

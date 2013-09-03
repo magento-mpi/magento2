@@ -49,7 +49,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
 
     public function tearDown()
     {
-        $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
+        $filesystem = Mage::getObjectManager()->create('Magento\Filesystem');
         $filesystem->delete(self::$_themePublicDir . '/frontend');
         $filesystem->delete(self::$_viewPublicMergedDir);
     }

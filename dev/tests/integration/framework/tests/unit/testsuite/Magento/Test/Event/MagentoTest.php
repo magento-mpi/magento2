@@ -44,7 +44,7 @@ class Magento_Test_Event_MagentoTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider constructorExceptionDataProvider
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\MagentoException
      * @param mixed $eventManager
      */
     public function testConstructorException($eventManager)

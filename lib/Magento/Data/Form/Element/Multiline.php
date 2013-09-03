@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Multiline extends Magento_Data_Form_Element_Abstract
+namespace Magento\Data\Form\Element;
+
+class Multiline extends \Magento\Data\Form\Element\AbstractElement
 {
     public function __construct($attributes=array())
     {

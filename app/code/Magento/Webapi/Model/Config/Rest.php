@@ -9,7 +9,7 @@
  */
 class Magento_Webapi_Model_Config_Rest extends Magento_Webapi_Model_ConfigAbstract
 {
-    /** @var Magento_Controller_Router_Route_Factory */
+    /** @var \Magento\Controller\Router\Route\Factory */
     protected $_routeFactory;
 
     /**
@@ -18,13 +18,13 @@ class Magento_Webapi_Model_Config_Rest extends Magento_Webapi_Model_ConfigAbstra
      * @param Magento_Webapi_Model_Config_Reader_Rest $reader
      * @param Magento_Webapi_Helper_Config $helper
      * @param Magento_Core_Model_App $application
-     * @param Magento_Controller_Router_Route_Factory $routeFactory
+     * @param \Magento\Controller\Router\Route\Factory $routeFactory
      */
     public function __construct(
         Magento_Webapi_Model_Config_Reader_Rest $reader,
         Magento_Webapi_Helper_Config $helper,
         Magento_Core_Model_App $application,
-        Magento_Controller_Router_Route_Factory $routeFactory
+        \Magento\Controller\Router\Route\Factory $routeFactory
     ) {
         parent::__construct($reader, $helper, $application);
         $this->_routeFactory = $routeFactory;

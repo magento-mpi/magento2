@@ -73,7 +73,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backen
      */
     public function getFilebrowserSetupObject()
     {
-        $setupObject = new Magento_Object();
+        $setupObject = new \Magento\Object();
 
         $setupObject->setData(array(
             'newFolderPrompt'                 => __('New Folder Name:'),

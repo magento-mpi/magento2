@@ -44,7 +44,7 @@ class Magento_Theme_Model_Wysiwyg_Storage
     const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -56,7 +56,7 @@ class Magento_Theme_Model_Wysiwyg_Storage
     protected $_helper;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -68,15 +68,15 @@ class Magento_Theme_Model_Wysiwyg_Storage
     /**
      * Initialize dependencies
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Theme_Helper_Storage $helper
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Theme_Helper_Storage $helper,
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_Image_AdapterFactory $imageFactory
     ) {
         $this->_filesystem = $filesystem;
@@ -107,7 +107,7 @@ class Magento_Theme_Model_Wysiwyg_Storage
         }
 
         $this->_createThumbnail(
-            $targetPath . Magento_Filesystem::DIRECTORY_SEPARATOR . $uploader->getUploadedFileName()
+            $targetPath . \Magento\Filesystem::DIRECTORY_SEPARATOR . $uploader->getUploadedFileName()
         );
 
         $result['cookie'] = array(
@@ -135,7 +135,7 @@ class Magento_Theme_Model_Wysiwyg_Storage
             return false;
         }
         $thumbnailDir = $this->_helper->getThumbnailDirectory($source);
-        $thumbnailPath = $thumbnailDir . Magento_Filesystem::DIRECTORY_SEPARATOR . pathinfo($source, PATHINFO_BASENAME);
+        $thumbnailPath = $thumbnailDir . \Magento\Filesystem::DIRECTORY_SEPARATOR . pathinfo($source, PATHINFO_BASENAME);
         try {
             $this->_filesystem->ensureDirectoryExists($thumbnailDir);
             $image = $this->_imageFactory->create();
@@ -143,7 +143,7 @@ class Magento_Theme_Model_Wysiwyg_Storage
             $image->keepAspectRatio(true);
             $image->resize(self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);
             $image->save($thumbnailPath);
-        } catch (Magento_Filesystem_Exception $e) {
+        } catch (\Magento\Filesystem\FilesystemException $e) {
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             return false;
         }
@@ -173,7 +173,7 @@ class Magento_Theme_Model_Wysiwyg_Storage
             $path = $this->_helper->getStorageRoot();
         }
 
-        $newPath = $path . Magento_Filesystem::DIRECTORY_SEPARATOR . $name;
+        $newPath = $path . \Magento\Filesystem::DIRECTORY_SEPARATOR . $name;
 
         if ($this->_filesystem->has($newPath)) {
             throw new Magento_Core_Exception(__('We found a directory with the same name.'));
@@ -204,7 +204,7 @@ class Magento_Theme_Model_Wysiwyg_Storage
 
         $filePath = $this->_filesystem->normalizePath($path . '/' . $file);
         $thumbnailPath = $this->_helper->getThumbnailDirectory($filePath)
-            . Magento_Filesystem::DIRECTORY_SEPARATOR
+            . \Magento\Filesystem::DIRECTORY_SEPARATOR
             . $file;
 
         if ($this->_filesystem->isPathInDirectory($filePath, $path)
@@ -302,8 +302,8 @@ class Magento_Theme_Model_Wysiwyg_Storage
      */
     public function deleteDirectory($path)
     {
-        $rootCmp = rtrim($this->_helper->getStorageRoot(), Magento_Filesystem::DIRECTORY_SEPARATOR);
-        $pathCmp = rtrim($path, Magento_Filesystem::DIRECTORY_SEPARATOR);
+        $rootCmp = rtrim($this->_helper->getStorageRoot(), \Magento\Filesystem::DIRECTORY_SEPARATOR);
+        $pathCmp = rtrim($path, \Magento\Filesystem::DIRECTORY_SEPARATOR);
 
         if ($rootCmp == $pathCmp) {
             throw new Magento_Core_Exception(__('We cannot delete root directory %1.', $path));

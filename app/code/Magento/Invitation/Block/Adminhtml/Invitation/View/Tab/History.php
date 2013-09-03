@@ -72,7 +72,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
     public function formatDate($date=null, $format='short', $showTime=false)
     {
         if (is_string($date)) {
-            $date = Mage::app()->getLocale()->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $date = Mage::app()->getLocale()->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -89,7 +89,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
     public function formatTime($date=null, $format='short', $showDate=false)
     {
         if (is_string($date)) {
-            $date = Mage::app()->getLocale()->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $date = Mage::app()->getLocale()->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatTime($date, $format, $showDate);

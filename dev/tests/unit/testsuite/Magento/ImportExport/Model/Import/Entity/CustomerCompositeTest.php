@@ -169,7 +169,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
 
         $attributeList = array();
         foreach ($this->_customerAttributes as $code) {
-            $attribute = new Magento_Object(array(
+            $attribute = new \Magento\Object(array(
                 'attribute_code' => $code
             ));
             $attributeList[] = $attribute;
@@ -199,7 +199,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
 
         $attributeList = array();
         foreach ($this->_addressAttributes as $code) {
-            $attribute = new Magento_Object(array(
+            $attribute = new \Magento\Object(array(
                 'attribute_code' => $code
             ));
             $attributeList[] = $attribute;

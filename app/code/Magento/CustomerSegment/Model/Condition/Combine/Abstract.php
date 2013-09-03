@@ -96,7 +96,7 @@ abstract class Magento_CustomerSegment_Model_Condition_Combine_Abstract extends 
      *
      * @param $customer
      * @param $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -142,7 +142,7 @@ abstract class Magento_CustomerSegment_Model_Condition_Combine_Abstract extends 
      *
      * @param Magento_Customer_Model_Customer | Zend_Db_Select | Zend_Db_Expr $customer
      * @param int | Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

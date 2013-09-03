@@ -37,7 +37,7 @@ class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_
      */
     protected function _joinCustomers()
     {
-        /** @var $adapter Magento_DB_Adapter_Interface */
+        /** @var $adapter \Magento\DB\Adapter\AdapterInterface */
         $adapter            = $this->getConnection();
         /** @var $customer Magento_Customer_Model_Resource_Customer */
         $customer           = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');

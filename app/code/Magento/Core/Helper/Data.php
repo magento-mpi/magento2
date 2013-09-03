@@ -399,15 +399,15 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param string $fieldset
      * @param string $aspect
-     * @param array|Magento_Object $source
-     * @param array|Magento_Object $target
+     * @param array|\Magento\Object $source
+     * @param array|\Magento\Object $target
      * @param string $root
      * @return boolean
      */
     public function copyFieldset($fieldset, $aspect, $source, $target, $root='global')
     {
-        if (!(is_array($source) || $source instanceof Magento_Object)
-            || !(is_array($target) || $target instanceof Magento_Object)) {
+        if (!(is_array($source) || $source instanceof \Magento\Object)
+            || !(is_array($target) || $target instanceof \Magento\Object)) {
 
             return false;
         }
@@ -463,7 +463,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * *_is_last - if the element is last
      *
      * The respective key/attribute will be set to element, depending on object it is or array.
-     * Magento_Object is supported.
+     * \Magento\Object is supported.
      *
      * $forceSetAll true will cause to set all possible values for all elements.
      * When false (default), only non-empty values will be set.
@@ -520,14 +520,14 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Mark passed object with specified flag and appropriate value.
      *
-     * @param Magento_Object $element
+     * @param \Magento\Object $element
      * @param string $key
      * @param mixed $value
      * @param bool $dontSkip
      */
     private function _decorateArrayObject($element, $key, $value, $dontSkip)
     {
-        if ($dontSkip && $element instanceof Magento_Object) {
+        if ($dontSkip && $element instanceof \Magento\Object) {
             $element->setData($key, $value);
         }
     }
@@ -539,12 +539,12 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * @param array $array
      * @param string $rootName
      * @return SimpleXMLElement
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function assocToXml(array $array, $rootName = '_')
     {
         if (empty($rootName) || is_numeric($rootName)) {
-            throw new Magento_Exception('Root element must not be empty or numeric');
+            throw new \Magento\MagentoException('Root element must not be empty or numeric');
         }
 
         $xmlstr = <<<XML
@@ -554,7 +554,7 @@ XML;
         $xml = new SimpleXMLElement($xmlstr);
         foreach ($array as $key => $value) {
             if (is_numeric($key)) {
-                throw new Magento_Exception('Array root keys must not be numeric.');
+                throw new \Magento\MagentoException('Array root keys must not be numeric.');
             }
         }
         return self::_assocToXml($array, $rootName, $xml);
@@ -567,7 +567,7 @@ XML;
      * @param string $rootName
      * @param SimpleXMLElement $xml
      * @return SimpleXMLElement
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     private function _assocToXml(array $array, $rootName, SimpleXMLElement &$xml)
     {
@@ -577,7 +577,7 @@ XML;
             if (!is_array($value)) {
                 if (is_string($key)) {
                     if ($key === $rootName) {
-                        throw new Magento_Exception(
+                        throw new \Magento\MagentoException(
                             'Associative key must not be the same as its parent associative key.'
                         );
                     }
@@ -592,7 +592,7 @@ XML;
             }
         }
         if ($hasNumericKey && $hasStringKey) {
-            throw new Magento_Exception('Associative and numeric keys must not be mixed at one level.');
+            throw new \Magento\MagentoException('Associative and numeric keys must not be mixed at one level.');
         }
         return $xml;
     }

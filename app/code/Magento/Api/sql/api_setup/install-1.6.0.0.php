@@ -25,15 +25,15 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('api_assert'))
-    ->addColumn('assert_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('assert_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Assert id')
-    ->addColumn('assert_type', Magento_DB_Ddl_Table::TYPE_TEXT, 20, array(
+    ->addColumn('assert_type', \Magento\DB\Ddl\Table::TYPE_TEXT, 20, array(
         ), 'Assert type')
-    ->addColumn('assert_data', Magento_DB_Ddl_Table::TYPE_TEXT, '64k', array(
+    ->addColumn('assert_data', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
         ), 'Assert additional data')
     ->setComment('Api ACL Asserts');
 $installer->getConnection()->createTable($table);
@@ -43,37 +43,37 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('api_role'))
-    ->addColumn('role_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('role_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Role id')
-    ->addColumn('parent_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('parent_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Parent role id')
-    ->addColumn('tree_level', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('tree_level', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Role level in tree')
-    ->addColumn('sort_order', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('sort_order', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort order to display on admin area')
-    ->addColumn('role_type', Magento_DB_Ddl_Table::TYPE_TEXT, 1, array(
+    ->addColumn('role_type', \Magento\DB\Ddl\Table::TYPE_TEXT, 1, array(
         'nullable'  => false,
         'default'   => '0',
         ), 'Role type')
-    ->addColumn('user_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('user_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'User id')
-    ->addColumn('role_name', Magento_DB_Ddl_Table::TYPE_TEXT, 50, array(
+    ->addColumn('role_name', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
         ), 'Role name')
     ->addIndex($installer->getIdxName('api_role', array('parent_id', 'sort_order')),
         array('parent_id', 'sort_order'))
@@ -87,29 +87,29 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('api_rule'))
-    ->addColumn('rule_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Api rule Id')
-    ->addColumn('role_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('role_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Api role Id')
-    ->addColumn('resource_id', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('resource_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Module code')
-    ->addColumn('api_privileges', Magento_DB_Ddl_Table::TYPE_TEXT, 20, array(
+    ->addColumn('api_privileges', \Magento\DB\Ddl\Table::TYPE_TEXT, 20, array(
         ), 'Privileges')
-    ->addColumn('assert_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('assert_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Assert id')
-    ->addColumn('role_type', Magento_DB_Ddl_Table::TYPE_TEXT, 1, array(
+    ->addColumn('role_type', \Magento\DB\Ddl\Table::TYPE_TEXT, 1, array(
         ), 'Role type')
-    ->addColumn('api_permission', Magento_DB_Ddl_Table::TYPE_TEXT, 10, array(
+    ->addColumn('api_permission', \Magento\DB\Ddl\Table::TYPE_TEXT, 10, array(
         ), 'Permission')
     ->addIndex($installer->getIdxName('api_rule', array('resource_id', 'role_id')),
         array('resource_id', 'role_id'))
@@ -117,7 +117,7 @@ $table = $installer->getConnection()
         array('role_id', 'resource_id'))
     ->addForeignKey($installer->getFkName('api_rule', 'role_id', 'api_role', 'role_id'),
         'role_id', $installer->getTable('api_role'), 'role_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Api ACL Rules');
 $installer->getConnection()->createTable($table);
 
@@ -126,37 +126,37 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('api_user'))
-    ->addColumn('user_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('user_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'User id')
-    ->addColumn('firstname', Magento_DB_Ddl_Table::TYPE_TEXT, 32, array(
+    ->addColumn('firstname', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
         ), 'First name')
-    ->addColumn('lastname', Magento_DB_Ddl_Table::TYPE_TEXT, 32, array(
+    ->addColumn('lastname', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
         ), 'Last name')
-    ->addColumn('email', Magento_DB_Ddl_Table::TYPE_TEXT, 128, array(
+    ->addColumn('email', \Magento\DB\Ddl\Table::TYPE_TEXT, 128, array(
         ), 'Email')
-    ->addColumn('username', Magento_DB_Ddl_Table::TYPE_TEXT, 40, array(
+    ->addColumn('username', \Magento\DB\Ddl\Table::TYPE_TEXT, 40, array(
         ), 'Nickname')
-    ->addColumn('api_key', Magento_DB_Ddl_Table::TYPE_TEXT, 40, array(
+    ->addColumn('api_key', \Magento\DB\Ddl\Table::TYPE_TEXT, 40, array(
         ), 'Api key')
-    ->addColumn('created', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+    ->addColumn('created', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'User record create date')
-    ->addColumn('modified', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+    ->addColumn('modified', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
         ), 'User record modify date')
-    ->addColumn('lognum', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('lognum', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Quantity of log ins')
-    ->addColumn('reload_acl_flag', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('reload_acl_flag', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         'default'   => '0',
         ), 'Refresh ACL flag')
-    ->addColumn('is_active', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_active', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         'default'   => '1',
         ), 'Account status')
@@ -168,14 +168,14 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('api_session'))
-    ->addColumn('user_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('user_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'User id')
-    ->addColumn('logdate', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+    ->addColumn('logdate', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Login date')
-    ->addColumn('sessid', Magento_DB_Ddl_Table::TYPE_TEXT, 40, array(
+    ->addColumn('sessid', \Magento\DB\Ddl\Table::TYPE_TEXT, 40, array(
         ), 'Sessioin id')
     ->addIndex($installer->getIdxName('api_session', array('user_id')),
         array('user_id'))
@@ -183,7 +183,7 @@ $table = $installer->getConnection()
         array('sessid'))
     ->addForeignKey($installer->getFkName('api_session', 'user_id', 'api_user', 'user_id'),
         'user_id', $installer->getTable('api_user'), 'user_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Api Sessions');
 $installer->getConnection()->createTable($table);
 

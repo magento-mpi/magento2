@@ -74,7 +74,7 @@ class Directory
                         require_once $item->getRealPath();
                     }
                     try {
-                        $signatureReader = new \Magento_Code_Reader_ClassReader();
+                        $signatureReader = new \Magento\Code\Reader\ClassReader();
                         $this->_definitions[$className] = $signatureReader->getConstructor($className);
                         $this->_relations[$className] = $signatureReader->getParents($className);
                     } catch (\ReflectionException $e) {

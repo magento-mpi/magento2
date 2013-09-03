@@ -24,7 +24,7 @@ class Magento_Core_Model_Cache_State implements Magento_Core_Model_Cache_StateIn
     /**
      * Cache frontend to delegate actual cache operations to
      *
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     private $_cacheFrontend;
 

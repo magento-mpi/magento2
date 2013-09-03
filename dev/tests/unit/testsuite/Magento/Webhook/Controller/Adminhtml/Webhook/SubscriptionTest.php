@@ -91,7 +91,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
         $this->_mockRegistry = $this->getMockBuilder('Magento_Core_Model_Registry')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockConfigScope = $this->getMockBuilder('Magento_Config_ScopeInterface')
+        $this->_mockConfigScope = $this->getMockBuilder('Magento\Config\ScopeInterface')
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -152,7 +152,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
         // have load layout throw an exception
         $this->_mockObjectManager->expects($this->at(0))
             ->method('get')
-            ->with('Magento_Config_ScopeInterface')
+            ->with('Magento\Config\ScopeInterface')
             ->will($this->throwException(new Magento_Core_Exception($exceptionMessage)));
 
         // verify the error
@@ -516,7 +516,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
     protected function _setMageObjectManager()
     {
         Mage::reset();
-        $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
         Mage::setObjectManager($this->_mockObjectManager);
@@ -537,7 +537,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
             ->disableOriginalConstructor()
             ->getMock();
         $layoutMock->expects($this->any())->method('getUpdate')->will($this->returnValue($layoutMergeMock));
-        $testElement = new Magento_Simplexml_Element('<test>test</test>');
+        $testElement = new \Magento\Simplexml\Element('<test>test</test>');
         $layoutMock->expects($this->any())->method('getNode')->will($this->returnValue($testElement));
 
         // for _setActiveMenu
@@ -590,7 +590,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
             array('Magento_Core_Model_Layout_Filter_Acl', $this->_mockLayoutFilter),
             array('Magento_Backend_Model_Session', $this->_mockBackendModSess),
             array('Magento_Core_Model_Translate', $this->_mockTranslateModel),
-            array('Magento_Config_ScopeInterface', $this->_mockConfigScope),
+            array('\Magento\Config\ScopeInterface', $this->_mockConfigScope),
         );
         $this->_mockObjectManager->expects($this->any())
             ->method('get')

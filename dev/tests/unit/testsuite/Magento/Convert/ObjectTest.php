@@ -14,21 +14,21 @@ class Magento_Convert_ObjectTest extends PHPUnit_Framework_TestCase
      */
     public function testMappingData($data, $expectedData)
     {
-        $converter = new Magento_Convert_Object();
+        $converter = new \Magento\Convert\Object();
         $convertedData = $converter->convertDataToArray($data);
         $this->assertEquals($expectedData, $convertedData);
     }
 
     public function testMappingDataCycleDetected()
     {
-        $objectA = new Magento_Object(array('keyA' => 'valueA'));
-        $objectB = new Magento_Object(array('keyB' => 'valueB', 'object' => $objectA));
+        $objectA = new \Magento\Object(array('keyA' => 'valueA'));
+        $objectB = new \Magento\Object(array('keyB' => 'valueB', 'object' => $objectA));
         $objectA->setObject($objectB);
-        $converter = new Magento_Convert_Object();
+        $converter = new \Magento\Convert\Object();
         $expectedData = array(
             array('keyA'   => 'valueA',
                 'object' => array('keyB'   => 'valueB',
-                    'object' => Magento_Convert_Object::CYCLE_DETECTED_MARK)));
+                    'object' => \Magento\Convert\Object::CYCLE_DETECTED_MARK)));
         $this->assertEquals($expectedData, $converter->convertDataToArray(array($objectA)));
     }
 
@@ -36,13 +36,13 @@ class Magento_Convert_ObjectTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('object' => new Magento_Object(array('keyA' => 'valueA'))),
+                array('object' => new \Magento\Object(array('keyA' => 'valueA'))),
                 array('object' => array('keyA' => 'valueA'))
             ),
             array(
-                array('objectA' => new Magento_Object(array('keyA' => 'valueA')),
-                    'objectB' => new Magento_Object(array(
-                        'keyB' => new Magento_Object(array(
+                array('objectA' => new \Magento\Object(array('keyA' => 'valueA')),
+                    'objectB' => new \Magento\Object(array(
+                        'keyB' => new \Magento\Object(array(
                             'keyC'     => 'valueC',
                             'password' => 'qa123123'))
                     ))),
@@ -70,10 +70,10 @@ class Magento_Convert_ObjectTest extends PHPUnit_Framework_TestCase
             array(
                 array(
                     array(
-                        'some_object' => new Magento_Object(
+                        'some_object' => new \Magento\Object(
                             array(
                                 'keyA' => array(
-                                    new Magento_Object(
+                                    new \Magento\Object(
                                         array(
                                             'sub_key' => 'sub_value'
                                         )

@@ -44,7 +44,7 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
      */
     protected function _getModelDependencies()
     {
-        $select = $this->getMock('Magento_DB_Select', array('from'), array(), '', false);
+        $select = $this->getMock('Magento\DB\Select', array('from'), array(), '', false);
         $select->expects($this->any())
             ->method('from')
             ->will($this->returnCallback(array($this, 'validateFrom')));
@@ -52,7 +52,7 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
             array('load', 'removeAttributeToSelect', 'getResource', 'getSelect'), array(), '', false
         );
 
-        $resourceStub = new Magento_Object();
+        $resourceStub = new \Magento\Object();
         $resourceStub->setEntityTable($this->_entityTable);
         $customerCollection->expects($this->once())
             ->method('getResource')
@@ -79,11 +79,11 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param Magento_Data_Collection $collection
+     * @param \Magento\Data\Collection $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(Magento_Data_Collection $collection, $pageSize, array $callbacks)
+    public function iterate(\Magento\Data\Collection $collection, $pageSize, array $callbacks)
     {
         foreach ($collection as $customer) {
             foreach ($callbacks as $callback) {
@@ -141,11 +141,11 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
     }
 
     /**
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _addCustomerToStorage()
     {
-        $customer = new Magento_Object(array(
+        $customer = new \Magento\Object(array(
             'id'         => 1,
             'website_id' => 1,
             'email'      => 'test@test.com'

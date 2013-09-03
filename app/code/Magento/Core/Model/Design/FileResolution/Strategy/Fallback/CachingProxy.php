@@ -26,7 +26,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy im
     protected $_fallback;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -60,7 +60,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy im
 
     /**
      * @param Magento_Core_Model_Design_FileResolution_Strategy_Fallback $fallback
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param string $mapDir
      * @param string $baseDir
      * @param bool $canSaveMap
@@ -68,7 +68,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy im
      */
     public function __construct(
         Magento_Core_Model_Design_FileResolution_Strategy_Fallback $fallback,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         $mapDir,
         $baseDir,
         $canSaveMap = true
@@ -196,13 +196,13 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy im
      * @param string|null $module
      * @param string $file
      * @param string $filePath
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     protected function _setToMap($fileType, $area, Magento_Core_Model_Theme $theme, $locale, $module, $file, $filePath)
     {
         $pattern = $this->_baseDir . DIRECTORY_SEPARATOR;
         if (0 !== strpos($filePath, $pattern)) {
-            throw new Magento_Exception(
+            throw new \Magento\MagentoException(
                 "Attempt to store fallback path '{$filePath}', which is not within '{$pattern}'"
             );
         }

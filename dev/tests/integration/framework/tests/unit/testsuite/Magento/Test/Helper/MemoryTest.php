@@ -14,7 +14,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_shell = $this->getMock('Magento_Shell', array('execute'), array(), '', false);
+        $this->_shell = $this->getMock('Magento\Shell', array('execute'), array(), '', false);
     }
 
     public function testGetRealMemoryUsageUnix()
@@ -24,7 +24,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
             ->expects($this->at(0))
             ->method('execute')
             ->with($this->stringStartsWith('tasklist.exe '))
-            ->will($this->throwException(new Magento_Exception('command not found')))
+            ->will($this->throwException(new \Magento\MagentoException('command not found')))
         ;
         $this->_shell
             ->expects($this->at(1))

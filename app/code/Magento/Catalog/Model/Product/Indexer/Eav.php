@@ -175,7 +175,7 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Magento_Index_Model_Inde
     {
         $reindexEav = false;
 
-        /* @var $actionObject Magento_Object */
+        /* @var $actionObject \Magento\Object */
         $actionObject = $event->getDataObject();
         // check if attributes changed
         $attrData = $actionObject->getAttributesData();

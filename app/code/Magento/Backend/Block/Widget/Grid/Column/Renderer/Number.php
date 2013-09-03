@@ -23,10 +23,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Number
     /**
      * Returns value of the row
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return mixed|string
      */
-    protected function _getValue(Magento_Object $row)
+    protected function _getValue(\Magento\Object $row)
     {
         $data = parent::_getValue($row);
         if (!is_null($data)) {

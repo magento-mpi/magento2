@@ -37,11 +37,11 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         $themeDir = Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA) . 'theme';
-        $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
+        $filesystem = Mage::getObjectManager()->create('Magento\Filesystem');
         $filesystem->delete($themeDir . '/frontend');
         $filesystem->delete($themeDir . '/_merged');
 
-        $ioAdapter = new Magento_Io_File();
+        $ioAdapter = new \Magento\Io\File();
         $ioAdapter->cp(
             Mage::getBaseDir(Magento_Core_Model_Dir::PUB_LIB) . '/prototype/prototype.js',
             Mage::getBaseDir(Magento_Core_Model_Dir::PUB_LIB) . '/prototype/prototype.min.js'
@@ -50,7 +50,7 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        $ioAdapter = new Magento_Io_File();
+        $ioAdapter = new \Magento\Io\File();
         $ioAdapter->rm(Mage::getBaseDir(Magento_Core_Model_Dir::PUB_LIB) . '/prototype/prototype.min.js');
     }
 
@@ -160,7 +160,7 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $file
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\MagentoException
      * @dataProvider extractScopeExceptionDataProvider
      */
     public function testExtractScopeException($file)
@@ -186,7 +186,7 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
     {
         $this->_emulateFixtureTheme();
         $config = $this->_viewConfig->getViewConfig();
-        $this->assertInstanceOf('Magento_Config_View', $config);
+        $this->assertInstanceOf('\Magento\Config\View', $config);
         $this->assertEquals(array('var1' => 'value1', 'var2' => 'value2'), $config->getVars('Namespace_Module'));
     }
 
@@ -199,15 +199,15 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
         /** @var $theme Magento_Core_Model_Theme */
         $theme = Mage::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')->getDesignTheme();
         $customConfigFile = $theme->getCustomization()->getCustomViewConfigPath();
-        /** @var $filesystem Magento_Filesystem */
-        $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
+        /** @var $filesystem \Magento\Filesystem */
+        $filesystem = Mage::getObjectManager()->create('Magento\Filesystem');
         $filesystem->setIsAllowCreateDirectories(true);
         try {
             $filesystem->write($customConfigFile, '<?xml version="1.0" encoding="UTF-8"?>
                 <view><vars  module="Namespace_Module"><var name="customVar">custom value</var></vars></view>');
 
             $config = $this->_viewConfig->getViewConfig();
-            $this->assertInstanceOf('Magento_Config_View', $config);
+            $this->assertInstanceOf('\Magento\Config\View', $config);
             $this->assertEquals(array('customVar' => 'custom value'), $config->getVars('Namespace_Module'));
         } catch (Exception $e) {
             $filesystem->delete($customConfigFile);

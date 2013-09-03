@@ -17,7 +17,7 @@
     </type>
     <type name="Magento_Reward_Model_Observer">
         <param name="authorization">
-            <instance type="Magento_Authorization_Proxy" />
+            <instance type="Magento\Authorization" />
         </param>
     </type>
 </config>

@@ -98,7 +98,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     /**
      * Retrieve base image url
      *
-     * @param Magento_Catalog_Model_Product|Magento_Object $product
+     * @param Magento_Catalog_Model_Product|\Magento\Object $product
      * @return string|bool
      */
     public function getImageUrl($product)
@@ -116,7 +116,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     /**
      * Retrieve small image url
      *
-     * @param Magento_Catalog_Model_Product|Magento_Object $product
+     * @param Magento_Catalog_Model_Product|\Magento\Object $product
      * @return string|bool
      */
     public function getSmallImageUrl($product)
@@ -134,7 +134,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     /**
      * Retrieve thumbnail image url
      *
-     * @param Magento_Catalog_Model_Product|Magento_Object $product
+     * @param Magento_Catalog_Model_Product|\Magento\Object $product
      * @return string
      */
     public function getThumbnailUrl($product)
@@ -291,7 +291,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      *
      * @param int $productId
      * @param Magento_Core_Controller_Front_Action $controller
-     * @param Magento_Object $params
+     * @param \Magento\Object $params
      *
      * @return false|Magento_Catalog_Model_Product
      */
@@ -299,7 +299,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     {
         // Prepare data for routine
         if (!$params) {
-            $params = new Magento_Object();
+            $params = new \Magento\Object();
         }
 
         // Init and load product
@@ -364,7 +364,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      * Also parses and adds product management related values - e.g. qty
      *
      * @param  Magento_Catalog_Model_Product $product
-     * @param  Magento_Object $buyRequest
+     * @param  \Magento\Object $buyRequest
      * @return Magento_Catalog_Helper_Product
      */
     public function prepareProductOptions($product, $buyRequest)
@@ -381,31 +381,31 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      * This method is used to attach additional parameters to processed buyRequest.
      *
      * $params holds parameters of what operation must be performed:
-     * - 'current_config', Magento_Object or array - current buyRequest that configures product in this item,
+     * - 'current_config', \Magento\Object or array - current buyRequest that configures product in this item,
      *   used to restore currently attached files
      * - 'files_prefix': string[a-z0-9_] - prefix that was added at frontend to names of file inputs,
      *   so they won't intersect with other submitted options
      *
-     * @param Magento_Object|array $buyRequest
-     * @param Magento_Object|array $params
-     * @return Magento_Object
+     * @param \Magento\Object|array $buyRequest
+     * @param \Magento\Object|array $params
+     * @return \Magento\Object
      */
     public function addParamsToBuyRequest($buyRequest, $params)
     {
         if (is_array($buyRequest)) {
-            $buyRequest = new Magento_Object($buyRequest);
+            $buyRequest = new \Magento\Object($buyRequest);
         }
         if (is_array($params)) {
-            $params = new Magento_Object($params);
+            $params = new \Magento\Object($params);
         }
 
 
-        // Ensure that currentConfig goes as Magento_Object - for easier work with it later
+        // Ensure that currentConfig goes as \Magento\Object - for easier work with it later
         $currentConfig = $params->getCurrentConfig();
         if ($currentConfig) {
             if (is_array($currentConfig)) {
-                $params->setCurrentConfig(new Magento_Object($currentConfig));
-            } else if (!($currentConfig instanceof Magento_Object)) {
+                $params->setCurrentConfig(new \Magento\Object($currentConfig));
+            } else if (!($currentConfig instanceof \Magento\Object)) {
                 $params->unsCurrentConfig();
             }
         }
@@ -415,8 +415,8 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
          * where '_processing_params' comes in $buyRequest as array from user input
          */
         $processingParams = $buyRequest->getData('_processing_params');
-        if (!$processingParams || !($processingParams instanceof Magento_Object)) {
-            $processingParams = new Magento_Object();
+        if (!$processingParams || !($processingParams instanceof \Magento\Object)) {
+            $processingParams = new \Magento\Object();
             $buyRequest->setData('_processing_params', $processingParams);
         }
         $processingParams->addData($params->getData());

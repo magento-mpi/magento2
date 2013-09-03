@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit Test for Magento_Filesystem_Stream_Mode_Zlib
+ * Unit Test for \Magento\Filesystem\Stream\Mode\Zlib
  *
  * {license_notice}
  *
@@ -18,7 +18,7 @@ class Magento_Filesystem_Stream_Mode_ZlibTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructor($mode, $expectedMode, $ratio, $strategy)
     {
-        $object = new Magento_Filesystem_Stream_Mode_Zlib($mode);
+        $object = new \Magento\Filesystem\Stream\Mode\Zlib($mode);
         $this->assertEquals($expectedMode, $object->getMode());
         $this->assertEquals($ratio, $object->getRatio());
         $this->assertEquals($strategy, $object->getStrategy());

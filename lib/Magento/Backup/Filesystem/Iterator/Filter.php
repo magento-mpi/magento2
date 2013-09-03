@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category     Magento
- * @package      Magento_Backup
+ * @package      \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,12 @@
  * Filter Iterator
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Filesystem_Iterator_Filter extends FilterIterator
+namespace Magento\Backup\Filesystem\Iterator;
+
+class Filter extends \FilterIterator
 {
     /**
      * Array that is used for filtering

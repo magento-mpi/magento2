@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Reports_Model_Test extends Magento_Object
+class Magento_Reports_Model_Test extends \Magento\Object
 {
 
     public function getUsersCountries( )

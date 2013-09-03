@@ -136,7 +136,7 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
                     ->where('entity_id = ?', (int)$product->getId())
                     ->limit(1);
 
-                $order = array('state ' . Magento_DB_Select::SQL_DESC, 'website_id ' . Magento_DB_Select::SQL_DESC);
+                $order = array('state ' . \Magento\DB\Select::SQL_DESC, 'website_id ' . \Magento\DB\Select::SQL_DESC);
                 $attributeSelect->order($order);
 
                 $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);
@@ -159,7 +159,7 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
                         }
                     }
 
-                    $one = new Magento_Object();
+                    $one = new \Magento\Object();
                     $one->setName(__($attribute->getFrontend()->getLabel()))
                         ->setAmount($amount)
                         ->setTaxAmount($taxAmount)

@@ -79,7 +79,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
             'Magento_Backend_Model_Config_Structure_Element_Section', array(), array(), '', false
         );
 
-        $this->_cacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
+        $this->_cacheMock = $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
 
         $configStructureMock->expects($this->any())->method('getElement')
             ->will($this->returnValue($this->_sectionMock));

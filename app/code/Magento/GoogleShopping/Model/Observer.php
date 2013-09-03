@@ -20,7 +20,7 @@ class Magento_GoogleShopping_Model_Observer
     /**
      * Update product item in Google Content
      *
-     * @param Magento_Object $observer
+     * @param \Magento\Object $observer
      * @return Magento_GoogleShopping_Model_Observer
      */
     public function saveProductItem($observer)
@@ -42,7 +42,7 @@ class Magento_GoogleShopping_Model_Observer
     /**
      * Delete product item from Google Content
      *
-     * @param Magento_Object $observer
+     * @param \Magento\Object $observer
      * @return Magento_GoogleShopping_Model_Observer
      */
     public function deleteProductItem($observer)
@@ -87,10 +87,10 @@ class Magento_GoogleShopping_Model_Observer
     /**
      * Check if synchronize process is finished and generate notification message
      *
-     * @param  Magento_Event_Observer $observer
+     * @param  \Magento\Event\Observer $observer
      * @return Magento_GoogleShopping_Model_Observer
      */
-    public function checkSynchronizationOperations(Magento_Event_Observer $observer)
+    public function checkSynchronizationOperations(\Magento\Event\Observer $observer)
     {
         $flag = Mage::getSingleton('Magento_GoogleShopping_Model_Flag')->loadSelf();
         if ($flag->isExpired()) {

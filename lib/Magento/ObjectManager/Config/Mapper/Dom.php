@@ -7,14 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ObjectManager_Config_Mapper_Dom implements Magento_Config_ConverterInterface
+namespace Magento\ObjectManager\Config\Mapper;
+
+class Dom implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert configuration in DOM format to assoc array that can be used by object manager
      *
      * @param mixed $config
      * @return array
-     * @throws Exception
+     * @throws \Exception
      * @todo this method has high cyclomatic complexity in order to avoid performance issues
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -23,7 +25,7 @@ class Magento_ObjectManager_Config_Mapper_Dom implements Magento_Config_Converte
     public function convert($config)
     {
         $output = array();
-        /** @var DOMNode $node */
+        /** @var \DOMNode $node */
         foreach ($config->documentElement->childNodes as $node) {
             if ($node->nodeType != XML_ELEMENT_NODE) {
                 continue;
@@ -51,7 +53,7 @@ class Magento_ObjectManager_Config_Mapper_Dom implements Magento_Config_Converte
                     }
                     $typeParameters = array();
                     $typePlugins = array();
-                    /** @var DOMNode $typeChildNode */
+                    /** @var \DOMNode $typeChildNode */
                     foreach ($node->childNodes as $typeChildNode) {
                         if ($typeChildNode->nodeType != XML_ELEMENT_NODE) {
                             continue;
@@ -59,7 +61,7 @@ class Magento_ObjectManager_Config_Mapper_Dom implements Magento_Config_Converte
                         switch ($typeChildNode->nodeName) {
                             case 'param':
                                 $paramData = array();
-                                /** @var DOMNode $paramChildNode */
+                                /** @var \DOMNode $paramChildNode */
                                 foreach ($typeChildNode->childNodes as $paramChildNode) {
                                     if ($paramChildNode->nodeType != XML_ELEMENT_NODE) {
                                         continue;
@@ -81,7 +83,7 @@ class Magento_ObjectManager_Config_Mapper_Dom implements Magento_Config_Converte
                                             $paramData = $this->_processValueNode($paramChildNode);
                                             break;
                                         default:
-                                            throw new Exception(
+                                            throw new \Exception(
                                                 "Invalid application config. Unknown node: {$paramChildNode->nodeName}."
                                             );
                                     }
@@ -106,7 +108,7 @@ class Magento_ObjectManager_Config_Mapper_Dom implements Magento_Config_Converte
                                 $typePlugins[$pluginAttributes->getNamedItem('name')->nodeValue] = $pluginData;
                                 break;
                             default:
-                                throw new Exception(
+                                throw new \Exception(
                                     "Invalid application config. Unknown node: {$typeChildNode->nodeName}."
                                 );
                         }
@@ -119,7 +121,7 @@ class Magento_ObjectManager_Config_Mapper_Dom implements Magento_Config_Converte
                     $output[$typeNodeAttributes->getNamedItem('name')->nodeValue] = $typeData;
                     break;
                 default:
-                    throw new Exception("Invalid application config. Unknown node: {$node->nodeName}.");
+                    throw new \Exception("Invalid application config. Unknown node: {$node->nodeName}.");
             }
         }
 
@@ -130,12 +132,12 @@ class Magento_ObjectManager_Config_Mapper_Dom implements Magento_Config_Converte
      * Retrieve value of the given node
      * Treat all child nodes as an assoc array
      * @todo this method has high cyclomatic complexity in order to avoid performance issues
-     * @param DOMNode $valueNode
+     * @param \DOMNode $valueNode
      * @return array|string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function _processValueNode(DOMNode $valueNode)
+    protected function _processValueNode(\DOMNode $valueNode)
     {
         $output = array();
         $childNodesCount = $valueNode->childNodes->length;
@@ -144,7 +146,7 @@ class Magento_ObjectManager_Config_Mapper_Dom implements Magento_Config_Converte
             return null;
         }
         
-        /** @var DOMNode $node */
+        /** @var \DOMNode $node */
         foreach ($valueNode->childNodes as $node) {
             if ($node->nodeType == XML_ELEMENT_NODE) {
                 $nodeType = $node->attributes->getNamedItem('type');
@@ -156,7 +158,7 @@ class Magento_ObjectManager_Config_Mapper_Dom implements Magento_Config_Converte
             } elseif (($node->nodeType == XML_TEXT_NODE || $node->nodeType == XML_CDATA_SECTION_NODE)
                 && $childNodesCount == 1
             ) {
-                // process DomText or DOMCharacterData node only if it is a single child of its parent
+                // process DomText or \DOMCharacterData node only if it is a single child of its parent
                 $output = trim($node->nodeValue);
                 if ($valueNodeType) {
                     switch ($valueNodeType->nodeValue) {
@@ -171,18 +173,18 @@ class Magento_ObjectManager_Config_Mapper_Dom implements Magento_Config_Converte
                             break;
                         case 'int':
                             if (!preg_match('/^[0-9]*$/', $output)) {
-                                throw new InvalidArgumentException('Invalid integer value');
+                                throw new \InvalidArgumentException('Invalid integer value');
                             }
                             $output = (int)$output;
                             break;
                         case 'string':
                             $pattern = $valueNode->attributes->getNamedItem('pattern')->nodeValue;
                             if (!preg_match('/^' . $pattern . '$/', $output)) {
-                                throw new InvalidArgumentException('Invalid string value format');
+                                throw new \InvalidArgumentException('Invalid string value format');
                             }
                             break;
                         default:
-                            throw new InvalidArgumentException('Unknown parameter type');
+                            throw new \InvalidArgumentException('Unknown parameter type');
                     }
                 }
             }

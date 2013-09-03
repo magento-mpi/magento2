@@ -33,7 +33,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
         if ($this->getLayout()->hasElement($this->getNameInLayout() . '_element')) {
             $this->getLayout()->unsetElement($this->getNameInLayout() . '_element');
         }
-        Magento_Data_Form::setFieldsetElementRenderer(
+        \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element',
                 $this->getNameInLayout() . '_element'
@@ -48,7 +48,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $form->setFieldNameSuffix('type');
 
         $fieldset = $form->addFieldset('base_fieldset', array(

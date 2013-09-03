@@ -15,7 +15,9 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Radios extends Magento_Data_Form_Element_Abstract
+namespace Magento\Data\Form\Element;
+
+class Radios extends \Magento\Data\Form\Element\AbstractElement
 {
     public function __construct($attributes=array())
     {
@@ -56,7 +58,7 @@ class Magento_Data_Form_Element_Radios extends Magento_Data_Form_Element_Abstrac
             $html.= ' />';
             $html.= '<label class="inline" for="'.$this->getHtmlId().$option['value'].'">'.$option['label'].'</label>';
         }
-        elseif ($option instanceof Magento_Object) {
+        elseif ($option instanceof \Magento\Object) {
         	$html.= 'id="'.$this->getHtmlId().$option->getValue().'"'.$option->serialize(array('label', 'title', 'value', 'class', 'style'));
         	if (in_array($option->getValue(), $selected)) {
         	    $html.= ' checked="checked"';

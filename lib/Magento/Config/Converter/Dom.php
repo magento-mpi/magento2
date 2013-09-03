@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Config_Converter_Dom implements Magento_Config_ConverterInterface
+namespace Magento\Config\Converter;
+
+class Dom implements \Magento\Config\ConverterInterface
 {
     const ATTRIBUTES = '__attributes__';
     const CONTENT = '__content__';
@@ -20,11 +22,11 @@ class Magento_Config_Converter_Dom implements Magento_Config_ConverterInterface
     {
         $nodeListData = array();
 
-        /** @var $node DOMNode */
+        /** @var $node \DOMNode */
         foreach ($source->childNodes as $node) {
             if ($node->nodeType == XML_ELEMENT_NODE) {
                 $nodeData = array();
-                /** @var $attribute DOMNode */
+                /** @var $attribute \DOMNode */
                 foreach ($node->attributes as $attribute) {
                     if ($attribute->nodeType == XML_ATTRIBUTE_NODE) {
                         $nodeData[self::ATTRIBUTES][$attribute->nodeName] = $attribute->nodeValue;

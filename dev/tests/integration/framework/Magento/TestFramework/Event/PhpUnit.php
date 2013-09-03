@@ -40,13 +40,13 @@ class Magento_TestFramework_Event_PhpUnit implements PHPUnit_Framework_TestListe
      * Constructor
      *
      * @param Magento_TestFramework_EventManager $eventManager
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function __construct(Magento_TestFramework_EventManager $eventManager = null)
     {
         $this->_eventManager = $eventManager ?: self::$_defaultEventManager;
         if (!$this->_eventManager) {
-            throw new Magento_Exception('Instance of the event manager is required.');
+            throw new \Magento\MagentoException('Instance of the event manager is required.');
         }
     }
 

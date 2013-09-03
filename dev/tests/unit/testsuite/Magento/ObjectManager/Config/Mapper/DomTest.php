@@ -8,13 +8,13 @@
 class Magento_ObjectManager_Config_Mapper_DomTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager_Config_Mapper_Dom
+     * @var \Magento\ObjectManager\Config\Mapper\Dom
      */
     protected $_mapper;
 
     protected function setUp()
     {
-        $this->_mapper = new Magento_ObjectManager_Config_Mapper_Dom();
+        $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom();
     }
 
     public function testConvert()

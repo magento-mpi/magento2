@@ -40,12 +40,12 @@ class Magento_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_
     /**
      * Collection constructor
      *
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_App $application
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_App $application,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {

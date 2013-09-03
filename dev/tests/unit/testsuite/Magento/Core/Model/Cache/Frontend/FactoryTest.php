@@ -18,14 +18,14 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
         $result = $model->create(array('backend' => 'Zend_Cache_Backend_BlackHole'));
 
         $this->assertInstanceOf(
-            'Magento_Cache_FrontendInterface',
+            '\Magento\Cache\FrontendInterface',
             $result,
-            'Created object must implement Magento_Cache_FrontendInterface'
+            'Created object must implement \Magento\Cache\FrontendInterface'
         );
         $this->assertInstanceOf(
-            'Magento_Cache_Core',
+            '\Magento\Cache\Core',
             $result->getLowLevelFrontend(),
-            'Created object must have Magento_Cache_Core frontend by default'
+            'Created object must have \Magento\Cache\Core frontend by default'
         );
         $this->assertInstanceOf(
             'Zend_Cache_Backend_BlackHole',
@@ -131,7 +131,7 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
     {
         $processFrontendFunc = function ($class, $params) {
             switch ($class) {
-                case 'Magento_Cache_Frontend_Adapter_Zend':
+                case '\Magento\Cache\Frontend\Adapter\Zend':
                     return new $class($params['frontend']);
                 case 'CacheDecoratorDummy':
                     $frontend = $params['frontend'];
@@ -143,12 +143,12 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
             }
         };
         /** @var $objectManager PHPUnit_Framework_MockObject_MockObject */
-        $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $objectManager->expects($this->any())
             ->method('create')
             ->will($this->returnCallback($processFrontendFunc));
 
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->any())
             ->method('isDirectory')
             ->will($this->returnValue(true));

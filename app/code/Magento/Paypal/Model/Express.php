@@ -159,7 +159,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
      * @param float $amount
      * @return Magento_Paypal_Model_Express
      */
-    public function order(Magento_Object $payment, $amount)
+    public function order(\Magento\Object $payment, $amount)
     {
         $this->_placeOrder($payment, $amount);
 
@@ -221,7 +221,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
      * @param float $amount
      * @return Magento_Paypal_Model_Express
      */
-    public function authorize(Magento_Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
         return $this->_placeOrder($payment, $amount);
     }
@@ -232,7 +232,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
      * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Express
      */
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         //Switching to order transaction if needed
         if ($payment->getAdditionalInformation($this->_isOrderPaymentActionKey)
@@ -257,7 +257,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
      * @param float $amount
      * @return Magento_Paypal_Model_Express
      */
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         $authorizationTransaction = $payment->getAuthorizationTransaction();
         $authorizationPeriod = abs(intval($this->getConfigData('authorization_honor_period')));
@@ -277,7 +277,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
                 $payment->setParentTransactionId($authorizationTransaction->getTxnId());
                 $payment->unsTransactionId();
                 $payment->setVoidOnlyAuthorization(true);
-                $payment->void(new Magento_Object());
+                $payment->void(new \Magento\Object());
 
                 //Revert payment state after voiding
                 $payment->unsAuthorizationTransaction();
@@ -348,7 +348,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
      * @param float $amount
      * @return Magento_Paypal_Model_Express
      */
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $this->_pro->refund($payment, $amount);
         return $this;
@@ -360,7 +360,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
      * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Express
      */
-    public function cancel(Magento_Object $payment)
+    public function cancel(\Magento\Object $payment)
     {
         $this->void($payment);
 
@@ -455,9 +455,9 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
      * Fetch RP details
      *
      * @param string $referenceId
-     * @param Magento_Object $result
+     * @param \Magento\Object $result
      */
-    public function getRecurringProfileDetails($referenceId, Magento_Object $result)
+    public function getRecurringProfileDetails($referenceId, \Magento\Object $result)
     {
         return $this->_pro->getRecurringProfileDetails($referenceId, $result);
     }
@@ -503,7 +503,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
         if (is_array($data)) {
             $this->getInfoInstance()->setAdditionalInformation($key, isset($data[$key]) ? $data[$key] : null);
         }
-        elseif ($data instanceof Magento_Object) {
+        elseif ($data instanceof \Magento\Object) {
             $this->getInfoInstance()->setAdditionalInformation($key, $data->getData($key));
         }
         return $result;
@@ -575,10 +575,10 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     /**
      * Check void availability
      *
-     * @param   Magento_Object $payment
+     * @param   \Magento\Object $payment
      * @return  bool
      */
-    public function canVoid(Magento_Object $payment)
+    public function canVoid(\Magento\Object $payment)
     {
         if ($payment instanceof Magento_Sales_Model_Order_Invoice
             || $payment instanceof Magento_Sales_Model_Order_Creditmemo
@@ -633,7 +633,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
      * Call DoAuthorize
      *
      * @param int $amount
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param string $parentTransactionId
      * @return Magento_Paypal_Model_Api_Abstract
      */

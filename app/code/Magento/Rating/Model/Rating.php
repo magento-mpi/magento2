@@ -87,7 +87,7 @@ class Magento_Rating_Model_Rating extends Magento_Core_Model_Abstract
     /**
      * Get rating collection object
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
 
     public function getEntitySummary($entityPkValue,  $onlyForCurrentStore = true)

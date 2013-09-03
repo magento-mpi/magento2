@@ -47,7 +47,7 @@ class Magento_Test_Bootstrap_DocBlockTest extends PHPUnit_Framework_TestCase
         try {
             new $listenerClass();
             $this->fail("Inability to instantiate the event listener '$listenerClass' is expected.");
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\MagentoException $e) {
             $this->assertEquals($expectedExceptionMsg, $e->getMessage());
         }
     }

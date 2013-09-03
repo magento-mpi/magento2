@@ -11,7 +11,7 @@
 /**
  * System / Cache Management / Cache type "Translations"
  */
-class Magento_Core_Model_Cache_Type_Translate extends Magento_Cache_Frontend_Decorator_TagScope
+class Magento_Core_Model_Cache_Type_Translate extends \Magento\Cache\Frontend\Decorator\TagScope
 {
     /**
      * Cache type code unique among all cache types

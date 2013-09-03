@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Filter_Email implements Zend_Filter_Interface
+namespace Magento\Filter;
+
+class Email implements \Zend_Filter_Interface
 {  
     public function filter($value)
     {

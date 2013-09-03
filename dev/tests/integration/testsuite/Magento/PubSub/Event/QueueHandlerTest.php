@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_PubSub_Event_QueueHandler
+ * \Magento\PubSub\Event\QueueHandler
  *
  * @magentoDbIsolation enabled
  *
@@ -17,7 +17,7 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
     const ENDPOINT_URL = 'http://localhost/';
 
     /**
-     * @var Magento_PubSub_Event_QueueHandler
+     * @var \Magento\PubSub\Event\QueueHandler
      */
     protected $_model;
 
@@ -34,7 +34,7 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
         }
 
         /** @var $factory Magento_Webhook_Model_Event_Factory */
-        $factory = Mage::getObjectManager()->create('Magento_PubSub_Event_FactoryInterface');
+        $factory = Mage::getObjectManager()->create('Magento\PubSub\Event\FactoryInterface');
 
         /** @var $event Magento_Webhook_Model_Event */
         $factory->create('testinstance/created', array(
@@ -90,7 +90,7 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
             ->save();;
 
-        $this->_model = Mage::getObjectManager()->get('Magento_PubSub_Event_QueueHandler');
+        $this->_model = Mage::getObjectManager()->get('Magento\PubSub\Event\QueueHandler');
     }
 
     /**
@@ -99,13 +99,13 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
     public function testHandle()
     {
         $this->_model->handle();
-        /** @var $queue Magento_PubSub_Job_QueueReaderInterface */
-        $queue = Mage::getObjectManager()->get('Magento_PubSub_Job_QueueReaderInterface');
+        /** @var $queue \Magento\PubSub\Job\QueueReaderInterface */
+        $queue = Mage::getObjectManager()->get('Magento\PubSub\Job\QueueReaderInterface');
 
         /* First EVENT */
         $job = $queue->poll();
         $this->assertNotNull($job);
-        $this->assertInstanceOf('Magento_PubSub_JobInterface', $job);
+        $this->assertInstanceOf('\Magento\PubSub\JobInterface', $job);
         $event = $job->getEvent();
         $subscription = $job->getSubscription();
 

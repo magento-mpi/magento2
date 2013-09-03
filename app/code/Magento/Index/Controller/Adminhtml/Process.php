@@ -107,10 +107,10 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
         $process = $this->_initProcess();
         if ($process) {
             try {
-                Magento_Profiler::start('__INDEX_PROCESS_REINDEX_ALL__');
+                \Magento\Profiler::start('__INDEX_PROCESS_REINDEX_ALL__');
 
                 $process->reindexEverything();
-                Magento_Profiler::stop('__INDEX_PROCESS_REINDEX_ALL__');
+                \Magento\Profiler::stop('__INDEX_PROCESS_REINDEX_ALL__');
                 $this->_getSession()->addSuccess(
                     __('%1 index was rebuilt.', $process->getIndexer()->getName())
                 );

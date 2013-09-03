@@ -11,10 +11,10 @@
 /**
  * Theme filesystem collection
  */
-class Magento_Core_Model_Theme_Collection extends Magento_Data_Collection
+class Magento_Core_Model_Theme_Collection extends \Magento\Data\Collection
 {
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -40,11 +40,11 @@ class Magento_Core_Model_Theme_Collection extends Magento_Data_Collection
     protected $_targetDirs = array();
 
     /**
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Dir $dirs
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Dir $dirs
     ) {
         parent::__construct();
@@ -118,13 +118,13 @@ class Magento_Core_Model_Theme_Collection extends Magento_Data_Collection
     /**
      * Return target dir for themes with theme configuration file
      *
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      * @return array|string
      */
     public function getTargetPatterns()
     {
         if (empty($this->_targetDirs)) {
-            throw new Magento_Exception('Please specify at least one target pattern to theme config file.');
+            throw new \Magento\MagentoException('Please specify at least one target pattern to theme config file.');
         }
         return $this->_targetDirs;
     }
@@ -168,7 +168,7 @@ class Magento_Core_Model_Theme_Collection extends Magento_Data_Collection
     protected function _updateRelations()
     {
         $themeItems = $this->getItems();
-        /** @var $theme Magento_Object|Magento_Core_Model_ThemeInterface */
+        /** @var $theme \Magento\Object|Magento_Core_Model_ThemeInterface */
         foreach ($themeItems as $theme) {
             $parentThemePath = $theme->getData('parent_theme_path');
             if ($parentThemePath) {
@@ -287,20 +287,20 @@ class Magento_Core_Model_Theme_Collection extends Magento_Data_Collection
      * Return configuration model for themes
      *
      * @param array $configPaths
-     * @return Magento_Config_Theme
+     * @return \Magento\Config\Theme
      */
     protected function _getConfigModel(array $configPaths)
     {
-        return new Magento_Config_Theme($configPaths);
+        return new \Magento\Config\Theme($configPaths);
     }
 
     /**
      * Retrieve item id
      *
-     * @param Magento_Core_Model_Theme|Magento_Object $item
+     * @param Magento_Core_Model_Theme|\Magento\Object $item
      * @return string
      */
-    protected function _getItemId(Magento_Object $item)
+    protected function _getItemId(\Magento\Object $item)
     {
         return $item->getFullPath();
     }

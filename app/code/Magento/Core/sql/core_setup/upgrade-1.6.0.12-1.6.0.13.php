@@ -16,7 +16,7 @@ $installer->getConnection()->addColumn(
     $installer->getTable('core_theme'),
     'code',
     array(
-        'type'    => Magento_DB_Ddl_Table::TYPE_TEXT,
+        'type'    => \Magento\DB\Ddl\Table::TYPE_TEXT,
         'comment' => 'Full theme code, including package'
     )
 );

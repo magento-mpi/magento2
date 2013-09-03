@@ -41,7 +41,7 @@ class Magento_Test_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
         $this->_fixtureDir = __DIR__ . DIRECTORY_SEPARATOR . '_files';
         $fixtureConfigData = include($this->_fixtureDir . DIRECTORY_SEPARATOR . 'config_data.php');
 
-        $shell = $this->getMock('Magento_Shell', array('execute'));
+        $shell = $this->getMock('Magento\Shell', array('execute'));
         $this->_config = new Magento_TestFramework_Performance_Config(
             $fixtureConfigData,
             $this->_fixtureDir,

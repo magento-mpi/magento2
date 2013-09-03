@@ -122,7 +122,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
     /**
      * @param $itemId
      * @param $item
-     * @param $expectedItem Magento_Object
+     * @param $expectedItem \Magento\Object
      * @dataProvider itemsDataProvider
      */
     public function testItemsProcessing($itemId, $item, $expectedItem)
@@ -144,7 +144,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
         $this->assertEquals(1, $this->_block->getCount());
 
         $actualItem = $this->_block->getItem($itemId);
-        $this->assertInstanceOf('Magento_Object', $actualItem);
+        $this->assertInstanceOf('\Magento\Object', $actualItem);
         $this->assertEquals($expectedItem->getData(), $actualItem->getData());
 
         $this->_block->removeItem($itemId);
@@ -158,7 +158,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
             array(
                 'test_id1',
                 array("label" => "Test Item One", "url" => "*/*/test1"),
-                new Magento_Object(
+                new \Magento\Object(
                     array(
                         "label" => "Test Item One",
                         "url" => "http://localhost/index.php/backend/admin/test/test1",
@@ -168,13 +168,13 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
             ),
             array(
                 'test_id2',
-                new Magento_Object(
+                new \Magento\Object(
                     array(
                         "label" => "Test Item Two",
                         "url" => "*/*/test2"
                     )
                 ),
-                new Magento_Object(
+                new \Magento\Object(
                     array(
                         "label" => "Test Item Two",
                         "url" => "http://localhost/index.php/backend/admin/test/test2",

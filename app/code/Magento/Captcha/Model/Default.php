@@ -33,7 +33,7 @@ class Magento_Captcha_Model_Default extends Zend_Captcha_Image implements Magent
     const DEFAULT_WORD_LENGTH_TO   = 5;
 
     /**
-     * @var Magento_ObjectManager|null
+     * @var \Magento\ObjectManager|null
      */
     protected $_objectManager = null;
 
@@ -70,11 +70,11 @@ class Magento_Captcha_Model_Default extends Zend_Captcha_Image implements Magent
     /**
      * Zend captcha constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param $params
      * @throws Exception
      */
-    public function __construct(Magento_ObjectManager $objectManager, $params)
+    public function __construct(\Magento\ObjectManager $objectManager, $params)
     {
         if (!is_array($params) || !isset($params['formId'])) {
             throw new Exception('formId is mandatory');

@@ -77,7 +77,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Couponcode
      *
      * @param $customer
      * @param int | Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Outbound_Formatter_Json
+ * \Magento\Outbound\Formatter\Json
  *
  * {license_notice}
  *
@@ -10,12 +10,12 @@
 require_once __DIR__ . '/_files/Data.php';
 class Magento_Outbound_Formatter_JsonTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Outbound_Formatter_Json */
+    /** @var \Magento\Outbound\Formatter\Json */
     protected $_formatter;
 
     public function setUp()
     {
-        $this->_formatter = Mage::getObjectManager()->get('Magento_Outbound_Formatter_Json');
+        $this->_formatter = Mage::getObjectManager()->get('Magento\Outbound\Formatter\Json');
     }
 
     /**

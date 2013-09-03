@@ -49,7 +49,7 @@ class Magento_TestFramework_Performance_Scenario_Handler_FileFormat
      *
      * @param Magento_TestFramework_Performance_Scenario $scenario
      * @param string|null $reportFile Report file to write results to, NULL disables report creation
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function run(Magento_TestFramework_Performance_Scenario $scenario, $reportFile = null)
     {
@@ -57,7 +57,7 @@ class Magento_TestFramework_Performance_Scenario_Handler_FileFormat
         /** @var $scenarioHandler Magento_TestFramework_Performance_Scenario_HandlerInterface */
         $scenarioHandler = $this->getHandler($scenarioExtension);
         if (!$scenarioHandler) {
-            throw new Magento_Exception("Unable to run scenario '{$scenario->getTitle()}', format is not supported.");
+            throw new \Magento\MagentoException("Unable to run scenario '{$scenario->getTitle()}', format is not supported.");
         }
         $scenarioHandler->run($scenario, $reportFile);
     }

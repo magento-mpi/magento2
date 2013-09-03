@@ -37,7 +37,7 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
      * @param Magento_Core_Model_Config_Modules_Reader $configReader
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -45,7 +45,7 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
         Magento_Core_Model_Config_Modules_Reader $configReader,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configCacheType = $configCacheType;
@@ -56,15 +56,15 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
     /**
      * Load config from giftregistry.xml files and try to cache it
      *
-     * @return Magento_Simplexml_Config
+     * @return \Magento\Simplexml\Config
      */
     public function getXmlConfig()
     {
         if (is_null($this->_config)) {
             if ($cachedXml = $this->_configCacheType->load('giftregistry_config')) {
-                $xmlConfig = new Magento_Simplexml_Config($cachedXml);
+                $xmlConfig = new \Magento\Simplexml\Config($cachedXml);
             } else {
-                $xmlConfig = new Magento_Simplexml_Config();
+                $xmlConfig = new \Magento\Simplexml\Config();
                 $xmlConfig->loadString('<?xml version="1.0"?><prototype></prototype>');
                 $this->_configReader->loadModulesConfiguration('giftregistry.xml', $xmlConfig);
                 $this->_configCacheType->save($xmlConfig->getXmlString(), 'giftregistry_config');

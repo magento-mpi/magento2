@@ -22,7 +22,7 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Image extends Magento_Eav
     /**
      * Save uploaded file and set its name to category
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Catalog_Model_Category_Attribute_Backend_Image
      */
     public function afterSave($object)

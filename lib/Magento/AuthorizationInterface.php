@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_AuthorizationInterface
+namespace Magento;
+
+interface AuthorizationInterface
 {
     /**
      * Check current user permission on resource and privilege

@@ -31,21 +31,21 @@ class Magento_Reports_Helper_Data extends Magento_Core_Helper_Abstract
             return $intervals;
         }
 
-        $start = new Zend_Date($from, Magento_Date::DATE_INTERNAL_FORMAT);
+        $start = new Zend_Date($from, \Magento\Date::DATE_INTERNAL_FORMAT);
 
         if ($period == self::REPORT_PERIOD_TYPE_DAY) {
             $dateStart = $start;
         }
 
         if ($period == self::REPORT_PERIOD_TYPE_MONTH) {
-            $dateStart = new Zend_Date(date("Y-m", $start->getTimestamp()), Magento_Date::DATE_INTERNAL_FORMAT);
+            $dateStart = new Zend_Date(date("Y-m", $start->getTimestamp()), \Magento\Date::DATE_INTERNAL_FORMAT);
         }
 
         if ($period == self::REPORT_PERIOD_TYPE_YEAR) {
-            $dateStart = new Zend_Date(date("Y", $start->getTimestamp()), Magento_Date::DATE_INTERNAL_FORMAT);
+            $dateStart = new Zend_Date(date("Y", $start->getTimestamp()), \Magento\Date::DATE_INTERNAL_FORMAT);
         }
 
-        $dateEnd = new Zend_Date($to, Magento_Date::DATE_INTERNAL_FORMAT);
+        $dateEnd = new Zend_Date($to, \Magento\Date::DATE_INTERNAL_FORMAT);
 
         while ($dateStart->compare($dateEnd) <= 0) {
             switch ($period) {

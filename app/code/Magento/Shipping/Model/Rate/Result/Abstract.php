@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Shipping_Model_Rate_Result_Abstract extends Magento_Object
+class Magento_Shipping_Model_Rate_Result_Abstract extends \Magento\Object
 {
 
 }

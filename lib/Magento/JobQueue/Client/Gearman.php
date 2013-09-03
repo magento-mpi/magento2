@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_JobQueue_Client_Gearman implements Magento_JobQueue_ClientInterface
+namespace Magento\JobQueue\Client;
+
+class Gearman implements \Magento\JobQueue\ClientInterface
 {
     /**
      * Adapted gearman client
@@ -17,10 +19,10 @@ class Magento_JobQueue_Client_Gearman implements Magento_JobQueue_ClientInterfac
     protected $_adaptedClient;
 
     /**
-     * @param Magento_JobQueue_Client_ConfigInterface $config
+     * @param \Magento\JobQueue\Client\ConfigInterface $config
      * @param GearmanClient $adaptedClient
      */
-    public function __construct(Magento_JobQueue_Client_ConfigInterface $config, GearmanClient $adaptedClient = null)
+    public function __construct(\Magento\JobQueue\Client\ConfigInterface $config, GearmanClient $adaptedClient = null)
     {
         $this->_adaptedClient = $adaptedClient ?: new GearmanClient();
         $this->_adaptedClient->addServers($config->getServers());

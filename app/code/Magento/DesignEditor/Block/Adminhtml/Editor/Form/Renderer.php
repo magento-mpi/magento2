@@ -12,12 +12,12 @@
  * Color-picker form element renderer
  */
 class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer extends Magento_Backend_Block_Template
-    implements Magento_Data_Form_Element_Renderer_Interface
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Form element to render
      *
-     * @var Magento_Data_Form_Element_Abstract
+     * @var \Magento\Data\Form\Element\AbstractElement
      */
     protected $_element;
 
@@ -31,7 +31,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer extends Magento_
     /**
      * Get element renderer bound to
      *
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function getElement()
     {
@@ -41,10 +41,10 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer extends Magento_
     /**
      * Render form element as HTML
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->_element = $element;
         return $this->toHtml();

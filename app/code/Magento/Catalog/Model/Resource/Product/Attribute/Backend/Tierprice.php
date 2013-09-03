@@ -44,8 +44,8 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice
     /**
      * Order by qty
      *
-     * @param Magento_DB_Select $select
-     * @return Magento_DB_Select
+     * @param \Magento\DB\Select $select
+     * @return \Magento\DB\Select
      */
     protected function _loadPriceDataSelect($select)
     {

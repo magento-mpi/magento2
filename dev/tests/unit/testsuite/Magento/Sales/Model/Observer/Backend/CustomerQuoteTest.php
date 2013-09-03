@@ -48,10 +48,10 @@ class Magento_Sales_Model_Observer_Backend_CustomerQuoteTest extends PHPUnit_Fra
         $this->_quoteMock = $this->getMock('Magento_Sales_Model_Quote',
             array('setWebsite', 'loadByCustomer', 'getId', 'setCustomerGroupId', 'collectTotals'), array(), '', false
         );
-        $this->_observerMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
+        $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $this->_configMock = $this->getMock('Magento_Customer_Model_Config_Share', array(), array(), '', false);
-        $this->_eventMock = $this->getMock('Magento_Event', array('getCustomer'), array(), '', false);
+        $this->_eventMock = $this->getMock('Magento\Event', array('getCustomer'), array(), '', false);
         $this->_customerMock = $this->getMock('Magento_Customer_Model_Customer', array(), array(), '', false);
         $this->_observerMock->expects($this->any())->method('getEvent')->will($this->returnValue($this->_eventMock));
         $this->_eventMock

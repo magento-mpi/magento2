@@ -20,22 +20,22 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sitemap'))
-    ->addColumn('sitemap_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('sitemap_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Sitemap Id')
-    ->addColumn('sitemap_type', Magento_DB_Ddl_Table::TYPE_TEXT, 32, array(
+    ->addColumn('sitemap_type', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
         ), 'Sitemap Type')
-    ->addColumn('sitemap_filename', Magento_DB_Ddl_Table::TYPE_TEXT, 32, array(
+    ->addColumn('sitemap_filename', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
         ), 'Sitemap Filename')
-    ->addColumn('sitemap_path', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('sitemap_path', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Sitemap Path')
-    ->addColumn('sitemap_time', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+    ->addColumn('sitemap_time', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => true,
         ), 'Sitemap Time')
-    ->addColumn('store_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
@@ -44,8 +44,8 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addForeignKey($installer->getFkName('sitemap', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE,
-        Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE,
+        \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('XML Sitemap');
 
 $installer->getConnection()->createTable($table);

@@ -24,7 +24,7 @@ class Magento_Core_Model_File_Storage_Config
     /**
      * File stream handler
      *
-     * @var Magento_Io_File
+     * @var \Magento\Io\File
      */
     protected $_streamFactory;
 
@@ -66,7 +66,7 @@ class Magento_Core_Model_File_Storage_Config
      */
     public function save()
     {
-        /** @var Magento_Filesystem_StreamInterface $stream */
+        /** @var \Magento\Filesystem\StreamInterface $stream */
         $stream = $this->_streamFactory->create(array('path' => $this->_cacheFile));
         try{
             $stream->open('w');
@@ -74,7 +74,7 @@ class Magento_Core_Model_File_Storage_Config
             $stream->write(json_encode($this->_config));
             $stream->unlock();
             $stream->close();
-        } catch (Magento_Filesystem_Exception $e) {
+        } catch (\Magento\Filesystem\FilesystemException $e) {
             $stream->close();
         }
     }

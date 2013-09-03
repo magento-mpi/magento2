@@ -98,14 +98,14 @@ class Magento_User_Model_User
      * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Sender $sender,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_sender = $sender;
@@ -194,8 +194,8 @@ class Magento_User_Model_User
             Zend_Validate_EmailAddress::INVALID
         );
 
-        /** @var $validator Magento_Validator_Composite_VarienObject */
-        $validator = Mage::getModel('Magento_Validator_Composite_VarienObject');
+        /** @var $validator \Magento\Validator\Composite\VarienObject */
+        $validator = Mage::getModel('\Magento\Validator\Composite\VarienObject');
         $validator
             ->addRule($userNameNotEmpty, 'username')
             ->addRule($firstNameNotEmpty, 'firstname')
@@ -212,9 +212,9 @@ class Magento_User_Model_User
     /**
      * Add validation rules for the password management fields
      *
-     * @param Magento_Validator_Composite_VarienObject $validator
+     * @param \Magento\Validator\Composite\VarienObject $validator
      */
-    protected function _addPasswordValidation(Magento_Validator_Composite_VarienObject $validator)
+    protected function _addPasswordValidation(\Magento\Validator\Composite\VarienObject $validator)
     {
         $passwordNotEmpty = new Zend_Validate_NotEmpty();
         $passwordNotEmpty->setMessage(
@@ -571,7 +571,7 @@ class Magento_User_Model_User
             );
         }
         $this->setRpToken($newToken);
-        $currentDate = Magento_Date::now();
+        $currentDate = \Magento\Date::now();
         $this->setRpTokenCreatedAt($currentDate);
 
         return $this;
@@ -593,9 +593,9 @@ class Magento_User_Model_User
 
         $expirationPeriod = Mage::helper('Magento_User_Helper_Data')->getResetPasswordLinkExpirationPeriod();
 
-        $currentDate = Magento_Date::now();
-        $currentTimestamp = Magento_Date::toTimestamp($currentDate);
-        $tokenTimestamp = Magento_Date::toTimestamp($linkTokenCreatedAt);
+        $currentDate = \Magento\Date::now();
+        $currentTimestamp = \Magento\Date::toTimestamp($currentDate);
+        $tokenTimestamp = \Magento\Date::toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;
         }

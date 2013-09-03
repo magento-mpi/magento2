@@ -260,11 +260,11 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
      *
      * @param mixed $value
      * @param Magento_Eav_Model_Entity_Attribute $row
-     * @param Magento_Object $column
+     * @param \Magento\Object $column
      * @param boolean $isExport
      * @return string
      */
-    public function decorateFilter($value, Magento_Eav_Model_Entity_Attribute $row, Magento_Object $column, $isExport)
+    public function decorateFilter($value, Magento_Eav_Model_Entity_Attribute $row, \Magento\Object $column, $isExport)
     {
         $value  = null;
         $values = $column->getValues();
@@ -325,10 +325,10 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
     /**
      * Prepare collection by setting page number, sorting etc..
      *
-     * @param Magento_Data_Collection $collection
+     * @param \Magento\Data\Collection $collection
      * @return Magento_Eav_Model_Resource_Entity_Attribute_Collection
      */
-    public function prepareCollection(Magento_Data_Collection $collection)
+    public function prepareCollection(\Magento\Data\Collection $collection)
     {
         $this->setCollection($collection);
         return $this->getCollection();

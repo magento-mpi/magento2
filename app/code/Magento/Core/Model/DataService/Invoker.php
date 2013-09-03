@@ -20,7 +20,7 @@ class Magento_Core_Model_DataService_Invoker
     protected $_config;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -34,13 +34,13 @@ class Magento_Core_Model_DataService_Invoker
 
     /**
      * @param Magento_Core_Model_DataService_ConfigInterface $config
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_DataService_Path_Composite $composite
      * @param Magento_Core_Model_DataService_Path_Navigator $navigator
      */
     public function __construct(
         Magento_Core_Model_DataService_ConfigInterface $config,
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_DataService_Path_Composite $composite,
         Magento_Core_Model_DataService_Path_Navigator $navigator
     ) {

@@ -8,27 +8,27 @@
  */
 -->
 <config>
-    <preference for="Magento_Authorization_Policy" type="Magento_Authorization_Policy_Acl" />
-    <preference for="Magento_Authorization_RoleLocator" type="Magento_Backend_Model_Authorization_RoleLocator" />
+    <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\Acl" />
+    <preference for="Magento\Authorization\RoleLocator" type="Magento_Backend_Model_Authorization_RoleLocator" />
     <preference for="Magento_Core_Model_LocaleInterface" type="Magento_Backend_Model_Locale" />
     <preference for="Magento_Core_Model_UrlInterface" type="Magento_Backend_Model_Url" />
     <preference for="Magento_Backend_Model_Auth_StorageInterface" type="Magento_Backend_Model_Auth_Session" />
     <preference for="Magento_Backend_Model_Config_Structure_SearchInterface" type="Magento_Backend_Model_Config_Structure" />
     <preference for="Magento_Backend_Model_Config_Backend_File_RequestData_Interface" type="Magento_Backend_Model_Config_Backend_File_RequestData" />
-    <preference for="Magento_Acl_Resource_ProviderInterface" type="Magento_Acl_Resource_Provider"/>
-    <type name="Magento_Acl_Resource_Config_Reader_Filesystem">
+    <preference for="Magento\Acl\Resource\ProviderInterface" type="Magento\Acl\Resource\Provider"/>
+    <type name="Magento\Acl\Resource\Config\Reader\Filesystem">
         <param name="converter">
-            <instance type="Magento_Acl_Resource_Config_Converter_Dom"/>
+            <instance type="Magento\Acl\Resource\Config\Converter\Dom"/>
         </param>
     </type>
-    <type name="Magento_Acl_Resource_Provider">
+    <type name="Magento\Acl\Resource\Provider">
         <param name="configReader">
-            <instance type="Magento_Acl_Resource_Config_Reader_Filesystem"/>
+            <instance type="Magento\Acl\Resource\Config\Reader\Filesystem"/>
         </param>
     </type>
-    <type name="Magento_Acl_Builder">
+    <type name="Magento\Acl\Builder">
         <param name="resourceLoader">
-            <instance type="Magento_Acl_Loader_Resource" />
+            <instance type="Magento\Acl\Loader\Resource" />
         </param>
     </type>
     <type name="Magento_Core_Model_Acl_Cache">

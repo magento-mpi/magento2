@@ -106,7 +106,7 @@ class Magento_Adminhtml_Block_Report_Product_Viewed_Grid extends Magento_Adminht
      * Don't use orders in collection
      *
      * @param Magento_Reports_Model_Resource_Report_Collection_Abstract $collection
-     * @param Magento_Object $filterData
+     * @param \Magento\Object $filterData
      * @return Magento_Adminhtml_Block_Report_Grid_Abstract
      */
     protected function _addOrderStatusFilter($collection, $filterData)

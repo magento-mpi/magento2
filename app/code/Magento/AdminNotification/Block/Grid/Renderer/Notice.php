@@ -15,10 +15,10 @@ class Magento_AdminNotification_Block_Grid_Renderer_Notice
     /**
      * Renders grid column
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         return '<span class="grid-row-title">' . $row->getTitle() . '</span>'
             . ($row->getDescription() ? '<br />' . $row->getDescription() : '');

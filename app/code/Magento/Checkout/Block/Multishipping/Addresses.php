@@ -38,8 +38,8 @@ class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block
     public function getItems()
     {
         $items = $this->getCheckout()->getQuoteShippingAddressesItems();
-        $itemsFilter = new Magento_Filter_Object_Grid();
-        $itemsFilter->addFilter(new Magento_Filter_Sprintf('%d'), 'qty');
+        $itemsFilter = new \Magento\Filter\Object\Grid();
+        $itemsFilter->addFilter(new \Magento\Filter\Sprintf('%d'), 'qty');
         return $itemsFilter->filter($items);
     }
 

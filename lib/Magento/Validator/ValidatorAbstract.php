@@ -7,15 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Magento_Validator_ValidatorAbstract implements Magento_Validator_ValidatorInterface
+namespace Magento\Validator;
+
+abstract class ValidatorAbstract implements \Magento\Validator\ValidatorInterface
 {
     /**
-     * @var Magento_Translate_AdapterInterface|null
+     * @var \Magento\Translate\AdapterInterface|null
      */
     protected static $_defaultTranslator = null;
 
     /**
-     * @var Magento_Translate_AdapterInterface|null
+     * @var \Magento\Translate\AdapterInterface|null
      */
     protected $_translator = null;
 
@@ -29,9 +31,9 @@ abstract class Magento_Validator_ValidatorAbstract implements Magento_Validator_
     /**
      * Set default translator instance
      *
-     * @param Magento_Translate_AdapterInterface|null $translator
+     * @param \Magento\Translate\AdapterInterface|null $translator
      */
-    public static function setDefaultTranslator(Magento_Translate_AdapterInterface $translator = null)
+    public static function setDefaultTranslator(\Magento\Translate\AdapterInterface $translator = null)
     {
         self::$_defaultTranslator = $translator;
     }
@@ -39,7 +41,7 @@ abstract class Magento_Validator_ValidatorAbstract implements Magento_Validator_
     /**
      * Get default translator
      *
-     * @return Magento_Translate_AdapterInterface|null
+     * @return \Magento\Translate\AdapterInterface|null
      */
     public static function getDefaultTranslator()
     {
@@ -49,8 +51,8 @@ abstract class Magento_Validator_ValidatorAbstract implements Magento_Validator_
     /**
      * Set translator instance
      *
-     * @param Magento_Translate_AdapterInterface|null $translator
-     * @return Magento_Validator_ValidatorAbstract
+     * @param \Magento\Translate\AdapterInterface|null $translator
+     * @return \Magento\Validator\ValidatorAbstract
      */
     public function setTranslator($translator = null)
     {
@@ -61,7 +63,7 @@ abstract class Magento_Validator_ValidatorAbstract implements Magento_Validator_
     /**
      * Get translator
      *
-     * @return Magento_Translate_AdapterInterface|null
+     * @return \Magento\Translate\AdapterInterface|null
      */
     public function getTranslator()
     {

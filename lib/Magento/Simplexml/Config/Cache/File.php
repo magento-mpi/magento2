@@ -16,7 +16,9 @@
  * @package    Magento_Simplexml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Simplexml_Config_Cache_File extends Magento_Simplexml_Config_Cache_Abstract
+namespace Magento\Simplexml\Config\Cache;
+
+class File extends \Magento\Simplexml\Config\Cache\AbstractCache
 {
 
     /**

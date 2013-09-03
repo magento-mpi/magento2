@@ -35,7 +35,7 @@ class Magento_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        $this->_objectFactoryMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectFactoryMock = $this->getMock('Magento\ObjectManager');
         $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_helperFactoryMock->expects($this->any())->method('get')->will($this->returnValueMap(array(
             array('Magento_Backend_Helper_Data', 'backend_helper'),

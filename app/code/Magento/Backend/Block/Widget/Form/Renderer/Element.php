@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Block_Widget_Form_Renderer_Element extends Magento_Backend_Block_Template
-    implements Magento_Data_Form_Element_Renderer_Interface
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_element;
 
@@ -27,7 +27,7 @@ class Magento_Backend_Block_Widget_Form_Renderer_Element extends Magento_Backend
         return $this->_element;
     }
 
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->_element = $element;
         return $this->toHtml();

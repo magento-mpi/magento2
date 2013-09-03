@@ -111,14 +111,14 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
             ->method('_getStoreManagerModel')
             ->will($this->returnValue($storeManagerMock));
 
-        $quoteMock = new Magento_Object(array('quote' => new Magento_Object(array('store_id' => rand(1, 1000)))));
+        $quoteMock = new \Magento\Object(array('quote' => new \Magento\Object(array('store_id' => rand(1, 1000)))));
         $objectMock->expects($this->once())
             ->method('_getOrderCreateModel')
             ->will($this->returnValue($quoteMock));
 
         $objectMock->expects($this->any())
             ->method('_getBalanceInstance')
-            ->will($this->returnValue(new Magento_Object(array('amount' => $amount))));
+            ->will($this->returnValue(new \Magento\Object(array('amount' => $amount))));
 
         $result = $objectMock->getBalance(true);
         $this->assertEquals($convertedAmount, $result);
@@ -157,7 +157,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
             ->getMock();
         $objectMock->expects($this->any())
             ->method('_getBalanceInstance')
-            ->will($this->returnValue(new Magento_Object(array('amount' => $amount))));
+            ->will($this->returnValue(new \Magento\Object(array('amount' => $amount))));
         $result = $objectMock->getBalance();
         $this->assertEquals($amount, $result);
     }

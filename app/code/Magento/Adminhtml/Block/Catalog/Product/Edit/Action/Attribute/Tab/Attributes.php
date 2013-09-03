@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
         ));
         Mage::dispatchEvent('adminhtml_catalog_product_form_prepare_excluded_field_list', array('object'=>$this));
 
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $fieldset = $form->addFieldset('fields', array(
             'legend' => __('Attributes'),
         ));
@@ -84,7 +84,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
     /**
      * Custom additional element html
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
     protected function _getAdditionalElementHtml($element)

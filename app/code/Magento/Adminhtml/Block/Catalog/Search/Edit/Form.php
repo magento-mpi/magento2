@@ -39,7 +39,7 @@ class Magento_Adminhtml_Block_Catalog_Search_Edit_Form extends Magento_Adminhtml
         $model = Mage::registry('current_catalog_search');
         /* @var $model Magento_CatalogSearch_Model_Query */
 
-        $form = new Magento_Data_Form(array(
+        $form = new \Magento\Data\Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method' => 'post'

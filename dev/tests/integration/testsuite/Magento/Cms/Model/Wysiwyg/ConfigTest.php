@@ -32,7 +32,7 @@ class Magento_Cms_Model_Wysiwyg_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetConfig()
     {
         $config = $this->_model->getConfig();
-        $this->assertInstanceOf('Magento_Object', $config);
+        $this->assertInstanceOf('\Magento\Object', $config);
     }
 
     /**

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Code_Generator_Factory extends Magento_Code_Generator_EntityAbstract
+namespace Magento\Code\Generator;
+
+class Factory extends \Magento\Code\Generator\EntityAbstract
 {
     /**
      * Entity type
@@ -45,13 +47,13 @@ class Magento_Code_Generator_Factory extends Magento_Code_Generator_EntityAbstra
      */
     protected function _getDefaultConstructorDefinition()
     {
-        // public function __construct(\Magento_ObjectManager $objectManager, $instanceName = <DEFAULT_INSTANCE_NAME>)
+        // public function __construct(\Magento\ObjectManager $objectManager, $instanceName = <DEFAULT_INSTANCE_NAME>)
         return array(
             'name'       => '__construct',
             'parameters' => array(
                 array(
                     'name' => 'objectManager',
-                    'type' => '\Magento_ObjectManager'
+                    'type' => '\Magento\ObjectManager'
                 ),
                 array(
                     'name' => 'instanceName',
@@ -64,7 +66,7 @@ class Magento_Code_Generator_Factory extends Magento_Code_Generator_EntityAbstra
                 'tags'             => array(
                     array(
                         'name'        => 'param',
-                        'description' => '\Magento_ObjectManager $objectManager'
+                        'description' => '\Magento\ObjectManager $objectManager'
                     ),
                     array(
                         'name'        => 'param',

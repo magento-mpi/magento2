@@ -62,7 +62,7 @@ class Magento_Catalog_Block_Product_Widget_New extends Magento_Catalog_Block_Pro
     /**
      * Product collection initialize process
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection|Object|Magento_Data_Collection
+     * @return Magento_Catalog_Model_Resource_Product_Collection|Object|\Magento\Data\Collection
      */
     protected function _getProductCollection()
     {
@@ -80,7 +80,7 @@ class Magento_Catalog_Block_Product_Widget_New extends Magento_Catalog_Block_Pro
     /**
      * Prepare collection for recent product list
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection|Object|Magento_Data_Collection
+     * @return Magento_Catalog_Model_Resource_Product_Collection|Object|\Magento\Data\Collection
      */
     protected function _getRecentlyAddedProductsCollection()
     {

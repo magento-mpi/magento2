@@ -13,7 +13,7 @@
  * @method Magento_Webhook_Model_Event setUpdatedAt()
  * @method Magento_Webhook_Model_Event setCreatedAt()
  */
-class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements Magento_PubSub_EventInterface
+class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements \Magento\PubSub\EventInterface
 {
     /**
      * Initialize Model
@@ -22,7 +22,7 @@ class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements
     {
         parent::_construct();
         $this->_init('Magento_Webhook_Model_Resource_Event');
-        $this->setStatus(Magento_PubSub_EventInterface::STATUS_READY_TO_SEND);
+        $this->setStatus(\Magento\PubSub\EventInterface::STATUS_READY_TO_SEND);
     }
 
     /**
@@ -129,7 +129,7 @@ class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements
      */
     public function complete()
     {
-        $this->setData('status', Magento_PubSub_EventInterface::STATUS_PROCESSED)
+        $this->setData('status', \Magento\PubSub\EventInterface::STATUS_PROCESSED)
             ->save();
         return $this;
     }
@@ -141,7 +141,7 @@ class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements
      */
     public function markAsInProgress()
     {
-        $this->setData('status', Magento_PubSub_EventInterface::STATUS_IN_PROGRESS);
+        $this->setData('status', \Magento\PubSub\EventInterface::STATUS_IN_PROGRESS);
         return $this;
     }
 }

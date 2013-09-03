@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-final class Magento_Connect_Command_Registry
-extends Magento_Connect_Command
+namespace Magento\Connect\Command;
+
+final class Registry
+extends \Magento\Connect\Command
 {
 
     /**
@@ -40,7 +42,7 @@ extends Magento_Connect_Command
                 @unlink($cache->getFilename());
             }
             $this->ui()->output(array($command=>array('data'=>$data, 'channel-title'=>"Installed package for channel '%s' :")));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if($ftp) {
                 @unlink($cache->getFilename());
             }
@@ -63,7 +65,7 @@ extends Magento_Connect_Command
         try {
             $channel = false;
             if(count($params) < 2) {
-                throw new Exception("Argument count should be = 2");
+                throw new \Exception("Argument count should be = 2");
             }
             $channel = $params[0];
             $package = $params[1];
@@ -96,7 +98,7 @@ extends Magento_Connect_Command
 
             $this->ui()->output(array($command=>array('data'=>$contents, 'title'=>$title)));
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if($ftp) {
                 @unlink($config->getFilename());
                 @unlink($cache->getFilename());
@@ -122,7 +124,7 @@ extends Magento_Connect_Command
         try {
             $channel = false;
             if(count($params) < 2) {
-                throw new Exception("Argument count should be = 2");
+                throw new \Exception("Argument count should be = 2");
             }
             $channel = $params[0];
             $package = $params[1];
@@ -135,21 +137,21 @@ extends Magento_Connect_Command
             }
 
             if(!$cache->isChannel($channel)) {
-                throw new Exception("'{$channel}' is not a valid installed channel name/uri");
+                throw new \Exception("'{$channel}' is not a valid installed channel name/uri");
             }
             $channelUri = $cache->chanUrl($channel);
             $rest = $this->rest();
             $rest->setChannel($channelUri);
             $releases = $rest->getReleases($package);
             if(false === $releases) {
-                throw new Exception("No information found about {$channel}/{$package}");
+                throw new \Exception("No information found about {$channel}/{$package}");
             }
             $data = array($command => array('releases'=>$releases));
             if($ftp) {
                 @unlink($cache->getFilename());
             }
             $this->ui()->output($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if($ftp) {
                 @unlink($cache->getFilename());
             }

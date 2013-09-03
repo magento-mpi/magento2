@@ -15,7 +15,7 @@ class Magento_TestFramework_Performance_Scenario_Handler_Php
     implements Magento_TestFramework_Performance_Scenario_HandlerInterface
 {
     /**
-     * @var Magento_Shell
+     * @var \Magento\Shell
      */
     protected $_shell;
 
@@ -27,10 +27,10 @@ class Magento_TestFramework_Performance_Scenario_Handler_Php
     /**
      * Constructor
      *
-     * @param Magento_Shell $shell
+     * @param \Magento\Shell $shell
      * @param bool $validateExecutable
      */
-    public function __construct(Magento_Shell $shell, $validateExecutable = true)
+    public function __construct(\Magento\Shell $shell, $validateExecutable = true)
     {
         $this->_shell = $shell;
         $this->_validateExecutable = $validateExecutable;
@@ -52,7 +52,7 @@ class Magento_TestFramework_Performance_Scenario_Handler_Php
      *
      * @param Magento_TestFramework_Performance_Scenario $scenario
      * @param string|null $reportFile Report file to write results to, NULL disables report creation
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      * @throws Magento_TestFramework_Performance_Scenario_FailureException
      *
      * @todo Implement execution in concurrent threads defined by the "users" scenario argument
@@ -97,7 +97,7 @@ class Magento_TestFramework_Performance_Scenario_Handler_Php
         $executionTime = microtime(true);
         try {
             $result['output'] = $this->_shell->execute($scenarioCmd, $scenarioCmdArgs);
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\MagentoException $e) {
             $result['success']   = false;
             $result['exit_code'] = $e->getPrevious()->getCode();
             $result['output']    = $e->getPrevious()->getMessage();

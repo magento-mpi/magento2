@@ -48,7 +48,7 @@ class Magento_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCase
         unset($createData['status']);
         unset($createData['website_id']);
         $info['date_expires'] = date('Y-m-d', strtotime($info['expire_date']));
-        $this->_testDataCorrect($createData, new Magento_Object($info));
+        $this->_testDataCorrect($createData, new \Magento\Object($info));
 
         //Test update
         $updateData = Magento_TestFramework_Helper_Api::simpleXmlToArray($accountFixture->update);
@@ -105,7 +105,7 @@ class Magento_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCase
      * Test that data in db and webservice are equals
      *
      * @param array $data
-     * @param Magento_Object $testModel
+     * @param \Magento\Object $testModel
      */
     protected function _testDataCorrect($data, $testModel)
     {

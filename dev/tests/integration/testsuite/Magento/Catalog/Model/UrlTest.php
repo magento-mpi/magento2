@@ -67,7 +67,7 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
     {
         $root = $this->_model->getStoreRootCategory(1);
         $this->assertNotEmpty($root);
-        $this->assertInstanceOf('Magento_Object', $root);
+        $this->assertInstanceOf('\Magento\Object', $root);
         $this->assertEquals(2, $root->getId());
         $this->assertEquals(1, $root->getParentId());
     }
@@ -156,11 +156,11 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testGetProductRequestPath()
     {
-        $product = new Magento_Object();
+        $product = new \Magento\Object();
         $product->setName('test product')
             ->setId(uniqid());
 
-        $category = new Magento_Object();
+        $category = new \Magento\Object();
         $category->setName('test category')
             ->setId(uniqid())
             ->setLevel(2)
@@ -182,11 +182,11 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function generatePathDataProvider()
     {
-        $product = new Magento_Object();
+        $product = new \Magento\Object();
         $product->setName('test product')
             ->setId(111);
 
-        $category = new Magento_Object();
+        $category = new \Magento\Object();
         $category->setName('test category')
             ->setId(999)
             ->setLevel(2)

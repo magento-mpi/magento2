@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid
     /**
      * Return empty row url for disabling JS click events
      *
-     * @param Magento_Catalog_Model_Product|Magento_Object
+     * @param Magento_Catalog_Model_Product|\Magento\Object
      * @return string|null
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

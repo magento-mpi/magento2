@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Code_Generator_Io
+namespace Magento\Code\Generator;
+
+class Io
 {
     /**
      * Default code generation directory
@@ -17,7 +19,7 @@ class Magento_Code_Generator_Io
     const DEFAULT_DIRECTORY = 'var/generation';
 
     /**
-     * Directory permission for created directories
+     * \Directory permission for created directories
      */
     const DIRECTORY_PERMISSION = 0777;
 
@@ -29,14 +31,14 @@ class Magento_Code_Generator_Io
     private $_generationDirectory;
 
     /**
-     * @var Magento_Io_Interface
+     * @var \Magento\Io\IoInterface
      */
     private $_ioObject;
 
     /**
      * Autoloader instance
      *
-     * @var Magento_Autoload_IncludePath
+     * @var \Magento\Autoload\IncludePath
      */
     private $_autoloader;
 
@@ -46,15 +48,15 @@ class Magento_Code_Generator_Io
     private $_directorySeparator;
 
     /**
-     * @param Magento_Io_Interface $ioObject
-     * @param Magento_Autoload_IncludePath $autoLoader
+     * @param \Magento\Io\IoInterface $ioObject
+     * @param \Magento\Autoload\IncludePath $autoLoader
      * @param string $generationDirectory
      */
-    public function __construct(Magento_Io_Interface $ioObject = null, Magento_Autoload_IncludePath $autoLoader = null,
+    public function __construct(\Magento\Io\IoInterface $ioObject = null, \Magento\Autoload\IncludePath $autoLoader = null,
         $generationDirectory = null
     ) {
-        $this->_ioObject           = $ioObject ? : new Magento_Io_File();
-        $this->_autoloader         = $autoLoader ? : new Magento_Autoload_IncludePath();
+        $this->_ioObject           = $ioObject ? : new \Magento\Io\File();
+        $this->_autoloader         = $autoLoader ? : new \Magento\Autoload\IncludePath();
         $this->_directorySeparator = $this->_ioObject->dirsep();
 
         if ($generationDirectory) {

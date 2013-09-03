@@ -187,7 +187,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
                     $data['apply_to'] = (int)$data['apply_to'];
                 }
 
-                $validateResult = $model->validateData(new Magento_Object($data));
+                $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
                         $this->_getSession()->addError($errorMessage);

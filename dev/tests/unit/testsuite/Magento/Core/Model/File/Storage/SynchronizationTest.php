@@ -51,7 +51,7 @@ class Magento_Core_Model_File_Storage_SynchronizationTest extends PHPUnit_Framew
         $this->_storageMock->expects($this->once())->method('getContent')->will($this->returnValue($this->_content));
         $this->_streamFactoryMock =
             $this->getMock('Magento_Filesystem_Stream_LocalFactory', array('create'), array(), '', false);
-        $this->_streamMock = $this->getMock('Magento_Filesystem_StreamInterface');
+        $this->_streamMock = $this->getMock('Magento\Filesystem\StreamInterface');
         $this->_streamFactoryMock
             ->expects($this->any())
             ->method('create')

@@ -37,10 +37,10 @@ abstract class Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
     /**
      * Renders grid column
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if ($this->getColumn()->getEditable()) {
             $value = $this->_getValue($row);
@@ -54,15 +54,15 @@ abstract class Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
     /**
      * Render column for export
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function renderExport(Magento_Object $row)
+    public function renderExport(\Magento\Object $row)
     {
         return $this->render($row);
     }
 
-    protected function _getValue(Magento_Object $row)
+    protected function _getValue(\Magento\Object $row)
     {
         if ($getter = $this->getColumn()->getGetter()) {
             if (is_string($getter)) {
@@ -75,7 +75,7 @@ abstract class Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
         return $row->getData($this->getColumn()->getIndex());
     }
 
-    public function _getInputValueElement(Magento_Object $row)
+    public function _getInputValueElement(\Magento\Object $row)
     {
         return  '<input type="text" class="input-text '
                 . $this->getColumn()->getValidateClass()
@@ -83,7 +83,7 @@ abstract class Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
                 . '" value="' . $this->_getInputValue($row) . '"/>';
     }
 
-    protected function _getInputValue(Magento_Object $row)
+    protected function _getInputValue(\Magento\Object $row)
     {
         return $this->_getValue($row);
     }

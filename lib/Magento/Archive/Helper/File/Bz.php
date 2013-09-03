@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Magento * @package     Magento_Archive
+ * @category    Magento * @package     \Magento\Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -10,15 +10,17 @@
 /**
 * Helper class that simplifies bz2 files stream reading and writing
 *
-* @category    Magento* @package     Magento_Archive
+* @category    Magento* @package     \Magento\Archive
 * @author      Magento Core Team <core@magentocommerce.com>
 */
-class Magento_Archive_Helper_File_Bz extends Magento_Archive_Helper_File
+namespace Magento\Archive\Helper\File;
+
+class Bz extends \Magento\Archive\Helper\File
 {
     /**
      * Open bz archive file
      *
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      * @param string $mode
      */
     protected function _open($mode)
@@ -26,14 +28,14 @@ class Magento_Archive_Helper_File_Bz extends Magento_Archive_Helper_File
         $this->_fileHandler = @bzopen($this->_filePath, $mode);
 
         if (false === $this->_fileHandler) {
-            throw new Magento_Exception('Failed to open file ' . $this->_filePath);
+            throw new \Magento\MagentoException('Failed to open file ' . $this->_filePath);
         }
     }
 
     /**
      * Write data to bz archive
      * 
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      * @param $data
      */
     protected function _write($data)
@@ -41,14 +43,14 @@ class Magento_Archive_Helper_File_Bz extends Magento_Archive_Helper_File
         $result = @bzwrite($this->_fileHandler, $data);
 
         if (false === $result) {
-            throw new Magento_Exception('Failed to write data to ' . $this->_filePath);
+            throw new \Magento\MagentoException('Failed to write data to ' . $this->_filePath);
         }
     }
 
     /**
      * Read data from bz archive
      *
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      * @param int $length
      * @return string
      */
@@ -57,7 +59,7 @@ class Magento_Archive_Helper_File_Bz extends Magento_Archive_Helper_File
         $data = bzread($this->_fileHandler, $length);
 
         if (false === $data) {
-            throw new Magento_Exception('Failed to read data from ' . $this->_filePath);
+            throw new \Magento\MagentoException('Failed to read data from ' . $this->_filePath);
         }
 
         return $data;

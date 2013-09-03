@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Authorization_Policy
+namespace Magento\Authorization;
+
+interface Policy
 {
     /**
      * Check whether given role has access to given resource

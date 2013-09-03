@@ -81,7 +81,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
 
         $countryRecipient = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
         if ($carrier) {
-            $params = new Magento_Object(array(
+            $params = new \Magento\Object(array(
                 'method' => $this->getCarrierMethod(),
                 'country_shipper' => $address->getCountryId(),
                 'country_recipient' => $countryRecipient,
@@ -125,7 +125,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
             list($carrierCode, $methodCode) = explode('_', $code, 2);
             $carrier    = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($carrierCode, $storeId);
             $countryId  = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
-            $params = new Magento_Object(array('country_recipient' => $countryId));
+            $params = new \Magento\Object(array('country_recipient' => $countryId));
 
             if ($carrier && is_array($carrier->getDeliveryConfirmationTypes($params))) {
                 return $carrier->getDeliveryConfirmationTypes($params);
@@ -187,7 +187,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
             $order              = Mage::getModel('Magento_Sales_Model_Order')->load($this->getRma()->getOrderId());
             $shipperAddress     = $order->getShippingAddress();
              if ($carrier) {
-                $params = new Magento_Object(array(
+                $params = new \Magento\Object(array(
                     'method'            => $methodCode,
                     'country_shipper'   => $shipperAddress->getCountryId(),
                     'country_recipient' => $countryId,

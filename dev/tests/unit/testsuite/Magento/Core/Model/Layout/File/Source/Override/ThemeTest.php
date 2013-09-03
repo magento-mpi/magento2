@@ -30,7 +30,7 @@ class Magento_Core_Model_Layout_File_Source_Override_ThemeTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
         $this->_dirs->expects($this->any())->method('getDir')->will($this->returnArgument(0));
         $this->_fileFactory = $this->getMock('Magento_Core_Model_Layout_File_Factory', array(), array(), '', false);

@@ -20,10 +20,10 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product ex
     /**
      * Render product name to add Configure link
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $rendered       =  parent::render($row);
         $isConfigurable = $row->canConfigure();

@@ -55,7 +55,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Fram
      * Test _prepareForm method.
      *
      * @dataProvider prepareFormDataProvider
-     * @param Magento_Object $apiRole
+     * @param \Magento\Object $apiRole
      * @param array $formElements
      */
     public function testPrepareForm($apiRole, array $formElements)
@@ -67,10 +67,10 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Fram
         $this->_block->toHtml();
 
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('Magento_Data_Form', $form);
-        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
+        $this->assertInstanceOf('\Magento\Data\Form', $form);
+        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
-        $this->assertInstanceOf('Magento_Data_Form_Element_Fieldset', $fieldset);
+        $this->assertInstanceOf('\Magento\Data\Form\Element\Fieldset', $fieldset);
         $elements = $fieldset->getElements();
         foreach ($formElements as $elementId) {
             $element = $elements->searchById($elementId);
@@ -86,7 +86,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Fram
     {
         return array(
             'Empty API Role' => array(
-                new Magento_Object(),
+                new \Magento\Object(),
                 array(
                     'role_name',
                     'in_role_user',
@@ -94,7 +94,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Fram
                 )
             ),
             'New API Role' => array(
-                new Magento_Object(array(
+                new \Magento\Object(array(
                     'role_name' => 'Role'
                 )),
                 array(
@@ -104,7 +104,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Fram
                 )
             ),
             'Existed API Role' => array(
-                new Magento_Object(array(
+                new \Magento\Object(array(
                     'id' => 1,
                     'role_name' => 'Role'
                 )),

@@ -15,7 +15,7 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Textarea extends Magento_Data_Form_Element_Textarea
+class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Textarea extends \Magento\Data\Form\Element\Textarea
 {
     /**
      * Return Form Element HTML

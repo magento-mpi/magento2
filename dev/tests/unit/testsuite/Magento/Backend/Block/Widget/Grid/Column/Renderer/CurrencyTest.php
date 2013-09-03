@@ -37,7 +37,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_CurrencyTest extends PHP
     protected $_columnMock;
 
     /**
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_row;
 
@@ -52,7 +52,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_CurrencyTest extends PHP
             'Magento_Backend_Block_Widget_Grid_Column', array('getIndex'), array(), '', false
         );
         $this->_columnMock->expects($this->any())->method('getIndex')->will($this->returnValue('columnIndex'));
-        $this->_row = new Magento_Object(array('columnIndex' => '10'));
+        $this->_row = new \Magento\Object(array('columnIndex' => '10'));
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_blockCurrency = $objectManagerHelper->getObject(

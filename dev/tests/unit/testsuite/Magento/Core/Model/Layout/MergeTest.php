@@ -62,7 +62,7 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 
         $this->_appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
 
-        $this->_cache = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
+        $this->_cache = $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
 
         $this->_theme = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false, false);
         $this->_theme->expects($this->any())->method('isPhysical')->will($this->returnValue(true));
@@ -160,7 +160,7 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $expected = require(__DIR__ . '/_files/pages_hierarchy.php');
         $actual = $this->_model->getPageHandlesHierarchy();
         $this->assertEquals($expected, $actual);
-        $this->assertInstanceOf('Magento_Phrase', $actual['default']['label']);
+        $this->assertInstanceOf('\Magento\Phrase', $actual['default']['label']);
     }
 
     /**

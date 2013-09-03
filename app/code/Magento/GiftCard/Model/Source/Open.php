@@ -89,7 +89,7 @@ class Magento_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Attrib
      * Retrieve select for flat attribute update
      *
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

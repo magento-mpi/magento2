@@ -19,7 +19,7 @@ class Magento_Core_Controller_Response_Http extends Zend_Controller_Response_Htt
     /**
      * Transport object for observers to perform
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected static $_transportObject = null;
 
@@ -79,7 +79,7 @@ class Magento_Core_Controller_Response_Http extends Zend_Controller_Response_Htt
          * Use single transport object instance
          */
         if (self::$_transportObject === null) {
-            self::$_transportObject = new Magento_Object;
+            self::$_transportObject = new \Magento\Object;
         }
         self::$_transportObject->setUrl($url);
         self::$_transportObject->setCode($code);

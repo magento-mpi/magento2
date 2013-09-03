@@ -149,7 +149,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
 
     public function testGetDefaultStoresSelect()
     {
-        $this->assertInstanceOf('Magento_DB_Select', $this->_model->getDefaultStoresSelect());
+        $this->assertInstanceOf('\Magento\DB\Select', $this->_model->getDefaultStoresSelect());
     }
 
     public function testIsReadonly()

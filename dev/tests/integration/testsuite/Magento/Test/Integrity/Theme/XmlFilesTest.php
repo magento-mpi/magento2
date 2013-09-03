@@ -102,7 +102,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
      */
     protected function _validateConfigFile($file, $schemaFile)
     {
-        $domConfig = new Magento_Config_Dom(file_get_contents($file));
+        $domConfig = new \Magento\Config\Dom(file_get_contents($file));
         $result = $domConfig->validate($schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {

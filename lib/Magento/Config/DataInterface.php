@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Config_DataInterface
+namespace Magento\Config;
+
+interface DataInterface
 {
     /**
      * Merge config data to the object

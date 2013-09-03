@@ -21,16 +21,16 @@ class Magento_TestFramework_Helper_Memory
     const MEMORY_UNITS = 'BKMGTPE';
 
     /**
-     * @var Magento_Shell
+     * @var \Magento\Shell
      */
     private $_shell;
 
     /**
      * Inject dependencies
      *
-     * @param Magento_Shell $shell
+     * @param \Magento\Shell $shell
      */
-    public function __construct(Magento_Shell $shell)
+    public function __construct(\Magento\Shell $shell)
     {
         $this->_shell = $shell;
     }
@@ -50,7 +50,7 @@ class Magento_TestFramework_Helper_Memory
             // try to use the Windows command line
             // some ports of Unix commands on Windows, such as MinGW, have limited capabilities and cannot be used
             $result = $this->_getWinProcessMemoryUsage($pid);
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\MagentoException $e) {
             // fall back to the Unix command line
             $result = $this->_getUnixProcessMemoryUsage($pid);
         }

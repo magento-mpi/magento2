@@ -20,7 +20,7 @@
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class Magento_Core_Model_Layout extends Magento_Simplexml_Config
+class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
 {
     /**#@+
      * Supported layout directives
@@ -128,7 +128,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     /**
      * A variable for transporting output into observer during rendering
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_renderingOutput = null;
 
@@ -142,7 +142,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     /**
      * Layout structure model
      *
-     * @var Magento_Data_Structure
+     * @var \Magento\Data\Structure
      */
     protected $_structure;
 
@@ -180,7 +180,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     /**
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_BlockFactory $blockFactory
-     * @param Magento_Data_Structure $structure
+     * @param \Magento\Data\Structure $structure
      * @param Magento_Core_Model_Layout_Argument_Processor $argumentProcessor
      * @param Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure
      * @param Magento_Core_Model_DataService_Graph $dataServiceGraph
@@ -189,7 +189,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     public function __construct(
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_BlockFactory $blockFactory,
-        Magento_Data_Structure $structure,
+        \Magento\Data\Structure $structure,
         Magento_Core_Model_Layout_Argument_Processor $argumentProcessor,
         Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure,
         Magento_Core_Model_DataService_Graph $dataServiceGraph,
@@ -202,7 +202,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $this->_argumentProcessor = $argumentProcessor;
         $this->_elementClass = 'Magento_Core_Model_Layout_Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
-        $this->_renderingOutput = new Magento_Object;
+        $this->_renderingOutput = new \Magento\Object;
         $this->_scheduledStructure = $scheduledStructure;
         $this->_dataServiceGraph = $dataServiceGraph;
     }
@@ -320,8 +320,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      */
     public function generateElements()
     {
-        Magento_Profiler::start(__CLASS__ . '::' . __METHOD__);
-        Magento_Profiler::start('build_structure');
+        \Magento\Profiler::start(__CLASS__ . '::' . __METHOD__);
+        \Magento\Profiler::start('build_structure');
 
         $this->_scheduledStructure->flushScheduledStructure();
 
@@ -343,9 +343,9 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             $this->_removeElement($elementToRemove);
         }
 
-        Magento_Profiler::stop('build_structure');
+        \Magento\Profiler::stop('build_structure');
 
-        Magento_Profiler::start('generate_elements');
+        \Magento\Profiler::start('generate_elements');
 
         while (false === $this->_scheduledStructure->isElementsEmpty()) {
             list($type, $node) = current($this->_scheduledStructure->getElements());
@@ -365,8 +365,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
                 $this->_scheduledStructure->unsetElement($elementName);
             }
         }
-        Magento_Profiler::stop('generate_elements');
-        Magento_Profiler::stop(__CLASS__ . '::' . __METHOD__);
+        \Magento\Profiler::stop('generate_elements');
+        \Magento\Profiler::stop(__CLASS__ . '::' . __METHOD__);
     }
 
     /**
@@ -563,10 +563,10 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     /**
      * Translate argument if needed
      *
-     * @param Magento_Simplexml_Element $argument
-     * @return Magento_Phrase|string
+     * @param \Magento\Simplexml\Element $argument
+     * @return \Magento\Phrase|string
      */
-    protected function _translateArgument(Magento_Simplexml_Element $argument)
+    protected function _translateArgument(\Magento\Simplexml\Element $argument)
     {
         $value = $this->_getArgumentValue($argument);
         if (isset($argument['translate'])) {
@@ -616,7 +616,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     }
 
     /**
-     * @param Magento_Simplexml_Element $argument
+     * @param \Magento\Simplexml\Element $argument
      * @return boolean
      */
     protected function _isSimpleArgument($argument)
@@ -625,7 +625,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     }
 
     /**
-     * @param Magento_Simplexml_Element $argument
+     * @param \Magento\Simplexml\Element $argument
      * @return boolean
      */
     protected function _isComplexArgument($argument)
@@ -655,7 +655,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * Schedule structural changes for move directive
      *
      * @param Magento_Core_Model_Layout_Element $node
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      * @return Magento_Core_Model_Layout
      */
     protected function _scheduleMove($node)
@@ -670,7 +670,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
                 array($destination, $siblingName, $isAfter, $alias)
             );
         } else {
-            throw new Magento_Exception('Element name and destination must be specified.');
+            throw new \Magento\MagentoException('Element name and destination must be specified.');
         }
         return $this;
     }
@@ -878,13 +878,13 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      *
      * @param string $elementName
      * @return Magento_Core_Block_Abstract
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     protected function _generateBlock($elementName)
     {
         list($type, $node, $actions, $arguments) = $this->_scheduledStructure->getElement($elementName);
         if ($type !== self::TYPE_BLOCK) {
-            throw new Magento_Exception("Unexpected element type specified for generating block: {$type}.");
+            throw new \Magento\MagentoException("Unexpected element type specified for generating block: {$type}.");
         }
 
         // create block
@@ -926,12 +926,12 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param string $name
      * @param string $label
      * @param array $options
-     * @throws Magento_Exception if any of arguments are invalid
+     * @throws \Magento\MagentoException if any of arguments are invalid
      */
     protected function _generateContainer($name, $label, array $options)
     {
         if (empty($label)) {
-            throw new Magento_Exception('Container requires a label.');
+            throw new \Magento\MagentoException('Container requires a label.');
         }
         $this->_structure->setAttribute($name, self::CONTAINER_OPT_LABEL, $label);
         unset($options[self::CONTAINER_OPT_LABEL]);
@@ -939,7 +939,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         if (empty($options[self::CONTAINER_OPT_HTML_TAG])
             && (!empty($options[self::CONTAINER_OPT_HTML_ID]) || !empty($options[self::CONTAINER_OPT_HTML_CLASS]))
         ) {
-            throw new Magento_Exception('HTML ID or class will not have effect, if HTML tag is not specified.');
+            throw new \Magento\MagentoException('HTML ID or class will not have effect, if HTML tag is not specified.');
         }
         foreach ($options as $key => $value) {
             $this->_structure->setAttribute($name, $key, $value);
@@ -966,7 +966,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         }
 
         $profilerKey = 'BLOCK_ACTION:' . $parentName . '>' . $method;
-        Magento_Profiler::start($profilerKey);
+        \Magento\Profiler::start($profilerKey);
 
         $block = $this->getBlock($parentName);
         if (!empty($block)) {
@@ -974,7 +974,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             call_user_func_array(array($block, $method), $args);
         }
 
-        Magento_Profiler::stop($profilerKey);
+        \Magento\Profiler::stop($profilerKey);
     }
 
     /**
@@ -1152,7 +1152,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      *
      * @param string $name
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     protected function _renderBlock($name)
     {

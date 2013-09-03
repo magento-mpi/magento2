@@ -42,10 +42,10 @@ class Magento_PageCache_Model_Observer
     /**
      * Check when cache should be disabled
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_PageCache_Model_Observer
      */
-    public function processPreDispatch(Magento_Event_Observer $observer)
+    public function processPreDispatch(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -91,10 +91,10 @@ class Magento_PageCache_Model_Observer
     /**
      * Temporary disabling full page caching by setting bo-cache cookie
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_PageCache_Model_Observer
      */
-    public function setNoCacheCookie(Magento_Event_Observer $observer)
+    public function setNoCacheCookie(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -106,10 +106,10 @@ class Magento_PageCache_Model_Observer
     /**
      * Activating full page cache aby deleting no-cache cookie
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_PageCache_Model_Observer
      */
-    public function deleteNoCacheCookie(Magento_Event_Observer $observer)
+    public function deleteNoCacheCookie(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;

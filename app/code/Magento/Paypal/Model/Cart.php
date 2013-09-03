@@ -178,12 +178,12 @@ class Magento_Paypal_Model_Cart
      * @param numeric $qty
      * @param float $amount
      * @param string $identifier
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function addItem($name, $qty, $amount, $identifier = null)
     {
         $this->_shouldRender = true;
-        $item = new Magento_Object(array(
+        $item = new \Magento\Object(array(
             'name'   => $name,
             'qty'    => $qty,
             'amount' => (float)$amount,
@@ -402,10 +402,10 @@ class Magento_Paypal_Model_Cart
     /**
      * Add a usual line item with amount and qty
      *
-     * @param Magento_Object $salesItem
-     * @return Magento_Object
+     * @param \Magento\Object $salesItem
+     * @return \Magento\Object
      */
-    protected function _addRegularItem(Magento_Object $salesItem)
+    protected function _addRegularItem(\Magento\Object $salesItem)
     {
         if ($this->_salesEntity instanceof Magento_Sales_Model_Order) {
             $qty = (int) $salesItem->getQtyOrdered();

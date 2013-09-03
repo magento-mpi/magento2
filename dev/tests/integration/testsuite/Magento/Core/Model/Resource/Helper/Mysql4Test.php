@@ -17,7 +17,7 @@ class Magento_Core_Model_Resource_Helper_Mysql4Test extends PHPUnit_Framework_Te
     protected $_model;
 
     /**
-     * @var Magento_DB_Select
+     * @var \Magento\DB\Select
      */
     protected $_select;
 

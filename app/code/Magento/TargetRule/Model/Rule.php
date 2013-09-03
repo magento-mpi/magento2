@@ -313,11 +313,11 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Validate rule data
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      *
      * @return bool|array - return true if validation passed successfully. Array with errors description otherwise
      */
-    public function validateData(Magento_Object $object)
+    public function validateData(\Magento\Object $object)
     {
         $result = parent::validateData($object);
 

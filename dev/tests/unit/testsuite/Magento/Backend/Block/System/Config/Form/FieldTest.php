@@ -56,7 +56,7 @@ class Magento_Backend_Block_System_Config_Form_FieldTest extends PHPUnit_Framewo
             'elementHTML' => 'test_html',
         );
 
-        $this->_elementMock = $this->getMock('Magento_Data_Form_Element_Text',
+        $this->_elementMock = $this->getMock('Magento\Data\Form\Element\Text',
             array('getHtmlId' , 'getName', 'getLabel', 'getElementHtml', 'getComment', 'getHint', 'getScope',
                 'getScopeLabel', 'getInherit', 'getCanUseWebsiteValue', 'getCanUseDefaultValue', 'setDisabled'
             ),

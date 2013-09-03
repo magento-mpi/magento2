@@ -95,13 +95,13 @@ class Magento_Reports_Model_Resource_Review_Product_Collection extends Magento_C
     /**
      * Get select count sql
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {
         $this->_renderFilters();
 
-        /* @var Magento_DB_Select $select */
+        /* @var \Magento\DB\Select $select */
         $select = clone $this->getSelect();
         $select->reset(Zend_Db_Select::ORDER);
         $select->reset(Zend_Db_Select::LIMIT_COUNT);
@@ -110,7 +110,7 @@ class Magento_Reports_Model_Resource_Review_Product_Collection extends Magento_C
         $select->resetJoinLeft();
         $select->columns(new Zend_Db_Expr('1'));
 
-        /* @var Magento_DB_Select $countSelect */
+        /* @var \Magento\DB\Select $countSelect */
         $countSelect = clone $select;
         $countSelect->reset();
         $countSelect->from($select, "COUNT(*)");

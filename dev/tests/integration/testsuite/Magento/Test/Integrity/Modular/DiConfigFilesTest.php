@@ -55,8 +55,8 @@ class Magento_Test_Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework
      */
     public function testDiConfigFileWithoutMerging($file)
     {
-        /** @var $readerMock Magento_ObjectManager_Config_Reader_Dom */
-        $readerMock = $this->getMock('Magento_ObjectManager_Config_Reader_Dom', array('_merge'), array(), '', false);
+        /** @var $readerMock \Magento\ObjectManager\Config\Reader\Dom */
+        $readerMock = $this->getMock('Magento\ObjectManager\Config\Reader\Dom', array('_merge'), array(), '', false);
         $xsd = $readerMock->getSchemaFile();
 
         $dom = new DOMDocument();
@@ -92,13 +92,13 @@ class Magento_Test_Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework
      */
     public function testMergedDiConfig(array $files)
     {
-        $mapperMock = $this->getMock('Magento_ObjectManager_Config_Mapper_Dom', array(), array(), '', false);
-        $fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
+        $mapperMock = $this->getMock('Magento\ObjectManager\Config\Mapper\Dom', array(), array(), '', false);
+        $fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $fileResolverMock->expects($this->any())->method('read')->will($this->returnValue($files));
-        $validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
 
-        new Magento_ObjectManager_Config_Reader_Dom($fileResolverMock, $mapperMock, $validationStateMock);
+        new \Magento\ObjectManager\Config\Reader\Dom($fileResolverMock, $mapperMock, $validationStateMock);
     }
 
     public function mixedFilesProvider()

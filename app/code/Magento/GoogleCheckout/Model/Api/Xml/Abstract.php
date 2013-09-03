@@ -13,7 +13,7 @@ require_once('googlecheckout/googlemerchantcalculations.php');
 require_once('googlecheckout/googleresult.php');
 require_once('googlecheckout/googlerequest.php');
 
-abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends Magento_Object
+abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends \Magento\Object
 {
     /**
      * @var Magento_Core_Model_Translate
@@ -164,7 +164,7 @@ abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends Magento_Obj
         $debugData = array('request' => $xml, 'dir' => 'out');
 
         try {
-            $http = new Magento_HTTP_Adapter_Curl();
+            $http = new \Magento\HTTP\Adapter\Curl();
             $http->write('POST', $url, '1.1', $headers, $xml);
             $response = $http->read();
             $response = preg_split('/^\r?$/m', $response, 2);

@@ -21,7 +21,7 @@ class Magento_Backend_Model_Config_Structure_Mapper_Factory
     const MAPPER_EXTENDS                = 'extends';
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -37,7 +37,7 @@ class Magento_Backend_Model_Config_Structure_Mapper_Factory
         self::MAPPER_EXTENDS => 'Magento_Backend_Model_Config_Structure_Mapper_Extends',
     );
 
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

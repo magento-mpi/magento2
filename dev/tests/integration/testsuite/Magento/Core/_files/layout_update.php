@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-/** @var $objectManager Magento_ObjectManager */
+/** @var $objectManager \Magento\ObjectManager */
 $objectManager = Mage::getObjectManager();
 Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
 /** @var $theme Magento_Core_Model_Theme */

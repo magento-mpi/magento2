@@ -57,7 +57,7 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
     );
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -85,12 +85,12 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
     /**
      * @param Magento_Core_Model_Config_Resource $resourceConfig
      * @param Magento_Core_Model_Db_UpdaterInterface $daUpdater
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         Magento_Core_Model_Config_Resource $resourceConfig,
         Magento_Core_Model_Db_UpdaterInterface $daUpdater,
-        Magento_Filesystem $filesystem
+        \Magento\Filesystem $filesystem
     ) {
         $this->_resourceConfig = $resourceConfig;
         $this->_dbUpdater = $daUpdater;

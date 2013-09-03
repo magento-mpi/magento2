@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
+abstract class Magento_Payment_Model_Method_Abstract extends \Magento\Object
 {
     const ACTION_ORDER             = 'order';
     const ACTION_AUTHORIZE         = 'authorize';
@@ -145,10 +145,10 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     /**
      * Check void availability
      *
-     * @param   Magento_Object $payment
+     * @param   \Magento\Object $payment
      * @return  bool
      */
-    public function canVoid(Magento_Object $payment)
+    public function canVoid(\Magento\Object $payment)
     {
         return $this->_canVoid;
     }
@@ -380,12 +380,12 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     /**
      * Order payment abstract method
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      *
      * @return Magento_Payment_Model_Abstract
      */
-    public function order(Magento_Object $payment, $amount)
+    public function order(\Magento\Object $payment, $amount)
     {
         if (!$this->canOrder()) {
             Mage::throwException(__('The order action is not available.'));
@@ -396,12 +396,12 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     /**
      * Authorize payment abstract method
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      *
      * @return Magento_Payment_Model_Abstract
      */
-    public function authorize(Magento_Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
         if (!$this->canAuthorize()) {
             Mage::throwException(__('The authorize action is not available.'));
@@ -412,12 +412,12 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     /**
      * Capture payment abstract method
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      *
      * @return Magento_Payment_Model_Abstract
      */
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         if (!$this->canCapture()) {
             Mage::throwException(__('Th capture action is not available.'));
@@ -459,12 +459,12 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     /**
      * Refund specified amount for payment
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      *
      * @return Magento_Payment_Model_Abstract
      */
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         if (!$this->canRefund()) {
             Mage::throwException(__('The refund action is not available.'));
@@ -487,11 +487,11 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     /**
      * Cancel payment abstract method
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      *
      * @return Magento_Payment_Model_Abstract
      */
-    public function cancel(Magento_Object $payment)
+    public function cancel(\Magento\Object $payment)
     {
         return $this;
     }
@@ -499,11 +499,11 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     /**
      * Void payment abstract method
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      *
      * @return Magento_Payment_Model_Abstract
      */
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         if (!$this->canVoid($payment)) {
             Mage::throwException(__('Void action is not available.'));
@@ -591,7 +591,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
         if (is_array($data)) {
             $this->getInfoInstance()->addData($data);
         }
-        elseif ($data instanceof Magento_Object) {
+        elseif ($data instanceof \Magento\Object) {
             $this->getInfoInstance()->addData($data->getData());
         }
         return $this;

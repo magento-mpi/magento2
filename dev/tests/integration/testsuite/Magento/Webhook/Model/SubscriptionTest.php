@@ -49,8 +49,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Clean out the cache
-        /** @var Magento_Acl_CacheInterface $aclCache */
-        $aclCache = Mage::getObjectManager()->get('Magento_Acl_CacheInterface');
+        /** @var \Magento\Acl\CacheInterface $aclCache */
+        $aclCache = Mage::getObjectManager()->get('Magento\Acl\CacheInterface');
         $aclCache->clean();
         // add new hooks for the tests
         Mage::getConfig()->setNode('global/webhook/webhooks/test/hook/label', 'Test Hook');
@@ -60,8 +60,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         // Clean out the cache
-        /** @var Magento_Acl_CacheInterface $aclCache */
-        $aclCache = Mage::getObjectManager()->get('Magento_Acl_CacheInterface');
+        /** @var \Magento\Acl\CacheInterface $aclCache */
+        $aclCache = Mage::getObjectManager()->get('Magento\Acl\CacheInterface');
         $aclCache->clean();
     }
 
@@ -113,9 +113,9 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $subscription->activate();
 
         //verify
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE, $subscription->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE, $subscription->getStatus());
         $subscriptionInDb = $this->_getSubscription($subscription->getId());
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE, $subscriptionInDb->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE, $subscriptionInDb->getStatus());
     }
 
     public function testDeactivate()
@@ -130,9 +130,9 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $subscription->deactivate();
 
         //verify
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE, $subscription->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE, $subscription->getStatus());
         $subscriptionInDb = $this->_getSubscription($subscription->getId());
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE, $subscriptionInDb->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE, $subscriptionInDb->getStatus());
     }
 
     public function testRevoke()
@@ -147,9 +147,9 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $subscription->revoke();
 
         //verify
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_REVOKED, $subscription->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_REVOKED, $subscription->getStatus());
         $subscriptionInDb = $this->_getSubscription($subscription->getId());
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE, $subscriptionInDb->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE, $subscriptionInDb->getStatus());
     }
 
     public function testFindRestrictedTopics()
@@ -280,7 +280,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $subscription->setEndpointId(self::VALUE_ENDPOINT_ID);
         $subscription->setName(self::VALUE_NAME);
         $subscription->setRegistrationMechanism(self::VALUE_REG_MECH);
-        $subscription->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE);
+        $subscription->setStatus(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE);
         $subscription->setUpdatedAt(self::VALUE_UPDATED_AT);
         $subscription->setApiUserId(self::VALUE_API_USER_ID);
         $subscription->setAuthenticationType(self::VALUE_AUTHENTICATION_TYPE);
@@ -291,7 +291,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(self::VALUE_ENDPOINT_ID, $subscription->getEndpointId());
         $this->assertEquals(self::VALUE_NAME, $subscription->getName());
         $this->assertEquals(self::VALUE_REG_MECH, $subscription->getRegistrationMechanism());
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE, $subscription->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE, $subscription->getStatus());
         $this->assertEquals(self::VALUE_UPDATED_AT, $subscription->getUpdatedAt());
         $this->assertEquals(self::VALUE_API_USER_ID, $subscription->getApiUserId());
         $this->assertEquals(self::VALUE_AUTHENTICATION_TYPE, $subscription->getAuthenticationType());

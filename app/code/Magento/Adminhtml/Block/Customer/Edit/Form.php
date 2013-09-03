@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Form extends Magento_Adminhtml_Block
 
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        $form = new \Magento\Data\Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post',

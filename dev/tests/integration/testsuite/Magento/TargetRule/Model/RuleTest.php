@@ -23,13 +23,13 @@ class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
 
     public function testValidateDataOnEmpty()
     {
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
         $this->assertTrue($this->_model->validateData($data), 'True for empty object');
     }
 
     public function testValidateDataOnValid()
     {
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
         $data->setRule(array(
             'actions' => array(
                 'test' => array(
@@ -47,7 +47,7 @@ class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateDataOnInvalidCode($code)
     {
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
         $data->setRule(array(
             'actions' => array(
                 'test' => array(
@@ -79,7 +79,7 @@ class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateDataOnInvalidType()
     {
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
         $data->setRule(array(
                 'actions' => array(
                     'test' => array(

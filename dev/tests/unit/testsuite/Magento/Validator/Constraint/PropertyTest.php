@@ -3,26 +3,26 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Validator
+ * @package     \Magento\Validator
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test case for Magento_Validator_Constraint_Property
+ * Test case for \Magento\Validator\Constraint\Property
  */
 class Magento_Validator_Constraint_PropertyTest extends PHPUnit_Framework_TestCase
 {
     const PROPERTY_NAME = 'test';
 
     /**
-     * @var Magento_Validator_Constraint_Property
+     * @var \Magento\Validator\Constraint\Property
      */
     protected $_constraint;
 
     /**
-     * @var Magento_Validator_ValidatorInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Validator\ValidatorInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validatorMock;
 
@@ -31,8 +31,8 @@ class Magento_Validator_Constraint_PropertyTest extends PHPUnit_Framework_TestCa
      */
     protected function setUp()
     {
-        $this->_validatorMock = $this->getMock('Magento_Validator_ValidatorInterface');
-        $this->_constraint = new Magento_Validator_Constraint_Property($this->_validatorMock, self::PROPERTY_NAME);
+        $this->_validatorMock = $this->getMock('Magento\Validator\ValidatorInterface');
+        $this->_constraint = new \Magento\Validator\Constraint\Property($this->_validatorMock, self::PROPERTY_NAME);
     }
 
     /**
@@ -42,7 +42,7 @@ class Magento_Validator_Constraint_PropertyTest extends PHPUnit_Framework_TestCa
     {
         $this->assertEmpty($this->_constraint->getAlias());
         $alias = 'foo';
-        $constraint = new Magento_Validator_Constraint_Property($this->_validatorMock, self::PROPERTY_NAME, $alias);
+        $constraint = new \Magento\Validator\Constraint\Property($this->_validatorMock, self::PROPERTY_NAME, $alias);
         $this->assertEquals($alias, $constraint->getAlias());
     }
 
@@ -90,7 +90,7 @@ class Magento_Validator_Constraint_PropertyTest extends PHPUnit_Framework_TestCa
                 true
             ),
             array(
-                new Magento_Object(array(self::PROPERTY_NAME => 'Property value')),
+                new \Magento\Object(array(self::PROPERTY_NAME => 'Property value')),
                 'Property value',
                 true
             ),

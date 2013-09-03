@@ -81,7 +81,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(self::SOME_FORMATTED_TIME, $this->_event->getCreatedAt());
         $this->assertNull($this->_event->getUpdatedAt());
-        $this->assertSame(Magento_PubSub_EventInterface::STATUS_READY_TO_SEND, $this->_event->getStatus());
+        $this->assertSame(\Magento\PubSub\EventInterface::STATUS_READY_TO_SEND, $this->_event->getStatus());
     }
 
     /**
@@ -137,7 +137,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(self::SOME_FORMATTED_TIME, $this->_event->getUpdatedAt());
         $this->assertNull($this->_event->getCreatedAt());
-        $this->assertSame(Magento_PubSub_EventInterface::STATUS_READY_TO_SEND, $this->_event->getStatus());
+        $this->assertSame(\Magento\PubSub\EventInterface::STATUS_READY_TO_SEND, $this->_event->getStatus());
     }
 
     public function testGettersAndSetters()
@@ -153,7 +153,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_event->hasDataChanges());
         $this->assertEquals($data, $this->_event->getHeaders());
 
-        $this->assertSame(Magento_PubSub_EventInterface::STATUS_READY_TO_SEND, $this->_event->getStatus());
+        $this->assertSame(\Magento\PubSub\EventInterface::STATUS_READY_TO_SEND, $this->_event->getStatus());
         $this->_event->setStatus($data);
         $this->assertTrue($this->_event->hasDataChanges());
         $this->assertEquals($data, $this->_event->getStatus());

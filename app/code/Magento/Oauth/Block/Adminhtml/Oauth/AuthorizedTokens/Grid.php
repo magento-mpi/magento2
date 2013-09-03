@@ -27,7 +27,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Magento_
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
         $this->setDefaultSort('entity_id')
-            ->setDefaultDir(Magento_DB_Select::SQL_DESC);
+            ->setDefaultDir(\Magento\DB\Select::SQL_DESC);
     }
 
     /**

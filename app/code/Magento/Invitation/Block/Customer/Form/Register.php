@@ -20,14 +20,14 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
     /**
      * Retrieve form data
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
             $customerFormData = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerFormData(true);
-            $data = new Magento_Object($customerFormData);
+            $data = new \Magento\Object($customerFormData);
             if (empty($customerFormData)) {
                 $invitation = $this->getCustomerInvitation();
 

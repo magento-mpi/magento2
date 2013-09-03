@@ -16,7 +16,7 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Session_Abstract extends Magento_Object
+class Magento_Core_Model_Session_Abstract extends \Magento\Object
 {
     const VALIDATOR_KEY                         = '_session_validator_data';
     const VALIDATOR_HTTP_USER_AGENT_KEY         = 'http_user_agent';
@@ -141,7 +141,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
         // potential custom logic for session id (ex. switching between hosts)
         $this->setSessionId();
 
-        Magento_Profiler::start('session_start');
+        \Magento\Profiler::start('session_start');
         $sessionCacheLimiter = Mage::getConfig()->getNode('global/session_cache_limiter');
         if ($sessionCacheLimiter) {
             session_cache_limiter((string)$sessionCacheLimiter);
@@ -149,7 +149,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
 
         session_start();
 
-        Magento_Profiler::stop('session_start');
+        \Magento\Profiler::stop('session_start');
 
         return $this;
     }

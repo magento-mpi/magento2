@@ -30,7 +30,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
                     )
                 )
             )),
-            'cache' => $this->getMock('Magento_Config_CacheInterface')
+            'cache' => $this->getMock('Magento\Config\CacheInterface')
         ));
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */

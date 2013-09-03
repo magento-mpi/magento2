@@ -18,7 +18,7 @@ class Magento_Logging_Model_Config
     /**
      * logging.xml merged config
      *
-     * @var Magento_Simplexml_Config
+     * @var \Magento\Simplexml\Config
      */
     protected $_xmlConfig;
 
@@ -43,9 +43,9 @@ class Magento_Logging_Model_Config
     ) {
         $configXml = $configCacheType->load('magento_logging_config');
         if ($configXml) {
-            $this->_xmlConfig = new Magento_Simplexml_Config($configXml);
+            $this->_xmlConfig = new \Magento\Simplexml\Config($configXml);
         } else {
-            $config = new Magento_Simplexml_Config;
+            $config = new \Magento\Simplexml\Config;
             $config->loadString('<?xml version="1.0"?><logging></logging>');
             $configReader->loadModulesConfiguration('logging.xml', $config);
             $this->_xmlConfig = $config;
@@ -104,7 +104,7 @@ class Magento_Logging_Model_Config
      * Get configuration node for specified full action name
      *
      * @param string $fullActionName
-     * @return Magento_Simplexml_Element|false
+     * @return \Magento\Simplexml\Element|false
      */
     public function getNode($fullActionName)
     {

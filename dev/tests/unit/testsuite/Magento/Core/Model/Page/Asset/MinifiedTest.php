@@ -19,7 +19,7 @@ class Magento_Core_Model_Page_Asset_MinifiedTest extends PHPUnit_Framework_TestC
     protected $_asset;
 
     /**
-     * @var Magento_Code_Minifier|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Code\Minifier|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_minifier;
 
@@ -46,7 +46,7 @@ class Magento_Core_Model_Page_Asset_MinifiedTest extends PHPUnit_Framework_TestC
             '',
             false
         );
-        $this->_minifier = $this->getMock('Magento_Code_Minifier', array('getMinifiedFile'), array(), '', false);
+        $this->_minifier = $this->getMock('Magento\Code\Minifier', array('getMinifiedFile'), array(), '', false);
         $this->_viewUrl = $this->getMock('Magento_Core_Model_View_Url', array(), array(), '', false);
         $this->_logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
 

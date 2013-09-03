@@ -238,7 +238,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adminh
     /**
      * Get available for return item quantity
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return int
      */
     public function getQtyOrdered($row)
@@ -259,7 +259,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adminh
     /**
      * Get string value of "Reason to Return" Attribute
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
     public function getReasonOptionStringValue($row)
@@ -270,7 +270,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adminh
     /**
      * Get string value of "Reason to Return" Attribute
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
     public function getResolutionOptionStringValue($row)
@@ -281,7 +281,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adminh
     /**
      * Get string value of "Reason to Return" Attribute
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
     public function getConditionOptionStringValue($row)
@@ -292,7 +292,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adminh
     /**
      * Get string value of "Status" Attribute
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
     public function getStatusOptionStringValue($row)

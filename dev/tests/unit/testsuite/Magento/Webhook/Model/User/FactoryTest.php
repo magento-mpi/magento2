@@ -13,7 +13,7 @@ class Magento_Webhook_Model_User_FactoryTest extends PHPUnit_Framework_TestCase
 {
     public function test()
     {
-        $mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
 

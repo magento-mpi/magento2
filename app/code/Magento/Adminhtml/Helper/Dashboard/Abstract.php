@@ -67,7 +67,7 @@
                     } else {
                         $result[] = null;
                     }
-                } elseif ($item instanceof Magento_Object) {
+                } elseif ($item instanceof \Magento\Object) {
                     $result[] = $item->getData($index);
                 } else {
                     $result[] = null;

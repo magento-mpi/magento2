@@ -118,10 +118,10 @@ class Magento_Catalog_Model_Resource_Collection_Abstract extends Magento_Eav_Mod
     }
 
     /**
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param string $table
      * @param string $type
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _addLoadAttributesSelectValues($select, $table, $type)
     {

@@ -33,7 +33,7 @@ abstract class Magento_Sales_Model_Resource_Abstract extends Magento_Core_Model_
      */
     protected function _prepareDataForSave(Magento_Core_Model_Abstract $object)
     {
-        $currentTime = Magento_Date::now();
+        $currentTime = \Magento\Date::now();
         if ((!$object->getId() || $object->isObjectNew()) && !$object->getCreatedAt()) {
             $object->setCreatedAt($currentTime);
         }

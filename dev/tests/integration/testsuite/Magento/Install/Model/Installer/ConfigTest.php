@@ -20,7 +20,7 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
 
     public static function tearDownAfterClass()
     {
-        Magento_Io_File::rmdirRecursive(self::$_tmpDir);
+        \Magento\Io\File::rmdirRecursive(self::$_tmpDir);
     }
 
     public function testInstall()
@@ -38,7 +38,7 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
         );
 
         $this->assertFileNotExists($expectedFile);
-        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
+        $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
         $model = Mage::getModel('Magento_Install_Model_Installer_Config', array(
             'config' => $config, 'dirs' => $dirs, 'filesystem' => $filesystem
         ));
@@ -51,9 +51,9 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
     {
         /** @var $model Magento_Install_Model_Installer_Config */
         $model = Mage::getModel('Magento_Install_Model_Installer_Config');
-        /** @var $result Magento_Object */
+        /** @var $result \Magento\Object */
         $result = $model->getFormData();
-        $this->assertInstanceOf('Magento_Object', $result);
+        $this->assertInstanceOf('\Magento\Object', $result);
         $data = $result->getData();
         $this->assertArrayHasKey('db_host', $data);
     }

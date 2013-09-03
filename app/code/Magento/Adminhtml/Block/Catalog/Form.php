@@ -19,19 +19,19 @@ class Magento_Adminhtml_Block_Catalog_Form extends Magento_Adminhtml_Block_Widge
 {
     protected function _prepareLayout()
     {
-        Magento_Data_Form::setElementRenderer(
+        \Magento\Data\Form::setElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento_Adminhtml_Block_Widget_Form_Renderer_Element',
                 $this->getNameInLayout() . '_element'
             )
         );
-        Magento_Data_Form::setFieldsetRenderer(
+        \Magento\Data\Form::setFieldsetRenderer(
             $this->getLayout()->createBlock(
                 'Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset',
                 $this->getNameInLayout() . '_fieldset'
             )
         );
-        Magento_Data_Form::setFieldsetElementRenderer(
+        \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element',
                 $this->getNameInLayout() . '_fieldset_element'

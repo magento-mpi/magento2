@@ -12,7 +12,7 @@
 class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Event_Observer
+     * @var \Magento\Event\Observer
      */
     protected $_observer;
 
@@ -52,7 +52,7 @@ class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $currentProduct->expects($this->never())
             ->method('getTypeInstance');
 
-        $this->_setObserverExpectedMethods($currentProduct, new Magento_Object());
+        $this->_setObserverExpectedMethods($currentProduct, new \Magento\Object());
 
         $this->_model->duplicateProduct($this->_observer);
     }
@@ -74,7 +74,7 @@ class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(array()));
         $typeInstance->expects($this->once())
             ->method('getSamples')
-            ->will($this->returnValue(new Magento_Object()));
+            ->will($this->returnValue(new \Magento\Object()));
 
         $currentProduct->expects($this->once())
             ->method('getTypeInstance')
@@ -102,9 +102,9 @@ class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $samples = $this->_getSamples();
 
-        $getLinks = new Magento_Object($links);
+        $getLinks = new \Magento\Object($links);
 
-        $getSamples = new Magento_Object($samples);
+        $getSamples = new \Magento\Object($samples);
 
         $typeInstance = $this->getMock('Magento_Downloadable_Model_Product_Type',
             array('getLinks', 'getSamples'), array(), '', false);
@@ -175,7 +175,7 @@ class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected function _setObserverExpectedMethods($currentProduct, $newProduct)
     {
-        $this->_observer = $this->getMock('Magento_Event_Observer',
+        $this->_observer = $this->getMock('Magento\Event\Observer',
             array('getCurrentProduct', 'getNewProduct'), array(), '', false);
         $this->_observer->expects($this->once())
             ->method('getCurrentProduct')

@@ -30,7 +30,7 @@ class Magento_AdminNotification_Model_Survey
      */
     public static function isSurveyUrlValid()
     {
-        $curl = new Magento_HTTP_Adapter_Curl();
+        $curl = new \Magento\HTTP\Adapter\Curl();
         $curl->setConfig(array('timeout'   => 5))
             ->write(Zend_Http_Client::GET, self::getSurveyUrl(), '1.0');
         $response = $curl->read();

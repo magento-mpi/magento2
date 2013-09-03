@@ -104,10 +104,10 @@ abstract class Magento_Backend_Block_System_Config_Form_Field_Array_Abstract
     /**
      * Get the grid and scripts contents
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         $html = $this->_toHtml();
@@ -118,10 +118,10 @@ abstract class Magento_Backend_Block_System_Config_Form_Field_Array_Abstract
     /**
      * Prepare existing row data object
      *
-     * @param Magento_Object
+     * @param \Magento\Object
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _prepareArrayRow(Magento_Object $row)
+    protected function _prepareArrayRow(\Magento\Object $row)
     {
         // override in descendants
     }
@@ -129,7 +129,7 @@ abstract class Magento_Backend_Block_System_Config_Form_Field_Array_Abstract
     /**
      * Obtain existing data from form element
      *
-     * Each row will be instance of Magento_Object
+     * Each row will be instance of \Magento\Object
      *
      * @return array
      */
@@ -139,7 +139,7 @@ abstract class Magento_Backend_Block_System_Config_Form_Field_Array_Abstract
             return $this->_arrayRowsCache;
         }
         $result = array();
-        /** @var Magento_Data_Form_Element_Abstract */
+        /** @var \Magento\Data\Form\Element\AbstractElement */
         $element = $this->getElement();
         if ($element->getValue() && is_array($element->getValue())) {
             foreach ($element->getValue() as $rowId => $row) {
@@ -150,7 +150,7 @@ abstract class Magento_Backend_Block_System_Config_Form_Field_Array_Abstract
                 }
                 $row['_id'] = $rowId;
                 $row['column_values'] = $rowColumnValues;
-                $result[$rowId] = new Magento_Object($row);
+                $result[$rowId] = new \Magento\Object($row);
                 $this->_prepareArrayRow($result[$rowId]);
             }
         }

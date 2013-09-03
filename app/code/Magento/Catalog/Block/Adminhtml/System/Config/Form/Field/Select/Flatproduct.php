@@ -22,10 +22,10 @@ class Magento_Catalog_Block_Adminhtml_System_Config_Form_Field_Select_Flatproduc
     /**
      * Retrieve Element HTML
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element) {
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element) {
         if (!$this->helper('Magento_Catalog_Helper_Product_Flat')->isBuilt()) {
             $element->setDisabled(true)
                 ->setValue(0);

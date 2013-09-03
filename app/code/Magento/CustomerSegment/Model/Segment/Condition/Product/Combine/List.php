@@ -151,7 +151,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_List
      *
      * @param $customer
      * @param int | Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {

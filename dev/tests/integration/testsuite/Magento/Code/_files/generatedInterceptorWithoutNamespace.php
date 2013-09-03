@@ -12,14 +12,14 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceInterceptor ex
     /**
      * Object Manager factory
      *
-     * @var \Magento_ObjectManager_Factory
+     * @var \Magento\ObjectManager\Factory
      */
     protected $_factory = null;
 
     /**
      * Object Manager instance
      *
-     * @var \Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -54,13 +54,13 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceInterceptor ex
     /**
      * Interceptor constructor
      *
-     * @param \Magento_ObjectManager_Factory $factory
-     * @param \Magento_ObjectManager_ObjectManager $objectManager
+     * @param \Magento\ObjectManager\Factory $factory
+     * @param \Magento\ObjectManager\ObjectManager $objectManager
      * @param string $subjectType
      * @param array $pluginList
      * @param array $arguments
      */
-    public function __construct(\Magento_ObjectManager_Factory $factory, \Magento_ObjectManager_ObjectManager $objectManager, $subjectType, array $pluginList, array $arguments)
+    public function __construct(\Magento\ObjectManager\Factory $factory, \Magento\ObjectManager\ObjectManager $objectManager, $subjectType, array $pluginList, array $arguments)
     {
         $this->_factory = $factory;
         $this->_objectManager = $objectManager;
@@ -101,7 +101,7 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceInterceptor ex
         $aroundMethodName = $methodName . 'Around';
         $insteadPluginList = isset($this->_pluginList[$aroundMethodName])
             ? $this->_pluginList[$aroundMethodName] : array();
-        $invocationChain = new Magento_Code_Plugin_InvocationChain(
+        $invocationChain = new \Magento\Code\Plugin\InvocationChain(
             $this->_getSubject(),
             $methodName,
             $this->_objectManager,

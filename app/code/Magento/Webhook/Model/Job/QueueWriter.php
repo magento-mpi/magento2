@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Job_QueueWriter implements Magento_PubSub_Job_QueueWriterInterface
+class Magento_Webhook_Model_Job_QueueWriter implements \Magento\PubSub\Job\QueueWriterInterface
 {
     /** @var Magento_Webhook_Model_Job_Factory */
     protected $_jobFactory;
@@ -27,10 +27,10 @@ class Magento_Webhook_Model_Job_QueueWriter implements Magento_PubSub_Job_QueueW
     /**
      * Adds the job to the queue.
      *
-     * @param Magento_PubSub_JobInterface $job
+     * @param \Magento\PubSub\JobInterface $job
      * @return null
      */
-    public function offer(Magento_PubSub_JobInterface $job)
+    public function offer(\Magento\PubSub\JobInterface $job)
     {
         if ($job instanceof Magento_Webhook_Model_Job) {
             $job->save();

@@ -40,7 +40,7 @@ class Magento_Core_Utility_Layout
         $fileSource->expects(PHPUnit_Framework_TestCase::any())
             ->method('getFiles')
             ->will(PHPUnit_Framework_TestCase::returnValue(array($file)));
-        $cache = $this->_testCase->getMockForAbstractClass('Magento_Cache_FrontendInterface');
+        $cache = $this->_testCase->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
         return $objectManager->create(
             'Magento_Core_Model_Layout_Merge', array('fileSource' => $fileSource, 'cache' => $cache)
         );
@@ -74,7 +74,7 @@ class Magento_Core_Utility_Layout
         return array(
             'design'             => Mage::getObjectManager()->get('Magento_Core_Model_View_DesignInterface'),
             'blockFactory'       => Mage::getObjectManager()->create('Magento_Core_Model_BlockFactory', array()),
-            'structure'          => Mage::getObjectManager()->create('Magento_Data_Structure', array()),
+            'structure'          => Mage::getObjectManager()->create('Magento\Data\Structure', array()),
             'argumentProcessor'  => Mage::getObjectManager()->create('Magento_Core_Model_Layout_Argument_Processor',
                 array()
             ),

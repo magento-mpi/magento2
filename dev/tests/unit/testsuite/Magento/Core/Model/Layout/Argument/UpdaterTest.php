@@ -31,7 +31,7 @@ class Magento_Core_Model_Layout_Argument_UpdaterTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_argUpdaterMock = $this->getMock('Magento_Core_Model_Layout_Argument_UpdaterInterface', array(), array(),
             '', false
         );

@@ -21,10 +21,10 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Grid_Renderer_Ordered_Pric
     /**
      * Render price for last ordered item
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         // Show base price of product - the real price will be shown when user will configure product (if needed)
         $priceInitial = $row->getProduct()->getPrice() * 1;

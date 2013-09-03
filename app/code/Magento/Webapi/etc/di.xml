@@ -8,10 +8,10 @@
  */
 -->
 <config>
-    <preference for="Magento_Authorization_Policy" type="Magento_Authorization_Policy_Acl" />
-    <preference for="Magento_Authorization_RoleLocator" type="Magento_Webapi_Model_Authorization_RoleLocator" />
+    <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\Acl" />
+    <preference for="Magento\Authorization\RoleLocator" type="Magento_Webapi_Model_Authorization_RoleLocator" />
     <preference for="Magento_Webapi_Model_Acl_Resource_ProviderInterface" type="Magento_Webapi_Model_Acl_Resource_Provider"/>
-    <type name="Magento_Acl_Builder">
+    <type name="Magento\Acl\Builder">
         <param name="resourceLoader">
             <instance type="Magento_Webapi_Model_Authorization_Loader_Resource" />
         </param>
@@ -52,8 +52,8 @@
         </param>
     </type>
     <type name="Magento_Webapi_Controller_Router_Route" shared="false" />
-    <type name="Magento_Xml_Generator" shared="false" />
-    <type name="Magento_Xml_Parser" shared="false" />
+    <type name="Magento\Xml\Generator" shared="false" />
+    <type name="Magento\Xml\Parser" shared="false" />
     <type name="Magento_Code_Scanner_DirectoryScanner" shared="false" />
     <type name="Magento_Server_Reflection" shared="false" />
     <type name="Magento_Webapi_Model_Authorization_Loader_Resource">

@@ -34,7 +34,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
     );
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     private $_filesystem;
 
@@ -49,12 +49,12 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
     protected $_imageFactory;
 
     /**
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig
      * @param Magento_Core_Model_Image_Factory $imageFactory
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Catalog_Model_Product_Media_Config $mediaConfig,
         Magento_Core_Model_Image_Factory $imageFactory
     ) {

@@ -56,7 +56,7 @@ class Magento_TestFramework_Bootstrap
     private $_profilerBootstrap;
 
     /**
-     * @var Magento_Shell
+     * @var \Magento\Shell
      */
     private $_shell;
 
@@ -74,7 +74,7 @@ class Magento_TestFramework_Bootstrap
      * @param Magento_TestFramework_Bootstrap_Environment $envBootstrap
      * @param Magento_TestFramework_Bootstrap_DocBlock $docBlockBootstrap
      * @param Magento_TestFramework_Bootstrap_Profiler $profilerBootstrap
-     * @param Magento_Shell $shell
+     * @param \Magento\Shell $shell
      * @param string $tmpDir
      */
     public function __construct(
@@ -82,7 +82,7 @@ class Magento_TestFramework_Bootstrap
         Magento_TestFramework_Bootstrap_Environment $envBootstrap,
         Magento_TestFramework_Bootstrap_DocBlock $docBlockBootstrap,
         Magento_TestFramework_Bootstrap_Profiler $profilerBootstrap,
-        Magento_Shell $shell,
+        \Magento\Shell $shell,
         $tmpDir
     ) {
         $this->_settings = $settings;
@@ -223,15 +223,15 @@ class Magento_TestFramework_Bootstrap
 
     /**
      * @param array $configFiles
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     protected function _loadConfigFiles(array $configFiles)
     {
-        /** @var $result Magento_Simplexml_Element */
-        $result = simplexml_load_string('<config/>', 'Magento_Simplexml_Element');
+        /** @var $result \Magento\Simplexml\Element */
+        $result = simplexml_load_string('<config/>', '\Magento\Simplexml\Element');
         foreach ($configFiles as $configFile) {
-            /** @var $configXml Magento_Simplexml_Element */
-            $configXml = simplexml_load_file($configFile, 'Magento_Simplexml_Element');
+            /** @var $configXml \Magento\Simplexml\Element */
+            $configXml = simplexml_load_file($configFile, '\Magento\Simplexml\Element');
             $result->extend($configXml);
         }
         return $result;
@@ -242,14 +242,14 @@ class Magento_TestFramework_Bootstrap
      *
      * @param SimpleXMLElement $dbConfig
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     protected function _determineDbVendorName(SimpleXMLElement $dbConfig)
     {
         $dbVendorAlias = (string)$dbConfig->model;
         $dbVendorMap = array('mysql4' => 'mysql');
         if (!array_key_exists($dbVendorAlias, $dbVendorMap)) {
-            throw new Magento_Exception("Database vendor '$dbVendorAlias' is not supported.");
+            throw new \Magento\MagentoException("Database vendor '$dbVendorAlias' is not supported.");
         }
         return $dbVendorMap[$dbVendorAlias];
     }

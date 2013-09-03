@@ -125,12 +125,12 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
     /**
      * Get adapter mock
      *
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_DB_Adapter_Pdo_Mysql
+     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\DB\Adapter\Pdo\Mysql
      */
     private function _getAdapterMock()
     {
         $adapter = $this->getMock(
-            'Magento_DB_Adapter_Pdo_Mysql',
+            'Magento\DB\Adapter\Pdo\Mysql',
             array(
                 'describeTable', 'lastInsertId', 'insert', 'prepareColumnValue', 'query', 'delete'
             ),
@@ -217,7 +217,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
             ->method('getOrigData')
             ->will($this->returnValue($productOrigData));
 
-        $entityType = new Magento_Object();
+        $entityType = new \Magento\Object();
         $entityType->setEntityTypeCode('test');
         $entityType->setEntityTypeId(0);
         $entityType->setEntityTable('table');

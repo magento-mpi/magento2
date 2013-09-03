@@ -96,11 +96,11 @@ class Magento_CatalogInventory_Model_Stock_ItemTest extends PHPUnit_Framework_Te
     public function testSetGetProduct()
     {
         $this->assertNull($this->_model->getProduct());
-        $productOne = new Magento_Object;
+        $productOne = new \Magento\Object;
         $this->_model->setData('product', $productOne);
         $this->assertSame($productOne, $this->_model->getProduct());
 
-        $productTwo = new Magento_Object;
+        $productTwo = new \Magento\Object;
         $this->_model->setProduct($productTwo);
         $this->assertSame($productTwo, $this->_model->getProduct());
     }

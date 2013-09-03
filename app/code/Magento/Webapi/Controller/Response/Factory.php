@@ -19,7 +19,7 @@ class Magento_Webapi_Controller_Response_Factory
         Magento_Webapi_Controller_Front::API_TYPE_SOAP => 'Magento_Webapi_Controller_Response',
     );
 
-    /** @var Magento_ObjectManager */
+    /** @var \Magento\ObjectManager */
     protected $_objectManager;
 
     /** @var Magento_Webapi_Controller_Front */
@@ -29,11 +29,11 @@ class Magento_Webapi_Controller_Response_Factory
      * Initialize dependencies.
      *
      * @param Magento_Webapi_Controller_Front $apiFrontController
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         Magento_Webapi_Controller_Front $apiFrontController,
-        Magento_ObjectManager $objectManager
+        \Magento\ObjectManager $objectManager
     ) {
         $this->_apiFrontController = $apiFrontController;
         $this->_objectManager = $objectManager;

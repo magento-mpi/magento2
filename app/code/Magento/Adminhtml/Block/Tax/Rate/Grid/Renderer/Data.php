@@ -18,7 +18,7 @@
 
 class Magento_Adminhtml_Block_Tax_Rate_Grid_Renderer_Data extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-    protected function _getValue (Magento_Object $row)
+    protected function _getValue (\Magento\Object $row)
     {
         $data = parent::_getValue($row);
         if (intval($data) == $data) {

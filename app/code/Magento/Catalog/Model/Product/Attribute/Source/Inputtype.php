@@ -34,7 +34,7 @@
             )
         );
 
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setTypes(array());
         Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
         $_disabledTypes = array();

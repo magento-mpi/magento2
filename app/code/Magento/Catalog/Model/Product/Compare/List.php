@@ -15,7 +15,7 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Compare_List extends Magento_Object
+class Magento_Catalog_Model_Product_Compare_List extends \Magento\Object
 {
     /**
      * Add product to Compare List

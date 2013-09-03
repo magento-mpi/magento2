@@ -143,7 +143,7 @@ abstract class Magento_Catalog_Model_Abstract extends Magento_Core_Model_Abstrac
      * @param string|array $key
      * @param mixed $value
      * @param boolean $isChanged
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function setData($key, $value = null)
     {

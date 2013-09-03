@@ -7,7 +7,7 @@
  */
 
 /**
- * Magento_Io_File test case
+ * \Magento\Io\File test case
  */
 class Magento_Io_FileTest extends PHPUnit_Framework_TestCase
 {
@@ -57,7 +57,7 @@ class Magento_Io_FileTest extends PHPUnit_Framework_TestCase
             "Wrong permissions set for " . $this->_dir);
         $this->assertEquals($permsBefore, fileperms($this->_file) & $permsBefore,
             "Wrong permissions set for " . $this->_file);
-        Magento_Io_File::chmodRecursive($this->_dir, $expected);
+        \Magento\Io\File::chmodRecursive($this->_dir, $expected);
         $this->assertEquals($expected, fileperms($this->_dir) & $expected,
             "Directory permissions were changed incorrectly.");
         $this->assertEquals($expected, fileperms($this->_file) & $expected,
@@ -68,7 +68,7 @@ class Magento_Io_FileTest extends PHPUnit_Framework_TestCase
     public function testRmdirRecursive()
     {
         $this->assertFileExists($this->_file);
-        Magento_Io_File::rmdirRecursive($this->_dir);
+        \Magento\Io\File::rmdirRecursive($this->_dir);
         $this->assertFileNotExists($this->_dir);
     }
 }

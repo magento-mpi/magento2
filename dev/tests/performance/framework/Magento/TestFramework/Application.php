@@ -28,7 +28,7 @@ class Magento_TestFramework_Application
     protected $_installerScript;
 
     /**
-     * @var Magento_Shell
+     * @var \Magento\Shell
      */
     protected $_shell;
 
@@ -50,14 +50,14 @@ class Magento_TestFramework_Application
      * Constructor
      *
      * @param Magento_TestFramework_Performance_Config $config
-     * @param Magento_Shell $shell
-     * @throws Magento_Exception
+     * @param \Magento\Shell $shell
+     * @throws \Magento\MagentoException
      */
-    public function __construct(Magento_TestFramework_Performance_Config $config, Magento_Shell $shell)
+    public function __construct(Magento_TestFramework_Performance_Config $config, \Magento\Shell $shell)
     {
         $installerScript = $config->getApplicationBaseDir() . '/dev/shell/install.php';
         if (!is_file($installerScript)) {
-            throw new Magento_Exception("File '$installerScript' is not found.");
+            throw new \Magento\MagentoException("File '$installerScript' is not found.");
         }
         $this->_installerScript = realpath($installerScript);
         $this->_config = $config;
@@ -113,13 +113,13 @@ class Magento_TestFramework_Application
      * Install application according to installation options
      *
      * @return Magento_TestFramework_Application
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     protected function _install()
     {
         $installOptions = $this->_config->getInstallOptions();
         if (!$installOptions) {
-            throw new Magento_Exception('Trying to install Magento, but installation options are not set');
+            throw new \Magento\MagentoException('Trying to install Magento, but installation options are not set');
         }
 
         // Populate install options with global options
@@ -169,7 +169,7 @@ class Magento_TestFramework_Application
      */
     protected function _updateFilesystemPermissions()
     {
-        Magento_Io_File::chmodRecursive(Mage::getBaseDir('var'), 0777);
+        \Magento\Io\File::chmodRecursive(Mage::getBaseDir('var'), 0777);
     }
 
     /**

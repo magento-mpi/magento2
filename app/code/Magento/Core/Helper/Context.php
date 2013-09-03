@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterface
+class Magento_Core_Helper_Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
      * @var Magento_Core_Model_Translate

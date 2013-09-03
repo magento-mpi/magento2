@@ -20,7 +20,7 @@
 class Magento_Backend_Block_Abstract extends Magento_Core_Block_Abstract
 {
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 

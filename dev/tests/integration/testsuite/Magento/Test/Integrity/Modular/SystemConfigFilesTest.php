@@ -44,7 +44,7 @@ class Magento_Test_Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Frame
                 'moduleReader' => $configMock,
                 'runtimeValidation' => true,
             ));
-        } catch (Magento_Exception $exp) {
+        } catch (\Magento\MagentoException $exp) {
             $this->fail($exp->getMessage());
         }
     }

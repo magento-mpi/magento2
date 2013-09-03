@@ -96,7 +96,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     const OPTION_PREFIX = 'option_';
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -110,10 +110,10 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     /**
      * Initialize data
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, array $data = array())
+    public function __construct(\Magento\Filesystem $filesystem, array $data = array())
     {
         $this->_filesystem = $filesystem;
         $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
@@ -134,11 +134,11 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     /**
      * Return relation info about used products for specific type instance
      *
-     * @return Magento_Object Object with information data
+     * @return \Magento\Object Object with information data
      */
     public function getRelationInfo()
     {
-        return new Magento_Object();
+        return new \Magento\Object();
     }
 
     /**
@@ -270,12 +270,12 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and then prepare options belonging to specific product type.
      *
-     * @param  Magento_Object $buyRequest
+     * @param  \Magento\Object $buyRequest
      * @param  Magento_Catalog_Model_Product $product
      * @param  string $processMode
      * @return array|string
      */
-    protected function _prepareProduct(Magento_Object $buyRequest, $product, $processMode)
+    protected function _prepareProduct(\Magento\Object $buyRequest, $product, $processMode)
     {
         // try to add custom options
         try {
@@ -338,12 +338,12 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     /**
      * Process product configuration
      *
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @param Magento_Catalog_Model_Product $product
      * @param string $processMode
      * @return array|string
      */
-    public function processConfiguration(Magento_Object $buyRequest, $product,
+    public function processConfiguration(\Magento\Object $buyRequest, $product,
         $processMode = self::PROCESS_MODE_LITE)
     {
         $_products = $this->_prepareProduct($buyRequest, $product, $processMode);
@@ -357,12 +357,12 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
      * Initialize product(s) for add to cart process.
      * Advanced version of func to prepare product for cart - processMode can be specified there.
      *
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @param Magento_Catalog_Model_Product $product
      * @param null|string $processMode
      * @return array|string
      */
-    public function prepareForCartAdvanced(Magento_Object $buyRequest, $product, $processMode = null)
+    public function prepareForCartAdvanced(\Magento\Object $buyRequest, $product, $processMode = null)
     {
         if (!$processMode) {
             $processMode = self::PROCESS_MODE_FULL;
@@ -375,11 +375,11 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     /**
      * Initialize product(s) for add to cart process
      *
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @param Magento_Catalog_Model_Product $product
      * @return array|string
      */
-    public function prepareForCart(Magento_Object $buyRequest, $product)
+    public function prepareForCart(\Magento\Object $buyRequest, $product)
     {
         return $this->prepareForCartAdvanced($buyRequest, $product, self::PROCESS_MODE_FULL);
     }
@@ -407,7 +407,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
 
                         try {
                             $this->_filesystem->createDirectory($path, 0777);
-                        } catch (Magento_Filesystem_Exception $e) {
+                        } catch (\Magento\Filesystem\FilesystemException $e) {
                             Mage::throwException(
                                 __("We can't create writeable directory \"%1\".", $path)
                             );
@@ -478,12 +478,12 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     /**
      * Process custom defined options for product
      *
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @param Magento_Catalog_Model_Product $product
      * @param string $processMode
      * @return array
      */
-    protected function _prepareOptions(Magento_Object $buyRequest, $product, $processMode)
+    protected function _prepareOptions(\Magento\Object $buyRequest, $product, $processMode)
     {
         $transport = new StdClass;
         $transport->options = array();
@@ -702,7 +702,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
                     $confItemOption = $product->getCustomOption(self::OPTION_PREFIX . $optionId);
 
                     $group = $option->groupFactory($option->getType())
-                        ->setOption($option)->setListener(new Magento_Object());
+                        ->setOption($option)->setListener(new \Magento\Object());
 
                     if ($optionSku = $group->getOptionSku($confItemOption->getValue(), $skuDelimiter)) {
                         $sku .= $skuDelimiter . $optionSku;
@@ -755,13 +755,13 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
      * so need to change configuration item qty option value too.
      *
      * @param array $options
-     * @param Magento_Object $option
+     * @param \Magento\Object $option
      * @param mixed $value
      * @param Magento_Catalog_Model_Product $product
      *
      * @return Magento_Catalog_Model_Product_Type_Abstract
      */
-    public function updateQtyOption($options, Magento_Object $option, $value, $product)
+    public function updateQtyOption($options, \Magento\Object $option, $value, $product)
     {
         return $this;
     }
@@ -905,7 +905,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
      * Prepare selected options for product
      *
      * @param  Magento_Catalog_Model_Product $product
-     * @param  Magento_Object $buyRequest
+     * @param  \Magento\Object $buyRequest
      * @return array
      */
     public function processBuyRequest($product, $buyRequest)
@@ -917,7 +917,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
      * Check product's options configuration
      *
      * @param  Magento_Catalog_Model_Product $product
-     * @param  Magento_Object $buyRequest
+     * @param  \Magento\Object $buyRequest
      * @return array
      */
     public function checkProductConfiguration($product, $buyRequest)

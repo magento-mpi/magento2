@@ -21,10 +21,10 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Html
     /**
      * Return data "as is", don't escape HTML
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return mixed
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         return $row->getData($this->getColumn()->getIndex());
     }

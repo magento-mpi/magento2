@@ -131,7 +131,7 @@ class Magento_Core_Model_Translate
     protected $_translateFactory;
 
     /**
-     * @var Magento_Cache_FrontendInterface $cache
+     * @var \Magento\Cache\FrontendInterface $cache
      */
     private $_cache;
 
@@ -141,7 +141,7 @@ class Magento_Core_Model_Translate
     protected $_viewFileSystem;
 
     /**
-     * @var Magento_Phrase_Renderer_Placeholder
+     * @var \Magento\Phrase\Renderer\Placeholder
      */
     protected $_placeholderRender;
 
@@ -151,17 +151,17 @@ class Magento_Core_Model_Translate
      * @param Magento_Core_Model_View_DesignInterface $viewDesign
      * @param Magento_Core_Model_Locale_Hierarchy_Loader $loader
      * @param Magento_core_Model_Translate_Factory $translateFactory
-     * @param Magento_Cache_FrontendInterface $cache
+     * @param \Magento\Cache\FrontendInterface $cache
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Phrase_Renderer_Placeholder $placeholderRender
+     * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $viewDesign,
         Magento_Core_Model_Locale_Hierarchy_Loader $loader,
         Magento_Core_Model_Translate_Factory $translateFactory,
-        Magento_Cache_FrontendInterface $cache,
+        \Magento\Cache\FrontendInterface $cache,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Phrase_Renderer_Placeholder $placeholderRender
+        \Magento\Phrase\Renderer\Placeholder $placeholderRender
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $loader->load();
@@ -175,7 +175,7 @@ class Magento_Core_Model_Translate
      * Initialization translation data
      *
      * @param string $area
-     * @param Magento_Object $initParams
+     * @param \Magento\Object $initParams
      * @param bool $forceReload
      * @return Magento_Core_Model_Translate
      */
@@ -451,7 +451,7 @@ class Magento_Core_Model_Translate
     {
         $data = array();
         if (file_exists($file)) {
-            $parser = new Magento_File_Csv();
+            $parser = new \Magento\File\Csv();
             $parser->setDelimiter(self::CSV_SEPARATOR);
             $data = $parser->getDataPairs($file);
         }
@@ -664,7 +664,7 @@ class Magento_Core_Model_Translate
     /**
      * Returns the translate interface object.
      *
-     * @param Magento_Object $initParams
+     * @param \Magento\Object $initParams
      * @return Magento_Core_Model_Translate_InlineInterface
      */
     private function getInlineObject($initParams = null)

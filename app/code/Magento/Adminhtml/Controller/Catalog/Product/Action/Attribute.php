@@ -68,7 +68,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
                                 'date_format' => $dateFormat
                             ));
                             $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-                                'date_format' => Magento_Date::DATE_INTERNAL_FORMAT
+                                'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
                             ));
                             $value = $filterInternal->filter($filterInput->filter($value));
                         } else {
@@ -202,10 +202,10 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
      */
     public function validateAction()
     {
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setError(false);
         $attributesData = $this->getRequest()->getParam('attributes', array());
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
 
         try {
             if ($attributesData) {

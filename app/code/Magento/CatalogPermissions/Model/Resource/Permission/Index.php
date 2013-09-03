@@ -769,7 +769,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     /**
      * Apply price grant on price index select
      *
-     * @param Magento_Object $data
+     * @param \Magento\Object $data
      * @param int $customerGroupId
      * @return Magento_CatalogPermissions_Model_Resource_Permission_Index
      */

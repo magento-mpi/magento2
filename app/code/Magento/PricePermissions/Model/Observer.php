@@ -105,7 +105,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Reinit stores only with allowed scopes
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function adminControllerPredispatch($observer)
     {
@@ -274,7 +274,7 @@ class Magento_PricePermissions_Model_Observer
     protected function _setFormElementAttributes($block)
     {
         // Handle quick creation of simple product in configurable product
-        /** @var $form Magento_Data_Form */
+        /** @var $form \Magento\Data\Form */
         $form = $block->getForm();
         if (!is_null($form)) {
             if (!$this->_canEditProductStatus) {
@@ -290,7 +290,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Handle adminhtml_block_html_before event
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function adminhtmlBlockHtmlBefore($observer)
@@ -344,7 +344,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Handle core_block_abstract_to_html_before event
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function coreBlockAbstractToHtmlBefore($observer)
@@ -388,10 +388,10 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Handle catalog_product_load_after event
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function catalogProductLoadAfter(Magento_Event_Observer $observer)
+    public function catalogProductLoadAfter(\Magento\Event\Observer $observer)
     {
         /** @var $product Magento_Catalog_Model_Product */
         $product = $observer->getEvent()->getDataObject();
@@ -426,10 +426,10 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Handle catalog_product_save_before event
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function catalogProductSaveBefore(Magento_Event_Observer $observer)
+    public function catalogProductSaveBefore(\Magento\Event\Observer $observer)
     {
         /** @var $product Magento_Catalog_Model_Product */
         $product = $observer->getEvent()->getDataObject();
@@ -441,10 +441,10 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Handle adminhtml_catalog_product_edit_prepare_form event
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function adminhtmlCatalogProductEditPrepareForm(Magento_Event_Observer $observer)
+    public function adminhtmlCatalogProductEditPrepareForm(\Magento\Event\Observer $observer)
     {
         /** @var $product Magento_Catalog_Model_Product */
         $product = Mage::registry('product');
@@ -466,7 +466,7 @@ class Magento_PricePermissions_Model_Observer
      *
      * Handle important product data before saving a product
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function catalogProductPrepareSave($observer)
@@ -696,7 +696,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Handle adminhtml_catalog_product_form_prepare_excluded_field_list event
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function adminhtmlCatalogProductFormPrepareExcludedFieldList($observer)
@@ -722,7 +722,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Handle catalog_product_attribute_update_before event
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function catalogProductAttributeUpdateBefore($observer)

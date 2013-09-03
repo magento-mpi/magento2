@@ -272,7 +272,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
                 // Add new customer data into customer storage for address entity instance
                 $websiteId = $this->_customerEntity->getWebsiteId($this->_currentWebsiteCode);
                 if (!$this->_addressEntity->getCustomerStorage()->getCustomerId($this->_currentEmail, $websiteId)) {
-                    $customerData = new Magento_Object(array(
+                    $customerData = new \Magento\Object(array(
                         'id'         => $this->_nextCustomerId,
                         'email'      => $this->_currentEmail,
                         'website_id' => $websiteId

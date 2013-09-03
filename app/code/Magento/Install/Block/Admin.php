@@ -27,7 +27,7 @@ class Magento_Install_Block_Admin extends Magento_Install_Block_Abstract
     }
 
     /**
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFormData()
     {
@@ -35,7 +35,7 @@ class Magento_Install_Block_Admin extends Magento_Install_Block_Abstract
         if (null === $data) {
             $data = Mage::getSingleton('Magento_Install_Model_Session')->getAdminData(true);
             $data = is_array($data) ? $data : array();
-            $data = new Magento_Object($data);
+            $data = new \Magento\Object($data);
             $this->setData('form_data', $data);
         }
         return $data;

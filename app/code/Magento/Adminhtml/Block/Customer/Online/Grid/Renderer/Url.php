@@ -21,10 +21,10 @@ class Magento_Adminhtml_Block_Customer_Online_Grid_Renderer_Url extends Magento_
     /**
      * Renders grid column
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         return htmlspecialchars($row->getData($this->getColumn()->getIndex()));
     }

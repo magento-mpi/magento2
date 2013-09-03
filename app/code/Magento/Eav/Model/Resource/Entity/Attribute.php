@@ -519,7 +519,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute extends Magento_Core_Model_Res
      *
      * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param int $storeId
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getFlatUpdateSelect(Magento_Eav_Model_Entity_Attribute_Abstract $attribute, $storeId)
     {
@@ -537,7 +537,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute extends Magento_Core_Model_Res
 
         $valueExpr = $adapter->getCheckSql('t2.value_id > 0', 't2.value', 't1.value');
 
-        /** @var $select Magento_DB_Select */
+        /** @var $select \Magento\DB\Select */
         $select = $adapter->select()
             ->joinLeft(
                 array('t1' => $attribute->getBackend()->getTable()),

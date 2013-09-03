@@ -15,7 +15,7 @@ require __DIR__ . '/../../../Magento/GiftCard/_files/gift_card.php';
 $product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load(1);
 
-$requestInfo = new Magento_Object(array(
+$requestInfo = new \Magento\Object(array(
     'qty' => 1,
     'giftcard_amount'         => 'custom',
     'custom_giftcard_amount'  => 200,

@@ -24,7 +24,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_Edit_Form extends Magento_Back
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        $form = new \Magento\Data\Form(array(
             'id'     => 'edit_form',
             'action' => $this->getUrl('*/*/getFilter'),
             'method' => 'post'

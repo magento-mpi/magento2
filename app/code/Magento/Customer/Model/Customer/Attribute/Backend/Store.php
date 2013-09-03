@@ -20,7 +20,7 @@ class Magento_Customer_Model_Customer_Attribute_Backend_Store extends Magento_Ea
     /**
      * Before save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Customer_Model_Customer_Attribute_Backend_Store
      */
     public function beforeSave($object)

@@ -11,7 +11,7 @@
 /**
  * Exceptional situation of a performance testing scenario failure
  */
-class Magento_TestFramework_Performance_Scenario_FailureException extends Magento_Exception
+class Magento_TestFramework_Performance_Scenario_FailureException extends \Magento\MagentoException
 {
     /**
      * @var Magento_TestFramework_Performance_Scenario

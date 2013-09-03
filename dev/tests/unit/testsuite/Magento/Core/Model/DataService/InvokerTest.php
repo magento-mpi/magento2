@@ -67,7 +67,7 @@ class Magento_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestC
         $this->_configMock = $this->getMockBuilder('Magento_Core_Model_DataService_ConfigInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_compositeMock = $this->getMockBuilder('Magento_Core_Model_DataService_Path_Composite')

@@ -25,14 +25,14 @@ $installer->startSetup();
  */
 if (!$connection->isTableExists($rulesWebsitesTable)) {
     $table = $connection->newTable($rulesWebsitesTable)
-        ->addColumn('rule_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+        ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
             'unsigned'  => true,
             'nullable'  => false,
             'primary'   => true
             ),
             'Rule Id'
         )
-        ->addColumn('website_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+        ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
             'unsigned'  => true,
             'nullable'  => false,
             'primary'   => true
@@ -49,11 +49,11 @@ if (!$connection->isTableExists($rulesWebsitesTable)) {
         )
         ->addForeignKey($installer->getFkName('catalogrule_website', 'rule_id', 'catalogrule', 'rule_id'),
             'rule_id', $rulesTable, 'rule_id',
-            Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE
+            \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
         )
         ->addForeignKey($installer->getFkName('catalogrule_website', 'website_id', 'core_website', 'website_id'),
             'website_id', $websitesTable, 'website_id',
-            Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE
+            \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
         )
         ->setComment('Catalog Rules To Websites Relations');
 
@@ -66,14 +66,14 @@ if (!$connection->isTableExists($rulesWebsitesTable)) {
  */
 if (!$connection->isTableExists($rulesCustomerGroupsTable)) {
     $table = $connection->newTable($rulesCustomerGroupsTable)
-        ->addColumn('rule_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+        ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
             'unsigned'  => true,
             'nullable'  => false,
             'primary'   => true
             ),
             'Rule Id'
         )
-        ->addColumn('customer_group_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+        ->addColumn('customer_group_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
             'unsigned'  => true,
             'nullable'  => false,
             'primary'   => true
@@ -90,14 +90,14 @@ if (!$connection->isTableExists($rulesCustomerGroupsTable)) {
         )
         ->addForeignKey($installer->getFkName('catalogrule_customer_group', 'rule_id', 'catalogrule', 'rule_id'),
             'rule_id', $rulesTable, 'rule_id',
-            Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE
+            \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
         )
         ->addForeignKey(
             $installer->getFkName('catalogrule_customer_group', 'customer_group_id',
                 'customer_group', 'customer_group_id'
             ),
             'customer_group_id', $customerGroupsTable, 'customer_group_id',
-            Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE
+            \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
         )
         ->setComment('Catalog Rules To Customer Groups Relations');
 

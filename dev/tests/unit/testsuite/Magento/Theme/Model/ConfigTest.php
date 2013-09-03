@@ -60,8 +60,8 @@ class Magento_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_configData = $this->getMock(
             'Magento_Core_Model_Config_Data', array('getCollection', 'addFieldToFilter'), array(), '', false
         );
-        $this->_configCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
-        $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
+        $this->_configCacheMock = $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
+        $this->_layoutCacheMock = $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
 
         $this->_storeConfigWriter = $this->getMock(
             'Magento_Core_Model_Config_Storage_WriterInterface', array('save', 'delete')
@@ -97,7 +97,7 @@ class Magento_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         /** Unassign themes from store */
-        $configEntity = new Magento_Object(array('value' => 6, 'scope_id' => 8));
+        $configEntity = new \Magento\Object(array('value' => 6, 'scope_id' => 8));
 
         $this->_configData->expects($this->once())
             ->method('getCollection')
@@ -136,7 +136,7 @@ class Magento_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         /** Unassign themes from store */
-        $configEntity = new Magento_Object(array('value' => 6, 'scope_id' => 8));
+        $configEntity = new \Magento\Object(array('value' => 6, 'scope_id' => 8));
 
         $this->_configData->expects($this->once())
             ->method('getCollection')

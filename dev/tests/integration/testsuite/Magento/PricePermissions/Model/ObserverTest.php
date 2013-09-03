@@ -69,7 +69,7 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
      */
     protected function _runAdminhtmlBlockHtmlBefore(Magento_Core_Block_Abstract $block)
     {
-        $event = new Magento_Event_Observer();
+        $event = new \Magento\Event\Observer();
         $event->setBlock($block);
         $observer = Mage::getModel('Magento_PricePermissions_Model_Observer');
         $observer->adminControllerPredispatch($event);

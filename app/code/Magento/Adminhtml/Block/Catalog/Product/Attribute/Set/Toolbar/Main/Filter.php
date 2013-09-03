@@ -19,7 +19,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main_Filter 
 
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
 
         $collection = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
             ->getResourceCollection()

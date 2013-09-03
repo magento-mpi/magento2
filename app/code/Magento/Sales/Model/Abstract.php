@@ -45,7 +45,7 @@ abstract class Magento_Sales_Model_Abstract extends Magento_Core_Model_Abstract
     public function getCreatedAtDate()
     {
         return Mage::app()->getLocale()->date(
-            Magento_Date::toTimestamp($this->getCreatedAt()),
+            \Magento\Date::toTimestamp($this->getCreatedAt()),
             null,
             null,
             true
@@ -61,7 +61,7 @@ abstract class Magento_Sales_Model_Abstract extends Magento_Core_Model_Abstract
     {
         return Mage::app()->getLocale()->storeDate(
             $this->getStore(),
-            Magento_Date::toTimestamp($this->getCreatedAt()),
+            \Magento\Date::toTimestamp($this->getCreatedAt()),
             true
         );
     }

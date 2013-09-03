@@ -39,7 +39,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
     public function testGetRelationInfo()
     {
         $info = $this->_model->getRelationInfo();
-        $this->assertInstanceOf('Magento_Object', $info);
+        $this->assertInstanceOf('\Magento\Object', $info);
         $this->assertEquals('catalog_product_super_link', $info->getTable());
         $this->assertEquals('parent_id', $info->getParentFieldName());
         $this->assertEquals('product_id', $info->getChildFieldName());
@@ -284,7 +284,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $attribute = reset($attributes);
         $optionValueId = $attribute['values'][0]['value_index'];
 
-        $buyRequest = new Magento_Object(array(
+        $buyRequest = new \Magento\Object(array(
             'qty' => 5,
             'super_attribute' => array($attribute['attribute_id'] => $optionValueId)
         ));
@@ -294,7 +294,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         foreach ($result as $product) {
             $this->assertInstanceOf('Magento_Catalog_Model_Product', $product);
         }
-        $this->assertInstanceOf('Magento_Object', $result[1]->getCustomOption('parent_product_id'));
+        $this->assertInstanceOf('\Magento\Object', $result[1]->getCustomOption('parent_product_id'));
     }
 
     public function testGetSpecifyOptionMessage()
@@ -344,8 +344,8 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $this->assertEmpty($this->_model->getWeight($this->_product));
 
         $this->_product->setCustomOptions(array(
-            'simple_product' => new Magento_Object(array(
-                'product' => new Magento_Object(array(
+            'simple_product' => new \Magento\Object(array(
+                'product' => new \Magento\Object(array(
                     'weight' => 2
                 ))
             ))
@@ -355,7 +355,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
 
     public function testAssignProductToOption()
     {
-        $option = new Magento_Object;
+        $option = new \Magento\Object;
         $this->_model->assignProductToOption('test', $option, $this->_product);
         $this->assertEquals('test', $option->getProduct());
 
@@ -382,7 +382,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
 
     public function testProcessBuyRequest()
     {
-        $buyRequest = new Magento_Object(array('super_attribute' => array('10', 'string')));
+        $buyRequest = new \Magento\Object(array('super_attribute' => array('10', 'string')));
         $result = $this->_model->processBuyRequest($this->_product, $buyRequest);
         $this->assertEquals(array('super_attribute' => array(10)), $result);
     }
@@ -525,7 +525,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $attribute = reset($attributes);
         $optionValueId = $attribute['values'][0]['value_index'];
 
-        $buyRequest = new Magento_Object(array(
+        $buyRequest = new \Magento\Object(array(
             'qty' => 5,
             'super_attribute' => array($attribute['attribute_id'] => $optionValueId)
         ));

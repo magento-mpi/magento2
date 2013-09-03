@@ -9,16 +9,18 @@
  */
 
 
-class Magento_Data_Form_Factory
+namespace Magento\Data\Form;
+
+class Factory
 {
     /**
      * Create Magento data form with provided params
      *
      * @param array $data
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     public function create(array $data = array())
     {
-        return new Magento_Data_Form($data);
+        return new \Magento\Data\Form($data);
     }
 }

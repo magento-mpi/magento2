@@ -18,30 +18,30 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_giftcard_amount'))
-    ->addColumn('value_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('value_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Value Id')
-    ->addColumn('website_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Website Id')
-    ->addColumn('value', Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+    ->addColumn('value', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Value')
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Entity Id')
-    ->addColumn('entity_type_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('entity_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Entity Type Id')
-    ->addColumn('attribute_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Attribute Id')
@@ -53,13 +53,13 @@ $table = $installer->getConnection()
         array('attribute_id'))
     ->addForeignKey($installer->getFkName('magento_giftcard_amount', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('magento_giftcard_amount', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('magento_giftcard_amount', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Giftcard Amount');
 $installer->getConnection()->createTable($table);
 

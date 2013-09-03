@@ -22,7 +22,7 @@ class Magento_Sales_Model_Resource_Order_Creditmemo_Attribute_Backend_Child
     /**
      * Method is invoked before save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function beforeSave($object)

@@ -157,7 +157,7 @@ class Magento_Tools_Translate_Split
             return false;
         }
 
-        $csv = new Magento_File_Csv();
+        $csv = new \Magento\File\Csv();
         $inputData = $csv->getData($this->_inputFileName);
         $output = array();
 

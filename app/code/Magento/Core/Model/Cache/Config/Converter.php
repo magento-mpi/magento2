@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Cache_Config_Converter implements Magento_Config_ConverterInterface
+class Magento_Core_Model_Cache_Config_Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array

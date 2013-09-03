@@ -136,10 +136,10 @@ class Magento_Webhook_Model_Subscription_Config
     {
         $defaultData = array(
             'name' => null,
-            'format' => Magento_Outbound_EndpointInterface::FORMAT_JSON,
+            'format' => \Magento\Outbound\EndpointInterface::FORMAT_JSON,
             'endpoint_url' => null,
             'topics' => array(),
-            'authentication_type' => Magento_Outbound_EndpointInterface::AUTH_TYPE_NONE,
+            'authentication_type' => \Magento\Outbound\EndpointInterface::AUTH_TYPE_NONE,
             'registration_mechanism' => Magento_Webhook_Model_Subscription::REGISTRATION_MECHANISM_MANUAL,
         );
 

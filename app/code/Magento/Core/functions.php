@@ -321,13 +321,13 @@ function is_dir_writeable($dir)
 }
 
 /**
- * Create value-object Magento_Phrase
+ * Create value-object \Magento\Phrase
  *
- * @return Magento_Phrase
+ * @return \Magento\Phrase
  */
 function __()
 {
     $argc = func_get_args();
 
-    return new Magento_Phrase(array_shift($argc), $argc);
+    return new \Magento\Phrase(array_shift($argc), $argc);
 }

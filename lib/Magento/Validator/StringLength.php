@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Validator_StringLength extends Zend_Validate_StringLength implements Magento_Validator_ValidatorInterface
+namespace Magento\Validator;
+
+class StringLength extends \Zend_Validate_StringLength implements \Magento\Validator\ValidatorInterface
 {
     /**
      * @var string

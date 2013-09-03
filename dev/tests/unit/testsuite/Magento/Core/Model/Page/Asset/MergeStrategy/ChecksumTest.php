@@ -40,7 +40,7 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_ChecksumTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_filesystem->expects($this->exactly(2))
             ->method('getMTime')
             ->will($this->returnValueMap(

@@ -16,7 +16,7 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image extends Magento_Data_Form_Element_Abstract
+class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
      * Initialize Form Element

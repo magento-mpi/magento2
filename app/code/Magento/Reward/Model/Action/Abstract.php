@@ -15,7 +15,7 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Reward_Model_Action_Abstract extends Magento_Object
+abstract class Magento_Reward_Model_Action_Abstract extends \Magento\Object
 {
     /**
      * Reward Instance
@@ -31,7 +31,7 @@ abstract class Magento_Reward_Model_Action_Abstract extends Magento_Object
 
     /**
      * Entity Instance
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_entity;
 
@@ -169,13 +169,13 @@ abstract class Magento_Reward_Model_Action_Abstract extends Magento_Object
     /**
      * Setter for $_entity and assign entity Id to history
      *
-     * @param Magento_Object $entity
+     * @param \Magento\Object $entity
      * @return Magento_Reward_Model_Action_Abstract
      */
     public function setEntity($entity)
     {
         $this->_entity = $entity;
-        if ($this->getHistory() instanceof Magento_Object) {
+        if ($this->getHistory() instanceof \Magento\Object) {
             $this->getHistory()->setEntity($entity->getId());
         }
         return $this;
@@ -183,7 +183,7 @@ abstract class Magento_Reward_Model_Action_Abstract extends Magento_Object
     /**
      * Description goes here...
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getEntity()
     {

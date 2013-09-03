@@ -18,7 +18,7 @@
 abstract class Magento_Core_Model_Resource_Abstract
 {
     /**
-     * @var Magento_DB_Adapter_Interface
+     * @var \Magento\DB\Adapter\AdapterInterface
      */
     protected $_writeAdapter;
 
@@ -123,7 +123,7 @@ abstract class Magento_Core_Model_Resource_Abstract
      */
     public function formatDate($date, $includeTime=true)
     {
-         return Magento_Date::formatDate($date, $includeTime);
+         return \Magento\Date::formatDate($date, $includeTime);
     }
 
     /**
@@ -134,19 +134,19 @@ abstract class Magento_Core_Model_Resource_Abstract
      */
     public function mktime($str)
     {
-        return Magento_Date::toTimestamp($str);
+        return \Magento\Date::toTimestamp($str);
     }
 
     /**
      * Serialize specified field in an object
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @param string $field
      * @param mixed $defaultValue
      * @param bool $unsetEmpty
      * @return Magento_Core_Model_Resource_Abstract
      */
-    protected function _serializeField(Magento_Object $object, $field, $defaultValue = null, $unsetEmpty = false)
+    protected function _serializeField(\Magento\Object $object, $field, $defaultValue = null, $unsetEmpty = false)
     {
         $value = $object->getData($field);
         if (empty($value)) {
@@ -166,13 +166,13 @@ abstract class Magento_Core_Model_Resource_Abstract
     }
 
     /**
-     * Unserialize Magento_Object field in an object
+     * Unserialize \Magento\Object field in an object
      *
      * @param Magento_Core_Model_Abstract $object
      * @param string $field
      * @param mixed $defaultValue
      */
-    protected function _unserializeField(Magento_Object $object, $field, $defaultValue = null)
+    protected function _unserializeField(\Magento\Object $object, $field, $defaultValue = null)
     {
         $value = $object->getData($field);
         if (empty($value)) {
@@ -185,11 +185,11 @@ abstract class Magento_Core_Model_Resource_Abstract
     /**
      * Prepare data for passed table
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @param string $table
      * @return array
      */
-    protected function _prepareDataForTable(Magento_Object $object, $table)
+    protected function _prepareDataForTable(\Magento\Object $object, $table)
     {
         $data = array();
         $fields = $this->_getWriteAdapter()->describeTable($table);

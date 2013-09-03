@@ -15,11 +15,11 @@
  * @category   Magento
  * @package    Magento_Core
  */
-class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
+class Magento_Api_Model_Wsdl_Config_Element extends \Magento\Simplexml\Element
 {
     public function extend($source, $overwrite = false)
     {
-        if (!$source instanceof Magento_Simplexml_Element) {
+        if (!$source instanceof \Magento\Simplexml\Element) {
             return $this;
         }
 
@@ -35,9 +35,9 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
     /**
      * Extends one node
      *
-     * @param Magento_Simplexml_Element $source
+     * @param \Magento\Simplexml\Element $source
      * @param boolean $overwrite
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function extendChild($source, $overwrite = false, $elmNamespace = '')
     {
@@ -127,7 +127,7 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
      *   )
      * )
      *
-     * @param Magento_Simplexml_Element $source
+     * @param \Magento\Simplexml\Element $source
      * @return array
      */
     public function getAttributes($source, $namespace = null)
@@ -151,7 +151,7 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
     /**
      * Return children of all namespaces
      *
-     * @param Magento_Simplexml_Element $source
+     * @param \Magento\Simplexml\Element $source
      */
     public function getChildren($source)
     {
@@ -195,9 +195,9 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
     /**
      * Return element by tag name, and checking attributes with namespaces
      *
-     * @param Magento_Simplexml_Element $source
+     * @param \Magento\Simplexml\Element $source
      * @param string $namespace
-     * @return null|Magento_Simplexml_Element
+     * @return null|\Magento\Simplexml\Element
      */
     public function getElementByName($source, $elmNamespace = '')
     {

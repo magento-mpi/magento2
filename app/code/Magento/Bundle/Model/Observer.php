@@ -20,7 +20,7 @@ class Magento_Bundle_Model_Observer
     /**
      * Setting Bundle Items Data to product for father processing
      *
-     * @param Magento_Object $observer
+     * @param \Magento\Object $observer
      * @return Magento_Bundle_Model_Observer
      */
     public function prepareProductSave($observer)
@@ -56,7 +56,7 @@ class Magento_Bundle_Model_Observer
     /**
      * Append bundles in upsell list for current product
      *
-     * @param Magento_Object $observer
+     * @param \Magento\Object $observer
      * @return Magento_Bundle_Model_Observer
      */
     public function appendUpsellProducts($observer)
@@ -114,11 +114,11 @@ class Magento_Bundle_Model_Observer
         $bundleCollection->addFieldToFilter('entity_id', array('in' => $bundleIds))
             ->setFlag('do_not_use_category_id', true);
 
-        if ($collection instanceof Magento_Data_Collection) {
+        if ($collection instanceof \Magento\Data\Collection) {
             foreach ($bundleCollection as $item) {
                 $collection->addItem($item);
             }
-        } elseif ($collection instanceof Magento_Object) {
+        } elseif ($collection instanceof \Magento\Object) {
             $items = $collection->getItems();
             foreach ($bundleCollection as $item) {
                 $items[$item->getEntityId()] = $item;
@@ -132,7 +132,7 @@ class Magento_Bundle_Model_Observer
     /**
      * Append selection attributes to selection's order item
      *
-     * @param Magento_Object $observer
+     * @param \Magento\Object $observer
      * @return Magento_Bundle_Model_Observer
      */
     public function appendBundleSelectionData($observer)
@@ -153,7 +153,7 @@ class Magento_Bundle_Model_Observer
      * Add price index data for catalog product collection
      * only for front end
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Bundle_Model_Observer
      */
     public function loadProductOptions($observer)
@@ -168,7 +168,7 @@ class Magento_Bundle_Model_Observer
     /**
      * duplicating bundle options and selections
      *
-     * @param Magento_Object $observer
+     * @param \Magento\Object $observer
      * @return Magento_Bundle_Model_Observer
      */
     public function duplicateProduct($observer)
@@ -225,7 +225,7 @@ class Magento_Bundle_Model_Observer
     /**
      * Setting attribute tab block for bundle
      *
-     * @param Magento_Object $observer
+     * @param \Magento\Object $observer
      * @return Magento_Bundle_Model_Observer
      */
     public function setAttributeTabBlock($observer)
@@ -241,10 +241,10 @@ class Magento_Bundle_Model_Observer
     /**
      * Initialize product options renderer with bundle specific params
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Bundle_Model_Observer
      */
-    public function initOptionRenderer(Magento_Event_Observer $observer)
+    public function initOptionRenderer(\Magento\Event\Observer $observer)
     {
         $block = $observer->getBlock();
         $block->addOptionsRenderCfg('bundle', 'Magento_Bundle_Helper_Catalog_Product_Configuration');

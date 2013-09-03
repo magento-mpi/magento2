@@ -71,7 +71,7 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
     /**
      * Retrieve current applied page layout
      *
-     * @return Magento_Object|boolean
+     * @return \Magento\Object|boolean
      */
     public function getCurrentPageLayout()
     {

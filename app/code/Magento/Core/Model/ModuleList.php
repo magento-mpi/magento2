@@ -23,12 +23,12 @@ class Magento_Core_Model_ModuleList implements Magento_Core_Model_ModuleListInte
 
     /**
      * @param Magento_Core_Model_Module_Declaration_Reader_Filesystem $reader
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
         Magento_Core_Model_Module_Declaration_Reader_Filesystem $reader,
-        Magento_Config_CacheInterface $cache,
+        \Magento\Config\CacheInterface $cache,
         $cacheId = 'modules_declaration_cache'
     ) {
         $data = $cache->get($this->_scope, $cacheId);

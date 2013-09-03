@@ -8,7 +8,7 @@
 class Magento_Core_Model_Store_StorageFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -57,7 +57,7 @@ class Magento_Core_Model_Store_StorageFactory
     protected $_appState;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $log
      * @param Magento_Core_Model_ConfigInterface $config
@@ -67,7 +67,7 @@ class Magento_Core_Model_Store_StorageFactory
      * @param string $installedStoreClassName
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $log,
         Magento_Core_Model_ConfigInterface $config,

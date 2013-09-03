@@ -58,7 +58,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->getUrl('*/*/index');
         }
 
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
 
         /**
          * @var Magento_Backup_Helper_Data $helper
@@ -74,7 +74,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
                 $type = Magento_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA;
             }
 
-            $backupManager = Magento_Backup::getBackupInstance($type)
+            $backupManager = \Magento\Backup::getBackupInstance($type)
                 ->setBackupExtension($helper->getExtensionByType($type))
                 ->setTime(time())
                 ->setBackupsDir($helper->getBackupsDir());
@@ -108,9 +108,9 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             $this->_getSession()->addSuccess($successMessage);
 
             $response->setRedirectUrl($this->getUrl('*/*/index'));
-        } catch (Magento_Backup_Exception_NotEnoughFreeSpace $e) {
+        } catch (\Magento\Backup\Exception\NotEnoughFreeSpace $e) {
             $errorMessage = __('You need more free space to create a backup.');
-        } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
+        } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
             Mage::log($e->getMessage());
             $errorMessage = __('You need more permissions to create a backup.');
         } catch (Exception  $e) {
@@ -173,7 +173,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
         }
 
         $helper = Mage::helper('Magento_Backup_Helper_Data');
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
 
         try {
             /* @var $backup Magento_Backup_Model_Backup */
@@ -187,12 +187,12 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             }
 
             if (!$backup->getTime()) {
-                throw new Magento_Backup_Exception_CantLoadSnapshot();
+                throw new \Magento\Backup\Exception\CantLoadSnapshot();
             }
 
             $type = $backup->getType();
 
-            $backupManager = Magento_Backup::getBackupInstance($type)
+            $backupManager = \Magento\Backup::getBackupInstance($type)
                 ->setBackupExtension($helper->getExtensionByType($type))
                 ->setTime($backup->getTime())
                 ->setBackupsDir($helper->getBackupsDir())
@@ -248,13 +248,13 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             $adminSession->getCookie()->delete($adminSession->getSessionName());
 
             $response->setRedirectUrl($this->getUrl('*'));
-        } catch (Magento_Backup_Exception_CantLoadSnapshot $e) {
+        } catch (\Magento\Backup\Exception\CantLoadSnapshot $e) {
             $errorMsg = __('The backup file was not found.');
-        } catch (Magento_Backup_Exception_FtpConnectionFailed $e) {
+        } catch (\Magento\Backup\Exception\FtpConnectionFailed $e) {
             $errorMsg = __('We couldn\'t connect to the FTP.');
-        } catch (Magento_Backup_Exception_FtpValidationFailed $e) {
+        } catch (\Magento\Backup\Exception\FtpValidationFailed $e) {
             $errorMsg = __('Failed to validate FTP');
-        } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
+        } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
             Mage::log($e->getMessage());
             $errorMsg = __('You need more permissions to create a backup.');
         } catch (Exception $e) {
@@ -289,7 +289,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
 
         /** @var $backupModel Magento_Backup_Model_Backup */
         $backupModel = Mage::getModel('Magento_Backup_Model_Backup');
-        $resultData = new Magento_Object();
+        $resultData = new \Magento\Object();
         $resultData->setIsSuccess(false);
         $resultData->setDeleteResult(array());
         Mage::register('backup_manager', $resultData);

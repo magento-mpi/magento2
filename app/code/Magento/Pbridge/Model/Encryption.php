@@ -13,10 +13,10 @@ class Magento_Pbridge_Model_Encryption extends Magento_Pci_Model_Encryption {
     /**
      * Constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param $key
      */
-    public function __construct(Magento_ObjectManager $objectManager, $key)
+    public function __construct(\Magento\ObjectManager $objectManager, $key)
     {
         parent::__construct($objectManager);
         $this->_keys = array($key);

@@ -20,14 +20,14 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * Files collection object
      *
-     * @var Magento_Data_Collection_Filesystem
+     * @var \Magento\Data\Collection\Filesystem
      */
     protected $_filesCollection;
 
     /**
      * Prepared Files collection for current directory
      *
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function getFiles()
     {
@@ -54,10 +54,10 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * File idetifier getter
      *
-     * @param  Magento_Object $file
+     * @param  \Magento\Object $file
      * @return string
      */
-    public function getFileId(Magento_Object $file)
+    public function getFileId(\Magento\Object $file)
     {
         return $file->getId();
     }
@@ -65,10 +65,10 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * File thumb URL getter
      *
-     * @param  Magento_Object $file
+     * @param  \Magento\Object $file
      * @return string
      */
-    public function getFileThumbUrl(Magento_Object $file)
+    public function getFileThumbUrl(\Magento\Object $file)
     {
         return $file->getThumbUrl();
     }
@@ -76,10 +76,10 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * File name URL getter
      *
-     * @param  Magento_Object $file
+     * @param  \Magento\Object $file
      * @return string
      */
-    public function getFileName(Magento_Object $file)
+    public function getFileName(\Magento\Object $file)
     {
         return $file->getName();
     }
@@ -87,10 +87,10 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * Image file width getter
      *
-     * @param  Magento_Object $file
+     * @param  \Magento\Object $file
      * @return string
      */
-    public function getFileWidth(Magento_Object $file)
+    public function getFileWidth(\Magento\Object $file)
     {
         return $file->getWidth();
     }
@@ -98,10 +98,10 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * Image file height getter
      *
-     * @param  Magento_Object $file
+     * @param  \Magento\Object $file
      * @return string
      */
-    public function getFileHeight(Magento_Object $file)
+    public function getFileHeight(\Magento\Object $file)
     {
         return $file->getHeight();
     }
@@ -109,10 +109,10 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     /**
      * File short name getter
      *
-     * @param  Magento_Object $file
+     * @param  \Magento\Object $file
      * @return string
      */
-    public function getFileShortName(Magento_Object $file)
+    public function getFileShortName(\Magento\Object $file)
     {
         return $file->getShortName();
     }

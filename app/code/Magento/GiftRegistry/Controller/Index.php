@@ -68,7 +68,7 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
                 $skippedItems = 0;
                 $request = $this->getRequest();
                 if ($request->getParam('product')) {//Adding from product page
-                    $entity->addItem($request->getParam('product'), new Magento_Object($request->getParams()));
+                    $entity->addItem($request->getParam('product'), new \Magento\Object($request->getParams()));
                     $count = ($request->getParam('qty')) ? $request->getParam('qty') : 1;
                 } else {//Adding from cart
                     $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
@@ -256,7 +256,7 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\MagentoException $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(__("We couldn't update the gift registry."));

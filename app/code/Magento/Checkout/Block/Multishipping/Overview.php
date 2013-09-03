@@ -63,12 +63,12 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     /**
      * Get object with payment info posted data
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getPayment()
     {
         if (!$this->hasData('payment')) {
-            $payment = new Magento_Object($this->getRequest()->getPost('payment'));
+            $payment = new \Magento\Object($this->getRequest()->getPost('payment'));
             $this->setData('payment', $payment);
         }
         return $this->_getData('payment');
@@ -249,10 +249,10 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     /**
      * Return row-level item html
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
-    public function getRowItemHtml(Magento_Object $item)
+    public function getRowItemHtml(\Magento\Object $item)
     {
         $type = $this->_getItemType($item);
         $block = $this->_getRowItemRenderer($type)

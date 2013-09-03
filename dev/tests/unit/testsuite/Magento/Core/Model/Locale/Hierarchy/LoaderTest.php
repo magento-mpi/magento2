@@ -32,7 +32,7 @@ class Magento_Core_Model_Locale_Hierarchy_LoaderTest extends PHPUnit_Framework_T
      */
     public function testComposeLocaleHierarchy($localeConfig, $localeHierarchy)
     {
-        $node = new Magento_Simplexml_Element($localeConfig);
+        $node = new \Magento\Simplexml\Element($localeConfig);
         $this->_configMock->expects($this->once())->method('getNode')
             ->with(Magento_Core_Model_Locale_Hierarchy_Loader::XML_PATH_LOCALE_INHERITANCE)
             ->will($this->returnValue($node));

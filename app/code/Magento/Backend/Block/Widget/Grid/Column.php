@@ -266,10 +266,10 @@ class Magento_Backend_Block_Widget_Grid_Column extends Magento_Backend_Block_Wid
     /**
      * Retrieve row column field value for display
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function getRowField(Magento_Object $row)
+    public function getRowField(\Magento\Object $row)
     {
         $renderedValue = $this->getRenderer()->render($row);
         if ($this->getHtmlDecorators()) {
@@ -294,10 +294,10 @@ class Magento_Backend_Block_Widget_Grid_Column extends Magento_Backend_Block_Wid
     /**
      * Retrieve row column field value for export
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function getRowFieldExport(Magento_Object $row)
+    public function getRowFieldExport(\Magento\Object $row)
     {
         $renderedValue = $this->getRenderer()->renderExport($row);
 

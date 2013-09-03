@@ -11,7 +11,7 @@
 /**
  * System / Cache Management / Cache type "Collections Data"
  */
-class Magento_Core_Model_Cache_Type_Collection extends Magento_Cache_Frontend_Decorator_TagScope
+class Magento_Core_Model_Cache_Type_Collection extends \Magento\Cache\Frontend\Decorator\TagScope
 {
     /**
      * Cache type code unique among all cache types

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Cache_Config_Reader extends Magento_Config_Reader_Filesystem
+class Magento_Core_Model_Cache_Config_Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of id attributes for merge
@@ -18,9 +18,9 @@ class Magento_Core_Model_Cache_Config_Reader extends Magento_Config_Reader_Files
 
     /**
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
-     * @param Magento_Config_FileResolverInterface $fileResolver
+     * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param Magento_Core_Model_Cache_Config_Converter $converter
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
      * @param null $schema
@@ -29,14 +29,14 @@ class Magento_Core_Model_Cache_Config_Reader extends Magento_Config_Reader_Files
      */
     public function __construct(
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_Config_FileResolverInterface $fileResolver,
+        \Magento\Config\FileResolverInterface $fileResolver,
         Magento_Core_Model_Cache_Config_Converter $converter,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'cache.xml',
         $idAttributes = array(),
         $schema = null,
         $perFileSchema = null,
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = '\Magento\Config\Dom'
     ) {
         $schema = $schema ?: $moduleReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'cache.xsd';
         parent::__construct(

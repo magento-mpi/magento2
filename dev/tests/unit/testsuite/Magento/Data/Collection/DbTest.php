@@ -12,14 +12,14 @@
 class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Data_Collection_Db
+     * @var \Magento\Data\Collection\Db
      */
     protected $_collection;
 
     protected function setUp()
     {
-        $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
-        $this->_collection = new Magento_Data_Collection_Db($fetchStrategy);
+        $fetchStrategy = $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface');
+        $this->_collection = new \Magento\Data\Collection\Db($fetchStrategy);
     }
 
     protected function tearDown()
@@ -41,10 +41,10 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($select->getPart(Zend_Db_Select::ORDER));
 
         /* Direct access to select object is available and many places are using it for sort order declaration */
-        $select->order('select_field', Magento_Data_Collection::SORT_ORDER_ASC);
-        $this->_collection->addOrder('some_field', Magento_Data_Collection::SORT_ORDER_ASC);
-        $this->_collection->setOrder('other_field', Magento_Data_Collection::SORT_ORDER_ASC);
-        $this->_collection->addOrder('other_field', Magento_Data_Collection::SORT_ORDER_DESC);
+        $select->order('select_field', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $this->_collection->addOrder('some_field', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $this->_collection->setOrder('other_field', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $this->_collection->addOrder('other_field', \Magento\Data\Collection::SORT_ORDER_DESC);
 
         $this->_collection->load();
         $selectOrders = $select->getPart(Zend_Db_Select::ORDER);
@@ -63,8 +63,8 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
     public function testUnshiftOrder($adapter)
     {
         $this->_collection->setConnection($adapter);
-        $this->_collection->addOrder('some_field', Magento_Data_Collection::SORT_ORDER_ASC);
-        $this->_collection->unshiftOrder('other_field', Magento_Data_Collection::SORT_ORDER_ASC);
+        $this->_collection->addOrder('some_field', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $this->_collection->unshiftOrder('other_field', \Magento\Data\Collection::SORT_ORDER_ASC);
 
         $this->_collection->load();
         $selectOrders = $this->_collection->getSelect()->getPart(Zend_Db_Select::ORDER);
@@ -147,7 +147,7 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('email LIKE \'%value?%\''));
         $adapter->expects($this->once())
             ->method('select')
-            ->will($this->returnValue(new Magento_DB_Select($adapter)));
+            ->will($this->returnValue(new \Magento\DB\Select($adapter)));
         $this->_collection->setConnection($adapter);
 
         $select = $this->_collection->getSelect()->from('test');
@@ -181,7 +181,7 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
      * Test that after cloning collection $this->_select in initial and cloned collections
      * do not reference the same object
      *
-     * @covers Magento_Data_Collection_Db::__clone
+     * @covers \Magento\Data\Collection\Db::__clone
      */
     public function testClone()
     {
@@ -230,8 +230,8 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
      */
     public function testPrintLogQueryLogging($logQuery, $logFlag, $expectedCalls)
     {
-        $fetchStrategy = $this->getMock('Magento_Data_Collection_Db_FetchStrategyInterface');
-        $collection = $this->getMock('Magento_Data_Collection_Db', array('_logQuery'), array($fetchStrategy));
+        $fetchStrategy = $this->getMock('Magento\Data\Collection\Db\FetchStrategyInterface');
+        $collection = $this->getMock('Magento\Data\Collection\Db', array('_logQuery'), array($fetchStrategy));
         $collection->setFlag('log_query', $logFlag);
         $collection->expects($this->exactly($expectedCalls))->method('_logQuery');
         $collection->printLogQuery(false, $logQuery, 'some_query');

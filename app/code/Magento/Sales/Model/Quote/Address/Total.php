@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Sales_Model_Quote_Address_Total extends Magento_Object
+class Magento_Sales_Model_Quote_Address_Total extends \Magento\Object
 {
     /**
      * Merge numeric total values

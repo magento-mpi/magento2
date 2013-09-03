@@ -35,7 +35,7 @@ abstract class Magento_ImportExport_Model_Export_Entity_Abstract
     /**
      * DB connection.
      *
-     * @var Magento_DB_Adapter_Pdo_Mysql
+     * @var \Magento\DB\Adapter\Pdo\Mysql
      */
     protected $_connection;
 
@@ -174,7 +174,7 @@ abstract class Magento_ImportExport_Model_Export_Entity_Abstract
     /**
      * Get entity collection
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     abstract protected function _getEntityCollection();
 

@@ -53,7 +53,7 @@ class Magento_GiftCardAccount_Model_History extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Backend_Model_Auth_Session $adminSession
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -61,7 +61,7 @@ class Magento_GiftCardAccount_Model_History extends Magento_Core_Model_Abstract
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Backend_Model_Auth_Session $adminSession,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

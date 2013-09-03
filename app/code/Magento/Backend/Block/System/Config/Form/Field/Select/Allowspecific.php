@@ -16,7 +16,7 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Form_Field_Select_Allowspecific extends Magento_Data_Form_Element_Select
+class Magento_Backend_Block_System_Config_Form_Field_Select_Allowspecific extends \Magento\Data\Form\Element\Select
 {
 
     /**

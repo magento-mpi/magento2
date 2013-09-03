@@ -19,7 +19,9 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Tree_Dbp extends Magento_Data_Tree
+namespace Magento\Data\Tree;
+
+class Dbp extends \Magento\Data\Tree
 {
 
     const ID_FIELD      = 'id';
@@ -30,7 +32,7 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
     /**
      * DB connection
      *
-     * @var Zend_Db_Adapter_Abstract
+     * @var \Zend_Db_Adapter_Abstract
      */
     protected $_conn;
 
@@ -46,7 +48,7 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
     /**
      * SQL select object
      *
-     * @var Zend_Db_Select
+     * @var \Zend_Db_Select
      */
     protected $_select;
 
@@ -64,13 +66,13 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
      * Db tree constructor
      *
      * $fields = array(
-     *      Magento_Data_Tree_Dbp::ID_FIELD       => string,
-     *      Magento_Data_Tree_Dbp::PATH_FIELD     => string,
-     *      Magento_Data_Tree_Dbp::ORDER_FIELD    => string
-     *      Magento_Data_Tree_Dbp::LEVEL_FIELD    => string
+     *      \Magento\Data\Tree\Dbp::ID_FIELD       => string,
+     *      \Magento\Data\Tree\Dbp::PATH_FIELD     => string,
+     *      \Magento\Data\Tree\Dbp::ORDER_FIELD    => string
+     *      \Magento\Data\Tree\Dbp::LEVEL_FIELD    => string
      * )
      *
-     * @param Zend_Db_Adapter_Abstract $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      * @param string $table
      * @param array $fields
      */
@@ -79,7 +81,7 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
         parent::__construct();
 
         if (!$connection) {
-            throw new Exception('Wrong "$connection" parametr');
+            throw new \Exception('Wrong "$connection" parametr');
         }
 
         $this->_conn    = $connection;
@@ -90,7 +92,7 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
             !isset($fields[self::LEVEL_FIELD]) ||
             !isset($fields[self::ORDER_FIELD])) {
 
-            throw new Exception('"$fields" tree configuratin array');
+            throw new \Exception('"$fields" tree configuratin array');
         }
 
         $this->_idField     = $fields[self::ID_FIELD];
@@ -105,7 +107,7 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
     /**
      * Retrieve current select object
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getDbSelect()
     {
@@ -115,7 +117,7 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
     /**
      * Set Select object
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      */
     public function setDbSelect($select)
     {
@@ -125,8 +127,8 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
     /**
      * Load tree
      *
-     * @param   int|Magento_Data_Tree_Node $parentNode
-     * @return  Magento_Data_Tree_Dbp
+     * @param   int|\Magento\Data\Tree\Node $parentNode
+     * @return  \Magento\Data\Tree\Dbp
      */
     public function load($parentNode=null, $recursionLevel = 0)
     {
@@ -134,7 +136,7 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
             $startLevel = 1;
             $parentPath = '';
 
-            if ($parentNode instanceof Magento_Data_Tree_Node) {
+            if ($parentNode instanceof \Magento\Data\Tree\Node) {
                 $parentPath = $parentNode->getData($this->_pathField);
                 $startLevel = $parentNode->getData($this->_levelField);
             } else if (is_numeric($parentNode)) {
@@ -191,7 +193,7 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
                 if ($parentNode && $nodeId && $node = $parentNode->getChildren()->searchById($nodeId)) {
                     $node->addData($child);
                 } else {
-                    $node = new Magento_Data_Tree_Node($child, $this->_idField, $this, $parentNode);
+                    $node = new \Magento\Data\Tree\Node($child, $this->_idField, $this, $parentNode);
                 }
 
                 //$node->setLevel(count(explode('/', $node->getData($this->_pathField)))-1);
@@ -217,7 +219,7 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
      * Enter description here...
      *
      * @param int|string $nodeId
-     * @return Magento_Data_Tree_Node
+     * @return \Magento\Data\Tree\Node
      */
     public function loadNode($nodeId)
     {
@@ -230,7 +232,7 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
 
         $select->where("{$condField} = ?", $nodeId);
 
-        $node = new Magento_Data_Tree_Node($this->_conn->fetchRow($select), $this->_idField, $this);
+        $node = new \Magento\Data\Tree\Node($this->_conn->fetchRow($select), $this->_idField, $this);
         $this->addNode($node);
         return $node;
     }
@@ -258,9 +260,9 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
      * Move tree node
      *
      * @todo Use adapter for generate conditions
-     * @param Magento_Data_Tree_Node $node
-     * @param Magento_Data_Tree_Node $newParent
-     * @param Magento_Data_Tree_Node $prevNode
+     * @param \Magento\Data\Tree\Node $node
+     * @param \Magento\Data\Tree\Node $newParent
+     * @param \Magento\Data\Tree\Node $prevNode
      */
     public function move($node, $newParent, $prevNode = null)
     {
@@ -276,14 +278,14 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
         $levelDisposition = $newLevel-$node->getLevel();
 
         $data = array(
-            $this->_levelField => new Zend_Db_Expr("{$this->_levelField} + '{$levelDisposition}'"),
-            $this->_pathField  => new Zend_Db_Expr("CONCAT('$newPath', RIGHT($this->_pathField, LENGTH($this->_pathField) - {$oldPathLength}))")
+            $this->_levelField => new \Zend_Db_Expr("{$this->_levelField} + '{$levelDisposition}'"),
+            $this->_pathField  => new \Zend_Db_Expr("CONCAT('$newPath', RIGHT($this->_pathField, LENGTH($this->_pathField) - {$oldPathLength}))")
         );
         $condition = $this->_conn->quoteInto("$this->_pathField REGEXP ?", "^$oldPath(/|$)");
 
         $this->_conn->beginTransaction();
 
-        $reorderData = array($this->_orderField => new Zend_Db_Expr("$this->_orderField + 1"));
+        $reorderData = array($this->_orderField => new \Zend_Db_Expr("$this->_orderField + 1"));
         try {
             if ($prevNode && $prevNode->getId()) {
                 $reorderCondition = "{$this->_orderField} > {$prevNode->getData($this->_orderField)}";
@@ -291,7 +293,7 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
             } else {
                 $reorderCondition = $this->_conn->quoteInto("{$this->_pathField} REGEXP ?", "^{$newParent->getData($this->_pathField)}/[0-9]+$");
                 $select = $this->_conn->select()
-                    ->from($this->_table, new Zend_Db_Expr("MIN({$this->_orderField})"))
+                    ->from($this->_table, new \Zend_Db_Expr("MIN({$this->_orderField})"))
                     ->where($reorderCondition);
 
                 $position = (int) $this->_conn->fetchOne($select);
@@ -303,9 +305,9 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
             );
 
             $this->_conn->commit();
-        } catch (Exception $e){
+        } catch (\Exception $e){
             $this->_conn->rollBack();
-            throw new Exception("Can't move tree node due to error: " . $e->getMessage());
+            throw new \Exception("Can't move tree node due to error: " . $e->getMessage());
         }
     }
 
@@ -351,7 +353,7 @@ class Magento_Data_Tree_Dbp extends Magento_Data_Tree
                 if ($parentNode && $nodeId && $node = $parentNode->getChildren()->searchById($nodeId)) {
                     $node->addData($child);
                 } else {
-                    $node = new Magento_Data_Tree_Node($child, $this->_idField, $this, $parentNode);
+                    $node = new \Magento\Data\Tree\Node($child, $this->_idField, $this, $parentNode);
                     $node->setLevel($node->getData($this->_levelField));
                     $node->setPathId($node->getData($this->_pathField));
                     $this->addNode($node, $parentNode);

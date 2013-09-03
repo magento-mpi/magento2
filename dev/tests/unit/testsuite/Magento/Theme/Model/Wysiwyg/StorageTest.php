@@ -19,7 +19,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     protected $_storageRoot;
 
     /**
-     * @var Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Filesystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
@@ -29,7 +29,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     protected $_helperStorage;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -40,9 +40,9 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_helperStorage = $this->getMock('Magento_Theme_Helper_Storage', array(), array(), '', false);
-        $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $this->_imageFactory = $this->getMock('Magento_Core_Model_Image_AdapterFactory', array(), array(), '', false);
 
         $this->_storageModel = new Magento_Theme_Model_Wysiwyg_Storage(
@@ -52,7 +52,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
             $this->_imageFactory
         );
 
-        $this->_storageRoot = Magento_Filesystem::DIRECTORY_SEPARATOR . 'root';
+        $this->_storageRoot = \Magento\Filesystem::DIRECTORY_SEPARATOR . 'root';
     }
 
     public function tearDown()
@@ -93,7 +93,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         /** Prepare image */
 
-        $image = $this->getMock('Magento_Image_Adapter_Gd2', array(), array(), '', false);
+        $image = $this->getMock('Magento\Image\Adapter\Gd2', array(), array(), '', false);
 
         $image->expects($this->once())
             ->method('open')
@@ -182,7 +182,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     public function testCreateFolder($isWritable)
     {
         $newDirectoryName = 'dir1';
-        $fullNewPath = $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . $newDirectoryName;
+        $fullNewPath = $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . $newDirectoryName;
 
         $this->_filesystem->expects($this->once())
             ->method('isWritable')
@@ -216,7 +216,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
         $expectedResult = array(
             'name'       => $newDirectoryName,
             'short_name' => $newDirectoryName,
-            'path'       => Magento_Filesystem::DIRECTORY_SEPARATOR . $newDirectoryName,
+            'path'       => \Magento\Filesystem::DIRECTORY_SEPARATOR . $newDirectoryName,
             'id'         => $newDirectoryName
         );
 
@@ -243,7 +243,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     public function testCreateFolderDirectoryAlreadyExist()
     {
         $newDirectoryName = 'mew';
-        $fullNewPath = $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . $newDirectoryName;
+        $fullNewPath = $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . $newDirectoryName;
 
         $this->_filesystem->expects($this->once())
             ->method('isWritable')
@@ -264,8 +264,8 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     public function testGetDirsCollection()
     {
         $dirs = array(
-            $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'dir1',
-            $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'dir2'
+            $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'dir1',
+            $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'dir2'
         );
 
         $this->_filesystem->expects($this->once())
@@ -318,8 +318,8 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
 
         $paths = array(
-            $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'font1.ttf',
-            $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'font2.ttf'
+            $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'font1.ttf',
+            $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'font2.ttf'
         );
 
         $this->_filesystem->expects($this->once())
@@ -356,7 +356,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $paths = array(
-            $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'picture1.jpg'
+            $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'picture1.jpg'
         );
 
         $this->_filesystem->expects($this->once())
@@ -366,7 +366,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         $this->_filesystem->expects($this->once())
             ->method('isFile')
-            ->with($this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'picture1.jpg')
+            ->with($this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'picture1.jpg')
             ->will($this->returnValue(true));
 
         $result = $this->_storageModel->getFilesCollection();
@@ -381,10 +381,10 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
      */
     public function testTreeArray()
     {
-        $currentPath = $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'dir';
+        $currentPath = $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'dir';
         $dirs = array(
-            $currentPath . Magento_Filesystem::DIRECTORY_SEPARATOR . 'dir_one',
-            $currentPath . Magento_Filesystem::DIRECTORY_SEPARATOR . 'dir_two'
+            $currentPath . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'dir_one',
+            $currentPath . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'dir_two'
         );
 
         $expectedResult = array(
@@ -437,8 +437,8 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     {
         $image = 'image.jpg';
         $storagePath = $this->_storageRoot;
-        $imagePath = $storagePath . Magento_Filesystem::DIRECTORY_SEPARATOR . $image;
-        $thumbnailDir = $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR
+        $imagePath = $storagePath . \Magento\Filesystem::DIRECTORY_SEPARATOR . $image;
+        $thumbnailDir = $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR
             . Magento_Theme_Model_Wysiwyg_Storage::THUMBNAIL_DIRECTORY;
 
         $session = $this->getMock('Magento_Backend_Model_Session', array('getStoragePath'), array(), '', false);
@@ -487,7 +487,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         $this->_filesystem->expects($this->at(3))
             ->method('delete')
-            ->with($thumbnailDir . Magento_Filesystem::DIRECTORY_SEPARATOR . $image);
+            ->with($thumbnailDir . \Magento\Filesystem::DIRECTORY_SEPARATOR . $image);
 
         $this->assertInstanceOf('Magento_Theme_Model_Wysiwyg_Storage', $this->_storageModel->deleteFile($image));
     }
@@ -497,8 +497,8 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
      */
     public function testDeleteDirectory()
     {
-        $directoryPath = $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . '..'
-            . Magento_Filesystem::DIRECTORY_SEPARATOR . 'root';
+        $directoryPath = $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . '..'
+            . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'root';
 
         $this->_helperStorage->expects($this->atLeastOnce())
             ->method('getStorageRoot')

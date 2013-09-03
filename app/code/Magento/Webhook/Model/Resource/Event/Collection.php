@@ -27,12 +27,12 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
     /**
      * Collection constructor
      *
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      * @param int $timeoutIdling
      */
     public function __construct(
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Resource_Db_Abstract $resource = null,
         $timeoutIdling = null
     ) {
@@ -56,8 +56,8 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
     {
         parent::_initSelect();
         $this->getSelect()->forUpdate(true);
-        $this->addFieldToFilter('status', Magento_PubSub_EventInterface::STATUS_READY_TO_SEND)
-            ->setOrder('created_at', Magento_Data_Collection::SORT_ORDER_ASC)
+        $this->addFieldToFilter('status', \Magento\PubSub\EventInterface::STATUS_READY_TO_SEND)
+            ->setOrder('created_at', \Magento\Data\Collection::SORT_ORDER_ASC)
             ->setPageSize(self::PAGE_SIZE);
         return $this;
     }
@@ -87,7 +87,7 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
             $loadedIds = $this->_getLoadedIds();
             if (!empty($loadedIds)) {
                 $this->getConnection()->update($this->getMainTable(),
-                    array('status' => Magento_PubSub_EventInterface::STATUS_IN_PROGRESS),
+                    array('status' => \Magento\PubSub\EventInterface::STATUS_IN_PROGRESS),
                     array('event_id IN (?)' => $loadedIds));
             }
             $this->getConnection()->commit();
@@ -128,13 +128,13 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
         try {
             /* if event is in progress state for less than hour we do nothing with it*/
             $okUpdatedTime = time() - $this->_timeoutIdling;
-            $this->addFieldToFilter('status', Magento_PubSub_EventInterface::STATUS_IN_PROGRESS)
-                ->addFieldToFilter('updated_at', array('to' => Magento_Date::formatDate($okUpdatedTime),
+            $this->addFieldToFilter('status', \Magento\PubSub\EventInterface::STATUS_IN_PROGRESS)
+                ->addFieldToFilter('updated_at', array('to' => \Magento\Date::formatDate($okUpdatedTime),
                     'datetime' => true));
             $idsToRevoke = $this->_getLoadedIds();
             if (count($idsToRevoke)) {
                 $this->getConnection()->update($this->getMainTable(),
-                    array('status' => Magento_PubSub_EventInterface::STATUS_READY_TO_SEND),
+                    array('status' => \Magento\PubSub\EventInterface::STATUS_READY_TO_SEND),
                     array('event_id IN (?)' => $idsToRevoke));
             }
         } catch (Exception $e) {

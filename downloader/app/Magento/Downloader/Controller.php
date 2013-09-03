@@ -74,7 +74,7 @@ final class Magento_Downloader_Controller
     /**
      * Connect config instance
      *
-     * @var Magento_Connect_Config
+     * @var \Magento\Connect\Config
      */
     private $_config;
 
@@ -537,7 +537,7 @@ final class Magento_Downloader_Controller
     }
 
     /**
-     * Retrieve path for Magento_Profiler
+     * Retrieve path for \Magento\Profiler
      *
      * @return string
      */
@@ -606,7 +606,7 @@ final class Magento_Downloader_Controller
     /**
      * Retrieve object of config
      *
-     * @return Magento_Connect_Config
+     * @return \Magento\Connect\Config
      */
     public function config()
     {
@@ -858,7 +858,7 @@ final class Magento_Downloader_Controller
             $maintenance_filename='maintenance.flag';
             $config = $this->config();
             if (!$this->isWritable() || strlen($config->__get('remote_config')) > 0) {
-                $ftpObj = new Magento_Connect_Ftp();
+                $ftpObj = new \Magento\Connect\Ftp();
                 $ftpObj->connect($config->__get('remote_config'));
                 $tempFile = tempnam(sys_get_temp_dir(),'maintenance');
                 @file_put_contents($tempFile, 'maintenance');
@@ -888,7 +888,7 @@ final class Magento_Downloader_Controller
             if (!$isSuccess) {
                 $this->endInstall();
                 $this->cleanCache();
-                throw new Magento_Exception(
+                throw new \Magento\MagentoException(
                     'The installation process has been canceled because of the backup creation error'
                 );
             }
@@ -941,7 +941,7 @@ final class Magento_Downloader_Controller
             $maintenance_filename='maintenance.flag';
             $config = $this->config();
             if (!$this->isWritable() && strlen($config->__get('remote_config')) > 0) {
-                $ftpObj = new Magento_Connect_Ftp();
+                $ftpObj = new \Magento\Connect\Ftp();
                 $ftpObj->connect($config->__get('remote_config'));
                 $ftpObj->delete($maintenance_filename);
                 $ftpObj->close();
@@ -1021,10 +1021,10 @@ final class Magento_Downloader_Controller
                 $this->_getCreateBackupSuccessMessageByType($type)
             );
             $isSuccess = true;
-        } catch (Magento_Backup_Exception_NotEnoughFreeSpace $e) {
+        } catch (\Magento\Backup\Exception\NotEnoughFreeSpace $e) {
             $connect->runHtmlConsole('Not enough free space to create backup.');
             Mage::logException($e);
-        } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
+        } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
             $connect->runHtmlConsole('Not enough permissions to create backup.');
             Mage::logException($e);
         } catch (Exception  $e) {

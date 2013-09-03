@@ -42,7 +42,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     const XML_PATH_ALLOW_DUPLICATION = 'global/design/theme/allow_view_files_duplication';
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -66,13 +66,13 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     /**
      * View files publisher model
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Helper_Css $cssHelper
      * @param Magento_Core_Model_View_Service $viewService
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Helper_Css $cssHelper,
         Magento_Core_Model_View_Service $viewService,
         Magento_Core_Model_View_FileSystem $viewFileSystem
@@ -119,18 +119,18 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      * @param  string $filePath
      * @param  array $params
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     protected function _getPublishedFilePath($filePath, $params)
     {
         if (!$this->_viewService->isViewFileOperationAllowed()) {
-            throw new Magento_Exception('Filesystem operations are not permitted for view files');
+            throw new \Magento\MagentoException('Filesystem operations are not permitted for view files');
         }
 
         $sourcePath = $this->_viewFileSystem->getViewFile($filePath, $params);
 
         if (!$this->_filesystem->has($sourcePath)) {
-            throw new Magento_Exception("Unable to locate theme file '{$sourcePath}'.");
+            throw new \Magento\MagentoException("Unable to locate theme file '{$sourcePath}'.");
         }
         if (!$this->_needToProcessFile($sourcePath)) {
             return $sourcePath;
@@ -318,7 +318,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
         };
         try {
             $content = $this->_cssHelper->replaceCssRelativeUrls($content, $sourcePath, $publicPath, $callback);
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\MagentoException $e) {
             Mage::logException($e);
         }
         return $content;

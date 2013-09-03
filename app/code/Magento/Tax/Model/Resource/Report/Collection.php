@@ -40,7 +40,7 @@ class Magento_Tax_Model_Resource_Report_Collection extends Magento_Sales_Model_R
      *
      */
     public function __construct(
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         Magento_Sales_Model_Resource_Report $resource
     ) {
         $resource->init($this->_aggregationTable);

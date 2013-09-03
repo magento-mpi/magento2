@@ -297,7 +297,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
         $result = false;
         try {
             $operationId = (int)$this->getRequest()->getParam('operation');
-            $schedule = new Magento_Object();
+            $schedule = new \Magento\Object();
             $schedule->setJobCode(
                 Magento_ScheduledImportExport_Model_Scheduled_Operation::CRON_JOB_NAME_PREFIX . $operationId
             );
@@ -348,7 +348,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
      */
     public function logCleanAction()
     {
-        $schedule = new Magento_Object();
+        $schedule = new \Magento\Object();
         $result = Mage::getModel('Magento_ScheduledImportExport_Model_Observer')->scheduledLogClean($schedule, true);
         if ($result) {
             $this->_getSession()

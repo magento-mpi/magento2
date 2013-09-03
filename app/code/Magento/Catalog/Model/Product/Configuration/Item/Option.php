@@ -15,7 +15,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Configuration_Item_Option extends Magento_Object
+class Magento_Catalog_Model_Product_Configuration_Item_Option extends \Magento\Object
     implements Magento_Catalog_Model_Product_Configuration_Item_Option_Interface
 {
     /**

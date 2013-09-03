@@ -14,7 +14,7 @@ class SourceClassWithNamespaceProxy extends \Magento\Code\Generator\TestAsset\So
     /**
      * Object Manager instance
      *
-     * @var \Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -42,11 +42,11 @@ class SourceClassWithNamespaceProxy extends \Magento\Code\Generator\TestAsset\So
     /**
      * Proxy constructor
      *
-     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      * @param bool $shared
      */
-    public function __construct(\Magento_ObjectManager $objectManager, $instanceName = 'Magento\Code\Generator\TestAsset\SourceClassWithNamespace', $shared = true)
+    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\Code\Generator\TestAsset\SourceClassWithNamespace', $shared = true)
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;

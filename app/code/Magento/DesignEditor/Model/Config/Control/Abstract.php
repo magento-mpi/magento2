@@ -11,7 +11,7 @@
 /**
  * Controls configuration
  */
-abstract class Magento_DesignEditor_Model_Config_Control_Abstract extends Magento_Config_XmlAbstract
+abstract class Magento_DesignEditor_Model_Config_Control_Abstract extends \Magento\Config\XmlAbstract
 {
     /**
      * Keys of layout params attributes
@@ -111,12 +111,12 @@ abstract class Magento_DesignEditor_Model_Config_Control_Abstract extends Magent
      *
      * @param string $controlName
      * @return array
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function getControlData($controlName)
     {
         if (!isset($this->_data[$controlName])) {
-            throw new Magento_Exception("Unknown control: \"{$controlName}\"");
+            throw new \Magento\MagentoException("Unknown control: \"{$controlName}\"");
         }
         return $this->_data[$controlName];
     }

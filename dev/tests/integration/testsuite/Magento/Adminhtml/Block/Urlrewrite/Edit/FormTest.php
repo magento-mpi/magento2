@@ -19,7 +19,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
      * Get form instance
      *
      * @param array $args
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     protected function _getFormInstance($args = array())
     {
@@ -38,8 +38,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
     public function testPrepareForm()
     {
         // Test form was configured correctly
-        $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object(array('id' => 3))));
-        $this->assertInstanceOf('Magento_Data_Form', $form);
+        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
+        $this->assertInstanceOf('\Magento\Data\Form', $form);
         $this->assertNotEmpty($form->getAction());
         $this->assertEquals('edit_form', $form->getId());
         $this->assertEquals('post', $form->getMethod());
@@ -77,7 +77,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
         );
         Mage::getModel('Magento_Adminhtml_Model_Session')->setUrlrewriteData($sessionValues);
         // Re-init form to use newly set session data
-        $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object()));
+        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object()));
 
         // Check that all fields values are restored from session
         foreach ($sessionValues as $field => $value) {
@@ -92,10 +92,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
      */
     public function testStoreElementSingleStore()
     {
-        $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object(array('id' => 3))));
-        /** @var $storeElement Magento_Data_Form_Element_Abstract */
+        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
+        /** @var $storeElement \Magento\Data\Form\Element\AbstractElement */
         $storeElement = $form->getElement('store_id');
-        $this->assertInstanceOf('Magento_Data_Form_Element_Hidden', $storeElement);
+        $this->assertInstanceOf('\Magento\Data\Form\Element\Hidden', $storeElement);
 
         // Check that store value set correctly
         $defaultStore = Mage::app()->getStore(true)->getId();
@@ -110,12 +110,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
      */
     public function testStoreElementMultiStores()
     {
-        $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object(array('id' => 3))));
-        /** @var $storeElement Magento_Data_Form_Element_Abstract */
+        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
+        /** @var $storeElement \Magento\Data\Form\Element\AbstractElement */
         $storeElement = $form->getElement('store_id');
 
         // Check store selection elements has correct type
-        $this->assertInstanceOf('Magento_Data_Form_Element_Select', $storeElement);
+        $this->assertInstanceOf('\Magento\Data\Form\Element\Select', $storeElement);
 
         // Check store selection elements has correct renderer
         $this->assertInstanceOf('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element',
@@ -147,7 +147,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
     {
         return array(
             array(
-                new Magento_Object(),
+                new \Magento\Object(),
                 array(
                     'is_system'    => true,
                     'id_path'      => false,
@@ -158,7 +158,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
                 )
             ),
             array(
-                new Magento_Object(array('id' => 3)),
+                new \Magento\Object(array('id' => 3)),
                 array(
                     'is_system'    => true,
                     'id_path'      => false,

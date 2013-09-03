@@ -36,13 +36,13 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Theme_Model_Uploader_Service $uploaderService
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Theme_Model_Uploader_Service $uploaderService,
         array $data = array()
     ) {
@@ -57,7 +57,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $this->setForm($form);
         $this->_addThemeCssFieldset();
 
@@ -232,7 +232,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             __('Allowed file types *.css.'),
             __('This file will replace the current custom.css file and can\'t be more than 2 MB.')
         );
-        $maxFileSize = $this->_objectManager->get('Magento_File_Size')->getMaxFileSizeInMb();
+        $maxFileSize = $this->_objectManager->get('Magento\File\Size')->getMaxFileSizeInMb();
         if ($maxFileSize) {
             $messages[] = __('Max file size to upload %1M', $maxFileSize);
         } else {

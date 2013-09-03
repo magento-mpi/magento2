@@ -27,7 +27,7 @@ class Magento_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Fra
             ->method('getIdFieldName')
             ->will($this->returnValue('website_id'));
 
-        $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface');
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento_Core_Model_Resource_Db_Collection_Abstract',

@@ -78,7 +78,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node extends Magento_Core_Mod
      * @param string $field
      * @param mixed $value
      * @param Magento_VersionsCms_Model_Hierarchy_Node $object
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -350,7 +350,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node extends Magento_Core_Mod
                 array())
             ->where('main_table.identifier = ?', $identifier)
             ->where('main_table.is_active = 1 AND cps.store_id IN (0, ?) ', $storeId)
-            ->order('store_id ' . Magento_DB_Select::SQL_DESC)
+            ->order('store_id ' . \Magento\DB\Select::SQL_DESC)
             ->limit(1);
 
         $page = $adapter->fetchRow($select);
@@ -439,7 +439,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node extends Magento_Core_Mod
                         $found = true;
                         $select->where($this->getMainTable() . '.node_id IN (?)', $xpath)
                             ->where('metadata_table.' . $fieldName . '=1')
-                            ->order(array($this->getMainTable() . '.level ' . Magento_DB_Select::SQL_DESC))
+                            ->order(array($this->getMainTable() . '.level ' . \Magento\DB\Select::SQL_DESC))
                             ->limit(1);
                     }
                     break;
@@ -447,7 +447,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node extends Magento_Core_Mod
                 case Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST:
                     $found = true;
                     $addParentNodeCondition = true;
-                    $select->order($this->getMainTable() . '.sort_order ' . Magento_DB_Select::SQL_ASC);
+                    $select->order($this->getMainTable() . '.sort_order ' . \Magento\DB\Select::SQL_ASC);
                     $select->limit(1);
                     break;
 
@@ -456,7 +456,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node extends Magento_Core_Mod
                         $found = true;
                         $addParentNodeCondition = true;
                         $select->where($this->getMainTable() . '.sort_order<?', $node->getSortOrder());
-                        $select->order($this->getMainTable() . '.sort_order ' . Magento_DB_Select::SQL_DESC);
+                        $select->order($this->getMainTable() . '.sort_order ' . \Magento\DB\Select::SQL_DESC);
                         $select->limit(1);
                     }
                     break;
@@ -465,7 +465,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node extends Magento_Core_Mod
                     $found = true;
                     $addParentNodeCondition = true;
                     $select->where($this->getMainTable() . '.sort_order>?', $node->getSortOrder());
-                    $select->order($this->getMainTable() . '.sort_order ' . Magento_DB_Select::SQL_ASC);
+                    $select->order($this->getMainTable() . '.sort_order ' . \Magento\DB\Select::SQL_ASC);
                     $select->limit(1);
                     break;
             }
@@ -679,7 +679,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node extends Magento_Core_Mod
         $select = $this->_getLoadSelectWithoutWhere()
             ->where($this->getMainTable() . '.node_id IN (?)', $parentIds)
             ->where('metadata_table.' . $fieldName . ' IN (?)', $values)
-            ->order(array($this->getMainTable() . '.level ' . Magento_DB_Select::SQL_DESC))
+            ->order(array($this->getMainTable() . '.level ' . \Magento\DB\Select::SQL_DESC))
             ->limit(1);
         $params = $this->_getReadAdapter()->fetchRow($select);
 

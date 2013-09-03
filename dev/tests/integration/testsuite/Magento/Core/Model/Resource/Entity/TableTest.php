@@ -19,7 +19,7 @@ class Magento_Core_Model_Resource_Entity_TableTest extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         // @codingStandardsIgnoreStart
-        $config = new Magento_Simplexml_Config();
+        $config = new \Magento\Simplexml\Config();
         $config->table      = 'test_table';
         $config->test_key   = 'test';
         // @codingStandardsIgnoreEnd
@@ -34,7 +34,7 @@ class Magento_Core_Model_Resource_Entity_TableTest extends PHPUnit_Framework_Tes
 
     public function testGetConfig()
     {
-        $this->assertInstanceOf('Magento_Simplexml_Config', $this->_model->getConfig());
+        $this->assertInstanceOf('\Magento\Simplexml\Config', $this->_model->getConfig());
         $this->assertEquals('test', $this->_model->getConfig('test_key'));
         $this->assertFalse($this->_model->getConfig('some_key'));
     }

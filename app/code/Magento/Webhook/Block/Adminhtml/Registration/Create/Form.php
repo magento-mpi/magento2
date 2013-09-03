@@ -22,7 +22,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
     /** Data key for getting subscription id out of subscription data */
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
 
-    /** @var Magento_Data_Form_Factory */
+    /** @var \Magento\Data\Form\Factory */
     private $_formFactory;
 
     /** @var Magento_Core_Helper_Data  */
@@ -35,14 +35,14 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
      * @param Magento_Core_Helper_Data $coreHelper
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Data_Form_Factory $formFactory
+     * @param \Magento\Data\Form\Factory $formFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreHelper,
         Magento_Core_Model_Registry $registry,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Data_Form_Factory $formFactory,
+        \Magento\Data\Form\Factory $formFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);

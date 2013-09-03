@@ -131,8 +131,8 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
                 }
             }
 
-            /** @var Magento_Filesystem $filesystem */
-            $filesystem = $this->_objectManager->get('Magento_Filesystem');
+            /** @var \Magento\Filesystem $filesystem */
+            $filesystem = $this->_objectManager->get('Magento\Filesystem');
 
             if ($this->getRequest()->getParam('sitemap_id')) {
                 $model->load($this->getRequest()->getParam('sitemap_id'));
@@ -192,8 +192,8 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
      */
     public function deleteAction()
     {
-        /** @var Magento_Filesystem $filesystem */
-        $filesystem = $this->_objectManager->get('Magento_Filesystem');
+        /** @var \Magento\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento\Filesystem');
         // check if we know what should be deleted
         if ($id = $this->getRequest()->getParam('sitemap_id')) {
             try {

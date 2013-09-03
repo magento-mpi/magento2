@@ -28,10 +28,10 @@ class Magento_CatalogEvent_Model_Observer
     /**
      * Applies event to category
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function applyEventToCategory(Magento_Event_Observer $observer)
+    public function applyEventToCategory(\Magento\Event\Observer $observer)
     {
         if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
             return $this;
@@ -48,10 +48,10 @@ class Magento_CatalogEvent_Model_Observer
     /**
      * Applies event to category collection
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function applyEventToCategoryCollection(Magento_Event_Observer $observer)
+    public function applyEventToCategoryCollection(\Magento\Event\Observer $observer)
     {
         if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
             return $this;
@@ -79,10 +79,10 @@ class Magento_CatalogEvent_Model_Observer
     /**
      * Applies event to product
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function applyEventToProduct(Magento_Event_Observer $observer)
+    public function applyEventToProduct(\Magento\Event\Observer $observer)
     {
         if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
             return $this;
@@ -95,10 +95,10 @@ class Magento_CatalogEvent_Model_Observer
     /**
      * Apply is salable to product
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CatalogEvent_Model_Observer
      */
-    public function applyIsSalableToProduct(Magento_Event_Observer $observer)
+    public function applyIsSalableToProduct(\Magento\Event\Observer $observer)
     {
         $event = $observer->getEvent()->getProduct()->getEvent();
         if ($event && in_array($event->getStatus(), array(
@@ -130,11 +130,11 @@ class Magento_CatalogEvent_Model_Observer
     /**
      * Applies events to product collection
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      * @throws Magento_Core_Exception
      */
-    public function applyEventOnQuoteItemSetProduct(Magento_Event_Observer $observer)
+    public function applyEventOnQuoteItemSetProduct(\Magento\Event\Observer $observer)
     {
         if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
             return $this;
@@ -158,11 +158,11 @@ class Magento_CatalogEvent_Model_Observer
     /**
      * Applies events to product collection
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      * @throws Magento_Core_Exception
      */
-    public function applyEventOnQuoteItemSetQty(Magento_Event_Observer $observer)
+    public function applyEventOnQuoteItemSetQty(\Magento\Event\Observer $observer)
     {
         if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
             return $this;
@@ -200,10 +200,10 @@ class Magento_CatalogEvent_Model_Observer
     /**
      * Applies events to product collection
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function applyEventToProductCollection(Magento_Event_Observer $observer)
+    public function applyEventToProductCollection(\Magento\Event\Observer $observer)
     {
         if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
             return $this;
@@ -355,11 +355,11 @@ class Magento_CatalogEvent_Model_Observer
     /**
      * Apply event to category
      *
-     * @param Magento_Data_Tree_Node|Magento_Catalog_Model_Category $category
-     * @param Magento_Data_Collection $eventCollection
+     * @param \Magento\Data\Tree\Node|Magento_Catalog_Model_Category $category
+     * @param \Magento\Data\Collection $eventCollection
      * @return Magento_CatalogEvent_Model_Observer
      */
-    protected function _applyEventToCategory($category, Magento_Data_Collection $eventCollection)
+    protected function _applyEventToCategory($category, \Magento\Data\Collection $eventCollection)
     {
         foreach (array_reverse($this->_parseCategoryPath($category->getPath())) as $categoryId) { // Walk through category path, search event for category
             $event = $eventCollection->getItemByColumnValue(

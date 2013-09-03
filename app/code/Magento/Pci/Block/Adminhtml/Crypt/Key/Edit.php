@@ -23,7 +23,7 @@ class Magento_Pci_Block_Adminhtml_Crypt_Key_Edit extends Magento_Adminhtml_Block
      */
     protected function _construct()
     {
-        Magento_Object::__construct();
+        \Magento\Object::__construct();
         $this->_addButton('save', array(
             'label'     => __('Change Encryption Key'),
             'class'     => 'save',

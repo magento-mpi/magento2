@@ -13,10 +13,10 @@ class Magento_Core_Model_Layout_Translator
     /**
      * Translate layout node
      *
-     * @param Magento_Simplexml_Element $node
+     * @param \Magento\Simplexml\Element $node
      * @param array $args
      **/
-    public function translateActionParameters(Magento_Simplexml_Element $node, &$args)
+    public function translateActionParameters(\Magento\Simplexml\Element $node, &$args)
     {
         if (false === $this->_isNodeTranslatable($node)) {
             return;
@@ -56,10 +56,10 @@ class Magento_Core_Model_Layout_Translator
     /**
      * Translate argument value
      *
-     * @param Magento_Simplexml_Element $node
+     * @param \Magento\Simplexml\Element $node
      * @return string
      */
-    public function translateArgument(Magento_Simplexml_Element $node)
+    public function translateArgument(\Magento\Simplexml\Element $node)
     {
         $value = $this->_getNodeValue($node);
 
@@ -80,7 +80,7 @@ class Magento_Core_Model_Layout_Translator
      * @param $node
      * @return array
      */
-    protected function _getNodeNamesToTranslate(Magento_Simplexml_Element $node)
+    protected function _getNodeNamesToTranslate(\Magento\Simplexml\Element $node)
     {
         return explode(' ', (string)$node['translate']);
     }
@@ -88,10 +88,10 @@ class Magento_Core_Model_Layout_Translator
     /**
      * Check if node has to be translated
      *
-     * @param Magento_Simplexml_Element $node
+     * @param \Magento\Simplexml\Element $node
      * @return bool
      */
-    protected function _isNodeTranslatable(Magento_Simplexml_Element $node)
+    protected function _isNodeTranslatable(\Magento\Simplexml\Element $node)
     {
         return isset($node['translate']);
     }
@@ -99,10 +99,10 @@ class Magento_Core_Model_Layout_Translator
     /**
      * Check if node has to translate own value
      *
-     * @param Magento_Simplexml_Element $node
+     * @param \Magento\Simplexml\Element $node
      * @return bool
      */
-    protected function _isSelfTranslatable(Magento_Simplexml_Element $node)
+    protected function _isSelfTranslatable(\Magento\Simplexml\Element $node)
     {
         return $this->_isNodeTranslatable($node) && 'true' == (string)$node['translate'];
     }
@@ -110,10 +110,10 @@ class Magento_Core_Model_Layout_Translator
     /**
      * Get node value
      *
-     * @param Magento_Simplexml_Element $node
+     * @param \Magento\Simplexml\Element $node
      * @return string
      */
-    protected function _getNodeValue(Magento_Simplexml_Element $node)
+    protected function _getNodeValue(\Magento\Simplexml\Element $node)
     {
         return trim((string)$node);
     }

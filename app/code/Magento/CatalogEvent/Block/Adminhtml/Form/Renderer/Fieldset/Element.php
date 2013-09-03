@@ -23,7 +23,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element
     /**
      * Retrieve data object related with form
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDataObject()
     {

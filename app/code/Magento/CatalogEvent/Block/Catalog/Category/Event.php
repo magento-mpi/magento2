@@ -39,7 +39,7 @@ class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogE
     /**
      * Return category url
      *
-     * @param Magento_Data_Tree_Node $category
+     * @param \Magento\Data\Tree\Node $category
      * @return string
      */
     public function getCategoryUrl($category = null)

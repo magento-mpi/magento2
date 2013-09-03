@@ -28,7 +28,7 @@ class Magento_Core_Model_Resource_Theme_File_Collection extends Magento_Core_Mod
      *
      * @param string $field
      * @param string $direction
-     * @return Magento_Core_Model_Resource_Theme_File_Collection|Magento_Data_Collection|Magento_Data_Collection_Db
+     * @return Magento_Core_Model_Resource_Theme_File_Collection|\Magento\Data\Collection|\Magento\Data\Collection\Db
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Magento_Filesystem_Stream_Local
+ * Test for \Magento\Filesystem\Stream\Local
  *
  * {license_notice}
  *
@@ -10,7 +10,7 @@
 class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Filesystem_Stream_Local
+     * @var \Magento\Filesystem\Stream\Local
      */
     protected $_stream;
 
@@ -27,7 +27,7 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_openedFile = __DIR__ . DS . '..' . DS . '_files' . DS . 'popup.csv';
-        $this->_stream = new Magento_Filesystem_Stream_Local($this->_openedFile);
+        $this->_stream = new \Magento\Filesystem\Stream\Local($this->_openedFile);
         $this->_writeFileName = __DIR__ . DS . '..' . DS . '_files' . DS . 'new.css';
     }
 
@@ -39,28 +39,28 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Filesystem_Exception
+     * @expectedException \Magento\Filesystem\FilesystemException
      */
     public function testOpenException()
     {
-        $stream = new Magento_Filesystem_Stream_Local(__DIR__ . DS . '..' . DS . '_files' . DS . 'invalid.css');
-        $stream->open(new Magento_Filesystem_Stream_Mode('r'));
+        $stream = new \Magento\Filesystem\Stream\Local(__DIR__ . DS . '..' . DS . '_files' . DS . 'invalid.css');
+        $stream->open(new \Magento\Filesystem\Stream\Mode('r'));
     }
 
     public function testOpenNewFile()
     {
-        $stream = new Magento_Filesystem_Stream_Local($this->_writeFileName);
-        $stream->open(new Magento_Filesystem_Stream_Mode('w'));
+        $stream = new \Magento\Filesystem\Stream\Local($this->_writeFileName);
+        $stream->open(new \Magento\Filesystem\Stream\Mode('w'));
     }
 
     public function testOpenExistingFile()
     {
-        $this->_stream->open(new Magento_Filesystem_Stream_Mode('r'));
+        $this->_stream->open(new \Magento\Filesystem\Stream\Mode('r'));
     }
 
     public function testRead()
     {
-        $this->_stream->open(new Magento_Filesystem_Stream_Mode('r'));
+        $this->_stream->open(new \Magento\Filesystem\Stream\Mode('r'));
         $data  = $this->_stream->read(15);
         $this->assertEquals('var myData = 5;', $data);
 
@@ -68,8 +68,8 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
 
     public function testReadCsv()
     {
-        $stream = new Magento_Filesystem_Stream_Local(__DIR__ . DS . '..' . DS . '_files' . DS . 'data.csv');
-        $stream->open(new Magento_Filesystem_Stream_Mode('r'));
+        $stream = new \Magento\Filesystem\Stream\Local(__DIR__ . DS . '..' . DS . '_files' . DS . 'data.csv');
+        $stream->open(new \Magento\Filesystem\Stream\Mode('r'));
         $data = $stream->readCsv(0);
         $this->assertEquals(array('field1', 'field2'), $data);
         $data = $stream->readCsv(0);
@@ -80,24 +80,24 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
 
     public function testWrite()
     {
-        $stream = new Magento_Filesystem_Stream_Local($this->_writeFileName);
-        $stream->open(new Magento_Filesystem_Stream_Mode('w'));
+        $stream = new \Magento\Filesystem\Stream\Local($this->_writeFileName);
+        $stream->open(new \Magento\Filesystem\Stream\Mode('w'));
         $stream->write('test data');
         $this->assertEquals('test data', file_get_contents($this->_writeFileName));
     }
 
     public function testWriteCsv()
     {
-        $stream = new Magento_Filesystem_Stream_Local($this->_writeFileName);
-        $stream->open(new Magento_Filesystem_Stream_Mode('w'));
+        $stream = new \Magento\Filesystem\Stream\Local($this->_writeFileName);
+        $stream->open(new \Magento\Filesystem\Stream\Mode('w'));
         $stream->writeCsv(array('data1', 'data2'));
-        $stream->open(new Magento_Filesystem_Stream_Mode('r'));
+        $stream->open(new \Magento\Filesystem\Stream\Mode('r'));
         $this->assertEquals(array('data1', 'data2'), $stream->readCsv());
     }
 
     public function testClose()
     {
-        $this->_stream->open(new Magento_Filesystem_Stream_Mode('r'));
+        $this->_stream->open(new \Magento\Filesystem\Stream\Mode('r'));
         $this->_stream->lock();
         $this->assertAttributeEquals(true, '_isLocked', $this->_stream);
         $this->_stream->close();
@@ -108,7 +108,7 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
 
     public function testLock()
     {
-        $this->_stream->open(new Magento_Filesystem_Stream_Mode('r'));
+        $this->_stream->open(new \Magento\Filesystem\Stream\Mode('r'));
         $this->_stream->lock(true);
         $this->assertAttributeEquals(true, '_isLocked', $this->_stream);
         $this->_stream->unlock();
@@ -117,8 +117,8 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
 
     public function testFlush()
     {
-        $stream = new Magento_Filesystem_Stream_Local($this->_writeFileName);
-        $stream->open(new Magento_Filesystem_Stream_Mode('w'));
+        $stream = new \Magento\Filesystem\Stream\Local($this->_writeFileName);
+        $stream->open(new \Magento\Filesystem\Stream\Mode('w'));
         $stream->write('test data');
         $stream->flush();
         $this->assertEquals('test data', file_get_contents($this->_writeFileName));
@@ -126,24 +126,24 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
 
     public function testSeek()
     {
-        $this->_stream->open(new Magento_Filesystem_Stream_Mode('r'));
+        $this->_stream->open(new \Magento\Filesystem\Stream\Mode('r'));
         $this->_stream->seek(14);
         $this->assertEquals(';', $this->_stream->read(1));
     }
 
     /**
-     * @expectedException Magento_Filesystem_Exception
+     * @expectedException \Magento\Filesystem\FilesystemException
      * @expectedExceptionMessage seek operation on the stream caused an error.
      */
     public function testSeekError()
     {
-        $this->_stream->open(new Magento_Filesystem_Stream_Mode('r'));
+        $this->_stream->open(new \Magento\Filesystem\Stream\Mode('r'));
         $this->_stream->seek(-1);
     }
 
     public function testTell()
     {
-        $this->_stream->open(new Magento_Filesystem_Stream_Mode('r'));
+        $this->_stream->open(new \Magento\Filesystem\Stream\Mode('r'));
         $this->assertEquals(0, $this->_stream->tell());
         $this->_stream->seek(14);
         $this->assertEquals(14, $this->_stream->tell());
@@ -151,7 +151,7 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
 
     public function testEof()
     {
-        $this->_stream->open(new Magento_Filesystem_Stream_Mode('r'));
+        $this->_stream->open(new \Magento\Filesystem\Stream\Mode('r'));
         $this->assertFalse($this->_stream->eof());
         $this->_stream->read(15);
         $this->_stream->read(15);
@@ -162,7 +162,7 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
      * @param string $method
      * @param array $arguments
      * @dataProvider streamNotOpenedDataProvider
-     * @expectedException Magento_Filesystem_Exception
+     * @expectedException \Magento\Filesystem\FilesystemException
      */
     public function testExceptionStreamNotOpened($method, array $arguments = array(1))
     {
@@ -191,13 +191,13 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $method
      * @dataProvider forbiddenReadDataProvider
-     * @expectedException Magento_Filesystem_Exception
+     * @expectedException \Magento\Filesystem\FilesystemException
      * @expectedExceptionMessage The stream does not allow read.
      */
     public function testForbiddenRead($method)
     {
-        $stream = new Magento_Filesystem_Stream_Local($this->_writeFileName);
-        $stream->open(new Magento_Filesystem_Stream_Mode('w'));
+        $stream = new \Magento\Filesystem\Stream\Local($this->_writeFileName);
+        $stream->open(new \Magento\Filesystem\Stream\Mode('w'));
         $stream->$method(1);
     }
 
@@ -216,12 +216,12 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
      * @param string $method
      * @param array $arguments
      * @dataProvider forbiddenWriteDataProvider
-     * @expectedException Magento_Filesystem_Exception
+     * @expectedException \Magento\Filesystem\FilesystemException
      * @expectedExceptionMessage The stream does not allow write.
      */
     public function testForbiddenWrite($method, array $arguments = array(1))
     {
-        $this->_stream->open(new Magento_Filesystem_Stream_Mode('r'));
+        $this->_stream->open(new \Magento\Filesystem\Stream\Mode('r'));
         call_user_func(array($this->_stream, $method), $arguments);
     }
 

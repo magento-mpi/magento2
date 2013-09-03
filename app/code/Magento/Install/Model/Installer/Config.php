@@ -46,7 +46,7 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
     protected $_configData = array();
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -54,13 +54,13 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_Config_Resource $resourceConfig
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_Config_Resource $resourceConfig,
-        Magento_Filesystem $filesystem
+        \Magento\Filesystem $filesystem
     ) {
         $this->_localConfigFile = $dirs->getDir(Magento_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
         $this->_dirs = $dirs;
@@ -155,7 +155,7 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
         $connectDefault = $this->_resourceConfig
                 ->getResourceConnectionConfig(Magento_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
 
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
         $data->setDbHost($connectDefault->host)
             ->setDbName($connectDefault->dbname)
             ->setDbUser($connectDefault->username)
@@ -181,7 +181,7 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
             $pubLibDir = $this->_dirs->getDir(Magento_Core_Model_Dir::PUB_LIB);
             $staticFile = $this->_findFirstFileRelativePath($pubLibDir, '/.+\.(html?|js|css|gif|jpe?g|png)$/');
             $staticUrl = $baseUrl . $this->_dirs->getUri(Magento_Core_Model_Dir::PUB_LIB) . '/' . $staticFile;
-            $client = new Magento_HTTP_ZendClient($staticUrl);
+            $client = new \Magento\HTTP\ZendClient($staticUrl);
             $response = $client->request('GET');
         } catch (Exception $e){
             $this->_getInstaller()->getDataModel()->addError(

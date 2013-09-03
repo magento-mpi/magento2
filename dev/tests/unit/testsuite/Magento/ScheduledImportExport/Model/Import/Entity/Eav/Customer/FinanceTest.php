@@ -188,8 +188,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $objectFactory->expects($this->any())->method('getModelInstance')
             ->will($this->returnCallback(array($this, 'getModelInstance')));
 
-        /** @var $attributeCollection Magento_Data_Collection */
-        $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
+        /** @var $attributeCollection \Magento\Data\Collection */
+        $attributeCollection = $this->getMock('Magento\Data\Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
             $arguments = $objectManagerHelper->getConstructArguments('Magento_Eav_Model_Entity_Attribute_Abstract');
@@ -251,11 +251,11 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param Magento_Data_Collection $collection
+     * @param \Magento\Data\Collection $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(Magento_Data_Collection $collection, $pageSize, array $callbacks)
+    public function iterate(\Magento\Data\Collection $collection, $pageSize, array $callbacks)
     {
         foreach ($collection as $customer) {
             foreach ($callbacks as $callback) {
@@ -284,7 +284,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                 'id'   => $id,
                 'code' => $code,
             );
-            $websites[$id] = new Magento_Object($websiteData);
+            $websites[$id] = new \Magento\Object($websiteData);
         }
 
         return $websites;

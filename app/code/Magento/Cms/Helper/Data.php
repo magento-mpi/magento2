@@ -24,7 +24,7 @@ class Magento_Cms_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve Template processor for Page Content
      *
-     * @return Magento_Filter_Template
+     * @return \Magento\Filter\Template
      */
     public function getPageTemplateProcessor()
     {
@@ -35,7 +35,7 @@ class Magento_Cms_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve Template processor for Block Content
      *
-     * @return Magento_Filter_Template
+     * @return \Magento\Filter\Template
      */
     public function getBlockTemplateProcessor()
     {

@@ -17,7 +17,7 @@ $logWriter = new Zend_Log_Writer_Stream('php://output');
 $logWriter->setFormatter(new Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
 $logger = new Zend_Log($logWriter);
 
-$shell = new Magento_Shell($logger);
+$shell = new \Magento\Shell($logger);
 $scenarioHandler = new Magento_TestFramework_Performance_Scenario_Handler_FileFormat();
 $scenarioHandler
     ->register('jmx', new Magento_TestFramework_Performance_Scenario_Handler_Jmeter($shell))

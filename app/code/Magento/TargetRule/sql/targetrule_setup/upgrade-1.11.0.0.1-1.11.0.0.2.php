@@ -18,7 +18,7 @@ $connection->modifyColumn(
         $installer->getTable('magento_targetrule'),
         'use_customer_segment',
         array(
-            'type'     => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+            'type'     => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
             'unsigned'  => true,
             'nullable'  => false,
             'default'   => '0',
@@ -30,7 +30,7 @@ $connection->modifyColumn(
         $installer->getTable('magento_targetrule_product'),
         'store_id',
         array(
-            'type'      => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+            'type'      => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
             'unsigned'  => true,
             'nullable'  => false,
             'primary'   => true,

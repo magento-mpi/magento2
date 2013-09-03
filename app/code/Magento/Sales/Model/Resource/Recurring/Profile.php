@@ -41,7 +41,7 @@ class Magento_Sales_Model_Resource_Recurring_Profile extends Magento_Sales_Model
      * Return recurring profile child Orders Ids
      *
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return array
      */
     public function getChildOrderIds($object)

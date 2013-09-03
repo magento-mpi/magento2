@@ -19,7 +19,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     protected $_request;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -29,7 +29,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     protected $_helperStorage;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -41,7 +41,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_objectManager = Mage::getObjectManager();
-        $this->_filesystem = $this->_objectManager->get('Magento_Filesystem');
+        $this->_filesystem = $this->_objectManager->get('Magento\Filesystem');
         $this->_filesystem->setIsAllowCreateDirectories(true);
 
         /** @var $theme Magento_Core_Model_Theme */
@@ -78,7 +78,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
         $result = $method->invokeArgs($this->_storageModel, array($tmpImagePath));
 
         $expectedResult = $this->_helperStorage->getThumbnailDirectory($tmpImagePath)
-            . Magento_Filesystem::DIRECTORY_SEPARATOR . $image;
+            . \Magento\Filesystem::DIRECTORY_SEPARATOR . $image;
 
         $this->assertEquals($expectedResult, $result);
         $this->assertFileExists($result);
@@ -105,7 +105,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     protected function _copyFileToTmpCustomizationPath($sourceFile)
     {
         $targetFile = $this->_helperStorage->getStorageRoot()
-            . Magento_Filesystem::DIRECTORY_SEPARATOR
+            . \Magento\Filesystem::DIRECTORY_SEPARATOR
             . basename($sourceFile);
 
         $this->_filesystem->ensureDirectoryExists(pathinfo($targetFile, PATHINFO_DIRNAME));

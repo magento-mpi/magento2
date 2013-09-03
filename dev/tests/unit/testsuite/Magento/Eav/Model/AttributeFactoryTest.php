@@ -28,8 +28,8 @@ class Magento_Eav_Model_AttributeFactoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var $objectManagerMock Magento_ObjectManager */
-        $objectManagerMock = $this->getMock('Magento_ObjectManager');
+        /** @var $objectManagerMock \Magento\ObjectManager */
+        $objectManagerMock = $this->getMock('Magento\ObjectManager');
         $objectManagerMock->expects($this->any())
             ->method('create')
             ->will($this->returnCallback(array($this, 'getModelInstance')));

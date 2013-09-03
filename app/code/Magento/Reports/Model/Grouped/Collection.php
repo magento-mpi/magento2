@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 class Magento_Reports_Model_Grouped_Collection
-    extends Magento_Data_Collection //Magento_Core_Model_Resource_Db_Collection_Abstract
+    extends \Magento\Data\Collection //Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Column name for group by clause 
@@ -63,7 +63,7 @@ class Magento_Reports_Model_Grouped_Collection
     /**
      * Setter for resource collection
      *
-     * @param Magento_Data_Collection_Db $collection
+     * @param \Magento\Data\Collection\Db $collection
      * @return Magento_Reports_Model_Grouped_Collection
      */
     public function setResourceCollection($collection)

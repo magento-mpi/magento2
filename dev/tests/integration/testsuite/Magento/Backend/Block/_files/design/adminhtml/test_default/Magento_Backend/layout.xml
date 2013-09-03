@@ -14,7 +14,7 @@
         <reference name="content">
             <block type="Magento_Backend_Block_Widget_Grid" name="admin.test.grid" Output="1">
                 <arguments>
-                    <dataSource type='object'>Magento_Data_Collection</dataSource>
+                    <dataSource type='object'>\Magento\Data\Collection</dataSource>
                 </arguments>
                 <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="admin.test.grid.columnSet" Output="1">
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="product_name" Output="1">

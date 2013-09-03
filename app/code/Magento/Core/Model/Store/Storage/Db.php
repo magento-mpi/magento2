@@ -181,9 +181,9 @@ class Magento_Core_Model_Store_Storage_Db implements Magento_Core_Model_Store_St
      */
     public function initCurrentStore()
     {
-        Magento_Profiler::start('init_stores');
+        \Magento\Profiler::start('init_stores');
         $this->_initStores();
-        Magento_Profiler::stop('init_stores');
+        \Magento\Profiler::stop('init_stores');
 
         if (empty($this->_scopeCode) && false == is_null($this->_website)) {
             $this->_scopeCode = $this->_website->getCode();

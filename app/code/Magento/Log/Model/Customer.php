@@ -64,7 +64,7 @@ class Magento_Log_Model_Customer extends Magento_Core_Model_Abstract
     {
         $loginAt = $this->getLoginAt();
         if ($loginAt) {
-            return Magento_Date::toTimestamp($loginAt);
+            return \Magento\Date::toTimestamp($loginAt);
         }
 
         return null;

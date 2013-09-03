@@ -96,7 +96,7 @@ class Magento_Core_Model_Resource_Website extends Magento_Core_Model_Resource_Db
      * Select fields website_id, store_id
      *
      * @param boolean $includeDefault include/exclude default admin website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getDefaultStoresSelect($includeDefault = false)
     {

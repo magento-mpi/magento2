@@ -9,13 +9,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_PubSub_Subscription_CollectionInterface
+namespace Magento\PubSub\Subscription;
+
+interface CollectionInterface
 {
     /**
      * Return all subscriptions by topic
      *
      * @param string $topic
-     * @return Magento_PubSub_SubscriptionInterface[]
+     * @return \Magento\PubSub\SubscriptionInterface[]
      */
     public function getSubscriptionsByTopic($topic);
 }

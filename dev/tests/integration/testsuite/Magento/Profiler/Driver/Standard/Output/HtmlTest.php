@@ -1,6 +1,6 @@
 <?php
 /**
- * Test case for Magento_Profiler_Driver_Standard_Output_Html
+ * Test case for \Magento\Profiler\Driver\Standard\Output\Html
  *
  * {license_notice}
  *
@@ -10,13 +10,13 @@
 class Magento_Profiler_Driver_Standard_Output_HtmlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Profiler_Driver_Standard_Output_Html
+     * @var \Magento\Profiler\Driver\Standard\Output\Html
      */
     protected $_output;
 
     protected function setUp()
     {
-        $this->_output = new Magento_Profiler_Driver_Standard_Output_Html();
+        $this->_output = new \Magento\Profiler\Driver\Standard\Output\Html();
     }
 
     /**

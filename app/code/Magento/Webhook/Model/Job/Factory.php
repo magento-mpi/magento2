@@ -9,19 +9,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Job_Factory implements Magento_PubSub_Job_FactoryInterface
+class Magento_Webhook_Model_Job_Factory implements \Magento\PubSub\Job\FactoryInterface
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Initialize the class
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -29,11 +29,11 @@ class Magento_Webhook_Model_Job_Factory implements Magento_PubSub_Job_FactoryInt
     /**
      * Create Job
      *
-     * @param Magento_PubSub_SubscriptionInterface $subscription
-     * @param Magento_PubSub_EventInterface $event
-     * @return Magento_PubSub_JobInterface
+     * @param \Magento\PubSub\SubscriptionInterface $subscription
+     * @param \Magento\PubSub\EventInterface $event
+     * @return \Magento\PubSub\JobInterface
      */
-    public function create(Magento_PubSub_SubscriptionInterface $subscription, Magento_PubSub_EventInterface $event)
+    public function create(\Magento\PubSub\SubscriptionInterface $subscription, \Magento\PubSub\EventInterface $event)
     {
         return $this->_objectManager->create('Magento_Webhook_Model_Job', array(
             'data' => array(

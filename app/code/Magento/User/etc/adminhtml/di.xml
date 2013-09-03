@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="Magento_Acl_Builder">
+    <type name="Magento\Acl\Builder">
         <param name="ruleLoader">
             <instance type="Magento_User_Model_Acl_Loader_Rule" />
         </param>

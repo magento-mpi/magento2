@@ -417,5 +417,5 @@ else {
 }
 
 /** write to file */
-$varienCsv = new Magento_File_Csv();
+$varienCsv = new \Magento\File\Csv();
 $varienCsv->saveData($args['output'], $csvData);

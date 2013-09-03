@@ -52,7 +52,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_AbstractTest extends PHPUnit_Fr
 
         $this->_model->setAttribute($attribute);
 
-        $object = new Magento_Object();
+        $object = new \Magento\Object();
         $this->_model->setValueId($valueId);
 
         $this->assertEquals(

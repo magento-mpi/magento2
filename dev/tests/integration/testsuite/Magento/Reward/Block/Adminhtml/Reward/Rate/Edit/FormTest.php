@@ -39,7 +39,7 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUnit_F
     {
         $this->_block->toHtml();
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('Magento_Data_Form', $form);
+        $this->assertInstanceOf('\Magento\Data\Form', $form);
         $this->assertNull($form->getElement('website_id'));
     }
 
@@ -53,10 +53,10 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUnit_F
         $this->markTestIncomplete('Test used wrong area, as area was not set to layout previously');
         $this->_block->toHtml();
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('Magento_Data_Form', $form);
+        $this->assertInstanceOf('\Magento\Data\Form', $form);
         $element = $form->getElement('website_id');
         $this->assertNotNull($element);
-        $this->assertInstanceOf('Magento_Data_Form_Element_Select', $element);
+        $this->assertInstanceOf('\Magento\Data\Form\Element\Select', $element);
         $this->assertEquals('website_id', $element->getId());
     }
 }

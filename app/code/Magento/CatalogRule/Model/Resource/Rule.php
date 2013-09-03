@@ -131,9 +131,9 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
             return $this;
         }
 
-        Magento_Profiler::start('__MATCH_PRODUCTS__');
+        \Magento\Profiler::start('__MATCH_PRODUCTS__');
         $productIds = $rule->getMatchingProductIds();
-        Magento_Profiler::stop('__MATCH_PRODUCTS__');
+        \Magento\Profiler::stop('__MATCH_PRODUCTS__');
 
         $customerGroupIds = $rule->getCustomerGroupIds();
         $fromTime = strtotime($rule->getFromDate());

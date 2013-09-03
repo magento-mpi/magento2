@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbstract
+class Magento_Core_Model_DataService_Config_Reader extends \Magento\Config\XmlAbstract
 {
     /**
      * @var Magento_Core_Model_Config_Modules_Reader
@@ -96,8 +96,8 @@ class Magento_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbs
     /**
      * Perform xml validation
      *
-     * @return Magento_Config_XmlAbstract
-     * @throws Magento_Exception if invalid XML-file passed
+     * @return \Magento\Config\XmlAbstract
+     * @throws \Magento\MagentoException if invalid XML-file passed
      */
     public function validate()
     {

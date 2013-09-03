@@ -70,7 +70,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
             $this->_getResource()->prepareFlatTable($store);
         }
         Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
-            new Magento_Object(array('id' => $store)),
+            new \Magento\Object(array('id' => $store)),
             self::ENTITY,
             self::EVENT_TYPE_REBUILD
         );

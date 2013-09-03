@@ -33,14 +33,14 @@ class Magento_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_
         );
 
         $this->_factoryMock = $this->getMock(
-            'Magento_Object_Factory', array('create'), array(), '', false, false, false
+            'Magento\Object\Factory', array('create'), array(), '', false, false, false
         );
         $this->_factoryMock->expects($this->any())
             ->method('create')
             ->with(array('sub_test1' => 3, 'sub_test2' => 2))
             ->will(
                 $this->returnValue(
-                    new Magento_Object(array('sub_test1' => 3, 'sub_test2' => 2))
+                    new \Magento\Object(array('sub_test1' => 3, 'sub_test2' => 2))
                 )
             );
 
@@ -70,7 +70,7 @@ class Magento_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_
 
     public function testCountTotals()
     {
-        $expected = new Magento_Object(
+        $expected = new \Magento\Object(
             array('sub_test1' => 3, 'sub_test2' => 2)
         );
         $this->assertEquals($expected, $this->_model->countTotals($this->_getTestCollection()));
@@ -79,15 +79,15 @@ class Magento_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_
     /**
      * Retrieve test collection
      *
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     protected function _getTestCollection()
     {
-        $collection = new Magento_Data_Collection();
+        $collection = new \Magento\Data\Collection();
         $items = array(
-            new Magento_Object(array('sub_test1' => '1', 'sub_test2' => '2')),
-            new Magento_Object(array('sub_test1' => '1', 'sub_test2' => '2')),
-            new Magento_Object(array('sub_test1' => '1', 'sub_test2' => '2'))
+            new \Magento\Object(array('sub_test1' => '1', 'sub_test2' => '2')),
+            new \Magento\Object(array('sub_test1' => '1', 'sub_test2' => '2')),
+            new \Magento\Object(array('sub_test1' => '1', 'sub_test2' => '2'))
         );
         foreach ($items as $item) {
             $collection->addItem($item);

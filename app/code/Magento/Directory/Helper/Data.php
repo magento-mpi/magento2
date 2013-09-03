@@ -117,7 +117,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     public function getRegionJson()
     {
 
-        Magento_Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         if (!$this->_regionJson) {
             $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE' . Mage::app()->getStore()->getId();
             $json = $this->_configCacheType->load($cacheKey);
@@ -151,7 +151,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
             $this->_regionJson = $json;
         }
 
-        Magento_Profiler::stop('TEST: '.__METHOD__);
+        \Magento\Profiler::stop('TEST: '.__METHOD__);
         return $this->_regionJson;
     }
 

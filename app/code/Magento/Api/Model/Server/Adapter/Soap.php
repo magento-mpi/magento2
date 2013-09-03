@@ -15,7 +15,7 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Server_Adapter_Soap extends Magento_Object
+class Magento_Api_Model_Server_Adapter_Soap extends \Magento\Object
 {
     /**
      * Soap server
@@ -59,16 +59,16 @@ class Magento_Api_Model_Server_Adapter_Soap extends Magento_Object
     }
 
     /**
-     * Retrive webservice api controller. If no controller have been set - emulate it by the use of Magento_Object
+     * Retrive webservice api controller. If no controller have been set - emulate it by the use of \Magento\Object
      *
-     * @return Magento_Api_Controller_Action|Magento_Object
+     * @return Magento_Api_Controller_Action|\Magento\Object
      */
     public function getController()
     {
         $controller = $this->getData('controller');
 
         if (null === $controller) {
-            $controller = new Magento_Object(
+            $controller = new \Magento\Object(
                 array('request' => Mage::app()->getRequest(), 'response' => Mage::app()->getResponse())
             );
 

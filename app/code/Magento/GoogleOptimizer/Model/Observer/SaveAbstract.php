@@ -47,7 +47,7 @@ abstract class Magento_GoogleOptimizer_Model_Observer_SaveAbstract
     /**
      * Save script after saving entity
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_GoogleOptimizer_Model_Observer_Category_Save
      * @throws InvalidArgumentException
      */
@@ -65,7 +65,7 @@ abstract class Magento_GoogleOptimizer_Model_Observer_SaveAbstract
     /**
      * Init entity
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     abstract protected function _initEntity($observer);
 

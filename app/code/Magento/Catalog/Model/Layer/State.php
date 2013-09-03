@@ -15,7 +15,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Layer_State extends Magento_Object
+class Magento_Catalog_Model_Layer_State extends \Magento\Object
 {
     /**
      * Add filter item to layer state

@@ -16,7 +16,7 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Collection
+class Magento_Reports_Model_Resource_Report_Collection extends \Magento\Data\Collection
 {
     /**
      * From value
@@ -166,7 +166,7 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
                     default:
                         break(2);
                 }
-                $this->_intervals[$interval['period']] = new Magento_Object($interval);
+                $this->_intervals[$interval['period']] = new \Magento\Object($interval);
             }
         }
         return  $this->_intervals;
@@ -372,8 +372,8 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
     public function timeShift($datetime)
     {
         return $this->_locale
-            ->utcDate(null, $datetime, true, Magento_Date::DATETIME_INTERNAL_FORMAT)
-            ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
+            ->utcDate(null, $datetime, true, \Magento\Date::DATETIME_INTERNAL_FORMAT)
+            ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
     }
 
     /**
@@ -381,7 +381,7 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Magento_Reports_Model_Resource_Report_Collection|Magento_Data_Collection
+     * @return Magento_Reports_Model_Resource_Report_Collection|\Magento\Data\Collection
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

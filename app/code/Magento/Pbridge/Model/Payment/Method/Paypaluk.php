@@ -189,9 +189,9 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
-    public function authorize(Magento_Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
-        $result = new Magento_Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
+        $result = new \Magento\Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
         $order = $payment->getOrder();
         $result->setEmail($order->getCustomerEmail());
         $this->_importResultToPayment($result, $payment);
@@ -204,7 +204,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         if (false === $this->_pro->capture($payment, $amount)) {
             $this->authorize($payment, $amount);
@@ -218,7 +218,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $this->_pro->refund($payment, $amount);
         return $this;
@@ -230,7 +230,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $this->_pro->void($payment);
         return $this;
@@ -239,7 +239,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
     /**
      * Import direct payment results to payment
      *
-     * @param Magento_Object $api
+     * @param \Magento\Object $api
      * @param Magento_Sales_Model_Order_Payment $payment
      */
     protected function _importResultToPayment($api, $payment)

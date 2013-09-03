@@ -15,9 +15,9 @@ class Magento_Cache_Frontend_Decorator_BareTest extends PHPUnit_Framework_TestCa
      */
     public function testProxyMethod($method, $params, $expectedResult)
     {
-        $frontendMock = $this->getMock('Magento_Cache_FrontendInterface');
+        $frontendMock = $this->getMock('Magento\Cache\FrontendInterface');
 
-        $object = new Magento_Cache_Frontend_Decorator_Bare($frontendMock);
+        $object = new \Magento\Cache\Frontend\Decorator\Bare($frontendMock);
         $helper = new Magento_TestFramework_Helper_ProxyTesting();
         $result = $helper->invokeWithExpectations($object, $frontendMock, $method, $params, $expectedResult);
         $this->assertSame($expectedResult, $result);

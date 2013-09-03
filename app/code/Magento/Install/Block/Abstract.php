@@ -38,7 +38,7 @@ abstract class Magento_Install_Block_Abstract extends Magento_Core_Block_Templat
     /**
      * Retrieve current installation step
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getCurrentStep()
     {

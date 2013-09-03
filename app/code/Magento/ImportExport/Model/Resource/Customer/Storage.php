@@ -96,10 +96,10 @@ class Magento_ImportExport_Model_Resource_Customer_Storage
     /**
      * Add customer to array
      *
-     * @param Magento_Object|Magento_Customer_Model_Customer $customer
+     * @param \Magento\Object|Magento_Customer_Model_Customer $customer
      * @return Magento_ImportExport_Model_Resource_Customer_Storage
      */
-    public function addCustomer(Magento_Object $customer)
+    public function addCustomer(\Magento\Object $customer)
     {
         $email = strtolower(trim($customer->getEmail()));
         if (!isset($this->_customerIds[$email])) {

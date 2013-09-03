@@ -13,7 +13,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
 {
     public function setUp()
     {
-        $mockDBAdapter = $this->getMockBuilder('Magento_DB_Adapter_Pdo_Mysql')
+        $mockDBAdapter = $this->getMockBuilder('Magento\DB\Adapter\Pdo\Mysql')
             ->disableOriginalConstructor()
             ->setMethods(array('_connect', '_quote'))
             ->getMockForAbstractClass();
@@ -39,7 +39,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
 
     public function testConstructor()
     {
-        $mockFetchStrategy = $this->getMockBuilder('Magento_Data_Collection_Db_FetchStrategyInterface')
+        $mockFetchStrategy = $this->getMockBuilder('Magento\Data\Collection\Db\FetchStrategyInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $collection = new Magento_Webhook_Model_Resource_Job_Collection($mockFetchStrategy);
@@ -55,7 +55,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
     protected function _setMageObjectManager()
     {
         Mage::reset();
-        $mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
         Mage::setObjectManager($mockObjectManager);

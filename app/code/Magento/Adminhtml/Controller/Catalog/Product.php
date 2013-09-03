@@ -521,7 +521,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
      */
     public function validateAction()
     {
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setError(false);
 
         try {
@@ -1053,7 +1053,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
     public function showUpdateResultAction()
     {
         $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
-        if ($session->hasCompositeProductResult() && $session->getCompositeProductResult() instanceof Magento_Object) {
+        if ($session->hasCompositeProductResult() && $session->getCompositeProductResult() instanceof \Magento\Object) {
             /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
             $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
             $helper->renderUpdateResult($this, $session->getCompositeProductResult());
@@ -1139,7 +1139,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
             $this->getResponse()->setBody($attribute->toJson());
         } catch (Exception $e) {
-            $response = new Magento_Object();
+            $response = new \Magento\Object();
             $response->setError(false);
             $response->setMessage($e->getMessage());
             $this->getResponse()->setBody($response->toJson());

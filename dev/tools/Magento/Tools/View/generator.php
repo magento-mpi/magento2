@@ -12,7 +12,7 @@
  */
 
 require __DIR__ . '/../../../../../app/bootstrap.php';
-Magento_Autoload_IncludePath::addIncludePath(__DIR__.'/../../../');
+\Magento\Autoload\IncludePath::addIncludePath(__DIR__.'/../../../');
 
 define('SYNOPSIS', <<<USAGE
 Usage: php -f generator.php -- [--source <dir>] [--destination <dir>] [--dry-run]
@@ -45,9 +45,9 @@ $logger->log('Deploying...', Zend_Log::INFO);
 try {
     $config = new Magento_Tools_View_Generator_Config(BP, $options);
 
-    $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
+    $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
     $dirs = new Magento_Core_Model_Dir($config->getSourceDir());
-    $objectManager = new Magento_ObjectManager_ObjectManager();
+    $objectManager = new \Magento\ObjectManager\ObjectManager();
 
     $themes = new Magento_Core_Model_Theme_Collection($filesystem, $objectManager, $dirs);
     $themes->setItemObjectClass(' Magento_Tools_View_Generator_ThemeLight');

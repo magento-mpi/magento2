@@ -141,7 +141,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
             return;
         }
 
-        $data = new Magento_Object($postData['catalogevent']);
+        $data = new \Magento\Object($postData['catalogevent']);
 
         $event->setDisplayState($data->getDisplayState())
             ->setStoreDateStart($data->getDateStart())

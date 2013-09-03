@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Payment_Model_Paygate_Result extends Magento_Object 
+class Magento_Payment_Model_Paygate_Result extends \Magento\Object 
 {
     
 }

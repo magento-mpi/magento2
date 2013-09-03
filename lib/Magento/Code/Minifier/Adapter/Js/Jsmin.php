@@ -7,13 +7,15 @@
  */
 
 if (!class_exists('JSMin')) {
-    require_once(__DIR__ . '/../../../../../JSMin/jsmin.php');
+namespace Magento\Code\Minifier\Adapter\Js;
+
 }
 
 /**
  * Adapter for JSMin library
  */
-class Magento_Code_Minifier_Adapter_Js_Jsmin implements Magento_Code_Minifier_AdapterInterface
+    require_once(__DIR__ . '/../../../../../JSMin/jsmin.php');
+class Jsmin implements \Magento\Code\Minifier\AdapterInterface
 {
     /**
      * {@inheritdoc}

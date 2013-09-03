@@ -15,7 +15,9 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Imagefile extends Magento_Data_Form_Element_Abstract
+namespace Magento\Data\Form\Element;
+
+class Imagefile extends \Magento\Data\Form\Element\AbstractElement
 {
     public function __construct($attributes=array())
     {

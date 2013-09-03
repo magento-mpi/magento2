@@ -195,7 +195,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             }
 
             $shipment->getOrder()->setCustomerNoteNotify(!empty($data['send_email']));
-            $responseAjax = new Magento_Object();
+            $responseAjax = new \Magento\Object();
             $isNeedCreateLabel = isset($data['create_shipping_label']) && $data['create_shipping_label'];
 
             if ($isNeedCreateLabel && $this->_createShippingLabel($shipment)) {
@@ -490,7 +490,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
      */
     public function createLabelAction()
     {
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         try {
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {
@@ -662,8 +662,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
      */
     protected function _createPdfPageFromImageString($imageString)
     {
-        /** @var Magento_Filesystem $filesystem */
-        $filesystem = $this->_objectManager->get('Magento_Filesystem');
+        /** @var \Magento\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento\Filesystem');
         /** @var $tmpDir Magento_Core_Model_Dir */
         $tmpDir = $this->_objectManager->get('Magento_Core_Model_Dir', $filesystem->getWorkingDirectory());
         $image = imagecreatefromstring($imageString);

@@ -20,7 +20,7 @@ class Magento_Adminhtml_Controller_System_AccountTest extends PHPUnit_Framework_
     /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Controller_Response_Http */
     protected $_responseMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_ObjectManager_ObjectManager */
+    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\ObjectManager\ObjectManager */
     protected $_objectManagerMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Backend_Model_Session */
@@ -54,7 +54,7 @@ class Magento_Adminhtml_Controller_System_AccountTest extends PHPUnit_Framework_
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager_ObjectManager')
+        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager\ObjectManager')
             ->disableOriginalConstructor()
             ->setMethods(array('get', 'create'))
             ->getMock();

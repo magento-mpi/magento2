@@ -8,9 +8,11 @@
  * @license     {license_link}
  */
 
-class Magento_Cache_Backend_Memcached 
-    extends Zend_Cache_Backend_Memcached
-    implements Zend_Cache_Backend_ExtendedInterface
+namespace Magento\Cache\Backend;
+
+class Memcached
+    extends \Zend_Cache_Backend_Memcached
+    implements \Zend_Cache_Backend_ExtendedInterface
 {
     /**
      * Maximum chunk of data that could be saved in one memcache cell (1 MiB)
@@ -25,8 +27,8 @@ class Magento_Cache_Backend_Memcached
     /**
      * Constructor
      *
-     * @throws Magento_Exception
-     * @param array $options @see Zend_Cache_Backend_Memcached::__construct()
+     * @throws \Magento\MagentoException
+     * @param array $options @see \Zend_Cache_Backend_Memcached::__construct()
      */
     public function __construct(array $options = array())
     {
@@ -34,7 +36,7 @@ class Magento_Cache_Backend_Memcached
 
         if (!isset($options['slab_size']) || !is_numeric($options['slab_size'])) {
             if (isset($options['slab_size'])) {
-                throw new Magento_Exception("Invalid value for the node <slab_size>. Expected to be positive integer.");
+                throw new \Magento\MagentoException("Invalid value for the node <slab_size>. Expected to be positive integer.");
             }
 
             $this->_options['slab_size'] = self::DEFAULT_SLAB_SIZE;
@@ -74,10 +76,10 @@ class Magento_Cache_Backend_Memcached
     /**
      * Save data to memcached, split it into chunks if data size is bigger than memcached slab size.
      *
-     * @param string $data             @see Zend_Cache_Backend_Memcached::save()
-     * @param string $id               @see Zend_Cache_Backend_Memcached::save()
-     * @param array  $tags             @see Zend_Cache_Backend_Memcached::save()
-     * @param bool   $specificLifetime @see Zend_Cache_Backend_Memcached::save()
+     * @param string $data             @see \Zend_Cache_Backend_Memcached::save()
+     * @param string $id               @see \Zend_Cache_Backend_Memcached::save()
+     * @param array  $tags             @see \Zend_Cache_Backend_Memcached::save()
+     * @param bool   $specificLifetime @see \Zend_Cache_Backend_Memcached::save()
      * @return bool
      */
     public function save($data, $id, $tags = array(), $specificLifetime = false)
@@ -103,8 +105,8 @@ class Magento_Cache_Backend_Memcached
     /**
      * Load data from memcached, glue from several chunks if it was splitted upon save.
      *
-     * @param string $id                     @see Zend_Cache_Backend_Memcached::load()
-     * @param bool   $doNotTestCacheValidity @see Zend_Cache_Backend_Memcached::load()
+     * @param string $id                     @see \Zend_Cache_Backend_Memcached::load()
+     * @param bool   $doNotTestCacheValidity @see \Zend_Cache_Backend_Memcached::load()
      * @return bool|false|string
      */
     public function load($id, $doNotTestCacheValidity = false)

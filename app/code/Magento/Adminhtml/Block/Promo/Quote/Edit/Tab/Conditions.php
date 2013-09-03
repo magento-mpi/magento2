@@ -64,8 +64,8 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions
     {
         $model = Mage::registry('current_promo_quote_rule');
 
-        //$form = new Magento_Data_Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
-        $form = new Magento_Data_Form();
+        //$form = new \Magento\Data\Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
+        $form = new \Magento\Data\Form();
 
         $form->setHtmlIdPrefix('rule_');
 

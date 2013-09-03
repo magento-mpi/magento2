@@ -20,16 +20,16 @@ class Magento_Catalog_Model_Observer_Reindex
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -37,10 +37,10 @@ class Magento_Catalog_Model_Observer_Reindex
     /**
      * Reindex fulltext
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Catalog_Model_Observer_Reindex
      */
-    public function fulltextReindex(Magento_Event_Observer $observer)
+    public function fulltextReindex(\Magento\Event\Observer $observer)
     {
         /** @var $category Magento_Catalog_Model_Category */
         $category = $observer->getDataObject();

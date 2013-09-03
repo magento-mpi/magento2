@@ -17,10 +17,10 @@ class Magento_Reminder_Block_Adminhtml_Widget_Grid_Column_Renderer_Id
     /**
      * Render customer id linked to its account edit page
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    protected function _getValue(Magento_Object $row)
+    protected function _getValue(\Magento\Object $row)
     {
         $customerId = $this->escapeHtml($row->getData($this->getColumn()->getIndex()));
         return '<a href="' . Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/customer/edit',

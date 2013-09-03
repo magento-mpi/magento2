@@ -63,7 +63,7 @@ class Magento_Checkout_Controller_CartTest extends PHPUnit_Framework_TestCase
         $storeManager = $this->getMock('Magento_Core_Model_StoreManagerInterface');
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
 
-        $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $objectManager->expects($this->at(0))
             ->method('get')
             ->with($this->equalTo('Magento_Core_Model_StoreManagerInterface'))

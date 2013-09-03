@@ -125,7 +125,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Config $applicationConfig
      * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -135,7 +135,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         Magento_Core_Model_Config $applicationConfig,
         Magento_Core_Model_Translate $translate,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data= array()
     ) {
         $this->_app = $application;
@@ -198,7 +198,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * Add new product to registry
      *
      * @param int|Magento_Sales_Model_Quote_Item $itemToAdd
-     * @param null|Magento_Object $request
+     * @param null|\Magento\Object $request
      * @return false|Magento_GiftRegistry_Model_Item
      * @throws Magento_Core_Exception
      */
@@ -224,7 +224,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             $cartCandidates = array($cartCandidate);
         } else {
             if (!$request) {
-                $request = new Magento_Object();
+                $request = new \Magento\Object();
                 $request->setBundleOption(array());//Bundle options mocking for compatibility
             }
             $cartCandidates = $product->getTypeInstance()->prepareForCart($request, $product);
@@ -338,14 +338,14 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Send share emails
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function sendShareRegistryEmails()
     {
         $senderMessage = $this->getSenderMessage();
         $senderName = $this->_helper('Magento_GiftRegistry_Helper_Data')->escapeHtml($this->getSenderName());
         $senderEmail = $this->_helper('Magento_GiftRegistry_Helper_Data')->escapeHtml($this->getSenderEmail());
-        $result = new Magento_Object(array('is_success' => false));
+        $result = new \Magento\Object(array('is_success' => false));
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
             return $result->setErrorMessage(
@@ -875,7 +875,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Custom handler for giftregistry share email action
      *
-     * @param Magento_Simplexml_Element $config
+     * @param \Magento\Simplexml\Element $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      */
@@ -917,7 +917,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * Validate gift registry items
      *
      * @param array $items
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     protected function _validateItems($items)
     {
@@ -930,7 +930,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
                     $stockItem->loadByProduct($model->getProductId());
                     // not Magento_Core_Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
-                        throw new Magento_Exception(__('Please correct the  gift registry item quantity.'));
+                        throw new \Magento\MagentoException(__('Please correct the  gift registry item quantity.'));
                     }
                 }
             } else {

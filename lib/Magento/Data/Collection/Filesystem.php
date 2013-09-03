@@ -12,7 +12,7 @@
  * Filesystem items collection
  *
  * Can scan a folder for files and/or folders recursively.
- * Creates Magento_Object instance for each item, with its filename and base name
+ * Creates \Magento\Object instance for each item, with its filename and base name
  *
  * Supports regexp masks that are applied to files and folders base names.
  * These masks apply before adding items to collection, during filesystem scanning
@@ -23,7 +23,9 @@
  *
  * At least one target directory must be set
  */
-class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
+namespace Magento\Data\Collection;
+
+class Filesystem extends \Magento\Data\Collection
 {
     /**
      * Target directory
@@ -61,7 +63,7 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
     protected $_collectDirs = false;
 
     /**
-     * Directory names regex pre-filter
+     * \Directory names regex pre-filter
      *
      * @var string
      */
@@ -84,8 +86,8 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
     /**
      * Filter rendering helper variables
      *
-     * @see Magento_Data_Collection::$_filter
-     * @see Magento_Data_Collection::$_isFiltersRendered
+     * @see \Magento\Data\Collection::$_filter
+     * @see \Magento\Data\Collection::$_isFiltersRendered
      */
     private $_filterIncrement = 0;
     private $_filterBrackets = array();
@@ -142,7 +144,7 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
      * Set whether to collect dirs
      *
      * @param bool $value
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function setCollectDirs($value)
     {
@@ -154,7 +156,7 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
      * Set whether to collect files
      *
      * @param bool $value
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function setCollectFiles($value)
     {
@@ -166,7 +168,7 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
      * Set whether to collect recursively
      *
      * @param bool $value
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function setCollectRecursively($value)
     {
@@ -178,13 +180,13 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
      * Target directory setter. Adds directory to be scanned
      *
      * @param string $value
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function addTargetDir($value)
     {
         $value = (string)$value;
         if (!is_dir($value)) {
-            throw new Exception('Unable to set target directory.');
+            throw new \Exception('Unable to set target directory.');
         }
         $this->_targetDirs[$value] = $value;
         return $this;
@@ -195,7 +197,7 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
      * Works *before* sorting.
      *
      * @param bool $value
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function setDirsFirst($value)
     {
@@ -252,7 +254,7 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
@@ -260,7 +262,7 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
             return $this;
         }
         if (empty($this->_targetDirs)) {
-            throw new Exception('Please specify at least one target directory.');
+            throw new \Exception('Please specify at least one target directory.');
         }
 
         $this->_collectedFiles = array();
@@ -350,7 +352,7 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
      *
      * @param   string $field
      * @param   string $direction
-     * @return  Magento_Data_Collection
+     * @return  \Magento\Data\Collection
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -384,7 +386,7 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
      * @param string $type 'and'|'or'
      * @param callback $callback
      * @param bool $isInverted
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function addCallbackFilter($field, $value, $type, $callback, $isInverted = false)
     {
@@ -456,8 +458,8 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
      * @param string $field
      * @param mixed $cond
      * @param string $type 'and' | 'or'
-     * @see Magento_Data_Collection_Db::addFieldToFilter()
-     * @return Magento_Data_Collection_Filesystem
+     * @see \Magento\Data\Collection\Db::addFieldToFilter()
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function addFieldToFilter($field, $cond, $type = 'and')
     {
@@ -537,7 +539,7 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
      *
      * @param string $bracket
      * @param bool $isAnd
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     protected function _addFilterBracket($bracket = '(', $isAnd = true)
     {
@@ -575,7 +577,7 @@ class Magento_Data_Collection_Filesystem extends Magento_Data_Collection
     /**
      * Does nothing. Intentionally disabled parent method
      *
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function addFilter($field, $value, $type = 'and')
     {

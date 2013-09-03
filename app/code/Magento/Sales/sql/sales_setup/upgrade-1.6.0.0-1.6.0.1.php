@@ -13,7 +13,7 @@ $installer = $this;
 
 $installer->getConnection()
     ->addColumn($installer->getTable('sales_flat_order_status_history'), 'entity_name', array(
-        'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
+        'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
         'length'    => 32,
         'nullable'  => true,
         'comment'   => 'Shows what entity history is bind to.'

@@ -11,7 +11,7 @@
 class Magento_Backend_Model_Config_Structure_Element_FlyweightFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -27,9 +27,9 @@ class Magento_Backend_Model_Config_Structure_Element_FlyweightFactory
     );
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

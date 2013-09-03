@@ -44,7 +44,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
      */
     public function testIsEverythingAllowed($selectedResources, $expectedResult)
     {
-        $apiRole = new Magento_Object(array(
+        $apiRole = new \Magento\Object(array(
             'role_id' => 1
         ));
         $apiRole->setIdFieldName('role_id');

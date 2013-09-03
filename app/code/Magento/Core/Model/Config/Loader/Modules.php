@@ -60,24 +60,24 @@ class Magento_Core_Model_Config_Loader_Modules implements Magento_Core_Model_Con
             $config->loadString('<config></config>');
         }
 
-        Magento_Profiler::start('config');
-        Magento_Profiler::start('load_modules');
+        \Magento\Profiler::start('config');
+        \Magento\Profiler::start('load_modules');
 
         $config->extend($this->_primaryConfig);
 
-        Magento_Profiler::start('load_modules_configuration');
+        \Magento\Profiler::start('load_modules_configuration');
 
         $resourceConfig = sprintf('config.%s.xml', $this->_resourceConfig->getResourceConnectionModel('core'));
         $this->_fileReader->loadModulesConfiguration(array('config.xml', $resourceConfig), $config);
-        Magento_Profiler::stop('load_modules_configuration');
+        \Magento\Profiler::stop('load_modules_configuration');
 
         // Prevent local configuration overriding
         $this->_localLoader->load($config);
 
         $config->applyExtends();
 
-        Magento_Profiler::stop('load_modules');
-        Magento_Profiler::stop('config');
+        \Magento\Profiler::stop('load_modules');
+        \Magento\Profiler::stop('config');
         $this->_resourceConfig->setConfig($config);
     }
 }

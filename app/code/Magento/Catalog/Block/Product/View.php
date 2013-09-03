@@ -173,7 +173,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
             'tierPricesInclTax'   => $_tierPricesInclTax,
         );
 
-        $responseObject = new Magento_Object();
+        $responseObject = new \Magento\Object();
         Mage::dispatchEvent('catalog_product_view_config', array('response_object'=>$responseObject));
         if (is_array($responseObject->getAdditionalOptions())) {
             foreach ($responseObject->getAdditionalOptions() as $option=>$value) {

@@ -235,11 +235,11 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
     /**
      * Authorize
      *
-     * @param   Magento_Object $payment
+     * @param   \Magento\Object $payment
      * @param   float $amount
      * @return  Magento_Payment_Model_Abstract
      */
-    public function authorize(Magento_Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
 //        parent::authorize($payment, $amount);
         $order = $payment->getOrder();
@@ -291,10 +291,10 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
     /**
      * Cancel payment
      *
-     * @param   Magento_Object $payment
+     * @param   \Magento\Object $payment
      * @return  Magento_Payment_Model_Abstract
      */
-    public function cancel(Magento_Object $payment)
+    public function cancel(\Magento\Object $payment)
     {
         parent::cancel($payment);
         return $this;
@@ -303,11 +303,11 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
     /**
      * Capture payment
      *
-     * @param   Magento_Object $payment
+     * @param   \Magento\Object $payment
      * @param   float $amount
      * @return  Magento_Payment_Model_Abstract
      */
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         //parent::capture($payment, $amount);
 
@@ -344,11 +344,11 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
     /**
      * Refund money
      *
-     * @param   Magento_Object $payment
+     * @param   \Magento\Object $payment
      * @param   float $amount
      * @return  Magento_Payment_Model_Abstract
      */
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         //parent::refund($payment, $amount);
 
@@ -389,10 +389,10 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
     /**
      * Void payment
      *
-     * @param   Magento_Object $payment
+     * @param   \Magento\Object $payment
      * @return  Magento_Payment_Model_Abstract
      */
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         //parent::void($payment);
 
@@ -495,11 +495,11 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
     /**
      * Return Api request object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _getApiRequest()
     {
-        $request = new Magento_Object();
+        $request = new \Magento\Object();
         $request->setCountryCode(Mage::getStoreConfig(self::XML_CONFIG_PATH_DEFAULT_COUNTRY));
         $request->setClientIdentifier($this->_getCustomerIdentifier());
 

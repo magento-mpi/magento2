@@ -10,7 +10,7 @@ $basePath = realpath(__DIR__ . '/../../../');
 require_once $basePath . '/app/autoload.php';
 require __DIR__ . '/Formatter.php';
 
-Magento_Autoload_IncludePath::addIncludePath(array(
+\Magento\Autoload\IncludePath::addIncludePath(array(
     $basePath . '/lib',
 ));
 

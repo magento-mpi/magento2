@@ -17,13 +17,13 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_Collection
      * Collection constructor
      *
      * @param Magento_Webhook_Model_Subscription_Config $subscriptionConfig
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param Magento_Webhook_Model_Resource_Endpoint $endpointResource
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Webhook_Model_Subscription_Config $subscriptionConfig,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         Magento_Webhook_Model_Resource_Endpoint $endpointResource,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {

@@ -32,7 +32,7 @@ class Magento_Api_Model_Wsdl_Config extends Magento_Api_Model_Wsdl_Config_Base
     /**
      * @param Magento_Core_Model_Config_Modules_Reader $configReader
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Simplexml_Element|null $sourceData
+     * @param \Magento\Simplexml\Element|null $sourceData
      */
     public function __construct(
         Magento_Core_Model_Config_Modules_Reader $configReader,

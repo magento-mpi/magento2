@@ -19,7 +19,7 @@ class Magento_Core_Model_Theme_Customization_FileServiceFactory
     const XML_PATH_CUSTOM_FILES = 'default/theme/customization';
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -34,10 +34,10 @@ class Magento_Core_Model_Theme_Customization_FileServiceFactory
     protected $_types = array();
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_Config $config
      */
-    public function __construct(Magento_ObjectManager $objectManager, Magento_Core_Model_Config $config)
+    public function __construct(\Magento\ObjectManager $objectManager, Magento_Core_Model_Config $config)
     {
         $this->_objectManager = $objectManager;
         $this->_config = $config;

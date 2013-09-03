@@ -136,7 +136,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
     /**
      * Instantiate state and set it to state object
      * @param string $paymentAction
-     * @param Magento_Object
+     * @param \Magento\Object
      */
     public function initialize($paymentAction, $stateObject)
     {

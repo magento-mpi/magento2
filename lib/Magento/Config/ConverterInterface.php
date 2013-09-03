@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Config_ConverterInterface
+namespace Magento\Config;
+
+interface ConverterInterface
 {
     /**
      * Convert config

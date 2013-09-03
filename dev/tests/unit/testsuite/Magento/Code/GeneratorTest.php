@@ -22,34 +22,34 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_expectedEntities = array(
-        'factory' => Magento_Code_Generator_Factory::ENTITY_TYPE,
-        'proxy'   => Magento_Code_Generator_Proxy::ENTITY_TYPE,
-        'interceptor' => Magento_Code_Generator_Interceptor::ENTITY_TYPE,
+        'factory' => \Magento\Code\Generator\Factory::ENTITY_TYPE,
+        'proxy'   => \Magento\Code\Generator\Proxy::ENTITY_TYPE,
+        'interceptor' => \Magento\Code\Generator\Interceptor::ENTITY_TYPE,
     );
 
     /**
      * Model under test
      *
-     * @var Magento_Code_Generator
+     * @var \Magento\Code\Generator
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Code_Generator_EntityAbstract
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Generator\EntityAbstract
      */
     protected $_generator;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Autoload_IncludePath
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Autoload\IncludePath
      */
     protected $_autoloader;
 
     protected function setUp()
     {
-        $this->_generator = $this->getMockForAbstractClass('Magento_Code_Generator_EntityAbstract',
+        $this->_generator = $this->getMockForAbstractClass('\Magento\Code\Generator\EntityAbstract',
             array(), '', true, true, true, array('generate')
         );
-        $this->_autoloader = $this->getMock('Magento_Autoload_IncludePath',
+        $this->_autoloader = $this->getMock('Magento\Autoload\IncludePath',
             array('getFile'), array(), '', false
         );
     }
@@ -72,7 +72,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testGetGeneratedEntities()
     {
-        $this->_model = new Magento_Code_Generator();
+        $this->_model = new \Magento\Code\Generator();
         $this->assertEquals(array_values($this->_expectedEntities), $this->_model->getGeneratedEntities());
     }
 
@@ -90,10 +90,10 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
             ->method('generate')
             ->will($this->returnValue(true));
 
-        $this->_model = new Magento_Code_Generator($this->_generator, $this->_autoloader);
+        $this->_model = new \Magento\Code\Generator($this->_generator, $this->_autoloader);
 
         $this->assertEquals(
-            Magento_Code_Generator::GENERATION_SUCCESS,
+            \Magento\Code\Generator::GENERATION_SUCCESS,
             $this->_model->generateClass($className . $entityType)
         );
         $this->assertAttributeEmpty('_generator', $this->_model);
@@ -110,10 +110,10 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
             ->with($className . $entityType)
             ->will($this->returnValue(true));
 
-        $this->_model = new Magento_Code_Generator($this->_generator, $this->_autoloader);
+        $this->_model = new \Magento\Code\Generator($this->_generator, $this->_autoloader);
 
         $this->assertEquals(
-            Magento_Code_Generator::GENERATION_SKIP,
+            \Magento\Code\Generator::GENERATION_SKIP,
             $this->_model->generateClass($className . $entityType)
         );
     }
@@ -124,15 +124,15 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         $this->_autoloader->staticExpects($this->never())
             ->method('getFile');
 
-        $this->_model = new Magento_Code_Generator($this->_generator, $this->_autoloader);
+        $this->_model = new \Magento\Code\Generator($this->_generator, $this->_autoloader);
 
         $this->assertEquals(
-            Magento_Code_Generator::GENERATION_ERROR,
+            \Magento\Code\Generator::GENERATION_ERROR,
             $this->_model->generateClass(self::SOURCE_CLASS));
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\MagentoException
      */
     public function testGenerateClassWithError()
     {
@@ -144,7 +144,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
             ->method('generate')
             ->will($this->returnValue(false));
 
-        $this->_model = new Magento_Code_Generator($this->_generator, $this->_autoloader);
+        $this->_model = new \Magento\Code\Generator($this->_generator, $this->_autoloader);
 
         $expectedEntities = array_values($this->_expectedEntities);
         $resultClassName = self::SOURCE_CLASS . ucfirst(array_shift($expectedEntities));

@@ -32,7 +32,7 @@ class Magento_Checkout_Block_Onepage_Success extends Magento_Core_Block_Template
      *
      * @param $profile
      */
-    public function getProfileUrl(Magento_Object $profile)
+    public function getProfileUrl(\Magento\Object $profile)
     {
         return $this->getUrl('sales/recurring_profile/view', array('profile' => $profile->getId()));
     }

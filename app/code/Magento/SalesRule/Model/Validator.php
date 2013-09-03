@@ -125,7 +125,7 @@ class Magento_SalesRule_Model_Validator extends Magento_Core_Model_Abstract
                     // check per customer usage limit
                     $customerId = $address->getQuote()->getCustomerId();
                     if ($customerId && $coupon->getUsagePerCustomer()) {
-                        $couponUsage = new Magento_Object();
+                        $couponUsage = new \Magento\Object();
                         Mage::getResourceModel('Magento_SalesRule_Model_Resource_Coupon_Usage')->loadByCustomerCoupon(
                             $couponUsage, $customerId, $coupon->getId());
                         if ($couponUsage->getCouponId() &&
@@ -411,7 +411,7 @@ class Magento_SalesRule_Model_Validator extends Magento_Core_Model_Abstract
                     break;
             }
 
-            $result = new Magento_Object(array(
+            $result = new \Magento\Object(array(
                 'discount_amount'      => $discountAmount,
                 'base_discount_amount' => $baseDiscountAmount,
             ));

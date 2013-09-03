@@ -83,7 +83,7 @@ $map = array(
 $tableName = $installer->getTable('admin_rule');
 
 if ($tableName) {
-    /** @var Magento_DB_Adapter_Interface $connection */
+    /** @var \Magento\DB\Adapter\AdapterInterface $connection */
     $connection = $installer->getConnection();
 
     $select = $connection->select();

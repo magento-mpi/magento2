@@ -24,8 +24,8 @@ class Magento_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
             new Magento_Core_Model_Event_ManagerStub(
                 $this->getMockForAbstractClass('Magento_Core_Model_Event_InvokerInterface', array(), '', false),
                 $this->getMock('Magento_Core_Model_Event_Config', array(), array(), '', false),
-                $this->getMock('Magento_EventFactory', array(), array(), '', false),
-                $this->getMock('Magento_Event_ObserverFactory', array(), array(), '', false)
+                $this->getMock('Magento\EventFactory', array(), array(), '', false),
+                $this->getMock('Magento\Event\ObserverFactory', array(), array(), '', false)
             )
         );
     }

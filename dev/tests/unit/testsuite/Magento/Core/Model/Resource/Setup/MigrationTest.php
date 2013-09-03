@@ -16,7 +16,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
 {
     /**
      * Result of update class aliases to compare with expected.
-     * Used in callback for Magento_DB_Select::update.
+     * Used in callback for \Magento\DB\Select::update.
      *
      * @var array
      */
@@ -24,14 +24,14 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
 
     /**
      * Where conditions to compare with expected.
-     * Used in callback for Magento_DB_Select::where.
+     * Used in callback for \Magento\DB\Select::where.
      *
      * @var array
      */
     protected $_actualWhere;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_DB_Select
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\DB\Select
      */
     protected $_selectMock;
 
@@ -53,7 +53,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
      */
     protected function _getModelDependencies($tableRowsCount = 0, $tableData = array(), $aliasesMap = array())
     {
-        $this->_selectMock = $this->getMock('Magento_DB_Select', array(), array(), '', false);
+        $this->_selectMock = $this->getMock('Magento\DB\Select', array(), array(), '', false);
         $this->_selectMock->expects($this->any())
                     ->method('from')
                     ->will($this->returnSelf());
@@ -61,7 +61,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
                     ->method('where')
                     ->will($this->returnCallback(array($this, 'whereCallback')));
 
-        $adapterMock = $this->getMock('Magento_DB_Adapter_Pdo_Mysql',
+        $adapterMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql',
             array('select', 'update', 'fetchAll', 'fetchOne'), array(), '', false
         );
         $adapterMock->expects($this->any())
@@ -90,7 +90,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
     }
 
     /**
-     * Callback for Magento_DB_Select::update
+     * Callback for \Magento\DB\Select::update
      *
      * @param string $table
      * @param array $bind
@@ -110,10 +110,10 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
     }
 
     /**
-     * Callback for Magento_DB_Select::where
+     * Callback for \Magento\DB\Select::where
      *
      * @param string $condition
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_DB_Select
+     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\DB\Select
      */
     public function whereCallback($condition)
     {
@@ -139,7 +139,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
             $this->getMock('Magento_Core_Model_ModuleListInterface'),
             $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false),
             $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
-            $this->getMock('Magento_Filesystem', array(), array(), '', false),
+            $this->getMock('Magento\Filesystem', array(), array(), '', false),
             'core_setup',
             $this->_getModelDependencies()
         );
@@ -196,7 +196,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
             $this->getMock('Magento_Core_Model_ModuleListInterface'),
             $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false),
             $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
-            $this->getMock('Magento_Filesystem', array(), array(), '', false),
+            $this->getMock('Magento\Filesystem', array(), array(), '', false),
             'core_setup',
             $this->_getModelDependencies($tableRowsCount, $tableData, $aliasesMap)
         );
@@ -254,11 +254,11 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Filesystem
+     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem
      */
     protected function _getFilesystemMock()
     {
-        $mock = $this->getMockBuilder('Magento_Filesystem')
+        $mock = $this->getMockBuilder('Magento\Filesystem')
             ->disableOriginalConstructor()
             ->getMock();
         return $mock;

@@ -15,21 +15,21 @@ class Magento_Index_Model_EntryPoint_Indexer extends Magento_Core_Model_EntryPoi
     protected $_reportDir;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * @param string $reportDir absolute path to report directory to be cleaned
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Config_Primary $config
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         $reportDir,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Config_Primary $config,
-        Magento_ObjectManager $objectManager = null
+        \Magento\ObjectManager $objectManager = null
     ) {
         parent::__construct($config, $objectManager);
         $this->_reportDir = $reportDir;

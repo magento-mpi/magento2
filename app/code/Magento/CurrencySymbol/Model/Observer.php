@@ -20,10 +20,10 @@ class Magento_CurrencySymbol_Model_Observer
     /**
      * Generate options for currency displaying with custom currency symbol
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CurrencySymbol_Model__Observer
      */
-    public function currencyDisplayOptions(Magento_Event_Observer $observer)
+    public function currencyDisplayOptions(\Magento\Event\Observer $observer)
     {
         $baseCode = $observer->getEvent()->getBaseCode();
         $currencyOptions = $observer->getEvent()->getCurrencyOptions();

@@ -17,11 +17,11 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
     extends Magento_Backend_Block_Abstract
-    implements Magento_Data_Form_Element_Renderer_Interface
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     const XML_PATH_IMAGE_TYPES = 'global/catalog/product/media/image_types';
 
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = $this->_getHeaderHtml($element);
         $renderer = Mage::getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             /**
              * Watermark size field
              */
-            $field = new Magento_Data_Form_Element_Text();
+            $field = new \Magento\Data\Form\Element\Text();
             $field->setName("groups[watermark][fields][{$key}_size][value]")
                 ->setForm( $this->getForm() )
                 ->setLabel(__('Size for %1', $attribute['title']))
@@ -42,7 +42,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             /**
              * Watermark upload field
              */
-            $field = new Magento_Data_Form_Element_Imagefile();
+            $field = new \Magento\Data\Form\Element\Imagefile();
             $field->setName("groups[watermark][fields][{$key}_image][value]")
                 ->setForm( $this->getForm() )
                 ->setLabel(__('Watermark File for %1', $attribute['title']))
@@ -52,7 +52,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             /**
              * Watermark position field
              */
-            $field = new Magento_Data_Form_Element_Select();
+            $field = new \Magento\Data\Form\Element\Select();
             $field->setName("groups[watermark][fields][{$key}_position][value]")
                 ->setForm( $this->getForm() )
                 ->setLabel(__('Position of Watermark for %1', $attribute['title']))

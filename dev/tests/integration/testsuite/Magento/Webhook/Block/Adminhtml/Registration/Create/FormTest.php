@@ -38,7 +38,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends PHPUn
 
         $form = $block->getForm();
 
-        $this->assertInstanceOf('Magento_Data_Form', $form);
+        $this->assertInstanceOf('\Magento\Data\Form', $form);
         $this->assertEquals('post', $form->getData('method'));
         $this->assertEquals($block->getUrl('*/*/register', array('id' => 333)), $form->getData('action'));
         $this->assertEquals('api_user', $form->getId());
@@ -69,7 +69,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends PHPUn
 
         foreach ($expectedFieldset as $fieldId => $field) {
             $element = $form->getElement($fieldId);
-            $this->assertInstanceOf('Magento_Data_Form_Element_Abstract', $element);
+            $this->assertInstanceOf('\Magento\Data\Form\Element\AbstractElement', $element);
             $this->assertEquals($field['name'], $element->getName(), 'Wrong \'' . $fieldId . '\' field name');
             $this->assertEquals($field['type'], $element->getType(), 'Wrong \'' . $fieldId . ' field type');
             $this->assertEquals($field['required'], $element->getData('required'),

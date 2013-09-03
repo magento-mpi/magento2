@@ -41,7 +41,7 @@ class Magento_Test_Annotation_DataFixtureTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\MagentoException
      */
     public function testConstructorException()
     {
@@ -82,7 +82,7 @@ class Magento_Test_Annotation_DataFixtureTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture fixture\path\must\not\contain\backslash.php
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\MagentoException
      */
     public function testStartTestTransactionRequestInvalidPath()
     {

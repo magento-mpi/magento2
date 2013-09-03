@@ -376,39 +376,39 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function testStatus()
     {
         $this->assertTrue($this->_subscription->hasStatus());
-        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE, $this->_subscription->getStatus());
+        $this->assertEquals(\Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE, $this->_subscription->getStatus());
         $this->assertSame(
-            $this->_subscription, $this->_subscription->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE)
+            $this->_subscription, $this->_subscription->setStatus(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE)
         );
         $this->assertTrue($this->_subscription->hasDataChanges());
         $this->assertTrue($this->_subscription->hasStatus());
-        $this->assertSame(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE, $this->_subscription->getStatus());
+        $this->assertSame(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE, $this->_subscription->getStatus());
     }
 
     public function testDeactivate()
     {
         $this->_subscription->deactivate();
         $this->assertFalse($this->_subscription->hasDataChanges());
-        $this->assertSame(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE, $this->_subscription->getStatus());
+        $this->assertSame(\Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE, $this->_subscription->getStatus());
     }
 
     public function testActivateDeactivate()
     {
         $this->_subscription->activate();
         $this->assertTrue($this->_subscription->hasDataChanges());
-        $this->assertSame(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE, $this->_subscription->getStatus());
+        $this->assertSame(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE, $this->_subscription->getStatus());
 
         $this->_subscription->setDataChanges(false);
         $this->_subscription->deactivate();
         $this->assertTrue($this->_subscription->hasDataChanges());
-        $this->assertSame(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE, $this->_subscription->getStatus());
+        $this->assertSame(\Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE, $this->_subscription->getStatus());
     }
 
     public function testRevoke()
     {
         $this->_subscription->revoke();
         $this->assertTrue($this->_subscription->hasDataChanges());
-        $this->assertSame(Magento_PubSub_SubscriptionInterface::STATUS_REVOKED, $this->_subscription->getStatus());
+        $this->assertSame(\Magento\PubSub\SubscriptionInterface::STATUS_REVOKED, $this->_subscription->getStatus());
     }
 
     public function testAlias()

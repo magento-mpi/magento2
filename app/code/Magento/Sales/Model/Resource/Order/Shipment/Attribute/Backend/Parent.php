@@ -22,7 +22,7 @@ class Magento_Sales_Model_Resource_Order_Shipment_Attribute_Backend_Parent
     /**
      * Performed after data is saved
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Sales_Model_Resource_Order_Shipment_Attribute_Backend_Parent
      */
     public function afterSave($object)

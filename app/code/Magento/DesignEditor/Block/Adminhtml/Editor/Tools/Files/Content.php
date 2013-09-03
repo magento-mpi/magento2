@@ -32,7 +32,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content
      */
     public function getFilebrowserSetupObject()
     {
-        $setupObject = new Magento_Object();
+        $setupObject = new \Magento\Object();
 
         $setupObject->setData(array(
             'newFolderPrompt'                 => __('New Folder Name:'),

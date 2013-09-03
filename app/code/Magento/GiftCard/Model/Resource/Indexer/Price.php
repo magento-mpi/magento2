@@ -53,7 +53,7 @@ class Magento_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_Mode
                     break;
 
                 case Magento_Index_Model_Event::TYPE_MASS_ACTION:
-                    /* @var $actionObject Magento_Object */
+                    /* @var $actionObject \Magento\Object */
                     $actionObject = $event->getDataObject();
                     $reindexPrice = false;
 

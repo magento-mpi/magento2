@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Validator
+ * @package     \Magento\Validator
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,9 @@
 /**
  * Validator class that represents chain of validators.
  */
-class Magento_Validator extends Magento_Validator_ValidatorAbstract
+namespace Magento;
+
+class Validator extends \Magento\Validator\ValidatorAbstract
 {
     /**
      * Validator chain
@@ -23,11 +25,11 @@ class Magento_Validator extends Magento_Validator_ValidatorAbstract
     /**
      * Adds a validator to the end of the chain
      *
-     * @param Magento_Validator_ValidatorInterface $validator
+     * @param \Magento\Validator\ValidatorInterface $validator
      * @param boolean $breakChainOnFailure
-     * @return Magento_Validator
+     * @return \Magento\Validator
      */
-    public function addValidator(Magento_Validator_ValidatorInterface $validator, $breakChainOnFailure = false)
+    public function addValidator(\Magento\Validator\ValidatorInterface $validator, $breakChainOnFailure = false)
     {
         if (!$validator->hasTranslator()) {
             $validator->setTranslator($this->getTranslator());
@@ -50,7 +52,7 @@ class Magento_Validator extends Magento_Validator_ValidatorAbstract
         $result = true;
         $this->_clearMessages();
 
-        /** @var $validator Zend_Validate_Interface */
+        /** @var $validator \Zend_Validate_Interface */
         foreach ($this->_validators as $element) {
             $validator = $element['instance'];
             if ($validator->isValid($value)) {
@@ -69,8 +71,8 @@ class Magento_Validator extends Magento_Validator_ValidatorAbstract
     /**
      * Set translator to chain.
      *
-     * @param Magento_Translate_AdapterInterface|null $translator
-     * @return Magento_Validator_ValidatorAbstract
+     * @param \Magento\Translate\AdapterInterface|null $translator
+     * @return \Magento\Validator\ValidatorAbstract
      */
     public function setTranslator($translator = null)
     {

@@ -33,7 +33,9 @@ CREATE TABLE IF NOT EXISTS `core_cache_tag` (
 /**
  * Database cache backend
  */
-class Magento_Cache_Backend_Database extends Zend_Cache_Backend implements Zend_Cache_Backend_ExtendedInterface
+namespace Magento\Cache\Backend;
+
+class Database extends \Zend_Cache_Backend implements \Zend_Cache_Backend_ExtendedInterface
 {
     /**
      * Available options
@@ -61,22 +63,22 @@ class Magento_Cache_Backend_Database extends Zend_Cache_Backend implements Zend_
     {
         parent::__construct($options);
         if (empty($this->_options['adapter_callback'])) {
-            if (!($this->_options['adapter'] instanceof Zend_Db_Adapter_Abstract)) {
-                Zend_Cache::throwException('Option "adapter" should be declared and extend Zend_Db_Adapter_Abstract!');
+            if (!($this->_options['adapter'] instanceof \Zend_Db_Adapter_Abstract)) {
+                \Zend_Cache::throwException('Option "adapter" should be declared and extend \Zend_Db_Adapter_Abstract!');
             }
         }
         if (empty($this->_options['data_table']) && empty($this->_options['data_table_callback'])) {
-            Zend_Cache::throwException('Option "data_table" or "data_table_callback" should be declared!');
+            \Zend_Cache::throwException('Option "data_table" or "data_table_callback" should be declared!');
         }
         if (empty($this->_options['tags_table']) && empty($this->_options['tags_table_callback'])) {
-            Zend_Cache::throwException('Option "tags_table" or "tags_table_callback" should be declared!');
+            \Zend_Cache::throwException('Option "tags_table" or "tags_table_callback" should be declared!');
         }
     }
 
     /**
      * Get DB adapter
      *
-     * @return Zend_Db_Adapter_Abstract
+     * @return \Zend_Db_Adapter_Abstract
      */
     protected function _getAdapter()
     {
@@ -86,8 +88,8 @@ class Magento_Cache_Backend_Database extends Zend_Cache_Backend implements Zend_
             } else {
                 $adapter = $this->_options['adapter'];
             }
-            if (!($adapter instanceof Zend_Db_Adapter_Abstract)) {
-                Zend_Cache::throwException('DB Adapter should be declared and extend Zend_Db_Adapter_Abstract');
+            if (!($adapter instanceof \Zend_Db_Adapter_Abstract)) {
+                \Zend_Cache::throwException('DB Adapter should be declared and extend \Zend_Db_Adapter_Abstract');
             } else {
                 $this->_adapter = $adapter;
             }
@@ -105,7 +107,7 @@ class Magento_Cache_Backend_Database extends Zend_Cache_Backend implements Zend_
         if (empty($this->_options['data_table'])) {
             $this->setOption('data_table', call_user_func($this->_options['data_table_callback']));
             if (empty($this->_options['data_table'])) {
-                Zend_Cache::throwException('Failed to detect data_table option');
+                \Zend_Cache::throwException('Failed to detect data_table option');
             }
         }
         return $this->_options['data_table'];
@@ -121,7 +123,7 @@ class Magento_Cache_Backend_Database extends Zend_Cache_Backend implements Zend_
         if (empty($this->_options['tags_table'])) {
             $this->setOption('tags_table', call_user_func($this->_options['tags_table_callback']));
             if (empty($this->_options['tags_table'])) {
-                Zend_Cache::throwException('Failed to detect tags_table option');
+                \Zend_Cache::throwException('Failed to detect tags_table option');
             }
         }
         return $this->_options['tags_table'];
@@ -235,24 +237,24 @@ class Magento_Cache_Backend_Database extends Zend_Cache_Backend implements Zend_
      * Clean some cache records
      *
      * Available modes are :
-     * Zend_Cache::CLEANING_MODE_ALL (default)    => remove all cache entries ($tags is not used)
-     * Zend_Cache::CLEANING_MODE_OLD              => remove too old cache entries ($tags is not used)
-     * Zend_Cache::CLEANING_MODE_MATCHING_TAG     => remove cache entries matching all given tags
+     * \Zend_Cache::CLEANING_MODE_ALL (default)    => remove all cache entries ($tags is not used)
+     * \Zend_Cache::CLEANING_MODE_OLD              => remove too old cache entries ($tags is not used)
+     * \Zend_Cache::CLEANING_MODE_MATCHING_TAG     => remove cache entries matching all given tags
      *                                               ($tags can be an array of strings or a single string)
-     * Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG => remove cache entries not {matching one of the given tags}
+     * \Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG => remove cache entries not {matching one of the given tags}
      *                                               ($tags can be an array of strings or a single string)
-     * Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG => remove cache entries matching any given tags
+     * \Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG => remove cache entries matching any given tags
      *                                               ($tags can be an array of strings or a single string)
      *
      * @param  string $mode Clean mode
      * @param  array  $tags Array of tags
      * @return boolean true if no problem
      */
-    public function clean($mode = Zend_Cache::CLEANING_MODE_ALL, $tags = array())
+    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, $tags = array())
     {
         $adapter = $this->_getAdapter();
         switch($mode) {
-            case Zend_Cache::CLEANING_MODE_ALL:
+            case \Zend_Cache::CLEANING_MODE_ALL:
                 if ($this->_options['store_data']) {
                     $result = $adapter->query('TRUNCATE TABLE '.$this->_getDataTable());
                 } else {
@@ -260,7 +262,7 @@ class Magento_Cache_Backend_Database extends Zend_Cache_Backend implements Zend_
                 }
                 $result = $result && $adapter->query('TRUNCATE TABLE '.$this->_getTagsTable());
                 break;
-            case Zend_Cache::CLEANING_MODE_OLD:
+            case \Zend_Cache::CLEANING_MODE_OLD:
                 if ($this->_options['store_data']) {
                     $result = $adapter->delete($this->_getDataTable(), array(
                         'expire_time> ?' => 0,
@@ -270,13 +272,13 @@ class Magento_Cache_Backend_Database extends Zend_Cache_Backend implements Zend_
                     $result = true;
                 }
                 break;
-            case Zend_Cache::CLEANING_MODE_MATCHING_TAG:
-            case Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG:
-            case Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG:
+            case \Zend_Cache::CLEANING_MODE_MATCHING_TAG:
+            case \Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG:
+            case \Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG:
                 $result = $this->_cleanByTags($mode, $tags);
                 break;
             default:
-                Zend_Cache::throwException('Invalid mode for clean() method');
+                \Zend_Cache::throwException('Invalid mode for clean() method');
                 break;
         }
 
@@ -416,7 +418,7 @@ class Magento_Cache_Backend_Database extends Zend_Cache_Backend implements Zend_
         if ($this->_options['store_data']) {
             return $this->_getAdapter()->update(
                 $this->_getDataTable(),
-                array('expire_time'=>new Zend_Db_Expr('expire_time+'.$extraLifetime)),
+                array('expire_time'=>new \Zend_Db_Expr('expire_time+'.$extraLifetime)),
                 array('id=?'=>$id, 'expire_time = 0 OR expire_time>'=>time())
             );
         } else {
@@ -505,19 +507,19 @@ class Magento_Cache_Backend_Database extends Zend_Cache_Backend implements Zend_
             $select = $adapter->select()
                 ->from($this->_getTagsTable(), 'cache_id');
             switch ($mode) {
-                case Zend_Cache::CLEANING_MODE_MATCHING_TAG:
+                case \Zend_Cache::CLEANING_MODE_MATCHING_TAG:
                     $select->where('tag IN (?)', $tags)
                         ->group('cache_id')
                         ->having('COUNT(cache_id)='.count($tags));
                 break;
-                case Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG:
+                case \Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG:
                     $select->where('tag NOT IN (?)', $tags);
                 break;
-                case Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG:
+                case \Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG:
                     $select->where('tag IN (?)', $tags);
                 break;
                 default:
-                    Zend_Cache::throwException('Invalid mode for _cleanByTags() method');
+                    \Zend_Cache::throwException('Invalid mode for _cleanByTags() method');
                 break;
             }
 

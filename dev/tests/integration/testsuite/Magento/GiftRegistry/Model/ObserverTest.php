@@ -47,7 +47,7 @@ class Magento_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $attribute = reset($attributes);
         $optionValueId = $attribute['values'][0]['value_index'];
 
-        $buyRequest = new Magento_Object(array(
+        $buyRequest = new \Magento\Object(array(
             'qty' => 5,
             'super_attribute' => array($attribute['attribute_id'] => $optionValueId)
         ));

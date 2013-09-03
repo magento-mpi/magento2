@@ -17,12 +17,12 @@ class Magento_Log_Model_EntryPoint_Shell extends Magento_Core_Model_EntryPointAb
     /**
      * @param Magento_Core_Model_Config_Primary $config
      * @param string $entryFileName  filename of the entry point script
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         Magento_Core_Model_Config_Primary $config,
         $entryFileName,
-        Magento_ObjectManager $objectManager = null
+        \Magento\ObjectManager $objectManager = null
     ) {
         parent::__construct($config, $objectManager);
         $this->_entryFileName = $entryFileName;

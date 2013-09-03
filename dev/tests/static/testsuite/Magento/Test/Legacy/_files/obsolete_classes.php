@@ -11,10 +11,10 @@
  */
 return array(
     array('Mage_Admin_Helper_Data', 'Magento_Backend_Helper_Data'),
-    array('Mage_Admin_Model_Acl', 'Magento_Acl'),
+    array('Mage_Admin_Model_Acl', '\Magento\Acl'),
     array('Mage_Admin_Model_Acl_Role'),
-    array('Mage_Admin_Model_Acl_Resource', 'Magento_Acl_Resource'),
-    array('Mage_Admin_Model_Acl_Role_Registry', 'Magento_Acl_Role_Registry'),
+    array('Mage_Admin_Model_Acl_Resource', '\Magento\Acl\Resource'),
+    array('Mage_Admin_Model_Acl_Role_Registry', '\Magento\Acl\Role\Registry'),
     array('Mage_Admin_Model_Acl_Role_Generic', 'Magento_User_Model_Acl_Role_Generic'),
     array('Mage_Admin_Model_Acl_Role_Group', 'Magento_User_Model_Acl_Role_Group'),
     array('Mage_Admin_Model_Acl_Role_User', 'Magento_User_Model_Acl_Role_User'),
@@ -738,7 +738,7 @@ return array(
     array('Varien_Convert_Validator_Dryrun'),
     array('Varien_Convert_Validator_Interface'),
     array('Mage_File_Uploader_Image'),
-    array('Varien_Profiler', 'Magento_Profiler'),
+    array('Varien_Profiler', '\Magento\Profiler'),
     array('Mage_Adminhtml_Block_Notification_Window', 'Magento_AdminNotification_Block_Window'),
     array('Mage_Adminhtml_Block_Notification_Toolbar'),
     array('Mage_Adminhtml_Block_Notification_Survey'),

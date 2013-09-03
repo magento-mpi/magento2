@@ -114,7 +114,7 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
                     }
                 }
 
-                $validateResult = $model->validateData(new Magento_Object($data));
+                $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
                     foreach($validateResult as $errorMessage) {
                         $this->_getSession()->addError($errorMessage);

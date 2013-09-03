@@ -188,10 +188,10 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     /**
      * Set Product data object
      *
-     * @param Magento_Object $product
+     * @param \Magento\Object $product
      * @return Magento_TargetRule_Model_Index
      */
-    public function setProduct(Magento_Object $product)
+    public function setProduct(\Magento\Object $product)
     {
         return $this->setData('product', $product);
     }
@@ -200,12 +200,12 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * Retrieve Product data object
      *
      * @throws Magento_Core_Exception
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getProduct()
     {
         $product = $this->getData('product');
-        if (!$product instanceof Magento_Object) {
+        if (!$product instanceof \Magento\Object) {
             Mage::throwException(__('Please define a product data object.'));
         }
         return $product;
@@ -270,7 +270,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     /**
      * Retrieve SELECT instance for conditions
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function select()
     {
@@ -295,7 +295,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
             $date  = Mage::app()->getLocale()->storeDate($store);
             if ($date->equals(0, Zend_Date::HOUR)) {
                 $indexer->logEvent(
-                    new Magento_Object(array('type_id' => null, 'store' => $website->getStoreIds())),
+                    new \Magento\Object(array('type_id' => null, 'store' => $website->getStoreIds())),
                     self::ENTITY_TARGETRULE,
                     self::EVENT_TYPE_CLEAN_TARGETRULES
                 );
@@ -377,7 +377,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     /**
      * Reindex targetrules
      *
-     * @param Magento_Object $product
+     * @param \Magento\Object $product
      * @return Magento_TargetRule_Model_Index
      */
     protected function _reindex($product)

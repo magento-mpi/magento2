@@ -78,7 +78,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get sales item (quote item, order item etc) price including tax based on row total and tax amount
      *
-     * @param   Magento_Object $item
+     * @param   \Magento\Object $item
      * @return  float
      */
     public function getPriceInclTax($item)
@@ -95,7 +95,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get sales item (quote item, order item etc) row total price including tax
      *
-     * @param   Magento_Object $item
+     * @param   \Magento\Object $item
      * @return  float
      */
     public function getSubtotalInclTax($item)
@@ -261,7 +261,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
         $guestCheckout = Mage::getStoreConfigFlag(self::XML_PATH_GUEST_CHECKOUT, $store);
 
         if ($guestCheckout == true) {
-            $result = new Magento_Object();
+            $result = new \Magento\Object();
             $result->setIsAllowed($guestCheckout);
             Mage::dispatchEvent('checkout_allow_guest', array(
                 'quote'  => $quote,

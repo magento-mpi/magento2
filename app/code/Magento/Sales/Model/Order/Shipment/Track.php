@@ -68,7 +68,7 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
      * Tracking number setter
      *
      * @param string $number
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function setNumber($number)
     {

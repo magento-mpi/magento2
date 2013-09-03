@@ -15,7 +15,9 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Button extends Magento_Data_Form_Element_Abstract
+namespace Magento\Data\Form\Element;
+
+class Button extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
      * Additional html attributes

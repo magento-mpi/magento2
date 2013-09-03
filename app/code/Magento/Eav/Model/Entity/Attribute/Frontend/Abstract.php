@@ -80,7 +80,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
      * @param $object
      * @return mixed
      */
-    public function getValue(Magento_Object $object)
+    public function getValue(\Magento\Object $object)
     {
         $value = $object->getData($this->getAttribute()->getAttributeCode());
         if (in_array($this->getConfigField('input'), array('select','boolean'))) {

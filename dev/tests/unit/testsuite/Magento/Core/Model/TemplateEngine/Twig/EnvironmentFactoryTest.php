@@ -16,7 +16,7 @@ class Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactoryTest extends PHPU
     /** @var PHPUnit_Framework_MockObject_MockObject Magento_Core_Model_TemplateEngine_Twig_FullFileName */
     private $_loaderMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject Magento_Filesystem */
+    /** @var PHPUnit_Framework_MockObject_MockObject \Magento\Filesystem */
     private $_filesystem;
     
     /** @var PHPUnit_Framework_MockObject_MockObject Magento_Core_Model_Logger */
@@ -52,7 +52,7 @@ class Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactoryTest extends PHPU
     {
         $this->_filesystem->expects($this->any())
             ->method('createDirectory')
-            ->will($this->throwException(new Magento_Filesystem_Exception()));
+            ->will($this->throwException(new \Magento\Filesystem\FilesystemException()));
     
         $inst = new Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactory(
             $this->_filesystem,
@@ -70,7 +70,7 @@ class Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactoryTest extends PHPU
     
     protected function setUp()
     {
-        $this->_filesystem = $this->getMockBuilder('Magento_Filesystem')
+        $this->_filesystem = $this->getMockBuilder('Magento\Filesystem')
             ->disableOriginalConstructor()
             ->getMock();
                 

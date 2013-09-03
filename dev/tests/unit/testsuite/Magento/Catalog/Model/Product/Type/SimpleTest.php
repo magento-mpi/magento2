@@ -18,7 +18,7 @@ class Magento_Catalog_Model_Product_Type_SimpleTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
         $this->_model = new Magento_Catalog_Model_Product_Type_Simple($filesystem);
     }
 

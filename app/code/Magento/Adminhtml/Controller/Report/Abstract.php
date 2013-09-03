@@ -53,7 +53,7 @@ abstract class Magento_Adminhtml_Controller_Report_Abstract extends Magento_Admi
     /**
      * Report action init operations
      *
-     * @param array|Magento_Object $blocks
+     * @param array|\Magento\Object $blocks
      * @return Magento_Adminhtml_Controller_Report_Abstract
      */
     public function _initReportAction($blocks)
@@ -65,7 +65,7 @@ abstract class Magento_Adminhtml_Controller_Report_Abstract extends Magento_Admi
         $requestData = Mage::helper('Magento_Adminhtml_Helper_Data')->prepareFilterString($this->getRequest()->getParam('filter'));
         $requestData = $this->_filterDates($requestData, array('from', 'to'));
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');
-        $params = new Magento_Object();
+        $params = new \Magento\Object();
 
         foreach ($requestData as $key => $value) {
             if (!empty($value)) {
@@ -95,7 +95,7 @@ abstract class Magento_Adminhtml_Controller_Report_Abstract extends Magento_Admi
         $flag = Mage::getModel('Magento_Reports_Model_Flag')->setReportFlagCode($flagCode)->loadSelf();
         $updatedAt = ($flag->hasData())
             ? Mage::app()->getLocale()->storeDate(
-                0, new Zend_Date($flag->getLastUpdate(), Magento_Date::DATETIME_INTERNAL_FORMAT), true
+                0, new Zend_Date($flag->getLastUpdate(), \Magento\Date::DATETIME_INTERNAL_FORMAT), true
             )
             : 'undefined';
 

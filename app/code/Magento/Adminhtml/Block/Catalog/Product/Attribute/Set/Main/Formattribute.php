@@ -18,7 +18,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formattribute e
 {
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
 
         $fieldset = $form->addFieldset('set_fieldset', array('legend'=>__('Add New Attribute')));
 

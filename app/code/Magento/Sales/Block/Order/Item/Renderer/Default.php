@@ -17,7 +17,7 @@
  */
 class Magento_Sales_Block_Order_Item_Renderer_Default extends Magento_Core_Block_Template
 {
-    public function setItem(Magento_Object $item)
+    public function setItem(\Magento\Object $item)
     {
         $this->setData('item', $item);
         return $this;

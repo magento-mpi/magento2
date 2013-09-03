@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Filter_Object_Grid extends Magento_Filter_Object
+namespace Magento\Filter\Object;
+
+class Grid extends \Magento\Filter\Object
 {
     function filter($grid)
     {

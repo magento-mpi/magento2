@@ -17,25 +17,25 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('checkout_agreement'))
-    ->addColumn('agreement_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('agreement_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Agreement Id')
-    ->addColumn('name', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('name', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Name')
-    ->addColumn('content', Magento_DB_Ddl_Table::TYPE_TEXT, '64k', array(
+    ->addColumn('content', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
         ), 'Content')
-    ->addColumn('content_height', Magento_DB_Ddl_Table::TYPE_TEXT, 25, array(
+    ->addColumn('content_height', \Magento\DB\Ddl\Table::TYPE_TEXT, 25, array(
         ), 'Content Height')
-    ->addColumn('checkbox_text', Magento_DB_Ddl_Table::TYPE_TEXT, '64k', array(
+    ->addColumn('checkbox_text', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
         ), 'Checkbox Text')
-    ->addColumn('is_active', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_active', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         'default'   => '0',
         ), 'Is Active')
-    ->addColumn('is_html', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_html', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         'default'   => '0',
         ), 'Is Html')
@@ -47,22 +47,22 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('checkout_agreement_store'))
-    ->addColumn('agreement_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('agreement_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Agreement Id')
-    ->addColumn('store_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Store Id')
     ->addForeignKey($installer->getFkName('checkout_agreement_store', 'agreement_id', 'checkout_agreement', 'agreement_id'),
         'agreement_id', $installer->getTable('checkout_agreement'), 'agreement_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('checkout_agreement_store', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Checkout Agreement Store');
 $installer->getConnection()->createTable($table);
 

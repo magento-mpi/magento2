@@ -525,7 +525,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
      * Select fields website_id, store_id
      *
      * @param bool $withDefault include/exclude default admin website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getDefaultStoresSelect($withDefault = false)
     {

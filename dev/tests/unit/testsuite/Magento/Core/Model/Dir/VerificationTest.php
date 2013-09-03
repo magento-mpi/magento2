@@ -53,7 +53,7 @@ class Magento_Core_Model_Dir_VerificationTest extends PHPUnit_Framework_TestCase
         $dirs = new Magento_Core_Model_Dir('base_dir');
         $appState = new Magento_Core_Model_App_State($mode);
 
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->any())
             ->method('isDirectory')
             ->will($this->returnValue($isExist));
@@ -129,7 +129,7 @@ class Magento_Core_Model_Dir_VerificationTest extends PHPUnit_Framework_TestCase
     public function testCreateAndVerifyDirectoriesCreateException()
     {
         // Plan
-        $this->setExpectedException('Magento_BootstrapException',
+        $this->setExpectedException('\Magento\BootstrapException',
             'Cannot create or verify write access: base_dir/var/log, base_dir/var/session');
 
         $dirs = new Magento_Core_Model_Dir('base_dir');
@@ -137,10 +137,10 @@ class Magento_Core_Model_Dir_VerificationTest extends PHPUnit_Framework_TestCase
 
         $callback = function ($dir) {
             if (($dir == 'base_dir/var/log') || ($dir == 'base_dir/var/session')) {
-                throw new Magento_Filesystem_Exception();
+                throw new \Magento\Filesystem\FilesystemException();
             }
         };
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->any())
             ->method('createDirectory')
             ->will($this->returnCallback($callback));
@@ -157,13 +157,13 @@ class Magento_Core_Model_Dir_VerificationTest extends PHPUnit_Framework_TestCase
     public function testCreateAndVerifyDirectoriesWritableException()
     {
         // Plan
-        $this->setExpectedException('Magento_BootstrapException',
+        $this->setExpectedException('\Magento\BootstrapException',
             'Cannot create or verify write access: base_dir/var/log, base_dir/var/session');
 
         $dirs = new Magento_Core_Model_Dir('base_dir');
         $appState = new Magento_Core_Model_App_State();
 
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->any())
             ->method('isDirectory')
             ->will($this->returnValue(true));

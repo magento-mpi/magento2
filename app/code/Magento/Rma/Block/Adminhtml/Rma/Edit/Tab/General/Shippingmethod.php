@@ -228,7 +228,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $carrierCode= $this->getShipment()->getCarrierCode();
         $carrier    = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($carrierCode, $this->getRma()->getStoreId());
         if ($carrier) {
-            $params = new Magento_Object(array('country_recipient' => $countryId));
+            $params = new \Magento\Object(array('country_recipient' => $countryId));
             $confirmationTypes = $carrier->getDeliveryConfirmationTypes($params);
             $containerType = !empty($confirmationTypes[$code]) ? $confirmationTypes[$code] : '';
             return $containerType;
@@ -278,7 +278,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
 
         $countryShipper = Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
-            $params = new Magento_Object(array(
+            $params = new \Magento\Object(array(
                 'method'            => $carrier->getMethod(),
                 'country_shipper'   => $countryShipper,
                 'country_recipient' => $address->getCountryId(),

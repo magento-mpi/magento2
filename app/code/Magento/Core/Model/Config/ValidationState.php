@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_ValidationState implements Magento_Config_ValidationStateInterface
+class Magento_Core_Model_Config_ValidationState implements \Magento\Config\ValidationStateInterface
 {
     /**
      * @var Magento_Core_Model_App_State

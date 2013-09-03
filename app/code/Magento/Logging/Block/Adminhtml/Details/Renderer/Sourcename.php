@@ -18,10 +18,10 @@ class Magento_Logging_Block_Adminhtml_Details_Renderer_Sourcename
     /**
      * Render the grid cell value
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $data = $row->getData($this->getColumn()->getIndex());
         if (!$data) {

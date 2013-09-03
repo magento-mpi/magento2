@@ -21,7 +21,7 @@ class Magento_Backup_Model_Resource_Db
     /**
      * Database connection adapter
      *
-     * @var Magento_DB_Adapter_Pdo_Mysql
+     * @var \Magento\DB\Adapter\Pdo\Mysql
      */
     protected $_write;
 
@@ -111,14 +111,14 @@ class Magento_Backup_Model_Resource_Db
      * Retrieve table status
      *
      * @param string $tableName
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getTableStatus($tableName)
     {
         $row = $this->_write->showTableStatus($tableName);
 
         if ($row) {
-            $statusObject = new Magento_Object();
+            $statusObject = new \Magento\Object();
             $statusObject->setIdFieldName('name');
             foreach ($row as $field => $value) {
                 $statusObject->setData(strtolower($field), $value);

@@ -44,7 +44,7 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_cacheFrontendMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
+        $this->_cacheFrontendMock = $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
 
         $this->_frontendPoolMock = $this->getMock(
             'Magento_Core_Model_Cache_Frontend_Pool',
@@ -149,13 +149,13 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_assetsMock->expects($this->once())->method('add')->with($this->anything(), $asset);
 
-        $observer = new Magento_Event_Observer;
+        $observer = new \Magento\Event\Observer;
         $this->_model->applyThemeCustomization($observer);
     }
 
     public function testProcessReinitConfig()
     {
-        $observer = new Magento_Event_Observer;
+        $observer = new \Magento\Event\Observer;
         $this->_configMock->expects($this->once())->method('reinit');
         $this->_model->processReinitConfig($observer);
     }

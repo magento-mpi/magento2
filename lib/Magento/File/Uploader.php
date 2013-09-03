@@ -19,7 +19,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_File_Uploader
+namespace Magento\File;
+
+class Uploader
 {
     /**
      * Uploaded file handle (copy of $_FILES[] element)
@@ -40,7 +42,7 @@ class Magento_File_Uploader
     /**
      * Upload type. Used to right handle $_FILES array.
      *
-     * @var Magento_File_Uploader::SINGLE_STYLE|Magento_File_Uploader::MULTIPLE_STYLE
+     * @var \Magento\File\Uploader::SINGLE_STYLE|\Magento\File\Uploader::MULTIPLE_STYLE
      * @access protected
      */
     protected $_uploadType;
@@ -156,14 +158,14 @@ class Magento_File_Uploader
      * Init upload
      *
      * @param string $fileId
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct($fileId)
     {
         $this->_setUploadFileId($fileId);
         if (!file_exists($this->_file['tmp_name'])) {
             $code = empty($this->_file['tmp_name']) ? self::TMP_NAME_EMPTY : 0;
-            throw new Exception('File was not uploaded.', $code);
+            throw new \Exception('File was not uploaded.', $code);
         } else {
             $this->_fileExists = true;
         }
@@ -173,7 +175,7 @@ class Magento_File_Uploader
      * After save logic
      *
      * @param  array $result
-     * @return Magento_File_Uploader
+     * @return \Magento\File\Uploader
      */
     protected function _afterSave($result)
     {
@@ -187,7 +189,7 @@ class Magento_File_Uploader
      * @param string $destinationFolder
      * @param string $newFileName
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public function save($destinationFolder, $newFileName = null)
     {
@@ -198,7 +200,7 @@ class Magento_File_Uploader
         }
 
         if (!is_writable($destinationFolder)) {
-            throw new Exception('Destination folder is not writable or does not exists.');
+            throw new \Exception('Destination folder is not writable or does not exists.');
         }
 
         $this->_result = false;
@@ -259,7 +261,7 @@ class Magento_File_Uploader
     /**
      * Validate file before save
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _validateFile()
     {
@@ -269,7 +271,7 @@ class Magento_File_Uploader
 
         //is file extension allowed
         if (!$this->checkAllowedExtension($this->getFileExtension())) {
-            throw new Exception('Disallowed file type.');
+            throw new \Exception('Disallowed file type.');
         }
         //run validate callbacks
         foreach ($this->_validateCallbacks as $params) {
@@ -296,7 +298,7 @@ class Magento_File_Uploader
      * @param object $callbackObject
      * @param string $callbackMethod    Method name of $callbackObject. It must
      *                                  have interface (string $tmpFilePath)
-     * @return Magento_File_Uploader
+     * @return \Magento\File\Uploader
      */
     public function addValidateCallback($callbackName, $callbackObject, $callbackMethod)
     {
@@ -312,7 +314,7 @@ class Magento_File_Uploader
      *
      * @param string $callbackName
      * @access public
-     * @return Magento_File_Uploader
+     * @return \Magento\File\Uploader
      */
     public function removeValidateCallback($callbackName)
     {
@@ -400,7 +402,7 @@ class Magento_File_Uploader
      *
      * @param mixed $flag
      * @access public
-     * @return Magento_File_Uploader
+     * @return \Magento\File\Uploader
      */
     public function setAllowCreateFolders($flag)
     {
@@ -413,7 +415,7 @@ class Magento_File_Uploader
      *
      * @param mixed $flag
      * @access public
-     * @return Magento_File_Uploader
+     * @return \Magento\File\Uploader
      */
     public function setAllowRenameFiles($flag)
     {
@@ -426,7 +428,7 @@ class Magento_File_Uploader
      *
      * @param mixed $flag
      * @access public
-     * @return Magento_File_Uploader
+     * @return \Magento\File\Uploader
      */
     public function setFilesDispersion($flag)
     {
@@ -438,7 +440,7 @@ class Magento_File_Uploader
      * File names Case-sensitivity setter
      *
      * @param mixed $flag
-     * @return Magento_File_Uploader
+     * @return \Magento\File\Uploader
      */
     public function setFilenamesCaseSensitivity($flag)
     {
@@ -450,7 +452,7 @@ class Magento_File_Uploader
      * Set allowed extensions
      *
      * @param array $extensions
-     * @return Magento_File_Uploader
+     * @return \Magento\File\Uploader
      */
     public function setAllowedExtensions($extensions = array())
     {
@@ -484,7 +486,7 @@ class Magento_File_Uploader
      * Set upload field id
      *
      * @param string $fileId
-     * @throws Exception
+     * @throws \Exception
      */
     private function _setUploadFileId($fileId)
     {
@@ -493,7 +495,7 @@ class Magento_File_Uploader
             $this->_file = $fileId;
         } else {
             if (empty($_FILES)) {
-                throw new Exception('$_FILES array is empty');
+                throw new \Exception('$_FILES array is empty');
             }
 
             preg_match("/^(.*?)\[(.*?)\]$/", $fileId, $file);
@@ -515,7 +517,7 @@ class Magento_File_Uploader
                 $this->_uploadType = self::SINGLE_STYLE;
                 $this->_file = $_FILES[$fileId];
             } elseif ($fileId == '') {
-                throw new Exception('Invalid parameter given. A valid $_FILES[] identifier is expected.');
+                throw new \Exception('Invalid parameter given. A valid $_FILES[] identifier is expected.');
             }
         }
     }
@@ -524,8 +526,8 @@ class Magento_File_Uploader
      * Create destination folder
      *
      * @param string $destinationFolder
-     * @return Magento_File_Uploader
-     * @throws Exception
+     * @return \Magento\File\Uploader
+     * @throws \Exception
      */
     private function _createDestinationFolder($destinationFolder)
     {
@@ -538,7 +540,7 @@ class Magento_File_Uploader
         }
 
         if (!(@is_dir($destinationFolder) || @mkdir($destinationFolder, 0777, true))) {
-            throw new Exception("Unable to create directory '{$destinationFolder}'.");
+            throw new \Exception("Unable to create directory '{$destinationFolder}'.");
         }
         return $this;
     }

@@ -129,7 +129,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Ru
      * @param   Magento_Sales_Model_Quote_Address $object
      * @return  bool
      */
-    public function validate(Magento_Object $object)
+    public function validate(\Magento\Object $object)
     {
         if (!Mage::helper('Magento_CustomerSegment_Helper_Data')->isEnabled()) {
             return false;

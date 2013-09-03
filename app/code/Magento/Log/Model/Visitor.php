@@ -134,7 +134,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      *
      * Used in event "controller_action_predispatch"
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Log_Model_Visitor
      */
     public function initByRequest($observer)
@@ -160,7 +160,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      *
      * Used in event "controller_action_postdispatch"
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Log_Model_Visitor
      */
     public function saveByRequest($observer)
@@ -184,7 +184,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      *
      * Used in event "customer_login"
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Log_Model_Visitor
      */
     public function bindCustomerLogin($observer)
@@ -201,7 +201,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      *
      * Used in event "customer_logout"
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Log_Model_Visitor
      */
     public function bindCustomerLogout($observer)
@@ -214,7 +214,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function bindQuoteCreate($observer)
@@ -230,7 +230,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function bindQuoteDestroy($observer)
@@ -287,7 +287,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return bool
      */
     public function isModuleIgnored($observer)

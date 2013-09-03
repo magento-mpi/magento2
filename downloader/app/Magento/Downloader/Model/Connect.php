@@ -372,7 +372,7 @@ class Magento_Downloader_Model_Connect extends Magento_Downloader_Model
 
             $confFile = $configObj->downloader_path.DIRECTORY_SEPARATOR.$configTestFile;
             try {
-                $ftpObj = new Magento_Connect_Ftp();
+                $ftpObj = new \Magento\Connect\Ftp();
                 $ftpObj->connect($p['ftp']);
                 $tempFile = tempnam(sys_get_temp_dir(),'config');
                 $serial = md5('config test file');

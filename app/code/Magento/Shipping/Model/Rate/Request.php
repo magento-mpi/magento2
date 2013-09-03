@@ -120,5 +120,5 @@
  * @package     Magento_Shipping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Shipping_Model_Rate_Request extends Magento_Object
+class Magento_Shipping_Model_Rate_Request extends \Magento\Object
 {}

@@ -24,7 +24,7 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
         parent::_construct();
 
         $data = Mage::getSingleton('Magento_Review_Model_Session')->getFormData(true);
-        $data = new Magento_Object((array)$data);
+        $data = new \Magento\Object((array)$data);
 
         // add logged in customer name as nickname
         if (!$data->getNickname()) {

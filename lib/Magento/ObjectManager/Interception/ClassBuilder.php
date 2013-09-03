@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_ObjectManager_Interception_ClassBuilder
+namespace Magento\ObjectManager\Interception;
+
+interface ClassBuilder
 {
     /**
      * Compose interceptor class name for the given class

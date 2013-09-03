@@ -12,7 +12,9 @@
 /**
  * Theme configuration files handler
  */
-class Magento_Config_Theme extends Magento_Config_XmlAbstract
+namespace Magento\Config;
+
+class Theme extends \Magento\Config\XmlAbstract
 {
     /**
      * Is used for separation path of themes
@@ -32,14 +34,14 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
     /**
      * Extract configuration data from the DOM structure
      *
-     * @param DOMDocument $dom
+     * @param \DOMDocument $dom
      * @return array
      */
-    protected function _extractData(DOMDocument $dom)
+    protected function _extractData(\DOMDocument $dom)
     {
-        /** @var $themeNode DOMElement */
+        /** @var $themeNode \DOMElement */
         $themeNode = $dom->getElementsByTagName('theme')->item(0);
-        /** @var $mediaNode DOMElement */
+        /** @var $mediaNode \DOMElement */
         $mediaNode = $themeNode->getElementsByTagName('media')->item(0);
 
         $themeVersionNode = $themeNode->getElementsByTagName('version')->item(0);

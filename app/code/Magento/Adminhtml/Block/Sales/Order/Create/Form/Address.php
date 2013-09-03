@@ -171,10 +171,10 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
     /**
      * Add additional data to form element
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
      */
-    protected function _addAdditionalFormElementData(Magento_Data_Form_Element_Abstract $element)
+    protected function _addAdditionalFormElementData(\Magento\Data\Form\Element\AbstractElement $element)
     {
         if ($element->getId() == 'region_id') {
             $element->setNoDisplay(true);

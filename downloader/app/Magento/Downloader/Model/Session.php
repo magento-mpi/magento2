@@ -120,7 +120,7 @@ class Magento_Downloader_Model_Session extends Magento_Downloader_Model
             $this->addMessage('error', 'Invalid user name or password');
             $this->controller()->setAction('login');
         } elseif ($this->getUserId() || ($user && $user->getId())) {
-            if (Mage::getSingleton('Magento_AuthorizationInterface')->isAllowed('Magento_Adminhtml::all')) {
+            if (Mage::getSingleton('\Magento\AuthorizationInterface')->isAllowed('Magento_Adminhtml::all')) {
                 return true;
             } else {
                 $this->logout();

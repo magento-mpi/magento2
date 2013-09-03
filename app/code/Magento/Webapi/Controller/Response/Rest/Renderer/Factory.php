@@ -15,7 +15,7 @@ class Magento_Webapi_Controller_Response_Rest_Renderer_Factory
     const XML_PATH_WEBAPI_RESPONSE_RENDERS = 'global/webapi/rest/response/renders';
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -28,12 +28,12 @@ class Magento_Webapi_Controller_Response_Rest_Renderer_Factory
     /**
      * Initialize dependencies.
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_Config $applicationConfig
      * @param Magento_Webapi_Controller_Request_Rest $request
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_Config $applicationConfig,
         Magento_Webapi_Controller_Request_Rest $request
     ) {

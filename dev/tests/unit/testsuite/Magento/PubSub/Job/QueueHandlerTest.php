@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_PubSub_Job_QueueHandler
+ * \Magento\PubSub\Job\QueueHandler
  *
  * {license_notice}
  *
@@ -9,7 +9,7 @@
  */
 class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
 {
-    /** @var  Magento_PubSub_Job_QueueHandler */
+    /** @var  \Magento\PubSub\Job\QueueHandler */
     private $_queueHandler;
 
     /** @var  PHPUnit_Framework_MockObject_MockObject */
@@ -55,14 +55,14 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         $this->_subscriptionMockB =  $this->_makeMock('Magento_Webhook_Model_Subscription');
         $this->_eventMockA = $this->_makeMock('Magento_Webhook_Model_Event');
         $this->_eventMockB = $this->_makeMock('Magento_Webhook_Model_Event');
-        $this->_msgFactoryMock = $this->_makeMock('Magento_Outbound_Message_Factory');
-        $this->_transportMock = $this->_makeMock('Magento_Outbound_Transport_Http');
+        $this->_msgFactoryMock = $this->_makeMock('\Magento\Outbound\Message\Factory');
+        $this->_transportMock = $this->_makeMock('\Magento\Outbound\Transport\Http');
         $this->_queueReaderMock = $this->_makeMock('Magento_Webhook_Model_Job_QueueReader');
         $this->_queueWriterMock = $this->_makeMock('Magento_Webhook_Model_Job_QueueWriter');
-        $this->_messageMockA = $this->_makeMock('Magento_Outbound_Message');
-        $this->_messageMockB = $this->_makeMock('Magento_Outbound_Message');
-        $this->_endpointMockA = $this->_makeMock('Magento_Outbound_EndpointInterface');
-        $this->_endpointMockB = $this->_makeMock('Magento_Outbound_EndpointInterface');
+        $this->_messageMockA = $this->_makeMock('\Magento\Outbound\Message');
+        $this->_messageMockB = $this->_makeMock('\Magento\Outbound\Message');
+        $this->_endpointMockA = $this->_makeMock('\Magento\Outbound\EndpointInterface');
+        $this->_endpointMockB = $this->_makeMock('\Magento\Outbound\EndpointInterface');
 
         $this->_subscriptionMockA->expects($this->any())
             ->method('getEndpoint')
@@ -97,8 +97,8 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
             array($this->_endpointMockB, 'topicB', array('BodyDataB'), $this->_messageMockB),
         );
 
-        $responseA = $this->_makeMock('Magento_Outbound_Transport_Http_Response');
-        $responseB = $this->_makeMock('Magento_Outbound_Transport_Http_Response');
+        $responseA = $this->_makeMock('\Magento\Outbound\Transport\Http\Response');
+        $responseB = $this->_makeMock('\Magento\Outbound\Transport\Http\Response');
 
         $responseA->expects($this->once())
             ->method('isSuccessful')
@@ -163,7 +163,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
                 null
             ));
 
-        $this->_queueHandler = new Magento_PubSub_Job_QueueHandler(
+        $this->_queueHandler = new \Magento\PubSub\Job\QueueHandler(
             $this->_queueReaderMock,
             $this->_queueWriterMock,
             $this->_transportMock,
@@ -193,7 +193,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         $this->_transportMock->expects($this->never())
             ->method('dispatch');
 
-        $this->_queueHandler = new Magento_PubSub_Job_QueueHandler(
+        $this->_queueHandler = new \Magento\PubSub\Job\QueueHandler(
             $this->_queueReaderMock,
             $this->_queueWriterMock,
             $this->_transportMock,

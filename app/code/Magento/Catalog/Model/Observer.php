@@ -21,10 +21,10 @@ class Magento_Catalog_Model_Observer
     /**
      * Process catalog ata related with store data changes
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Catalog_Model_Observer
      */
-    public function storeEdit(Magento_Event_Observer $observer)
+    public function storeEdit(\Magento\Event\Observer $observer)
     {
         /** @var $store Magento_Core_Model_Store */
         $store = $observer->getEvent()->getStore();
@@ -44,10 +44,10 @@ class Magento_Catalog_Model_Observer
     /**
      * Process catalog data related with new store
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Catalog_Model_Observer
      */
-    public function storeAdd(Magento_Event_Observer $observer)
+    public function storeAdd(\Magento\Event\Observer $observer)
     {
         /* @var $store Magento_Core_Model_Store */
         $store = $observer->getEvent()->getStore();
@@ -66,10 +66,10 @@ class Magento_Catalog_Model_Observer
     /**
      * Process catalog data related with store group root category
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Catalog_Model_Observer
      */
-    public function storeGroupSave(Magento_Event_Observer $observer)
+    public function storeGroupSave(\Magento\Event\Observer $observer)
     {
         /* @var $group Magento_Core_Model_Store_Group */
         $group = $observer->getEvent()->getGroup();
@@ -90,10 +90,10 @@ class Magento_Catalog_Model_Observer
     /**
      * Process delete of store
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Catalog_Model_Observer
      */
-    public function storeDelete(Magento_Event_Observer $observer)
+    public function storeDelete(\Magento\Event\Observer $observer)
     {
         /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
         $categoryFlatHelper = Mage::helper('Magento_Catalog_Helper_Category_Flat');
@@ -107,10 +107,10 @@ class Magento_Catalog_Model_Observer
     /**
      * Process catalog data after category move
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Catalog_Model_Observer
      */
-    public function categoryMove(Magento_Event_Observer $observer)
+    public function categoryMove(\Magento\Event\Observer $observer)
     {
         $categoryId = $observer->getEvent()->getCategoryId();
         $prevParentId = $observer->getEvent()->getPrevParentId();
@@ -127,10 +127,10 @@ class Magento_Catalog_Model_Observer
     /**
      * Process catalog data after products import
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Catalog_Model_Observer
      */
-    public function catalogProductImportAfter(Magento_Event_Observer $observer)
+    public function catalogProductImportAfter(\Magento\Event\Observer $observer)
     {
         Mage::getModel('Magento_Catalog_Model_Url')->refreshRewrites();
         Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category')->refreshProductIndex();
@@ -140,10 +140,10 @@ class Magento_Catalog_Model_Observer
     /**
      * Catalog Product Compare Items Clean
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Catalog_Model_Observer
      */
-    public function catalogProductCompareClean(Magento_Event_Observer $observer)
+    public function catalogProductCompareClean(\Magento\Event\Observer $observer)
     {
         Mage::getModel('Magento_Catalog_Model_Product_Compare_Item')->clean();
         return $this;
@@ -152,10 +152,10 @@ class Magento_Catalog_Model_Observer
     /**
      * After save event of category
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Catalog_Model_Observer
      */
-    public function categorySaveAfter(Magento_Event_Observer $observer)
+    public function categorySaveAfter(\Magento\Event\Observer $observer)
     {
         /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
         $categoryFlatHelper = Mage::helper('Magento_Catalog_Helper_Category_Flat');
@@ -169,10 +169,10 @@ class Magento_Catalog_Model_Observer
     /**
      * Checking whether the using static urls in WYSIWYG allowed event
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Catalog_Model_Observer
      */
-    public function catalogCheckIsUsingStaticUrlsAllowed(Magento_Event_Observer $observer)
+    public function catalogCheckIsUsingStaticUrlsAllowed(\Magento\Event\Observer $observer)
     {
         $storeId = $observer->getEvent()->getData('store_id');
         $result  = $observer->getEvent()->getData('result');
@@ -195,9 +195,9 @@ class Magento_Catalog_Model_Observer
     /**
      * Adds catalog categories to top menu
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function addCatalogToTopmenuItems(Magento_Event_Observer $observer)
+    public function addCatalogToTopmenuItems(\Magento\Event\Observer $observer)
     {
         $this->_addCategoriesToMenu(
             Mage::helper('Magento_Catalog_Helper_Category')->getStoreCategories(),
@@ -208,8 +208,8 @@ class Magento_Catalog_Model_Observer
     /**
      * Recursively adds categories to top menu
      *
-     * @param Magento_Data_Tree_Node_Collection|array $categories
-     * @param Magento_Data_Tree_Node $parentCategoryNode
+     * @param \Magento\Data\Tree\Node\Collection|array $categories
+     * @param \Magento\Data\Tree\Node $parentCategoryNode
      */
     protected function _addCategoriesToMenu($categories, $parentCategoryNode)
     {
@@ -227,7 +227,7 @@ class Magento_Catalog_Model_Observer
                 'url' => Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrl($category),
                 'is_active' => $this->_isActiveMenuCategory($category)
             );
-            $categoryNode = new Magento_Data_Tree_Node($categoryData, 'id', $tree, $parentCategoryNode);
+            $categoryNode = new \Magento\Data\Tree\Node($categoryData, 'id', $tree, $parentCategoryNode);
             $parentCategoryNode->addChild($categoryNode);
 
             if (Mage::helper('Magento_Catalog_Helper_Category_Flat')->isEnabled()) {
@@ -243,7 +243,7 @@ class Magento_Catalog_Model_Observer
     /**
      * Checks whether category belongs to active category's path
      *
-     * @param Magento_Data_Tree_Node $category
+     * @param \Magento\Data\Tree\Node $category
      * @return bool
      */
     protected function _isActiveMenuCategory($category)
@@ -265,9 +265,9 @@ class Magento_Catalog_Model_Observer
     /**
      * Change product type on the fly depending on selected options
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function transitionProductType(Magento_Event_Observer $observer)
+    public function transitionProductType(\Magento\Event\Observer $observer)
     {
         $switchableTypes = array(
             Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,

@@ -48,7 +48,7 @@ class Magento_Rma_Block_Return_Info extends Magento_Core_Block_Template
 
     public function addLink($name, $path, $label)
     {
-        $this->_links[$name] = new Magento_Object(array(
+        $this->_links[$name] = new \Magento\Object(array(
             'name' => $name,
             'label' => $label,
             'url' => empty($path) ? '' : Mage::getUrl($path, array('order_id' => $this->getOrder()->getId()))

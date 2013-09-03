@@ -24,7 +24,7 @@
  * @package   Magento_CatalogRule
  * @author    Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogRule_Model_Rule_Job extends Magento_Object
+class Magento_CatalogRule_Model_Rule_Job extends \Magento\Object
 {
     /**
      * Instance of event manager model

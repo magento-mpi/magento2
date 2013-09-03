@@ -23,7 +23,7 @@ class Magento_Backend_Model_Config_Structure_Element_Group_ProxyTest extends PHP
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_model = new Magento_Backend_Model_Config_Structure_Element_Group_Proxy($this->_objectManagerMock);
     }
 

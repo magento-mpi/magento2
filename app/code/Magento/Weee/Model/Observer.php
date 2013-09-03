@@ -13,10 +13,10 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
     /**
      * Assign custom renderer for product create/edit form weee attribute element
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return  Magento_Weee_Model_Observer
      */
-    public function setWeeeRendererInForm(Magento_Event_Observer $observer)
+    public function setWeeeRendererInForm(\Magento\Event\Observer $observer)
     {
         //adminhtml_catalog_product_edit_prepare_form
 
@@ -38,10 +38,10 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
     /**
      * Exclude WEEE attributes from standard form generation
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return  Magento_Weee_Model_Observer
      */
-    public function updateExcludedFieldList(Magento_Event_Observer $observer)
+    public function updateExcludedFieldList(\Magento\Event\Observer $observer)
     {
         //adminhtml_catalog_product_form_prepare_excluded_field_list
 
@@ -58,7 +58,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
     /**
      * Get empty select object
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getSelect()
     {
@@ -68,10 +68,10 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
     /**
      * Add new attribute type to manage attributes interface
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Weee_Model_Observer
      */
-    public function addWeeeTaxAttributeType(Magento_Event_Observer $observer)
+    public function addWeeeTaxAttributeType(\Magento\Event\Observer $observer)
     {
         // adminhtml_product_attribute_types
 
@@ -103,10 +103,10 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
     /**
      * Automaticaly assign backend model to weee attributes
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Weee_Model_Observer
      */
-    public function assignBackendModelToAttribute(Magento_Event_Observer $observer)
+    public function assignBackendModelToAttribute(\Magento\Event\Observer $observer)
     {
         $backendModel = Magento_Weee_Model_Attribute_Backend_Weee_Tax::getBackendModelName();
         /** @var $object Magento_Eav_Model_Entity_Attribute_Abstract */
@@ -131,9 +131,9 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
     /**
      * Add custom element type for attributes form
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      */
-    public function updateElementTypes(Magento_Event_Observer $observer)
+    public function updateElementTypes(\Magento\Event\Observer $observer)
     {
         $response = $observer->getEvent()->getResponse();
         $types    = $response->getTypes();
@@ -145,10 +145,10 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
     /**
      * Update WEEE amounts discount percents
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Weee_Model_Observer
      */
-    public function updateDiscountPercents(Magento_Event_Observer $observer)
+    public function updateDiscountPercents(\Magento\Event\Observer $observer)
     {
         if (!Mage::helper('Magento_Weee_Helper_Data')->isEnabled()) {
             return $this;
@@ -168,10 +168,10 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
     /**
      * Update configurable options of the product view page
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Weee_Model_Observer
      */
-    public function updateConfigurableProductOptions(Magento_Event_Observer $observer)
+    public function updateConfigurableProductOptions(\Magento\Event\Observer $observer)
     {
         /* @var $helper Magento_Weee_Helper_Data */
         $helper = Mage::helper('Magento_Weee_Helper_Data');
@@ -205,10 +205,10 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
     /**
      * Process bundle options selection for prepare view json
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Weee_Model_Observer
      */
-    public function updateBundleProductOptions(Magento_Event_Observer $observer)
+    public function updateBundleProductOptions(\Magento\Event\Observer $observer)
     {
         /* @var $weeeHelper Magento_Weee_Helper_Data */
         $weeeHelper = Mage::helper('Magento_Weee_Helper_Data');

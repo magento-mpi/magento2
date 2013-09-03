@@ -25,7 +25,7 @@ class Magento_GiftWrapping_Block_Sales_Totals extends Magento_Core_Block_Templat
         $source  = $parent->getSource();
         $totals = Mage::helper('Magento_GiftWrapping_Helper_Data')->getTotals($source);
         foreach ($totals as $total) {
-            $this->getParentBlock()->addTotalBefore(new Magento_Object($total), 'tax');
+            $this->getParentBlock()->addTotalBefore(new \Magento\Object($total), 'tax');
         }
         return $this;
     }

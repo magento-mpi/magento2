@@ -382,10 +382,10 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
         $this->_model->save();
         $this->_model->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
         $this->assertFalse($this->_model->isResetPasswordLinkTokenExpired());
-        $this->_model->setRpTokenCreatedAt(Magento_Date::formatDate(time() - 60 * 60 * 24 * 10 + 10));
+        $this->_model->setRpTokenCreatedAt(\Magento\Date::formatDate(time() - 60 * 60 * 24 * 10 + 10));
         $this->assertFalse($this->_model->isResetPasswordLinkTokenExpired());
 
-        $this->_model->setRpTokenCreatedAt(Magento_Date::formatDate(time() - 60 * 60 * 24 * 10 - 10));
+        $this->_model->setRpTokenCreatedAt(\Magento\Date::formatDate(time() - 60 * 60 * 24 * 10 - 10));
         $this->assertTrue($this->_model->isResetPasswordLinkTokenExpired());
     }
 

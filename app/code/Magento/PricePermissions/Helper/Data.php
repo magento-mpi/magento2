@@ -44,15 +44,15 @@ class Magento_PricePermissions_Helper_Data extends Magento_Core_Helper_Abstract
     const DEFAULT_PRODUCT_PRICE_CONFIG_PATH = 'default/catalog/price/default_product_price';
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_AuthorizationInterface $authorization)
+    public function __construct(Magento_Core_Helper_Context $context, \Magento\AuthorizationInterface $authorization)
     {
         parent::__construct($context);
         $this->_authorization = $authorization;

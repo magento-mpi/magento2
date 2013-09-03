@@ -15,10 +15,10 @@
  * @package    Magento_GiftCard
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends Magento_Data_Form_Element_Select
+class Magento_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends \Magento\Data\Form\Element\Select
 {
     /**
-     * @var Magento_Data_Form_Element_Checkbox
+     * @var \Magento\Data\Form\Element\Checkbox
      */
     protected $_element;
 
@@ -29,7 +29,7 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends Magento_Data_
      */
     public function __construct(array $data = array())
     {
-        $this->_element = Mage::getModel('Magento_Data_Form_Element_Checkbox');
+        $this->_element = Mage::getModel('\Magento\Data\Form\Element\Checkbox');
         parent::__construct($data);
     }
 
@@ -37,7 +37,7 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends Magento_Data_
      * Set form to element
      *
      * @param $form
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     public function setForm($form)
     {

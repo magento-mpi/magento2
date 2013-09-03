@@ -20,7 +20,7 @@ $tableCoreLayoutLink = $installer->getTable('core_layout_update');
 
 $connection->addColumn($tableCoreLayoutLink, 'is_vde',
     array(
-        'type'     => Magento_DB_Ddl_Table::TYPE_BOOLEAN,
+        'type'     => \Magento\DB\Ddl\Table::TYPE_BOOLEAN,
         'nullable' => false,
         'default'  => '0',
         'comment'  => 'Defines whether layout update created via design editor'

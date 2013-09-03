@@ -1,6 +1,6 @@
 <?php
 /**
- * Provides the access to collection of job items from Magento database under Magento_PubSub_Job_QueueReaderInterface
+ * Provides the access to collection of job items from Magento database under \Magento\PubSub\Job\QueueReaderInterface
  *
  * {license_notice}
  *
@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Job_QueueReader implements Magento_PubSub_Job_QueueReaderInterface
+class Magento_Webhook_Model_Job_QueueReader implements \Magento\PubSub\Job\QueueReaderInterface
 {
     /** @var Magento_Webhook_Model_Resource_Job_Collection */
     protected $_collection;
@@ -31,12 +31,12 @@ class Magento_Webhook_Model_Job_QueueReader implements Magento_PubSub_Job_QueueR
     /**
      * Return the top job from the queue.
      *
-     * @return Magento_PubSub_JobInterface|null
+     * @return \Magento\PubSub\JobInterface|null
      */
     public function poll()
     {
         if ($this->_iterator->valid()) {
-            /** @var $job Magento_PubSub_JobInterface */
+            /** @var $job \Magento\PubSub\JobInterface */
             $job = $this->_iterator->current();
             $this->_iterator->next();
             return $job;

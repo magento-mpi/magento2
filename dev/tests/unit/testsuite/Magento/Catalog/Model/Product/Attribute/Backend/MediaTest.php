@@ -25,7 +25,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
 
         $mediaConfig = $this->getMock('Magento_Catalog_Model_Product_Media_Config', array(), array(), '', false);
         $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
-        $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
         $this->_model = new Magento_Catalog_Model_Product_Attribute_Backend_Media(
             $mediaConfig,
             $dirs,
@@ -65,7 +65,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
 
         $this->_model->setAttribute($attribute);
 
-        $object = new Magento_Object();
+        $object = new \Magento\Object();
         $object->setImage(array(
             'images' => array(array(
                 'value_id' => $valueId

@@ -18,14 +18,14 @@ class Magento_Pci_Model_Observer
     const ADMIN_USER_LOCKED = 243;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      */
-    public function __construct(Magento_AuthorizationInterface $authorization)
+    public function __construct(\Magento\AuthorizationInterface $authorization)
     {
         $this->_authorization = $authorization;
     }
@@ -33,7 +33,7 @@ class Magento_Pci_Model_Observer
     /**
      * Admin locking and password hashing upgrade logic implementation
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @throws Magento_Core_Exception
      */
     public function adminAuthenticate($observer)
@@ -53,7 +53,7 @@ class Magento_Pci_Model_Observer
             }
             $failuresNum = (int)$user->getFailuresNum() + 1;
             if ($firstFailureDate = $user->getFirstFailure()) {
-                $firstFailureDate = new Zend_Date($firstFailureDate, Magento_Date::DATETIME_INTERNAL_FORMAT);
+                $firstFailureDate = new Zend_Date($firstFailureDate, \Magento\Date::DATETIME_INTERNAL_FORMAT);
                 $firstFailureDate = $firstFailureDate->toValue();
             }
 
@@ -72,7 +72,7 @@ class Magento_Pci_Model_Observer
 
         // check whether user is locked
         if ($lockExpires = $user->getLockExpires()) {
-            $lockExpires = new Zend_Date($lockExpires, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $lockExpires = new Zend_Date($lockExpires, \Magento\Date::DATETIME_INTERNAL_FORMAT);
             $lockExpires = $lockExpires->toValue();
             if ($lockExpires > time()) {
                 throw new Magento_Core_Exception(
@@ -139,7 +139,7 @@ class Magento_Pci_Model_Observer
     /**
      * Upgrade API key hash when api user has logged in
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function upgradeApiKey($observer)
     {
@@ -153,7 +153,7 @@ class Magento_Pci_Model_Observer
     /**
      * Upgrade customer password hash when customer has logged in
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function upgradeCustomerPassword($observer)
     {
@@ -170,7 +170,7 @@ class Magento_Pci_Model_Observer
      * New password must be minimum 7 chars length and include alphanumeric characters
      * The password is compared to at least last 4 previous passwords to prevent setting them again
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @throws Magento_Core_Exception
      */
     public function checkAdminPasswordChange($observer)
@@ -203,7 +203,7 @@ class Magento_Pci_Model_Observer
     /**
      * Save new admin password
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function trackAdminNewPassword($observer)
     {
@@ -247,7 +247,7 @@ class Magento_Pci_Model_Observer
     /**
      * Force admin to change password
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function forceAdminPasswordChange($observer)
     {

@@ -17,25 +17,27 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-final class Magento_Connect_Converter
+namespace Magento\Connect;
+
+final class Converter
 {
     protected $_archiver;
 
     /**
      *
-     * @return Magento_Archive
+     * @return \Magento\Archive
      */
     public function arc()
     {
         if(!$this->_archiver) {
-            $this->_archiver = new Magento_Archive();
+            $this->_archiver = new \Magento\Archive();
         }
         return $this->_archiver;
     }
 
     public function newPackage()
     {
-        return new Magento_Connect_Package();
+        return new \Magento\Connect\Package();
     }
 
     /**
@@ -110,7 +112,7 @@ final class Magento_Connect_Converter
     /**
      * Conver pear package object to magento object
      * @param Pear_Package_V2 $pearObject
-     * @return Magento_Connect_Package
+     * @return \Magento\Connect\Package
      */
 
     public function convertPackageObject($pearObject)
@@ -168,24 +170,24 @@ final class Magento_Connect_Converter
             if(empty($rules['getterArgs'])) {
                 $rules['getterArgs'] = array();
             } elseif(!is_array($rules['getterArgs'])) {
-                throw new Exception("Invalid 'getterArgs' for '{$field}', should be array");
+                throw new \Exception("Invalid 'getterArgs' for '{$field}', should be array");
             }
 
             if($useGetter && !method_exists($pearObject, $rules['getter'])) {
                 $mName = get_class($pearObject)."::".$rules['getter'];
-                throw new Exception('No getter method exists: '.$mName);
+                throw new \Exception('No getter method exists: '.$mName);
             }
 
             if($useSetter && !method_exists($mageObject, $rules['setter'])) {
                 $mName = get_class($mageObject)."::".$rules['setter'];
-                throw new Exception('No setter method exists: '.$mName);
+                throw new \Exception('No setter method exists: '.$mName);
             }
 
             $useConverter = !empty($rules['converter']);
 
             if($useConverter && false === method_exists($this, $rules['converter'])) {
                 $mName = get_class($this)."::".$rules['converter'];
-                throw new Exception('No converter method exists: '.$mName);
+                throw new \Exception('No converter method exists: '.$mName);
             }
 
             if($useGetter) {
@@ -224,24 +226,24 @@ final class Magento_Connect_Converter
     {
         try {
             if(!file_exists($sourceFile)) {
-                throw new Exception("File doesn't exist: {$sourceFile}");
+                throw new \Exception("File doesn't exist: {$sourceFile}");
             }
             $arc = $this->arc();
             $tempDir = "tmp-".basename($sourceFile).uniqid();
             $outDir = "out-".basename($sourceFile).uniqid();
             $outDir = rtrim($outDir, "\\/");
-            Magento_System_Dirs::mkdirStrict($outDir);
-            Magento_System_Dirs::mkdirStrict($tempDir);
+            \Magento\System\Dirs::mkdirStrict($outDir);
+            \Magento\System\Dirs::mkdirStrict($tempDir);
 
             $result = $arc->unpack($sourceFile, $tempDir);
             if(!$result) {
-                throw new Exception("'{$sourceFile}' was not unpacked");
+                throw new \Exception("'{$sourceFile}' was not unpacked");
             }
 
             $result = rtrim($result, "\\/");
             $packageXml = $result . DS . "package.xml";
             if(!file_exists($packageXml)) {
-                throw new Exception("No package.xml found inside '{$sourceFile}'");
+                throw new \Exception("No package.xml found inside '{$sourceFile}'");
             }
 
             $reader = $this->oldPackageReader();
@@ -250,7 +252,7 @@ final class Magento_Connect_Converter
             $pearObject = $reader->parsePackage($data, $packageXml);
             $mageObject = $this->convertPackageObject($pearObject);
             if(!$mageObject->validate()) {
-                throw new Exception("Package validation failed.\n". implode("\n", $mageObject->getErrors()));
+                throw new \Exception("Package validation failed.\n". implode("\n", $mageObject->getErrors()));
             }
 
             /**
@@ -264,7 +266,7 @@ final class Magento_Connect_Converter
                 }
             }
             
-            $target = new Magento_Connect_Package_Target("target.xml");
+            $target = new \Magento\Connect\Package\Target("target.xml");
             $targets = $target->getTargets();                        
             $mageObject->setTarget($target);            
             $validRoles = array_keys($targets);
@@ -283,10 +285,10 @@ final class Magento_Connect_Converter
                 $sourceFile = $pathSource.DS.$name;
                 $targetFile = $outDir . DS . $baseName . DS. $name;
                 if(file_exists($sourceFile)) {
-                    Magento_System_Dirs::mkdirStrict(dirname($targetFile));
+                    \Magento\System\Dirs::mkdirStrict(dirname($targetFile));
                     $copy = @copy($sourceFile, $targetFile);
                     if(false === $copy) {
-                        throw new Exception("Cannot copy '{$sourceFile}' to '{$targetFile}'");
+                        throw new \Exception("Cannot copy '{$sourceFile}' to '{$targetFile}'");
                     }
                 }
                 $filesToDo[] = array ('name'=> $name, 'role'=>$role);
@@ -302,15 +304,15 @@ final class Magento_Connect_Converter
             if(@file_exists($targetArchive)) {
                 @unlink($targetArchive);
             }
-            Magento_System_Dirs::mkdirStrict(dirname($destFile));
+            \Magento\System\Dirs::mkdirStrict(dirname($destFile));
             $copy = @copy($filename, $destFile);
             if(false === $copy) {
-                throw new Exception("Cannot copy '{$filename}' to '{$targetArchive}'");
+                throw new \Exception("Cannot copy '{$filename}' to '{$targetArchive}'");
             }
-            Magento_System_Dirs::rm($tempDir);
-            Magento_System_Dirs::rm($outDir);
+            \Magento\System\Dirs::rm($tempDir);
+            \Magento\System\Dirs::rm($outDir);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
         return $destFile;

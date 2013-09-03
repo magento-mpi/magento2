@@ -14,7 +14,7 @@
 class Magento_Tools_View_Generator_CopyRule
 {
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     private $_filesystem;
 
@@ -38,12 +38,12 @@ class Magento_Tools_View_Generator_CopyRule
     /**
      * Constructor
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Theme_Collection $themes
      * @param Magento_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Theme_Collection $themes,
         Magento_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule
     ) {
@@ -82,7 +82,7 @@ class Magento_Tools_View_Generator_CopyRule
                 array_reverse($nonModularLocations)
             );
             foreach ($allDirPatterns as $pattern) {
-                $pattern = Magento_Filesystem::fixSeparator($pattern);
+                $pattern = \Magento\Filesystem::fixSeparator($pattern);
                 foreach ($this->_getMatchingDirs($pattern) as $srcDir) {
                     $paramsFromDir = $this->_parsePlaceholders($srcDir, $pattern);
                     if (!empty($paramsFromDir['namespace']) && !empty($paramsFromDir['module'])) {

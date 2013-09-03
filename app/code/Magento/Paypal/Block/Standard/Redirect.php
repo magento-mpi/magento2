@@ -13,7 +13,7 @@ class Magento_Paypal_Block_Standard_Redirect extends Magento_Core_Block_Abstract
     {
         $standard = Mage::getModel('Magento_Paypal_Model_Standard');
 
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $form->setAction($standard->getConfig()->getPaypalUrl())
             ->setId('paypal_standard_checkout')
             ->setName('paypal_standard_checkout')
@@ -23,7 +23,7 @@ class Magento_Paypal_Block_Standard_Redirect extends Magento_Core_Block_Abstract
             $form->addField($field, 'hidden', array('name'=>$field, 'value'=>$value));
         }
         $idSuffix = Mage::helper('Magento_Core_Helper_Data')->uniqHash();
-        $submitButton = new Magento_Data_Form_Element_Submit(array(
+        $submitButton = new \Magento\Data\Form\Element\Submit(array(
             'value'    => __('Click here if you are not redirected within 10 seconds.'),
         ));
         $id = "submit_to_paypal_button_{$idSuffix}";

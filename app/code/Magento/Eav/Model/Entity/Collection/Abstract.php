@@ -11,7 +11,7 @@
 /**
  * Entity/Attribute/Model - collection abstract
  */
-abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Collection_Db
+abstract class Magento_Eav_Model_Entity_Collection_Abstract extends \Magento\Data\Collection\Db
 {
     /**
      * Array of items with item id key
@@ -88,9 +88,9 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     /**
      * Collection constructor
      *
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      */
-    public function __construct(Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy)
+    public function __construct(\Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy)
     {
         parent::__construct($fetchStrategy);
         $this->_construct();
@@ -206,7 +206,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     /**
      * Set template object for the collection
      *
-     * @param   Magento_Object $object
+     * @param   \Magento\Object $object
      * @return  Magento_Eav_Model_Entity_Collection_Abstract
      */
     public function setObject($object = null)
@@ -222,11 +222,11 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     /**
      * Add an object to the collection
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Collection_Abstract
      * @throws Magento_Core_Exception
      */
-    public function addItem(Magento_Object $object)
+    public function addItem(\Magento\Object $object)
     {
         if (get_class($object) !== $this->_itemObjectClass) {
             throw Mage::exception('Magento_Eav', __('Attempt to add an invalid object'));
@@ -291,7 +291,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
         }
 
         if (!empty($conditionSql)) {
-            $this->getSelect()->where($conditionSql, null, Magento_DB_Select::TYPE_CONDITION);
+            $this->getSelect()->where($conditionSql, null, \Magento\DB\Select::TYPE_CONDITION);
         } else {
             Mage::throwException('Invalid attribute identifier for filter (' . get_class($attribute) . ')');
         }
@@ -300,7 +300,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     }
 
     /**
-     * Wrapper for compatibility with Magento_Data_Collection_Db
+     * Wrapper for compatibility with \Magento\Data\Collection\Db
      *
      * @param mixed $attribute
      * @param mixed $condition
@@ -836,35 +836,35 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
         if ($this->isLoaded()) {
             return $this;
         }
-        Magento_Profiler::start('EAV:load_collection');
+        \Magento\Profiler::start('EAV:load_collection');
 
-        Magento_Profiler::start('before_load');
+        \Magento\Profiler::start('before_load');
         Mage::dispatchEvent('eav_collection_abstract_load_before', array('collection' => $this));
         $this->_beforeLoad();
-        Magento_Profiler::stop('before_load');
+        \Magento\Profiler::stop('before_load');
 
         $this->_renderFilters();
         $this->_renderOrders();
 
-        Magento_Profiler::start('load_entities');
+        \Magento\Profiler::start('load_entities');
         $this->_loadEntities($printQuery, $logQuery);
-        Magento_Profiler::stop('load_entities');
-        Magento_Profiler::start('load_attributes');
+        \Magento\Profiler::stop('load_entities');
+        \Magento\Profiler::start('load_attributes');
         $this->_loadAttributes($printQuery, $logQuery);
-        Magento_Profiler::stop('load_attributes');
+        \Magento\Profiler::stop('load_attributes');
 
-        Magento_Profiler::start('set_orig_data');
+        \Magento\Profiler::start('set_orig_data');
         foreach ($this->_items as $item) {
             $item->setOrigData();
         }
-        Magento_Profiler::stop('set_orig_data');
+        \Magento\Profiler::stop('set_orig_data');
 
         $this->_setIsLoaded();
-        Magento_Profiler::start('after_load');
+        \Magento\Profiler::start('after_load');
         $this->_afterLoad();
-        Magento_Profiler::stop('after_load');
+        \Magento\Profiler::stop('after_load');
 
-        Magento_Profiler::stop('EAV:load_collection');
+        \Magento\Profiler::stop('EAV:load_collection');
         return $this;
     }
 
@@ -1137,10 +1137,10 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     }
 
     /**
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param string $table
      * @param string $type
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _addLoadAttributesSelectValues($select, $table, $type)
     {

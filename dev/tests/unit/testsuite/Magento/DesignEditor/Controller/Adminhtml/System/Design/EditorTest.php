@@ -26,7 +26,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
 
         $request = $this->getMock('Magento_Core_Controller_Request_Http');
         $request->expects($this->any())->method('setActionName')->will($this->returnSelf());
@@ -49,7 +49,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
         /** @var $layoutMock Magento_Core_Model_Layout */
         $layoutMock->expects($this->any())->method('generateXml')->will($this->returnSelf());
         $layoutMock->expects($this->any())->method('getNode')
-            ->will($this->returnValue(new Magento_Simplexml_Element('<root />')));
+            ->will($this->returnValue(new \Magento\Simplexml\Element('<root />')));
         $blockMessage = $this->getMock('Magento_Core_Block_Messages',
             array('addMessages', 'setEscapeMessageFlag', 'addStorageType'), array(), '', false);
         $layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMessage));
@@ -172,7 +172,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
 
         $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
-        $authMock = $this->getMock('Magento_AuthorizationInterface');
+        $authMock = $this->getMock('Magento\AuthorizationInterface');
         $authMock->expects($this->any())->method('filterAclNodes')->will($this->returnSelf());
         $backendSession = $this->getMock('Magento_Backend_Model_Session', array('getMessages', 'getEscapeMessages'),
             array(), '', false);
@@ -192,7 +192,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
             array('Magento_Core_Model_Config', $configMock),
             array('Magento_Core_Model_Event_Manager', $eventManager),
             array('Magento_Core_Model_StoreManager', $storeManager),
-            array('Magento_AuthorizationInterface', $authMock),
+            array('\Magento\AuthorizationInterface', $authMock),
             array('Magento_Backend_Model_Session', $backendSession),
             array('Magento_Core_Model_Translate_Inline', $inlineMock),
             array('Magento_Core_Model_Layout_Filter_Acl', $aclFilterMock),

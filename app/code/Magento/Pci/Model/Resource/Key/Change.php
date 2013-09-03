@@ -25,7 +25,7 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
     protected $_encryptor;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -33,9 +33,9 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
      * Constructor
      *
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(Magento_Core_Model_Resource $resource, Magento_Filesystem $filesystem)
+    public function __construct(Magento_Core_Model_Resource $resource, \Magento\Filesystem $filesystem)
     {
         parent::__construct($resource);
         $this->_filesystem = $filesystem;

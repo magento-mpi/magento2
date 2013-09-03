@@ -9,17 +9,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_Event_Factory implements Magento_PubSub_Event_FactoryInterface
+namespace Magento\PubSub\Event;
+
+class Factory implements \Magento\PubSub\Event\FactoryInterface
 {
     /**
      * Stub won't create an event
      *
      * @param string $topic Topic on which to publish data
      * @param array $data Data to be published.  Should only contain primitives
-     * @return Magento_PubSub_EventInterface
+     * @return \Magento\PubSub\EventInterface
      */
     public function create($topic, $data)
     {
-        return new Magento_PubSub_Event($topic, $data);
+        return new \Magento\PubSub\Event($topic, $data);
     }
 }

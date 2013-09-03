@@ -41,7 +41,7 @@ $product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load(1);
 $optionId = key($product->getOptions());
 
-$requestInfo = new Magento_Object(array(
+$requestInfo = new \Magento\Object(array(
     'qty' => 1,
     'options' => array(
         $optionId => 'test'

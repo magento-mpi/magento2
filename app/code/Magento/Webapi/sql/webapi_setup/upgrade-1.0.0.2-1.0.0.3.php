@@ -19,7 +19,7 @@ $connection->changeColumn(
     'api_secret',
     'secret',
     array(
-        'type' => Magento_DB_Ddl_Table::TYPE_TEXT,
+        'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => false,
         'comment' => 'Secret used for authentication.'

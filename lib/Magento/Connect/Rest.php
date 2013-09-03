@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Connect_Rest
+namespace Magento\Connect;
+
+class Rest
 {
 
     const CHANNELS_XML = "channels.xml";
@@ -28,14 +30,14 @@ class Magento_Connect_Rest
 
     /**
      * HTTP Loader
-     * @var Magento_HTTP_IClient
+     * @var \Magento\HTTP\IClient
      */
     protected $_loader = null;
 
 
     /**
      * XML parser
-     * @var Magento_Xml_Parser
+     * @var \Magento\Xml\Parser
      */
     protected $_parser = null;
 
@@ -80,12 +82,12 @@ class Magento_Connect_Rest
 
     /**
      * Get HTTP loader
-     * @return Magento_Connect_Loader
+     * @return \Magento\Connect\Loader
      */
     protected function getLoader()
     {
         if(is_null($this->_loader)) {
-            $this->_loader = Magento_Connect_Loader::getInstance($this->_protocol);
+            $this->_loader = \Magento\Connect\Loader::getInstance($this->_protocol);
         }
         return $this->_loader;
     }
@@ -94,12 +96,12 @@ class Magento_Connect_Rest
     /**
      * Get parser
      *
-     * @return Magento_Xml_Parser
+     * @return \Magento\Xml\Parser
      */
     protected function getParser()
     {
         if(is_null($this->_parser)) {
-            $this->_parser = new Magento_Xml_Parser();
+            $this->_parser = new \Magento\Xml\Parser();
         }
         return $this->_parser;
     }
@@ -129,16 +131,16 @@ class Magento_Connect_Rest
         $out = $this->loadChannelUri(self::CHANNEL_XML);
         $statusCode = $this->getLoader()->getStatus();
         if($statusCode != 200) {
-            throw new Exception("Invalid server response for {$this->_chanUri}");
+            throw new \Exception("Invalid server response for {$this->_chanUri}");
         }
         $parser = $this->getParser();
         $out = $parser->loadXML($out)->xmlToArray();
 
         // TODO: add channel validator
-        $vo = new Magento_Connect_Channel_VO();
+        $vo = new \Magento\Connect\Channel\VO();
         $vo->fromArray($out['channel']);
         if(!$vo->validate()) {
-            throw new Exception("Invalid channel.xml file");
+            throw new \Exception("Invalid channel.xml file");
         }
         return $vo;
     }
@@ -281,14 +283,14 @@ class Magento_Connect_Rest
         if(false === $out) {
             return false;
         }
-        return new Magento_Connect_Package($out);
+        return new \Magento\Connect\Package($out);
     }
 
     /**
      *
      * @param $package
      * @param $version
-     * @return Magento_Connect_Package
+     * @return \Magento\Connect\Package
      */
     public function getPackageReleaseInfo($package, $version)
     {
@@ -296,7 +298,7 @@ class Magento_Connect_Rest
         if(false === $out) {
             return false;
         }
-        return new Magento_Connect_Package($out);
+        return new \Magento\Connect\Package($out);
     }
 
     /**
@@ -325,13 +327,13 @@ class Magento_Connect_Rest
 
         $statusCode = $this->getLoader()->getStatus();
         if($statusCode != 200)	{
-            throw new Exception("Package not found: {$package} {$version}");
+            throw new \Exception("Package not found: {$package} {$version}");
         }
         $dir = dirname($targetFile);
         @mkdir($dir, 0777, true);
         $result = @file_put_contents($targetFile, $out);
         if(false === $result) {
-            throw new Exception("Cannot write to file {$targetFile}");
+            throw new \Exception("Cannot write to file {$targetFile}");
         }
         return true;
     }

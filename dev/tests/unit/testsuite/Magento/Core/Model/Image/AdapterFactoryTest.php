@@ -34,7 +34,7 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
         $imageAdapter->expects($this->any())
             ->method('checkDependencies')
             ->will($this->returnValue(null));
-        $objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $objectManagerMock = $this->getMock('Magento\ObjectManager');
         $objectManagerMock->expects($this->any())
            ->method('create')
            ->will($this->returnValue($imageAdapter));
@@ -60,8 +60,8 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
     public function createDataProvider()
     {
         return array(
-            array(Magento_Core_Model_Image_AdapterFactory::ADAPTER_GD2, 'Magento_Image_Adapter_Gd2'),
-            array(Magento_Core_Model_Image_AdapterFactory::ADAPTER_IM, 'Magento_Image_Adapter_ImageMagick'),
+            array(Magento_Core_Model_Image_AdapterFactory::ADAPTER_GD2, '\Magento\Image\Adapter\Gd2'),
+            array(Magento_Core_Model_Image_AdapterFactory::ADAPTER_IM, '\Magento\Image\Adapter\ImageMagick'),
         );
     }
 
@@ -94,8 +94,8 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
      */
     public function testMageCoreException()
     {
-        $objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $imageAdapter = $this->getMockForAbstractClass('Magento_Image_Adapter_Abstract');
+        $objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $imageAdapter = $this->getMockForAbstractClass('\Magento\Image\Adapter\AbstractAdapter');
         $imageAdapter->expects($this->any())
             ->method('checkDependencies')
             ->will($this->throwException(new Exception));

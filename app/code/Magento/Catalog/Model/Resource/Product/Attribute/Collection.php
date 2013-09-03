@@ -42,7 +42,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
         $retColumns = array();
         foreach ($columns as $labelColumn => $columnData) {
             $retColumns[$labelColumn] = $labelColumn;
-            if ($columnData['DATA_TYPE'] == Magento_DB_Ddl_Table::TYPE_TEXT) {
+            if ($columnData['DATA_TYPE'] == \Magento\DB\Ddl\Table::TYPE_TEXT) {
                 $retColumns[$labelColumn] = 'main_table.' . $labelColumn;
             }
         }

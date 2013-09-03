@@ -16,12 +16,12 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructException()
     {
-        new Magento_Config_Theme(array());
+        new \Magento\Config\Theme(array());
     }
 
     public function testGetSchemaFile()
     {
-        $config = new Magento_Config_Theme(array(
+        $config = new \Magento\Config\Theme(array(
             sprintf('%s/_files/area/%s/theme.xml', __DIR__, 'default_default')
         ));
 
@@ -35,7 +35,7 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testGetThemeTitle($themePath, $expected)
     {
-        $config = new Magento_Config_Theme(array(
+        $config = new \Magento\Config\Theme(array(
             sprintf('%s/_files/area/%s/theme.xml', __DIR__, $themePath)
         ));
         $this->assertSame($expected, $config->getThemeTitle());
@@ -59,7 +59,7 @@ class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testGetParentTheme($themePath, $expected)
     {
-        $config = new Magento_Config_Theme(array(
+        $config = new \Magento\Config\Theme(array(
             sprintf('%s/_files/area/%s/theme.xml', __DIR__, $themePath)
         ));
         $this->assertSame($expected, $config->getParentTheme());

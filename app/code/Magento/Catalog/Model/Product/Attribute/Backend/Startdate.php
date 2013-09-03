@@ -22,7 +22,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_
    /**
     * Get attribute value for save.
     *
-    * @param Magento_Object $object
+    * @param \Magento\Object $object
     * @return string|bool
     */
     protected function _getValueForSave($object)
@@ -43,7 +43,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_
     * Before save hook.
     * Prepare attribute value for save
     *
-    * @param Magento_Object $object
+    * @param \Magento\Object $object
     * @return Magento_Catalog_Model_Product_Attribute_Backend_Startdate
     */
     public function beforeSave($object)
@@ -62,7 +62,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_
     * Product from date attribute validate function.
     * In case invalid data throws exception.
     *
-    * @param Magento_Object $object
+    * @param \Magento\Object $object
     * @throws Magento_Eav_Model_Entity_Attribute_Exception
     * @return bool
     */

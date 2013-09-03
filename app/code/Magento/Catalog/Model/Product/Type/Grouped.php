@@ -57,11 +57,11 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
     /**
      * Return relation info about used products
      *
-     * @return Magento_Object Object with information data
+     * @return \Magento\Object Object with information data
      */
     public function getRelationInfo()
     {
-        $info = new Magento_Object();
+        $info = new \Magento\Object();
         $info->setTable('catalog_product_link')
             ->setParentFieldName('product_id')
             ->setChildFieldName('linked_product_id')
@@ -252,12 +252,12 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and add logic specific to Grouped product type.
      *
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @param Magento_Catalog_Model_Product $product
      * @param string $processMode
      * @return array|string
      */
-    protected function _prepareProduct(Magento_Object $buyRequest, $product, $processMode)
+    protected function _prepareProduct(\Magento\Object $buyRequest, $product, $processMode)
     {
         $productsInfo = $buyRequest->getSuperGroup();
         $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
@@ -335,7 +335,7 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
      * Prepare selected qty for grouped product's options
      *
      * @param  Magento_Catalog_Model_Product $product
-     * @param  Magento_Object $buyRequest
+     * @param  \Magento\Object $buyRequest
      * @return array
      */
     public function processBuyRequest($product, $buyRequest)

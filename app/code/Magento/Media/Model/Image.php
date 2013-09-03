@@ -95,7 +95,7 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
     /**
      * Retrive source dimensions object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDimensions()
     {
@@ -108,7 +108,7 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
     /**
      * Retrive destanation dimensions object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDestanationDimensions()
     {

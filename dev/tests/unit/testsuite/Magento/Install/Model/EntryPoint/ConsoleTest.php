@@ -14,7 +14,7 @@ class Magento_Install_Model_EntryPoint_ConsoleTest extends PHPUnit_Framework_Tes
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_ObjectManager
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\ObjectManager
      */
     protected $_objectManagerMock;
 
@@ -40,7 +40,7 @@ class Magento_Install_Model_EntryPoint_ConsoleTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_configMock = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
         $this->_installerMock = $this->getMock('Magento_Install_Model_Installer_Console', array(), array(), '', false);
         $this->_dirVerifierMock = $this->getMock('Magento_Core_Model_Dir_Verification', array(), array(), '', false);

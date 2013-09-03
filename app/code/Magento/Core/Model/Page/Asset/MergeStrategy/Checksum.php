@@ -19,17 +19,17 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_Checksum
     private $_strategy;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     private $_filesystem;
 
     /**
      * @param Magento_Core_Model_Page_Asset_MergeStrategyInterface $strategy
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         Magento_Core_Model_Page_Asset_MergeStrategyInterface $strategy,
-        Magento_Filesystem $filesystem
+        \Magento\Filesystem $filesystem
     ) {
         $this->_strategy = $strategy;
         $this->_filesystem = $filesystem;

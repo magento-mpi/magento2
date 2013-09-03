@@ -22,7 +22,7 @@ class Magento_Customer_Model_Resource_Address_Attribute_Backend_Region
     /**
      * Prepare object for save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Customer_Model_Resource_Address_Attribute_Backend_Region
      */
     public function beforeSave($object)

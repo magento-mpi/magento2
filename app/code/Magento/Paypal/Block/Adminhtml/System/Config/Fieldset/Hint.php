@@ -15,17 +15,17 @@
  */
 class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
     extends Magento_Backend_Block_Template
-    implements Magento_Data_Form_Element_Renderer_Interface
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_template = 'Magento_Paypal::system/config/fieldset/hint.phtml';
 
     /**
      * Render fieldset html
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $elementOriginalData = $element->getOriginalData();
         if (isset($elementOriginalData['help_link'])) {

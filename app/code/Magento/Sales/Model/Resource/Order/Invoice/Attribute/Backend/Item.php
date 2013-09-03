@@ -22,7 +22,7 @@ class Magento_Sales_Model_Resource_Order_Invoice_Attribute_Backend_Item
     /**
      * Method is invoked after save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function afterSave($object)

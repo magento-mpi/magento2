@@ -62,7 +62,7 @@ class Magento_Core_Model_EntryPoint_Media extends Magento_Core_Model_EntryPointA
      * @param string $mediaDirectory
      * @param string $configCacheFile
      * @param string $relativeFileName
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_File_Storage_Response
      */
     public function __construct(
@@ -73,7 +73,7 @@ class Magento_Core_Model_EntryPoint_Media extends Magento_Core_Model_EntryPointA
         $mediaDirectory,
         $configCacheFile,
         $relativeFileName,
-        Magento_ObjectManager $objectManager = null,
+        \Magento\ObjectManager $objectManager = null,
         Magento_Core_Model_File_Storage_Response $response = null
     ) {
         parent::__construct($config, $objectManager);

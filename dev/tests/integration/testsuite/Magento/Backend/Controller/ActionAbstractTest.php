@@ -77,8 +77,8 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
         $this->_auth->login(
             Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
 
-        /** @var $acl Magento_Acl */
-        $acl = Mage::getSingleton('Magento_Acl_Builder')->getAcl();
+        /** @var $acl \Magento\Acl */
+        $acl = Mage::getSingleton('Magento\Acl\Builder')->getAcl();
         if ($isLimitedAccess) {
             $acl->deny(null, $resource);
         }

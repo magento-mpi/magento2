@@ -1065,9 +1065,9 @@ class Magento_Paypal_Model_Config
     /**
      * Export page style current settings to specified object
      *
-     * @param Magento_Object $to
+     * @param \Magento\Object $to
      */
-    public function exportExpressCheckoutStyleSettings(Magento_Object $to)
+    public function exportExpressCheckoutStyleSettings(\Magento\Object $to)
     {
         foreach ($this->_ecStyleConfigMap as $key => $exportKey) {
             if ($this->$key) {

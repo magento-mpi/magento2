@@ -39,7 +39,7 @@ class Magento_CustomerBalance_Block_Sales_Order_Customerbalance extends Magento_
         if ((float)$this->getSource()->getCustomerBalanceAmount() == 0) {
             return $this;
         }
-        $total = new Magento_Object(array(
+        $total = new \Magento\Object(array(
             'code'      => $this->getNameInLayout(),
             'block_name'=> $this->getNameInLayout(),
             'area'      => $this->getArea()

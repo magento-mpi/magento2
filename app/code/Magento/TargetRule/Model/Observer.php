@@ -17,9 +17,9 @@ class Magento_TargetRule_Model_Observer
     /**
      * Prepare target rule data
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function prepareTargetRuleSave(Magento_Event_Observer $observer)
+    public function prepareTargetRuleSave(\Magento\Event\Observer $observer)
     {
         $_vars = array('targetrule_rule_based_positions', 'tgtr_position_behavior');
         $_varPrefix = array('related_', 'upsell_', 'crosssell_');
@@ -39,16 +39,16 @@ class Magento_TargetRule_Model_Observer
      * After Catalog Product Save - rebuild product index by rule conditions
      * and refresh cache index
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_TargetRule_Model_Observer
      */
-    public function catalogProductAfterSave(Magento_Event_Observer $observer)
+    public function catalogProductAfterSave(\Magento\Event\Observer $observer)
     {
         /** @var $product Magento_Catalog_Model_Product */
         $product = $observer->getEvent()->getProduct();
 
         Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'id' => $product->getId(),
                 'store_id' => $product->getStoreId(),
                 'rule' => $product->getData('rule'),
@@ -64,9 +64,9 @@ class Magento_TargetRule_Model_Observer
     /**
      * Process event on 'save_commit_after' event
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function catalogProductSaveCommitAfter(Magento_Event_Observer $observer)
+    public function catalogProductSaveCommitAfter(\Magento\Event\Observer $observer)
     {
         Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
             Magento_TargetRule_Model_Index::ENTITY_PRODUCT,
@@ -77,15 +77,15 @@ class Magento_TargetRule_Model_Observer
     /**
      * Clear customer segment indexer if customer segment is on|off on backend
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_TargetRule_Model_Observer
      */
-    public function coreConfigSaveCommitAfter(Magento_Event_Observer $observer)
+    public function coreConfigSaveCommitAfter(\Magento\Event\Observer $observer)
     {
         if ($observer->getDataObject()->getPath() == 'customer/magento_customersegment/is_enabled'
             && $observer->getDataObject()->isValueChanged()) {
             Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
-                new Magento_Object(array('type_id' => null, 'store' => null)),
+                new \Magento\Object(array('type_id' => null, 'store' => null)),
                 Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
                 Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
             );

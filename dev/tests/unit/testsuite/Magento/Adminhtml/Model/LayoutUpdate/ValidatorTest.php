@@ -36,7 +36,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
             ->with('etc', 'Magento_Core')
             ->will($this->returnValue('dummyDir'));
 
-        $domConfigFactory = $this->getMockBuilder('Magento_Config_DomFactory')
+        $domConfigFactory = $this->getMockBuilder('Magento\Config\DomFactory')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -53,7 +53,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
             ->will(
                 $isValid
                 ? $this->returnSelf()
-                : $this->throwException(new Magento_Config_Dom_ValidationException)
+                : $this->throwException(new \Magento\Config\Dom\ValidationException)
             );
 
         $model = $this->_objectHelper->getObject('Magento_Adminhtml_Model_LayoutUpdate_Validator', array(

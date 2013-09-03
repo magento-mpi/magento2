@@ -37,7 +37,7 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
     {
         $this->_registry = $this->getMock('Magento_Core_Model_Registry', array('registry'), array(), '', false);
 
-        $website = new Magento_Object(array('id' => 5));
+        $website = new \Magento\Object(array('id' => 5));
         $storeManager = $this->getMockForAbstractClass(
             'Magento_Core_Model_StoreManagerInterface', array('getWebsite'), '', false
         );
@@ -72,7 +72,7 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
 
     public function testGetCurrentCustomerSegmentIdsCustomerInRegistry()
     {
-        $customer = new Magento_Object(array('id' => 100500));
+        $customer = new \Magento\Object(array('id' => 100500));
         $this->_registry
             ->expects($this->once())->method('registry')->with('segment_customer')->will($this->returnValue($customer));
         $this->_resource
@@ -86,7 +86,7 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
 
     public function testGetCurrentCustomerSegmentIdsCustomerInRegistryNoId()
     {
-        $customer = new Magento_Object();
+        $customer = new \Magento\Object();
         $this->_registry
             ->expects($this->once())->method('registry')->with('segment_customer')->will($this->returnValue($customer));
         $this->_customerSession->setData('customer_segment_ids', array(5 => $this->_fixtureSegmentIds));
@@ -95,7 +95,7 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
 
     public function testGetCurrentCustomerSegmentIdsCustomerInSession()
     {
-        $customer = new Magento_Object(array('id' => 100500));
+        $customer = new \Magento\Object(array('id' => 100500));
         $this->_customerSession->expects($this->once())->method('getCustomer')->will($this->returnValue($customer));
         $this->_resource
             ->expects($this->once())
@@ -108,7 +108,7 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
 
     public function testGetCurrentCustomerSegmentIdsCustomerInSessionNoId()
     {
-        $customer = new Magento_Object();
+        $customer = new \Magento\Object();
         $this->_customerSession->expects($this->once())->method('getCustomer')->will($this->returnValue($customer));
         $this->_customerSession->setData('customer_segment_ids', array(5 => $this->_fixtureSegmentIds));
         $this->assertEquals($this->_fixtureSegmentIds, $this->_model->getCurrentCustomerSegmentIds());

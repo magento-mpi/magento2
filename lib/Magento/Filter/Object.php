@@ -9,17 +9,19 @@
  */
 
 
-class Magento_Filter_Object extends Zend_Filter
+namespace Magento\Filter;
+
+class Object extends \Zend_Filter
 {
     protected $_columnFilters = array();
     
-    function addFilter(Zend_Filter_Interface $filter, $column='')
+    function addFilter(\Zend_Filter_Interface $filter, $column='')
     {
         if (''===$column) {
             parent::addFilter($filter);
         } else {
             if (!isset($this->_columnFilters[$column])) {
-                $this->_columnFilters[$column] = new Zend_Filter();
+                $this->_columnFilters[$column] = new \Zend_Filter();
             }
             $this->_columnFilters[$column]->addFilter($filter);
         }
@@ -27,11 +29,11 @@ class Magento_Filter_Object extends Zend_Filter
     
     function filter($object)
     {
-        if (!$object instanceof Magento_Object) {
-            throw new Exception('Expecting an instance of Magento_Object');
+        if (!$object instanceof \Magento\Object) {
+            throw new \Exception('Expecting an instance of \Magento\Object');
         }
         $class = get_class($object);
-        $out = Mage::getModel($class);
+        $out = \Mage::getModel($class);
         foreach ($object->getData() as $column=>$value) {
             $value = parent::filter($value);
             if (isset($this->_columnFilters[$column])) {

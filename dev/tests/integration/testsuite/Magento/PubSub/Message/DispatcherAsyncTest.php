@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_PubSub_Message_DispatcherAsync
+ * \Magento\PubSub\Message\DispatcherAsync
  *
  * {license_notice}
  *
@@ -15,7 +15,7 @@
 class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_PubSub_Message_DispatcherAsync
+     * @var \Magento\PubSub\Message\DispatcherAsync
      */
     protected $_model;
 
@@ -34,7 +34,7 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
             $event->save();
         }
 
-        $this->_model = Mage::getObjectManager()->create('Magento_PubSub_Message_DispatcherAsync');
+        $this->_model = Mage::getObjectManager()->create('Magento\PubSub\Message\DispatcherAsync');
     }
 
     /**
@@ -50,7 +50,7 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
 
         $this->_model->dispatch($topic, $data);
 
-        $queue = Mage::getObjectManager()->get('Magento_PubSub_Event_QueueReaderInterface');
+        $queue = Mage::getObjectManager()->get('Magento\PubSub\Event\QueueReaderInterface');
         $event = $queue->poll();
 
         $this->assertEquals($topic, $event->getTopic());

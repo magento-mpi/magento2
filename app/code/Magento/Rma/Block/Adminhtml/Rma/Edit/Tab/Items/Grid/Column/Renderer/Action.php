@@ -23,10 +23,10 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Action
      *
      * Shows link in one row instead of select element in parent class
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $actions = $this->getColumn()->getActions();
         if ( empty($actions) || !is_array($actions) ) {

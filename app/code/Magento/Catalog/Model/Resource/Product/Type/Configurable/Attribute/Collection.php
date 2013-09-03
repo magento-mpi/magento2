@@ -116,18 +116,18 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        Magento_Profiler::start('TTT1:'.__METHOD__, array('group' => 'TTT1', 'method' => __METHOD__));
+        \Magento\Profiler::start('TTT1:'.__METHOD__, array('group' => 'TTT1', 'method' => __METHOD__));
         $this->_addProductAttributes();
-        Magento_Profiler::stop('TTT1:'.__METHOD__);
-        Magento_Profiler::start('TTT2:'.__METHOD__, array('group' => 'TTT2', 'method' => __METHOD__));
+        \Magento\Profiler::stop('TTT1:'.__METHOD__);
+        \Magento\Profiler::start('TTT2:'.__METHOD__, array('group' => 'TTT2', 'method' => __METHOD__));
         $this->_addAssociatedProductFilters();
-        Magento_Profiler::stop('TTT2:'.__METHOD__);
-        Magento_Profiler::start('TTT3:'.__METHOD__, array('group' => 'TTT3', 'method' => __METHOD__));
+        \Magento\Profiler::stop('TTT2:'.__METHOD__);
+        \Magento\Profiler::start('TTT3:'.__METHOD__, array('group' => 'TTT3', 'method' => __METHOD__));
         $this->_loadLabels();
-        Magento_Profiler::stop('TTT3:'.__METHOD__);
-        Magento_Profiler::start('TTT4:'.__METHOD__, array('group' => 'TTT4', 'method' => __METHOD__));
+        \Magento\Profiler::stop('TTT3:'.__METHOD__);
+        \Magento\Profiler::start('TTT4:'.__METHOD__, array('group' => 'TTT4', 'method' => __METHOD__));
         $this->_loadPrices();
-        Magento_Profiler::stop('TTT4:'.__METHOD__);
+        \Magento\Profiler::stop('TTT4:'.__METHOD__);
         return $this;
     }
 

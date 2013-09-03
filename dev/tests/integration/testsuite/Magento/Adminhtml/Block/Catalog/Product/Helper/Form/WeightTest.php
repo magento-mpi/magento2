@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
 
         $block = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight();
 
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $form->setDataObject($currentProduct);
         $block->setForm($form);
 
@@ -52,7 +52,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
 
         $block = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight();
 
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $form->setDataObject($currentProduct);
         $block->setForm($form);
 

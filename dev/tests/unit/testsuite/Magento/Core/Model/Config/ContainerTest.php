@@ -156,7 +156,7 @@ class Magento_Core_Model_Config_ContainerTest extends PHPUnit_Framework_TestCase
             ->with($path)
             ->will($this->returnValue($sectionKey));
 
-        $sectionMock = $this->getMock('Magento_Simplexml_Config', array(), array(), '', false);
+        $sectionMock = $this->getMock('Magento\Simplexml\Config', array(), array(), '', false);
 
         $this->_configCacheMock
             ->expects($this->once())

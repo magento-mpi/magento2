@@ -17,10 +17,10 @@ class Magento_Banner_Model_Observer
     /**
      * Prepare catalog rule post data to save
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Banner_Model_Observer
      */
-    public function prepareCatalogRuleSave(Magento_Event_Observer $observer)
+    public function prepareCatalogRuleSave(\Magento\Event\Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
@@ -33,10 +33,10 @@ class Magento_Banner_Model_Observer
     /**
      * Bind specified banners to catalog rule
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Banner_Model_Observer
      */
-    public function bindRelatedBannersToCatalogRule(Magento_Event_Observer $observer)
+    public function bindRelatedBannersToCatalogRule(\Magento\Event\Observer $observer)
     {
         $catalogRule = $observer->getEvent()->getRule();
         $resource = Mage::getResourceModel('Magento_Banner_Model_Resource_Banner');
@@ -51,10 +51,10 @@ class Magento_Banner_Model_Observer
     /**
      * Prepare sales rule post data to save
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Banner_Model_Observer
      */
-    public function prepareSalesRuleSave(Magento_Event_Observer $observer)
+    public function prepareSalesRuleSave(\Magento\Event\Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
@@ -67,10 +67,10 @@ class Magento_Banner_Model_Observer
     /**
      * Bind specified banners to sales rule
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Banner_Model_Observer
      */
-    public function bindRelatedBannersToSalesRule(Magento_Event_Observer $observer)
+    public function bindRelatedBannersToSalesRule(\Magento\Event\Observer $observer)
     {
         $salesRule = $observer->getEvent()->getRule();
         $resource = Mage::getResourceModel('Magento_Banner_Model_Resource_Banner');

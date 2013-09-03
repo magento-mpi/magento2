@@ -34,15 +34,15 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
     protected $_storeId = null;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Filesystem $filesystem)
+    public function __construct(Magento_Core_Helper_Context $context, \Magento\Filesystem $filesystem)
     {
         parent::__construct($context);
         $this->_filesystem = $filesystem;
@@ -214,7 +214,7 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
                 if (!$this->_filesystem->isWritable($currentPath)) {
                     $this->_filesystem->createDirectory($currentPath);
                 }
-            } catch (Magento_Filesystem_Exception $e) {
+            } catch (\Magento\Filesystem\FilesystemException $e) {
                 $message = __('The directory %1 is not writable by server.', $currentPath);
                 Mage::throwException($message);
             }

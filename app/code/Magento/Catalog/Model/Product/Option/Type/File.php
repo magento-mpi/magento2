@@ -29,7 +29,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     protected $_formattedOptionValue = null;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -39,10 +39,10 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
      * By default is looking for first argument as array and assigns it as object attributes
      * This behavior may change in child classes
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, $data = array())
+    public function __construct(\Magento\Filesystem $filesystem, $data = array())
     {
         $this->_filesystem = $filesystem;
         $this->_data = $data;
@@ -81,20 +81,20 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     /**
      * Returns additional params for processing options
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _getProcessingParams()
     {
         $buyRequest = $this->getRequest();
         $params = $buyRequest->getData('_processing_params');
         /*
-         * Notice check for params to be Magento_Object - by using object we protect from
+         * Notice check for params to be \Magento\Object - by using object we protect from
          * params being forged and contain data from user frontend input
          */
-        if ($params instanceof Magento_Object) {
+        if ($params instanceof \Magento\Object) {
             return $params;
         }
-        return new Magento_Object();
+        return new \Magento\Object();
     }
 
     /**
@@ -750,7 +750,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
             if (!$this->_filesystem->isWritable($path)) {
                 $this->_filesystem->createDirectory($path, 0777);
             }
-        } catch (Magento_Filesystem_Exception $e) {
+        } catch (\Magento\Filesystem\FilesystemException $e) {
             throw new Magento_Core_Exception(__("Cannot create writable directory '%1'.", $path));
         }
     }
@@ -809,10 +809,10 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     /**
      * Get file storage helper
      *
-     * @return Magento_File_Size
+     * @return \Magento\File\Size
      */
     public function getFileSizeService()
     {
-        return Mage::getObjectManager()->get('Magento_File_Size');
+        return Mage::getObjectManager()->get('Magento\File\Size');
     }
 }

@@ -69,7 +69,7 @@ class Magento_Sales_Model_Resource_Quote_Address_Rate_Collection extends Magento
      * @param Magento_Sales_Model_Quote_Address_Rate $rate
      * @return Magento_Sales_Model_Resource_Quote_Address_Rate_Collection
      */
-    public function addItem(Magento_Object $rate)
+    public function addItem(\Magento\Object $rate)
     {
         if ($this->_allowFixedOnly && (!$rate->getCarrierInstance() || !$rate->getCarrierInstance()->isFixed())) {
             return $this;

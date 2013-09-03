@@ -32,7 +32,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     /**
      * Configuration of desing package for template
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_designConfig;
 
@@ -40,7 +40,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     /**
      * Configuration of emulated desing package.
      *
-     * @var Magento_Object|boolean
+     * @var \Magento\Object|boolean
      */
     protected $_emulatedDesignConfig = false;
 
@@ -48,7 +48,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
      * Initial environment information
      * @see self::_applyDesignConfig()
      *
-     * @var Magento_Object|null
+     * @var \Magento\Object|null
      */
     protected $_initialEnvironmentInfo = null;
 
@@ -116,7 +116,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     /**
      * Get design configuration data
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDesignConfig()
     {
@@ -127,7 +127,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
             if ($this->_store === null) {
                 $this->_store = Mage::app()->getStore()->getId();
             }
-            $this->_designConfig = new Magento_Object(array(
+            $this->_designConfig = new \Magento\Object(array(
                 'area' => $this->_area,
                 'store' => $this->_store
             ));
@@ -140,12 +140,12 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
      *
      * @param array $config
      * @return Magento_Core_Model_Template
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function setDesignConfig(array $config)
     {
         if (!isset($config['area']) || !isset($config['store'])) {
-            throw new Magento_Exception('Design config must have area and store.');
+            throw new \Magento\MagentoException('Design config must have area and store.');
         }
         $this->getDesignConfig()->setData($config);
         return $this;

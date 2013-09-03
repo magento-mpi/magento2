@@ -35,14 +35,14 @@ class Magento_VersionsCms_Model_Config
         ));
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      */
-    public function __construct(Magento_AuthorizationInterface $authorization)
+    public function __construct(\Magento\AuthorizationInterface $authorization)
     {
         $this->_authorization = $authorization;
     }

@@ -15,7 +15,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -135,7 +135,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123123q',
                 'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
-            ), 'Magento_Validator_Exception'),
+            ), '\Magento\Validator\ValidatorException'),
             'Invalid email' => array(array(
                 'website_id' => 0,
                 'group_id' => 1,
@@ -147,7 +147,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'email' => '111@111',
                 'password' => '123123q',
                 'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
-            ), 'Magento_Validator_Exception'),
+            ), '\Magento\Validator\ValidatorException'),
             'Invalid password' => array(array(
                 'website_id' => 0,
                 'group_id' => 1,
@@ -365,10 +365,10 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ), 'Magento_Eav_Model_Entity_Attribute_Exception'),
             'Invalid name' => array(array(
                 'firstname' => null
-            ), 'Magento_Validator_Exception'),
+            ), '\Magento\Validator\ValidatorException'),
             'Invalid email' => array(array(
                 'email' => '3434@23434'
-            ), 'Magento_Validator_Exception')
+            ), '\Magento\Validator\ValidatorException')
         );
     }
 

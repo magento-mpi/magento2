@@ -285,7 +285,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      *
      * @param array $children
      * @param string $path
-     * @param Magento_Object $parent
+     * @param \Magento\Object $parent
      */
     public function addChildNodes($children, $path, $parent)
     {
@@ -363,7 +363,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * @param boolean|string $sorted
      * @param boolean $asCollection
      * @param boolean $toLoad
-     * @return array|Magento_Data_Collection
+     * @return array|\Magento\Data\Collection
      */
     public function getCategories($parent, $recursionLevel = 0, $sorted = false, $asCollection = false, $toLoad = true)
     {
@@ -394,7 +394,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      *
      * @param integer $nodeId
      * @param array $nodes
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getNodeById($nodeId, $nodes = null)
     {
@@ -560,9 +560,9 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             $this->_columns = array_merge($this->_getStaticColumns(), $this->_getEavColumns());
             foreach ($this->_columns as $fieldName => $fieldProp) {
                 $default = $fieldProp['default'];
-                if ($fieldProp['type'][0] == Magento_DB_Ddl_Table::TYPE_TIMESTAMP
+                if ($fieldProp['type'][0] == \Magento\DB\Ddl\Table::TYPE_TIMESTAMP
                     && $default == 'CURRENT_TIMESTAMP') {
-                    $default = Magento_DB_Ddl_Table::TIMESTAMP_INIT;
+                    $default = \Magento\DB\Ddl\Table::TIMESTAMP_INIT;
                 }
                 $table->addColumn($fieldName, $fieldProp['type'][0], $fieldProp['type'][1], array(
                     'nullable' => $fieldProp['nullable'],
@@ -598,11 +598,11 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                 $tableName, 'entity_id', $this->getTable('catalog_category_entity'), 'entity_id'
             ),
             'entity_id', $this->getTable('catalog_category_entity'), 'entity_id',
-            Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE);
+            \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE);
         $table->addForeignKey(
             $_writeAdapter->getForeignKeyName($tableName, 'store_id', $this->getTable('core_store'), 'store_id'),
             'store_id', $this->getTable('core_store'), 'store_id',
-            Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE);
+            \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE);
         $_writeAdapter->createTable($table);
         return $this;
     }
@@ -627,9 +627,9 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             $ddlType = $helper->getDdlTypeByColumnType($column['DATA_TYPE']);
             $column['DEFAULT'] = trim($column['DEFAULT'],"' ");
             switch ($ddlType) {
-                case Magento_DB_Ddl_Table::TYPE_SMALLINT:
-                case Magento_DB_Ddl_Table::TYPE_INTEGER:
-                case Magento_DB_Ddl_Table::TYPE_BIGINT:
+                case \Magento\DB\Ddl\Table::TYPE_SMALLINT:
+                case \Magento\DB\Ddl\Table::TYPE_INTEGER:
+                case \Magento\DB\Ddl\Table::TYPE_BIGINT:
                     $_is_unsigned = (bool)$column['UNSIGNED'];
                     if ($column['DEFAULT'] === '') {
                         $column['DEFAULT'] = null;
@@ -637,26 +637,26 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
 
                     $options = null;
                     if ($column['SCALE'] > 0) {
-                        $ddlType = Magento_DB_Ddl_Table::TYPE_DECIMAL;
+                        $ddlType = \Magento\DB\Ddl\Table::TYPE_DECIMAL;
                     } else {
                         break;
                     }
-                case Magento_DB_Ddl_Table::TYPE_DECIMAL:
+                case \Magento\DB\Ddl\Table::TYPE_DECIMAL:
                     $options = $column['PRECISION'] . ',' . $column['SCALE'];
                     $_is_unsigned = null;
                     if ($column['DEFAULT'] === '') {
                         $column['DEFAULT'] = null;
                     }
                     break;
-                case Magento_DB_Ddl_Table::TYPE_TEXT:
+                case \Magento\DB\Ddl\Table::TYPE_TEXT:
                     $options = $column['LENGTH'];
                     $_is_unsigned = null;
                     break;
-                case Magento_DB_Ddl_Table::TYPE_TIMESTAMP:
+                case \Magento\DB\Ddl\Table::TYPE_TIMESTAMP:
                     $options = null;
                     $_is_unsigned = null;
                     break;
-                case Magento_DB_Ddl_Table::TYPE_DATETIME:
+                case \Magento\DB\Ddl\Table::TYPE_DATETIME:
                     $_is_unsigned = null;
                     break;
 
@@ -670,7 +670,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             );
         }
         $columns['store_id'] = array(
-            'type' => array(Magento_DB_Ddl_Table::TYPE_SMALLINT, 5),
+            'type' => array(\Magento\DB\Ddl\Table::TYPE_SMALLINT, 5),
             'unsigned' => true,
             'nullable' => false,
             'default' => '0',
@@ -696,7 +696,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             switch ($attribute['backend_type']) {
                 case 'varchar':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(Magento_DB_Ddl_Table::TYPE_TEXT, 255),
+                        'type' => array(\Magento\DB\Ddl\Table::TYPE_TEXT, 255),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -705,7 +705,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                     break;
                 case 'int':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(Magento_DB_Ddl_Table::TYPE_INTEGER, null),
+                        'type' => array(\Magento\DB\Ddl\Table::TYPE_INTEGER, null),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -714,7 +714,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                     break;
                 case 'text':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(Magento_DB_Ddl_Table::TYPE_TEXT, '64k'),
+                        'type' => array(\Magento\DB\Ddl\Table::TYPE_TEXT, '64k'),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -723,7 +723,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                     break;
                 case 'datetime':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(Magento_DB_Ddl_Table::TYPE_DATETIME, null),
+                        'type' => array(\Magento\DB\Ddl\Table::TYPE_DATETIME, null),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -732,7 +732,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                     break;
                 case 'decimal':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4'),
+                        'type' => array(\Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4'),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -866,7 +866,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     /**
      * Synchronize flat data with eav model for category
      *
-     * @param Magento_Object $category
+     * @param \Magento\Object $category
      * @return Magento_Catalog_Model_Resource_Category_Flat
      */
     protected function _synchronize($category)
@@ -894,7 +894,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
 
             $storesObjects = array();
             foreach ($stores as $storeId => $rootCategoryId) {
-                $_store = new Magento_Object(array(
+                $_store = new \Magento\Object(array(
                     'store_id'          => $storeId,
                     'root_category_id'  => $rootCategoryId
                 ));
@@ -911,7 +911,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                 }
 
                 $attributeValues = $this->_getAttributeValues($categoryId, $storeId);
-                $data = new Magento_Object($category->getData());
+                $data = new \Magento\Object($category->getData());
                 $data->addData($attributeValues[$categoryId])
                     ->setStoreId($storeId);
                 $this->_synchronize($data);
@@ -931,7 +931,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             foreach ($stores as $storeId => $rootCategoryId) {
                 if (in_array($rootCategoryId, $path)) {
                     $attributeValues = $this->_getAttributeValues($category, $storeId);
-                    $data = new Magento_Object($row);
+                    $data = new \Magento\Object($row);
                     $data->addData($attributeValues[$category])
                         ->setStoreId($storeId);
                     $this->_synchronize($data);
@@ -1020,7 +1020,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             foreach ($addStores as $storeId => $storeCategoryIds) {
                 $attributeValues = $this->_getAttributeValues(array_keys($storeCategoryIds), $storeId);
                 foreach ($storeCategoryIds as $row) {
-                    $data = new Magento_Object($row);
+                    $data = new \Magento\Object($row);
                     $data->addData($attributeValues[$row['entity_id']])
                         ->setStoreId($storeId);
                     $this->_synchronize($data);
@@ -1106,7 +1106,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      *  'field_name' => 'value'
      * )
      *
-     * @param Magento_Object $category
+     * @param \Magento\Object $category
      * @param array $replaceFields
      * @return array
      */
@@ -1233,7 +1233,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             ->where('entity_id IN (?)', $pathIds)
             ->where('custom_use_parent_settings = ?', 0)
             ->where($levelField . ' != ?', 0)
-            ->order('level ' . Magento_DB_Select::SQL_DESC);
+            ->order('level ' . \Magento\DB\Select::SQL_DESC);
         $result = $adapter->fetchRow($select);
         return Mage::getModel('Magento_Catalog_Model_Category')->setData($result);
     }
@@ -1348,7 +1348,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             )
             ->where('main_table.entity_id IN (?)', $pathIds)
             ->where('main_table.is_active = ?', '1')
-            ->order('main_table.path ' . Magento_DB_Select::SQL_DESC);
+            ->order('main_table.path ' . \Magento\DB\Select::SQL_DESC);
         $result = $this->_getReadAdapter()->fetchAll($select);
         foreach ($result as $row) {
             $row['id'] = $row['entity_id'];

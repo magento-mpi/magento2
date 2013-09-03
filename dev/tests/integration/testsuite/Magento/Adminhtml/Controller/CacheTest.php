@@ -25,7 +25,7 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
         $this->assertFalse($cache->load('APPLICATION_FIXTURE'));
 
         $cachePool = Mage::getModel('Magento_Core_Model_Cache_Frontend_Pool');
-        /** @var $cacheFrontend Magento_Cache_FrontendInterface */
+        /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
         foreach ($cachePool as $cacheFrontend) {
             $this->assertFalse($cacheFrontend->getBackend()->load('NON_APPLICATION_FIXTURE'));
         }
@@ -45,7 +45,7 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
         $this->assertFalse($cache->load('APPLICATION_FIXTURE'));
 
         $cachePool = Mage::getModel('Magento_Core_Model_Cache_Frontend_Pool');
-        /** @var $cacheFrontend Magento_Cache_FrontendInterface */
+        /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
         foreach ($cachePool as $cacheFrontend) {
             $this->assertSame('non-application cache data',
                 $cacheFrontend->getBackend()->load('NON_APPLICATION_FIXTURE'));

@@ -36,7 +36,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
     protected $_design;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -51,12 +51,12 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
     protected $_parentTheme;
 
     /**
-     * @var Magento_Config_View
+     * @var \Magento\Config\View
      */
     protected $_viewConfig;
 
     /**
-     * @var Magento_Config_View
+     * @var \Magento\Config\View
      */
     protected $_viewConfigParent;
 
@@ -85,7 +85,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
      * Initialize dependencies
      *
      * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Event_Manager $eventDispatcher
      * @param Magento_Core_Model_View_Config $viewConfig
      * @param Magento_DesignEditor_Model_Config_Control_Abstract|null $configuration
@@ -94,7 +94,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $design,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Event_Manager $eventDispatcher,
         Magento_Core_Model_View_Config $viewConfig,
         Magento_DesignEditor_Model_Config_Control_Abstract $configuration = null,
@@ -167,10 +167,10 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
      *
      * @param array $control
      * @param string $paramName
-     * @param Magento_Config_View $viewConfiguration
+     * @param \Magento\Config\View $viewConfiguration
      * @return Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
      */
-    protected function _loadControlData(array &$control, $paramName, Magento_Config_View $viewConfiguration)
+    protected function _loadControlData(array &$control, $paramName, \Magento\Config\View $viewConfiguration)
     {
         if (!empty($control['var'])) {
             list($module, $varKey) = $this->_extractModuleKey($control['var']);

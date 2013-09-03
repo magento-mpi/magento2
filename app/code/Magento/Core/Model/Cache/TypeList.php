@@ -51,7 +51,7 @@ class Magento_Core_Model_Cache_TypeList implements Magento_Core_Model_Cache_Type
      * Get cache class by cache type from configuration
      *
      * @param string $type
-     * @return Magento_Cache_FrontendInterface
+     * @return \Magento\Cache\FrontendInterface
      * @throws UnexpectedValueException
      */
     protected function _getTypeInstance($type)
@@ -101,12 +101,12 @@ class Magento_Core_Model_Cache_TypeList implements Magento_Core_Model_Cache_Type
 
         foreach ($config as $type => $node) {
             $typeInstance = $this->_getTypeInstance($type);
-            if ($typeInstance instanceof Magento_Cache_Frontend_Decorator_TagScope) {
+            if ($typeInstance instanceof \Magento\Cache\Frontend\Decorator\TagScope) {
                 $typeTags = $typeInstance->getTag();
             } else {
                 $typeTags = '';
             }
-            $types[$type] = new Magento_Object(array(
+            $types[$type] = new \Magento\Object(array(
                 'id'            => $type,
                 'cache_type'    => $node['label'],
                 'description'   => $node['description'],

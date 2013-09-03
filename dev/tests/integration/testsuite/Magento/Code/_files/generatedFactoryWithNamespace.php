@@ -14,7 +14,7 @@ class SourceClassWithNamespaceFactory
     /**
      * Object Manager instance
      *
-     * @var \Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -28,10 +28,10 @@ class SourceClassWithNamespaceFactory
     /**
      * Factory constructor
      *
-     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(\Magento_ObjectManager $objectManager, $instanceName = 'Magento\Code\Generator\TestAsset\SourceClassWithNamespace')
+    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\Code\Generator\TestAsset\SourceClassWithNamespace')
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;

@@ -15,7 +15,7 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Service extends Magento_Object
+class Magento_GoogleShopping_Model_Service extends \Magento\Object
 {
     /**
      * Client instance identifier in registry
@@ -43,7 +43,7 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
         try {
             if (!Mage::registry($this->_clientRegistryId)) {
                 $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass,
-                    Magento_Gdata_Gshopping_Content::AUTH_SERVICE_NAME, null, '', $loginToken, $loginCaptcha,
+                    \Magento\Gdata\Gshopping\Content::AUTH_SERVICE_NAME, null, '', $loginToken, $loginCaptcha,
                     Zend_Gdata_ClientLogin::CLIENTLOGIN_URI, $type
                 );
                 $configTimeout = array('timeout' => 60);
@@ -78,7 +78,7 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
      * Return Google Content Service Instance
      *
      * @param int $storeId
-     * @return Magento_Gdata_Gshopping_Content
+     * @return \Magento\Gdata\Gshopping\Content
      */
     public function getService($storeId = null)
     {
@@ -98,7 +98,7 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
     /**
      * Set Google Content Service Instance
      *
-     * @param Magento_Gdata_Gshopping_Content $service
+     * @param \Magento\Gdata\Gshopping\Content $service
      * @return Magento_GoogleShopping_Model_Service
      */
     public function setService($service)
@@ -121,13 +121,13 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
      * Authorize Google Account
      *
      * @param int $storeId
-     * @return Magento_Gdata_Gshopping_Content service
+     * @return \Magento\Gdata\Gshopping\Content service
      */
     protected function _connect($storeId = null)
     {
         $accountId = $this->getConfig()->getAccountId($storeId);
         $client = $this->getClient($storeId);
-        $service = new Magento_Gdata_Gshopping_Content($client, $accountId);
+        $service = new \Magento\Gdata\Gshopping\Content($client, $accountId);
         return $service;
     }
 }

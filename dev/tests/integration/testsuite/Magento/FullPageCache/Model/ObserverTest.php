@@ -48,10 +48,10 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
         $request->setControllerName('product');
         $request->setActionName('view');
 
-        $observerData = new Magento_Event_Observer();
+        $observerData = new \Magento\Event\Observer();
         $arguments = array('request' => $request, 'response' => $response);
         $context = Mage::getObjectManager()->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
-        $observerData->setEvent(new Magento_Event(array(
+        $observerData->setEvent(new \Magento\Event(array(
             'controller_action' => Mage::getModel(
                 'Magento_Core_Controller_Front_Action',
                 array('context' => $context)
@@ -84,11 +84,11 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
         $restriction = Mage::getSingleton('Magento_FullPageCache_Model_Processor_RestrictionInterface');
         $restriction->setIsDenied();
 
-        $observerData = new Magento_Event_Observer();
+        $observerData = new \Magento\Event\Observer();
         $arguments =
             array('request' => new Magento_TestFramework_Request(), 'response' => new Magento_TestFramework_Response());
         $context = Mage::getObjectManager()->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
-        $observerData->setEvent(new Magento_Event(array(
+        $observerData->setEvent(new \Magento\Event(array(
             'controller_action' => Mage::getModel(
                 'Magento_Core_Controller_Front_Action',
                 array('context' => $context, 'areaCode' => 'frontend')
@@ -110,7 +110,7 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
             ->method('set')
             ->with(Magento_FullPageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
         ;
-        $this->_observer->setNoCacheCookie(new Magento_Event_Observer());
+        $this->_observer->setNoCacheCookie(new \Magento\Event\Observer());
     }
 
     public function testDeleteNoCacheCookie()
@@ -120,6 +120,6 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
             ->method('delete')
             ->with(Magento_FullPageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
         ;
-        $this->_observer->deleteNoCacheCookie(new Magento_Event_Observer());
+        $this->_observer->deleteNoCacheCookie(new \Magento\Event\Observer());
     }
 }

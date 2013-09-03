@@ -273,7 +273,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
 
     public function jsonProductInfoAction()
     {
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $id = $this->getRequest()->getParam('id');
         if( intval($id) > 0 ) {
             $product = Mage::getModel('Magento_Catalog_Model_Product')

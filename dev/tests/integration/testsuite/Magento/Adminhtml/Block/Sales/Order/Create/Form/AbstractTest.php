@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
             'Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract', '_addAttributesToForm');
         $method->setAccessible(true);
 
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $fieldset = $form->addFieldset('test_fieldset', array());
         $arguments = array(
             'data' => array(

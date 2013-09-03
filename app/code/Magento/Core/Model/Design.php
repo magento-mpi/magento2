@@ -59,14 +59,14 @@ class Magento_Core_Model_Design extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -91,7 +91,7 @@ class Magento_Core_Model_Design extends Magento_Core_Model_Abstract
     public function loadChange($storeId, $date = null)
     {
         if (is_null($date)) {
-            $date = Magento_Date::formatDate($this->_locale->storeTimeStamp($storeId), false);
+            $date = \Magento\Date::formatDate($this->_locale->storeTimeStamp($storeId), false);
         }
 
         $changeCacheId = 'design_change_' . md5($storeId . $date);

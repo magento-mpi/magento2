@@ -195,7 +195,7 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Magento_Index_Model_In
      */
     protected function _registerCatalogProductMassActionEvent(Magento_Index_Model_Event $event)
     {
-        /* @var $actionObject Magento_Object */
+        /* @var $actionObject \Magento\Object */
         $actionObject = $event->getDataObject();
         $attributes   = $this->_getDependentAttributes();
         $reindexPrice = false;

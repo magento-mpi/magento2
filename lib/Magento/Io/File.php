@@ -14,7 +14,9 @@
  * @package    Magento_Io
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Io_File extends Magento_Io_Abstract
+namespace Magento\Io;
+
+class File extends \Magento\Io\AbstractIo
 {
     /**
      * Save initial working directory
@@ -99,13 +101,13 @@ class Magento_Io_File extends Magento_Io_Abstract
      * @param string $mode
      * @param int $chmod
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public function streamOpen($fileName, $mode = 'w+', $chmod = 0666)
     {
         $writeableMode = preg_match('#^[wax]#i', $mode);
         if ($writeableMode && !is_writeable($this->_cwd)) {
-            throw new Exception('Permission denied for write to ' . $this->_cwd);
+            throw new \Exception('Permission denied for write to ' . $this->_cwd);
         }
 
         if (!ini_get('auto_detect_line_endings')) {
@@ -116,7 +118,7 @@ class Magento_Io_File extends Magento_Io_Abstract
         $this->_streamHandler = @fopen($fileName, $mode);
         $this->_iwd();
         if ($this->_streamHandler === false) {
-            throw new Exception('Error write to file ' . $fileName);
+            throw new \Exception('Error write to file ' . $fileName);
         }
 
         $this->_streamFileName = $fileName;
@@ -258,7 +260,7 @@ class Magento_Io_File extends Magento_Io_Abstract
     /**
      * Retrieve stream methods exception
      *
-     * @return Exception
+     * @return \Exception
      */
     public function getStreamException()
     {
@@ -294,7 +296,7 @@ class Magento_Io_File extends Magento_Io_Abstract
      *
      * @param mixed $flag
      * @access public
-     * @return Magento_Io_File
+     * @return \Magento\Io\File
      */
     public function setAllowCreateFolders($flag)
     {
@@ -370,12 +372,12 @@ class Magento_Io_File extends Magento_Io_Abstract
      * @param array $fileCallback
      * @param array $dirCallback
      * @return mixed
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected static function _recursiveCallback($dir, array $fileCallback, array $dirCallback = array())
     {
         if (empty($fileCallback) || !is_array($fileCallback) || !is_array($dirCallback)) {
-            throw new InvalidArgumentException("file/dir callback is not specified");
+            throw new \InvalidArgumentException("file/dir callback is not specified");
         }
         if (empty($dirCallback)) {
             $dirCallback = $fileCallback;
@@ -389,13 +391,13 @@ class Magento_Io_File extends Magento_Io_Abstract
             }
             $callback = $dirCallback[0];
             if (!is_callable($callback)) {
-                throw new InvalidArgumentException("'dirCallback' parameter is not callable");
+                throw new \InvalidArgumentException("'dirCallback' parameter is not callable");
             }
             $parameters = isset($dirCallback[1]) ? $dirCallback[1] : array();
         } else {
             $callback = $fileCallback[0];
             if (!is_callable($callback)) {
-                throw new InvalidArgumentException("'fileCallback' parameter is not callable");
+                throw new \InvalidArgumentException("'fileCallback' parameter is not callable");
             }
             $parameters = isset($fileCallback[1]) ? $fileCallback[1] : array();
         }
@@ -420,7 +422,7 @@ class Magento_Io_File extends Magento_Io_Abstract
      *
      * @param string $dir
      * @return boolean
-     * @throws Exception
+     * @throws \Exception
      */
     public function cd($dir)
     {
@@ -429,7 +431,7 @@ class Magento_Io_File extends Magento_Io_Abstract
             $this->_cwd = realpath($dir);
             return true;
         } else {
-            throw new Exception('Unable to list current working directory.');
+            throw new \Exception('Unable to list current working directory.');
         }
     }
 
@@ -550,7 +552,7 @@ class Magento_Io_File extends Magento_Io_Abstract
      * Create destination folder
      *
      * @param string $path
-     * @return Magento_Io_File
+     * @return \Magento\Io\File
      */
     public function createDestinationDir($path)
     {
@@ -566,7 +568,7 @@ class Magento_Io_File extends Magento_Io_Abstract
      * @param string $folder
      * @param int $mode
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public function checkAndCreateFolder($folder, $mode = 0777)
     {
@@ -577,7 +579,7 @@ class Magento_Io_File extends Magento_Io_Abstract
             $this->checkAndCreateFolder(dirname($folder), $mode);
         }
         if (!is_dir($folder) && !$this->mkdir($folder, $mode)) {
-            throw new Exception("Unable to create directory '{$folder}'. Access forbidden.");
+            throw new \Exception("Unable to create directory '{$folder}'. Access forbidden.");
         }
         return true;
     }
@@ -680,9 +682,9 @@ class Magento_Io_File extends Magento_Io_Abstract
      *   - LS_FILES = 2
      *   - LS_ALL   = 3
      *
-     * @param Magento_Io_File const
+     * @param \Magento\Io\File const
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
     public function ls($grep = null)
     {
@@ -693,7 +695,7 @@ class Magento_Io_File extends Magento_Io_Abstract
         } elseif (is_dir($this->_iwd)) {
             $dir = $this->_iwd;
         } else {
-            throw new Exception('Unable to list current working directory.');
+            throw new \Exception('Unable to list current working directory.');
         }
 
         $list = Array();
@@ -747,7 +749,7 @@ class Magento_Io_File extends Magento_Io_Abstract
             }
             closedir($dirHandler);
         } else {
-            throw new Exception('Unable to list current working directory. Access forbidden.');
+            throw new \Exception('Unable to list current working directory. Access forbidden.');
         }
 
         return $list;
@@ -787,7 +789,7 @@ class Magento_Io_File extends Magento_Io_Abstract
         } elseif ($mode & 0x2000) {
             $type = 'c'; /* Character special */
         } elseif ($mode & 0x4000) {
-            $type = 'd'; /* Directory */
+            $type = 'd'; /* \Directory */
         } elseif ($mode & 0x6000) {
             $type = 'b'; /* Block special */
         } elseif ($mode & 0x8000) {

@@ -32,7 +32,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
 
     /**
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param string $areaCode
@@ -41,7 +41,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
         $areaCode,

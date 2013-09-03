@@ -42,7 +42,7 @@ class Magento_AdminNotification_Model_System_Message_Security
     protected $_config;
 
     /**
-     * @var Magento_HTTP_Adapter_CurlFactory
+     * @var Magento\HTTP\Adapter\CurlFactory
      */
     protected $_curlFactory;
 
@@ -50,13 +50,13 @@ class Magento_AdminNotification_Model_System_Message_Security
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Magento_Core_Model_Config $config
-     * @param Magento_HTTP_Adapter_CurlFactory $curlFactory
+     * @param Magento\HTTP\Adapter\CurlFactory $curlFactory
      */
     public function __construct(
         Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Store_Config $storeConfig,
         Magento_Core_Model_Config $config,
-        Magento_HTTP_Adapter_CurlFactory $curlFactory
+        Magento\HTTP\Adapter\CurlFactory $curlFactory
     ) {
         $this->_cache = $cache;
         $this->_storeConfig = $storeConfig;
@@ -95,7 +95,7 @@ class Magento_AdminNotification_Model_System_Message_Security
             'default/' . Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
         );
 
-        /** @var $http Magento_HTTP_Adapter_Curl */
+        /** @var $http Magento\HTTP\Adapter\Curl */
         $http = $this->_curlFactory->create();
         $http->setConfig(array('timeout' => $this->_verificationTimeOut));
         $http->write(Zend_Http_Client::POST, $unsecureBaseURL . $this->_filePath);

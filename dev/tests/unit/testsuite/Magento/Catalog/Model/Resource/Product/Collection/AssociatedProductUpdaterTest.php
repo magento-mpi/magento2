@@ -20,7 +20,7 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater
             'qty' => 'qty',
             'inventory_in_stock' => 'is_in_stock'
         );
-        $collection = $this->getMockBuilder('Magento_Data_Collection_Db')
+        $collection = $this->getMockBuilder('Magento\Data\Collection\Db')
             ->disableOriginalConstructor()
             ->getMock();
         $stockItem = $this->getMockBuilder('Magento_CatalogInventory_Model_Resource_Stock_Item')

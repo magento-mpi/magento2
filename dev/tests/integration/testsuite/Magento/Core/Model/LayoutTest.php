@@ -50,7 +50,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testConstructorStructure()
     {
-        $structure = new Magento_Data_Structure;
+        $structure = new \Magento\Data\Structure;
         $structure->createElement('test.container', array());
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Mage::getModel('Magento_Core_Model_Layout', array('structure' => $structure));
@@ -136,7 +136,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->_layout->addBlock('Magento_Core_Block_Text', 'text', $name);
         $this->assertEquals(Magento_Core_Model_Layout::TYPE_BLOCK, $this->_layout->getElementProperty('text', 'type'));
         $this->assertSame(array('text' => 'text'), $this->_layout->getElementProperty(
-            $name, Magento_Data_Structure::CHILDREN
+            $name, \Magento\Data\Structure::CHILDREN
         ));
     }
 

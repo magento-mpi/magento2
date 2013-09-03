@@ -21,10 +21,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Rendere
     /**
      * Renders grid column value
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $inStock = $this->_getValue($row);
         return $inStock ?

@@ -13,7 +13,7 @@ $installer = $this;
 $installer->startSetup();
 $installer->getConnection()
     ->addColumn($installer->getTable('sales_flat_shipment'), 'packages', array(
-        'type'    => Magento_DB_Ddl_Table::TYPE_TEXT,
+        'type'    => \Magento\DB\Ddl\Table::TYPE_TEXT,
         'comment' => 'Packed Products in Packages',
         'length'  => '20000'
     ));

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Connect_Config
+namespace Magento\Connect;
+
+class Config
 implements Iterator
 {
     protected $_configFile;

@@ -34,7 +34,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         /** @var Magento_Catalog_Model_Product_Media_Config $config */
         $config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
 
-        $filesystem = Mage::getObjectManager()->get('Magento_Filesystem');
+        $filesystem = Mage::getObjectManager()->get('Magento\Filesystem');
         $filesystem->delete($config->getBaseMediaPath());
         $filesystem->delete($config->getBaseTmpMediaPath());
     }
@@ -100,8 +100,8 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 
         $targetFile = $baseTmpMediaPath . DS . basename($sourceFile);
 
-        /** @var Magento_Filesystem $filesystem */
-        $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
+        /** @var \Magento\Filesystem $filesystem */
+        $filesystem = Mage::getObjectManager()->create('Magento\Filesystem');
         $filesystem->setIsAllowCreateDirectories(true);
         $filesystem->copy($sourceFile, $targetFile);
 
@@ -305,7 +305,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testIsReservedAttribute($isUserDefined, $code, $expectedResult)
     {
-        $attribute = new Magento_Object(array('is_user_defined' => $isUserDefined, 'attribute_code' => $code));
+        $attribute = new \Magento\Object(array('is_user_defined' => $isUserDefined, 'attribute_code' => $code));
         $this->assertEquals($expectedResult, $this->_model->isReservedAttribute($attribute));
     }
 
@@ -389,9 +389,9 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 
     public function testProcessBuyRequest()
     {
-        $request = new Magento_Object;
+        $request = new \Magento\Object;
         $result = $this->_model->processBuyRequest($request);
-        $this->assertInstanceOf('Magento_Object', $result);
+        $this->assertInstanceOf('\Magento\Object', $result);
         $this->assertArrayHasKey('errors', $result->getData());
     }
 

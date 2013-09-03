@@ -12,10 +12,12 @@
  * Convert the data to XML Excel
  */
 
-class Magento_Convert_Excel
+namespace Magento\Convert;
+
+class Excel
 {
     /**
-     * ArrayIterator Object
+     * \ArrayIterator Object
      *
      * @var Iterator|null
      */
@@ -183,10 +185,10 @@ class Magento_Convert_Excel
     /**
      * Write Converted XML Data to Temporary File
      *
-     * @param Magento_Filesystem_StreamInterface $stream
+     * @param \Magento\Filesystem\StreamInterface $stream
      * @param string $sheetName
      */
-    public function write(Magento_Filesystem_StreamInterface $stream, $sheetName = '')
+    public function write(\Magento\Filesystem\StreamInterface $stream, $sheetName = '')
     {
         $stream->write($this->_getXmlHeader($sheetName));
 

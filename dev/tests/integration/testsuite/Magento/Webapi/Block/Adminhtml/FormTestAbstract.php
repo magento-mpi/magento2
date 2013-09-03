@@ -84,7 +84,7 @@ class Magento_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_
         $this->_block->toHtml();
 
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('Magento_Data_Form', $form);
+        $this->assertInstanceOf('\Magento\Data\Form', $form);
         $this->assertTrue($form->getUseContainer());
         $this->assertEquals('edit_form', $form->getId());
         $this->assertEquals('post', $form->getMethod());

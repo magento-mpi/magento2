@@ -255,12 +255,12 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and then prepare options for downloadable links.
      *
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @param Magento_Catalog_Model_Product $product
      * @param string $processMode
      * @return array|string
      */
-    protected function _prepareProduct(Magento_Object $buyRequest, $product, $processMode)
+    protected function _prepareProduct(\Magento\Object $buyRequest, $product, $processMode)
     {
         $result = parent::_prepareProduct($buyRequest, $product, $processMode);
 
@@ -312,7 +312,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
         parent::checkProductBuyState($product);
         $option = $product->getCustomOption('info_buyRequest');
         if ($option instanceof Magento_Sales_Model_Quote_Item_Option) {
-            $buyRequest = new Magento_Object(unserialize($option->getValue()));
+            $buyRequest = new \Magento\Object(unserialize($option->getValue()));
             if (!$buyRequest->hasLinks()) {
                 if (!$product->getLinksPurchasedSeparately()) {
                     $allLinksIds = Mage::getModel('Magento_Downloadable_Model_Link')
@@ -431,7 +431,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
      * Prepare selected options for downloadable product
      *
      * @param  Magento_Catalog_Model_Product $product
-     * @param  Magento_Object $buyRequest
+     * @param  \Magento\Object $buyRequest
      * @return array
      */
     public function processBuyRequest($product, $buyRequest)

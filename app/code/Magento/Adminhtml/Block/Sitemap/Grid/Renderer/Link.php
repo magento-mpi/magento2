@@ -17,18 +17,18 @@
 class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
-     * @var Magento_Filesystem $filesystem
+     * @var \Magento\Filesystem $filesystem
      */
     protected $_filesystem;
 
     /**
      * @param Magento_Backend_Block_Context $context
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Context $context,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
@@ -38,10 +38,10 @@ class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Magento_Adminht
     /**
      * Prepare link to display in grid
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         /** @var $sitemap Magento_Sitemap_Model_Sitemap */
         $sitemap = Mage::getModel('Magento_Sitemap_Model_Sitemap');

@@ -32,7 +32,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     protected $_mediaConfig;
 
     /**
-     * @var Magento_Filesystem $filesystem
+     * @var \Magento\Filesystem $filesystem
      */
     protected $_filesystem;
 
@@ -51,13 +51,13 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
      *
      * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig
      * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Model_Product_Media_Config $mediaConfig,
         Magento_Core_Model_Dir $dirs,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         $data = array()
     ) {
         if (isset($data['resourceModel'])) {

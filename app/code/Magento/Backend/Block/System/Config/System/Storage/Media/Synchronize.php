@@ -25,10 +25,10 @@ class Magento_Backend_Block_System_Config_System_Storage_Media_Synchronize
     /**
      * Remove scope label
      *
-     * @param  Magento_Data_Form_Element_Abstract $element
+     * @param  \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
         return parent::render($element);
@@ -37,10 +37,10 @@ class Magento_Backend_Block_System_Config_System_Storage_Media_Synchronize
     /**
      * Return element html
      *
-     * @param  Magento_Data_Form_Element_Abstract $element
+     * @param  \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         return $this->_toHtml();
     }

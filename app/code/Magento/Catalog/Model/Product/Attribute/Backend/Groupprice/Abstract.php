@@ -328,7 +328,7 @@ abstract class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstra
 
         if (!empty($insert)) {
             foreach ($insert as $data) {
-                $price = new Magento_Object($data);
+                $price = new \Magento\Object($data);
                 $price->setEntityId($productId);
                 $this->_getResource()->savePriceData($price);
 
@@ -339,7 +339,7 @@ abstract class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstra
         if (!empty($update)) {
             foreach ($update as $k => $v) {
                 if ($old[$k]['price'] != $v['value']) {
-                    $price = new Magento_Object(array(
+                    $price = new \Magento\Object(array(
                         'value_id'  => $old[$k]['price_id'],
                         'value'     => $v['value']
                     ));

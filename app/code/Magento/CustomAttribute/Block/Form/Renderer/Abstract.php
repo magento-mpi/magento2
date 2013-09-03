@@ -93,13 +93,13 @@ abstract class Magento_CustomAttribute_Block_Form_Renderer_Abstract extends Mage
     /**
      * Return Data Form Filter or false
      *
-     * @return Magento_Data_Form_Filter_Interface
+     * @return \Magento\Data\Form\Filter\FilterInterface
      */
     protected function _getFormFilter()
     {
         $filterCode = $this->getAttributeObject()->getInputFilter();
         if ($filterCode) {
-            $filterClass = 'Magento_Data_Form_Filter_' . ucfirst($filterCode);
+            $filterClass = 'Magento\\Data\\Form\\Filter\\' . ucfirst($filterCode);
             if ($filterCode == 'date') {
                 $format = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
                 $filter = new $filterClass($format);

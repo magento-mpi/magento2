@@ -67,7 +67,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Magento_Adminht
      */
     public function getFilebrowserSetupObject()
     {
-        $setupObject = new Magento_Object();
+        $setupObject = new \Magento\Object();
 
         $setupObject->setData(array(
             'newFolderPrompt'                 => __('New Folder Name:'),

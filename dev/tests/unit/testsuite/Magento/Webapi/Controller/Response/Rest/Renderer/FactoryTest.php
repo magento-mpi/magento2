@@ -18,13 +18,13 @@ class Magento_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUn
     /** @var Magento_Core_Model_Config */
     protected $_applicationMock;
 
-    /** @var Magento_ObjectManager */
+    /** @var \Magento\ObjectManager */
     protected $_objectManagerMock;
 
     protected function setUp()
     {
         /** Init dependencies for SUT. */
-        $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->disableOriginalConstructor()
+        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->disableOriginalConstructor()
             ->getMock();
         $this->_applicationMock = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()
             ->getMock();
@@ -121,10 +121,10 @@ XML;
         );
         /** Mock request getAcceptTypes method to return specified value. */
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue($acceptTypes));
-        /** Mock object to return Magento_Object */
+        /** Mock object to return \Magento\Object */
         $this->_objectManagerMock->expects($this->once())->method('get')->with(
             'Magento_Webapi_Controller_Response_Rest_Renderer_Json'
-        )->will($this->returnValue(new Magento_Object()));
+        )->will($this->returnValue(new \Magento\Object()));
 
         $this->setExpectedException(
             'LogicException',

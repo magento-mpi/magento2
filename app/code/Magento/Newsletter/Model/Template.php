@@ -229,7 +229,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      */
     public function getProcessedTemplateSubject(array $variables)
     {
-        $processor = new Magento_Filter_Template();
+        $processor = new \Magento\Filter\Template();
 
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;

@@ -19,7 +19,7 @@ $installer->getConnection()
         $installer->getTable('sales_order_tax_item'),
         'tax_percent',
         array(
-            'TYPE'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+            'TYPE'      => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
             'SCALE'     => 4,
             'PRECISION' => 12,
             'NULLABLE'  => false,

@@ -15,7 +15,7 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Item_Status extends Magento_Object
+class Magento_Rma_Model_Item_Status extends \Magento\Object
 {
     /**
      * Artificial "maximal" item status when whole order is closed

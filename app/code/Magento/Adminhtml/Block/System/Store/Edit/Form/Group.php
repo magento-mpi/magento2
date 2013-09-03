@@ -21,9 +21,9 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
     /**
      * Prepare group specific fieldset
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      */
-    protected function _prepareStoreFieldset(Magento_Data_Form $form)
+    protected function _prepareStoreFieldset(\Magento\Data\Form $form)
     {
         $groupModel = Mage::registry('store_data');
         if ($postData = Mage::registry('store_post_data')) {

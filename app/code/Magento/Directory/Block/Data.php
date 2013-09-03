@@ -55,7 +55,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
 
     public function getCountryHtmlSelect($defValue=null, $name='country_id', $id='country', $title='Country')
     {
-        Magento_Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         if (is_null($defValue)) {
             $defValue = $this->getCountryId();
         }
@@ -75,7 +75,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
             ->setOptions($options)
             ->getHtml();
 
-        Magento_Profiler::stop('TEST: '.__METHOD__);
+        \Magento\Profiler::stop('TEST: '.__METHOD__);
         return $html;
     }
 
@@ -95,7 +95,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
 
     public function getRegionHtmlSelect()
     {
-        Magento_Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         $cacheKey = 'DIRECTORY_REGION_SELECT_STORE' . Mage::app()->getStore()->getId();
         if ($cache = $this->_configCacheType->load($cacheKey)) {
             $options = unserialize($cache);
@@ -111,7 +111,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
             ->setValue(intval($this->getRegionId()))
             ->setOptions($options)
             ->getHtml();
-        Magento_Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         return $html;
     }
 
@@ -126,7 +126,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
 
     public function getRegionsJs()
     {
-        Magento_Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         $regionsJs = $this->getData('regions_js');
         if (!$regionsJs) {
             $countryIds = array();
@@ -148,7 +148,7 @@ class Magento_Directory_Block_Data extends Magento_Core_Block_Template
             }
             $regionsJs = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($regions);
         }
-        Magento_Profiler::stop('TEST: '.__METHOD__);
+        \Magento\Profiler::stop('TEST: '.__METHOD__);
         return $regionsJs;
     }
 }

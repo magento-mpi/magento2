@@ -58,7 +58,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
      * @param string $configPermitted
      * @param string|null $configForbidden
      * @param bool $isDryRun
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function __construct(
         Magento_Core_Helper_Css $cssHelper,
@@ -77,7 +77,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
         $conflicts = array_intersect($this->_permitted, $this->_forbidden);
         if ($conflicts) {
             $message = 'Conflicts: the following extensions are added both to permitted and forbidden lists: %s';
-            throw new Magento_Exception(sprintf($message, implode(', ', $conflicts)));
+            throw new \Magento\MagentoException(sprintf($message, implode(', ', $conflicts)));
         }
     }
 
@@ -86,12 +86,12 @@ class Magento_Tools_View_Generator_ThemeDeployment
      *
      * @param string $path
      * @return array
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     protected function _loadConfig($path)
     {
         if (!file_exists($path)) {
-            throw new Magento_Exception("Config file does not exist: {$path}");
+            throw new \Magento\MagentoException("Config file does not exist: {$path}");
         }
 
         $contents = include($path);
@@ -139,7 +139,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
      * @param string $sourceDir
      * @param string $destinationDir
      * @param array $context
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     protected function _copyDirStructure($sourceDir, $destinationDir, $context)
     {
@@ -160,7 +160,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
                     $extension,
                     $fileSource
                 );
-                throw new Magento_Exception($message);
+                throw new \Magento\MagentoException($message);
             }
 
             $fileDestination = $destinationDir . substr($fileSource, strlen($sourceDir));
@@ -174,7 +174,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
      * @param string $fileSource
      * @param string $fileDestination
      * @param array $context
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     protected function _deployFile($fileSource, $fileDestination, $context)
     {
@@ -195,7 +195,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
                 if (count($parts) == 2) {
                     list($module, $file) = $parts;
                     if (!strlen($module) || !strlen($file)) {
-                        throw new Magento_Exception("Wrong module url: {$relativeUrl}");
+                        throw new \Magento\MagentoException("Wrong module url: {$relativeUrl}");
                     }
                     $relPath = Magento_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
                         $destContext['area'], $destContext['themePath'], $destContext['locale'],

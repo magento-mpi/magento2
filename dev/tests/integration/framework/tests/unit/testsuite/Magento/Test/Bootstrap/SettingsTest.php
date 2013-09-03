@@ -207,7 +207,7 @@ class Magento_Test_Bootstrap_SettingsTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAsConfigFileException($settingName, $expectedExceptionMsg)
     {
-        $this->setExpectedException('Magento_Exception', $expectedExceptionMsg);
+        $this->setExpectedException('\Magento\MagentoException', $expectedExceptionMsg);
         $this->_object->getAsConfigFile($settingName);
     }
 

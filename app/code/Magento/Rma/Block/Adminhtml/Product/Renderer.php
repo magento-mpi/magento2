@@ -15,7 +15,7 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Product_Renderer extends Magento_Data_Form_Element_Select
+class Magento_Rma_Block_Adminhtml_Product_Renderer extends \Magento\Data\Form\Element\Select
 {
     /**
      * Retrieve Element HTML fragment

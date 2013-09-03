@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Magento * @package     Magento_Archive
+ * @category    Magento * @package     \Magento\Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -10,37 +10,39 @@
 /**
 * Helper class that simplifies gz files stream reading and writing
 *
-* @category    Magento* @package     Magento_Archive
+* @category    Magento* @package     \Magento\Archive
 * @author      Magento Core Team <core@magentocommerce.com>
 */
-class Magento_Archive_Helper_File_Gz extends Magento_Archive_Helper_File
+namespace Magento\Archive\Helper\File;
+
+class Gz extends \Magento\Archive\Helper\File
 {
     /**
-     * @see Magento_Archive_Helper_File::_open()
+     * @see \Magento\Archive\Helper\File::_open()
      */
     protected function _open($mode)
     {
         $this->_fileHandler = @gzopen($this->_filePath, $mode);
 
         if (false === $this->_fileHandler) {
-            throw new Magento_Exception('Failed to open file ' . $this->_filePath);
+            throw new \Magento\MagentoException('Failed to open file ' . $this->_filePath);
         }
     }
 
     /**
-     * @see Magento_Archive_Helper_File::_write()
+     * @see \Magento\Archive\Helper\File::_write()
      */
     protected function _write($data)
     {
         $result = @gzwrite($this->_fileHandler, $data);
 
         if (empty($result) && !empty($data)) {
-            throw new Magento_Exception('Failed to write data to ' . $this->_filePath);
+            throw new \Magento\MagentoException('Failed to write data to ' . $this->_filePath);
         }
     }
 
     /**
-     * @see Magento_Archive_Helper_File::_read()
+     * @see \Magento\Archive\Helper\File::_read()
      */
     protected function _read($length)
     {
@@ -48,7 +50,7 @@ class Magento_Archive_Helper_File_Gz extends Magento_Archive_Helper_File
     }
 
     /**
-     * @see Magento_Archive_Helper_File::_eof()
+     * @see \Magento\Archive\Helper\File::_eof()
      */
     protected function _eof()
     {
@@ -56,7 +58,7 @@ class Magento_Archive_Helper_File_Gz extends Magento_Archive_Helper_File
     }
 
     /**
-     * @see Magento_Archive_Helper_File::_close()
+     * @see \Magento\Archive\Helper\File::_close()
      */
     protected function _close()
     {

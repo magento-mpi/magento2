@@ -36,7 +36,7 @@ class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Ac
            if ($validator = $this->_getValidator()) {
                 $request = $this->getRequest();
 
-                $data = new Magento_Object();
+                $data = new \Magento\Object();
                 $data->setTransactionId($request->getParam('MD'));
                 $data->setPaResPayload($request->getParam('PaRes'));
 

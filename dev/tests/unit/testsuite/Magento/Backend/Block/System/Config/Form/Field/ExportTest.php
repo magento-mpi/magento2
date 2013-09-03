@@ -37,7 +37,7 @@ class Magento_Backend_Block_System_Config_Form_Field_ExportTest extends PHPUnit_
     {
         $expected = 'some test data';
 
-        $form = $this->getMock('Magento_Data_Form', array('getParent'), array(), '', false, false);
+        $form = $this->getMock('Magento\Data\Form', array('getParent'), array(), '', false, false);
         $parentObjectMock = $this->getMock('Magento_Backend_Block_Template',
             array('getLayout'), array(), '', false, false
         );

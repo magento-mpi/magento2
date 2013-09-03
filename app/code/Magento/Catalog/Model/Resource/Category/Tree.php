@@ -16,7 +16,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
+class Magento_Catalog_Model_Resource_Category_Tree extends \Magento\Data\Tree\Dbp
 {
     const ID_FIELD    = 'id';
     const PATH_FIELD  = 'path';
@@ -70,10 +70,10 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
             $resource->getConnection('catalog_write'),
             $resource->getTableName('catalog_category_entity'),
             array(
-                Magento_Data_Tree_Dbp::ID_FIELD       => 'entity_id',
-                Magento_Data_Tree_Dbp::PATH_FIELD     => 'path',
-                Magento_Data_Tree_Dbp::ORDER_FIELD    => 'position',
-                Magento_Data_Tree_Dbp::LEVEL_FIELD    => 'level',
+                \Magento\Data\Tree\Dbp::ID_FIELD       => 'entity_id',
+                \Magento\Data\Tree\Dbp::PATH_FIELD     => 'path',
+                \Magento\Data\Tree\Dbp::ORDER_FIELD    => 'position',
+                \Magento\Data\Tree\Dbp::LEVEL_FIELD    => 'level',
             )
         );
     }
@@ -381,8 +381,8 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      * Move tree before
      *
      * @param unknown_type $category
-     * @param Magento_Data_Tree_Node $newParent
-     * @param Magento_Data_Tree_Node $prevNode
+     * @param \Magento\Data\Tree\Node $newParent
+     * @param \Magento\Data\Tree\Node $prevNode
      * @return Magento_Catalog_Model_Resource_Category_Tree
      */
     protected function _beforeMove($category, $newParent, $prevNode)
@@ -417,8 +417,8 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      * Move tree after
      *
      * @param unknown_type $category
-     * @param Magento_Data_Tree_Node $newParent
-     * @param Magento_Data_Tree_Node $prevNode
+     * @param \Magento\Data\Tree\Node $newParent
+     * @param \Magento\Data\Tree\Node $prevNode
      * @return Magento_Catalog_Model_Resource_Category_Tree
      */
     protected function _afterMove($category, $newParent, $prevNode)
@@ -484,7 +484,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
             $select = $this->_createCollectionDataSelect();
         } else {
             $select = clone $this->_select;
-            $select->order($this->_orderField . ' ' . Magento_DB_Select::SQL_ASC);
+            $select->order($this->_orderField . ' ' . \Magento\DB\Select::SQL_ASC);
         }
         $select->where(implode(' OR ', $where));
 
@@ -530,7 +530,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
             }
             $select
                 ->where('e.entity_id IN(?)', $pathIds)
-                ->order($this->_conn->getLengthSql('e.path') . ' ' . Magento_DB_Select::SQL_ASC);
+                ->order($this->_conn->getLengthSql('e.path') . ' ' . \Magento\DB\Select::SQL_ASC);
             $result = $this->_conn->fetchAll($select);
             $this->_updateAnchorProductCount($result);
         }

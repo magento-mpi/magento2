@@ -23,10 +23,10 @@ class Magento_Core_Model_Layout_Argument_Handler_Url extends Magento_Core_Model_
     protected $_urlModel;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_UrlInterface $urlModel
      */
-    public function __construct(Magento_ObjectManager $objectManager, Magento_Core_Model_UrlInterface $urlModel)
+    public function __construct(\Magento\ObjectManager $objectManager, Magento_Core_Model_UrlInterface $urlModel)
     {
         parent::__construct($objectManager);
 

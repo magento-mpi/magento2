@@ -29,7 +29,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adm
     /**
      * WYSIWYG config data
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_wysiwygConfig;
 
@@ -116,7 +116,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adm
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('banner_content_');
 
         $model = $this->_registryManager->registry('current_banner');
@@ -146,9 +146,9 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adm
     /**
      * Create default content fieldset
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @param string $fieldsetHtmlClass
-     * @return Magento_Data_Form_Element_Fieldset
+     * @return \Magento\Data\Form\Element\Fieldset
      */
     protected function _createDefaultContentFieldset($form, $fieldsetHtmlClass)
     {
@@ -162,7 +162,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adm
     /**
      * Get Wysiwyg Config
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _getWysiwygConfig()
     {
@@ -180,10 +180,10 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adm
     /**
      * Create Store default content field
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param Magento_Banner_Model_Banner $model
-     * @param Magento_Data_Form $form
-     * @return Magento_Data_Form_Element_Abstract
+     * @param \Magento\Data\Form $form
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     protected function _createStoreDefaultContentField($fieldset, $model, $form)
     {
@@ -209,10 +209,10 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adm
     /**
      * Create default content for stores field
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Data\Form $form
      * @param Magento_Banner_Model_Banner $model
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     protected function _createDefaultContentForStoresField($fieldset, $form, $model)
     {
@@ -242,9 +242,9 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adm
     /**
      * Create fieldset that provides ability to change content per store view
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @param Magento_Banner_Model_Banner $model
-     * @return Magento_Data_Form_Element_Fieldset
+     * @return \Magento\Data\Form\Element\Fieldset
      */
     protected function _createStoresContentFieldset($form, $model)
     {

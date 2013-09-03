@@ -31,7 +31,7 @@ class Magento_TestFramework_Application
     protected $_db;
 
     /**
-     * @var Magento_Simplexml_Element
+     * @var \Magento\Simplexml\Element
      */
     protected $_localXml;
 
@@ -96,13 +96,13 @@ class Magento_TestFramework_Application
      *
      * @param Magento_TestFramework_Db_DbAbstract $dbInstance
      * @param string $installDir
-     * @param Magento_Simplexml_Element $localXml
+     * @param \Magento\Simplexml\Element $localXml
      * @param $globalConfigDir
      * @param array $moduleEtcFiles
      * @param string $appMode
      */
     public function __construct(
-        Magento_TestFramework_Db_DbAbstract $dbInstance, $installDir, Magento_Simplexml_Element $localXml,
+        Magento_TestFramework_Db_DbAbstract $dbInstance, $installDir, \Magento\Simplexml\Element $localXml,
         $globalConfigDir, array $moduleEtcFiles, $appMode
     ) {
         $this->_db              = $dbInstance;
@@ -202,7 +202,7 @@ class Magento_TestFramework_Application
 
         $this->loadArea(Magento_TestFramework_Application::DEFAULT_APP_AREA);
 
-        Magento_Phrase::setRenderer($objectManager->get('Magento_Phrase_Renderer_Placeholder'));
+        \Magento\Phrase::setRenderer($objectManager->get('Magento\Phrase\Renderer\Placeholder'));
     }
 
     /**
@@ -225,7 +225,7 @@ class Magento_TestFramework_Application
     public function run(Magento_TestFramework_Request $request, Magento_TestFramework_Response $response)
     {
         $composer = Mage::getObjectManager();
-        $handler = $composer->get('Magento_HTTP_Handler_Composite');
+        $handler = $composer->get('Magento\HTTP\Handler\Composite');
         $handler->handle($request, $response);
     }
 
@@ -244,7 +244,7 @@ class Magento_TestFramework_Application
      * @param string $adminUserName
      * @param string $adminPassword
      * @param string $adminRoleName
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function install($adminUserName, $adminPassword, $adminRoleName)
     {
@@ -272,7 +272,7 @@ class Magento_TestFramework_Application
         /* Make sure that local.xml contains an invalid installation date */
         $installDate = (string)$this->_localXml->global->install->date;
         if ($installDate && strtotime($installDate)) {
-            throw new Magento_Exception('Local configuration must contain an invalid installation date.');
+            throw new \Magento\MagentoException('Local configuration must contain an invalid installation date.');
         }
 
         /* Replace local.xml */
@@ -301,7 +301,7 @@ class Magento_TestFramework_Application
         $localXml = file_get_contents($targetLocalXml);
         $localXml = str_replace($installDate, date('r'), $localXml, $replacementCount);
         if ($replacementCount != 1) {
-            throw new Magento_Exception("Unable to replace installation date properly in '$targetLocalXml' file.");
+            throw new \Magento\MagentoException("Unable to replace installation date properly in '$targetLocalXml' file.");
         }
         file_put_contents($targetLocalXml, $localXml, LOCK_EX);
 
@@ -336,9 +336,9 @@ class Magento_TestFramework_Application
 
         Mage::reset();
         Mage::setObjectManager($objectManager);
-        Magento_Data_Form::setElementRenderer(null);
-        Magento_Data_Form::setFieldsetRenderer(null);
-        Magento_Data_Form::setFieldsetElementRenderer(null);
+        \Magento\Data\Form::setElementRenderer(null);
+        \Magento\Data\Form::setFieldsetRenderer(null);
+        \Magento\Data\Form::setFieldsetElementRenderer(null);
         $this->_appArea = null;
 
         if ($resource) {
@@ -349,7 +349,7 @@ class Magento_TestFramework_Application
     /**
      * Create a directory with write permissions or don't touch existing one
      *
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      * @param string $dir
      */
     protected function _ensureDirExists($dir)
@@ -359,7 +359,7 @@ class Magento_TestFramework_Application
             mkdir($dir, 0777);
             umask($old);
         } else if (!is_dir($dir)) {
-            throw new Magento_Exception("'$dir' is not a directory.");
+            throw new \Magento\MagentoException("'$dir' is not a directory.");
         }
     }
 
@@ -368,7 +368,7 @@ class Magento_TestFramework_Application
      */
     protected function _cleanupFilesystem()
     {
-        Magento_Io_File::rmdirRecursive($this->_installDir);
+        \Magento\Io\File::rmdirRecursive($this->_installDir);
     }
 
     /**

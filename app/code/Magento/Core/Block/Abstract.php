@@ -23,7 +23,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-abstract class Magento_Core_Block_Abstract extends Magento_Object
+abstract class Magento_Core_Block_Abstract extends \Magento\Object
     implements Magento_Core_Block
 {
     /**
@@ -722,13 +722,13 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
      * @param string $file path to file in theme
      * @param array $params
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function getViewFileUrl($file = null, array $params = array())
     {
         try {
             return $this->_viewUrl->getViewFileUrl($file, $params);
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\MagentoException $e) {
             Mage::logException($e);
             return $this->_getNotFoundUrl();
         }
@@ -931,9 +931,9 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
             Mage::app()->setUseSessionVar(false);
-            Magento_Profiler::start('CACHE_URL');
+            \Magento\Profiler::start('CACHE_URL');
             $html = $this->_urlBuilder->sessionUrlVar($html);
-            Magento_Profiler::stop('CACHE_URL');
+            \Magento\Profiler::stop('CACHE_URL');
         }
         return $html;
     }

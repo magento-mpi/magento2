@@ -98,7 +98,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid ex
     /**
      * Retrieve row click URL
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

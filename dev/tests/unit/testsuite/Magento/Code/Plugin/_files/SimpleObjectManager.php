@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class SimpleObjectManager implements Magento_ObjectManager
+class SimpleObjectManager implements \Magento\ObjectManager
 {
 
     /**

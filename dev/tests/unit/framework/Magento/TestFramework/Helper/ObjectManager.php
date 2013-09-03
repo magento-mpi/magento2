@@ -70,7 +70,7 @@ class Magento_TestFramework_Helper_ObjectManager
     {
         $object = null;
         $interfaces = class_implements($className);
-        if (in_array('Magento_ObjectManager_ContextInterface', $interfaces)) {
+        if (in_array('Magento\ObjectManager\ContextInterface', $interfaces)) {
             $object = $this->getObject($className, $arguments);
         } elseif (isset($this->_specialCases[$className])) {
             $method = $this->_specialCases[$className];

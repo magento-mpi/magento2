@@ -79,7 +79,7 @@ class Magento_Adminhtml_Block_Sales_Order_Abstract extends Magento_Adminhtml_Blo
     /**
      * Retrieve subtotal price include tax html formated content
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
     public function displayShippingPriceInclTax($order)

@@ -30,7 +30,7 @@ class Magento_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
      * @param  Magento_Payment_Model_Info $payment
      * @param  string $requestType
      * @param  string $lastTransactionId
-     * @param  Magento_Object $card
+     * @param  \Magento\Object $card
      * @param float $amount
      * @param string $exception
      * @return bool|string
@@ -49,7 +49,7 @@ class Magento_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
      * @param  Magento_Payment_Model_Info $payment
      * @param  string $requestType
      * @param  string $lastTransactionId
-     * @param  Magento_Object $card
+     * @param  \Magento\Object $card
      * @param float $amount
      * @param string $exception
      * @param string $additionalMessage Custom message, which will be added to the end of generated message

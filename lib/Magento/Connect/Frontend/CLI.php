@@ -16,8 +16,10 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Connect_Frontend_CLI
-extends Magento_Connect_Frontend
+namespace Magento\Connect\Frontend;
+
+class CLI
+extends \Magento\Connect\Frontend
 {
 
     /**
@@ -114,11 +116,11 @@ extends Magento_Connect_Frontend
     {
         $this->writeln($data['title']);
 
-        $channels =& $data['data'][Magento_Connect_Singleconfig::K_CHAN];
+        $channels =& $data['data'][\Magento\Connect\Singleconfig::K_CHAN];
         foreach($channels as $name => $v) {
-            $this->writeln("$name: {$v[Magento_Connect_Singleconfig::K_URI]}");
+            $this->writeln("$name: {$v[\Magento\Connect\Singleconfig::K_URI]}");
         }
-        $aliases =& $data['data'][Magento_Connect_Singleconfig::K_CHAN_ALIAS];
+        $aliases =& $data['data'][\Magento\Connect\Singleconfig::K_CHAN_ALIAS];
         if(count($aliases)) {
             $this->writeln();
             $this->writeln($data['title_aliases']);
@@ -229,7 +231,7 @@ extends Magento_Connect_Frontend
 
     /**
      * Detailed package info
-     * @param Magento_Connect_Package $package
+     * @param \Magento\Connect\Package $package
      * @return void
      */
     public function outputPackage($package)

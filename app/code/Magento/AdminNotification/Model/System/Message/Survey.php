@@ -14,7 +14,7 @@ class Magento_AdminNotification_Model_System_Message_Survey
     protected $_authSession;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -25,12 +25,12 @@ class Magento_AdminNotification_Model_System_Message_Survey
 
     /**
      * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      * @param Magento_Core_Model_UrlInterface $urlBuilder
      */
     public function __construct(
         Magento_Backend_Model_Auth_Session $authSession,
-        Magento_AuthorizationInterface $authorization,
+        \Magento\AuthorizationInterface $authorization,
         Magento_Core_Model_UrlInterface $urlBuilder
     ) {
         $this->_authorization = $authorization;

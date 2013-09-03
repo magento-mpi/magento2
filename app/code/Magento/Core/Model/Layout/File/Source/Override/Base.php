@@ -12,7 +12,7 @@
 class Magento_Core_Model_Layout_File_Source_Override_Base implements Magento_Core_Model_Layout_File_SourceInterface
 {
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     private $_filesystem;
 
@@ -27,12 +27,12 @@ class Magento_Core_Model_Layout_File_Source_Override_Base implements Magento_Cor
     private $_fileFactory;
 
     /**
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_Layout_File_Factory $fileFactory
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_Layout_File_Factory $fileFactory
     ) {

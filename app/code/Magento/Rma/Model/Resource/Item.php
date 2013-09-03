@@ -69,7 +69,7 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
     /**
      * Check whether the attribute is Applicable to the object
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @return boolean
      */
@@ -93,7 +93,7 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
             && ($method == 'beforeSave' || $method = 'afterSave')
         ) {
             $attributeCode = $instance->getAttribute()->getAttributeCode();
-            if (isset($args[0]) && $args[0] instanceof Magento_Object && $args[0]->getData($attributeCode) === false) {
+            if (isset($args[0]) && $args[0] instanceof \Magento\Object && $args[0]->getData($attributeCode) === false) {
                 return false;
             }
         }
@@ -104,7 +104,7 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
     /**
      * Reset firstly loaded attributes
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @param integer $entityId
      * @param array|null $attributes
      * @return Magento_Catalog_Model_Resource_Abstract

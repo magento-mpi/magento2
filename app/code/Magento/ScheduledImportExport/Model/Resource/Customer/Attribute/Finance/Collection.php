@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection
-    extends Magento_Data_Collection
+    extends \Magento\Data\Collection
 {
     /**#@+
      * Customer entity finance attribute ids
@@ -100,11 +100,11 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Co
     /**
      * Compare two collection items
      *
-     * @param Magento_Object $a
-     * @param Magento_Object $b
+     * @param \Magento\Object $a
+     * @param \Magento\Object $b
      * @return int
      */
-    public function compareAttributes(Magento_Object $a, Magento_Object $b)
+    public function compareAttributes(\Magento\Object $a, \Magento\Object $b)
     {
         return strnatcmp($a->getData($this->_orderField), $b->getData($this->_orderField));
     }

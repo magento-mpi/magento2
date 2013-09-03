@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey
             'name' => $element->getData('name') . '_create_redirect',
             'disabled' => true,
         );
-        $hidden =  new Magento_Data_Form_Element_Hidden($data);
+        $hidden =  new \Magento\Data\Form\Element\Hidden($data);
         $hidden->setForm($element->getForm());
 
         $storeId = $element->getForm()->getDataObject()->getStoreId();
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey
         $data['label'] = __('Create Permanent Redirect for old URL');
         $data['value'] = $element->getValue();
         $data['checked'] = Mage::helper('Magento_Catalog_Helper_Data')->shouldSaveUrlRewritesHistory($storeId);
-        $checkbox = new Magento_Data_Form_Element_Checkbox($data);
+        $checkbox = new \Magento\Data\Form\Element\Checkbox($data);
         $checkbox->setForm($element->getForm());
 
         return parent::getElementHtml() . '<br/>' . $hidden->getElementHtml() . $checkbox->getElementHtml() . $checkbox->getLabelHtml();

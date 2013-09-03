@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Webapi_Model_Acl_Resource_ProviderInterface extends Magento_Acl_Resource_ProviderInterface
+interface Magento_Webapi_Model_Acl_Resource_ProviderInterface extends \Magento\Acl\Resource\ProviderInterface
 {
     /**
      * Retrieve ACL Virtual Resources.

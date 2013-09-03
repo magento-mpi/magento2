@@ -18,18 +18,18 @@ abstract class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstrac
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);

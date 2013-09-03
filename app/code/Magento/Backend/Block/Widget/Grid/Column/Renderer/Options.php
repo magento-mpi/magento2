@@ -31,10 +31,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Options
     /**
      * Render a grid cell as options
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $options = $this->_getOptions();
 

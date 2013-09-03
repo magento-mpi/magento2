@@ -28,7 +28,7 @@ class Magento_Core_Model_View_Config
     protected $_moduleReader;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -48,13 +48,13 @@ class Magento_Core_Model_View_Config
      * View config model
      *
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_View_Service $viewService
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      */
     public function __construct(
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_View_Service $viewService,
         Magento_Core_Model_View_FileSystem $viewFileSystem
     ) {
@@ -68,7 +68,7 @@ class Magento_Core_Model_View_Config
      * Render view config object for current package and theme
      *
      * @param array $params
-     * @return Magento_Config_View
+     * @return \Magento\Config\View
      */
     public function getViewConfig(array $params = array())
     {
@@ -90,7 +90,7 @@ class Magento_Core_Model_View_Config
         if ($themeConfigFile && $this->_filesystem->has($themeConfigFile)) {
             $configFiles[] = $themeConfigFile;
         }
-        $config = new Magento_Config_View($configFiles);
+        $config = new \Magento\Config\View($configFiles);
 
         $this->_viewConfigs[$key] = $config;
         return $config;

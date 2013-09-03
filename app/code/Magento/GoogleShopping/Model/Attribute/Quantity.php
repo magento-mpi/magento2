@@ -21,8 +21,8 @@ class Magento_GoogleShopping_Model_Attribute_Quantity extends Magento_GoogleShop
      * Set current attribute to entry (for specified product)
      *
      * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Gdata_Gshopping_Entry $entry
-     * @return Magento_Gdata_Gshopping_Entry
+     * @param \Magento\Gdata\Gshopping\Entry $entry
+     * @return \Magento\Gdata\Gshopping\Entry
      */
     public function convertAttribute($product, $entry)
     {

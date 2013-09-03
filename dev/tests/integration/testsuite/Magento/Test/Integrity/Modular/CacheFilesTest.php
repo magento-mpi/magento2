@@ -13,7 +13,7 @@ class Magento_Test_Integrity_Modular_CacheFilesTest extends PHPUnit_Framework_Te
      */
     public function testCacheConfig($area)
     {
-        $validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
@@ -31,7 +31,7 @@ class Magento_Test_Integrity_Modular_CacheFilesTest extends PHPUnit_Framework_Te
         );
         try {
             $reader->read($area);
-        } catch (Magento_Exception $exception) {
+        } catch (\Magento\MagentoException $exception) {
             $this->fail($exception->getMessage());
         }
     }

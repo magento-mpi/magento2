@@ -24,12 +24,12 @@ class Magento_Log_Model_Shell extends Magento_Core_Model_ShellAbstract
 
     /**
      * @param Magento_Log_Model_Shell_Command_Factory $commandFactory
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param $entryPoint
      */
     public function __construct(
         Magento_Log_Model_Shell_Command_Factory $commandFactory,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         $entryPoint
     ) {
         parent::__construct($filesystem, $entryPoint);

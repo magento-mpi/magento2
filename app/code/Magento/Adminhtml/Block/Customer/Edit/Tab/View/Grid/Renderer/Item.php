@@ -101,7 +101,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
      * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
      * @return string
      */
-    public function render(Magento_Object $item)
+    public function render(\Magento\Object $item)
     {
         $this->setItem($item);
         $product = $this->getProduct();

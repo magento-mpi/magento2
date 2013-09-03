@@ -15,7 +15,7 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Config extends Magento_Object
+class Magento_GoogleShopping_Model_Config extends \Magento\Object
 {
     /**
      * Config values cache

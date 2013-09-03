@@ -12,7 +12,7 @@
 /**
  * Class that used for output Magento Profiler results in format compatible with Bamboo Jmeter plugin
  */
-class Magento_TestFramework_Profiler_OutputBamboo extends Magento_Profiler_Driver_Standard_Output_Csvfile
+class Magento_TestFramework_Profiler_OutputBamboo extends \Magento\Profiler\Driver\Standard\Output\Csvfile
 {
     /**
      * @var array
@@ -33,18 +33,18 @@ class Magento_TestFramework_Profiler_OutputBamboo extends Magento_Profiler_Drive
     /**
      * Calculate metric value from set of timer names
      *
-     * @param Magento_Profiler_Driver_Standard_Stat $stat
+     * @param \Magento\Profiler\Driver\Standard\Stat $stat
      * @param array $timerNames
      * @param string $fetchKey
      * @return int
      */
     protected function _aggregateTimerValues(
-        Magento_Profiler_Driver_Standard_Stat $stat,
+        \Magento\Profiler\Driver\Standard\Stat $stat,
         array $timerNames,
-        $fetchKey = Magento_Profiler_Driver_Standard_Stat::AVG
+        $fetchKey = \Magento\Profiler\Driver\Standard\Stat::AVG
     ) {
         /* Prepare pattern that matches timers with deepest nesting level only */
-        $nestingSep = preg_quote(Magento_Profiler::NESTING_SEPARATOR, '/');
+        $nestingSep = preg_quote(\Magento\Profiler::NESTING_SEPARATOR, '/');
         array_map('preg_quote', $timerNames, array('/'));
         $pattern = '/(?<=' . $nestingSep . '|^)(?:' . implode('|', $timerNames) . ')$/';
 
@@ -66,9 +66,9 @@ class Magento_TestFramework_Profiler_OutputBamboo extends Magento_Profiler_Drive
      * Write content into an opened file handle
      *
      * @param resource $fileHandle
-     * @param Magento_Profiler_Driver_Standard_Stat $stat
+     * @param \Magento\Profiler\Driver\Standard\Stat $stat
      */
-    protected function _writeFileContent($fileHandle, Magento_Profiler_Driver_Standard_Stat $stat)
+    protected function _writeFileContent($fileHandle, \Magento\Profiler\Driver\Standard\Stat $stat)
     {
         /* First column must be a timestamp */
         $result = array('Timestamp' => time());

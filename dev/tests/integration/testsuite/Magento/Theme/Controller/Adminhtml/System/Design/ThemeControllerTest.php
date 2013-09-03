@@ -14,7 +14,7 @@
  */
 class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends Magento_Backend_Utility_Controller
 {
-    /** @var Magento_Filesystem */
+    /** @var \Magento\Filesystem */
     protected $_filesystem;
 
     /** @var Magento_Core_Model_Dir */
@@ -24,7 +24,7 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends Magento
     {
         parent::setUp();
 
-        $this->_filesystem = $this->_objectManager->get('Magento_Filesystem');
+        $this->_filesystem = $this->_objectManager->get('Magento\Filesystem');
         $this->_dirs = $this->_objectManager->get('Magento_Core_Model_Dir');
     }
 

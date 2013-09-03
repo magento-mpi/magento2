@@ -22,7 +22,7 @@ class Magento_Paypal_Controller_Ipn extends Magento_Core_Controller_Front_Action
 
         try {
             $data = $this->getRequest()->getPost();
-            Mage::getModel('Magento_Paypal_Model_Ipn')->processIpnRequest($data, new Magento_HTTP_Adapter_Curl());
+            Mage::getModel('Magento_Paypal_Model_Ipn')->processIpnRequest($data, new \Magento\HTTP\Adapter\Curl());
         } catch (Exception $e) {
             Mage::logException($e);
         }

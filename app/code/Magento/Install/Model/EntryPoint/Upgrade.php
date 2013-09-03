@@ -28,7 +28,7 @@ class Magento_Install_Model_EntryPoint_Upgrade extends Magento_Core_Model_EntryP
     {
         /** @var $cacheFrontendPool Magento_Core_Model_Cache_Frontend_Pool */
         $cacheFrontendPool = $this->_objectManager->get('Magento_Core_Model_Cache_Frontend_Pool');
-        /** @var $cacheFrontend Magento_Cache_FrontendInterface */
+        /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
         foreach ($cacheFrontendPool as $cacheFrontend) {
             $cacheFrontend->clean();
         }

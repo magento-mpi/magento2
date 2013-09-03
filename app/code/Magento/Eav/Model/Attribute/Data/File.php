@@ -205,7 +205,7 @@ class Magento_Eav_Model_Attribute_Data_File extends Magento_Eav_Model_Attribute_
         if ($toDelete) {
             $this->getEntity()->setData($attribute->getAttributeCode(), '');
             $file = $path . $original;
-            $ioFile = new Magento_Io_File();
+            $ioFile = new \Magento\Io\File();
             if ($ioFile->fileExists($file)) {
                 $ioFile->rm($file);
             }
@@ -213,7 +213,7 @@ class Magento_Eav_Model_Attribute_Data_File extends Magento_Eav_Model_Attribute_
 
         if (!empty($value['tmp_name'])) {
             try {
-                $uploader = new Magento_File_Uploader($value);
+                $uploader = new \Magento\File\Uploader($value);
                 $uploader->setFilesDispersion(true);
                 $uploader->setFilenamesCaseSensitivity(false);
                 $uploader->setAllowRenameFiles(true);

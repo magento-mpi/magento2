@@ -12,7 +12,7 @@
 /**
  * Installer data model
  */
-class Magento_Install_Model_Installer_Data extends Magento_Object
+class Magento_Install_Model_Installer_Data extends \Magento\Object
 {
 
     /**

@@ -16,7 +16,7 @@ class Magento_Backend_Model_Url_Proxy extends Magento_Backend_Model_Url
     /**
      * Object Manager instance
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -28,9 +28,9 @@ class Magento_Backend_Model_Url_Proxy extends Magento_Backend_Model_Url
     /**
      * Proxy constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

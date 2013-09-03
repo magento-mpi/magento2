@@ -33,7 +33,7 @@ class Magento_Reward_Model_Action_Order extends Magento_Reward_Model_Action_Abst
      *
      * Setter for $_entity and add some extra data to history
      *
-     * @param Magento_Object $entity
+     * @param \Magento\Object $entity
      * @return Magento_Reward_Model_Action_Abstract
      */
     public function setEntity($entity)

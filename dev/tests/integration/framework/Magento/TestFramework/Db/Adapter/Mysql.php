@@ -12,7 +12,7 @@
 /**
  * See Magento_TestFramework_Db_Adapter_TransactionInterface
  */
-class Magento_TestFramework_Db_Adapter_Mysql extends Magento_DB_Adapter_Pdo_Mysql
+class Magento_TestFramework_Db_Adapter_Mysql extends \Magento\DB\Adapter\Pdo\Mysql
     implements Magento_TestFramework_Db_Adapter_TransactionInterface
 {
     /**

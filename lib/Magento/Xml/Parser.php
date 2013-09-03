@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Xml_Parser
+namespace Magento\Xml;
+
+class Parser
 {
     protected $_dom = null;
     protected $_currentDom;
@@ -16,7 +18,7 @@ class Magento_Xml_Parser
 
     public function __construct()
     {
-        $this->_dom = new DOMDocument;
+        $this->_dom = new \DOMDocument;
         $this->_currentDom = $this->_dom;
         return $this;
     }

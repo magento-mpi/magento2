@@ -12,20 +12,22 @@
 /**
  * Magento configuration DOM factory
  */
-class Magento_Config_DomFactory
+namespace Magento\Config;
+
+class DomFactory
 {
 
-    const CLASS_NAME = 'Magento_Config_Dom';
+    const CLASS_NAME = '\Magento\Config\Dom';
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManger
+     * @param \Magento\ObjectManager $objectManger
      */
-    public function __construct(Magento_ObjectManager $objectManger)
+    public function __construct(\Magento\ObjectManager $objectManger)
     {
         $this->_objectManager = $objectManger;
     }
@@ -34,7 +36,7 @@ class Magento_Config_DomFactory
      * Create DOM object
      *
      * @param array $arguments
-     * @return Magento_Config_Dom
+     * @return \Magento\Config\Dom
      */
     public function createDom(array $arguments = array())
     {

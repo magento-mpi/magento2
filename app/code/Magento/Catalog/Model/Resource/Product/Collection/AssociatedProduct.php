@@ -42,13 +42,13 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct
     /**
      * Collection constructor
      *
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Registry $registryManager
      * @param Magento_Catalog_Model_Product_Type_Configurable $productType
      * @param Magento_Catalog_Helper_Product_Configuration $configurationHelper
      */
     public function __construct(
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Registry $registryManager,
         Magento_Catalog_Model_Product_Type_Configurable $productType,
         Magento_Catalog_Helper_Product_Configuration $configurationHelper

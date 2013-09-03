@@ -23,7 +23,7 @@ class Magento_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $layout = Mage::getObjectManager()->create('Magento_Core_Model_Layout');
         $formBlock = $layout->addBlock('Magento_Backend_Block_Widget_Form');
-        $fieldSet = Mage::getObjectManager()->create('Magento_Data_Form_Element_Fieldset');
+        $fieldSet = Mage::getObjectManager()->create('Magento\Data\Form\Element\Fieldset');
         $arguments = array(
             'data' => array(
                 'attribute_code' => 'date',
@@ -39,7 +39,7 @@ class Magento_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
         $fields = $fieldSet->getElements();
 
         $this->assertEquals(1, count($fields));
-        $this->assertInstanceOf('Magento_Data_Form_Element_Date', $fields[0]);
+        $this->assertInstanceOf('\Magento\Data\Form\Element\Date', $fields[0]);
         $this->assertNotEmpty($fields[0]->getDateFormat());
     }
 }

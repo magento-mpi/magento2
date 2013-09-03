@@ -71,28 +71,28 @@ abstract class Magento_CustomerCustomAttributes_Model_Resource_Sales_Abstract ex
         switch ($backendType) {
             case 'datetime':
                 $definition = array(
-                    'type'      => Magento_DB_Ddl_Table::TYPE_DATE,
+                    'type'      => \Magento\DB\Ddl\Table::TYPE_DATE,
                 );
                 break;
             case 'decimal':
                 $definition = array(
-                    'type'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+                    'type'      => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
                     'length'    => 12,4,
                 );
                 break;
             case 'int':
                 $definition = array(
-                    'type'      => Magento_DB_Ddl_Table::TYPE_INTEGER,
+                    'type'      => \Magento\DB\Ddl\Table::TYPE_INTEGER,
                 );
                 break;
             case 'text':
                 $definition = array(
-                    'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
+                    'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
                 );
                 break;
             case 'varchar':
                 $definition = array(
-                    'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
+                    'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
                     'length'    => 255,
                 );
                 break;

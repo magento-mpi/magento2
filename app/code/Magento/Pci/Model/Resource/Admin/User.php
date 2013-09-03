@@ -96,8 +96,8 @@ class Magento_Pci_Model_Resource_Admin_User extends Magento_User_Model_Resource_
             $this->_getWriteAdapter()->select()
                 ->from($table, 'password_id')
                 ->where('user_id = :user_id')
-                ->order('expires ' . Magento_DB_Select::SQL_DESC)
-                ->order('password_id ' . Magento_DB_Select::SQL_DESC)
+                ->order('expires ' . \Magento\DB\Select::SQL_DESC)
+                ->order('password_id ' . \Magento\DB\Select::SQL_DESC)
                 ->limit($retainLimit),
             array(':user_id' => $userId)
         );
@@ -147,7 +147,7 @@ class Magento_Pci_Model_Resource_Admin_User extends Magento_User_Model_Resource_
             $this->_getReadAdapter()->select()
                 ->from($this->getTable('enterprise_admin_passwords'))
                 ->where('user_id = :user_id')
-                ->order('password_id ' . Magento_DB_Select::SQL_DESC)
+                ->order('password_id ' . \Magento\DB\Select::SQL_DESC)
                 ->limit(1),
             array(':user_id' => $userId)
         );

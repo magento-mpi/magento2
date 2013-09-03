@@ -65,7 +65,7 @@ class Magento_FullPageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCa
      * Test for both _getDataChangeDependencies and _getDataDeleteDependencies
      *
      * @param string $type
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @param boolean $isInvalidated
      *
      * @dataProvider getDataDependenciesDataProvider

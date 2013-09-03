@@ -19,7 +19,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
      * Get form instance
      *
      * @param array $args
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     protected function _getFormInstance($args = array())
     {
@@ -52,7 +52,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
     {
         $args = array();
         if ($cmsPageData) {
-            $args['cms_page'] = new Magento_Object($cmsPageData);
+            $args['cms_page'] = new \Magento\Object($cmsPageData);
         }
         $form = $this->_getFormInstance($args);
         $this->assertContains($action, $form->getAction());

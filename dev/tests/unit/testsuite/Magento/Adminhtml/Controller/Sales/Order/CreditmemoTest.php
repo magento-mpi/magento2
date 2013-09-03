@@ -28,7 +28,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
     protected $_sessionMock;
 
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -45,7 +45,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
         $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_sessionMock = $this->getMock('Magento_Backend_Model_Session',
             array('addError', 'setFormData'), array(), '', false);
-        $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $registryMock = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false, false);
         $this->_objectManager->expects($this->any())
             ->method('get')

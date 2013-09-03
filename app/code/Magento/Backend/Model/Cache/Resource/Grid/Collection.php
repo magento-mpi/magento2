@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Cache_Resource_Grid_Collection extends Magento_Data_Collection
+class Magento_Backend_Model_Cache_Resource_Grid_Collection extends \Magento\Data\Collection
 {
     /**
      * @var Magento_Core_Model_Cache_TypeListInterface

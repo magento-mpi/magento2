@@ -41,7 +41,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
+        $filesystem = Mage::getObjectManager()->create('Magento\Filesystem');
         $publicDir = $this->_viewService->getPublicDir();
         $filesystem->delete($publicDir . '/adminhtml');
         $filesystem->delete($publicDir . '/frontend');
@@ -148,7 +148,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\MagentoException
      * @dataProvider getViewUrlExceptionDataProvider
      */
     public function testGetViewUrlException($file)
@@ -170,7 +170,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     /**
      * Test on vulnerability for protected files
      *
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\MagentoException
      * @expectedExceptionMessage because it does not reside in a public directory
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled

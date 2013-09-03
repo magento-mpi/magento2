@@ -86,7 +86,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_A
     /**
      * Convert categories tree to array recursively
      *
-     * @param  Magento_Data_Tree_Node $node
+     * @param  \Magento\Data\Tree\Node $node
      * @return array
      */
     protected function _getNodesArray($node)

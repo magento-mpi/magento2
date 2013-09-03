@@ -308,7 +308,7 @@ class Magento_Backend_Model_Config_Structure_Element_Field
     /**
      * Populate form element with field data
      *
-     * @param Magento_Data_Form_Element_Abstract $formField
+     * @param \Magento\Data\Form\Element\AbstractElement $formField
      */
     public function populateInput($formField)
     {
@@ -485,7 +485,7 @@ class Magento_Backend_Model_Config_Structure_Element_Field
         }
 
         $sourceModel = $this->_sourceFactory->create($sourceModel);
-        if ($sourceModel instanceof Magento_Object) {
+        if ($sourceModel instanceof \Magento\Object) {
             $sourceModel->setPath($this->getPath());
         }
         if ($method) {

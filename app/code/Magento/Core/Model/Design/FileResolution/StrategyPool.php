@@ -24,7 +24,7 @@ class Magento_Core_Model_Design_FileResolution_StrategyPool
     const FALLBACK_MAP_DIR = 'maps/fallback';
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -34,7 +34,7 @@ class Magento_Core_Model_Design_FileResolution_StrategyPool
     protected $_appState;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -74,16 +74,16 @@ class Magento_Core_Model_Design_FileResolution_StrategyPool
     );
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_Dir $dirs,
-        Magento_Filesystem $filesystem
+        \Magento\Filesystem $filesystem
     ) {
         $this->_objectManager = $objectManager;
         $this->_appState = $appState;

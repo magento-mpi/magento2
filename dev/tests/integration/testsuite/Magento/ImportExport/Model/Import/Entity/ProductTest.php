@@ -428,11 +428,11 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load($productId);
         $gallery = $product->getMediaGalleryImages();
-        $this->assertInstanceOf('Magento_Data_Collection', $gallery);
+        $this->assertInstanceOf('\Magento\Data\Collection', $gallery);
         $items = $gallery->getItems();
         $this->assertCount(1, $items);
         $item = array_pop($items);
-        $this->assertInstanceOf('Magento_Object', $item);
+        $this->assertInstanceOf('\Magento\Object', $item);
         $this->assertEquals('/m/a/magento_image.jpg', $item->getFile());
         $this->assertEquals('Image Label', $item->getLabel());
     }
@@ -453,8 +453,8 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
     public static function mediaImportImageFixtureRollback()
     {
         $media = Mage::getBaseDir('media');
-        Magento_Io_File::rmdirRecursive("{$media}/import");
-        Magento_Io_File::rmdirRecursive("{$media}/catalog");
+        \Magento\Io\File::rmdirRecursive("{$media}/import");
+        \Magento\Io\File::rmdirRecursive("{$media}/catalog");
     }
 
     /**

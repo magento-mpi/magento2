@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Report_Sales_Sales_GridTest extends PHPUnit_Framew
     {
         $block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Sales_Sales_Grid');
 
-        $filterData = new Magento_Object();
+        $filterData = new \Magento\Object();
         if ($reportType) {
             $filterData->setReportType($reportType);
         }

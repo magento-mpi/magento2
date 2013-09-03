@@ -24,8 +24,8 @@ class Magento_CatalogSearch_Model_Resource_Helper_Mysql4 extends Magento_Eav_Mod
      *
      * @param string $table
      * @param string $alias
-     * @param  Magento_DB_Select $select
-     * @return Magento_DB_Select $select
+     * @param  \Magento\DB\Select $select
+     * @return \Magento\DB\Select $select
      */
     public function chooseFulltext($table, $alias, $select)
     {

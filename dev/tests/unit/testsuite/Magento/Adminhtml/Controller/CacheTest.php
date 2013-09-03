@@ -23,7 +23,7 @@ class Magento_Adminhtml_Controller_CacheTest extends PHPUnit_Framework_TestCase
             ->method('getResponse')
             ->will($this->returnValue($response));
 
-        $objectManager = $this->getMock('Magento_ObjectManager');
+        $objectManager = $this->getMock('Magento\ObjectManager');
         $context->expects($this->any())
             ->method('getObjectManager')
             ->will($this->returnValue($objectManager));

@@ -8,7 +8,7 @@
 class Magento_Cache_Frontend_Decorator_TagScopeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cache_Frontend_Decorator_TagScope
+     * @var \Magento\Cache\Frontend\Decorator\TagScope
      */
     protected $_object;
 
@@ -19,8 +19,8 @@ class Magento_Cache_Frontend_Decorator_TagScopeTest extends PHPUnit_Framework_Te
 
     public function setUp()
     {
-        $this->_frontend = $this->getMock('Magento_Cache_FrontendInterface');
-        $this->_object = new Magento_Cache_Frontend_Decorator_TagScope($this->_frontend, 'enforced_tag');
+        $this->_frontend = $this->getMock('Magento\Cache\FrontendInterface');
+        $this->_object = new \Magento\Cache\Frontend\Decorator\TagScope($this->_frontend, 'enforced_tag');
     }
 
     protected function tearDown()

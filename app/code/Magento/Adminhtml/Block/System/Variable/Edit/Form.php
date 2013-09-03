@@ -34,7 +34,7 @@ class Magento_Adminhtml_Block_System_Variable_Edit_Form extends Magento_Adminhtm
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        $form = new \Magento\Data\Form(array(
             'id' => 'edit_form',
             'action' => $this->getData('action'),
             'method' => 'post'

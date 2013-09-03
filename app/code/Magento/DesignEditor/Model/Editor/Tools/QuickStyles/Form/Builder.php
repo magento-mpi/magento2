@@ -14,7 +14,7 @@
 class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
 {
     /**
-     * @var Magento_Data_Form_Factory
+     * @var \Magento\Data\Form\Factory
      */
     protected $_formFactory;
 
@@ -41,13 +41,13 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     /**
      * Constructor
      *
-     * @param Magento_Data_Form_Factory $formFactory
+     * @param \Magento\Data\Form\Factory $formFactory
      * @param Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory
      * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
      * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
+        \Magento\Data\Form\Factory $formFactory,
         Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory,
         Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
         Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
@@ -62,7 +62,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      * Create varien data form with provided params
      *
      * @param array $data
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      * @throws InvalidArgumentException
      */
     public function create(array $data = array())
@@ -74,7 +74,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
                 $data['theme'],
                 $data['parent_theme']
             );
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\MagentoException $e) {
             $isFilePresent = false;
         }
 
@@ -83,7 +83,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
         }
 
         if ($isFilePresent) {
-            /** @var $form Magento_Data_Form */
+            /** @var $form \Magento\Data\Form */
             $form = $this->_formFactory->create($data);
 
             $this->_addElementTypes($form);
@@ -91,7 +91,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
             $columns = $this->_initColumns($form, $data['tab']);
             $this->_populateColumns($columns, $data['tab']);
         } else {
-            $form = new Magento_Data_Form(array('action' => '#'));
+            $form = new \Magento\Data\Form(array('action' => '#'));
         }
 
         if ($this->_isFormEmpty($form)) {
@@ -106,13 +106,13 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     /**
      * Check is any elements present in form
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @return bool
      */
     protected function _isFormEmpty($form)
     {
         $isEmpty = true;
-        /** @var  $elements Magento_Data_Form_Element_Collection */
+        /** @var  $elements \Magento\Data\Form\Element\Collection */
         $elements = $form->getElements();
         foreach ($elements as $element) {
             if ($element->getElements()->count()) {
@@ -126,7 +126,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     /**
      * Add column elements to form
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @param string $tab
      * @return array
      */
@@ -217,7 +217,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     /**
      * Add custom element types
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      */
     protected function _addElementTypes($form)
     {

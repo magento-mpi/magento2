@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Outbound_Formatter_Json implements Magento_Outbound_FormatterInterface
+namespace Magento\Outbound\Formatter;
+
+class Json implements \Magento\Outbound\FormatterInterface
 {
     /**
      * The value for the Content-Type header for messages containing a JSON body
@@ -20,14 +22,14 @@ class Magento_Outbound_Formatter_Json implements Magento_Outbound_FormatterInter
      * Format the body of a message into JSON
      *
      * @param array $body
-     * @throws LogicException
+     * @throws \LogicException
      * @return string formatted body
      */
     public function format(array $body)
     {
         $formattedData = json_encode($body);
         if (false === $formattedData) {
-            throw new LogicException('The data provided cannot be converted to JSON.');
+            throw new \LogicException('The data provided cannot be converted to JSON.');
         }
         return $formattedData;
     }

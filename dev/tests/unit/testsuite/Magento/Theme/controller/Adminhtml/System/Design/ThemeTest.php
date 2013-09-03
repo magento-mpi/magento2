@@ -31,7 +31,7 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
         $this->_request = $this->getMock(
             'Magento_Core_Controller_Request_Http', array('getParam', 'getPost'), array(), '', false

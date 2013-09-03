@@ -12,7 +12,7 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     extends Magento_Backend_Block_System_Config_Form_Fieldset
 {
     /**
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_dummyElement;
 
@@ -27,10 +27,10 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     protected $_values;
 
     /**
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = '';
 
@@ -43,12 +43,12 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     }
 
     /**
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _getDummyElement()
     {
         if (empty($this->_dummyElement)) {
-            $this->_dummyElement = new Magento_Object(array('showInDefault' => 1, 'showInWebsite' => 1));
+            $this->_dummyElement = new \Magento\Object(array('showInDefault' => 1, 'showInWebsite' => 1));
         }
         return $this->_dummyElement;
     }
@@ -65,7 +65,7 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     }
 
     /**
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param string $id
      * @param string $status
      * @return string

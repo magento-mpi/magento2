@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Filter_Array_Grid extends Magento_Filter_Array
+namespace Magento\Filter\Array;
+
+class Grid extends \Magento\Filter\ArrayFilter
 {
     function filter($grid)
     {

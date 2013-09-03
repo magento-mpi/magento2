@@ -95,7 +95,7 @@ class Magento_VersionsCms_Model_Resource_Page_Revision_Collection
      * @param string $dir
      * @return Magento_VersionsCms_Model_Resource_Page_Revision_Collection
      */
-    public function addNumberSort($dir = Magento_DB_Select::SQL_DESC)
+    public function addNumberSort($dir = \Magento\DB\Select::SQL_DESC)
     {
         $this->setOrder('revision_number', $dir);
         return $this;

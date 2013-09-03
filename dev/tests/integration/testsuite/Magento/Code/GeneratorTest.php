@@ -25,12 +25,12 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     protected $_includePath;
 
     /**
-     * @var Magento_Code_Generator
+     * @var \Magento\Code\Generator
      */
     protected $_generator;
 
     /**
-     * @var Magento_Code_Generator_Io
+     * @var \Magento\Code\Generator\Io
      */
     protected $_ioObject;
 
@@ -42,15 +42,15 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         $dirs = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
         $generationDirectory = $dirs->getDir(Magento_Core_Model_Dir::VAR_DIR) . '/generation';
 
-        Magento_Autoload_IncludePath::addIncludePath($generationDirectory);
+        \Magento\Autoload\IncludePath::addIncludePath($generationDirectory);
 
-        $this->_ioObject = new Magento_Code_Generator_Io(
-            new Magento_Io_File(),
-            new Magento_Autoload_IncludePath(),
+        $this->_ioObject = new \Magento\Code\Generator\Io(
+            new \Magento\Io\File(),
+            new \Magento\Autoload\IncludePath(),
             $generationDirectory
         );
         $this->_generator = Mage::getObjectManager()->create(
-            'Magento_Code_Generator', array('ioObject' => $this->_ioObject)
+            '\Magento\Code\Generator', array('ioObject' => $this->_ioObject)
         );
     }
 
@@ -59,7 +59,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         /** @var $dirs Magento_Core_Model_Dir */
         $dirs = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
         $generationDirectory = $dirs->getDir(Magento_Core_Model_Dir::VAR_DIR) . '/generation';
-        Magento_Io_File::rmdirRecursive($generationDirectory);
+        \Magento\Io\File::rmdirRecursive($generationDirectory);
 
         set_include_path($this->_includePath);
         unset($this->_generator);
@@ -74,11 +74,11 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $factoryClassName = self::CLASS_NAME_WITHOUT_NAMESPACE . 'Factory';
         $this->assertEquals(
-            Magento_Code_Generator::GENERATION_SUCCESS,
+            \Magento\Code\Generator::GENERATION_SUCCESS,
             $this->_generator->generateClass($factoryClassName)
         );
 
-        /** @var $factory Magento_ObjectManager_Factory */
+        /** @var $factory \Magento\ObjectManager\Factory */
         $factory = Mage::getObjectManager()->create($factoryClassName);
         $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $object);
@@ -96,11 +96,11 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $factoryClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Factory';
         $this->assertEquals(
-            Magento_Code_Generator::GENERATION_SUCCESS,
+            \Magento\Code\Generator::GENERATION_SUCCESS,
             $this->_generator->generateClass($factoryClassName)
         );
 
-        /** @var $factory Magento_ObjectManager_Factory */
+        /** @var $factory \Magento\ObjectManager\Factory */
         $factory = Mage::getObjectManager()->create($factoryClassName);
 
         $object = $factory->create();
@@ -119,7 +119,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $factoryClassName = self::CLASS_NAME_WITHOUT_NAMESPACE . 'Proxy';
         $this->assertEquals(
-            Magento_Code_Generator::GENERATION_SUCCESS,
+            \Magento\Code\Generator::GENERATION_SUCCESS,
             $this->_generator->generateClass($factoryClassName)
         );
 
@@ -138,7 +138,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $factoryClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Proxy';
         $this->assertEquals(
-            Magento_Code_Generator::GENERATION_SUCCESS,
+            \Magento\Code\Generator::GENERATION_SUCCESS,
             $this->_generator->generateClass($factoryClassName)
         );
 
@@ -158,7 +158,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $interceptorClassName = self::CLASS_NAME_WITHOUT_NAMESPACE . 'Interceptor';
         $this->assertEquals(
-            Magento_Code_Generator::GENERATION_SUCCESS,
+            \Magento\Code\Generator::GENERATION_SUCCESS,
             $this->_generator->generateClass($interceptorClassName)
         );
 
@@ -175,7 +175,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $interceptorClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Interceptor';
         $this->assertEquals(
-            Magento_Code_Generator::GENERATION_SUCCESS,
+            \Magento\Code\Generator::GENERATION_SUCCESS,
             $this->_generator->generateClass($interceptorClassName)
         );
 
@@ -192,7 +192,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $interceptorClassName = self::INTERFACE_NAME_WITHOUT_NAMESPACE . 'Interceptor';
         $this->assertEquals(
-            Magento_Code_Generator::GENERATION_SUCCESS,
+            \Magento\Code\Generator::GENERATION_SUCCESS,
             $this->_generator->generateClass($interceptorClassName)
         );
 

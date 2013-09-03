@@ -36,7 +36,7 @@ class Magento_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdaterTest 
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_authorizationMock = $this->getMockBuilder('Magento_AuthorizationInterface')
+        $this->_authorizationMock = $this->getMockBuilder('Magento\AuthorizationInterface')
             ->getMock();
 
         $this->_model = new Magento_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdater(

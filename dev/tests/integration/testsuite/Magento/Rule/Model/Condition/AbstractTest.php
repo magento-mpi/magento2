@@ -24,7 +24,7 @@ class Magento_Rule_Model_Condition_AbstractTest extends PHPUnit_Framework_TestCa
              ->will($this->returnValue(Mage::getObjectManager()->create('Magento_Rule_Block_Editable')));
 
         $rule = Mage::getObjectManager()->create('Magento_Rule_Model_Rule');
-        $model->setRule($rule->setForm(Mage::getObjectManager()->create('Magento_Data_Form')));
+        $model->setRule($rule->setForm(Mage::getObjectManager()->create('Magento\Data\Form')));
 
         $property = new ReflectionProperty('Magento_Rule_Model_Condition_Abstract', '_inputType');
         $property->setAccessible(true);

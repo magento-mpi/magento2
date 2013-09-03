@@ -30,9 +30,9 @@ class Magento_CustomerSegment_Model_Observer
     /**
      * Add Customer Segment condition to the salesrule management
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function addSegmentsToSalesRuleCombine(Magento_Event_Observer $observer)
+    public function addSegmentsToSalesRuleCombine(\Magento\Event\Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;
@@ -47,9 +47,9 @@ class Magento_CustomerSegment_Model_Observer
     /**
      * Process customer related data changing. Method can process just events with customer object
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      */
-    public function processCustomerEvent(Magento_Event_Observer $observer)
+    public function processCustomerEvent(\Magento\Event\Observer $observer)
     {
         $eventName = $observer->getEvent()->getName();
         $customer  = $observer->getEvent()->getCustomer();
@@ -75,9 +75,9 @@ class Magento_CustomerSegment_Model_Observer
      * Match customer segments on supplied event for currently logged in customer or visitor and current website.
      * Can be used for processing just frontend events
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function processEvent(Magento_Event_Observer $observer)
+    public function processEvent(\Magento\Event\Observer $observer)
     {
         $eventName = $observer->getEvent()->getName();
         $customer = Mage::registry('segment_customer');
@@ -95,10 +95,10 @@ class Magento_CustomerSegment_Model_Observer
      * Match quote customer to all customer segments.
      * Used before quote recollect in admin
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function processQuote(Magento_Event_Observer $observer)
+    public function processQuote(\Magento\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $customer = $quote->getCustomer();
@@ -111,9 +111,9 @@ class Magento_CustomerSegment_Model_Observer
     /**
      * Add field "Use in Customer Segment" for Customer and Customer Address attribute edit form
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function enterpiseCustomerAttributeEditPrepareForm(Magento_Event_Observer $observer)
+    public function enterpiseCustomerAttributeEditPrepareForm(\Magento\Event\Observer $observer)
     {
         $form       = $observer->getEvent()->getForm();
         $fieldset   = $form->getElement('base_fieldset');
@@ -130,16 +130,16 @@ class Magento_CustomerSegment_Model_Observer
      *
      * Observe  targetrule_edit_tab_main_after_prepare_form event
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function addFieldsToTargetRuleForm(Magento_Event_Observer $observer)
+    public function addFieldsToTargetRuleForm(\Magento\Event\Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /* @var $form Magento_Data_Form */
+        /* @var $form \Magento\Data\Form */
         $form = $observer->getEvent()->getForm();
-        /** @var Magento_Object $model */
+        /** @var \Magento\Object $model */
         $model = $observer->getEvent()->getModel();
         /** @var Magento_Core_Block_Abstract $block */
         $block = $observer->getEvent()->getBlock();

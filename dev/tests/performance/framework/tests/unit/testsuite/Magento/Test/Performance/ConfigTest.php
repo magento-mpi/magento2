@@ -72,7 +72,7 @@ class Magento_Test_Performance_ConfigTest extends PHPUnit_Framework_TestCase
             'non-existing base dir' => array(
                 require __DIR__ . '/_files/config_data.php',
                 'non_existing_dir',
-                'Magento_Exception',
+                '\Magento\MagentoException',
                 "Base directory 'non_existing_dir' does not exist",
             ),
             'invalid scenarios format' => array(

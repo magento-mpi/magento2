@@ -309,7 +309,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isRegistrationAllowed()
     {
-        $result = new Magento_Object(array('is_allowed' => true));
+        $result = new \Magento\Object(array('is_allowed' => true));
         Mage::dispatchEvent('customer_registration_is_allowed', array('result' => $result));
         return $result->getIsAllowed();
     }
@@ -394,7 +394,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      * Retrieve customer group ID based on his VAT number
      *
      * @param string $customerCountryCode
-     * @param Magento_Object $vatValidationResult
+     * @param \Magento\Object $vatValidationResult
      * @param Magento_Core_Model_Store|string|int $store
      * @return null|int
      */
@@ -426,12 +426,12 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      * @param string $requesterCountryCode
      * @param string $requesterVatNumber
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function checkVatNumber($countryCode, $vatNumber, $requesterCountryCode = '', $requesterVatNumber = '')
     {
         // Default response
-        $gatewayResponse = new Magento_Object(array(
+        $gatewayResponse = new \Magento\Object(array(
             'is_valid' => false,
             'request_date' => '',
             'request_identifier' => '',
@@ -510,7 +510,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      * Get VAT class
      *
      * @param string $customerCountryCode
-     * @param Magento_Object $vatValidationResult
+     * @param \Magento\Object $vatValidationResult
      * @param Magento_Core_Model_Store|string|int|null $store
      * @return null|string
      */
@@ -544,8 +544,8 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param Magento_Customer_Model_Address $customerAddress
      * @param bool $customerGroupAutoAssignDisabled
-     * @param Magento_Object $validationResult
-     * @return Magento_Object
+     * @param \Magento\Object $validationResult
+     * @return \Magento\Object
      */
     public function getVatValidationUserMessage($customerAddress, $customerGroupAutoAssignDisabled, $validationResult)
     {
@@ -585,7 +585,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
                 . $contactUsMessage;
         }
 
-        $validationMessageEnvelope = new Magento_Object();
+        $validationMessageEnvelope = new \Magento\Object();
         $validationMessageEnvelope->setMessage($message);
         $validationMessageEnvelope->setIsError($isError);
 

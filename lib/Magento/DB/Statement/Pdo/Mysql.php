@@ -16,7 +16,9 @@
  * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_DB_Statement_Pdo_Mysql extends Zend_Db_Statement_Pdo
+namespace Magento\DB\Statement\Pdo;
+
+class Mysql extends \Zend_Db_Statement_Pdo
 {
     /**
      * Executes statement with binding values to it.
@@ -24,7 +26,7 @@ class Magento_DB_Statement_Pdo_Mysql extends Zend_Db_Statement_Pdo
      *
      * @param array $params Array of values to bind to parameter placeholders.
      * @return bool
-     * @throws Zend_Db_Statement_Exception
+     * @throws \Zend_Db_Statement_Exception
      */
     public function _executeWithBinding(array $params)
     {
@@ -37,15 +39,15 @@ class Magento_DB_Statement_Pdo_Mysql extends Zend_Db_Statement_Pdo
             }
         }
 
-        /* @var $statement PDOStatement */
+        /* @var $statement \PDOStatement */
         $statement = $this->_stmt;
         $bindValues = array(); // Separate array with values, as they are bound by reference
         foreach ($params as $name => $param) {
-            $dataType = PDO::PARAM_STR;
+            $dataType = \PDO::PARAM_STR;
             $length = null;
             $driverOptions = null;
 
-            if ($param instanceof Magento_DB_Statement_Parameter) {
+            if ($param instanceof \Magento\DB\Statement\Parameter) {
                 if ($param->getIsBlob()) {
                     // Nothing to do there - default options are fine for MySQL driver
                 } else {
@@ -64,8 +66,8 @@ class Magento_DB_Statement_Pdo_Mysql extends Zend_Db_Statement_Pdo
 
         try {
             return $statement->execute();
-        } catch (PDOException $e) {
-            throw new Zend_Db_Statement_Exception($e->getMessage(), (int) $e->getCode(), $e);
+        } catch (\PDOException $e) {
+            throw new \Zend_Db_Statement_Exception($e->getMessage(), (int) $e->getCode(), $e);
         }
     }
 
@@ -74,14 +76,14 @@ class Magento_DB_Statement_Pdo_Mysql extends Zend_Db_Statement_Pdo
      *
      * @param array $params OPTIONAL Values to bind to parameter placeholders.
      * @return bool
-     * @throws Zend_Db_Statement_Exception
+     * @throws \Zend_Db_Statement_Exception
      */
     public function _execute(array $params = null)
     {
         $specialExecute = false;
         if ($params) {
             foreach ($params as $param) {
-                if ($param instanceof Magento_DB_Statement_Parameter) {
+                if ($param instanceof \Magento\DB\Statement\Parameter) {
                     $specialExecute = true;
                     break;
                 }

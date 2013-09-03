@@ -26,7 +26,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     /**
      * The Magento SimpleXml object
      *
-     * @var Magento_Simplexml_Element
+     * @var \Magento\Simplexml\Element
      */
     protected $_value;
 
@@ -45,17 +45,17 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     protected $_modulesReader;
 
     /**
-     * @var Magento_Config_DomFactory
+     * @var \Magento\Config\DomFactory
      */
     protected $_domConfigFactory;
 
     /**
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Config_DomFactory $domConfigFactory
+     * @param \Magento\Config\DomFactory $domConfigFactory
      */
     public function __construct(
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Config_DomFactory $domConfigFactory
+        \Magento\Config\DomFactory $domConfigFactory
     ) {
         $this->_modulesReader = $modulesReader;
         $this->_domConfigFactory = $domConfigFactory;
@@ -102,7 +102,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
                 'xml' => $value,
                 'schemaFile' => $schema
             ));
-            $value = new Magento_Simplexml_Element($value);
+            $value = new \Magento\Simplexml\Element($value);
         } catch (Exception $e) {
             $this->_error(self::XML_INVALID);
             return false;

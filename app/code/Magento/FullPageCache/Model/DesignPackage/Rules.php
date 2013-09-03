@@ -72,7 +72,7 @@ class Magento_FullPageCache_Model_DesignPackage_Rules
      */
     public function getPackageName($storeId)
     {
-        Magento_Profiler::start('process_design_change');
+        \Magento\Profiler::start('process_design_change');
 
         $exceptions = $this->_fpcCache->load(Magento_FullPageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY);
 
@@ -92,7 +92,7 @@ class Magento_FullPageCache_Model_DesignPackage_Rules
             $result = unserialize($result);
         }
 
-        Magento_Profiler::stop('process_design_change');
+        \Magento\Profiler::stop('process_design_change');
 
         $output = $this->_getPackageByUserAgent($exceptions);
         if ('' === $output) {

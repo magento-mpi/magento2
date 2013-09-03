@@ -20,12 +20,12 @@ class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Filesystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystemMock;
 
     /**
-     * @var Magento_Image|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Image|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_imageMock;
 
@@ -41,9 +41,9 @@ class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false, false);
+        $this->_filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false, false);
         $imageFactory = $this->getMock('Magento_Core_Model_Image_Factory', array(), array(), '', false, false);
-        $this->_imageMock = $this->getMock('Magento_Image', array(), array(), '', false, false);
+        $this->_imageMock = $this->getMock('Magento\Image', array(), array(), '', false, false);
         $imageFactory->expects($this->any())->method('create')->will($this->returnValue($this->_imageMock));
 
         $this->_themeMock = $this->getMock('Magento_Core_Model_Theme', null, array(), '', false, false);

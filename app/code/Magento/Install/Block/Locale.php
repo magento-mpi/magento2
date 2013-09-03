@@ -138,13 +138,13 @@ class Magento_Install_Block_Locale extends Magento_Install_Block_Abstract
     }
 
     /**
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (null === $data) {
-            $data = new Magento_Object();
+            $data = new \Magento\Object();
             $this->setData('form_data', $data);
         }
         return $data;

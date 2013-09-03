@@ -63,7 +63,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
     /**
      * Write connection adapter
      *
-     * @var Magento_DB_Adapter_Interface
+     * @var \Magento\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
@@ -87,7 +87,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
         // session stores serialized objects with protected properties
         // we need to test this case to ensure that DB adapter successfully processes "\0" symbols in serialized data
         foreach ($this->_sourceData as $key => $data) {
-            $this->_sessionData[$key] = new Magento_Object($data);
+            $this->_sessionData[$key] = new \Magento\Object($data);
         }
     }
 

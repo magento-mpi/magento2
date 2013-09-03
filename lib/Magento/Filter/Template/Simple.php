@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Filter_Template_Simple extends Magento_Object implements Zend_Filter_Interface
+namespace Magento\Filter\Template;
+
+class Simple extends \Magento\Object implements \Zend_Filter_Interface
 {
 	protected $_startTag = '{{';
 	protected $_endTag = '}}';

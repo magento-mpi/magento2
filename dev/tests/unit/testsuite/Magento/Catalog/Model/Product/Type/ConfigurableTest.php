@@ -18,7 +18,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
         $this->_model = new Magento_Catalog_Model_Product_Type_Configurable($filesystem);
     }
 

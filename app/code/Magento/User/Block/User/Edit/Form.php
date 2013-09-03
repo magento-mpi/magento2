@@ -19,7 +19,7 @@ class Magento_User_Block_User_Edit_Form extends Magento_Backend_Block_Widget_For
 {
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(
+        $form = new \Magento\Data\Form(
             array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
         );
         $form->setUseContainer(true);

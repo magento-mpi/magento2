@@ -20,10 +20,10 @@ class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Time extends Magento_Adminht
     /**
      * Prepare link to display in grid
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $time =  date('Y-m-d H:i:s', strtotime($row->getSitemapTime()) + Mage::getSingleton('Magento_Core_Model_Date')->getGmtOffset());
 

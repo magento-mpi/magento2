@@ -15,7 +15,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Convert_Quote extends Magento_Object
+class Magento_Sales_Model_Convert_Quote extends \Magento\Object
 {
 
     /**

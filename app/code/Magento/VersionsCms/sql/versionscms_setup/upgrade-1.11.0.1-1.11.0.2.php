@@ -19,7 +19,7 @@ $installer
     ->dropIndex($nodeTableName, $installer->getIdxName(
         'magento_versionscms_hierarchy_node',
         array('request_url'),
-        Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE)
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
     );
 
 $keyFieldsList = array('request_url', 'scope', 'scope_id');
@@ -30,10 +30,10 @@ $installer
         $installer->getIdxName(
             'magento_versionscms_hierarchy_node',
             $keyFieldsList,
-            Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE
+            \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
         ),
         $keyFieldsList,
-        Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     );
 
 $installer->endSetup();

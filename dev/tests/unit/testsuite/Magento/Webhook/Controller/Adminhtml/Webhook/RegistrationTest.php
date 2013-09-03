@@ -86,7 +86,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
         $this->_mockTranslateModel = $this->getMockBuilder('Magento_Core_Model_Translate')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockConfigScope = $this->getMockBuilder('Magento_Config_ScopeInterface')
+        $this->_mockConfigScope = $this->getMockBuilder('Magento\Config\ScopeInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -298,7 +298,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
     protected function _setMageObjectManager()
     {
         Mage::reset();
-        $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
         Mage::setObjectManager($this->_mockObjectManager);
@@ -318,7 +318,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
             ->disableOriginalConstructor()
             ->getMock();
         $layoutMock->expects($this->any())->method('getUpdate')->will($this->returnValue($layoutMergeMock));
-        $testElement = new Magento_Simplexml_Element('<test>test</test>');
+        $testElement = new \Magento\Simplexml\Element('<test>test</test>');
         $layoutMock->expects($this->any())->method('getNode')->will($this->returnValue($testElement));
         $blockMock = $this->getMockBuilder('Magento_Core_Block_Abstract')
             ->disableOriginalConstructor()
@@ -363,7 +363,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
             array('Magento_Core_Model_Layout_Filter_Acl', $this->_mockLayoutFilter),
             array('Magento_Backend_Model_Session', $this->_mockBackendModSess),
             array('Magento_Core_Model_Translate', $this->_mockTranslateModel),
-            array('Magento_Config_ScopeInterface', $this->_mockConfigScope),
+            array('\Magento\Config\ScopeInterface', $this->_mockConfigScope),
         );
         $this->_mockObjectManager->expects($this->any())
             ->method('get')

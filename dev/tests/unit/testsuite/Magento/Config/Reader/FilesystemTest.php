@@ -8,12 +8,12 @@
 class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Config_FileResolverInterface
+     * @var \Magento\Config\FileResolverInterface
      */
     protected $_fileResolverMock;
 
     /**
-     * @var Magento_Config_ConverterInterface
+     * @var \Magento\Config\ConverterInterface
      */
     protected $_converterMock;
 
@@ -25,13 +25,13 @@ class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_file =  __DIR__ . '/../_files/reader/config.xml';
-        $this->_fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
-        $this->_converterMock = $this->getMock('Magento_Config_ConverterInterface', array(), array(), '', false);
+        $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
+        $this->_converterMock = $this->getMock('Magento\Config\ConverterInterface', array(), array(), '', false);
     }
 
     public function testRead()
     {
-        $model = new Magento_Config_Reader_Filesystem(
+        $model = new \Magento\Config\Reader\Filesystem(
             $this->_fileResolverMock,
             $this->_converterMock,
             'fileName',
@@ -47,12 +47,12 @@ class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\MagentoException
      * @expectedExceptionMessage Invalid Document
      */
     public function testReadWithInvalidDom()
     {
-        $model = new Magento_Config_Reader_Filesystem(
+        $model = new \Magento\Config\Reader\Filesystem(
             $this->_fileResolverMock,
             $this->_converterMock,
             'fileName',
@@ -68,12 +68,12 @@ class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\MagentoException
      * @expectedExceptionMessage Invalid XML in file
      */
     public function testReadWithInvalidXml()
     {
-        $model = new Magento_Config_Reader_Filesystem(
+        $model = new \Magento\Config\Reader\Filesystem(
             $this->_fileResolverMock,
             $this->_converterMock,
             'fileName',

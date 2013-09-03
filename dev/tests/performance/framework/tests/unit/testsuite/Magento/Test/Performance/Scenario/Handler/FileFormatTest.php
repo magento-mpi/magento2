@@ -61,7 +61,7 @@ class Magento_Test_Performance_Scenario_Handler_FileFormatTest extends PHPUnit_F
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\MagentoException
      * @expectedExceptionMessage Unable to run scenario 'Scenario', format is not supported.
      */
     public function testRunUnsupportedFormat()

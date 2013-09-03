@@ -11,7 +11,7 @@
 /**
  * Archive files collection
  */
-class Magento_Logging_Model_Archive_Collection extends Magento_Data_Collection_Filesystem
+class Magento_Logging_Model_Archive_Collection extends \Magento\Data\Collection\Filesystem
 {
     /**
      * Filenames regex filter
@@ -27,7 +27,7 @@ class Magento_Logging_Model_Archive_Collection extends Magento_Data_Collection_F
     {
         parent::__construct();
         $basePath = Mage::getModel('Magento_Logging_Model_Archive')->getBasePath();
-        $file = new Magento_Io_File();
+        $file = new \Magento\Io\File();
         $file->setAllowCreateFolders(true)->createDestinationDir($basePath);
         $this->addTargetDir($basePath);
     }

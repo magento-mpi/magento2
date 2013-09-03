@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_Loader_Role implements Magento_Acl_LoaderInterface
+class Magento_Webapi_Model_Authorization_Loader_Role implements \Magento\Acl\LoaderInterface
 {
     /**
      * @var Magento_Webapi_Model_Resource_Acl_Role
@@ -38,9 +38,9 @@ class Magento_Webapi_Model_Authorization_Loader_Role implements Magento_Acl_Load
     /**
      * Populate ACL with roles from external storage.
      *
-     * @param Magento_Acl $acl
+     * @param \Magento\Acl $acl
      */
-    public function populateAcl(Magento_Acl $acl)
+    public function populateAcl(\Magento\Acl $acl)
     {
         $roleList = $this->_roleResource->getRolesIds();
         foreach ($roleList as $roleId) {

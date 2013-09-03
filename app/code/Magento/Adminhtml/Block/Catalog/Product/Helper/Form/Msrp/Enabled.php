@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Msrp_Enabled extends Magento_Data_Form_Element_Select
+class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Msrp_Enabled extends \Magento\Data\Form\Element\Select
 {
     /**
      * Retrieve Element HTML fragment

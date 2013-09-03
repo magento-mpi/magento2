@@ -18,7 +18,7 @@
 
 class Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Blanknumber extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Number
 {
-    protected function _getValue(Magento_Object $row)
+    protected function _getValue(\Magento\Object $row)
     {
         $data = parent::_getValue($row);
         if (!is_null($data)) {

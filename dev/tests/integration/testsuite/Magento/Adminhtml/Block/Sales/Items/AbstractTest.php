@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Sales_Items_AbstractTest extends PHPUnit_Framework
         /** @var $block Magento_Adminhtml_Block_Sales_Items_Abstract */
         $block = $layout->createBlock('Magento_Adminhtml_Block_Sales_Items_Abstract', 'block');
 
-        $item = new Magento_Object;
+        $item = new \Magento\Object;
 
         $this->assertEmpty($block->getItemExtraInfoHtml($item));
 

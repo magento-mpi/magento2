@@ -29,7 +29,7 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 

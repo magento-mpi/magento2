@@ -17,7 +17,7 @@ class Magento_Code_Plugin_InvocationChainTest extends PHPUnit_Framework_TestCase
 {
     public function testProceed()
     {
-        $invocationChain = new Magento_Code_Plugin_InvocationChain(
+        $invocationChain = new \Magento\Code\Plugin\InvocationChain(
             new SimpleClass(),
             'doWork',
             new SimpleObjectManager(),

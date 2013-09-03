@@ -14,7 +14,7 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Webapi_Controller_Front */
     protected $_frontControllerMock;
 
-    /** @var Magento_Controller_Router_Route_Factory. */
+    /** @var \Magento\Controller\Router\Route\Factory. */
     protected $_routeFactoryMock;
 
     /** @var Magento_Webapi_Controller_Dispatcher_Factory. */
@@ -39,7 +39,7 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
         $application = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
         $application->expects($this->any())->method('getConfig')->will($this->returnValue($this->_configMock));
 
-        $this->_routeFactoryMock = $this->getMockBuilder('Magento_Controller_Router_Route_Factory')
+        $this->_routeFactoryMock = $this->getMockBuilder('Magento\Controller\Router\Route\Factory')
             ->disableOriginalConstructor()->getMock();
         $this->_errorProcessorMock = $this->getMockBuilder('Magento_Webapi_Controller_Dispatcher_ErrorProcessor')
             ->disableOriginalConstructor()

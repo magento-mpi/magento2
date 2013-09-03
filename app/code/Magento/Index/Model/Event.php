@@ -19,7 +19,7 @@
  * @method Magento_Index_Model_Event setCreatedAt(string $value)
  * @method Magento_Index_Model_Event setOldData(string $value)
  * @method Magento_Index_Model_Event setNewData(string $value)
- * @method Magento_Object getDataObject()
+ * @method \Magento\Object getDataObject()
  *
  * @category    Magento
  * @package     Magento_Index

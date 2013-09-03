@@ -13,7 +13,7 @@
  *
  */
 class Magento_WebsiteRestriction_Model_System_Config_Source_Modes
-extends Magento_Object
+extends \Magento\Object
 {
     /**
      * Get options for select

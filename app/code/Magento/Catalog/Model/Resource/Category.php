@@ -21,7 +21,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Category tree object
      *
-     * @var Magento_Data_Tree_Db
+     * @var \Magento\Data\Tree\Db
      */
     protected $_tree;
 
@@ -89,7 +89,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Retrieve category tree object
      *
-     * @return Magento_Data_Tree_Db
+     * @return \Magento\Data\Tree\Db
      */
     protected function _getTree()
     {
@@ -105,10 +105,10 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
      * update children count for parent category
      * delete child categories
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Catalog_Model_Resource_Category
      */
-    protected function _beforeDelete(Magento_Object $object)
+    protected function _beforeDelete(\Magento\Object $object)
     {
         parent::_beforeDelete($object);
 
@@ -129,10 +129,10 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
     /**
      * Delete children categories of specific category
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Catalog_Model_Resource_Category
      */
-    public function deleteChildren(Magento_Object $object)
+    public function deleteChildren(\Magento\Object $object)
     {
         $adapter = $this->_getWriteAdapter();
         $pathField = $adapter->quoteIdentifier('path');
@@ -162,10 +162,10 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
      * Process category data before saving
      * prepare path and increment children count for parent categories
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Catalog_Model_Resource_Category
      */
-    protected function _beforeSave(Magento_Object $object)
+    protected function _beforeSave(\Magento\Object $object)
     {
         parent::_beforeSave($object);
 
@@ -202,10 +202,10 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
      * Process category data after save category object
      * save related products ids and update path value
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Catalog_Model_Resource_Category
      */
-    protected function _afterSave(Magento_Object $object)
+    protected function _afterSave(\Magento\Object $object)
     {
         /**
          * Add identifier for new category
@@ -547,7 +547,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
      * @param boolean|string $sorted
      * @param boolean $asCollection
      * @param boolean $toLoad
-     * @return Magento_Data_Tree_Node_Collection|Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Data\Tree\Node\Collection|Magento_Catalog_Model_Resource_Category_Collection
      */
     public function getCategories($parent, $recursionLevel = 0, $sorted = false, $asCollection = false, $toLoad = true)
     {
@@ -627,7 +627,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
             ->addAttributeToSelect('is_anchor')
             ->addAttributeToFilter('is_active', 1)
             ->addIdFilter($category->getChildren())
-            ->setOrder('position', Magento_DB_Select::SQL_ASC)
+            ->setOrder('position', \Magento\DB\Select::SQL_ASC)
             ->joinUrlRewrite()
             ->load();
 

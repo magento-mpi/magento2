@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Shipping_Model_Info extends Magento_Object
+class Magento_Shipping_Model_Info extends \Magento\Object
 {
     /**
      * Tracking info

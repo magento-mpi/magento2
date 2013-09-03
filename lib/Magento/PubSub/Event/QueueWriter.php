@@ -9,15 +9,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_Event_QueueWriter implements Magento_PubSub_Event_QueueWriterInterface
+namespace Magento\PubSub\Event;
+
+class QueueWriter implements \Magento\PubSub\Event\QueueWriterInterface
 {
     /**
      * Stub that doesn't do anything
      *
-     * @param Magento_PubSub_EventInterface $event
+     * @param \Magento\PubSub\EventInterface $event
      * @return null
      */
-    public function offer(Magento_PubSub_EventInterface $event)
+    public function offer(\Magento\PubSub\EventInterface $event)
     {
         return null;
     }

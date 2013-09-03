@@ -15,7 +15,9 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Checkbox extends Magento_Data_Form_Element_Abstract
+namespace Magento\Data\Form\Element;
+
+class Checkbox extends \Magento\Data\Form\Element\AbstractElement
 {
     public function __construct($attributes=array())
     {
@@ -44,7 +46,7 @@ class Magento_Data_Form_Element_Checkbox extends Magento_Data_Form_Element_Abstr
      * Set check status of checkbox
      *
      * @param boolean $value
-     * @return Magento_Data_Form_Element_Checkbox
+     * @return \Magento\Data\Form\Element\Checkbox
      */
     public function setIsChecked($value=false)
     {

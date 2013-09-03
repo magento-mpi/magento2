@@ -115,8 +115,8 @@ class Magento_TestFramework_Event_Transaction
      * Retrieve database adapter instance
      *
      * @param string $connectionName 'read' or 'write'
-     * @return Magento_DB_Adapter_Interface|Magento_TestFramework_Db_Adapter_TransactionInterface
-     * @throws Magento_Exception
+     * @return \Magento\DB\Adapter\AdapterInterface|Magento_TestFramework_Db_Adapter_TransactionInterface
+     * @throws \Magento\MagentoException
      */
     protected function _getAdapter($connectionName = 'write')
     {

@@ -68,8 +68,8 @@ class Magento_Payment_Block_Info_Cc extends Magento_Payment_Block_Info
     /**
      * Prepare credit card related payment info
      *
-     * @param Magento_Object|array $transport
-     * @return Magento_Object
+     * @param \Magento\Object|array $transport
+     * @return \Magento\Object
      */
     protected function _prepareSpecificInformation($transport = null)
     {

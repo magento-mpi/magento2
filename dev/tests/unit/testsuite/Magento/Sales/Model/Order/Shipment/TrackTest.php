@@ -38,7 +38,7 @@ class Magento_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_Tes
     public function testGetStoreId()
     {
         $storeId = 10;
-        $storeObject = new Magento_Object(
+        $storeObject = new \Magento\Object(
             array('id' => $storeId)
         );
 

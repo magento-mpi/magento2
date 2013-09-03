@@ -15,10 +15,12 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Date extends Magento_Data_Form_Element_Abstract
+namespace Magento\Data\Form\Element;
+
+class Date extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
-     * @var Zend_Date
+     * @var \Zend_Date
      */
     protected $_value;
 
@@ -50,13 +52,13 @@ class Magento_Data_Form_Element_Date extends Magento_Data_Form_Element_Abstract
 
     /**
      * Set date value
-     * If Zend_Date instance is provided instead of value, other params will be ignored.
-     * Format and locale must be compatible with Zend_Date
+     * If \Zend_Date instance is provided instead of value, other params will be ignored.
+     * Format and locale must be compatible with \Zend_Date
      *
      * @param mixed $value
      * @param string $format
      * @param string $locale
-     * @return Magento_Data_Form_Element_Date
+     * @return \Magento\Data\Form\Element\Date
      */
     public function setValue($value, $format = null, $locale = null)
     {
@@ -64,18 +66,18 @@ class Magento_Data_Form_Element_Date extends Magento_Data_Form_Element_Abstract
             $this->_value = '';
             return $this;
         }
-        if ($value instanceof Zend_Date) {
+        if ($value instanceof \Zend_Date) {
             $this->_value = $value;
             return $this;
         }
         if (preg_match('/^[0-9]+$/', $value)) {
-            $this->_value = new Zend_Date($this->_toTimestamp($value));
-            //$this->_value = new Zend_Date((int)value);
+            $this->_value = new \Zend_Date($this->_toTimestamp($value));
+            //$this->_value = new \Zend_Date((int)value);
             return $this;
         }
         // last check, if input format was set
         if (null === $format) {
-            $format = Magento_Date::DATETIME_INTERNAL_FORMAT;
+            $format = \Magento\Date::DATETIME_INTERNAL_FORMAT;
             if ($this->getInputFormat()) {
                 $format = $this->getInputFormat();
             }
@@ -87,8 +89,8 @@ class Magento_Data_Form_Element_Date extends Magento_Data_Form_Element_Abstract
             }
         }
         try {
-            $this->_value = new Zend_Date($value, $format, $locale);
-        } catch (Exception $e) {
+            $this->_value = new \Zend_Date($value, $format, $locale);
+        } catch (\Exception $e) {
             $this->_value = '';
         }
         return $this;
@@ -98,7 +100,7 @@ class Magento_Data_Form_Element_Date extends Magento_Data_Form_Element_Abstract
      * Get date value as string.
      * Format can be specified, or it will be taken from $this->getFormat()
      *
-     * @param string $format (compatible with Zend_Date)
+     * @param string $format (compatible with \Zend_Date)
      * @return string
      */
     public function getValue($format = null)
@@ -115,7 +117,7 @@ class Magento_Data_Form_Element_Date extends Magento_Data_Form_Element_Abstract
     /**
      * Get value instance, if any
      *
-     * @return Zend_Date
+     * @return \Zend_Date
      */
     public function getValueInstance()
     {
@@ -128,10 +130,10 @@ class Magento_Data_Form_Element_Date extends Magento_Data_Form_Element_Abstract
     /**
      * Output the input field and assign calendar instance to it.
      * In order to output the date:
-     * - the value must be instantiated (Zend_Date)
-     * - output format must be set (compatible with Zend_Date)
+     * - the value must be instantiated (\Zend_Date)
+     * - output format must be set (compatible with \Zend_Date)
      *
-     * @throws Exception
+     * @throws \Exception
      * @return string
      */
     public function getElementHtml()
@@ -140,7 +142,7 @@ class Magento_Data_Form_Element_Date extends Magento_Data_Form_Element_Abstract
         $dateFormat = $this->getDateFormat();
         $timeFormat = $this->getTimeFormat();
         if (empty($dateFormat)) {
-            throw new Exception('Output format is not specified. '
+            throw new \Exception('Output format is not specified. '
                 . 'Please, specify "format" key in constructor, or set it using setFormat().');
         }
 

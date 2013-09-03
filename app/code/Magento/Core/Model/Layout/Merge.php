@@ -86,7 +86,7 @@ class Magento_Core_Model_Layout_Merge
     private $_appState;
 
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_cache;
 
@@ -98,7 +98,7 @@ class Magento_Core_Model_Layout_Merge
      * @param Magento_Core_Model_Layout_File_SourceInterface $fileSource,
      * @param Magento_Core_Model_Resource_Layout_Update $resource
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Cache_FrontendInterface $cache
+     * @param \Magento\Cache\FrontendInterface $cache
      * @param Magento_Core_Model_Theme $theme Non-injectable theme instance
      */
     public function __construct(
@@ -107,7 +107,7 @@ class Magento_Core_Model_Layout_Merge
         Magento_Core_Model_Layout_File_SourceInterface $fileSource,
         Magento_Core_Model_Resource_Layout_Update $resource,
         Magento_Core_Model_App_State $appState,
-        Magento_Cache_FrontendInterface $cache,
+        \Magento\Cache\FrontendInterface $cache,
         Magento_Core_Model_Theme $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
@@ -365,7 +365,7 @@ class Magento_Core_Model_Layout_Merge
      * Load layout updates by handles
      *
      * @param array|string $handles
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      * @return Magento_Core_Model_Layout_Merge
      */
     public function load($handles = array())
@@ -373,7 +373,7 @@ class Magento_Core_Model_Layout_Merge
         if (is_string($handles)) {
             $handles = array($handles);
         } elseif (!is_array($handles)) {
-            throw new Magento_Exception('Invalid layout update handle');
+            throw new \Magento\MagentoException('Invalid layout update handle');
         }
 
         $this->addHandle($handles);
@@ -441,13 +441,13 @@ class Magento_Core_Model_Layout_Merge
     protected function _fetchPackageLayoutUpdates($handle)
     {
         $_profilerKey = 'layout_package_update:' . $handle;
-        Magento_Profiler::start($_profilerKey);
+        \Magento\Profiler::start($_profilerKey);
         $layout = $this->getFileLayoutUpdatesXml();
         foreach ($layout->xpath("handle[@id='$handle']") as $updateXml) {
             $this->_fetchRecursiveUpdates($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }
-        Magento_Profiler::stop($_profilerKey);
+        \Magento\Profiler::stop($_profilerKey);
 
         return true;
     }
@@ -461,10 +461,10 @@ class Magento_Core_Model_Layout_Merge
     protected function _fetchDbLayoutUpdates($handle)
     {
         $_profilerKey = 'layout_db_update: ' . $handle;
-        Magento_Profiler::start($_profilerKey);
+        \Magento\Profiler::start($_profilerKey);
         $updateStr = $this->_getDbUpdateString($handle);
         if (!$updateStr) {
-            Magento_Profiler::stop($_profilerKey);
+            \Magento\Profiler::stop($_profilerKey);
             return false;
         }
         $updateStr = '<update_xml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
@@ -475,7 +475,7 @@ class Magento_Core_Model_Layout_Merge
         $this->_fetchRecursiveUpdates($updateXml);
         $this->addUpdate($updateXml->innerXml());
 
-        Magento_Profiler::stop($_profilerKey);
+        \Magento\Profiler::stop($_profilerKey);
         return (bool)$updateStr;
     }
 
@@ -589,7 +589,7 @@ class Magento_Core_Model_Layout_Merge
     /**
      * Collect and merge layout updates from files
      *
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      * @return Magento_Core_Model_Layout_Element
      */
     protected function _loadFileLayoutUpdatesXml()
@@ -603,7 +603,7 @@ class Magento_Core_Model_Layout_Merge
             /** @var $fileXml Magento_Core_Model_Layout_Element */
             $fileXml = $this->_loadXmlString($fileStr);
             if (!$file->isBase() && $fileXml->xpath(self::XPATH_HANDLE_DECLARATION)) {
-                throw new Magento_Exception(sprintf(
+                throw new \Magento\MagentoException(sprintf(
                     "Theme layout update file '%s' must not declare page types.",
                     $file->getFileName()
                 ));
@@ -620,7 +620,7 @@ class Magento_Core_Model_Layout_Merge
      *
      * @param Magento_Core_Model_Theme $theme
      * @return Magento_Core_Model_Theme
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     protected function _getPhysicalTheme(Magento_Core_Model_Theme $theme)
     {
@@ -629,7 +629,7 @@ class Magento_Core_Model_Layout_Merge
             $result = $result->getParentTheme();
         }
         if (!$result) {
-            throw new Magento_Exception("Unable to find a physical ancestor for a theme '{$theme->getThemeTitle()}'.");
+            throw new \Magento\MagentoException("Unable to find a physical ancestor for a theme '{$theme->getThemeTitle()}'.");
         }
         return $result;
     }

@@ -17,7 +17,7 @@ $table = $installer->getConnection()
     ->newTable($installer->getTable('webapi_role'))
     ->addColumn(
     'role_id',
-    Magento_DB_Ddl_Table::TYPE_INTEGER,
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array(
         'identity' => true,
@@ -29,7 +29,7 @@ $table = $installer->getConnection()
 )
     ->addColumn(
     'role_name',
-    Magento_DB_Ddl_Table::TYPE_TEXT,
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(
         'nullable' => false,
@@ -37,9 +37,9 @@ $table = $installer->getConnection()
     'Role name is displayed in Adminhtml interface'
 )
     ->addIndex(
-    $installer->getIdxName('webapi_role', array('role_name'), Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    $installer->getIdxName('webapi_role', array('role_name'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
     array('role_name'),
-    array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE)
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )
     ->setComment('Roles of unified webapi ACL');
 $installer->getConnection()->createTable($table);
@@ -48,7 +48,7 @@ $table = $installer->getConnection()
     ->newTable($installer->getTable('webapi_user'))
     ->addColumn(
     'user_id',
-    Magento_DB_Ddl_Table::TYPE_INTEGER,
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array(
         'identity' => true,
@@ -60,7 +60,7 @@ $table = $installer->getConnection()
 )
     ->addColumn(
     'user_name',
-    Magento_DB_Ddl_Table::TYPE_TEXT,
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(
         'nullable' => false,
@@ -69,7 +69,7 @@ $table = $installer->getConnection()
 )
     ->addColumn(
     'role_id',
-    Magento_DB_Ddl_Table::TYPE_INTEGER,
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array(
         'unsigned' => true,
@@ -79,22 +79,22 @@ $table = $installer->getConnection()
     'User role from webapi_role'
 )
     ->addIndex(
-    $installer->getIdxName('webapi_user', array('role_id'), Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX),
+    $installer->getIdxName('webapi_user', array('role_id'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX),
     array('role_id'),
-    array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX)
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX)
 )
     ->addIndex(
-    $installer->getIdxName('webapi_user', array('user_name'), Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    $installer->getIdxName('webapi_user', array('user_name'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
     array('user_name'),
-    array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE)
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )
     ->addForeignKey(
     $installer->getFkName('webapi_user', 'role_id', 'webapi_role', 'role_id'),
     'role_id',
     $installer->getTable('webapi_role'),
     'role_id',
-    Magento_DB_Ddl_Table::ACTION_SET_NULL,
-    Magento_DB_Ddl_Table::ACTION_CASCADE
+    \Magento\DB\Ddl\Table::ACTION_SET_NULL,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
 )
     ->setComment('Users of unified webapi');
 $installer->getConnection()->createTable($table);
@@ -103,7 +103,7 @@ $table = $installer->getConnection()
     ->newTable($installer->getTable('webapi_rule'))
     ->addColumn(
     'rule_id',
-    Magento_DB_Ddl_Table::TYPE_INTEGER,
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array(
         'identity' => true,
@@ -115,7 +115,7 @@ $table = $installer->getConnection()
 )
     ->addColumn(
     'resource_id',
-    Magento_DB_Ddl_Table::TYPE_TEXT,
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(
         'nullable' => false,
@@ -124,7 +124,7 @@ $table = $installer->getConnection()
 )
     ->addColumn(
     'role_id',
-    Magento_DB_Ddl_Table::TYPE_INTEGER,
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array(
         'unsigned' => true,
@@ -133,17 +133,17 @@ $table = $installer->getConnection()
     'User role from webapi_role'
 )
     ->addIndex(
-    $installer->getIdxName('webapi_rule', array('role_id'), Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX),
+    $installer->getIdxName('webapi_rule', array('role_id'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX),
     array('role_id'),
-    array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX)
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX)
 )
     ->addForeignKey(
     $installer->getFkName('webapi_rule', 'role_id', 'webapi_role', 'role_id'),
     'role_id',
     $installer->getTable('webapi_role'),
     'role_id',
-    Magento_DB_Ddl_Table::ACTION_CASCADE,
-    Magento_DB_Ddl_Table::ACTION_CASCADE
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
 )
     ->setComment('Permissions of roles to resources');
 $installer->getConnection()->createTable($table);

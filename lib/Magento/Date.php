@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Date
+ * @package    \Magento\Date
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -13,13 +13,15 @@
  * Internal dates
  *
  * @category Magento
- * @package  Magento_Date
+ * @package  \Magento\Date
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Date
+namespace Magento;
+
+class Date
 {
     /**#@+
-     * Date format, used as default. Compatible with Zend_Date
+     * Date format, used as default. Compatible with \Zend_Date
      */
     const DATETIME_INTERNAL_FORMAT = 'yyyy-MM-dd HH:mm:ss';
     const DATE_INTERNAL_FORMAT     = 'yyyy-MM-dd';
@@ -47,12 +49,12 @@ class Magento_Date
      * Convert date to UNIX timestamp
      * Returns current UNIX timestamp if date is true
      *
-     * @param Zend_Date|string|bool $date
+     * @param \Zend_Date|string|bool $date
      * @return int
      */
     public static function toTimestamp($date)
     {
-        if ($date instanceof Zend_Date) {
+        if ($date instanceof \Zend_Date) {
             return $date->getTimestamp();
         }
 
@@ -88,7 +90,7 @@ class Magento_Date
             return self::now(!$includeTime);
         }
 
-        if ($date instanceof Zend_Date) {
+        if ($date instanceof \Zend_Date) {
             if ($includeTime) {
                 return $date->toString(self::DATETIME_INTERNAL_FORMAT);
             } else {

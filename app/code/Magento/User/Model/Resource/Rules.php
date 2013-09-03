@@ -28,19 +28,19 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
     /**
      * Acl object cache
      *
-     * @var Magento_Acl_CacheInterface
+     * @var \Magento\Acl\CacheInterface
      */
     protected $_aclCache;
 
     /**
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Acl_RootResource $rootResource
-     * @param Magento_Acl_CacheInterface $aclCache
+     * @param \Magento\Acl\CacheInterface $aclCache
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Acl_RootResource $rootResource,
-        Magento_Acl_CacheInterface $aclCache
+        \Magento\Acl\CacheInterface $aclCache
     ) {
         parent::__construct($resource);
         $this->_rootResource = $rootResource;
@@ -87,17 +87,17 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
 
                 // If all was selected save it only and nothing else.
                 if ($postedResources === array($this->_rootResource->getId())) {
-                    $insertData = $this->_prepareDataForTable(new Magento_Object($row), $this->getMainTable());
+                    $insertData = $this->_prepareDataForTable(new \Magento\Object($row), $this->getMainTable());
 
                     $adapter->insert($this->getMainTable(), $insertData);
                 } else {
-                    $acl = Mage::getSingleton('Magento_Acl_Builder')->getAcl();
-                    /** @var $resource Magento_Acl_Resource */
+                    $acl = Mage::getSingleton('Magento\Acl\Builder')->getAcl();
+                    /** @var $resource \Magento\Acl\Resource */
                     foreach ($acl->getResources() as $resourceId) {
                         $row['permission'] = in_array($resourceId, $postedResources) ? 'allow' : 'deny';
                         $row['resource_id'] = $resourceId;
 
-                        $insertData = $this->_prepareDataForTable(new Magento_Object($row), $this->getMainTable());
+                        $insertData = $this->_prepareDataForTable(new \Magento\Object($row), $this->getMainTable());
                         $adapter->insert($this->getMainTable(), $insertData);
                     }
                 }

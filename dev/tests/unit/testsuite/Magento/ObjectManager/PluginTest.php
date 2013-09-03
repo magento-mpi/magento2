@@ -21,17 +21,17 @@ require_once __DIR__ . '/../_files/Child/Interceptor/B.php';
 class Magento_ObjectManager_PluginTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_locator;
 
     protected function setUp()
     {
-        $config = new Magento_ObjectManager_Config_Config();
-        $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
-            new Magento_ObjectManager_Factory_Factory($config), $config
+        $config = new \Magento\ObjectManager\Config\Config();
+        $factory = new \Magento\ObjectManager\Interception\FactoryDecorator(
+            new \Magento\ObjectManager\Factory\Factory($config), $config
         );
-        $this->_locator = new Magento_ObjectManager_ObjectManager($factory, $config);
+        $this->_locator = new \Magento\ObjectManager\ObjectManager($factory, $config);
     }
 
     public function testPluginsAreCalled()

@@ -20,11 +20,11 @@
     <preference for="Magento_Core_Model_LocaleInterface" type="Magento_Core_Model_Locale" />
     <preference for="Magento_Core_Model_UrlInterface" type="Magento_Core_Model_Url" />
     <preference for="Magento_Core_Model_Event_InvokerInterface" type="Magento_Core_Model_Event_Invoker_InvokerDefault" />
-    <preference for="Magento_Data_Collection_Db_FetchStrategyInterface" type="Magento_Data_Collection_Db_FetchStrategy_Query" />
-    <preference for="Magento_Config_ScopeInterface" type="Magento_Core_Model_Config_Scope" />
-    <preference for="Magento_Config_FileResolverInterface" type="Magento_Core_Model_Config_FileResolver" />
-    <preference for="Magento_Config_CacheInterface" type="Magento_Core_Model_Cache_Type_Config" />
-    <preference for="Magento_Config_ValidationStateInterface" type="Magento_Core_Model_Config_ValidationState" />
+    <preference for="Magento\Data\Collection\Db\FetchStrategyInterface" type="Magento\Data\Collection\Db\FetchStrategy\Query" />
+    <preference for="Magento\Config\ScopeInterface" type="Magento_Core_Model_Config_Scope" />
+    <preference for="Magento\Config\FileResolverInterface" type="Magento_Core_Model_Config_FileResolver" />
+    <preference for="Magento\Config\CacheInterface" type="Magento_Core_Model_Cache_Type_Config" />
+    <preference for="Magento\Config\ValidationStateInterface" type="Magento_Core_Model_Config_ValidationState" />
     <preference for="Magento_Core_Model_ModuleListInterface" type="Magento_Core_Model_ModuleList" />
     <type name="Magento_Core_Model_App_State">
         <param name="mode">
@@ -141,13 +141,13 @@
             <instance type="Magento_Core_Model_Config_Proxy" />
         </param>
     </type>
-    <type name="Magento_Filesystem" shared="false">
+    <type name="Magento\Filesystem" shared="false">
         <param name="adapter">
-            <instance type="Magento_Filesystem_Adapter_Local" />
+            <instance type="Magento\Filesystem\Adapter\Local" />
         </param>
     </type>
-    <type name="Magento_Data_Structure" shared="false" />
-    <type name="Magento_HTTP_Handler_Composite">
+    <type name="Magento\Data\Structure" shared="false" />
+    <type name="Magento\HTTP\Handler\Composite">
         <param name="handlers">
             <value>
                 <app>
@@ -180,7 +180,7 @@
             <instance type="Magento_Core_Model_StoreManager_Proxy" />
         </param>
     </type>
-    <type name="Magento_Acl" shared="false" />
+    <type name="Magento\Acl" shared="false" />
     <type name="Magento_Core_Model_Context">
         <param name="eventDispatcher">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />

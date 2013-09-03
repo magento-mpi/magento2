@@ -8,7 +8,7 @@
 class Magento_Acl_Resource_TreeBuilderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Acl_Resource_TreeBuilder
+     * @var \Magento\Acl\Resource\TreeBuilder
      */
     protected $_model;
 
@@ -21,7 +21,7 @@ class Magento_Acl_Resource_TreeBuilderTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Magento_Acl_Resource_TreeBuilder();
+        $this->_model = new \Magento\Acl\Resource\TreeBuilder();
         $this->_fixturePath = realpath(__DIR__ . '/../../')
             . DIRECTORY_SEPARATOR . '_files'
             . DIRECTORY_SEPARATOR . 'Acl'

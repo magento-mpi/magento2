@@ -77,7 +77,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Date $dateModel
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      * @return Magento_ScheduledImportExport_Model_Scheduled_Operation
      */
@@ -85,7 +85,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Date $dateModel,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -457,7 +457,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      * Get and initialize file system driver by operation file section configuration
      *
      * @throws Magento_Core_Exception
-     * @return Magento_Io_Abstract
+     * @return \Magento\Io\AbstractIo
      */
     public function getServerIoDriver()
     {
@@ -520,7 +520,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     {
         $filePath = $this->getHistoryFilePath();
 
-        $fs = new Magento_Io_File();
+        $fs = new \Magento\Io\File();
         $fs->open(array(
             'path' => dirname($filePath)
         ));

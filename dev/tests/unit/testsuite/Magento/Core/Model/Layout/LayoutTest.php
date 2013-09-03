@@ -32,9 +32,9 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $reflectionObject = new ReflectionObject($this->_layout);
         $reflectionMethod = $reflectionObject->getMethod('_translateArgument');
         $reflectionMethod->setAccessible(true);
-        $result = $reflectionMethod->invoke($this->_layout, new Magento_Simplexml_Element($argument));
+        $result = $reflectionMethod->invoke($this->_layout, new \Magento\Simplexml\Element($argument));
         if ($isTranslatable) {
-            $this->assertInstanceOf('Magento_Phrase', $result);
+            $this->assertInstanceOf('\Magento\Phrase', $result);
         } else {
             $this->assertInternalType('string', $result);
         }
@@ -68,7 +68,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
 
         if ($isTranslatable) {
-            $this->assertInstanceOf('Magento_Phrase', $argument);
+            $this->assertInstanceOf('\Magento\Phrase', $argument);
         } else {
             $this->assertInternalType('string', $argument);
         }

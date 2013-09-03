@@ -33,10 +33,10 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
     /**
      * Prepare chooser element HTML
      *
-     * @param Magento_Data_Form_Element_Abstract $element Form Element
-     * @return Magento_Data_Form_Element_Abstract
+     * @param \Magento\Data\Form\Element\AbstractElement $element Form Element
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
-    public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
+    public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $uniqId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_page_widget/chooser', array('uniq_id' => $uniqId));

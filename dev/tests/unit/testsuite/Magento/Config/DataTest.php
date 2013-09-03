@@ -8,7 +8,7 @@
 class Magento_Config_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Config_Data
+     * @var \Magento\Config\Data
      */
     protected $_model;
 
@@ -29,11 +29,11 @@ class Magento_Config_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento_Config_ReaderInterface');
-        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
-        $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
+        $this->_readerMock = $this->getMock('Magento\Config\ReaderInterface');
+        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
+        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
 
-        $this->_model = new Magento_Config_Data(
+        $this->_model = new \Magento\Config\Data(
             $this->_readerMock,
             $this->_configScopeMock,
             $this->_cacheMock,

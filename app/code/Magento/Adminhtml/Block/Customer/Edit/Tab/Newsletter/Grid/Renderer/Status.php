@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Status 
         parent::_construct();
     }
 
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         return __($this->getStatus($row->getQueueStatus()));
     }

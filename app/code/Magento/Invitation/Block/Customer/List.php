@@ -25,7 +25,7 @@ class Magento_Invitation_Block_Customer_List extends Magento_Customer_Block_Acco
     {
         if (!$this->hasInvitationCollection()) {
             $this->setData('invitation_collection', Mage::getModel('Magento_Invitation_Model_Invitation')->getCollection()
-                ->addOrder('invitation_id', Magento_Data_Collection::SORT_ORDER_DESC)
+                ->addOrder('invitation_id', \Magento\Data\Collection::SORT_ORDER_DESC)
                 ->loadByCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
             );
         }

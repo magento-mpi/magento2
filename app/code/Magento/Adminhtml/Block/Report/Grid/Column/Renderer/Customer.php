@@ -22,10 +22,10 @@ class Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Customer
     /**
      * Renders grid column
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $id   = $row->getCustomerId();
 

@@ -181,14 +181,14 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
      * @param Magento_Core_Model_Context $context
      * @param Magento_Sales_Model_Status_ListFactory $statusListFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Sales_Model_Status_ListFactory $statusListFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_errorInfos = $statusListFactory->create();
@@ -591,7 +591,7 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
     /**
      * Add option to item
      *
-     * @param   Magento_Sales_Model_Quote_Item_Option|Magento_Object $option
+     * @param   Magento_Sales_Model_Quote_Item_Option|\Magento\Object $option
      * @return  Magento_Sales_Model_Quote_Item
      */
     public function addOption($option)
@@ -600,7 +600,7 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
             $option = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')->setData($option)
                 ->setItem($this);
         }
-        elseif (($option instanceof Magento_Object) && !($option instanceof Magento_Sales_Model_Quote_Item_Option)) {
+        elseif (($option instanceof \Magento\Object) && !($option instanceof Magento_Sales_Model_Quote_Item_Option)) {
             $option = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
@@ -627,11 +627,11 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
      * Exemple: cataloginventory decimal qty validation may change qty to int,
      * so need to change quote item qty option value.
      *
-     * @param Magento_Object $option
+     * @param \Magento\Object $option
      * @param int|float|null $value
      * @return Magento_Sales_Model_Quote_Item
      */
-    public function updateQtyOption(Magento_Object $option, $value)
+    public function updateQtyOption(\Magento\Object $option, $value)
     {
         $optionProduct  = $option->getProduct();
         $options        = $this->getQtyOptions();
@@ -778,12 +778,12 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
      * Returns formatted buy request - object, holding request received from
      * product view page with keys and options for configured product
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getBuyRequest()
     {
         $option = $this->getOptionByCode('info_buyRequest');
-        $buyRequest = new Magento_Object($option ? unserialize($option->getValue()) : null);
+        $buyRequest = new \Magento\Object($option ? unserialize($option->getValue()) : null);
 
         // Overwrite standard buy request qty, because item qty could have changed since adding to quote
         $buyRequest->setOriginalQty($buyRequest->getQty())
@@ -843,7 +843,7 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
      * @param string|null $origin Usually a name of module, that embeds error
      * @param int|null $code Error code, unique for origin, that sets it
      * @param string|null $message Error message
-     * @param Magento_Object|null $additionalData Any additional data, that caller would like to store
+     * @param \Magento\Object|null $additionalData Any additional data, that caller would like to store
      * @return Magento_Sales_Model_Quote_Item
      */
     public function addErrorInfo($origin = null, $code = null, $message = null, $additionalData = null)

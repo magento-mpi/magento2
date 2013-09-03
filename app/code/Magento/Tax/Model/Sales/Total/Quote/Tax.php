@@ -187,7 +187,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
      * Tax caclulation for shipping price
      *
      * @param   Magento_Sales_Model_Quote_Address $address
-     * @param   Magento_Object $taxRateRequest
+     * @param   \Magento\Object $taxRateRequest
      * @return  Magento_Tax_Model_Sales_Total_Quote
      */
     protected function _calculateShippingTax(Magento_Sales_Model_Quote_Address $address, $taxRateRequest)
@@ -393,7 +393,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
      * Calculate address total tax based on row total
      *
      * @param   Magento_Sales_Model_Quote_Address $address
-     * @param   Magento_Object $taxRateRequest
+     * @param   \Magento\Object $taxRateRequest
      * @return  Magento_Tax_Model_Sales_Total_Quote
      */
     protected function _rowBaseCalculation(Magento_Sales_Model_Quote_Address $address, $taxRateRequest)
@@ -525,7 +525,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
      * Calculate address total tax based on address subtotal
      *
      * @param   Magento_Sales_Model_Quote_Address $address
-     * @param   Magento_Object $taxRateRequest
+     * @param   \Magento\Object $taxRateRequest
      * @return  Magento_Tax_Model_Sales_Total_Quote
      */
     protected function _totalBaseCalculation(Magento_Sales_Model_Quote_Address $address, $taxRateRequest)

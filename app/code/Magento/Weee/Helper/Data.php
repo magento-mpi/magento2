@@ -169,8 +169,8 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
      * Proxy for Magento_Weee_Model_Tax::getProductWeeeAttributes()
      *
      * @param Magento_Catalog_Model_Product $product
-     * @param null|false|Magento_Object   $shipping
-     * @param null|false|Magento_Object   $billing
+     * @param null|false|\Magento\Object   $shipping
+     * @param null|false|\Magento\Object   $billing
      * @param Magento_Core_Model_Website    $website
      * @param bool                       $calculateTaxes
      * @return array
@@ -245,8 +245,8 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
      * Get Product Weee attributes for price renderer
      *
      * @param Magento_Catalog_Model_Product $product
-     * @param null|false|Magento_Object $shipping Shipping Address
-     * @param null|false|Magento_Object $billing Billing Address
+     * @param null|false|\Magento\Object $shipping Shipping Address
+     * @param null|false|\Magento\Object $billing Billing Address
      * @param null|Magento_Core_Model_Website $website
      * @param mixed $calculateTaxes
      * @return array
@@ -332,8 +332,8 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Returns all summed WEEE taxes with all local taxes applied
      *
-     * @throws Magento_Exception
-     * @param array $attributes Array of Magento_Object, result from getProductWeeeAttributes()
+     * @throws \Magento\MagentoException
+     * @param array $attributes Array of \Magento\Object, result from getProductWeeeAttributes()
      * @return float
      */
     public function getAmountInclTaxes($attributes)
@@ -341,11 +341,11 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
         if (is_array($attributes)) {
             $amount = 0;
             foreach ($attributes as $attribute) {
-                /* @var $attribute Magento_Object */
+                /* @var $attribute \Magento\Object */
                 $amount += $attribute->getAmount() + $attribute->getTaxAmount();
             }
         } else {
-            throw new Magento_Exception('$attributes must be an array');
+            throw new \Magento\MagentoException('$attributes must be an array');
         }
 
         return (float)$amount;

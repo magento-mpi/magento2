@@ -58,7 +58,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
         'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader'
             => 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ImageUploader',
 
-        'Magento_Data_Form_Element_Checkbox'
+        '\Magento\Data\Form\Element\Checkbox'
             => 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Checkbox'
     );
 
@@ -83,7 +83,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      *
      * @param string $elementClassName
      * @param string $rendererName
-     * @return Magento_Data_Form_Element_Renderer_Interface
+     * @return \Magento\Data\Form\Element\Renderer\RendererInterface
      * @throws Magento_Core_Exception
      */
     public function create($elementClassName, $rendererName)

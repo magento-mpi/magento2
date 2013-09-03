@@ -69,7 +69,7 @@ abstract class Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract exte
         $id = false;
         if (is_array($data) && isset($data[$key])) {
             $id = $data[$key];
-        } elseif ($data instanceof Magento_Object && $data->getData($key)) {
+        } elseif ($data instanceof \Magento\Object && $data->getData($key)) {
             $id = $data->getData($key);
         }
         if ($id) {

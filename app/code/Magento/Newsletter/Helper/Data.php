@@ -57,7 +57,7 @@ class Magento_Newsletter_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve Template processor for Newsletter template
      *
-     * @return Magento_Filter_Template
+     * @return \Magento\Filter\Template
      */
     public function getTemplateProcessor()
     {

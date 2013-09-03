@@ -21,7 +21,7 @@ class Magento_Page_Model_Asset_GroupedCollection extends Magento_Core_Model_Page
     /**#@-*/
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     private $_objectManager;
 
@@ -31,9 +31,9 @@ class Magento_Page_Model_Asset_GroupedCollection extends Magento_Core_Model_Page
     private $_groups = array();
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

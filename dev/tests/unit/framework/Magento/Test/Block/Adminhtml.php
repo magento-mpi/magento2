@@ -78,7 +78,7 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
         $this->_controllerMock      = $this->_makeMock('Magento_Core_Controller_Varien_Front');
         $this->_dirMock             = $this->_makeMock('Magento_Core_Model_Dir');
         $this->_loggerMock          = $this->_makeMock('Magento_Core_Model_Logger');
-        $this->_filesystemMock      = $this->_makeMock('Magento_Filesystem');
+        $this->_filesystemMock      = $this->_makeMock('\Magento\Filesystem');
         $this->_cacheMock           = $this->_makeMock('Magento_Core_Model_CacheInterface');
         $this->_storeConfigMock     = $this->_makeMock('Magento_Core_Model_Store_Config');
         $this->_helperFactoryMock   = $this->_makeMock('Magento_Core_Model_Factory_Helper');
@@ -86,7 +86,7 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
         $viewConfigMock             = $this->_makeMock('Magento_Core_Model_View_Config');
         $viewFileSystemMock         = $this->_makeMock('Magento_Core_Model_View_FileSystem');
         $templateFactoryMock        = $this->_makeMock('Magento_Core_Model_TemplateEngine_Factory');
-        $authorizationMock          = $this->_makeMock('Magento_AuthorizationInterface');
+        $authorizationMock          = $this->_makeMock('\Magento\AuthorizationInterface');
         $cacheStateMock             = $this->_makeMock('Magento_Core_Model_Cache_StateInterface');
 
         $this->_translatorMock

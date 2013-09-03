@@ -29,10 +29,10 @@ class Magento_AdvancedCheckout_Model_Observer
     /**
      * Returns cart model for backend
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdvancedCheckout_Model_Cart
      */
-    protected function _getBackendCart(Magento_Event_Observer $observer)
+    protected function _getBackendCart(\Magento\Event\Observer $observer)
     {
         $storeId = $observer->getRequestModel()->getParam('storeId');
         if (is_null($storeId)) {
@@ -47,10 +47,10 @@ class Magento_AdvancedCheckout_Model_Observer
     /**
      * Check submitted SKU's form the form or from error grid
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function addBySku(Magento_Event_Observer $observer)
+    public function addBySku(\Magento\Event\Observer $observer)
     {
         /* @var $request Magento_Core_Controller_Request_Http */
         $request = $observer->getRequestModel();
@@ -95,10 +95,10 @@ class Magento_AdvancedCheckout_Model_Observer
     /**
      * Upload and parse CSV file with SKUs
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return null
      */
-    public function uploadSkuCsv(Magento_Event_Observer $observer)
+    public function uploadSkuCsv(\Magento\Event\Observer $observer)
     {
         /** @var $helper Magento_AdvancedCheckout_Helper_Data */
         $helper = Mage::helper('Magento_AdvancedCheckout_Helper_Data');
@@ -140,7 +140,7 @@ class Magento_AdvancedCheckout_Model_Observer
     /**
      * Calculate failed items quote-related data
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function collectTotalsFailedItems($observer)
@@ -158,7 +158,7 @@ class Magento_AdvancedCheckout_Model_Observer
 
         /** @var $quote Magento_Sales_Model_Quote */
         $quote = Mage::getModel('Magento_Sales_Model_Quote');
-        $collection = new Magento_Data_Collection();
+        $collection = new \Magento\Data\Collection();
 
         foreach (Mage::helper('Magento_AdvancedCheckout_Helper_Data')->getFailedItems(false) as $item) {
             /** @var $item Magento_Sales_Model_Quote_Item */
@@ -187,7 +187,7 @@ class Magento_AdvancedCheckout_Model_Observer
     /**
      * Add link to cart in cart sidebar to view grid with failed products
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function addCartLink($observer)

@@ -67,7 +67,7 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
         return $this->getMock('Magento_Backend_Block_Widget_Grid_ColumnSet', array(), array(
             Mage::getModel('Magento_Core_Block_Template_Context', array(
                 'dirs' => new Magento_Core_Model_Dir(__DIR__),
-                'filesystem' => new Magento_Filesystem(new Magento_Filesystem_Adapter_Local),
+                'filesystem' => new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local),
             )),
             Mage::getModel('Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory'),
             Mage::getModel('Magento_Backend_Model_Widget_Grid_SubTotals'),

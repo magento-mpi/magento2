@@ -16,7 +16,7 @@
  * @package    Magento_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Model_Config extends Magento_Simplexml_Config
+class Magento_Install_Model_Config extends \Magento\Simplexml\Config
 {
     /**
      * Wizard steps path
@@ -41,7 +41,7 @@ class Magento_Install_Model_Config extends Magento_Simplexml_Config
     /**
      * Get array of wizard steps
      *
-     * array($index => Magento_Object)
+     * array($index => \Magento\Object)
      *
      * @return array
      */
@@ -49,7 +49,7 @@ class Magento_Install_Model_Config extends Magento_Simplexml_Config
     {
         $steps = array();
         foreach ((array)$this->getNode(self::XML_PATH_WIZARD_STEPS) as $stepName => $step) {
-            $stepObject = new Magento_Object((array)$step);
+            $stepObject = new \Magento\Object((array)$step);
             $stepObject->setName($stepName);
             $steps[] = $stepObject;
         }

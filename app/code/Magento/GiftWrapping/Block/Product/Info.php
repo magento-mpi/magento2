@@ -20,7 +20,7 @@ class Magento_GiftWrapping_Block_Product_Info extends Magento_Core_Block_Templat
     /**
      * Return product gift wrapping info
      *
-     * @return false|Magento_Object
+     * @return false|\Magento\Object
      */
     public function getGiftWrappingInfo()
     {

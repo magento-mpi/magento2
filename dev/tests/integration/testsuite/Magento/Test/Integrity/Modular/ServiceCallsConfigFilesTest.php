@@ -68,7 +68,7 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
         if ($skip) {
             $this->markTestSkipped('There is no service_calls.xml files in the system');
         }
-        $domConfig = new Magento_Config_Dom(file_get_contents($file));
+        $domConfig = new \Magento\Config\Dom(file_get_contents($file));
         $result = $domConfig->validate($this->_schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {
@@ -87,7 +87,7 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
 
         try {
             $this->_reader->validate();
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\MagentoException $e) {
             $this->fail($e->getMessage());
         }
     }

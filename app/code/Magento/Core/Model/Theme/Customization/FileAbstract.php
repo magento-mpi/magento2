@@ -26,19 +26,19 @@ abstract class Magento_Core_Model_Theme_Customization_FileAbstract
     protected $_fileFactory;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * @param Magento_Core_Model_Theme_Customization_Path $customizationPath
      * @param Magento_Core_Model_Theme_FileFactory $fileFactory
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         Magento_Core_Model_Theme_Customization_Path $customizationPath,
         Magento_Core_Model_Theme_FileFactory $fileFactory,
-        Magento_Filesystem $filesystem
+        \Magento\Filesystem $filesystem
     ) {
         $this->_customizationPath = $customizationPath;
         $this->_fileFactory = $fileFactory;

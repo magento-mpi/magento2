@@ -24,7 +24,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Adminhtml_Block_
      */
     public function initForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('_rma');
         $form->setFieldNameSuffix();
 
@@ -82,19 +82,19 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Adminhtml_Block_
      */
     protected function _prepareLayout()
     {
-        Magento_Data_Form::setElementRenderer(
+        \Magento\Data\Form::setElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento_Adminhtml_Block_Widget_Form_Renderer_Element',
                 $this->getNameInLayout() . '_element'
             )
         );
-        Magento_Data_Form::setFieldsetRenderer(
+        \Magento\Data\Form::setFieldsetRenderer(
             $this->getLayout()->createBlock(
                 'Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Renderer_Fieldset',
                 $this->getNameInLayout() . '_fieldset'
             )
         );
-        Magento_Data_Form::setFieldsetElementRenderer(
+        \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element',
                 $this->getNameInLayout() . '_fieldset_element'

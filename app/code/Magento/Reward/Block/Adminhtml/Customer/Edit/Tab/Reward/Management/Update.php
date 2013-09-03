@@ -36,7 +36,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('reward_');
         $form->setFieldNameSuffix('reward');
         $fieldset = $form->addFieldset('update_fieldset', array(

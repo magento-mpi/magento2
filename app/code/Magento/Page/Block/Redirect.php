@@ -79,7 +79,7 @@ class Magento_Page_Block_Redirect extends Magento_Core_Block_Template
      */
     public function getHtmlFormRedirect ()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $form->setAction($this->getTargetURL())
             ->setId($this->getFormId())
             ->setName($this->getFormId())

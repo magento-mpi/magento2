@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_File_Csv
+namespace Magento\File;
+
+class Csv
 {
     protected $_lineLength= 0;
     protected $_delimiter = ',';
@@ -28,7 +30,7 @@ class Magento_File_Csv
      * Set max file line length
      *
      * @param   int $length
-     * @return  Magento_File_Csv
+     * @return  \Magento\File\Csv
      */
     public function setLineLength($length)
     {
@@ -40,7 +42,7 @@ class Magento_File_Csv
      * Set CSV column delimiter
      *
      * @param   string $delimiter
-     * @return  Magento_File_Csv
+     * @return  \Magento\File\Csv
      */
     public function setDelimiter($delimiter)
     {
@@ -52,7 +54,7 @@ class Magento_File_Csv
      * Set CSV column value enclosure
      *
      * @param   string $enclosure
-     * @return  Magento_File_Csv
+     * @return  \Magento\File\Csv
      */
     public function setEnclosure($enclosure)
     {
@@ -70,7 +72,7 @@ class Magento_File_Csv
     {
         $data = array();
         if (!file_exists($file)) {
-            throw new Exception('File "'.$file.'" do not exists');
+            throw new \Exception('File "'.$file.'" do not exists');
         }
         
         $fh = fopen($file, 'r');
@@ -106,7 +108,7 @@ class Magento_File_Csv
      *
      * @param   string $file
      * @param   array $data
-     * @return  Magento_File_Csv
+     * @return  \Magento\File\Csv
      */
     public function saveData($file, $data)
     {

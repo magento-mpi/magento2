@@ -15,7 +15,7 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
+class Magento_Catalog_Model_Product_Option_Type_Default extends \Magento\Object
 {
     /**
      * Option Instance
@@ -133,11 +133,11 @@ class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
     /**
      * Getter for Buy Request
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getRequest()
     {
-        if ($this->_getData('request') instanceof Magento_Object) {
+        if ($this->_getData('request') instanceof \Magento\Object) {
             return $this->_getData('request');
         }
         Mage::throwException(__('The BuyRequest instance in options group is incorrect.'));

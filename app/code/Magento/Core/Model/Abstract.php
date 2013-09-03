@@ -15,7 +15,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class Magento_Core_Model_Abstract extends Magento_Object
+abstract class Magento_Core_Model_Abstract extends \Magento\Object
 {
     /**
      * Prefix of model events names
@@ -109,13 +109,13 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventDispatcher = $context->getEventDispatcher();

@@ -39,11 +39,11 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback
     /**
      * Constructor
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Design_Fallback_Factory $fallbackFactory
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Design_Fallback_Factory $fallbackFactory
     ) {
         $this->_filesystem = $filesystem;

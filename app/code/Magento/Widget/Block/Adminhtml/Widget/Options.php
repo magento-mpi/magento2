@@ -40,14 +40,14 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
     /**
      * Form getter/instantiation
      *
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     public function getForm()
     {
-        if ($this->_form instanceof Magento_Data_Form) {
+        if ($this->_form instanceof \Magento\Data\Form) {
             return $this->_form;
         }
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $this->setForm($form);
         return $form;
     }
@@ -55,11 +55,11 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
     /**
      * Fieldset getter/instantiation
      *
-     * @return Magento_Data_Form_Element_Fieldset
+     * @return \Magento\Data\Form\Element\Fieldset
      */
     public function getMainFieldset()
     {
-        if ($this->_getData('main_fieldset') instanceof Magento_Data_Form_Element_Fieldset) {
+        if ($this->_getData('main_fieldset') instanceof \Magento\Data\Form\Element\Fieldset) {
             return $this->_getData('main_fieldset');
         }
         $mainFieldsetHtmlId = 'options_fieldset' . md5($this->getWidgetType());
@@ -102,8 +102,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
     /**
      * Add field to Options form based on parameter configuration
      *
-     * @param Magento_Object $parameter
-     * @return Magento_Data_Form_Element_Abstract
+     * @param \Magento\Object $parameter
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     protected function _addField($parameter)
     {
@@ -169,7 +169,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
         // extra html preparations
         if ($helper = $parameter->getHelperBlock()) {
             $helperBlock = $this->getLayout()->createBlock($helper->getType(), '', array('data' => $helper->getData()));
-            if ($helperBlock instanceof Magento_Object) {
+            if ($helperBlock instanceof \Magento\Object) {
                 $helperBlock->setConfig($helper->getData())
                     ->setFieldsetId($fieldset->getId())
                     ->prepareElementHtml($field);

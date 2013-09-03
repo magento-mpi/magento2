@@ -40,13 +40,13 @@ class Magento_TestFramework_Event_Magento
      * Constructor
      *
      * @param Magento_TestFramework_EventManager $eventManager
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function __construct($eventManager = null)
     {
         $this->_eventManager = $eventManager ?: self::$_defaultEventManager;
         if (!($this->_eventManager instanceof Magento_TestFramework_EventManager)) {
-            throw new Magento_Exception('Instance of the "Magento_TestFramework_EventManager" is expected.');
+            throw new \Magento\MagentoException('Instance of the "Magento_TestFramework_EventManager" is expected.');
         }
     }
 

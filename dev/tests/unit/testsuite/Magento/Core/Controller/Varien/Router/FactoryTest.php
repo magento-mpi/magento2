@@ -25,7 +25,7 @@ class Magento_Core_Controller_Varien_Router_FactoryTest extends PHPUnit_Framewor
     /**
      * ObjectManager mock for tests
      *
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -38,13 +38,13 @@ class Magento_Core_Controller_Varien_Router_FactoryTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_controller = new Magento_Core_Controller_Varien_Router_Factory($this->_objectManager);
     }
 
     public function testConstruct()
     {
-        $this->assertAttributeInstanceOf('Magento_ObjectManager', '_objectManager', $this->_controller);
+        $this->assertAttributeInstanceOf('\Magento\ObjectManager', '_objectManager', $this->_controller);
     }
 
     public function testCreateRouterNoArguments()

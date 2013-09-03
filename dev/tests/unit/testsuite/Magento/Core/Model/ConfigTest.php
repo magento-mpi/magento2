@@ -65,7 +65,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $configStorageMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($configBase));
         $modulesReaderMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false);
         $invalidatorMock = $this->getMock('Magento_Core_Model_Config_InvalidatorInterface');
-        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
+        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
 
         $this->_model = new Magento_Core_Model_Config(

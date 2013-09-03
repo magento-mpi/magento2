@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Admi
         $identityName = Mage::getStoreConfig('trans_email/ident_'.$identity.'/name');
         $identityEmail = Mage::getStoreConfig('trans_email/ident_'.$identity.'/email');
 
-        $form   = new Magento_Data_Form(array(
+        $form   = new \Magento\Data\Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post'

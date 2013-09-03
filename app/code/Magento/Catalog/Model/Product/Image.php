@@ -41,7 +41,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     protected $_watermarkImageOpacity = 70;
 
     /**
-     * @var Magento_Filesystem $filesystem
+     * @var \Magento\Filesystem $filesystem
      */
     protected $_filesystem;
 
@@ -62,22 +62,22 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Core_Model_Context $context
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Image_Factory $imageFactory
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Image_Factory $imageFactory,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -395,7 +395,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Image
+     * @return \Magento\Image
      */
     public function getImageProcessor()
     {
@@ -412,7 +412,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @see Magento_Image_Adapter_Abstract
+     * @see \Magento\Image\Adapter\AbstractAdapter
      * @return Magento_Catalog_Model_Product_Image
      */
     public function resize()

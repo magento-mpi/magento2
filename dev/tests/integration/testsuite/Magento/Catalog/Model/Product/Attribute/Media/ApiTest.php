@@ -41,17 +41,17 @@ class Magento_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Fram
     {
         self::$_filesDir = realpath(__DIR__ . '/../../../../_files');
         self::$_mediaTmpDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath();
-        $ioFile = new Magento_Io_File();
+        $ioFile = new \Magento\Io\File();
         $ioFile->mkdir(self::$_mediaTmpDir . "/m/a", 0777, true);
         copy(self::$_filesDir . '/magento_image.jpg', self::$_mediaTmpDir . '/m/a/magento_image.jpg');
     }
 
     public static function tearDownAfterClass()
     {
-        Magento_Io_File::rmdirRecursive(self::$_mediaTmpDir . "/m/a");
+        \Magento\Io\File::rmdirRecursive(self::$_mediaTmpDir . "/m/a");
         /** @var $config Magento_Catalog_Model_Product_Media_Config */
         $config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
-        Magento_Io_File::rmdirRecursive($config->getBaseMediaPath());
+        \Magento\Io\File::rmdirRecursive($config->getBaseMediaPath());
     }
 
     public static function productMediaFixture()

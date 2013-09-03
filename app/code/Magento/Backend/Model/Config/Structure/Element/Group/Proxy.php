@@ -13,7 +13,7 @@ class Magento_Backend_Model_Config_Structure_Element_Group_Proxy
 {
     /**
      * Object manager
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -23,9 +23,9 @@ class Magento_Backend_Model_Config_Structure_Element_Group_Proxy
     protected $_subject;
 
     /**
-     * @param Magento_ObjectManager $objectManger
+     * @param \Magento\ObjectManager $objectManger
      */
-    public function __construct(Magento_ObjectManager $objectManger)
+    public function __construct(\Magento\ObjectManager $objectManger)
     {
         $this->_objectManager = $objectManger;
     }
@@ -179,9 +179,9 @@ class Magento_Backend_Model_Config_Structure_Element_Group_Proxy
     /**
      * Populate form fieldset with group data
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      */
-    public function populateFieldset(Magento_Data_Form_Element_Fieldset $fieldset)
+    public function populateFieldset(\Magento\Data\Form\Element\Fieldset $fieldset)
     {
         $this->_getSubject()->populateFieldset($fieldset);
     }

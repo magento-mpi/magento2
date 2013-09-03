@@ -21,7 +21,7 @@
  * @method Magento_Webhook_Model_Job setUpdatedAt()
  * @method Magento_Webhook_Model_Job setCreatedAt()
  */
-class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements Magento_PubSub_JobInterface
+class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements \Magento\PubSub\JobInterface
 {
     /** @var  Magento_Webhook_Model_Event_Factory */
     protected $_eventFactory;
@@ -46,7 +46,7 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements M
      * @param Magento_Webhook_Model_Subscription_Factory $subscriptionFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -54,7 +54,7 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements M
         Magento_Webhook_Model_Subscription_Factory $subscriptionFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventFactory = $eventFactory;
@@ -77,7 +77,7 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements M
         if ($this->hasSubscription()) {
             $this->setSubscriptionId($this->getSubscription()->getId());
         }
-        $this->setStatus(Magento_PubSub_JobInterface::STATUS_READY_TO_SEND);
+        $this->setStatus(\Magento\PubSub\JobInterface::STATUS_READY_TO_SEND);
     }
 
     /**
@@ -99,7 +99,7 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements M
     /**
      * Get event
      *
-     * @return Magento_PubSub_EventInterface|Magento_Webhook_Model_Event|null
+     * @return \Magento\PubSub\EventInterface|Magento_Webhook_Model_Event|null
      */
     public function getEvent()
     {
@@ -146,7 +146,7 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements M
      */
     public function complete()
     {
-        $this->setStatus(Magento_PubSub_JobInterface::STATUS_SUCCEEDED)
+        $this->setStatus(\Magento\PubSub\JobInterface::STATUS_SUCCEEDED)
             ->save();
         return $this;
     }
@@ -162,11 +162,11 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements M
         if ($retryCount < count($this->_retryTimeToAdd)) {
             $addedTimeInMinutes = $this->_retryTimeToAdd[$retryCount + 1] * 60 + time();
             $this->setRetryCount($retryCount + 1);
-            $this->setRetryAt(Magento_Date::formatDate($addedTimeInMinutes));
-            $this->setUpdatedAt(Magento_Date::formatDate(time(), true));
-            $this->setStatus(Magento_PubSub_JobInterface::STATUS_RETRY);
+            $this->setRetryAt(\Magento\Date::formatDate($addedTimeInMinutes));
+            $this->setUpdatedAt(\Magento\Date::formatDate(time(), true));
+            $this->setStatus(\Magento\PubSub\JobInterface::STATUS_RETRY);
         } else {
-            $this->setStatus(Magento_PubSub_JobInterface::STATUS_FAILED);
+            $this->setStatus(\Magento\PubSub\JobInterface::STATUS_FAILED);
         }
         return $this;
     }

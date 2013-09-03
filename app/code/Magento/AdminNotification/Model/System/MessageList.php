@@ -22,11 +22,11 @@ class Magento_AdminNotification_Model_System_MessageList
     protected $_messages;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param array $messages
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         $messages = array()
     ) {
         $this->_objectManager = $objectManager;

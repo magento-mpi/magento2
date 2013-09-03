@@ -334,12 +334,12 @@ class Magento_VersionsCms_Model_Resource_Page_Revision extends Magento_Core_Mode
     /**
      * Applying order by create datetime and limitation to one record.
      *
-     * @param Magento_DB_Select $select
-     * @return Magento_DB_Select
+     * @param \Magento\DB\Select $select
+     * @return \Magento\DB\Select
      */
     protected function _addSingleLimitation($select)
     {
-        $select->order($this->getMainTable() . '.created_at ' . Magento_DB_Select::SQL_DESC)->limit(1);
+        $select->order($this->getMainTable() . '.created_at ' . \Magento\DB\Select::SQL_DESC)->limit(1);
         return $select;
     }
 }

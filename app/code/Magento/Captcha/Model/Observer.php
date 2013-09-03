@@ -39,7 +39,7 @@ class Magento_Captcha_Model_Observer
     protected $_urlManager;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -47,13 +47,13 @@ class Magento_Captcha_Model_Observer
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Captcha_Helper_Data $helper
      * @param Magento_Core_Model_Url $urlManager
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         Magento_Customer_Model_Session $customerSession,
         Magento_Captcha_Helper_Data $helper,
         Magento_Core_Model_Url $urlManager,
-        Magento_Filesystem $filesystem
+        \Magento\Filesystem $filesystem
     ) {
         $this->_customerSession = $customerSession;
         $this->_helper = $helper;
@@ -64,7 +64,7 @@ class Magento_Captcha_Model_Observer
     /**
      * Check Captcha On Forgot Password Page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Captcha_Model_Observer
      */
     public function checkForgotpassword($observer)
@@ -85,7 +85,7 @@ class Magento_Captcha_Model_Observer
     /**
      * Check CAPTCHA on Contact Us page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function checkContactUsForm($observer)
     {
@@ -104,7 +104,7 @@ class Magento_Captcha_Model_Observer
     /**
      * Check Captcha On User Login Page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Captcha_Model_Observer
      */
     public function checkUserLogin($observer)
@@ -132,7 +132,7 @@ class Magento_Captcha_Model_Observer
     /**
      * Check Captcha On Register User Page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Captcha_Model_Observer
      */
     public function checkUserCreate($observer)
@@ -154,7 +154,7 @@ class Magento_Captcha_Model_Observer
     /**
      * Check Captcha On Checkout as Guest Page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Captcha_Model_Observer
      */
     public function checkGuestCheckout($observer)
@@ -178,7 +178,7 @@ class Magento_Captcha_Model_Observer
     /**
      * Check Captcha On Checkout Register Page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Captcha_Model_Observer
      */
     public function checkRegisterCheckout($observer)
@@ -202,7 +202,7 @@ class Magento_Captcha_Model_Observer
     /**
      * Check Captcha On User Login Backend Page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Captcha_Model_Observer
      */
     public function checkUserLoginBackend($observer)
@@ -235,7 +235,7 @@ class Magento_Captcha_Model_Observer
     /**
      * Check Captcha On User Login Backend Page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Captcha_Model_Observer
      */
     public function checkUserForgotPasswordBackend($observer)
@@ -262,7 +262,7 @@ class Magento_Captcha_Model_Observer
     /**
      * Reset Attempts For Frontend
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Captcha_Model_Observer
      */
     public function resetAttemptForFrontend($observer)
@@ -273,7 +273,7 @@ class Magento_Captcha_Model_Observer
     /**
      * Reset Attempts For Backend
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Captcha_Model_Observer
      */
     public function resetAttemptForBackend($observer)

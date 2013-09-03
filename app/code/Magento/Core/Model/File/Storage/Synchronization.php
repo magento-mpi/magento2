@@ -17,7 +17,7 @@ class Magento_Core_Model_File_Storage_Synchronization
     /**
      * File stream handler
      *
-     * @var Magento_Io_File
+     * @var \Magento\Io\File
      */
     protected $_streamFactory;
 
@@ -54,7 +54,7 @@ class Magento_Core_Model_File_Storage_Synchronization
                 throw new LogicException('Could not create directory');
             }
 
-            /** @var Magento_Filesystem_StreamInterface $stream */
+            /** @var \Magento\Filesystem\StreamInterface $stream */
             $stream = $this->_streamFactory->create(array('path' => $filePath));
             try{
                 $stream->open('w');
@@ -62,7 +62,7 @@ class Magento_Core_Model_File_Storage_Synchronization
                 $stream->write($storage->getContent());
                 $stream->unlock();
                 $stream->close();
-            } catch (Magento_Filesystem_Exception $e) {
+            } catch (\Magento\Filesystem\FilesystemException $e) {
                 $stream->close();
             }
         }

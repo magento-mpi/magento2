@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_User_Model_Acl_Loader_Rule implements Magento_Acl_LoaderInterface
+class Magento_User_Model_Acl_Loader_Rule implements \Magento\Acl\LoaderInterface
 {
     /**
      * @var Magento_Core_Model_Resource
@@ -33,9 +33,9 @@ class Magento_User_Model_Acl_Loader_Rule implements Magento_Acl_LoaderInterface
     /**
      * Populate ACL with rules from external storage
      *
-     * @param Magento_Acl $acl
+     * @param \Magento\Acl $acl
      */
-    public function populateAcl(Magento_Acl $acl)
+    public function populateAcl(\Magento\Acl $acl)
     {
         $ruleTable = $this->_resource->getTableName("admin_rule");
 

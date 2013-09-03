@@ -148,7 +148,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * DB connection
      *
-     * @var Magento_DB_Adapter_Interface
+     * @var \Magento\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
@@ -1204,7 +1204,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             'entity_id'        => $productId,
             'has_options'      => 1,
             'required_options' => 0,
-            'updated_at'       => Magento_Date::now(),
+            'updated_at'       => \Magento\Date::now(),
         );
 
         if (!empty($rowData[self::COLUMN_IS_REQUIRED])) {

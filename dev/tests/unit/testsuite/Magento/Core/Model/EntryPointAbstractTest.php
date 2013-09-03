@@ -15,7 +15,7 @@ class Magento_Core_Model_EntryPointAbstractTest extends PHPUnit_Framework_TestCa
      */
     public function testProcessRequest()
     {
-        $objectManager = $this->getMock('Magento_ObjectManager');
+        $objectManager = $this->getMock('Magento\ObjectManager');
 
         $config = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
 

@@ -32,7 +32,7 @@ abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract
     /**
      * Factory model
      *
-     * @var Magento_Object_Factory
+     * @var \Magento\Object\Factory
      */
     protected $_factory;
 
@@ -44,10 +44,10 @@ abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract
     protected $_parser;
 
     /**
-     * @param Magento_Object_Factory $factory
+     * @param \Magento\Object\Factory $factory
      * @param Magento_Backend_Model_Widget_Grid_Parser $parser
      */
-    public function __construct(Magento_Object_Factory $factory, Magento_Backend_Model_Widget_Grid_Parser $parser)
+    public function __construct(\Magento\Object\Factory $factory, Magento_Backend_Model_Widget_Grid_Parser $parser)
     {
         $this->_factory = $factory;
         $this->_parser = $parser;
@@ -58,7 +58,7 @@ abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract
      *
      * @abstract
      * @param string $index
-     * @param Magento_Data_Collection $collection
+     * @param \Magento\Data\Collection $collection
      * @return float|int
      */
     abstract protected function _countSum($index, $collection);
@@ -68,7 +68,7 @@ abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract
      *
      * @abstract
      * @param string $index
-     * @param Magento_Data_Collection $collection
+     * @param \Magento\Data\Collection $collection
      * @return float|int
      */
     abstract protected function _countAverage($index, $collection);
@@ -78,7 +78,7 @@ abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract
      *
      * @param string $index
      * @param string $expr
-     * @param Magento_Data_Collection $collection
+     * @param \Magento\Data\Collection $collection
      * @return float|int
      */
     protected function _count($index, $expr, $collection)
@@ -103,7 +103,7 @@ abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract
      * Return counted expression accorded parsed string
      *
      * @param string $expr
-     * @param Magento_Data_Collection $collection
+     * @param \Magento\Data\Collection $collection
      * @return float|int
      */
     protected function _countExpr($expr, $collection)
@@ -179,7 +179,7 @@ abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract
      * Check operand is numeric or has already counted
      *
      * @param string $operand
-     * @param Magento_Data_Collection $collection
+     * @param \Magento\Data\Collection $collection
      * @return float|int
      */
     protected function _checkOperand($operand, $collection)
@@ -222,8 +222,8 @@ abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract
     /**
      * Count totals for all columns set
      *
-     * @param Magento_Data_Collection $collection
-     * @return Magento_Object
+     * @param \Magento\Data\Collection $collection
+     * @return \Magento\Object
      */
     public function countTotals($collection)
     {
@@ -237,7 +237,7 @@ abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract
     /**
      * Get totals as object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getTotals()
     {

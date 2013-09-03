@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_AddTest exte
         $block->setArea('adminhtml')->unsetChild('setForm');
 
         $childBlock = $layout->addBlock('Magento_Core_Block_Template', 'setForm', 'block');
-        $form = new Magento_Object();
+        $form = new \Magento\Object();
         $childBlock->setForm($form);
 
         $expectedId = '12121212';

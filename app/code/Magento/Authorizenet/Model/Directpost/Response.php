@@ -15,7 +15,7 @@
  * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Authorizenet_Model_Directpost_Response extends Magento_Object
+class Magento_Authorizenet_Model_Directpost_Response extends \Magento\Object
 {
     /**
      * Generates an Md5 hash to compare against AuthNet's.

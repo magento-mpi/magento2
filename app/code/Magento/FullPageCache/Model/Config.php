@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_FullPageCache_Model_Config extends Magento_Simplexml_Config
+class Magento_FullPageCache_Model_Config extends \Magento\Simplexml\Config
 {
     protected $_placeholders = null;
 

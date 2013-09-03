@@ -48,7 +48,7 @@ class Magento_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_Test
         /** @var Magento_Webhook_Model_Event_QueueWriter $queueWriter */
         $queueWriter = Mage::getObjectManager()->create('Magento_Webhook_Model_Event_QueueWriter');
         /** @var Magento_Webhook_Model_Event $magentoEvent */
-        $magentoEvent = Mage::getObjectManager()->create('Magento_PubSub_Event', $eventArgs);
+        $magentoEvent = Mage::getObjectManager()->create('Magento\PubSub\Event', $eventArgs);
         $queueWriter->offer($magentoEvent);
         /** @var Magento_Webhook_Model_Event_QueueReader $queueReader */
         $queueReader = Mage::getObjectManager()->create('Magento_Webhook_Model_Event_QueueReader', $readerArgs);

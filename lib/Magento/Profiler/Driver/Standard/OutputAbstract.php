@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Magento_Profiler_Driver_Standard_OutputAbstract
-    implements Magento_Profiler_Driver_Standard_OutputInterface
+namespace Magento\Profiler\Driver\Standard;
+
+abstract class OutputAbstract
+    implements \Magento\Profiler\Driver\Standard\OutputInterface
 {
     /**
      * PCRE Regular Expression for filter timer by id
@@ -23,9 +25,9 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
      * @var array
      */
     protected $_thresholds = array(
-        Magento_Profiler_Driver_Standard_Stat::TIME => 0.001,
-        Magento_Profiler_Driver_Standard_Stat::COUNT => 10,
-        Magento_Profiler_Driver_Standard_Stat::EMALLOC => 10000,
+        \Magento\Profiler\Driver\Standard\Stat::TIME => 0.001,
+        \Magento\Profiler\Driver\Standard\Stat::COUNT => 10,
+        \Magento\Profiler\Driver\Standard\Stat::EMALLOC => 10000,
     );
 
     /**
@@ -34,12 +36,12 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
      * @var array
      */
     protected $_columns = array(
-        'Timer Id' => Magento_Profiler_Driver_Standard_Stat::ID,
-        'Time'     => Magento_Profiler_Driver_Standard_Stat::TIME,
-        'Avg'      => Magento_Profiler_Driver_Standard_Stat::AVG,
-        'Cnt'      => Magento_Profiler_Driver_Standard_Stat::COUNT,
-        'Emalloc'  => Magento_Profiler_Driver_Standard_Stat::EMALLOC,
-        'RealMem'  => Magento_Profiler_Driver_Standard_Stat::REALMEM,
+        'Timer Id' => \Magento\Profiler\Driver\Standard\Stat::ID,
+        'Time'     => \Magento\Profiler\Driver\Standard\Stat::TIME,
+        'Avg'      => \Magento\Profiler\Driver\Standard\Stat::AVG,
+        'Cnt'      => \Magento\Profiler\Driver\Standard\Stat::COUNT,
+        'Emalloc'  => \Magento\Profiler\Driver\Standard\Stat::EMALLOC,
+        'RealMem'  => \Magento\Profiler\Driver\Standard\Stat::REALMEM,
     );
 
     /**
@@ -116,11 +118,11 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
     protected function _renderColumnValue($value, $columnKey)
     {
         switch ($columnKey) {
-            case Magento_Profiler_Driver_Standard_Stat::ID:
+            case \Magento\Profiler\Driver\Standard\Stat::ID:
                 $result = $this->_renderTimerId($value);
                 break;
-            case Magento_Profiler_Driver_Standard_Stat::TIME:
-            case Magento_Profiler_Driver_Standard_Stat::AVG:
+            case \Magento\Profiler\Driver\Standard\Stat::TIME:
+            case \Magento\Profiler\Driver\Standard\Stat::AVG:
                 $result = number_format($value, 6);
                 break;
             default:
@@ -159,10 +161,10 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
      *
      * Timer ids will be ordered and filtered by thresholds and filter pattern.
      *
-     * @param Magento_Profiler_Driver_Standard_Stat $stat
+     * @param \Magento\Profiler\Driver\Standard\Stat $stat
      * @return array
      */
-    protected function _getTimerIds(Magento_Profiler_Driver_Standard_Stat $stat)
+    protected function _getTimerIds(\Magento\Profiler\Driver\Standard\Stat $stat)
     {
         return $stat->getFilteredTimerIds($this->_thresholds, $this->_filterPattern);
     }

@@ -12,7 +12,7 @@
  * Permissions checker
  *
  */
-class Magento_AdminGws_Model_Role extends Magento_Object
+class Magento_AdminGws_Model_Role extends \Magento\Object
 {
     /**
      * Store ACL role model instance

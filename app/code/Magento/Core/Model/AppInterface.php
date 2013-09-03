@@ -47,7 +47,7 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
     /**
      * Throw an exception, if the application has not been installed yet
      *
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function requireInstalledInstance();
 

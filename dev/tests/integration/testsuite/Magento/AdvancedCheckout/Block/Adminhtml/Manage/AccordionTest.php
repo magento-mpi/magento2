@@ -79,8 +79,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
         $user->setId(1)->setRole(true);
         Mage::getSingleton('Magento_Backend_Model_Auth_Session')->setUpdatedAt(time())->setUser($user);
         Mage::getModel(
-            'Magento_AuthorizationInterface', array(
-                'data' => array('policy' => new Magento_Authorization_Policy_Default())
+            '\Magento\AuthorizationInterface', array(
+                'data' => array('policy' => new \Magento\Authorization\Policy\DefaultPolicy())
         ));
     }
 }

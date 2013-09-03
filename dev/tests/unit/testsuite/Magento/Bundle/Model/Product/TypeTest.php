@@ -18,7 +18,7 @@ class Magento_Bundle_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
         $this->_model = new Magento_Bundle_Model_Product_Type($filesystem);
     }
 

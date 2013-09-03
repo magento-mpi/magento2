@@ -194,13 +194,13 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
 
     /**
      * @param string $targetFile
-     * @return Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Filesystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getFileSystemMock($targetFile)
     {
         $targetFile = str_replace('/', DIRECTORY_SEPARATOR, $targetFile);
-        /** @var $filesystem Magento_Filesystem */
-        $filesystem = $this->getMock('Magento_Filesystem', array('has'), array(), '', false);
+        /** @var $filesystem \Magento\Filesystem */
+        $filesystem = $this->getMock('Magento\Filesystem', array('has'), array(), '', false);
         $filesystem->expects($this->any())
             ->method('has')
             ->will($this->returnCallback(

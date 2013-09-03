@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Outbound_Authentication_Hmac implements Magento_Outbound_AuthenticationInterface
+namespace Magento\Outbound\Authentication;
+
+class Hmac implements \Magento\Outbound\AuthenticationInterface
 {
     /**
      * The name of the header which stores the HMAC signature for client verification
@@ -41,16 +43,16 @@ class Magento_Outbound_Authentication_Hmac implements Magento_Outbound_Authentic
      * Get authentication signature to add to the headers
      *
      * @param string                         $body
-     * @param Magento_Outbound_UserInterface $user
+     * @param \Magento\Outbound\UserInterface $user
      *
-     * @throws LogicException
+     * @throws \LogicException
      * @return array Headers to add to message
      */
-    public function getSignatureHeaders($body, Magento_Outbound_UserInterface $user)
+    public function getSignatureHeaders($body, \Magento\Outbound\UserInterface $user)
     {
         $secret = $user->getSharedSecret();
         if ('' === $secret || is_null($secret)) {
-            throw new LogicException('The shared secret cannot be empty.');
+            throw new \LogicException('The shared secret cannot be empty.');
         }
 
         // Add HMAC Signature

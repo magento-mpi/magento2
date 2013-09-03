@@ -43,7 +43,7 @@ class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Frame
         $abstractHelperMock = $this->getMockBuilder('Magento_Core_Helper_Abstract')
             ->disableOriginalConstructor()->getMock();
 
-        $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->getMock();
+        $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
         $objectManagerMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue($abstractHelperMock));

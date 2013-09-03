@@ -18,7 +18,7 @@ class Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Response
     /** @var Magento_Webapi_Controller_Response_Rest */
     protected $_response;
 
-    /** @var Magento_Controller_Router_Route_Factory */
+    /** @var \Magento\Controller\Router\Route\Factory */
     protected $_routeFactory;
 
     /** @var Magento_Webapi_Controller_Response_Rest_RendererInterface */
@@ -34,7 +34,7 @@ class Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Response
      * @param Magento_Webapi_Controller_Request_Factory $requestFactory
      * @param Magento_Webapi_Controller_Response_Rest $response
      * @param Magento_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
-     * @param Magento_Controller_Router_Route_Factory $routeFactory
+     * @param \Magento\Controller\Router\Route\Factory $routeFactory
      * @param Magento_Core_Model_Config $applicationConfig
      */
     public function __construct(
@@ -42,7 +42,7 @@ class Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Response
         Magento_Webapi_Controller_Request_Factory $requestFactory,
         Magento_Webapi_Controller_Response_Rest $response,
         Magento_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
-        Magento_Controller_Router_Route_Factory $routeFactory,
+        \Magento\Controller\Router\Route\Factory $routeFactory,
         Magento_Core_Model_Config $applicationConfig
     ) {
         $this->_apiConfig = $apiConfig;

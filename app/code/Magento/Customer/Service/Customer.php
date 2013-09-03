@@ -177,9 +177,9 @@ class Magento_Customer_Service_Customer
     }
 
     /**
-     * Sets each value from data to entity Magento_Object using setter method.
+     * Sets each value from data to entity \Magento\Object using setter method.
      *
-     * @param Magento_Object $entity
+     * @param \Magento\Object $entity
      * @param array $data
      */
     protected function _setDataUsingMethods($entity, array $data)

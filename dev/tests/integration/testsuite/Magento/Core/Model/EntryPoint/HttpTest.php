@@ -18,10 +18,10 @@ class Magento_Core_Model_EntryPoint_HttpTest extends PHPUnit_Framework_TestCase
         }
 
         $config = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
-        $objectManager = $this->getMock('Magento_ObjectManager');
+        $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager->expects($this->any())
             ->method('get')
-            ->will($this->throwException(new Magento_BootstrapException('exception_message')));
+            ->will($this->throwException(new \Magento\BootstrapException('exception_message')));
 
         $config = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
 

@@ -12,7 +12,7 @@ $installer = $this;
 /** @var $installer Magento_Catalog_Model_Resource_Setup */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('cms_url_rewrite'))
-    ->addColumn('cms_rewrite_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null,
+    ->addColumn('cms_rewrite_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null,
         array(
             'identity'  => true,
             'nullable'  => false,
@@ -20,7 +20,7 @@ $table = $installer->getConnection()
         ),
         'Cms Url Rewrite ID')
 
-    ->addColumn('url_rewrite_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null,
+    ->addColumn('url_rewrite_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null,
         array(
             'unsigned'  => true,
             'nullable'  => false
@@ -32,9 +32,9 @@ $table = $installer->getConnection()
     ->addForeignKey(
         $installer->getFkName('cms_url_rewrite', 'url_rewrite_id', 'core_url_rewrite', 'url_rewrite_id'),
         'url_rewrite_id', $installer->getTable('core_url_rewrite'), 'url_rewrite_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
 
-    ->addColumn('cms_page_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null,
+    ->addColumn('cms_page_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null,
         array(
             'nullable'  => false
         ),
@@ -45,6 +45,6 @@ $table = $installer->getConnection()
     ->addForeignKey(
         $installer->getFkName('cms_url_rewrite', 'cms_page_id', 'cms_page', 'page_id'),
         'cms_page_id', $installer->getTable('cms_page'), 'page_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Cms Url Rewrite Table');
 $installer->getConnection()->createTable($table);

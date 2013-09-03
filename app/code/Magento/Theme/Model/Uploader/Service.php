@@ -33,14 +33,14 @@ class Magento_Theme_Model_Uploader_Service
     /**
      * File system helper
      *
-     * @var Magento_Io_File
+     * @var \Magento\Io\File
      */
     protected $_fileIo;
 
     /**
      * File size
      *
-     * @var Magento_File_Size
+     * @var \Magento\File\Size
      */
     protected $_fileSize;
 
@@ -57,13 +57,13 @@ class Magento_Theme_Model_Uploader_Service
     protected $_uploaderFactory;
 
     /**
-     * @param Magento_Io_File $fileIo
-     * @param Magento_File_Size $fileSize
+     * @param \Magento\Io\File $fileIo
+     * @param \Magento\File\Size $fileSize
      * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
      */
     public function __construct(
-        Magento_Io_File $fileIo,
-        Magento_File_Size $fileSize,
+        \Magento\Io\File $fileIo,
+        \Magento\File\Size $fileSize,
         Magento_Core_Model_File_UploaderFactory $uploaderFactory
     ) {
         $this->_fileIo = $fileIo;

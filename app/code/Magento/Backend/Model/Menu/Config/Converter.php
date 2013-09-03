@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Menu_Config_Converter implements Magento_Config_ConverterInterface
+class Magento_Backend_Model_Menu_Config_Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * @param mixed $dom

@@ -8,19 +8,19 @@
  * @license     {license_link}
  */
 
-$themeOne = new Magento_Object(array(
+$themeOne = new \Magento\Object(array(
     'area' => 'area_one',
     'theme_path' => 'fixture/theme_one',
 ));
-$themeTwo = new Magento_Object(array(
+$themeTwo = new \Magento\Object(array(
     'area' => 'area_one',
     'theme_path' => 'fixture/theme_two',
 ));
-$themeThree = new Magento_Object(array(
+$themeThree = new \Magento\Object(array(
     'area' => 'area_two',
     'theme_path' => 'fixture/theme_three',
 ));
-$themeFour = new Magento_Object(array(
+$themeFour = new \Magento\Object(array(
     'area' => 'area_two',
     'theme_path' => 'fixture/theme_four',
 ));

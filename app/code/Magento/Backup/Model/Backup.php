@@ -22,7 +22,7 @@
  * @method string getTime()
  * @method Magento_Backup_Model_Backup setTime() setTime($time)
  */
-class Magento_Backup_Model_Backup extends Magento_Object
+class Magento_Backup_Model_Backup extends \Magento\Object
 {
     /* internal constants */
     const COMPRESS_RATE     = 9;
@@ -37,12 +37,12 @@ class Magento_Backup_Model_Backup extends Magento_Object
     /**
      * Gz file pointer
      *
-     * @var Magento_Filesystem_Stream_Zlib
+     * @var \Magento\Filesystem\Stream\Zlib
      */
     protected $_stream = null;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -57,8 +57,8 @@ class Magento_Backup_Model_Backup extends Magento_Object
      */
     public function __construct(Magento_Backup_Helper_Data $helper, $data = array())
     {
-        $adapter = new Magento_Filesystem_Adapter_Zlib(self::COMPRESS_RATE);
-        $this->_filesystem = new Magento_Filesystem($adapter);
+        $adapter = new \Magento\Filesystem\Adapter\Zlib(self::COMPRESS_RATE);
+        $this->_filesystem = new \Magento\Filesystem($adapter);
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_helper = $helper;
         parent::__construct($data);
@@ -197,7 +197,7 @@ class Magento_Backup_Model_Backup extends Magento_Object
      *
      * @param bool $write
      * @return Magento_Backup_Model_Backup
-     * @throws Magento_Backup_Exception_NotEnoughPermissions
+     * @throws \Magento\Backup\Exception\NotEnoughPermissions
      */
     public function open($write = false)
     {
@@ -221,8 +221,8 @@ class Magento_Backup_Model_Backup extends Magento_Object
             $this->_stream = $this->_filesystem->createAndOpenStream($compressStream . $this->_getFilePath(), $mode,
                 $compressStream . $workingDirectory);
         }
-        catch (Magento_Filesystem_Exception $e) {
-            throw new Magento_Backup_Exception_NotEnoughPermissions(
+        catch (\Magento\Filesystem\FilesystemException $e) {
+            throw new \Magento\Backup\Exception\NotEnoughPermissions(
                 __('Sorry, but we cannot read from or write to backup file "%1".', $this->getFileName())
             );
         }
@@ -233,7 +233,7 @@ class Magento_Backup_Model_Backup extends Magento_Object
     /**
      * Get zlib handler
      *
-     * @return Magento_Filesystem_Stream_Zlib
+     * @return \Magento\Filesystem\Stream\Zlib
      */
     protected function _getStream()
     {
@@ -275,7 +275,7 @@ class Magento_Backup_Model_Backup extends Magento_Object
         try {
             $this->_getStream()->write($string);
         }
-        catch (Magento_Filesystem_Exception $e) {
+        catch (\Magento\Filesystem\FilesystemException $e) {
             Mage::exception('Magento_Backup',
                 __('Something went wrong writing to the backup file "%1".', $this->getFileName()));
         }

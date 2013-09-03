@@ -36,10 +36,10 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
      * when single configuration submitted
      *
      * @param Magento_Adminhtml_Controller_Action $controller
-     * @param Magento_Object $updateResult
+     * @param \Magento\Object $updateResult
      * @return Magento_Adminhtml_Helper_Catalog_Product_Composite
      */
-    public function renderUpdateResult($controller, Magento_Object $updateResult)
+    public function renderUpdateResult($controller, \Magento\Object $updateResult)
     {
         Mage::register('composite_update_result', $updateResult);
 
@@ -79,10 +79,10 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
      *  - 'error' = true, and 'message' to show
      *
      * @param Magento_Adminhtml_Controller_Action $controller
-     * @param Magento_Object $configureResult
+     * @param \Magento\Object $configureResult
      * @return Magento_Adminhtml_Helper_Catalog_Product_Composite
      */
-    public function renderConfigureResult($controller, Magento_Object $configureResult)
+    public function renderConfigureResult($controller, \Magento\Object $configureResult)
     {
         try {
             if (!$configureResult->getOk()) {

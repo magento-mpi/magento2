@@ -74,7 +74,7 @@ class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
         $this->_closure = function () {
             return true;
         };
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_appState = $this->getMock('Magento_Core_Model_App_State', array(), array(  ), '', false);
         $this->_configMock = $this->getMock('Magento_Core_Model_File_Storage_Config', array(), array(), '', false);
         $this->_sync= $this->getMock('Magento_Core_Model_File_Storage_Synchronization', array(), array(), '', false);

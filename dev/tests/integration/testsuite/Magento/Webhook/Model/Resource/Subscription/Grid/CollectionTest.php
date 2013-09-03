@@ -109,7 +109,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
                     )
                 )
             ),
-            'cache' => $this->getMock('Magento_Config_CacheInterface')
+            'cache' => $this->getMock('Magento\Config\CacheInterface')
         ));
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */

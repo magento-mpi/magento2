@@ -20,7 +20,7 @@ class Magento_Reminder_Model_Observer
     /**
      * Include auto coupon type
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Reminder_Model_Observer
      */
     public function getCouponTypes($observer)
@@ -34,7 +34,7 @@ class Magento_Reminder_Model_Observer
     /**
      * Add custom comment after coupon type field
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Reminder_Model_Observer
      */
     public function updatePromoQuoteTabMainForm($observer)
@@ -99,7 +99,7 @@ class Magento_Reminder_Model_Observer
      * Checks whether Sales Rule can be used in Email Remainder Rules and if it cant -
      * detaches it from Email Remainder Rules
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function detachUnsupportedSalesRule($observer)
     {
@@ -117,7 +117,7 @@ class Magento_Reminder_Model_Observer
     /**
      * Adds filter to collection which excludes all rules that can't be used in Email Remainder Rules
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function addSalesRuleFilter($observer)
     {
@@ -128,7 +128,7 @@ class Magento_Reminder_Model_Observer
     /**
      * Adds notice to "Use Auto Generation" checkbox
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function addUseAutoGenerationNotice($observer)
     {

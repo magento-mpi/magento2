@@ -15,7 +15,7 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_ImportExport_Model_Abstract extends Magento_Object
+abstract class Magento_ImportExport_Model_Abstract extends \Magento\Object
 {
     /**
      * Enable loging

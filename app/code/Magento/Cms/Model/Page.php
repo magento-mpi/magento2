@@ -128,7 +128,7 @@ class Magento_Cms_Model_Page extends Magento_Core_Model_Abstract
      */
     public function getAvailableStatuses()
     {
-        $statuses = new Magento_Object(array(
+        $statuses = new \Magento\Object(array(
             self::STATUS_ENABLED => __('Enabled'),
             self::STATUS_DISABLED => __('Disabled'),
         ));

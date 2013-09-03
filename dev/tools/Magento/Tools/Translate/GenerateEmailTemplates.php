@@ -286,12 +286,12 @@ class Magento_Tools_Translate_GenerateEmailTemplates
         $files = $this->_getFilesToProcess($localePath);
         $csv = null;
         if (!$outputSeparate) {
-            $csv = new Magento_File_Csv();
+            $csv = new \Magento\File\Csv();
         }
 
         foreach ($files as $alias=>$file){
             if ($outputSeparate) {
-                $csv = new Magento_File_Csv();
+                $csv = new \Magento\File\Csv();
                 $resultData = array();
             }
 
@@ -379,7 +379,7 @@ class Magento_Tools_Translate_GenerateEmailTemplates
         }
 
         $files = $this->_getFilesToProcess($translatedDirName);
-        $csv = new Magento_File_Csv();
+        $csv = new \Magento\File\Csv();
         if (!$inputSeparate) {
             $strings = $csv->getData($this->_translateName);
             $strings = $this->separateTranslations($strings);
@@ -412,7 +412,7 @@ class Magento_Tools_Translate_GenerateEmailTemplates
         $this->_arguments = array(
             'inputName' => $inputName,
         );*/
-        $csv = new Magento_File_Csv();
+        $csv = new \Magento\File\Csv();
         $inputData = $csv->getData($this->_arguments['inputName']);
         $output = array();
         foreach ($inputData as $row){

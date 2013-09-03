@@ -25,14 +25,14 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $prefix = '_customerbalance';
         $form->setHtmlIdPrefix($prefix);
         $form->setFieldNameSuffix('customerbalance');
 
         $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->getRequest()->getParam('id'));
 
-        /** @var $fieldset Magento_Data_Form_Element_Fieldset */
+        /** @var $fieldset \Magento\Data\Form\Element\Fieldset */
         $fieldset = $form->addFieldset('storecreidt_fieldset',
             array('legend' => __('Update Balance'))
         );

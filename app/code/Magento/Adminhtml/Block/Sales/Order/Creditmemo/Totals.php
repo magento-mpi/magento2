@@ -46,13 +46,13 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Totals extends Magento_Admi
     protected function _initTotals()
     {
         parent::_initTotals();
-        $this->addTotal(new Magento_Object(array(
+        $this->addTotal(new \Magento\Object(array(
             'code'      => 'adjustment_positive',
             'value'     => $this->getSource()->getAdjustmentPositive(),
             'base_value'=> $this->getSource()->getBaseAdjustmentPositive(),
             'label'     => __('Adjustment Refund')
         )));
-        $this->addTotal(new Magento_Object(array(
+        $this->addTotal(new \Magento\Object(array(
             'code'      => 'adjustment_negative',
             'value'     => $this->getSource()->getAdjustmentNegative(),
             'base_value'=> $this->getSource()->getBaseAdjustmentNegative(),

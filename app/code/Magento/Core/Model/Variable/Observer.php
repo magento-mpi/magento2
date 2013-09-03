@@ -20,10 +20,10 @@ class Magento_Core_Model_Variable_Observer
     /**
      * Add variable wysiwyg plugin config
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Core_Model_Variable_Observer
      */
-    public function prepareWysiwygPluginConfig(Magento_Event_Observer $observer)
+    public function prepareWysiwygPluginConfig(\Magento\Event\Observer $observer)
     {
         $config = $observer->getEvent()->getConfig();
 

@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_B
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array('id' => 'new_category_form'));
+        $form = new \Magento\Data\Form(array('id' => 'new_category_form'));
         $form->setUseContainer($this->getUseContainer());
 
         $form->addField('new_category_messages', 'note', array());

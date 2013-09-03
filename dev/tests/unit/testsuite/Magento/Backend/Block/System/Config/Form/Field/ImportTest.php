@@ -30,7 +30,7 @@ class Magento_Backend_Block_System_Config_Form_Field_ImportTest extends PHPUnit_
 
     protected function setUp()
     {
-        $this->_formMock = $this->getMock('Magento_Data_Form',
+        $this->_formMock = $this->getMock('Magento\Data\Form',
             array('getFieldNameSuffix', 'addSuffixToName'),
             array(), '', false, false
         );

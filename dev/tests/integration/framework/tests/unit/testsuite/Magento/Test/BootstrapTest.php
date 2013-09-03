@@ -55,7 +55,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     protected $_memoryBootstrap;
 
     /**
-     * @var Magento_Shell|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Shell|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
 
@@ -75,7 +75,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
         $this->_docBlockBootstrap = $this->getMock(
             'Magento_TestFramework_Bootstrap_DocBlock', array('registerAnnotations'), array(__DIR__)
         );
-        $profilerDriver = $this->getMock('Magento_Profiler_Driver_Standard', array('registerOutput'));
+        $profilerDriver = $this->getMock('Magento\Profiler\Driver\Standard', array('registerOutput'));
         $this->_profilerBootstrap = $this->getMock(
             'Magento_TestFramework_Bootstrap_Profiler', array('registerFileProfiler', 'registerBambooProfiler'),
             array($profilerDriver)
@@ -84,7 +84,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
             'Magento_TestFramework_Bootstrap_Memory', array('activateStatsDisplaying', 'activateLimitValidation'),
             array(), '', false
         );
-        $this->_shell = $this->getMock('Magento_Shell', array('execute'));
+        $this->_shell = $this->getMock('Magento\Shell', array('execute'));
         $this->_object = new Magento_TestFramework_Bootstrap(
             $this->_settings, $this->_envBootstrap, $this->_docBlockBootstrap, $this->_profilerBootstrap,
             $this->_shell, __DIR__

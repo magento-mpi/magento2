@@ -15,7 +15,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
     protected $_helper;
 
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -28,7 +28,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
     {
         $this->_helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_objectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
@@ -46,7 +46,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
         $this->_ruleResource->expects($this->any())
             ->method('getReadConnection')
             ->withAnyParameters()
-            ->will($this->returnValue($this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false)));
+            ->will($this->returnValue($this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false)));
     }
 
     /**
@@ -97,7 +97,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCollection()
     {
-        $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface');
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
@@ -109,7 +109,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
         $collection->expects($this->any())
             ->method('getSelect')
             ->withAnyParameters()
-            ->will($this->returnValue($this->getMock('Magento_DB_Select', array(), array(), '', false)));
+            ->will($this->returnValue($this->getMock('Magento\DB\Select', array(), array(), '', false)));
 
         $model = $this->_createModel($this->_ruleResource, $collection);
 

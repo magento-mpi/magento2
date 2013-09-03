@@ -37,7 +37,7 @@ class Magento_Backend_Model_Config_Structure_Element_SectionTest extends PHPUnit
             'Magento_Backend_Model_Config_Structure_Element_Iterator_Field', array(), array(), '', false
         );
         $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
-        $this->_authorizationMock = $this->getMock('Magento_AuthorizationInterface');
+        $this->_authorizationMock = $this->getMock('Magento\AuthorizationInterface');
 
         $this->_model = new Magento_Backend_Model_Config_Structure_Element_Section(
             $this->_applicationMock, $this->_iteratorMock, $this->_authorizationMock

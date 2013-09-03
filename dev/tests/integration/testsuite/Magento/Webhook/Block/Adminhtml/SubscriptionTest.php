@@ -14,7 +14,7 @@
  */
 class Magento_Webhook_Block_Adminhtml_SubscriptionTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_ObjectManager */
+    /** @var \Magento\ObjectManager */
     private $_objectManager;
 
     public function testConstruct()

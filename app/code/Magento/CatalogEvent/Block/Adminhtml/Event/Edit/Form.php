@@ -36,7 +36,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
     {
         parent::_prepareLayout();
 
-        Magento_Data_Form::setFieldsetElementRenderer(
+        \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element',
                 $this->getNameInLayout() . '_fieldset_element_catalog_event'
@@ -51,7 +51,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(
+        $form = new \Magento\Data\Form(
             array(
                 'id'      => 'edit_form',
                 'action'  => $this->getActionUrl(),

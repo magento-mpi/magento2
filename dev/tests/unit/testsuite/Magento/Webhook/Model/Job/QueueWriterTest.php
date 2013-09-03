@@ -51,13 +51,13 @@ class Magento_Webhook_Model_Job_QueueWriterTest extends PHPUnit_Framework_TestCa
             ->will($this->returnValue($magentoJob));
 
 
-        $job = $this->getMockBuilder('Magento_PubSub_JobInterface')
+        $job = $this->getMockBuilder('Magento\PubSub\JobInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $subscription = $this->getMockBuilder('Magento_PubSub_SubscriptionInterface')
+        $subscription = $this->getMockBuilder('Magento\PubSub\SubscriptionInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $event = $this->getMockBuilder('Magento_PubSub_EventInterface')
+        $event = $this->getMockBuilder('Magento\PubSub\EventInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $job->expects($this->once())

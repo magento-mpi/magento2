@@ -25,7 +25,7 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $filesystem =  new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
+        $filesystem =  new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local());
         $dirs = new Magento_Core_Model_Dir($filesystem->normalizePath(__DIR__ . '/../../../../../../'));
         $this->_cssHelper = new Magento_Core_Helper_Css($filesystem, $dirs);
         $this->_tmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'tool_theme_deployment';
@@ -34,7 +34,7 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
 
     protected function tearDown()
     {
-        Magento_Io_File::rmdirRecursive($this->_tmpDir);
+        \Magento\Io\File::rmdirRecursive($this->_tmpDir);
     }
 
     /**
@@ -45,7 +45,7 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
      */
     public function testConstructorException($permitted, $forbidden, $exceptionMessage)
     {
-        $this->setExpectedException('Magento_Exception', $exceptionMessage);
+        $this->setExpectedException('\Magento\MagentoException', $exceptionMessage);
         new Magento_tools_View_Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted, $forbidden);
     }
 
@@ -146,7 +146,7 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
 
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\MagentoException
      * @expectedExceptionMessage The file extension "php" must be added either to the permitted or forbidden list
      */
     public function testRunWithUnknownExtension()

@@ -31,9 +31,9 @@ class Magento_Sales_Model_Observer_Backend_CatalogProductQuoteTest extends PHPUn
     public function setUp()
     {
         $this->_quoteMock = $this->getMock('Magento_Sales_Model_Resource_Quote', array(), array(), '', false);
-        $this->_observerMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
+        $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_eventMock =
-            $this->getMock('Magento_Event', array('getProduct', 'getStatus', 'getProductId'), array(), '', false);
+            $this->getMock('Magento\Event', array('getProduct', 'getStatus', 'getProductId'), array(), '', false);
         $this->_observerMock->expects($this->any())->method('getEvent')->will($this->returnValue($this->_eventMock));
         $this->_model = new Magento_Sales_Model_Observer_Backend_CatalogProductQuote(
             $this->_quoteMock

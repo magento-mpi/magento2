@@ -59,7 +59,7 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
 
     /**
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Simplexml_Element $sourceData
+     * @param \Magento\Simplexml\Element $sourceData
      */
     public function __construct(Magento_Core_Model_Cache_Type_Config $configCacheType, $sourceData = null)
     {
@@ -234,20 +234,20 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
      * - Two relations combined lead to cycles
      *
      * @param array $config
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public static function validateCollectorDeclarations($config)
     {
         $before = self::_instantiateGraph($config, 'before');
         $after  = self::_instantiateGraph($config, 'after');
-        foreach ($after->getRelations(Magento_Data_Graph::INVERSE) as $from => $relations) {
+        foreach ($after->getRelations(\Magento\Data\Graph::INVERSE) as $from => $relations) {
             foreach ($relations as $to) {
                 $before->addRelation($from, $to);
             }
         }
         $cycle = $before->findCycle();
         if ($cycle) {
-            throw new Magento_Exception(sprintf(
+            throw new \Magento\MagentoException(sprintf(
                 'Found cycle in sales total declarations: %s', implode(' -> ', $cycle)
             ));
         }
@@ -258,7 +258,7 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
      *
      * @param array $config
      * @param string $key
-     * @return Magento_Data_Graph
+     * @return \Magento\Data\Graph
      */
     private static function _instantiateGraph($config, $key)
     {
@@ -269,6 +269,6 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
                 $graph[] = array($from, $to);
             }
         }
-        return new Magento_Data_Graph($nodes, $graph);
+        return new \Magento\Data\Graph($nodes, $graph);
     }
 }

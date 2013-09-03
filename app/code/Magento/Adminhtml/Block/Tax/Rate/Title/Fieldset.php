@@ -14,7 +14,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Tax_Rate_Title_Fieldset extends Magento_Data_Form_Element_Fieldset
+class Magento_Adminhtml_Block_Tax_Rate_Title_Fieldset extends \Magento\Data\Form\Element\Fieldset
 {
     public function getBasicChildrenHtml()
     {

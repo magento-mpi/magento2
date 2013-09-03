@@ -18,10 +18,10 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid_Colum
     /**
      * Render "Expired / not expired" reward "Reason" field
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    protected function _getValue(Magento_Object $row)
+    protected function _getValue(\Magento\Object $row)
     {
         $expired = '';
         if ($row->getData('is_duplicate_of') !== null) {

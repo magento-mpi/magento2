@@ -50,10 +50,10 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Initialize data
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, array $data = array())
+    public function __construct(\Magento\Filesystem $filesystem, array $data = array())
     {
         $this->_store = isset($data['store']) ? $data['store'] : Mage::app()->getStore();
         $this->_locale = isset($data['locale']) ? $data['locale'] : Mage::app()->getLocale();
@@ -135,12 +135,12 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
      * Prepare product and its configuration to be added to some products list.
      * Use standard preparation process and also add specific giftcard options.
      *
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @param Magento_Catalog_Model_Product $product
      * @param string $processMode
      * @return array|string
      */
-    protected function _prepareProduct(Magento_Object $buyRequest, $product, $processMode)
+    protected function _prepareProduct(\Magento\Object $buyRequest, $product, $processMode)
     {
         $result = parent::_prepareProduct($buyRequest, $product, $processMode);
 
@@ -182,12 +182,12 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Validate Gift Card product, determine and return its amount
      *
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @param Magento_Catalog_Model_Product $product
      * @param bool $processMode
      * @return double|float|mixed
      */
-    private function _validate(Magento_Object $buyRequest, $product, $processMode)
+    private function _validate(\Magento\Object $buyRequest, $product, $processMode)
     {
         $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
         $allowedAmounts = $this->_getAllowedAmounts($product);
@@ -256,7 +256,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Check and count empty fields
      *
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @param Magento_Catalog_Model_Product $product
      * @param bool $isStrictProcessMode
      */
@@ -288,7 +288,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Count empty fields
      *
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @param Magento_Catalog_Model_Product $product
      * @return int
      */
@@ -345,7 +345,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Fields check
      *
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @param bool $isPhysical
      * @param int $amount
      */
@@ -384,7 +384,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Get giftcard custom amount
      *
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @return int|null
      */
     protected function _getCustomGiftcardAmount($buyRequest)
@@ -412,7 +412,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
         parent::checkProductBuyState($product);
         $option = $product->getCustomOption('info_buyRequest');
         if ($option instanceof Magento_Sales_Model_Quote_Item_Option) {
-            $buyRequest = new Magento_Object(unserialize($option->getValue()));
+            $buyRequest = new \Magento\Object(unserialize($option->getValue()));
             $this->_validate($buyRequest, $product, self::PROCESS_MODE_FULL);
         }
         return $this;
@@ -438,7 +438,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
      * Prepare selected options for giftcard
      *
      * @param  Magento_Catalog_Model_Product $product
-     * @param  Magento_Object $buyRequest
+     * @param  \Magento\Object $buyRequest
      * @return array
      */
     public function processBuyRequest($product, $buyRequest)

@@ -12,7 +12,7 @@
 class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 

@@ -20,7 +20,7 @@
 class Magento_Backend_Block_Template extends Magento_Core_Block_Template
 {
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -64,7 +64,7 @@ class Magento_Backend_Block_Template extends Magento_Core_Block_Template
     /**
      * Make this public so that templates can use it properly with template engine
      * 
-     * @return Magento_AuthorizationInterface
+     * @return \Magento\AuthorizationInterface
      */
     public function getAuthorization() 
     {

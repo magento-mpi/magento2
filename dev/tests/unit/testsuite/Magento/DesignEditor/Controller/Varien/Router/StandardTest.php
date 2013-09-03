@@ -162,8 +162,8 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
         // default mocks - not affected on method functionality
         $controllerFactory  = $this->getMock(
             'Magento_Core_Controller_Varien_Action_Factory', array(), array(), '', false);
-        $objectManager      = $this->getMock('Magento_ObjectManager');
-        $filesystem         = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $objectManager      = $this->getMock('Magento\ObjectManager');
+        $filesystem         = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
 
         $helper         = $this->_getHelperMock($isVde);
         $backendSession = $this->_getBackendSessionMock($isVde, $isLoggedIn);

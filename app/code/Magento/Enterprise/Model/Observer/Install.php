@@ -17,7 +17,7 @@ class Magento_Enterprise_Model_Observer_Install
     /**
      * Set Enterprise design theme and flag to hide iframe
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function setDesignTheme($observer)
     {

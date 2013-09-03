@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection extends Magento_Data_Collection
+class Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection extends \Magento\Data\Collection
 {
     /**
      * @var Magento_AdvancedCheckout_Model_Cart
@@ -63,7 +63,7 @@ class Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection extends
                         ? ''
                         : (float)$affectedItem['item']['qty'];
                 }
-                $item = new Magento_Object();
+                $item = new \Magento\Object();
                 $item->setCode($affectedItem['code']);
                 if (isset($affectedItem['error'])) {
                     $item->setError($affectedItem['error']);

@@ -66,7 +66,7 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_aclMock = $this->getMock('Magento_AuthorizationInterface');
+        $this->_aclMock = $this->getMock('Magento\AuthorizationInterface');
         $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config');
         $this->_menuFactoryMock = $this
             ->getMock('Magento_Backend_Model_MenuFactory', array('create'), array(), '', false);
@@ -223,7 +223,7 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $this->_aclMock->expects($this->once())
             ->method('isAllowed')
             ->with('Magento_Backend::config')
-            ->will($this->throwException(new Magento_Exception()));
+            ->will($this->throwException(new \Magento\MagentoException()));
         $this->assertFalse($this->_model->isAllowed());
     }
 

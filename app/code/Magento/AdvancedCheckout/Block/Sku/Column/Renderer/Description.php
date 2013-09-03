@@ -10,7 +10,7 @@
 class Magento_AdvancedCheckout_Block_Sku_Column_Renderer_Description
     extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $descriptionBlock = $this->getLayout()->createBlock(
             'Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_Description',

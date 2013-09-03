@@ -36,7 +36,7 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
      * Get custom layout settings
      *
      * @param Magento_Catalog_Model_Category|Magento_Catalog_Model_Product $object
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDesignSettings($object)
     {
@@ -66,11 +66,11 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
      * Extract custom layout settings from category or product object
      *
      * @param Magento_Catalog_Model_Category|Magento_Catalog_Model_Product $object
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _extractSettings($object)
     {
-        $settings = new Magento_Object;
+        $settings = new \Magento\Object;
         if (!$object) {
             return $settings;
         }
@@ -87,9 +87,9 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
     /**
      * Merge custom design settings
      *
-     * @param Magento_Object $categorySettings
-     * @param Magento_Object $productSettings
-     * @return Magento_Object
+     * @param \Magento\Object $categorySettings
+     * @param \Magento\Object $productSettings
+     * @return \Magento\Object
      */
     protected function _mergeSettings($categorySettings, $productSettings)
     {

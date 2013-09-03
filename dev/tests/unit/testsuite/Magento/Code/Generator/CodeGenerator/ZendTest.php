@@ -22,7 +22,7 @@ class Magento_Code_Generator_CodeGenerator_ZendTest extends PHPUnit_Framework_Te
     /**#@-*/
 
     /**
-     * @var Magento_Code_Generator_CodeGenerator_Zend
+     * @var \Magento\Code\Generator\CodeGenerator\Zend
      */
     protected $_model;
 
@@ -125,7 +125,7 @@ class Magento_Code_Generator_CodeGenerator_ZendTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $this->_model = new Magento_Code_Generator_CodeGenerator_Zend();
+        $this->_model = new \Magento\Code\Generator\CodeGenerator\Zend();
     }
 
     protected function tearDown()

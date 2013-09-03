@@ -8,12 +8,12 @@
 class Magento_Test_Di_Child_Interceptor extends Magento_Test_Di_Child
 {
     /**
-     * @var Magento_ObjectManager_Config
+     * @var \Magento\ObjectManager\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_factory;
 
@@ -23,7 +23,7 @@ class Magento_Test_Di_Child_Interceptor extends Magento_Test_Di_Child
     protected $_plugins = array();
 
     /**
-     * @var Magento_ObjectManager_ObjectManager
+     * @var \Magento\ObjectManager\ObjectManager
      */
     protected $_objectManager;
 
@@ -43,15 +43,15 @@ class Magento_Test_Di_Child_Interceptor extends Magento_Test_Di_Child
     protected $_arguments;
 
     /**
-     * @param Magento_ObjectManager_Factory $factory
-     * @param Magento_ObjectManager_ObjectManager $objectManager
+     * @param \Magento\ObjectManager\Factory $factory
+     * @param \Magento\ObjectManager\ObjectManager $objectManager
      * @param string $subjectType
      * @param array $pluginList
      * @param array $arguments
      */
     public function __construct(
-        Magento_ObjectManager_Factory $factory,
-        Magento_ObjectManager_ObjectManager $objectManager,
+        \Magento\ObjectManager\Factory $factory,
+        \Magento\ObjectManager\ObjectManager $objectManager,
         $subjectType,
         array $pluginList,
         array $arguments

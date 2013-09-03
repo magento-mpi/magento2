@@ -153,7 +153,7 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
     /**
      * Apply price grant on price index select
      *
-     * @param Magento_Object $data
+     * @param \Magento\Object $data
      * @param int $customerGroupId
      * @return Magento_CatalogPermissions_Model_Permission_Index
      */

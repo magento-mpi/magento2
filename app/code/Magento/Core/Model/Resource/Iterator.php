@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Iterator extends Magento_Object
+class Magento_Core_Model_Resource_Iterator extends \Magento\Object
 {
     /**
      * Walk over records fetched from query one by one using callback function
@@ -21,7 +21,7 @@ class Magento_Core_Model_Resource_Iterator extends Magento_Object
      * @param Zend_Db_Statement_Interface|Zend_Db_Select|string $query
      * @param array|string $callbacks
      * @param array $args
-     * @param Magento_DB_Adapter_Interface $adapter
+     * @param \Magento\DB\Adapter\AdapterInterface $adapter
      * @return Magento_Core_Model_Resource_Iterator
      */
     public function walk($query, array $callbacks, array $args=array(), $adapter = null)

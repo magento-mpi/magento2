@@ -56,7 +56,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testGetVar()
     {
-        $config = $this->getMock('Magento_Config_View', array('getVarValue'), array(), '', false);
+        $config = $this->getMock('Magento\Config\View', array('getVarValue'), array(), '', false);
         $module = uniqid();
         $config->expects($this->at(0))
             ->method('getVarValue')

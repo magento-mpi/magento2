@@ -27,7 +27,7 @@
  */
 class Magento_Webhook_Model_Subscription
     extends Magento_Core_Model_Abstract
-    implements Magento_PubSub_SubscriptionInterface
+    implements \Magento\PubSub\SubscriptionInterface
 {
     /** subscription fields */
     const FIELD_ENDPOINT_URL = 'endpoint_url';
@@ -57,19 +57,19 @@ class Magento_Webhook_Model_Subscription
      * @param Magento_Webhook_Model_Endpoint $endpoint
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Webhook_Model_Endpoint $endpoint,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         /** set default status */
         if (!isset($data['status'])) {
-            $data['status'] = Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE;
+            $data['status'] = \Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE;
         }
         parent::__construct($context, $resource, $resourceCollection, $data);
 
@@ -142,7 +142,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function activate()
     {
-        $this->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE);
+        $this->setStatus(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE);
     }
 
     /**
@@ -150,7 +150,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function deactivate()
     {
-        $this->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE);
+        $this->setStatus(\Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE);
     }
 
     /**
@@ -158,7 +158,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function revoke()
     {
-        $this->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_REVOKED);
+        $this->setStatus(\Magento\PubSub\SubscriptionInterface::STATUS_REVOKED);
     }
 
     /**
@@ -304,7 +304,7 @@ class Magento_Webhook_Model_Subscription
     /**
      * Returns the user abstraction associated with this subscription or null if no user has been associated yet.
      *
-     * @return Magento_Outbound_UserInterface|null
+     * @return \Magento\Outbound\UserInterface|null
      */
     public function getUser()
     {
@@ -378,7 +378,7 @@ class Magento_Webhook_Model_Subscription
     }
 
     /**
-     * Get the status of this endpoint, which should match one of the constants in Magento_PubSub_SubscriptionInterface
+     * Get the status of this endpoint, which should match one of the constants in \Magento\PubSub\SubscriptionInterface
      *
      * @return int
      */

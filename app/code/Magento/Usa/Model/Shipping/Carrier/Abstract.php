@@ -271,10 +271,10 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
      * Prepare shipment request.
      * Validate and correct request information
      *
-     * @param Magento_Object $request
+     * @param \Magento\Object $request
      *
      */
-    protected function _prepareShipmentRequest(Magento_Object $request)
+    protected function _prepareShipmentRequest(\Magento\Object $request)
     {
         $phonePattern = '/[\s\_\-\(\)]+/';
         $phoneNumber = $request->getShipperContactPhoneNumber();
@@ -305,7 +305,7 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
             $request->setPackageId($packageId);
             $request->setPackagingType($package['params']['container']);
             $request->setPackageWeight($package['params']['weight']);
-            $request->setPackageParams(new Magento_Object($package['params']));
+            $request->setPackageParams(new \Magento\Object($package['params']));
             $request->setPackageItems($package['items']);
             $result = $this->_doShipmentRequest($request);
 
@@ -324,7 +324,7 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
             }
         }
 
-        $response = new Magento_Object(array(
+        $response = new \Magento\Object(array(
             'info'   => $data
         ));
         if ($result->getErrors()) {
@@ -354,7 +354,7 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
             $request->setPackageId($packageId);
             $request->setPackagingType($package['params']['container']);
             $request->setPackageWeight($package['params']['weight']);
-            $request->setPackageParams(new Magento_Object($package['params']));
+            $request->setPackageParams(new \Magento\Object($package['params']));
             $request->setPackageItems($package['items']);
             $result = $this->_doShipmentRequest($request);
 
@@ -373,7 +373,7 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
             }
         }
 
-        $response = new Magento_Object(array(
+        $response = new \Magento\Object(array(
             'info'   => $data
         ));
         if ($result->getErrors()) {
@@ -398,10 +398,10 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param Magento_Object $request
-     * @return Magento_Object
+     * @param \Magento\Object $request
+     * @return \Magento\Object
      */
-    abstract protected function _doShipmentRequest(Magento_Object $request);
+    abstract protected function _doShipmentRequest(\Magento\Object $request);
 
     /**
      * Check is Country U.S. Possessions and Trust Territories

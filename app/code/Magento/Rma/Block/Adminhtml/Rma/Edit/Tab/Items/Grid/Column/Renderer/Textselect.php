@@ -21,10 +21,10 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textse
     /**
      * Renders column as select when it is editable
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    protected function _getEditableView(Magento_Object $row)
+    protected function _getEditableView(\Magento\Object $row)
     {
         $selectName = 'items[' . $row->getId() . '][' . $this->getColumn()->getId() . ']';
         $html = '<select name="'. $selectName .'" class="action-select required-entry">';

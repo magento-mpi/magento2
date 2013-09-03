@@ -11,7 +11,7 @@
 /**
  * Catalog product image controls model
  */
-class Magento_Catalog_Model_Product_Image_View extends Magento_Object
+class Magento_Catalog_Model_Product_Image_View extends \Magento\Object
 {
     /**
      * Separator between location and suffix
@@ -44,7 +44,7 @@ class Magento_Catalog_Model_Product_Image_View extends Magento_Object
     const WHITE_BORDERS_MODULE = 'Magento_Catalog';
 
     /**
-     * @var Magento_Config_View
+     * @var \Magento\Config\View
      */
     protected $_configView;
 
@@ -176,7 +176,7 @@ class Magento_Catalog_Model_Product_Image_View extends Magento_Object
     /**
      * Get view config object
      *
-     * @return Magento_Config_View
+     * @return \Magento\Config\View
      */
     protected function _getConfigView()
     {

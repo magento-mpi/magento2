@@ -49,10 +49,10 @@ class Magento_SalesArchive_Model_Observer
     /**
      * Mark sales object as archived and set back urls for them
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_SalesArchive_Model_Observer
      */
-    public function salesObjectAfterLoad(Magento_Event_Observer $observer)
+    public function salesObjectAfterLoad(\Magento\Event\Observer $observer)
     {
         if (!$this->_config->isArchiveActive()) {
             return $this;
@@ -81,10 +81,10 @@ class Magento_SalesArchive_Model_Observer
     /**
      * Observes grid records update and depends on data updates records in grid too
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_SalesArchive_Model_Observer
      */
-    public function salesUpdateGridRecords(Magento_Event_Observer $observer)
+    public function salesUpdateGridRecords(\Magento\Event\Observer $observer)
     {
         if (!$this->_config->isArchiveActive()) {
             return $this;
@@ -121,10 +121,10 @@ class Magento_SalesArchive_Model_Observer
     /**
      * Add archived orders to order grid collection select
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_SalesArchive_Model_Observer
      */
-    public function appendGridCollection(Magento_Event_Observer $observer)
+    public function appendGridCollection(\Magento\Event\Observer $observer)
     {
         $collection = $observer->getEvent()->getOrderGridCollection();
         if ($collection instanceof Magento_SalesArchive_Model_Resource_Order_Collection
@@ -150,10 +150,10 @@ class Magento_SalesArchive_Model_Observer
      * Replaces redirects to orders list page onto archive orders list page redirects when mass action performed from
      * archive orders list page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_SalesArchive_Model_Observer
      */
-    public function replaceSalesOrderRedirect(Magento_Event_Observer $observer)
+    public function replaceSalesOrderRedirect(\Magento\Event\Observer $observer)
     {
         /**
          * @var Magento_Adminhtml_Controller_Action $controller

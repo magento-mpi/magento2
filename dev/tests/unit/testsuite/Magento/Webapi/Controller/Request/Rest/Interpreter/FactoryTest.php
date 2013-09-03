@@ -21,7 +21,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHP
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMockForAbstractClass();

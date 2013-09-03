@@ -83,7 +83,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
     public function testPrepareForm($originResTree, $selectedRes, $expectedRes)
     {
         // TODO: Move to unit tests after MAGETWO-4015 complete.
-        $apiRole = new Magento_Object(array(
+        $apiRole = new \Magento\Object(array(
             'role_id' => 1
         ));
         $apiRole->setIdFieldName('role_id');

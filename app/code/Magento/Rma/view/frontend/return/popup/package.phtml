@@ -18,8 +18,8 @@
 <div class="packed-content">
 <?php foreach ($this->getPackages() as $packageId => $package): ?>
     <div class="package">
-        <?php $package = new Magento_Object($package) ?>
-        <?php $params = new Magento_Object($package->getParams()) ?>
+        <?php $package = new \Magento\Object($package) ?>
+        <?php $params = new \Magento\Object($package->getParams()) ?>
         <h4><?php echo __('Package') . ' ' . $packageId ?></h4>
         <div class="package-info">
             <table class="tracking-table-popup data-table">
@@ -71,7 +71,7 @@
 
                     <tbody id="">
                     <?php foreach($package->getItems() as $itemId => $item) : ?>
-                        <?php $item = new Magento_Object($item) ?>
+                        <?php $item = new \Magento\Object($item) ?>
                         <tr title="#" id="" class="">
                             <td class="name label">
                                 <?php echo $item->getName(); ?>

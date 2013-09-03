@@ -18,7 +18,7 @@
  */
 class Magento_Backend_Block_System_Config_Form_Field_Datetime extends Magento_Backend_Block_System_Config_Form_Field
 {
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $format = Mage::app()->getLocale()->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
         return Mage::app()->getLocale()->date(intval($element->getValue()))->toString($format);

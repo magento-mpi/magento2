@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Outbound_Transport_Http
+ * \Magento\Outbound\Transport\Http
  *  
  * {license_notice}
  *
@@ -21,9 +21,9 @@ class Magento_Outbound_Transport_HttpTest extends PHPUnit_Framework_TestCase
         
     public function setUp() 
     {
-        $this->_mockVrnHttpAdptrCrl = $this->getMockBuilder('Magento_HTTP_Adapter_Curl')
+        $this->_mockVrnHttpAdptrCrl = $this->getMockBuilder('Magento\HTTP\Adapter\Curl')
             ->disableOriginalConstructor()->getMock();
-        $this->_mockMessage = $this->getMockBuilder('Magento_Outbound_Message')
+        $this->_mockMessage = $this->getMockBuilder('Magento\Outbound\Message')
             ->disableOriginalConstructor()->getMock();
         $this->_mockMessage->expects($this->any())
             ->method('getHeaders')
@@ -37,7 +37,7 @@ class Magento_Outbound_Transport_HttpTest extends PHPUnit_Framework_TestCase
      */   
     public function testNullResponse() 
     {
-        $uut = new Magento_Outbound_Transport_Http($this->_mockVrnHttpAdptrCrl);
+        $uut = new \Magento\Outbound\Transport\Http($this->_mockVrnHttpAdptrCrl);
         $this->_mockVrnHttpAdptrCrl->expects($this->any())
             ->method('read')
             ->will($this->returnValue(null));
@@ -46,7 +46,7 @@ class Magento_Outbound_Transport_HttpTest extends PHPUnit_Framework_TestCase
     
     public function testPositive()
     {
-        $uut = new Magento_Outbound_Transport_Http($this->_mockVrnHttpAdptrCrl);
+        $uut = new \Magento\Outbound\Transport\Http($this->_mockVrnHttpAdptrCrl);
         $this->_mockVrnHttpAdptrCrl->expects($this->any())
             ->method('read')
             ->will($this->returnValue("HTTP/2.0 200 OK\nHdrkey: Hdrval\n\nMessage Body"));
@@ -64,7 +64,7 @@ class Magento_Outbound_Transport_HttpTest extends PHPUnit_Framework_TestCase
      */
     public function testMessageTimeout($timeout, $expectedTimeout)
     {
-        $uut = new Magento_Outbound_Transport_Http($this->_mockVrnHttpAdptrCrl);
+        $uut = new \Magento\Outbound\Transport\Http($this->_mockVrnHttpAdptrCrl);
         $this->_mockMessage->expects($this->any())
             ->method('getTimeout')
             ->will($this->returnValue($timeout));
@@ -94,10 +94,10 @@ class Magento_Outbound_Transport_HttpTest extends PHPUnit_Framework_TestCase
     public function timeoutDataProvider()
     {
         return array(
-            array(0, Magento_Outbound_Message::DEFAULT_TIMEOUT),
-            array(null, Magento_Outbound_Message::DEFAULT_TIMEOUT),
+            array(0, \Magento\Outbound\Message::DEFAULT_TIMEOUT),
+            array(null, \Magento\Outbound\Message::DEFAULT_TIMEOUT),
             array(5, 5),
-            array(Magento_Outbound_Message::DEFAULT_TIMEOUT, Magento_Outbound_Message::DEFAULT_TIMEOUT)
+            array(\Magento\Outbound\Message::DEFAULT_TIMEOUT, \Magento\Outbound\Message::DEFAULT_TIMEOUT)
         );
     }
 }

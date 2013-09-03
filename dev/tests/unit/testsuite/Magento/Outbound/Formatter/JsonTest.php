@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Outbound_Formatter_Json
+ * \Magento\Outbound\Formatter\Json
  *
  * {license_notice}
  *
@@ -13,13 +13,13 @@ require_once __DIR__ . '/_files/Data.php';
 class Magento_Outbound_Formatter_JsonTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Outbound_Formatter_Json
+     * @var \Magento\Outbound\Formatter\Json
      */
     protected $_formatter;
 
     public function setUp()
     {
-        $this->_formatter = new Magento_Outbound_Formatter_Json();
+        $this->_formatter = new \Magento\Outbound\Formatter\Json();
     }
 
     /**
@@ -35,7 +35,7 @@ class Magento_Outbound_Formatter_JsonTest extends PHPUnit_Framework_TestCase
 
     public function testGetContentType()
     {
-        $this->assertSame(Magento_Outbound_Formatter_Json::CONTENT_TYPE, $this->_formatter->getContentType());
+        $this->assertSame(\Magento\Outbound\Formatter\Json::CONTENT_TYPE, $this->_formatter->getContentType());
     }
 
     /**

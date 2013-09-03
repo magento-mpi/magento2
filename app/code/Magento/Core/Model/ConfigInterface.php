@@ -14,7 +14,7 @@ interface Magento_Core_Model_ConfigInterface
      * Get configuration node
      *
      * @param string $path
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function getNode($path = null);
 

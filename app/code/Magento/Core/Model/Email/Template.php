@@ -74,7 +74,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
     protected $_sendingException = null;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -92,14 +92,14 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
 
     /**
      * @param Magento_Core_Model_Context $context
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         array $data = array()
@@ -168,10 +168,10 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
     /**
      * Declare template processing filter
      *
-     * @param   Magento_Filter_Template $filter
+     * @param   \Magento\Filter\Template $filter
      * @return  Magento_Core_Model_Email_Template
      */
-    public function setTemplateFilter(Magento_Filter_Template $filter)
+    public function setTemplateFilter(\Magento\Filter\Template $filter)
     {
         $this->_templateFilter = $filter;
         return $this;

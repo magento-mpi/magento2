@@ -30,7 +30,7 @@ class Magento_Poll_Model_Resource_Poll_Vote extends Magento_Core_Model_Resource_
     /**
      * Perform actions after object save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Poll_Model_Resource_Poll_Vote
      */
     protected function _afterSave(Magento_Core_Model_Abstract $object)

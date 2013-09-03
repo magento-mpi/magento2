@@ -77,7 +77,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
             $column['type']     = 'tinyint(1)';
             $column['is_null']  = true;
         } else {
-            $column['type']     = Magento_DB_Ddl_Table::TYPE_SMALLINT;
+            $column['type']     = \Magento\DB\Ddl\Table::TYPE_SMALLINT;
             $column['length']   = 1;
             $column['nullable'] = true;
             $column['comment']  = $attributeCode . ' column';
@@ -90,7 +90,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

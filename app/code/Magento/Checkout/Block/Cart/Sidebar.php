@@ -75,7 +75,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
                 if (!isset($products[$productId])) {
                     continue;
                 }
-                $urlDataObject = new Magento_Object($products[$productId]);
+                $urlDataObject = new \Magento\Object($products[$productId]);
                 $item->getProduct()->setUrlDataObject($urlDataObject);
             }
 

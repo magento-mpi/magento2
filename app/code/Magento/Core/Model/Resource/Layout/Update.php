@@ -14,17 +14,17 @@
 class Magento_Core_Model_Resource_Layout_Update extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     private $_cache;
 
     /**
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Cache_FrontendInterface $cache
+     * @param \Magento\Cache\FrontendInterface $cache
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,
-        Magento_Cache_FrontendInterface $cache
+        \Magento\Cache\FrontendInterface $cache
     ) {
         parent::__construct($resource);
         $this->_cache = $cache;
@@ -66,7 +66,7 @@ class Magento_Core_Model_Resource_Layout_Update extends Magento_Core_Model_Resou
      * Get select to fetch updates by handle
      *
      * @param bool $loadAllUpdates
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getFetchUpdatesByHandleSelect($loadAllUpdates = false)
     {
@@ -81,7 +81,7 @@ class Magento_Core_Model_Resource_Layout_Update extends Magento_Core_Model_Resou
             ->where('link.store_id IN (0, :store_id)')
             ->where('link.theme_id = :theme_id')
             ->where('layout_update.handle = :layout_update_handle')
-            ->order('layout_update.sort_order ' . Magento_DB_Select::SQL_ASC);
+            ->order('layout_update.sort_order ' . \Magento\DB\Select::SQL_ASC);
 
         if (!$loadAllUpdates) {
             $select->where('link.is_temporary = 0');

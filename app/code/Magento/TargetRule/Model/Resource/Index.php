@@ -318,7 +318,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     /**
      * Retrieve new SELECT instance (used Read Adapter)
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function select()
     {
@@ -509,7 +509,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     /**
      * Remove index by product ids and type
      *
-     * @param int|array|Magento_DB_Select $productIds
+     * @param int|array|\Magento\DB\Select $productIds
      * @param int $typeId
      * @return Magento_TargetRule_Model_Resource_Index
      */
@@ -573,11 +573,11 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     /**
      * Adds order by random to select object
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param null $field
      * @return Magento_TargetRule_Model_Resource_Index
      */
-    public function orderRand(Magento_DB_Select $select, $field = null)
+    public function orderRand(\Magento\DB\Select $select, $field = null)
     {
         $this->_getReadAdapter()->orderRand($select, $field);
         return $this;

@@ -23,7 +23,7 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
         $forUpdate = $collection->getSelect()->getPart(Zend_Db_Select::FOR_UPDATE);
         $this->assertTrue($forUpdate);
 
-        $where = array("(`status` = '" . Magento_PubSub_EventInterface::STATUS_READY_TO_SEND . "')");
+        $where = array("(`status` = '" . \Magento\PubSub\EventInterface::STATUS_READY_TO_SEND . "')");
         $this->assertEquals($where, $collection->getSelect()->getPart(Zend_Db_Select::WHERE));
     }
 
@@ -43,7 +43,7 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
         $updatedEvent = Mage::getObjectManager()->create('Magento_Webhook_Model_Event')
             ->load($event->getId());
 
-        $this->assertEquals(Magento_PubSub_EventInterface::STATUS_IN_PROGRESS, $updatedEvent->getStatus());
+        $this->assertEquals(\Magento\PubSub\EventInterface::STATUS_IN_PROGRESS, $updatedEvent->getStatus());
         $event->delete();
     }
 
@@ -94,7 +94,7 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
             ->save();
         /** @var Magento_Webhook_Model_Event $event3 */
         $event3 = Mage::getObjectManager()->create('Magento_Webhook_Model_Event')
-            ->setStatus(Magento_PubSub_EventInterface::STATUS_IN_PROGRESS)
+            ->setStatus(\Magento\PubSub\EventInterface::STATUS_IN_PROGRESS)
             ->save();
 
         /** @var Magento_Webhook_Model_Resource_Event_Collection $collection */

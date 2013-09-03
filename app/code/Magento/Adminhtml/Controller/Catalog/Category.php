@@ -154,7 +154,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
                 ->setLastEditedCategory($category->getId());
             $this->loadLayout();
 
-            $eventResponse = new Magento_Object(array(
+            $eventResponse = new \Magento\Object(array(
                 'content' => $this->getLayout()->getBlock('category.edit')->getFormHtml()
                     . $this->getLayout()->getBlock('category.tree')
                         ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs'),

@@ -11,7 +11,7 @@
  */
 class Magento_Webhook_Model_Resource_Subscription_Collection
     extends Magento_Core_Model_Resource_Db_Collection_Abstract
-    implements Magento_PubSub_Subscription_CollectionInterface
+    implements \Magento\PubSub\Subscription\CollectionInterface
 {
     /**
      * @var Magento_Webhook_Model_Resource_Endpoint
@@ -21,12 +21,12 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
     /**
      * Collection constructor
      *
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param Magento_Webhook_Model_Resource_Endpoint $endpointResource
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         Magento_Webhook_Model_Resource_Endpoint $endpointResource,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
@@ -48,7 +48,7 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
      * Return all subscriptions by topic
      *
      * @param string $topic
-     * @return Magento_PubSub_SubscriptionInterface[]
+     * @return \Magento\PubSub\SubscriptionInterface[]
      */
     public function getSubscriptionsByTopic($topic)
     {
@@ -167,9 +167,9 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
     public function addIsActiveFilter($isActive)
     {
         if ($isActive) {
-            $this->addFieldToFilter('status', Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE);
+            $this->addFieldToFilter('status', \Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE);
         } else {
-            $this->addFieldToFilter('status', Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE);
+            $this->addFieldToFilter('status', \Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE);
         }
         return $this;
     }

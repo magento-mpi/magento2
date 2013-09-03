@@ -30,7 +30,7 @@ class __cli_Magento_Connect
                 $this->argv = $argv;
         $this->setIncludes();
         require_once("Mage/Autoload/Simple.php");
-        Magento_Autoload_Simple::register();
+        \Magento\Autoload\Simple::register();
         chdir(BP . DS . 'downloader' . DS);
         return $this;
     }
@@ -52,13 +52,13 @@ class __cli_Magento_Connect
 
     public function getCommands()
     {
-        return Magento_Connect_Command::getCommands();
+        return \Magento\Connect\Command::getCommands();
     }
 
     public function getFrontend()
     {
-        $frontend = Magento_Connect_Frontend::getInstance('CLI');
-        Magento_Connect_Command::setFrontendObject($frontend);
+        $frontend = \Magento\Connect\Frontend::getInstance('CLI');
+        \Magento\Connect\Command::setFrontendObject($frontend);
         return $frontend;
     }
 
@@ -67,11 +67,11 @@ class __cli_Magento_Connect
         if (isset($this->config)) {
             return $this->config;
         }
-        $config = new Magento_Connect_Config($fileName);
+        $config = new \Magento\Connect\Config($fileName);
         if (empty($config->magento_root)) {
            $config->magento_root = dirname(dirname(__FILE__));
         }
-        Magento_Connect_Command::setConfigObject($config);
+        \Magento\Connect\Command::setConfigObject($config);
         $this->config = $config;
         return $config;
     }
@@ -91,7 +91,7 @@ class __cli_Magento_Connect
 
     public function parseCommandArgs($argv)
     {
-        $a = new Magento_System_Args();
+        $a = new \Magento\System\Args();
         $args = $a->getFiltered();
         array_shift($args);
         return array($a->getFlags(), $args);
@@ -99,7 +99,7 @@ class __cli_Magento_Connect
 
     public function runCommand($cmd, $options, $params)
     {
-        $c = Magento_Connect_Command::getInstance($cmd);
+        $c = \Magento\Connect\Command::getInstance($cmd);
         $c->run($cmd, $options, $params);
     }
 
@@ -107,13 +107,13 @@ class __cli_Magento_Connect
     public function getSingleConfig()
     {
         if(!$this->_sconfig) {
-            $this->_sconfig = new Magento_Connect_Singleconfig(
+            $this->_sconfig = new \Magento\Connect\Singleconfig(
                     $this->getConfig()->magento_root . DS .
                     $this->getConfig()->downloader_path . DS .
-                    Magento_Connect_Singleconfig::DEFAULT_SCONFIG_FILENAME
+                    \Magento\Connect\Singleconfig::DEFAULT_SCONFIG_FILENAME
             );
         }
-        Magento_Connect_Command::setSconfig($this->_sconfig);
+        \Magento\Connect\Command::setSconfig($this->_sconfig);
         return $this->_sconfig;
     }
 

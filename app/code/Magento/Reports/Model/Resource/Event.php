@@ -58,14 +58,14 @@ class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_D
      * The collection id field is used without corellation, so it must be unique.
      * DESC ordering by event will be added to the collection
      *
-     * @param Magento_Data_Collection_Db $collection
+     * @param \Magento\Data\Collection\Db $collection
      * @param int $eventTypeId
      * @param int $eventSubjectId
      * @param int $subtype
      * @param array $skipIds
      * @return Magento_Reports_Model_Resource_Event
      */
-    public function applyLogToCollection(Magento_Data_Collection_Db $collection, $eventTypeId, $eventSubjectId, $subtype,
+    public function applyLogToCollection(\Magento\Data\Collection\Db $collection, $eventTypeId, $eventSubjectId, $subtype,
         $skipIds = array())
     {
         $idFieldName = $collection->getResource()->getIdFieldName();
@@ -92,7 +92,7 @@ class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_D
                 array('evt' => new Zend_Db_Expr("({$derivedSelect})")),
                 "{$idFieldName} = evt.object_id",
                 array())
-            ->order('evt.event_id ' . Magento_DB_Select::SQL_DESC);
+            ->order('evt.event_id ' . \Magento\DB\Select::SQL_DESC);
 
         return $this;
     }

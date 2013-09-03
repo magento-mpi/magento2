@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Object
+ * @package    \Magento\Object
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -16,12 +16,14 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Object_Cache
+namespace Magento\Object;
+
+class Cache
 {
     /**
      * Singleton instance
      *
-     * @var Magento_Object_Cache
+     * @var \Magento\Object\Cache
      */
     protected static $_instance;
 
@@ -91,7 +93,7 @@ class Magento_Object_Cache
     /**
      * Singleton factory
      *
-     * @return Magento_Object_Cache
+     * @return \Magento\Object\Cache
      */
     public static function singleton()
     {
@@ -129,7 +131,7 @@ class Magento_Object_Cache
      */
     public function save($object, $idx=null, $tags=null)
     {
-//Magento_Profiler::start('OBJECT_SAVE');
+//\Magento\Profiler::start('OBJECT_SAVE');
         if (!is_object($object)) {
             return false;
         }
@@ -139,7 +141,7 @@ class Magento_Object_Cache
             $idx = str_replace('{hash}', $hash, $idx);
         }
         if (isset($this->_hashes[$hash])) {
-            //throw new Exception('test');
+            //throw new \Exception('test');
             if (!is_null($idx)) {
                 $this->_references[$idx] = $this->_hashes[$hash];
             }
@@ -151,7 +153,7 @@ class Magento_Object_Cache
         }
 
         if (isset($this->_objects[$idx])) {
-            throw new Magento_Exception('Object already exists in registry ('.$idx.'). Old object class: '.get_class($this->_objects[$idx]).', new object class: '.get_class($object));
+            throw new \Magento\MagentoException('Object already exists in registry ('.$idx.'). Old object class: '.get_class($this->_objects[$idx]).', new object class: '.get_class($object));
         }
 
         $this->_objects[$idx] = $object;
@@ -168,7 +170,7 @@ class Magento_Object_Cache
                 $this->_objectTags[$idx][$t] = true;
             }
         }
-//Magento_Profiler::stop('OBJECT_SAVE');
+//\Magento\Profiler::stop('OBJECT_SAVE');
 
         return $idx;
     }
@@ -190,7 +192,7 @@ class Magento_Object_Cache
         }
 
         if (isset($this->_references[$refName])) {
-            throw new Magento_Exception('The reference already exists: '.$refName.'. New index: '.$idx.', old index: '.$this->_references[$refName]);
+            throw new \Magento\MagentoException('The reference already exists: '.$refName.'. New index: '.$idx.', old index: '.$this->_references[$refName]);
         }
         $this->_references[$refName] = $idx;
         $this->_objectReferences[$idx][$refName] = true;
@@ -206,18 +208,18 @@ class Magento_Object_Cache
      */
     public function delete($idx)
     {
-//Magento_Profiler::start("OBJECT_DELETE");
+//\Magento\Profiler::start("OBJECT_DELETE");
         if (is_object($idx)) {
             $idx = $this->find($idx);
             if (false===$idx) {
-//Magento_Profiler::stop("OBJECT_DELETE");
+//\Magento\Profiler::stop("OBJECT_DELETE");
                 return false;
             }
             unset($this->_objects[$idx]);
-//Magento_Profiler::stop("OBJECT_DELETE");
+//\Magento\Profiler::stop("OBJECT_DELETE");
             return false;
         } elseif (!isset($this->_objects[$idx])) {
-//Magento_Profiler::stop("OBJECT_DELETE");
+//\Magento\Profiler::stop("OBJECT_DELETE");
             return false;
         }
 
@@ -238,7 +240,7 @@ class Magento_Object_Cache
             }
             unset($this->_objectReferences[$idx]);
         }
-//Magento_Profiler::stop("OBJECT_DELETE");
+//\Magento\Profiler::stop("OBJECT_DELETE");
 
         return true;
     }

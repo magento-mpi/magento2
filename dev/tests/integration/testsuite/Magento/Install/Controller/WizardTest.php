@@ -28,7 +28,7 @@ class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCa
         if (is_file($tmpDir)) {
             unlink($tmpDir);
         } elseif (is_dir($tmpDir)) {
-            Magento_Io_File::rmdirRecursive($tmpDir);
+            \Magento\Io\File::rmdirRecursive($tmpDir);
         }
         // deliberately create a file instead of directory to emulate broken access to static directory
         touch($tmpDir);
@@ -56,7 +56,7 @@ class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCa
     /**
      * @param string $action
      * @dataProvider actionsDataProvider
-     * @expectedException Magento_BootstrapException
+     * @expectedException \Magento\BootstrapException
      */
     public function testPreDispatchImpossibleToRenderPage($action)
     {

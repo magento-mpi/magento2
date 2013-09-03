@@ -58,10 +58,10 @@ class Magento_Checkout_Block_Total_Nominal extends Magento_Checkout_Block_Total_
     /**
      * Getter for details row label
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function getItemDetailsRowLabel(Magento_Object $row)
+    public function getItemDetailsRowLabel(\Magento\Object $row)
     {
         return $row->getLabel();
     }
@@ -69,10 +69,10 @@ class Magento_Checkout_Block_Total_Nominal extends Magento_Checkout_Block_Total_
     /**
      * Getter for details row amount
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function getItemDetailsRowAmount(Magento_Object $row)
+    public function getItemDetailsRowAmount(\Magento\Object $row)
     {
         return $row->getAmount();
     }
@@ -80,10 +80,10 @@ class Magento_Checkout_Block_Total_Nominal extends Magento_Checkout_Block_Total_
     /**
      * Getter for details row compounded state
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return bool
      */
-    public function getItemDetailsRowIsCompounded(Magento_Object $row)
+    public function getItemDetailsRowIsCompounded(\Magento\Object $row)
     {
         return $row->getIsCompounded();
     }

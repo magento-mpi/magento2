@@ -9,11 +9,11 @@
 /**
  * Menu configuration files handler
  */
-class Magento_Backend_Model_Menu_Config_Reader extends Magento_Config_Reader_Filesystem
+class Magento_Backend_Model_Menu_Config_Reader extends \Magento\Config\Reader\Filesystem
 {
     public function __construct(
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_Config_FileResolverInterface $fileResolver,
+        \Magento\Config\FileResolverInterface $fileResolver,
         Magento_Backend_Model_Menu_Config_Converter $converter,
         $fileName = 'menu.xml',
         $idAttributes = array(),

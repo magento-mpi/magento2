@@ -8,13 +8,13 @@
 class Magento_Acl_Resource_Config_Converter_DomTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Acl_Resource_Config_Converter_Dom
+     * @var \Magento\Acl\Resource\Config\Converter\Dom
      */
     protected $_converter;
 
     protected function setUp()
     {
-        $this->_converter = new Magento_Acl_Resource_Config_Converter_Dom();
+        $this->_converter = new \Magento\Acl\Resource\Config\Converter\Dom();
     }
 
     /**

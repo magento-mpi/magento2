@@ -17,7 +17,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
     /**
      * Database adapter instance
      *
-     * @var Magento_DB_Adapter_Pdo_Mysql
+     * @var \Magento\DB\Adapter\Pdo\Mysql
      */
     protected $_dbAdapter = null;
 
@@ -28,8 +28,8 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
      */
     public function testWaitTimeout()
     {
-        if (!($this->_getDbAdapter() instanceof Magento_DB_Adapter_Pdo_Mysql)) {
-            $this->markTestSkipped('This test is for Magento_DB_Adapter_Pdo_Mysql');
+        if (!($this->_getDbAdapter() instanceof \Magento\DB\Adapter\Pdo\Mysql)) {
+            $this->markTestSkipped('This test is for \Magento\DB\Adapter\Pdo\Mysql');
         }
         try {
             $defaultWaitTimeout = $this->_getWaitTimeout();
@@ -40,7 +40,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
             // Sleep for time greater than wait_timeout and try to perform query
             sleep($minWaitTimeout + 1);
             $result = $this->_executeQuery('SELECT 1');
-            $this->assertInstanceOf('Magento_DB_Statement_Pdo_Mysql', $result);
+            $this->assertInstanceOf('\Magento\DB\Statement\Pdo\Mysql', $result);
             // Restore wait_timeout
             $this->_setWaitTimeout($defaultWaitTimeout);
             $this->assertEquals($defaultWaitTimeout, $this->_getWaitTimeout(), 'Default wait timeout was not restored');
@@ -105,7 +105,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
     /**
      * Retrieve database adapter instance
      *
-     * @return Magento_DB_Adapter_Pdo_Mysql
+     * @return \Magento\DB\Adapter\Pdo\Mysql
      */
     protected function _getDbAdapter()
     {

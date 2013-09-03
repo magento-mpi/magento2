@@ -348,7 +348,7 @@ class Magento_Catalog_Model_Product_Type_Price
     public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
             $rulePrice = false, $wId = null, $gId = null, $productId = null)
     {
-        Magento_Profiler::start('__PRODUCT_CALCULATE_PRICE__');
+        \Magento\Profiler::start('__PRODUCT_CALCULATE_PRICE__');
         if ($wId instanceof Magento_Core_Model_Store) {
             $sId = $wId->getId();
             $wId = $wId->getWebsiteId();
@@ -374,7 +374,7 @@ class Magento_Catalog_Model_Product_Type_Price
         }
 
         $finalPrice = max($finalPrice, 0);
-        Magento_Profiler::stop('__PRODUCT_CALCULATE_PRICE__');
+        \Magento\Profiler::stop('__PRODUCT_CALCULATE_PRICE__');
         return $finalPrice;
     }
 

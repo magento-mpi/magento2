@@ -17,7 +17,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Field_Hidden
     /**
      * Decorate field row html to be invisible
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @param string $html
      * @return string
      */

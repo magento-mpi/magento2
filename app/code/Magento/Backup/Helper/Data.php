@@ -39,24 +39,24 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     const TYPE_SNAPSHOT_WITHOUT_MEDIA = 'nomedia';
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\AuthorizationInterface $authorization
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Filesystem $filesystem,
-        Magento_AuthorizationInterface $authorization
+        \Magento\Filesystem $filesystem,
+        \Magento\AuthorizationInterface $authorization
     ) {
         parent::__construct($context);
         $this->_authorization = $authorization;
@@ -304,7 +304,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      * Extracts information from backup's filename
      *
      * @param string $filename
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function extractDataFromFilename($filename)
     {
@@ -328,7 +328,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
             $name = substr($name, 1);
         }
 
-        $result = new Magento_Object();
+        $result = new \Magento\Object();
         $result->addData(array(
             'name' => $name,
             'type' => $type,

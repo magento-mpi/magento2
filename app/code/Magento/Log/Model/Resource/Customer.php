@@ -82,7 +82,7 @@ class Magento_Log_Model_Resource_Customer extends Magento_Core_Model_Resource_Db
      * @param string $field
      * @param mixed $value
      * @param Magento_Log_Model_Customer $object
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

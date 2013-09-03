@@ -15,7 +15,7 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Rma_Create extends Magento_Object
+class Magento_Rma_Model_Rma_Create extends \Magento\Object
 {
     /**
      * Customer object, RMA's order attached to

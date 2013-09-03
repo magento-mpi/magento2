@@ -14,7 +14,7 @@
 class Magento_Core_Model_Cache_Proxy implements Magento_Core_Model_CacheInterface
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected  $_objectManager;
 
@@ -24,9 +24,9 @@ class Magento_Core_Model_Cache_Proxy implements Magento_Core_Model_CacheInterfac
     protected  $_cache;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

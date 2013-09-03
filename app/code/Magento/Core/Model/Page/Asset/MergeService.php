@@ -19,7 +19,7 @@ class Magento_Core_Model_Page_Asset_MergeService
     /**#@-*/
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     private $_objectManager;
 
@@ -29,7 +29,7 @@ class Magento_Core_Model_Page_Asset_MergeService
     private $_storeConfig;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     private $_filesystem;
 
@@ -44,16 +44,16 @@ class Magento_Core_Model_Page_Asset_MergeService
     private $_state;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_Filesystem $filesystem,
+     * @param \Magento\Filesystem $filesystem,
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_App_State $state
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_App_State $state
     ) {

@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Connect_Package_Target
+namespace Magento\Connect\Package;
+
+class Target
 {
 
     /**
@@ -36,7 +38,7 @@ class Magento_Connect_Package_Target
     /**
     * Retrieve content from target.xml.
     *
-    * @return SimpleXMLElement
+    * @return \SimpleXMLElement
     */
     protected function _getTargetMap()
     {

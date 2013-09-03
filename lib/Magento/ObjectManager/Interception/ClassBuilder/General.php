@@ -5,8 +5,10 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_ObjectManager_Interception_ClassBuilder_General
-    implements Magento_ObjectManager_Interception_ClassBuilder
+namespace Magento\ObjectManager\Interception\ClassBuilder;
+
+class General
+    implements \Magento\ObjectManager\Interception\ClassBuilder
 {
 
     /**

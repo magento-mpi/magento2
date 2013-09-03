@@ -22,10 +22,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Action
     /**
      * Renders column
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $actions = $this->getColumn()->getActions();
         if ( empty($actions) || !is_array($actions) ) {
@@ -57,12 +57,12 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Action
      * Render single action as dropdown option html
      *
      * @param unknown_type $action
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    protected function _toOptionHtml($action, Magento_Object $row)
+    protected function _toOptionHtml($action, \Magento\Object $row)
     {
-        $actionAttributes = new Magento_Object();
+        $actionAttributes = new \Magento\Object();
 
         $actionCaption = '';
         $this->_transformActionData($action, $actionCaption, $row);
@@ -76,12 +76,12 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Action
      * Render single action as link html
      *
      * @param array $action
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    protected function _toLinkHtml($action, Magento_Object $row)
+    protected function _toLinkHtml($action, \Magento\Object $row)
     {
-        $actionAttributes = new Magento_Object();
+        $actionAttributes = new \Magento\Object();
 
         $actionCaption = '';
         $this->_transformActionData($action, $actionCaption, $row);
@@ -102,10 +102,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Action
      *
      * @param array $action
      * @param string $actionCaption
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return Magento_Backend_Block_Widget_Grid_Column_Renderer_Action
      */
-    protected function _transformActionData(&$action, &$actionCaption, Magento_Object $row)
+    protected function _transformActionData(&$action, &$actionCaption, \Magento\Object $row)
     {
         foreach ( $action as $attribute => $value ) {
             if (isset($action[$attribute]) && !is_array($action[$attribute])) {

@@ -10,7 +10,7 @@
  */
 
 /**
- * Magento_DB_Adapter_Pdo_Mysql class test
+ * \Magento\DB\Adapter\Pdo\Mysql class test
  */
 class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
 {
@@ -21,7 +21,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
 
     /**
      * Adapter for test
-     * @var Magento_DB_Adapter_Pdo_Mysql
+     * @var \Magento\DB\Adapter\Pdo\Mysql
      */
     private $_adapter;
 
@@ -36,7 +36,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_mockAdapter = $this->getMock(
-            'Magento_DB_Adapter_Pdo_Mysql',
+            'Magento\DB\Adapter\Pdo\Mysql',
             array('beginTransaction', 'getTransactionLevel'),
             array(), '', false
         );
@@ -46,7 +46,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
              ->will($this->returnValue(1));
 
         $this->_adapter = $this->getMock(
-            'Magento_DB_Adapter_Pdo_Mysql',
+            'Magento\DB\Adapter\Pdo\Mysql',
             array('_connect', '_beginTransaction', '_commit', '_rollBack', 'query'),
             array(
                 'dbname' => 'not_exists',
@@ -120,7 +120,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
         try {
             $this->_mockAdapter->query($query);
         } catch (Exception $e) {
-            $this->assertNotContains($e->getMessage(), Magento_DB_Adapter_Interface::ERROR_DDL_MESSAGE);
+            $this->assertNotContains($e->getMessage(), \Magento\DB\Adapter\AdapterInterface::ERROR_DDL_MESSAGE);
         }
 
         $select = new Zend_Db_Select($this->_mockAdapter);
@@ -128,7 +128,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
         try {
             $this->_mockAdapter->query($select);
         } catch (Exception $e) {
-            $this->assertNotContains($e->getMessage(), Magento_DB_Adapter_Interface::ERROR_DDL_MESSAGE);
+            $this->assertNotContains($e->getMessage(), \Magento\DB\Adapter\AdapterInterface::ERROR_DDL_MESSAGE);
         }
     }
 
@@ -181,7 +181,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
             throw new Exception('Test Failed!');
         } catch (Exception $e) {
             $this->assertEquals(
-                Magento_DB_Adapter_Interface::ERROR_ASYMMETRIC_ROLLBACK_MESSAGE,
+                \Magento\DB\Adapter\AdapterInterface::ERROR_ASYMMETRIC_ROLLBACK_MESSAGE,
                 $e->getMessage()
             );
         }
@@ -197,7 +197,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
             throw new Exception('Test Failed!');
         } catch (Exception $e) {
             $this->assertEquals(
-                Magento_DB_Adapter_Interface::ERROR_ASYMMETRIC_COMMIT_MESSAGE,
+                \Magento\DB\Adapter\AdapterInterface::ERROR_ASYMMETRIC_COMMIT_MESSAGE,
                 $e->getMessage()
             );
         }
@@ -309,7 +309,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
             throw new Exception('Test Failed!');
         } catch (Exception $e) {
             $this->assertEquals(
-                Magento_DB_Adapter_Interface::ERROR_ROLLBACK_INCOMPLETE_MESSAGE,
+                \Magento\DB\Adapter\AdapterInterface::ERROR_ROLLBACK_INCOMPLETE_MESSAGE,
                 $e->getMessage()
             );
             $this->_adapter->rollBack();
@@ -332,7 +332,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
             throw new Exception('Test Failed!');
         } catch (Exception $e) {
             $this->assertEquals(
-                Magento_DB_Adapter_Interface::ERROR_ROLLBACK_INCOMPLETE_MESSAGE,
+                \Magento\DB\Adapter\AdapterInterface::ERROR_ROLLBACK_INCOMPLETE_MESSAGE,
                 $e->getMessage()
             );
             $this->_adapter->rollBack();

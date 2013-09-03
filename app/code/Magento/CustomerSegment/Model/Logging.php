@@ -40,12 +40,12 @@ class Magento_CustomerSegment_Model_Logging
     /**
      * Handler for logging customer segment match
      *
-     * @param Magento_Simplexml_Element $config
+     * @param \Magento\Simplexml\Element $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function postDispatchCustomerSegmentMatch(Magento_Simplexml_Element $config,
+    public function postDispatchCustomerSegmentMatch(\Magento\Simplexml\Element $config,
         Magento_Logging_Model_Event $eventModel
     ) {
         $segmentId = $this->_request->getParam('id');

@@ -11,19 +11,19 @@
 /**
  * Abstract Validation State Model
  */
-abstract class Magento_Centinel_Model_StateAbstract extends Magento_Object
+abstract class Magento_Centinel_Model_StateAbstract extends \Magento\Object
 {
     /**
      * Storage data model
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     private $_dataStorage = false;
 
     /**
      * Setter for storage data model
      *
-     * @param Magento_Object $dataStorageModel
+     * @param \Magento\Object $dataStorageModel
      * @return Magento_Centinel_Model_StateAbstract
      */
     public function setDataStorage($dataStorageModel)
@@ -35,7 +35,7 @@ abstract class Magento_Centinel_Model_StateAbstract extends Magento_Object
     /**
      * Getter for storage data model
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDataStorage()
     {
@@ -81,7 +81,7 @@ abstract class Magento_Centinel_Model_StateAbstract extends Magento_Object
     /**
      * Save lookup result in state model
      *
-     * @param Magento_Object $result
+     * @param \Magento\Object $result
      * @return Magento_Centinel_Model_StateAbstract
      */
     public function setLookupResult($result)
@@ -95,7 +95,7 @@ abstract class Magento_Centinel_Model_StateAbstract extends Magento_Object
     /**
      * Save authenticate result in state model
      *
-     * @param Magento_Object $result
+     * @param \Magento\Object $result
      * @return Magento_Centinel_Model_StateAbstract
      */
     public function setAuthenticateResult($result)

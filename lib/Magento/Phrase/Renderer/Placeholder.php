@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Phrase_Renderer_Placeholder implements Magento_Phrase_RendererInterface
+namespace Magento\Phrase\Renderer;
+
+class Placeholder implements \Magento\Phrase\RendererInterface
 {
     /**
      * {@inheritdoc}

@@ -22,7 +22,7 @@ class Magento_Data_Collection_Db_FetchStrategy_QueryTest extends PHPUnit_Framewo
             ->with($select, $bindParams)
             ->will($this->returnValue($expectedResult))
         ;
-        $object = new Magento_Data_Collection_Db_FetchStrategy_Query();
+        $object = new \Magento\Data\Collection\Db\FetchStrategy\Query();
         $this->assertSame($expectedResult, $object->fetchAll($select, $bindParams));
     }
 }

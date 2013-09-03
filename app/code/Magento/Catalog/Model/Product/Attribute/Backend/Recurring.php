@@ -33,7 +33,7 @@ extends Magento_Eav_Model_Entity_Attribute_Backend_Serialized
      * Unserialize or remove on failure
      * @param Magento_Catalog_Model_Product $product
      */
-    protected function _unserialize(Magento_Object $product)
+    protected function _unserialize(\Magento\Object $product)
     {
         if ($product->hasIsRecurring()) {
             if ($product->isRecurring()) {

@@ -60,14 +60,14 @@ class Magento_TestFramework_Performance_Config
      * @param string $testsBaseDir
      * @param string $appBaseDir
      * @throws InvalidArgumentException
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function __construct(array $configData, $testsBaseDir, $appBaseDir)
     {
         $this->_validateData($configData);
 
         if (!is_dir($testsBaseDir)) {
-            throw new Magento_Exception("Base directory '$testsBaseDir' does not exist.");
+            throw new \Magento\MagentoException("Base directory '$testsBaseDir' does not exist.");
         }
         $this->_testsBaseDir = $testsBaseDir;
         $this->_reportDir = $this->_getTestsRelativePath($configData['report_dir']);
@@ -89,7 +89,7 @@ class Magento_TestFramework_Performance_Config
      * Validate high-level configuration structure
      *
      * @param array $configData
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     protected function _validateData(array $configData)
     {
@@ -97,7 +97,7 @@ class Magento_TestFramework_Performance_Config
         $requiredKeys = array('application', 'scenario', 'report_dir');
         foreach ($requiredKeys as $requiredKeyName) {
             if (empty($configData[$requiredKeyName])) {
-                throw new Magento_Exception("Configuration array must define '$requiredKeyName' key.");
+                throw new \Magento\MagentoException("Configuration array must define '$requiredKeyName' key.");
             }
         }
 
@@ -105,7 +105,7 @@ class Magento_TestFramework_Performance_Config
         $requiredAdminKeys = array('frontname', 'username', 'password');
         foreach ($requiredAdminKeys as $requiredKeyName) {
             if (empty($configData['application']['admin'][$requiredKeyName])) {
-                throw new Magento_Exception("Admin options array must define '$requiredKeyName' key.");
+                throw new \Magento\MagentoException("Admin options array must define '$requiredKeyName' key.");
             }
         }
     }

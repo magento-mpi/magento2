@@ -24,13 +24,13 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
         $session = Mage::getSingleton('Magento_Core_Model_Session');
         $formData = $session->getRmaFormData(true);
         if (!empty($formData)) {
-            $data = new Magento_Object();
+            $data = new \Magento\Object();
             $data->addData($formData);
             $this->setFormData($data);
         }
         $errorKeys = $session->getRmaErrorKeys(true);
         if (!empty($errorKeys)) {
-            $data = new Magento_Object();
+            $data = new \Magento\Object();
             $data->addData($errorKeys);
             $this->setErrorKeys($data);
         }

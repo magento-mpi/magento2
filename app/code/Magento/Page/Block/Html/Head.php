@@ -40,7 +40,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     protected $_pureTitle;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -61,7 +61,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
 
     public function __construct(
         Magento_Core_Block_Template_Context $context,
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_Page $page,
         Magento_Core_Model_Page_Asset_MergeService $assetMergeService,
         Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService,
@@ -331,7 +331,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
             foreach ($assets as $asset) {
                 $result .= sprintf($template, $asset->getUrl());
             }
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\MagentoException $e) {
             $result .= sprintf($template, $this->_getNotFoundUrl());
         }
         return $result;

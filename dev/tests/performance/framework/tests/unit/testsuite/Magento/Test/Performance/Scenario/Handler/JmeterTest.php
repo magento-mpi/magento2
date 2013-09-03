@@ -12,7 +12,7 @@
 class Magento_Test_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Shell|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Shell|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
 
@@ -49,7 +49,7 @@ class Magento_Test_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Frame
             $scenarioArgs, array(), array());
 
         $this->_reportFile = realpath(__DIR__ . '/../../_files') . DIRECTORY_SEPARATOR . 'scenario.jtl';
-        $this->_shell = $this->getMock('Magento_Shell', array('execute'));
+        $this->_shell = $this->getMock('Magento\Shell', array('execute'));
         $this->_object = new Magento_TestFramework_Performance_Scenario_Handler_Jmeter($this->_shell, false);
     }
 
@@ -130,7 +130,7 @@ class Magento_Test_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Frame
             'no report created' => array(
                 "$fixtureDir/scenario_without_report.jmx",
                 "$fixtureDir/scenario_without_report.jtl",
-                'Magento_Exception',
+                '\Magento\MagentoException',
                 "Report file '$fixtureDir/scenario_without_report.jtl' for 'Scenario' has not been created.",
             ),
             'scenario failure in report' => array(

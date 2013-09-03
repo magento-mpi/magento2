@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Profiler_Driver_Standard_OutputInterface
+namespace Magento\Profiler\Driver\Standard;
+
+interface OutputInterface
 {
     /**
      * Display profiling results in appropriate format
      *
-     * @param Magento_Profiler_Driver_Standard_Stat $stat
+     * @param \Magento\Profiler\Driver\Standard\Stat $stat
      */
-    public function display(Magento_Profiler_Driver_Standard_Stat $stat);
+    public function display(\Magento\Profiler\Driver\Standard\Stat $stat);
 }

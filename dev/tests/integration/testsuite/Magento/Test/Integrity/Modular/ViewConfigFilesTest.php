@@ -17,7 +17,7 @@ class Magento_Test_Integrity_Modular_ViewConfigFilesTest extends PHPUnit_Framewo
      */
     public function testViewConfigFile($file)
     {
-        $domConfig = new Magento_Config_Dom(file_get_contents($file));
+        $domConfig = new \Magento\Config\Dom(file_get_contents($file));
         $result = $domConfig->validate(Mage::getBaseDir('lib') . '/Magento/Config/etc/view.xsd', $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {

@@ -12,7 +12,7 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceFactory
     /**
      * Object Manager instance
      *
-     * @var \Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -26,10 +26,10 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceFactory
     /**
      * Factory constructor
      *
-     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(\Magento_ObjectManager $objectManager, $instanceName = 'Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace')
+    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace')
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;

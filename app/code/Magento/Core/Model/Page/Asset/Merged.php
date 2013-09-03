@@ -17,7 +17,7 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
     const PUBLIC_MERGE_DIR  = '_merged';
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     private $_objectManager;
 
@@ -49,7 +49,7 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
     private $_isInitialized = false;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_Logger $logger,
      * @param Magento_Core_Model_Dir $dirs,
      * @param Magento_Core_Model_Page_Asset_MergeStrategyInterface $mergeStrategy
@@ -57,7 +57,7 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_Page_Asset_MergeStrategyInterface $mergeStrategy,
@@ -147,13 +147,13 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
      */
     protected function _getMergedFilePath(array $publicFiles)
     {
-        $jsDir = Magento_Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::PUB_LIB));
-        $publicDir = Magento_Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::STATIC_VIEW));
+        $jsDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::PUB_LIB));
+        $publicDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::STATIC_VIEW));
         $prefixRemovals = array($jsDir, $publicDir);
 
         $relFileNames = array();
         foreach ($publicFiles as $file) {
-            $file = Magento_Filesystem::fixSeparator($file);
+            $file = \Magento\Filesystem::fixSeparator($file);
             $relFileNames[] = str_replace($prefixRemovals, '', $file);
         }
 

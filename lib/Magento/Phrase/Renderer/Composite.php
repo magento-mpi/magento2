@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Phrase_Renderer_Composite implements Magento_Phrase_RendererInterface
+namespace Magento\Phrase\Renderer;
+
+class Composite implements \Magento\Phrase\RendererInterface
 {
     /**
      * Renderer factory
      *
-     * @var Magento_Phrase_Renderer_Factory
+     * @var \Magento\Phrase\Renderer\Factory
      */
     protected $_rendererFactory;
 
     /**
-     * List of Magento_Phrase_RendererInterface
+     * List of \Magento\Phrase\RendererInterface
      *
      * @var array
      */
@@ -26,11 +28,11 @@ class Magento_Phrase_Renderer_Composite implements Magento_Phrase_RendererInterf
     /**
      * Renderer construct
      *
-     * @param Magento_Phrase_Renderer_Factory $rendererFactory
+     * @param \Magento\Phrase\Renderer\Factory $rendererFactory
      * @param array $renderers
      */
     public function __construct(
-        Magento_Phrase_Renderer_Factory $rendererFactory,
+        \Magento\Phrase\Renderer\Factory $rendererFactory,
         array $renderers = array()
     ) {
         $this->_rendererFactory = $rendererFactory;
@@ -55,7 +57,7 @@ class Magento_Phrase_Renderer_Composite implements Magento_Phrase_RendererInterf
      */
     public function render($text, array $arguments = array())
     {
-        /** @var Magento_Phrase_Renderer_Composite $render */
+        /** @var \Magento\Phrase\Renderer\Composite $render */
         foreach ($this->_renderers as $render) {
             $text = $render->render($text, $arguments);
         }

@@ -19,15 +19,15 @@
 class Magento_Catalog_Helper_Product_Options extends Magento_Core_Helper_Abstract
 {
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Filesystem $filesystem)
+    public function __construct(Magento_Core_Helper_Context $context, \Magento\Filesystem $filesystem)
     {
         parent::__construct($context);
         $this->_filesystem = $filesystem;

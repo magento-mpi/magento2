@@ -12,7 +12,7 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceProxy extends 
     /**
      * Object Manager instance
      *
-     * @var \Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -40,11 +40,11 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceProxy extends 
     /**
      * Proxy constructor
      *
-     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      * @param bool $shared
      */
-    public function __construct(\Magento_ObjectManager $objectManager, $instanceName = 'Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace', $shared = true)
+    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace', $shared = true)
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;

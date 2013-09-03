@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Scope implements Magento_Config_ScopeInterface
+class Magento_Core_Model_Config_Scope implements \Magento\Config\ScopeInterface
 {
     /**
      * Current config scope

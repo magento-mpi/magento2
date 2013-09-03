@@ -20,7 +20,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info exte
      */
     public function initForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('_info');
 
         $model = Mage::registry('current_giftcardaccount');

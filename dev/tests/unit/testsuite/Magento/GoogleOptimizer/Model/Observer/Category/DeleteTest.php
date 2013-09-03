@@ -31,9 +31,9 @@ class Magento_GoogleOptimizer_Model_Observer_Category_DeleteTest extends PHPUnit
     {
         $this->_codeMock = $this->getMock('Magento_GoogleOptimizer_Model_Code', array(), array(), '', false);
         $this->_category = $this->getMock('Magento_Catalog_Model_Category', array(), array(), '', false);
-        $event = $this->getMock('Magento_Event', array('getCategory'), array(), '', false);
+        $event = $this->getMock('Magento\Event', array('getCategory'), array(), '', false);
         $event->expects($this->once())->method('getCategory')->will($this->returnValue($this->_category));
-        $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);

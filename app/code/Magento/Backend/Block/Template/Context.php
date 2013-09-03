@@ -12,7 +12,7 @@
 class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template_Context
 {
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -33,10 +33,10 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_TemplateEngine_Factory $engineFactory
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -57,10 +57,10 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
         Magento_Core_Model_Cache_StateInterface $cacheState,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_Logger $logger,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_TemplateEngine_Factory $engineFactory,
-        Magento_AuthorizationInterface $authorization
+        \Magento\AuthorizationInterface $authorization
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $storeConfig,
@@ -73,7 +73,7 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
     /**
      * Retrieve Authorization
      *
-     * @return \Magento_AuthorizationInterface
+     * @return \Magento\AuthorizationInterface
      */
     public function getAuthorization()
     {

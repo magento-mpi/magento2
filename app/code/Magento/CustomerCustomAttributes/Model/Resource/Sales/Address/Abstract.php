@@ -37,7 +37,7 @@ abstract class Magento_CustomerCustomAttributes_Model_Resource_Sales_Address_Abs
         $items      = array();
         $itemIds    = array();
         foreach ($entities as $item) {
-            /** @var $item Magento_Object */
+            /** @var $item \Magento\Object */
             $itemIds[] = $item->getId();
             $items[$item->getId()] = $item;
         }

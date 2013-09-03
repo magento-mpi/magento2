@@ -34,7 +34,7 @@ foreach ($product->getOptions() as $option) {
     $options[$option->getId()] = $value;
 }
 
-$requestInfo = new Magento_Object(array(
+$requestInfo = new \Magento\Object(array(
     'qty' => 1,
     'options' => $options,
 ));

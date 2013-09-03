@@ -93,7 +93,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -130,7 +130,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Controller_Varien_Front $frontController
      * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_Db_UpdaterInterface $dbUpdater
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -141,7 +141,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
         Magento_Core_Model_Config $config,
         Magento_Core_Controller_Varien_Front $frontController,
         Magento_Core_Model_CacheInterface $cache,
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_Db_UpdaterInterface $dbUpdater,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Event_Manager $eventManager,
@@ -166,13 +166,13 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      */
     public function run()
     {
-        Magento_Profiler::start('init');
+        \Magento\Profiler::start('init');
 
         $this->_initRequest();
         $this->_dbUpdater->updateData();
 
         $controllerFront = $this->getFrontController();
-        Magento_Profiler::stop('init');
+        \Magento\Profiler::stop('init');
 
         $controllerFront->dispatch();
 
@@ -182,12 +182,12 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Throw an exception, if the application has not been installed yet
      *
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function requireInstalledInstance()
     {
         if (false == $this->_appState->isInstalled()) {
-            throw new Magento_Exception('Application is not installed yet, please complete the installation first.');
+            throw new \Magento\MagentoException('Application is not installed yet, please complete the installation first.');
         }
     }
 
@@ -220,9 +220,9 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     protected function _initFrontController()
     {
         $this->_frontController = $this->_getFrontControllerByCurrentArea();
-        Magento_Profiler::start('init_front_controller');
+        \Magento\Profiler::start('init_front_controller');
         $this->_frontController->init();
-        Magento_Profiler::stop('init_front_controller');
+        \Magento\Profiler::stop('init_front_controller');
         return $this;
     }
 
@@ -404,7 +404,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Retrieve cache object
      *
-     * @return Magento_Cache_FrontendInterface
+     * @return \Magento\Cache\FrontendInterface
      */
     public function getCache()
     {
@@ -470,8 +470,8 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     public function cleanAllSessions()
     {
         if (session_module_name() == 'files') {
-            /** @var Magento_Filesystem $filesystem */
-            $filesystem = $this->_objectManager->create('Magento_Filesystem');
+            /** @var \Magento\Filesystem $filesystem */
+            $filesystem = $this->_objectManager->create('Magento\Filesystem');
             $filesystem->delete(session_save_path());
         }
         return $this;

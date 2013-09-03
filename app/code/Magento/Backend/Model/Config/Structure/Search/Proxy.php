@@ -13,7 +13,7 @@ class Magento_Backend_Model_Config_Structure_Search_Proxy
 {
     /**
      * Object manager
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -23,9 +23,9 @@ class Magento_Backend_Model_Config_Structure_Search_Proxy
     protected $_subject;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

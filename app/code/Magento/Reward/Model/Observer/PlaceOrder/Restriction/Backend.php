@@ -14,17 +14,17 @@ class Magento_Reward_Model_Observer_PlaceOrder_Restriction_Backend
     protected $_helper;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
      * @param Magento_Reward_Helper_Data $helper
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      */
     public function __construct(
         Magento_Reward_Helper_Data $helper,
-        Magento_AuthorizationInterface $authorization
+        \Magento\AuthorizationInterface $authorization
     ) {
         $this->_helper = $helper;
         $this->_authorization = $authorization;

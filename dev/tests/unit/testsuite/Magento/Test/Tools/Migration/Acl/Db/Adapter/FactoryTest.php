@@ -45,7 +45,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Fr
     public function getAdapterDataProvider()
     {
         return array(
-            array('Magento_DB_Adapter_Pdo_Mysql'),
+            array('\Magento\DB\Adapter\Pdo\Mysql'),
             array(''),
             array(null),
         );
@@ -67,6 +67,6 @@ class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Fr
      */
     public function testGetAdapterWithInvalidType()
     {
-        $this->_model->getAdapter($this->_config, 'Magento_Object');
+        $this->_model->getAdapter($this->_config, '\Magento\Object');
     }
 }

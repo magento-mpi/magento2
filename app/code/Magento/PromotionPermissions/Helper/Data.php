@@ -39,15 +39,15 @@ class Magento_PromotionPermissions_Helper_Data extends Magento_Core_Helper_Abstr
     const EDIT_PROMO_REMINDERRULE_ACL_PATH = 'Magento_PromotionPermissions::magento_reminder_edit';
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_AuthorizationInterface $authorization)
+    public function __construct(Magento_Core_Helper_Context $context, \Magento\AuthorizationInterface $authorization)
     {
         parent::__construct($context);
         $this->_authorization = $authorization;

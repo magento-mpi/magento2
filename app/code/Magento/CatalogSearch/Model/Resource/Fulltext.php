@@ -267,7 +267,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
             Mage::dispatchEvent('catalogsearch_reset_search_result');
         } else {
             // Optimized deletion only product-related records
-            /** @var $select Magento_DB_Select */
+            /** @var $select \Magento\DB\Select */
             $select  = $adapter->select()
                 ->from(array('r' => $this->getTable('catalogsearch_result')), null)
                 ->join(
@@ -289,7 +289,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
             $query = $select->deleteFromSelect('res');
             $adapter->query($query);
 
-            /** @var $select Magento_DB_Select */
+            /** @var $select \Magento\DB\Select */
             $select  = $adapter->select();
             $subSelect = $adapter->select()->from(array('res' => $this->getTable('catalogsearch_result')), null);
             $select->exists($subSelect, 'res.query_id=' . $this->getTable('catalogsearch_query') . '.query_id', false);
@@ -387,7 +387,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
             $sql = $adapter->insertFromSelect($select,
                 $this->getTable('catalogsearch_result'),
                 array(),
-                Magento_DB_Adapter_Interface::INSERT_ON_DUPLICATE);
+                \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE);
             $adapter->query($sql, $bind);
 
             $query->setIsProcessed(1);
@@ -595,12 +595,12 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      * Retrieve Product Emulator (Magento Object)
      *
      * @param string $typeId
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _getProductEmulator($typeId)
     {
         if (!isset($this->_productEmulators[$typeId])) {
-            $productEmulator = new Magento_Object();
+            $productEmulator = new \Magento\Object();
             $productEmulator->setIdFieldName('entity_id')
                 ->setTypeId($typeId);
             $this->_productEmulators[$typeId] = $productEmulator;
@@ -788,7 +788,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
 
         if (!is_empty_date($date)) {
             list($dateObj, $format) = $this->_dates[$storeId];
-            $dateObj->setDate($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $dateObj->setDate($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
 
             return $dateObj->toString($format);
         }

@@ -15,7 +15,9 @@
  * @package    Magento_HTTP
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_HTTP_ZendClient extends Zend_Http_Client
+namespace Magento\HTTP;
+
+class ZendClient extends \Zend_Http_Client
 {
     /**
      * Internal flag to allow decoding of request body
@@ -26,7 +28,7 @@ class Magento_HTTP_ZendClient extends Zend_Http_Client
 
     public function __construct($uri = null, $config = null)
     {
-        $this->config['useragent'] = 'Magento_HTTP_ZendClient';
+        $this->config['useragent'] = '\Magento\HTTP\ZendClient';
 
         parent::__construct($uri, $config);
     }
@@ -34,7 +36,7 @@ class Magento_HTTP_ZendClient extends Zend_Http_Client
     protected function _trySetCurlAdapter()
     {
         if (extension_loaded('curl')) {
-            $this->setAdapter(new Magento_HTTP_Adapter_Curl());
+            $this->setAdapter(new \Magento\HTTP\Adapter\Curl());
         }
         return $this;
     }
@@ -49,7 +51,7 @@ class Magento_HTTP_ZendClient extends Zend_Http_Client
      * Change value of internal flag to disable/enable custom prepare functionality
      *
      * @param bool $flag
-     * @return Magento_HTTP_ZendClient
+     * @return \Magento\HTTP\ZendClient
      */
     public function setUrlEncodeBody($flag)
     {

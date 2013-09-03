@@ -26,7 +26,7 @@ class Magento_Webapi_Model_Soap_Server extends \Zend\Soap\Server
     /** @var Magento_Core_Model_Store */
     protected $_application;
 
-    /** @var Magento_DomDocument_Factory */
+    /** @var \Magento\DomDocument\Factory */
     protected $_domDocumentFactory;
 
     /** @var Magento_Webapi_Controller_Request_Soap */
@@ -37,12 +37,12 @@ class Magento_Webapi_Model_Soap_Server extends \Zend\Soap\Server
      *
      * @param Magento_Core_Model_App $application
      * @param Magento_Webapi_Controller_Request_Soap $request
-     * @param Magento_DomDocument_Factory $domDocumentFactory
+     * @param \Magento\DomDocument\Factory $domDocumentFactory
      */
     public function __construct(
         Magento_Core_Model_App $application,
         Magento_Webapi_Controller_Request_Soap $request,
-        Magento_DomDocument_Factory $domDocumentFactory
+        \Magento\DomDocument\Factory $domDocumentFactory
     ) {
         parent::__construct();
 

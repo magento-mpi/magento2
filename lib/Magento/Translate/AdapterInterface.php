@@ -12,7 +12,9 @@
 /**
  * Magento translate adapter interface
  */
-interface Magento_Translate_AdapterInterface
+namespace Magento\Translate;
+
+interface AdapterInterface
 {
     /**
      * Translate string

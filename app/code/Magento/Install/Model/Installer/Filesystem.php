@@ -25,14 +25,14 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
     /**#@- */
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(Magento_Filesystem $filesystem)
+    public function __construct(\Magento\Filesystem $filesystem)
     {
         $this->_filesystem = $filesystem;
     }

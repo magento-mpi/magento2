@@ -147,10 +147,10 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
     /**
      * Subtract ordered qty for product
      *
-     * @param   Magento_Object $item
+     * @param   \Magento\Object $item
      * @return  Magento_CatalogInventory_Model_Stock
      */
-    public function registerItemSale(Magento_Object $item)
+    public function registerItemSale(\Magento\Object $item)
     {
         $productId = $item->getProductId();
         if ($productId) {

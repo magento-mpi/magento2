@@ -51,7 +51,7 @@ class Magento_Sales_Block_Order_Creditmemo_Totals extends Magento_Sales_Block_Or
         parent::_initTotals();
         $this->removeTotal('base_grandtotal');
         if ((float) $this->getSource()->getAdjustmentPositive()) {
-            $total = new Magento_Object(array(
+            $total = new \Magento\Object(array(
                 'code'  => 'adjustment_positive',
                 'value' => $this->getSource()->getAdjustmentPositive(),
                 'label' => __('Adjustment Refund')
@@ -59,7 +59,7 @@ class Magento_Sales_Block_Order_Creditmemo_Totals extends Magento_Sales_Block_Or
             $this->addTotal($total);
         }
         if ((float) $this->getSource()->getAdjustmentNegative()) {
-            $total = new Magento_Object(array(
+            $total = new \Magento\Object(array(
                 'code'  => 'adjustment_negative',
                 'value' => $this->getSource()->getAdjustmentNegative(),
                 'label' => __('Adjustment Fee')

@@ -19,7 +19,7 @@ class Magento_Core_Model_EntryPoint_CronTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $config = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
 
         $this->_model = $this->getMock(

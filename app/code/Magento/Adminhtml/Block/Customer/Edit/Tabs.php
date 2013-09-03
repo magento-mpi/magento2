@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tabs extends Magento_Adminhtml_Block
 
     protected function _beforeToHtml()
     {
-        Magento_Profiler::start('customer/tabs');
+        \Magento\Profiler::start('customer/tabs');
 
         /*
                 if (Mage::registry('current_customer')->getId()) {
@@ -96,7 +96,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tabs extends Magento_Adminhtml_Block
         }
 
         $this->_updateActiveTab();
-        Magento_Profiler::stop('customer/tabs');
+        \Magento\Profiler::stop('customer/tabs');
         return parent::_beforeToHtml();
     }
 

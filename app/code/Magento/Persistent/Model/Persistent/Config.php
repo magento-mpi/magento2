@@ -20,7 +20,7 @@ class Magento_Persistent_Model_Persistent_Config
 {
     /**
      * XML config instance for Persistent mode
-     * @var null|Magento_Simplexml_Element
+     * @var null|\Magento\Simplexml\Element
      */
     protected $_xmlConfig = null;
 
@@ -47,7 +47,7 @@ class Magento_Persistent_Model_Persistent_Config
     /**
      * Load persistent XML config
      *
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      * @throws Magento_Core_Exception
      */
     public function getXmlConfig()
@@ -58,7 +58,7 @@ class Magento_Persistent_Model_Persistent_Config
                 Mage::throwException(__('We cannot load the configuration from file %1.', $filePath));
             }
             $xml = file_get_contents($filePath);
-            $this->_xmlConfig = new Magento_Simplexml_Element($xml);
+            $this->_xmlConfig = new \Magento\Simplexml\Element($xml);
         }
         return $this->_xmlConfig;
     }

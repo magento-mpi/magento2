@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends M
      * @var Magento_Newsletter_Model_Template $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if($row->isValidForSend()) {
             $actions[] = array(

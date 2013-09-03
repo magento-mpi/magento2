@@ -20,7 +20,7 @@ class Magento_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framewo
     protected $_model;
 
     /**
-     * @var Magento_Acl
+     * @var \Magento\Acl
      */
     protected $_acl;
 
@@ -34,7 +34,7 @@ class Magento_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framewo
         $this->_ruleResource = $this->getMock('Magento_Webapi_Model_Resource_Acl_Rule',
             array('getRuleList'), array(), '', false);
 
-        $this->_acl = $this->getMock('Magento_Acl', array('has', 'hasRole', 'allow'), array(), '', false);
+        $this->_acl = $this->getMock('Magento\Acl', array('has', 'hasRole', 'allow'), array(), '', false);
 
         $this->_model = $helper->getObject('Magento_Webapi_Model_Authorization_Loader_Rule', array(
             'ruleResource' => $this->_ruleResource,

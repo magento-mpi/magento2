@@ -23,13 +23,13 @@ class Magento_Directory_Model_Currency_Import_Webservicex extends Magento_Direct
      /**
      * HTTP client
      *
-     * @var Magento_HTTP_ZendClient
+     * @var \Magento\HTTP\ZendClient
      */
     protected $_httpClient;
 
     public function __construct()
     {
-        $this->_httpClient = new Magento_HTTP_ZendClient();
+        $this->_httpClient = new \Magento\HTTP\ZendClient();
     }
 
     protected function _convert($currencyFrom, $currencyTo, $retry=0)

@@ -20,11 +20,11 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
     /**
      * Returns array of quoted orders with direction
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param bool $autoReset
      * @return array
      */
-    protected function _prepareOrder(Magento_DB_Select $select, $autoReset = false)
+    protected function _prepareOrder(\Magento\DB\Select $select, $autoReset = false)
     {
         $selectOrders = $select->getPart(Zend_Db_Select::ORDER);
         if (!$selectOrders) {
@@ -80,11 +80,11 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
     /**
      * Returns quoted group by fields
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param bool $autoReset
      * @return array
      */
-    protected function _prepareGroup(Magento_DB_Select $select, $autoReset = false)
+    protected function _prepareGroup(\Magento\DB\Select $select, $autoReset = false)
     {
         $selectGroups = $select->getPart(Zend_Db_Select::GROUP);
         if (!$selectGroups) {
@@ -106,12 +106,12 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
     /**
      * Prepare and returns having array
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param bool $autoReset
      * @return array
      * @throws Zend_Db_Exception
      */
-    protected function _prepareHaving(Magento_DB_Select $select, $autoReset = false)
+    protected function _prepareHaving(\Magento\DB\Select $select, $autoReset = false)
     {
         $selectHavings = $select->getPart(Zend_Db_Select::HAVING);
         if (!$selectHavings) {
@@ -185,12 +185,12 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
     /**
      * Prepare select column list
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param string|null $groupByCondition OPTIONAL
      * @return array
      * @throws Zend_Db_Exception
      */
-    public function prepareColumnsList(Magento_DB_Select $select, $groupByCondition = null)
+    public function prepareColumnsList(\Magento\DB\Select $select, $groupByCondition = null)
     {
         if (!count($select->getPart(Zend_Db_Select::FROM))) {
             return $select->getPart(Zend_Db_Select::COLUMNS);
@@ -235,13 +235,13 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
     /**
      * Add prepared column group_concat expression
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param string $fieldAlias Field alias which will be added with column group_concat expression
      * @param string $fields
      * @param string $groupConcatDelimiter
      * @param string $fieldsDelimiter
      * @param string $additionalWhere
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function addGroupConcatColumn(
         $select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '', $additionalWhere = ''

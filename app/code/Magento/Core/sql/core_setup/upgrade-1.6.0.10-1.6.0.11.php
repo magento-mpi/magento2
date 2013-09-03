@@ -18,7 +18,7 @@ $connection = $installer->getConnection();
  * Add column 'type' to 'core_theme'
  */
 $connection->addColumn($installer->getTable('core_theme'), 'type', array(
-    'type'     => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+    'type'     => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
     'nullable' => false,
     'comment'  => 'Theme type: 0:physical, 1:virtual, 2:staging'
 ));

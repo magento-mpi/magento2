@@ -16,7 +16,7 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Entity_Summary_Collection_Abstract extends Magento_Data_Collection
+class Magento_Reports_Model_Resource_Entity_Summary_Collection_Abstract extends \Magento\Data\Collection
 {
     /**
      * Entity collection for summaries
@@ -37,23 +37,23 @@ class Magento_Reports_Model_Resource_Entity_Summary_Collection_Abstract extends 
     {
         switch ($periodType) {
             case "24h":
-                $customStart = Magento_Date::toTimestamp(true) - 86400;
-                $customEnd   = Magento_Date::toTimestamp(true);
+                $customStart = \Magento\Date::toTimestamp(true) - 86400;
+                $customEnd   = \Magento\Date::toTimestamp(true);
                 break;
 
             case "7d":
-                $customStart = Magento_Date::toTimestamp(true) - 604800;
-                $customEnd   = Magento_Date::toTimestamp(true);
+                $customStart = \Magento\Date::toTimestamp(true) - 604800;
+                $customEnd   = \Magento\Date::toTimestamp(true);
                 break;
 
             case "30d":
-                $customStart = Magento_Date::toTimestamp(true) - 2592000;
-                $customEnd   = Magento_Date::toTimestamp(true);
+                $customStart = \Magento\Date::toTimestamp(true) - 2592000;
+                $customEnd   = \Magento\Date::toTimestamp(true);
                 break;
 
             case "1y":
-                $customStart = Magento_Date::toTimestamp(true) - 31536000;
-                $customEnd   = Magento_Date::toTimestamp(true);
+                $customStart = \Magento\Date::toTimestamp(true) - 31536000;
+                $customEnd   = \Magento\Date::toTimestamp(true);
                 break;
 
             default:

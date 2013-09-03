@@ -185,7 +185,7 @@ class Magento_Wishlist_Controller_Index
                 $requestParams = $session->getBeforeWishlistRequest();
                 $session->unsBeforeWishlistRequest();
             }
-            $buyRequest = new Magento_Object($requestParams);
+            $buyRequest = new \Magento\Object($requestParams);
 
             $result = $wishlist->addNewItem($product, $buyRequest);
             if (is_string($result)) {
@@ -250,7 +250,7 @@ class Magento_Wishlist_Controller_Index
 
             Mage::register('wishlist_item', $item);
 
-            $params = new Magento_Object();
+            $params = new \Magento\Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
             $buyRequest = $item->getBuyRequest();
@@ -305,7 +305,7 @@ class Magento_Wishlist_Controller_Index
                 return;
             }
 
-            $buyRequest = new Magento_Object($this->getRequest()->getParams());
+            $buyRequest = new \Magento\Object($this->getRequest()->getParams());
 
             $wishlist->updateItem($id, $buyRequest)
                 ->save();

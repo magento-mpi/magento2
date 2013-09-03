@@ -86,7 +86,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Decimal extends Magento_Core_M
      * Joined table has index
      *
      * @param Magento_Catalog_Model_Layer_Filter_Decimal $filter
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getSelect($filter)
     {

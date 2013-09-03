@@ -30,7 +30,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_StockTest extends PHPUnit_
         $this->_model = $this->getMock('Magento_Catalog_Model_Product_Attribute_Backend_Stock', array('getAttribute'),
             array(array('inventory' => $this->_inventory))
         );
-        $attribute = $this->getMock('Magento_Object', array('getAttributeCode'));
+        $attribute = $this->getMock('Magento\Object', array('getAttributeCode'));
         $attribute->expects($this->atLeastOnce())->method('getAttributeCode')
             ->will($this->returnValue(self::ATTRIBUTE_NAME));
         $this->_model->expects($this->atLeastOnce())->method('getAttribute')->will($this->returnValue($attribute));
@@ -40,7 +40,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_StockTest extends PHPUnit_
     {
         $this->_inventory->expects($this->once())->method('getIsInStock')->will($this->returnValue(1));
         $this->_inventory->expects($this->once())->method('getQty')->will($this->returnValue(5));
-        $object = new Magento_Object();
+        $object = new \Magento\Object();
         $this->_model->afterLoad($object);
         $data = $object->getData();
         $this->assertEquals(1, $data[self::ATTRIBUTE_NAME]['is_in_stock']);
@@ -49,7 +49,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_StockTest extends PHPUnit_
 
     public function testBeforeSave()
     {
-        $object = new Magento_Object(array(
+        $object = new \Magento\Object(array(
             self::ATTRIBUTE_NAME => array('is_in_stock' => 1, 'qty' => 5),
             'stock_data'         => array('is_in_stock' => 2, 'qty' => 2)
         ));
@@ -68,7 +68,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_StockTest extends PHPUnit_
 
     public function testBeforeSaveQtyIsEmpty()
     {
-        $object = new Magento_Object(array(
+        $object = new \Magento\Object(array(
             self::ATTRIBUTE_NAME => array('is_in_stock' => 1, 'qty' => ''),
             'stock_data'         => array('is_in_stock' => 2, 'qty' => '')
         ));
@@ -81,7 +81,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_StockTest extends PHPUnit_
 
     public function testBeforeSaveQtyIsZero()
     {
-        $object = new Magento_Object(array(
+        $object = new \Magento\Object(array(
             self::ATTRIBUTE_NAME => array('is_in_stock' => 1, 'qty' => 0),
             'stock_data'         => array('is_in_stock' => 2, 'qty' => 0)
         ));

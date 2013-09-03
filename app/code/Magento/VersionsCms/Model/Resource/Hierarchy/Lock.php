@@ -40,7 +40,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Lock extends Magento_Core_Mod
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
-            ->order('lock_id ' . Magento_DB_Select::SQL_DESC)
+            ->order('lock_id ' . \Magento\DB\Select::SQL_DESC)
             ->limit(1);
         $data = $this->_getReadAdapter()->fetchRow($select);
         return is_array($data) ? $data : array();

@@ -64,7 +64,7 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
      */
     protected function _addSubscriberInfoToSelect()
     {
-        /** @var $select Magento_DB_Select */
+        /** @var $select \Magento\DB\Select */
         $select = $this->getConnection()->select()
             ->from(array('qlt' => $this->getTable('newsletter_queue_link')), 'COUNT(qlt.queue_link_id)')
             ->where('qlt.queue_id = main_table.queue_id');

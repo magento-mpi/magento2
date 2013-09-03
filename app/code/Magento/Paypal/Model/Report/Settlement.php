@@ -176,10 +176,10 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
      * Goes to specified host/path and fetches reports from there.
      * Save reports to database.
      *
-     * @param Magento_Io_Sftp $connection
+     * @param \Magento\Io\Sftp $connection
      * @return int Number of report rows that were fetched and saved successfully
      */
-    public function fetchAndSave(Magento_Io_Sftp $connection)
+    public function fetchAndSave(\Magento\Io\Sftp $connection)
     {
         $fetched = 0;
         $listing = $this->_filterReportsList($connection->rawls());
@@ -201,7 +201,7 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
                 // Set last modified date, this value will be overwritten during parsing
                 if (isset($attributes['mtime'])) {
                     $lastModified = new Zend_Date($attributes['mtime']);
-                    $this->setReportLastModified($lastModified->toString(Magento_Date::DATETIME_INTERNAL_FORMAT));
+                    $this->setReportLastModified($lastModified->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
                 }
 
                 $this->setReportDate($this->_fileNameToDate($filename))
@@ -227,7 +227,7 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
      * Connect to an SFTP server using specified configuration
      *
      * @param array $config
-     * @return Magento_Io_Sftp
+     * @return \Magento\Io\Sftp
      * @throws InvalidArgumentException
      */
     public static function createConnection(array $config)
@@ -237,7 +237,7 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
         ) {
             throw new InvalidArgumentException('Required config elements: hostname, username, password, path');
         }
-        $connection = new Magento_Io_Sftp();
+        $connection = new \Magento\Io\Sftp();
         $connection->open(array(
             'host'     => $config['hostname'],
             'username' => $config['username'],
@@ -271,7 +271,7 @@ class Magento_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
             switch($lineType) {
                 case 'RH': // Report header.
                     $lastModified = new Zend_Date($line[1]);
-                    $this->setReportLastModified($lastModified->toString(Magento_Date::DATETIME_INTERNAL_FORMAT));
+                    $this->setReportLastModified($lastModified->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
                     //$this->setAccountId($columns[2]); -- probably we'll just take that from the section header...
                     break;
                 case 'FH': // File header.
