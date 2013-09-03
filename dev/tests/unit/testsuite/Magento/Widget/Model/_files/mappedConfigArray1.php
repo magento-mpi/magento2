@@ -79,14 +79,14 @@ return array(
         ),
     ),
     'supported_containers' => array(
-        'left_column' => array(
+        '0' => array(
             'container_name' => 'left',
             'template' => array(
                 'default' => 'default',
                 'names_only' => 'link_inline',
             ),
         ),
-        'main_content' => array(
+        '1' => array(
             'container_name' => 'content',
             'template' => array(
                 'grid' => 'default',

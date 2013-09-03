@@ -101,7 +101,7 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
             $template[$templateAttributes->getNamedItem('name')->nodeValue] =
                 $templateAttributes->getNamedItem('value')->nodeValue;
         }
-        $supportedContainers[$containerAttributes->getNamedItem('section')->nodeValue] = array(
+        $supportedContainers[] = array(
             'container_name' => $containerAttributes->getNamedItem('name')->nodeValue,
             'template' => $template
         );

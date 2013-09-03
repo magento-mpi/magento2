@@ -93,13 +93,13 @@ return array(
             ),
         ),
         'supported_containers' => array(
-            'left_column' => array(
+            '0' => array(
                 'container_name' => 'left',
                 'template' => array(
                     'default' => 'default_template',
                 )
             ),
-            'right_column' => array(
+            '1' => array(
                 'container_name' => 'right',
                 'template' => array(
                     'default' => 'default_template',

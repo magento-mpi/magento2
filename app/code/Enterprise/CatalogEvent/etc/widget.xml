@@ -34,13 +34,13 @@
                 <label>Catalog Events Carousel Default Template</label>
             </option>
         </parameter>
-        <container section="left_column" name="left">
+        <container name="left">
             <template name="lister" value="default"/>
         </container>
-        <container section="main_content" name="content">
+        <container name="content">
             <template name="lister" value="default"/>
         </container>
-        <container section="right_column" name="right">
+        <container name="right">
             <template name="lister" value="default"/>
         </container>
     </widget>

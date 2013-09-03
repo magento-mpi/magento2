@@ -63,16 +63,16 @@
             <description>86400 by default, if not set. To refresh instantly, clear the Blocks HTML Output cache.</description>
         </parameter>
 
-        <container section="left_column" name="left">
+        <container name="left">
             <template name="default" value="list_default"/>
             <template name="names_only" value="list_names"/>
             <template name="images_only" value="list_images"/>
         </container>
-        <container section="main_content" name="content">
+        <container name="content">
             <template name="grid" value="default"/>
             <template name="list" value="list"/>
         </container>
-        <container section="right_column" name="right">
+        <container name="right">
             <template name="default" value="list_default"/>
             <template name="names_only" value="list_names"/>
             <template name="images_only" value="list_images"/>
