@@ -44,10 +44,17 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Class constructor. Initialize session namespace
      *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string $sessionName
+     * @param array $data
      */
-    public function __construct($sessionName = null)
-    {
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        $sessionName = null,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $data);
+
         $namespace = 'customer';
         if ($this->getCustomerConfigShare()->isWebsiteScope()) {
             $namespace .= '_' . (Mage::app()->getStore()->getWebsite()->getCode());

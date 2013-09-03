@@ -20,10 +20,17 @@ class Magento_Authorizenet_Model_Directpost_Session extends Magento_Core_Model_S
     /**
      * Class constructor. Initialize session namespace
      *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string $sessionName
+     * @param array $data
      */
-    public function __construct($sessionName = null)
-    {
+
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        $sessionName = null,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $data);
         $this->init('authorizenet_directpost', $sessionName);
     }
 

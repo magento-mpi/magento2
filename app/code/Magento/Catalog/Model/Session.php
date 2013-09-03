@@ -20,10 +20,16 @@ class Magento_Catalog_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Class constructor. Initialize session namespace
      *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string $sessionName
+     * @param array $data
      */
-    public function __construct($sessionName = null)
-    {
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        $sessionName = null,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $data);
         $this->init('catalog', $sessionName);
     }
 
@@ -31,5 +37,4 @@ class Magento_Catalog_Model_Session extends Magento_Core_Model_Session_Abstract
     {
         return $this->_getData('display_mode');
     }
-
 }
