@@ -11,22 +11,6 @@
 class Magento_Core_Model_Store_Config implements Magento_Core_Model_Store_ConfigInterface
 {
     /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
-     */
-    protected $_coreStoreConfig = null;
-
-    /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     */
-    public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
-    ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-    }
-
-    /**
      * Retrieve store config value
      *
      * @param string $path
@@ -35,7 +19,7 @@ class Magento_Core_Model_Store_Config implements Magento_Core_Model_Store_Config
      */
     public function getConfig($path, $store = null)
     {
-        return $this->_coreStoreConfig->getConfig($path, $store);
+        return Mage::getStoreConfig($path, $store);
     }
 
     /**
@@ -47,6 +31,6 @@ class Magento_Core_Model_Store_Config implements Magento_Core_Model_Store_Config
      */
     public function getConfigFlag($path, $store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag($path, $store);
+        return Mage::getStoreConfigFlag($path, $store);
     }
 }
