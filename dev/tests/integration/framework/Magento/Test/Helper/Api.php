@@ -26,23 +26,23 @@ class Magento_Test_Helper_Api
      */
     public static function call(PHPUnit_Framework_TestCase $testCase, $path, $params = array())
     {
-        $soapAdapterMock = $testCase->getMock('Mage_Api_Model_Server_Adapter_Soap', array('fault'));
+        $soapAdapterMock = $testCase->getMock('Magento_Api_Model_Server_Adapter_Soap', array('fault'));
         $soapAdapterMock->expects($testCase->any())->method('fault')->will(
             $testCase->returnCallback(array(__CLASS__, 'soapAdapterFaultCallback'))
         );
 
-        $serverMock = $testCase->getMock('Mage_Api_Model_Server', array('getAdapter'));
+        $serverMock = $testCase->getMock('Magento_Api_Model_Server', array('getAdapter'));
         $serverMock->expects($testCase->any())->method('getAdapter')->will($testCase->returnValue($soapAdapterMock));
 
-        $apiSessionMock = $testCase->getMock('Mage_Api_Model_Session', array('isAllowed', 'isLoggedIn'));
+        $apiSessionMock = $testCase->getMock('Magento_Api_Model_Session', array('isAllowed', 'isLoggedIn'));
         $apiSessionMock->expects($testCase->any())->method('isAllowed')->will($testCase->returnValue(true));
         $apiSessionMock->expects($testCase->any())->method('isLoggedIn')->will($testCase->returnValue(true));
 
-        $handlerMock = $testCase->getMock('Mage_Api_Model_Server_Handler_Soap',
+        $handlerMock = $testCase->getMock('Magento_Api_Model_Server_Handler_Soap',
             array('_getServer', '_getSession'), array(), '', false
         );
         self::$_previousHandler = set_error_handler(array($handlerMock, 'handlePhpError'));
-        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMIN, Mage_Core_Model_App_Area::PART_EVENTS);
+        Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMIN, Magento_Core_Model_App_Area::PART_EVENTS);
 
         $handlerMock->expects($testCase->any())->method('_getServer')->will($testCase->returnValue($serverMock));
         $handlerMock->expects($testCase->any())->method('_getSession')->will($testCase->returnValue($apiSessionMock));

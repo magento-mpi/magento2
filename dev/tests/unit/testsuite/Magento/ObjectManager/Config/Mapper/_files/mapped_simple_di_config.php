@@ -7,11 +7,11 @@
  */
 return array(
     'preferences' => array(
-        'Mage_Core_Model_Db_UpdaterInterface' => 'Mage_Core_Model_Db_Updater',
-        'Mage_Core_Model_AppInterface' => 'Mage_Core_Model_App_Proxy',
+        'Magento_Core_Model_Db_UpdaterInterface' => 'Magento_Core_Model_Db_Updater',
+        'Magento_Core_Model_AppInterface' => 'Magento_Core_Model_App_Proxy',
     ),
 
-    'Mage_Core_Model_App_State' => array(
+    'Magento_Core_Model_App_State' => array(
         'parameters' => array(
             'mode' => array(
                 'argument' => 'MAGE_MODE',
@@ -19,10 +19,10 @@ return array(
         ),
     ),
 
-    'Mage_Core_Model_Config_Modules' => array(
+    'Magento_Core_Model_Config_Modules' => array(
         'parameters' => array(
             'storage' => array(
-                'instance' => 'Mage_Core_Model_Config_Storage_Modules',
+                'instance' => 'Magento_Core_Model_Config_Storage_Modules',
                 'shared' => false
             ),
         ),
@@ -30,11 +30,11 @@ return array(
             'simple_modules_plugin' => array(
                 'sortOrder' => 10,
                 'disabled' => true,
-                'instance' => 'Mage_Core_Model_Config_Modules_Plugin',
+                'instance' => 'Magento_Core_Model_Config_Modules_Plugin',
             ),
             'simple_modules_plugin_advanced' => array(
                 'sortOrder' => 0,
-                'instance' => 'Mage_Core_Model_Config_Modules_PluginAdvanced',
+                'instance' => 'Magento_Core_Model_Config_Modules_PluginAdvanced',
             ),
             'overridden_plugin' => array(
                 'sortOrder' => 30,
@@ -67,7 +67,7 @@ return array(
             'cacheIdPrefix' => 'collection_',
             'cacheLifetime' => '86400',
             'cacheTags' => array(
-                'const' => Mage_Core_Model_Website::CACHE_TAG,
+                'const' => Magento_Core_Model_Website::CACHE_TAG,
                 'boolFalse' => false, 
                 'boolTrue' => true,
                 'boolOne' => true,
@@ -89,7 +89,7 @@ return array(
 
     'customCacheInstance' => array(
         'shared' => true,
-        'type' => 'Mage_Core_Model_Cache',
+        'type' => 'Magento_Core_Model_Cache',
         'parameters' => array(),
     ),
 

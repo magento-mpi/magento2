@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_customer_wishlist">
+        <block class="Magento_Backend_Block_Widget_Grid" name="customer.wishlist.edit.tab" output="1">
+            <arguments>
+                <argument name="dataSource" xsi:type="object">Magento_Wishlist_Model_Resource_Item_Collection_Grid</argument>
+                <argument name="id" xsi:type="string">wishlistGrid</argument>
+                <argument name="use_ajax" xsi:type="string">true</argument>
+                <argument name="default_sort" xsi:type="string">added_at</argument>
+                <argument name="grid_url" xsi:type="url" path="*/*/wishlist">
+                    <param name="_current">1</param>
+                </argument>
+                <argument name="product_configuration_helpers" xsi:type="array">
+                    <item name="default" xsi:type="string">Magento_Catalog_Helper_Product_Configuration</item>
+                </argument>
+            </arguments>
+            <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="customer.wishlist.edit.tab.columnSet">
+                <arguments>
+                    <argument name="rowUrl" xsi:type="array">
+                        <item name="path" xsi:type="string">*/catalog_product/edit</item>
+                        <item name="extraParamsTemplate" xsi:type="array">
+                            <item name="id" xsi:type="string">getProductId</item>
+                        </item>
+                    </argument>
+                    <argument name="empty_text" xsi:type="string" translate="true">No Items Found</argument>
+                </arguments>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="product_name">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Product</argument>
+                        <argument name="id" xsi:type="string">product_name</argument>
+                        <argument name="index" xsi:type="string">product_name</argument>
+                        <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="description">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">User description</argument>
+                        <argument name="index" xsi:type="string">description</argument>
+                        <argument name="id" xsi:type="string">description</argument>
+                        <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Description</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="qty">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Quantity</argument>
+                        <argument name="index" xsi:type="string">qty</argument>
+                        <argument name="type" xsi:type="string">number</argument>
+                        <argument name="width" xsi:type="string">60px</argument>
+                        <argument name="id" xsi:type="string">qty</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Add Locale</argument>
+                        <argument name="index" xsi:type="string">store_id</argument>
+                        <argument name="type" xsi:type="string">store</argument>
+                        <argument name="width" xsi:type="string">160px</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="added_at">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Add Date</argument>
+                        <argument name="index" xsi:type="string">added_at</argument>
+                        <argument name="gmtoffset" xsi:type="string">1</argument>
+                        <argument name="type" xsi:type="string">date</argument>
+                        <argument name="id" xsi:type="string">added_at</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="days">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Days in Wish List</argument>
+                        <argument name="index" xsi:type="string">days_in_wishlist</argument>
+                        <argument name="type" xsi:type="string">number</argument>
+                        <argument name="id" xsi:type="string">days</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="action">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Action</argument>
+                        <argument name="index" xsi:type="string">wishlist_item_id</argument>
+                        <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_Customer_Grid_Renderer_Multiaction</argument>
+                        <argument name="sortable" xsi:type="string">0</argument>
+                        <argument name="filter" xsi:type="string">0</argument>
+                        <argument name="actions" xsi:type="array">
+                            <item name="configure" xsi:type="array">
+                                <item name="caption" xsi:type="string" translate="true">Configure</item>
+                                <item name="url" xsi:type="string">javascript:void(0)</item>
+                                <item name="process" xsi:type="string">configurable</item>
+                                <item name="control_object" xsi:type="string">wishlistControl</item>
+                            </item>
+                            <item name="delete" xsi:type="array">
+                                <item name="caption" xsi:type="string" translate="true">Delete</item>
+                                <item name="url" xsi:type="string">#</item>
+                                <item name="onclick" xsi:type="string">return wishlistControl.removeItem($wishlist_item_id);</item>
+                            </item>
+                        </argument>
+                    </arguments>
+                </block>
+            </block>
+            <block class="Magento_Core_Block_Template" as="grid.js">
+                <arguments>
+                    <argument name="js_object_name" xsi:type="string">wishlistGridJsObject</argument>
+                    <argument name="template" xsi:type="string">Magento_Wishlist::customer/edit/tab/wishlist.phtml</argument>
+                </arguments>
+            </block>
+        </block>
+    </handle>
+</layout>

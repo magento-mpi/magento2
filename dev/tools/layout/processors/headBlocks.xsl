@@ -14,10 +14,10 @@
 
     <xsl:template match="action[@method='addJs' or @method='addCss']">
         <block>
-            <xsl:attribute name="type">
+            <xsl:attribute name="class">
                 <xsl:choose>
-                    <xsl:when test="@method = 'addJs' ">Mage_Page_Block_Html_Head_Script</xsl:when>
-                    <xsl:when test="@method = 'addCss'">Mage_Page_Block_Html_Head_Css</xsl:when>
+                    <xsl:when test="@method = 'addJs' ">Magento_Page_Block_Html_Head_Script</xsl:when>
+                    <xsl:when test="@method = 'addCss'">Magento_Page_Block_Html_Head_Css</xsl:when>
                 </xsl:choose>
             </xsl:attribute>
             <xsl:attribute name="name">
@@ -25,15 +25,15 @@
             </xsl:attribute>
             <xsl:apply-templates select="@ifconfig" />
             <arguments>
-                <file>
+                <argument name="file" xsi:type="string">
                     <xsl:value-of select="*[1]" />
-                </file>
+                </argument>
                 <xsl:if test="count(*[position() &gt; 1])">
-                    <properties>
-                        <xsl:if test="*[2]"><attributes><xsl:value-of select="*[2]" /></attributes></xsl:if>
-                        <xsl:if test="*[3]"><ie_condition><xsl:value-of select="*[3]" /></ie_condition></xsl:if>
-                        <xsl:if test="*[4]"><flag_name><xsl:value-of select="*[4]" /></flag_name></xsl:if>
-                    </properties>
+                    <argument name="properties" xsi:type="array">
+                        <xsl:if test="*[2]"><item name="attributes" xsi:type="array"><xsl:value-of select="*[2]" /></item></xsl:if>
+                        <xsl:if test="*[3]"><item name="ie_condition" xsi:type="array"><xsl:value-of select="*[3]" /></item></xsl:if>
+                        <xsl:if test="*[4]"><item name="flag_name" xsi:type="array"><xsl:value-of select="*[4]" /></item></xsl:if>
+                    </argument>
                 </xsl:if>
             </arguments>
         </block>

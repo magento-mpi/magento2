@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
+        <reference name="right">
+            <block class="Magento_Poll_Block_ActivePoll" name="right.poll">
+                <action method="setPollTemplate">
+                    <argument name="template" xsi:type="string">active.phtml</argument>
+                    <argument name="type" xsi:type="string">poll</argument>
+                </action>
+                <action method="setPollTemplate">
+                    <argument name="template" xsi:type="string">result.phtml</argument>
+                    <argument name="type" xsi:type="string">results</argument>
+                </action>
+            </block>
+        </reference>
+    </handle>
+</layout>

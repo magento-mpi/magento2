@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +11,8 @@
 /**
  * Class Controller
  *
- * @category   Mage
- * @package    Mage_Connect
+ * @category   Magento
+ * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 final class Maged_Controller
@@ -496,9 +496,9 @@ final class Maged_Controller
                     include_once self::getBootstrapPath();
                     Mage::setIsDownloader();
                 }
-                Mage::getObjectManager()->get('Mage_Core_Model_App');
+                Mage::getObjectManager()->get('Magento_Core_Model_App');
                 if (self::isInstalled()) {
-                    Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
+                    Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
                 }
             }
         }
@@ -923,8 +923,8 @@ final class Maged_Controller
                 // reinit config and apply all updates
                 Mage::app()->getConfig()->reinit();
 
-                /** @var $updater Mage_Core_Model_Db_UpdaterInterface*/
-                $updater = Mage::getObjectManager()->get('Mage_Core_Model_Db_UpdaterInterface');
+                /** @var $updater Magento_Core_Model_Db_UpdaterInterface*/
+                $updater = Mage::getObjectManager()->get('Magento_Core_Model_Db_UpdaterInterface');
                 $updater->updateScheme();
                 $updater->updateData();
                 $message .= 'Cache cleaned successfully';
@@ -1004,27 +1004,27 @@ final class Maged_Controller
         try {
             $type = $this->_getBackupTypeByCode($archiveType);
 
-            $backupManager = Mage_Backup::getBackupInstance($type)
-                ->setBackupExtension(Mage::helper('Mage_Backup_Helper_Data')->getExtensionByType($type))
+            $backupManager = Magento_Backup::getBackupInstance($type)
+                ->setBackupExtension(Mage::helper('Magento_Backup_Helper_Data')->getExtensionByType($type))
                 ->setTime(time())
                 ->setName($archiveName)
-                ->setBackupsDir(Mage::helper('Mage_Backup_Helper_Data')->getBackupsDir());
+                ->setBackupsDir(Mage::helper('Magento_Backup_Helper_Data')->getBackupsDir());
 
             Mage::register('backup_manager', $backupManager);
 
-            if ($type != Mage_Backup_Helper_Data::TYPE_DB) {
+            if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
                 $backupManager->setRootDir(Mage::getBaseDir())
-                    ->addIgnorePaths(Mage::helper('Mage_Backup_Helper_Data')->getBackupIgnorePaths());
+                    ->addIgnorePaths(Mage::helper('Magento_Backup_Helper_Data')->getBackupIgnorePaths());
             }
             $backupManager->create();
             $connect->runHtmlConsole(
                 $this->_getCreateBackupSuccessMessageByType($type)
             );
             $isSuccess = true;
-        } catch (Mage_Backup_Exception_NotEnoughFreeSpace $e) {
+        } catch (Magento_Backup_Exception_NotEnoughFreeSpace $e) {
             $connect->runHtmlConsole('Not enough free space to create backup.');
             Mage::logException($e);
-        } catch (Mage_Backup_Exception_NotEnoughPermissions $e) {
+        } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
             $connect->runHtmlConsole('Not enough permissions to create backup.');
             Mage::logException($e);
         } catch (Exception  $e) {
@@ -1044,10 +1044,10 @@ final class Maged_Controller
     protected function _getBackupTypeByCode($code)
     {
         $typeMap = array(
-            1 => Mage_Backup_Helper_Data::TYPE_DB,
-            2 => Mage_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT,
-            3 => Mage_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA,
-            4 => Mage_Backup_Helper_Data::TYPE_MEDIA
+            1 => Magento_Backup_Helper_Data::TYPE_DB,
+            2 => Magento_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT,
+            3 => Magento_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA,
+            4 => Magento_Backup_Helper_Data::TYPE_MEDIA
         );
 
         if (!isset($typeMap[$code])) {
@@ -1066,10 +1066,10 @@ final class Maged_Controller
     protected function _getCreateBackupSuccessMessageByType($type)
     {
         $messagesMap = array(
-            Mage_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT => 'System backup has been created',
-            Mage_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'System (excluding Media) backup has been created',
-            Mage_Backup_Helper_Data::TYPE_MEDIA => 'Database and media backup has been created',
-            Mage_Backup_Helper_Data::TYPE_DB => 'Database backup has been created'
+            Magento_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT => 'System backup has been created',
+            Magento_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'System (excluding Media) backup has been created',
+            Magento_Backup_Helper_Data::TYPE_MEDIA => 'Database and media backup has been created',
+            Magento_Backup_Helper_Data::TYPE_DB => 'Database backup has been created'
         );
 
         if (!isset($messagesMap[$type])) {

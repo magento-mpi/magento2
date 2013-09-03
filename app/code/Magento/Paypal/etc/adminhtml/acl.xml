@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Paypal
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::stores">
+                    <resource id="Magento_Adminhtml::stores_settings">
+                        <resource id="Magento_Adminhtml::config">
+                            <resource id="Magento_Paypal::paypal" title="PayPal Section" sortOrder="50" />
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Magento_Reports::report">
+                    <resource id="Magento_Reports::salesroot">
+                        <resource id="Magento_Paypal::paypal_settlement_reports" title="PayPal Settlement" sortOrder="70">
+                            <resource id="Magento_Paypal::paypal_settlement_reports_view" title="View" sortOrder="10" />
+                            <resource id="Magento_Paypal::fetch" title="Fetch" sortOrder="20" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

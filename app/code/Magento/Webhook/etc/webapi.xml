@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Webhook
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <service class="Magento_Webhook_Service_SubscriptionV1" baseUrl="/V1/subscriptions">
+        <rest-route httpMethod="GET" method="getAll" secure="true"/>
+        <rest-route httpMethod="POST" method="create" secure="true"/>
+        <rest-route httpMethod="PUT" method="update" secure="true">/:subscriptionId</rest-route>
+        <rest-route httpMethod="GET" method="get" secure="true">/:subscriptionId</rest-route>
+        <rest-route httpMethod="DELETE" method="delete" secure="true">/:subscriptionId</rest-route>
+    </service>
+</config>

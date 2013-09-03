@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="print">
         <reference name="head">
-            <block class="Magento_Page_Block_Html_Head_Css" name="magento-reports-widgets-css">
+            <block class="Magento_Page_Block_Html_Head_Css" name="magento-banner-widgets-css">
                 <arguments>
                     <argument name="file" xsi:type="string">Magento_Reports::widgets.css</argument>
                 </arguments>

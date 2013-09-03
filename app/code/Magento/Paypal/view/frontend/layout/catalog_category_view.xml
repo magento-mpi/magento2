@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_category_view">
+        <update handle="SHORTCUT_popup"/>
+        <reference name="right">
+            <block class="Magento_Paypal_Block_Logo" name="paypal.partner.right.logo" template="partner/logo.phtml"/>
+        </reference>
+    </handle>
+</layout>

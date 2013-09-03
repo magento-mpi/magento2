@@ -13,14 +13,14 @@
     <acl>
         <resources>
             <resource id="admin" xpath="/admin">
-                <resource id="customer" xpath="/admin/customer" title="Customers" moduleOwner="Module_One" module="Module_One" sortOrder="40">
-                    <resource id="group" xpath="/admin/customer/group" moduleOwner="Module_Two" title="Customer Groups" module="Module_Two" sortOrder="10"/>
-                    <resource id="manage" xpath="/admin/customer/manage" moduleOwner="Module_Three" title="Manage Customers" module="Module_Three" sortOrder="0"/>
-                    <resource id="online" xpath="/admin/customer/online" moduleOwner="Module_Four" title="Online Customers" module="Module_Four" sortOrder="100"/>
+                <resource id="customer" xpath="/admin/customer" title="Customers" moduleOwner="Module_One" sortOrder="40">
+                    <resource id="group" xpath="/admin/customer/group" moduleOwner="Module_Two" title="Customer Groups" sortOrder="10"/>
+                    <resource id="manage" xpath="/admin/customer/manage" moduleOwner="Module_Three" title="Manage Customers" sortOrder="0"/>
+                    <resource id="online" xpath="/admin/customer/online" moduleOwner="Module_Four" title="Online Customers" sortOrder="100"/>
                 </resource>
                 <resource id="system" xpath="/admin/system">
                     <resource id="config" xpath="/admin/system/config">
-                        <resource id="customer" xpath="/admin/system/config/customer" title="Customers Section" moduleOwner="Module_Five" module="Module_Five" sortOrder="50"/>
+                        <resource id="customer" xpath="/admin/system/config/customer" title="Customers Section" moduleOwner="Module_Five" sortOrder="50"/>
                     </resource>
                 </resource>
             </resource>

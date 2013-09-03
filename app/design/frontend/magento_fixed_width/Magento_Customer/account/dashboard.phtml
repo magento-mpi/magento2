@@ -1,0 +1,25 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="dashboard">
+    <div class="page-title">
+        <h1><?php echo __('My Dashboard') ?></h1>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getChildHtml('hello') ?>
+    <?php echo $this->getChildHtml('top') ?>
+    <h2 class="sub-title"><?php echo __('Account Information') ?></h2>
+    <?php /* Extensions placeholder */ ?>
+    <?php echo $this->getChildHtml('customer.account.dashboard.extra') ?>
+    <?php echo $this->getChildHtml('info') ?>
+    <?php echo $this->getChildHtml('address') ?>
+    <?php echo $this->getChildHtml('info1') ?>
+    <?php echo $this->getChildHtml('info2') ?>
+</div>

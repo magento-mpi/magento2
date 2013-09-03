@@ -1,0 +1,54 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Magento_Adminhtml_Block_Sales_Order_Create_Sidebar */
+?>
+<div class="customer-current-activity-inner">
+    <h4><?php echo __('Customer\'s Current Activities') ?></h4>
+    <div class="create-order-sidebar-container">
+    <?php echo $this->getChildHtml('top_button'); ?>
+    <?php foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $_alias => $_child): ?>
+        <?php if ($_alias != 'top_button' && $_alias != 'bottom_button'): ?>
+            <?php if($this->canDisplay($_child)): ?>
+                <div id="order-sidebar_<?php echo $_alias ?>">
+                    <?php echo $this->getChildHtml($_alias) ?>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    <?php echo $this->getChildHtml('bottom_button'); ?>
+    </div>
+</div>
+<script>
+function addSidebarCompositeListType() {
+    productConfigure.addListType('sidebar', {
+        urlFetch: '<?php echo $this->getUrl('*/sales_order_create/configureProductToAdd') ?>',
+        urlConfirm: '<?php echo $this->getUrl('*/sales_order_create/addConfigured') ?>'
+    });
+    productConfigure.addListType('sidebar_wishlist', {
+        urlFetch: '<?php echo $this->getUrl('*/customer_wishlist_product_composite_wishlist/configure') ?>',
+        urlConfirm: '<?php echo $this->getUrl('*/sales_order_create/addConfigured') ?>'
+    });
+}
+
+if (typeof(sidebarListTypeWorkedOn) == 'undefined') {
+    sidebarListTypeWorkedOn = false;
+}
+if (!sidebarListTypeWorkedOn) {
+    if (typeof(productConfigure) == 'undefined') {
+        Event.observe(window, 'load',  function(){
+            setTimeout(addSidebarCompositeListType, 10);
+        })
+    } else {
+        addSidebarCompositeListType();
+    }
+    sidebarListTypeWorkedOn = true;
+}
+</script>

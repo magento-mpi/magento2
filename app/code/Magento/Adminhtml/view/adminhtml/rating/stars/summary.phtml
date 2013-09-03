@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if($this->getRatingSummary()->getCount()): ?>
+    <div class="rating-box">
+        <div class="rating" style="width:<?php echo ceil($this->getRatingSummary()->getSum() / ($this->getRatingSummary()->getCount())) ?>%;"></div>
+    </div>
+<?php else: ?>
+    <?php echo __("Rating isn't Available") ?>
+<?php endif; ?>

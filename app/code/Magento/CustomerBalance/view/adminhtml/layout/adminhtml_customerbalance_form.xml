@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_customerbalance_form">
+        <container name="root" label="Root" output="1">
+            <block class="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance" name="customerbalance.balance" template="balance.phtml">
+                <block class="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid" name="customer.balance.grid" as="grid"/>
+            </block>
+            <block class="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Form" name="customerbalance.form"/>
+            <block class="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History" name="customerbalance.history"/>
+        </container>
+    </handle>
+</layout>

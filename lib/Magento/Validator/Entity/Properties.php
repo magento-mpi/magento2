@@ -46,7 +46,7 @@ class Magento_Validator_Entity_Properties extends Magento_Validator_ValidatorAbs
             foreach ($this->_readOnlyProperties as $property) {
                 if ($this->_hasChanges($value->getData($property), $value->getOrigData($property))) {
                     $this->_messages[__CLASS__] = array(
-                        $this->getTranslator()->__("Read-only property cannot be changed.")
+                        __("Read-only property cannot be changed.")
                     );
                     break;
                 }

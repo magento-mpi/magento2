@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
+ * @category    Magento
  * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
@@ -12,7 +12,7 @@
 /**
  * Cms Hierarchy Head Block
  *
- * @category   Enterprise
+ * @category   Magento
  * @package    Magento_VersionsCms
  */
 class Magento_VersionsCms_Block_Hierarchy_Head extends Magento_Core_Block_Abstract

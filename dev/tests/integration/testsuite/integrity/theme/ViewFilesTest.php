@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -23,20 +23,22 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         $this->_markTestIncompleteDueToBug($area, $file);
         try {
             $params = array('area' => $area, 'themeId' => $themeId);
-            $viewFile = Mage::getObjectmanager()->get('Mage_Core_Model_View_FileSystem')->getViewFile($file, $params);
+            $viewFile = Mage::getObjectmanager()
+                ->get('Magento_Core_Model_View_FileSystem')
+                ->getViewFile($file, $params);
             $this->assertFileExists($viewFile);
 
-            $fileParts = explode(Mage_Core_Model_View_Service::SCOPE_SEPARATOR, $file);
+            $fileParts = explode(Magento_Core_Model_View_Service::SCOPE_SEPARATOR, $file);
             if (count($fileParts) > 1) {
                 $params['module'] = $fileParts[0];
             }
             if (pathinfo($file, PATHINFO_EXTENSION) == 'css') {
                 $errors = array();
                 $content = file_get_contents($viewFile);
-                preg_match_all(Mage_Core_Helper_Css::REGEX_CSS_RELATIVE_URLS, $content, $matches);
+                preg_match_all(Magento_Core_Helper_Css::REGEX_CSS_RELATIVE_URLS, $content, $matches);
                 foreach ($matches[1] as $relativePath) {
                     $path = $this->_addCssDirectory($relativePath, $file);
-                    $pathFile = Mage::getObjectmanager()->get('Mage_Core_Model_View_FileSystem')->getViewFile(
+                    $pathFile = Mage::getObjectmanager()->get('Magento_Core_Model_View_FileSystem')->getViewFile(
                         $path, $params
                     );
                     if (!is_file($pathFile)) {
@@ -110,14 +112,14 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
 
         // Find files, declared in views
         $files = array();
-        /** @var $theme Mage_Core_Model_Theme */
+        /** @var $theme Magento_Core_Model_Theme */
         foreach ($themes as $theme) {
             $this->_collectGetViewUrlInvokes($theme, $files);
         }
 
         // Populate data provider in correspondence of themes to view files
         $result = array();
-        /** @var $theme Mage_Core_Model_Theme */
+        /** @var $theme Magento_Core_Model_Theme */
         foreach ($themes as $theme) {
             if (!isset($files[$theme->getId()])) {
                 continue;
@@ -132,7 +134,7 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
     /**
      * Collect getViewUrl() from theme templates
      *
-     * @param Mage_Core_Model_Theme $theme
+     * @param Magento_Core_Model_Theme $theme
      * @param array &$files
      */
     protected function _collectGetViewUrlInvokes($theme, &$files)
@@ -153,11 +155,11 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         }
 
         // Collect "addCss" and "addJs" from theme layout
-        /** @var Mage_Core_Model_Layout_Merge $layoutUpdate */
-        $layoutUpdate = Mage::getModel('Mage_Core_Model_Layout_Merge', array('theme' => $theme));
+        /** @var Magento_Core_Model_Layout_Merge $layoutUpdate */
+        $layoutUpdate = Mage::getModel('Magento_Core_Model_Layout_Merge', array('theme' => $theme));
         $fileLayoutUpdates = $layoutUpdate->getFileLayoutUpdatesXml();
         $elements = $fileLayoutUpdates->xpath(
-            '//block[@type="Mage_Page_Block_Html_Head_Css" or @type="Mage_Page_Block_Html_Head_Script"]/arguments/file'
+            '//block[@type="Magento_Page_Block_Html_Head_Css" or @type="Magento_Page_Block_Html_Head_Script"]/arguments/file'
         );
         if ($elements) {
             foreach ($elements as $filenameNode) {

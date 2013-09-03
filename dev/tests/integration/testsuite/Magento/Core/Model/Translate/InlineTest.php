@@ -1,0 +1,85 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Core
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
+{
+    /**
+     * @var Magento_Core_Model_Translate_Inline
+     */
+    protected $_model;
+
+    /**
+     * @var string
+     */
+    protected $_storeId = 'default';
+
+    public static function setUpBeforeClass()
+    {
+        Mage::getDesign()->setDesignTheme('magento_demo');
+    }
+
+    public function setUp()
+    {
+        $this->_model = Mage::getModel('Magento_Core_Model_Translate_Inline');
+        /* Called getConfig as workaround for setConfig bug */
+        Mage::app()->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
+        Mage::app()->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
+    }
+
+    public function testIsAllowed()
+    {
+        $this->assertTrue($this->_model->isAllowed());
+        $this->assertTrue($this->_model->isAllowed($this->_storeId));
+        $this->assertTrue($this->_model->isAllowed(Mage::app()->getStore($this->_storeId)));
+    }
+
+    /**
+     * @param string $originalText
+     * @param string $expectedText
+     * @dataProvider processResponseBodyDataProvider
+     */
+    public function testProcessResponseBody($originalText, $expectedText)
+    {
+        $actualText = $originalText;
+        $this->_model->processResponseBody($actualText, false);
+        $this->markTestIncomplete('Bug MAGE-2494');
+
+        $expected = new DOMDocument;
+        $expected->preserveWhiteSpace = FALSE;
+        $expected->loadHTML($expectedText);
+
+        $actual = new DOMDocument;
+        $actual->preserveWhiteSpace = FALSE;
+        $actual->loadHTML($actualText);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return array
+     */
+    public function processResponseBodyDataProvider()
+    {
+        $originalText = file_get_contents(__DIR__ . '/_files/_inline_page_original.html');
+        $expectedText = file_get_contents(__DIR__ . '/_files/_inline_page_expected.html');
+
+        $expectedText = str_replace(
+            '{{design_package}}',
+            Mage::getDesign()->getDesignTheme()->getPackageCode(),
+            $expectedText
+        );
+        return array(
+            'plain text'  => array('text with no translations and tags', 'text with no translations and tags'),
+            'html string' => array($originalText, $expectedText),
+            'html array'  => array(array($originalText), array($expectedText)),
+        );
+    }
+}

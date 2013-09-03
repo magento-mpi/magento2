@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Customer" version="1.6.2.0.4" active="true">
+        <depends>
+            <module name="Magento_Eav" />
+            <module name="Magento_Directory" />
+        </depends>
+    </module>
+</config>

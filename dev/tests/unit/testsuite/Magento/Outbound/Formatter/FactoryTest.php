@@ -1,18 +1,18 @@
-  <?php
+<?php
 /**
- * Mage_Webhook_Model_Formatter_Factory
+ * Magento_Webhook_Model_Formatter_Factory
  *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Webhook
+ * @category    Magento
+ * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
  */
 class Magento_Outbound_Formatter_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject Mage_Core_Model_ObjectManager
+     * @var PHPUnit_Framework_MockObject_MockObject Magento_Core_Model_ObjectManager
      */
     private $_mockObjectManager;
 

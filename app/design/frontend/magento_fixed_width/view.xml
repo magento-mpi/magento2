@@ -3,14 +3,12 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     enterprise_theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <view>
-    <vars module="Mage_Catalog">
+    <vars module="Magento_Catalog">
         <var name="product_small_image_sidebar_size">100</var>  <!-- Override for small product image -->
         <var name="product_base_image_size">275</var>           <!-- Override for base product image -->
         <var name="product_base_image_icon_size">48</var>       <!-- Base product image icon size -->
@@ -190,10 +188,10 @@
         <var name="product_stock_alert_email_product_image:ratio">1</var>
         <var name="product_stock_alert_email_product_image:height"/>
     </vars>
-    <vars module="Mage_Bundle">
+    <vars module="Magento_Bundle">
         <var name="product_summary_image_size">58</var>         <!-- New Product image size used for summary block-->
     </vars>
-    <vars module="Mage_DesignEditor">
+    <vars module="Magento_DesignEditor">
         <var name="store-name:font-picker">Tahoma, Geneva, sans-serif</var>
         <var name="store-name:color-picker">#ccc</var>
         <var name="store-name:logo-uploader"> </var>

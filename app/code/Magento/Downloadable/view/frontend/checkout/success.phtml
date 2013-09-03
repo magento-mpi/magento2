@@ -1,0 +1,13 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if ($this->getOrderHasDownloadable()): ?>
+    <?php echo __('Go to <a href="%1">My Downloadable Products</a>', $this->getDownloadableProductsUrl()) ?>
+<?php endif; ?>

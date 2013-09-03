@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +11,8 @@
 /**
  * Class session
  *
- * @category   Mage
- * @package    Mage_Connect
+ * @category   Magento
+ * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Maged_Model_Session extends Maged_Model
@@ -20,7 +20,7 @@ class Maged_Model_Session extends Maged_Model
     /**
      * Session
      *
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Magento_Backend_Model_Auth_Session
      */
     protected $_session;
 
@@ -32,7 +32,7 @@ class Maged_Model_Session extends Maged_Model
     public function start()
     {
         if (class_exists('Mage') && Mage::isInstalled()) {
-            $this->_session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+            $this->_session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
         } else {
             session_start();
         }
@@ -111,7 +111,7 @@ class Maged_Model_Session extends Maged_Model
     /**
      * Check is user logged in and permissions
      *
-     * @param Mage_User_Model_User|null $user
+     * @param Magento_User_Model_User|null $user
      * @return bool
      */
     protected function _checkUserAccess($user = null)
@@ -120,7 +120,7 @@ class Maged_Model_Session extends Maged_Model
             $this->addMessage('error', 'Invalid user name or password');
             $this->controller()->setAction('login');
         } elseif ($this->getUserId() || ($user && $user->getId())) {
-            if (Mage::getSingleton('Magento_AuthorizationInterface')->isAllowed('Mage_Adminhtml::all')) {
+            if (Mage::getSingleton('Magento_AuthorizationInterface')->isAllowed('Magento_Adminhtml::all')) {
                 return true;
             } else {
                 $this->logout();
@@ -200,6 +200,6 @@ class Maged_Model_Session extends Maged_Model
         if (!$this->_session || !$this->_session->isLoggedIn()) {
             return '';
         }
-        return Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl();
+        return Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl();
     }
 }

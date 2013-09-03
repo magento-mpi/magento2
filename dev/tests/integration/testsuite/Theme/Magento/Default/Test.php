@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
+ * @magentoDataFixture Magento/Catalog/controllers/_files/products.php
  */
 class Theme_Magento_Default_Test extends Magento_Test_TestCase_ControllerAbstract
 {

@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_VersionsCms
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <versionscms_setup>
+                <setup>
+                    <module>Magento_VersionsCms</module>
+                    <class>Magento_Core_Model_Resource_Setup</class>
+                </setup>
+            </versionscms_setup>
+        </resources>
+        <events>
+            <cms_controller_router_match_before>
+                <observers>
+                    <magento_versionscms>
+                        <class>Magento_VersionsCms_Model_Observer</class>
+                        <method>cmsControllerRouterMatchBefore</method>
+                    </magento_versionscms>
+                </observers>
+            </cms_controller_router_match_before>
+            <page_block_html_topmenu_gethtml_before>
+                <observers>
+                    <magento_versionscms_add_topmenu_items>
+                        <class>Magento_VersionsCms_Model_Observer</class>
+                        <method>addCmsToTopmenuItems</method>
+                    </magento_versionscms_add_topmenu_items>
+                </observers>
+            </page_block_html_topmenu_gethtml_before>
+        </events>
+        <magento_versionscms>
+            <hierarchy>
+                <menu>
+                    <layouts>
+                        <content translate="label">
+                            <label>Content</label>
+                            <layout_handle>magento_versionscms_hierarchy_menu_content</layout_handle>
+                            <is_default>1</is_default>
+                        </content>
+                        <left_column translate="label">
+                            <label>Left Column</label>
+                            <layout_handle>magento_versionscms_hierarchy_menu_left_column</layout_handle>
+                            <page_layout_handles>
+                                <page_two_columns_left />
+                                <page_three_columns />
+                            </page_layout_handles>
+                        </left_column>
+                        <right_column translate="label">
+                            <label>Right Column</label>
+                            <layout_handle>magento_versionscms_hierarchy_menu_right_column</layout_handle>
+                            <page_layout_handles>
+                                <page_two_columns_right />
+                                <page_three_columns />
+                            </page_layout_handles>
+                        </right_column>
+                    </layouts>
+                </menu>
+            </hierarchy>
+        </magento_versionscms>
+    </global>
+    <frontend>
+        <events>
+            <cms_page_render>
+                <observers>
+                    <magento_versionscms>
+                        <class>Magento_VersionsCms_Model_Observer</class>
+                        <method>affectCmsPageRender</method>
+                    </magento_versionscms>
+                </observers>
+            </cms_page_render>
+        </events>
+    </frontend>
+    <adminhtml>
+        <events>
+            <adminhtml_cms_page_edit_tab_main_prepare_form>
+                <observers>
+                    <magento_versionscms>
+                        <class>Magento_VersionsCms_Model_Observer</class>
+                        <method>onMainTabPrepareForm</method>
+                    </magento_versionscms>
+                </observers>
+            </adminhtml_cms_page_edit_tab_main_prepare_form>
+            <cms_page_save_before>
+                <observers>
+                    <magento_versionscms>
+                        <class>Magento_VersionsCms_Model_Observer</class>
+                        <method>cmsPageSaveBefore</method>
+                    </magento_versionscms>
+                </observers>
+            </cms_page_save_before>
+            <cms_page_save_after>
+                <observers>
+                    <magento_versionscms>
+                        <class>Magento_VersionsCms_Model_Observer</class>
+                        <method>cmsPageSaveAfter</method>
+                    </magento_versionscms>
+                </observers>
+            </cms_page_save_after>
+            <admin_user_delete_after>
+                <observers>
+                    <magento_versionscms>
+                        <class>Magento_VersionsCms_Model_Observer</class>
+                        <method>adminUserDeleteAfter</method>
+                    </magento_versionscms>
+                </observers>
+            </admin_user_delete_after>
+            <website_delete_after>
+                <observers>
+                    <magento_versionscms>
+                        <class>Magento_VersionsCms_Model_Observer</class>
+                        <method>deleteWebsite</method>
+                    </magento_versionscms>
+                </observers>
+            </website_delete_after>
+            <store_delete_after>
+                <observers>
+                    <magento_versionscms>
+                        <class>Magento_VersionsCms_Model_Observer</class>
+                        <method>deleteStore</method>
+                    </magento_versionscms>
+                </observers>
+            </store_delete_after>
+            <cms_page_get_available_statuses>
+                <observers>
+                    <magento_versionscms>
+                        <class>Magento_VersionsCms_Model_Observer</class>
+                        <method>modifyPageStatuses</method>
+                    </magento_versionscms>
+                </observers>
+            </cms_page_get_available_statuses>
+            <cms_page_delete_after>
+                <observers>
+                    <magento_versionscms>
+                        <class>Magento_VersionsCms_Model_Observer</class>
+                        <method>cmsPageDeleteAfter</method>
+                    </magento_versionscms>
+                </observers>
+            </cms_page_delete_after>
+        </events>
+        <translate>
+            <modules>
+                <Magento_VersionsCms>
+                    <files>
+                        <default>Magento_VersionsCms.csv</default>
+                    </files>
+                </Magento_VersionsCms>
+            </modules>
+        </translate>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <magento_versionscms before="Magento_Adminhtml">Magento_VersionsCms_Adminhtml</magento_versionscms>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <default>
+        <cms>
+            <hierarchy>
+                <enabled>1</enabled>
+                <metadata_enabled>1</metadata_enabled>
+                <menu_layout>content</menu_layout>
+            </hierarchy>
+            <content>
+                <versioning>1</versioning>
+            </content>
+        </cms>
+    </default>
+</config>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Magento_Webhook
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<config>
+    <mapping to="Magento_Webapi">
+        <parent id="customer/get">
+            <topic id="customer/updated"/>
+            <topic id="customer/created"/>
+            <topic id="customer/deleted"/>
+        </parent>
+    </mapping>
+</config>

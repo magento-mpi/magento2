@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_index">
+        <reference name="checkout.onepage.billing">
+            <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
+                <action method="setFormCode">
+                    <argument name="code" xsi:type="string">checkout_register</argument>
+                </action>
+            </block>
+            <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes">
+                <action method="setFormCode">
+                    <argument name="code" xsi:type="string">customer_register_address</argument>
+                </action>
+            </block>
+        </reference>
+        <reference name="checkout.onepage.shipping">
+            <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
+                <action method="setFormCode">
+                    <argument name="code" xsi:type="string">customer_register_address</argument>
+                </action>
+            </block>
+        </reference>
+        <update handle="customer_form_template_handle"/>
+    </handle>
+</layout>

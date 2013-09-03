@@ -24,14 +24,14 @@
         <condition property="app_mode" value="developer">
             <not><isset property="app_mode"/></not>
         </condition>
-        <copy file="${basedir}/dev/build/core_dev/integration/local-${db_vendor_name}.xml" todir="${product_root_dir}/dev/tests/integration/etc" overwrite="true"/>
-        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_database_credential_substitution">
+        <copy file="${product_root_dir}/dev/build/core_dev/integration/local-${db_vendor_name}.xml" todir="${product_root_dir}/dev/tests/integration/etc" overwrite="true"/>
+        <ant antfile="${product_root_dir}/dev/build/core_dev/util.xml" target="_database_credential_substitution">
             <property name="db_config_file" value="${product_root_dir}/dev/tests/integration/etc/local-${db_vendor_name}.xml"/>
         </ant>
         <replace file="${product_root_dir}/dev/tests/integration/etc/local-${db_vendor_name}.xml">
             <replacefilter token="{{db_table_prefix}}" value="${db_table_prefix}"/>
         </replace>
-        <copy file="${basedir}/dev/build/core_dev/integration/phpunit.xml" todir="${product_root_dir}/dev/tests/integration" overwrite="true"/>
+        <copy file="${product_root_dir}/dev/build/core_dev/integration/phpunit.xml" todir="${product_root_dir}/dev/tests/integration" overwrite="true"/>
         <replace file="${product_root_dir}/dev/tests/integration/phpunit.xml">
             <replacefilter token="{{local_config_file}}" value="etc/local-${db_vendor_name}.xml"/>
             <replacefilter token="{{app_mode}}" value="${app_mode}"/>
@@ -40,14 +40,14 @@
 
     <target name="_integration_tests_magento" depends="_integration_tests_configuration" description="Product integration tests">
         <exec dir="${product_root_dir}/dev/tests/integration" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/integration_tests_magento.xml"/>
+            <arg line="--log-junit ${product_root_dir}/integration_tests_magento.xml"/>
         </exec>
     </target>
 
     <target name="_integration_tests_magento_xdebug" depends="_integration_tests_configuration" description="Product integration tests with Xdebug">
-        <chmod perm="u+x" file="${basedir}/dev/build/bin/phpunit-with-xdebug.sh" />
-        <exec dir="${product_root_dir}/dev/tests/integration" executable="${basedir}/dev/build/bin/phpunit-with-xdebug.sh" failonerror="true">
-            <arg line="--stderr --log-junit ${basedir}/integration_tests_magento_xdebug.xml"/>
+        <chmod perm="u+x" file="${product_root_dir}/dev/build/bin/phpunit-with-xdebug.sh" />
+        <exec dir="${product_root_dir}/dev/tests/integration" executable="${product_root_dir}/dev/build/bin/phpunit-with-xdebug.sh" failonerror="true">
+            <arg line="--stderr --log-junit ${product_root_dir}/integration_tests_magento_xdebug.xml"/>
         </exec>
     </target>
 
@@ -111,7 +111,7 @@
 
     <target name="_integration_integrity_tests_magento" depends="_integration_tests_configuration" description="Product integration integrity tests">
         <exec dir="${product_root_dir}/dev/tests/integration" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/integration_integrity_tests_magento.xml testsuite/integrity"/>
+            <arg line="--log-junit ${product_root_dir}/integration_integrity_tests_magento.xml testsuite/integrity"/>
         </exec>
     </target>
 
@@ -133,6 +133,20 @@
         <antcall target="_integration_integrity_tests_magento">
             <param name="app_mode" value="default"/>
         </antcall>
+    </target>
+	
+    <target name="integration_tests_ce_xd_mysql_code_coverage" depends="_product_location" description="Code Coverage CE Integration Tests with Xdebug">
+        <antcall target="_code_coverage_configuration">
+            <param name="configuration_file" value="${product_root_dir}/dev/build/core_dev/integration/phpunit.xml"/>
+        </antcall>
+        <antcall target="integration_tests_ce_xd_mysql"/>
+    </target>
+
+    <target name="integration_tests_ee_xd_mysql_code_coverage" depends="_product_location" description="Code Coverage EE Integration Tests with Xdebug">
+        <antcall target="_code_coverage_configuration">
+            <param name="configuration_file" value="${product_root_dir}/dev/build/core_dev/integration/phpunit.xml"/>
+        </antcall>
+        <antcall target="integration_tests_ee_xd_mysql"/>
     </target>
 
 </project>

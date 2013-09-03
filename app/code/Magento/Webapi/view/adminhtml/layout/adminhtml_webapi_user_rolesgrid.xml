@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_webapi_user_rolesgrid">
+        <update handle="formkey"/>
+        <update handle="adminhtml_webapi_user_edit_tab_roles_grid_block"/>
+        <container name="webapi.user.edit.tab.roles.grid.container" label="API User Roles Grid Container" output="1"/>
+    </handle>
+</layout>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Banner
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<logging>
+    <magento_banner translate="label">
+        <label>Manage Banners</label>
+        <expected_models>
+            <Magento_Banner_Model_Banner/>
+        </expected_models>
+        <actions>
+            <adminhtml_banner_edit>
+                <action>view</action>
+            </adminhtml_banner_edit>
+
+            <adminhtml_banner_save>
+                <action>save</action>
+                <skip_on_back>
+                    <adminhtml_banner_edit />
+                </skip_on_back>
+            </adminhtml_banner_save>
+
+            <adminhtml_banner_delete>
+                <action>delete</action>
+            </adminhtml_banner_delete>
+
+            <adminhtml_banner_massDelete>
+                <action>massDelete</action>
+            </adminhtml_banner_massDelete>
+        </actions>
+    </magento_banner>
+</logging>

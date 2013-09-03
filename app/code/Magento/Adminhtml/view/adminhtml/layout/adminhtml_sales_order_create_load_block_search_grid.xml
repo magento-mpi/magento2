@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_create_load_block_search_grid">
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid" name="serach.grid" as="grid"/>
+        </reference>
+    </handle>
+</layout>

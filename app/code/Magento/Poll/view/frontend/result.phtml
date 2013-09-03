@@ -1,0 +1,31 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if(isset($poll)) : ?>
+<div class="block block-poll">
+    <div class="block-title">
+        <strong><span><?php echo __('Community Poll') ?></span></strong>
+    </div>
+    <div class="block-content">
+        <p class="block-subtitle"><?php echo $this->escapeHtml($poll->getPollTitle()); ?></p>
+        <?php if( $poll_answers ): ?>
+        <ol id="poll-answers">
+            <?php foreach( $poll_answers as $answer ): ?>
+                <li>
+                    <span class="votes"><?php echo $answer->getVotesCount() ?> (<?php echo $answer->getPercent() ?>%)</span>
+                    <span class="answer"><?php echo $this->escapeHtml($answer->getAnswerTitle()) ?>:</span>
+                </li>
+            <?php endforeach; ?>
+        </ol>
+        <script type="text/javascript">(function($) {$('#poll-answers').decorate('list', false)})(jQuery)</script>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endif; ?>

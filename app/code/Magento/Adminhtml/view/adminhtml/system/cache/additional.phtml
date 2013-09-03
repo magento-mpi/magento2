@@ -1,0 +1,31 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="fieldset">
+    <div class="legend">
+        <span><?php echo __('Additional Cache Management') ?></span>
+    </div>
+    <div class="field">
+        <button onclick="setLocation('<?php echo $this->getCleanImagesUrl()?>')" type="button">
+            <?php echo __('Flush Catalog Images Cache') ?>
+        </button>
+        <span class="label"><?php echo __('Pregenerated product images files')?></span>
+    </div>
+    <div class="field">
+        <button onclick="setLocation('<?php echo $this->getCleanMediaUrl()?>')" type="button">
+            <?php echo __('Flush JavaScript/CSS Cache') ?>
+        </button>
+        <span class="label"><?php echo __('Themes JavaScript and CSS files combined to one file.')?></span>
+    </div>
+    <?php echo $this->getChildHtml(); ?>
+</div>
+
+
+

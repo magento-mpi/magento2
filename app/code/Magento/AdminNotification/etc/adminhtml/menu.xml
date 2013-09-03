@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_AdminNotification
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_AdminNotification::system_adminnotification" title="Notifications" module="Magento_AdminNotification" sortOrder="10" parent="Magento_Adminhtml::system_other_settings" action="adminhtml/notification" resource="Magento_AdminNotification::adminnotification"/>
+    </menu>
+</config>

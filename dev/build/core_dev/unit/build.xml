@@ -24,27 +24,27 @@
 
     <target name="_unit_tests_magento" depends="_product_location" description="Product unit tests">
         <exec dir="${product_root_dir}/dev/tests/unit" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/unit_tests_magento.xml"/>
+            <arg line="--log-junit ${product_root_dir}/unit_tests_magento.xml"/>
         </exec>
     </target>
     <target name="_unit_tests_integration_framework" depends="_product_location" description="Unit tests for integration testing framework">
         <exec dir="${product_root_dir}/dev/tests/integration/framework/tests/unit" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/unit_tests_integration_framework.xml"/>
+            <arg line="--log-junit ${product_root_dir}/unit_tests_integration_framework.xml"/>
         </exec>
     </target>
     <target name="_unit_tests_performance_framework" depends="_product_location" description="Unit tests for performance testing framework">
         <exec dir="${product_root_dir}/dev/tests/performance/framework/tests/unit" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/unit_tests_performance_framework.xml"/>
+            <arg line="--log-junit ${product_root_dir}/unit_tests_performance_framework.xml"/>
         </exec>
     </target>
     <target name="_unit_tests_static_framework" depends="_product_location" description="Unit tests for static code analysis framework">
         <exec dir="${product_root_dir}/dev/tests/static/framework/tests/unit" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/unit_tests_static_framework.xml"/>
+            <arg line="--log-junit ${product_root_dir}/unit_tests_static_framework.xml"/>
         </exec>
     </target>
     <target name="_unit_tests_unit_framework" depends="_product_location" description="Unit tests for unit testing framework">
         <exec dir="${product_root_dir}/dev/tests/unit/framework/tests/unit" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/unit_tests_unit_framework.xml"/>
+            <arg line="--log-junit ${product_root_dir}/unit_tests_unit_framework.xml"/>
         </exec>
     </target>
 
@@ -75,6 +75,68 @@
         <exec executable="php" failonerror="true">
             <arg value="${product_root_dir}/dev/tests/js/run_js_tests.php"/>
         </exec>
+    </target>
+	
+    <target name="_unit_tests_magento_xdebug" depends="_product_location" description="Product unit tests with Xdebug">
+        <exec dir="${product_root_dir}/dev/tests/unit" executable="${product_root_dir}/dev/build/bin/phpunit-with-xdebug.sh" failonerror="true">
+            <arg line="--log-junit ${product_root_dir}/unit_tests_magento_xdebug.xml"/>
+        </exec>
+    </target>
+
+    <target name="_unit_tests_integration_framework_xdebug" depends="_product_location" description="Unit tests for integration testing framework with Xdebug">
+        <exec dir="${product_root_dir}/dev/tests/integration/framework/tests/unit" executable="${product_root_dir}/dev/build/bin/phpunit-with-xdebug.sh" failonerror="true">
+            <arg line="--log-junit ${product_root_dir}/unit_tests_integration_framework_xdebug.xml"/>
+        </exec>
+    </target>
+
+    <target name="_unit_tests_performance_framework_xdebug" depends="_product_location" description="Unit tests for performance testing framework with Xdebug">
+        <exec dir="${product_root_dir}/dev/tests/performance/framework/tests/unit" executable="${product_root_dir}/dev/build/bin/phpunit-with-xdebug.sh" failonerror="true">
+            <arg line="--log-junit ${product_root_dir}/unit_tests_performance_framework_xdebug.xml"/>
+        </exec>
+    </target>
+
+    <target name="_unit_tests_static_framework_xdebug" depends="_product_location" description="Unit tests for static code analysis framework with Xdebug">
+        <exec dir="${product_root_dir}/dev/tests/static/framework/tests/unit" executable="${product_root_dir}/dev/build/bin/phpunit-with-xdebug.sh" failonerror="true">
+            <arg line="--log-junit ${product_root_dir}/unit_tests_static_framework_xdebug.xml"/>
+        </exec>
+    </target>
+
+    <target name="_unit_tests_unit_framework_xdebug" depends="_product_location" description="Unit tests for unit testing framework with Xdebug">
+        <exec dir="${product_root_dir}/dev/tests/unit/framework/tests/unit" executable="${product_root_dir}/dev/build/bin/phpunit-with-xdebug.sh" failonerror="true">
+            <arg line="--log-junit ${product_root_dir}/unit_tests_unit_framework_xdebug.xml"/>
+        </exec>
+    </target>
+
+    <target name="_unit_tests_all_xdebug" description="All unit tests with Xdebug">
+        <antcall>
+            <target name="_unit_tests_magento_xdebug"/>
+            <target name="_unit_tests_integration_framework_xdebug"/>
+            <target name="_unit_tests_performance_framework_xdebug"/>
+            <target name="_unit_tests_static_framework_xdebug"/>
+            <target name="_unit_tests_unit_framework_xdebug"/>
+        </antcall>
+    </target>
+
+    <target name="unit_tests_ee_xdebug" depends="_enterprise_edition" description="Unit tests for EE with Xdebug">
+        <antcall target="_unit_tests_all_xdebug"/>
+    </target>
+
+    <target name="unit_tests_ce_xdebug" depends="_community_edition" description="Unit tests for CE with Xdebug">
+        <antcall target="_unit_tests_all_xdebug"/>
+    </target>
+
+    <target name="unit_tests_ce_magento_code_coverage" depends="_product_location" description="Code Coverage All CE Unit Tests with Xdebug">
+        <antcall target="_code_coverage_configuration">
+            <param name="configuration_file" value="${product_root_dir}/dev/tests/unit/phpunit.xml.dist"/>
+        </antcall>
+        <antcall target="unit_tests_ce_xdebug"/>
+    </target>
+
+    <target name="unit_tests_ee_magento_code_coverage" depends="_product_location" description="Code Coverage All EE Unit Tests with Xdebug">
+        <antcall target="_code_coverage_configuration">
+            <param name="configuration_file" value="${product_root_dir}/dev/tests/unit/phpunit.xml.dist"/>
+        </antcall>
+        <antcall target="unit_tests_ee_xdebug"/>
     </target>
 
 </project>

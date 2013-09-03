@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="All Pages" id="default" module="Magento_Page" type="page">
+    <handle label="All Pages" id="default" type="page">
         <block class="Magento_Page_Block_Html" name="root" output="1" template="3columns.phtml">
             <block class="Magento_Page_Block_Html_Head" name="head" as="head">
                 <block class="Magento_Page_Block_Js_Cookie" name="js_cookies" template="js/cookie.phtml"/>

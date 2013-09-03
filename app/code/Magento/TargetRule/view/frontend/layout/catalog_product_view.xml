@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_product_view">
+        <reference name="product.info">
+            <!-- remove name="catalog.product.related" / -->
+            <block class="Magento_TargetRule_Block_Catalog_Product_List_Related" name="catalog.product.related" as="relatedProducts" template="catalog/product/list/related.phtml">
+                <action method="setColumnCount">
+                    <argument name="columns" xsi:type="string">3</argument>
+                </action>
+                <block class="Magento_TargetRule_Block_Catalog_Product_Item" name="catalog.product.related.item" template="catalog/product/list/related/item.phtml"/>
+            </block>
+            <!-- remove name="product.info.upsell" / -->
+            <block class="Magento_TargetRule_Block_Catalog_Product_List_Upsell" name="product.info.upsell" as="upsell_products" template="catalog/product/list/upsell.phtml">
+                <action method="setColumnCount">
+                    <argument name="columns" xsi:type="string">4</argument>
+                </action>
+                <block class="Magento_TargetRule_Block_Catalog_Product_Item" name="catalog.product.upsell.item" template="catalog/product/list/upsell/item.phtml"/>
+            </block>
+        </reference>
+    </handle>
+</layout>

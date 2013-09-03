@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Rule
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Rule>
+                    <files>
+                        <default>Magento_Rule.csv</default>
+                    </files>
+                </Magento_Rule>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frontend>
+        <translate>
+            <modules>
+                <Magento_Rule>
+                    <files>
+                        <default>Magento_Rule.csv</default>
+                    </files>
+                </Magento_Rule>
+            </modules>
+        </translate>
+    </frontend>
+</config>

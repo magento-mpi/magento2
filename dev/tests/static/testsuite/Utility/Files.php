@@ -130,6 +130,32 @@ class Utility_Files
     }
 
     /**
+     * Returns list of files, where expected to have class declarations
+     *
+     * @return array
+     */
+    public function getClassFiles()
+    {
+        $key = __METHOD__ . $this->_path;
+        if (isset(self::$_cache[$key])) {
+            return self::$_cache[$key];
+        }
+        if (!isset(self::$_cache[$key])) {
+            $namespace = '*';
+
+            $files = array_merge(
+                self::_getFiles(array("{$this->_path}/app/code/{$namespace}"), '*.php'),
+                self::_getFiles(array("{$this->_path}/downloader/Maged"), '*.php'),
+                self::_getFiles(array("{$this->_path}/downloader/lib/Magento"), '*.php'),
+                self::_getFiles(array("{$this->_path}/lib/Magento"), '*.php')
+            );
+        }
+        $result = self::composeDataSets($files);
+        self::$_cache[$key] = $result;
+        return $result;
+    }
+
+    /**
      * Returns list of xml files, used by Magento application
      *
      * @return array

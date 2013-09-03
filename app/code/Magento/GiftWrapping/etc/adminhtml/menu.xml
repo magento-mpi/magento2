@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_GiftWrapping
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_GiftWrapping::sales_magento_giftwrapping" title="Gift Wrapping" module="Magento_GiftWrapping" sortOrder="30" parent="Magento_Adminhtml::other_settings" action="adminhtml/giftwrapping" dependsOnModule="Magento_GiftWrapping" resource="Magento_GiftWrapping::magento_giftwrapping"/>
+    </menu>
+</config>

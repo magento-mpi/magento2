@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_PersistentHistory
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <system>
+        <section id="persistent">
+            <group id="options">
+                <field id="shopping_cart" translate="label">
+                    <backend_model>Magento_PersistentHistory_Model_Adminhtml_System_Config_Cart</backend_model>
+                </field>
+                <field id="wishlist" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Persist Wishlist</label>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="recently_ordered" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Persist Recently Ordered Items</label>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="compare_current" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Persist Currently Compared Products</label>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="compare_history" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Persist Comparison History</label>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="recently_viewed" translate="label" type="select" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Persist Recently Viewed Products</label>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="customer" translate="label" type="select" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Persist Customer Group Membership and Segmentation</label>
+                    <frontend_model>Magento_PersistentHistory_Block_Adminhtml_System_Config_Customer</frontend_model>
+                    <backend_model>Magento_PersistentHistory_Model_Adminhtml_System_Config_Customer</backend_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

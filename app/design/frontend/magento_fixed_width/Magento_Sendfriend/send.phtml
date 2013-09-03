@@ -1,0 +1,100 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Send to friend form
+ *
+ * @see Magento_Sendfriend_Block_Index
+ */
+?>
+<script id="add-recipient-tmpl" type="text/x-jQuery-tmpl">
+    <p class="btn-remove" id="btn-remove${_index_}">
+        <a href="delete_email" class="btn-remove"><img src="<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>" title="<?php echo $this->jsQuoteEscape(__('Remove Email')) ?>" alt="<?php echo $this->jsQuoteEscape(__('Remove Email')) ?>"/></a>
+    </p>
+    <div class="field">
+        <label for="recipients-name${_index_}" class="required"><em>*</em> <?php echo __('Name:')?></label>
+        <div class="input-box">
+            <input name="recipients[name][${_index_}]" type="text" title="<?php echo __('Name:')?>" class="input-text" id="recipients-name${_index_}" data-validate="{required:true}"/>
+        </div>
+    </div>
+    <div class="field">
+        <label for="recipients-email${_index_}" class="required"><em>*</em> <?php echo __('Email Address:') ?></label>
+        <div class="input-box">
+            <input name="recipients[email][${_index_}]" title="<?php echo __('Email Address:') ?>" id="recipients-email${_index_}" type="text" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
+        </div>
+    </div>
+</script>
+<div class="page-title">
+    <h1><?php echo __('Email to a Friend') ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<form action="<?php echo $this->getUrl('*/*/sendmail', array('id'=>$this->getProductId(), 'cat_id'=>$this->getCategoryId())) ?>" method="post" id="product-sendtofriend-form">
+    <div class="fieldset">
+        <?php echo $this->getBlockHtml('formkey')?>
+        <h2 class="legend"><?php echo __('Sender:') ?></h2>
+        <ul class="form-list" id="sender-options">
+            <li class="fields">
+                <div class="field">
+                    <label for="sender-name" class="required"><em>*</em><?php echo __('Name:') ?></label>
+                    <div class="input-box">
+                        <input name="sender[name]" value="<?php echo $this->escapeHtml($this->getUserName()) ?>" title="<?php echo __('Name') ?>" id="sender-name" type="text" class="input-text" data-validate="{required:true}"/>
+                    </div>
+                </div>
+                <div class="field">
+                   <label for="sender-email" class="required"><em>*</em><?php echo __('Email:') ?></label>
+                    <div class="input-box">
+                       <input name="sender[email]" value="<?php echo $this->escapeHtml($this->getEmail()) ?>" title="<?php echo __('Email Address') ?>" id="sender-email" type="text" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <label for="sender-message" class="required"><em>*</em><?php echo __('Message:') ?></label>
+                <div class="input-box">
+                    <textarea name="sender[message]" class="input-text" id="sender-message" cols="3" rows="3" style="height:100px;" data-validate="{required:true}"><?php echo $this->escapeHtml($this->getFormData()->getData('sender/message'))?></textarea>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="fieldset">
+        <h2 class="legend"><?php echo __('Recipient:') ?></h2>
+        <ul class="form-list" id="recipients-options">
+            <li class="no-display">&nbsp;</li>
+        </ul>
+    </div>
+    <div class="buttons-set form-buttons">
+        <p class="back-link">
+            <span id="max-recipient-message" style="display:none;">
+                <?php if ($this->getMaxRecipients()): ?>
+                    <?php echo __('Maximum %1 email addresses allowed.', $this->getMaxRecipients()) ?>
+                <?php endif; ?>
+            </span>&nbsp;
+        </p>
+        <button type="submit" class="button<?php if (!$this->canSend()):?> disabled<?php endif ?>"<?php if (!$this->canSend()):?> disabled="disabled"<?php endif ?>><span><span><?php echo __('Send Email') ?></span></span></button>
+        <?php if (1 < $this->getMaxRecipients()): ?>
+            <button type="button" id="add-recipient-button" class="button"><span><span><?php echo __('Add Recipient') ?></span></span></button>
+        <?php endif; ?>
+    </div>
+    <p class="required"><?php echo __('* Required Fields') ?></p>
+</form>
+<script type="text/javascript">
+    head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+        "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+        "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+        "<?php echo $this->getViewFileUrl('Magento_Page::js/row-builder.js')?>", function() {
+            jQuery('#product-sendtofriend-form').rowBuilder({
+                rowTemplate: '#add-recipient-tmpl',
+                rowContainer: '#recipients-options',
+                maxRows: '<?php echo $this->getMaxRecipients() ?>',
+                maxRowsMsg: '#max-recipient-message',
+                addRowBtn: '#add-recipient-button'
+            }).validation();
+        });
+</script>

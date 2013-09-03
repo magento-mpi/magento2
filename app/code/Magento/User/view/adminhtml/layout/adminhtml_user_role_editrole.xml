@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_user_role_editrole">
+        <reference name="left">
+            <block class="Magento_User_Block_Role_Edit" name="adminhtml.user.editroles">
+                <block class="Magento_User_Block_Role_Tab_Edit" name="adminhtml.user.tab.rolesedit"/>
+                <action method="addTabAfter">
+                    <argument name="name" xsi:type="string">account</argument>
+                    <argument name="block" xsi:type="string">adminhtml.user.tab.rolesedit</argument>
+                    <argument name="after" xsi:type="string">info</argument>
+                </action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Backend_Block_Template" name="adminhtml.user.roles.users.grid.js" template="Magento_User::role/users_grid_js.phtml"/>
+            <block class="Magento_User_Block_Buttons" name="adminhtml.user.role.buttons" template="role/info.phtml"/>
+        </reference>
+    </handle>
+</layout>

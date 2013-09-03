@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_targetrule_grid">
+        <update handle="formkey"/>
+        <update handle="adminhtml_targetrule_grid_block"/>
+        <container label="TargetRule Grid Container" name="adminhtml.targetrule.grid.container" output="1"/>
+    </handle>
+</layout>

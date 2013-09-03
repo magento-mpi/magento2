@@ -1,0 +1,28 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Pbridge
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    (function($) {
+        $(document).ready(function() {
+            var frame = $('iframe').filter(function() {
+                return $(this).contents().is(document);
+            });
+            frame.trigger('gotoSection', 'payment');
+            frame.trigger('reloadIframe');
+            var params = decodeURIComponent(location.search.substr(1)).split('=');
+            if (params[0] && params[1] && params[0] == 'error_message') {
+                parent.alert(params[1]);
+            }
+        });
+    })(parent.jQuery);
+    //]]>
+</script>
+

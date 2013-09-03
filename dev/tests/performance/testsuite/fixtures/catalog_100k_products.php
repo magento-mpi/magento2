@@ -8,7 +8,7 @@
 
 $pattern = array(
     '_attribute_set' => 'Default',
-    '_type' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+    '_type' => Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
     '_product_websites' => 'base',
     'name' => 'Product %s',
     'short_description' => 'Short desc %s',
@@ -16,8 +16,8 @@ $pattern = array(
     'description' => 'Description %s',
     'sku' => 'product_dynamic_%s',
     'price' => 10,
-    'visibility' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-    'status' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,
+    'visibility' => Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+    'status' => Magento_Catalog_Model_Product_Status::STATUS_ENABLED,
     'tax_class_id' => 0,
 
     // actually it saves without stock data, but by default system won't show on the frontend products out of stock
@@ -31,10 +31,10 @@ $pattern = array(
     'use_config_manage_stock' => '1',
     'use_config_qty_increments' => '1',
     'use_config_enable_qty_inc' => '1',
-    'stock_id' => Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID,
+    'stock_id' => Magento_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID,
 );
 $generator = new Magento_ImportExport_Fixture_Generator($pattern, 100000);
-$import = new Mage_ImportExport_Model_Import(array('entity' => 'catalog_product', 'behavior' => 'append'));
+$import = new Magento_ImportExport_Model_Import(array('entity' => 'catalog_product', 'behavior' => 'append'));
 // it is not obvious, but the validateSource() will actually save import queue data to DB
 $import->validateSource($generator);
 // this converts import queue into actual entities

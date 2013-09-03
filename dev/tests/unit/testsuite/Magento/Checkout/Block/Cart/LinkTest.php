@@ -94,7 +94,7 @@ class Magento_Checkout_Block_Cart_LinkTest extends PHPUnit_Framework_TestCase
             )
         );
         $helper->expects($this->any())->method('getSummaryCount')->will($this->returnValue($productCount));
-        $this->assertSame($label, $block->getLabel());
+        $this->assertSame($label, (string)$block->getLabel());
     }
 
     public function getLabelDataProvider()
