@@ -12,7 +12,7 @@
 /**
  * Background image renderer test
  */
-class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImageTest
+class Magento_DesignEditor_Model_Editor_QuickStyles_Renderer_BackgroundImageTest
     extends PHPUnit_Framework_TestCase
 {
     /**

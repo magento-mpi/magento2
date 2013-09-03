@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * List of block default dependencies

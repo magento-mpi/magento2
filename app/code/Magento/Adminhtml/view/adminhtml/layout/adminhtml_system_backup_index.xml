@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_system_backup_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_system_backup_index">
         <update handle="formkey"/>
         <update handle="adminhtml_system_backup_block"/>
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Backup" name="adminhtml.system.backup.container"/>
+            <block class="Magento_Adminhtml_Block_Backup" name="adminhtml.system.backup.container"/>
         </reference>
-    </adminhtml_system_backup_index>
+    </handle>
 </layout>

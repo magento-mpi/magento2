@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_system_design_wysiwyg_files_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_system_design_wysiwyg_files_index">
         <remove name="footer"/>
         <remove name="head"/>
         <reference name="left">
-            <block name="wysiwyg_files.tree" type="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Tree" template="Magento_Adminhtml::cms/browser/tree.phtml"/>
+            <block class="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Tree" name="wysiwyg_files.tree" template="Magento_Adminhtml::cms/browser/tree.phtml"/>
         </reference>
         <reference name="content">
-            <block name="wysiwyg_files.content" type="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content" template="browser/content.phtml">
-                <block name="wysiwyg_files.uploader" type="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader" template="browser/content/uploader.phtml"/>
+            <block class="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content" name="wysiwyg_files.content" template="browser/content.phtml">
+                <block class="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader" name="wysiwyg_files.uploader" template="browser/content/uploader.phtml"/>
             </block>
         </reference>
-    </adminhtml_system_design_wysiwyg_files_index>
+    </handle>
 </layout>

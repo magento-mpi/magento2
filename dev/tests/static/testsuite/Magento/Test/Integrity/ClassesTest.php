@@ -189,11 +189,14 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         $classPattern = '/^class\s[A-Z][^\s\/]+/m';
         $namespacePattern = '/(Maged|Magento|Zend)\/[a-zA-Z]+[^\.]+/';
+        $formalPattern = '/^namespace\s[\\\\a-zA-Z]+/m';
 
         $classNameMatch = array();
         $namespaceMatch = array();
+        $formalNamespaceArray = array();
         $className = null;
         $namespace = null;
+        $namespaceFolders = null;
 
         // exception made because the file is already using formal namespace
         if ($relativePath == "/app/code/Zend/Soap/Wsdl.php") {
@@ -208,10 +211,22 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         if (preg_match($namespacePattern, $relativePath, $namespaceMatch) != 0) {
             $namespace = str_replace('/', '_', $namespaceMatch[0]);
+            $namespaceFolders = $namespaceMatch[0];
         }
-        if ($className != null && $namespace != null) {
-            $this->assertEquals($className, $namespace,
-                "Declaration of $file does not match namespace: $namespace\n");
+
+        if (preg_match($formalPattern, $contents, $formalNamespaceArray) != 0) {
+            $formalNamespace = substr($formalNamespaceArray[0], 10);
+            $formalNamespace = str_replace('\\', '/', $formalNamespace);
+            $formalNamespace .= '/'. $className;
+            if ($namespaceFolders != null && $formalNamespace != null) {
+                $this->assertEquals($formalNamespace, $namespaceFolders,
+                    "Location of $file does not match formal namespace: $formalNamespace\n");
+            }
+        } else {
+            if ($className != null && $namespace != null) {
+                $this->assertEquals($className, $namespace,
+                    "Declaration of $file does not match namespace: $namespace\n");
+            }
         }
     }
 

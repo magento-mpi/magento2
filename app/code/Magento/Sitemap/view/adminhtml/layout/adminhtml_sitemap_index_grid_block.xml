@@ -7,78 +7,78 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sitemap_index_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sitemap_index_grid_block">
         <reference name="adminhtml.sitemap.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.sitemap.container.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.sitemap.container.grid" as="grid">
                 <arguments>
-                    <id>sitemapGrid</id>
-                    <dataSource type="object">Magento_Sitemap_Model_Resource_Sitemap_Collection</dataSource>
-                    <default_sort>sitemap_id</default_sort>
+                    <argument name="id" xsi:type="string">sitemapGrid</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Sitemap_Model_Resource_Sitemap_Collection</argument>
+                    <argument name="default_sort" xsi:type="string">sitemap_id</argument>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.sitemap.container.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.sitemap.container.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <id>sitemapGrid</id>
-                        <rowUrl>
-                            <path>*/*/edit</path>
-                            <extraParamsTemplate>
-                                <sitemap_id>getId</sitemap_id>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="id" xsi:type="string">sitemapGrid</argument>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="sitemap_id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_id">
                         <arguments>
-                            <header translate="true">ID</header>
-                            <width>50px</width>
-                            <index>sitemap_id</index>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
+                            <argument name="width" xsi:type="string">50px</argument>
+                            <argument name="index" xsi:type="string">sitemap_id</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_filename">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_filename">
                         <arguments>
-                            <header translate="true">Filename</header>
-                            <index>sitemap_filename</index>
+                            <argument name="header" xsi:type="string" translate="true">Filename</argument>
+                            <argument name="index" xsi:type="string">sitemap_filename</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_path">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_path">
                         <arguments>
-                            <header translate="true">Path</header>
-                            <index>sitemap_path</index>
+                            <argument name="header" xsi:type="string" translate="true">Path</argument>
+                            <argument name="index" xsi:type="string">sitemap_path</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="link">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="link">
                         <arguments>
-                            <header translate="true">Link for Google</header>
-                            <renderer>Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link</renderer>
+                            <argument name="header" xsi:type="string" translate="true">Link for Google</argument>
+                            <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_time">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_time">
                         <arguments>
-                            <header translate="true">Last Generated</header>
-                            <width>150px</width>
-                            <index>sitemap_time</index>
-                            <type>datetime</type>
+                            <argument name="header" xsi:type="string" translate="true">Last Generated</argument>
+                            <argument name="width" xsi:type="string">150px</argument>
+                            <argument name="index" xsi:type="string">sitemap_time</argument>
+                            <argument name="type" xsi:type="string">datetime</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
-                            <header translate="true">Store View</header>
-                            <type>store</type>
-                            <id>store_id</id>
-                            <index>store_id</index>
-                            <store_view>true</store_view>
+                            <argument name="header" xsi:type="string" translate="true">Store View</argument>
+                            <argument name="type" xsi:type="string">store</argument>
+                            <argument name="id" xsi:type="string">store_id</argument>
+                            <argument name="index" xsi:type="string">store_id</argument>
+                            <argument name="store_view" xsi:type="string">true</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
-                            <header translate="true">Action</header>
-                            <filter>0</filter>
-                            <sortable>0</sortable>
-                            <width>100px</width>
-                            <renderer>Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Action</renderer>
+                            <argument name="header" xsi:type="string" translate="true">Action</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="width" xsi:type="string">100px</argument>
+                            <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Action</argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_sitemap_index_grid_block>
+    </handle>
 </layout>

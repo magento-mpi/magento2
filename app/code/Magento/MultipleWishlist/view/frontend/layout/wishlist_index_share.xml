@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <wishlist_index_share>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="wishlist_index_share">
         <reference name="my.account.wrapper">
-            <block type="Magento_MultipleWishlist_Block_Customer_Sharing" name="wishlist.sharing" template="Magento_Wishlist::sharing.phtml"/>
+            <block class="Magento_MultipleWishlist_Block_Customer_Sharing" name="wishlist.sharing" template="Magento_Wishlist::sharing.phtml"/>
         </reference>
-    </wishlist_index_share>
+    </handle>
 </layout>

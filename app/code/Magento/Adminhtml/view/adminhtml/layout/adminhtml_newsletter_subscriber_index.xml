@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_newsletter_subscriber_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_newsletter_subscriber_index">
         <update handle="formkey"/>
         <update handle="adminhtml_newsletter_subscriber_block"/>
-        <reference name='content'>
-            <block type="Magento_Adminhtml_Block_Newsletter_Subscriber" name="adminhtml.newsletter.subscriber.container"/>
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Newsletter_Subscriber" name="adminhtml.newsletter.subscriber.container"/>
         </reference>
-    </adminhtml_newsletter_subscriber_index>
+    </handle>
 </layout>

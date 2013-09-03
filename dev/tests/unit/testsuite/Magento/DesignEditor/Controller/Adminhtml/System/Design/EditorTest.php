@@ -12,7 +12,7 @@
 /**
  * Test backend controller for the design editor
  */
-class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest extends PHPUnit_Framework_TestCase
+class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor

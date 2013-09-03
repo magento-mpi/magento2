@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_ScheduledImportExport_Model_Export_Entity_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
+class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Test attribute code and website specific attribute code

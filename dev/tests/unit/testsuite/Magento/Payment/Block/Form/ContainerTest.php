@@ -12,7 +12,7 @@
 /**
  * Test class for Magento_Payment_Block_Form_ContainerAbstract
  */
-class Magento_Payment_Block_Form_ContainerAbstractTest extends PHPUnit_Framework_TestCase
+class Magento_Payment_Block_Form_ContainerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers Magento_Payment_Block_Form_ContainerAbstract::getChildBlock

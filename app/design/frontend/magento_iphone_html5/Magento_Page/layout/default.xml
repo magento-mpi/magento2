@@ -7,36 +7,36 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
         </reference>
         <reference name="head">
             <action method="addCss">
-                <file>css/iphone.css</file>
+                <argument name="file" xsi:type="string">css/iphone.css</argument>
             </action>
             <action method="addCss">
-                <file>css/widgets.css</file>
+                <argument name="file" xsi:type="string">css/widgets.css</argument>
             </action>
             <action method="addCss">
-                <file>css/custom.css</file>
+                <argument name="file" xsi:type="string">css/custom.css</argument>
             </action>
             <action method="addJs">
-                <file>js/iphone.js</file>
+                <argument name="file" xsi:type="string">js/iphone.js</argument>
             </action>
             <action method="addJs">
-                <file>js/dnd.js</file>
+                <argument name="file" xsi:type="string">js/dnd.js</argument>
             </action>
             <action method="addJs">
-                <file>js/modernizr.js</file>
+                <argument name="file" xsi:type="string">js/modernizr.js</argument>
             </action>
             <action method="addMetaTag">
-                <name>viewport</name>
-                <content>width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no</content>
+                <argument name="name" xsi:type="string">viewport</argument>
+                <argument name="content" xsi:type="string">width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no</argument>
             </action>
         </reference>
-    </default>
+    </handle>
 </layout>

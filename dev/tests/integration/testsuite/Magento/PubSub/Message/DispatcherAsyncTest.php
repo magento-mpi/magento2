@@ -12,7 +12,7 @@
 /**
  * @magentoDbIsolation enabled
  */
-class Magento_PubSub_Message_DispatcherAsyncTests extends PHPUnit_Framework_TestCase
+class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_PubSub_Message_DispatcherAsync

@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_review>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_review">
         <reference name="order_review">
             <action method="addItemRender">
-                <type>downloadable</type>
-                <block>Magento_Downloadable_Block_Checkout_Cart_Item_Renderer</block>
-                <template>checkout/onepage/review/item.phtml</template>
+                <argument name="type" xsi:type="string">downloadable</argument>
+                <argument name="block" xsi:type="string">Magento_Downloadable_Block_Checkout_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">checkout/onepage/review/item.phtml</argument>
             </action>
         </reference>
-    </checkout_onepage_review>
+    </handle>
 </layout>

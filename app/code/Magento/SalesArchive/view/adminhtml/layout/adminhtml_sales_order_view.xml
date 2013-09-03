@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_view">
         <reference name="left">
-            <block type="Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer" name="archive.replacer"/>
+            <block class="Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer" name="archive.replacer"/>
         </reference>
-    </adminhtml_sales_order_view>
+    </handle>
 </layout>

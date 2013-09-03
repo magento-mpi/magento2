@@ -48,7 +48,7 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends Magento
         $this->getRequest()->setPost('id', $theme->getId());
         $this->dispatch('backend/admin/system_design_theme/uploadjs');
         $output = $this->getResponse()->getBody();
-        $this->assertContains('error:false', $output);
+        $this->assertContains('"error":false', $output);
         $this->assertContains('simple-js-file.js', $output);
     }
 

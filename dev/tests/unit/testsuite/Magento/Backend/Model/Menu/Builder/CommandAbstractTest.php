@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Menu_Item_Builder_CommandAbstractTest extends PHPUnit_Framework_TestCase
+class Magento_Backend_Model_Menu_Builder_CommandAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Backend_Model_Menu_Builder_CommandAbstract

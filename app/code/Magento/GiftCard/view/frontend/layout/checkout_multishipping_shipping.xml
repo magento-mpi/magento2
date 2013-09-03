@@ -7,21 +7,21 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_multishipping_shipping>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_multishipping_shipping">
         <reference name="checkout_shipping">
             <action method="addItemRender">
-                <type>giftcard</type>
-                <block>Magento_GiftCard_Block_Checkout_Cart_Item_Renderer</block>
-                <template>Magento_Checkout::multishipping/item/default.phtml</template>
+                <argument name="type" xsi:type="string">giftcard</argument>
+                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Checkout_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">Magento_Checkout::multishipping/item/default.phtml</argument>
             </action>
         </reference>
         <reference name="checkout_billing_items">
             <action method="addItemRender">
-                <type>giftcard</type>
-                <block>Magento_GiftCard_Block_Checkout_Cart_Item_Renderer</block>
-                <template>Magento_Checkout::multishipping/item/default.phtml</template>
+                <argument name="type" xsi:type="string">giftcard</argument>
+                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Checkout_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">Magento_Checkout::multishipping/item/default.phtml</argument>
             </action>
         </reference>
-    </checkout_multishipping_shipping>
+    </handle>
 </layout>

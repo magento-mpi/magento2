@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
+class Magento_Adminhtml_Controller_System_AccountTest extends PHPUnit_Framework_TestCase
 {
     /** @var Magento_Adminhtml_Controller_System_Account */
     protected $_controller;

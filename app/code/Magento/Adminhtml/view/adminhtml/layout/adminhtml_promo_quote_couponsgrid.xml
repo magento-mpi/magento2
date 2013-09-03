@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_promo_quote_couponsgrid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_promo_quote_couponsgrid">
         <container name="root" label="Root" output="1">
-            <block type="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid" name="promo_quote_edit_tab_coupons_grid"/>
+            <block class="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid" name="promo_quote_edit_tab_coupons_grid"/>
         </container>
-    </adminhtml_promo_quote_couponsgrid>
+    </handle>
 </layout>

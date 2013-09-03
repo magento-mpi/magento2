@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Layout_HandleTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Pattern for attribute elements, compatible with HTML ID
@@ -139,7 +139,7 @@ class Magento_Test_Integrity_Layout_HandleTest extends PHPUnit_Framework_TestCas
         $basename = basename($file);
         if (substr($basename, 0, strlen($skippedPrefix)) != $skippedPrefix) {
             $handle = $handles[0];
-            $this->assertEquals($handle->getName() . ".xml", $basename);
+            $this->assertEquals($handle['id'] . ".xml", $basename);
         }
     }
 

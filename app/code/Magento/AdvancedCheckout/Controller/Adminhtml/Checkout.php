@@ -883,7 +883,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
 
         if (is_array($listTypes) &&  array_intersect($listTypes, $skuListTypes)) {
             $cart = $this->getCartModel();
-            // We need to save products to enterprise_checkout/cart instead of checkout/cart
+            // We need to save products to magento_advancedcheckout/cart instead of checkout/cart
             $cart->saveAffectedProducts($cart, false);
         }
 
