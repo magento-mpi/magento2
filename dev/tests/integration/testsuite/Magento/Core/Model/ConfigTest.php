@@ -21,7 +21,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
-        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+        $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
         $cacheState->setEnabled('config', false);
     }
 

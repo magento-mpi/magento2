@@ -39,7 +39,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         $this->_includePath = get_include_path();
 
         /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
+        $dirs = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir');
         $generationDirectory = $dirs->getDir(Magento_Core_Model_Dir::VAR_DIR) . '/generation';
 
         Magento_Autoload_IncludePath::addIncludePath($generationDirectory);
@@ -49,7 +49,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
             new Magento_Autoload_IncludePath(),
             $generationDirectory
         );
-        $this->_generator = Mage::getObjectManager()->create(
+        $this->_generator = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Code_Generator', array('ioObject' => $this->_ioObject)
         );
     }
@@ -57,7 +57,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
+        $dirs = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir');
         $generationDirectory = $dirs->getDir(Magento_Core_Model_Dir::VAR_DIR) . '/generation';
         Magento_Io_File::rmdirRecursive($generationDirectory);
 
@@ -79,7 +79,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var $factory Magento_ObjectManager_Factory */
-        $factory = Mage::getObjectManager()->create($factoryClassName);
+        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($factoryClassName);
         $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $object);
 
@@ -101,7 +101,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var $factory Magento_ObjectManager_Factory */
-        $factory = Mage::getObjectManager()->create($factoryClassName);
+        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($factoryClassName);
 
         $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $object);
@@ -123,7 +123,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
             $this->_generator->generateClass($factoryClassName)
         );
 
-        $proxy = Mage::getObjectManager()->create($factoryClassName);
+        $proxy = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($factoryClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $proxy);
         $content = $this->_clearDocBlock(
             file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITHOUT_NAMESPACE . 'Proxy'))
@@ -142,7 +142,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
             $this->_generator->generateClass($factoryClassName)
         );
 
-        $proxy = Mage::getObjectManager()->create($factoryClassName);
+        $proxy = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($factoryClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $proxy);
 
         $content = $this->_clearDocBlock(

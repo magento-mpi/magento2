@@ -32,7 +32,7 @@ class Magento_Core_Utility_Layout
      */
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var Magento_Core_Model_Layout_File_Factory $fileFactory */
         $fileFactory = $objectManager->get('Magento_Core_Model_Layout_File_Factory');
         $file = $fileFactory->create($layoutUpdatesFile, 'Magento_Core');
@@ -71,17 +71,14 @@ class Magento_Core_Utility_Layout
      */
     public function getLayoutDependencies()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         return array(
-            'design'             => Mage::getObjectManager()->get('Magento_Core_Model_View_DesignInterface'),
-            'blockFactory'       => Mage::getObjectManager()->create('Magento_Core_Model_BlockFactory', array()),
-            'structure'          => Mage::getObjectManager()->create('Magento_Data_Structure', array()),
-            'argumentProcessor'  => Mage::getObjectManager()->create('Magento_Core_Model_Layout_Argument_Processor',
-                array()
-            ),
-            'scheduledStructure' => Mage::getObjectManager()->create('Magento_Core_Model_Layout_ScheduledStructure',
-                array()
-            ),
-            'dataServiceGraph'   => Mage::getObjectManager()->create('Magento_Core_Model_DataService_Graph', array()),
+            'design'             => $objectManager->get('Magento_Core_Model_View_DesignInterface'),
+            'blockFactory'       => $objectManager->create('Magento_Core_Model_BlockFactory', array()),
+            'structure'          => $objectManager->create('Magento_Data_Structure', array()),
+            'argumentProcessor'  => $objectManager->create('Magento_Core_Model_Layout_Argument_Processor', array()),
+            'scheduledStructure' => $objectManager->create('Magento_Core_Model_Layout_ScheduledStructure', array()),
+            'dataServiceGraph'   => $objectManager->create('Magento_Core_Model_DataService_Graph', array()),
         );
     }
 }

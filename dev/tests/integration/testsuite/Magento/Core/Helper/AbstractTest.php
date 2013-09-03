@@ -18,9 +18,8 @@ class Magento_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = $this->getMock('Magento_Core_Helper_Abstract',
-            array('_getModuleName'), array(Mage::getObjectManager()->get('Magento_Core_Helper_Context'))
-        );
+        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Context');
+        $this->_helper = $this->getMock('Magento_Core_Helper_Abstract', array('_getModuleName'), array($context));
         $this->_helper
             ->expects($this->any())
             ->method('_getModuleName')

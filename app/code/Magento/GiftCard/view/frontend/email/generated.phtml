@@ -16,7 +16,7 @@
     <?php if (!$_code) continue; ?>
 
     <?php if ($_isRedeemable): ?>
-        <a href="<?php echo Mage::getUrl('magento_giftcardaccount/customer', array('giftcard'=>$_code)); ?>"><?php echo $_code; ?></a>
+        <a href="<?php echo $this->getUrl('magento_giftcardaccount/customer', array('giftcard'=>$_code)); ?>"><?php echo $_code; ?></a>
     <?php else: ?>
         <?php echo $_code; ?>
     <?php endif; ?>

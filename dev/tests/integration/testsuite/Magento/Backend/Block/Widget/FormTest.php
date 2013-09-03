@@ -20,10 +20,11 @@ class Magento_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
      */
     public function testSetFieldset()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
-        $layout = Mage::getObjectManager()->create('Magento_Core_Model_Layout');
+        $layout = $objectManager->create('Magento_Core_Model_Layout');
         $formBlock = $layout->addBlock('Magento_Backend_Block_Widget_Form');
-        $fieldSet = Mage::getObjectManager()->create('Magento_Data_Form_Element_Fieldset');
+        $fieldSet = $objectManager->create('Magento_Data_Form_Element_Fieldset');
         $arguments = array(
             'data' => array(
                 'attribute_code' => 'date',
@@ -32,7 +33,7 @@ class Magento_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
                 'frontend_label' => 'Date',
             )
         );
-        $attributes = array(Mage::getObjectManager()->create('Magento_Eav_Model_Entity_Attribute', $arguments));
+        $attributes = array($objectManager->create('Magento_Eav_Model_Entity_Attribute', $arguments));
         $method = new ReflectionMethod('Magento_Backend_Block_Widget_Form', '_setFieldset');
         $method->setAccessible(true);
         $method->invoke($formBlock, $attributes, $fieldSet);

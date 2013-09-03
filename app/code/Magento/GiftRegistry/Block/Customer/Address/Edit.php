@@ -10,14 +10,9 @@
 
 /**
  * GiftRegistry shipping Address block
- *
- * @category   Magento
- * @package    Magento_GiftRegistry
- * @author     Magento Core Team <core@magentocommerce.com>
  */
  class Magento_GiftRegistry_Block_Customer_Address_Edit extends Magento_GiftRegistry_Block_Customer_Edit_Abstract
 {
-
     /**
      * Contains logged in customer
      *

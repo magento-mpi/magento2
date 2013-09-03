@@ -158,4 +158,24 @@ class Magento_Page_Block_Switch extends Magento_Core_Block_Template
         }
         return $this->_storeInUrl;
     }
+
+    /**
+     * Get store code
+     *
+     * @return string
+     */
+    public function getStoreCode()
+    {
+        return $this->_storeManager->getStore()->getCode();
+    }
+
+    /**
+     * Get store name
+     *
+     * @return null|string
+     */
+    public function getStoreName()
+    {
+        return $this->_storeManager->getStore()->getName();
+    }
 }

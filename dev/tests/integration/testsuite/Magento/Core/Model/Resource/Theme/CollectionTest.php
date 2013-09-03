@@ -16,7 +16,8 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
      */
     protected static function _getThemesCollection()
     {
-        return  Mage::getObjectManager()->create('Magento_Core_Model_Resource_Theme_Collection');
+        return  Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Theme_Collection');
     }
 
     /**
@@ -85,7 +86,8 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
     public function testAddAreaFilter($area, $themeCount)
     {
         /** @var $themeCollection Magento_Core_Model_Resource_Theme_Collection */
-        $themeCollection = Mage::getObjectManager()->create('Magento_Core_Model_Resource_Theme_Collection');
+        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Theme_Collection');
         $themeCollection->addAreaFilter($area);
         $this->assertCount($themeCount, $themeCollection);
     }
@@ -111,7 +113,8 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
     public function testAddTypeFilter($themeType, $themeCount)
     {
         /** @var $themeCollection Magento_Core_Model_Resource_Theme_Collection */
-        $themeCollection = Mage::getObjectManager()->create('Magento_Core_Model_Resource_Theme_Collection');
+        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Theme_Collection');
         $themeCollection->addAreaFilter('test_area3');
         if ($themeType !== false) {
             $themeCollection->addTypeFilter($themeType);
@@ -140,7 +143,8 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
     public function testFilterVisibleThemes()
     {
         /** @var $themeCollection Magento_Core_Model_Resource_Theme_Collection */
-        $themeCollection = Mage::getObjectManager()->create('Magento_Core_Model_Resource_Theme_Collection');
+        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Theme_Collection');
         $themeCollection->addAreaFilter('test_area3')->filterVisibleThemes();
         $this->assertCount(2, $themeCollection);
         /** @var $theme Magento_Core_Model_Theme */
@@ -191,7 +195,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
         $themeCollection->load();
         foreach (self::getThemeList() as $themeData) {
             /** @var $themeModel Magento_Core_Model_Theme */
-            $themeModel = Mage::getObjectManager()->create('Magento_Core_Model_Theme');
+            $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Theme');
             $themeModel->setData($themeData);
             $themeCollection->addItem($themeModel);
         }
@@ -207,7 +211,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
         $idByPath = array();
         foreach ($fixture as $themeData) {
             /** @var $themeModel Magento_Core_Model_Theme */
-            $themeModel = Mage::getObjectManager()->create('Magento_Core_Model_Theme');
+            $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Theme');
             $themeModel->setData($themeData);
 
             if ($themeData['parent_id'] && isset($idByPath[$themeData['parent_id']])) {

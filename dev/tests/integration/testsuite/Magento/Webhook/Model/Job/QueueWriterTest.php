@@ -13,6 +13,7 @@ class Magento_Webhook_Model_Job_QueueWriterTest extends PHPUnit_Framework_TestCa
 {
     public function testOffer()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $event = Mage::getModel('Magento_Webhook_Model_Event')
             ->setDataChanges(true)
             ->save();
@@ -20,16 +21,16 @@ class Magento_Webhook_Model_Job_QueueWriterTest extends PHPUnit_Framework_TestCa
             ->setDataChanges(true)
             ->save();
         /** @var Magento_Webhook_Model_Job $job */
-        $job = Mage::getObjectManager()->create('Magento_Webhook_Model_Job');
+        $job = $objectManager->create('Magento_Webhook_Model_Job');
         $job->setEventId($event->getId());
         $job->setSubscriptionId($subscription->getId());
 
         /** @var Magento_Webhook_Model_Event_QueueWriter $queueWriter */
-        $queueWriter = Mage::getObjectManager()->create('Magento_Webhook_Model_Job_QueueWriter');
+        $queueWriter = $objectManager->create('Magento_Webhook_Model_Job_QueueWriter');
         $queueWriter->offer($job);
 
         /** @var Magento_Webhook_Model_Event_QueueReader $queueReader */
-        $queueReader = Mage::getObjectManager()->create('Magento_Webhook_Model_Job_QueueReader');
+        $queueReader = $objectManager->create('Magento_Webhook_Model_Job_QueueReader');
 
         $this->assertEquals($job->getId(), $queueReader->poll()->getId());
     }

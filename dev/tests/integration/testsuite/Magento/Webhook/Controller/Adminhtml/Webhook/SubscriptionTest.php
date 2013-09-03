@@ -169,7 +169,8 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends Mage
     private function _createDummySubscription()
     {
         /** @var $factory Magento_Webhook_Model_Subscription_Factory */
-        $factory = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription_Factory');
+        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription_Factory');
         $this->_subscription = $factory->create()
             ->setName('dummy')
             ->save();

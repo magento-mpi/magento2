@@ -32,7 +32,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
     {
         parent::setUp();
 
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Magento_Webapi_Block_Adminhtml_User_Edit_Tabs',
             'webapi.user.edit.tabs');

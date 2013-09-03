@@ -79,7 +79,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
 
         $this->dispatch('backend/admin/auth/login');
         /** @var $backendUrlModel Magento_Backend_Model_Url */
-        $backendUrlModel = Mage::getObjectManager()->get('Magento_Backend_Model_Url');
+        $backendUrlModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url');
         $url = $backendUrlModel->getStartupPageUrl();
         $expected = $backendUrlModel->getUrl($url);
         $this->assertRedirect($this->stringStartsWith($expected));

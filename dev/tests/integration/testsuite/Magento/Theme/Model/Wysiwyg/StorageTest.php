@@ -40,7 +40,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_filesystem = $this->_objectManager->get('Magento_Filesystem');
         $this->_filesystem->setIsAllowCreateDirectories(true);
 

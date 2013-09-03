@@ -11,7 +11,7 @@ $cacheTypeList = Mage::getModel('Magento_Core_Model_Cache_TypeListInterface');
 $types = array_keys($cacheTypeList->getTypes());
 
 /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-$cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+$cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
 foreach ($types as $type) {
     $cacheState->setEnabled($type, true);
 }

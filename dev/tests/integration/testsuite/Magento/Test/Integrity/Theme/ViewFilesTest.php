@@ -23,7 +23,7 @@ class Magento_Test_Integrity_Theme_ViewFilesTest extends Magento_TestFramework_T
         $this->_markTestIncompleteDueToBug($area, $file);
         try {
             $params = array('area' => $area, 'themeId' => $themeId);
-            $viewFile = Mage::getObjectmanager()
+            $viewFile = Magento_TestFramework_Helper_Bootstrap::getObjectmanager()
                 ->get('Magento_Core_Model_View_FileSystem')
                 ->getViewFile($file, $params);
             $this->assertFileExists($viewFile);
@@ -38,9 +38,9 @@ class Magento_Test_Integrity_Theme_ViewFilesTest extends Magento_TestFramework_T
                 preg_match_all(Magento_Core_Helper_Css::REGEX_CSS_RELATIVE_URLS, $content, $matches);
                 foreach ($matches[1] as $relativePath) {
                     $path = $this->_addCssDirectory($relativePath, $file);
-                    $pathFile = Mage::getObjectmanager()->get('Magento_Core_Model_View_FileSystem')->getViewFile(
-                        $path, $params
-                    );
+                    $pathFile = Magento_TestFramework_Helper_Bootstrap::getObjectmanager()
+                        ->get('Magento_Core_Model_View_FileSystem')
+                        ->getViewFile($path, $params);
                     if (!is_file($pathFile)) {
                         $errors[] = $relativePath;
                     }

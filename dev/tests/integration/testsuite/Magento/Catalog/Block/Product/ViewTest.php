@@ -28,8 +28,9 @@ class Magento_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::getObjectManager()->create('Magento_Catalog_Block_Product_View');
-        $this->_product = Mage::getModel('Magento_Catalog_Model_Product');
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_block = $objectManager->create('Magento_Catalog_Block_Product_View');
+        $this->_product = $objectManager->create('Magento_Catalog_Model_Product');
         $this->_product->load(1);
         Mage::unregister('product');
         Mage::register('product', $this->_product);

@@ -30,7 +30,9 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
             'themeModel' => Mage::getModel('Magento_Core_Model_Theme'),
             'module'     => $module
         );
-        $file = Mage::getObjectmanager()->get('Magento_Core_Model_View_FileSystem')->getFilename($template, $params);
+        $file = Magento_TestFramework_Helper_Bootstrap::getObjectmanager()
+            ->get('Magento_Core_Model_View_FileSystem')
+            ->getFilename($template, $params);
         $this->assertFileExists($file, "Block class: {$class}");
     }
 
@@ -68,7 +70,9 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
                     Magento_Core_Model_App_Area::AREA_ADMINHTML,
                     Magento_Core_Model_App_Area::PART_CONFIG
                 );
-                Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')->setCurrentScope($area);
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_Config_Scope')
+                    ->setCurrentScope($area);
 
                 $block = Mage::getModel($blockClass);
                 $template = $block->getTemplate();

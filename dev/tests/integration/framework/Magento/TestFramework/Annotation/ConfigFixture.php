@@ -66,9 +66,10 @@ class Magento_TestFramework_Annotation_ConfigFixture
     {
         if ($storeCode === false) {
             Mage::getConfig()->setNode($configPath, $value);
-            Mage::getObjectManager()->get('Magento_Core_Model_Config_Modules')->setNode($configPath, $value);
-            Mage::getObjectManager()->get('Magento_Core_Model_Config_Primary')->setNode($configPath, $value);
-            Mage::getObjectManager()->get('Magento_Core_Model_Config_Locales')->setNode($configPath, $value);
+            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+            $objectManager->get('Magento_Core_Model_Config_Modules')->setNode($configPath, $value);
+            $objectManager->get('Magento_Core_Model_Config_Primary')->setNode($configPath, $value);
+            $objectManager->get('Magento_Core_Model_Config_Locales')->setNode($configPath, $value);
         } else {
             Mage::app()->getStore($storeCode)->setConfig($configPath, $value);
         }

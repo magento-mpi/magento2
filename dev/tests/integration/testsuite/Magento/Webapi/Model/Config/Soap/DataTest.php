@@ -39,7 +39,7 @@ class Magento_Webapi_Model_Config_Soap_DataTest extends PHPUnit_Framework_TestCa
         /** @var Magento_Core_Model_App $app */
         $app = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
         $appConfig = Mage::app()->getConfig();
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var Magento_Webapi_Helper_Config $helper */
         $helper = $objectManager->get('Magento_Webapi_Helper_Config');
         /** @var Magento_Webapi_Model_Config_Reader_Soap_ClassReflector $classReflector */

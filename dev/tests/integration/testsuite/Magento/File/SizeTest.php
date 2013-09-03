@@ -21,7 +21,7 @@ class Magento_File_SizeTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_fileSize = Mage::getObjectManager()->get('Magento_File_Size');
+        $this->_fileSize = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_File_Size');
     }
 
     /**

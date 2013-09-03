@@ -17,7 +17,7 @@
             <ul class="form-list">
                 <li>
                     <label for="country"><?php echo __('Country') ?></label>
-                    <?php echo Mage::getBlockSingleton('Magento_Directory_Block_Data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?>
+                    <?php echo $this->getDirectoryBlock()->getCountryHtmlSelect($this->getEstimateCountryId()) ?>
                 </li>
             <?php //if($this->getStateActive()): ?>
                 <li>
@@ -54,7 +54,7 @@
                 "<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
                 function() {
                     $('#country').regionUpdater({
-                        optionalRegionAllowed: <?php echo (Mage::getStoreConfig('general/region/display_all')? 'true' : 'false'); ?>,
+                        optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
                         regionListId: '#region_id',
                         regionInputId: '#region',
                         postcodeId: '#postcode',
