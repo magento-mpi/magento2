@@ -39,7 +39,7 @@ class Magento_Test_Workaround_Cleanup_TestCasePropertiesTest extends PHPUnit_Fra
         /** @var $testSuite PHPUnit_Framework_TestSuite */
         $testSuite = $phpUnitTestSuite->testAt(0);
         $testSuite->run();
-        /** @var $testClass Magento_TestFramework_Workaround_Cleanup_TestCasePropertiesTest_DummyTestCase */
+        /** @var $testClass Magento_Test_Workaround_Cleanup_TestCasePropertiesTest_DummyTestCase */
         $testClass = $testSuite->testAt(0);
 
         $propertyObjectMock = $this->getMock('stdClass', array('__destruct'));
