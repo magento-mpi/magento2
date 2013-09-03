@@ -18,6 +18,27 @@
 class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Block_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Render RSS
      *
      * @return string
@@ -36,7 +57,7 @@ class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
         );
         $rssObj->_addHeader($data);
 
-        $globalNotifyStockQty = (float) Mage::getStoreConfig(
+        $globalNotifyStockQty = (float) $this->_coreStoreConfig->getConfig(
             Magento_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY);
         Mage::helper('Magento_Rss_Helper_Data')->disableFlat();
         /* @var $product Magento_Catalog_Model_Product */

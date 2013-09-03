@@ -46,7 +46,7 @@ class Magento_Payment_Model_Config
     public function getActiveMethods($store=null)
     {
         $methods = array();
-        $config = Mage::getStoreConfig('payment', $store);
+        $config = $this->_coreStoreConfig->getConfig('payment', $store);
         foreach ($config as $code => $methodConfig) {
             if ($this->_coreStoreConfig->getConfigFlag('payment/'.$code.'/active', $store)) {
                 if (array_key_exists('model', $methodConfig)) {
@@ -69,7 +69,7 @@ class Magento_Payment_Model_Config
     public function getAllMethods($store=null)
     {
         $methods = array();
-        $config = Mage::getStoreConfig('payment', $store);
+        $config = $this->_coreStoreConfig->getConfig('payment', $store);
         foreach ($config as $code => $methodConfig) {
             $data = $this->_getMethod($code, $methodConfig);
             if (false !== $data) {

@@ -145,7 +145,7 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
             return true;
         }
         $timeout = strtotime( now() ) - strtotime( $user->getLogdate() );
-        return $timeout > Mage::getStoreConfig('api/config/session_timeout');
+        return $timeout > $this->_coreStoreConfig->getConfig('api/config/session_timeout');
     }
 
 

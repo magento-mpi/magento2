@@ -24,7 +24,7 @@ class Magento_Page_Block_Html_Notices extends Magento_Core_Block_Template
      */
     public function displayNoscriptNotice()
     {
-        return Mage::getStoreConfig('web/browser_capabilities/javascript');
+        return $this->_coreStoreConfig->getConfig('web/browser_capabilities/javascript');
     }
 
     /**
@@ -34,7 +34,7 @@ class Magento_Page_Block_Html_Notices extends Magento_Core_Block_Template
      */
     public function displayDemoNotice()
     {
-        return Mage::getStoreConfig('design/head/demonotice');
+        return $this->_coreStoreConfig->getConfig('design/head/demonotice');
     }
 
     /**

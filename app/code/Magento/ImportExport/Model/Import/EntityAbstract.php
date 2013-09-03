@@ -232,12 +232,21 @@ abstract class Magento_ImportExport_Model_Import_EntityAbstract
     protected $_helpers;
 
     /**
-     * Constructor
+     * Core store config
      *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         if (isset($data['helpers'])) {
             $this->_helpers = $data['helpers'];
         }
@@ -251,11 +260,11 @@ abstract class Magento_ImportExport_Model_Import_EntityAbstract
         $this->_stringHelper        = isset($data['string_helper']) ? $data['string_helper']
             : Mage::helper('Magento_Core_Helper_String');
         $this->_pageSize            = isset($data['page_size']) ? $data['page_size']
-            : (static::XML_PATH_PAGE_SIZE ? (int) Mage::getStoreConfig(static::XML_PATH_PAGE_SIZE) : 0);
+            : (static::XML_PATH_PAGE_SIZE ? (int) $this->_coreStoreConfig->getConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_maxDataSize         = isset($data['max_data_size']) ? $data['max_data_size']
             : Mage::getResourceHelper('Magento_ImportExport')->getMaxDataSize();
         $this->_bunchSize           = isset($data['bunch_size']) ? $data['bunch_size']
-            : (static::XML_PATH_BUNCH_SIZE ? (int) Mage::getStoreConfig(static::XML_PATH_BUNCH_SIZE) : 0);
+            : (static::XML_PATH_BUNCH_SIZE ? (int) $this->_coreStoreConfig->getConfig(static::XML_PATH_BUNCH_SIZE) : 0);
     }
 
     /**

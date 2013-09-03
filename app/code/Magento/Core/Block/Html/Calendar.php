@@ -46,8 +46,8 @@ class Magento_Core_Block_Html_Calendar extends Magento_Core_Block_Template
         $this->assign('pm', $helper->jsonEncode(Zend_Locale_Data::getContent($localeCode, 'pm')));
 
         // get first day of week and weekend days
-        $this->assign('firstDay',    (int)Mage::getStoreConfig('general/locale/firstday'));
-        $this->assign('weekendDays', $helper->jsonEncode((string)Mage::getStoreConfig('general/locale/weekend')));
+        $this->assign('firstDay',    (int)$this->_coreStoreConfig->getConfig('general/locale/firstday'));
+        $this->assign('weekendDays', $helper->jsonEncode((string)$this->_coreStoreConfig->getConfig('general/locale/weekend')));
 
         // define default format and tooltip format
         $this->assign(

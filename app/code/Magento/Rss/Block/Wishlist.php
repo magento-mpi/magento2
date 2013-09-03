@@ -102,7 +102,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
             ));
 
             $title  = $this->_getTitle();
-            $lang   = Mage::getStoreConfig('general/locale/code');
+            $lang   = $this->_coreStoreConfig->getConfig('general/locale/code');
 
             $rssObj->_addHeader(array(
                 'title'         => $title,

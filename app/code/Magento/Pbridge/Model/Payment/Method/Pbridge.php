@@ -500,7 +500,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
     protected function _getApiRequest()
     {
         $request = new Magento_Object();
-        $request->setCountryCode(Mage::getStoreConfig(self::XML_CONFIG_PATH_DEFAULT_COUNTRY));
+        $request->setCountryCode($this->_coreStoreConfig->getConfig(self::XML_CONFIG_PATH_DEFAULT_COUNTRY));
         $request->setClientIdentifier($this->_getCustomerIdentifier());
 
         return $request;

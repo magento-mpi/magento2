@@ -79,7 +79,7 @@ class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMaxRecipients($store = null)
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_MAX_RECIPIENTS, $store);
+        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_RECIPIENTS, $store);
     }
 
     /**
@@ -90,7 +90,7 @@ class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMaxEmailPerPeriod($store = null)
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_MAX_PER_HOUR, $store);
+        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_PER_HOUR, $store);
     }
 
     /**
@@ -111,7 +111,7 @@ class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getLimitBy($store = null)
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_LIMIT_BY, $store);
+        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_LIMIT_BY, $store);
     }
 
     /**
@@ -122,7 +122,7 @@ class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getEmailTemplate($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_TEMPLATE, $store);
     }
 
     /**

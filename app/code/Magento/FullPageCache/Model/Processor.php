@@ -114,6 +114,13 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
     protected $_storeManager;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction
      * @param Magento_FullPageCache_Model_Cache $fpcCache
      * @param Magento_FullPageCache_Model_Cache_SubProcessorFactory $subProcessorFactory
@@ -125,6 +132,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
      * @param Magento_FullPageCache_Model_Metadata $metadata
      * @param Magento_FullPageCache_Model_Store_Identifier $storeIdentifier
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction,
@@ -137,8 +145,10 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         Magento_FullPageCache_Model_DesignPackage_Info $designInfo,
         Magento_FullPageCache_Model_Metadata $metadata,
         Magento_FullPageCache_Model_Store_Identifier $storeIdentifier,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;
         $this->_subProcessorFactory = $subProcessorFactory;
@@ -457,7 +467,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
                 $contentSize = strlen($content);
                 $currentStorageSize = (int) $this->_fpcCache->load(self::CACHE_SIZE_KEY);
 
-                $maxSizeInBytes = Mage::getStoreConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
+                $maxSizeInBytes = $this->_coreStoreConfig->getConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
 
                 if ($currentStorageSize >= $maxSizeInBytes) {
                     /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
@@ -517,13 +527,13 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         $output = $this->isAllowed();
 
         if ($output) {
-            $maxDepth = Mage::getStoreConfig(self::XML_PATH_ALLOWED_DEPTH);
+            $maxDepth = $this->_coreStoreConfig->getConfig(self::XML_PATH_ALLOWED_DEPTH);
             $queryParams = $request->getQuery();
             unset($queryParams[Magento_FullPageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM]);
             $output = count($queryParams) <= $maxDepth;
         }
         if ($output) {
-            $multiCurrency = Mage::getStoreConfig(self::XML_PATH_CACHE_MULTICURRENCY);
+            $multiCurrency = $this->_coreStoreConfig->getConfig(self::XML_PATH_CACHE_MULTICURRENCY);
             $currency = $this->_environment->getCookie('currency');
             if (!$multiCurrency && !empty($currency)) {
                 $output = false;

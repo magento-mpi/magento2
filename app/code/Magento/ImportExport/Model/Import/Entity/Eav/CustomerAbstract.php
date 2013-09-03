@@ -56,13 +56,14 @@ abstract class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
     protected $_customerStorage;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $data);
 
         $this->addMessageTemplate(self::ERROR_WEBSITE_IS_EMPTY,
             __('Website is not specified')

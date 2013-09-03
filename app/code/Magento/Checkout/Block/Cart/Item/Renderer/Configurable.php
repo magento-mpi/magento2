@@ -56,7 +56,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer_Configurable extends Magento_Che
         $product = $this->getChildProduct();
         if (!$product || !$product->getData('thumbnail')
             || ($product->getData('thumbnail') == 'no_selection')
-            || (Mage::getStoreConfig(self::CONFIGURABLE_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE)) {
+            || ($this->_coreStoreConfig->getConfig(self::CONFIGURABLE_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE)) {
             $product = $this->getProduct();
         }
         return $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail');

@@ -278,7 +278,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      */
     public function getMinQty()
     {
-        return (float)($this->getUseConfigMinQty() ? Mage::getStoreConfig(self::XML_PATH_MIN_QTY)
+        return (float)($this->getUseConfigMinQty() ? $this->_coreStoreConfig->getConfig(self::XML_PATH_MIN_QTY)
             : $this->getData('min_qty'));
     }
 
@@ -336,7 +336,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      */
     public function getMaxSaleQty()
     {
-        return (float)($this->getUseConfigMaxSaleQty() ? Mage::getStoreConfig(self::XML_PATH_MAX_SALE_QTY)
+        return (float)($this->getUseConfigMaxSaleQty() ? $this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_SALE_QTY)
             : $this->getData('max_sale_qty'));
     }
 
@@ -348,7 +348,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     public function getNotifyStockQty()
     {
         if ($this->getUseConfigNotifyStockQty()) {
-            return (float) Mage::getStoreConfig(self::XML_PATH_NOTIFY_STOCK_QTY);
+            return (float) $this->_coreStoreConfig->getConfig(self::XML_PATH_NOTIFY_STOCK_QTY);
         }
         return (float) $this->getData('notify_stock_qty');
     }
@@ -376,7 +376,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
         if ($this->_qtyIncrements === null) {
             if ($this->getEnableQtyIncrements()) {
                 $this->_qtyIncrements = (float)($this->getUseConfigQtyIncrements()
-                    ? Mage::getStoreConfig(self::XML_PATH_QTY_INCREMENTS)
+                    ? $this->_coreStoreConfig->getConfig(self::XML_PATH_QTY_INCREMENTS)
                     : $this->getData('qty_increments'));
                 if ($this->_qtyIncrements <= 0) {
                     $this->_qtyIncrements = false;
@@ -397,7 +397,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     public function getDefaultQtyIncrements()
     {
         return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS)
-            ? (int)Mage::getStoreConfig(self::XML_PATH_QTY_INCREMENTS)
+            ? (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_QTY_INCREMENTS)
             : false;
     }
 
@@ -409,7 +409,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     public function getBackorders()
     {
         if ($this->getUseConfigBackorders()) {
-            return (int) Mage::getStoreConfig(self::XML_PATH_BACKORDERS);
+            return (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_BACKORDERS);
         }
         return $this->getData('backorders');
     }

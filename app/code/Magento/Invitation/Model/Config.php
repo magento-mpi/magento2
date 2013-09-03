@@ -49,7 +49,7 @@ class Magento_Invitation_Model_Config
      */
     public function getMaxInvitationsPerSend($storeId = null)
     {
-        $max = (int)Mage::getStoreConfig(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, $storeId);
+        $max = (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, $storeId);
         return ($max < 1 ? 1 : $max);
     }
 
@@ -61,7 +61,7 @@ class Magento_Invitation_Model_Config
      */
     public function getInvitationRequired($storeId = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_REGISTRATION_REQUIRED_INVITATION, $storeId);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_REGISTRATION_REQUIRED_INVITATION, $storeId);
     }
 
     /**

@@ -48,6 +48,22 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
     const XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES = 'frontend/product/collection/attributes';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -336,6 +352,6 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
      * @return string
      */
     public function getProductListDefaultSortBy($store = null) {
-        return Mage::getStoreConfig(self::XML_PATH_LIST_DEFAULT_SORT_BY, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_LIST_DEFAULT_SORT_BY, $store);
     }
 }

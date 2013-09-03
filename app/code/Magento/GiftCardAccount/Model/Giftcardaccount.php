@@ -64,6 +64,31 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
      */
     protected static $_alreadySelectedIds = array();
 
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento_GiftCardAccount_Model_Resource_Giftcardaccount');
@@ -487,8 +512,8 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
 
         $email = Mage::getModel('Magento_Core_Model_Email_Template')->setDesignConfig(array('store' => $storeId));
         $email->sendTransactional(
-            Mage::getStoreConfig('giftcard/giftcardaccount_email/template', $storeId),
-            Mage::getStoreConfig('giftcard/giftcardaccount_email/identity', $storeId),
+            $this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/template', $storeId),
+            $this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/identity', $storeId),
             $recipientEmail,
             $recipientName,
             array(

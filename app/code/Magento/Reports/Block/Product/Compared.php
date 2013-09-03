@@ -36,7 +36,7 @@ class Magento_Reports_Block_Product_Compared extends Magento_Reports_Block_Produ
         if ($this->hasData('page_size')) {
             return $this->getData('page_size');
         }
-        return Mage::getStoreConfig(self::XML_PATH_RECENTLY_COMPARED_COUNT);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_RECENTLY_COMPARED_COUNT);
     }
 
     /**

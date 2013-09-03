@@ -1712,7 +1712,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
         $storeId = $this->getStoreId();
         $minOrderActive = $this->_coreStoreConfig->getConfigFlag('sales/minimum_order/active', $storeId);
         $minOrderMulti  = $this->_coreStoreConfig->getConfigFlag('sales/minimum_order/multi_address', $storeId);
-        $minAmount      = Mage::getStoreConfig('sales/minimum_order/amount', $storeId);
+        $minAmount      = $this->_coreStoreConfig->getConfig('sales/minimum_order/amount', $storeId);
 
         if (!$minOrderActive) {
             return true;

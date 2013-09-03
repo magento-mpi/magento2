@@ -63,6 +63,25 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     abstract public function getPdf();
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Returns the total width in points of the string using the specified font and
      * size.
      *
@@ -135,7 +154,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     protected function insertLogo(&$page, $store = null)
     {
         $this->y = $this->y ? $this->y : 815;
-        $image = Mage::getStoreConfig('sales/identity/logo', $store);
+        $image = $this->_coreStoreConfig->getConfig('sales/identity/logo', $store);
         if ($image) {
             $image = Mage::getBaseDir('media') . '/sales/store/logo/' . $image;
             if (is_file($image)) {
@@ -185,7 +204,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
         $page->setLineWidth(0);
         $this->y = $this->y ? $this->y : 815;
         $top = 815;
-        foreach (explode("\n", Mage::getStoreConfig('sales/identity/address', $store)) as $value){
+        foreach (explode("\n", $this->_coreStoreConfig->getConfig('sales/identity/address', $store)) as $value){
             if ($value !== '') {
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
                 foreach (Mage::helper('Magento_Core_Helper_String')->str_split($value, 45, true, true) as $_value) {

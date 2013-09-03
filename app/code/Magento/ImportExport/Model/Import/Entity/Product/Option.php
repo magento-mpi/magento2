@@ -240,12 +240,21 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     protected $_pageSize;
 
     /**
-     * Constructor
+     * Core store config
      *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         if (isset($data['connection'])) {
             $this->_connection = $data['connection'];
         } else {
@@ -415,7 +424,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
         if (isset($data['page_size'])) {
             $this->_pageSize = $data['page_size'];
         } else {
-            $this->_pageSize = self::XML_PATH_PAGE_SIZE ? (int) Mage::getStoreConfig(self::XML_PATH_PAGE_SIZE) : 0;
+            $this->_pageSize = self::XML_PATH_PAGE_SIZE ? (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_PAGE_SIZE) : 0;
         }
         return $this;
     }

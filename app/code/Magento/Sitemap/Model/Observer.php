@@ -87,7 +87,7 @@ class Magento_Sitemap_Model_Observer
             }
         }
 
-        if ($errors && Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT)) {
+        if ($errors && $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT)) {
             $translate = Mage::getSingleton('Magento_Core_Model_Translate');
             /* @var $translate Magento_Core_Model_Translate */
             $translate->setTranslateInline(false);
@@ -96,9 +96,9 @@ class Magento_Sitemap_Model_Observer
             /* @var $emailTemplate Magento_Core_Model_Email_Template */
             $emailTemplate->setDesignConfig(array('area' => 'backend'))
                 ->sendTransactional(
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_IDENTITY),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_IDENTITY),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT),
                     null,
                     array('warnings' => join("\n", $errors))
                 );

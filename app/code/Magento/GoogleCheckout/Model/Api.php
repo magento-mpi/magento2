@@ -17,6 +17,25 @@ class Magento_GoogleCheckout_Model_Api extends Magento_Object
      */
     protected $_debugReplacePrivateDataKeys = array();
 
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
     protected function _getApi($area)
     {
         $api = Mage::getModel('Magento_GoogleCheckout_Model_Api_Xml_' . uc_words($area))->setStoreId($this->getStoreId());
@@ -204,7 +223,7 @@ class Magento_GoogleCheckout_Model_Api extends Magento_Object
     public function getDebugFlag()
     {
         if (!$this->hasData('debug_flag')) {
-            $this->setData('debug_flag', Mage::getStoreConfig('google/checkout/debug', $this->getStoreId()));
+            $this->setData('debug_flag', $this->_coreStoreConfig->getConfig('google/checkout/debug', $this->getStoreId()));
         }
         return $this->getData('debug_flag');
     }

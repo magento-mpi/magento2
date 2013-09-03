@@ -156,7 +156,7 @@ class Magento_GoogleCheckout_Model_Payment extends Magento_Payment_Model_Method_
         }
         $path = 'google/checkout/' . $field;
 
-        return Mage::getStoreConfig($path, $storeId);
+        return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
     /**

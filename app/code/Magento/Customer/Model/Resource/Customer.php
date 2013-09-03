@@ -15,12 +15,21 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     protected $_validatorFactory;
 
     /**
-     * Resource initialization
+     * Core store config
      *
-     * @param Magento_Core_Model_Validator_Factory $validatorFactory
+     * @var Magento_Core_Model_Store_Config
      */
-    public function __construct(Magento_Core_Model_Validator_Factory $validatorFactory)
-    {
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Validator_Factory $validatorFactory
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Validator_Factory $validatorFactory,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_validatorFactory = $validatorFactory;
         $this->setType('customer');
         $this->setConnection('customer_read', 'customer_write');
@@ -312,7 +321,7 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
      */
     public function setNewIncrementId(Magento_Object $object)
     {
-        if (Mage::getStoreConfig(Magento_Customer_Model_Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID)) {
+        if ($this->_coreStoreConfig->getConfig(Magento_Customer_Model_Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID)) {
             parent::setNewIncrementId($object);
         }
         return $this;

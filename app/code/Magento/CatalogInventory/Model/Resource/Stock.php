@@ -68,6 +68,25 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
     protected $_stock;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($resource);
+    }
+
+    /**
      * Define main table and initialize connection
      *
      */
@@ -166,7 +185,7 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
      */
     public function setInStockFilterToCollection($collection)
     {
-        $manageStock = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
+        $manageStock = $this->_coreStoreConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
         $cond = array(
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=1 AND {{table}}.is_in_stock=1',
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=0',
@@ -203,7 +222,7 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
             );
 
             foreach ($configMap as $field => $const) {
-                $this->$field = (int)Mage::getStoreConfig($const);
+                $this->$field = (int)$this->_coreStoreConfig->getConfig($const);
             }
 
             $this->_isConfig = true;

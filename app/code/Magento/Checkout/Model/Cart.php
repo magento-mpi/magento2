@@ -32,6 +32,27 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     protected $_productIds;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Get shopping cart resource model
      *
      * @return Magento_Checkout_Model_Resource_Cart
@@ -501,7 +522,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
         }
 
         if ($quoteId && $this->_summaryQty === null) {
-            if (Mage::getStoreConfig('checkout/cart_link/use_qty')) {
+            if ($this->_coreStoreConfig->getConfig('checkout/cart_link/use_qty')) {
                 $this->_summaryQty = $this->getItemsQty();
             } else {
                 $this->_summaryQty = $this->getItemsCount();

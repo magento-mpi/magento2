@@ -406,7 +406,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getDefaultCustomerGroupId($store = null)
     {
-        return (int)Mage::getStoreConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $store);
+        return (int)$this->_coreStoreConfig->getConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $store);
     }
 
     /**
@@ -431,7 +431,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         );
 
         if (isset($vatClassToGroupXmlPathMap[$vatClass])) {
-            $groupId = (int)Mage::getStoreConfig($vatClassToGroupXmlPathMap[$vatClass], $store);
+            $groupId = (int)$this->_coreStoreConfig->getConfig($vatClassToGroupXmlPathMap[$vatClass], $store);
         }
 
         return $groupId;
@@ -596,7 +596,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         }
         else {
             $contactUsMessage = sprintf(__('If you believe this is an error, please contact us at %s'),
-                Mage::getStoreConfig(self::XML_PATH_SUPPORT_EMAIL));
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_SUPPORT_EMAIL));
 
             $message = __('Your Tax ID cannot be validated.') . ' '
                 . (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled

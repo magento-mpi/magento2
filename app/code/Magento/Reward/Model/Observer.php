@@ -19,6 +19,22 @@
 class Magento_Reward_Model_Observer
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Update reward points for customer, send notification
      *
      * @param Magento_Event_Observer $observer
@@ -415,7 +431,7 @@ class Magento_Reward_Model_Observer
                 ->setCustomer($quote->getCustomer())
                 ->setWebsiteId($quote->getStore()->getWebsiteId())
                 ->loadByCustomer();
-            $minPointsBalance = (int)Mage::getStoreConfig(
+            $minPointsBalance = (int)$this->_coreStoreConfig->getConfig(
                 Magento_Reward_Model_Reward::XML_PATH_MIN_POINTS_BALANCE,
                 $quote->getStoreId()
             );

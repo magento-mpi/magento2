@@ -78,12 +78,12 @@ class Magento_Shipping_Block_Tracking_Popup extends Magento_Core_Block_Template
      */
     public function getContactUsEnabled()
     {
-        return (bool) Mage::getStoreConfig('contacts/contacts/enabled');
+        return (bool) $this->_coreStoreConfig->getConfig('contacts/contacts/enabled');
     }
 
     public function getStoreSupportEmail()
     {
-        return Mage::getStoreConfig('trans_email/ident_support/email');
+        return $this->_coreStoreConfig->getConfig('trans_email/ident_support/email');
     }
 
     public function getContactUs()

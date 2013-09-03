@@ -18,9 +18,23 @@
 
 class Magento_Checkout_Model_Cart_Shipping_Api extends Magento_Checkout_Model_Api_Resource
 {
-    public function __construct(Magento_Api_Helper_Data $apiHelper)
-    {
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Api_Helper_Data $apiHelper
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Api_Helper_Data $apiHelper,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
         parent::__construct($apiHelper);
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_ignoredAttributeCodes['quote_shipping_rate'] = array('address_id', 'created_at', 'updated_at', 'rate_id', 'carrier_sort_order');
     }
 
@@ -79,8 +93,8 @@ class Magento_Checkout_Model_Cart_Shipping_Api extends Magento_Checkout_Model_Ap
             $ratesResult = array();
             foreach ($groupedRates as $carrierCode => $rates ) {
                 $carrierName = $carrierCode;
-                if (!is_null(Mage::getStoreConfig('carriers/'.$carrierCode.'/title'))) {
-                    $carrierName = Mage::getStoreConfig('carriers/'.$carrierCode.'/title');
+                if (!is_null($this->_coreStoreConfig->getConfig('carriers/'.$carrierCode.'/title'))) {
+                    $carrierName = $this->_coreStoreConfig->getConfig('carriers/'.$carrierCode.'/title');
                 }
 
                 foreach ($rates as $rate) {

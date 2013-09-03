@@ -543,7 +543,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         $this->_initDesign();
 
         if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)
-            && Mage::getStoreConfig('web/browser_capabilities/cookies')
+            && $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('web/browser_capabilities/cookies')
         ) {
             $this->_forward('noCookies', 'index', 'core');
             return;

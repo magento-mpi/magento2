@@ -19,6 +19,25 @@ class Magento_Downloadable_Helper_Catalog_Product_Configuration extends Magento_
     implements Magento_Catalog_Helper_Product_Configuration_Interface
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieves item links options
      *
      * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
@@ -53,7 +72,7 @@ class Magento_Downloadable_Helper_Catalog_Product_Configuration extends Magento_
         if (strlen($title)) {
             return $title;
         }
-        return Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return $this->_coreStoreConfig->getConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
     }
 
     /**

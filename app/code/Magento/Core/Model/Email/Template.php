@@ -15,7 +15,7 @@
  *
  * // Loading of template
  * $emailTemplate  = Mage::getModel('Magento_Core_Model_Email_Template')
- *    ->load(Mage::getStoreConfig('path_to_email_template_id_config'));
+ *    ->load($this->_coreStoreConfig->getConfig('path_to_email_template_id_config'));
  * $variables = array(
  *    'someObject' => Mage::getSingleton('Magento_Core_Model_Resource_Email_Template')
  *    'someString' => 'Some string value'
@@ -468,8 +468,8 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         $variables['email'] = reset($emails);
         $variables['name'] = reset($names);
 
-        ini_set('SMTP', Mage::getStoreConfig('system/smtp/host'));
-        ini_set('smtp_port', Mage::getStoreConfig('system/smtp/port'));
+        ini_set('SMTP', $this->_coreStoreConfig->getConfig('system/smtp/host'));
+        ini_set('smtp_port', $this->_coreStoreConfig->getConfig('system/smtp/port'));
 
         $mail = $this->_getMail();
         foreach ($this->_bcc as $bcc) {
@@ -482,13 +482,13 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
             $mail->setReplyTo($this->_replyTo);
         }
 
-        $setReturnPath = Mage::getStoreConfig(self::XML_PATH_SENDING_SET_RETURN_PATH);
+        $setReturnPath = $this->_coreStoreConfig->getConfig(self::XML_PATH_SENDING_SET_RETURN_PATH);
         switch ($setReturnPath) {
             case 1:
                 $returnPathEmail = $this->getSenderEmail();
                 break;
             case 2:
-                $returnPathEmail = Mage::getStoreConfig(self::XML_PATH_SENDING_RETURN_PATH_EMAIL);
+                $returnPathEmail = $this->_coreStoreConfig->getConfig(self::XML_PATH_SENDING_RETURN_PATH_EMAIL);
                 break;
             default:
                 $returnPathEmail = null;
@@ -573,8 +573,8 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         }
 
         if (!is_array($sender)) {
-            $this->setSenderName(Mage::getStoreConfig('trans_email/ident_' . $sender . '/name', $storeId));
-            $this->setSenderEmail(Mage::getStoreConfig('trans_email/ident_' . $sender . '/email', $storeId));
+            $this->setSenderName($this->_coreStoreConfig->getConfig('trans_email/ident_' . $sender . '/name', $storeId));
+            $this->setSenderEmail($this->_coreStoreConfig->getConfig('trans_email/ident_' . $sender . '/email', $storeId));
         } else {
             $this->setSenderName($sender['name']);
             $this->setSenderEmail($sender['email']);

@@ -436,7 +436,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
      */
     protected function _getDefaultPath()
     {
-        return Mage::getStoreConfig('web/default/front');
+        return $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('web/default/front');
     }
 
     /**
@@ -600,9 +600,9 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
      */
     protected function _shouldBeSecure($path)
     {
-        return substr(Mage::getStoreConfig('web/unsecure/base_url'), 0, 5) === 'https'
+        return substr($this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('web/unsecure/base_url'), 0, 5) === 'https'
             || $this->_coreStoreConfig->getConfigFlag('web/secure/use_in_frontend')
-                && substr(Mage::getStoreConfig('web/secure/base_url'), 0, 5) == 'https'
+                && substr($this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('web/secure/base_url'), 0, 5) == 'https'
                 && Mage::getConfig()->shouldUrlBeSecure($path);
     }
 }

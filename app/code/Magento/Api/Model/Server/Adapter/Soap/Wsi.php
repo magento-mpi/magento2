@@ -25,7 +25,7 @@ class Magento_Api_Model_Server_Adapter_Soap_Wsi extends Magento_Api_Model_Server
      */
     public function run()
     {
-        $apiConfigCharset = Mage::getStoreConfig("api/config/charset");
+        $apiConfigCharset = $this->_coreStoreConfig->getConfig("api/config/charset");
 
         if ($this->getController()->getRequest()->getParam('wsdl') !== null) {
             /** @var $wsdlConfig Magento_Api_Model_Wsdl_Config */

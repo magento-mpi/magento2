@@ -104,7 +104,7 @@ class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
                 if (!$carrierMethods) {
                     continue;
                 }
-                $carrierTitle = Mage::getStoreConfig('carriers/' . $carrierCode . '/title', $storeId);
+                $carrierTitle = $this->_coreStoreConfig->getConfig('carriers/' . $carrierCode . '/title', $storeId);
                 $methods[$carrierCode] = array(
                     'title'   => $carrierTitle,
                     'methods' => array(),

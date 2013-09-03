@@ -76,7 +76,7 @@ class Magento_Downloadable_Block_Catalog_Product_Samples extends Magento_Catalog
         if ($this->getProduct()->getSamplesTitle()) {
             return $this->getProduct()->getSamplesTitle();
         }
-        return Mage::getStoreConfig(Magento_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
+        return $this->_coreStoreConfig->getConfig(Magento_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
     }
 
     /**

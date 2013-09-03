@@ -106,7 +106,7 @@ abstract class Magento_Shipping_Model_Carrier_Abstract extends Magento_Object
             return false;
         }
         $path = 'carriers/'.$this->_code.'/'.$field;
-        return Mage::getStoreConfig($path, $this->getStore());
+        return $this->_coreStoreConfig->getConfig($path, $this->getStore());
     }
 
     /**

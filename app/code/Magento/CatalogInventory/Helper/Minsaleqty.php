@@ -14,6 +14,22 @@
 class Magento_CatalogInventory_Helper_Minsaleqty
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Retrieve fixed qty value
      *
      * @param mixed $qty
@@ -139,7 +155,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
      */
     public function getConfigValue($customerGroupId, $store = null)
     {
-        $value = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MIN_SALE_QTY, $store);
+        $value = $this->_coreStoreConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MIN_SALE_QTY, $store);
         $value = $this->_unserializeValue($value);
         if ($this->_isEncodedArrayFieldValue($value)) {
             $value = $this->_decodeArrayFieldValue($value);

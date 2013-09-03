@@ -159,7 +159,7 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
      */
     public function getFrameParam($param = '')
     {
-        return Mage::getStoreConfig('payment_services/pbridge_styling/' . $param);
+        return $this->_coreStoreConfig->getConfig('payment_services/pbridge_styling/' . $param);
     }
 
     /**

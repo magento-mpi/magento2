@@ -39,24 +39,25 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct
      */
     protected $_configurationHelper;
 
+
     /**
-     * Collection constructor
-     *
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Registry $registryManager
      * @param Magento_Catalog_Model_Product_Type_Configurable $productType
      * @param Magento_Catalog_Helper_Product_Configuration $configurationHelper
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Registry $registryManager,
         Magento_Catalog_Model_Product_Type_Configurable $productType,
-        Magento_Catalog_Helper_Product_Configuration $configurationHelper
+        Magento_Catalog_Helper_Product_Configuration $configurationHelper,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;
         $this->_configurationHelper = $configurationHelper;
-        parent::__construct($fetchStrategy);
+        parent::__construct($fetchStrategy, $coreStoreConfig);
     }
 
     /**

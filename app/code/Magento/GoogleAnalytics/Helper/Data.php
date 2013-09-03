@@ -50,7 +50,7 @@ class Magento_GoogleAnalytics_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isGoogleAnalyticsAvailable($store = null)
     {
-        $accountId = Mage::getStoreConfig(self::XML_PATH_ACCOUNT, $store);
+        $accountId = $this->_coreStoreConfig->getConfig(self::XML_PATH_ACCOUNT, $store);
         return $accountId && $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ACTIVE, $store);
     }
 }

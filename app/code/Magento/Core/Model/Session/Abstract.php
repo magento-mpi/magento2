@@ -63,6 +63,27 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     protected $_skipSessionIdFlag   = false;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * This method needs to support sessions with APC enabled
      */
     public function __destruct()
@@ -287,12 +308,12 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
         $sessionData = $_SESSION[self::VALIDATOR_KEY];
         $validatorData = $this->_getSessionEnvironment();
 
-        if (Mage::getStoreConfig(self::XML_PATH_USE_REMOTE_ADDR)
+        if ($this->_coreStoreConfig->getConfig(self::XML_PATH_USE_REMOTE_ADDR)
             && $sessionData[self::VALIDATOR_REMOTE_ADDR_KEY] != $validatorData[self::VALIDATOR_REMOTE_ADDR_KEY]
         ) {
             return false;
         }
-        if (Mage::getStoreConfig(self::XML_PATH_USE_HTTP_VIA)
+        if ($this->_coreStoreConfig->getConfig(self::XML_PATH_USE_HTTP_VIA)
             && $sessionData[self::VALIDATOR_HTTP_VIA_KEY] != $validatorData[self::VALIDATOR_HTTP_VIA_KEY]
         ) {
             return false;
@@ -300,11 +321,11 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
 
         $httpXForwardedKey = $sessionData[self::VALIDATOR_HTTP_X_FORVARDED_FOR_KEY];
         $validatorXForwarded = $validatorData[self::VALIDATOR_HTTP_X_FORVARDED_FOR_KEY];
-        if (Mage::getStoreConfig(self::XML_PATH_USE_X_FORWARDED)
+        if ($this->_coreStoreConfig->getConfig(self::XML_PATH_USE_X_FORWARDED)
             && $httpXForwardedKey != $validatorXForwarded ) {
             return false;
         }
-        if (Mage::getStoreConfig(self::XML_PATH_USE_USER_AGENT)
+        if ($this->_coreStoreConfig->getConfig(self::XML_PATH_USE_USER_AGENT)
             && $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY] != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]
         ) {
             $userAgentValidated = $this->getValidateHttpUserAgentSkip();
@@ -432,7 +453,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
             $exception->getMessage(),
             "\n",
             $exception->getTraceAsString());
-        $file = Mage::getStoreConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
+        $file = $this->_coreStoreConfig->getConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
         Mage::log($message, Zend_Log::DEBUG, $file);
 
         $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->error($alternativeText));
@@ -576,7 +597,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     {
 
         if (null === $id
-            && (Mage::app()->getStore()->isAdmin() || Mage::getStoreConfig(self::XML_PATH_USE_FRONTEND_SID))
+            && (Mage::app()->getStore()->isAdmin() || $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID))
         ) {
             $_queryParam = $this->getSessionIdQueryParam();
             if (isset($_GET[$_queryParam]) && Mage::getSingleton('Magento_Core_Model_Url')->isOwnOriginUrl()) {

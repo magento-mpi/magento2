@@ -60,7 +60,7 @@ class Magento_Backup_Model_Observer
             Mage::helper('Magento_Backup_Helper_Data')->turnOnMaintenanceMode();
         }
 
-        $type = Mage::getStoreConfig(self::XML_PATH_BACKUP_TYPE);
+        $type = $this->_coreStoreConfig->getConfig(self::XML_PATH_BACKUP_TYPE);
 
         $this->_errors = array();
         try {

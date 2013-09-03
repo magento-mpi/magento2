@@ -41,6 +41,31 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
     const ACTION_REVERTED = 5;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource
      *
      */
@@ -148,8 +173,8 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
                 ->setDesignConfig(array('store' => $storeId, 'area' => Mage::getDesign()->getArea()));
             $customer = $this->getBalanceModel()->getCustomer();
             $email->sendTransactional(
-                Mage::getStoreConfig('customer/magento_customerbalance/email_template', $storeId),
-                Mage::getStoreConfig('customer/magento_customerbalance/email_identity', $storeId),
+                $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_template', $storeId),
+                $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_identity', $storeId),
                 $customer->getEmail(), $customer->getName(),
                 array(
                     'balance' => Mage::app()->getWebsite($this->getBalanceModel()->getWebsiteId())

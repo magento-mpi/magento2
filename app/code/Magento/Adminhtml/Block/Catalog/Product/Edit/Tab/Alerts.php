@@ -27,8 +27,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Magento_Ad
             ->setId('productAlerts');
         /* @var $accordion Magento_Adminhtml_Block_Widget_Accordion */
 
-        $alertPriceAllow = Mage::getStoreConfig('catalog/productalert/allow_price');
-        $alertStockAllow = Mage::getStoreConfig('catalog/productalert/allow_stock');
+        $alertPriceAllow = $this->_coreStoreConfig->getConfig('catalog/productalert/allow_price');
+        $alertStockAllow = $this->_coreStoreConfig->getConfig('catalog/productalert/allow_stock');
 
         if ($alertPriceAllow) {
             $accordion->addItem('price', array(

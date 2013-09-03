@@ -19,6 +19,25 @@
 class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($resource);
+    }
+
+    /**
      * Resource initialization
      *
      */
@@ -109,7 +128,7 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     {
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
-        $timeout        = Mage::getStoreConfig('api/config/session_timeout');
+        $timeout        = $this->_coreStoreConfig->getConfig('api/config/session_timeout');
         $timeSubtract     = $readAdapter->getDateAddSql(
             'logdate',
             $timeout,

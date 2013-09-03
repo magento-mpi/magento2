@@ -21,6 +21,31 @@
 abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Magento_Core_Model_Config_Data
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Retrieve allowed currencies for current scope
      *
      * @return array
@@ -42,7 +67,7 @@ abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Ma
      */
     protected function _getInstalledCurrencies()
     {
-        return explode(',', Mage::getStoreConfig('system/currency/installed'));
+        return explode(',', $this->_coreStoreConfig->getConfig('system/currency/installed'));
     }
 
     /**

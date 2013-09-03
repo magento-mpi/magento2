@@ -25,6 +25,25 @@ class Magento_GoogleShopping_Model_Config extends Magento_Object
     protected $_config = array();
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      *  Return config var
      *
      *  @param    string $key Var path key
@@ -34,7 +53,7 @@ class Magento_GoogleShopping_Model_Config extends Magento_Object
     public function getConfigData($key, $storeId = null)
     {
         if (!isset($this->_config[$key][$storeId])) {
-            $value = Mage::getStoreConfig('google/googleshopping/' . $key, $storeId);
+            $value = $this->_coreStoreConfig->getConfig('google/googleshopping/' . $key, $storeId);
             $this->_config[$key][$storeId] = $value;
         }
         return $this->_config[$key][$storeId];

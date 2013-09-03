@@ -184,6 +184,25 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     protected $_catalogPreparePriceSelect = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($fetchStrategy);
+    }
+
+    /**
      * Get cloned Select after dispatching 'catalog_prepare_price_select' event
      *
      * @return Magento_DB_Select
@@ -1091,7 +1110,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     public function addUrlRewrite($categoryId = '')
     {
         $this->_addUrlRewrite = true;
-        if (Mage::getStoreConfig(Magento_Catalog_Helper_Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, $this->getStoreId())) {
+        if ($this->_coreStoreConfig->getConfig(Magento_Catalog_Helper_Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, $this->getStoreId())) {
             $this->_urlRewriteCategory = $categoryId;
         } else {
             $this->_urlRewriteCategory = 0;

@@ -77,9 +77,23 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      */
     protected $_debugReplacePrivateDataKeys = array();
 
-    public function __construct()
-    {
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
 
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -577,7 +591,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
             $storeId = $this->getStore();
         }
         $path = 'payment/'.$this->getCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
+        return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
     /**

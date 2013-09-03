@@ -98,12 +98,24 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
     protected $_viewUrl;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_View_Url $viewUrl)
-    {
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
         parent::__construct($context);
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
     }
 
@@ -143,16 +155,16 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
         $this->setProduct($product);
 
         $this->setWatermark(
-            Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_image")
+            $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_image")
         );
         $this->setWatermarkImageOpacity(
-            Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_imageOpacity")
+            $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_imageOpacity")
         );
         $this->setWatermarkPosition(
-            Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_position")
+            $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_position")
         );
         $this->setWatermarkSize(
-            Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_size")
+            $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_size")
         );
 
         if ($imageFile) {

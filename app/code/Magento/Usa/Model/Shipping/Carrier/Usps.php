@@ -220,7 +220,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal(Mage::getStoreConfig(
+            $r->setOrigPostal($this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
@@ -229,7 +229,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         if ($request->getOrigCountryId()) {
             $r->setOrigCountryId($request->getOrigCountryId());
         } else {
-            $r->setOrigCountryId(Mage::getStoreConfig(
+            $r->setOrigCountryId($this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             ));

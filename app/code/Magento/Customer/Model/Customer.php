@@ -116,10 +116,18 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     protected $_config;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Eav_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract|null $resource
      * @param Magento_Data_Collection_Db|null $resourceCollection
      * @param array $data
@@ -129,10 +137,12 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         Magento_Core_Model_Sender $sender,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Eav_Model_Config $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_sender = $sender;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
@@ -604,7 +614,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         }
         if (self::$_isConfirmationRequired === null) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : null;
-            self::$_isConfirmationRequired = (bool)Mage::getStoreConfig(self::XML_PATH_IS_CONFIRM, $storeId);
+            self::$_isConfirmationRequired = (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_IS_CONFIRM, $storeId);
         }
 
         return self::$_isConfirmationRequired;
@@ -656,9 +666,9 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         $mailer->addEmailInfo($emailInfo);
 
         // Set all required params and send emails
-        $mailer->setSender(Mage::getStoreConfig($sender, $storeId));
+        $mailer->setSender($this->_coreStoreConfig->getConfig($sender, $storeId));
         $mailer->setStoreId($storeId);
-        $mailer->setTemplateId(Mage::getStoreConfig($template, $storeId));
+        $mailer->setTemplateId($this->_coreStoreConfig->getConfig($template, $storeId));
         $mailer->setTemplateParams($templateParams);
         $mailer->send();
         return $this;
@@ -715,7 +725,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     {
         if (!$this->hasData('group_id')) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
-            $groupId = Mage::getStoreConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $storeId);
+            $groupId = $this->_coreStoreConfig->getConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $storeId);
             $this->setData('group_id', $groupId);
         }
         return $this->getData('group_id');

@@ -55,7 +55,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
 
     public function IsRssCatalogEnable()
     {
-        return Mage::getStoreConfig('rss/catalog/category');
+        return $this->_coreStoreConfig->getConfig('rss/catalog/category');
     }
 
     public function IsTopCategory()

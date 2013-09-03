@@ -107,14 +107,17 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Constructor
      *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
-        parent::__construct($data);
+        parent::__construct($coreStoreConfig, $data);
 
         $this->_moduleHelper = isset($data['module_helper']) ? $data['module_helper']
             : Mage::helper('Magento_ScheduledImportExport_Helper_Data');

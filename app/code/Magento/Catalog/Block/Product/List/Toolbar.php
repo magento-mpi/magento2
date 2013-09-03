@@ -170,13 +170,13 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
     protected function _construct()
     {
         parent::_construct();
-        $this->_orderField  = Mage::getStoreConfig(
+        $this->_orderField  = $this->_coreStoreConfig->getConfig(
             Magento_Catalog_Model_Config::XML_PATH_LIST_DEFAULT_SORT_BY
         );
 
         $this->_availableOrder = $this->_getConfig()->getAttributeUsedForSortByArray();
 
-        switch (Mage::getStoreConfig('catalog/frontend/list_mode')) {
+        switch ($this->_coreStoreConfig->getConfig('catalog/frontend/list_mode')) {
             case 'grid':
                 $this->_availableMode = array('grid' => __('Grid'));
                 break;
@@ -660,13 +660,13 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
             if ($default = $this->getDefaultListPerPage()) {
                 return $default;
             }
-            return Mage::getStoreConfig('catalog/frontend/list_per_page');
+            return $this->_coreStoreConfig->getConfig('catalog/frontend/list_per_page');
         }
         elseif ($this->getCurrentMode() == 'grid') {
             if ($default = $this->getDefaultGridPerPage()) {
                 return $default;
             }
-            return Mage::getStoreConfig('catalog/frontend/grid_per_page');
+            return $this->_coreStoreConfig->getConfig('catalog/frontend/grid_per_page');
         }
         return 0;
     }
@@ -715,7 +715,7 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
             return $this->_availableLimit[$mode];
         }
         $perPageConfigKey = 'catalog/frontend/' . $mode . '_per_page_values';
-        $perPageValues = (string)Mage::getStoreConfig($perPageConfigKey);
+        $perPageValues = (string)$this->_coreStoreConfig->getConfig($perPageConfigKey);
         $perPageValues = explode(',', $perPageValues);
         $perPageValues = array_combine($perPageValues, $perPageValues);
         if ($this->_coreStoreConfig->getConfigFlag('catalog/frontend/list_allow_all')) {
@@ -828,8 +828,8 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
                 ->setLimitVarName($this->getLimitVarName())
                 ->setPageVarName($this->getPageVarName())
                 ->setLimit($this->getLimit())
-                ->setFrameLength(Mage::getStoreConfig('design/pagination/pagination_frame'))
-                ->setJump(Mage::getStoreConfig('design/pagination/pagination_frame_skip'))
+                ->setFrameLength($this->_coreStoreConfig->getConfig('design/pagination/pagination_frame'))
+                ->setJump($this->_coreStoreConfig->getConfig('design/pagination/pagination_frame_skip'))
                 ->setCollection($this->getCollection());
 
             return $pagerBlock->toHtml();

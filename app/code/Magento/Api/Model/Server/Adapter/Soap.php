@@ -25,6 +25,25 @@ class Magento_Api_Model_Server_Adapter_Soap extends Magento_Object
     protected $_soap = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Set handler class name for webservice
      *
      * @param string $handler
@@ -79,7 +98,7 @@ class Magento_Api_Model_Server_Adapter_Soap extends Magento_Object
 
     public function run()
     {
-        $apiConfigCharset = Mage::getStoreConfig("api/config/charset");
+        $apiConfigCharset = $this->_coreStoreConfig->getConfig("api/config/charset");
 
         if ($this->getController()->getRequest()->getParam('wsdl') !== null) {
             /** @var $wsdlConfig Magento_Api_Model_Wsdl_Config */
@@ -192,8 +211,8 @@ class Magento_Api_Model_Server_Adapter_Soap extends Magento_Object
      */
     protected function _instantiateServer()
     {
-        $apiConfigCharset = Mage::getStoreConfig('api/config/charset');
-        $wsdlCacheEnabled = (bool)Mage::getStoreConfig('api/config/wsdl_cache_enabled');
+        $apiConfigCharset = $this->_coreStoreConfig->getConfig('api/config/charset');
+        $wsdlCacheEnabled = (bool)$this->_coreStoreConfig->getConfig('api/config/wsdl_cache_enabled');
 
         if ($wsdlCacheEnabled) {
             ini_set('soap.wsdl_cache_enabled', '1');

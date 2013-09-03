@@ -36,15 +36,25 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_viewUrl;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
         parent::__construct($data);
@@ -128,7 +138,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      */
     public function isEnabled()
     {
-        $wysiwygState = Mage::getStoreConfig('cms/wysiwyg/enabled', $this->getStoreId());
+        $wysiwygState = $this->_coreStoreConfig->getConfig('cms/wysiwyg/enabled', $this->getStoreId());
         return in_array($wysiwygState, array(self::WYSIWYG_ENABLED, self::WYSIWYG_HIDDEN));
     }
 
@@ -139,6 +149,6 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      */
     public function isHidden()
     {
-        return Mage::getStoreConfig('cms/wysiwyg/enabled') == self::WYSIWYG_HIDDEN;
+        return $this->_coreStoreConfig->getConfig('cms/wysiwyg/enabled') == self::WYSIWYG_HIDDEN;
     }
 }

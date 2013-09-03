@@ -25,13 +25,38 @@ class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_
     const XML_PATH_INVALID_CACHES = 'dev/translate_inline/invalid_caches';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Set status 'invalidate' for blocks and other output caches
      *
      * @return Magento_Backend_Model_Config_Backend_Translate
      */
     protected function _afterSave()
     {
-        $types = array_keys(Mage::getStoreConfig(self::XML_PATH_INVALID_CACHES));
+        $types = array_keys($this->_coreStoreConfig->getConfig(self::XML_PATH_INVALID_CACHES));
         if ($this->isValueChanged()) {
             /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
             $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');

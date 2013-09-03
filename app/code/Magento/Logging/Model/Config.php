@@ -32,15 +32,23 @@ class Magento_Logging_Model_Config
     protected $_systemConfigValues = null;
 
     /**
-     * Load config from cache or merged from logging.xml files
+     * Core store config
      *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Model_Config_Modules_Reader $configReader
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $configXml = $configCacheType->load('magento_logging_config');
         if ($configXml) {
             $this->_xmlConfig = new Magento_Simplexml_Config($configXml);
@@ -61,7 +69,7 @@ class Magento_Logging_Model_Config
     public function getSystemConfigValues()
     {
         if (null === $this->_systemConfigValues) {
-            $this->_systemConfigValues = Mage::getStoreConfig('admin/magento_logging/actions');
+            $this->_systemConfigValues = $this->_coreStoreConfig->getConfig('admin/magento_logging/actions');
             if (null === $this->_systemConfigValues) {
                 $this->_systemConfigValues = array();
                 foreach ($this->getLabels() as $key => $label) {

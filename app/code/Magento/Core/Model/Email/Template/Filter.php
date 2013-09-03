@@ -49,12 +49,21 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     protected $_viewUrl;
 
     /**
-     * Setup callbacks for filters
+     * Core store config
      *
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @var Magento_Core_Model_Store_Config
      */
-    public function __construct(Magento_Core_Model_View_Url $viewUrl)
-    {
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
     }
@@ -442,7 +451,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
         $params = $this->_getIncludeParameters($construction[2]);
         $storeId = $this->getStoreId();
         if (isset($params['path'])) {
-            $configValue = Mage::getStoreConfig($params['path'], $storeId);
+            $configValue = $this->_coreStoreConfig->getConfig($params['path'], $storeId);
         }
         return $configValue;
     }

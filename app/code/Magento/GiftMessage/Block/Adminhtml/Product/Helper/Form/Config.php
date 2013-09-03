@@ -19,12 +19,31 @@ class Magento_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config
     extends Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Config
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param $attributes
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        $attributes = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($attributes);
+    }
+
+    /**
      * Get config value data
      *
      * @return mixed
      */
     protected function _getValueFromConfig()
     {
-        return Mage::getStoreConfig(Magento_GiftMessage_Helper_Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS);
+        return $this->_coreStoreConfig->getConfig(Magento_GiftMessage_Helper_Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS);
     }
 }

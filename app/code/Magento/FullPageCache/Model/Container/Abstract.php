@@ -31,13 +31,23 @@ abstract class Magento_FullPageCache_Model_Container_Abstract implements Magento
     protected $_fpcCache;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_FullPageCache_Model_Cache $fpcCache
      * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Container_Placeholder $placeholder
+        Magento_FullPageCache_Model_Container_Placeholder $placeholder,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_placeholder = $placeholder;
         $this->_fpcCache = $fpcCache;
     }
@@ -90,7 +100,7 @@ abstract class Magento_FullPageCache_Model_Container_Abstract implements Magento
             return false;
         }
 
-        if (Mage::getStoreConfig(Magento_FullPageCache_Model_Processor::XML_PATH_CACHE_DEBUG)) {
+        if ($this->_coreStoreConfig->getConfig(Magento_FullPageCache_Model_Processor::XML_PATH_CACHE_DEBUG)) {
             $debugBlock = Mage::app()->getLayout()->createBlock('Magento_FullPageCache_Block_Debug');
             $debugBlock->setDynamicBlockContent($blockContent);
             $this->_applyToContent($content, $debugBlock->toHtml());

@@ -785,7 +785,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         }
 
         if ($this->_appState->isInstalled()) {
-            $secureBaseUrl = Mage::getStoreConfig(Magento_Core_Model_Url::XML_PATH_SECURE_URL);
+            $secureBaseUrl = $this->_coreStoreConfig->getConfig(Magento_Core_Model_Url::XML_PATH_SECURE_URL);
 
             if (!$secureBaseUrl) {
                 return false;
@@ -1275,7 +1275,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     public function getFrontendName()
     {
         if (is_null($this->_frontendName)) {
-            $storeGroupName = (string) Mage::getStoreConfig('general/store_information/name', $this);
+            $storeGroupName = (string) $this->_coreStoreConfig->getConfig('general/store_information/name', $this);
             $this->_frontendName = (!empty($storeGroupName)) ? $storeGroupName : $this->getGroup()->getName();
         }
         return $this->_frontendName;

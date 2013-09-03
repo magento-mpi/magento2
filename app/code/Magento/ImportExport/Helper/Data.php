@@ -47,7 +47,7 @@ class Magento_ImportExport_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getLocalValidPaths()
     {
-        $paths = Mage::getStoreConfig(self::XML_PATH_EXPORT_LOCAL_VALID_PATH);
+        $paths = $this->_coreStoreConfig->getConfig(self::XML_PATH_EXPORT_LOCAL_VALID_PATH);
         return $paths;
     }
 
@@ -58,6 +58,6 @@ class Magento_ImportExport_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getBunchSize()
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_BUNCH_SIZE);
+        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_BUNCH_SIZE);
     }
 }

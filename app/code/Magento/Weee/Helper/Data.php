@@ -49,7 +49,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getPriceDisplayType($store = null)
     {
-        return Mage::getStoreConfig('tax/weee/display', $store);
+        return $this->_coreStoreConfig->getConfig('tax/weee/display', $store);
     }
 
     /**
@@ -60,7 +60,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getListPriceDisplayType($store = null)
     {
-        return Mage::getStoreConfig('tax/weee/display_list', $store);
+        return $this->_coreStoreConfig->getConfig('tax/weee/display_list', $store);
     }
 
     /**
@@ -71,7 +71,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getSalesPriceDisplayType($store = null)
     {
-        return Mage::getStoreConfig('tax/weee/display_sales', $store);
+        return $this->_coreStoreConfig->getConfig('tax/weee/display_sales', $store);
     }
 
     /**
@@ -82,7 +82,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getEmailPriceDisplayType($store = null)
     {
-        return Mage::getStoreConfig('tax/weee/display_email', $store);
+        return $this->_coreStoreConfig->getConfig('tax/weee/display_email', $store);
     }
 
     /**
@@ -345,7 +345,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isEnabled($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_FPT_ENABLED, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_FPT_ENABLED, $store);
     }
 
     /**

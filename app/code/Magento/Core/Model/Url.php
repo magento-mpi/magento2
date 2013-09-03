@@ -102,6 +102,25 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
     protected $_useSession;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Initialize object
      */
     protected function _construct()
@@ -643,7 +662,7 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
         }
 
         if (isset($data['_store_to_url']) && (bool)$data['_store_to_url'] === true) {
-            if (!Mage::getStoreConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getStore())
+            if (!$this->_coreStoreConfig->getConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getStore())
                 && !Mage::app()->hasSingleStore()
             ) {
                 $this->setQueryParam('___store', $this->getStore()->getCode());

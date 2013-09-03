@@ -30,6 +30,22 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
     protected $_queryParams;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Return cache page id with application. Depends on catalog session and GET super global array.
      *
      * @param Magento_FullPageCache_Model_Processor $processor
@@ -91,7 +107,7 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
             $params = $this->_getSessionParams();
             $queryParams = $request->getQuery();
             $queryParams = array_merge($queryParams, $params);
-            $maxDepth = Mage::getStoreConfig(Magento_FullPageCache_Model_Processor::XML_PATH_ALLOWED_DEPTH);
+            $maxDepth = $this->_coreStoreConfig->getConfig(Magento_FullPageCache_Model_Processor::XML_PATH_ALLOWED_DEPTH);
             $res = count($queryParams)<=$maxDepth;
         }
         return $res;

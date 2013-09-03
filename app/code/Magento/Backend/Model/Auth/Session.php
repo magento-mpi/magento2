@@ -124,7 +124,7 @@ class Magento_Backend_Model_Auth_Session
      */
     public function isLoggedIn()
     {
-        $lifetime = Mage::getStoreConfig(self::XML_PATH_SESSION_LIFETIME);
+        $lifetime = $this->_coreStoreConfig->getConfig(self::XML_PATH_SESSION_LIFETIME);
         $currentTime = time();
 
         /* Validate admin session lifetime that should be more than 60 seconds */

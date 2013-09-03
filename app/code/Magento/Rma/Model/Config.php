@@ -53,6 +53,25 @@ class Magento_Rma_Model_Config extends Magento_Object
 
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Initialize config object for default store and config root
      *
      * @param string $configRootPath Current config root
@@ -271,7 +290,7 @@ class Magento_Rma_Model_Config extends Magento_Object
         if (is_null($store)) {
             $store = $this->_store;
         }
-        return Mage::getStoreConfig($this->_getPath($path), $this->getStore($store));
+        return $this->_coreStoreConfig->getConfig($this->_getPath($path), $this->getStore($store));
     }
 
     /**
@@ -284,7 +303,7 @@ class Magento_Rma_Model_Config extends Magento_Object
      */
     public function getCustomerEmailRecipient($store)
     {
-        $senderCode = Mage::getStoreConfig(self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT, $store);
-        return Mage::getStoreConfig('trans_email/ident_' . $senderCode . '/email', $store);
+        $senderCode = $this->_coreStoreConfig->getConfig(self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT, $store);
+        return $this->_coreStoreConfig->getConfig('trans_email/ident_' . $senderCode . '/email', $store);
     }
 }

@@ -120,7 +120,7 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
 
     public function getMessageMaxLength()
     {
-        return (int) Mage::getStoreConfig(Magento_GiftCard_Model_Giftcard::XML_PATH_MESSAGE_MAX_LENGTH);
+        return (int) $this->_coreStoreConfig->getConfig(Magento_GiftCard_Model_Giftcard::XML_PATH_MESSAGE_MAX_LENGTH);
     }
 
     /**

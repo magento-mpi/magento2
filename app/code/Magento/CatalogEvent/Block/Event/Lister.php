@@ -154,7 +154,7 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
             $pageSize = (int) $this->_getData('limit');
         }
         else {
-            $pageSize = (int)Mage::getStoreConfig('catalog/magento_catalogevent/lister_widget_limit');
+            $pageSize = (int)$this->_coreStoreConfig->getConfig('catalog/magento_catalogevent/lister_widget_limit');
         }
         return max($pageSize, 1);
     }
@@ -170,7 +170,7 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
             $scrollSize = (int) $this->_getData('scroll');
         }
         else {
-            $scrollSize = (int)Mage::getStoreConfig('catalog/magento_catalogevent/lister_widget_scroll');
+            $scrollSize = (int)$this->_coreStoreConfig->getConfig('catalog/magento_catalogevent/lister_widget_scroll');
         }
         return  min(max($scrollSize, 1), $this->getPageSize());
     }

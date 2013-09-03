@@ -42,12 +42,24 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_postCodeSubStringLength = 10;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Tax_Model_Config $taxConfig
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
-    public function  __construct(Magento_Core_Helper_Context $context, Magento_Tax_Model_Config $taxConfig)
-    {
+    public function  __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Tax_Model_Config $taxConfig,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
         parent::__construct($context);
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_config = $taxConfig;
     }
 
@@ -709,7 +721,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getTaxBasedOn($store = null)
     {
-        return Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store);
+        return $this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store);
     }
 
     /**
@@ -720,7 +732,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function applyTaxOnCustomPrice($store = null)
     {
-        return ((int) Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_APPLY_ON, $store) == 0);
+        return ((int) $this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_APPLY_ON, $store) == 0);
     }
 
     /**
@@ -731,7 +743,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function applyTaxOnOriginalPrice($store = null)
     {
-        return ((int) Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_APPLY_ON, $store) == 1);
+        return ((int) $this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_APPLY_ON, $store) == 1);
     }
 
     /**
@@ -876,7 +888,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getDefaultCustomerTaxClass()
     {
-        return Mage::getStoreConfig(self::CONFIG_DEFAULT_CUSTOMER_TAX_CLASS);
+        return $this->_coreStoreConfig->getConfig(self::CONFIG_DEFAULT_CUSTOMER_TAX_CLASS);
     }
 
     /**
@@ -884,7 +896,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getDefaultProductTaxClass()
     {
-        return Mage::getStoreConfig(self::CONFIG_DEFAULT_PRODUCT_TAX_CLASS);
+        return $this->_coreStoreConfig->getConfig(self::CONFIG_DEFAULT_PRODUCT_TAX_CLASS);
     }
 
 }

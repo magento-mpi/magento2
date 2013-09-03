@@ -158,7 +158,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
             $googleAddresses = $googleAddress;
         }
 
-        $methods = Mage::getStoreConfig('google/checkout_shipping_merchant/allowed_methods', $this->getStoreId());
+        $methods = $this->_coreStoreConfig->getConfig('google/checkout_shipping_merchant/allowed_methods', $this->getStoreId());
         $methods = unserialize($methods);
         $limitCarrier = array();
         foreach ($methods['method'] as $method) {
@@ -234,7 +234,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
                         if ($shippingTaxClass &&
                             $this->getData('root/calculate/tax/VALUE') == 'true') {
                             $i = 1;
-                            $price = Mage::getStoreConfig(
+                            $price = $this->_coreStoreConfig->getConfig(
                                 'google/checkout_shipping_flatrate/price_'.$i,
                                 $quote->getStoreId()
                             );
@@ -563,7 +563,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         if (!isset($this->_cachedShippingInfo[$cacheKey])) {
             /* @var $shipping Magento_Shipping_Model_Shipping */
             $shipping = Mage::getModel('Magento_Shipping_Model_Shipping');
-            $carriers = Mage::getStoreConfig('carriers', $storeId);
+            $carriers = $this->_coreStoreConfig->getConfig('carriers', $storeId);
             $infos = array();
 
             foreach (array_keys($carriers) as $carrierCode) {
@@ -578,7 +578,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
                     $carrierName = 'Google Checkout';
                 } else {
                     $methods = $carrier->getAllowedMethods();
-                    $carrierName = Mage::getStoreConfig('carriers/' . $carrierCode . '/title', $storeId);
+                    $carrierName = $this->_coreStoreConfig->getConfig('carriers/' . $carrierCode . '/title', $storeId);
                 }
 
                 foreach ($methods as $methodCode => $methodName) {

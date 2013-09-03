@@ -97,9 +97,9 @@ class Magento_Contacts_Controller_Index extends Magento_Core_Controller_Front_Ac
                 ))
                     ->setReplyTo($post['email'])
                     ->sendTransactional(
-                        Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
-                        Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-                        Mage::getStoreConfig(self::XML_PATH_EMAIL_RECIPIENT),
+                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig(self::XML_PATH_EMAIL_TEMPLATE),
+                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig(self::XML_PATH_EMAIL_SENDER),
+                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig(self::XML_PATH_EMAIL_RECIPIENT),
                         null,
                         array('data' => $postObject)
                     );

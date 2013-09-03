@@ -55,7 +55,7 @@ class Magento_WebsiteRestriction_Model_Observer
             $request    = $controller->getRequest();
             /* @var $response Magento_Core_Controller_Response_Http */
             $response   = $controller->getResponse();
-            switch ((int)Mage::getStoreConfig(Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE)) {
+            switch ((int)$this->_coreStoreConfig->getConfig(Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE)) {
                 // show only landing page with 503 or 200 code
                 case Magento_WebsiteRestriction_Model_Mode::ALLOW_NONE:
                     if ($controller->getFullActionName() !== 'restriction_index_stub') {
@@ -65,7 +65,7 @@ class Magento_WebsiteRestriction_Model_Observer
                             ->setDispatched(false);
                         return;
                     }
-                    $httpStatus = (int)Mage::getStoreConfig(
+                    $httpStatus = (int)$this->_coreStoreConfig->getConfig(
                         Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_HTTP_STATUS
                     );
                     if (Magento_WebsiteRestriction_Model_Mode::HTTP_503 === $httpStatus) {
@@ -97,13 +97,13 @@ class Magento_WebsiteRestriction_Model_Observer
                         }
 
                         // to specified landing page
-                        $restrictionRedirectCode = (int)Mage::getStoreConfig(
+                        $restrictionRedirectCode = (int)$this->_coreStoreConfig->getConfig(
                             Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_HTTP_REDIRECT
                         );
                         if (Magento_WebsiteRestriction_Model_Mode::HTTP_302_LANDING === $restrictionRedirectCode) {
                             $cmsPageViewAction = 'cms_page_view';
                             $allowedActionNames[] = $cmsPageViewAction;
-                            $pageIdentifier = Mage::getStoreConfig(
+                            $pageIdentifier = $this->_coreStoreConfig->getConfig(
                                 Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_LANDING_PAGE
                             );
                             // Restrict access to CMS pages too
@@ -151,7 +151,7 @@ class Magento_WebsiteRestriction_Model_Observer
     {
         $result = $observer->getEvent()->getResult();
         if ((!Mage::app()->getStore()->isAdmin()) && $result->getIsAllowed()) {
-            $restrictionMode = (int)Mage::getStoreConfig(
+            $restrictionMode = (int)$this->_coreStoreConfig->getConfig(
                 Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE
             );
             $result->setIsAllowed((!Mage::helper('Magento_WebsiteRestriction_Helper_Data')->getIsRestrictionEnabled())
@@ -167,7 +167,7 @@ class Magento_WebsiteRestriction_Model_Observer
      */
     public function addPrivateSalesLayoutUpdate($observer)
     {
-        if (in_array((int)Mage::getStoreConfig(Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE),
+        if (in_array((int)$this->_coreStoreConfig->getConfig(Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE),
             array(
                 Magento_WebsiteRestriction_Model_Mode::ALLOW_REGISTER,
                 Magento_WebsiteRestriction_Model_Mode::ALLOW_LOGIN

@@ -54,7 +54,7 @@ class Magento_Shipping_Model_Config extends Magento_Object
     public function getActiveCarriers($store = null)
     {
         $carriers = array();
-        $config = Mage::getStoreConfig('carriers', $store);
+        $config = $this->_coreStoreConfig->getConfig('carriers', $store);
         foreach ($config as $code => $carrierConfig) {
             if ($this->_coreStoreConfig->getConfigFlag('carriers/'.$code.'/active', $store)) {
                 $carrierModel = $this->_getCarrier($code, $carrierConfig, $store);
@@ -75,7 +75,7 @@ class Magento_Shipping_Model_Config extends Magento_Object
     public function getAllCarriers($store = null)
     {
         $carriers = array();
-        $config = Mage::getStoreConfig('carriers', $store);
+        $config = $this->_coreStoreConfig->getConfig('carriers', $store);
         foreach ($config as $code => $carrierConfig) {
             $model = $this->_getCarrier($code, $carrierConfig, $store);
             if ($model) {
@@ -94,7 +94,7 @@ class Magento_Shipping_Model_Config extends Magento_Object
      */
     public function getCarrierInstance($carrierCode, $store = null)
     {
-        $carrierConfig =  Mage::getStoreConfig('carriers/'.$carrierCode, $store);
+        $carrierConfig =  $this->_coreStoreConfig->getConfig('carriers/'.$carrierCode, $store);
         if (!empty($carrierConfig)) {
             return $this->_getCarrier($carrierCode, $carrierConfig, $store);
         }

@@ -130,7 +130,7 @@ class Magento_Pbridge_Model_Payment_Method_Sagepay_Direct extends Magento_Paymen
             $storeId = $this->getStore();
         }
         $path = 'payment/'.$this->getOriginalCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
+        return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
     /**

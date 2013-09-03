@@ -166,8 +166,8 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
             return;
         }
         if (!$quote->validateMinimumAmount()) {
-            $error = Mage::getStoreConfig('sales/minimum_order/error_message') ?
-                Mage::getStoreConfig('sales/minimum_order/error_message') :
+            $error = $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('sales/minimum_order/error_message') ?
+                $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('sales/minimum_order/error_message') :
                 __('Subtotal must exceed minimum order amount');
 
             Mage::getSingleton('Magento_Checkout_Model_Session')->addError($error);

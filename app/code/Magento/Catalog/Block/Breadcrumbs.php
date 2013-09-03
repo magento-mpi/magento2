@@ -25,7 +25,7 @@ class Magento_Catalog_Block_Breadcrumbs extends Magento_Core_Block_Template
      */
     public function getTitleSeparator($store = null)
     {
-        $separator = (string)Mage::getStoreConfig('catalog/seo/title_separator', $store);
+        $separator = (string)$this->_coreStoreConfig->getConfig('catalog/seo/title_separator', $store);
         return ' ' . $separator . ' ';
     }
 

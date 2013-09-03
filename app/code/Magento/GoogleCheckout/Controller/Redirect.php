@@ -143,7 +143,7 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
             $session->setGoogleCheckoutQuoteId(null);
         }
 
-        $url = Mage::getStoreConfig('google/checkout/continue_shopping_url');
+        $url = $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('google/checkout/continue_shopping_url');
         if (empty($url)) {
             $this->_redirect('');
         } elseif (substr($url, 0, 4) === 'http') {

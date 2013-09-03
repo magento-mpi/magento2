@@ -45,8 +45,22 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
 
     protected static $_currencyCache = array();
 
-    public function __construct($locale = null)
-    {
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param $locale
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        $locale = null
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->setLocale($locale);
     }
 
@@ -70,7 +84,7 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
     public function getDefaultLocale()
     {
         if (!$this->_defaultLocale) {
-            $locale = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+            $locale = $this->_coreStoreConfig->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
             if (!$locale) {
                 $locale = Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE;
             }
@@ -631,7 +645,7 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
     {
         if ($storeId) {
             $this->_emulatedLocales[] = clone $this->getLocale();
-            $this->_locale = new Zend_Locale(Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId));
+            $this->_locale = new Zend_Locale($this->_coreStoreConfig->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId));
             $this->_localeCode = $this->_locale->toString();
 
             /** @var $app Magento_Core_Model_App */

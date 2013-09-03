@@ -109,10 +109,13 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
      *
      * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
      */
-    public function __construct(Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory)
-    {
+    public function __construct(
+        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $data);
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
-        parent::__construct();
         $wsdlBasePath = Mage::getModuleDir('etc', 'Magento_Usa')  . DS . 'wsdl' . DS . 'FedEx' . DS;
         $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v10.wsdl';
         $this->_rateServiceWsdl = $wsdlBasePath . 'RateService_v10.wsdl';
@@ -227,7 +230,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = Mage::getStoreConfig(
+            $origCountry = $this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             );
@@ -237,7 +240,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal(Mage::getStoreConfig(
+            $r->setOrigPostal($this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
@@ -1280,7 +1283,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                     'PaymentType' => $paymentType,
                     'Payor' => array(
                         'AccountNumber' => $this->getConfigData('account'),
-                        'CountryCode'   => Mage::getStoreConfig(
+                        'CountryCode'   => $this->_coreStoreConfig->getConfig(
                             Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                             $request->getStoreId()
                         )
@@ -1324,7 +1327,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                         'PaymentType' => $paymentType,
                         'Payor' => array(
                             'AccountNumber' => $this->getConfigData('account'),
-                            'CountryCode'   => Mage::getStoreConfig(
+                            'CountryCode'   => $this->_coreStoreConfig->getConfig(
                                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                                 $request->getStoreId()
                             )

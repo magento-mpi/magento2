@@ -41,6 +41,25 @@ class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
     protected $_productOptions = array();
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Option Instance setter
      *
      * @param Magento_Catalog_Model_Product_Option $option
@@ -151,7 +170,7 @@ class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
      */
     public function getConfigData($key)
     {
-        return Mage::getStoreConfig('catalog/custom_options/' . $key);
+        return $this->_coreStoreConfig->getConfig('catalog/custom_options/' . $key);
     }
 
     /**

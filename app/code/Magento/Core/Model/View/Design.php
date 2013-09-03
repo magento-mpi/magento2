@@ -69,15 +69,23 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     protected $_themeFactory;
 
     /**
-     * Design
+     * Core store config
      *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Theme_FlyweightFactory $themeFactory
+        Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_themeFactory = $themeFactory;
     }
@@ -151,7 +159,7 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
         if ($this->_isThemePerStoveView($area)) {
             $theme = $this->_storeManager->isSingleStoreMode()
                 ? (string)Mage::getConfig()->getNode('default/' . self::XML_PATH_THEME_ID)
-                : (string)Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store);
+                : (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_THEME_ID, $store);
         }
 
         return $theme ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);

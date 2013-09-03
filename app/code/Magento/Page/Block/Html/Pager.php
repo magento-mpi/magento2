@@ -558,7 +558,7 @@ class Magento_Page_Block_Html_Pager extends Magento_Core_Block_Template
      */
     public function getAnchorTextForPrevious()
     {
-        return Mage::getStoreConfig('design/pagination/anchor_text_for_previous');
+        return $this->_coreStoreConfig->getConfig('design/pagination/anchor_text_for_previous');
     }
 
     /**
@@ -568,7 +568,7 @@ class Magento_Page_Block_Html_Pager extends Magento_Core_Block_Template
      */
     public function getAnchorTextForNext()
     {
-        return Mage::getStoreConfig('design/pagination/anchor_text_for_next');
+        return $this->_coreStoreConfig->getConfig('design/pagination/anchor_text_for_next');
     }
 
     /**

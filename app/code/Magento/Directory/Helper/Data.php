@@ -71,12 +71,24 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_configCacheType;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Cache_Type_Config $configCacheType)
-    {
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
         parent::__construct($context);
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_configCacheType = $configCacheType;
     }
 
@@ -185,7 +197,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     {
         if (null === $this->_optionalZipCountries) {
             $this->_optionalZipCountries = preg_split('/\,/',
-                Mage::getStoreConfig(self::OPTIONAL_ZIP_COUNTRIES_CONFIG_PATH), 0, PREG_SPLIT_NO_EMPTY);
+                $this->_coreStoreConfig->getConfig(self::OPTIONAL_ZIP_COUNTRIES_CONFIG_PATH), 0, PREG_SPLIT_NO_EMPTY);
         }
         if ($asJson) {
             return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->_optionalZipCountries);
@@ -213,7 +225,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCountriesWithStatesRequired($asJson = false)
     {
-        $countryList = explode(',', Mage::getStoreConfig(self::XML_PATH_STATES_REQUIRED));
+        $countryList = explode(',', $this->_coreStoreConfig->getConfig(self::XML_PATH_STATES_REQUIRED));
         if ($asJson) {
             return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($countryList);
         }
@@ -227,7 +239,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getShowNonRequiredState()
     {
-        return (boolean)Mage::getStoreConfig(self::XML_PATH_DISPLAY_ALL_STATES);
+        return (boolean)$this->_coreStoreConfig->getConfig(self::XML_PATH_DISPLAY_ALL_STATES);
     }
 
     /**

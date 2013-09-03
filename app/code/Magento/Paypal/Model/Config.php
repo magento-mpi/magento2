@@ -392,7 +392,7 @@ class Magento_Paypal_Model_Config
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
         $path = $this->_getSpecificConfigPath($underscored);
         if ($path !== null) {
-            $value = Mage::getStoreConfig($path, $this->_storeId);
+            $value = $this->_coreStoreConfig->getConfig($path, $this->_storeId);
             $value = $this->_prepareValue($underscored, $value);
             $this->$key = $value;
             $this->$underscored = $value;
@@ -448,7 +448,7 @@ class Magento_Paypal_Model_Config
      */
     public function getMerchantCountry()
     {
-        $countryCode = Mage::getStoreConfig($this->_mapGeneralFieldset('merchant_country'), $this->_storeId);
+        $countryCode = $this->_coreStoreConfig->getConfig($this->_mapGeneralFieldset('merchant_country'), $this->_storeId);
         if (!$countryCode) {
             $countryCode = Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry($this->_storeId);
         }
@@ -809,7 +809,7 @@ class Magento_Paypal_Model_Config
      */
     public function getAdditionalOptionsLogoUrl($localeCode, $type = false)
     {
-        $configType = Mage::getStoreConfig($this->_mapGenericStyleFieldset('logo'), $this->_storeId);
+        $configType = $this->_coreStoreConfig->getConfig($this->_mapGenericStyleFieldset('logo'), $this->_storeId);
         if (!$configType) {
             return false;
         }

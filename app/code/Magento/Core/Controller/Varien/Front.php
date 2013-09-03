@@ -353,7 +353,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
             return;
         }
 
-        $redirectCode = (int)Mage::getStoreConfig('web/url/redirect_to_base');
+        $redirectCode = (int)$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('web/url/redirect_to_base');
         if (!$redirectCode) {
             return;
         } elseif ($redirectCode != 301) {

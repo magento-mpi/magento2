@@ -110,7 +110,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
             return Mage::registry('product')->getDataUsingMethod($field);
         }
 
-        return Mage::getStoreConfig(Magento_GiftCard_Model_Giftcard::XML_PATH . $field);
+        return $this->_coreStoreConfig->getConfig(Magento_GiftCard_Model_Giftcard::XML_PATH . $field);
     }
 
     /**
@@ -145,7 +145,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
 
     public function getConfigValue($field)
     {
-        return Mage::getStoreConfig(Magento_GiftCard_Model_Giftcard::XML_PATH . $field);
+        return $this->_coreStoreConfig->getConfig(Magento_GiftCard_Model_Giftcard::XML_PATH . $field);
     }
 
     /**

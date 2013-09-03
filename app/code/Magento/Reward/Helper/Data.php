@@ -213,7 +213,7 @@ class Magento_Reward_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getLandingPageUrl()
     {
-        $pageIdentifier = Mage::getStoreConfig(self::XML_PATH_LANDING_PAGE);
+        $pageIdentifier = $this->_coreStoreConfig->getConfig(self::XML_PATH_LANDING_PAGE);
         return Mage::getUrl('', array('_direct' => $pageIdentifier));
     }
 

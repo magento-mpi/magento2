@@ -44,6 +44,13 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
      */
     protected $_defaultTypes    = array();
 
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
     public function setStore($store)
     {
         $this->_store = Mage::app()->getStore($store);
@@ -65,10 +72,11 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
 
     /**
      * Define node
-     *
      */
-    public function __construct()
-    {
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct(Mage::getConfig()->getNode()->global->customer->address);
     }
 
@@ -91,7 +99,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
                         || !strlen($typeConfig->escapeHtml) ? false : true;
                 $type->setCode($typeCode)
                     ->setTitle((string)$typeConfig->title)
-                    ->setDefaultFormat(Mage::getStoreConfig($path, $store))
+                    ->setDefaultFormat($this->_coreStoreConfig->getConfig($path, $store))
                     ->setEscapeHtml($escapeHtml);
 
                 $renderer = (string)$typeConfig->renderer;

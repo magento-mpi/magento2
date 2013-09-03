@@ -60,6 +60,25 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     );
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize resource
      *
      */
@@ -569,10 +588,10 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         $readAdapter = $this->_getReadAdapter();
 
         foreach ($this->_getStoreIds() as $storeId) {
-            $config = Mage::getStoreConfig(self::XML_PATH_GRANT_BASE . $grant);
+            $config = $this->_coreStoreConfig->getConfig(self::XML_PATH_GRANT_BASE . $grant);
 
             if ($config == 2) {
-                $groups = explode(',', trim(Mage::getStoreConfig(
+                $groups = explode(',', trim($this->_coreStoreConfig->getConfig(
                     self::XML_PATH_GRANT_BASE . $grant . '_groups'
                 )));
 

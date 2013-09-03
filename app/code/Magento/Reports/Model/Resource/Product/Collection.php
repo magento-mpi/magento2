@@ -50,15 +50,20 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
 
     /**
      * Init main class options
+     *
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Catalog_Model_Resource_Product $product
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Catalog_Model_Resource_Product $product
+        Magento_Catalog_Model_Resource_Product $product,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());
         $this->setProductEntityTypeId($product->getTypeId());
-        parent::__construct($fetchStrategy);
+        parent::__construct($fetchStrategy, $coreStoreConfig);
     }
     /**
      * Set Type for COUNT SQL Select

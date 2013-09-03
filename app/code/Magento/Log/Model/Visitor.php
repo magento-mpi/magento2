@@ -37,6 +37,31 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_skipRequestLogging = false;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Onject initialization
      */
     protected function _construct()
@@ -95,7 +120,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      */
     public static function getOnlineMinutesInterval()
     {
-        $configValue = Mage::getStoreConfig('customer/online_customers/online_minutes_interval');
+        $configValue = $this->_coreStoreConfig->getConfig('customer/online_customers/online_minutes_interval');
         return intval($configValue) > 0
             ? intval($configValue)
             : self::DEFAULT_ONLINE_MINUTES_INTERVAL;

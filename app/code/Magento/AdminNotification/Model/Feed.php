@@ -71,7 +71,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     {
         $httpPath = $this->_coreStoreConfig->getConfigFlag(self::XML_USE_HTTPS_PATH) ? 'https://' : 'http://';
         if (is_null($this->_feedUrl)) {
-            $this->_feedUrl = $httpPath . Mage::getStoreConfig(self::XML_FEED_URL_PATH);
+            $this->_feedUrl = $httpPath . $this->_coreStoreConfig->getConfig(self::XML_FEED_URL_PATH);
         }
         return $this->_feedUrl;
     }
@@ -130,7 +130,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
      */
     public function getFrequency()
     {
-        return Mage::getStoreConfig(self::XML_FREQUENCY_PATH) * 3600;
+        return $this->_coreStoreConfig->getConfig(self::XML_FREQUENCY_PATH) * 3600;
     }
 
     /**
@@ -141,7 +141,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     public function getLastUpdate()
     {
         return Mage::app()->loadCache('admin_notifications_lastcheck');
-//        return Mage::getStoreConfig(self::XML_LAST_UPDATE_PATH);
+//        return $this->_coreStoreConfig->getConfig(self::XML_LAST_UPDATE_PATH);
     }
 
     /**

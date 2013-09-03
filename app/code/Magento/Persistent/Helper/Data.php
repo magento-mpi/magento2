@@ -105,7 +105,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getLifeTime($store = null)
     {
-        $lifeTime = intval(Mage::getStoreConfig(self::XML_PATH_LIFE_TIME, $store));
+        $lifeTime = intval($this->_coreStoreConfig->getConfig(self::XML_PATH_LIFE_TIME, $store));
         return ($lifeTime < 0) ? 0 : $lifeTime;
     }
 

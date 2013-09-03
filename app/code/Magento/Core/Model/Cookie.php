@@ -33,6 +33,22 @@ class Magento_Core_Model_Cookie
     protected $_store;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Set Store object
      *
      * @param mixed $store
@@ -98,7 +114,7 @@ class Magento_Core_Model_Cookie
      */
     public function getConfigDomain()
     {
-        return (string)Mage::getStoreConfig(self::XML_PATH_COOKIE_DOMAIN, $this->getStore());
+        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $this->getStore());
     }
 
     /**
@@ -108,7 +124,7 @@ class Magento_Core_Model_Cookie
      */
     public function getPath()
     {
-        $path = Mage::getStoreConfig(self::XML_PATH_COOKIE_PATH, $this->getStore());
+        $path = $this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_PATH, $this->getStore());
         if (empty($path)) {
             $path = $this->_getRequest()->getBasePath();
         }
@@ -125,7 +141,7 @@ class Magento_Core_Model_Cookie
         if (!is_null($this->_lifetime)) {
             $lifetime = $this->_lifetime;
         } else {
-            $lifetime = Mage::getStoreConfig(self::XML_PATH_COOKIE_LIFETIME, $this->getStore());
+            $lifetime = $this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_LIFETIME, $this->getStore());
         }
         if (!is_numeric($lifetime)) {
             $lifetime = 3600;
@@ -152,7 +168,7 @@ class Magento_Core_Model_Cookie
      */
     public function getHttponly()
     {
-        $httponly = Mage::getStoreConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->getStore());
+        $httponly = $this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->getStore());
         if (is_null($httponly)) {
             return null;
         }

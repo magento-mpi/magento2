@@ -48,12 +48,24 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_viewUrl;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_View_Url $viewUrl)
-    {
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
         parent::__construct($context);
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
     }
 
@@ -207,7 +219,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         }
 
         if (!isset($this->_productUrlSuffix[$storeId])) {
-            $this->_productUrlSuffix[$storeId] = Mage::getStoreConfig(self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId);
+            $this->_productUrlSuffix[$storeId] = $this->_coreStoreConfig->getConfig(self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId);
         }
         return $this->_productUrlSuffix[$storeId];
     }
@@ -220,7 +232,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function canUseCanonicalTag($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_USE_PRODUCT_CANONICAL_TAG, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_PRODUCT_CANONICAL_TAG, $store);
     }
 
     /**

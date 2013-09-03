@@ -69,7 +69,7 @@ class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
         }
 
         if (isset($paymentParam['method'])) {
-            $saveOrderFlag = Mage::getStoreConfig('payment/'.$paymentParam['method'].'/create_order_before');
+            $saveOrderFlag = $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('payment/'.$paymentParam['method'].'/create_order_before');
             $result = array();
             $params = Mage::helper('Magento_Authorizenet_Helper_Data')->getSaveOrderUrlParams($controller);
             //create order partially

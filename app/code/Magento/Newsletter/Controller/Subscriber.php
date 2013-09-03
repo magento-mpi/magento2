@@ -32,7 +32,7 @@ class Magento_Newsletter_Controller_Subscriber extends Magento_Core_Controller_F
                     Mage::throwException(__('Please enter a valid email address.'));
                 }
 
-                if (Mage::getStoreConfig(Magento_Newsletter_Model_Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1 && 
+                if ($this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig(Magento_Newsletter_Model_Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1 && 
                     !$customerSession->isLoggedIn()) {
                     Mage::throwException(__('Sorry, but the administrator denied subscription for guests. Please <a href="%1">register</a>.', Mage::helper('Magento_Customer_Helper_Data')->getRegisterUrl()));
                 }

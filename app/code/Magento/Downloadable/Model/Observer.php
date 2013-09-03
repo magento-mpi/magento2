@@ -134,7 +134,7 @@ class Magento_Downloadable_Model_Observer
                 );
                 $linkSectionTitle = (
                     $product->getLinksTitle()?
-                    $product->getLinksTitle():Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
+                    $product->getLinksTitle():$this->_coreStoreConfig->getConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
                 );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)
                     ->save();
@@ -218,7 +218,7 @@ class Magento_Downloadable_Model_Observer
         );
 
         $downloadableItemsStatuses = array();
-        $orderItemStatusToEnable = Mage::getStoreConfig(
+        $orderItemStatusToEnable = $this->_coreStoreConfig->getConfig(
             Magento_Downloadable_Model_Link_Purchased_Item::XML_PATH_ORDER_ITEM_STATUS, $order->getStoreId()
         );
 

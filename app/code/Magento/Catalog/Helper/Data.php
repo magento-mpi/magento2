@@ -236,7 +236,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getPriceScope()
     {
-        return Mage::getStoreConfig(self::XML_PATH_PRICE_SCOPE);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_PRICE_SCOPE);
     }
 
     /**
@@ -298,7 +298,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isMsrpEnabled()
     {
-        return (bool)Mage::getStoreConfig(self::XML_PATH_MSRP_ENABLED, $this->_storeId);
+        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_MSRP_ENABLED, $this->_storeId);
     }
 
     /**
@@ -308,7 +308,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMsrpDisplayActualPriceType()
     {
-        return Mage::getStoreConfig(self::XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE, $this->_storeId);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE, $this->_storeId);
     }
 
     /**
@@ -318,7 +318,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isMsrpApplyToAll()
     {
-        return (bool)Mage::getStoreConfig(self::XML_PATH_MSRP_APPLY_TO_ALL, $this->_storeId);
+        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_MSRP_APPLY_TO_ALL, $this->_storeId);
     }
 
     /**
@@ -329,7 +329,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     public function getMsrpExplanationMessage()
     {
         return $this->escapeHtml(
-            Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE, $this->_storeId),
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE, $this->_storeId),
             array('b','br','strong','i','u', 'p', 'span')
         );
     }
@@ -342,7 +342,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     public function getMsrpExplanationMessageWhatsThis()
     {
         return $this->escapeHtml(
-            Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS, $this->_storeId),
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS, $this->_storeId),
             array('b','br','strong','i','u', 'p', 'span')
         );
     }

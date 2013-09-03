@@ -51,7 +51,7 @@ class Magento_SalesArchive_Model_Config
      */
     public function getArchiveAge()
     {
-        return (int) Mage::getStoreConfig(self::XML_PATH_ARCHIVE_AGE);
+        return (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_ARCHIVE_AGE);
     }
 
     /**
@@ -61,7 +61,7 @@ class Magento_SalesArchive_Model_Config
      */
     public function getArchiveOrderStatuses()
     {
-        $statuses = Mage::getStoreConfig(self::XML_PATH_ARCHIVE_ORDER_STATUSES);
+        $statuses = $this->_coreStoreConfig->getConfig(self::XML_PATH_ARCHIVE_ORDER_STATUSES);
 
         if (empty($statuses)) {
             return array();

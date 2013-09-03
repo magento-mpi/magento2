@@ -35,6 +35,22 @@ class Magento_Centinel_Model_Config
     protected $_cardTypesConfigPath = 'global/payment/cc/types';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Set store to congif model
      *
      * @param int|Magento_Core_Model_Store $store
@@ -119,7 +135,7 @@ class Magento_Centinel_Model_Config
      */
     private function _getServiceConfigValue($key)
     {
-        return Mage::getStoreConfig($this->_serviceConfigPath . '/' . $key, $this->getStore());
+        return $this->_coreStoreConfig->getConfig($this->_serviceConfigPath . '/' . $key, $this->getStore());
     }
 
     /**

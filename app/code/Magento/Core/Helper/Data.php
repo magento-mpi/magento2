@@ -68,12 +68,24 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_config;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config_Modules $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Config_Modules $config)
-    {
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config_Modules $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
         parent::__construct($context);
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_config = $config;
     }
 
@@ -361,7 +373,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $allow = true;
 
-        $allowedIps = Mage::getStoreConfig(self::XML_PATH_DEV_ALLOW_IPS, $storeId);
+        $allowedIps = $this->_coreStoreConfig->getConfig(self::XML_PATH_DEV_ALLOW_IPS, $storeId);
         $remoteAddr = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr();
         if (!empty($allowedIps) && !empty($remoteAddr)) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
@@ -677,7 +689,7 @@ XML;
      */
     public function getDefaultCountry($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_COUNTRY, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_DEFAULT_COUNTRY, $store);
     }
 
     /**
@@ -688,7 +700,7 @@ XML;
      */
     public function getProtectedFileExtensions($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_PROTECTED_FILE_EXTENSIONS, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_PROTECTED_FILE_EXTENSIONS, $store);
     }
 
     /**
@@ -698,7 +710,7 @@ XML;
      */
     public function getPublicFilesValidPath()
     {
-        return Mage::getStoreConfig(self::XML_PATH_PUBLIC_FILES_VALID_PATHS);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_PUBLIC_FILES_VALID_PATHS);
     }
 
     /**
@@ -738,7 +750,7 @@ XML;
      */
     public function getMerchantCountryCode($store = null)
     {
-        return (string) Mage::getStoreConfig(self::XML_PATH_MERCHANT_COUNTRY_CODE, $store);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_MERCHANT_COUNTRY_CODE, $store);
     }
 
     /**
@@ -749,7 +761,7 @@ XML;
      */
     public function getMerchantVatNumber($store = null)
     {
-        return (string) Mage::getStoreConfig(self::XML_PATH_MERCHANT_VAT_NUMBER, $store);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_MERCHANT_VAT_NUMBER, $store);
     }
 
     /**
@@ -761,7 +773,7 @@ XML;
      */
     public function isCountryInEU($countryCode, $storeId = null)
     {
-        $euCountries = explode(',', Mage::getStoreConfig(self::XML_PATH_EU_COUNTRIES_LIST, $storeId));
+        $euCountries = explode(',', $this->_coreStoreConfig->getConfig(self::XML_PATH_EU_COUNTRIES_LIST, $storeId));
         return in_array($countryCode, $euCountries);
     }
 
@@ -794,7 +806,7 @@ XML;
      */
     public function isSingleStoreModeEnabled()
     {
-        return (bool) Mage::getStoreConfig(self::XML_PATH_SINGLE_STORE_MODE_ENABLED);
+        return (bool) $this->_coreStoreConfig->getConfig(self::XML_PATH_SINGLE_STORE_MODE_ENABLED);
     }
 
     /**

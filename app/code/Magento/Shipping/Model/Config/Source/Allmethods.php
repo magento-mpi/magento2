@@ -11,6 +11,22 @@
 class Magento_Shipping_Model_Config_Source_Allmethods implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Return array of carriers.
      * If $isActiveOnlyFlag is set to true, will return only active carriers
      *
@@ -29,7 +45,7 @@ class Magento_Shipping_Model_Config_Source_Allmethods implements Magento_Core_Mo
             if (!$carrierMethods) {
                 continue;
             }
-            $carrierTitle = Mage::getStoreConfig('carriers/'.$carrierCode.'/title');
+            $carrierTitle = $this->_coreStoreConfig->getConfig('carriers/'.$carrierCode.'/title');
             $methods[$carrierCode] = array(
                 'label'   => $carrierTitle,
                 'value' => array(),

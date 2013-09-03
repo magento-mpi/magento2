@@ -135,7 +135,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     {
         return $this->getProduct()->getId() && $this->getProduct()->getTypeId() == 'downloadable'
             ? $this->getProduct()->getLinksTitle()
-            : Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+            : $this->_coreStoreConfig->getConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
     }
 
     /**
@@ -256,7 +256,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getConfigMaxDownloads()
     {
-        return Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_DEFAULT_DOWNLOADS_NUMBER);
+        return $this->_coreStoreConfig->getConfig(Magento_Downloadable_Model_Link::XML_PATH_DEFAULT_DOWNLOADS_NUMBER);
     }
 
     /**

@@ -72,24 +72,33 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     protected $_dateModel;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * Initialize operation model
      *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Date $dateModel
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
-     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation
      */
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Date $dateModel,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_init('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation');
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dateModel = $dateModel;
     }
 
@@ -118,11 +127,11 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $mailer = Mage::getSingleton('Magento_Core_Model_Email_Template_Mailer');
         $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
 
-        $receiverEmail = Mage::getStoreConfig(
+        $receiverEmail = $this->_coreStoreConfig->getConfig(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email',
             $storeId
         );
-        $receiverName  = Mage::getStoreConfig(
+        $receiverName  = $this->_coreStoreConfig->getConfig(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/name',
             $storeId
         );

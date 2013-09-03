@@ -149,7 +149,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     {
         return $this->getProduct()->getId() && $this->getProduct()->getTypeId() == 'downloadable'
             ? $this->getProduct()->getSamplesTitle()
-            : Mage::getStoreConfig(Magento_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
+            : $this->_coreStoreConfig->getConfig(Magento_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
     }
 
     /**

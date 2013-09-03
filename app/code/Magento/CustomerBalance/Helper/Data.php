@@ -46,7 +46,7 @@ class Magento_CustomerBalance_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfig(self::XML_PATH_ENABLED) == 1;
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_ENABLED) == 1;
     }
 
     /**

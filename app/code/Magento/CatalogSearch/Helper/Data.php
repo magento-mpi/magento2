@@ -54,6 +54,25 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_engine;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve search query parameter name
      *
      * @return string
@@ -194,7 +213,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMinQueryLength($store = null)
     {
-        return Mage::getStoreConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MIN_QUERY_LENGTH, $store);
+        return $this->_coreStoreConfig->getConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MIN_QUERY_LENGTH, $store);
     }
 
     /**
@@ -205,7 +224,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMaxQueryLength($store = null)
     {
-        return Mage::getStoreConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MAX_QUERY_LENGTH, $store);
+        return $this->_coreStoreConfig->getConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MAX_QUERY_LENGTH, $store);
     }
 
     /**
@@ -216,7 +235,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMaxQueryWords($store = null)
     {
-        return Mage::getStoreConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MAX_QUERY_WORDS, $store);
+        return $this->_coreStoreConfig->getConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MAX_QUERY_WORDS, $store);
     }
 
     /**
@@ -268,7 +287,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
         /* @var $stringHelper Magento_Core_Helper_String */
         $stringHelper = Mage::helper('Magento_Core_Helper_String');
 
-        $searchType = Mage::getStoreConfig(Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
+        $searchType = $this->_coreStoreConfig->getConfig(Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
         if ($searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
             || $searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
         ) {
@@ -314,7 +333,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     public function getEngine()
     {
         if (!$this->_engine) {
-            $engine = Mage::getStoreConfig('catalog/search/engine');
+            $engine = $this->_coreStoreConfig->getConfig('catalog/search/engine');
 
             /**
              * This needed if there already was saved in configuration some none-default engine
