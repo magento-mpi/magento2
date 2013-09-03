@@ -13,17 +13,15 @@ class Mage_Webapi_Controller_Router_RouteTest extends PHPUnit_Framework_TestCase
 {
     public function testMatch()
     {
-        $areaName = 'webapi';
-        $route = new Mage_Webapi_Controller_Router_Route(
-            $areaName . '/:' . Mage_Webapi_Controller_Request::PARAM_REQUEST_TYPE
-        );
+        $areaName = 'rest';
+        $testApi = 'test_api';
+        $route = new Mage_Webapi_Controller_Router_Route("$areaName/:$testApi");
 
-        $testApiType = 'test_api';
-        $testUri = "$areaName/$testApiType";
+        $testUri = "$areaName/$testApi";
         $request = new Zend_Controller_Request_Http();
         $request->setRequestUri($testUri);
 
         $match = $route->match($request);
-        $this->assertEquals($testApiType, $match['request_type']);
+        $this->assertEquals($testApi, $match[$testApi]);
     }
 }

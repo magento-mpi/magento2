@@ -36,9 +36,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         );
 
         $this->_configMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
-        $this->_configMock->expects($this->any())->method('getAreaFrontName')->will(
-            $this->returnValue(Mage_Webapi_Controller_Soap::REQUEST_TYPE)
-        );
+        $this->_configMock->expects($this->any())->method('getAreaFrontName')->will($this->returnValue('soap'));
 
         $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
         $this->_appMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
@@ -100,7 +98,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetEndpointUri()
     {
-        $expectedResult = 'http://magento.com/' . Mage_Webapi_Controller_Soap::REQUEST_TYPE;
+        $expectedResult = 'http://magento.com/soap';
         $actualResult = $this->_soapServer->getEndpointUri();
         $this->assertEquals($expectedResult, $actualResult, 'Endpoint URI building is invalid.');
     }

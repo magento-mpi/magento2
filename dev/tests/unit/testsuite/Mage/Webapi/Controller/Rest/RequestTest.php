@@ -32,12 +32,20 @@ class Mage_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('__'))
             ->getMock();
         $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
+        $applicationMock = $this->getMockBuilder('Mage_Core_Model_App')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $configMock = $this->getMockBuilder('Mage_Core_Model_Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $applicationMock->expects($this->once())->method('getConfig')->will($this->returnValue($configMock));
+        $configMock->expects($this->once())->method('getAreaFrontName')->will($this->returnValue('rest'));
         /** Instantiate request. */
         // TODO: Get rid of SUT mocks.
         $this->_request = $this->getMock(
             'Mage_Webapi_Controller_Rest_Request',
             array('getHeader', 'getMethod', 'isGet', 'isPost', 'isPut', 'isDelete', 'getRawBody'),
-            array($this->_interpreterFactory, $helper)
+            array($applicationMock, $this->_interpreterFactory, $helper)
         );
     }
 

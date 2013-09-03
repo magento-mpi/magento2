@@ -9,18 +9,25 @@
  */
 class Mage_Webapi_Controller_Soap_Request extends Mage_Webapi_Controller_Request
 {
+    /** @var Mage_Core_Model_App */
+    protected $_application;
+
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
     /**
      * Initialize dependencies.
      *
+     * @param Mage_Core_Model_App $application
      * @param Mage_Webapi_Helper_Data $helper
      * @param string|null $uri
      */
-    public function __construct(Mage_Webapi_Helper_Data $helper, $uri = null)
-    {
-        parent::__construct(Mage_Webapi_Controller_Soap::REQUEST_TYPE, $uri);
+    public function __construct(
+        Mage_Core_Model_App $application,
+        Mage_Webapi_Helper_Data $helper,
+        $uri = null
+    ) {
+        parent::__construct($application, $uri);
         $this->_helper = $helper;
     }
 
@@ -36,7 +43,7 @@ class Mage_Webapi_Controller_Soap_Request extends Mage_Webapi_Controller_Request
         $wsdlParam = Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL;
         $servicesParam = Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_SERVICES;
         $requestParams = array_keys($this->getParams());
-        $allowedParams = array(Mage_Webapi_Controller_Request::PARAM_REQUEST_TYPE, $wsdlParam, $servicesParam);
+        $allowedParams = array($wsdlParam, $servicesParam);
         $notAllowedParameters = array_diff($requestParams, $allowedParams);
         if (count($notAllowedParameters)) {
             $message = $this->_helper->__('Not allowed parameters: %s. ', implode(', ', $notAllowedParameters))

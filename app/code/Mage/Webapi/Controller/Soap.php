@@ -9,8 +9,6 @@
  */
 class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
 {
-    const REQUEST_TYPE = 'soap';
-
     /** @var Mage_Webapi_Model_Soap_Server */
     protected $_soapServer;
 
