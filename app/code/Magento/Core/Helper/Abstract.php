@@ -205,7 +205,10 @@ abstract class Magento_Core_Helper_Abstract
      */
     public function removeTags($html)
     {
-        $html = preg_replace("# <(?![/a-z]) | (?<=\s)>(?![a-z]) #exi", "htmlentities('$0')", $html);
+        $callback = function ($matches) {
+            return htmlentities($matches[0]);
+        };
+        $html = preg_replace_callback("# <(?![/a-z]) | (?<=\s)>(?![a-z]) #xi", $callback, $html);
         $html =  strip_tags($html);
         return htmlspecialchars_decode($html);
     }
