@@ -36,6 +36,11 @@ class Magento_Core_Model_Factory_Helper
      */
     public function get($className, array $arguments = array())
     {
+        /* Default helper class for a module */
+        if (strpos($className, '_Helper_') === false) {
+            $className .= '_Helper_Data';
+        }
+
         $helper = $this->_objectManager->get($className, $arguments);
 
         if (false === ($helper instanceof Magento_Core_Helper_Abstract)) {
