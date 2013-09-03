@@ -21,10 +21,10 @@ class Magento_Core_Utility_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * Assert that the actual layout update instance represents the expected layout update file
      *
-     * @param Magento_Core_Model_Layout_Merge $actualUpdate
      * @param string $expectedUpdateFile
+     * @param Magento_Core_Model_Layout_Merge $actualUpdate
      */
-    protected function _assertLayoutUpdate($actualUpdate, $expectedUpdateFile)
+    protected function _assertLayoutUpdate($expectedUpdateFile, $actualUpdate)
     {
         $this->assertInstanceOf('Magento_Core_Model_Layout_Merge', $actualUpdate);
 
@@ -41,7 +41,7 @@ class Magento_Core_Utility_LayoutTest extends PHPUnit_Framework_TestCase
     public function testGetLayoutUpdateFromFixture($inputFiles, $expectedFile)
     {
         $layoutUpdate = $this->_utility->getLayoutUpdateFromFixture($inputFiles);
-        $this->_assertLayoutUpdate($layoutUpdate, $expectedFile);
+        $this->_assertLayoutUpdate($expectedFile, $layoutUpdate);
     }
 
     /**
@@ -53,7 +53,7 @@ class Magento_Core_Utility_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $layout = $this->_utility->getLayoutFromFixture($inputFiles, $this->_utility->getLayoutDependencies());
         $this->assertInstanceOf('Magento_Core_Model_Layout', $layout);
-        $this->_assertLayoutUpdate($layout->getUpdate(), $expectedFile);
+        $this->_assertLayoutUpdate($expectedFile, $layout->getUpdate());
     }
 
     public function getLayoutFromFixtureDataProvider()
