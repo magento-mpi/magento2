@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_cart_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_cart_index">
         <update handle="MAP_popup"/>
-    </checkout_cart_index>
+    </handle>
 </layout>

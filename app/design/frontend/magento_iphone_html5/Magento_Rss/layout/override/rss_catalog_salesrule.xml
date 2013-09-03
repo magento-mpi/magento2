@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <rss_catalog_salesrule>
-        <block type="Magento_Rss_Block_Catalog_Salesrule" output="1" name="rss.catalog.salesrule"/>
-    </rss_catalog_salesrule>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="rss_catalog_salesrule">
+        <block class="Magento_Rss_Block_Catalog_Salesrule" output="1" name="rss.catalog.salesrule"/>
+    </handle>
 </layout>

@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_centinel_index_authenticationstart>
-        <block type="Magento_Centinel_Block_Authentication_Start" name="root" output="1" template="authentication/start.phtml"/>
-    </adminhtml_centinel_index_authenticationstart>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_centinel_index_authenticationstart">
+        <block class="Magento_Centinel_Block_Authentication_Start" name="root" output="1" template="authentication/start.phtml"/>
+    </handle>
 </layout>

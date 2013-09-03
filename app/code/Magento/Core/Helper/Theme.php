@@ -17,7 +17,7 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
      * XPath selector to get CSS files from layout added for HEAD block directly
      */
     const XPATH_SELECTOR_BLOCKS =
-        '//block[@type="Magento_Page_Block_Html_Head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
+        '//block[@class="Magento_Page_Block_Html_Head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
 
     /**
      * XPath selector to get CSS files from layout added for HEAD block using reference

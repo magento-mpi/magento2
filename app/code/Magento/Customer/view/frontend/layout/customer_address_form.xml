@@ -7,12 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <customer_address_form translate="label" type="page" parent="customer_address_index">
-        <label>Customer My Account Address Edit Form</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer My Account Address Edit Form" id="customer_address_form" type="page" parent="customer_address_index">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="Magento_Customer_Block_Address_Edit" name="customer_address_edit" template="address/edit.phtml"/>
+            <block class="Magento_Customer_Block_Address_Edit" name="customer_address_edit" template="address/edit.phtml"/>
         </reference>
-    </customer_address_form>
+    </handle>
 </layout>

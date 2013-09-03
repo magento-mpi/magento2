@@ -7,13 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_creditmemo_updateqty>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_creditmemo_updateqty">
         <reference name="creditmemo_totals">
-            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Magento_CustomerBalance::sales/creditmemo/totals/customerbalance.phtml" after="-"/>
+            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Magento_CustomerBalance::sales/creditmemo/totals/customerbalance.phtml" after="-"/>
         </reference>
         <reference name="submit_before">
-            <block type="Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls" name="customerbalance" template="sales/creditmemo/refund.phtml"/>
+            <block class="Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls" name="customerbalance" template="sales/creditmemo/refund.phtml"/>
         </reference>
-    </adminhtml_sales_order_creditmemo_updateqty>
+    </handle>
 </layout>

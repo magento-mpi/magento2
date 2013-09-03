@@ -7,92 +7,90 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_user_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_user_grid_block">
         <reference name="adminhtml.user.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.user.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.user.grid" as="grid">
                 <arguments>
-                    <id>permissionsUserGrid</id>
-                    <dataSource type="object">Magento_User_Model_Resource_User_Collection</dataSource>
-                    <use_ajax>1</use_ajax>
-                    <default_sort>username</default_sort>
-                    <default_dir>asc</default_dir>
-                    <grid_url type="url">
-                        <path>*/*/roleGrid</path>
-                    </grid_url>
+                    <argument name="id" xsi:type="string">permissionsUserGrid</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_User_Model_Resource_User_Collection</argument>
+                    <argument name="use_ajax" xsi:type="string">1</argument>
+                    <argument name="default_sort" xsi:type="string">username</argument>
+                    <argument name="default_dir" xsi:type="string">asc</argument>
+                    <argument name="grid_url" xsi:type="url" path="*/*/roleGrid"/>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="permission.user.grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="permission.user.grid.columnSet">
                     <arguments>
-                        <id>permissionsUserGrid</id>
-                        <rowUrl>
-                            <generatorClass>Magento_Backend_Model_Widget_Grid_Row_UrlGenerator</generatorClass>
-                            <path>*/*/edit</path>
-                            <extraParamsTemplate>
-                                <user_id>getId</user_id>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="id" xsi:type="string">permissionsUserGrid</argument>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="generatorClass" xsi:type="string">Magento_Backend_Model_Widget_Grid_Row_UrlGenerator</item>
+                            <item name="path" xsi:type="string">*/*/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="user_id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="user_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="user_id">
                         <arguments>
-                            <header translate="true">ID</header>
-                            <width>5px</width>
-                            <align>right</align>
-                            <sortable>true</sortable>
-                            <index>user_id</index>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
+                            <argument name="width" xsi:type="string">5px</argument>
+                            <argument name="align" xsi:type="string">right</argument>
+                            <argument name="sortable" xsi:type="string">true</argument>
+                            <argument name="index" xsi:type="string">user_id</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="username">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="username">
                         <arguments>
-                            <header translate="true">User Name</header>
-                            <type>text</type>
-                            <index>username</index>
-                            <escape>1</escape>
+                            <argument name="header" xsi:type="string" translate="true">User Name</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">username</argument>
+                            <argument name="escape" xsi:type="string">1</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="firstname">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="firstname">
                         <arguments>
-                            <header translate="true">First Name</header>
-                            <type>text</type>
-                            <index>firstname</index>
-                            <escape>1</escape>
+                            <argument name="header" xsi:type="string" translate="true">First Name</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">firstname</argument>
+                            <argument name="escape" xsi:type="string">1</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="lastname">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="lastname">
                         <arguments>
-                            <header translate="true">Last Name</header>
-                            <type>text</type>
-                            <index>lastname</index>
-                            <escape>1</escape>
+                            <argument name="header" xsi:type="string" translate="true">Last Name</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">lastname</argument>
+                            <argument name="escape" xsi:type="string">1</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="email">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
                         <arguments>
-                            <header translate="true">Email</header>
-                            <type>text</type>
-                            <width>40px</width>
-                            <align>left</align>
-                            <index>email</index>
+                            <argument name="header" xsi:type="string" translate="true">Email</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="width" xsi:type="string">40px</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="index" xsi:type="string">email</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
                         <arguments>
-                            <header translate="true">Status</header>
-                            <type>options</type>
-                            <options>
-                                <active>
-                                    <value>1</value>
-                                    <label translate="true">Active</label>
-                                </active>
-                                <inactive>
-                                    <value>0</value>
-                                    <label translate="true">Inactive</label>
-                                </inactive>
-                            </options>
-                            <index>is_active</index>
+                            <argument name="header" xsi:type="string" translate="true">Status</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="array">
+                                <item name="active" xsi:type="array">
+                                    <item name="value" xsi:type="string">1</item>
+                                    <item name="label" xsi:type="string" translate="true">Active</item>
+                                </item>
+                                <item name="inactive" xsi:type="array">
+                                    <item name="value" xsi:type="string">0</item>
+                                    <item name="label" xsi:type="string" translate="true">Inactive</item>
+                                </item>
+                            </argument>
+                            <argument name="index" xsi:type="string">is_active</argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_user_grid_block>
+    </handle>
 </layout>

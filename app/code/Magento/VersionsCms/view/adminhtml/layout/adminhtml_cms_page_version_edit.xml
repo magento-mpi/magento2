@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_cms_page_version_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_cms_page_version_edit">
         <reference name="content">
-            <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit" name="cms_page_version_edit">
-                <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions" name="cms_page_version_edit_revisions_grid"/>
+            <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit" name="cms_page_version_edit">
+                <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions" name="cms_page_version_edit_revisions_grid"/>
             </block>
         </reference>
-    </adminhtml_cms_page_version_edit>
+    </handle>
 </layout>

@@ -7,22 +7,22 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_view">
         <reference name="head">
             <action method="addCss">
-                <file>Magento_Core::prototype/magento.css</file>
+                <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
             </action>
         </reference>
         <reference name="order_item_extra_info">
-            <block type="Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Giftoptions" name="gift_options_link" template="sales/order/view/giftoptions.phtml">
-                <block type="Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Items" name="gift_options_item_data" template="sales/order/view/items.phtml"/>
+            <block class="Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Giftoptions" name="gift_options_link" template="sales/order/view/giftoptions.phtml">
+                <block class="Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Items" name="gift_options_item_data" template="sales/order/view/items.phtml"/>
             </block>
         </reference>
         <reference name="order_tab_info">
-            <block type="Magento_Adminhtml_Block_Template" name="popup_window" template="Magento_GiftMessage::popup.phtml">
-                <block type="Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Form" name="gift_options_form" template="giftoptionsform.phtml"/>
+            <block class="Magento_Adminhtml_Block_Template" name="popup_window" template="Magento_GiftMessage::popup.phtml">
+                <block class="Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Form" name="gift_options_form" template="giftoptionsform.phtml"/>
             </block>
         </reference>
-    </adminhtml_sales_order_view>
+    </handle>
 </layout>

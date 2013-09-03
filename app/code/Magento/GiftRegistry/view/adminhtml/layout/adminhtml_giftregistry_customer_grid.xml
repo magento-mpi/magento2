@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_giftregistry_customer_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_giftregistry_customer_grid">
         <container name="root" label="Root" output="1">
-            <block type="Magento_GiftRegistry_Block_Adminhtml_Customer_Grid" name="adminhtml.giftregistry.customer.grid"/>
+            <block class="Magento_GiftRegistry_Block_Adminhtml_Customer_Grid" name="adminhtml.giftregistry.customer.grid"/>
         </container>
-    </adminhtml_giftregistry_customer_grid>
+    </handle>
 </layout>

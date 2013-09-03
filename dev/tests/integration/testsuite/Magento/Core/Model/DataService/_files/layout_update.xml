@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout>
-    <block type="Magento_Core_Block_Template" name="block_with_service_calls">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+    <block class="Magento_Core_Block_Template" name="block_with_service_calls">
         <data service_call="testServiceCall" alias="testData" />
     </block>
 </layout>

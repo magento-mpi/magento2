@@ -50,11 +50,26 @@ class Magento_Test_Integrity_Theme_RenderersTest extends Magento_TestFramework_T
     public function rendererDeclarationsDataProvider()
     {
         return array(
-            array('Magento_CustomerCustomAttributes', '//action[@method=\'addRenderer\']/renderer_block'),
-            array('Magento_Rma', '//action[@method=\'addRenderer\']/renderer_block'),
-            array('Magento_Adminhtml', '//action[@method=\'addOptionRenderer\']/block'),
-            array('Magento_Bundle', '//action[@method=\'addRenderer\']/block'),
-            array('Magento_Catalog', '//action[@method=\'addOptionRenderer\']/block'),
+            array(
+                'Magento_CustomerCustomAttributes',
+                '//action[@method=\'addRenderer\']/argument[@name="renderer_block"]'
+            ),
+            array(
+                'Magento_Rma',
+                '//action[@method=\'addRenderer\']/argument[@name="renderer_block"]'
+            ),
+            array(
+                'Magento_Adminhtml',
+                '//action[@method=\'addOptionRenderer\']/argument[@name="block"]'
+            ),
+            array(
+                'Magento_Bundle',
+                '//action[@method=\'addRenderer\']/argument[@name="block"]'
+            ),
+            array(
+                'Magento_Catalog',
+                '//action[@method=\'addOptionRenderer\']/argument[@name="block"]'
+            ),
         );
     }
 }

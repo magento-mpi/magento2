@@ -7,135 +7,132 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_giftcardaccount_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_giftcardaccount_block">
         <reference name="adminhtml.gift.card.account.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="gift.card.account.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="gift.card.account.grid" as="grid">
                 <arguments>
-                    <id>giftcardaccountGrid</id>
-                    <dataSource type="object">Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Collection</dataSource>
-                    <default_sort>giftcardaccount_id</default_sort>
-                    <default_dir>desc</default_dir>
-                    <save_parameters_in_session>1</save_parameters_in_session>
-                    <use_ajax>1</use_ajax>
-                    <var_name_filter>giftcardaccount_filter</var_name_filter>
-                    <grid_url type="url">
-                        <path>*/*/grid</path>
-                        <params>
-                            <_current>1</_current>
-                        </params>
-                    </grid_url>
+                    <argument name="id" xsi:type="string">giftcardaccountGrid</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Collection</argument>
+                    <argument name="default_sort" xsi:type="string">giftcardaccount_id</argument>
+                    <argument name="default_dir" xsi:type="string">desc</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+                    <argument name="use_ajax" xsi:type="string">1</argument>
+                    <argument name="var_name_filter" xsi:type="string">giftcardaccount_filter</argument>
+                    <argument name="grid_url" xsi:type="url" path="*/*/grid">
+                        <param name="_current">1</param>
+                    </argument>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_Export" name="gift.card.account.grid.export" as="grid.export">
+                <block class="Magento_Backend_Block_Widget_Grid_Export" name="gift.card.account.grid.export" as="grid.export">
                     <arguments>
-                        <exportTypes>
-                            <csv>
-                                <urlPath>*/*/exportCsv</urlPath>
-                                <label translate="true">CSV</label>
-                            </csv>
-                            <excel>
-                                <urlPath>*/*/exportMsxml</urlPath>
-                                <label translate="true">Excel XML</label>
-                            </excel>
-                        </exportTypes>
+                        <argument name="exportTypes" xsi:type="array">
+                            <item name="csv" xsi:type="array">
+                                <item name="urlPath" xsi:type="string">*/*/exportCsv</item>
+                                <item name="label" xsi:type="string" translate="true">CSV</item>
+                            </item>
+                            <item name="excel" xsi:type="array">
+                                <item name="urlPath" xsi:type="string">*/*/exportMsxml</item>
+                                <item name="label" xsi:type="string" translate="true">Excel XML</item>
+                            </item>
+                        </argument>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="gift.card.account.grid.massaction" as="grid.massaction">
+                <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="gift.card.account.grid.massaction" as="grid.massaction">
                     <arguments>
-                        <massaction_id_field>giftcardaccount_id</massaction_id_field>
-                        <form_field_name>giftcardaccount</form_field_name>
-                        <use_select_all>1</use_select_all>
-                        <options>
-                            <delete>
-                                <label translate="true">Delete</label>
-                                <url>*/*/massDelete</url>
-                                <confirm translate="true">Are you sure you want to delete these gift card accounts?</confirm>
-                            </delete>
-                        </options>
+                        <argument name="massaction_id_field" xsi:type="string">giftcardaccount_id</argument>
+                        <argument name="form_field_name" xsi:type="string">giftcardaccount</argument>
+                        <argument name="use_select_all" xsi:type="string">1</argument>
+                        <argument name="options" xsi:type="array">
+                            <item name="delete" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Delete</item>
+                                <item name="url" xsi:type="string">*/*/massDelete</item>
+                                <item name="confirm" xsi:type="string" translate="true">Are you sure you want to delete these gift card accounts?</item>
+                            </item>
+                        </argument>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.logging.archive.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.logging.archive.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <rowUrl>
-                            <path>*/*/edit</path>
-                            <extraParamsTemplate>
-                                <id>getId</id>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="giftcardaccount_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="giftcardaccount_id">
                         <arguments>
-                            <header translate="true">ID</header>
-                            <type>number</type>
-                            <index>giftcardaccount_id</index>
-                            <width>30</width>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
+                            <argument name="type" xsi:type="string">number</argument>
+                            <argument name="index" xsi:type="string">giftcardaccount_id</argument>
+                            <argument name="width" xsi:type="string">30</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="code">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
-                            <header translate="true">Code</header>
-                            <index>code</index>
+                            <argument name="header" xsi:type="string" translate="true">Code</argument>
+                            <argument name="index" xsi:type="string">code</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website">
                         <arguments>
-                            <header translate="true">Website</header>
-                            <type>options</type>
-                            <index>website_id</index>
-                            <width>100</width>
-                            <column_css_class>col-store</column_css_class>
-                            <header_css_class>col-store</header_css_class>
-                            <options type="options">Magento_Backend_Model_Config_Source_Website_OptionHash</options>
+                            <argument name="header" xsi:type="string" translate="true">Website</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="index" xsi:type="string">website_id</argument>
+                            <argument name="width" xsi:type="string">100</argument>
+                            <argument name="column_css_class" xsi:type="string">col-store</argument>
+                            <argument name="header_css_class" xsi:type="string">col-store</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Backend_Model_Config_Source_Website_OptionHash"/>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_created">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="date_created">
                         <arguments>
-                            <header translate="true">Created</header>
-                            <index>date_created</index>
-                            <width>120</width>
-                            <type>date</type>
+                            <argument name="header" xsi:type="string" translate="true">Created</argument>
+                            <argument name="index" xsi:type="string">date_created</argument>
+                            <argument name="width" xsi:type="string">120</argument>
+                            <argument name="type" xsi:type="string">date</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_expires">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="date_expires">
                         <arguments>
-                            <header translate="true">End on</header>
-                            <index>date_expires</index>
-                            <width>120</width>
-                            <type>date</type>
-                            <default>--</default>
+                            <argument name="header" xsi:type="string" translate="true">End on</argument>
+                            <argument name="index" xsi:type="string">date_expires</argument>
+                            <argument name="width" xsi:type="string">120</argument>
+                            <argument name="type" xsi:type="string">date</argument>
+                            <argument name="default" xsi:type="string">--</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
-                            <header translate="true">Active</header>
-                            <index>status</index>
-                            <width>50</width>
-                            <type>options</type>
-                            <align>center</align>
-                            <options type="options">Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Grid_Active</options>
+                            <argument name="header" xsi:type="string" translate="true">Active</argument>
+                            <argument name="index" xsi:type="string">status</argument>
+                            <argument name="width" xsi:type="string">50</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="align" xsi:type="string">center</argument>
+                            <argument name="options" xsi:type="options" model="Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Grid_Active"/>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="state">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="state">
                         <arguments>
-                            <header translate="true">Status</header>
-                            <index>state</index>
-                            <width>100</width>
-                            <type>options</type>
-                            <align>center</align>
-                            <options type="options">Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Grid_Status</options>
+                            <argument name="header" xsi:type="string" translate="true">Status</argument>
+                            <argument name="index" xsi:type="string">state</argument>
+                            <argument name="width" xsi:type="string">100</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="align" xsi:type="string">center</argument>
+                            <argument name="options" xsi:type="options" model="Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Grid_Status"/>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="balance">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="balance">
                         <arguments>
-                            <header translate="true">Balance</header>
-                            <index>balance</index>
-                            <type>currency</type>
-                            <currency>base_currency_code</currency>
-                            <renderer>Magento_GiftCardAccount_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency</renderer>
+                            <argument name="header" xsi:type="string" translate="true">Balance</argument>
+                            <argument name="index" xsi:type="string">balance</argument>
+                            <argument name="type" xsi:type="string">currency</argument>
+                            <argument name="currency" xsi:type="string">base_currency_code</argument>
+                            <argument name="renderer" xsi:type="string">Magento_GiftCardAccount_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency</argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_giftcardaccount_block>
+    </handle>
 </layout>
