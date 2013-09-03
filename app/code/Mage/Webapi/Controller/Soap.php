@@ -173,13 +173,10 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
     protected function _initSoapServer()
     {
         $this->_soapServer->initWsdlCache();
-        $this->_soapServer->setWSDL($this->_soapServer->generateUri(true))
-            ->setEncoding($this->_soapServer->getApiCharset())
-            ->setSoapVersion(SOAP_1_2);
         use_soap_error_handler(false);
         // TODO: Headers are not available at this point.
         // $this->_soapHandler->setRequestHeaders($this->_getRequestHeaders());
-        $this->_soapServer->setReturnResponse(true)->setObject($this->_soapHandler);
+        $this->_soapServer->setObject($this->_soapHandler);
 
         return $this->_soapServer;
     }

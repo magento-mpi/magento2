@@ -13,6 +13,7 @@
 class Mage_Webapi_Model_Config
 {
     const CACHE_ID = 'webapi';
+    const CACHE_TAG = 'webapi';
     const VERSION_NUMBER_PREFIX = 'V';
 
     /**#@+

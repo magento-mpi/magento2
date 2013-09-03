@@ -1,8 +1,6 @@
 <?php
 /**
  * Magento-specific SOAP server.
- * TODO: Remove dependency on Zend SOAP Server and methods overrides.
- * TODO: Remove dependence on application config, probably move it to dispatcher.
  *
  * {license_notice}
  *
@@ -33,50 +31,22 @@ class Mage_Webapi_Model_Soap_Server
     protected $_request;
 
     /**
-     * URI or path to WSDL
-     * @var string
-     */
-    protected $wsdl;
-
-    /**
-     * Encoding
-     * @var string
-     */
-    protected $encoding;
-
-    /**
-     * SOAP version to use; SOAP_1_2 by default, to allow processing of headers
-     * @var int
-     */
-    protected $soapVersion = SOAP_1_2;
-
-    /**
-     * Arguments to pass to {@link $class} constructor
-     * @var array
-     */
-    protected $classArgs = array();
-
-    /**
      * Request XML
+     *
      * @var string
      */
     protected $request;
 
     /**
      * Response XML
+     *
      * @var string
      */
     protected $response;
 
     /**
-     * Flag: whether or not {@link handle()} should return a response instead
-     * of automatically emitting it.
-     * @var boolean
-     */
-    protected $returnResponse = false;
-
-    /**
      * Registered fault exceptions
+     *
      * @var array
      */
     protected $faultExceptions = array();
@@ -269,81 +239,6 @@ class Mage_Webapi_Model_Soap_Server
     }
 
     /**
-     * Set wsdl
-     *
-     * @param string $wsdl  URI or path to a WSDL
-     * @return Mage_Webapi_Model_Soap_Server
-     */
-    public function setWSDL($wsdl)
-    {
-        $this->wsdl = $wsdl;
-        return $this;
-    }
-
-    /**
-     * Retrieve wsdl
-     *
-     * @return string
-     */
-    public function getWSDL()
-    {
-        return $this->wsdl;
-    }
-
-    /**
-     * Set encoding
-     *
-     * @param  string $encoding
-     * @return Mage_Webapi_Model_Soap_Server
-     * @throws Mage_Webapi_Exception with invalid encoding argument
-     */
-    public function setEncoding($encoding)
-    {
-        if (!is_string($encoding)) {
-            throw new Mage_Webapi_Exception('Invalid encoding specified',
-                Mage_Webapi_Exception::HTTP_INTERNAL_ERROR);
-        }
-
-        $this->encoding = $encoding;
-        return $this;
-    }
-
-    /**
-     * Set SOAP version
-     *
-     * @param  int $version One of the SOAP_1_1 or SOAP_1_2 constants
-     * @return Mage_Webapi_Model_Soap_Server
-     * @throws Mage_Webapi_Exception with invalid soap version argument
-     */
-    public function setSoapVersion($version)
-    {
-        if (!in_array($version, array(SOAP_1_1, SOAP_1_2))) {
-            throw new Mage_Webapi_Exception('Invalid soap version specified',
-                Mage_Webapi_Exception::HTTP_INTERNAL_ERROR);
-        }
-
-        $this->soapVersion = $version;
-        return $this;
-    }
-
-    /**
-     * Set return response flag
-     *
-     * If true, {@link handle()} will return the response instead of
-     * automatically sending it back to the requesting client.
-     *
-     * The response is always available via {@link getResponse()}.
-     *
-     * @param boolean $flag
-     * @return Mage_Webapi_Model_Soap_Server
-     */
-    public function setReturnResponse($flag = true)
-    {
-        $this->returnResponse = ($flag) ? true : false;
-        return $this;
-    }
-
-    /**
      * Attach an object to a server
      *
      * Accepts an instanciated object to use when handling requests.
@@ -386,7 +281,7 @@ class Mage_Webapi_Model_Soap_Server
      * cross-platform compatibility purposes).
      *
      * @param DOMDocument|DOMNode|SimpleXMLElement|stdClass|string $request Optional request
-     * @return void|string
+     * @return string
      */
     public function handle($request = null)
     {
@@ -428,13 +323,7 @@ class Mage_Webapi_Model_Soap_Server
         if ($fault) {
             $this->response = $fault;
         }
-
-        if (!$this->returnResponse) {
             echo $this->response;
-            return;
-        }
-
-        return $this->response;
     }
 
     /**
@@ -461,17 +350,14 @@ class Mage_Webapi_Model_Soap_Server
      */
     protected function _getSoap()
     {
-        $options = $this->getOptions();
-        $server  = new \SoapServer($this->wsdl, $options);
+        $options = array(
+            'encoding' => $this->getApiCharset(),
+            'soap_version' => SOAP_1_2
+        );
+        $server  = new \SoapServer($this->generateUri(true), $options);
 
         if (!empty($this->functions)) {
             $server->addFunction($this->functions);
-        }
-
-        if (!empty($this->class)) {
-            $args = $this->classArgs;
-            array_unshift($args, $this->class);
-            call_user_func_array(array($server, 'setClass'), $args);
         }
 
         if (!empty($this->object)) {
@@ -480,24 +366,4 @@ class Mage_Webapi_Model_Soap_Server
 
         return $server;
     }
-
-    /**
-     * Return array of options suitable for using with SoapServer constructor
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        $options = array();
-        if (null !== $this->encoding) {
-            $options['encoding'] = $this->encoding;
-        }
-
-        if (null !== $this->soapVersion) {
-            $options['soap_version'] = $this->soapVersion;
-        }
-
-        return $options;
-    }
-
 }

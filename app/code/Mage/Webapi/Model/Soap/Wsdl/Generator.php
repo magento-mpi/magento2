@@ -8,6 +8,7 @@ use Zend\Soap\Wsdl;
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Webapi_Model_Soap_Wsdl_Generator
 {
@@ -36,7 +37,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      *
      * @var Mage_Webapi_Model_Soap_Config
      */
-    protected $_newApiConfig;
+    protected $_apiConfig;
 
     /**
      * The list of registered complex types.
@@ -52,16 +53,14 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Core_Model_CacheInterface $cache
-     *
-     * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Webapi_Model_Soap_Config $newApiConfig,
+        Mage_Webapi_Model_Soap_Config $apiConfig,
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Core_Model_CacheInterface $cache
     ) {
-        $this->_newApiConfig = $newApiConfig;
+        $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_helper = $helper;
         $this->_cache = $cache;
@@ -77,20 +76,19 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      */
     public function generate($requestedServices, $endPointUrl)
     {
-        /** TODO: Uncomment caching */
-        /* $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedServices));
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedServices));
+        if ($this->_cache->canUse(Mage_Webapi_Model_Config::CACHE_ID)) {
             $cachedWsdlContent = $this->_cache->load($cacheId);
             if ($cachedWsdlContent !== false) {
                 return $cachedWsdlContent;
             }
-        }*/
+        }
 
         $wsdlContent = $this->_generate($requestedServices, $endPointUrl);
 
-        /* if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
-            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
-        }*/
+        if ($this->_cache->canUse(Mage_Webapi_Model_Config::CACHE_ID)) {
+            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_Config::CACHE_TAG));
+        }
 
         return $wsdlContent;
     }
@@ -102,7 +100,6 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      * @param string $endPointUrl
      * @return string
      * @throws Mage_Webapi_Exception
-     * @throws Exception|Mage_Webapi_Exception
      */
     protected function _generate($requestedServices, $endPointUrl)
     {
@@ -169,7 +166,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      */
     protected function _getServiceSchemaDOM($serviceName)
     {
-        return $this->_newApiConfig->getServiceSchemaDOM($serviceName);
+        return $this->_apiConfig->getServiceSchemaDOM($serviceName);
     }
 
     /**
@@ -423,7 +420,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      */
     protected function _prepareServiceData($serviceName)
     {
-        $requestedServices = $this->_newApiConfig->getRequestedSoapServices(array($serviceName));
+        $requestedServices = $this->_apiConfig->getRequestedSoapServices(array($serviceName));
         if (empty($requestedServices)) {
             throw new Mage_Webapi_Exception(
                 $this->_helper->__('Service "%s" is not available.', $serviceName),
