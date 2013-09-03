@@ -25,17 +25,19 @@ class Magento_MultipleWishlist_Block_Links extends Magento_Wishlist_Block_Links
     protected $_wishlistData = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_MultipleWishlist_Helper_Data $wishlistData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_MultipleWishlist_Helper_Data $wishlistData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

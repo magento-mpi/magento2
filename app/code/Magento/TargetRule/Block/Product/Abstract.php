@@ -134,7 +134,7 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
             if ($this->_linkCollection) {
                 // Perform rotation mode
                 $select = $this->_linkCollection->getSelect();
-                $rotationMode = $this->getTargetRuleHelper()->getRotationMode($this->getProductListType());
+                $rotationMode = $this->_targetRuleData->getRotationMode($this->getProductListType());
                 if ($rotationMode == Magento_TargetRule_Model_Rule::ROTATION_SHUFFLE) {
                     Mage::getResourceSingleton('Magento_TargetRule_Model_Resource_Index')->orderRand($select);
                 } else {
@@ -170,7 +170,7 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
      */
     public function isShuffled()
     {
-        $rotationMode = $this->getTargetRuleHelper()->getRotationMode($this->getProductListType());
+        $rotationMode = $this->_targetRuleData->getRotationMode($this->getProductListType());
         return $rotationMode == Magento_TargetRule_Model_Rule::ROTATION_SHUFFLE;
     }
 
