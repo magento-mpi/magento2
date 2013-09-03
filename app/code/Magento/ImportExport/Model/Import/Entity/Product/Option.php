@@ -424,7 +424,9 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
         if (isset($data['page_size'])) {
             $this->_pageSize = $data['page_size'];
         } else {
-            $this->_pageSize = self::XML_PATH_PAGE_SIZE ? (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_PAGE_SIZE) : 0;
+            $this->_pageSize = self::XML_PATH_PAGE_SIZE
+                ? (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_PAGE_SIZE)
+                : 0;
         }
         return $this;
     }
