@@ -15,6 +15,7 @@
             <googleshopping_setup>
                 <setup>
                     <module>Magento_GoogleShopping</module>
+                    <class>Magento_GoogleShopping_Model_Resource_Setup</class>
                 </setup>
             </googleshopping_setup>
         </resources>

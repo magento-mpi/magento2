@@ -41,17 +41,25 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     protected $_routers = array();
 
     /**
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData;
+
+    /**
+     * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Controller_Varien_Router_Factory $routerFactory
      * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Helper_Data $backendData,
         Magento_Core_Controller_Varien_Router_Factory $routerFactory,
         Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
         array $data = array()
     ) {
         parent::__construct($data);
 
+        $this->_backendData = $backendData;
         $this->_routerFactory  = $routerFactory;
         $this->_rewriteFactory = $rewriteFactory;
     }
@@ -403,7 +411,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     protected function _isAdminFrontNameMatched($request)
     {
         $pathPrefix = $this->_extractPathPrefixFromUrl($request);
-        return $pathPrefix == $this->_objectManager->get('Magento_Backend_Helper_Data')->getAreaFrontName();
+        return $pathPrefix == $this->_backendData->getAreaFrontName();
     }
 
     /**

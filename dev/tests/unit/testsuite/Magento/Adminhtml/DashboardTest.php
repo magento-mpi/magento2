@@ -11,7 +11,8 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
     {
         $fixture = uniqid();
         /** @var $request Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject */
-        $request = $this->getMockForAbstractClass('Magento_Core_Controller_Request_Http');
+        $backendData = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $request = $this->getMockForAbstractClass('Magento_Core_Controller_Request_Http', array($backendData));
         $request->setParam('ga', urlencode(base64_encode(json_encode(array(1)))));
         $request->setParam('h', $fixture);
 
@@ -41,7 +42,9 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
 
     public function testTunnelAction400()
     {
-        $controller = $this->_factory($this->getMockForAbstractClass('Magento_Core_Controller_Request_Http'));
+        $backendData = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $controller = $this->_factory($this->getMockForAbstractClass('Magento_Core_Controller_Request_Http',
+            array($backendData)));
         $controller->tunnelAction();
         $this->assertEquals(400, $controller->getResponse()->getHttpResponseCode());
     }
@@ -50,7 +53,8 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
     {
         $fixture = uniqid();
         /** @var $request Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject */
-        $request = $this->getMockForAbstractClass('Magento_Core_Controller_Request_Http');
+        $backendData = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $request = $this->getMockForAbstractClass('Magento_Core_Controller_Request_Http', array($backendData));
         $request->setParam('ga', urlencode(base64_encode(json_encode(array(1)))));
         $request->setParam('h', $fixture);
 

@@ -17,7 +17,9 @@ class Magento_Api_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array('getPathInfo'));
+        $backendData = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $this->_requestMock = $this->getMockForAbstractClass('Magento_Core_Controller_Request_Http',
+            array($backendData));
 
         /** @var $contextMock Magento_Core_Helper_Context */
         $contextMock = $this->getMockBuilder('Magento_Core_Helper_Context')->disableOriginalConstructor()->getMock();

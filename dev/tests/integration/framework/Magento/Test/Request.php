@@ -15,6 +15,14 @@
 class Magento_Test_Request extends Magento_Core_Controller_Request_Http
 {
     /**
+     * @param null $uri
+     */
+    public function __construct($uri = null)
+    {
+        parent::__construct(Mage::getObjectManager()->get('Magento_Backend_Helper_Data'), $uri);
+    }
+
+    /**
      * Server super-global mock
      *
      * @var array

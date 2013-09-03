@@ -31,6 +31,12 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
     protected $_areaFrontName;
 
     /**
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData;
+
+    /**
+     * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_App $app
@@ -40,6 +46,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      * @throws InvalidArgumentException
      */
     public function __construct(
+        Magento_Backend_Helper_Data $backendData,
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_App $app,
@@ -49,7 +56,8 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
     ) {
         parent::__construct($controllerFactory, $filesystem, $app, $configScope, $areaCode, $baseController);
 
-        $this->_areaFrontName = $this->_objectManager->get('Magento_Backend_Helper_Data')->getAreaFrontName();
+        $this->_backendData = $backendData;
+        $this->_areaFrontName = $this->_backendData->getAreaFrontName();
         if (empty($this->_areaFrontName)) {
             throw new InvalidArgumentException('Area Front Name should be defined');
         }

@@ -74,7 +74,8 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
      */
     public function testResponseHeaders()
     {
-        $request = new Magento_Core_Controller_Request_Http();
+        $request = new Magento_Core_Controller_Request_Http($this->getMock('Magento_Backend_Helper_Data',
+            array(), array(), '', false));
         $response = new Magento_Core_Controller_Response_Http();
         $response->headersSentThrowsException = false;
         $action = new Magento_Core_Controller_Varien_Action_Forward($request, $response);
