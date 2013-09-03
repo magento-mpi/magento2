@@ -52,7 +52,7 @@ class Magento_Core_Model_Theme_Customization_PathTest extends PHPUnit_Framework_
         $this->_dir->expects($this->once())->method('getDir')->with(Magento_Core_Model_Dir::MEDIA)
             ->will($this->returnValue('/media_dir'));
         $expectedPath = implode(
-            Magento_Filesystem::DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             array('/media_dir', Magento_Core_Model_Theme_Customization_Path::DIR_NAME, '123')
         );
         $this->assertEquals($expectedPath, $this->_model->getCustomizationPath($this->_theme->setId(123)));
@@ -83,7 +83,7 @@ class Magento_Core_Model_Theme_Customization_PathTest extends PHPUnit_Framework_
         $this->_dir->expects($this->once())->method('getDir')->with(Magento_Core_Model_Dir::MEDIA)
             ->will($this->returnValue('/media_dir'));
         $expectedPath = implode(
-            Magento_Filesystem::DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             array('/media_dir', Magento_Core_Model_Theme_Customization_Path::DIR_NAME, '123',
                 Magento_Core_Model_Theme::FILENAME_VIEW_CONFIG)
         );

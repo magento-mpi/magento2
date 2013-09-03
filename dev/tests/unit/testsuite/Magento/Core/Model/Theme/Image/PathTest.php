@@ -86,7 +86,7 @@ class Magento_Core_Model_Theme_Image_PathTest extends PHPUnit_Framework_TestCase
     public function testImagePreviewDirectoryGetter()
     {
         $expectedPath = implode(
-            Magento_Filesystem::DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             array('/media', 'theme', 'preview')
         );
         $this->assertEquals($expectedPath, $this->_model->getImagePreviewDirectory());
@@ -98,7 +98,7 @@ class Magento_Core_Model_Theme_Image_PathTest extends PHPUnit_Framework_TestCase
     public function testTemporaryDirectoryGetter()
     {
         $expectedPath = implode(
-            Magento_Filesystem::DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             array('/media', 'theme', 'origin')
         );
         $this->assertEquals($expectedPath, $this->_model->getTemporaryDirectory());

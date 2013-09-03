@@ -137,7 +137,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
         } else {
             $className = 'Magento_Data_Form_Element_' . ucfirst(strtolower($type));
         }
-        $element = Mage::getObjectManager()->create($className, array($config));
+        $element = new $className($config);
         $element->setId($elementId);
         $this->addElement($element, $after);
         return $element;
