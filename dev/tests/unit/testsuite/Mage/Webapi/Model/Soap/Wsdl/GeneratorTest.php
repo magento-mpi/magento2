@@ -18,7 +18,7 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
     /**  @var Mage_Webapi_Model_Soap_Wsdl_Factory */
     protected $_wsdlFactory;
 
-    /**  @var Mage_Core_Helper_Data */
+    /**  @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
     /** @var Mage_Webapi_Model_Soap_Wsdl */
@@ -55,7 +55,7 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
             array(new Magento_ObjectManager_ObjectManager())
         );
         $this->_wsdlFactory->expects($this->any())->method('create')->will($this->returnValue($this->_wsdlMock));
-        $this->_helper = $this->getMock('Mage_Core_Helper_Data', array('__'), array(), '', false, false);
+        $this->_helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'), array(), '', false, false);
         $this->_helper->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         $this->_wsdlGenerator = new Mage_Webapi_Model_Soap_Wsdl_Generator(

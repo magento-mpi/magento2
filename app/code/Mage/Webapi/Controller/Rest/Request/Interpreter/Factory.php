@@ -22,7 +22,7 @@ class Mage_Webapi_Controller_Rest_Request_Interpreter_Factory
     /** @var Mage_Core_Model_Config */
     protected $_applicationConfig;
 
-    /** @var Mage_Core_Helper_Data */
+    /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
     /** @var Mage_Core_Model_Factory_Helper */
@@ -41,7 +41,7 @@ class Mage_Webapi_Controller_Rest_Request_Interpreter_Factory
         $this->_objectManager = $objectManager;
         $this->_applicationConfig = $applicationConfig;
         $this->_helperFactory = $helperFactory;
-        $this->_helper = $this->_helperFactory->get('Mage_Core_Helper_Data');
+        $this->_helper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');
     }
 
     /**

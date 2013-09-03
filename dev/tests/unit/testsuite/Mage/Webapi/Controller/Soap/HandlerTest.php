@@ -15,7 +15,7 @@ class Mage_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_apiConfigMock;
 
-    /** @var Mage_Core_Helper_Data */
+    /** @var Mage_Webapi_Helper_Data */
     protected $_helperMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -52,7 +52,7 @@ class Mage_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestCase
                 )
             )->disableOriginalConstructor()
             ->getMock();
-        $this->_helperMock = $this->getMockBuilder('Mage_Core_Helper_Data')
+        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
             ->setMethods(array('__'))
             ->disableOriginalConstructor()
             ->getMock();

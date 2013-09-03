@@ -253,13 +253,11 @@ class Mage_Webapi_Controller_ErrorProcessor
     protected function _saveFatalErrorReport($reportData)
     {
         $file = new Varien_Io_File();
-
         $reportDir = BP . DS . 'var' . DS . 'report' . DS . 'api';
         $file->checkAndCreateFolder($reportDir, 0777);
         $reportId = abs(intval(microtime(true) * rand(100, 1000)));
         $reportFile = $reportDir . DS . $reportId;
         $file->write($reportFile, serialize($reportData), 0777);
-
         return $this;
     }
 }

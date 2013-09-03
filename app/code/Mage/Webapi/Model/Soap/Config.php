@@ -18,7 +18,7 @@ class Mage_Webapi_Model_Soap_Config
     /** @var Mage_Webapi_Model_Config */
     protected $_config;
 
-    /** @var Mage_Core_Helper_Data */
+    /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
     /** @var Mage_Core_Model_ObjectManager */
@@ -44,14 +44,14 @@ class Mage_Webapi_Model_Soap_Config
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Dir $dir
      * @param Mage_Webapi_Model_Config $config
-     * @param Mage_Core_Helper_Data $helper
+     * @param Mage_Webapi_Helper_Data $helper
      */
     public function __construct(
         Mage_Core_Model_ObjectManager $objectManager,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Dir $dir,
         Mage_Webapi_Model_Config $config,
-        Mage_Core_Helper_Data $helper
+        Mage_Webapi_Helper_Data $helper
     ) {
         $this->_filesystem = $filesystem;
         $this->_dir = $dir;

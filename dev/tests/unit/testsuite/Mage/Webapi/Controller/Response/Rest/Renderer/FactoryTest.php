@@ -28,7 +28,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_
             ->getMock();
         $this->_applicationMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()
             ->getMock();
-        $helperDataMock = $this->getMockBuilder('Mage_Core_Helper_Data')->disableOriginalConstructor()->getMock();
+        $helperDataMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
         $helperDataMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $helperFactoryMock = $this->getMockBuilder('Mage_Core_Model_Factory_Helper')->disableOriginalConstructor()
             ->getMock();

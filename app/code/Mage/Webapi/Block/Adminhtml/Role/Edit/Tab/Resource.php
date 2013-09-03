@@ -68,8 +68,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
      */
     protected function _prepareForm()
     {
-        /** @var $translator Mage_Core_Helper_Data */
-        $translator = $this->helper('Mage_Core_Helper_Data');
+        /** @var $translator Mage_Webapi_Helper_Data */
+        $translator = $this->helper('Mage_Webapi_Helper_Data');
         $resources = $this->_reader->getAclResources();
         $this->_aclResourcesTree = $this->_mapResources(
             isset($resources[1]['children']) ? $resources[1]['children'] : array(),
@@ -82,10 +82,10 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
      * Map resources
      *
      * @param array $resources
-     * @param Mage_Core_Helper_Data $translator
+     * @param Mage_Webapi_Helper_Data $translator
      * @return array
      */
-    protected function _mapResources(array $resources, Mage_Core_Helper_Data $translator)
+    protected function _mapResources(array $resources, Mage_Webapi_Helper_Data $translator)
     {
         $output = array();
         foreach ($resources as $resource) {

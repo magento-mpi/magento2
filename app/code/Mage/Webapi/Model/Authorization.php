@@ -15,18 +15,18 @@ class Mage_Webapi_Model_Authorization
     protected $_authorization;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Mage_Webapi_Helper_Data
      */
     protected $_helper;
 
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Core_Helper_Data $helper
+     * @param Mage_Webapi_Helper_Data $helper
      * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
-        Mage_Core_Helper_Data $helper,
+        Mage_Webapi_Helper_Data $helper,
         Magento_AuthorizationInterface $authorization
     ) {
         $this->_helper = $helper;
