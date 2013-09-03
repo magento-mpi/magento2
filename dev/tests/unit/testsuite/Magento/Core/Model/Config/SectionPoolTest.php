@@ -60,7 +60,7 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
 
         $this->_scopeType = 'scopeType';
         $this->_scopeCode = 'scopeCode';
-        $this->_configData = $data = array('key' => 'value');
+        $this->_configData = array('key' => 'value');
 
         $this->_model = new Magento_Core_Model_Config_SectionPool(
             $this->_readerPoolMock,

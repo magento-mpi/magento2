@@ -23,7 +23,10 @@ class Magento_Captcha_Model_CaptchaFactoryTest extends PHPUnit_Framework_TestCas
     {
         $instance = 'sample_captcha_instance';
         $defaultCaptchaMock = $this->getMock('Magento_Captcha_Model_Default', array(), array(), '', false);
-        $this->_objectManagerMock->expects($this->once())->method('create')->with($instance, array())->will($this->returnValue($defaultCaptchaMock));
+        $this->_objectManagerMock->expects($this->once())
+            ->method('create')
+            ->with($instance, array())
+            ->will($this->returnValue($defaultCaptchaMock));
 
         $this->assertEquals($defaultCaptchaMock, $this->_model->create($instance));
     }

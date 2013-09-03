@@ -30,7 +30,10 @@ class Magento_Core_Model_Config_Section_Store_ConverterTest extends PHPUnit_Fram
                 'added' => 'added value'
         )));
         $processorResult = '123Value';
-        $this->_processorMock->expects($this->once())->method('process')->with($mergeResult)->will($this->returnValue($processorResult));
+        $this->_processorMock->expects($this->once())
+            ->method('process')
+            ->with($mergeResult)
+            ->will($this->returnValue($processorResult));
 
         $this->assertEquals($processorResult, $this->_model->convert($source, $initial));
     }

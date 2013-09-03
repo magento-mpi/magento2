@@ -20,9 +20,9 @@ class Magento_Backend_Model_Config_Backend_EncryptedTest extends PHPUnit_Framewo
         $resourceMock = $this->getMock('Magento_Core_Model_Resource_Abstract',
             array('_construct', '_getReadAdapter', '_getWriteAdapter', 'getIdFieldName'),
             array(), '', false);
-        $resourceCollectionMock = $this->getMock('Magento_Data_Collection_Db', array(), array(), '', false);
+        $collectionMock = $this->getMock('Magento_Data_Collection_Db', array(), array(), '', false);
         $this->_model = new Magento_Backend_Model_Config_Backend_Encrypted($contextMock,
-            $this->_helperMock, $resourceMock, $resourceCollectionMock);
+            $this->_helperMock, $resourceMock, $collectionMock);
 
     }
 

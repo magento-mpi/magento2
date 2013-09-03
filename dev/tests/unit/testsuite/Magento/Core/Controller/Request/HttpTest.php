@@ -55,9 +55,9 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
         unset($noHttpsData['HTTPS']);
         $returnValue['no HTTPS'] = array($noHttpsData, 'http://sample.host.com/');
 
-        $noHttpsNoServerPortData = $noHttpsData;
-        unset($noHttpsNoServerPortData['SERVER_PORT']);
-        $returnValue['no SERVER_PORT'] = array($noHttpsNoServerPortData, 'http://sample.host.com/');
+        $noHttpsNoServerPort = $noHttpsData;
+        unset($noHttpsNoServerPort['SERVER_PORT']);
+        $returnValue['no SERVER_PORT'] = array($noHttpsNoServerPort, 'http://sample.host.com/');
 
         $noHttpsButSecurePort = $noHttpsData;
         $noHttpsButSecurePort['SERVER_PORT'] = 443;
