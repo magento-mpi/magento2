@@ -7,19 +7,19 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_cms_hierarchy_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_cms_hierarchy_index">
         <reference name="head">
             <action method="setCanLoadExtJs">
-                <flag>1</flag>
+                <argument name="flag" xsi:type="string">1</argument>
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit" name="magento_versionscms_hierarchy_edit_tree">
-                <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage" name="hierarchy_manage" template="hierarchy/manage.phtml"/>
-                <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid" name="cms_page_grid"/>
+            <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit" name="magento_versionscms_hierarchy_edit_tree">
+                <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage" name="hierarchy_manage" template="hierarchy/manage.phtml"/>
+                <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid" name="cms_page_grid"/>
             </block>
         </reference>
-        <block type="Magento_VersionsCms_Block_Adminhtml_Scope_Switcher" name="scope_switcher" template="hierarchy/scope/switcher.phtml"/>
-    </adminhtml_cms_hierarchy_index>
+        <block class="Magento_VersionsCms_Block_Adminhtml_Scope_Switcher" name="scope_switcher" template="hierarchy/scope/switcher.phtml"/>
+    </handle>
 </layout>

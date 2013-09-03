@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_oauth_authorize_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_oauth_authorize_index">
         <update handle="oauth_root_handle"/>
         <reference name="content">
-            <block type="Magento_Oauth_Block_Adminhtml_Oauth_Authorize" name="oauth.authorize.form" template="authorize/form/login.phtml"/>
-            <block type="Magento_Oauth_Block_Adminhtml_Oauth_Authorize_Button" name="oauth.authorize.button" template="authorize/button.phtml"/>
+            <block class="Magento_Oauth_Block_Adminhtml_Oauth_Authorize" name="oauth.authorize.form" template="authorize/form/login.phtml"/>
+            <block class="Magento_Oauth_Block_Adminhtml_Oauth_Authorize_Button" name="oauth.authorize.button" template="authorize/button.phtml"/>
         </reference>
-    </adminhtml_oauth_authorize_index>
+    </handle>
 </layout>

@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_index">
         <reference name="content">
-            <block type="Magento_GiftRegistry_Block_Customer_Checkout" name="giftregistry.customer.checkout" template="customer/checkout/onepage.phtml"/>
+            <block class="Magento_GiftRegistry_Block_Customer_Checkout" name="giftregistry.customer.checkout" template="customer/checkout/onepage.phtml"/>
         </reference>
-    </checkout_onepage_index>
+    </handle>
 </layout>

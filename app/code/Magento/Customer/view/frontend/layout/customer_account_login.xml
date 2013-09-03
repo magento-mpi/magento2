@@ -7,16 +7,15 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <customer_account_login translate="label" type="page" parent="customer_account">
-        <label>Customer Account Login Form</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer Account Login Form" id="customer_account_login" type="page" parent="customer_account">
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Customer_Block_Form_Login" name="customer_form_login" template="form/login.phtml"/>
+            <block class="Magento_Customer_Block_Form_Login" name="customer_form_login" template="form/login.phtml"/>
         </reference>
-    </customer_account_login>
+    </handle>
 </layout>

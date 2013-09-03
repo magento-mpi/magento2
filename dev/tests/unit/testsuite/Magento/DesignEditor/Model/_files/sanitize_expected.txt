@@ -8,7 +8,7 @@
       <block name="custom.safe" type="Namespace_Module_Block_Safe"/>
       <container name="content">
          <block name="custom.not_safe" type="Magento_Core_Block_Template" template="Magento_DesignEditor::stub.phtml">%A</block>
-         <block type="Magento_Page_Block_Safe"/>
+         <block class="Magento_Page_Block_Safe"/>
       </container>
    </block>
    <reference name="head">

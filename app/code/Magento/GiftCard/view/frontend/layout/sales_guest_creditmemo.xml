@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_guest_creditmemo>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_guest_creditmemo">
         <reference name="creditmemo_items">
             <action method="addItemRender">
-                <type>giftcard</type>
-                <block>Magento_GiftCard_Block_Sales_Order_Item_Renderer</block>
-                <template>Magento_Sales::order/creditmemo/items/renderer/default.phtml</template>
+                <argument name="type" xsi:type="string">giftcard</argument>
+                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Sales_Order_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">Magento_Sales::order/creditmemo/items/renderer/default.phtml</argument>
             </action>
         </reference>
-    </sales_guest_creditmemo>
+    </handle>
 </layout>

@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_checkout_coupon>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_checkout_coupon">
         <remove name="root"/>
-        <block type="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon" template="form/coupon.phtml" name="form_coupon" output="1"/>
-    </adminhtml_checkout_coupon>
+        <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon" template="form/coupon.phtml" name="form_coupon" output="1"/>
+    </handle>
 </layout>

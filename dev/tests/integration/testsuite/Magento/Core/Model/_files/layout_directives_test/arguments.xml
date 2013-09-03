@@ -8,16 +8,18 @@
  */
 -->
 <layout>
-    <block type="Magento_Core_Block_Text" name="block_with_args">
-        <arguments>
-            <one>1</one>
-            <two>2</two>
-        </arguments>
-    </block>
-    <reference name="block_with_args">
-        <arguments>
-            <two>two</two>
-            <three>3</three>
-        </arguments>
-    </reference>
+    <handle id="test_arguments">
+        <block class="Magento_Core_Block_Text" name="block_with_args">
+            <arguments>
+                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="string">1</argument>
+                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="string">2</argument>
+            </arguments>
+        </block>
+        <reference name="block_with_args">
+            <arguments>
+                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="string">two</argument>
+                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="three" xsi:type="string">3</argument>
+            </arguments>
+        </reference>
+    </handle>
 </layout>

@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_newsletter_subscriber_exportxml>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_newsletter_subscriber_exportxml">
         <update handle="adminhtml_newsletter_subscriber_block"/>
         <container name="adminhtml.newsletter.subscriber.container" label="Newsletter Subscriber Grid Container"/>
-    </adminhtml_newsletter_subscriber_exportxml>
+    </handle>
 </layout>

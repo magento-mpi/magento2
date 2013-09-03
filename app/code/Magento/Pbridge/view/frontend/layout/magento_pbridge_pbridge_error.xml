@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <magento_pbridge_pbridge_error>
-        <block type="Magento_Core_Block_Template" name="pbridge.checkout.review.error" template="Magento_Pbridge::checkout/review/error.phtml" output="1"/>
-    </magento_pbridge_pbridge_error>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="magento_pbridge_pbridge_error">
+        <block class="Magento_Core_Block_Template" name="pbridge.checkout.review.error" template="Magento_Pbridge::checkout/review/error.phtml" output="1"/>
+    </handle>
 </layout>

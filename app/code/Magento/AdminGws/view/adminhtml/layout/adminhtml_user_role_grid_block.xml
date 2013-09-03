@@ -7,18 +7,18 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_user_role_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_user_role_grid_block">
         <reference name="permission.role.grid.columnSet">
-            <block type="Magento_Backend_Block_Widget_Grid_Column" as="gws">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="gws">
                 <arguments>
-                    <header translate="true">Allowed Scopes</header>
-                    <width>200px</width>
-                    <sortable>0</sortable>
-                    <filter>0</filter>
-                    <renderer>Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws</renderer>
+                    <argument name="header" xsi:type="string" translate="true">Allowed Scopes</argument>
+                    <argument name="width" xsi:type="string">200px</argument>
+                    <argument name="sortable" xsi:type="string">0</argument>
+                    <argument name="filter" xsi:type="string">0</argument>
+                    <argument name="renderer" xsi:type="string">Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws</argument>
                 </arguments>
             </block>
         </reference>
-    </adminhtml_user_role_grid_block>
+    </handle>
 </layout>

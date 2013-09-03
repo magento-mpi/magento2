@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_giftregistry_customer_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_giftregistry_customer_edit">
         <reference name="content">
-            <block type="Magento_GiftRegistry_Block_Adminhtml_Customer_Edit" name="giftregistry_customer_edit"/>
+            <block class="Magento_GiftRegistry_Block_Adminhtml_Customer_Edit" name="giftregistry_customer_edit"/>
         </reference>
-    </adminhtml_giftregistry_customer_edit>
+    </handle>
 </layout>

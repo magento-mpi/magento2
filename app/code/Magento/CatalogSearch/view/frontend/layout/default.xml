@@ -7,22 +7,22 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="header">
-            <block type="Magento_Core_Block_Template" name="top.search" as="topSearch" template="Magento_CatalogSearch::form.mini.phtml"/>
+            <block class="Magento_Core_Block_Template" name="top.search" as="topSearch" template="Magento_CatalogSearch::form.mini.phtml"/>
         </reference>
         <reference name="footer_links">
-            <action method="addLink" translate="label title" ifconfig="catalog/seo/search_terms">
-                <label>Search Terms</label>
-                <url helper="Magento_CatalogSearch_Helper_Data::getSearchTermUrl"/>
-                <title>Search Terms</title>
+            <action method="addLink" ifconfig="catalog/seo/search_terms">
+                <argument translate="true" name="label" xsi:type="string">Search Terms</argument>
+                <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getSearchTermUrl"/>
+                <argument translate="true" name="title" xsi:type="string">Search Terms</argument>
             </action>
-            <action method="addLink" translate="label title">
-                <label>Advanced Search</label>
-                <url helper="Magento_CatalogSearch_Helper_Data::getAdvancedSearchUrl"/>
-                <title>Advanced Search</title>
+            <action method="addLink">
+                <argument translate="true" name="label" xsi:type="string">Advanced Search</argument>
+                <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getAdvancedSearchUrl"/>
+                <argument translate="true" name="title" xsi:type="string">Advanced Search</argument>
             </action>
         </reference>
-    </default>
+    </handle>
 </layout>

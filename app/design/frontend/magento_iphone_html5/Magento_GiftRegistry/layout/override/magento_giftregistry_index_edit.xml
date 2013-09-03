@@ -7,30 +7,29 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <magento_giftregistry_index_edit translate="label" module="Magento_GiftRegistry" type="page" parent="magento_giftregistry_view_index">
-        <label>Customer My Account GiftRegistry Edit</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer My Account GiftRegistry Edit" id="magento_giftregistry_index_edit" module="Magento_GiftRegistry" type="page" parent="magento_giftregistry_view_index">
         <update handle="customer_account"/>
         <update handle="page_calendar"/>
         <reference name="customer_account_navigation">
             <action method="setActive">
-                <path>magento_giftregistry/index/index</path>
+                <argument name="path" xsi:type="string">magento_giftregistry/index/index</argument>
             </action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="Magento_GiftRegistry_Block_Customer_Edit" name="giftregistry_edit" template="edit/edit.phtml">
+            <block class="Magento_GiftRegistry_Block_Customer_Edit" name="giftregistry_edit" template="edit/edit.phtml">
                 <action method="addInputTypeTemplate">
-                    <type>text</type>
-                    <template>Magento_GiftRegistry::attributes/text.phtml</template>
+                    <argument name="type" xsi:type="string">text</argument>
+                    <argument name="template" xsi:type="string">Magento_GiftRegistry::attributes/text.phtml</argument>
                 </action>
                 <action method="addInputTypeTemplate">
-                    <type>region</type>
-                    <template>Magento_GiftRegistry::attributes/region.phtml</template>
+                    <argument name="type" xsi:type="string">region</argument>
+                    <argument name="template" xsi:type="string">Magento_GiftRegistry::attributes/region.phtml</argument>
                 </action>
-                <block type="Magento_GiftRegistry_Block_Customer_Edit_Registry" name="giftregistry_edit_registry" template="edit/registry.phtml"/>
-                <block type="Magento_GiftRegistry_Block_Customer_Edit_Registrants" name="giftregistry_edit_registrants" template="edit/registrants.phtml"/>
-                <block type="Magento_GiftRegistry_Block_Customer_Address_Edit" name="giftregistry_address_edit" template="address/edit.phtml"/>
+                <block class="Magento_GiftRegistry_Block_Customer_Edit_Registry" name="giftregistry_edit_registry" template="edit/registry.phtml"/>
+                <block class="Magento_GiftRegistry_Block_Customer_Edit_Registrants" name="giftregistry_edit_registrants" template="edit/registrants.phtml"/>
+                <block class="Magento_GiftRegistry_Block_Customer_Address_Edit" name="giftregistry_address_edit" template="address/edit.phtml"/>
             </block>
         </reference>
-    </magento_giftregistry_index_edit>
+    </handle>
 </layout>

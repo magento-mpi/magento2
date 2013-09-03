@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_archive_invoicesgrid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_archive_invoicesgrid">
         <update handle="formkey"/>
-        <block type="Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid" name="archive.grid" as="grid" output="1"/>
-    </adminhtml_sales_archive_invoicesgrid>
+        <block class="Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid" name="archive.grid" as="grid" output="1"/>
+    </handle>
 </layout>

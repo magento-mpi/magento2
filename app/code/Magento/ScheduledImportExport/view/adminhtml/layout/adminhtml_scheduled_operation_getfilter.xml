@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_scheduled_operation_getfilter>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_scheduled_operation_getfilter">
         <container name="root" label="Root" output="1">
-            <block type="Magento_ScheduledImportExport_Block_Adminhtml_Export_Filter" name="export.filter"/>
-            <block type="Magento_Adminhtml_Block_Template" template="Magento_ImportExport::export/form/filter/after.phtml" name="export.form.after" alias="form_after"/>
+            <block class="Magento_ScheduledImportExport_Block_Adminhtml_Export_Filter" name="export.filter"/>
+            <block class="Magento_Adminhtml_Block_Template" template="Magento_ImportExport::export/form/filter/after.phtml" name="export.form.after" alias="form_after"/>
         </container>
-    </adminhtml_scheduled_operation_getfilter>
+    </handle>
 </layout>
