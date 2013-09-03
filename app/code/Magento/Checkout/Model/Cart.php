@@ -39,16 +39,14 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     protected $_coreStoreConfig = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
     ) {
+        parent::__construct($data);
         $this->_coreStoreConfig = $coreStoreConfig;
     }
 

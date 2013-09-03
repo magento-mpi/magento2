@@ -25,11 +25,6 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
     protected $_coreStoreConfig = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
@@ -37,8 +32,8 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($data);
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
