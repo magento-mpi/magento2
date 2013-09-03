@@ -20,9 +20,15 @@ class Magento_Shipping_Model_Carrier_Tablerate
 
     protected $_conditionNames = array();
 
-    public function __construct()
-    {
-        parent::__construct();
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $data);
         foreach ($this->getCode('condition_name') as $k=>$v) {
             $this->_conditionNames[] = $k;
         }
