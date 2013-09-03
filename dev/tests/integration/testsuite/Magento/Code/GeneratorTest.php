@@ -93,7 +93,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         );
         $expectedContent = $this->_clearDocBlock(
             file_get_contents(
-                __DIR__ . '/GeneratorTest/Magento_Code_GeneratorTest_SourceClassWithoutNamespaceFactory.php'
+                __DIR__ . '/GeneratorTest/SourceClassWithoutNamespaceFactory.php'
             )
         );
         $this->assertEquals($expectedContent, $content);
@@ -142,7 +142,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         );
         $expectedContent = $this->_clearDocBlock(
             file_get_contents(
-                __DIR__ . '/GeneratorTest/Magento_Code_GeneratorTest_SourceClassWithoutNamespaceProxy.php'
+                __DIR__ . '/GeneratorTest/SourceClassWithoutNamespaceProxy.php'
             )
         );
         $this->assertEquals($expectedContent, $content);
@@ -186,7 +186,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         );
         $expectedContent = $this->_clearDocBlock(
             file_get_contents(
-                __DIR__ . '/GeneratorTest/Magento_Code_GeneratorTest_SourceClassWithoutNamespaceInterceptor.php'
+                __DIR__ . '/GeneratorTest/SourceClassWithoutNamespaceInterceptor.php'
             )
         );
         $this->assertEquals($expectedContent, $content);
@@ -228,7 +228,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         );
         $expectedContent = $this->_clearDocBlock(
             file_get_contents(
-                __DIR__ . '/GeneratorTest/Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespaceInterceptor.php'
+                __DIR__ . '/GeneratorTest/SourceInterfaceWithoutNamespaceInterceptor.php'
             )
         );
         $this->assertEquals($expectedContent, $content);
