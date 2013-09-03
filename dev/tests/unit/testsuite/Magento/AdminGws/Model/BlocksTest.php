@@ -25,12 +25,13 @@ class Magento_AdminGws_Model_BlocksTest extends PHPUnit_Framework_TestCase
 
     public function testDisableTaxRelatedMultiselects()
     {
-        $form = new Magento_Data_Form();
-        $element1 = new Magento_Data_Form_Element_Editablemultiselect();
+        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $form = $testHelper->getObject('Magento_Data_Form');
+        $element1 = $testHelper->getObject('Magento_Data_Form_Element_Editablemultiselect');
         $element1->setId('tax_customer_class');
-        $element2 = new Magento_Data_Form_Element_Editablemultiselect();
+        $element2 = $testHelper->getObject('Magento_Data_Form_Element_Editablemultiselect');
         $element2->setId('tax_product_class');
-        $element3 = new Magento_Data_Form_Element_Editablemultiselect();
+        $element3 = $testHelper->getObject('Magento_Data_Form_Element_Editablemultiselect');
         $element3->setId('tax_rate');
         $form->addElement($element1);
         $form->addElement($element2);

@@ -38,11 +38,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
         $this->assertNull($this->_virtual->getLabel());
         $this->assertNull($this->_virtual->getForm());
 
-        $this->_model = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight(
-            array('element' => $this->_virtual, 'helper' => $helper)
-        );
+        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_model = $testHelper->getObject('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight', array(
+            'attributes' => array('element' => $this->_virtual, 'helper' => $helper)
+        ));
 
-        $form = new Magento_Data_Form();
+        $form = $testHelper->getObject('Magento_Data_Form');
         $this->_model->setForm($form);
 
         $this->assertEquals(

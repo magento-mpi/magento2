@@ -25,11 +25,17 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
 
     protected function setUp()
     {
-        $this->_qty = $this->getMock('Magento_Data_Form_Element_Text',
-            array('getElementHtml', 'setForm', 'setValue', 'setName')
+        $elementFactory = $this->getMock('Magento_Data_Form_ElementFactory', null, array(), '', false);
+        $this->_qty = $this->getMock(
+            'Magento_Data_Form_Element_Text',
+            array('getElementHtml', 'setForm', 'setValue', 'setName'),
+            array($elementFactory, array())
         );
-        $this->_model = $this->getMock('Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock',
-            array('getElementHtml'), array(array('qty' => $this->_qty, 'name' => self::ATTRIBUTE_NAME)));
+        $this->_model = $this->getMock(
+            'Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock',
+            array('getElementHtml'),
+            array($elementFactory, array('qty' => $this->_qty, 'name' => self::ATTRIBUTE_NAME))
+        );
     }
 
     public function testGetElementHtml()
@@ -42,9 +48,10 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
 
     public function testSetForm()
     {
+        $textElement = $this->getMock('Magento_Data_Form_Element_Text', null, array(), '', false);
         $this->_qty->expects($this->once())->method('setForm')
             ->with($this->isInstanceOf('Magento_Data_Form_Element_Abstract'));
-        $this->_model->setForm(new Magento_Data_Form_Element_Text());
+        $this->_model->setForm($textElement);
     }
 
     public function testSetValue()

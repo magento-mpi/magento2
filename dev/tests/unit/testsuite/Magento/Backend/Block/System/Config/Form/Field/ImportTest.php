@@ -35,7 +35,10 @@ class Magento_Backend_Block_System_Config_Form_Field_ImportTest extends PHPUnit_
             array(), '', false, false
         );
         $testData = array ('name' => 'test_name', 'html_id' => 'test_html_id');
-        $this->_object = new Magento_Backend_Block_System_Config_Form_Field_Import($testData);
+        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_object = $testHelper->getObject('Magento_Backend_Block_System_Config_Form_Field_Import', array(
+            'attributes' => $testData
+        ));
         $this->_object->setForm($this->_formMock);
     }
 

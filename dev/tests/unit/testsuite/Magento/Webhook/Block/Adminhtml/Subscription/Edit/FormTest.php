@@ -61,9 +61,9 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento
 
         // Arguments passed to UUT's constructor
         $arguments = array(
-            $this->_formFactoryMock,
             $this->_registry,
             $this->_context,
+            $this->_formFactoryMock,
             $this->_formatMock,
             $this->_authenticationMock,
             $this->_hookMock,

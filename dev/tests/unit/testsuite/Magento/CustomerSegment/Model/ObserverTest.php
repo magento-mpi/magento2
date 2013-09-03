@@ -48,7 +48,8 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
             ->will($this->returnValue($formDependency))
         ;
 
-        $form = new Magento_Data_Form();
+        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $form = $testHelper->getObject('Magento_Data_Form');
         $model = new Magento_Object();
         $block = new Magento_Object(array('layout' => $layout));
 
@@ -67,7 +68,8 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $layout = $this->getMock('Magento_Core_Model_Layout', array('createBlock'), array(), '', false);
         $layout->expects($this->never())->method('createBlock');
 
-        $form = new Magento_Data_Form();
+        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $form = $testHelper->getObject('Magento_Data_Form');
         $model = new Magento_Object();
         $block = new Magento_Object(array('layout' => $layout));
 

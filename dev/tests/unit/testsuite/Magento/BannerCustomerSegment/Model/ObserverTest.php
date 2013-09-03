@@ -38,8 +38,14 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
      */
     private $_select;
 
+    /**
+     * @var Magento_Test_Helper_ObjectManager
+     */
+    private $_testHelper;
+
     protected function setUp()
     {
+        $this->_testHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_bannerSegmentLink = $this->getMock(
             'Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink',
             array('loadBannerSegments', 'saveBannerSegments', 'addBannerSegmentFilter'),
@@ -157,7 +163,7 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
-        $form = new Magento_Data_Form();
+        $form = $this->_testHelper->getObject('Magento_Data_Form');
         $model = new Magento_Object();
         $block = $this->getMock('Magento_Backend_Block_Widget_Form_Element_Dependence', array(), array(), '', false);
 
@@ -172,7 +178,7 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $form = new Magento_Data_Form();
+        $form = $this->_testHelper->getObject('Magento_Data_Form');
         $model = new Magento_Object();
         $block = $this->getMock('Magento_Backend_Block_Widget_Form_Element_Dependence', array(), array(), '', false);
 

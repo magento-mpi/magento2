@@ -30,7 +30,10 @@ class Magento_Backend_Block_System_Config_Form_Field_ExportTest extends PHPUnit_
         $data = array(
             'helperFactory' => $this->_helperFactoryMock
         );
-        $this->_object = new Magento_Backend_Block_System_Config_Form_Field_Export($data);
+        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_object = $testHelper->getObject('Magento_Backend_Block_System_Config_Form_Field_Export', array(
+            'attributes' => $data
+        ));
     }
 
     public function testGetElementHtml()

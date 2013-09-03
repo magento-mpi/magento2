@@ -67,10 +67,11 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $invalidatorMock = $this->getMock('Magento_Core_Model_Config_InvalidatorInterface');
         $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
         $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
+        $requestMock = $this->getMock('Magento_Core_Controller_Request_Http');
 
         $this->_model = new Magento_Core_Model_Config(
             $objectManagerMock, $configStorageMock, $appMock, $modulesReaderMock, $this->_moduleListMock,
-            $invalidatorMock, $this->_configScopeMock
+            $invalidatorMock, $this->_configScopeMock, $requestMock
         );
     }
 

@@ -23,8 +23,29 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     private $_segmentCollection;
 
+    /**
+     * @var Magento_Test_Helper_ObjectManager
+     */
+    private $_testHelper;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    private $_elementFactory;
+
     protected function setUp()
     {
+        $this->_testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_elementFactory = $this->getMock(
+            'Magento_Data_Form_ElementFactory', array(), array(), '', false
+        );
+        $testCase = $this;
+        $elementFactory = $this->_elementFactory;
+        $mockCallback = function ($className, $data) use ($testCase, $elementFactory) {
+            return $testCase->getMock($className, null, array($elementFactory, $data['attributes']));
+        };
+        $this->_elementFactory->expects($this->any())->method('create')->will($this->returnCallback($mockCallback));
+
         $translate = function (array $args) {
             return reset($args);
         };
@@ -48,6 +69,8 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_helper = null;
         $this->_storeConfig = null;
         $this->_segmentCollection = null;
+        $this->_testHelper = null;
+        $this->_elementFactory = null;
     }
 
     /**
@@ -71,7 +94,10 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(array(10 => 'Devs', 20 => 'QAs')))
         ;
 
-        $form = new Magento_Data_Form(array('html_id_prefix' => 'pfx_'));
+        $form = $this->_testHelper->getObject(
+            'Magento_Data_Form',
+            array('elementFactory' => $this->_elementFactory, 'attributes' => array('html_id_prefix' => 'pfx_'))
+        );
         $data = new Magento_Object($fixtureFormData);
         $dependencies = $this->getMock(
             'Magento_Backend_Block_Widget_Form_Element_Dependence',
@@ -79,7 +105,13 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
             array(), '', false
         );
 
-        $fieldset = new Magento_Data_Form_Element_Fieldset(array('advancedSection' => 'Additional Settings'));
+        $fieldset = $this->_testHelper->getObject(
+            'Magento_Data_Form_Element_Fieldset',
+            array(
+                'elementFactory' => $this->_elementFactory,
+                'attributes'     => array('advancedSection' => 'Additional Settings')
+            )
+        );
         $fieldset->setId('base_fieldset');
         $form->addElement($fieldset);
 
@@ -146,7 +178,9 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $this->_segmentCollection->expects($this->never())->method('toOptionArray');
 
-        $form = new Magento_Data_Form(array('html_id_prefix' => 'pfx_'));
+        $form = $this->_testHelper->getObject('Magento_Data_Form', array(
+            'attributes' => array('html_id_prefix' => 'pfx_')
+        ));
         $data = new Magento_Object();
         $dependencies = $this->getMock(
             'Magento_Backend_Block_Widget_Form_Element_Dependence',

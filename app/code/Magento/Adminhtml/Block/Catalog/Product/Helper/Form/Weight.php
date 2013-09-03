@@ -47,7 +47,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight extends Magento
             : Mage::getModel('Magento_Data_Form_Element_Checkbox');
         $this->_virtual->setId(self::VIRTUAL_FIELD_HTML_ID)->setName('is_virtual')
             ->setLabel($this->_helper->getTypeSwitcherControlLabel());
-        $attributes['class'] = 'validate-number validate-zero-or-greater validate-number-range number-range-0-99999999.9999';
+        $attributes['class'] =
+            'validate-number validate-zero-or-greater validate-number-range number-range-0-99999999.9999';
         parent::__construct($elementFactory, $attributes);
     }
 
