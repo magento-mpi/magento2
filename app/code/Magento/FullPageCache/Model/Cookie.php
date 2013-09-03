@@ -68,11 +68,15 @@ class Magento_FullPageCache_Model_Cookie extends Magento_Core_Model_Cookie
     protected $_fpcCache;
 
     /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_FullPageCache_Model_Cache $_fpcCache
      */
-    public function __construct(Magento_FullPageCache_Model_Cache $_fpcCache)
-    {
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_FullPageCache_Model_Cache $_fpcCache
+    ) {
         $this->_fpcCache = $_fpcCache;
+        parent::__construct($coreStoreConfig);
     }
 
     /**

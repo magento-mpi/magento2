@@ -115,11 +115,17 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Usps constructor
      *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+     * @param array $data
      */
-    public function __construct(Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory)
-    {
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
+        array $data = array()
+    ) {
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
+        parent::__construct($coreStoreConfig, $data);
     }
 
     /**
