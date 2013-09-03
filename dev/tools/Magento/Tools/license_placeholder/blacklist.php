@@ -47,4 +47,5 @@ return array(
     'pub/lib/head.load.min.js',
     'pub/media',
     'var',
+    'dev/tools/nmparser',
 );

@@ -188,8 +188,8 @@ class namespacer
         $this->rootDirPath = realpath(__DIR__);
         $this->path = $path;
         $this->gitShell = new Magento_Shell(null);
-        //$this->gitClassMove();
-        // $this->gitListPackageMove();
+        $this->gitClassMove();
+        $this->gitListPackageMove();
         $this->rootDirectory = $rootDirectory;
         if($tesDir){
             $this->testDir=$path;
