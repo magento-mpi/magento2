@@ -7,6 +7,9 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_CategoryTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoAppArea adminhtml
+     */
     public function testGetAfterElementHtml()
     {
         $layout = Mage::getModel(
@@ -14,7 +17,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_CategoryTest extends P
             array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
         );
 
-        $block = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category(array(), $layout);
+        $block = Mage::getObjectManager()->create('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category');
 
         $form = new Magento_Data_Form();
         $block->setForm($form);

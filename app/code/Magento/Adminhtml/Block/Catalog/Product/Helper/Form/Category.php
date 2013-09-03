@@ -39,19 +39,19 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
     /**
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Helper_Data $coreData
-     * @param array $attributes
      * @param Magento_Core_Model_Layout $layout
+     * @param array $attributes
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
         Magento_Core_Helper_Data $coreData,
-        array $attributes = array(),
-        Magento_Core_Model_Layout $layout = null
+        Magento_Core_Model_Layout $layout,
+        array $attributes = array()
     ) {
         $this->_backendData = $backendData;
         $this->_coreData = $coreData;
         parent::__construct($attributes);
-        $this->_layout = $layout ?: Mage::getObjectManager()->get('Magento_Core_Model_Layout');
+        $this->_layout = $layout;
     }
 
     /**
