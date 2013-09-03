@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_creditmemo_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_creditmemo_view">
         <reference name="creditmemo_totals">
-            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward.points.refunded" template="Magento_Reward::sales/order/refunded.phtml">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward.points.refunded" template="Magento_Reward::sales/order/refunded.phtml">
                 <action method="setDisplayArea">
-                    <area>footer</area>
+                    <argument name="area" xsi:type="string">footer</argument>
                 </action>
                 <action method="setBeforeCondition">
-                    <condition>customerbalance_refunded</condition>
+                    <argument name="condition" xsi:type="string">customerbalance_refunded</argument>
                 </action>
             </block>
         </reference>
-    </adminhtml_sales_order_creditmemo_view>
+    </handle>
 </layout>

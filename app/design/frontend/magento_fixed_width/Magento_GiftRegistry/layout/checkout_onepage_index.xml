@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_index">
         <reference name="head">
             <action method="addJs">
-                <file>Magento_GiftRegistry::js/opcheckout.js</file>
-                <params/>
-                <if/>
-                <condition>giftregistry_enabled</condition>
+                <argument name="file" xsi:type="string">Magento_GiftRegistry::js/opcheckout.js</argument>
+                <argument name="params" xsi:type="string"/>
+                <argument name="if" xsi:type="string"/>
+                <argument name="condition" xsi:type="string">giftregistry_enabled</argument>
             </action>
         </reference>
-    </checkout_onepage_index>
+    </handle>
 </layout>

@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <formkey>
-        <block type="Magento_Core_Block_Template" name="formkey" as="formkey" template="Magento_Adminhtml::admin/formkey.phtml"/>
-    </formkey>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="formkey">
+        <block class="Magento_Core_Block_Template" name="formkey" as="formkey" template="Magento_Adminhtml::admin/formkey.phtml"/>
+    </handle>
 </layout>

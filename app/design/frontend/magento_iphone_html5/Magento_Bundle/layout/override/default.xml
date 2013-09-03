@@ -7,28 +7,28 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="cart_sidebar">
             <action method="addItemRender">
-                <type>bundle</type>
-                <block>Magento_Bundle_Block_Checkout_Cart_Item_Renderer</block>
-                <template>Magento_Checkout::cart/sidebar/default.phtml</template>
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Checkout_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">Magento_Checkout::cart/sidebar/default.phtml</argument>
             </action>
         </reference>
         <reference name="wishlist_sidebar">
             <action method="addPriceBlockType">
-                <type>bundle</type>
-                <block>Magento_Bundle_Block_Catalog_Product_Price</block>
-                <template>catalog/product/price.phtml</template>
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+                <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </reference>
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
-                <type>bundle</type>
-                <block>Magento_Bundle_Block_Catalog_Product_Price</block>
-                <template>catalog/product/price.phtml</template>
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+                <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </reference>
-    </default>
+    </handle>
 </layout>

@@ -7,109 +7,109 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_customer_customersegment_segment>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_customer_customersegment_segment">
         <reference name="content">
-            <block type="Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment" name="adminhtml.customersegment.report.grid.container">
-                <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.customersegment.report.grid" as="grid">
+            <block class="Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment" name="adminhtml.customersegment.report.grid.container">
+                <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.customersegment.report.grid" as="grid">
                     <arguments>
-                        <id>gridReportCustomersegments</id>
-                        <dataSource type="object">Magento_CustomerSegment_Model_Resource_Segment_Report_Collection</dataSource>
+                        <argument name="id" xsi:type="string">gridReportCustomersegments</argument>
+                        <argument name="dataSource" xsi:type="string">Magento_CustomerSegment_Model_Resource_Segment_Report_Collection</argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.customersegment.report.massactions" as="grid.massaction">
-                    <arguments>
-                        <massaction_id_field>segment_id</massaction_id_field>
-                        <use_select_all>1</use_select_all>
-                        <options>
-                            <view>
-                                <label translate="true" module="Magento_CustomerSegment">View Combined Report</label>
-                                <url>*/*/detail</url>
-                                <params>
-                                    <_current>1</_current>
-                                </params>
-                                <block_name>set</block_name>
-                            </view>
-                        </options>
-                    </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Massaction_Additional" name="adminhtml.customersegment.report.massactions.visibility" as="set">
+                    <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.customersegment.report.massactions" as="grid.massaction">
                         <arguments>
-                            <fields>
-                                <visibility>
-                                    <name>view_mode</name>
-                                    <type>select</type>
-                                    <class>required-entry</class>
-                                    <label translate="true" module="Magento_CustomerSegment">Set</label>
-                                    <values>Magento_CustomerSegment_Model_Resource_Segment_Report_Massaction_Set</values>
-                                </visibility>
-                            </fields>
+                            <argument name="massaction_id_field" xsi:type="string">segment_id</argument>
+                            <argument name="use_select_all" xsi:type="string">1</argument>
+                            <argument name="options" xsi:type="array">
+                                <item name="view" xsi:type="array">
+                                    <item name="label" xsi:type="string" translate="true">View Combined Report</item>
+                                    <item name="url" xsi:type="string">*/*/detail</item>
+                                    <item name="params" xsi:type="array">
+                                        <item name="_current" xsi:type="string">1</item>
+                                    </item>
+                                    <item name="block_name" xsi:type="string">set</item>
+                                </item>
+                            </argument>
                         </arguments>
+                        <block class="Magento_Backend_Block_Widget_Grid_Massaction_Additional" name="adminhtml.customersegment.report.massactions.visibility" as="set">
+                            <arguments>
+                                <argument name="fields" xsi:type="array">
+                                    <item name="visibility" xsi:type="array">
+                                        <item name="name" xsi:type="string">view_mode</item>
+                                        <item name="type" xsi:type="string">select</item>
+                                        <item name="class" xsi:type="string">required-entry</item>
+                                        <item name="label" xsi:type="string" translate="true">Set</item>
+                                        <item name="values" xsi:type="string">Magento_CustomerSegment_Model_Resource_Segment_Report_Massaction_Set</item>
+                                    </item>
+                                </argument>
+                            </arguments>
+                        </block>
                     </block>
-                </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.customersegment.report.grid.columnSet" as="grid.columnSet">
+                    <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.customersegment.report.grid.columnSet" as="grid.columnSet">
                         <arguments>
-                            <rowUrl>
-                                <path>*/*/detail</path>
-                                <extraParamsTemplate>
-                                    <segment_id>getId</segment_id>
-                                </extraParamsTemplate>
-                            </rowUrl>
+                            <argument name="rowUrl" xsi:type="array">
+                                <item name="path" xsi:type="string">*/*/detail</item>
+                                <item name="extraParamsTemplate" xsi:type="array">
+                                    <item name="segment_id" xsi:type="string">getId</item>
+                                </item>
+                            </argument>
                         </arguments>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="segment_id">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column" as="segment_id">
                             <arguments>
-                                <header translate="true" module="Magento_CustomerSegment">ID</header>
-                                <index>segment_id</index>
-                                <header_css_class>col-id</header_css_class>
-                                <column_css_class>col-id</column_css_class>
+                                <argument name="header" xsi:type="string" translate="true">ID</argument>
+                                <argument name="index" xsi:type="string">segment_id</argument>
+                                <argument name="header_css_class" xsi:type="string">col-id</argument>
+                                <argument name="column_css_class" xsi:type="string">col-id</argument>
                             </arguments>
                         </block>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
                             <arguments>
-                                <header translate="true" module="Magento_CustomerSegment">Segment</header>
-                                <index>name</index>
-                                <header_css_class>col-segment</header_css_class>
-                                <column_css_class>col-segment</column_css_class>
+                                <argument name="header" xsi:type="string" translate="true">Segment</argument>
+                                <argument name="index" xsi:type="string">name</argument>
+                                <argument name="header_css_class" xsi:type="string">col-segment</argument>
+                                <argument name="column_css_class" xsi:type="string">col-segment</argument>
                             </arguments>
                         </block>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
                             <arguments>
-                                <header translate="true" module="Magento_CustomerSegment">Status</header>
-                                <index>is_active</index>
-                                <type>options</type>
-                                <options>
-                                    <active>
-                                        <value>1</value>
-                                        <label translate="true" module="Magento_CustomerSegment">Active</label>
-                                    </active>
-                                    <inactive>
-                                        <value>0</value>
-                                        <label translate="true" module="Magento_CustomerSegment">Inactive</label>
-                                    </inactive>
-                                </options>
-                                <header_css_class>col-status</header_css_class>
-                                <column_css_class>col-status</column_css_class>
+                                <argument name="header" xsi:type="string" translate="true">Status</argument>
+                                <argument name="index" xsi:type="string">is_active</argument>
+                                <argument name="type" xsi:type="string">options</argument>
+                                <argument name="options" xsi:type="array">
+                                    <item name="active" xsi:type="array">
+                                        <item name="value" xsi:type="string">1</item>
+                                        <item name="label" xsi:type="string" translate="true">Active</item>
+                                    </item>
+                                    <item name="inactive" xsi:type="array">
+                                        <item name="value" xsi:type="string">0</item>
+                                        <item name="label" xsi:type="string" translate="true">Inactive</item>
+                                    </item>
+                                </argument>
+                                <argument name="header_css_class" xsi:type="string">col-status</argument>
+                                <argument name="column_css_class" xsi:type="string">col-status</argument>
                             </arguments>
                         </block>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website">
                             <arguments>
-                                <header translate="true" module="Magento_CustomerSegment">Website</header>
-                                <index>website_ids</index>
-                                <type>options</type>
-                                <options type="options">Magento_Backend_Model_Config_Source_Website_OptionHash</options>
-                                <header_css_class>col-website</header_css_class>
-                                <column_css_class>col-website</column_css_class>
+                                <argument name="header" xsi:type="string" translate="true">Website</argument>
+                                <argument name="index" xsi:type="string">website_ids</argument>
+                                <argument name="type" xsi:type="string">options</argument>
+                                <argument name="options" xsi:type="options" model="Magento_Backend_Model_Config_Source_Website_OptionHash"/>
+                                <argument name="header_css_class" xsi:type="string">col-website</argument>
+                                <argument name="column_css_class" xsi:type="string">col-website</argument>
                             </arguments>
                         </block>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="customer_count">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column" as="customer_count">
                             <arguments>
-                                <header translate="true" module="Magento_CustomerSegment">Customers</header>
-                                <index>customer_count</index>
-                                <header_css_class>col-qty</header_css_class>
-                                <column_css_class>col-qty</column_css_class>
+                                <argument name="header" xsi:type="string" translate="true">Customers</argument>
+                                <argument name="index" xsi:type="string">customer_count</argument>
+                                <argument name="header_css_class" xsi:type="string">col-qty</argument>
+                                <argument name="column_css_class" xsi:type="string">col-qty</argument>
                             </arguments>
                         </block>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_report_customer_customersegment_segment>
+    </handle>
 </layout>

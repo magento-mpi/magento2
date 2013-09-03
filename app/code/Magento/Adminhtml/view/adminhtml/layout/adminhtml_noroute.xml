@@ -7,14 +7,16 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_noroute>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_noroute">
         <reference name="content">
-            <block type="Magento_Core_Block_Text" name="content.noRoute">
-                <action method="setText" translate="text">
-                    <text><![CDATA[<h1 class="page-heading">404 Error</h1><p>Page not found.</p>]]></text>
+            <block class="Magento_Core_Block_Text" name="content.noRoute">
+                <action method="setText">
+                    <argument translate="true" name="text" xsi:type="string">
+                        <![CDATA[<h1 class="page-heading">404 Error</h1><p>Page not found.</p>]]>
+                    </argument>
                 </action>
             </block>
         </reference>
-    </adminhtml_noroute>
+    </handle>
 </layout>

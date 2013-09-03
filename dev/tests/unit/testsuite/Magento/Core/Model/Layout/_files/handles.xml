@@ -8,10 +8,10 @@
  */
 -->
 <layouts>
-    <fixture_handle_one>
-        <block type="Magento_Core_Block_Template" template="fixture_template_one.phtml"/>
-    </fixture_handle_one>
-    <fixture_handle_two>
-        <block type="Magento_Core_Block_Template" template="fixture_template_two.phtml"/>
-    </fixture_handle_two>
+    <handle id="fixture_handle_one">
+        <block class="Magento_Core_Block_Template" template="fixture_template_one.phtml"/>
+    </handle>
+    <handle id="fixture_handle_two">
+        <block class="Magento_Core_Block_Template" template="fixture_template_two.phtml"/>
+    </handle>
 </layouts>

@@ -7,100 +7,100 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_system_backup_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_system_backup_block">
         <reference name="adminhtml.system.backup.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.backup.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.backup.grid" as="grid">
                 <arguments>
-                    <id>backupsGrid</id>
-                    <dataSource type="object">Magento_Backup_Model_Fs_Collection</dataSource>
-                    <default_sort>time</default_sort>
-                    <default_dir>desc</default_dir>
+                    <argument name="id" xsi:type="string">backupsGrid</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Backup_Model_Fs_Collection</argument>
+                    <argument name="default_sort" xsi:type="string">time</argument>
+                    <argument name="default_dir" xsi:type="string">desc</argument>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.system.backup.grid.massaction" as="grid.massaction">
+                <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.system.backup.grid.massaction" as="grid.massaction">
                     <arguments>
-                        <massaction_id_field>id</massaction_id_field>
-                        <form_field_name>ids</form_field_name>
-                        <use_select_all>1</use_select_all>
-                        <options>
-                            <delete>
-                                <label translate="true">Delete</label>
-                                <url>*/*/massDelete</url>
-                                <confirm translate="true">Are you sure you want to delete the selected backup(s)?</confirm>
-                            </delete>
-                        </options>
+                        <argument name="massaction_id_field" xsi:type="string">id</argument>
+                        <argument name="form_field_name" xsi:type="string">ids</argument>
+                        <argument name="use_select_all" xsi:type="string">1</argument>
+                        <argument name="options" xsi:type="array">
+                            <item name="delete" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Delete</item>
+                                <item name="url" xsi:type="string">*/*/massDelete</item>
+                                <item name="confirm" xsi:type="string" translate="true">Are you sure you want to delete the selected backup(s)?</item>
+                            </item>
+                        </argument>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <id>backupsGrid</id>
+                        <argument name="id" xsi:type="string">backupsGrid</argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="time">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="time">
                         <arguments>
-                            <header translate="true">Time</header>
-                            <index>date_object</index>
-                            <type>datetime</type>
-                            <width>200px</width>
+                            <argument name="header" xsi:type="string" translate="true">Time</argument>
+                            <argument name="index" xsi:type="string">date_object</argument>
+                            <argument name="type" xsi:type="string">datetime</argument>
+                            <argument name="width" xsi:type="string">200px</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="display_name">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="display_name">
                         <arguments>
-                            <header translate="true">Name</header>
-                            <index>display_name</index>
-                            <filter>0</filter>
-                            <sortable>1</sortable>
-                            <width>350px</width>
+                            <argument name="header" xsi:type="string" translate="true">Name</argument>
+                            <argument name="index" xsi:type="string">display_name</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">1</argument>
+                            <argument name="width" xsi:type="string">350px</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="size">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="size">
                         <arguments>
-                            <header translate="true">Size(bytes)</header>
-                            <index>size</index>
-                            <type>number</type>
-                            <filter>0</filter>
-                            <sortable>1</sortable>
+                            <argument name="header" xsi:type="string" translate="true">Size(bytes)</argument>
+                            <argument name="index" xsi:type="string">size</argument>
+                            <argument name="type" xsi:type="string">number</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">1</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="type">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="type">
                         <arguments>
-                            <header translate="true">Type</header>
-                            <index>type</index>
-                            <type>options</type>
-                            <options type="options">Magento_Backup_Model_Grid_Options</options>
-                            <width>300px</width>
+                            <argument name="header" xsi:type="string" translate="true">Type</argument>
+                            <argument name="index" xsi:type="string">type</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Backup_Model_Grid_Options"/>
+                            <argument name="width" xsi:type="string">300px</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="download">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="download">
                         <arguments>
-                            <header translate="true">Download</header>
-                            <index>type</index>
-                            <filter>0</filter>
-                            <sortable>0</sortable>
-                            <type>action</type>
-                            <renderer>Magento_Backup_Block_Adminhtml_Grid_Column_Renderer_Download</renderer>
+                            <argument name="header" xsi:type="string" translate="true">Download</argument>
+                            <argument name="index" xsi:type="string">type</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="type" xsi:type="string">action</argument>
+                            <argument name="renderer" xsi:type="string">Magento_Backup_Block_Adminhtml_Grid_Column_Renderer_Download</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backup_Block_Adminhtml_Grid_Column_Rollback" as="action">
+                    <block class="Magento_Backup_Block_Adminhtml_Grid_Column_Rollback" as="action">
                         <arguments>
-                            <header translate="true">Action</header>
-                            <index>type</index>
-                            <width>80px</width>
-                            <filter>0</filter>
-                            <sortable>0</sortable>
-                            <type>action</type>
-                            <actions>
-                                <rollback_action>
-                                    <caption translate="true">Rollback</caption>
-                                    <url>
-                                        <base>#</base>
-                                    </url>
-                                    <onclick>return backup.rollback('$type', '$time')</onclick>
-                                </rollback_action>
-                            </actions>
+                            <argument name="header" xsi:type="string" translate="true">Action</argument>
+                            <argument name="index" xsi:type="string">type</argument>
+                            <argument name="width" xsi:type="string">80px</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="type" xsi:type="string">action</argument>
+                            <argument name="actions" xsi:type="array">
+                                <item name="rollback_action" xsi:type="array">
+                                    <item name="caption" xsi:type="string" translate="true">Rollback</item>
+                                    <item name="url" xsi:type="array">
+                                        <item name="base" xsi:type="string">#</item>
+                                    </item>
+                                    <item name="onclick" xsi:type="string">return backup.rollback('$type', '$time')</item>
+                                </item>
+                            </argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_system_backup_block>
+    </handle>
 </layout>

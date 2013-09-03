@@ -7,9 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_cart_configurefailed_type_downloadable translate="label" type="page" parent="checkout_cart_configurefailed">
-        <label>Configure Cart Item</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Configure Cart Item" id="checkout_cart_configurefailed_type_downloadable" type="page" parent="checkout_cart_configurefailed">
         <update handle="catalog_product_view_type_downloadable"/>
-    </checkout_cart_configurefailed_type_downloadable>
+    </handle>
 </layout>

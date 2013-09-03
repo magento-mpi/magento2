@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <magento_customerbalance_info_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="magento_customerbalance_info_index">
         <reference name="customerbalance.wrapper">
-            <block type="Magento_GiftCardAccount_Block_Account_Redeem" name="redeem" template="account/redeem_link.phtml" after="balance"/>
+            <block class="Magento_GiftCardAccount_Block_Account_Redeem" name="redeem" template="account/redeem_link.phtml" after="balance"/>
         </reference>
-    </magento_customerbalance_info_index>
+    </handle>
 </layout>

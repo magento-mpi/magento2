@@ -7,13 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_cart_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_cart_index">
         <reference name="checkout.cart.top_methods">
-            <block type="Magento_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.top" template="link.phtml" before="-"/>
+            <block class="Magento_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.top" template="link.phtml" before="-"/>
         </reference>
         <reference name="checkout.cart.methods">
-            <block type="Magento_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.bottom" template="link.phtml"/>
+            <block class="Magento_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.bottom" template="link.phtml"/>
         </reference>
-    </checkout_cart_index>
+    </handle>
 </layout>

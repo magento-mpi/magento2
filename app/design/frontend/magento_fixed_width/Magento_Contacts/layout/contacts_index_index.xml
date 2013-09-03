@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <contacts_index_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="contacts_index_index">
         <update handle="page_one_column"/>
-    </contacts_index_index>
+    </handle>
 </layout>

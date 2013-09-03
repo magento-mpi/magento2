@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_customer_customersegment_detail>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_customer_customersegment_detail">
         <update handle="formkey"/>
         <update handle="adminhtml_report_customer_customersegment_detail_block"/>
         <reference name="content">
-            <block type="Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail" name="report.customersegment.detail.grid.container" template="report/detail/grid/container.phtml"/>
+            <block class="Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail" name="report.customersegment.detail.grid.container" template="report/detail/grid/container.phtml"/>
         </reference>
-    </adminhtml_report_customer_customersegment_detail>
+    </handle>
 </layout>

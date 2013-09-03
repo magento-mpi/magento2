@@ -78,7 +78,6 @@ class Magento_Core_Utility_Layout
             'argumentProcessor'  => Mage::getObjectManager()->create('Magento_Core_Model_Layout_Argument_Processor',
                 array()
             ),
-            'translator'         => Mage::getObjectManager()->create('Magento_Core_Model_Layout_Translator'),
             'scheduledStructure' => Mage::getObjectManager()->create('Magento_Core_Model_Layout_ScheduledStructure',
                 array()
             ),

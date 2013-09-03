@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_create_load_block_search_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_create_load_block_search_grid">
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid" name="serach.grid" as="grid"/>
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid" name="serach.grid" as="grid"/>
         </reference>
-    </adminhtml_sales_order_create_load_block_search_grid>
+    </handle>
 </layout>
