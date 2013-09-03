@@ -18,7 +18,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_layout = $objectManagerHelper->getObject('Magento_Core_Model_Layout');
     }
 
