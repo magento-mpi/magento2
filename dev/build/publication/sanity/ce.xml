@@ -150,12 +150,14 @@
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
+            <word>enterprise</word>
             <path>dev/tools/nmparser/PHP-Parser-0.9.3/formatter/testfiles/Foo.php</path>
         </item>
         <item>
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
+            <word>enterprise</word>
             <path>dev/tools/nmparser/PHP-Parser-0.9.3/formatter/testfiles/FooInterface.php</path>
         </item>
         <item>
