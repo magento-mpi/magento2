@@ -14,8 +14,8 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
     /** @var Mage_Webapi_Model_Soap_Server */
     protected $_soapServer;
 
-    /** @var Mage_Webapi_Model_Soap_AutoDiscover */
-    protected $_autoDiscover;
+    /** @var Mage_Webapi_Model_Soap_Wsdl_Generator */
+    protected $_wsdlGenerator;
 
     /** @var Mage_Webapi_Controller_Soap_Request */
     protected $_request;
@@ -40,7 +40,7 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
      *
      * @param Mage_Webapi_Controller_Soap_Request $request
      * @param Mage_Webapi_Controller_Response $response
-     * @param Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover
+     * @param Mage_Webapi_Model_Soap_Wsdl_Generator $wsdlGenerator
      * @param Mage_Webapi_Model_Soap_Server $soapServer
      * @param Mage_Webapi_Model_Soap_Fault $soapFault
      * @param Mage_Webapi_Controller_ErrorProcessor $errorProcessor
@@ -50,7 +50,7 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
     public function __construct(
         Mage_Webapi_Controller_Soap_Request $request,
         Mage_Webapi_Controller_Response $response,
-        Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
+        Mage_Webapi_Model_Soap_Wsdl_Generator $wsdlGenerator,
         Mage_Webapi_Model_Soap_Server $soapServer,
         Mage_Webapi_Model_Soap_Fault $soapFault,
         Mage_Webapi_Controller_ErrorProcessor $errorProcessor,
@@ -59,7 +59,7 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
     ) {
         $this->_request = $request;
         $this->_response = $response;
-        $this->_autoDiscover = $autoDiscover;
+        $this->_wsdlGenerator = $wsdlGenerator;
         $this->_soapServer = $soapServer;
         $this->_soapFault = $soapFault;
         $this->_errorProcessor = $errorProcessor;
@@ -92,7 +92,7 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
         } else {
             try {
                 if ($this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {
-                    $responseBody = $this->_autoDiscover->handle(
+                    $responseBody = $this->_wsdlGenerator->generate(
                         $this->_request->getRequestedServices(),
                         $this->_soapServer->generateUri()
                     );
@@ -119,7 +119,7 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
     protected function _processBadRequest($message)
     {
         $this->_setResponseContentType('text/xml');
-        $this->_response->setHttpResponseCode(400);
+        $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Rest_Response::HTTP_OK);
         $details = array();
         // TODO: Generate list of available URLs when invalid WSDL URL specified
         $this->_setResponseBody(

@@ -12,6 +12,7 @@ use Zend\Soap\Wsdl;
 class Mage_Webapi_Model_Soap_Wsdl_Generator
 {
     const WSDL_NAME = 'MagentoWSDL';
+    const WSDL_CACHE_ID = 'WSDL';
 
     /**
      * WSDL factory instance.
@@ -21,16 +22,21 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
     protected $_wsdlFactory;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Mage_Webapi_Helper_Data
      */
     protected $_helper;
+
+    /**
+     * @var Mage_Core_Model_CacheInterface
+     */
+    protected $_cache;
 
     /**
      * TODO: Temporary variable for step-by-step refactoring according to new requirements
      *
      * @var Mage_Webapi_Model_Soap_Config
      */
-    protected $_apiConfig;
+    protected $_newApiConfig;
 
     /**
      * The list of registered complex types.
@@ -42,18 +48,51 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Soap_Config $apiConfig
-     * @param Mage_Core_Helper_Data $helper
+     * @param Mage_Webapi_Model_Soap_Config $newApiConfig
+     * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
+     * @param Mage_Core_Model_CacheInterface $cache
+     * 
+     * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Webapi_Model_Soap_Config $apiConfig,
-        Mage_Core_Helper_Data $helper,
-        Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
+        Mage_Webapi_Model_Soap_Config $newApiConfig,
+        Mage_Webapi_Helper_Data $helper,
+        Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
+        Mage_Core_Model_CacheInterface $cache
     ) {
-        $this->_apiConfig = $apiConfig;
+        $this->_newApiConfig = $newApiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_helper = $helper;
+        $this->_cache = $cache;
+    }
+
+    /**
+     * Generate WSDL file based on requested services (uses cache)
+     *
+     * @param array $requestedServices
+     * @param string $endPointUrl
+     * @return string
+     * @throws Mage_Webapi_Exception
+     */
+    public function generate($requestedServices, $endPointUrl)
+    {
+        /** TODO: Uncomment caching */
+        /* $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedServices));
+        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+            $cachedWsdlContent = $this->_cache->load($cacheId);
+            if ($cachedWsdlContent !== false) {
+                return $cachedWsdlContent;
+            }
+        }*/
+
+        $wsdlContent = $this->_generate($requestedServices, $endPointUrl);
+
+        /* if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
+        }*/
+
+        return $wsdlContent;
     }
 
     /**
@@ -63,8 +102,9 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      * @param string $endPointUrl
      * @return string
      * @throws Mage_Webapi_Exception
+     * @throws Exception|Mage_Webapi_Exception
      */
-    public function generate($requestedServices, $endPointUrl)
+    protected function _generate($requestedServices, $endPointUrl)
     {
         /** Sort requested services by names to prevent caching of the same wsdl file more than once. */
         ksort($requestedServices);
@@ -129,7 +169,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      */
     protected function _getServiceSchemaDOM($serviceName)
     {
-        return $this->_apiConfig->getServiceSchemaDOM($serviceName);
+        return $this->_newApiConfig->getServiceSchemaDOM($serviceName);
     }
 
     /**
@@ -383,7 +423,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      */
     protected function _prepareServiceData($serviceName)
     {
-        $requestedServices = $this->_apiConfig->getRequestedSoapServices(array($serviceName));
+        $requestedServices = $this->_newApiConfig->getRequestedSoapServices(array($serviceName));
         if (empty($requestedServices)) {
             throw new Mage_Webapi_Exception(
                 $this->_helper->__('Service "%s" is not available.', $serviceName),
