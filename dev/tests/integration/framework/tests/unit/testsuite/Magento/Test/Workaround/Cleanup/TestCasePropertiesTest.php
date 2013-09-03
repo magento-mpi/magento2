@@ -18,35 +18,34 @@ class Magento_Test_Workaround_Cleanup_TestCasePropertiesTest extends PHPUnit_Fra
      * @var array
      */
     protected $_fixtureProperties = array(
-        array('name' => 'testPublic',           'is_static' => false),
-        array('name' => '_testPrivate',         'is_static' => false),
+        array('name' => 'testPublic', 'is_static' => false),
+        array('name' => '_testPrivate', 'is_static' => false),
         array('name' => '_testPropertyBoolean', 'is_static' => false),
         array('name' => '_testPropertyInteger', 'is_static' => false),
-        array('name' => '_testPropertyFloat',   'is_static' => false),
-        array('name' => '_testPropertyString',  'is_static' => false),
-        array('name' => '_testPropertyArray',   'is_static' => false),
-        array('name' => '_testPropertyObject',  'is_static' => false),
-        array('name' => 'testPublicStatic',     'is_static' => true),
+        array('name' => '_testPropertyFloat', 'is_static' => false),
+        array('name' => '_testPropertyString', 'is_static' => false),
+        array('name' => '_testPropertyArray', 'is_static' => false),
+        array('name' => '_testPropertyObject', 'is_static' => false),
+        array('name' => 'testPublicStatic', 'is_static' => true),
         array('name' => '_testProtectedStatic', 'is_static' => true),
-        array('name' => '_testPrivateStatic',   'is_static' => true),
+        array('name' => '_testPrivateStatic', 'is_static' => true),
     );
 
     public function testEndTestSuiteDestruct()
     {
         $phpUnitTestSuite = new PHPUnit_Framework_TestSuite();
-        $phpUnitTestSuite->addTestFile(__DIR__ . '/_files/DummyTestCase.php');
+        $phpUnitTestSuite->addTestFile(__DIR__ . '/TestCasePropertiesTest/DummyTestCase.php');
         // Because addTestFile() adds classes from file to tests array, use first testsuite
         /** @var $testSuite PHPUnit_Framework_TestSuite */
         $testSuite = $phpUnitTestSuite->testAt(0);
         $testSuite->run();
-        /** @var $testClass Magento_TestFramework_Workaround_Cleanup_DummyTestCase */
+        /** @var $testClass Magento_TestFramework_Workaround_Cleanup_TestCasePropertiesTest_DummyTestCase */
         $testClass = $testSuite->testAt(0);
 
         $propertyObjectMock = $this->getMock('stdClass', array('__destruct'));
         $propertyObjectMock
             ->expects($this->once())
-            ->method('__destruct')
-        ;
+            ->method('__destruct');
         $testClass->setPropertyObject($propertyObjectMock);
 
         foreach ($this->_fixtureProperties as $property) {
