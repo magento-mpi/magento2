@@ -92,7 +92,7 @@ XML;
             array(
                 'Fault reason',
                 'Sender',
-                'en',
+                Mage_Webapi_Model_Soap_Fault::DEFAULT_LANGUAGE,
                 array('key1' => 'value1', 'key2' => 'value2'),
                 $expectedXmls['expectedResultArrayDataDetails'],
                 'SOAP fault message with associated array data details is invalid.'
@@ -100,7 +100,7 @@ XML;
             array(
                 'Fault reason',
                 'Sender',
-                'en',
+                Mage_Webapi_Model_Soap_Fault::DEFAULT_LANGUAGE,
                 array('value1', 'value2'),
                 $expectedXmls['expectedResultIndexArrayDetails'],
                 'SOAP fault message with index array data details is invalid.'
@@ -108,7 +108,7 @@ XML;
             array(
                 'Fault reason',
                 'Sender',
-                'en',
+                Mage_Webapi_Model_Soap_Fault::DEFAULT_LANGUAGE,
                 array(),
                 $expectedXmls['expectedResultEmptyArrayDetails'],
                 'SOAP fault message with empty array data details is invalid.'
@@ -116,7 +116,7 @@ XML;
             array(
                 'Fault reason',
                 'Sender',
-                'en',
+                Mage_Webapi_Model_Soap_Fault::DEFAULT_LANGUAGE,
                 (object)array('key' => 'value'),
                 $expectedXmls['expectedResultObjectDetails'],
                 'SOAP fault message with object data details is invalid.'
@@ -124,7 +124,7 @@ XML;
             array(
                 'Fault reason',
                 'Sender',
-                'en',
+                Mage_Webapi_Model_Soap_Fault::DEFAULT_LANGUAGE,
                 array('key' => array('sub_key' => 'value')),
                 $expectedXmls['expectedResultComplexDataDetails'],
                 'SOAP fault message with complex data details is invalid.'
@@ -138,7 +138,7 @@ XML;
         $soapFault = new Mage_Webapi_Model_Soap_Fault(
             $message,
             Mage_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER,
-            'en',
+            Mage_Webapi_Model_Soap_Fault::DEFAULT_LANGUAGE,
             null,
             array('param1' => 'value1', 'param2' => 2),
             111

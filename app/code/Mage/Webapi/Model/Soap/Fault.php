@@ -9,6 +9,7 @@
  */
 class Mage_Webapi_Model_Soap_Fault extends RuntimeException
 {
+    const DEFAULT_LANGUAGE = 'en';
     const FAULT_REASON_INTERNAL = 'Internal Error.';
 
     /**#@+
@@ -58,7 +59,7 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
     public function __construct(
         $reason = self::FAULT_REASON_INTERNAL,
         $faultCode = self::FAULT_CODE_RECEIVER,
-        $language = 'en',
+        $language = self::DEFAULT_LANGUAGE,
         Exception $previous = null,
         $parameters = array(),
         $errorCode = null
