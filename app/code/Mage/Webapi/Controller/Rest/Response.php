@@ -105,9 +105,10 @@ class Mage_Webapi_Controller_Rest_Response extends Mage_Webapi_Controller_Respon
     }
 
     /**
-     * Perform rendering of action results.
+     * Perform rendering of response data.
      *
      * @param array|null $outputData
+     * @return Mage_Webapi_Controller_Rest_Response
      */
     public function prepareResponse($outputData = null)
     {
@@ -115,6 +116,7 @@ class Mage_Webapi_Controller_Rest_Response extends Mage_Webapi_Controller_Respon
         if ($this->getMessages()) {
             $this->_render(array('messages' => $this->getMessages()));
         };
+        return $this;
     }
 
     /**

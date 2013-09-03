@@ -194,29 +194,20 @@ class Mage_Webapi_Controller_Rest_Request extends Mage_Webapi_Controller_Request
     }
 
     /**
-     * Fetch data from request and prepare it for passing to specified action.
+     * Fetch and return parameter data from the request.
      *
      * @return array
      */
     public function getRequestData()
     {
-        $requestParams = array_merge($this->_getRequestBody(), $this->getParams());
-        return $requestParams;
-    }
-
-    /**
-     * Retrieve request data.
-     *
-     * @return array
-     */
-    protected function _getRequestBody()
-    {
         $requestBody = array();
+
         $httpMethod = $this->getHttpMethod();
         if ($httpMethod == Mage_Webapi_Model_Rest_Config::HTTP_METHOD_POST
             || $httpMethod == Mage_Webapi_Model_Rest_Config::HTTP_METHOD_PUT) {
             $requestBody = $this->getBodyParams();
         }
-        return $requestBody;
+
+        return array_merge($requestBody, $this->getParams());
     }
 }
