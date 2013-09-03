@@ -38,10 +38,8 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest ext
             ->method('registry')
             ->with('current_subscription')
             ->will($this->returnValue($this->_subscription));
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $this->_block = new Magento_Webhook_Block_Adminhtml_Registration_Create_Form_Container(
             $context,
-            $coreStoreConfig,
             $registry
         );
     }

@@ -40,10 +40,8 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test
     public function testGetHeaderTestNew()
     {
         $this->_registry = new Magento_Core_Model_Registry();
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $this->_block = new Magento_Webhook_Block_Adminhtml_Subscription_Edit(
             $this->_context,
-            $coreStoreConfig,
             $this->_registry
         );
 

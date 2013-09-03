@@ -43,8 +43,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Fr
         $session->expects($this->once())
             ->method('getMessages')
             ->will($this->returnValue($messages));
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $this->_block = new Magento_Webhook_Block_Adminhtml_Registration_Failed($context, $coreStoreConfig, $session);
+        $this->_block = new Magento_Webhook_Block_Adminhtml_Registration_Failed($context, $session);
     }
 
     public function testGetSessionError()
