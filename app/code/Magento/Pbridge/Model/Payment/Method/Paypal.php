@@ -46,9 +46,17 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
      */
     protected $_proType = 'Magento_Pbridge_Model_Payment_Method_Paypal_Pro';
 
-    public function __construct($params = array())
-    {
-        parent::__construct($params);
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $moduleList, $data);
         $this->_pro->setPaymentMethod($this);
     }
 

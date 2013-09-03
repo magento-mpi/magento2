@@ -166,13 +166,17 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * Init Ogone Api instance, detup default values
      *
-     * @var Magento_Ogone_Model_Config $config
-     * @return Magento_Ogone_Model_Api
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Ogone_Model_Config $config
+     * @param array $data
      */
-    public function __construct(Magento_Ogone_Model_Config $config)
-    {
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Ogone_Model_Config $config,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $data);
         $this->_config = $config;
-        return $this;
     }
 
     /**

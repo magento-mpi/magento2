@@ -157,11 +157,11 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
         array $data = array()
     ) {
+        parent::__construct($coreStoreConfig, $data);
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
             $this->_freeMethod = 'free_method_doc';
         }
-        parent::__construct($coreStoreConfig, $data);
     }
 
     /**

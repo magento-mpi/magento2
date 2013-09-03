@@ -50,9 +50,18 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
      */
     protected $_proType = 'Magento_Paypal_Model_Pro';
 
-    public function __construct($params = array())
-    {
-        $proInstance = array_shift($params);
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $moduleList, $data);
+        $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof Magento_Paypal_Model_Pro)) {
             $this->_pro = $proInstance;
         } else {

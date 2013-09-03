@@ -20,7 +20,8 @@ class Magento_Ogone_Model_ApiTest extends PHPUnit_Framework_TestCase
 
         // Test protected method via reflection
         $config = $this->getMock('Magento_Ogone_Model_Config', array(), array(), '', false);
-        $object = new Magento_Ogone_Model_Api($config);
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $object = new Magento_Ogone_Model_Api($coreStoreConfig, $config);
         $method = new ReflectionMethod('Magento_Ogone_Model_Api', '_translate');
         $method->setAccessible(true);
         $result = $method->invoke($object, $sourceString);

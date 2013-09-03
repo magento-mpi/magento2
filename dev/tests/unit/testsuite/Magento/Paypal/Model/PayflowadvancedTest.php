@@ -88,8 +88,8 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
                 '_getCallbackUrl'
             ),
             array(
-                $this->_moduleListMock,
-                $coreStoreConfig
+                $coreStoreConfig,
+                $this->_moduleListMock
             )
         );
         $this->_modelClass->expects($this->any())

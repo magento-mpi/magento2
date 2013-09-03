@@ -63,30 +63,23 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
      */
     protected $_authorizationCountKey = 'authorization_count';
 
-    /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
-     */
-    protected $_coreStoreConfig = null;
 
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param  $params
+     * @param $data
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        $params = array()
+        array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $proInstance = array_shift($params);
+        parent::__construct($coreStoreConfig, $data);
+        $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof Magento_Paypal_Model_Pro)) {
             $this->_pro = $proInstance;
         } else {
             $this->_pro = Mage::getModel($this->_proType);
         }
         $this->_pro->setMethod($this->_code);
-        parent::__construct();
     }
 
     /**

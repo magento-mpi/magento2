@@ -99,24 +99,6 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      */
     protected $_secureSilentPostHashKey = 'secure_silent_post_hash';
 
-    /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
-     */
-    protected $_coreStoreConfig = null;
-
-    /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     */
-    public function __construct(
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Store_Config $coreStoreConfig
-    ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($moduleList);
-    }
 
     /**
      * Do not validate payment form using server methods
