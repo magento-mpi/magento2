@@ -72,22 +72,19 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
 
     /** @var  Magento_Core_Model_Event_Manager */
     protected $_eventManager;
+
     /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config_Modules $config
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config_Modules $config,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Event_Manager $eventManager
+        Magento_Core_Model_Config_Modules $config
     ) {
         parent::__construct($context);
         $this->_config = $config;
-        $this->_coreConfig = $coreConfig;
-        $this->_eventManager = $eventManager;
+        $this->_coreConfig = $context->getCoreConfig();
+        $this->_eventManager = $context->getEventManager();
     }
 
     /**
