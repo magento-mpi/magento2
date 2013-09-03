@@ -27,6 +27,7 @@ class ContextDetector
      * - for module: <Namespace>_<module name>
      * - for theme: <area>/<theme name>
      * - for pub: relative path to file
+     * - for arbitrary directory: relative path to file
      *
      * @param string $filePath
      * @return array
