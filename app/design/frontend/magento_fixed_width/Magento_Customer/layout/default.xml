@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
+        <move element="authorization-link" destination="account.links"/>
+        <reference name="account.links">
+            <block class="Magento_Customer_Block_Account_Register" name="register">
+                <arguments>
+                    <argument name="label" xsi:type="string">register</argument>
+                </arguments>
+            </block>
+        </reference>
+    </handle>
+</layout>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
+        <reference name="head.components">
+            <block class="Magento_Core_Block_Template" name="checkout_page_head_components" template="Magento_Checkout::js/components.phtml"/>
+        </reference>
+        <reference name="top.links">
+            <block class="Magento_Checkout_Block_Cart_Link" name="my-cart-link"/>
+            <block class="Magento_Checkout_Block_Link" name="onepage-checkout-link" after="my-cart-link">
+                <arguments>
+                    <argument name="label" xsi:type="string">Checkout</argument>
+                </arguments>
+            </block>
+        </reference>
+        <reference name="right">
+            <block class="Magento_Checkout_Block_Cart_Sidebar" name="cart_sidebar" template="cart/sidebar.phtml" before="-">
+                <action method="addItemRender">
+                    <argument name="type" xsi:type="string">simple</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
+                </action>
+                <action method="addItemRender">
+                    <argument name="type" xsi:type="string">grouped</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
+                </action>
+                <action method="addItemRender">
+                    <argument name="type" xsi:type="string">configurable</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
+                </action>
+                <container name="cart_sidebar.extra_actions" as="extra_actions" label="My Cart Extra Actions" module="Magento_Checkout"/>
+            </block>
+        </reference>
+    </handle>
+</layout>

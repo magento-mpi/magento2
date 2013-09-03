@@ -1,0 +1,156 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Product media data template
+ *
+ * @var $this Magento_Catalog_Block_Product_View_BaseImage
+ */
+?>
+<?php
+    $_product = $this->getProduct();
+    $_helper = $this->helper('Magento_Catalog_Helper_Output');
+    $_nativeZoom = false;
+?>
+
+<?php if (!$_nativeZoom): ?>
+<?php
+/* --------- jqZoom --------- */
+    $_zoomSize = $this->getVar('product_zoom_image_size', 'Magento_Catalog');
+?>
+    <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
+        <?php list($_imgWidth, $_imgHeight) = $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->getOriginalSizeArray(); ?>
+        <?php if ($_imgWidth > $_zoomSize+10 && $_imgHeight > $_zoomSize+10):?>
+            <div data-role="base-imagento-container">
+                <a class="product-image imagento-zoom" id="base-image" data-role="base-imagento-zoom"
+                   title="<?php echo $this->escapeHtml($_product->getImageLabel()); ?>"
+                   href="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image'); ?>">
+                    <?php
+                    $src = $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize);
+                    $_img = '<img data-role="base-image" src="' . $this->escapeHtml($src) . '" height="' . $_zoomSize
+                        . '" width="' . $_zoomSize . '" alt="' . $this->escapeHtml($_product->getImageLabel())
+                        . '" title="' . $this->escapeHtml($_product->getImageLabel()) . '"/>';
+                    echo $_helper->productAttribute($_product, $_img, 'image');
+                    ?>
+                </a>
+            </div>
+            <script data-role="base-imagento-template" type="text/x-jquery-tmpl">
+                <a class="product-image imagento-zoom" id="base-image" data-role="base-imagento-zoom"
+                   title="<?php echo $this->escapeHtml($_product->getImageLabel()); ?>"
+                   href="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image'); ?>">
+                    <?php
+                    $src = $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize);
+                    $_img = '<img data-role="base-image" src="' . $this->escapeHtml($src) .'" height="' . $_zoomSize
+                        . '" width="' . $_zoomSize.'" alt="' . $this->escapeHtml($_product->getImageLabel())
+                        . '" title="' . $this->escapeHtml($_product->getImageLabel()) . '"/>';
+                    echo $_helper->productAttribute($_product, $_img, 'image');
+                    ?>
+                </a>
+                <img data-role="hidden-true-image" class="no-display" src="#"/>
+            </script>
+            <script type="text/javascript">
+                jQuery(function ($) {
+                    var imageSize = <?php echo $_zoomSize?>,
+                        options = {
+                            zoomType: 'reverse',//Values: standard, reverse
+                            zoomWidth: 374,
+                            zoomHeight: 327,
+                            xOffset: 0,
+                            yOffset: 50,
+                            imageOpacity: 0.6,
+                            title : false
+                        };
+                    $('[data-role=base-imagento-zoom]').jqzoom(options);
+                    /* On these events, need to remove all elements associated with jqzoom
+                    * add back the original element using jQuery template
+                    * update image source and attach jqzoom
+                    */
+                    $('[data-role=base-imagento-container]').on('imageChanged', function(event, data) {
+                        $('[data-role=base-imagento-zoom]').remove();
+                        $('[data-role=base-imagento-template]').tmpl().appendTo('[data-role=base-imagento-container]');
+                        $('[data-role=base-imagento-zoom]').attr('href', data)
+                            .find('[data-role=base-image]')
+                            .attr('src', data);
+                        // Hidden image element to get actual image size
+                        $('[data-role=hidden-true-image]').attr('src', data).load(function() {
+                            if ($(this).height() <= imageSize && $(this).width() <= imageSize) {
+                                return;
+                            }
+                            $('[data-role=base-imagento-zoom]').jqzoom(options);
+                        });
+                    });
+                    $('[data-role=base-imagento-container]').on('loadOriginalImage', function() {
+                        $('[data-role=base-imagento-zoom]').remove();
+                        $('[data-role=base-imagento-template]').tmpl().appendTo('[data-role=base-imagento-container]');
+                        $('[data-role=base-imagento-zoom]').jqzoom(options);
+                    });
+                });
+            </script>
+            <p class="notice"><?php echo __('Roll over image to zoom'); ?></p>
+        <?php else: ?>
+            <p class="product-image">
+                <?php
+                    $_img = '<img data-role="base-image" src="'.$this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize).'" height="'.$_zoomSize.'" width="'.$_zoomSize.'" alt="'.$this->escapeHtml($_product->getImageLabel()).'" title="'.$this->escapeHtml($_product->getImageLabel()).'" />';
+                    echo $_helper->productAttribute($_product, $_img, 'image');
+                ?>
+            </p>
+        <?php endif; ?>
+
+    <?php else: ?>
+        <p class="product-image">
+            <?php
+                $_img = '<img data-role="base-image" src="'.$this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize).'" alt="'.$this->escapeHtml($_product->getImageLabel()).'" title="'.$this->escapeHtml($_product->getImageLabel()).'" />';
+                echo $_helper->productAttribute($_product, $_img, 'image');
+            ?>
+        </p>
+    <?php endif; ?>
+
+<?php else: ?>
+
+<?php /* --------- native magento zoom --------- */ ?>
+
+    <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
+        <p class="product-image product-imagento-zoom">
+            <?php
+                $_img = '<img data-role="base-image" id="image" src="'.$this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
+                echo $_helper->productAttribute($_product, $_img, 'image');
+            ?>
+        </p>
+        <p class="zoom-notice" id="track-hint"><?php echo __('Double click on above image to view full picture') ?></p>
+        <div class="zoom">
+            <img id="zoom-out" src="<?php echo $this->getViewFileUrl('Magento_Catalog::images/slider_btn_zoom_out.gif') ?>" alt="<?php echo __('Zoom Out') ?>" title="<?php echo __('Zoom Out') ?>" class="btn-zoom-out" />
+            <div id="slider"></div>
+            <img id="zoom-in" src="<?php echo $this->getViewFileUrl('Magento_Catalog::images/slider_btn_zoom_in.gif') ?>" alt="<?php echo __('Zoom In') ?>" title="<?php echo __('Zoom In') ?>" class="btn-zoom-in" />
+        </div>
+    <script type="text/javascript">
+        //<![CDATA[
+        (function ($) {
+            head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/zoom.js')?>", function() {
+                $('#image').zoom({
+                    sliderSelector: '#slider',
+                    zoomNoticeSelector: '#track-hint',
+                    zoomInSelector: '#zoom-in',
+                    zoomOutSelector: '#zoom-out'
+                });
+            });
+        })(jQuery);
+        //]]>
+    </script>
+    <?php else: ?>
+        <p class="product-image">
+            <?php
+                $_img = '<img data-role="base-image" src="'.$this->getBaseImageUrl($_product).'" alt="'.$this->escapeHtml($_product->getImageLabel()).'" title="'.$this->escapeHtml($_product->getImageLabel()).'" />';
+                echo $_helper->productAttribute($_product, $_img, 'image');
+            ?>
+        </p>
+    <?php endif; ?>
+
+<?php /* --------- /native magento zoom --------- */ ?>
+<?php endif; ?>

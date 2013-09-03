@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Magento_Rma
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_rma_edit>
+        <block type="Magento_Adminhtml_Block_Page_Head" name="head" as="head" template="page/head.phtml">
+            <block type="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-sales-order-shipment-packaging-js">
+                <arguments>
+                    <file>Magento_Adminhtml::sales/order/shipment/packaging.js</file>
+                </arguments>
+            </block>
+            <block type="Magento_Page_Block_Html_Head_Script" name="magento-rma-rma-js">
+                <arguments>
+                    <file>Magento_Rma::rma.js</file>
+                </arguments>
+            </block>
+        </block>
+        <block type="Magento_Rma_Block_Adminhtml_Rma_Create" name="content">
+            <block type="Magento_Rma_Block_Adminhtml_Rma_Edit" name="magento_rma_edit"/>
+            <block type="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/details.phtml"/>
+            <block type="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/reason.phtml"/>
+        </block>
+        <container name="left" as="left" label="Left Column">
+            <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tabs" name="magento_rma_edit_tabs">
+                <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General" template="edit/general.phtml" name="magento_rma_edit_tab_general">
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Details" template="edit/general/details.phtml" name="request_details"/>
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod" template="edit/shippingmethod.phtml" name="shipping_method">
+                        <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking" name="magento_rma_shipment_tracking" template="edit/shipping/tracking.phtml"/>
+                    </block>
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingaddress" template="edit/general/shippingaddress.phtml" name="shipping_address"/>
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Returnaddress" template="edit/general/returnadress.phtml" name="return_address"/>
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History" template="edit/general/history.phtml" name="comments_history"/>
+                </block>
+                <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items" template="edit/items.phtml" name="magento_rma_edit_tab_items">
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid" name="items_grid"/>
+                </block>
+                <action method="addTab">
+                    <name>general_section</name>
+                    <block>magento_rma_edit_tab_general</block>
+                </action>
+                <action method="addTab">
+                    <name>items_section</name>
+                    <block>magento_rma_edit_tab_items</block>
+                </action>
+            </block>
+        </container>
+        <container name="before_body_end" as="before_body_end" label="Before Body End">
+            <block type="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/mask.phtml"/>
+            <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Js" template="edit/js.phtml" name="magento_rma_js_create"/>
+        </container>
+    </adminhtml_rma_edit>
+</layout>

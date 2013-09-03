@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
+        <reference name="top.links">
+            <block class="Magento_MultipleWishlist_Block_Links" name="wishlist_link"/>
+        </reference>
+        <block class="Magento_MultipleWishlist_Block_Customer_Sidebar" name="wishlist_sidebar" template="Magento_Wishlist::sidebar.phtml"/>
+        <reference name="before_body_end">
+            <block class="Magento_MultipleWishlist_Block_Behaviour" name="wishlist_behaviour" as="wishlist_behaviour" template="behaviour.phtml"/>
+        </reference>
+    </handle>
+</layout>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Catalog Category (Non-Anchor)" id="catalog_category_view" type="page" parent="default">
+        <reference name="left">
+            <block class="Magento_Catalog_Block_Navigation" name="catalog.leftnav" before="-" template="navigation/left.phtml"/>
+        </reference>
+        <reference name="breadcrumbs.container">
+            <block class="Magento_Catalog_Block_Category_View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Catalog_Block_Category_View" name="category.products" template="category/view.phtml">
+                <block class="Magento_Catalog_Block_Product_List" name="product_list" template="product/list.phtml">
+                    <block class="Magento_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+                        <block class="Magento_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
+                    </block>
+                    <action method="setToolbarBlockName">
+                        <argument name="name" xsi:type="string">product_list_toolbar</argument>
+                    </action>
+                </block>
+            </block>
+        </reference>
+        <update handle="MAP_popup"/>
+    </handle>
+</layout>

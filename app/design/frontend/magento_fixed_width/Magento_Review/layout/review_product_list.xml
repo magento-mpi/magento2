@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="review_product_list">
+        <update handle="page_one_column"/>
+        <reference name="head">
+            <block class="Magento_Page_Block_Html_Head_Script" name="jquery-jqzoom-js-jquery-jqzoom-core-pack-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Css" name="jquery-jqzoom-css-jquery-jqzoom-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
+                </arguments>
+            </block>
+        </reference>
+        <remove name="magento-catalog-zoom-css"/>
+    </handle>
+</layout>

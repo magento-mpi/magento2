@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_cms_block_edit">
+        <update handle="editor"/>
+        <reference name="head">
+            <block class="Magento_Page_Block_Html_Head_Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
+                <arguments>
+                    <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-jquery-iframe-transport-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">jquery/fileUploader/jquery.iframe-transport.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-jquery-fileupload-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-load-imagento-min-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">jquery/fileUploader/load-image.min.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-canvas-to-blob-min-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">jquery/fileUploader/canvas-to-blob.min.js</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-jquery-fileupload-fp-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload-fp.js</argument>
+                </arguments>
+            </block>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Cms_Block_Edit" name="cms_block_edit"/>
+        </reference>
+    </handle>
+</layout>

@@ -1,0 +1,25 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * @var $this Magento_Catalog_Block_Product_View_Gallery
+ */
+?>
+<div class="more-views">
+    <h2><?php echo __('More Views') ?></h2>
+    <ul>
+    <?php $_size = $this->getVar('product_base_image_icon_size', 'Magento_Catalog'); ?>
+    <?php foreach ($this->getGalleryImages() as $_image): ?>
+        <li>
+            <a href="#" data-magento-init="{popupWindow: {windowURL:'<?php echo $this->getGalleryUrl($_image) ?>',windowName:'gallery',width:300,height:300,status:1,scrollbars:1,resizable:1}}" title="<?php echo $this->escapeHtml($_imagento->getLabel()) ?>"><img src="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($this->getProduct(), 'thumbnail', $_imagento->getFile())->resize($_size); ?>" width="<?php echo $_size?>" height="<?php echo $_size?>" alt="<?php echo $this->escapeHtml($_imagento->getLabel()) ?>" /></a>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+</div>

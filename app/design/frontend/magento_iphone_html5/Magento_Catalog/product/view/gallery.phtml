@@ -1,0 +1,21 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * @var $this Magento_Catalog_Block_Product_View_Gallery
+ */
+?>
+<?php foreach ($this->getGalleryImages() as $_image): ?>
+    <li>
+        <a href="<?php echo $this->getGalleryUrl($_image) ?>" title="<?php echo $this->escapeHtml($_imagento->getLabel()) ?>">
+            <img src="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($this->getProduct(), 'thumbnail', $_imagento->getFile())->resize(290); ?>" width="145" height="145" alt="<?php echo $this->escapeHtml($_imagento->getLabel()) ?>"/>
+        </a>
+    </li>
+<?php endforeach; ?>
