@@ -21,8 +21,9 @@ class Magento_Ogone_Model_ApiTest extends PHPUnit_Framework_TestCase
         // Test protected method via reflection
         $coreString = $this->getMock('Magento_Core_Helper_String', array(), array(), '', false);
         $config = $this->getMock('Magento_Ogone_Model_Config', array(), array(), '', false);
+        $paymentDataMock = $this->getMock('Magento_Payment_Helper_Data', array(), array(), '', false);
 
-        $object = new Magento_Ogone_Model_Api($coreString, $config);
+        $object = new Magento_Ogone_Model_Api($coreString, $config, $paymentDataMock);
 
         $method = new ReflectionMethod('Magento_Ogone_Model_Api', '_translate');
         $method->setAccessible(true);
