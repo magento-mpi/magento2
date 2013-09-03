@@ -7,53 +7,52 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <magento_rma_guest_create translate="label" type="page" parent="magento_rma_return_create_handle">
-        <label>Guest Order Create Return</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Guest Order Create Return" id="magento_rma_guest_create" type="page" parent="magento_rma_return_create_handle">
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
         </reference>
         <update handle="customer_account"/>
         <reference name="content">
-            <block type="Magento_Rma_Block_Return_Info" as="info" name="sales.order.info"/>
-            <block type="Magento_Rma_Block_Return_Create" as="create" name="rma.return.create" template="return/create.phtml">
+            <block class="Magento_Rma_Block_Return_Info" as="info" name="sales.order.info"/>
+            <block class="Magento_Rma_Block_Return_Create" as="create" name="rma.return.create" template="return/create.phtml">
                 <action method="setFormCode">
-                    <code>default</code>
+                    <argument name="code" xsi:type="string">default</argument>
                 </action>
                 <action method="setEntityModelClass">
-                    <code>Magento_Rma_Model_Item</code>
+                    <argument name="code" xsi:type="string">Magento_Rma_Model_Item</argument>
                 </action>
             </block>
         </reference>
         <update handle="magento_rma_return_create_handle"/>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label">
-                <name>view</name>
-                <path>sales/guest/view</path>
-                <label>Order Information</label>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">view</argument>
+                <argument name="path" xsi:type="string">sales/guest/view</argument>
+                <argument translate="true" name="label" xsi:type="string">Order Information</argument>
             </action>
-            <action method="addLink" translate="label">
-                <name>invoice</name>
-                <path>sales/guest/invoice</path>
-                <label>Invoices</label>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">invoice</argument>
+                <argument name="path" xsi:type="string">sales/guest/invoice</argument>
+                <argument translate="true" name="label" xsi:type="string">Invoices</argument>
             </action>
-            <action method="addLink" translate="label">
-                <name>shipment</name>
-                <path>sales/guest/shipment</path>
-                <label>Shipments</label>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">shipment</argument>
+                <argument name="path" xsi:type="string">sales/guest/shipment</argument>
+                <argument translate="true" name="label" xsi:type="string">Shipments</argument>
             </action>
-            <action method="addLink" translate="label">
-                <name>creditmemo</name>
-                <path>sales/guest/creditmemo</path>
-                <label>Refunds</label>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">creditmemo</argument>
+                <argument name="path" xsi:type="string">sales/guest/creditmemo</argument>
+                <argument translate="true" name="label" xsi:type="string">Refunds</argument>
             </action>
-            <action method="addLink" translate="label">
-                <name>returns</name>
-                <path/>
-                <label>Returns</label>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">returns</argument>
+                <argument name="path" xsi:type="string"/>
+                <argument translate="true" name="label" xsi:type="string">Returns</argument>
             </action>
         </reference>
-    </magento_rma_guest_create>
+    </handle>
 </layout>

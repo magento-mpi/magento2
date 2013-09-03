@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <catalog_category_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_category_view">
         <reference name="top.container">
-            <block after="-" name="catalog_category_event" type="Magento_CatalogEvent_Block_Catalog_Category_Event" template="catalog/category/event.phtml"/>
+            <block class="Magento_CatalogEvent_Block_Catalog_Category_Event" after="-" name="catalog_category_event" template="catalog/category/event.phtml"/>
         </reference>
-    </catalog_category_view>
+    </handle>
 </layout>

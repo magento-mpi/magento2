@@ -7,62 +7,62 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sku_errors_block>
-        <reference name='errors'>
-            <block type="Magento_Backend_Block_Widget_Grid" name='sku_error_grid' as='grid'>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sku_errors_block">
+        <reference name="errors">
+            <block class="Magento_Backend_Block_Widget_Grid" name="sku_error_grid" as="grid">
                 <arguments>
-                    <id>sku_errors</id>
-                    <dataSource type="object">Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection</dataSource>
-                    <pager_visibility>0</pager_visibility>
+                    <argument name="id" xsi:type="string">sku_errors</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection</argument>
+                    <argument name="pager_visibility" xsi:type="string">0</argument>
                 </arguments>
-                <block type='Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_ColumnSet_SkuErrors' name='sku_error_grid.columnSet' as='grid.columnSet'>
+                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_ColumnSet_SkuErrors" name="sku_error_grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <filter_visibility>0</filter_visibility>
+                        <argument name="filter_visibility" xsi:type="string">0</argument>
                     </arguments>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='description'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="description">
                         <arguments>
-                            <header translate='true' module='Magento_AdvancedCheckout'>Product</header>
-                            <index>description</index>
-                            <class>no-link</class>
-                            <sortable>0</sortable>
-                            <renderer>Magento_AdvancedCheckout_Block_Sku_Column_Renderer_Description</renderer>
+                            <argument name="header" xsi:type="string" translate="true">Product</argument>
+                            <argument name="index" xsi:type="string">description</argument>
+                            <argument name="class" xsi:type="string">no-link</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="renderer" xsi:type="string">Magento_AdvancedCheckout_Block_Sku_Column_Renderer_Description</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='price'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="price">
                         <arguments>
-                            <header translate='true' module='Magento_AdvancedCheckout'>Price</header>
-                            <index>price</index>
-                            <class>no-link</class>
-                            <sortable>0</sortable>
-                            <type>text</type>
-                            <width>100</width>
+                            <argument name="header" xsi:type="string" translate="true">Price</argument>
+                            <argument name="index" xsi:type="string">price</argument>
+                            <argument name="class" xsi:type="string">no-link</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="width" xsi:type="string">100</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='qty'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="qty">
                         <arguments>
-                            <header translate='true' module='Magento_AdvancedCheckout'>Quantity</header>
-                            <index>qty</index>
-                            <class>no-link sku-error-qty</class>
-                            <sortable>0</sortable>
-                            <type>text</type>
-                            <width>40</width>
-                            <renderer>Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Qty</renderer>
+                            <argument name="header" xsi:type="string" translate="true">Quantity</argument>
+                            <argument name="index" xsi:type="string">qty</argument>
+                            <argument name="class" xsi:type="string">no-link sku-error-qty</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="width" xsi:type="string">40</argument>
+                            <argument name="renderer" xsi:type="string">Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Qty</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='remove'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="remove">
                         <arguments>
-                            <header translate='true' module='Magento_AdvancedCheckout'>Remove</header>
-                            <index>remove_button</index>
-                            <class>no-link</class>
-                            <sortable>0</sortable>
-                            <type>text</type>
-                            <width>80</width>
-                            <renderer>Magento_AdvancedCheckout_Block_Sku_Column_Renderer_Remove</renderer>
+                            <argument name="header" xsi:type="string" translate="true">Remove</argument>
+                            <argument name="index" xsi:type="string">remove_button</argument>
+                            <argument name="class" xsi:type="string">no-link</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="width" xsi:type="string">80</argument>
+                            <argument name="renderer" xsi:type="string">Magento_AdvancedCheckout_Block_Sku_Column_Renderer_Remove</argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_sku_errors_block>
+    </handle>
 </layout>

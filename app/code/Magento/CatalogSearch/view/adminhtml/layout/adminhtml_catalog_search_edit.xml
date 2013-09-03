@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_search_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_search_edit">
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Catalog_Search_Edit" name="adminhtml.catalog.search.edit"/>
+            <block class="Magento_Adminhtml_Block_Catalog_Search_Edit" name="adminhtml.catalog.search.edit"/>
         </reference>
-    </adminhtml_catalog_search_edit>
+    </handle>
 </layout>

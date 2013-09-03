@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="header">
-            <block type="Magento_Cms_Block_Block" name="header.callout" as="headerCallout">
+            <block class="Magento_Cms_Block_Block" name="header.callout" as="headerCallout">
                 <action method="setBlockId">
-                    <block_id>header_callout</block_id>
+                    <argument name="block_id" xsi:type="string">header_callout</argument>
                 </action>
             </block>
         </reference>
         <move element="cms_footer_links" destination="footer" after="footer_links"/>
-    </default>
+    </handle>
 </layout>

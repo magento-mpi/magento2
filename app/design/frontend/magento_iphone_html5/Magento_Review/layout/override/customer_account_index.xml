@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <customer_account_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="customer_account_index">
         <reference name="customer_account_dashboard">
-            <block type="Magento_Review_Block_Customer_Recent" name="customer_account_dashboard_info1" as="info1" template="customer/recent.phtml"/>
+            <block class="Magento_Review_Block_Customer_Recent" name="customer_account_dashboard_info1" as="info1" template="customer/recent.phtml"/>
         </reference>
-    </customer_account_index>
+    </handle>
 </layout>

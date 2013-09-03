@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_create_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_create_index">
         <reference name="js">
-            <block type="Magento_Adminhtml_Block_Template" name="pbridge.js" template="Magento_Pbridge::sales/order/create/js.phtml"/>
+            <block class="Magento_Adminhtml_Block_Template" name="pbridge.js" template="Magento_Pbridge::sales/order/create/js.phtml"/>
         </reference>
-    </adminhtml_sales_order_create_index>
+    </handle>
 </layout>

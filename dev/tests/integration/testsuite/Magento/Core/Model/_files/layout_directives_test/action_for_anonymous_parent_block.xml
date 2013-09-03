@@ -8,14 +8,18 @@
  */
 -->
 <layout>
-    <block name="test.block.insert" type="Magento_Core_Block_Text"/>
-
-    <block type="Magento_Core_Block_Template">
-        <action method="insert"><element>test.block.insert</element></action>
-    </block>
-
-    <block name="test.block.append" type="Magento_Core_Block_Text"/>
-    <block type="Magento_Core_Block_Text">
-        <action method="append"><element>test.block.append</element></action>
-    </block>
+    <handle id="action_for_anonymous_parent_block">
+        <block name="test.block.insert" class="Magento_Core_Block_Text"/>
+        <block class="Magento_Core_Block_Template">
+            <action method="insert">
+                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="element" xsi:type="string">test.block.insert</argument>
+            </action>
+        </block>
+        <block name="test.block.append" class="Magento_Core_Block_Text"/>
+        <block class="Magento_Core_Block_Text">
+            <action method="append">
+                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="element" xsi:type="string">test.block.append</argument>
+            </action>
+        </block>
+    </handle>
 </layout>

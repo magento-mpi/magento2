@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_oauth_consumer_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_oauth_consumer_grid">
         <remove name="root"/>
-        <block type="Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid" name="oauth_consumer.grid" output="1"/>
-    </adminhtml_oauth_consumer_grid>
+        <block class="Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid" name="oauth_consumer.grid" output="1"/>
+    </handle>
 </layout>

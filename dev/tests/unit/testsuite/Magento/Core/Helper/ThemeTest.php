@@ -134,7 +134,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                '<block type="Magento_Page_Block_Html_Head" name="head">
+                '<block class="Magento_Page_Block_Html_Head" name="head">
                     <action method="addCss"><param>test1.css</param></action>
                 </block>',
                 array(
@@ -146,7 +146,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                '<block type="Magento_Page_Block_Html_Head" name="head">
+                '<block class="Magento_Page_Block_Html_Head" name="head">
                     <action method="addCss"><file>test2.css</file></action>
                 </block>',
                 array(
@@ -158,7 +158,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                '<block type="Magento_Page_Block_Html_Head" name="head">
+                '<block class="Magento_Page_Block_Html_Head" name="head">
                     <action method="addCss"><param>Magento_Core::test3.css</param></action>
                 </block>',
                 array(
@@ -170,7 +170,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                '<block type="Magento_Page_Block_Html_Head" name="head">
+                '<block class="Magento_Page_Block_Html_Head" name="head">
                     <action method="addCssIe"><param>test4.css</param></action>
                 </block>',
                 array(
@@ -224,22 +224,22 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                '<block type="Some_Block_Class"><action method="addCss"><param>test31.css</param></action></block>',
+                '<block class="Some_Block_Class"><action method="addCss"><param>test31.css</param></action></block>',
                 array(),
 
             ),
             array(
-                '<block type="Some_Block_Class"><action method="addCss"><file>test32.css</file></action></block>',
+                '<block class="Some_Block_Class"><action method="addCss"><file>test32.css</file></action></block>',
                 array(),
             ),
             array(
-                '<block type="Some_Block_Class">
+                '<block class="Some_Block_Class">
                     <action method="addCss"><param>Magento_Core::test33.css</param></action>
                 </block>',
                 array(),
             ),
             array(
-                '<block type="Some_Block_Class"><action method="addCssIe"><param>test34.css</param></action></block>',
+                '<block class="Some_Block_Class"><action method="addCssIe"><param>test34.css</param></action></block>',
                 array(),
             ),
             array(
@@ -267,7 +267,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 array(),
             ),
             array(
-                '<block type="Magento_Page_Block_Html_Head" name="head">
+                '<block class="Magento_Page_Block_Html_Head" name="head">
                     <action method="addCss"><param>test1.css</param></action>
                     <action method="addCss"><file>test2.css</file></action>
                     <action method="addCss"><param>Magento_Core::test3.css</param></action>
@@ -279,7 +279,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                     <action method="addCss"><param>Magento_Core::test23.css</param></action>
                     <action method="addCssIe"><param>test24.css</param></action>
                 </reference>
-                <block type="Some_Block_Class">
+                <block class="Some_Block_Class">
                     <action method="addCss"><param>test31.css</param></action>
                     <action method="addCss"><file>test32.css</file></action>
                     <action method="addCss"><param>Magento_Core::test33.css</param></action>

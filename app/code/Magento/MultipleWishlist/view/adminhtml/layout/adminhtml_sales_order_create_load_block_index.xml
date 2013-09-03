@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_create_load_block_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_create_load_block_index">
         <reference name="sidebar">
-            <block type="Magento_MultipleWishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist"/>
+            <block class="Magento_MultipleWishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist"/>
         </reference>
-    </adminhtml_sales_order_create_load_block_index>
+    </handle>
 </layout>

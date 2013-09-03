@@ -10,7 +10,7 @@
 <layout>
     <default>
         <reference name="root" after="header">
-            <block type="Magento_Backend_Block_Menu_Proxy" name="menu" as="menu" template="Magento_Backend::menu.phtml" />
+            <block class="Magento_Backend_Block_Menu_Proxy" name="menu" as="menu" template="Magento_Backend::menu.phtml" />
         </reference>
     </default>
 </layout>

@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_search_relatedgrid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_search_relatedgrid">
         <update handle="adminhtml_catalog_search_block"/>
-        <remove name="root" />
-        <block type="Magento_Search_Block_Adminhtml_Search_Edit" name="related_grid_edit" output="1" />
-    </adminhtml_catalog_search_relatedgrid>
+        <remove name="root"/>
+        <block class="Magento_Search_Block_Adminhtml_Search_Edit" name="related_grid_edit" output="1"/>
+    </handle>
 </layout>
