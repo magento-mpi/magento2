@@ -16,32 +16,32 @@ try {
         'output|o=s' => 'Path to output file name, by default output the results into standard output stream',
     ));
     $console->parse();
-    $specificDirectory = $console->getOption('directory') ? $console->getOption('directory') : null;
+    $specificDirectory = $console->getOption('directory') ?: null;
     $outputFilename = $console->getOption('output') ?: null;
     $withContext = in_array($console->getOption('context'), array('y', 'yes', 'Y', 'Yes', 'YES'));
 
     if (!$specificDirectory) {
-        echo $console->getUsageMessage();
-    } else {
-        $options = array(
-            'php' => array(
-                'paths' => array($specificDirectory),
-                'fileMask' => '/\.(php|phtml)$/',
-            ),
-            'js' => array(
-                'paths' => array($specificDirectory),
-                'fileMask' => '/\.(js|phtml)$/',
-            ),
-            'xml' => array(
-                'paths' => array($specificDirectory),
-                'fileMask' => '/\.xml$/',
-            ),
-            'outputFilename' => $outputFilename,
-        );
-
-        $generatorFactory = new Dictionary\Generator\Factory();
-        $generatorFactory->create($options)->generate($withContext);
+        throw new Exception("Directory parameter is required");
     }
+
+    $options = array(
+        'php' => array(
+            'paths' => array($specificDirectory),
+            'fileMask' => '/\.(php|phtml)$/',
+        ),
+        'js' => array(
+            'paths' => array($specificDirectory),
+            'fileMask' => '/\.(js|phtml)$/',
+        ),
+        'xml' => array(
+            'paths' => array($specificDirectory),
+            'fileMask' => '/\.xml$/',
+        ),
+        'outputFilename' => $outputFilename,
+    );
+
+    $generatorFactory = new Dictionary\Generator\Factory();
+    $generatorFactory->create($options)->generate($withContext);
 
 } catch (Zend_Console_Getopt_Exception $e) {
     echo $e->getUsageMessage();

@@ -26,11 +26,10 @@ class ContextDetector
      * Get context from file path in array(<context type>, <context value>) format
      * - for module: <Namespace>_<module name>
      * - for theme: <area>/<theme name>
-     * - for lib: relative path to file
+     * - for pub: relative path to file
      *
      * @param string $filePath
      * @return array
-     * @throws \InvalidArgumentException
      */
     public function getContext($filePath)
     {
