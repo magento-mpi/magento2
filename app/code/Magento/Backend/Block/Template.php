@@ -41,9 +41,8 @@ class Magento_Backend_Block_Template extends Magento_Core_Block_Template
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_authorization = $context->getAuthorization();
-        parent::__construct($context, $data);
+        parent::__construct($context, $coreStoreConfig, $data);
     }
 
     /**
