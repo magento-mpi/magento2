@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_Soap_RequestTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Webapi_Helper_Data */
     protected $_helperMock;

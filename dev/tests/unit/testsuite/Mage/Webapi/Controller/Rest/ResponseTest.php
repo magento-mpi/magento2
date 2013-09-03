@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_Rest_ResponseTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Webapi_Controller_Rest_Response */
     protected $_responseRest;

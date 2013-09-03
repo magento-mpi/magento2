@@ -15,8 +15,8 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Model_Soap_Server */
     protected $_soapServerMock;
 
-    /** @var Mage_Webapi_Model_Soap_AutoDiscover */
-    protected $_autoDiscoverMock;
+    /** @var Mage_Webapi_Model_Soap_Wsdl_Generator */
+    protected $_wsdlGeneratorMock;
 
     /** @var Mage_Webapi_Controller_Soap_Request */
     protected $_requestMock;
@@ -46,9 +46,9 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
         $this->_soapServerMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Server')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_autoDiscoverMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_AutoDiscover')
+        $this->_wsdlGeneratorMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl_Generator')
             ->disableOriginalConstructor()
-            ->setMethods(array('handle'))
+            ->setMethods(array('generate'))
             ->getMock();
         $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Request')
             ->disableOriginalConstructor()
@@ -79,7 +79,7 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
         $this->_dispatcher = new Mage_Webapi_Controller_Soap(
             $this->_requestMock,
             $this->_responseMock,
-            $this->_autoDiscoverMock,
+            $this->_wsdlGeneratorMock,
             $this->_soapServerMock,
             $this->_soapFaultMock,
             $this->_errorProcessorMock,
@@ -96,7 +96,7 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
         unset($this->_dispatcher);
         unset($this->_requestMock);
         unset($this->_responseMock);
-        unset($this->_autoDiscoverMock);
+        unset($this->_wsdlGeneratorMock);
         unset($this->_soapServerMock);
         unset($this->_soapFaultMock);
         unset($this->_errorProcessorMock);
@@ -133,8 +133,8 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->_mockGetParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL, 1);
         $wsdl = 'Some WSDL content';
-        $this->_autoDiscoverMock->expects($this->any())
-            ->method('handle')
+        $this->_wsdlGeneratorMock->expects($this->any())
+            ->method('generate')
             ->will($this->returnValue($wsdl));
 
         $this->_dispatcher->dispatch();

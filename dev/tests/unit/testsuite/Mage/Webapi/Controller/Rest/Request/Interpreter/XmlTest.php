@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_Rest_Request_Interpreter_XmlTest extends PHPUnit_Framework_TestCase
 {
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_helperFactoryMock;

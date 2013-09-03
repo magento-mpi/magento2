@@ -13,24 +13,30 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
     protected $_wsdlGenerator;
 
     /**  @var Mage_Webapi_Model_Soap_Config */
-    protected $_newApiConfigMock;
+    protected $_soapConfigMock;
 
     /**  @var Mage_Webapi_Model_Soap_Wsdl_Factory */
-    protected $_wsdlFactory;
+    protected $_wsdlFactoryMock;
 
     /**  @var Mage_Webapi_Helper_Data */
-    protected $_helper;
+    protected $_helperMock;
 
-    /** @var Mage_Webapi_Model_Soap_Wsdl */
-    protected $_wsdlMock;
+    /** @var Mage_Core_Model_CacheInterface */
+    protected $_cacheMock;
 
     protected function setUp()
     {
-        $this->_newApiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Config')->disableOriginalConstructor()
+        $this->_soapConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Config')
+            ->disableOriginalConstructor()
             ->getMock();
-        $this->_wsdlFactory = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl_Factory')->disableOriginalConstructor()
+
+        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
+            ->setMethods(array('__'))
+            ->disableOriginalConstructor()
             ->getMock();
-        $this->_wsdlMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
+        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
+
+        $_wsdlMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
             ->disableOriginalConstructor()
             ->setMethods(
                 array(
@@ -49,19 +55,21 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
                 )
             )
             ->getMock();
-        $this->_wsdlFactory = $this->getMock(
-            'Mage_Webapi_Model_Soap_Wsdl_Factory',
-            array('create'),
-            array(new Magento_ObjectManager_ObjectManager())
-        );
-        $this->_wsdlFactory->expects($this->any())->method('create')->will($this->returnValue($this->_wsdlMock));
-        $this->_helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'), array(), '', false, false);
-        $this->_helper->expects($this->any())->method('__')->will($this->returnArgument(0));
+        $this->_wsdlFactoryMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl_Factory')
+            ->setMethods(array('create'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_wsdlFactoryMock->expects($this->any())->method('create')->will($this->returnValue($_wsdlMock));
+
+        $this->_cacheMock = $this->getMockBuilder('Mage_Core_Model_CacheInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_wsdlGenerator = new Mage_Webapi_Model_Soap_Wsdl_Generator(
-            $this->_newApiConfigMock,
-            $this->_helper,
-            $this->_wsdlFactory
+            $this->_soapConfigMock,
+            $this->_helperMock,
+            $this->_wsdlFactoryMock,
+            $this->_cacheMock
         );
 
         parent::setUp();
@@ -70,8 +78,10 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
     protected function tearDown()
     {
         unset($this->_wsdlGenerator);
-        unset($this->_wsdlFactory);
-        unset($this->_helper);
+        unset($this->_soapConfigMock);
+        unset($this->_helperMock);
+        unset($this->_wsdlFactoryMock);
+        unset($this->_cacheMock);
         parent::tearDown();
     }
 

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_Rest_RouterTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Webapi_Controller_Rest_Router_Route */
     protected $_routeMock;

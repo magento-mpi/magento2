@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_Rest_Response_Renderer_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Webapi_Controller_Rest_Response_Renderer_Factory */
     protected $_factory;

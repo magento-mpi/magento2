@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_Rest_Request_Interpreter_JsonTest extends PHPUnit_Framework_TestCase
 {
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_helperFactoryMock;
@@ -123,6 +123,3 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
         $this->_jsonInterpreter->interpret($inputInvalidJson);
     }
 }
-
-
-
