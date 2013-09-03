@@ -38,7 +38,9 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
             ->will($this->returnCallback(array($this, 'formatPrice')))
         ;
 
-        $this->_pdf = $this->getMock('Magento_Sales_Model_Order_Pdf_Abstract', array('drawLineBlocks', 'getPdf'));
+        $this->_pdf = $this->getMock(
+            'Magento_Sales_Model_Order_Pdf_Abstract', array('drawLineBlocks', 'getPdf'), array(), '', false, false
+        );
 
         $this->_model = $this->getMock(
             'Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo',

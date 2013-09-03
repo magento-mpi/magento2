@@ -135,7 +135,10 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         } else {
             $dependencies = $this->_getModelDependencies();
         }
-        $this->_model = new Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance($dependencies);
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $this->_model = new Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance(
+            $coreStoreConfig, $dependencies
+        );
     }
 
     /**

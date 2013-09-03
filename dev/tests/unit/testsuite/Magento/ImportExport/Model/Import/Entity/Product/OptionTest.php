@@ -299,8 +299,10 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             $doubleOptions = true;
         }
 
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+
         $this->_model = new Magento_ImportExport_Model_Import_Entity_Product_Option(
-            $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
+            $coreStoreConfig, $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
         );
     }
 

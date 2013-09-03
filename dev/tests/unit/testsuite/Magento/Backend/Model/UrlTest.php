@@ -93,10 +93,10 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('Magento_Adminhtml::system_acl_roles'));
 
         $this->_model = new Magento_Backend_Model_Url(
+            $this->_storeConfigMock,
             $helperMock,
             $this->_coreHelperMock,
             $this->_coreSessionMock,
-            $this->_storeConfigMock,
             $this->_menuConfigMock
         );
 
@@ -167,10 +167,10 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_areaFrontName));
 
         $urlModel = new Magento_Backend_Model_Url(
+            $this->_storeConfigMock,
             $helperMock,
             $this->_coreHelperMock,
             $this->_coreSessionMock,
-            $this->_storeConfigMock,
             $this->_menuConfigMock
         );
 
@@ -202,10 +202,10 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(''));
 
         $urlModel = new Magento_Backend_Model_Url(
+            $this->_storeConfigMock,
             $helperMock,
             $this->_coreHelperMock,
             $this->_coreSessionMock,
-            $this->_storeConfigMock,
             $this->_menuConfigMock
         );
 

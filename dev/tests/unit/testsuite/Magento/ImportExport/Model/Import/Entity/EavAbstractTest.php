@@ -28,8 +28,9 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
 
     public function setUp()
     {
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_Entity_EavAbstract',
-            array($this->_getModelDependencies())
+            array($coreStoreConfig, $this->_getModelDependencies())
         );
     }
 

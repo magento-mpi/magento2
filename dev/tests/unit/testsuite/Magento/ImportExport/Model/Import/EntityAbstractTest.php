@@ -36,8 +36,10 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
 
     public function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_EntityAbstract',
-            array($this->_getModelDependencies())
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $this->_model = $this->getMockForAbstractClass(
+            'Magento_ImportExport_Model_Import_EntityAbstract',
+            array($coreStoreConfig, $this->_getModelDependencies())
         );
     }
 
