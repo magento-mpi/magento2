@@ -50,7 +50,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
             ->with($this->equalTo($form))
             ->will($this->returnSelf());
 
-        $this->_model = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight($helper, $this->_virtual);
+        $factory = $this->getMock('Magento_Data_Form_Element_CheckboxFactory',
+            array('create'), array(), '', false, false);
+        $factory->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->_virtual));
+
+        $this->_model = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight($helper, $factory);
         $this->_model->setForm($form);
     }
 }
