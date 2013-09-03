@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Persistent_Helper_Data">
+        <param name="persistentSession">
+            <instance type="Magento_Persistent_Helper_SessionProxy" />
+        </param>
+        <param name="config">
+            <instance type="Magento_Core_Model_Config_ModulesProxy" />
+        </param>
+    </type>
+</config>

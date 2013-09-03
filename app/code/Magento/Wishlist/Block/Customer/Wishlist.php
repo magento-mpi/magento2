@@ -19,12 +19,12 @@
 class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Abstract
 {
     /**
-     * @var Magento_Catalog_Helper_Product_Configuration_ConfigurationPool
+     * @var Magento_Catalog_Helper_Product_ConfigurationPool
      */
     protected $_helperPool;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Configuration_ConfigurationPool $helperPool
+     * @param Magento_Catalog_Helper_Product_ConfigurationPool $helperPool
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -33,7 +33,7 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Configuration_ConfigurationPool $helperPool,
+        Magento_Catalog_Helper_Product_ConfigurationPool $helperPool,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
