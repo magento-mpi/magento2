@@ -57,15 +57,6 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     protected $_beforeForwardInfo = array();
 
     /**
-     * @param string|Zend_Uri $uri
-     */
-    public function __construct(
-        $uri = null
-    ) {
-        parent::__construct($uri);
-    }
-
-    /**
      * Returns ORIGINAL_PATH_INFO.
      * This value is calculated instead of reading PATH_INFO
      * directly from $_SERVER due to cross-platform differences.
