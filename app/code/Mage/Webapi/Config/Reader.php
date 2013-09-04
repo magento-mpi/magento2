@@ -24,6 +24,7 @@ class Mage_Webapi_Config_Reader extends Magento_Config_XmlAbstract
      *
      * @param DOMDocument $dom
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _extractData(DOMDocument $dom)
     {
