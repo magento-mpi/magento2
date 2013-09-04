@@ -19,7 +19,8 @@ dev/tests/integration/testsuite/Magento/Backend/Block/System/Config/FormStub.php
 dev/tests/integration/tmp
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpcs/input
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpmd/input
-dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest
+dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input
+dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input
 dev/tests/static/testsuite/Magento/Test/Legacy/_files
 lib/Magento/Archive.php
 lib/Magento/Archive/Abstract.php
