@@ -26,7 +26,10 @@ class Magento_Test_Helper_Api
      */
     public static function call(PHPUnit_Framework_TestCase $testCase, $path, $params = array())
     {
-        $soapAdapterMock = $testCase->getMock('Magento_Api_Model_Server_Adapter_Soap', array('fault'));
+        $storeConfig = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config');
+        $soapAdapterMock = $testCase->getMock(
+            'Magento_Api_Model_Server_Adapter_Soap', array('fault'), array($storeConfig)
+        );
         $soapAdapterMock->expects($testCase->any())->method('fault')->will(
             $testCase->returnCallback(array(__CLASS__, 'soapAdapterFaultCallback'))
         );
@@ -34,7 +37,9 @@ class Magento_Test_Helper_Api
         $serverMock = $testCase->getMock('Magento_Api_Model_Server', array('getAdapter'));
         $serverMock->expects($testCase->any())->method('getAdapter')->will($testCase->returnValue($soapAdapterMock));
 
-        $apiSessionMock = $testCase->getMock('Magento_Api_Model_Session', array('isAllowed', 'isLoggedIn'));
+        $apiSessionMock = $testCase->getMock(
+            'Magento_Api_Model_Session', array('isAllowed', 'isLoggedIn'), array($storeConfig)
+        );
         $apiSessionMock->expects($testCase->any())->method('isAllowed')->will($testCase->returnValue(true));
         $apiSessionMock->expects($testCase->any())->method('isLoggedIn')->will($testCase->returnValue(true));
 

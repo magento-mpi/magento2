@@ -24,6 +24,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
             'urlModel'        => $objectManager->get('Magento_Core_Model_Url'),
             'appState'        => $objectManager->get('Magento_Core_Model_App_State'),
+            'coreStoreConfig' => $objectManager->get('Magento_Core_Model_Store_Config')
         );
 
         $this->_model = $this->getMock(
@@ -325,6 +326,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
             'urlModel'        => $objectManager->get('Magento_Core_Model_Url'),
             'appState'        => $appStateMock,
+            'coreStoreConfig' => $objectManager->get('Magento_Core_Model_Store_Config')
         );
 
         $model = $this->getMock('Magento_Core_Model_Store', array('getConfig'), $params);
