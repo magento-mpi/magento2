@@ -18,7 +18,7 @@
  */
 namespace Magento\Convert;
 
-class ConvertException extends \Magento\MagentoException
+class ConvertException extends \Magento\Exception
 {
     const NOTICE = 'NOTICE';
     const WARNING = 'WARNING';

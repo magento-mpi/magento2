@@ -59,7 +59,7 @@ class Magento_TestFramework_Annotation_AppIsolation
      * Handler for 'endTest' event
      *
      * @param PHPUnit_Framework_TestCase $test
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function endTest(PHPUnit_Framework_TestCase $test)
     {
@@ -70,7 +70,7 @@ class Magento_TestFramework_Annotation_AppIsolation
         if (isset($annotations['method']['magentoAppIsolation'])) {
             $isolation = $annotations['method']['magentoAppIsolation'];
             if ($isolation !== array('enabled') && $isolation !== array('disabled')) {
-                throw new \Magento\MagentoException(
+                throw new \Magento\Exception(
                     'Invalid "@magentoAppIsolation" annotation, can be "enabled" or "disabled" only.'
                 );
             }

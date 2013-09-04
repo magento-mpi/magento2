@@ -246,7 +246,7 @@ class Magento_TestFramework_Application
      * @param string $adminUserName
      * @param string $adminPassword
      * @param string $adminRoleName
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function install($adminUserName, $adminPassword, $adminRoleName)
     {
@@ -274,7 +274,7 @@ class Magento_TestFramework_Application
         /* Make sure that local.xml contains an invalid installation date */
         $installDate = (string)$this->_localXml->global->install->date;
         if ($installDate && strtotime($installDate)) {
-            throw new \Magento\MagentoException('Local configuration must contain an invalid installation date.');
+            throw new \Magento\Exception('Local configuration must contain an invalid installation date.');
         }
 
         /* Replace local.xml */
@@ -304,7 +304,7 @@ class Magento_TestFramework_Application
         $localXml = file_get_contents($targetLocalXml);
         $localXml = str_replace($installDate, date('r'), $localXml, $replacementCount);
         if ($replacementCount != 1) {
-            throw new \Magento\MagentoException("Unable to replace installation date properly in '$targetLocalXml' file.");
+            throw new \Magento\Exception("Unable to replace installation date properly in '$targetLocalXml' file.");
         }
         file_put_contents($targetLocalXml, $localXml, LOCK_EX);
 
@@ -352,7 +352,7 @@ class Magento_TestFramework_Application
     /**
      * Create a directory with write permissions or don't touch existing one
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @param string $dir
      */
     protected function _ensureDirExists($dir)
@@ -362,7 +362,7 @@ class Magento_TestFramework_Application
             mkdir($dir, 0777);
             umask($old);
         } else if (!is_dir($dir)) {
-            throw new \Magento\MagentoException("'$dir' is not a directory.");
+            throw new \Magento\Exception("'$dir' is not a directory.");
         }
     }
 

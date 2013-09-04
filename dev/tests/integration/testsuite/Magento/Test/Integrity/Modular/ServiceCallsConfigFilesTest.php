@@ -87,7 +87,7 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
 
         try {
             $this->_reader->validate();
-        } catch (\Magento\MagentoException $e) {
+        } catch (\Magento\Exception $e) {
             $this->fail($e->getMessage());
         }
     }

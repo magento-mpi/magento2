@@ -18,7 +18,7 @@ class Magento_Backend_Model_Menu_Config_Menu_Dom extends \Magento\Config\Dom
      * Getter for node by path
      *
      * @param string $nodePath
-     * @throws \Magento\MagentoException an exception is possible if original document contains multiple fixed nodes
+     * @throws \Magento\Exception an exception is possible if original document contains multiple fixed nodes
      * @return DOMElement | null
      */
     protected function _getMatchedNode($nodePath)

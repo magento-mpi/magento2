@@ -83,7 +83,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
                 Magento_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING,
                 $this->_themeContext->getStagingTheme()
             );
-        } catch (\Magento\MagentoException $e) {
+        } catch (\Magento\Exception $e) {
             $isFilePresent = false;
         }
 

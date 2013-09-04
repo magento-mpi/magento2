@@ -125,7 +125,7 @@ class Package
      *
      * @param null|string|resource $source
      * @param \Magento\Util|null $util
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function __construct($source = null, \Magento\Util $util = null)
     {
@@ -141,14 +141,14 @@ class Package
                 // package archive filename
                 $this->_loadFile($source);
             } else {
-                throw new \Magento\MagentoException('Invalid package source');
+                throw new \Magento\Exception('Invalid package source');
             }
         } elseif (is_resource($source)) {
             $this->_loadResource($source);
         } elseif (is_null($source)) {
             $this->_init();
         } else {
-            throw new \Magento\MagentoException('Invalid package source');
+            throw new \Magento\Exception('Invalid package source');
         }
     }
 
@@ -1347,7 +1347,7 @@ END;
              * Check mandatory rules fields
              */
              if(!isset($data['method'], $data['v_method'])) {
-             throw new \Magento\MagentoException("Invalid rules specified!");
+             throw new \Magento\Exception("Invalid rules specified!");
          }
 
             $method = $data['method'];
@@ -1362,14 +1362,14 @@ END;
              * Check for method availability, package
              */
             if(!method_exists($this, $method)) {
-                throw new \Magento\MagentoException("Invalid method specified for Package : $method");
+                throw new \Magento\Exception("Invalid method specified for Package : $method");
             }
 
             /**
              * Check for method availability, validator
              */
             if(!method_exists($v, $validatorMethod)) {
-                throw new \Magento\MagentoException("Invalid method specified for Validator : $validatorMethod");
+                throw new \Magento\Exception("Invalid method specified for Validator : $validatorMethod");
             }
 
             /**

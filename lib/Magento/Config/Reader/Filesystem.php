@@ -102,7 +102,7 @@ class Filesystem implements \Magento\Config\ReaderInterface
      *
      * @param string $scope
      * @return array
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function read($scope)
     {
@@ -125,14 +125,14 @@ class Filesystem implements \Magento\Config\ReaderInterface
                     $domDocument->merge(file_get_contents($file));
                 }
             } catch (\Magento\Config\Dom\ValidationException $e) {
-                throw new \Magento\MagentoException("Invalid XML in file " . $file . ":\n" . $e->getMessage());
+                throw new \Magento\Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
             }
         }
         if ($this->_isValidated) {
             $errors = array();
             if ($domDocument && !$domDocument->validate($this->_schemaFile, $errors)) {
                 $message = "Invalid Document \n";
-                throw new \Magento\MagentoException($message . implode("\n", $errors));
+                throw new \Magento\Exception($message . implode("\n", $errors));
             }
         }
 

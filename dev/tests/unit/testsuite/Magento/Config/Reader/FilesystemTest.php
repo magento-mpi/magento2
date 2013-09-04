@@ -47,7 +47,7 @@ class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage Invalid Document
      */
     public function testReadWithInvalidDom()
@@ -68,7 +68,7 @@ class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage Invalid XML in file
      */
     public function testReadWithInvalidXml()

@@ -13,7 +13,7 @@ class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider setDesignConfigExceptionDataProvider
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testSetDesignConfigException($config)
     {

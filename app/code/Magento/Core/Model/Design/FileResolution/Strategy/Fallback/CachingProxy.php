@@ -196,13 +196,13 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy im
      * @param string|null $module
      * @param string $file
      * @param string $filePath
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _setToMap($fileType, $area, Magento_Core_Model_Theme $theme, $locale, $module, $file, $filePath)
     {
         $pattern = $this->_baseDir . DIRECTORY_SEPARATOR;
         if (0 !== strpos($filePath, $pattern)) {
-            throw new \Magento\MagentoException(
+            throw new \Magento\Exception(
                 "Attempt to store fallback path '{$filePath}', which is not within '{$pattern}'"
             );
         }

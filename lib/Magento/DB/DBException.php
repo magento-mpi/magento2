@@ -18,6 +18,6 @@
 namespace Magento\DB;
 
 require_once 'Magento/Exception.php';
-class DBException extends \Magento\MagentoException {
+class DBException extends \Magento\Exception {
 
 }

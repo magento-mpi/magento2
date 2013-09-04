@@ -45,7 +45,7 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
      */
     public function testConstructorException($permitted, $forbidden, $exceptionMessage)
     {
-        $this->setExpectedException('\Magento\MagentoException', $exceptionMessage);
+        $this->setExpectedException('\Magento\Exception', $exceptionMessage);
         new Magento_tools_View_Generator_ThemeDeployment($this->_cssHelper, $this->_tmpDir, $permitted, $forbidden);
     }
 
@@ -146,7 +146,7 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
 
 
     /**
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage The file extension "php" must be added either to the permitted or forbidden list
      */
     public function testRunWithUnknownExtension()

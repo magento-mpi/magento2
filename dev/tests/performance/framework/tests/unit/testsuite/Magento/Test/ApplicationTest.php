@@ -73,7 +73,7 @@ class Magento_Test_ApplicationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testConstructorException()
     {

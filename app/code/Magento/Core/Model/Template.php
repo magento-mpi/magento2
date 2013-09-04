@@ -140,12 +140,12 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
      *
      * @param array $config
      * @return Magento_Core_Model_Template
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function setDesignConfig(array $config)
     {
         if (!isset($config['area']) || !isset($config['store'])) {
-            throw new \Magento\MagentoException('Design config must have area and store.');
+            throw new \Magento\Exception('Design config must have area and store.');
         }
         $this->getDesignConfig()->setData($config);
         return $this;

@@ -115,7 +115,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage Key must not exceed
      */
     public function testInstallEncryptionKeySizeViolation()
@@ -137,7 +137,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage Key must not exceed
      */
     public function testGetValidEncryptionKeySizeViolation()

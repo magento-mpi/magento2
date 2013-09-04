@@ -1181,7 +1181,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
 
             $mediaDir = Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA);
             if (!$mediaDir) {
-                throw new \Magento\MagentoException('Media directory is unavailable.');
+                throw new \Magento\Exception('Media directory is unavailable.');
             }
             $tmpDir = "{$mediaDir}/import";
             if (!$this->_fileUploader->setTmpDir($tmpDir)) {

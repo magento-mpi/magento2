@@ -45,7 +45,7 @@ class Magento_Test_Annotation_AppIsolationTest extends PHPUnit_Framework_TestCas
 
     /**
      * @magentoAppIsolation invalid
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testEndTestIsolationInvalid()
     {
@@ -55,7 +55,7 @@ class Magento_Test_Annotation_AppIsolationTest extends PHPUnit_Framework_TestCas
     /**
      * @magentoAppIsolation enabled
      * @magentoAppIsolation disabled
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testEndTestIsolationAmbiguous()
     {

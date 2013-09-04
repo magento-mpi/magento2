@@ -24,7 +24,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
             ->expects($this->at(0))
             ->method('execute')
             ->with($this->stringStartsWith('tasklist.exe '))
-            ->will($this->throwException(new \Magento\MagentoException('command not found')))
+            ->will($this->throwException(new \Magento\Exception('command not found')))
         ;
         $this->_shell
             ->expects($this->at(1))

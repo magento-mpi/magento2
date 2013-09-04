@@ -40,7 +40,7 @@ class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param array $config
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      * @dataProvider invalidInputParametersDataProvider
      */
     public function testSetDesignConfigWithInvalidInputParametersThrowsException($config)

@@ -347,7 +347,7 @@ string',
     /**
      * Tests \Magento\Object->__call()
      *
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function test__call()
     {

@@ -74,7 +74,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
                 $data['theme'],
                 $data['parent_theme']
             );
-        } catch (\Magento\MagentoException $e) {
+        } catch (\Magento\Exception $e) {
             $isFilePresent = false;
         }
 

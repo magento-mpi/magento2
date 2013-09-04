@@ -116,13 +116,13 @@ class Magento_Core_Model_Theme_File extends Magento_Core_Model_Abstract
     /**
      * {@inheritdoc}
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function getTheme()
     {
         $theme = $this->_themeFactory->create($this->getData('theme_id'));
         if (!$theme) {
-            throw new \Magento\MagentoException('Theme id should be set');
+            throw new \Magento\Exception('Theme id should be set');
         }
         return $theme;
     }

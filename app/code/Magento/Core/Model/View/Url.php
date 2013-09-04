@@ -117,7 +117,7 @@ class Magento_Core_Model_View_Url
      * @param string $publicFilePath
      * @param bool|null $isSecure
      * @return string
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function getPublicFileUrl($publicFilePath, $isSecure = null)
     {
@@ -141,7 +141,7 @@ class Magento_Core_Model_View_Url
                 return $url;
             }
         }
-        throw new \Magento\MagentoException(
+        throw new \Magento\Exception(
             "Cannot build URL for the file '$publicFilePath' because it does not reside in a public directory."
         );
     }

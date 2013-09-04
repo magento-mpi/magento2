@@ -30,7 +30,7 @@ class Ftp extends \Magento\Backup\Filesystem\Rollback\AbstractRollback
      * Files rollback implementation via ftp
      *
      * @see \Magento\Backup\Filesystem\Rollback\AbstractRollback::run()
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function run()
     {
@@ -72,7 +72,7 @@ class Ftp extends \Magento\Backup\Filesystem\Rollback\AbstractRollback
     /**
      * Perform ftp validation. Check whether ftp account provided points to current magento installation
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _validateFtp()
     {
@@ -83,7 +83,7 @@ class Ftp extends \Magento\Backup\Filesystem\Rollback\AbstractRollback
         @fclose($fh);
 
         if (!is_file($validationFilePath)) {
-            throw new \Magento\MagentoException('Unable to validate ftp account');
+            throw new \Magento\Exception('Unable to validate ftp account');
         }
 
         $rootDir = $this->_snapshot->getRootDir();
@@ -111,7 +111,7 @@ class Ftp extends \Magento\Backup\Filesystem\Rollback\AbstractRollback
     }
 
     /**
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @return string
      */
     protected function _createTmpDir()
@@ -152,7 +152,7 @@ class Ftp extends \Magento\Backup\Filesystem\Rollback\AbstractRollback
      * Perform files rollback
      *
      * @param string $tmpDir
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _uploadBackupToFtp($tmpDir)
     {

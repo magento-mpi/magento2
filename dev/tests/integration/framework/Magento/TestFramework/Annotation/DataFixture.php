@@ -30,12 +30,12 @@ class Magento_TestFramework_Annotation_DataFixture
      * Constructor
      *
      * @param string $fixtureBaseDir
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function __construct($fixtureBaseDir)
     {
         if (!is_dir($fixtureBaseDir)) {
-            throw new \Magento\MagentoException("Fixture base directory '$fixtureBaseDir' does not exist.");
+            throw new \Magento\Exception("Fixture base directory '$fixtureBaseDir' does not exist.");
         }
         $this->_fixtureBaseDir = realpath($fixtureBaseDir);
     }
@@ -100,7 +100,7 @@ class Magento_TestFramework_Annotation_DataFixture
      * @param string $scope 'class' or 'method'
      * @param PHPUnit_Framework_TestCase $test
      * @return array
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _getFixtures($scope, PHPUnit_Framework_TestCase $test)
     {
@@ -110,7 +110,7 @@ class Magento_TestFramework_Annotation_DataFixture
             foreach ($annotations[$scope]['magentoDataFixture'] as $fixture) {
                 if (strpos($fixture, '\\') !== false) {
                     // usage of a single directory separator symbol streamlines search across the source code
-                    throw new \Magento\MagentoException('Directory separator "\\" is prohibited in fixture declaration.');
+                    throw new \Magento\Exception('Directory separator "\\" is prohibited in fixture declaration.');
                 }
                 $fixtureMethod = array(get_class($test), $fixture);
                 if (is_callable($fixtureMethod)) {
@@ -141,7 +141,7 @@ class Magento_TestFramework_Annotation_DataFixture
      * Execute fixture scripts if any
      *
      * @param array $fixtures
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _applyFixtures(array $fixtures)
     {

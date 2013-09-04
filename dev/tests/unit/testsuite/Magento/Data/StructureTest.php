@@ -60,7 +60,7 @@ class Magento_Data_StructureTest extends PHPUnit_Framework_TestCase
     /**
      * @param array $elements
      * @dataProvider importExceptionDataProvider
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testImportException($elements)
     {
@@ -132,7 +132,7 @@ class Magento_Data_StructureTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testCreateElementException()
     {
@@ -169,7 +169,7 @@ class Magento_Data_StructureTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testSetAttributeNoElementException()
     {
@@ -200,7 +200,7 @@ class Magento_Data_StructureTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testGetAttributeNoElementException()
     {
@@ -275,7 +275,7 @@ class Magento_Data_StructureTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $elementId
      * @param string $parentId
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      * @dataProvider setAsChildExceptionDataProvider
      */
     public function testSetAsChildException($elementId, $parentId)
@@ -347,7 +347,7 @@ class Magento_Data_StructureTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testReorderChildException()
     {
@@ -385,7 +385,7 @@ class Magento_Data_StructureTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testReorderToSiblingException()
     {

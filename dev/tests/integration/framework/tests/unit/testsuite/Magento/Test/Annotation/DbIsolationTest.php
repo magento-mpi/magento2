@@ -67,7 +67,7 @@ class Magento_Test_Annotation_DbIsolationTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoDbIsolation invalid
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testStartTestTransactionRequestInvalidAnnotation()
     {
@@ -77,7 +77,7 @@ class Magento_Test_Annotation_DbIsolationTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      * @magentoDbIsolation disabled
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testStartTestTransactionRequestAmbiguousAnnotation()
     {

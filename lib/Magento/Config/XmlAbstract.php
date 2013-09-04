@@ -73,18 +73,18 @@ abstract class XmlAbstract
      *
      * @param array $configFiles
      * @return \DOMDocument
-     * @throws \Magento\MagentoException if a non-existing or invalid XML-file passed
+     * @throws \Magento\Exception if a non-existing or invalid XML-file passed
      */
     protected function _merge($configFiles)
     {
         foreach ($configFiles as $file) {
             if (!file_exists($file)) {
-                throw new \Magento\MagentoException("File does not exist: {$file}");
+                throw new \Magento\Exception("File does not exist: {$file}");
             }
             try {
                 $this->_getDomConfigModel()->merge(file_get_contents($file));
             } catch (\Magento\Config\Dom\ValidationException $e) {
-                throw new \Magento\MagentoException("Invalid XML in file " . $file . ":\n" . $e->getMessage());
+                throw new \Magento\Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
             }
         }
         if ($this->_isRuntimeValidated()) {
@@ -98,13 +98,13 @@ abstract class XmlAbstract
      *
      * @param string $file
      * @return \Magento\Config\XmlAbstract
-     * @throws \Magento\MagentoException if invalid XML-file passed
+     * @throws \Magento\Exception if invalid XML-file passed
      */
     protected function _performValidate($file = null)
     {
         if (!$this->_getDomConfigModel()->validate($this->getSchemaFile(), $errors)) {
             $message = is_null($file) ?  "Invalid Document \n" : "Invalid XML-file: {$file}\n";
-            throw new \Magento\MagentoException($message . implode("\n", $errors));
+            throw new \Magento\Exception($message . implode("\n", $errors));
         }
         return $this;
     }

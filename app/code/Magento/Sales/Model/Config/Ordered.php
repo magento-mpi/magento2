@@ -234,7 +234,7 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
      * - Two relations combined lead to cycles
      *
      * @param array $config
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public static function validateCollectorDeclarations($config)
     {
@@ -247,7 +247,7 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
         }
         $cycle = $before->findCycle();
         if ($cycle) {
-            throw new \Magento\MagentoException(sprintf(
+            throw new \Magento\Exception(sprintf(
                 'Found cycle in sales total declarations: %s', implode(' -> ', $cycle)
             ));
         }

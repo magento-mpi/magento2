@@ -82,7 +82,7 @@ class Magento_TestFramework_Annotation_DbIsolation
      * @param string $scope 'class' or 'method'
      * @param PHPUnit_Framework_TestCase $test
      * @return bool|null Returns NULL, if isolation is not defined for the current scope
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _getIsolation($scope, PHPUnit_Framework_TestCase $test)
     {
@@ -90,7 +90,7 @@ class Magento_TestFramework_Annotation_DbIsolation
         if (isset($annotations[$scope]['magentoDbIsolation'])) {
             $isolation = $annotations[$scope]['magentoDbIsolation'];
             if ($isolation !== array('enabled') && $isolation !== array('disabled')) {
-                throw new \Magento\MagentoException(
+                throw new \Magento\Exception(
                     'Invalid "@magentoDbIsolation" annotation, can be "enabled" or "disabled" only.'
                 );
             }

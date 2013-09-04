@@ -52,7 +52,7 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
     /**
      * Test the render() function such that it throws an exception
      * 
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */    
     public function testRenderNegative() 
     {
@@ -62,7 +62,7 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
             ->disableOriginalConstructor()->getMock();
         $environmentMock->expects($this->once())
             ->method('render')
-            ->will($this->throwException(new \Magento\MagentoException()));
+            ->will($this->throwException(new \Magento\Exception()));
         $this->_envFactoryMock->expects($this->once())->method('create')->will(
                 $this->returnValue($environmentMock)
         );

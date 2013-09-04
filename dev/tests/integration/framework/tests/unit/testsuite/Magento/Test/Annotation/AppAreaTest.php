@@ -65,7 +65,7 @@ class Magento_Test_Annotation_AppAreaTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testGetTestAppAreaWithInvalidArea()
     {

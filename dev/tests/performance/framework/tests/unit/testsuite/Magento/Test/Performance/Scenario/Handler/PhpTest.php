@@ -115,7 +115,7 @@ class Magento_Test_Performance_Scenario_Handler_PhpTest extends PHPUnit_Framewor
      */
     public function testRunException()
     {
-        $failure = new \Magento\MagentoException(
+        $failure = new \Magento\Exception(
             'Command returned non-zero exit code.', 0, new Exception('command failure message', 1)
         );
         $this->_shell

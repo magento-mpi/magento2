@@ -182,12 +182,12 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Throw an exception, if the application has not been installed yet
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function requireInstalledInstance()
     {
         if (false == $this->_appState->isInstalled()) {
-            throw new \Magento\MagentoException('Application is not installed yet, please complete the installation first.');
+            throw new \Magento\Exception('Application is not installed yet, please complete the installation first.');
         }
     }
 

@@ -25,7 +25,7 @@ class Gz extends \Magento\Archive\Helper\File
         $this->_fileHandler = @gzopen($this->_filePath, $mode);
 
         if (false === $this->_fileHandler) {
-            throw new \Magento\MagentoException('Failed to open file ' . $this->_filePath);
+            throw new \Magento\Exception('Failed to open file ' . $this->_filePath);
         }
     }
 
@@ -37,7 +37,7 @@ class Gz extends \Magento\Archive\Helper\File
         $result = @gzwrite($this->_fileHandler, $data);
 
         if (empty($result) && !empty($data)) {
-            throw new \Magento\MagentoException('Failed to write data to ' . $this->_filePath);
+            throw new \Magento\Exception('Failed to write data to ' . $this->_filePath);
         }
     }
 

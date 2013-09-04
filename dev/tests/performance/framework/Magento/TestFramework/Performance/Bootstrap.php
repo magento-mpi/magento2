@@ -37,13 +37,13 @@ class Magento_TestFramework_Performance_Bootstrap
     /**
      * Ensure reports directory exists, empty, and has write permissions
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function cleanupReports()
     {
         $reportDir = $this->_config->getReportDir();
         if (file_exists($reportDir) && !\Magento\Io\File::rmdirRecursive($reportDir)) {
-            throw new \Magento\MagentoException("Cannot cleanup reports directory '$reportDir'.");
+            throw new \Magento\Exception("Cannot cleanup reports directory '$reportDir'.");
         }
         mkdir($reportDir, 0777, true);
     }

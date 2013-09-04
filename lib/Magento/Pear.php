@@ -236,7 +236,7 @@ class Pear
         } elseif (is_string($runParams)) {
             $run = new \Magento\Object(array('title'=>$runParams));
         } else {
-            throw \Magento\MagentoException("Invalid run parameters");
+            throw \Magento\Exception("Invalid run parameters");
         }
 ?>
 <html><head><style type="text/css">

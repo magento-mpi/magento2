@@ -122,7 +122,7 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getConstructorExceptionData
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testConstructorException($key, $cipher, $mode, $initVector)
     {

@@ -917,7 +917,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * Validate gift registry items
      *
      * @param array $items
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _validateItems($items)
     {
@@ -930,7 +930,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
                     $stockItem->loadByProduct($model->getProductId());
                     // not Magento_Core_Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
-                        throw new \Magento\MagentoException(__('Please correct the  gift registry item quantity.'));
+                        throw new \Magento\Exception(__('Please correct the  gift registry item quantity.'));
                     }
                 }
             } else {

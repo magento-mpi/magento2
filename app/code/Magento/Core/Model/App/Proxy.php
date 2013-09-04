@@ -54,7 +54,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Throw an exception, if the application has not been installed yet
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function requireInstalledInstance()
     {

@@ -107,13 +107,13 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctions
      * @param string $file path to file in theme
      * @param array $params
      * @return string
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function getViewFileUrl($file = null, array $params = array())
     {
         try {
             return $this->_viewUrl->getViewFileUrl($file, $params);
-        } catch (\Magento\MagentoException $e) {
+        } catch (\Magento\Exception $e) {
             $this->_logger->logException($e);
             return $this->_urlBuilder->getUrl('', array('_direct' => 'core/index/notfound'));
         }

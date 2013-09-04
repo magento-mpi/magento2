@@ -327,14 +327,14 @@ final class Mage
      * Retrieve application root absolute path
      *
      * @return string
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public static function getRoot()
     {
         if (!self::$_appRoot) {
             $appRootDir = __DIR__;
             if (!is_readable($appRootDir)) {
-                throw new \Magento\MagentoException("Application root directory '$appRootDir' is not readable.");
+                throw new \Magento\Exception("Application root directory '$appRootDir' is not readable.");
             }
             self::$_appRoot = $appRootDir;
         }

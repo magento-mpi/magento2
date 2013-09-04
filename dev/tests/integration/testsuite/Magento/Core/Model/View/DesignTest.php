@@ -162,7 +162,7 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $file
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      * @dataProvider extractScopeExceptionDataProvider
      */
     public function testExtractScopeException($file)

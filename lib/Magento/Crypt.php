@@ -47,7 +47,7 @@ class Crypt
      * @param  string|bool $initVector Initial vector to fill algorithm blocks.
      *                                 TRUE generates a random initial vector.
      *                                 FALSE fills initial vector with zero bytes to not use it.
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function __construct($key, $cipher = MCRYPT_BLOWFISH, $mode = MCRYPT_MODE_ECB, $initVector = false)
     {
@@ -57,7 +57,7 @@ class Crypt
         try {
             $maxKeySize = mcrypt_enc_get_key_size($this->_handle);
             if (strlen($key) > $maxKeySize) {
-                throw new \Magento\MagentoException('Key must not exceed ' . $maxKeySize . ' bytes.');
+                throw new \Magento\Exception('Key must not exceed ' . $maxKeySize . ' bytes.');
             }
             $initVectorSize = mcrypt_enc_get_iv_size($this->_handle);
             if (true === $initVector) {
@@ -71,7 +71,7 @@ class Crypt
                 /* Set vector to zero bytes to not use it */
                 $initVector = str_repeat("\0", $initVectorSize);
             } else if (!is_string($initVector) || strlen($initVector) != $initVectorSize) {
-                throw new \Magento\MagentoException('Init vector must be a string of ' . $initVectorSize . ' bytes.');
+                throw new \Magento\Exception('Init vector must be a string of ' . $initVectorSize . ' bytes.');
             }
             $this->_initVector = $initVector;
         } catch (\Exception $e) {

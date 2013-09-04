@@ -242,14 +242,14 @@ class Magento_TestFramework_Bootstrap
      *
      * @param SimpleXMLElement $dbConfig
      * @return string
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _determineDbVendorName(SimpleXMLElement $dbConfig)
     {
         $dbVendorAlias = (string)$dbConfig->model;
         $dbVendorMap = array('mysql4' => 'mysql');
         if (!array_key_exists($dbVendorAlias, $dbVendorMap)) {
-            throw new \Magento\MagentoException("Database vendor '$dbVendorAlias' is not supported.");
+            throw new \Magento\Exception("Database vendor '$dbVendorAlias' is not supported.");
         }
         return $dbVendorMap[$dbVendorAlias];
     }

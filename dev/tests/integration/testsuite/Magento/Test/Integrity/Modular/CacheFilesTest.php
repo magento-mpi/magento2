@@ -32,7 +32,7 @@ class Magento_Test_Integrity_Modular_CacheFilesTest extends PHPUnit_Framework_Te
         );
         try {
             $reader->read($area);
-        } catch (\Magento\MagentoException $exception) {
+        } catch (\Magento\Exception $exception) {
             $this->fail($exception->getMessage());
         }
     }

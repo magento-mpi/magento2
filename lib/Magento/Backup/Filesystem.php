@@ -64,7 +64,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
     /**
      * Implementation Rollback functionality for Filesystem
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @return bool
      */
     public function rollback()
@@ -84,7 +84,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
     /**
      * Implementation Create Backup functionality for Filesystem
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @return boolean
      */
     public function create()
@@ -121,7 +121,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
             ->pack($this->getRootDir(), $tarTmpPath, true);
 
         if (!is_file($tarTmpPath) || filesize($tarTmpPath) == 0) {
-            throw new \Magento\MagentoException('Failed to create backup');
+            throw new \Magento\Exception('Failed to create backup');
         }
 
         $backupPath = $this->getBackupPath();
@@ -130,7 +130,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
         $gzPacker->pack($tarTmpPath, $backupPath);
 
         if (!is_file($backupPath) || filesize($backupPath) == 0) {
-            throw new \Magento\MagentoException('Failed to create backup');
+            throw new \Magento\Exception('Failed to create backup');
         }
 
         @unlink($tarTmpPath);
@@ -236,7 +236,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
     /**
      * Check backups directory existence and whether it's writeable
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _checkBackupsDir()
     {

@@ -53,7 +53,7 @@ class Magento_Sales_Model_Config_OrderTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider ambiguousTotalsDataProvider
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testValidateCollectorDeclarations($config)
     {

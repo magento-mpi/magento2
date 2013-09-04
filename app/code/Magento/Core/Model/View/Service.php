@@ -60,19 +60,19 @@ class Magento_Core_Model_View_Service
      * @param string $fileId
      * @param array &$params
      * @return string
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function extractScope($fileId, array &$params)
     {
         if (preg_match('/\.\//', str_replace('\\', '/', $fileId))) {
-            throw new \Magento\MagentoException("File name '{$fileId}' is forbidden for security reasons.");
+            throw new \Magento\Exception("File name '{$fileId}' is forbidden for security reasons.");
         }
         if (strpos($fileId, self::SCOPE_SEPARATOR) === false) {
             $file = $fileId;
         } else {
             $fileId = explode(self::SCOPE_SEPARATOR, $fileId);
             if (empty($fileId[0])) {
-                throw new \Magento\MagentoException('Scope separator "::" cannot be used without scope identifier.');
+                throw new \Magento\Exception('Scope separator "::" cannot be used without scope identifier.');
             }
             $params['module'] = $fileId[0];
             $file = $fileId[1];

@@ -52,7 +52,7 @@ class Magento_TestFramework_Performance_Scenario_Handler_Php
      *
      * @param Magento_TestFramework_Performance_Scenario $scenario
      * @param string|null $reportFile Report file to write results to, NULL disables report creation
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @throws Magento_TestFramework_Performance_Scenario_FailureException
      *
      * @todo Implement execution in concurrent threads defined by the "users" scenario argument
@@ -97,7 +97,7 @@ class Magento_TestFramework_Performance_Scenario_Handler_Php
         $executionTime = microtime(true);
         try {
             $result['output'] = $this->_shell->execute($scenarioCmd, $scenarioCmdArgs);
-        } catch (\Magento\MagentoException $e) {
+        } catch (\Magento\Exception $e) {
             $result['success']   = false;
             $result['exit_code'] = $e->getPrevious()->getCode();
             $result['output']    = $e->getPrevious()->getMessage();

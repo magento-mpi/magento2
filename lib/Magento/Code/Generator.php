@@ -66,7 +66,7 @@ class Generator
     /**
      * @param string $className
      * @return string const
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function generateClass($className)
     {
@@ -96,7 +96,7 @@ class Generator
         $this->_initGenerator($entity, $entityName, $className);
         if (!$this->_generator->generate()) {
             $errors = $this->_generator->getErrors();
-            throw new \Magento\MagentoException(implode(' ', $errors));
+            throw new \Magento\Exception(implode(' ', $errors));
         }
 
         // remove generator

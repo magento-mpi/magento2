@@ -29,7 +29,7 @@ class Snapshot extends \Magento\Backup\Filesystem
     /**
      * Implementation Rollback functionality for Snapshot
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @return bool
      */
     public function rollback()
@@ -54,7 +54,7 @@ class Snapshot extends \Magento\Backup\Filesystem
     /**
      * Implementation Create Backup functionality for Snapshot
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @return bool
      */
     public function create()

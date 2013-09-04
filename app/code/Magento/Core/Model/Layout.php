@@ -655,7 +655,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * Schedule structural changes for move directive
      *
      * @param Magento_Core_Model_Layout_Element $node
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @return Magento_Core_Model_Layout
      */
     protected function _scheduleMove($node)
@@ -670,7 +670,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
                 array($destination, $siblingName, $isAfter, $alias)
             );
         } else {
-            throw new \Magento\MagentoException('Element name and destination must be specified.');
+            throw new \Magento\Exception('Element name and destination must be specified.');
         }
         return $this;
     }
@@ -878,13 +878,13 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      *
      * @param string $elementName
      * @return Magento_Core_Block_Abstract
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _generateBlock($elementName)
     {
         list($type, $node, $actions, $arguments) = $this->_scheduledStructure->getElement($elementName);
         if ($type !== self::TYPE_BLOCK) {
-            throw new \Magento\MagentoException("Unexpected element type specified for generating block: {$type}.");
+            throw new \Magento\Exception("Unexpected element type specified for generating block: {$type}.");
         }
 
         // create block
@@ -926,12 +926,12 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * @param string $name
      * @param string $label
      * @param array $options
-     * @throws \Magento\MagentoException if any of arguments are invalid
+     * @throws \Magento\Exception if any of arguments are invalid
      */
     protected function _generateContainer($name, $label, array $options)
     {
         if (empty($label)) {
-            throw new \Magento\MagentoException('Container requires a label.');
+            throw new \Magento\Exception('Container requires a label.');
         }
         $this->_structure->setAttribute($name, self::CONTAINER_OPT_LABEL, $label);
         unset($options[self::CONTAINER_OPT_LABEL]);
@@ -939,7 +939,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
         if (empty($options[self::CONTAINER_OPT_HTML_TAG])
             && (!empty($options[self::CONTAINER_OPT_HTML_ID]) || !empty($options[self::CONTAINER_OPT_HTML_CLASS]))
         ) {
-            throw new \Magento\MagentoException('HTML ID or class will not have effect, if HTML tag is not specified.');
+            throw new \Magento\Exception('HTML ID or class will not have effect, if HTML tag is not specified.');
         }
         foreach ($options as $key => $value) {
             $this->_structure->setAttribute($name, $key, $value);
@@ -1152,7 +1152,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      *
      * @param string $name
      * @return string
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _renderBlock($name)
     {

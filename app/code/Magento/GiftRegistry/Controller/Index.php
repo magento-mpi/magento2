@@ -256,7 +256,7 @@ class Magento_GiftRegistry_Controller_Index extends Magento_Core_Controller_Fron
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
-        } catch (\Magento\MagentoException $e) {
+        } catch (\Magento\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(__("We couldn't update the gift registry."));

@@ -63,12 +63,12 @@ abstract class Magento_TestFramework_Db_DbAbstract
      * @param string $schema
      * @param string $varPath
      * @param \Magento\Shell $shell
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function __construct($host, $user, $password, $schema, $varPath, \Magento\Shell $shell)
     {
         if (!is_dir($varPath) || !is_writable($varPath)) {
-            throw new \Magento\MagentoException("The specified '$varPath' is not a directory or not writable.");
+            throw new \Magento\Exception("The specified '$varPath' is not a directory or not writable.");
         }
         $this->_host = $host;
         $this->_user = $user;

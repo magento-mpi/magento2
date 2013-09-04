@@ -20,7 +20,7 @@ class Bz extends \Magento\Archive\Helper\File
     /**
      * Open bz archive file
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @param string $mode
      */
     protected function _open($mode)
@@ -28,14 +28,14 @@ class Bz extends \Magento\Archive\Helper\File
         $this->_fileHandler = @bzopen($this->_filePath, $mode);
 
         if (false === $this->_fileHandler) {
-            throw new \Magento\MagentoException('Failed to open file ' . $this->_filePath);
+            throw new \Magento\Exception('Failed to open file ' . $this->_filePath);
         }
     }
 
     /**
      * Write data to bz archive
      * 
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @param $data
      */
     protected function _write($data)
@@ -43,14 +43,14 @@ class Bz extends \Magento\Archive\Helper\File
         $result = @bzwrite($this->_fileHandler, $data);
 
         if (false === $result) {
-            throw new \Magento\MagentoException('Failed to write data to ' . $this->_filePath);
+            throw new \Magento\Exception('Failed to write data to ' . $this->_filePath);
         }
     }
 
     /**
      * Read data from bz archive
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @param int $length
      * @return string
      */
@@ -59,7 +59,7 @@ class Bz extends \Magento\Archive\Helper\File
         $data = bzread($this->_fileHandler, $length);
 
         if (false === $data) {
-            throw new \Magento\MagentoException('Failed to read data from ' . $this->_filePath);
+            throw new \Magento\Exception('Failed to read data from ' . $this->_filePath);
         }
 
         return $data;

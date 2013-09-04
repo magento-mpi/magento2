@@ -332,7 +332,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Returns all summed WEEE taxes with all local taxes applied
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @param array $attributes Array of \Magento\Object, result from getProductWeeeAttributes()
      * @return float
      */
@@ -345,7 +345,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
                 $amount += $attribute->getAmount() + $attribute->getTaxAmount();
             }
         } else {
-            throw new \Magento\MagentoException('$attributes must be an array');
+            throw new \Magento\Exception('$attributes must be an array');
         }
 
         return (float)$amount;

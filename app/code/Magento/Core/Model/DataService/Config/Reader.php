@@ -97,7 +97,7 @@ class Magento_Core_Model_DataService_Config_Reader extends \Magento\Config\XmlAb
      * Perform xml validation
      *
      * @return \Magento\Config\XmlAbstract
-     * @throws \Magento\MagentoException if invalid XML-file passed
+     * @throws \Magento\Exception if invalid XML-file passed
      */
     public function validate()
     {

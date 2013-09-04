@@ -59,7 +59,7 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_Direct implements Magento_Core
      * @param string $targetFile
      * @param string $contentType
      * @return string
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _composeMergedContent(array $publicFiles, $targetFile, $contentType)
     {
@@ -68,7 +68,7 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_Direct implements Magento_Core
 
         foreach ($publicFiles as $file) {
             if (!$this->_filesystem->has($file)) {
-                throw new \Magento\MagentoException("Unable to locate file '{$file}' for merging.");
+                throw new \Magento\Exception("Unable to locate file '{$file}' for merging.");
             }
             $content = $this->_filesystem->read($file);
             if ($isCss) {

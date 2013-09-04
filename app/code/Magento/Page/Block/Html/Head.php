@@ -331,7 +331,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
             foreach ($assets as $asset) {
                 $result .= sprintf($template, $asset->getUrl());
             }
-        } catch (\Magento\MagentoException $e) {
+        } catch (\Magento\Exception $e) {
             $result .= sprintf($template, $this->_getNotFoundUrl());
         }
         return $result;

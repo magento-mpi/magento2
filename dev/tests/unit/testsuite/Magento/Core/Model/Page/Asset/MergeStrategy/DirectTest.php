@@ -40,7 +40,7 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_DirectTest extends PHPUnit_Fra
     }
 
     /**
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage Unable to locate file 'no_file.js' for merging.
      */
     public function testMergeFilesNoFilesException()

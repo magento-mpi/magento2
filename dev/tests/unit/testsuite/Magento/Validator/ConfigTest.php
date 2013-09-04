@@ -248,7 +248,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      * Check XSD schema validates invalid config files
      *
      * @dataProvider getInvalidXmlFiles
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      *
      * @param array|string $configFile
      */

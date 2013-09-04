@@ -35,7 +35,7 @@ class Media extends \Magento\Backup\AbstractBackup
     {
         if ($snapshotManager !== null) {
             if (!$snapshotManager instanceof \Magento\Backup\Snapshot) {
-                throw new \Magento\MagentoException('Snapshot manager must be instance of \Magento\Backup\Snapshot');
+                throw new \Magento\Exception('Snapshot manager must be instance of \Magento\Backup\Snapshot');
             }
             $this->_snapshotManager = $snapshotManager;
         } else {
@@ -46,7 +46,7 @@ class Media extends \Magento\Backup\AbstractBackup
     /**
      * Implementation Rollback functionality for Snapshot
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @return bool
      */
     public function rollback()
@@ -58,7 +58,7 @@ class Media extends \Magento\Backup\AbstractBackup
     /**
      * Implementation Create Backup functionality for Snapshot
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @return bool
      */
     public function create()
@@ -168,7 +168,7 @@ class Media extends \Magento\Backup\AbstractBackup
      * Set root directory of Magento installation
      *
      * @param string $rootDir
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @return \Magento\Backup\BackupInterface
      */
     public function setRootDir($rootDir)

@@ -51,7 +51,7 @@ class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
      * @param string $xmlFile
      * @param string $newXmlFile
      * @dataProvider mergeExceptionDataProvider
-     * @expectedException \Magento\MagentoException
+     * @expectedException \Magento\Exception
      */
     public function testMergeException($xmlFile, $newXmlFile)
     {

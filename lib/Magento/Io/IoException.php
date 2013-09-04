@@ -18,6 +18,6 @@
  */
 namespace Magento\Io;
 
-class IoException extends \Magento\MagentoException
+class IoException extends \Magento\Exception
 {
 }

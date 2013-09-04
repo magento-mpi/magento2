@@ -118,13 +118,13 @@ class Magento_Core_Model_Theme_Collection extends \Magento\Data\Collection
     /**
      * Return target dir for themes with theme configuration file
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @return array|string
      */
     public function getTargetPatterns()
     {
         if (empty($this->_targetDirs)) {
-            throw new \Magento\MagentoException('Please specify at least one target pattern to theme config file.');
+            throw new \Magento\Exception('Please specify at least one target pattern to theme config file.');
         }
         return $this->_targetDirs;
     }

@@ -153,7 +153,7 @@ class Cache
         }
 
         if (isset($this->_objects[$idx])) {
-            throw new \Magento\MagentoException('Object already exists in registry ('.$idx.'). Old object class: '.get_class($this->_objects[$idx]).', new object class: '.get_class($object));
+            throw new \Magento\Exception('Object already exists in registry ('.$idx.'). Old object class: '.get_class($this->_objects[$idx]).', new object class: '.get_class($object));
         }
 
         $this->_objects[$idx] = $object;
@@ -192,7 +192,7 @@ class Cache
         }
 
         if (isset($this->_references[$refName])) {
-            throw new \Magento\MagentoException('The reference already exists: '.$refName.'. New index: '.$idx.', old index: '.$this->_references[$refName]);
+            throw new \Magento\Exception('The reference already exists: '.$refName.'. New index: '.$idx.', old index: '.$this->_references[$refName]);
         }
         $this->_references[$refName] = $idx;
         $this->_objectReferences[$idx][$refName] = true;

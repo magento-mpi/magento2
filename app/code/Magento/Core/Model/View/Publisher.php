@@ -119,18 +119,18 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      * @param  string $filePath
      * @param  array $params
      * @return string
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _getPublishedFilePath($filePath, $params)
     {
         if (!$this->_viewService->isViewFileOperationAllowed()) {
-            throw new \Magento\MagentoException('Filesystem operations are not permitted for view files');
+            throw new \Magento\Exception('Filesystem operations are not permitted for view files');
         }
 
         $sourcePath = $this->_viewFileSystem->getViewFile($filePath, $params);
 
         if (!$this->_filesystem->has($sourcePath)) {
-            throw new \Magento\MagentoException("Unable to locate theme file '{$sourcePath}'.");
+            throw new \Magento\Exception("Unable to locate theme file '{$sourcePath}'.");
         }
         if (!$this->_needToProcessFile($sourcePath)) {
             return $sourcePath;
@@ -318,7 +318,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
         };
         try {
             $content = $this->_cssHelper->replaceCssRelativeUrls($content, $sourcePath, $publicPath, $callback);
-        } catch (\Magento\MagentoException $e) {
+        } catch (\Magento\Exception $e) {
             Mage::logException($e);
         }
         return $content;

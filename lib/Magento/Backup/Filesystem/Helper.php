@@ -57,7 +57,7 @@ class Helper
      * @param string $path
      * @param array $skipPaths
      * @param bool $removeRoot
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function rm($path, $skipPaths = array(), $removeRoot = false)
     {

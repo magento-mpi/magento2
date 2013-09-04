@@ -365,7 +365,7 @@ class Magento_Core_Model_Layout_Merge
      * Load layout updates by handles
      *
      * @param array|string $handles
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @return Magento_Core_Model_Layout_Merge
      */
     public function load($handles = array())
@@ -373,7 +373,7 @@ class Magento_Core_Model_Layout_Merge
         if (is_string($handles)) {
             $handles = array($handles);
         } elseif (!is_array($handles)) {
-            throw new \Magento\MagentoException('Invalid layout update handle');
+            throw new \Magento\Exception('Invalid layout update handle');
         }
 
         $this->addHandle($handles);
@@ -589,7 +589,7 @@ class Magento_Core_Model_Layout_Merge
     /**
      * Collect and merge layout updates from files
      *
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      * @return Magento_Core_Model_Layout_Element
      */
     protected function _loadFileLayoutUpdatesXml()
@@ -603,7 +603,7 @@ class Magento_Core_Model_Layout_Merge
             /** @var $fileXml Magento_Core_Model_Layout_Element */
             $fileXml = $this->_loadXmlString($fileStr);
             if (!$file->isBase() && $fileXml->xpath(self::XPATH_HANDLE_DECLARATION)) {
-                throw new \Magento\MagentoException(sprintf(
+                throw new \Magento\Exception(sprintf(
                     "Theme layout update file '%s' must not declare page types.",
                     $file->getFileName()
                 ));
@@ -620,7 +620,7 @@ class Magento_Core_Model_Layout_Merge
      *
      * @param Magento_Core_Model_Theme $theme
      * @return Magento_Core_Model_Theme
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _getPhysicalTheme(Magento_Core_Model_Theme $theme)
     {
@@ -629,7 +629,7 @@ class Magento_Core_Model_Layout_Merge
             $result = $result->getParentTheme();
         }
         if (!$result) {
-            throw new \Magento\MagentoException("Unable to find a physical ancestor for a theme '{$theme->getThemeTitle()}'.");
+            throw new \Magento\Exception("Unable to find a physical ancestor for a theme '{$theme->getThemeTitle()}'.");
         }
         return $result;
     }

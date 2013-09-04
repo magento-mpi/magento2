@@ -888,7 +888,7 @@ final class Magento_Downloader_Controller
             if (!$isSuccess) {
                 $this->endInstall();
                 $this->cleanCache();
-                throw new \Magento\MagentoException(
+                throw new \Magento\Exception(
                     'The installation process has been canceled because of the backup creation error'
                 );
             }

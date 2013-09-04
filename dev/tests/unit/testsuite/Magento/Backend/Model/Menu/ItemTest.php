@@ -223,7 +223,7 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $this->_aclMock->expects($this->once())
             ->method('isAllowed')
             ->with('Magento_Backend::config')
-            ->will($this->throwException(new \Magento\MagentoException()));
+            ->will($this->throwException(new \Magento\Exception()));
         $this->assertFalse($this->_model->isAllowed());
     }
 

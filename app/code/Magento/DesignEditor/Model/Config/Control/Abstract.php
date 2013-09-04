@@ -111,12 +111,12 @@ abstract class Magento_DesignEditor_Model_Config_Control_Abstract extends \Magen
      *
      * @param string $controlName
      * @return array
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function getControlData($controlName)
     {
         if (!isset($this->_data[$controlName])) {
-            throw new \Magento\MagentoException("Unknown control: \"{$controlName}\"");
+            throw new \Magento\Exception("Unknown control: \"{$controlName}\"");
         }
         return $this->_data[$controlName];
     }

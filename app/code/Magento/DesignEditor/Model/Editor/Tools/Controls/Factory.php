@@ -58,12 +58,12 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Factory
      * @param string $type
      * @param Magento_Core_Model_Theme $theme
      * @return string
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     protected function _getFilePathByType($type, $theme)
     {
         if (!isset($this->_fileNames[$type])) {
-            throw new \Magento\MagentoException("Unknown control configuration type: \"{$type}\"");
+            throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
         }
         return $this->_viewFileSystem->getFilename($this->_fileNames[$type], array(
             'area'       => Magento_Core_Model_View_DesignInterface::DEFAULT_AREA,
@@ -79,7 +79,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Factory
      * @param Magento_Core_Model_Theme $parentTheme
      * @param array $files
      * @return Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
-     * @throws \Magento\MagentoException
+     * @throws \Magento\Exception
      */
     public function create(
         $type,
@@ -96,7 +96,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Factory
                 $class = 'Magento_DesignEditor_Model_Config_Control_ImageSizing';
                 break;
             default:
-                throw new \Magento\MagentoException("Unknown control configuration type: \"{$type}\"");
+                throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
                 break;
         }
         /** @var $config Magento_DesignEditor_Model_Config_Control_Abstract */

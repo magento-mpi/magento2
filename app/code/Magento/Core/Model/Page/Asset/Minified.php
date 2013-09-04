@@ -100,7 +100,7 @@ class Magento_Core_Model_Page_Asset_Minified implements Magento_Core_Model_Page_
         try {
             $this->_file = $this->_minifier->getMinifiedFile($originalFile);
         } catch (Exception $e) {
-            $this->_logger->logException(new \Magento\MagentoException('Could not minify file: ' . $originalFile, 0, $e));
+            $this->_logger->logException(new \Magento\Exception('Could not minify file: ' . $originalFile, 0, $e));
             $this->_file = $originalFile;
         }
         if ($this->_file == $originalFile) {

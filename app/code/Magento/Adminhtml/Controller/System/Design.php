@@ -95,7 +95,7 @@ class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Contr
 
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')
                     ->addSuccess(__('You deleted the design change.'));
-            } catch (\Magento\MagentoException $e) {
+            } catch (\Magento\Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')
                     ->addError($e->getMessage());
             } catch (Exception $e) {
