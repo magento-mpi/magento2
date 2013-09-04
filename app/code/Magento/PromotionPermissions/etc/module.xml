@@ -9,9 +9,15 @@
 -->
 <config>
     <module name="Magento_PromotionPermissions" version="1.11.0.0" active="false">
+        <sequence>
+            <module name="Magento_CatalogRule"/>
+            <module name="Magento_SalesRule"/>
+        </sequence>
         <depends>
-            <module name="Magento_CatalogRule" />
-            <module name="Magento_SalesRule" />
+            <module name="Magento_Banner"/>
+            <module name="Magento_Reminder"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Core"/>
         </depends>
     </module>
 </config>

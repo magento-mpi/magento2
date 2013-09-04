@@ -9,8 +9,10 @@
 -->
 <config>
     <module name="Module_Two" version="1.0.0.0" active="true">
-        <depends>
+        <sequence>
             <module name="Module_One" />
+        </sequence>
+        <depends>
             <extension name="spl" />
         </depends>
     </module>
