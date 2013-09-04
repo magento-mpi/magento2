@@ -31,8 +31,7 @@ class Magento_Core_Controller_Varien_Action_ForwardTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_request  = new Magento_Core_Controller_Request_Http($this->getMock('Magento_Backend_Helper_Data',
-            array(), array(), '', false));
+        $this->_request  = new Magento_Core_Controller_Request_Http();
         $this->_response = new Magento_Core_Controller_Response_Http();
 
         $this->_object = new Magento_Core_Controller_Varien_Action_Forward($this->_request, $this->_response);
