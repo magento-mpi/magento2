@@ -26,14 +26,12 @@ class Magento_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config
     protected $_coreStoreConfig = null;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param $attributes
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         $attributes = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreStoreConfig = Mage::getObjectManager()->get('Magento_Core_Model_Store_Config');
         parent::__construct($attributes);
     }
 
@@ -44,6 +42,8 @@ class Magento_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config
      */
     protected function _getValueFromConfig()
     {
-        return $this->_coreStoreConfig->getConfig(Magento_GiftMessage_Helper_Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS);
+        return $this->_coreStoreConfig->getConfig(
+            Magento_GiftMessage_Helper_Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS
+        );
     }
 }

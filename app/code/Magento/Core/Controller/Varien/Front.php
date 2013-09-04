@@ -29,6 +29,11 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     protected $_rewriteFactory;
 
     /**
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @var array
      */
     protected $_defaults = array();
@@ -43,17 +48,20 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     /**
      * @param Magento_Core_Controller_Varien_Router_Factory $routerFactory
      * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Controller_Varien_Router_Factory $routerFactory,
         Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         parent::__construct($data);
 
         $this->_routerFactory  = $routerFactory;
         $this->_rewriteFactory = $rewriteFactory;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     public function setDefault($key, $value=null)
@@ -353,7 +361,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
             return;
         }
 
-        $redirectCode = (int)$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('web/url/redirect_to_base');
+        $redirectCode = (int)$this->_coreStoreConfig->getConfig('web/url/redirect_to_base');
         if (!$redirectCode) {
             return;
         } elseif ($redirectCode != 301) {
