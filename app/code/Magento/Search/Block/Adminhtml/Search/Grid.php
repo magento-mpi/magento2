@@ -29,7 +29,6 @@ class Magento_Search_Block_Adminhtml_Search_Grid extends Magento_Backend_Block_W
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Search_Model_Adminhtml_Search_Grid_Options $options
@@ -38,14 +37,13 @@ class Magento_Search_Block_Adminhtml_Search_Grid extends Magento_Backend_Block_W
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Search_Model_Adminhtml_Search_Grid_Options $options,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($context, $coreStoreConfig, $storeManager, $urlModel, $data);
+        parent::__construct($context, $storeManager, $urlModel, $data);
         $this->_options = $options;
         $this->_registryManager = $registry;
         $this->setDefaultFilter(array('query_id_selected' => 1));
