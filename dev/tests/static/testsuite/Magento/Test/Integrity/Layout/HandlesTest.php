@@ -23,6 +23,7 @@ class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCa
         $type = $node['type'];
         $parent = $node['parent'];
         $owner = $node['owner'];
+        $label = $node['label'];
         if ($type) {
             switch ($type) {
                 case 'page':
@@ -40,6 +41,9 @@ class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCa
                     break;
             }
         } else {
+            if ($label) {
+                $issues[] = 'Attribute "label" is defined, but "type" is not';
+            }
             if ($parent || $owner) {
                 $issues[] = 'Attribute "parent" and/or "owner" is defined, but "type" is not';
             }
