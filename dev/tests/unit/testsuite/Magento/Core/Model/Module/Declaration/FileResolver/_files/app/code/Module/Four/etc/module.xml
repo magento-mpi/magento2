@@ -9,8 +9,8 @@
 -->
 <config>
     <module name="Module_Four" version="1.0.0.0" active="true">
-        <depends>
+        <sequence>
             <module name="Module_One" />
-        </depends>
+        </sequence>
     </module>
 </config>
