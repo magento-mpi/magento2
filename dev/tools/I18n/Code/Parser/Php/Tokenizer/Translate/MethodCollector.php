@@ -1,13 +1,19 @@
 <?php
 /**
- * PPH phrase collector. Collect phrases from method __()
- *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Tokenizer_Translate_MethodCollector extends Magento_Tokenizer_PhraseCollector
+
+namespace Magento\Tools\I18n\Code\Parser\Php\Tokenizer\Translate;
+
+use Magento\Tools\I18n\Code\Parser\Php\Tokenizer\PhraseCollector;
+
+/**
+ * MethodCollector
+ */
+class MethodCollector extends PhraseCollector
 {
     /**
      * Extract phrases from given tokens. e.g.: __('phrase', ...)
@@ -25,7 +31,9 @@ class Magento_Tokenizer_Translate_MethodCollector extends Magento_Tokenizer_Phra
     }
 
     /**
-     * @param Magento_Tokenizer_Token $token
+     * Check if token is translated function
+     *
+     * @param \Magento\Tools\I18n\Code\Parser\Php\Tokenizer\Token $token
      * @return bool
      */
     protected function _isTranslateFunction($token)

@@ -1,25 +1,35 @@
 <?php
 /**
- * Token class
- *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Tokenizer_Token
+
+namespace Magento\Tools\I18n\Code\Parser\Php\Tokenizer;
+
+/**
+ * Token
+ */
+class Token
 {
     /**
+     * Value
+     *
      * @var int|string
      */
     private $_value;
 
     /**
+     * Name
+     *
      * @var int|string
      */
     private $_name;
 
     /**
+     * Line
+     *
      * @var int
      */
     private $_line;

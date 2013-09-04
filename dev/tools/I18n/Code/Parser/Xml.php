@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code\Dictionary\Parser;
+namespace Magento\Tools\I18n\Code\Parser;
 
 /**
  * Xml data parser

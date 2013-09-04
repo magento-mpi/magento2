@@ -1,26 +1,34 @@
 <?php
 /**
- * PPH phrase collector. Collect phrases from __() function
- *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Tokenizer_PhraseCollector
+
+namespace Magento\Tools\I18n\Code\Parser\Php\Tokenizer;
+
+/**
+ * PhraseCollector
+ */
+class PhraseCollector
 {
     /**
-     * @var Magento_Tokenizer_Tokenizer
+     * @var \Magento\Tools\I18n\Code\Parser\Php\Tokenizer
      */
     protected $_tokenizer;
 
     /**
+     * Phrases
+     *
      * @var array
      */
     protected $_phrases = array();
 
     /**
-     * @var SplFileInfo
+     * Processed file
+     *
+     * @var \SplFileInfo
      */
     protected $_file;
 
@@ -29,7 +37,7 @@ class Magento_Tokenizer_PhraseCollector
      */
     public function __construct()
     {
-        $this->_tokenizer = new Magento_Tokenizer_Tokenizer();
+        $this->_tokenizer = new \Magento\Tools\I18n\Code\Parser\Php\Tokenizer();
     }
 
     /**
@@ -82,7 +90,7 @@ class Magento_Tokenizer_PhraseCollector
     {
         $phrase = array();
         if ($phraseTokens) {
-            /** @var $phraseToken Magento_Tokenizer_Token*/
+            /** @var \Magento\Tools\I18n\Code\Parser\Php\Tokenizer\Token $phraseToken */
             foreach ($phraseTokens as $phraseToken) {
                 if ($phraseToken->isConstantEncapsedString()) {
                     $phrase[] = $phraseToken->getValue();
@@ -100,7 +108,7 @@ class Magento_Tokenizer_PhraseCollector
      *
      * @param string $phrase
      * @param int $argumentsAmount
-     * @param SplFileInfo $file
+     * @param \SplFileInfo $file
      * @param int $line
      */
     protected function _addPhrase($phrase, $argumentsAmount, $file, $line)

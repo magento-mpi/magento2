@@ -6,10 +6,10 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code\Dictionary\Parser;
+namespace Magento\Tools\I18n\Code\Parser;
 
-use Magento\Tools\I18n\Code\Dictionary\ParserInterface;
-use Magento\Tools\I18n\Code\Dictionary\ContextDetector;
+use Magento\Tools\I18n\Code\ParserInterface;
+use Magento\Tools\I18n\Code\Context;
 
 /**
  * Abstract data parser
@@ -24,11 +24,11 @@ abstract class AbstractParser implements ParserInterface
     protected $_files;
 
     /**
-     * Context detector
+     * Context
      *
-     * @var ContextDetector
+     * @var \Magento\Tools\I18n\Code\Context
      */
-    protected $_contextDetector;
+    protected $_context;
 
     /**
      * Parsed phrases
@@ -41,12 +41,12 @@ abstract class AbstractParser implements ParserInterface
      * Parser construct
      *
      * @param array $files
-     * @param ContextDetector $contextDetector
+     * @param \Magento\Tools\I18n\Code\Context $context
      */
-    public function __construct(array $files, ContextDetector $contextDetector)
+    public function __construct(array $files, Context $context)
     {
         $this->_files = $files;
-        $this->_contextDetector = $contextDetector;
+        $this->_context = $context;
     }
 
     /**
@@ -90,7 +90,7 @@ abstract class AbstractParser implements ParserInterface
             throw new \InvalidArgumentException(sprintf('Phrase cannot be empty. File: "%s" Line: "%s"', $file, $line));
         }
         $phrase = $this->_stripQuotes($phrase);
-        list($contextType, $contextValue) = $this->_contextDetector->getContext($file);
+        list($contextType, $contextValue) = $this->_context->getContextByPath($file);
         $phraseKey = $contextType . '::' . $phrase;
 
         if (isset($this->_phrases[$phraseKey])) {

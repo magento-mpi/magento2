@@ -1,31 +1,42 @@
 <?php
 /**
- * Split php into tokens and provide methods for iterate through tokens
- * note: implementation of Iterator is to slow for this purpose
- *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Tokenizer_Tokenizer
+
+namespace Magento\Tools\I18n\Code\Parser\Php;
+
+/**
+ * Tokenizer
+ */
+class Tokenizer
 {
     /**
+     * Tokens
+     *
      * @var array
      */
     private $_tokens = array();
 
     /**
+     * Tokens count
+     *
      * @var int
      */
     private $_tokensCount;
 
     /**
+     * Open brackets
+     *
      * @var int
      */
     private $_openBrackets;
 
     /**
+     * Close brackets
+     *
      * @var int
      */
     private $_closeBrackets;
@@ -52,7 +63,7 @@ class Magento_Tokenizer_Tokenizer
         try {
             $this->_openBrackets = 1;
             $this->_closeBrackets = 0;
-            $argumentN = 0;
+            $argumentNumber = 0;
             while (true) {
                 $token = $this->getNextToken();
                 if ($token->isSemicolon()) {
@@ -65,16 +76,16 @@ class Magento_Tokenizer_Tokenizer
                 if ($token->isCloseBrace()) {
                     $this->_closeBrackets++;
                 }
-                $arguments[$argumentN][] = $token;
+                $arguments[$argumentNumber][] = $token;
                 if ($token->isComma() && $this->_isInnerArgumentClosed()) {
-                    array_pop($arguments[$argumentN]);
-                    $argumentN++;
+                    array_pop($arguments[$argumentNumber]);
+                    $argumentNumber++;
                 }
                 if ($this->_openBrackets == $this->_closeBrackets) {
                     break;
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return array();
         }
         return $arguments;
@@ -110,7 +121,7 @@ class Magento_Tokenizer_Tokenizer
     /**
      * Get current token
      *
-     * @return Magento_Tokenizer_Token
+     * @return \Magento\Tools\I18n\Code\Parser\Php\Tokenizer\Token
      */
     public function getCurrentToken()
     {
@@ -120,7 +131,7 @@ class Magento_Tokenizer_Tokenizer
     /**
      * Get next token
      *
-     * @return bool|Magento_Tokenizer_Token
+     * @return bool|\Magento\Tools\I18n\Code\Parser\Php\Tokenizer\Token
      */
     public function getNextToken()
     {
@@ -139,14 +150,14 @@ class Magento_Tokenizer_Tokenizer
      * Create token from array|string
      *
      * @param array|string $tokenData
-     * @return Magento_Tokenizer_Token
+     * @return \Magento\Tools\I18n\Code\Parser\Php\Tokenizer\Token
      */
     private function _createToken($tokenData)
     {
         if (is_array($tokenData)) {
-            return new Magento_Tokenizer_Token($tokenData[0], $tokenData[1], $tokenData[2]);
+            return new Tokenizer\Token($tokenData[0], $tokenData[1], $tokenData[2]);
         } else {
-            return new Magento_Tokenizer_Token($tokenData, $tokenData);
+            return new Tokenizer\Token($tokenData, $tokenData);
         }
     }
 }

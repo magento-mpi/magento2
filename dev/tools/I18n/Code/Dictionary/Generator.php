@@ -8,46 +8,59 @@
 
 namespace Magento\Tools\I18n\Code\Dictionary;
 
+use Magento\Tools\I18n\Code\Factory;
+
 /**
  * Dictionary generator
  */
-class Generator implements GeneratorInterface
+class Generator
 {
     /**
-     * @param ParserInterface
-     */
-    private $_parser;
-
-    /**
-     * WriterInterface
-     */
-    private $_writer;
-
-    /**
-     * Dictionary generator construct
+     * Domain abstract factory
      *
-     * @param ParserInterface $parser
-     * @param WriterInterface $writer
+     * @var \Magento\Tools\I18n\Code\Factory
      */
-    public function __construct(ParserInterface $parser, WriterInterface $writer)
+    protected $_factory;
+
+    /**
+     * Generator construct
+     *
+     * @param \Magento\Tools\I18n\Code\Factory $factory
+     */
+    public function __construct(Factory $factory)
     {
-        $this->_parser = $parser;
-        $this->_writer = $writer;
+        $this->_factory = $factory;
     }
 
     /**
-     * {@inheritdoc}
+     * Generate dictionary
+     *
+     * @param array $parseOptions
+     * @param string $outputFilename
+     * @param bool $withContext
      */
-    public function generate($withContext = true)
+    public function generate(array $parseOptions, $outputFilename, $withContext)
     {
-        $this->_parser->parse();
+        $parser = $this->_factory->createParser($parseOptions);
+        $writer = $this->_factory->createDictionaryWriter($outputFilename);
 
-        foreach ($this->_parser->getPhrases() as $phrase) {
+        $parser->parse();
+        foreach ($parser->getPhrases() as $phrase) {
             $fields = array($phrase['phrase'], $phrase['phrase']);
             if ($withContext) {
                 array_push($fields, $phrase['context_type'], implode(',', array_keys($phrase['context'])));
             }
-            $this->_writer->write($fields);
+            $writer->write($fields, $outputFilename);
         }
+    }
+
+    /**
+     * Get result message
+     *
+     * @return string
+     */
+    public function getResultMessage()
+    {
+        return "\nDictionary successfully processed.\n";
     }
 }

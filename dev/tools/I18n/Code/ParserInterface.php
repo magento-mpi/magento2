@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code\Dictionary;
+namespace Magento\Tools\I18n\Code;
 
 /**
  * Parser Interface

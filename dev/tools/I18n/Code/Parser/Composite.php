@@ -6,9 +6,9 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code\Dictionary\Parser;
+namespace Magento\Tools\I18n\Code\Parser;
 
-use Magento\Tools\I18n\Code\Dictionary\ParserInterface;
+use Magento\Tools\I18n\Code\ParserInterface;
 
 /**
  * Composite data parser
@@ -16,16 +16,16 @@ use Magento\Tools\I18n\Code\Dictionary\ParserInterface;
 class Composite implements ParserInterface
 {
     /**
-     * List of ParserInterface
+     * List of parsers
      *
-     * @var array|ParserInterface[]
+     * @var \Magento\Tools\I18n\Code\ParserInterface[]
      */
     protected $_parsers = array();
 
     /**
      * Add parser
      *
-     * @param ParserInterface $parser
+     * @param \Magento\Tools\I18n\Code\ParserInterface $parser
      */
     public function add(ParserInterface $parser)
     {
