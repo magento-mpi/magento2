@@ -204,7 +204,7 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
     protected function _caseAttributeModule($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::TYPE_SOFT =>
+            Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
             '/(?<source><.+module\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)[\'"].*>)/',
         );
@@ -228,10 +228,10 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
     protected function _caseElementBlock($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::TYPE_HARD =>
+            Magento_Test_Integrity_DependencyTest::TYPE_HARD =>
             '/(?<source><block.*type\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}[\'"].*>)/',
-            Integrity_DependencyTest::TYPE_SOFT =>
+            Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
             '/(?<source><block.*template\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+[\'"].*>)/',
         );
@@ -257,16 +257,16 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
     protected function _caseElementAction($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::TYPE_SOFT =>
+            Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
             '/(?<source><block\s*>(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}<\/block\s*>)/',
-            Integrity_DependencyTest::TYPE_SOFT =>
+            Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
             '/(?<source><template\s*>(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+<\/template\s*>)/',
-            Integrity_DependencyTest::TYPE_SOFT =>
+            Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
             '/(?<source><file\s*>(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+<\/file\s*>)/',
-            Integrity_DependencyTest::TYPE_SOFT =>
+            Magento_Test_Integrity_DependencyTest::TYPE_SOFT =>
             '/(?<source><.*helper\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-z]+_?){1,}::[\w]+[\'"].*>)/',
         );
@@ -298,7 +298,7 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
                 $result[$module] = array(
-                    'type' => Integrity_DependencyTest::TYPE_SOFT,
+                    'type' => Magento_Test_Integrity_DependencyTest::TYPE_SOFT,
                     'source' => $element->getName(),
                 );
             }
@@ -331,7 +331,7 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
                 $result[$module] = array(
-                    'type' => Integrity_DependencyTest::TYPE_HARD,
+                    'type' => Magento_Test_Integrity_DependencyTest::TYPE_HARD,
                     'source' => (string)$element,
                 );
             }
@@ -364,7 +364,7 @@ class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramewo
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
                 $result[$module] = array(
-                    'type' => Integrity_DependencyTest::TYPE_SOFT,
+                    'type' => Magento_Test_Integrity_DependencyTest::TYPE_SOFT,
                     'source' => (string)$element,
                 );
             }
