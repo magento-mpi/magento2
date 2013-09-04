@@ -12,13 +12,15 @@
 <?php
 /**
  * Declare a list of components and its dependencies to resources
- * @var $this Magento_Core_Block_Template
  */
 ?>
+
+<?php /** @var $this Magento_Adminhtml_Block_Page_Js_Components */ ?>
+
 <script type="text/javascript">
 (function($) {
     'use strict';
-    $.mage.isDevMode(<?php echo Mage::getIsDeveloperMode() ?>);
+    $.mage.isDevMode(<?php echo $this->isDeveloperMode() ?>);
 
     /**
      * Declaration of resources needed for defined components

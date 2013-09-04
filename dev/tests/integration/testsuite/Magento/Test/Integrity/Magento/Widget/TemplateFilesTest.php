@@ -21,7 +21,8 @@ class Magento_Test_Integrity_Magento_Widget_TemplateFilesTest extends PHPUnit_Fr
     public function testWidgetTemplates($class, $template)
     {
         /** @var $blockFactory Magento_Core_Model_BlockFactory */
-        $blockFactory = Mage::getObjectManager()->get('Magento_Core_Model_BlockFactory');
+        $blockFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_BlockFactory');
         /** @var Magento_Core_Block_Template $block */
         $block = $blockFactory->createBlock($class);
         $this->assertInstanceOf('Magento_Core_Block_Template', $block);

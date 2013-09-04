@@ -24,7 +24,8 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         /** @var Magento_Webhook_Model_Resource_Event_Collection $eventCollection */
-        $eventCollection = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection');
+        $eventCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Resource_Event_Collection');
         /** @var array $event */
         $events = $eventCollection->getItems();
         /** @var Magento_Webhook_Model_Event $event */
@@ -34,7 +35,8 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
         }
 
         /** @var $factory Magento_Webhook_Model_Event_Factory */
-        $factory = Mage::getObjectManager()->create('Magento\PubSub\Event\FactoryInterface');
+        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento\PubSub\Event\FactoryInterface');
 
         /** @var $event Magento_Webhook_Model_Event */
         $factory->create('testinstance/created', array(
@@ -45,14 +47,14 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
             'testKey2' => 'testValue2'
         ))->save();
 
-        $endpoint = Mage::getObjectManager()->create('Magento_Webhook_Model_Endpoint')
+        $endpoint = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webhook_Model_Endpoint')
             ->setEndpointUrl(self::ENDPOINT_URL)
             ->setFormat('json')
             ->setAuthenticationType('hmac')
             ->setTimeoutInSecs('20')
             ->save();
 
-        Mage::getObjectManager()->configure(array(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
             'Magento_Core_Model_Config_Base' => array(
                 'parameters' => array(
                     'sourceData' => __DIR__ . '/../_files/config.xml',
@@ -66,7 +68,8 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
         ));
 
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setData(
             array(
                 'name' => 'test',
@@ -80,7 +83,8 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ))->save();
 
         // Simulate activating of the subscription
-        $webApiUser = Mage::getObjectManager()->create('Magento_Webapi_Model_Acl_User')
+        $webApiUser = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webapi_Model_Acl_User')
             ->setData('api_key', 'test')
             ->setData('secret', 'secret')
             ->save();
@@ -90,7 +94,8 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
             ->save();;
 
-        $this->_model = Mage::getObjectManager()->get('Magento\PubSub\Event\QueueHandler');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento\PubSub\Event\QueueHandler');
     }
 
     /**
@@ -100,7 +105,8 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->handle();
         /** @var $queue \Magento\PubSub\Job\QueueReaderInterface */
-        $queue = Mage::getObjectManager()->get('Magento\PubSub\Job\QueueReaderInterface');
+        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento\PubSub\Job\QueueReaderInterface');
 
         /* First EVENT */
         $job = $queue->poll();

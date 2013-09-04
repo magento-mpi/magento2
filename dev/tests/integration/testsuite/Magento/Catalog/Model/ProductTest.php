@@ -34,7 +34,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         /** @var Magento_Catalog_Model_Product_Media_Config $config */
         $config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
 
-        $filesystem = Mage::getObjectManager()->get('Magento\Filesystem');
+        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Filesystem');
         $filesystem->delete($config->getBaseMediaPath());
         $filesystem->delete($config->getBaseTmpMediaPath());
     }
@@ -101,7 +101,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $targetFile = $baseTmpMediaPath . DS . basename($sourceFile);
 
         /** @var \Magento\Filesystem $filesystem */
-        $filesystem = Mage::getObjectManager()->create('Magento\Filesystem');
+        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $filesystem->setIsAllowCreateDirectories(true);
         $filesystem->copy($sourceFile, $targetFile);
 

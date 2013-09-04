@@ -12,10 +12,10 @@
 $installer = $this;
 
 /**
- * Create table 'enterprise_scheduled_operations'
+ * Create table 'magento_scheduled_operations'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_scheduled_operations'))
+    ->newTable($installer->getTable('magento_scheduled_operations'))
     ->addColumn('id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,

@@ -41,7 +41,7 @@
                 form_key: FORM_KEY
             },
             sequentialUploads: true,
-            maxFileSize: <?php echo Mage::getObjectManager()->get('Magento\File\Size')->getMaxFileSize()?>,
+            maxFileSize: <?php echo $this->getFileSizeService()->getMaxFileSize()?>,
             add: function(e, data) {
                 $.each(data.files, function (index, file) {
                     data.fileId =  Math.random().toString(36).substr(2,9);

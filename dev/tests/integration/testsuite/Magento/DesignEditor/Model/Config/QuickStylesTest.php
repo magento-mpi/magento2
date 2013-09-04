@@ -31,13 +31,16 @@ class Magento_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framewor
      */
     protected function setUp()
     {
-        $this->_design = Mage::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_design = $objectManager->get('Magento_Core_Model_View_DesignInterface');
         $this->_design->setDesignTheme('vendor_test', Magento_Core_Model_View_DesignInterface::DEFAULT_AREA);
-        $this->_viewFileSystem = Mage::getObjectManager()->get('Magento_Core_Model_View_FileSystem');
+        $this->_viewFileSystem = $objectManager->get('Magento_Core_Model_View_FileSystem');
         $quickStylesPath = $this->_viewFileSystem->getFilename('Magento_DesignEditor::controls/quick_styles.xml');
         $this->assertFileExists($quickStylesPath);
-        $this->_model = Mage::getObjectManager()->create('Magento_DesignEditor_Model_Config_Control_QuickStyles',
-            array('configFiles' => array($quickStylesPath)));
+        $this->_model = $objectManager->create(
+            'Magento_DesignEditor_Model_Config_Control_QuickStyles',
+            array('configFiles' => array($quickStylesPath))
+        );
     }
 
     /**

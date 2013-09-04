@@ -36,13 +36,14 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     public static function setUpBeforeClass()
     {
         /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = Mage::getObjectManager()->create('Magento_Webapi_Model_Acl_User');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webapi_Model_Acl_User');
         $user->loadByKey(self::API_KEY);
         if ($user->getId()) {
             self::$_apiUserId = $user->getId();
         } else {
             /** @var Magento_Webhook_Model_Webapi_User_Factory $webapiUserFactory */
-            $webapiUserFactory = Mage::getObjectManager()->create('Magento_Webhook_Model_Webapi_User_Factory');
+            $webapiUserFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->create('Magento_Webhook_Model_Webapi_User_Factory');
             self::$_apiUserId = $webapiUserFactory->createUser(
                 array(
                     'email'      => 'email@localhost.com',
@@ -63,7 +64,8 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         Mage::getConfig()->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');
 
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setAlias('inactive')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/endpoint')
@@ -75,7 +77,8 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $this->_subscriptions[] = $subscription;
 
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setAlias('first')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/endpoint')
@@ -86,7 +89,8 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        $subscription = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setAlias('second')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/unique_endpoint')
@@ -97,7 +101,8 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        $subscription = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setAlias('third')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/unique_endpoint')
@@ -109,7 +114,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        $this->_subscriptionSet = Mage::getObjectManager()
+        $this->_subscriptionSet = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Webhook_Model_Resource_Subscription_Collection');
     }
 

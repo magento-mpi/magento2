@@ -26,6 +26,6 @@ class Magento_SalesArchive_Model_Resource_Order_Creditmemo_Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->setMainTable('enterprise_sales_creditmemo_grid_archive');
+        $this->setMainTable('magento_sales_creditmemo_grid_archive');
     }
 }

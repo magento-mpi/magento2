@@ -13,13 +13,13 @@ app/code/Magento/Theme/view
 app/code/Magento/User/view
 app/code/Magento/Webapi/view
 app/code/Magento/Webhook/view
-dev/tests/integration/testsuite/Magento/Code/_files
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/TemplateFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Theme/TemplateFilesTest.php
 dev/tests/integration/testsuite/Magento/Backend/Block/System/Config/FormStub.php
 dev/tests/integration/tmp
-dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpcs/input
-dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpmd/input
+dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input
+dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input
+dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/expected
 dev/tests/static/testsuite/Magento/Test/Legacy/_files
 lib/Magento/Archive.php
 lib/Magento/Archive/Abstract.php

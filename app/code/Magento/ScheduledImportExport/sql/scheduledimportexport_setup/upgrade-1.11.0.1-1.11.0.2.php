@@ -13,7 +13,7 @@ $installer = $this;
 
 $installer->getConnection()
     ->addColumn(
-        $installer->getTable('enterprise_scheduled_operations'),
+        $installer->getTable('magento_scheduled_operations'),
         'entity_subtype',
         array(
             'type'     => \Magento\DB\Ddl\Table::TYPE_TEXT,

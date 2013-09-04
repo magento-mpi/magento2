@@ -29,12 +29,12 @@ class Magento_FullPageCache_Model_Cache extends Magento_Core_Model_Cache
      */
     public function __construct(Magento_Core_Model_Cache_Frontend_Pool $frontendPool)
     {
-        \Magento\Profiler::start('enterprise_page_cache_create', array(
-            'group' => 'enterprise_page_cache',
-            'operation' => 'enterprise_page_cache:create'
+        \Magento\Profiler::start('magento_fullpage_cache_create', array(
+            'group' => 'magento_fullpage_cache',
+            'operation' => 'magento_fullpage_cache:create'
         ));
 
         parent::__construct($frontendPool);
-        \Magento\Profiler::stop('enterprise_page_cache_create');
+        \Magento\Profiler::stop('magento_fullpage_cache_create');
     }
 }

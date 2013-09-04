@@ -106,23 +106,28 @@ class Graph
     /**
      * Find a cycle in the graph
      *
-     * Returns first found cycle
+     * Returns first/all found cycle
      * Optionally may specify a node to return a cycle if it is in any
      *
      * @param string|int $node
+     * @param boolean $firstOnly found only first cycle
      * @return array
      */
-    public function findCycle($node = null)
+    public function findCycle($node = null, $firstOnly = true)
     {
         $nodes = (null === $node) ? $this->_nodes : array($node);
-        $result = array();
+        $results = array();
         foreach ($nodes as $node) {
             $result = $this->dfs($node, $node);
             if ($result) {
-                break;
+                if ($firstOnly) {
+                    return $result;
+                } else {
+                    $results[] = $result;
+                }
             }
         }
-        return $result;
+        return $results;
     }
 
     /**

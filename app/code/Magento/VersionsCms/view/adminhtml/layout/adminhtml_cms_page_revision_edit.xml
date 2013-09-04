@@ -16,7 +16,7 @@
             </action>
         </reference>
         <reference name="head.components">
-            <block class="Magento_Core_Block_Template" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
+            <block class="Magento_Adminhtml_Block_Page_Js_Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
         </reference>
         <reference name="content">
             <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit" name="cms_page_revision_edit">

@@ -158,6 +158,7 @@ class namespacer
         "DOMEntityReference",
         "DOMProcessingInstruction",
         "DOMStringExtend",
+        "Iterator",
         "PDOException",
         "PDOStatement",
         "PDORow",
@@ -188,8 +189,8 @@ class namespacer
         $this->rootDirPath = realpath(__DIR__);
         $this->path = $path;
         $this->gitShell = new Magento\Shell(null);
-        //$this->gitClassMove();
-        //$this->gitListPackageMove();
+        $this->gitClassMove();
+        $this->gitListPackageMove();
         $this->rootDirectory = $rootDirectory;
         if($tesDir){
             $this->testDir=$path;
@@ -207,7 +208,6 @@ class namespacer
 
             }
         }
-
     }
 
     public function gitClassMove()

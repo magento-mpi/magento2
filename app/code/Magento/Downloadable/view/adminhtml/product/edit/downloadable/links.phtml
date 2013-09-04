@@ -27,7 +27,7 @@
             <?php endif; ?>
         </div>
         <div class="field-service">
-            <?php echo !Mage::app()->isSingleStoreMode() ? __('[STORE VIEW]') : ''; ?>
+            <?php echo !$this->isSingleStoreMode() ? __('[STORE VIEW]') : ''; ?>
         </div>
     </div>
 
@@ -37,7 +37,7 @@
             <?php echo $this->getPurchasedSeparatelySelect()?>
         </div>
         <div class="field-service">
-            <?php echo !Mage::app()->isSingleStoreMode() ? __('[GLOBAL]') : ''; ?>
+            <?php echo !$this->isSingleStoreMode() ? __('[GLOBAL]') : ''; ?>
         </div>
     </div>
 
@@ -82,7 +82,7 @@ var linkTemplate = '<tr>'+
     <?php if ($this->getCanReadPrice() !== false) : ?>
     '<td class="input-price">'+
         '<input type="text" id="downloadable_link_{{id}}_price_value" class="input-text validate-number link-prices<?php if ($this->getCanEditPrice() === false) : ?> disabled<?php endif; ?>" name="downloadable[link][{{id}}][price]" value="{{price}}"<?php if ($this->getCanEditPrice() === false) : ?> disabled="disabled"<?php endif; ?> /> ' +
-        '<label>[<?php echo Mage::app()->getStore($_product->getStoreId())->getBaseCurrencyCode() ?>]</label>' +
+        '<label>[<?php echo $this->getBaseCurrencyCode($_product->getStoreId()) ?>]</label>' +
         <?php if ($_product->getStoreId() && $this->getIsPriceWebsiteScope()) : ?>
         '<br /><input type="checkbox" id="downloadable_link_{{id}}_price" name="downloadable[link][{{id}}][use_default_price]" value="1"<?php if ($this->getCanEditPrice() === false) : ?> disabled="disabled"<?php endif; ?> /> <label for="downloadable_link_{{id}}_price">Use Default Value</label>' +
         <?php endif; ?>

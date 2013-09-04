@@ -83,6 +83,19 @@ class Magento_Data_GraphTest extends PHPUnit_Framework_TestCase
         sort($cycle);
         $this->assertEquals(array(2, 2, 3, 4), $cycle);
         $this->assertEquals(array(3, 4, 2, 3), $model->findCycle(3));
+
+        $model = new \Magento\Data\Graph($nodes, array(
+            array(1, 2), array(2, 3), array(3, 4), array(4, 2), array(3, 1)
+        ));
+        //find cycles for each node
+        $cycles = $model->findCycle(null, false);
+        $this->assertEquals(
+            array(
+                array(1, 2, 3, 1),
+                array(2, 3, 4, 2),
+                array(3, 4, 2, 3),
+                array(4, 2, 3, 4),
+            ), $cycles);
     }
 
     public function testDfs()

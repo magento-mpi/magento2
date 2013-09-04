@@ -37,7 +37,7 @@
                 },
                 sequentialUploads: true,
                 acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-                maxFileSize: <?php echo Mage::getObjectManager()->get('Magento\File\Size')->getMaxFileSize()?>,
+                maxFileSize: <?php echo $this->getFileSizeService()->getMaxFileSize()?>,
                 add: function(e, data) {
                     var $template = $('#<?php echo $this->getHtmlId(); ?>-template');
                     $.each(data.files, function (index, file) {
@@ -77,7 +77,7 @@
                     {
                         action: 'load',
                         fileTypes: /^image\/(gif|jpeg|png)$/,
-                        maxFileSize: <?php echo Mage::getObjectManager()->get('Magento\File\Size')->getMaxFileSize() ?> * 10
+                        maxFileSize: <?php echo $this->getFileSizeService()->getMaxFileSize() ?> * 10
                     },
                     {
                         action: 'resize',

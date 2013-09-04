@@ -9,11 +9,19 @@
 -->
 <config>
     <module name="Magento_Newsletter" version="1.6.0.2" active="true">
+        <sequence>
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Widget"/>
+        </sequence>
         <depends>
-            <module name="Magento_Core" />
-            <module name="Magento_Customer" />
-            <module name="Magento_Eav" />
-            <module name="Magento_Widget" />
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Widget"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Adminhtml" type="soft"/>
+            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>
