@@ -32,10 +32,20 @@ abstract class Magento_Core_Model_Layout_Argument_HandlerAbstract
     }
 
     /**
-     * @param Magento_ObjectManager $argument
+     * @param Magento_Core_Model_Layout_Element $argument
      * @return array
      */
-    public abstract function parse(Magento_Core_Model_Layout_Element $argument);
+    public function parse(Magento_Core_Model_Layout_Element $argument)
+    {
+        $result = array();
+        $updaters = array();
+        $result['type'] = (string)$argument->attributes('xsi', true)->type;
+        foreach ($argument->xpath('./updater') as $updaterNode) {
+            /** @var $updaterNode Magento_Core_Model_Layout_Element */
+            $updaters[] = trim((string)$updaterNode);
+        }
+        return !empty($updaters) ? $result + array('updaters' => $updaters) : $result;
+    }
 
     /**
      * Retrieve value from argument

@@ -52,7 +52,7 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
     }
 
     /**
-     * @param array $arguments
+     * @param array $argument
      * @param boolean $isUpdater
      * @param mixed $result
      * @dataProvider processArgumentsDataProvider
@@ -76,7 +76,7 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
                 ->method('applyUpdaters')
                 ->with(
                     $this->equalTo($argument['value']),
-                    $this->equalTo($argument['updater'])
+                    $this->equalTo($argument['updaters'])
                 )
                 ->will($this->returnValue($argument['value'] . '_Updated'));
         } else {
@@ -101,7 +101,7 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
             array(
                 array(
                     'type' => 'string',
-                    'updater' => array('Dummy_Updater_Class'),
+                    'updaters' => array('Dummy_Updater_Class'),
                     'value' => 'Dummy_Argument_Value_Class_Name'
                 ),
                 true,

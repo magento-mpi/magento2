@@ -71,8 +71,8 @@ class Magento_Core_Model_Layout_Argument_Processor
     {
         $handler = $this->_handlerFactory->getArgumentHandlerByType($argument['type']);
         $result = $handler->process($argument);
-        if (!empty($argument['updater'])) {
-            $result = $this->_argumentUpdater->applyUpdaters($result, $argument['updater']);
+        if (!empty($argument['updaters'])) {
+            $result = $this->_argumentUpdater->applyUpdaters($result, $argument['updaters']);
         }
         return $result;
     }

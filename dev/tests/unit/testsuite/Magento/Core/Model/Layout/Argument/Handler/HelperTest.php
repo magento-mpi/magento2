@@ -44,7 +44,7 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
     public function testParse($argument, $expectedResult)
     {
         $result = $this->_model->parse($argument);
-        $this->assertEquals($result, $expectedResult);
+        $this->assertEquals($result['value'], $expectedResult['value']);
     }
 
     /**

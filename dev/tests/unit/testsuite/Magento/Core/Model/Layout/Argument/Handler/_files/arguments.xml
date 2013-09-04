@@ -23,6 +23,16 @@
                 <argument name="testSimpleString" xsi:type="string">Simple Test</argument>
                 <argument name="testTranslateString" xsi:type="string" translate="true">Test Translate</argument>
                 <argument name="testComplexString" xsi:type="string"><value>Complex Test</value></argument>
+                <argument name="testUrlWithParams" xsi:type="url" path="module/controller/action">
+                    <param name="firstParam">firstValue</param>
+                    <param name="secondParam">secondValue</param>
+                </argument>
+                <argument name="testUrlWithoutParams" xsi:type="url" path="module/controller/action"/>
+                <argument name="testParseWithUpdater" xsi:type="string">
+                    <value>Some Value</value>
+                    <updater>Magento_Test_Updater</updater>
+                </argument>
+                <argument name="testParseWithoutUpdater" xsi:type="string">Some Value</argument>
             </arguments>
         </block>
     </handle>
