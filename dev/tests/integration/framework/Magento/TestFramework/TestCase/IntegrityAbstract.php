@@ -64,7 +64,8 @@ abstract class Magento_TestFramework_TestCase_IntegrityAbstract extends PHPUnit_
     {
         $themeItems = array();
         /** @var $themeCollection Magento_Core_Model_Theme_Collection */
-        $themeCollection = Mage::getObjectManager()->create('Magento_Core_Model_Resource_Theme_Collection');
+        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Theme_Collection');
         /** @var $theme Magento_Core_Model_Theme */
         foreach ($themeCollection as $theme) {
             $themeItems[$theme->getId()] = $theme;

@@ -52,7 +52,7 @@ class Magento_Core_Model_Module_Declaration_Converter_DomTest extends PHPUnit_Fr
             ),
             'Dependency module node without "name" attribute' => array(
                 '<?xml version="1.0"?><config><module name="Module_One" version="1.0.0.0" active="true">'
-                    . '<depends><module/></depends></module></config>'
+                    . '<sequence><module/></sequence></module></config>'
             ),
             'Dependency extension node without "name" attribute' => array(
                 '<?xml version="1.0"?><config><module name="Module_One" version="1.0.0.0" active="true">'

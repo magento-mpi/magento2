@@ -56,23 +56,24 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
      */
     public function testGetPhysicalTheme()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         //1. set up fixture
         /** @var $physicalTheme Magento_Core_Model_Theme */
-        $physicalTheme = Mage::getObjectManager()->create('Magento_Core_Model_Theme');
+        $physicalTheme = $objectManager->create('Magento_Core_Model_Theme');
         $physicalTheme->setData($this->_themes['physical']);
         $physicalTheme->save();
 
         $this->_themes['virtual']['parent_id'] = $physicalTheme->getId();
 
         /** @var $virtualTheme Magento_Core_Model_Theme */
-        $virtualTheme = Mage::getObjectManager()->create('Magento_Core_Model_Theme');
+        $virtualTheme = $objectManager->create('Magento_Core_Model_Theme');
         $virtualTheme->setData($this->_themes['virtual']);
         $virtualTheme->save();
 
         $this->_themes['staging']['parent_id'] = $virtualTheme->getId();
 
         /** @var $stagingTheme Magento_Core_Model_Theme */
-        $stagingTheme = Mage::getObjectManager()->create('Magento_Core_Model_Theme');
+        $stagingTheme = $objectManager->create('Magento_Core_Model_Theme');
         $stagingTheme->setData($this->_themes['staging']);
         $stagingTheme->save();
 
@@ -81,7 +82,7 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
 
         //2. run test
         /** @var $virtualTheme Magento_Core_Model_Theme */
-        $virtualTheme = Mage::getObjectManager()->create('Magento_Core_Model_Theme');
+        $virtualTheme = $objectManager->create('Magento_Core_Model_Theme');
         $virtualTheme->load($this->_virtualThemeId);
 
         $this->assertEquals(

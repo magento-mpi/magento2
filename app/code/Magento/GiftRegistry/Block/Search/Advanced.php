@@ -10,14 +10,22 @@
 
 /**
  * Gift registry advanced search block
- *
- * @category   Magento
- * @package    Magento_GiftRegistry
  */
 class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Block_Form_Element
 {
     protected $_attributes = null;
     protected $_formData = null;
+
+    /**
+     * Get config
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public function getConfig($path)
+    {
+        return $this->_storeConfig->getConfig($path);
+    }
 
     /**
      * Block constructor

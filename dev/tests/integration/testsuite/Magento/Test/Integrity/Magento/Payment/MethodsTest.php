@@ -23,7 +23,8 @@ class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framewo
     public function testPaymentMethod($code, $methodClass)
     {
         /** @var $blockFactory Magento_Core_Model_BlockFactory */
-        $blockFactory = Mage::getObjectManager()->get('Magento_Core_Model_BlockFactory');
+        $blockFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_BlockFactory');
         $storeId = Mage::app()->getStore()->getId();
         /** @var $model Magento_Payment_Model_Method_Abstract */
         if (empty($methodClass)) {
@@ -32,7 +33,7 @@ class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framewo
              */
             $this->fail("Model of '{$code}' payment method is not found."); // prevent fatal error
         }
-        $model = Mage::getObjectManager()->create($methodClass);
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($methodClass);
         $this->assertNotEmpty($model->getTitle());
         foreach (array($model->getFormBlockType(), $model->getInfoBlockType()) as $blockClass) {
             $message = "Block class: {$blockClass}";

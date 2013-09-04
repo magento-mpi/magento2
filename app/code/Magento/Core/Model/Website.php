@@ -265,7 +265,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     /**
      * Retrieve website groups
      *
-     * @return array
+     * @return Magento_Core_Model_Store_Group[]
      */
     public function getGroups()
     {

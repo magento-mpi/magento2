@@ -27,7 +27,9 @@ class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_Test
     {
         $this->assertNotEmpty($module);
         $this->assertTrue(class_exists($class), "Block class: {$class}");
-        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')->setCurrentScope($area);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Config_Scope')
+            ->setCurrentScope($area);
         $block = Mage::getModel($class);
         $this->assertNotNull($block);
     }

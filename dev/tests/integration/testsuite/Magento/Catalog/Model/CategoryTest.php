@@ -49,7 +49,7 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_objectManager = Mage::getObjectManager();
+        self::$_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         if (Magento_TestFramework_Helper_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
             self::markTestIncomplete('Bug MAGETWO-8513');

@@ -25,7 +25,8 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
     public function setUp()
     {
         /** @var Magento_Webhook_Model_Resource_Event_Collection $eventCollection */
-        $eventCollection = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection');
+        $eventCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Resource_Event_Collection');
         /** @var array $event */
         $events = $eventCollection->getItems();
         /** @var Magento_Webhook_Model_Event $event */
@@ -34,7 +35,8 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
             $event->save();
         }
 
-        $this->_model = Mage::getObjectManager()->create('Magento\PubSub\Message\DispatcherAsync');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento\PubSub\Message\DispatcherAsync');
     }
 
     /**
@@ -50,7 +52,8 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
 
         $this->_model->dispatch($topic, $data);
 
-        $queue = Mage::getObjectManager()->get('Magento\PubSub\Event\QueueReaderInterface');
+        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento\PubSub\Event\QueueReaderInterface');
         $event = $queue->poll();
 
         $this->assertEquals($topic, $event->getTopic());

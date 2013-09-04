@@ -137,6 +137,24 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $file
+     * @dataProvider phtmlFileDataProvider
+     */
+    public function testTemplateMageCall($file)
+    {
+        $content = file_get_contents($file);
+        $this->_assertNotRegExp('/\bMage::(\w+?)\(/iS', $content, "Static Method of 'Mage' class is obsolete.");
+    }
+
+    /**
+     * @return array
+     */
+    public function phtmlFileDataProvider()
+    {
+        return Utility_Files::init()->getPhpFiles(false, false, true);
+    }
+
+    /**
+     * @param string $file
      * @dataProvider xmlFileDataProvider
      */
     public function testXmlFile($file)

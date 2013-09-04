@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Layout_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Core_Model_Layout

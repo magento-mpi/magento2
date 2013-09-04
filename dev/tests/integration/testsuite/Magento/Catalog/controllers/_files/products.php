@@ -15,7 +15,7 @@ $config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
 $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 
 /** @var \Magento\Filesystem $filesystem */
-$filesystem = Mage::getObjectManager()->create('Magento\Filesystem');
+$filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Filesystem');
 $filesystem->setIsAllowCreateDirectories(true);
 $filesystem->copy(dirname(__FILE__) . '/product_image.png', $baseTmpMediaPath . '/product_image.png');
 

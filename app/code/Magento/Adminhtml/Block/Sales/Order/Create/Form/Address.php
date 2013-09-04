@@ -26,6 +26,16 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
     protected $_addressForm;
 
     /**
+     * Get config
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public function getConfig($path)
+    {
+        return $this->_storeConfig->getConfig($path);
+    }
+    /**
      * Return Customer Address Collection as array
      *
      * @return array

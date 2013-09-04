@@ -13,6 +13,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
 
     public function setUp()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         // Need to call this first so we get proper config
         $config = $this->_loadServiceCallsConfig();
         parent::setUp();
@@ -20,12 +21,12 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
         $fixtureFileName = __DIR__ . DS . "_files" . DS . 'Magento' . DS . 'Catalog' . DS . 'Service'
             . DS . 'TestProduct.php';
         include $fixtureFileName;
-        $invoker = Mage::getObjectManager()->create(
+        $invoker = $objectManager->create(
             'Magento_Core_Model_DataService_Invoker',
             array('config' => $config)
         );
         /** @var Magento_Core_Model_DataService_Graph $dataServiceGraph */
-        $this->_dataServiceGraph = Mage::getObjectManager()->create(
+        $this->_dataServiceGraph = $objectManager->create(
             'Magento_Core_Model_DataService_Graph',
             array('dataServiceInvoker' => $invoker)
         );
@@ -33,22 +34,23 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
 
     protected function _loadServiceCallsConfig()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var Magento_Core_Model_Dir $dirs */
-        $dirs = Mage::getObjectManager()->create(
+        $dirs = $objectManager->create(
             'Magento_Core_Model_Dir', array(
                 'baseDir' => BP,
-                'dirs' => array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files'))
-        );
+                'dirs' => array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files')
+        ));
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Mage::getObjectManager()->create(
+        $moduleReader = $objectManager->create(
             'Magento_Core_Model_Config_Modules_Reader', array(
                 'dirs' => $dirs,
             )
         );
 
         /** @var Magento_Core_Model_DataService_Config_Reader_Factory $dsCfgReaderFactory */
-        $dsCfgReaderFactory = Mage::getObjectManager()->create(
+        $dsCfgReaderFactory = $objectManager->create(
             'Magento_Core_Model_DataService_Config_Reader_Factory');
 
         /** @var Magento_Core_Model_DataService_Config $config */
@@ -91,8 +93,9 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
     protected function _getLayoutModel($fixtureFile)
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getObjectManager()
-            ->create('Magento_Core_Model_Layout', array('dataServiceGraph' => $this->_dataServiceGraph));
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+            'Magento_Core_Model_Layout', array('dataServiceGraph' => $this->_dataServiceGraph)
+        );
         $xml = simplexml_load_file(__DIR__ . "/_files/{$fixtureFile}", 'Magento_Core_Model_Layout_Element');
         $layout->setXml($xml);
         $layout->generateElements();

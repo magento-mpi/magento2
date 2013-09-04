@@ -27,10 +27,10 @@ class Magento_Adminhtml_Helper_Media_Js extends Magento_Core_Helper_Js
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType
-    )
-    {
-        parent::__construct($context, $configReader, $configCacheType);
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_View_Url $viewUrl
+    ) {
+        parent::__construct($context, $configReader, $configCacheType, $viewUrl);
         $this->_translateData = array(
             'Complete' => __('Complete'),
             'The file size should be more than 0 bytes.' => __('The file size should be more than 0 bytes.'),

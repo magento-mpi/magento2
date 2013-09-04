@@ -34,6 +34,25 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
      */
     protected $_itemLevelPositions = array();
 
+    /**
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_registry;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_registry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         $this->addData(array(
@@ -43,6 +62,16 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
                 Magento_Core_Model_Store_Group::CACHE_TAG
             ),
         ));
+    }
+
+    /**
+     * Get current category
+     *
+     * @return Magento_Catalog_Model_Category
+     */
+    public function getCategory()
+    {
+        return $this->_registry->registry('current_category');
     }
 
     /**

@@ -10,9 +10,6 @@
 
 /**
  * Customer giftregistry edit block
- *
- * @category   Magento
- * @package    Magento_GiftRegistry
  */
 class Magento_GiftRegistry_Block_Customer_Edit_Registry extends  Magento_GiftRegistry_Block_Customer_Edit_Abstract
 {

@@ -23,7 +23,7 @@ class Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation extends M
      */
     protected function _construct()
     {
-        $this->_init('enterprise_scheduled_operations', 'id');
+        $this->_init('magento_scheduled_operations', 'id');
 
         $this->_useIsObjectNew = true;
     }

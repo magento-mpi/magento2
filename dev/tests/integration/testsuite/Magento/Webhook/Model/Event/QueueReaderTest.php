@@ -18,7 +18,8 @@ class Magento_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_Test
             ->setDataChanges(true)
             ->save();
         /** @var Magento_Webhook_Model_Event_QueueReader $queue */
-        $queue = Mage::getObjectManager()->create('Magento_Webhook_Model_Event_QueueReader');
+        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Event_QueueReader');
         $this->assertEquals($event->getId(), $queue->poll()->getId());
 
         // Make sure an empty queue returns null

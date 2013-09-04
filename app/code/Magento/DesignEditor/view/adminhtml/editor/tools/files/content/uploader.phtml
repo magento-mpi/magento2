@@ -124,7 +124,7 @@
             },
             queuedFiles : [],
             sequentialUploads: true,
-            maxFileSize: <?php echo Mage::getObjectManager()->get('Magento\File\Size')->getMaxFileSize()?>,
+            maxFileSize: <?php echo $this->getFileSizeService()->getMaxFileSize()?>,
             uploadCount: 0,
             add: function(e, data) {
                 $(this).assetfileupload('switchToUploadQueueView');

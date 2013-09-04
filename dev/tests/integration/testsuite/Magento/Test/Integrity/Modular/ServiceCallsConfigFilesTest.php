@@ -27,7 +27,7 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
 
     public function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $serviceCallsFiles = $this->getServiceCallsConfigFiles();
         if (!empty($serviceCallsFiles)) {
             $this->_reader = $this->_objectManager->create('Magento_Core_Model_DataService_Config_Reader', array(

@@ -423,4 +423,29 @@ class Magento_TestFramework_Utility_Files
         }
         return false;
     }
+
+    /**
+     * Return list of declared namespaces
+     *
+     * @return array
+     */
+    public function getNamespaces()
+    {
+        $key = __METHOD__ . $this->_path;
+        if (isset(self::$_cache[$key])) {
+            return self::$_cache[$key];
+        }
+
+        $iterator = new DirectoryIterator($this->_path . '/app/code/');
+        $result = array();
+        foreach ($iterator as $file) {
+            if (!$file->isDot() && !in_array($file->getFilename(), array('Zend')) && $file->isDir()) {
+                $result[] = $file->getFilename();
+            }
+        }
+
+        self::$_cache[$key] = $result;
+        return $result;
+    }
+
 }

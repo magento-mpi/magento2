@@ -33,7 +33,7 @@ class Magento_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framewo
 
     public function setUp()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $this->_model = $objectManager->get('Magento_DesignEditor_Model_Translate_InlineVde');
         $this->_request = $objectManager->get('Magento_Core_Controller_Request_Http');
