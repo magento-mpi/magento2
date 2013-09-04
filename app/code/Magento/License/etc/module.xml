@@ -9,8 +9,14 @@
 -->
 <config>
     <module name="Magento_License" version="1.11.0.0" active="false">
+        <sequence>
+            <module name="Magento_Enterprise"/>
+        </sequence>
         <depends>
-            <module name="Magento_Enterprise" />
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_AdminNotification" type="soft"/>
         </depends>
     </module>
 </config>

@@ -9,8 +9,8 @@
 -->
 <config>
     <module name="Magento_Last" version="1.6.0.0.23" active="true" >
-        <depends>
+        <sequence>
             <module name="Magento_Test"/>
-        </depends>
+        </sequence>
     </module>
 </config>

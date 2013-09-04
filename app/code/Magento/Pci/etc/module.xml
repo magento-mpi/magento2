@@ -9,11 +9,18 @@
 -->
 <config>
     <module name="Magento_Pci" version="1.11.0.0" active="false">
+        <sequence>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Api"/>
+            <module name="Magento_User"/>
+        </sequence>
         <depends>
-            <module name="Magento_Adminhtml" />
-            <module name="Magento_Customer" />
-            <module name="Magento_Api" />
-            <module name="Magento_User" />
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Api"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_User"/>
         </depends>
     </module>
 </config>

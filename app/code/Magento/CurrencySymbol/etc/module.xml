@@ -9,8 +9,15 @@
 -->
 <config>
     <module name="Magento_CurrencySymbol" version="1.0.0.0.0" active="true">
+        <sequence>
+            <module name="Magento_Widget"/>
+        </sequence>
         <depends>
-            <module name="Magento_Widget" />
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Directory"/>
+            <module name="Magento_Connect"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Core"/>
         </depends>
     </module>
 </config>
