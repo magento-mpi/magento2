@@ -78,7 +78,9 @@
     </target>
 
     <target name="unit_tests_ce_magento_code_coverage" depends="_product_location" description="Code Coverage All CE Unit Tests with Xdebug">
-        <fail unless="env.xdebug_enable" message="Environment variable 'xdebug_enable' must be set to true"/>
+        <script language="javascript">
+            project.setProperty("phpunit", "${basedir}/dev/build/bin/phpunit-with-xdebug.sh");
+        </script>
         <antcall target="_code_coverage_configuration">
             <param name="configuration_file" value="${product_root_dir}/dev/tests/unit/phpunit.xml.dist"/>
         </antcall>
@@ -86,7 +88,9 @@
     </target>
 
     <target name="unit_tests_ee_magento_code_coverage" depends="_product_location" description="Code Coverage All EE Unit Tests with Xdebug">
-        <fail unless="env.xdebug_enable" message="Environment variable 'xdebug_enable' must be set to true"/>
+        <script language="javascript">
+            project.setProperty("phpunit", "${basedir}/dev/build/bin/phpunit-with-xdebug.sh");
+        </script>
         <antcall target="_code_coverage_configuration">
             <param name="configuration_file" value="${product_root_dir}/dev/tests/unit/phpunit.xml.dist"/>
         </antcall>

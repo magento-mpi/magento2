@@ -45,7 +45,7 @@
     </target>
 
     <target name="_integration_tests_magento_xdebug" depends="_integration_tests_configuration" description="Product integration tests with Xdebug">
-        <exec dir="${product_root_dir}/dev/tests/integration" executable="${phpunit}" failonerror="true">
+        <exec dir="${product_root_dir}/dev/tests/integration" executable="${basedir}/dev/build/bin/phpunit-with-xdebug.sh" failonerror="true">
             <arg line="--stderr --log-junit ${basedir}/integration_tests_magento_xdebug.xml"/>
         </exec>
     </target>

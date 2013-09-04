@@ -13,10 +13,7 @@
 -->
 <project name="Core Development General-Purpose Routines" basedir="../../../" default="_community_edition">
     <property environment="env"/>
-
-    <condition property="phpunit"  value="${basedir}/dev/build/bin/phpunit-with-xdebug.sh" else="phpunit">
-        <isset property="env.xdebug_enable" />
-    </condition>
+    <property name="phpunit" value="phpunit"/>
 
     <target name="_product_location" description="Detection of a product source code root directory">
         <condition property="product_root_dir" value="${basedir}">
