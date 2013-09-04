@@ -1,26 +1,23 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Sales
- * @copyright   {copyright}
- * @license     {license_link}
- */
+* {license_notice}
+*
+* @copyright   {copyright}
+* @license     {license_link}
+*/
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
-    <widget id="sales_widget_guestfrom" class="Magento_Sales_Block_Widget_Guest_Form"
-            translate="label description" is_email_compatible="true">
-        <label>Orders and Returns</label>
-        <description>Orders and Returns Search Form</description>
-        <parameter name="title" xsi:type="text" translate="label" visible="false">
-            <label>Anchor Custom Title</label>
+         xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
+    <widget id="sales_widget_guestfrom" class="Magento_Sales_Block_Widget_Guest_Form" is_email_compatible="true">
+        <label translate="true">Orders and Returns</label>
+        <description translate="true">Orders and Returns Search Form</description>
+        <parameter name="title" xsi:type="text" visible="false">
+            <label translate="true">Anchor Custom Title</label>
         </parameter>
         <parameter name="template" xsi:type="select" visible="false">
-            <option name="default_template" translate="label" value="widget/guest/form.phtml">
-                    <label>Default Template</label>
+            <option name="default_template" value="widget/guest/form.phtml">
+                <label translate="true">Default Template</label>
             </option>
         </parameter>
         <container name="left">

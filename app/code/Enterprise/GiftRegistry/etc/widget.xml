@@ -1,27 +1,25 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * {license_notice}
- *
- * @category    Enterprise
- * @package     Enterprise_GiftRegistry
- * @copyright   {copyright}
- * @license     {license_link}
- */
+* {license_notice}
+*
+* @copyright   {copyright}
+* @license     {license_link}
+*/
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
+         xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
     <widget id="enterprise_giftregistry_search" class="Enterprise_GiftRegistry_Block_Search_Widget_Form"
-            translate="label description" is_email_compatible="false">
-        <label>Gift Registry Search</label>
-        <description>Gift Registry Quick Search Form</description>
-        <parameter name="types" translate="label" xsi:type="multiselect" visible="true" required="true"
+            is_email_compatible="false">
+        <label translate="true">Gift Registry Search</label>
+        <description translate="true">Gift Registry Quick Search Form</description>
+        <parameter name="types" xsi:type="multiselect" visible="true" required="true"
                    source_model="Enterprise_GiftRegistry_Model_Source_Search">
-            <label>Quick Search Form Types</label>
+            <label translate="true">Quick Search Form Types</label>
         </parameter>
         <parameter name="template" xsi:type="select" visible="false">
-            <option name="default_template" translate="label" value="search/widget/form.phtml">
-                <label>Default Template</label>
+            <option name="default_template" value="search/widget/form.phtml">
+                <label translate="true">Default Template</label>
             </option>
         </parameter>
         <container name="left">

@@ -1,30 +1,25 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * {license_notice}
- *
- * @category    Enterprise
- * @package     Enterprise_Wishlist
- * @copyright   {copyright}
- * @license     {license_link}
- */
+* {license_notice}
+*
+* @copyright   {copyright}
+* @license     {license_link}
+*/
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
-    <widget id="wishlist_search" class="Enterprise_Wishlist_Block_Widget_Search"
-            translate="label description" is_email_compatible="false">
-        <label>Wishlist Search</label>
-        <description>Wish List Search Description</description>
-        <parameter name="types" xsi:type="multiselect" translate="label description" required="true"
-                   visible="true" sort_order="10"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
+    <widget id="wishlist_search" class="Enterprise_Wishlist_Block_Widget_Search" is_email_compatible="false">
+        <label translate="true">Wishlist Search</label>
+        <description translate="true">Wish List Search Description</description>
+        <parameter name="types" xsi:type="multiselect" required="true" visible="true" sort_order="10"
                    source_model="Enterprise_Wishlist_Model_Config_Source_Search">
-            <label>Quick Search Form Types</label>
+            <label translate="true">Quick Search Form Types</label>
         </parameter>
-        <parameter name="template" xsi:type="select" translate="label" required="true" visible="true">
-            <label>Template</label>
-            <option name="default_template" translate="label" value="widget/search.phtml"
-                    selected="true">
-                <label>Wish List Search Template</label>
+        <parameter name="template" xsi:type="select" required="true" visible="true">
+            <label translate="true">Template</label>
+            <option name="default_template" value="widget/search.phtml" selected="true">
+                <label translate="true">Wish List Search Template</label>
             </option>
         </parameter>
         <container name="left">

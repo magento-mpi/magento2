@@ -1,45 +1,38 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Reports
- * @copyright   {copyright}
- * @license     {license_link}
- */
+* {license_notice}
+*
+* @copyright   {copyright}
+* @license     {license_link}
+*/
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
     <widget id="recently_viewed" class="Magento_Reports_Block_Product_Widget_Viewed"
-            translate="label description" placeholder_image="Magento_Reports::images/product_widget_viewed.gif">
-        <label>Recently Viewed Products</label>
-        <description>List of Products Recently Viewed by Visitor</description>
-        <parameter name="page_size" translate="label" xsi:type="text" required="true"
-                   visible="true">
-            <label>Number of Products to display</label>
+            placeholder_image="Magento_Reports::images/product_widget_viewed.gif">
+        <label translate="true">Recently Viewed Products</label>
+        <description translate="true">List of Products Recently Viewed by Visitor</description>
+        <parameter name="page_size" xsi:type="text" required="true" visible="true">
+            <label translate="true">Number of Products to display</label>
             <value>5</value>
         </parameter>
         <parameter name="template" xsi:type="select" required="true" visible="true">
             <label>Template</label>
-            <option name="default" translate="label" value="widget/viewed/content/viewed_grid.phtml"
-                    selected="true">
-                <label>Viewed Products Grid Template</label>
+            <option name="default" value="widget/viewed/content/viewed_grid.phtml" selected="true">
+                <label translate="true">Viewed Products Grid Template</label>
             </option>
-            <option name="list" translate="label" value="widget/viewed/content/viewed_list.phtml">
-                <label>Viewed Products List Template</label>
+            <option name="list" value="widget/viewed/content/viewed_list.phtml">
+                <label translate="true">Viewed Products List Template</label>
             </option>
-            <option name="list_default" translate="label"
-                    value="widget/viewed/column/viewed_default_list.phtml">
-                <label>Viewed Products Images and Names Template</label>
+            <option name="list_default" value="widget/viewed/column/viewed_default_list.phtml">
+                <label translate="true">Viewed Products Images and Names Template</label>
             </option>
-            <option name="list_names" translate="label"
-                    value="widget/viewed/column/viewed_names_list.phtml">
-                <label>Viewed Products Names Only Template</label>
+            <option name="list_names" value="widget/viewed/column/viewed_names_list.phtml">
+                <label translate="true">Viewed Products Names Only Template</label>
             </option>
-            <option name="list_images" translate="label"
-                    value="widget/viewed/column/viewed_images_list.phtml">
-                <label>Viewed Products Images Only Template</label>
+            <option name="list_images" value="widget/viewed/column/viewed_images_list.phtml">
+                <label translate="true">Viewed Products Images Only Template</label>
             </option>
         </parameter>
         <container name="left">
@@ -58,34 +51,30 @@
         </container>
     </widget>
     <widget id="recently_compared" class="Magento_Reports_Block_Product_Widget_Compared"
-            translate="label description" placeholder_image="Magento_Reports::images/product_widget_compared.gif">
-        <label>Recently Compared Products</label>
-        <description>List of Products Recently Compared and Removed from the Compare List by Visitor</description>
-        <parameter name="page_size" xsi:type="text" translate="label" required="true"
-                   visible="true">
-            <label>Number of Products to display</label>
+            placeholder_image="Magento_Reports::images/product_widget_compared.gif">
+        <label translate="true">Recently Compared Products</label>
+        <description translate="true">List of Products Recently Compared and Removed from the Compare List by Visitor
+        </description>
+        <parameter name="page_size" xsi:type="text" required="true" visible="true">
+            <label translate="true">Number of Products to display</label>
             <value>5</value>
         </parameter>
         <parameter name="template" xsi:type="select" visible="true" required="true">
             <label>Template</label>
-            <option name="default" translate="label" selected="true"
-                    value="widget/compared/content/compared_grid.phtml">
-                <label>Compared Products Grid Template</label>
+            <option name="default" selected="true" value="widget/compared/content/compared_grid.phtml">
+                <label translate="true">Compared Products Grid Template</label>
             </option>
-            <option name="list" translate="label" value="widget/compared/content/compared_list.phtml">
-                <label>Compared Products List Template</label>
+            <option name="list" value="widget/compared/content/compared_list.phtml">
+                <label translate="true">Compared Products List Template</label>
             </option>
-            <option name="list_default" translate="label"
-                    value="widget/compared/column/compared_default_list.phtml">
-                <label>Compared Products Images and Names Template</label>
+            <option name="list_default" value="widget/compared/column/compared_default_list.phtml">
+                <label translate="true">Compared Products Images and Names Template</label>
             </option>
-            <option name="list_names" translate="label"
-                    value="widget/compared/column/compared_names_list.phtml">
-                <label>Compared Product Names Only Template</label>
+            <option name="list_names" value="widget/compared/column/compared_names_list.phtml">
+                <label translate="true">Compared Product Names Only Template</label>
             </option>
-            <option name="list_images" translate="label"
-                    value="widget/compared/column/compared_images_list.phtml">
-                <label>Compared Product Images Only Template</label>
+            <option name="list_images" value="widget/compared/column/compared_images_list.phtml">
+                <label translate="true">Compared Product Images Only Template</label>
             </option>
         </parameter>
         <container name="left">
