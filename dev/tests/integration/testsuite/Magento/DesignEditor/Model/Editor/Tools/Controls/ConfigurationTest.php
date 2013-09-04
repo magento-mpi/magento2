@@ -26,9 +26,11 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
      */
     protected function setUp()
     {
-        $this->_design = Mage::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $this->_design = Magento_Test_Helper_Bootstrap::getObjectManager()->get(
+            'Magento_Core_Model_View_DesignInterface'
+        );
         $this->_design->setDesignTheme('vendor_test_child', Magento_Core_Model_View_DesignInterface::DEFAULT_AREA);
-        $this->_configFactory = Mage::getObjectManager()->create(
+        $this->_configFactory = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
             'Magento_DesignEditor_Model_Editor_Tools_Controls_Factory'
         );
     }

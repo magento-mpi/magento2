@@ -49,7 +49,7 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_objectManager = Mage::getObjectManager();
+        self::$_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
 
         // get list of not existing tables
         /** @var $application Magento_Core_Model_App */

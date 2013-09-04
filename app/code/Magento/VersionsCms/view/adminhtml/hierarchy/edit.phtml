@@ -255,7 +255,7 @@
 
             var isTreeNode = node.parentNode.id == '_root';
 
-            <?php if (Mage::helper('Magento_VersionsCms_Helper_Hierarchy')->isMetadataEnabled()) : ?>
+            <?php if ($this->helper('Magento_VersionsCms_Helper_Hierarchy')->isMetadataEnabled()) : ?>
             if (isTreeNode) {
                 $('field_meta_first_last').show();
                 $('field_meta_next_previous').show();
@@ -490,7 +490,7 @@
             this._changeNodePropShow(false);
             this.saveButton(true, false, true);
 
-            <?php if (Mage::helper('Magento_VersionsCms_Helper_Hierarchy')->isMetadataEnabled()): ?>
+            <?php if ($this->helper('Magento_VersionsCms_Helper_Hierarchy')->isMetadataEnabled()): ?>
             var selectedNode = this.tree.getSelectionModel().getSelectedNode();
             if (selectedNode.id == '_root') {
                 $('field_meta_first_last').show();

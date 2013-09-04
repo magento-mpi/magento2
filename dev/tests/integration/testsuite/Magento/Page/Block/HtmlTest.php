@@ -32,7 +32,8 @@ class Magento_Page_Block_HtmlTest extends PHPUnit_Framework_TestCase
             'urlBuilder' => $urlBuilder,
         ));
 
-        $block = Mage::getObjectManager()->create('Magento_Page_Block_Html', array('context' => $context));
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Page_Block_Html', array('context' => $context));
 
         $this->assertEquals($returnValue, $block->getPrintLogoUrl());
     }
