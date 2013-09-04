@@ -9,7 +9,7 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
 {
     public static function setUpBeforeClass()
     {
-        require_once __DIR__ . '/_files/CacheDecoratorDummy.php';
+        require_once __DIR__ . '/FactoryTest/CacheDecoratorDummy.php';
     }
 
     public function testCreate()
