@@ -131,14 +131,14 @@ class Mage_Webapi_Model_Soap_Config
     }
 
     /**
-     * Retrieve service class name corresponding to provided SOAP operation name.
+     * Retrieve service method information, including service class, method name, and isSecure attribute value.
      *
      * @param string $soapOperation
      * @param array $requestedServices The list of requested services with their versions
-     * @return string
+     * @return array
      * @throws Mage_Webapi_Exception
      */
-    public function getClassBySoapOperation($soapOperation, $requestedServices)
+    public function getServiceMethodInfo($soapOperation, $requestedServices)
     {
         $soapOperations = $this->_getSoapOperations($requestedServices);
         if (!isset($soapOperations[$soapOperation])) {
@@ -147,47 +147,12 @@ class Mage_Webapi_Model_Soap_Config
                 Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
         }
-        return $soapOperations[$soapOperation]['class'];
-    }
-
-    /**
-     * Retrieve service method name corresponding to provided SOAP operation name.
-     *
-     * @param string $soapOperation
-     * @param array $requestedServices The list of requested services with their versions
-     * @return string
-     * @throws Mage_Webapi_Exception
-     */
-    public function getMethodBySoapOperation($soapOperation, $requestedServices)
-    {
-        $soapOperations = $this->_getSoapOperations($requestedServices);
-        if (!isset($soapOperations[$soapOperation])) {
-            throw new Mage_Webapi_Exception(
-                $this->_helper->__('Operation "%s" not found.', $soapOperation),
-                Mage_Webapi_Exception::HTTP_NOT_FOUND
-            );
-        }
-        return $soapOperations[$soapOperation]['method'];
-    }
-
-    /**
-     * Returns true if SOAP operation is defined as secure
-     *
-     * @param string $soapOperation
-     * @param array $requestedServices The list of requested services with their versions
-     * @return bool
-     * @throws Mage_Webapi_Exception
-     */
-    public function isSoapOperationSecure($soapOperation, $requestedServices)
-    {
-        $soapOperations = $this->_getSoapOperations($requestedServices);
-        if (!isset($soapOperations[$soapOperation])) {
-            throw new Mage_Webapi_Exception(
-                $this->_helper->__('Operation "%s" not found.', $soapOperation),
-                Mage_Webapi_Exception::HTTP_NOT_FOUND
-            );
-        }
-        return $soapOperations[$soapOperation][Mage_Webapi_Model_Config::SECURE_ATTR_NAME];
+        return array(
+            'class' => $soapOperations[$soapOperation]['class'],
+            'method' => $soapOperations[$soapOperation]['method'],
+            Mage_Webapi_Model_Config::SECURE_ATTR_NAME =>
+                $soapOperations[$soapOperation][Mage_Webapi_Model_Config::SECURE_ATTR_NAME]
+        );
     }
 
     /**
