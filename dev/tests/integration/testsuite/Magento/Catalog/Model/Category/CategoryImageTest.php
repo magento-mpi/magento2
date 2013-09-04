@@ -69,7 +69,8 @@ class Magento_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework
         $category = Mage::registry('_fixture/Magento_Catalog_Model_Category');
         $this->assertNotEmpty($category->getId());
 
-        foreach (Magento_Catalog_Model_Category_CategoryImageTest_StubZendLogWriterStreamTest::$exceptions as $exception) {
+        foreach (Magento_Catalog_Model_Category_CategoryImageTest_StubZendLogWriterStreamTest::$exceptions
+                 as $exception) {
             $this->assertNotContains('$_FILES array is empty', $exception['message']);
         }
     }
