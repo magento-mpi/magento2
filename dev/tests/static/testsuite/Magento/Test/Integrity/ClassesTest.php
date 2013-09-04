@@ -198,12 +198,9 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $namespace = null;
         $namespaceFolders = null;
 
-        // exceptions made for the following files
-        if ($relativePath == "/app/code/Zend/Soap/Wsdl.php"
-            || $relativePath ==
-                "/dev/tests/unit/testsuite/Magento/Test/Tools/Di/_files/app/code/Magento/SomeModule/Model/Test.php"
-            || $relativePath ==
-                "/dev/tests/unit/testsuite/Magento/Test/Tools/Di/_files/app/code/Magento/SomeModule/Helper/Test.php") {
+        // exceptions made for the files from the blacklist
+        $blacklist = require __DIR__ . '/blacklist.php';
+        if (in_array($relativePath, $blacklist)) {
             return;
         }
 
