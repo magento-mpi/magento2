@@ -70,7 +70,7 @@ class Archive
         } else {
             $format = self::DEFAULT_ARCHIVER;
         }
-        $class = 'Magento_Archive_'.ucfirst($format);
+        $class = '\Magento_Archive_'.ucfirst($format);
         $this->_archiver = new $class();
         return $this->_archiver;
     }

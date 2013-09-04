@@ -1,0 +1,12 @@
+D:\_workspaces\polarseals\magento2\.idea
+D:\_workspaces\polarseals\magento2\lib\3Dsecure
+D:\_workspaces\polarseals\magento2\lib\Apache
+D:\_workspaces\polarseals\magento2\lib\flex
+D:\_workspaces\polarseals\magento2\lib\googlecheckout
+D:\_workspaces\polarseals\magento2\lib\JSMin
+D:\_workspaces\polarseals\magento2\lib\LinLibertineFont
+D:\_workspaces\polarseals\magento2\lib\PEAR
+D:\_workspaces\polarseals\magento2\lib\phpseclib
+D:\_workspaces\polarseals\magento2\lib\Symfony
+D:\_workspaces\polarseals\magento2\lib\Twig
+D:\_workspaces\polarseals\magento2\lib\Zend

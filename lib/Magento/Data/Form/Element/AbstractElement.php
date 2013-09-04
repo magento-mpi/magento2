@@ -193,7 +193,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
 
     protected function _getUiId($suffix = null)
     {
-        if ($this->_renderer instanceof Magento_Core_Block_Abstract) {
+        if ($this->_renderer instanceof \Magento_Core_Block_Abstract) {
             return $this->_renderer->getUiId($this->getType(), $this->getName(), $suffix);
         } else {
             return ' data-ui-id="form-element-' . $this->getName() . ($suffix ? : '') . '"';
@@ -321,14 +321,14 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
             return $this;
         }
         if (!is_array($values)) {
-            $values = \Mage::helper('Magento_Core_Helper_Data')->escapeHtml(trim($values));
+            $values = \Mage::helper('\Magento_Core_Helper_Data')->escapeHtml(trim($values));
             $values = array($values => $values);
         }
         $elementValues = $this->getValues();
         if (!empty($elementValues)) {
             foreach ($values as $key => $value) {
                 if ((isset($elementValues[$key]) && $overwrite) || !isset($elementValues[$key])) {
-                    $elementValues[$key] = \Mage::helper('Magento_Core_Helper_Data')->escapeHtml($value);
+                    $elementValues[$key] = \Mage::helper('\Magento_Core_Helper_Data')->escapeHtml($value);
                 }
             }
             $values = $elementValues;
