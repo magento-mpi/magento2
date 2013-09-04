@@ -44,8 +44,31 @@ class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCa
                 $issues[] = 'Attribute "parent" and/or "owner" is defined, but "type" is not';
             }
         }
-        if (!empty($issues)) {
-            $this->fail(sprintf("Issues found in handle declaration:\n%s\n", implode("\n", $issues)));
+        if ($issues) {
+            $this->fail("Issues found in handle declaration:\n" . implode("\n", $issues) . "\n");
+        }
+    }
+
+    /**
+     * Test dependencies between container attributes that is out of coverage by XSD
+     *
+     * @param string $layoutFile
+     * @dataProvider layoutFilesDataProvider
+     */
+    public function testContainerDeclaration($layoutFile)
+    {
+        $issues = array();
+        $xml = simplexml_load_file($layoutFile);
+        $containers = $xml->xpath('/layout//container') ?: array();
+        /** @var SimpleXMLElement $node */
+        foreach ($containers as $node) {
+            if (!isset($node['htmlTag']) && (isset($node['htmlId']) || isset($node['htmlClass']))) {
+                $issues[] = $node->asXML();
+            }
+        }
+        if ($issues) {
+            $message = 'The following containers declare attribute "htmlId" and/or "htmlClass", but not "htmlTag":';
+            $this->fail($message . "\n" . implode("\n", $issues) . "\n");
         }
     }
 

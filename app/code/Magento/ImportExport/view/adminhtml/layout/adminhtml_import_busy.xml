@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="content">
-        <block class="Magento_Core_Block_Template" template="Magento_ImportExport::busy.phtml" name="busy" alias="busy"/>
+        <block class="Magento_Core_Block_Template" template="Magento_ImportExport::busy.phtml" name="busy" as="busy"/>
     </reference>
 </layout>
