@@ -12,23 +12,30 @@
 class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var array
+     */
+    protected $_modelParams;
+
+    /**
      * @var Magento_Core_Model_Store|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     public function setUp()
     {
-        $params = array(
+        $this->_modelParams = array(
+            'coreFileStorageDatabase' => Mage::getObjectManager()->get('Magento_Core_Helper_File_Storage_Database'),
             'context' => Mage::getObjectManager()->get('Magento_Core_Model_Context'),
             'configCacheType' => Mage::getObjectManager()->get('Magento_Core_Model_Cache_Type_Config'),
             'urlModel' => Mage::getObjectManager()->get('Magento_Core_Model_Url'),
             'appState' => Mage::getObjectManager()->get('Magento_Core_Model_App_State'),
+            'resource' => Mage::getObjectManager()->get('Magento_Core_Model_Resource_Store'),
         );
 
         $this->_model = $this->getMock(
             'Magento_Core_Model_Store',
             array('getUrl'),
-            $params
+            $this->_modelParams
         );
     }
 
@@ -318,15 +325,10 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             ->method('isInstalled')
             ->will($this->returnValue($isInstalled));
 
-        $params = array(
-            'context' => Mage::getObjectManager()->get('Magento_Core_Model_Context'),
-            'configCacheType' => Mage::getObjectManager()->get('Magento_Core_Model_Cache_Type_Config'),
-            'urlModel' => Mage::getObjectManager()->get('Magento_Core_Model_Url'),
-            'appState' => $appStateMock,
-        );
+        $params = $this->_modelParams;
+        $params['appState'] = $appStateMock;
 
         $model = $this->getMock('Magento_Core_Model_Store', array('getConfig'), $params);
-
 
         $model->expects($this->any())->method('getConfig')
             ->with($this->stringContains(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL))

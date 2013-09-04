@@ -243,7 +243,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Resource_Store $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */

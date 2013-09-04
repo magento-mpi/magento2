@@ -665,7 +665,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         foreach ($argument->children() as $argumentChild) {
             /** @var $argumentChild Magento_Core_Model_Layout_Element */
             if ('updater' == $argumentChild->getName()) {
-                $updaters[uniqid()] = trim((string)$argumentChild);
+                $updaters[uniqid(rand())] = trim((string)$argumentChild);
             }
         }
         return $updaters;

@@ -164,22 +164,6 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertSame($locale, $this->_model->getLocale());
     }
 
-    /**
-     * @dataProvider getHelperDataProvider
-     */
-    public function testGetHelper($inputHelperName, $expectedClass)
-    {
-        $this->assertInstanceOf($expectedClass, $this->_model->getHelper($inputHelperName));
-    }
-
-    public function getHelperDataProvider()
-    {
-        return array(
-            'class name'  => array('Magento_Core_Helper_Data', 'Magento_Core_Helper_Data'),
-            'module name' => array('Magento_Core',             'Magento_Core_Helper_Data'),
-        );
-    }
-
     public function testGetBaseCurrencyCode()
     {
         $this->assertEquals('USD', $this->_model->getBaseCurrencyCode());
