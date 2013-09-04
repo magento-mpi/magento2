@@ -29,20 +29,20 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     protected $_viewUrl;
 
     /**
-     * @var Magento_File_Size
+     * @var \Magento\File\Size
      */
     protected $_fileSizeService;
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_File_Size $fileSize
+     * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_View_Url $viewUrl,
-        Magento_File_Size $fileSize,
+        \Magento\File\Size $fileSize,
         array $data = array()
     ) {
         $this->_viewUrl = $viewUrl;
@@ -79,7 +79,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     /**
      * Get file size
      *
-     * @return Magento_File_Size
+     * @return \Magento\File\Size
      */
     public function getFileSizeService()
     {

@@ -41,12 +41,12 @@ class Magento_Core_Model_Theme_Image_Uploader
      *
      * @param \Magento\Filesystem $filesystem
      * @param Zend_File_Transfer_Adapter_Http $transferAdapter
-     * @param Magento_File_UploaderFactory $uploaderFactory
+     * @param \Magento\File\UploaderFactory $uploaderFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
         Zend_File_Transfer_Adapter_Http $transferAdapter,
-        Magento_File_UploaderFactory $uploaderFactory
+        \Magento\File\UploaderFactory $uploaderFactory
     ) {
         $this->_filesystem = $filesystem;
         $this->_transferAdapter = $transferAdapter;
