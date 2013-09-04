@@ -18,10 +18,10 @@ class Magento_Code_Plugin_InvocationChainTest extends PHPUnit_Framework_TestCase
     public function testProceed()
     {
         $invocationChain = new Magento_Code_Plugin_InvocationChain(
-            new SimpleClass(),
+            new Magento_Code_Plugin_GeneratorTest_SimpleClass(),
             'doWork',
             new SimpleObjectManager(),
-            array('SimpleClassPluginA', 'SimpleClassPluginB')
+            array('Magento_Code_Plugin_GeneratorTest_SimpleClassPluginA', 'Magento_Code_Plugin_GeneratorTest_SimpleClassPluginB')
         );
         $this->assertEquals(
             '<PluginA><PluginB>simple class return value</PluginB></PluginA>',
