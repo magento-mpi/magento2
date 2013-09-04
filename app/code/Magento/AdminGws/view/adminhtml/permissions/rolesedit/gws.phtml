@@ -8,11 +8,6 @@
  * @license     {license_link}
  */
 ?>
-<?php
-/**
- * @see Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws
- */
-?>
 <?php /* @var $this Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws */ ?>
 <div class="entry-edit form-inline">
     <fieldset class="fieldset">
@@ -37,7 +32,7 @@
             <div class="control">
                 <div id="gws_container">
                     <ul>
-                        <?php foreach (Mage::app()->getWebsites() as $websiteId => $website): ?>
+                        <?php foreach ($this->getWebsites() as $websiteId => $website): ?>
                         <li>
                             <input class="gws_website" type="checkbox" name="gws_websites[]" value="<?php echo $websiteId ?>" id="gws_website_<?php echo $websiteId ?>" <?php echo (in_array($websiteId, $this->getRole()->getGwsWebsites()) ? 'checked="checked" ' : '') ?>/><label for="gws_website_<?php echo $websiteId ?>">
                             <?php echo $this->escapeHtml($website->getName()) ?>
@@ -64,7 +59,7 @@
         <script type="text/javascript">
         //<![CDATA[
         // checkboxes validation
-<?php foreach (Mage::app()->getWebsites() as $websiteId => $website): ?>
+<?php foreach ($this->getWebsites() as $websiteId => $website): ?>
         $('gws_website_<?php echo $websiteId ?>').advaiceContainer = 'gws_validation_container';
 <?php if (count($website->getGroups())): ?>
 <?php foreach ($website->getGroups() as $group): ?>

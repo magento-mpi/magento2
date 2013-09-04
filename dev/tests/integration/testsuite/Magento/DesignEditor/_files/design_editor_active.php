@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
     ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
 $session = Mage::getModel('Magento_DesignEditor_Model_Session');
 /** @var $auth Magento_Backend_Model_Auth */

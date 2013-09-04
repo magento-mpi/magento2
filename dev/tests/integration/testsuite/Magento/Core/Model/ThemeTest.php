@@ -20,7 +20,7 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     {
         Mage::getConfig();
         /** @var $themeModel Magento_Core_Model_Theme */
-        $themeModel = Mage::getObjectManager()->create('Magento_Core_Model_Theme');
+        $themeModel = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Theme');
         $themeModel->setData($this->_getThemeValidData());
 
         $crud = new Magento_Test_Entity($themeModel, array('theme_version' => '2.0.0.1'));
@@ -53,7 +53,7 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     {
         /** @var $theme Magento_Core_Model_Theme */
         /** @var $currentTheme Magento_Core_Model_Theme */
-        $theme = Mage::getObjectManager()->get('Magento_Core_Model_Theme');
+        $theme = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Theme');
         $collection = $theme->getCollection()->addTypeFilter(Magento_Core_Model_Theme::TYPE_VIRTUAL);
         foreach ($collection as $currentTheme) {
             $parentTheme = $currentTheme->getParentTheme();

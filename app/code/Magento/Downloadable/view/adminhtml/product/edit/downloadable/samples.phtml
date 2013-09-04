@@ -27,7 +27,7 @@ $this->getConfigJson();
             <?php endif; ?>
         </div>
         <div class="field-service">
-            <?php echo !Mage::app()->isSingleStoreMode() ? __('[STORE VIEW]') : ''; ?>
+            <?php echo !$this->isSingleStoreMode() ? __('[STORE VIEW]') : ''; ?>
         </div>
     </div>
 

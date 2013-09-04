@@ -15,7 +15,7 @@ class Magento_ScheduledImportExport_Model_ObserverTest extends PHPUnit_Framework
         $model = new Magento_ScheduledImportExport_Model_Observer;
         $model->scheduledLogClean('not_used', true);
         /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
+        $dirs = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir');
         $this->assertFileExists($dirs->getDir(Magento_Core_Model_Dir::LOG)
             . DIRECTORY_SEPARATOR
             . Magento_ScheduledImportExport_Model_Scheduled_Operation::LOG_DIRECTORY
