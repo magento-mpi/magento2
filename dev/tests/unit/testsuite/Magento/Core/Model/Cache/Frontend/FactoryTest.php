@@ -37,15 +37,17 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
     public function testCreateOptions()
     {
         $model = $this->_buildModelForCreate();
-        $result = $model->create(array(
-            'backend' => 'Zend_Cache_Backend_Static',
-            'frontend_options' => array(
-                'lifetime' => 2601
-            ),
-            'backend_options' => array(
-                'file_extension' => '.wtf'
-            ),
-        ));
+        $result = $model->create(
+            array(
+                'backend' => 'Zend_Cache_Backend_Static',
+                'frontend_options' => array(
+                    'lifetime' => 2601
+                ),
+                'backend_options' => array(
+                    'file_extension' => '.wtf'
+                ),
+            )
+        );
 
         $frontend = $result->getLowLevelFrontend();
         $backend = $result->getBackend();
@@ -109,11 +111,16 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
     {
         $model = $this->_buildModelForCreate(
             array(),
-            array(array('class' => 'CacheDecoratorDummy', 'parameters' => array('param' => 'value')))
+            array(
+                array(
+                    'class' => 'Magento_Core_Model_Cache_Frontend_FactoryTest_CacheDecoratorDummy',
+                    'parameters' => array('param' => 'value')
+                )
+            )
         );
         $result = $model->create(array('backend' => 'Zend_Cache_Backend_BlackHole'));
 
-        $this->assertInstanceOf('CacheDecoratorDummy', $result);
+        $this->assertInstanceOf('Magento_Core_Model_Cache_Frontend_FactoryTest_CacheDecoratorDummy', $result);
 
         $params = $result->getParams();
         $this->assertArrayHasKey('param', $params);
@@ -133,7 +140,7 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
             switch ($class) {
                 case 'Magento_Cache_Frontend_Adapter_Zend':
                     return new $class($params['frontend']);
-                case 'CacheDecoratorDummy':
+                case 'Magento_Core_Model_Cache_Frontend_FactoryTest_CacheDecoratorDummy':
                     $frontend = $params['frontend'];
                     unset($params['frontend']);
                     return new $class($frontend, $params);
