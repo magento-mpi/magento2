@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Magento_Last" version="1.6.0.0.23" active="true" >
+    <module name="Magento_Last" version="1.6.0.0.23" active="true">
         <sequence>
             <module name="Magento_Test"/>
         </sequence>
