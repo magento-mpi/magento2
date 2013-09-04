@@ -21,10 +21,6 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
             $widgetAttributes = $widget->attributes;
             $widgetArray = array('@' => array());
             $widgetArray['@']['type'] = $widgetAttributes->getNamedItem('class')->nodeValue;
-            $translate = $widgetAttributes->getNamedItem('translate');
-            if (!is_null($translate)) {
-                $widgetArray['@']['translate'] = $translate->nodeValue;
-            }
 
             $isEmailCompatible = $widgetAttributes->getNamedItem('is_email_compatible');
             if (!is_null($isEmailCompatible)) {
@@ -174,13 +170,6 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
         if ($required) {
             $parameter['required'] = $required->nodeValue == 'false' ? '0' : '1';
         }
-        $translate = $sourceAttributes->getNamedItem('translate');
-        if ($translate) {
-            if (!isset($parameter['@'])) {
-                $parameter['@'] = array();
-            }
-            $parameter['@']['translate'] = $translate->nodeValue;
-        }
         $sortOrder = $sourceAttributes->getNamedItem('sort_order');
         if ($sortOrder) {
             $parameter['sort_order'] = $sortOrder->nodeValue;
@@ -291,12 +280,8 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
      */
     protected function _convertOptions($source)
     {
-        $option = array('@' => array());
+        $option = array();
         $optionAttributes = $source->attributes;
-        $translate = $optionAttributes->getNamedItem('translate');
-        if (!is_null($translate)) {
-            $option['@']['translate'] = $translate->nodeValue;
-        }
         $option['value'] = $optionAttributes->getNamedItem('value')->nodeValue;
         foreach ($source->childNodes as $childNode) {
             if ($childNode->nodeName == '#text') {
