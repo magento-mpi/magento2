@@ -10,17 +10,18 @@
 class Mage_Webapi_Controller_Request extends Zend_Controller_Request_Http
 {
     /**
-     * Modify pathInfo: strip down the request type and query.
+     * Modify pathInfo: strip down the front name and query parameters.
      *
-     * @param Mage_Core_Model_App $application
+     * @param Mage_Core_Model_App $app
      * @param null|string|Zend_Uri $uri
-     * @throws LogicException
      */
-    public function __construct($application, $uri = null)
+    public function __construct($app, $uri = null)
     {
         parent::__construct($uri);
-        $pattern = '#.*?/' . $application->getConfig()->getAreaFrontName() . '/#';
-        /** Set path info without area, API type and GET query params */
-        $this->_pathInfo = '/' . preg_replace(array($pattern, '/\?.*/'), array('', ''), $this->_requestUri);
+        $this->_pathInfo = $this->_requestUri;
+        /** Remove base url and area from path */
+        $this->_pathInfo = preg_replace("#.*?/{$app->getConfig()->getAreaFrontName()}/?#", '/', $this->_pathInfo);
+        /** Remove GET parameters from path */
+        $this->_pathInfo = preg_replace('#\?.*#', '', $this->_pathInfo);
     }
 }
