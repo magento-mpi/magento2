@@ -28,14 +28,6 @@ interface Magento_Core_Model_ConfigInterface
     public function setNode($path, $value, $overwrite = true);
 
     /**
-     * Returns nodes found by xpath expression
-     *
-     * @param string $xpath
-     * @return array
-     */
-    public function getXpath($xpath);
-
-    /**
      * Reinitialize config object
      */
     public function reinit();

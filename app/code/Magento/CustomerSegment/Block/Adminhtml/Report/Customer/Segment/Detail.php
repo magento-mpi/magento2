@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
-    extends Magento_Adminhtml_Block_Widget_Grid_Container
+    extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * Constructor

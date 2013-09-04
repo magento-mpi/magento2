@@ -38,60 +38,7 @@
                 </magento_giftregistry_update_email_template>
             </email>
         </template>
-        <events>
-            <customer_address_load_before>
-                <observers>
-                    <magento_giftregistry>
-                        <class>Magento_GiftRegistry_Model_Observer</class>
-                        <method>addressDataBeforeLoad</method>
-                    </magento_giftregistry>
-                </observers>
-            </customer_address_load_before>
-            <customer_address_load_after>
-                <observers>
-                    <magento_giftregistry>
-                        <class>Magento_GiftRegistry_Model_Observer</class>
-                        <method>addressDataAfterLoad</method>
-                    </magento_giftregistry>
-                </observers>
-            </customer_address_load_after>
-            <sales_convert_quote_item_to_order_item>
-                <observers>
-                    <magento_giftregistry>
-                        <class>Magento_GiftRegistry_Model_Observer</class>
-                        <method>convertItems</method>
-                    </magento_giftregistry>
-                </observers>
-            </sales_convert_quote_item_to_order_item>
-            <sales_order_place_after>
-                <observers>
-                    <magento_giftregistry>
-                        <class>Magento_GiftRegistry_Model_Observer</class>
-                        <method>orderPlaced</method>
-                    </magento_giftregistry>
-                </observers>
-            </sales_order_place_after>
-            <catalog_product_delete_after>
-                <observers>
-                    <magento_giftregistry>
-                        <class>Magento_GiftRegistry_Model_Observer</class>
-                        <method>deleteProduct</method>
-                    </magento_giftregistry>
-                </observers>
-            </catalog_product_delete_after>
-        </events>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <magento_giftregistry before="Magento_Adminhtml">Magento_GiftRegistry_Adminhtml</magento_giftregistry>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -102,16 +49,6 @@
                 </Magento_GiftRegistry>
             </modules>
         </translate>
-        <events>
-            <customer_address_format>
-                <observers>
-                    <magento_giftregistry>
-                        <class>Magento_GiftRegistry_Model_Observer</class>
-                        <method>addressFormatAdmin</method>
-                    </magento_giftregistry>
-                </observers>
-            </customer_address_format>
-        </events>
     </adminhtml>
     <frontend>
         <translate>
@@ -123,41 +60,6 @@
                 </Magento_GiftRegistry>
             </modules>
         </translate>
-        <routers>
-            <magento_giftregistry>
-                <use>standard</use>
-                <args>
-                    <module>Magento_GiftRegistry</module>
-                    <frontName>giftregistry</frontName>
-                </args>
-            </magento_giftregistry>
-        </routers>
-        <events>
-            <controller_action_layout_generate_blocks_after>
-                <observers>
-                    <magento_giftregistry>
-                        <class>Magento_GiftRegistry_Model_Observer</class>
-                        <method>assignHtmlHeadRenderingFlag</method>
-                    </magento_giftregistry>
-                </observers>
-            </controller_action_layout_generate_blocks_after>
-            <checkout_cart_product_add_after>
-                <observers>
-                    <magento_giftregistry>
-                        <class>Magento_GiftRegistry_Model_Observer</class>
-                        <method>addGiftRegistryQuoteFlag</method>
-                    </magento_giftregistry>
-                </observers>
-            </checkout_cart_product_add_after>
-            <customer_address_format>
-                <observers>
-                    <magento_giftregistry>
-                        <class>Magento_GiftRegistry_Model_Observer</class>
-                        <method>addressFormatFront</method>
-                    </magento_giftregistry>
-                </observers>
-            </customer_address_format>
-        </events>
     </frontend>
     <default>
         <magento_giftregistry>
@@ -180,4 +82,4 @@
             </update_email>
         </magento_giftregistry>
     </default>
-</config>
+</config>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="checkout_submit_all_after">
+        <observer name="directpost_save_order_after_submit" instance="Magento_Authorizenet_Model_Directpost_Observer" method="saveOrderAfterSubmit" />
+    </event>
+    <event name="controller_action_postdispatch_checkout_onepage_saveOrder">
+        <observer name="directpost_save_order_onepage" instance="Magento_Authorizenet_Model_Directpost_Observer" method="addAdditionalFieldsToResponseFrontend" />
+    </event>
+</config>

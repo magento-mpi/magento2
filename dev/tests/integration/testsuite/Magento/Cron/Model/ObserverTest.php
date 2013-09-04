@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cron
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Cron_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**

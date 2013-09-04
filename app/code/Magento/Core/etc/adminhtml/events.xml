@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="cms_wysiwyg_config_prepare">
+        <observer name="variable_observer" instance="Magento_Core_Model_Variable_Observer" method="prepareWysiwygPluginConfig" />
+    </event>
+</config>

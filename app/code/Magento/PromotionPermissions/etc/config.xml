@@ -11,32 +11,6 @@
 -->
 <config>
     <adminhtml>
-        <events>
-            <core_block_abstract_to_html_before>
-                <observers>
-                    <magento_promotionpermissions>
-                        <class>Magento_PromotionPermissions_Model_Observer</class>
-                        <method>coreBlockAbstractToHtmlBefore</method>
-                    </magento_promotionpermissions>
-                </observers>
-            </core_block_abstract_to_html_before>
-            <adminhtml_block_html_before>
-                <observers>
-                    <magento_promotionpermissions>
-                        <class>Magento_PromotionPermissions_Model_Observer</class>
-                        <method>adminhtmlBlockHtmlBefore</method>
-                    </magento_promotionpermissions>
-                </observers>
-            </adminhtml_block_html_before>
-            <controller_action_predispatch>
-                <observers>
-                    <magento_promotionpermissions>
-                        <class>Magento_PromotionPermissions_Model_Observer</class>
-                        <method>controllerActionPredispatch</method>
-                    </magento_promotionpermissions>
-                </observers>
-            </controller_action_predispatch>
-        </events>
         <translate>
             <modules>
                 <Magento_PromotionPermissions>
@@ -47,4 +21,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

@@ -9,8 +9,15 @@
 -->
 <config>
     <module name="Magento_Contacts" version="1.6.0.0" active="true">
+        <sequence>
+            <module name="Magento_Core"/>
+        </sequence>
         <depends>
-            <module name="Magento_Core" />
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Cms"/>
+            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>

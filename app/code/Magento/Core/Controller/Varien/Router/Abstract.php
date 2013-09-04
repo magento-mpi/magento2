@@ -53,15 +53,33 @@ abstract class Magento_Core_Controller_Varien_Router_Abstract
         return $this->_front;
     }
 
-    public function getFrontNameByRoute($routeName)
+    /**
+     * Retrieve front name by route
+     *
+     * @param string $routeId
+     * @return string
+     */
+    public function getFrontNameByRoute($routeId)
     {
-        return $routeName;
+        return $routeId;
     }
 
+    /**
+     * Retrieve route by module front name
+     *
+     * @param string $frontName
+     * @return string
+     */
     public function getRouteByFrontName($frontName)
     {
         return $frontName;
     }
 
+    /**
+     * Match controller by request
+     *
+     * @param Magento_Core_Controller_Request_Http $request
+     * @return Magento_Core_Controller_Varien_Action
+     */
     abstract public function match(Magento_Core_Controller_Request_Http $request);
 }

@@ -20,23 +20,5 @@
                 </Magento_License>
             </modules>
         </translate>
-        <events>
-            <admin_user_authenticate_after>
-                <observers>
-                    <magento_license>
-                        <class>Magento_License_Model_Observer</class>
-                        <method>adminUserAuthenticateAfter</method>
-                    </magento_license>
-                </observers>
-            </admin_user_authenticate_after>
-            <controller_action_predispatch>
-                <observers>
-                    <magento_license>
-                        <class>Magento_License_Model_Observer</class>
-                        <method>preDispatch</method>
-                    </magento_license>
-                </observers>
-            </controller_action_predispatch>
-        </events>
     </adminhtml>
-</config>
+</config>
