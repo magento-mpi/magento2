@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class SimpleClassPluginB
+class Magento_Code_Plugin_GeneratorTest_SimpleClassPluginB
 {
     /**
      * @param array $arguments
