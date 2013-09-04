@@ -71,9 +71,6 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
      */
     public function init()
     {
-        ini_set('display_startup_errors', 0);
-        ini_set('display_errors', 0);
-
         return $this;
     }
 
