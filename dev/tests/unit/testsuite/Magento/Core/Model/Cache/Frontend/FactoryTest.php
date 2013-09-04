@@ -131,7 +131,7 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
     {
         $processFrontendFunc = function ($class, $params) {
             switch ($class) {
-                case '\Magento\Cache\Frontend\Adapter\Zend':
+                case 'Magento\Cache\Frontend\Adapter\Zend':
                     return new $class($params['frontend']);
                 case 'CacheDecoratorDummy':
                     $frontend = $params['frontend'];

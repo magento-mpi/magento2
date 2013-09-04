@@ -322,7 +322,7 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
         $tags = array_map(array($this, '_quoteString'), $tags);
         $document = array(
             '_id'      => $this->_quoteString($cacheId),
-            'data'     => new MongoBinData($this->_quoteString($data), MongoBinData::BYTE_ARRAY),
+            'data'     => new \MongoBinData($this->_quoteString($data), \MongoBinData::BYTE_ARRAY),
             'tags'     => $tags,
             'mtime'    => $time,
             'expire'   => $expire,

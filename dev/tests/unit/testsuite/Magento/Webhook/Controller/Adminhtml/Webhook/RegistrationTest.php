@@ -363,7 +363,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
             array('Magento_Core_Model_Layout_Filter_Acl', $this->_mockLayoutFilter),
             array('Magento_Backend_Model_Session', $this->_mockBackendModSess),
             array('Magento_Core_Model_Translate', $this->_mockTranslateModel),
-            array('\Magento\Config\ScopeInterface', $this->_mockConfigScope),
+            array('Magento\Config\ScopeInterface', $this->_mockConfigScope),
         );
         $this->_mockObjectManager->expects($this->any())
             ->method('get')

@@ -77,7 +77,7 @@ class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_Te
                 array(
                     'group'         => 'cache',
                     'operation'     => 'cache:test',
-                    'frontend_type' => '\Magento\Cache\Frontend\Adapter\Zend',
+                    'frontend_type' => 'Magento\Cache\Frontend\Adapter\Zend',
                     'backend_type'  => 'BlackHole',
                 ),
                 111
@@ -91,7 +91,7 @@ class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_Te
                 array(
                     'group'         => 'cache',
                     'operation'     => 'cache:load',
-                    'frontend_type' => '\Magento\Cache\Frontend\Adapter\Zend',
+                    'frontend_type' => 'Magento\Cache\Frontend\Adapter\Zend',
                     'backend_type'  => 'BlackHole',
                 ),
                 '111'
@@ -105,7 +105,7 @@ class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_Te
                 array(
                     'group'         => 'cache',
                     'operation'     => 'cache:save',
-                    'frontend_type' => '\Magento\Cache\Frontend\Adapter\Zend',
+                    'frontend_type' => 'Magento\Cache\Frontend\Adapter\Zend',
                     'backend_type'  => 'BlackHole',
                 ),
                 true
@@ -119,7 +119,7 @@ class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_Te
                 array(
                     'group'         => 'cache',
                     'operation'     => 'cache:remove',
-                    'frontend_type' => '\Magento\Cache\Frontend\Adapter\Zend',
+                    'frontend_type' => 'Magento\Cache\Frontend\Adapter\Zend',
                     'backend_type'  => 'BlackHole',
                 ),
                 true
@@ -133,7 +133,7 @@ class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_Te
                 array(
                     'group'         => 'cache',
                     'operation'     => 'cache:clean',
-                    'frontend_type' => '\Magento\Cache\Frontend\Adapter\Zend',
+                    'frontend_type' => 'Magento\Cache\Frontend\Adapter\Zend',
                     'backend_type'  => 'BlackHole',
                 ),
                 true

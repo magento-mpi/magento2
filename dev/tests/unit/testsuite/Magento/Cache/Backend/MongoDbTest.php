@@ -235,7 +235,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
         if ($doNotTestValidity) {
             $validityCondition = $this->logicalNot($validityCondition);
         }
-        $binData = new MongoBinData($expected, MongoBinData::BYTE_ARRAY);
+        $binData = new MongoBinData($expected, \MongoBinData::BYTE_ARRAY);
         $binData->bin = $expected;
         $this->_collection->expects($this->once())
             ->method('findOne')
