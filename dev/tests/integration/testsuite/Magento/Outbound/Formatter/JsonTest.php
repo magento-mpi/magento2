@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Outbound_Formatter_Json
+ * Magento_Outbound_Formatter_JsonTest
  *
  * {license_notice}
  *
@@ -52,7 +52,7 @@ class Magento_Outbound_Formatter_JsonTest extends PHPUnit_Framework_TestCase
             array(array(2.4), '[2.4]'),
             array(array(2.0), '[2]'),
             array(
-                array(new Magento_Outbound_Formatter_FormatterTest_Data('public', 'protected')),
+                array(new Magento_Outbound_Formatter_JsonTest_Data('public', 'protected')),
                 '[{"dataA":"public"}]'
             )
         );
