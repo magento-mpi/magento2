@@ -113,7 +113,7 @@ class Mage_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_TestCa
         $actualResult = ob_get_contents();
         ob_end_clean();
         $expectedResult = '<?xml version="1.0"?><error><messages><error><data_item><code>500</code>'
-            . '<message>Message</message></data_item></error></messages></error>';
+            . '<message><![CDATA[Message]]></message></data_item></error></messages></error>';
         $this->assertEquals($expectedResult, $actualResult, 'Invalid rendering in XML.');
     }
 
@@ -132,7 +132,8 @@ class Mage_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_TestCa
         $actualResult = ob_get_contents();
         ob_end_clean();
         $expectedResult = '<?xml version="1.0"?><error><messages><error><data_item><code>401</code><message>'
-            . 'Message</message><trace><![CDATA[Trace message.]]></trace></data_item></error></messages></error>';
+            . '<![CDATA[Message]]></message><trace><![CDATA[Trace message.]]></trace></data_item></error>'
+            . '</messages></error>';
         $this->assertEquals($expectedResult, $actualResult, 'Invalid rendering in XML with turned on developer mode.');
     }
 
