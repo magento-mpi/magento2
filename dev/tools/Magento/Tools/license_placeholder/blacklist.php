@@ -26,6 +26,7 @@ return array(
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpmd_ruleset.xsd',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input',
+    'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/expected',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd_ruleset.xsd',
     'dev/tests/unit/testsuite/Magento/Test/Tools/View/Generator/_files/ThemeDeployment/run/source',
     'downloader/js/prototype.js',
