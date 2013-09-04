@@ -151,15 +151,15 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
         return array(
             'production' => array(
                 Magento_Core_Model_App_State::MODE_PRODUCTION,
-                '\Magento\Code\Minifier\Strategy\Lite'
+                'Magento\Code\Minifier\Strategy\Lite'
             ),
             'default'    => array(
                 Magento_Core_Model_App_State::MODE_DEFAULT,
-                '\Magento\Code\Minifier\Strategy\Generate'
+                'Magento\Code\Minifier\Strategy\Generate'
             ),
             'developer'  => array(
                 Magento_Core_Model_App_State::MODE_DEVELOPER,
-                '\Magento\Code\Minifier\Strategy\Generate'
+                'Magento\Code\Minifier\Strategy\Generate'
             ),
         );
     }

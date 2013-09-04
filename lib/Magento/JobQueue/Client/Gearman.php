@@ -14,17 +14,17 @@ class Gearman implements \Magento\JobQueue\ClientInterface
     /**
      * Adapted gearman client
      *
-     * @var GearmanClient
+     * @var \GearmanClient
      */
     protected $_adaptedClient;
 
     /**
      * @param \Magento\JobQueue\Client\ConfigInterface $config
-     * @param GearmanClient $adaptedClient
+     * @param \GearmanClient $adaptedClient
      */
-    public function __construct(\Magento\JobQueue\Client\ConfigInterface $config, GearmanClient $adaptedClient = null)
+    public function __construct(\Magento\JobQueue\Client\ConfigInterface $config, \GearmanClient $adaptedClient = null)
     {
-        $this->_adaptedClient = $adaptedClient ?: new GearmanClient();
+        $this->_adaptedClient = $adaptedClient ?: new \GearmanClient();
         $this->_adaptedClient->addServers($config->getServers());
     }
 

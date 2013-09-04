@@ -147,7 +147,7 @@ class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
      */
     public function verifyManagerCreate($className, array $arguments)
     {
-        $this->assertSame('\Magento\Outbound\Message', $className);
+        $this->assertSame('Magento\Outbound\Message', $className);
 
         $this->assertCount(4, $arguments);
 

@@ -11,7 +11,7 @@ namespace Magento\Acl;
 
 class ResourceFactory
 {
-    const RESOURCE_CLASS_NAME = '\Magento\Acl\Resource';
+    const RESOURCE_CLASS_NAME = 'Magento\Acl\Resource';
 
     /**
      * @var \Magento\ObjectManager

@@ -71,7 +71,7 @@ class Factory implements \Magento\Outbound\Message\FactoryInterface
         );
 
         return $this->_objectManager->create(
-            '\Magento\Outbound\Message',
+            'Magento\Outbound\Message',
             array(
                  'endpointUrl' => $endpoint->getEndpointUrl(),
                  'headers'     => $headers,

@@ -28,13 +28,13 @@ class Hmac implements \Magento\Outbound\AuthenticationInterface
      */
     const SHA256_ALGORITHM = 'sha256';
 
-    /** @var Magento_Core_Model_StoreManagerInterface  */
+    /** @var \Magento_Core_Model_StoreManagerInterface  */
     private $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento_Core_Model_StoreManagerInterface $storeManager
      */
-    public function __construct(Magento_Core_Model_StoreManagerInterface $storeManager)
+    public function __construct(\Magento_Core_Model_StoreManagerInterface $storeManager)
     {
         $this->_storeManager = $storeManager;
     }
@@ -68,6 +68,6 @@ class Hmac implements \Magento\Outbound\AuthenticationInterface
     protected function _getDomain()
     {
         return parse_url($this->_storeManager->getSafeStore()
-            ->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_WEB), PHP_URL_HOST);
+            ->getBaseUrl(\Magento_Core_Model_Store::URL_TYPE_WEB), PHP_URL_HOST);
     }
 }

@@ -19,7 +19,7 @@ class Excel
     /**
      * \ArrayIterator Object
      *
-     * @var Iterator|null
+     * @var \Iterator|null
      */
     protected $_iterator = null;
 
@@ -47,10 +47,10 @@ class Excel
     /**
      * Class Constructor
      *
-     * @param Iterator $iterator
+     * @param \Iterator $iterator
      * @param array $rowCallback
      */
-    public function __construct(Iterator $iterator, $rowCallback = array())
+    public function __construct(\Iterator $iterator, $rowCallback = array())
     {
         $this->_iterator    = $iterator;
         $this->_rowCallback = $rowCallback;

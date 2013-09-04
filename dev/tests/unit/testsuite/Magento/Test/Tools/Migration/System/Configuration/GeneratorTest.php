@@ -43,16 +43,16 @@ class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PH
     protected function setUp()
     {
         $this->_fileManagerMock = $this->getMock(
-            'Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
+            '\Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
         $this->_loggerMock = $this->getMockForAbstractClass(
-            'Magento_Tools_Migration_System_Configuration_LoggerAbstract',
+            '\Magento_Tools_Migration_System_Configuration_LoggerAbstract',
             array(), '', false, false, false, array('add')
         );
-        $this->_formatterMock = $this->getMock('Magento_Tools_Migration_System_Configuration_Formatter', array(),
+        $this->_formatterMock = $this->getMock('\Magento_Tools_Migration_System_Configuration_Formatter', array(),
             array(), '', false
         );
 
-        $this->_model = new Magento_Tools_Migration_System_Configuration_Generator(
+        $this->_model = new \Magento_Tools_Migration_System_Configuration_Generator(
             $this->_formatterMock, $this->_fileManagerMock, $this->_loggerMock
         );
     }

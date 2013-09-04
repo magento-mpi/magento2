@@ -4,6 +4,7 @@
  *
  * @category    Magento
  * @package     Magento_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -444,7 +445,7 @@ string',
 
         $debug = $data;
         unset($debug['key3']);
-        $debug['key3 (\Magento\Object)'] = '*** RECURSION ***';
+        $debug['key3 (Magento\Object)'] = '*** RECURSION ***';
         $this->assertEquals($debug, $this->_object->debug());
     }
 
