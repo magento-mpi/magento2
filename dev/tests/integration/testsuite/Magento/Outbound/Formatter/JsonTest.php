@@ -7,7 +7,7 @@
  * @copyright          {copyright}
  * @license            {license_link}
  */
-require_once __DIR__ . '/FormatterTest/Data.php';
+require_once __DIR__ . '/JsonTest/Data.php';
 class Magento_Outbound_Formatter_JsonTest extends PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Outbound\Formatter\Json */
