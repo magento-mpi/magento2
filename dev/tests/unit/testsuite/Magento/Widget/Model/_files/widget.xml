@@ -31,8 +31,7 @@
         </parameter>
         <parameter name="link_text" xsi:type="text" required="true" visible="true" sort_order="20">
             <label translate="true">Link Text</label>
-            <description translate="true">The text of the link to the My Account &amp;gt; Order by SKU page
-            </description>
+            <description translate="true">The text of the link to the My Account &amp;gt; Order by SKU page</description>
             <depends>
                 <parameter name="link_display" value="1" />
             </depends>
