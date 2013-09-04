@@ -84,7 +84,7 @@ class Magento_Data_GraphTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(2, 2, 3, 4), $cycle);
         $this->assertEquals(array(3, 4, 2, 3), $model->findCycle(3));
 
-        $model = new Magento_Data_Graph($nodes, array(
+        $model = new \Magento\Data\Graph($nodes, array(
             array(1, 2), array(2, 3), array(3, 4), array(4, 2), array(3, 1)
         ));
         //find cycles for each node
