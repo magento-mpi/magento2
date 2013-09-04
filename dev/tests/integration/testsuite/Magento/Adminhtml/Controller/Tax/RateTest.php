@@ -48,7 +48,7 @@ class Magento_Adminhtml_Controller_Tax_RateTest extends Magento_Backend_Utility_
         return array(
             array(
                 $postData + array(
-                    'code' => 'Rate ' . uniqid(),
+                    'code' => 'Rate ' . uniqid(rand()),
                     'zip_is_range' => '1',
                     'zip_from' => '10000',
                     'zip_to' => '20000',
@@ -63,7 +63,7 @@ class Magento_Adminhtml_Controller_Tax_RateTest extends Magento_Backend_Utility_
             ),
             array(
                 $postData + array(
-                    'code' => 'Rate ' . uniqid(),
+                    'code' => 'Rate ' . uniqid(rand()),
                     'zip_is_range' => '0',
                     'zip_from' => '10000',
                     'zip_to' => '20000',

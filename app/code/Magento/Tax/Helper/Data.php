@@ -60,6 +60,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     ) {
         parent::__construct($context);
         $this->_config = $taxConfig;
+        $this->_coreData = $coreData;
     }
 
     /**
