@@ -36,9 +36,9 @@ class Magento_Logging_Model_Config
     protected $_dataStorage;
 
     /**
-     * @param Magento_Core_Model_Fieldset_Config_Data $dataStorage
+     * @param Magento_Logging_Model_Config_Data $dataStorage
      */
-    public function __construct(Enterprise_Logging_Model_Config_Data $dataStorage)
+    public function __construct(Magento_Logging_Model_Config_Data $dataStorage)
     {
         $this->_dataStorage = $dataStorage;
         $this->_xmlConfig = $this->_dataStorage->get('/logging');
@@ -89,6 +89,17 @@ class Magento_Logging_Model_Config
         }
 
         return false;
+    }
+
+    /**
+     * Get event with specified full action name
+     *
+     * @param string $fullActionName
+     * @return array|false
+     */
+    public function getEventByFullActionName($fullActionName)
+    {
+        /** @todo to be implemented */
     }
 
     /**
