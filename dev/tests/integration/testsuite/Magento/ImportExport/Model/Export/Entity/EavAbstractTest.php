@@ -37,15 +37,16 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     {
         $customerAttributes = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
 
-        $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Export_Entity_EavAbstract', array(),
-            '', false);
+        $storeConfig = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config');
+        $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Export_Entity_EavAbstract',
+            array($storeConfig), '', false);
         $this->_model->expects($this->any())
             ->method('getEntityTypeCode')
             ->will($this->returnValue($this->_entityCode));
         $this->_model->expects($this->any())
             ->method('getAttributeCollection')
             ->will($this->returnValue($customerAttributes));
-        $this->_model->__construct();
+        $this->_model->__construct($storeConfig);
     }
 
     /**
