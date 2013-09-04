@@ -10,7 +10,7 @@
 class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Webapi_Controller_Rest */
-    protected $_restDispatcher;
+    protected $_restController;
 
     /** @var Mage_Webapi_Controller_Rest_Authentication */
     protected $_authenticationMock;
@@ -88,7 +88,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         /** Init SUT. */
-        $this->_restDispatcher = new Mage_Webapi_Controller_Rest(
+        $this->_restController = new Mage_Webapi_Controller_Rest(
             $this->_requestMock,
             $this->_responseMock,
             $this->_routerMock,
@@ -120,7 +120,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        unset($this->_restDispatcher);
+        unset($this->_restController);
         unset($this->_authenticationMock);
         unset($this->_requestMock);
         unset($this->_responseMock);
@@ -144,7 +144,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->method('__')
             ->will($this->returnValue($expectedMsg));
 
-        $this->_restDispatcher->dispatch();
+        $this->_restController->dispatch();
         $this->assertTrue($this->_responseMock->isException());
         $exceptionArray = $this->_responseMock->getException();
         $this->assertEquals($expectedMsg, $exceptionArray[0]->getMessage());
@@ -174,7 +174,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(array()));
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue($isSecureRoute));
         $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue($isSecureRequest));
-        $this->_restDispatcher->dispatch();
+        $this->_restController->dispatch();
         $this->assertFalse($this->_responseMock->isException());
     }
 
@@ -218,7 +218,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
 
         $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
-        $this->_restDispatcher->dispatch();
+        $this->_restController->dispatch();
         $this->assertTrue($this->_responseMock->isException());
         $exceptionArray = $this->_responseMock->getException();
         $this->assertEquals('Operation allowed only in HTTPS', $exceptionArray[0]->getMessage());
@@ -245,7 +245,7 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->with('The method "%s" of service "%s" must return an array.', self::SERVICE_METHOD, self::SERVICE_ID)
             ->will($this->returnValue($expectedMsg));
 
-        $this->_restDispatcher->dispatch();
+        $this->_restController->dispatch();
         $this->assertTrue($this->_responseMock->isException());
         $exceptionArray = $this->_responseMock->getException();
         $this->assertEquals($expectedMsg, $exceptionArray[0]->getMessage());

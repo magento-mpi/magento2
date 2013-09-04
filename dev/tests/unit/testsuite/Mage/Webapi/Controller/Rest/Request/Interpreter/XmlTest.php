@@ -81,26 +81,26 @@ class Mage_Webapi_Controller_Rest_Request_Interpreter_XmlTest extends PHPUnit_Fr
 
     public function testHandleErrors()
     {
-        /** Add message to error dispatcher. */
+        /** Add error message */
         $firstErrorMessage = "No document type declaration. ";
         $this->_xmlInterpreter->handleErrors(null, $firstErrorMessage, null, null);
-        /** Assert that first error message was added to error dispatcher. */
+        /** Assert that first error message was added */
         $this->assertAttributeEquals(
             $firstErrorMessage,
             '_errorMessage',
             $this->_xmlInterpreter,
-            'Error message was not set to error dispatcher.'
+            'Error message was not set to xml interpreter.'
         );
-        /** Add new message to error dispatcher. */
+        /** Add error message */
         $secondErrorMessage = "Strings should be wrapped in double quotes.";
         $expectedMessages = $firstErrorMessage . $secondErrorMessage;
         $this->_xmlInterpreter->handleErrors(null, $secondErrorMessage, null, null);
-        /** Assert that both error messages were added to error dispatcher. */
+        /** Assert that both error messages were added */
         $this->assertAttributeEquals(
             $expectedMessages,
             '_errorMessage',
             $this->_xmlInterpreter,
-            'Error messages were not set to error dispatcher.'
+            'Error messages were not set to xml interpreter.'
         );
     }
 

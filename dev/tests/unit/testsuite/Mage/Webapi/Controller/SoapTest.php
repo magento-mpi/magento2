@@ -1,6 +1,6 @@
 <?php
 /**
- * Test SOAP dispatcher class.
+ * Test SOAP controller class.
  *
  * {license_notice}
  *
@@ -10,7 +10,7 @@
 class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Webapi_Controller_Soap */
-    protected $_dispatcher;
+    protected $_soapController;
 
     /** @var Mage_Webapi_Model_Soap_Server */
     protected $_soapServerMock;
@@ -37,7 +37,7 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
     protected $_appStateMock;
 
     /**
-     * Set up dispatcher object.
+     * Set up Controller object.
      */
     protected function setUp()
     {
@@ -79,7 +79,7 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
         $helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
         $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
-        $this->_dispatcher = new Mage_Webapi_Controller_Soap(
+        $this->_soapController = new Mage_Webapi_Controller_Soap(
             $this->_requestMock,
             $this->_responseMock,
             $this->_wsdlGeneratorMock,
@@ -93,11 +93,11 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Clean up dispatcher and its dependencies.
+     * Clean up Controller and its dependencies.
      */
     protected function tearDown()
     {
-        unset($this->_dispatcher);
+        unset($this->_soapController);
         unset($this->_requestMock);
         unset($this->_responseMock);
         unset($this->_wsdlGeneratorMock);
@@ -126,7 +126,7 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
             ->method('maskException')
             ->will($this->returnArgument(0));
 
-        $this->_dispatcher->dispatch();
+        $this->_soapController->dispatch();
         $this->assertEquals('Magento is not yet installed', $this->_responseMock->getBody());
     }
 
@@ -144,7 +144,7 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
             ->method('generate')
             ->will($this->returnValue($wsdl));
 
-        $this->_dispatcher->dispatch();
+        $this->_soapController->dispatch();
         $this->assertEquals($wsdl, $this->_responseMock->getBody());
     }
 
@@ -161,7 +161,7 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
             ->method('handle')
             ->will($this->returnValue($soapResponse));
 
-        $this->_dispatcher->dispatch();
+        $this->_soapController->dispatch();
         $this->assertEquals($soapResponse, $this->_responseMock->getBody());
     }
 
@@ -185,7 +185,7 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
             ->method('getSoapFaultMessage')
             ->will($this->returnArgument(0));
 
-        $this->_dispatcher->dispatch();
+        $this->_soapController->dispatch();
         $this->assertEquals($exceptionMessage, $this->_responseMock->getBody());
     }
 
