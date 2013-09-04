@@ -18,17 +18,33 @@
 class Magento_Logging_Model_Handler_Controllers
 {
     /**
-     * @var Magento_ObjectManager_ObjectManager
+     * @var Magento_Logging_Helper_Data
      */
-    protected $_objectManager = null;
+    protected $_loggingData = null;
 
     /**
-     * @param Magento_ObjectManager_ObjectManager $objectManager
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @var Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
+     */
+    protected $_adminhtmlActionAttribute = null;
+
+    /**
+     * @param Magento_Logging_Helper_Data $loggingData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlActionAttribute
      */
     public function __construct(
-        Magento_ObjectManager_ObjectManager $objectManager
+        Magento_Logging_Helper_Data $loggingData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlActionAttribute
     ) {
-        $this->_objectManager = $objectManager;
+        $this->_loggingData = $loggingData;
+        $this->_coreData = $coreData;
+        $this->_adminhtmlActionAttribute = $adminhtmlActionAttribute;
     }
 
     /**
@@ -44,8 +60,7 @@ class Magento_Logging_Model_Handler_Controllers
         $collectedIds = $processorModel->getCollectedIds();
         if ($collectedIds) {
             $eventModel->setInfo(
-                $this->_objectManager->get('Magento_Logging_Helper_Data')
-                    ->implodeValues($collectedIds)
+                $this->_loggingData->implodeValues($collectedIds)
             );
             return true;
         }
@@ -253,7 +268,7 @@ class Magento_Logging_Model_Handler_Controllers
 
         //Need when in request data there are was no period info
         if ($filter) {
-            $filterData = $this->_objectManager->get('Magento_Backend_Helper_Data')->prepareFilterString($filter);
+            $filterData = $this->_adminhtmlActionAttribute->prepareFilterString($filter);
             $data = array_merge($data, (array)$filterData);
         }
 
@@ -351,8 +366,7 @@ class Magento_Logging_Model_Handler_Controllers
         $change = Mage::getModel('Magento_Logging_Model_Event_Changes');
         $products = $request->getParam('product');
         if (!$products) {
-            $products = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')
-                ->getProductIds();
+            $products = $this->_adminhtmlActionAttribute->getProductIds();
         }
         if ($products) {
             $processor->addEventChanges(clone $change->setSourceName('product')
@@ -464,8 +478,7 @@ class Magento_Logging_Model_Handler_Controllers
 
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
-                ->setInfo($this->_objectManager->get('Magento_Logging_Helper_Data')
-                    ->implodeValues($backup->getDeleteResult()));
+                ->setInfo($this->_loggingData->implodeValues($backup->getDeleteResult()));
         } else {
             $eventModel->setIsSuccess(false);
         }
@@ -674,7 +687,7 @@ class Magento_Logging_Model_Handler_Controllers
 
         $success = true;
         $body = Mage::app()->getResponse()->getBody();
-        $messages = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode($body);
+        $messages = $this->_coreData->jsonDecode($body);
         if (!empty($messages['success'])) {
             $success = $messages['success'];
             if (empty($classId) && !empty($messages['class_id'])) {

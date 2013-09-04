@@ -183,6 +183,7 @@ class Magento_Test_Application
             $this->_primaryConfig = $primaryLoader->load();
 
         } else {
+            /** @var Magento_Test_ObjectManager $objectManager */
             $objectManager = Mage::getObjectManager();
             $config->configure($objectManager);
             $objectManager->addSharedInstance($config, 'Magento_Core_Model_Config_Primary');
