@@ -10,7 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Modules dependencies map
@@ -34,7 +34,7 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
         if (!empty($this->_moduleDependencies)) {
             return true;
         }
-        $configFiles = Utility_Files::init()->getConfigFiles('module.xml', array(), false);
+        $configFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles('module.xml', array(), false);
 
         foreach ($configFiles as $configFile) {
             preg_match('#/([^/]+?/[^/]+?)/etc/module\.xml$#', $configFile, $moduleName);

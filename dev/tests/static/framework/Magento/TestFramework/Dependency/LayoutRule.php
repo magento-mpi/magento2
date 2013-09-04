@@ -10,7 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Dependency_LayoutRule implements Dependency_RuleInterface
+class Magento_TestFramework_Dependency_LayoutRule implements Magento_TestFramework_Dependency_RuleInterface
 {
     /**
      * Cases to search dependencies
@@ -397,7 +397,7 @@ class Dependency_LayoutRule implements Dependency_RuleInterface
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
                 $result[$module] = array(
-                    'type' => Dependency_RuleInterface::TYPE_SOFT,
+                    'type' => Magento_TestFramework_Dependency_RuleInterface::TYPE_SOFT,
                     'source' => (string)$element,
                 );
             }

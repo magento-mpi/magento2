@@ -11,7 +11,7 @@
  * @license     {license_link}
  */
 
-interface Dependency_RuleInterface
+interface Magento_TestFramework_Dependency_RuleInterface
 {
     /**
      * Types of dependencies between modules

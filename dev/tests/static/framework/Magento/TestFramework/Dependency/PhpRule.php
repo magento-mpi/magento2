@@ -11,7 +11,7 @@
  * @license     {license_link}
  */
 
-class Dependency_PhpRule implements Dependency_RuleInterface
+class Magento_TestFramework_Dependency_PhpRule implements Magento_TestFramework_Dependency_RuleInterface
 {
     /**
      * Gets alien dependencies information for current module by analyzing file's contents
@@ -40,7 +40,7 @@ class Dependency_PhpRule implements Dependency_RuleInterface
                 }
                 $dependenciesInfo[] = array(
                     'module' => $referenceModule,
-                    'type'   => Dependency_RuleInterface::TYPE_HARD,
+                    'type'   => Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD,
                     'source' => trim($matches['class'][$i]),
                 );
             }

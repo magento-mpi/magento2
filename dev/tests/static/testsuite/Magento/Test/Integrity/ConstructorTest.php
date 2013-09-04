@@ -18,7 +18,7 @@ use \Zend\Code\Reflection\MethodReflection;
  *
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
-class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Flag that defines how code style problems should be solved.
@@ -187,7 +187,7 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
      */
     public function phpFileClassDataProvider()
     {
-        $files = Utility_Files::init()->getPhpFiles(true, false, false);
+        $files = Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, false, false);
         return $files;
     }
 
@@ -514,12 +514,14 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
     protected function _getFileNameByClass($class)
     {
         $file = null;
-        if (Utility_Files::init()->classFileExists($class) /*&& !Utility_Classes::isVirtual($class)*/) {
+        if (Magento_TestFramework_Utility_Files::init()->classFileExists($class)
+            /*&& !Utility_Classes::isVirtual($class)*/
+        ) {
             $path = implode(DIRECTORY_SEPARATOR, explode('_', $class)) . '.php';
             $directories = array('/app/code/', '/lib/');
             foreach ($directories as $dir) {
                 $fullPath = str_replace('/', DIRECTORY_SEPARATOR,
-                    Utility_Files::init()->getPathToSource() . $dir . $path
+                    Magento_TestFramework_Utility_Files::init()->getPathToSource() . $dir . $path
                 );
                 /**
                  * Use realpath() instead of file_exists() to avoid incorrect work on Windows because of case

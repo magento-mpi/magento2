@@ -10,7 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Dependency_TemplateRule implements Dependency_RuleInterface
+class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFramework_Dependency_RuleInterface
 {
     /**
      * Cases to search dependencies
@@ -186,7 +186,7 @@ class Dependency_TemplateRule implements Dependency_RuleInterface
     protected function _caseModelSingleton($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Dependency_RuleInterface::TYPE_HARD =>
+            Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD =>
             '/(?<source>Mage::(?:getModel|getSingleton|getBlockSingleton)+\([\'"]'
                 . '(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
@@ -211,7 +211,7 @@ class Dependency_TemplateRule implements Dependency_RuleInterface
     protected function _caseHelper($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Dependency_RuleInterface::TYPE_HARD =>
+            Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD =>
             '/(?<source>[$a-zA-Z0-9_\->:]+helper\([\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
@@ -234,7 +234,7 @@ class Dependency_TemplateRule implements Dependency_RuleInterface
     protected function _caseCreateBlock($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Dependency_RuleInterface::TYPE_HARD =>
+            Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD =>
             '/[\->:]+(?<source>createBlock\([\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
@@ -257,7 +257,7 @@ class Dependency_TemplateRule implements Dependency_RuleInterface
     protected function _caseConstant($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Dependency_RuleInterface::TYPE_HARD =>
+            Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD =>
             '/(?<source>(?<namespace>' . $this->_namespaces . ')_(?<module>[A-Z][a-zA-Z]+)_'
                 . '(?:[A-Z][a-z]+_?){1,}::[A-Z_]+)/',
         );
@@ -280,7 +280,7 @@ class Dependency_TemplateRule implements Dependency_RuleInterface
     protected function _caseAddFile($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Dependency_RuleInterface::TYPE_SOFT =>
+            Magento_TestFramework_Dependency_RuleInterface::TYPE_SOFT =>
             '/(?<source>[$a-zA-Z0-9_\->:]+getViewFileUrl\([\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+[\'"]\))/',
         );
@@ -313,7 +313,7 @@ class Dependency_TemplateRule implements Dependency_RuleInterface
                     if ($currentModule != $moduleName) {
                         $dependencies[] = array(
                             'module' => $moduleName,
-                            'type' => Dependency_RuleInterface::TYPE_SOFT,
+                            'type' => Magento_TestFramework_Dependency_RuleInterface::TYPE_SOFT,
                             'source' => $item['source'],
                         );
                     }
@@ -347,7 +347,7 @@ class Dependency_TemplateRule implements Dependency_RuleInterface
                 $module = isset($check['module']) ? $check['module'] : null;
                 if ($module) {
                     $result[$module] = array(
-                        'type' => Dependency_RuleInterface::TYPE_HARD,
+                        'type' => Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD,
                         'source' => $match['source'],
                     );
                 }

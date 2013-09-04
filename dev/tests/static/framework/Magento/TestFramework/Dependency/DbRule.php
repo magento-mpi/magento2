@@ -10,7 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Dependency_DbRule implements Dependency_RuleInterface
+class Magento_TestFramework_Dependency_DbRule implements Magento_TestFramework_Dependency_RuleInterface
 {
     /**
      * Map of tables and modules
@@ -60,7 +60,7 @@ class Dependency_DbRule implements Dependency_RuleInterface
                 if (strtolower($currentModule) !== strtolower($this->_moduleTableMap[$table])) {
                     $dependenciesInfo[] = array(
                         'module' => $this->_moduleTableMap[$table],
-                        'type'   => Dependency_RuleInterface::TYPE_HARD,
+                        'type'   => Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD,
                         'source' => $table,
                     );
                 }
