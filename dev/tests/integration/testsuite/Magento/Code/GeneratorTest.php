@@ -104,7 +104,9 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         $factoryClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Factory';
         $result = false;
         $generatorResult = $this->_generator->generateClass($factoryClassName);
-        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult || Magento_Code_generator::GENERATION_SKIP == $generatorResult) {
+        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult
+            || Magento_Code_generator::GENERATION_SKIP == $generatorResult
+        ) {
             $result = true;
         }
         $this->assertTrue($result);
@@ -153,7 +155,9 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         $proxyClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Proxy';
         $result = false;
         $generatorResult = $this->_generator->generateClass($proxyClassName);
-        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult || Magento_Code_generator::GENERATION_SKIP == $generatorResult) {
+        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult
+            || Magento_Code_generator::GENERATION_SKIP == $generatorResult
+        ) {
             $result = true;
         }
         $this->assertTrue($result);
@@ -197,7 +201,9 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         $interceptorClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Interceptor';
         $result = false;
         $generatorResult = $this->_generator->generateClass($interceptorClassName);
-        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult || Magento_Code_generator::GENERATION_SKIP == $generatorResult) {
+        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult
+            || Magento_Code_generator::GENERATION_SKIP == $generatorResult
+        ) {
             $result = true;
         }
         $this->assertTrue($result);

@@ -7,7 +7,8 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespaceInterceptor implements \Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespace
+class Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespaceInterceptor
+    implements \Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespace
 {
     /**
      * Object Manager factory
