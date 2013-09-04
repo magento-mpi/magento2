@@ -193,7 +193,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $className = null;
 
         // exceptions made for the files from the blacklist
-        $blacklist = require __DIR__ . '/blacklist.php';
+        $blacklist = require __DIR__ . '/Blacklist.php';
         if (in_array($relativePath, $blacklist)) {
             return;
         }
