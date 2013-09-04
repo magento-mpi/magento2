@@ -84,41 +84,38 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
      */
     public function dispatch()
     {
-        if (!$this->_appState->isInstalled()) {
-            $this->_response->setException(
-                new Mage_Webapi_Exception(
+        try {
+            if (!$this->_appState->isInstalled()) {
+                throw new Mage_Webapi_Exception(
                     $this->_helper->__('Magento is not yet installed'),
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST
-                )
-            );
-        } else {
-            try {
-                // TODO: $this->_authentication->authenticate();
-                $route = $this->_router->match($this->_request);
-
-                // check if the operation is a secure operation & whether the request was made in HTTPS
-                if ($route->isSecure() && !$this->_request->isSecure()) {
-                    throw new Mage_Webapi_Exception(
-                        $this->_helper->__('Operation allowed only in HTTPS'),
-                        Mage_Webapi_Exception::HTTP_BAD_REQUEST
-                    );
-                }
-                /** @var array $inputData */
-                $inputData = $this->_request->getRequestData();
-                // TODO: $this->_authorization->checkResourceAcl($route->getServiceId(), $route->getServiceMethod());
-                $serviceMethod = $route->getServiceMethod();
-                $service = $this->_objectManager->get($route->getServiceId());
-                $outputData = $service->$serviceMethod($inputData);
-                if (!is_array($outputData)) {
-                    throw new LogicException(
-                        $this->_helper->__('The method "%s" of service "%s" must return an array.', $serviceMethod,
-                            $route->getServiceId())
-                    );
-                }
-                $this->_response->prepareResponse($outputData);
-            } catch (Exception $e) {
-                $this->_response->setException($e);
+                );
             }
+            // TODO: $this->_authentication->authenticate();
+            $route = $this->_router->match($this->_request);
+
+            // check if the operation is a secure operation & whether the request was made in HTTPS
+            if ($route->isSecure() && !$this->_request->isSecure()) {
+                throw new Mage_Webapi_Exception(
+                    $this->_helper->__('Operation allowed only in HTTPS'),
+                    Mage_Webapi_Exception::HTTP_BAD_REQUEST
+                );
+            }
+            /** @var array $inputData */
+            $inputData = $this->_request->getRequestData();
+            // TODO: $this->_authorization->checkResourceAcl($route->getServiceId(), $route->getServiceMethod());
+            $serviceMethod = $route->getServiceMethod();
+            $service = $this->_objectManager->get($route->getServiceId());
+            $outputData = $service->$serviceMethod($inputData);
+            if (!is_array($outputData)) {
+                throw new LogicException(
+                    $this->_helper->__('The method "%s" of service "%s" must return an array.', $serviceMethod,
+                        $route->getServiceId())
+                );
+            }
+            $this->_response->prepareResponse($outputData);
+        } catch (Exception $e) {
+            $this->_response->setException($e);
         }
         $this->_response->sendResponse();
         return $this;

@@ -76,6 +76,9 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
         $this->_soapServerMock->expects($this->any())->method('setEncoding')->will($this->returnSelf());
         $this->_soapServerMock->expects($this->any())->method('setReturnResponse')->will($this->returnSelf());
 
+        $helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
+        $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
+
         $this->_dispatcher = new Mage_Webapi_Controller_Soap(
             $this->_requestMock,
             $this->_responseMock,
@@ -84,7 +87,8 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
             $this->_soapFaultMock,
             $this->_errorProcessorMock,
             $this->_soapHandlerMock,
-            $this->_appStateMock
+            $this->_appStateMock,
+            $helperMock
         );
     }
 
@@ -117,6 +121,9 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
         $this->_soapFaultMock->expects($this->any())
             ->method('getSoapFaultMessage')
+            ->will($this->returnArgument(0));
+        $this->_errorProcessorMock->expects($this->any())
+            ->method('maskException')
             ->will($this->returnArgument(0));
 
         $this->_dispatcher->dispatch();

@@ -33,6 +33,9 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
     /** @var Mage_Core_Model_App_State */
     protected $_appState;
 
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_helper;
+
     /**
      * Initialize dependencies.
      *
@@ -44,6 +47,7 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
      * @param Mage_Webapi_Controller_ErrorProcessor $errorProcessor
      * @param Mage_Webapi_Controller_Soap_Handler $soapHandler
      * @param Mage_Core_Model_App_State $appState
+     * @param Mage_Webapi_Helper_Data $helper
      */
     public function __construct(
         Mage_Webapi_Controller_Soap_Request $request,
@@ -53,7 +57,8 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
         Mage_Webapi_Model_Soap_Fault $soapFault,
         Mage_Webapi_Controller_ErrorProcessor $errorProcessor,
         Mage_Webapi_Controller_Soap_Handler $soapHandler,
-        Mage_Core_Model_App_State $appState
+        Mage_Core_Model_App_State $appState,
+        Mage_Webapi_Helper_Data $helper
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -63,6 +68,7 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
         $this->_errorProcessor = $errorProcessor;
         $this->_soapHandler = $soapHandler;
         $this->_appState = $appState;
+        $this->_helper = $helper;
     }
 
     /**
@@ -85,25 +91,27 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
      */
     public function dispatch()
     {
-        if (!$this->_appState->isInstalled()) {
-            $this->_processBadRequest('Magento is not yet installed');
-        } else {
-            try {
-                if ($this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {
-                    $responseBody = $this->_wsdlGenerator->generate(
-                        $this->_request->getRequestedServices(),
-                        $this->_soapServer->generateUri()
-                    );
-                    $this->_setResponseContentType('text/xml');
-                } else {
-                    $responseBody = $this->_initSoapServer()->handle();
-                    $this->_setResponseContentType('application/soap+xml');
-                }
-                $this->_setResponseBody($responseBody);
-            } catch (Exception $e) {
-                $maskedException = $this->_errorProcessor->maskException($e);
-                $this->_processBadRequest($maskedException->getMessage());
+        try {
+            if (!$this->_appState->isInstalled()) {
+                throw new Mage_Webapi_Exception(
+                    $this->_helper->__('Magento is not yet installed'),
+                    Mage_Webapi_Exception::HTTP_BAD_REQUEST
+                );
             }
+            if ($this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {
+                $responseBody = $this->_wsdlGenerator->generate(
+                    $this->_request->getRequestedServices(),
+                    $this->_soapServer->generateUri()
+                );
+                $this->_setResponseContentType('text/xml');
+            } else {
+                $responseBody = $this->_initSoapServer()->handle();
+                $this->_setResponseContentType('application/soap+xml');
+            }
+            $this->_setResponseBody($responseBody);
+        } catch (Exception $e) {
+            $maskedException = $this->_errorProcessor->maskException($e);
+            $this->_processBadRequest($maskedException->getMessage());
         }
         $this->_response->sendResponse();
         return $this;

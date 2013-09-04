@@ -24,6 +24,9 @@ class Mage_Webapi_Controller_ErrorProcessor
     /** @var Mage_Core_Helper_Data */
     protected $_coreHelper;
 
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_apiHelper;
+
     /** @var Mage_Core_Model_App */
     protected $_app;
 
@@ -43,6 +46,7 @@ class Mage_Webapi_Controller_ErrorProcessor
         Mage_Core_Model_Logger $logger
     ) {
         $this->_coreHelper = $helperFactory->get('Mage_Core_Helper_Data');
+        $this->_apiHelper = $helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_app = $app;
         $this->_logger = $logger;
         $this->registerShutdownFunction();
@@ -61,7 +65,7 @@ class Mage_Webapi_Controller_ErrorProcessor
             $reportId = $this->_logException($exception);
             /** Create exception with masked message. */
             return new Mage_Webapi_Exception(
-                $this->_coreHelper
+                $this->_apiHelper
                     ->__('Internal Error. Details are available in Magento log file. Report ID: "%s"', $reportId),
                 Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
             );
