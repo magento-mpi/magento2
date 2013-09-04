@@ -129,7 +129,6 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
             $this->_soapFault->getSoapFaultMessage(
                 $message,
                 Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER,
-                $this->_soapFault->getLanguage(),
                 $details
             )
         );

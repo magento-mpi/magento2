@@ -9,7 +9,6 @@
  */
 class Mage_Webapi_Model_Soap_Fault extends RuntimeException
 {
-    const DEFAULT_LANGUAGE = 'en';
     const FAULT_REASON_INTERNAL = 'Internal Error.';
 
     /**#@+
@@ -49,26 +48,26 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
     /**
      * Construct exception.
      *
+     * @param Mage_Core_Model_App $application
      * @param string $reason
      * @param string $faultCode
-     * @param string $language
      * @param Exception $previous
      * @param array $parameters
      * @param string|null $errorCode
      */
     public function __construct(
+        Mage_Core_Model_App $application,
         $reason = self::FAULT_REASON_INTERNAL,
         $faultCode = self::FAULT_CODE_RECEIVER,
-        $language = self::DEFAULT_LANGUAGE,
         Exception $previous = null,
         $parameters = array(),
         $errorCode = null
     ) {
         parent::__construct($reason, 0, $previous);
         $this->_soapCode = $faultCode;
-        $this->_language = $language;
         $this->_parameters = $parameters;
         $this->_errorCode = $errorCode;
+        $this->_language = $application->getLocale()->getLocale()->getLanguage();
     }
 
     /**
@@ -89,8 +88,7 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
             $this->addDetails(array(self::NODE_ERROR_DETAIL_CODE => $this->getErrorCode()));
         }
 
-        return $this->getSoapFaultMessage(
-            $this->getMessage(), $this->getSoapCode(), $this->getLanguage(), $this->getDetails());
+        return $this->getSoapFaultMessage($this->getMessage(), $this->getSoapCode(), $this->getDetails());
     }
 
     /**
@@ -160,11 +158,10 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
      *
      * @param string $reason Human-readable explanation of the fault
      * @param string $code SOAP fault code
-     * @param string $language Reason message language
      * @param array|null $details Detailed reason message(s)
      * @return string
      */
-    public function getSoapFaultMessage($reason, $code, $language, $details)
+    public function getSoapFaultMessage($reason, $code, $details)
     {
         if (is_array($details) && !empty($details)) {
             $detailsXml = $this->_convertDetailsToXml($details);
@@ -175,6 +172,7 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
         } else {
             $detailsXml = '';
         }
+        $language = $this->getLanguage();
         $detailsNamespace = !empty($detailsXml) ? 'xmlns:m="http://magento.com"': '';
         $reason = htmlentities($reason);
         $message = <<<FAULT_MESSAGE

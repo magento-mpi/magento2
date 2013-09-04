@@ -132,9 +132,9 @@ class Mage_Webapi_Controller_Soap_Handler
             $exception = $this->_errorProcessor->maskException($exception);
         }
         throw new Mage_Webapi_Model_Soap_Fault(
+            $this->_application,
             $exception->getMessage(),
             $originator,
-            $this->_application->getLocale()->getLocale()->getLanguage(),
             $exception,
             isset($parameters) ? $parameters : array(),
             $exception->getCode()

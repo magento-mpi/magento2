@@ -9,19 +9,29 @@
  */
 class Mage_Webapi_Model_Soap_FaultTest extends PHPUnit_Framework_TestCase
 {
+    /** @var Mage_Core_Model_App */
+    protected $_appMock;
+
     /** @var Mage_Webapi_Model_Soap_Fault */
     protected $_soapFault;
 
     protected function setUp()
     {
+        $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
+        $localeMock = $this->getMockBuilder('Mage_Core_Model_LocaleInterface')
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $localeMock->expects($this->any())->method('getLocale')->will($this->returnValue(new Zend_Locale('en_US')));
+        $this->_appMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
         /** Initialize SUT. */
-        $this->_soapFault = new Mage_Webapi_Model_Soap_Fault();
+        $this->_soapFault = new Mage_Webapi_Model_Soap_Fault($this->_appMock);
         parent::setUp();
     }
 
     protected function tearDown()
     {
         unset($this->_soapFault);
+        unset($this->_appMock);
         parent::tearDown();
     }
 
@@ -64,7 +74,6 @@ XML;
     public function testGetSoapFaultMessage(
         $faultReason,
         $faultCode,
-        $language,
         $additionalParameters,
         $expectedResult,
         $assertMessage
@@ -72,7 +81,6 @@ XML;
         $actualResult = $this->_soapFault->getSoapFaultMessage(
             $faultReason,
             $faultCode,
-            $language,
             $additionalParameters
         );
         $this->assertXmlStringEqualsXmlString($expectedResult, $actualResult, $assertMessage);
@@ -92,7 +100,6 @@ XML;
             array(
                 'Fault reason',
                 'Sender',
-                Mage_Webapi_Model_Soap_Fault::DEFAULT_LANGUAGE,
                 array('key1' => 'value1', 'key2' => 'value2'),
                 $expectedXmls['expectedResultArrayDataDetails'],
                 'SOAP fault message with associated array data details is invalid.'
@@ -100,7 +107,6 @@ XML;
             array(
                 'Fault reason',
                 'Sender',
-                Mage_Webapi_Model_Soap_Fault::DEFAULT_LANGUAGE,
                 array('value1', 'value2'),
                 $expectedXmls['expectedResultIndexArrayDetails'],
                 'SOAP fault message with index array data details is invalid.'
@@ -108,7 +114,6 @@ XML;
             array(
                 'Fault reason',
                 'Sender',
-                Mage_Webapi_Model_Soap_Fault::DEFAULT_LANGUAGE,
                 array(),
                 $expectedXmls['expectedResultEmptyArrayDetails'],
                 'SOAP fault message with empty array data details is invalid.'
@@ -116,7 +121,6 @@ XML;
             array(
                 'Fault reason',
                 'Sender',
-                Mage_Webapi_Model_Soap_Fault::DEFAULT_LANGUAGE,
                 (object)array('key' => 'value'),
                 $expectedXmls['expectedResultObjectDetails'],
                 'SOAP fault message with object data details is invalid.'
@@ -124,7 +128,6 @@ XML;
             array(
                 'Fault reason',
                 'Sender',
-                Mage_Webapi_Model_Soap_Fault::DEFAULT_LANGUAGE,
                 array('key' => array('sub_key' => 'value')),
                 $expectedXmls['expectedResultComplexDataDetails'],
                 'SOAP fault message with complex data details is invalid.'
@@ -136,9 +139,9 @@ XML;
     {
         $message = "Soap fault reason.";
         $soapFault = new Mage_Webapi_Model_Soap_Fault(
+            $this->_appMock,
             $message,
             Mage_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER,
-            Mage_Webapi_Model_Soap_Fault::DEFAULT_LANGUAGE,
             null,
             array('param1' => 'value1', 'param2' => 2),
             111

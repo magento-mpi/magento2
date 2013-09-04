@@ -183,9 +183,9 @@ class Mage_Webapi_Model_Soap_Server
             return $this;
         } catch (Exception $e) {
             $fault = new Mage_Webapi_Model_Soap_Fault(
+                $this->_application,
                 $e->getMessage(),
-                Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER,
-                $this->_application->getLocale()->getLocale()->getLanguage()
+                Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER
             );
             die($fault->toXml($this->_application->isDeveloperMode()));
         }
