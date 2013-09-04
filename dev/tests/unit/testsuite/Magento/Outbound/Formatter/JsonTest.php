@@ -58,7 +58,7 @@ class Magento_Outbound_Formatter_JsonTest extends PHPUnit_Framework_TestCase
             array(array(1), '[1]'),
             array(array(2.4), '[2.4]'),
             array(array(2.0), '[2]'),
-            array(array(new Data('public', 'protected')), '[{"dataA":"public"}]')
+            array(array(new Magento_Outbound_Formatter_JsonTest_Data('public', 'protected')), '[{"dataA":"public"}]')
         );
     }
 }
