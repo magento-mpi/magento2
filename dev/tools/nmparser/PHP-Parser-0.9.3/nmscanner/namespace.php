@@ -480,10 +480,10 @@ class namespacer
     private function sanityCheckCleanup()
     {
 
-        $sanitySearchXML = array("type name=\"\\Magento\\", "preference for=\"\\Magento","['\\Magento\\",
+        $sanitySearchXML = array("type name=\"\\Magento\\", "preference for=\"\\Magento",
             "module name=\"\\Magento\\","type=\"\\Magento\\");
-        $sanityReplaceXMl=array("type name=\"Magento\\", "preference for=\"Magento","['Magento\\",
-            "module name=\"Magento\\","type=\"Magento\\");
+        $sanityReplaceXMl=array("type name=\"Magento\\", "preference for=\"Magento",
+            "module name=\"Magento_","type=\"Magento\\");
 
         echo "=====================\n";
         echo "XML Sanity check  Started\n";
