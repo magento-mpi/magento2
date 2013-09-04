@@ -9,29 +9,19 @@
  * @license     {license_link}
  */
 -->
-<logging>
-    <magento_customerbalance translate="label">
-        <label>Store Credit</label>
-        <actions>
-            <adminhtml_customerbalance_form>
-                <action>view</action>
-                <expected_models>
-                    <Magento_CustomerBalance_Model_Balance/>
-                </expected_models>
-            </adminhtml_customerbalance_form>
-        </actions>
-    </magento_customerbalance>
-    <customer>
-        <actions>
-            <adminhtml_customer_save>
-                <expected_models extends="merge">
-                    <Magento_CustomerBalance_Model_Balance/>
-                </expected_models>
-                <skip_on_back>
-                    <adminhtml_customerbalance_form/>
-                    <adminhtml_customer_edit/>
-                </skip_on_back>
-            </adminhtml_customer_save>
-        </actions>
-    </customer>
-</logging>
+<logging xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+    <event id="magento_customerbalance" >
+        <label translate="true" >Store Credit</label >
+        <handle name="adminhtml_customerbalance_form" action="view" >
+            <expected_model class="Magento_CustomerBalance_Model_Balance" />
+        </handle >
+    </event >
+    <event id="customer" >
+        <label translate="true" />
+        <handle name="adminhtml_customer_save" skip_on_back="adminhtml_customerbalance_form adminhtml_customer_edit "
+                extends_expected_models="true" >
+            <expected_model class="Magento_CustomerBalance_Model_Balance" />
+        </handle >
+    </event >
+</logging >

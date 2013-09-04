@@ -9,31 +9,14 @@
  * @license     {license_link}
  */
 -->
-<logging>
-    <magento_banner translate="label">
-        <label>Manage Banners</label>
-        <expected_models>
-            <Magento_Banner_Model_Banner/>
-        </expected_models>
-        <actions>
-            <adminhtml_banner_edit>
-                <action>view</action>
-            </adminhtml_banner_edit>
-
-            <adminhtml_banner_save>
-                <action>save</action>
-                <skip_on_back>
-                    <adminhtml_banner_edit />
-                </skip_on_back>
-            </adminhtml_banner_save>
-
-            <adminhtml_banner_delete>
-                <action>delete</action>
-            </adminhtml_banner_delete>
-
-            <adminhtml_banner_massDelete>
-                <action>massDelete</action>
-            </adminhtml_banner_massDelete>
-        </actions>
-    </magento_banner>
-</logging>
+<logging xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+    <event id="magento_banner" >
+        <label translate="true" >Manage Banners</label >
+        <expected_model class="Magento_Banner_Model_Banner" />
+        <handle name="adminhtml_banner_edit" action="view" />
+        <handle name="adminhtml_banner_save" action="save" skip_on_back="adminhtml_banner_edit " />
+        <handle name="adminhtml_banner_delete" action="delete" />
+        <handle name="adminhtml_banner_massDelete" action="massDelete" />
+    </event >
+</logging >

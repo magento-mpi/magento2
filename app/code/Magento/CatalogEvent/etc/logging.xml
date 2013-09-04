@@ -9,25 +9,13 @@
  * @license     {license_link}
  */
 -->
-<logging>
-    <magento_catalogevent translate="label">
-        <label>Catalog Events</label>
-        <expected_models>
-            <Magento_CatalogEvent_Model_Event/>
-        </expected_models>
-        <actions>
-            <adminhtml_catalog_event_edit>
-                <action>view</action>
-            </adminhtml_catalog_event_edit>
-            <adminhtml_catalog_event_save>
-                <action>save</action>
-                <skip_on_back>
-                    <adminhtml_catalog_event_edit />
-                </skip_on_back>
-            </adminhtml_catalog_event_save>
-            <adminhtml_catalog_event_delete>
-                <action>delete</action>
-            </adminhtml_catalog_event_delete>
-        </actions>
-    </magento_catalogevent>
-</logging>
+<logging xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+    <event id="magento_catalogevent" >
+        <label translate="true" >Catalog Events</label >
+        <expected_model class="Magento_CatalogEvent_Model_Event" />
+        <handle name="adminhtml_catalog_event_edit" action="view" />
+        <handle name="adminhtml_catalog_event_save" action="save" skip_on_back="adminhtml_catalog_event_edit " />
+        <handle name="adminhtml_catalog_event_delete" action="delete" />
+    </event >
+</logging >

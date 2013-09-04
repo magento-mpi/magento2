@@ -9,48 +9,24 @@
  * @license     {license_link}
  */
 -->
-<logging>
-    <actions>
-        <apply_coupon translate="label">
-            <label>Apply Coupon</label>
-        </apply_coupon>
-        <add_to_cart translate="label">
-            <label>Add to Cart</label>
-        </add_to_cart>
-    </actions>
-    <enterprise_checkout translate="label">
-        <label>Shopping Cart Management</label>
-        <actions>
-            <adminhtml_checkout_index>
-                <action>view</action>
-                <expected_models>
-                    <Magento_Sales_Model_Quote/>
-                </expected_models>
-            </adminhtml_checkout_index>
-            <adminhtml_checkout_applyCoupon>
-                <action>apply_coupon</action>
-                <expected_models>
-                    <Magento_Sales_Model_Quote/>
-                </expected_models>
-                <post_dispatch>postDispatchAdminCheckoutApplyCoupon</post_dispatch>
-            </adminhtml_checkout_applyCoupon>
-            <adminhtml_checkout_updateItems>
-                <action>save</action>
-                <expected_models>
-                    <Magento_Sales_Model_Quote_Item/>
-                </expected_models>
-            </adminhtml_checkout_updateItems>
-            <adminhtml_checkout_addToCart>
-                <action>add_to_cart</action>
-                <expected_models>
-                    <Magento_Sales_Model_Quote_Item>
-                        <additional_data>
-                            <item_id/>
-                            <quote_id/>
-                        </additional_data>
-                    </Magento_Sales_Model_Quote_Item>
-                </expected_models>
-            </adminhtml_checkout_addToCart>
-        </actions>
-    </enterprise_checkout>
-</logging>
+<logging xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+    <title action="apply_coupon" translate="true" >Apply Coupon</title >
+    <title action="add_to_cart" translate="true" >Add to Cart</title >
+    <event id="enterprise_checkout" >
+        <label translate="true" >Shopping Cart Management</label >
+        <handle name="adminhtml_checkout_index" action="view" >
+            <expected_model class="Magento_Sales_Model_Quote" />
+        </handle >
+        <handle name="adminhtml_checkout_applyCoupon" action="apply_coupon"
+                post_dispatch="postDispatchAdminCheckoutApplyCoupon" >
+            <expected_model class="Magento_Sales_Model_Quote" />
+        </handle >
+        <handle name="adminhtml_checkout_updateItems" action="save" >
+            <expected_model class="Magento_Sales_Model_Quote_Item" />
+        </handle >
+        <handle name="adminhtml_checkout_addToCart" action="add_to_cart" >
+            <expected_model class="Magento_Sales_Model_Quote_Item" additional_fields="item_id quote_id " />
+        </handle >
+    </event >
+</logging >

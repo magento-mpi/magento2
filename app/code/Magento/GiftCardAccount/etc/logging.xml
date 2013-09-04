@@ -9,38 +9,16 @@
  * @license     {license_link}
  */
 -->
-<logging>
-    <magento_giftcardaccount translate="label">
-        <label>Gift Card Accounts</label>
-        <expected_models>
-            <Magento_GiftCardAccount_Model_Giftcardaccount/>
-        </expected_models>
-        <actions>
-            <adminhtml_giftcardaccount_edit>
-                <action>view</action>
-            </adminhtml_giftcardaccount_edit>
-
-            <adminhtml_giftcardaccount_save>
-                <action>save</action>
-            </adminhtml_giftcardaccount_save>
-
-            <adminhtml_giftcardaccount_delete>
-                <action>delete</action>
-            </adminhtml_giftcardaccount_delete>
-
-            <adminhtml_giftcardaccount_massDelete>
-                <action>massDelete</action>
-            </adminhtml_giftcardaccount_massDelete>
-
-            <adminhtml_giftcardaccount_exportCsv>
-                <action>export</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
-            </adminhtml_giftcardaccount_exportCsv>
-
-            <adminhtml_giftcardaccount_exportMsxml>
-                <action>export</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
-            </adminhtml_giftcardaccount_exportMsxml>
-        </actions>
-    </magento_giftcardaccount>
-</logging>
+<logging xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+    <event id="magento_giftcardaccount" >
+        <label translate="true" >Gift Card Accounts</label >
+        <expected_model class="Magento_GiftCardAccount_Model_Giftcardaccount" />
+        <handle name="adminhtml_giftcardaccount_edit" action="view" />
+        <handle name="adminhtml_giftcardaccount_save" action="save" />
+        <handle name="adminhtml_giftcardaccount_delete" action="delete" />
+        <handle name="adminhtml_giftcardaccount_massDelete" action="massDelete" />
+        <handle name="adminhtml_giftcardaccount_exportCsv" action="export" post_dispatch="postDispatchSimpleSave" />
+        <handle name="adminhtml_giftcardaccount_exportMsxml" action="export" post_dispatch="postDispatchSimpleSave" />
+    </event >
+</logging >
