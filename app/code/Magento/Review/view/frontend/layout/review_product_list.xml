@@ -36,7 +36,7 @@
                     </container>
                 </block>
                 <block class="Magento_Catalog_Block_Product_View" name="product.tierprices" as="tierprices" template="product/view/tierprices.phtml"/>
-                <block class="Magento_Core_Block_Template" name="product.info.other" as="other" template="Magento_Review::product/view/other.phtml"/>
+                <block class="Magento_Review_Block_Product_View_Other" name="product.info.other" as="other" template="Magento_Review::product/view/other.phtml"/>
                 <block class="Magento_Page_Block_Html_Pager" name="product_review_list.toolbar"/>
                 <block class="Magento_Core_Block_Template" name="product_review_list.count" template="Magento_Review::product/view/count.phtml"/>
                 <block class="Magento_Review_Block_Product_View_List" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml">

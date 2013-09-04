@@ -17,7 +17,7 @@ class Magento_Customer_Model_Resource_Address_CollectionTest extends PHPUnit_Fra
         $collection = Mage::getModel('Magento_Customer_Model_Resource_Address_Collection');
         $select = $collection->getSelect();
         $this->assertSame($collection, $collection->setCustomerFilter(array(1, 2)));
-        $customer = Mage::getObjectManager()->create('Magento_Customer_Model_Customer');
+        $customer = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Customer_Model_Customer');
         $collection->setCustomerFilter($customer);
         $customer->setId(3);
         $collection->setCustomerFilter($customer);

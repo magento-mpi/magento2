@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
-        <block class="Magento_Core_Block_Template" name="formkey" template="Magento_Core::formkey.phtml"/>
+        <block class="Magento_Core_Block_Formkey" name="formkey" template="Magento_Core::formkey.phtml"/>
     </handle>
 </layout>

@@ -9,9 +9,14 @@
 -->
 <config>
     <module name="Magento_BannerCustomerSegment" version="1.0.0.0" active="false">
+        <sequence>
+            <module name="Magento_Banner"/>
+            <module name="Magento_CustomerSegment"/>
+        </sequence>
         <depends>
-            <module name="Magento_Banner" />
-            <module name="Magento_CustomerSegment" />
+            <module name="Magento_Banner"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_CustomerSegment"/>
         </depends>
     </module>
 </config>

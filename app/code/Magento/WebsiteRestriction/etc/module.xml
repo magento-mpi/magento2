@@ -9,10 +9,16 @@
 -->
 <config>
     <module name="Magento_WebsiteRestriction" version="1.11.0.0.1" active="false">
+        <sequence>
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Cms"/>
+        </sequence>
         <depends>
-            <module name="Magento_Core" />
-            <module name="Magento_Customer" />
-            <module name="Magento_Cms" />
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Cms"/>
+            <module name="Magento_Page"/>
         </depends>
     </module>
 </config>

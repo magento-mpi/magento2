@@ -126,7 +126,7 @@
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
             function() {
                 $('#<?php echo $prefix ?>\\:country_id').regionUpdater({
-                    optionalRegionAllowed: <?php echo (Mage::getStoreConfig('general/region/display_all')? 'true' : 'false'); ?>,
+                    optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
                     regionListId: '#<?php echo $prefix ?>\\:region_id',
                     regionInputId: '#<?php echo $prefix ?>\\:region',
                     postcodeId: '#<?php echo $prefix ?>\\:postcode',

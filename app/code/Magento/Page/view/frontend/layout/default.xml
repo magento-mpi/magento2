@@ -133,7 +133,7 @@
                 </arguments>
             </block>
             <!-- Preload resources for widgets -->
-            <block class="Magento_Core_Block_Template" name="head.components" as="components" template="Magento_Page::js/components.phtml"/>
+            <block class="Magento_Adminhtml_Block_Page_Js_Components" name="head.components" as="components" template="Magento_Page::js/components.phtml"/>
         </reference>
     </handle>
 </layout>

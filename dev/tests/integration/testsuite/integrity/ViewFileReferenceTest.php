@@ -44,7 +44,7 @@ class Integrity_ViewFileReferenceTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
 
         /** @var $fallbackFactory Magento_Core_Model_Design_Fallback_Factory */
         $fallbackFactory = $objectManager->get('Magento_Core_Model_Design_Fallback_Factory');

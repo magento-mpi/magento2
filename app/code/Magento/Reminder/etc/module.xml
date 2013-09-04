@@ -9,13 +9,23 @@
 -->
 <config>
     <module name="Magento_Reminder" version="1.11.0.2" active="false">
+        <sequence>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Checkout"/>
+            <module name="Magento_Wishlist"/>
+            <module name="Magento_SalesRule"/>
+            <module name="Magento_Rule"/>
+        </sequence>
         <depends>
-            <module name="Magento_Customer" />
-            <module name="Magento_Adminhtml" />
-            <module name="Magento_Checkout" />
-            <module name="Magento_Wishlist" />
-            <module name="Magento_SalesRule" />
-            <module name="Magento_Rule" />
+            <module name="Magento_Customer"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_SalesRule"/>
+            <module name="Magento_Rule"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Enterprise"/>
         </depends>
     </module>
 </config>

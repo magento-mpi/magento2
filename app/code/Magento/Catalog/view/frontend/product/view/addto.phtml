@@ -24,7 +24,7 @@
 <script type="text/javascript">
 head.js("<?php echo $this->getViewFileUrl('Magento_Wishlist::js/add-to-wishlist.js') ?>", function () {
     jQuery('[data-role="add-to-links"]').addToWishlist(
-        <?php echo Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array('productType' => $_product->getTypeId()))?>
+        <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode(array('productType' => $_product->getTypeId()))?>
     );
 });
 </script>

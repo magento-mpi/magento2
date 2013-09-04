@@ -38,7 +38,7 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    Fieldset.addToPrefix(<?php echo Mage::helper('Magento_Adminhtml_Helper_Data')->getCurrentUserId() ?>);
+    Fieldset.addToPrefix(<?php echo $this->helper('Magento_Adminhtml_Helper_Data')->getCurrentUserId() ?>);
 </script>
 
 <?php echo $this->helper('Magento_Core_Helper_Js')->getTranslatorScript() ?>
