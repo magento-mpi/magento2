@@ -10,7 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Outbound_Formatter_FormatterTest_Data
+class Magento_Outbound_Formatter_JsonTest_Data
 {
     public $dataA;
 
