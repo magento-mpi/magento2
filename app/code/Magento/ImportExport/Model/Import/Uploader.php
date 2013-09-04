@@ -32,12 +32,25 @@ class Magento_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File
      */
     protected $_imageFactory;
 
-    function __construct(Magento_Core_Model_Image_AdapterFactory $imageFactory, $filePath = null)
-    {
+    /**
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param Magento_Core_Helper_File_Storage $coreFileStorage
+     * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
+     * @param null $filePath
+     * @internal param $fileId
+     */
+    public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
+        Magento_Core_Helper_File_Storage $coreFileStorage,
+        Magento_Core_Model_Image_AdapterFactory $imageFactory,
+        $filePath = null
+    ) {
         if (!is_null($filePath)) {
             $this->_setUploadFile($filePath);
         }
         $this->_imageFactory = $imageFactory;
+        $this->_coreFileStorageDb = $coreFileStorageDb;
+        $this->_coreFileStorage = $coreFileStorage;
     }
 
     /**

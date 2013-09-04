@@ -68,16 +68,11 @@ class Magento_Core_Model_File_Uploader extends Magento_File_Uploader
             return $this;
         }
 
-        /** @var $helper Magento_Core_Helper_File_Storage */
-        $helper = $this->_coreFileStorage;
-
-        if ($helper->isInternalStorage() || $this->skipDbProcessing()) {
+        if ($this->_coreFileStorage->isInternalStorage() || $this->skipDbProcessing()) {
             return $this;
         }
 
-        /** @var $dbHelper Magento_Core_Helper_File_Storage_Database */
-        $dbHelper = $this->_coreFileStorageDb;
-        $this->_result['file'] = $dbHelper->saveUploadedFile($result);
+        $this->_result['file'] = $this->_coreFileStorageDb->saveUploadedFile($result);
 
         return $this;
     }
