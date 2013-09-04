@@ -209,7 +209,8 @@ class Mage_Webapi_Controller_Rest_Request extends Mage_Webapi_Controller_Request
 
         $httpMethod = $this->getHttpMethod();
         if ($httpMethod == Mage_Webapi_Model_Rest_Config::HTTP_METHOD_POST
-            || $httpMethod == Mage_Webapi_Model_Rest_Config::HTTP_METHOD_PUT) {
+            || $httpMethod == Mage_Webapi_Model_Rest_Config::HTTP_METHOD_PUT
+        ) {
             $requestBody = $this->getBodyParams();
         }
 
