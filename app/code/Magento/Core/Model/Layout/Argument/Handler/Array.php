@@ -23,14 +23,11 @@ class Magento_Core_Model_Layout_Argument_Handler_Array extends Magento_Core_Mode
     protected $_handlerFactory;
 
     /**
-     * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
         Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
     ) {
-        parent::__construct($objectManager);
         $this->_handlerFactory = $handlerFactory;
     }
 

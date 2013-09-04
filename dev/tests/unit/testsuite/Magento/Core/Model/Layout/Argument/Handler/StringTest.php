@@ -59,9 +59,9 @@ class Magento_Core_Model_Layout_Argument_Handler_StringTest extends PHPUnit_Fram
         $translateString = $layout->xpath('//argument[@name="testTranslateString"]');
         $complexString = $layout->xpath('//argument[@name="testComplexString"]');
         return array(
-            array($simpleString[0], $result[0][0]),
-            array($translateString[0], $result[1][0]),
-            array($complexString[0], $result[2][0]),
+            array($simpleString[0], $result[0][0] + array('type' => 'string')),
+            array($translateString[0], $result[1][0] + array('type' => 'string')),
+            array($complexString[0], $result[2][0] + array('type' => 'string')),
         );
     }
 
@@ -74,7 +74,7 @@ class Magento_Core_Model_Layout_Argument_Handler_StringTest extends PHPUnit_Fram
     {
         $result = $this->_model->process($argument);
         $this->assertEquals($result, $expectedResult);
-        if (!empty($argument['translate'])) {
+        if (!empty($argument['value']['translate'])) {
             $this->assertInstanceOf('Magento_Phrase', $result);
         }
     }
@@ -85,9 +85,9 @@ class Magento_Core_Model_Layout_Argument_Handler_StringTest extends PHPUnit_Fram
     public function processDataProvider()
     {
         return array(
-            array(array('value' => 'Simple Test'), 'Simple Test'),
-            array(array('value' => 'Test Translate', 'translate' => true), 'Test Translate'),
-            array(array('value' => 'Complex Test'), 'Complex Test'),
+            array(array('value' => array('string' => 'Simple Test')), 'Simple Test'),
+            array(array('value' => array('string' => 'Test Translate', 'translate' => true)), 'Test Translate'),
+            array(array('value' => array('string' => 'Complex Test')), 'Complex Test'),
         );
     }
 
@@ -111,7 +111,8 @@ class Magento_Core_Model_Layout_Argument_Handler_StringTest extends PHPUnit_Fram
     {
         return array(
             array(array('value' => null), 'Value is required for string argument'),
-            array(array('value' => false), 'Value is not string argument'),
+            array(array('value' => array()), 'Passed value has incorrect format'),
+            array(array('value' => array('string' => false)), 'Value is not string argument'),
         );
     }
 }

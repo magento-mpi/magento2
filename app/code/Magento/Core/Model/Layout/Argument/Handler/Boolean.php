@@ -40,7 +40,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Boolean extends Magento_Core_Mo
      * @return mixed
      * @throws InvalidArgumentException
      */
-    public function process($argument)
+    public function process(array $argument)
     {
         $this->_validate($argument);
         return filter_var($argument['value'], FILTER_VALIDATE_BOOLEAN);
@@ -50,7 +50,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Boolean extends Magento_Core_Mo
      * @param array $argument
      * @throws InvalidArgumentException
      */
-    protected function _validate($argument)
+    protected function _validate(array $argument)
     {
         if (!isset($argument['value'])) {
             throw new InvalidArgumentException('Value is required for boolean argument');

@@ -22,21 +22,13 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_objectManagerMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_factoryMock;
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_factoryMock = $this->getMock('Magento_Core_Model_Layout_Argument_HandlerFactory', array(), array(),
             '', false);
-        $this->_model = new Magento_Core_Model_Layout_Argument_Handler_Array($this->_objectManagerMock,
-            $this->_factoryMock
-        );
+        $this->_model = new Magento_Core_Model_Layout_Argument_Handler_Array($this->_factoryMock);
     }
 
     /**
@@ -164,7 +156,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
                 $layout->xpath('//argument[@name="testArrayWithUpdater"]'),
                 array(
                     'type' => 'array',
-                    'updater' => array('Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater'),
+                    'updaters' => array('Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater'),
                     'value' => array(
                         'add' => 'array',
                     ),

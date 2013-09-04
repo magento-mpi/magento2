@@ -51,7 +51,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Number extends Magento_Core_Mod
      * @param array $argument
      * @throws InvalidArgumentException
      */
-    protected function _validate($argument)
+    protected function _validate(array $argument)
     {
         if (!isset($argument['value'])) {
             throw new InvalidArgumentException('Value is required for number argument');

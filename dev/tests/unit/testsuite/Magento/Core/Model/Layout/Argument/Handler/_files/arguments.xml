@@ -47,6 +47,7 @@
                         <item name="url" xsi:type="string">*/sales_archive/massAdd</item>
                     </item>
                 </argument>
+                <argument name="testOptions" xsi:type="options" model="Magento_Core_Model_Layout_Argument_Handler_Files_TestOptions"/>
             </arguments>
         </block>
     </handle>

@@ -44,7 +44,7 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
     public function testParse($argument, $expectedResult)
     {
         $result = $this->_model->parse($argument);
-        $this->assertEquals($result['value'], $expectedResult['value']);
+        $this->assertEquals($result, $expectedResult);
     }
 
     /**
@@ -62,8 +62,8 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
         $argWithParams = $layout->xpath('//argument[@name="testHelperWithParams"]');
         $argWithoutParams = $layout->xpath('//argument[@name="testHelperWithoutParams"]');
         return array(
-            array($argWithParams[0], $resultWithParams),
-            array($argWithoutParams[0], $resultWithoutParams),
+            array($argWithParams[0], $resultWithParams + array('type' => 'helper')),
+            array($argWithoutParams[0], $resultWithoutParams + array('type' => 'helper')),
         );
     }
 

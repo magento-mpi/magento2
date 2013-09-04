@@ -58,8 +58,8 @@ class Magento_Core_Model_Layout_Argument_Handler_NumberTest extends PHPUnit_Fram
         $simpleArg = $layout->xpath('//argument[@name="testSimpleNumber"]');
         $complexArg = $layout->xpath('//argument[@name="testComplexNumber"]');
         return array(
-            array($simpleArg[0], $result[0][0]),
-            array($complexArg[0], $result[1][0]),
+            array($simpleArg[0], $result[0][0] + array('type' => 'number')),
+            array($complexArg[0], $result[1][0] + array('type' => 'number')),
         );
     }
 

@@ -42,7 +42,7 @@ class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framewo
     public function testParse($argument, $expectedResult)
     {
         $result = $this->_model->parse($argument);
-        $this->assertEquals($result['value'], $expectedResult['value']);
+        $this->assertEquals($result, $expectedResult);
     }
 
     /**
@@ -60,8 +60,8 @@ class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framewo
         $argWithParams = $layout->xpath('//argument[@name="testUrlWithParams"]');
         $argWithoutParams = $layout->xpath('//argument[@name="testUrlWithoutParams"]');
         return array(
-            array($argWithParams[0], $resultWithParams),
-            array($argWithoutParams[0], $resultWithoutParams),
+            array($argWithParams[0], $resultWithParams + array('type' => 'url')),
+            array($argWithoutParams[0], $resultWithoutParams + array('type' => 'url')),
         );
     }
 

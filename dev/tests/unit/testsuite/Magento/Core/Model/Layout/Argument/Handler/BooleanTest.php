@@ -58,8 +58,8 @@ class Magento_Core_Model_Layout_Argument_Handler_BooleanTest extends PHPUnit_Fra
         $simpleArg = $layout->xpath('//argument[@name="testSimpleBoolean"]');
         $complexArg = $layout->xpath('//argument[@name="testComplexBoolean"]');
         return array(
-            array($simpleArg[0], $result[0][0]),
-            array($complexArg[0], $result[0][0]),
+            array($simpleArg[0], $result[0][0] + array('type' => 'boolean')),
+            array($complexArg[0], $result[0][0] + array('type' => 'boolean')),
         );
     }
 

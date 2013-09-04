@@ -24,15 +24,6 @@ abstract class Magento_Core_Model_Layout_Argument_HandlerAbstract
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
-     */
-    public function __construct(Magento_ObjectManager $objectManager)
-    {
-        $this->_objectManager = $objectManager;
-    }
-
-
-    /**
      * Retrieve value from argument
      *
      * @param Magento_Core_Model_Layout_Element $argument
@@ -73,6 +64,14 @@ abstract class Magento_Core_Model_Layout_Argument_HandlerAbstract
             /** @var $updaterNode Magento_Core_Model_Layout_Element */
             $updaters[] = trim((string)$updaterNode);
         }
-        return !empty($updaters) ? $result + array('updater' => $updaters) : $result;
+        return !empty($updaters) ? $result + array('updaters' => $updaters) : $result;
     }
+
+    /**
+     * Validate parsed argument before processing
+     *
+     * @param array $argument
+     * @throws InvalidArgumentException
+     */
+    abstract protected function _validate(array $argument);
 }

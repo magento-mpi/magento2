@@ -21,7 +21,7 @@ class Magento_Core_Model_Layout_Argument_HandlerAbstractTest extends PHPUnit_Fra
     {
         $this->_model = $this->getMockForAbstractClass(
             'Magento_Core_Model_Layout_Argument_HandlerAbstract',
-            array($this->getMock('Magento_ObjectManager')), '', true
+            array(), '', true
         );
     }
 
@@ -46,14 +46,16 @@ class Magento_Core_Model_Layout_Argument_HandlerAbstractTest extends PHPUnit_Fra
             . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
             'Magento_Core_Model_Layout_Element'
         );
+        $withoutUpdater = $layout->xpath('//argument[@name="testParseWithoutUpdater"]');
+        $withUpdater = $layout->xpath('//argument[@name="testParseWithUpdater"]');
         return array(
             array(
-                reset($layout->xpath('//argument[@name="testParseWithoutUpdater"]')),
+                reset($withoutUpdater),
                 array(
                     'type' => 'string')
             ),
             array(
-                reset($layout->xpath('//argument[@name="testParseWithUpdater"]')),
+                reset($withUpdater),
                 array(
                     'type' => 'string',
                     'updaters' => array('Magento_Test_Updater')

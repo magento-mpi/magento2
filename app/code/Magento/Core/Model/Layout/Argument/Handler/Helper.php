@@ -18,6 +18,14 @@
 class Magento_Core_Model_Layout_Argument_Handler_Helper extends Magento_Core_Model_Layout_Argument_HandlerAbstract
 {
     /**
+     * @param Magento_ObjectManager $objectManager
+     */
+    public function __construct(Magento_ObjectManager $objectManager)
+    {
+        $this->_objectManager = $objectManager;
+    }
+
+    /**
      * Parse argument node
      *
      * @param Magento_Core_Model_Layout_Element $argument
@@ -53,7 +61,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Helper extends Magento_Core_Mod
      * @param array $argument
      * @throws InvalidArgumentException
      */
-    protected function _validate($argument)
+    protected function _validate(array $argument)
     {
         if (!isset($argument['value'])) {
             throw new InvalidArgumentException('Value is required for helper argument');
