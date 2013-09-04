@@ -200,8 +200,10 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
 
         // exceptions made for the following files
         if ($relativePath == "/app/code/Zend/Soap/Wsdl.php"
-            || $relativePath == "/dev/tests/unit/testsuite/Magento/Test/Tools/Di/_files/app/code/Magento/SomeModule/Model/Test.php"
-            || $relativePath == "/dev/tests/unit/testsuite/Magento/Test/Tools/Di/_files/app/code/Magento/SomeModule/Helper/Test.php") {
+            || $relativePath ==
+                "/dev/tests/unit/testsuite/Magento/Test/Tools/Di/_files/app/code/Magento/SomeModule/Model/Test.php"
+            || $relativePath ==
+                "/dev/tests/unit/testsuite/Magento/Test/Tools/Di/_files/app/code/Magento/SomeModule/Helper/Test.php") {
             return;
         }
 
