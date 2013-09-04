@@ -110,7 +110,9 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
             $this->_getSession()->addError(
                 __('Your password reset link has expired.')
             );
-            $this->getResponse()->setRedirect($this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl());
+            $this->getResponse()->setRedirect(
+                $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+            );
             return;
         }
 
@@ -130,7 +132,9 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
             $this->_getSession()->addSuccess(
                 __('Your password has been updated.')
             );
-            $this->getResponse()->setRedirect($this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl());
+            $this->getResponse()->setRedirect(
+                $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+            );
         } catch (Magento_Core_Exception $exception) {
             $this->_getSession()->addMessages($exception->getMessages());
             $this->_redirect('*/auth/resetpassword', array(

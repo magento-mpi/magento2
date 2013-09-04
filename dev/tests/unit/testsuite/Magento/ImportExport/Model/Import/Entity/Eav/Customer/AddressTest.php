@@ -144,7 +144,9 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     {
         $this->_objectManagerMock = new Magento_Test_Helper_ObjectManager($this);
         $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $this->_coreStringMock = $this->getMock('Magento_Core_Helper_String', array('__construct'), array(), '', false);
+        $this->_coreStringMock = $this->getMock(
+            'Magento_Core_Helper_String', array('__construct'), array(), '', false
+        );
         $this->_model = $this->_getModelMock();
     }
 
@@ -217,7 +219,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     {
         $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
-            $arguments = $this->_objectManagerMock->getConstructArguments('Magento_Eav_Model_Entity_Attribute_Abstract');
+            $arguments = $this->_objectManagerMock
+                ->getConstructArguments('Magento_Eav_Model_Entity_Attribute_Abstract');
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Attribute_Abstract',
                 $arguments, '', true, true, true, array('_construct', 'getBackend')

@@ -16,7 +16,7 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Result extends Magento_Adminhtml_Block_Template
+class Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Result extends Magento_Backend_Block_Template
 {
     /**
      * Pbridge data
@@ -28,13 +28,13 @@ class Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Result extends Magento_
     /**
      * @param Magento_Pbridge_Helper_Data $pbridgeData
      * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Pbridge_Helper_Data $pbridgeData,
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;

@@ -20,29 +20,29 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_F
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var Magento_Backend_Helper_Data
      */
-    protected $_adminhtmlData = null;
+    protected $_backendData = null;
 
     /**
      * Catalog data
      *
-     * @var Magento_Catalog_Helper_Data
+     * @var Magento_Core_Model_ModuleManager
      */
-    protected $_catalogData = null;
+    protected $_moduleManager = null;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Core_Model_ModuleManager $moduleManager
+     * @param Magento_Backend_Helper_Data $backendData
      * @param array $attributes
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Core_Model_ModuleManager $moduleManager,
+        Magento_Backend_Helper_Data $backendData,
         array $attributes = array()
     ) {
-        $this->_catalogData = $catalogData;
-        $this->_adminhtmlData = $adminhtmlData;
+        $this->_moduleManager = $moduleManager;
+        $this->_backendData = $backendData;
         parent::__construct($attributes);
     }
 
@@ -63,7 +63,7 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_F
                     'disabled' => $disabled,
                     'class' => ($disabled) ? 'disabled action-wysiwyg' : 'action-wysiwyg',
                     'onclick' => 'catalogWysiwygEditor.open(\''
-                        . $this->_adminhtmlData->getUrl('adminhtml/catalog_product/wysiwyg')
+                        . $this->_backendData->getUrl('adminhtml/catalog_product/wysiwyg')
                         . '\', \'' . $this->getHtmlId().'\')'
                 )))->toHtml();
             $html .= <<<HTML
@@ -99,7 +99,7 @@ HTML;
      */
     public function getIsWysiwygEnabled()
     {
-        if ($this->_catalogData->isModuleEnabled('Magento_Cms')) {
+        if ($this->_moduleManager->isEnabled('Magento_Cms')) {
             return (bool)(Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()
                 && $this->getEntityAttribute()->getIsWysiwygEnabled());
         }
