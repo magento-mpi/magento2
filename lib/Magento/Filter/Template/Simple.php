@@ -23,6 +23,7 @@ class Magento_Filter_Template_Simple extends Magento_Object implements Zend_Filt
         $callback = function ($matches) {
             return $this->getData($matches[1]);
         };
-        return preg_replace_callback('#' . $this->_startTag . '(.*?)' . $this->_endTag . '#', $callback, $value);
+        $expression = '#' . preg_quote($this->_startTag) . '(.*?)' . preg_quote($this->_endTag) . '#';
+        return preg_replace_callback($expression, $callback, $value);
     }
 }
