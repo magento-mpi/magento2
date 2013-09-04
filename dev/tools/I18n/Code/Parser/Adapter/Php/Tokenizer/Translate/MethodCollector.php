@@ -6,9 +6,9 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code\Parser\Php\Tokenizer\Translate;
+namespace Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Translate;
 
-use Magento\Tools\I18n\Code\Parser\Php\Tokenizer\PhraseCollector;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;
 
 /**
  * MethodCollector
@@ -33,7 +33,7 @@ class MethodCollector extends PhraseCollector
     /**
      * Check if token is translated function
      *
-     * @param \Magento\Tools\I18n\Code\Parser\Php\Tokenizer\Token $token
+     * @param \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Token $token
      * @return bool
      */
     protected function _isTranslateFunction($token)

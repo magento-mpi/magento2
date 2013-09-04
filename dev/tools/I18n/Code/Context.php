@@ -62,33 +62,27 @@ class Context
      *
      * @param string $type
      * @param array $value
-     * @return array
+     * @return string
      * @throws \InvalidArgumentException
      */
-    public function getPathsByContext($type, $value)
+    public function buildPathToLocaleDirectoryByContext($type, $value)
     {
-        $paths = array();
-        foreach ($value as $context) {
-            switch ($type) {
-                case self::CONTEXT_TYPE_MODULE:
-                    $path = 'app/code/' . str_replace('_', '/', $context) . '/';
-                    break;
-                case self::CONTEXT_TYPE_THEME:
-                    $path = 'app/design/' . $context . '/';
-                    break;
-                case self::CONTEXT_TYPE_PUB:
-                    $path = 'pub/lib/';
-                    break;
-                case self::CONTEXT_TYPE_PATH:
-                    $path = ltrim($context, '/');
-                    break;
-                default:
-                    throw new \InvalidArgumentException('Invalid meta-type given: ' . $type);
-            }
-            if ($path) {
-                $paths[] = $path . self::LOCALE_DIRECTORY . '/';
-            }
+        switch ($type) {
+            case self::CONTEXT_TYPE_MODULE:
+                $path = 'app/code/' . str_replace('_', '/', $value);
+                break;
+            case self::CONTEXT_TYPE_THEME:
+                $path = 'app/design/' . $value;
+                break;
+            case self::CONTEXT_TYPE_PUB:
+                $path = 'pub/lib';
+                break;
+            case self::CONTEXT_TYPE_PATH:
+                $path = ltrim(pathinfo($value, PATHINFO_DIRNAME), '/');
+                break;
+            default:
+                throw new \InvalidArgumentException(sprintf('Invalid meta-type given: "%s".', $type));
         }
-        return $paths;
+        return $path . '/' . self::LOCALE_DIRECTORY . '/';
     }
 }

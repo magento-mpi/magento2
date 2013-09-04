@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code\Parser\Php\Tokenizer;
+namespace Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
 
 /**
  * Token

@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code\Parser\Php;
+namespace Magento\Tools\I18n\Code\Parser\Adapter\Php;
 
 /**
  * Tokenizer
@@ -121,7 +121,7 @@ class Tokenizer
     /**
      * Get current token
      *
-     * @return \Magento\Tools\I18n\Code\Parser\Php\Tokenizer\Token
+     * @return \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Token
      */
     public function getCurrentToken()
     {
@@ -131,7 +131,7 @@ class Tokenizer
     /**
      * Get next token
      *
-     * @return bool|\Magento\Tools\I18n\Code\Parser\Php\Tokenizer\Token
+     * @return bool|\Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Token
      */
     public function getNextToken()
     {
@@ -150,7 +150,7 @@ class Tokenizer
      * Create token from array|string
      *
      * @param array|string $tokenData
-     * @return \Magento\Tools\I18n\Code\Parser\Php\Tokenizer\Token
+     * @return \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Token
      */
     private function _createToken($tokenData)
     {

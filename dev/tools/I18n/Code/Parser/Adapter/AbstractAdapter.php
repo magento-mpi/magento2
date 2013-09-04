@@ -6,23 +6,16 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code\Parser;
+namespace Magento\Tools\I18n\Code\Parser\Adapter;
 
-use Magento\Tools\I18n\Code\ParserInterface;
 use Magento\Tools\I18n\Code\Context;
+use Magento\Tools\I18n\Code\Parser\AdapterInterface;
 
 /**
- * Abstract data parser
+ * Abstract parser adapter
  */
-abstract class AbstractParser implements ParserInterface
+abstract class AbstractAdapter implements AdapterInterface
 {
-    /**
-     * Files for parsing
-     *
-     * @var array
-     */
-    protected $_files;
-
     /**
      * Context
      *
@@ -38,27 +31,22 @@ abstract class AbstractParser implements ParserInterface
     protected $_phrases = array();
 
     /**
-     * Parser construct
+     * Adapter construct
      *
-     * @param array $files
      * @param \Magento\Tools\I18n\Code\Context $context
      */
-    public function __construct(array $files, Context $context)
+    public function __construct(Context $context)
     {
-        $this->_files = $files;
         $this->_context = $context;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function parse()
+    public function parse($file)
     {
         $this->_phrases = array();
-
-        foreach ($this->_files as $file) {
-            $this->_parse($file);
-        }
+        $this->_parse($file);
     }
 
     /**
@@ -94,13 +82,13 @@ abstract class AbstractParser implements ParserInterface
         $phraseKey = $contextType . '::' . $phrase;
 
         if (isset($this->_phrases[$phraseKey])) {
-            $this->_phrases[$phraseKey]['context'][$contextValue] = 1;
+            $this->_phrases[$phraseKey]['context_values'][$contextValue] = 1;
         } else {
             $this->_phrases[$phraseKey] = array(
                 'phrase' => $phrase,
                 'file' => $file,
                 'line' => $line,
-                'context' => array($contextValue => 1),
+                'context_values' => array($contextValue => 1),
                 'context_type' => $contextType,
             );
         }

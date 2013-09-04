@@ -6,17 +6,20 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code;
+namespace Magento\Tools\I18n\Code\Parser;
 
 /**
- * Parser Interface
+ * Adapter Interface
  */
-interface ParserInterface
+interface AdapterInterface
 {
     /**
-     * Parse by parser options
+     * Parse file
+     *
+     * @param string $file
+     * @return array
      */
-    public function parse(array $parseOptions);
+    public function parse($file);
 
     /**
      * Get parsed phrases

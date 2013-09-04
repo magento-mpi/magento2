@@ -6,19 +6,19 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code\Parser;
+namespace Magento\Tools\I18n\Code\Parser\Adapter;
 
 /**
- * Js data parser
+ * Js parser adapter
  */
-class Js extends AbstractParser
+class Js extends AbstractAdapter
 {
     /**
      * {@inheritdoc}
      */
     protected function _parse($file)
     {
-        $fileHandle = fopen($file, 'r');
+        $fileHandle = @fopen($file, 'r');
         $lineNumber = 0;
         while (!feof($fileHandle)) {
             $lineNumber++;

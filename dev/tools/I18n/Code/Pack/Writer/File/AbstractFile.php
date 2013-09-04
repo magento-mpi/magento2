@@ -113,8 +113,8 @@ abstract class AbstractFile implements WriterInterface
             if (!$phrase->getContextType() || !$phrase->getContextValue()) {
                 throw new \RuntimeException(sprintf('Missed context in row #%d.', $phrase->getLine()));
             }
-            $paths = $this->_context->getPathsByContext($phrase->getContextType(), $phrase->getContextValue());
-            foreach ($paths as $path) {
+            foreach ($phrase->getContextValue() as $context) {
+                $path = $this->_context->buildPathToLocaleDirectoryByContext($phrase->getContextType(), $context);
                 $files[$path . $this->_locale . '.' . $this->_getFileExtension()][] = $phrase;
             }
         }

@@ -17,34 +17,6 @@ use Magento\Tools\I18n\Code\Parser;
 class Factory
 {
     /**
-     * Context
-     *
-     * @var \Magento\Tools\I18n\Code\Context
-     */
-    protected $_context;
-
-    /**
-     * Factory construct
-     *
-     * @param \Magento\Tools\I18n\Code\Parser\Factory $parserFactory
-     */
-    public function __construct(Parser\Factory $parserFactory)
-    {
-        $this->_parserFactory = $parserFactory;
-    }
-
-    /**
-     * Create parser
-     *
-     * @param array $options
-     * @return \Magento\Tools\I18n\Code\ParserInterface
-     */
-    public function createParser(array $options)
-    {
-        return $this->_parserFactory->createParser($options);
-    }
-
-    /**
      * Create dictionary writer
      *
      * @param string $filename

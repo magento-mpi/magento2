@@ -6,33 +6,32 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code\Parser;
+namespace Magento\Tools\I18n\Code\Parser\Adapter;
 
 use Magento\Tools\I18n\Code\Context;
-use Magento\Tools\I18n\Code\Parser\Php\Tokenizer\PhraseCollector;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;
 
 /**
- * Php data parser
+ * Php parser adapter
  */
-class Php extends AbstractParser
+class Php extends AbstractAdapter
 {
     /**
      * Phrase collector
      *
-     * @var \Magento\Tools\I18n\Code\Parser\Php\Tokenizer\PhraseCollector
+     * @var \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector
      */
     protected $_phraseCollector;
 
     /**
-     * Parser construct
+     * Adapter construct
      *
-     * @param array $files
      * @param \Magento\Tools\I18n\Code\Context $context
-     * @param \Magento\Tools\I18n\Code\Parser\Php\Tokenizer\PhraseCollector $phraseCollector
+     * @param \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector $phraseCollector
      */
-    public function __construct(array $files, Context $context, PhraseCollector $phraseCollector)
+    public function __construct(Context $context, PhraseCollector $phraseCollector)
     {
-        parent::__construct($files, $context);
+        parent::__construct($context);
 
         $this->_phraseCollector = $phraseCollector;
     }

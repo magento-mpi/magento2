@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code\Parser\Php\Tokenizer;
+namespace Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
+
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
 
 /**
  * PhraseCollector
@@ -14,7 +16,7 @@ namespace Magento\Tools\I18n\Code\Parser\Php\Tokenizer;
 class PhraseCollector
 {
     /**
-     * @var \Magento\Tools\I18n\Code\Parser\Php\Tokenizer
+     * @var \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer
      */
     protected $_tokenizer;
 
@@ -34,10 +36,12 @@ class PhraseCollector
 
     /**
      * Construct
+     *
+     * @param \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer $tokenizer
      */
-    public function __construct()
+    public function __construct(Tokenizer $tokenizer)
     {
-        $this->_tokenizer = new \Magento\Tools\I18n\Code\Parser\Php\Tokenizer();
+        $this->_tokenizer = $tokenizer;
     }
 
     /**
@@ -90,7 +94,7 @@ class PhraseCollector
     {
         $phrase = array();
         if ($phraseTokens) {
-            /** @var \Magento\Tools\I18n\Code\Parser\Php\Tokenizer\Token $phraseToken */
+            /** @var \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Token $phraseToken */
             foreach ($phraseTokens as $phraseToken) {
                 if ($phraseToken->isConstantEncapsedString()) {
                     $phrase[] = $phraseToken->getValue();

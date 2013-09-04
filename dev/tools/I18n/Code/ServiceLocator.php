@@ -46,34 +46,6 @@ class ServiceLocator
     private static $_packGenerator;
 
     /**
-     * Get factory
-     *
-     * @return \Magento\Tools\I18n\Code\Factory
-     */
-    public static function getFactory()
-    {
-        if (null === self::$_factory) {
-            $parserFactory = new Parser\Factory(self::getContext());
-
-            self::$_factory = new Factory($parserFactory);
-        }
-        return self::$_factory;
-    }
-
-    /**
-     * Get context
-     *
-     * @return \Magento\Tools\I18n\Code\Context
-     */
-    public static function getContext()
-    {
-        if (null === self::$_context) {
-            self::$_context = new Context();
-        }
-        return self::$_context;
-    }
-
-    /**
      * Get dictionary generator
      *
      * @return \Magento\Tools\I18n\Code\Dictionary\Generator
@@ -81,7 +53,17 @@ class ServiceLocator
     public static function getDictionaryGenerator()
     {
         if (null === self::$_dictionaryGenerator) {
-            self::$_dictionaryGenerator = new Dictionary\Generator(self::getFactory());
+            $parser = new Parser(new FilesCollector());
+
+            $tokenizer = new Parser\Adapter\Php\Tokenizer();
+            $phraseCollector = new Parser\Adapter\Php\Tokenizer\PhraseCollector($tokenizer);
+            $adapterPhp = new Parser\Adapter\Php(self::_getContext(), $phraseCollector);
+
+            $parser->addAdapter('php', $adapterPhp);
+            $parser->addAdapter('js', new Parser\Adapter\Js(self::_getContext()));
+            $parser->addAdapter('xml', new Parser\Adapter\Xml(self::_getContext()));
+
+            self::$_dictionaryGenerator = new Dictionary\Generator($parser, self::_getFactory());
         }
         return self::$_dictionaryGenerator;
     }
@@ -94,11 +76,37 @@ class ServiceLocator
     public static function getPackGenerator()
     {
         if (null === self::$_packGenerator) {
-            $dictionaryLoader = new Dictionary\Loader\File\Csv(self::getFactory());
-            $packWriter = new Pack\Writer\File\Csv(self::getContext(), $dictionaryLoader, self::getFactory());
+            $dictionaryLoader = new Dictionary\Loader\File\Csv(self::_getFactory());
+            $packWriter = new Pack\Writer\File\Csv(self::_getContext(), $dictionaryLoader, self::_getFactory());
 
-            self::$_packGenerator = new Pack\Generator($dictionaryLoader, $packWriter, self::getFactory());
+            self::$_packGenerator = new Pack\Generator($dictionaryLoader, $packWriter, self::_getFactory());
         }
         return self::$_packGenerator;
+    }
+
+    /**
+     * Get factory
+     *
+     * @return \Magento\Tools\I18n\Code\Factory
+     */
+    private static function _getFactory()
+    {
+        if (null === self::$_factory) {
+            self::$_factory = new Factory();
+        }
+        return self::$_factory;
+    }
+
+    /**
+     * Get context
+     *
+     * @return \Magento\Tools\I18n\Code\Context
+     */
+    private static function _getContext()
+    {
+        if (null === self::$_context) {
+            self::$_context = new Context();
+        }
+        return self::$_context;
     }
 }

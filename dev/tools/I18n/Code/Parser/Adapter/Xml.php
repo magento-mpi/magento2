@@ -6,16 +6,16 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code\Parser;
+namespace Magento\Tools\I18n\Code\Parser\Adapter;
 
 /**
- * Xml data parser
+ * Xml parser adapter
  *
  * Parse "translate" node and collect phrases:
  * - from itself, it @translate == true
  * - from given attributes, split by ",", " "
  */
-class Xml extends AbstractParser
+class Xml extends AbstractAdapter
 {
     /**
      * {@inheritdoc}

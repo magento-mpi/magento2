@@ -46,7 +46,7 @@ class FilesCollector
                 \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS);
             $iterator = new \RecursiveIteratorIterator($directoryIterator);
         } catch (\UnexpectedValueException $valueException) {
-            throw new \InvalidArgumentException(sprintf('Cannot read directory for parse phrase: "%s"', $path));
+            throw new \InvalidArgumentException(sprintf('Cannot read directory for parse phrase: "%s".', $path));
         }
         if ($fileMask) {
             $iterator = new \RegexIterator($iterator, $fileMask);

@@ -9,12 +9,20 @@
 namespace Magento\Tools\I18n\Code\Dictionary;
 
 use Magento\Tools\I18n\Code\Factory;
+use Magento\Tools\I18n\Code\ParserInterface;
 
 /**
  * Dictionary generator
  */
 class Generator
 {
+    /**
+     * Parser
+     *
+     * @var \Magento\Tools\I18n\Code\ParserInterface
+     */
+    protected $_parser;
+
     /**
      * Domain abstract factory
      *
@@ -25,10 +33,12 @@ class Generator
     /**
      * Generator construct
      *
+     * @param \Magento\Tools\I18n\Code\ParserInterface $parser
      * @param \Magento\Tools\I18n\Code\Factory $factory
      */
-    public function __construct(Factory $factory)
+    public function __construct(ParserInterface $parser, Factory $factory)
     {
+        $this->_parser = $parser;
         $this->_factory = $factory;
     }
 
@@ -41,14 +51,13 @@ class Generator
      */
     public function generate(array $parseOptions, $outputFilename, $withContext)
     {
-        $parser = $this->_factory->createParser($parseOptions);
         $writer = $this->_factory->createDictionaryWriter($outputFilename);
 
-        $parser->parse();
-        foreach ($parser->getPhrases() as $phrase) {
+        $this->_parser->parse($parseOptions);
+        foreach ($this->_parser->getPhrases() as $phrase) {
             $fields = array($phrase['phrase'], $phrase['phrase']);
             if ($withContext) {
-                array_push($fields, $phrase['context_type'], implode(',', array_keys($phrase['context'])));
+                array_push($fields, $phrase['context_type'], implode(',', array_keys($phrase['context_values'])));
             }
             $writer->write($fields, $outputFilename);
         }
