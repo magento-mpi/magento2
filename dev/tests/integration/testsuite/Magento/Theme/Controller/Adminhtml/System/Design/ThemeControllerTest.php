@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends Magento_Backend_Utility_Controller
+class Magento_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends Magento_Backend_Utility_Controller
 {
     /** @var Magento_Filesystem */
     protected $_filesystem;
@@ -35,11 +35,11 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends Magento
     {
         $_FILES = array(
             'js_files_uploader' => array(
-                'name'     => 'simple-js-file.js',
-                'type'     => 'application/x-javascript',
+                'name' => 'simple-js-file.js',
+                'type' => 'application/x-javascript',
                 'tmp_name' => $this->_prepareFileForUploading(),
-                'error'    => '0',
-                'size'     => '28'
+                'error' => '0',
+                'size' => '28'
             )
         );
 
