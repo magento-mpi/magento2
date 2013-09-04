@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Ns;
+namespace Magento\Autoload\IncludePathTest\Ns;
 
 class TestClass
 {

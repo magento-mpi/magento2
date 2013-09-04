@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class TestMap
+class Magento_Autoload_ClassMapTest_TestMap
 {
 
 }
