@@ -16,6 +16,36 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
     protected $_compiledRelations;
 
     /**
+     * @var Magento_Core_Model_ObjectManager
+     */
+    static private $_instance;
+
+    /**
+     * Retrieve object manager
+     *
+     * @return Magento_ObjectManager
+     * @throws RuntimeException
+     */
+    public static function getInstance()
+    {
+        if (!self::$_instance instanceof self) {
+            throw new RuntimeException('ObjectManager isn\'t initialized');
+        }
+        return self::$_instance;
+    }
+
+    /**
+     * Set object manager instance
+     *
+     * @param Magento_ObjectManager $objectManager
+     * @throws LogicException
+     */
+    public static function setInstance(Magento_ObjectManager $objectManager)
+    {
+        self::$_instance = $objectManager;
+    }
+
+    /**
      * @param Magento_Core_Model_Config_Primary $primaryConfig
      * @param Magento_ObjectManager_Config $config
      * @param array $sharedInstances
@@ -54,7 +84,7 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
         parent::__construct($factory, $config, $sharedInstances);
         $primaryConfig->configure($this);
 
-        Mage::setObjectManager($this);
+        self::setInstance($this);
 
         Magento_Profiler::start('global_primary');
         $primaryLoader = $primaryLoader ?: new Magento_Core_Model_ObjectManager_ConfigLoader_Primary(

@@ -101,6 +101,7 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
 
         $expectedSimpleData = 2;
 
+        /** @var $block Magento_Core_Block_Text */
         $block = $layout->getBlock('block_with_object_updater_args')->getOne();
         $this->assertInstanceOf('Magento_Core_Block_Text', $block);
         $this->assertEquals($expectedObjectData, $block->getUpdaterCall());

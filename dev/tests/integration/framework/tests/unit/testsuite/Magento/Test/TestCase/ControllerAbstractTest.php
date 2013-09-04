@@ -23,7 +23,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
 
     protected function setUp()
     {
-        if (!$this->_objectManager) {
+        if (!Magento_Test_ObjectManager::getInstance()) {
             $instanceConfig = new Magento_Test_ObjectManager_Config();
             $primaryConfig = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
             $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);

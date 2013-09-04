@@ -14,6 +14,18 @@
 class Magento_GiftCard_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Layout $layout
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Layout $layout
+    ) {
+        parent::__construct($context);
+        $this->setLayout($layout);
+    }
+
+    /**
      * Instantiate giftardaccounts block when a gift card email should be sent
      * @return Magento_Core_Block_Template
      */

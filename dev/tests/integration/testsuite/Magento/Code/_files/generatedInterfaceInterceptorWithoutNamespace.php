@@ -140,7 +140,7 @@ class Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespaceIntercepto
      */
     public function __wakeup()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_Core_Model_ObjectManager::getInstance();
     }
 
     /**

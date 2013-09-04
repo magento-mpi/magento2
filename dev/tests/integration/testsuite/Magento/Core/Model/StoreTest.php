@@ -24,6 +24,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
             'urlModel'        => $objectManager->get('Magento_Core_Model_Url'),
             'appState'        => $objectManager->get('Magento_Core_Model_App_State'),
+            'dir'             => $objectManager->get('Magento_Core_Model_Dir')
         );
 
         $this->_model = $this->getMock(
