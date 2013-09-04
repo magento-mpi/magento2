@@ -17,7 +17,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
     private $_endpointResource;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 

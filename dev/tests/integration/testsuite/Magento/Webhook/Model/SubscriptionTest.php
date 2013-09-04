@@ -47,7 +47,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     const KEY_TIMEOUT_IN_SECS = Magento_Webhook_Model_Subscription::FIELD_TIMEOUT_IN_SECS;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 

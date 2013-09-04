@@ -24,7 +24,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
     protected $_user;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 

@@ -20,7 +20,7 @@ class Magento_TestFramework_Helper_Bootstrap
     private static $_instance;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     private static $_objectManager;
 
@@ -136,7 +136,7 @@ class Magento_TestFramework_Helper_Bootstrap
     /**
      * Retrieve object manager
      *
-     * @return Magento_ObjectManager
+     * @return \Magento\ObjectManager
      */
     public static function getObjectManager()
     {
@@ -148,7 +148,7 @@ class Magento_TestFramework_Helper_Bootstrap
      *
      * @param Magento_ObjectManager $objectManager
      */
-    public static function setObjectManager(Magento_ObjectManager $objectManager)
+    public static function setObjectManager(\Magento\ObjectManager $objectManager)
     {
         self::$_objectManager = $objectManager;
     }
