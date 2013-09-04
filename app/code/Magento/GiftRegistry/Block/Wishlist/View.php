@@ -21,6 +21,7 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
     protected $_giftRegistryData = null;
 
     /**
+     * @param Magento_Catalog_Helper_Product_ConfigurationPool $helperPool
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Tax_Helper_Data $taxData
@@ -30,6 +31,7 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Helper_Product_ConfigurationPool $helperPool,
         Magento_GiftRegistry_Helper_Data $giftRegistryData,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Tax_Helper_Data $taxData,
@@ -39,7 +41,7 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
-        parent::__construct($wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($helperPool, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     /**

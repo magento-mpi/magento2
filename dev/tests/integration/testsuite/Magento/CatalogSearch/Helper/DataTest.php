@@ -18,7 +18,7 @@ class Magento_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento_CatalogSearch_Helper_Data');
+        $this->_helper = Mage::getObjectManager()->get('Magento_CatalogSearch_Helper_Data');
     }
 
     public function testGetResultUrl()
@@ -48,8 +48,10 @@ class Magento_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
         /** @var $mock Magento_CatalogSearch_Helper_Data */
         $mock = $this->getMock(
             'Magento_CatalogSearch_Helper_Data',
-            array('getQueryText'), array(Mage::getObjectManager()->get('Magento_Core_Helper_Context'))
-        );
+            array('getQueryText'), array(
+                Mage::getObjectManager()->get('Magento_Core_Helper_String'),
+                Mage::getObjectManager()->get('Magento_Core_Helper_Context'),
+        ));
         $mock->expects($this->any())
             ->method('getQueryText')
             ->will($this->returnValue('five <words> here <being> tested'));

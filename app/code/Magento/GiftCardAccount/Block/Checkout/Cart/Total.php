@@ -38,7 +38,7 @@ class Magento_GiftCardAccount_Block_Checkout_Cart_Total extends Magento_Checkout
 
     public function getQuote()
     {
-        return $this->_giftCardAccountData->getQuote();
+        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
     }
 
     public function getQuoteGiftCards()

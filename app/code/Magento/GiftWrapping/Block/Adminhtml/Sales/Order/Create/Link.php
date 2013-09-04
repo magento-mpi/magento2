@@ -20,18 +20,18 @@ class Magento_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Magen
     /**
      * Gift wrapping data
      *
-     * @var Magento_GiftWrapping_Model_Wrapping
+     * @var Magento_GiftWrapping_Helper_Data
      */
     protected $_giftWrappingData = null;
 
     /**
-     * @param Magento_GiftWrapping_Model_Wrapping $giftWrappingData
+     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_GiftWrapping_Model_Wrapping $giftWrappingData,
+        Magento_GiftWrapping_Helper_Data $giftWrappingData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()

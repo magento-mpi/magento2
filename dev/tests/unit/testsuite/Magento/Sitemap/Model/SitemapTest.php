@@ -262,7 +262,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 'robotsFinish' => 'Sitemap: http://store.com/sitemap.xml',
                 'pushToRobots' => 1,
             )), // empty robots file
-/*            array(50000, 10485760, $expectedSingleFile, 6, array(
+            array(50000, 10485760, $expectedSingleFile, 6, array(
                 'robotsStart'  => "User-agent: *",
                 'robotsFinish' => "User-agent: *"
                     . PHP_EOL . 'Sitemap: http://store.com/sitemap.xml',
@@ -282,7 +282,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 'robotsStart'  => '',
                 'robotsFinish' => '',
                 'pushToRobots' => 0,
-            )), // empty robots file*/
+            )), // empty robots file
         );
     }
 
@@ -299,8 +299,9 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     public function testAddSitemapToRobotsTxt($maxLines, $maxFileSize, $expectedFile, $expectedWrites, $robotsInfo)
     {
         $actualData = array();
-        $model = $this->_prepareSitemapModelMock($actualData, $maxLines, $maxFileSize, $expectedFile, $expectedWrites,
-            $robotsInfo);
+        $model = $this->_prepareSitemapModelMock(
+            $actualData, $maxLines, $maxFileSize, $expectedFile, $expectedWrites, $robotsInfo
+        );
         $model->generateXml();
     }
 

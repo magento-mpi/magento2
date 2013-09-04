@@ -105,14 +105,14 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * @param Magento_CatalogRule_Helper_Data $catalogRuleData
      * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_CatalogRule_Model_Resource_Rule $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_CatalogRule_Helper_Data $catalogRuleData,
         Magento_Core_Model_Context $context,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_CatalogRule_Model_Resource_Rule $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
