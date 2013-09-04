@@ -23,7 +23,6 @@ class namespacer
         'Interface',
         'Class',
         'Array',
-        'Exception',
         'Default',
         'List',
         'Global',
