@@ -61,9 +61,11 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
             ->getMock();
         $this->_wsdlFactoryMock->expects($this->any())->method('create')->will($this->returnValue($_wsdlMock));
 
-        $this->_cacheMock = $this->getMockBuilder('Mage_Core_Model_CacheInterface')
+        $this->_cacheMock = $this->getMockBuilder('Mage_Core_Model_Cache')
+            ->setMethods(array('canUse'))
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_cacheMock->expects($this->any())->method('canUse')->will($this->returnValue(false));
 
         $this->_wsdlGenerator = new Mage_Webapi_Model_Soap_Wsdl_Generator(
             $this->_soapConfigMock,
@@ -271,7 +273,14 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
             'Mage_Webapi_Model_Soap_Wsdl_Generator'
         )
             ->setMethods(array('_prepareServiceData'))
-            ->disableOriginalConstructor()
+            ->setConstructorArgs(
+                array(
+                    $this->_soapConfigMock,
+                    $this->_helperMock,
+                    $this->_wsdlFactoryMock,
+                    $this->_cacheMock
+                )
+            )
             ->getMock();
 
         $wsdlGeneratorMock->expects($this->once())->method('_prepareServiceData')->will(
