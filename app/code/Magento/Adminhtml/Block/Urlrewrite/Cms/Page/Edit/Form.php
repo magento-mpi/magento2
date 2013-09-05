@@ -17,6 +17,8 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Adminhtml_Block_Urlrewrite_Edit_Form
 {

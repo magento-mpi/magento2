@@ -79,9 +79,7 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $this->_model = new Magento_GiftRegistry_Model_Entity(
-            $coreData, $giftRegistryData, $context, $app, $this->_store, $translate, $factory, $resource, null, array(
-                'helpers' => array('Magento_GiftRegistry_Helper_Data' => $helper)
-            )
+            $coreData, $giftRegistryData, $context, $app, $this->_store, $translate, $factory, $resource, null, array()
         );
     }
 

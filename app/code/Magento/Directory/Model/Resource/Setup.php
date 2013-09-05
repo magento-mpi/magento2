@@ -25,7 +25,7 @@ class Magento_Directory_Model_Resource_Setup extends Magento_Core_Model_Resource
     /**
      * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config_Modules $modulesConfig
+     * @param Magento_Core_Model_Config $modulesConfig
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
@@ -34,7 +34,7 @@ class Magento_Directory_Model_Resource_Setup extends Magento_Core_Model_Resource
     public function __construct(
         Magento_Directory_Helper_Data $directoryData,
         Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config_Modules $modulesConfig,
+        Magento_Core_Model_Config $modulesConfig,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,

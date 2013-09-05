@@ -15,7 +15,7 @@
  * @package     Magento_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_PageCache_Block_Adminhtml_Cache_Additional extends Magento_Adminhtml_Block_Template
+class Magento_PageCache_Block_Adminhtml_Cache_Additional extends Magento_Backend_Block_Template
 {
     /**
      * Page cache data
