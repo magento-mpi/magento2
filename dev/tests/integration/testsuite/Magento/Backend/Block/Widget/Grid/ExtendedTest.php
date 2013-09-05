@@ -42,6 +42,9 @@ class Magento_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_T
         );
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testAddColumnAddsChildToColumnSet()
     {
         $this->assertInstanceOf(
@@ -51,6 +54,9 @@ class Magento_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_T
         $this->assertCount(2, $this->_block->getColumnSet()->getChildNames());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testRemoveColumn()
     {
         $this->assertCount(2, $this->_block->getColumnSet()->getChildNames());
@@ -58,6 +64,9 @@ class Magento_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_T
         $this->assertCount(1, $this->_block->getColumnSet()->getChildNames());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testSortColumnsByOrder()
     {
         $columnNames = $this->_block->getLayout()->getChildNames($this->_block->getColumnSet()->getNameInLayout());
@@ -68,6 +77,9 @@ class Magento_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_T
         $this->assertEquals($this->_block->getColumn('column2')->getNameInLayout(), $columnNames[0]);
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetMainButtonsHtmlReturnsEmptyStringIfFiltersArentVisible()
     {
         $this->_block->setFilterVisibility(false);
