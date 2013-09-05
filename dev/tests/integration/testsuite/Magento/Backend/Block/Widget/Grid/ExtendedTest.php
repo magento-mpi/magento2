@@ -28,7 +28,7 @@ class Magento_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_T
     {
         parent::setUp();
 
-        $this->_layoutMock = Mage::getModel('Magento_Core_Model_Layout');
+        $this->_layoutMock = Mage::getSingleton('Magento_Core_Model_Layout');
         $context = Mage::getModel('Magento_Backend_Block_Template_Context', array('layout' => $this->_layoutMock));
         $this->_block = $this->_layoutMock->createBlock(
             'Magento_Backend_Block_Widget_Grid_Extended', 'grid', array('context' => $context)

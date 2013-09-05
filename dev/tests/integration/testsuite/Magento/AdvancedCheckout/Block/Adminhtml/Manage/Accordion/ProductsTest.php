@@ -20,7 +20,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_ProductsTest ext
     protected function setUp()
     {
         parent::setUp();
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         $this->_block = $layout->createBlock('Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products');
     }
 

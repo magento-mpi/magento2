@@ -24,7 +24,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTest 
         $model = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount');
         Mage::register('current_giftcardaccount', $model);
 
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
 
         $this->_block = $layout
             ->createBlock('Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send');

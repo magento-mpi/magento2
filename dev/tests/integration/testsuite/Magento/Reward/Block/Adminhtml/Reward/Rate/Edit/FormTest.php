@@ -20,7 +20,7 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUnit_F
     public function setUp()
     {
         parent::setUp();
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         if (!Mage::registry('current_reward_rate')) {
             $rate = Mage::getModel('Magento_Reward_Model_Reward_Rate');
             Mage::register('current_reward_rate', $rate);
