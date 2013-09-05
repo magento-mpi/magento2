@@ -34,12 +34,18 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
      */
     protected $_isProductComposite;
 
-    public function __construct(array $data = array())
-    {
-        $this->_qty = isset($data['qty']) ? $data['qty'] : $this->_createQtyElement();
-        unset($data['qty']);
-        parent::__construct($data);
-        $this->setName($data['name']);
+    /**
+     * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param array $attributes
+     */
+    public function __construct(
+        Magento_Data_Form_Element_Factory $factoryElement,
+        array $attributes = array()
+    ) {
+        $this->_qty = isset($attributes['qty']) ? $attributes['qty'] : $this->_createQtyElement();
+        unset($attributes['qty']);
+        parent::__construct($attributes);
+        $this->setName($attributes['name']);
     }
 
     /**

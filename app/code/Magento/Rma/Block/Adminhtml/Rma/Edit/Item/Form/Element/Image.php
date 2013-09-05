@@ -33,20 +33,20 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image extends Magen
     protected $_coreData = null;
 
     /**
-     * Initialize Form Element
-     *
+     * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Helper_Data $backendData
      * @param array $attributes
      */
     public function __construct(
+        Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Helper_Data $backendData,
         $attributes = array()
     ) {
         $this->_coreData = $coreData;
         $this->_backendData = $backendData;
-        parent::__construct($attributes);
+        parent::__construct($factoryElement, $attributes);
         $this->setType('file');
     }
 

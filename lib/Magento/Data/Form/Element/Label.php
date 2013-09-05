@@ -18,13 +18,14 @@
 class Magento_Data_Form_Element_Label extends Magento_Data_Form_Element_Abstract
 {
     /**
-     * Assigns attributes for Element
-     *
+     * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param array $attributes
      */
-    public function __construct($attributes=array())
-    {
-        parent::__construct($attributes);
+    public function __construct(
+        Magento_Data_Form_Element_Factory $factoryElement,
+        $attributes = array()
+    ) {
+        parent::__construct($factoryElement, $attributes);
         $this->setType('label');
     }
 

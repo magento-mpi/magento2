@@ -17,9 +17,15 @@
  */
 class Magento_Data_Form_Element_Editor extends Magento_Data_Form_Element_Textarea
 {
-    public function __construct($attributes=array())
-    {
-        parent::__construct($attributes);
+    /**
+     * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param array $attributes
+     */
+    public function __construct(
+        Magento_Data_Form_Element_Factory $factoryElement,
+        $attributes = array()
+    ) {
+        parent::__construct($factoryElement, $attributes);
 
         if($this->isEnabled()) {
             $this->setType('wysiwyg');

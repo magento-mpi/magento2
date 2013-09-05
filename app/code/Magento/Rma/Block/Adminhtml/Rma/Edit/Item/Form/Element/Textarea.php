@@ -25,15 +25,17 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Textarea extends Ma
     protected $_rmaEav = null;
 
     /**
+     * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Rma_Helper_Eav $rmaEav
-     * @param array $data
+     * @param array $attributes
      */
     public function __construct(
+        Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Rma_Helper_Eav $rmaEav,
-        array $data = array()
+        array $attributes = array()
     ) {
         $this->_rmaEav = $rmaEav;
-        parent::__construct($data);
+        parent::__construct($factoryElement, $attributes);
     }
 
     /**

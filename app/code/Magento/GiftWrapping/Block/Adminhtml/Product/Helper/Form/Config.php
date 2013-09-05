@@ -26,15 +26,17 @@ class Magento_GiftWrapping_Block_Adminhtml_Product_Helper_Form_Config
     protected $_giftWrappingData = null;
 
     /**
+     * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
-     * @param  $attributes
+     * @param array $attributes
      */
     public function __construct(
+        Magento_Data_Form_Element_Factory $factoryElement,
         Magento_GiftWrapping_Helper_Data $giftWrappingData,
         $attributes = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($attributes);
+        parent::__construct($factoryElement, $attributes);
     }
 
     /**

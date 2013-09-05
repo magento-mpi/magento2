@@ -17,9 +17,15 @@
  */
 class Magento_Data_Form_Element_Gallery extends Magento_Data_Form_Element_Abstract
 {
-    public function __construct($data)
-    {
-        parent::__construct($data);
+    /**
+     * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param array $attributes
+     */
+    public function __construct(
+        Magento_Data_Form_Element_Factory $factoryElement,
+        $attributes = array()
+    ) {
+        parent::__construct($factoryElement, $attributes);
         $this->setType('file');
     }
 

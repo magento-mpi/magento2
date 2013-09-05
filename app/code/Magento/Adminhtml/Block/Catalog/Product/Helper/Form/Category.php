@@ -37,12 +37,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
     protected $_backendData = null;
 
     /**
+     * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Layout $layout
      * @param array $attributes
      */
     public function __construct(
+        Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Backend_Helper_Data $backendData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Layout $layout,
@@ -50,7 +52,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
     ) {
         $this->_backendData = $backendData;
         $this->_coreData = $coreData;
-        parent::__construct($attributes);
+        parent::__construct($factoryElement, $attributes);
         $this->_layout = $layout;
     }
 

@@ -45,6 +45,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
     protected $_viewUrl;
 
     /**
+     * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Core_Model_View_UrlFactory $coreViewUrlFactory
      * @param Magento_Backend_Model_UrlFactory $backendUrlFactory
      * @param Magento_Core_Helper_Data $coreData
@@ -53,6 +54,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
      * @param array $attributes
      */
     public function __construct(
+        Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Core_Model_View_UrlFactory $coreViewUrlFactory,
         Magento_Backend_Model_UrlFactory $backendUrlFactory,
         Magento_Core_Helper_Data $coreData,
@@ -60,7 +62,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
         Magento_File_Size $fileConfig,
         array $attributes = array()
     ) {
-        parent::__construct($attributes);
+        parent::__construct($factoryElement, $attributes);
 
         $this->_viewUrl = $coreViewUrlFactory->create();
         $this->_url = $backendUrlFactory->create();
