@@ -75,6 +75,7 @@ dev/tests/static/testsuite/Legacy/Magento/Invitation
 app/code/Magento/License
 app/code/Magento/Logging
 dev/tests/integration/testsuite/Magento/Logging
+dev/tests/unit/testsuite/Magento/Logging
 app/code/Magento/Pbridge
 dev/tests/unit/testsuite/Magento/Pbridge
 dev/tests/integration/testsuite/Magento/Pbridge
