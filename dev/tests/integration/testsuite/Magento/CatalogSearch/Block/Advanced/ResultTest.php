@@ -57,6 +57,9 @@ class Magento_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_
         $this->assertEquals($expectedOptions, $childBlock->getAvailableOrders());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testSetListModes()
     {
         /** @var $childBlock Magento_Core_Block_Text */

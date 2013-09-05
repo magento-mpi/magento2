@@ -10,11 +10,6 @@
 
 class Magento_Tax_Model_Sales_Pdf_Subtotal extends Magento_Sales_Model_Order_Pdf_Total_Default
 {
-    public function __construct(Magento_Core_Block_Template_Context $context, Magento_Tax_Helper_Data $taxHelper, Magento_Tax_Model_Calculation $taxCalculation, Magento_ObjectManager $objectManager, array $data = array())
-    {
-        parent::__construct($context, $taxHelper, $taxCalculation, $objectManager, $data);
-    }
-
     /**
      * Get array of arrays with totals information for display in PDF
      * array(

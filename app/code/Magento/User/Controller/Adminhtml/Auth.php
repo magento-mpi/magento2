@@ -50,7 +50,9 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
                 $this->_getSession()
                     ->addSuccess(__('If there is an account associated with %1 you will receive an email with a link to reset your password.', $this->_objectManager->get('Magento_User_Helper_Data')->escapeHtml($email)));
                 // @codingStandardsIgnoreEnd
-                $this->getResponse()->setRedirect($this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl());
+                $this->getResponse()->setRedirect(
+                    $this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+                );
                 return;
             } else {
                 $this->_getSession()->addError(__('Please correct this email address:'));

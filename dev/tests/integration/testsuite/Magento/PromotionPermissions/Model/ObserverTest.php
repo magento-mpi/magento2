@@ -36,6 +36,7 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
 
     /**
      * @dataProvider blockHtmlBeforeDataProvider
+     * @magentoAppIsolation enabled
      */
     public function testAdminhtmlBlockHtmlBefore($parentBlock, $childBlock)
     {
@@ -61,6 +62,9 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
         $this->assertFalse($this->_layout->getChildBlock($childBlock, 'banners_grid_serializer'));
     }
 
+    /**
+     * @return array
+     */
     public function blockHtmlBeforeDataProvider()
     {
         return array(
