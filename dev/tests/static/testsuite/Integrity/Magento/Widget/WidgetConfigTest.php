@@ -28,7 +28,7 @@ class Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Framework_TestCa
 
     public function testSchemaUsingValidXml()
     {
-        $xmlFile = __DIR__ . '/_files/new_widget.xml';
+        $xmlFile = __DIR__ . '/_files/widget.xml';
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
         $schema = Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget.xsd';
@@ -41,7 +41,7 @@ class Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Framework_TestCa
 
     public function testSchemaUsingInvalidXml()
     {
-        $xmlFile = __DIR__ . '/_files/old_widget.xml';
+        $xmlFile = __DIR__ . '/_files/invalid_widget.xml';
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
         $schema = Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget.xsd';
