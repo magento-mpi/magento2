@@ -7,30 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_Magento_Logging_Model_ConfigTest extends PHPUnit_Framework_TestCase
+class Integrity_Magento_Logging_Model_ConfigTest extends Integrity_ConfigAbstract
 {
     /**
-     * @param string $configFile
+     * Returns the name of the xml files to validate
      *
-     * @dataProvider schemaDataProvider
+     * @return string
      */
-    public function testSchema($configFile)
-    {
-        $dom = new DOMDocument();
-        $dom->loadXML(file_get_contents($configFile));
-        $schema = Utility_Files::init()->getPathToSource() . '/app/code/Magento/Logging/etc/logging.xsd';
-        $errors = Magento_Config_Dom::validateDomDocument($dom, $schema);
-        if ($errors) {
-            $this->fail('XML-file ' . $configFile . ' has validation errors:'
-                        . PHP_EOL . implode(PHP_EOL . PHP_EOL, $errors));
-        }
+    protected function _getXMLName() {
+        return 'logging.xml';
     }
 
     /**
-     * @return array
+     * Returns the name of the XSD file to be used to validate the XSD
+     *
+     * @return string
      */
-    public function schemaDataProvider()
-    {
-        return Utility_Files::init()->getConfigFiles('logging.xml', array(), true);
+    protected function _getXSDFile() {
+        return '/app/code/Magento/Logging/etc/logging.xsd';
     }
 }
