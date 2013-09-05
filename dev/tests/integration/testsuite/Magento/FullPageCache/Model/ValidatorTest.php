@@ -79,11 +79,13 @@ class Magento_FullPageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCa
     {
         $cacheType = 'full_page';
         /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
-        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Cache_StateInterface');
         $cacheState->setEnabled($cacheType, true);
 
         /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
+        $cacheTypeList = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Cache_TypeListInterface');
 
         // manual unset cache type
         $cacheTypeList->cleanType($cacheType);

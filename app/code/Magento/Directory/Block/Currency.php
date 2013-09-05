@@ -18,6 +18,11 @@
 class Magento_Directory_Block_Currency extends Magento_Core_Block_Template
 {
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+    
+    /**
      * Directory url
      *
      * @var Magento_Directory_Helper_Url
@@ -26,17 +31,20 @@ class Magento_Directory_Block_Currency extends Magento_Core_Block_Template
 
     /**
      * @param Magento_Directory_Helper_Url $directoryUrl
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Directory_Helper_Url $directoryUrl,
+        Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_directoryUrl = $directoryUrl;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -118,5 +126,13 @@ class Magento_Directory_Block_Currency extends Magento_Core_Block_Template
         }
 
         return $this->_getData('current_currency_code');
+    }
+
+    /**
+     * @return string
+     */
+    public function getStoreCode()
+    {
+        return $this->_storeManager->getStore()->getCode();
     }
 }

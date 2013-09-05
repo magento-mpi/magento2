@@ -17,6 +17,27 @@
  */
 class Magento_Customer_Block_Address_Book extends Magento_Core_Block_Template
 {
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')
@@ -82,5 +103,30 @@ class Magento_Customer_Block_Address_Book extends Magento_Core_Block_Template
             $this->setData('customer', $customer);
         }
         return $customer;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultBilling()
+    {
+        return $this->_customerSession->getCustomer()->getDefaultBilling();
+    }
+
+    /**
+     * @param int $address
+     * @return Magento_Customer_Model_Address
+     */
+    public function getAddressById($address)
+    {
+        return $this->_customerSession->getCustomer()->getAddressById($address);
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultShipping()
+    {
+        return $this->_customerSession->getCustomer()->getDefaultShipping();
     }
 }

@@ -10,8 +10,6 @@
 
 /**
  * Customer register form block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
 {
@@ -21,6 +19,17 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
      * @var Magento_Customer_Model_Address
      */
     protected $_address;
+
+    /**
+     * Get config
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public function getConfig($path)
+    {
+        return $this->_storeConfig->getConfig($path);
+    }
 
     protected function _prepareLayout()
     {

@@ -8,10 +8,11 @@
  * @license     {license_link}
  */
 ?>
+<?php /** @var $this Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging */ ?>
 <?php
 $shippingMethod = $this->getShipment()->getOrder()->getShippingMethod();
-$sizeSource = Mage::getModel('Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size')->toOptionArray();
-$girthEnabled = Mage::helper('Magento_Usa_Helper_Data')->displayGirthValue($shippingMethod) && $this->isGirthAllowed() ? 1 : 0;
+$sizeSource = $this->getSourceSizeModel()->toOptionArray();
+$girthEnabled = $this->helper('Magento_Usa_Helper_Data')->displayGirthValue($shippingMethod) && $this->isGirthAllowed() ? 1 : 0;
 ?>
 <script type="text/javascript">
     //<![CDATA[

@@ -49,8 +49,14 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     protected $_coreFileStorageDb = null;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Downloadable_Helper_File $downloadableFile
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
@@ -58,12 +64,14 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     public function __construct(
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
         Magento_Downloadable_Helper_File $downloadableFile,
+        Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_coreFileStorageDb = $coreFileStorageDatabase;
         $this->_downloadableFile = $downloadableFile;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -354,5 +362,22 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         }
 
         return $this->_config;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSingleStoreMode()
+    {
+        return $this->_storeManager->isSingleStoreMode();
+    }
+
+    /**
+     * @param null|string|bool|int|Magento_Core_Model_Store $storeId $storeId
+     * @return string
+     */
+    public function getBaseCurrencyCode($storeId)
+    {
+        return $this->_storeManager->getStore($storeId)->getBaseCurrencyCode();
     }
 }

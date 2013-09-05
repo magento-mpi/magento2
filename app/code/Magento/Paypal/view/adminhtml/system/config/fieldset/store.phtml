@@ -17,7 +17,7 @@
 
 Event.observe(window, 'load', function () {
     var pConfigDisabler = new PaypalConfigDisabler;
-    var disabledMethods = <?php echo Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getPaypalDisabledMethods()); ?>;
+    var disabledMethods = <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getPaypalDisabledMethods()); ?>;
     pConfigDisabler.disableMethods(disabledMethods);
 });
 

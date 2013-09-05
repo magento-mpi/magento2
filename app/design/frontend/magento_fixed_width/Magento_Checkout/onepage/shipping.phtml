@@ -138,7 +138,7 @@
             "<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
             function() {
                 $('#shipping\\:country_id').regionUpdater({
-                    optionalRegionAllowed: <?php echo (Mage::getStoreConfig('general/region/display_all')? 'true' : 'false'); ?>,
+                    optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
                     regionListId: '#shipping\\:region_id',
                     regionInputId: '#shipping\\:region',
                     postcodeId: '#shipping\\:postcode',

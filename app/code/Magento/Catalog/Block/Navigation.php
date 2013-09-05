@@ -49,8 +49,14 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     protected $_catalogCategoryFlat = null;
 
     /**
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_registry;
+
+    /**
      * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
      * @param Magento_Catalog_Helper_Category $catalogCategory
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
@@ -58,12 +64,14 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     public function __construct(
         Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
         Magento_Catalog_Helper_Category $catalogCategory,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
         $this->_catalogCategory = $catalogCategory;
+        $this->_registry = $registry;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -76,6 +84,16 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
                 Magento_Core_Model_Store_Group::CACHE_TAG
             ),
         ));
+    }
+
+    /**
+     * Get current category
+     *
+     * @return Magento_Catalog_Model_Category
+     */
+    public function getCategory()
+    {
+        return $this->_registry->registry('current_category');
     }
 
     /**
