@@ -43,6 +43,9 @@ class Magento_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_T
         $this->_layout = null;
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testPrepareAddressInfo()
     {
         $this->_profile->setData('billing_address_info', array('city' => 'Los Angeles'));

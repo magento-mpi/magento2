@@ -33,6 +33,9 @@ class Magento_Sales_Block_Order_Creditmemo_ItemsTest extends PHPUnit_Framework_T
         $this->_creditmemo = Mage::getModel('Magento_Sales_Model_Order_Creditmemo');
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetTotalsHtml()
     {
         $childBlock = $this->_layout->addBlock('Magento_Core_Block_Text', 'creditmemo_totals', 'block');
