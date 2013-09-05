@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="magento_banner_load_after">
+        <observer name="magento_bannercustomersegment" instance="Magento_BannerCustomerSegment_Model_Observer" method="loadCustomerSegmentRelations" />
+    </event>
+    <event name="magento_banner_save_after">
+        <observer name="magento_bannercustomersegment" instance="Magento_BannerCustomerSegment_Model_Observer" method="saveCustomerSegmentRelations" />
+    </event>
+    <event name="magento_banner_catalogrule_collection_load_before">
+        <observer name="magento_bannercustomersegment" instance="Magento_BannerCustomerSegment_Model_Observer" method="addCustomerSegmentFilterToCollection" />
+    </event>
+    <event name="magento_banner_salesrule_collection_load_before">
+        <observer name="magento_bannercustomersegment" instance="Magento_BannerCustomerSegment_Model_Observer" method="addCustomerSegmentFilterToCollection" />
+    </event>
+    <event name="magento_banner_resource_banner_content_select_init">
+        <observer name="magento_bannercustomersegment" instance="Magento_BannerCustomerSegment_Model_Observer" method="addCustomerSegmentFilterToSelect" />
+    </event>
+</config>

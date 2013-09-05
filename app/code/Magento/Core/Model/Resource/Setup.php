@@ -88,13 +88,13 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_modulesReader;
 
     /**
-     * @var Magento_Core_Model_Config_Modules
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
     /**
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config_Modules $modulesConfig
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
@@ -102,14 +102,14 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      */
     public function __construct(
         Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config_Modules $modulesConfig,
+        Magento_Core_Model_Config $config,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         $resourceName
     ) {
-        $this->_config = $modulesConfig;
-        $resourcesConfig->setConfig($modulesConfig);
+        $this->_config = $config;
+        $resourcesConfig->setConfig($config);
         $this->_resourceModel = $resource;
         $this->_resourceName = $resourceName;
         $this->_modulesReader = $modulesReader;

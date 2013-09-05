@@ -82,6 +82,7 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
                 if ($paramType) {
                     $argument = array('instance' => $paramType);
                 } else {
+                    $this->_creationStack = array();
                     throw new BadMethodCallException(
                         'Missing required argument $' . $paramName . ' for ' . $requestedType . '.'
                     );
@@ -91,12 +92,14 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
             }
             if ($paramType && !is_object($argument) && $argument !== $paramDefault) {
                 if (!is_array($argument) || !isset($argument['instance'])) {
+                    $this->_creationStack = array();
                     throw new InvalidArgumentException(
                         'Invalid parameter configuration provided for $' . $paramName . ' argument in ' . $requestedType
                     );
                 }
                 $argumentType = $argument['instance'];
                 if (isset($this->_creationStack[$argumentType])) {
+                    $this->_creationStack = array();
                     throw new LogicException(
                         'Circular dependency: ' . $argumentType . ' depends on ' . $requestedType . ' and viceversa.'
                     );

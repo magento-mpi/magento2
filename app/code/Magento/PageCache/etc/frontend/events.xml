@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="controller_action_predispatch">
+        <observer name="pagecache" instance="Magento_PageCache_Model_Observer" method="processPreDispatch" />
+    </event>
+</config>

@@ -19,24 +19,6 @@
                 </zend_page_cache>
             </controls>
         </external_cache>
-        <events>
-            <design_editor_activate>
-                <observers>
-                    <magento_pagecache>
-                        <class>Magento_PageCache_Model_Observer</class>
-                        <method>setNoCacheCookie</method>
-                    </magento_pagecache>
-                </observers>
-            </design_editor_activate>
-            <design_editor_deactivate>
-                <observers>
-                    <magento_pagecache>
-                        <class>Magento_PageCache_Model_Observer</class>
-                        <method>deleteNoCacheCookie</method>
-                    </magento_pagecache>
-                </observers>
-            </design_editor_deactivate>
-        </events>
     </global>
     <adminhtml>
         <translate>
@@ -50,16 +32,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <events>
-            <controller_action_predispatch>
-                <observers>
-                    <pagecache>
-                        <class>Magento_PageCache_Model_Observer</class>
-                        <method>processPreDispatch</method>
-                    </pagecache>
-                </observers>
-            </controller_action_predispatch>
-        </events>
         <cache>
             <allowed_requests>
                 <cms />
@@ -76,17 +48,6 @@
             </allowed_requests>
         </cache>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Magento_PageCache before="Magento_Adminhtml">Magento_PageCache_Adminhtml</Magento_PageCache>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <system>
             <external_page_cache>
@@ -96,4 +57,4 @@
             </external_page_cache>
         </system>
     </default>
-</config>
+</config>

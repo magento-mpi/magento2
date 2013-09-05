@@ -10,40 +10,11 @@
  */
 -->
 <config>
-    <global>
-        <events>
-            <controller_action_predispatch>
-                <observers>
-                    <magento_pbridge>
-                        <class>Magento_Pbridge_Model_Observer</class>
-                        <method>addPrivacyHeader</method>
-                    </magento_pbridge>
-                </observers>
-            </controller_action_predispatch>
-            <payment_method_is_active>
-                <observers>
-                    <magento_pbridge>
-                        <class>Magento_Pbridge_Model_Observer</class>
-                        <method>isPaymentMethodAvailable</method>
-                    </magento_pbridge>
-                </observers>
-            </payment_method_is_active>
-        </events>
-    </global>
     <frontend>
         <secure_url>
             <magento_pbridge_pbridge>/magento_pbridge/pbridge/</magento_pbridge_pbridge>
             <magento_pbridge_payment_profile>/magento_pbridge/payment_profile/</magento_pbridge_payment_profile>
         </secure_url>
-        <routers>
-            <magento_pbridge>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Pbridge</module>
-                    <frontName>magento_pbridge</frontName>
-                </args>
-            </magento_pbridge>
-        </routers>
         <translate>
             <modules>
                 <Magento_Pbridge>
@@ -54,29 +25,6 @@
             </modules>
         </translate>
     </frontend>
-    <adminhtml>
-        <events>
-            <admin_system_config_changed_section_payment>
-                <observers>
-                    <magento_pbridge>
-                        <class>Magento_Pbridge_Model_Observer</class>
-                        <method>updatePaymentProfileStatus</method>
-                    </magento_pbridge>
-                </observers>
-            </admin_system_config_changed_section_payment>
-        </events>
-    </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Magento_Pbridge after="Magento_Adminhtml">Magento_Pbridge_Adminhtml</Magento_Pbridge>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <payment>
             <pbridge translate="title">
@@ -191,4 +139,4 @@
             </psigate_basic>
         </payment>
     </default>
-</config>
+</config>

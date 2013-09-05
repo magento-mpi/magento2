@@ -43,26 +43,5 @@
                 </Magento_Widget>
             </modules>
         </translate>
-        <events>
-            <cms_wysiwyg_config_prepare>
-                <observers>
-                    <widget_observer>
-                        <class>Magento_Widget_Model_Observer</class>
-                        <method>prepareWidgetsPluginConfig</method>
-                    </widget_observer>
-                </observers>
-            </cms_wysiwyg_config_prepare>
-        </events>
     </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <widget before="Magento_Adminhtml">Magento_Widget_Adminhtml</widget>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
-</config>
+</config>

@@ -58,7 +58,7 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
      */
     public function getCookie();
 
-   /**
+    /**
      * Re-declare custom error handler
      *
      * @param   string $handler

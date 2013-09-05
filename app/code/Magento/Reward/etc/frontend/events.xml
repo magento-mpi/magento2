@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="customer_session_init">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="checkRates" />
+    </event>
+    <event name="customer_save_after">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="customerRegister" />
+    </event>
+    <event name="payment_method_is_active">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="preparePaymentMethod" />
+    </event>
+    <event name="sales_quote_payment_import_data_before">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="paymentDataImport" />
+    </event>
+    <event name="magento_invitation_save_commit_after">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="invitationToCustomer" />
+    </event>
+</config>

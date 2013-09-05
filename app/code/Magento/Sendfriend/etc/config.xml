@@ -41,25 +41,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <events>
-            <catalog_controller_product_view>
-                <observers>
-                    <sendfriend>
-                        <class>Magento_Sendfriend_Model_Observer</class>
-                        <method>register</method>
-                    </sendfriend>
-                </observers>
-            </catalog_controller_product_view>
-        </events>
-        <routers>
-            <sendfriend>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Sendfriend</module>
-                    <frontName>sendfriend</frontName>
-                </args>
-            </sendfriend>
-        </routers>
         <translate>
             <modules>
                 <Magento_Sendfriend>

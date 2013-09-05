@@ -79,15 +79,4 @@
             </rest>
         </webapi>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Magento_Webapi before="Magento_Backend">Magento_Webapi_Adminhtml</Magento_Webapi>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
-</config>
+</config>

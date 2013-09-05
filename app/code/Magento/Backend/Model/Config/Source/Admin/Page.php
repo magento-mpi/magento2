@@ -1,20 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Backend
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Admin system config sturtup page
  *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Backend_Model_Config_Source_Admin_Page implements Magento_Core_Model_Option_ArrayInterface
 {
@@ -33,15 +24,20 @@ class Magento_Backend_Model_Config_Source_Admin_Page implements Magento_Core_Mod
     protected $_objectFactory;
 
     /**
-     * Default construct
+     * @var Magento_Backend_Model_Menu_Filter_IteratorFactory
      */
-    public function __construct(array $data = array())
-    {
-        $this->_menu = isset($data['menu']) ?
-            $data['menu'] :
-            Mage::getSingleton('Magento_Backend_Model_Menu_Config')->getMenu();
+    protected $_iteratorFactory;
 
-        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : Mage::getConfig();
+    /**
+     * @param Magento_Backend_Model_Menu_Filter_IteratorFactory $iteratorFactory
+     * @param Magento_Backend_Model_Menu_Config $menuConfig
+     */
+    public function __construct(
+        Magento_Backend_Model_Menu_Filter_IteratorFactory $iteratorFactory,
+        Magento_Backend_Model_Menu_Config $menuConfig
+    ) {
+        $this->_menu = $menuConfig->getMenu();
+        $this->_iteratorFactory = $iteratorFactory;
     }
 
     public function toOptionArray()
@@ -59,7 +55,7 @@ class Magento_Backend_Model_Config_Source_Admin_Page implements Magento_Core_Mod
      */
     protected function _getMenuIterator(Magento_Backend_Model_Menu $menu)
     {
-        return $this->_objectFactory->getModelInstance('Magento_Backend_Model_Menu_Filter_Iterator',
+        return $this->_iteratorFactory->create(
             array('iterator' => $menu->getIterator())
         );
     }

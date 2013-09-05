@@ -12,7 +12,7 @@
  * Backend for qty increments
  *
  */
-class Magento_CatalogInventory_Model_System_Config_Backend_Qtyincrements extends Magento_Core_Model_Config_Data
+class Magento_CatalogInventory_Model_System_Config_Backend_Qtyincrements extends Magento_Core_Model_Config_Value
 {
     /**
      * Validate data before save

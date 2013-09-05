@@ -12,15 +12,15 @@ class Magento_GoogleAdwords_Helper_Data extends Magento_Core_Helper_Abstract
     /**#@+
      * Google AdWords language codes
      */
-    const XML_PATH_LANGUAGES = 'default/google/adwords/languages';
-    const XML_PATH_LANGUAGE_CONVERT = 'default/google/adwords/language_convert';
+    const XML_PATH_LANGUAGES = 'google/adwords/languages';
+    const XML_PATH_LANGUAGE_CONVERT = 'google/adwords/language_convert';
     /**#@-*/
 
     /**#@+
      * Google AdWords conversion src
      */
-    const XML_PATH_CONVERSION_JS_SRC = 'default/google/adwords/conversion_js_src';
-    const XML_PATH_CONVERSION_IMG_SRC = 'default/google/adwords/conversion_img_src';
+    const XML_PATH_CONVERSION_JS_SRC = 'google/adwords/conversion_js_src';
+    const XML_PATH_CONVERSION_IMG_SRC = 'google/adwords/conversion_img_src';
     /**#@-*/
 
     /**
@@ -108,7 +108,7 @@ class Magento_GoogleAdwords_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getLanguageCodes()
     {
-        return $this->_config->getNode(self::XML_PATH_LANGUAGES)->asArray();
+        return (array)$this->_config->getValue(self::XML_PATH_LANGUAGES, 'default');
     }
 
     /**
@@ -119,7 +119,7 @@ class Magento_GoogleAdwords_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function convertLanguageCodeToLocaleCode($language)
     {
-        $convertArray = $this->_config->getNode(self::XML_PATH_LANGUAGE_CONVERT)->asArray();
+        $convertArray = (array)$this->_config->getValue(self::XML_PATH_LANGUAGE_CONVERT, 'default');
         return isset($convertArray[$language]) ? $convertArray[$language] : $language;
     }
 
@@ -130,7 +130,7 @@ class Magento_GoogleAdwords_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getConversionJsSrc()
     {
-        return (string)$this->_config->getNode(self::XML_PATH_CONVERSION_JS_SRC);
+        return (string)$this->_config->getValue(self::XML_PATH_CONVERSION_JS_SRC, 'default');
     }
 
     /**
@@ -140,7 +140,7 @@ class Magento_GoogleAdwords_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getConversionImgSrc()
     {
-        return sprintf($this->_config->getNode(self::XML_PATH_CONVERSION_IMG_SRC), $this->getConversionId(),
+        return sprintf($this->_config->getValue(self::XML_PATH_CONVERSION_IMG_SRC, 'default'), $this->getConversionId(),
             $this->getConversionLabel());
     }
 

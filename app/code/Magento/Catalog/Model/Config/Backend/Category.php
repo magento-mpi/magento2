@@ -15,7 +15,7 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Config_Backend_Category extends Magento_Core_Model_Config_Data
+class Magento_Catalog_Model_Config_Backend_Category extends Magento_Core_Model_Config_Value
 {
     protected function _afterSave()
     {

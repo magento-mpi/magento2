@@ -145,14 +145,18 @@ class Magento_Test_Annotation_DataFixture
      */
     protected function _applyFixtures(array $fixtures)
     {
-        /* Execute fixture scripts */
-        foreach ($fixtures as $oneFixture) {
-            /* Skip already applied fixtures */
-            if (in_array($oneFixture, $this->_appliedFixtures, true)) {
-                continue;
+        try {
+            /* Execute fixture scripts */
+            foreach ($fixtures as $oneFixture) {
+                /* Skip already applied fixtures */
+                if (in_array($oneFixture, $this->_appliedFixtures, true)) {
+                    continue;
+                }
+                $this->_applyOneFixture($oneFixture);
+                $this->_appliedFixtures[] = $oneFixture;
             }
-            $this->_applyOneFixture($oneFixture);
-            $this->_appliedFixtures[] = $oneFixture;
+        } catch (PDOException $e) {
+            echo $e;
         }
     }
 
