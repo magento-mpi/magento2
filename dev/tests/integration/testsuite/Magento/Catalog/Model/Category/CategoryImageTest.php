@@ -60,7 +60,6 @@ class Magento_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework
      * Test that there is no exception '$_FILES array is empty' in Magento_File_Uploader::_setUploadFileId()
      * if category image was not set
      *
-     * @magentoDataFixture Magento/Catalog/Model/Category/CategoryImageTest/StubZendLogWriterStreamTest.php
      * @magentoDataFixture Magento/Catalog/Model/Category/_files/category_without_image.php
      */
     public function testSaveCategoryWithoutImage()
