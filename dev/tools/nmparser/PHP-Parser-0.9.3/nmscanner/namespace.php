@@ -157,6 +157,7 @@ class namespacer
         "DOMEntityReference",
         "DOMProcessingInstruction",
         "DOMStringExtend",
+        "GearmanClient",
         "Iterator",
         "PDOException",
         "PDOStatement",
