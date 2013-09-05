@@ -10,10 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 $webapiDir = '/dev/tests/integration/testsuite/Magento/Webapi/';
+
 return array(
-    '/app/code/Zend/Soap/Wsdl.php',
     '/dev/tests/unit/testsuite/Magento/Test/Tools/Di/_files/app/code/Magento/SomeModule/Model/Test.php',
     '/dev/tests/unit/testsuite/Magento/Test/Tools/Di/_files/app/code/Magento/SomeModule/Helper/Test.php',
     $webapiDir.'_files/autodiscovery/resource_class_fixture.php',
