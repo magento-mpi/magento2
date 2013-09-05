@@ -19,6 +19,27 @@
 class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
+     * @var Magento_Data_Form_ElementFactory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Data_Form_ElementFactory $elementFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Data_Form_ElementFactory $elementFactory,
+        array $data = array()
+    ) {
+        $this->_elementFactory = $elementFactory;
+        parent::__construct($context, $formFactory, $data);
+    }
+
+    /**
      * Prepare form before rendering HTML
      *
      * @return Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form
@@ -108,7 +129,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
      */
     public function getAttributeSetsSelectElement($targetCountry)
     {
-        $field = new Magento_Data_Form_Element_Select();
+        $field = $this->_elementFactory->create('Magento_Data_Form_Element_Select');
         $field->setName('attribute_set_id')
             ->setId('select_attribute_set')
             ->setForm($this->_createForm())

@@ -28,10 +28,10 @@ class Magento_Data_Form_ElementFactory
      *
      * @param string $elementClass
      * @param array $data
-     * @return Magento_Data_Form
+     * @return Magento_Data_Form_Element_Abstract
      */
     public function create($elementClass, array $data = array())
     {
-        return $this->_objectManager->create($elementClass, $data);
+        return $this->_objectManager->create($elementClass, array('attributes' => $data));
     }
 }

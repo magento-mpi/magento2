@@ -19,6 +19,25 @@
 class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Block_Template
 {
     /**
+     * @var Magento_Data_Form_ElementFactory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_ElementFactory $elementFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_ElementFactory $elementFactory,
+        array $data = array()
+    ) {
+        $this->_elementFactory = $elementFactory;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Chooser source URL getter
      *
      * @return string
@@ -126,7 +145,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Bl
         ));
         $hiddenHtml = '';
         if ($this->getHiddenEnabled()) {
-            $hidden = new Magento_Data_Form_Element_Hidden($element->getData());
+            $hidden = $this->_elementFactory->create('Magento_Data_Form_Element_Hidden', $element->getData());
             $hidden->setId("{$chooserId}value")->setForm($element->getForm());
             if ($element->getRequired()) {
                 $hidden->addClass('required-entry');

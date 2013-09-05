@@ -36,6 +36,25 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
     protected $_rangeDelimiter  = '...';
 
     /**
+     * @var Magento_Data_Form_ElementFactory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Data_Form_ElementFactory $elementFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Data_Form_ElementFactory $elementFactory,
+        array $data = array()
+    ) {
+        $this->_elementFactory = $elementFactory;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Render the chooser HTML
      * Target element should be set.
      *
@@ -53,7 +72,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
             'from' => __('From'),
             'to'   => __('To')) as $key => $label) {
             $id = "{$key}_{$idSuffix}";
-            $element = new Magento_Data_Form_Element_Date(array(
+            $element = $this->_elementFactory->create('Magento_Data_Form_Element_Date', array(
                 'format'   => Magento_Date::DATE_INTERNAL_FORMAT, // hardcode because hardcoded values delimiter
                 'label'    => $label,
                 'image'    => $this->getViewFileUrl('images/grid-cal.gif'),

@@ -21,6 +21,25 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
 {
     const XML_PATH_IMAGE_TYPES = 'global/catalog/product/media/image_types';
 
+    /**
+     * @var Magento_Data_Form_ElementFactory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Data_Form_ElementFactory $elementFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Data_Form_ElementFactory $elementFactory,
+        array $data = array()
+    ) {
+        $this->_elementFactory = $elementFactory;
+        parent::__construct($context, $data);
+    }
+
     public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $html = $this->_getHeaderHtml($element);
@@ -32,7 +51,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             /**
              * Watermark size field
              */
-            $field = new Magento_Data_Form_Element_Text();
+            $field = $this->_elementFactory->create('Magento_Data_Form_Element_Text');
             $field->setName("groups[watermark][fields][{$key}_size][value]")
                 ->setForm( $this->getForm() )
                 ->setLabel(__('Size for %1', $attribute['title']))
@@ -42,7 +61,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             /**
              * Watermark upload field
              */
-            $field = new Magento_Data_Form_Element_Imagefile();
+            $field = $this->_elementFactory->create('Magento_Data_Form_Element_Imagefile');
             $field->setName("groups[watermark][fields][{$key}_image][value]")
                 ->setForm( $this->getForm() )
                 ->setLabel(__('Watermark File for %1', $attribute['title']))
@@ -52,7 +71,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             /**
              * Watermark position field
              */
-            $field = new Magento_Data_Form_Element_Select();
+            $field = $this->_elementFactory->create('Magento_Data_Form_Element_Select');
             $field->setName("groups[watermark][fields][{$key}_position][value]")
                 ->setForm( $this->getForm() )
                 ->setLabel(__('Position of Watermark for %1', $attribute['title']))

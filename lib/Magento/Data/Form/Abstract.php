@@ -135,14 +135,14 @@ class Magento_Data_Form_Abstract extends Magento_Object
      * @param   mixed  $after
      * @return Magento_Data_Form_Element_Abstract
      */
-    public function addField($elementId, $type, $config, $after=false)
+    public function addField($elementId, $type, $config, $after = false)
     {
         if (isset($this->_types[$type])) {
             $className = $this->_types[$type];
         } else {
             $className = 'Magento_Data_Form_Element_' . ucfirst(strtolower($type));
         }
-        $element = $this->_elementFactory->create($className, array('attributes' => $config));
+        $element = $this->_elementFactory->create($className, $config);
         $element->setId($elementId);
         $this->addElement($element, $after);
         return $element;
@@ -172,7 +172,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
     public function addFieldset($elementId, $config, $after = false, $isAdvanced = false)
     {
         /** @var $element Magento_Data_Form_Element_Fieldset */
-        $element = $this->_elementFactory->create('Magento_Data_Form_Element_Fieldset', array('attributes' => $config));
+        $element = $this->_elementFactory->create('Magento_Data_Form_Element_Fieldset', $config);
         $element->setId($elementId);
         $element->setAdvanced($isAdvanced);
         $this->addElement($element, $after);
@@ -189,7 +189,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
     public function addColumn($elementId, $config)
     {
         /** @var $element Magento_Data_Form_Element_Column */
-        $element = $this->_elementFactory->create('Magento_Data_Form_Element_Column', array('attributes' => $config));
+        $element = $this->_elementFactory->create('Magento_Data_Form_Element_Column', $config);
         $element->setForm($this)
             ->setId($elementId);
         $this->addElement($element);
