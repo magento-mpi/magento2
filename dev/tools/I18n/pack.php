@@ -42,7 +42,7 @@ try {
     $generator->generate($dictionaryPath, $packPath, $locale, $saveMode, $allowDuplicates);
     $resultMessage = $generator->getResultMessage();
 
-    fwrite(STDOUT, $resultMessage);
+    fwrite(STDOUT, sprintf("\nSuccessfully saved %s language package.\n", $locale));
 
 } catch (\Zend_Console_Getopt_Exception $e) {
     echo $e->getUsageMessage();

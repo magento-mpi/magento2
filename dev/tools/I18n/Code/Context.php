@@ -50,7 +50,7 @@ class Context
             $type = self::CONTEXT_TYPE_PUB;
             $value = ltrim($value, '/');
         } else {
-            throw new \InvalidArgumentException(sprintf('Invalid path given: "%s".', $path));
+            return array('', '');
         }
         return array($type, $value);
     }
@@ -76,7 +76,7 @@ class Context
                 $path = 'pub/lib';
                 break;
             default:
-                throw new \InvalidArgumentException(sprintf('Invalid meta-type given: "%s".', $type));
+                throw new \InvalidArgumentException(sprintf('Invalid context given: "%s".', $type));
         }
         return $path . '/' . self::LOCALE_DIRECTORY . '/';
     }

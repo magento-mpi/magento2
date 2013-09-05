@@ -54,6 +54,7 @@ class Generator
         $writer = $this->_factory->createDictionaryWriter($outputFilename);
 
         $this->_parser->parse($parseOptions);
+
         foreach ($this->_parser->getPhrases() as $phrase) {
             $fields = array($phrase['phrase'], $phrase['phrase']);
             if ($withContext) {
@@ -61,15 +62,5 @@ class Generator
             }
             $writer->write($fields, $outputFilename);
         }
-    }
-
-    /**
-     * Get result message
-     *
-     * @return string
-     */
-    public function getResultMessage()
-    {
-        return "\nDictionary successfully processed.\n";
     }
 }

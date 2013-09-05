@@ -77,9 +77,8 @@ try {
 
     $generator = ServiceLocator::getDictionaryGenerator();
     $generator->generate($parseOptions, $outputFilename, $isMagento);
-    $resultMessage = $generator->getResultMessage();
 
-    fwrite(STDOUT, $resultMessage);
+    fwrite(STDOUT, "\nDictionary successfully processed.\n");
 
 } catch (\Zend_Console_Getopt_Exception $e) {
     echo $e->getUsageMessage();

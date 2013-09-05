@@ -39,13 +39,6 @@ class Generator
     protected $_factory;
 
     /**
-     * Locale
-     *
-     * @var \Magento\Tools\I18n\Code\Locale
-     */
-    protected $_locale;
-
-    /**
      * Loader construct
      *
      * @param \Magento\Tools\I18n\Code\Dictionary\Loader\FileInterface $dictionaryLoader
@@ -75,24 +68,14 @@ class Generator
     public function generate($dictionaryPath, $packPath, $locale, $saveMode = WriterInterface::MODE_REPLACE,
         $allowDuplicates = false
     ) {
-        $this->_locale = $this->_factory->createLocale($locale);
+        $locale = $this->_factory->createLocale($locale);
         $dictionary = $this->_dictionaryLoader->load($dictionaryPath);
 
         if (!$allowDuplicates && ($duplicates = $dictionary->getDuplicates())) {
             throw new \RuntimeException($this->_createDuplicatesPhrasesError($duplicates));
         }
 
-        $this->_packWriter->write($dictionary, $packPath, $this->_locale, $saveMode);
-    }
-
-    /**
-     * Get result message
-     *
-     * @return string
-     */
-    public function getResultMessage()
-    {
-        return sprintf("\nSuccessfully saved %s language package.\n", $this->_locale);
+        $this->_packWriter->write($dictionary, $packPath, $locale, $saveMode);
     }
 
     /**
