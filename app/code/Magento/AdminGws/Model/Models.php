@@ -320,26 +320,6 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     }
 
     /**
-     * Catalog product validate after add|remove to|from websites on mass update attributes
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function catalogProductActionWithWebsitesAfter(Magento_Event_Observer $observer)
-    {
-        if ($this->_role->getIsAll()) {
-            return ;
-        }
-        if (in_array($observer->getEvent()->getAction(), array('remove', 'add'))) {
-            if (!$this->_role->getIsWebsiteLevel()) {
-                $this->_throwSave();
-            }
-            if (!$this->_role->hasWebsiteAccess($observer->getWebsiteIds(), true)) {
-                $this->_throwSave();
-            }
-        }
-    }
-
-    /**
      * Catalog product validate after
      *
      * @param Magento_Event_Observer $observer
