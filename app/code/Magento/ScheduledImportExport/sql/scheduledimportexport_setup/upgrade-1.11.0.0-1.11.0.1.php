@@ -12,8 +12,8 @@
 $installer = $this;
 
 $installer->getConnection()
-        ->modifyColumn($installer->getTable('enterprise_scheduled_operations'), 'force_import', array(
-            'type'     => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+        ->modifyColumn($installer->getTable('magento_scheduled_operations'), 'force_import', array(
+            'type'     => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
             'nullable' => false,
             'default'  => '0'
         ));

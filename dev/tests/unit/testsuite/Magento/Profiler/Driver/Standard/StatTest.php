@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Profiler_Driver_Standard_Stat
+ * Test class for \Magento\Profiler\Driver\Standard\Stat
  *
  * {license_notice}
  *
@@ -10,17 +10,17 @@
 class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Profiler_Driver_Standard_Stat
+     * @var \Magento\Profiler\Driver\Standard\Stat
      */
     protected $_stat;
 
     protected function setUp()
     {
-        $this->_stat = new Magento_Profiler_Driver_Standard_Stat();
+        $this->_stat = new \Magento\Profiler\Driver\Standard\Stat();
     }
 
     /**
-     * Test start and stop methods of Magento_Profiler_Driver_Standard_Stat
+     * Test start and stop methods of \Magento\Profiler\Driver\Standard\Stat
      *
      * @dataProvider actionsDataProvider
      * @param array $actions
@@ -58,13 +58,13 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
                 ),
                 'expected' => array(
                     'timer1' => array(
-                        Magento_Profiler_Driver_Standard_Stat::START => 25,
-                        Magento_Profiler_Driver_Standard_Stat::TIME => 0,
-                        Magento_Profiler_Driver_Standard_Stat::REALMEM => 0,
-                        Magento_Profiler_Driver_Standard_Stat::EMALLOC => 0,
-                        Magento_Profiler_Driver_Standard_Stat::REALMEM_START => 1500,
-                        Magento_Profiler_Driver_Standard_Stat::EMALLOC_START => 10,
-                        Magento_Profiler_Driver_Standard_Stat::COUNT => 1
+                        \Magento\Profiler\Driver\Standard\Stat::START => 25,
+                        \Magento\Profiler\Driver\Standard\Stat::TIME => 0,
+                        \Magento\Profiler\Driver\Standard\Stat::REALMEM => 0,
+                        \Magento\Profiler\Driver\Standard\Stat::EMALLOC => 0,
+                        \Magento\Profiler\Driver\Standard\Stat::REALMEM_START => 1500,
+                        \Magento\Profiler\Driver\Standard\Stat::EMALLOC_START => 10,
+                        \Magento\Profiler\Driver\Standard\Stat::COUNT => 1
                     )
                 )
             ),
@@ -75,13 +75,13 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
                 ),
                 'expected' => array(
                     'timer1' => array(
-                        Magento_Profiler_Driver_Standard_Stat::START => 75,
-                        Magento_Profiler_Driver_Standard_Stat::TIME => 0,
-                        Magento_Profiler_Driver_Standard_Stat::REALMEM => 0,
-                        Magento_Profiler_Driver_Standard_Stat::EMALLOC => 0,
-                        Magento_Profiler_Driver_Standard_Stat::REALMEM_START => 2000,
-                        Magento_Profiler_Driver_Standard_Stat::EMALLOC_START => 20,
-                        Magento_Profiler_Driver_Standard_Stat::COUNT => 2
+                        \Magento\Profiler\Driver\Standard\Stat::START => 75,
+                        \Magento\Profiler\Driver\Standard\Stat::TIME => 0,
+                        \Magento\Profiler\Driver\Standard\Stat::REALMEM => 0,
+                        \Magento\Profiler\Driver\Standard\Stat::EMALLOC => 0,
+                        \Magento\Profiler\Driver\Standard\Stat::REALMEM_START => 2000,
+                        \Magento\Profiler\Driver\Standard\Stat::EMALLOC_START => 20,
+                        \Magento\Profiler\Driver\Standard\Stat::COUNT => 2
                     )
                 )
             ),
@@ -94,13 +94,13 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
                 ),
                 'expected' => array(
                     'timer1' => array(
-                        Magento_Profiler_Driver_Standard_Stat::START => false,
-                        Magento_Profiler_Driver_Standard_Stat::TIME => 100,
-                        Magento_Profiler_Driver_Standard_Stat::REALMEM => 1500,
-                        Magento_Profiler_Driver_Standard_Stat::EMALLOC => 40,
-                        Magento_Profiler_Driver_Standard_Stat::REALMEM_START => 3000,
-                        Magento_Profiler_Driver_Standard_Stat::EMALLOC_START => 50,
-                        Magento_Profiler_Driver_Standard_Stat::COUNT => 2
+                        \Magento\Profiler\Driver\Standard\Stat::START => false,
+                        \Magento\Profiler\Driver\Standard\Stat::TIME => 100,
+                        \Magento\Profiler\Driver\Standard\Stat::REALMEM => 1500,
+                        \Magento\Profiler\Driver\Standard\Stat::EMALLOC => 40,
+                        \Magento\Profiler\Driver\Standard\Stat::REALMEM_START => 3000,
+                        \Magento\Profiler\Driver\Standard\Stat::EMALLOC_START => 50,
+                        \Magento\Profiler\Driver\Standard\Stat::COUNT => 2
                     )
                 )
             ),
@@ -113,22 +113,22 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
                 ),
                 'expected' => array(
                     'timer1' => array(
-                        Magento_Profiler_Driver_Standard_Stat::START => false,
-                        Magento_Profiler_Driver_Standard_Stat::TIME => 75,
-                        Magento_Profiler_Driver_Standard_Stat::REALMEM => 2700,
-                        Magento_Profiler_Driver_Standard_Stat::EMALLOC => 45,
-                        Magento_Profiler_Driver_Standard_Stat::REALMEM_START => 1500,
-                        Magento_Profiler_Driver_Standard_Stat::EMALLOC_START => 10,
-                        Magento_Profiler_Driver_Standard_Stat::COUNT => 1
+                        \Magento\Profiler\Driver\Standard\Stat::START => false,
+                        \Magento\Profiler\Driver\Standard\Stat::TIME => 75,
+                        \Magento\Profiler\Driver\Standard\Stat::REALMEM => 2700,
+                        \Magento\Profiler\Driver\Standard\Stat::EMALLOC => 45,
+                        \Magento\Profiler\Driver\Standard\Stat::REALMEM_START => 1500,
+                        \Magento\Profiler\Driver\Standard\Stat::EMALLOC_START => 10,
+                        \Magento\Profiler\Driver\Standard\Stat::COUNT => 1
                     ),
                     'timer2' => array(
-                        Magento_Profiler_Driver_Standard_Stat::START => false,
-                        Magento_Profiler_Driver_Standard_Stat::TIME => 30,
-                        Magento_Profiler_Driver_Standard_Stat::REALMEM => 500,
-                        Magento_Profiler_Driver_Standard_Stat::EMALLOC => 5,
-                        Magento_Profiler_Driver_Standard_Stat::REALMEM_START => 2000,
-                        Magento_Profiler_Driver_Standard_Stat::EMALLOC_START => 20,
-                        Magento_Profiler_Driver_Standard_Stat::COUNT => 1
+                        \Magento\Profiler\Driver\Standard\Stat::START => false,
+                        \Magento\Profiler\Driver\Standard\Stat::TIME => 30,
+                        \Magento\Profiler\Driver\Standard\Stat::REALMEM => 500,
+                        \Magento\Profiler\Driver\Standard\Stat::EMALLOC => 5,
+                        \Magento\Profiler\Driver\Standard\Stat::REALMEM_START => 2000,
+                        \Magento\Profiler\Driver\Standard\Stat::EMALLOC_START => 20,
+                        \Magento\Profiler\Driver\Standard\Stat::COUNT => 1
                     )
                 )
             )
@@ -302,8 +302,8 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
                     array('stop', 'root', 'time' => 1000, 'realMemory' => 500, 'emallocMemory' => 0),
                 ),
                 'thresholds' => array(
-                    Magento_Profiler_Driver_Standard_Stat::TIME => 1000,
-                    Magento_Profiler_Driver_Standard_Stat::REALMEM => 20000,
+                    \Magento\Profiler\Driver\Standard\Stat::TIME => 1000,
+                    \Magento\Profiler\Driver\Standard\Stat::REALMEM => 20000,
                 ),
                 'filterPattern' => null,
                 'expected' => array(
@@ -352,22 +352,22 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
                 'expects' => array(
                     array(
                         'timerId' => 'root',
-                        'key' => Magento_Profiler_Driver_Standard_Stat::START,
+                        'key' => \Magento\Profiler\Driver\Standard\Stat::START,
                         'expectedValue' => false
                     ),
                     array(
                         'timerId' => 'root',
-                        'key' => Magento_Profiler_Driver_Standard_Stat::TIME,
+                        'key' => \Magento\Profiler\Driver\Standard\Stat::TIME,
                         'expectedValue' => 1000
                     ),
                     array(
                         'timerId' => 'root',
-                        'key' => Magento_Profiler_Driver_Standard_Stat::REALMEM,
+                        'key' => \Magento\Profiler\Driver\Standard\Stat::REALMEM,
                         'expectedValue' => 500
                     ),
                     array(
                         'timerId' => 'root',
-                        'key' => Magento_Profiler_Driver_Standard_Stat::EMALLOC,
+                        'key' => \Magento\Profiler\Driver\Standard\Stat::EMALLOC,
                         'expectedValue' => 10
                     ),
                 )
@@ -381,7 +381,7 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
                 ),
                 'expects' => array(array(
                     'timerId' => 'root',
-                    'key' => Magento_Profiler_Driver_Standard_Stat::AVG,
+                    'key' => \Magento\Profiler\Driver\Standard\Stat::AVG,
                     'expectedValue' => 10
                 ))
             ),
@@ -391,11 +391,11 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
                 ),
                 'expects' => array(array(
                     'timerId' => 'root',
-                    'key' => Magento_Profiler_Driver_Standard_Stat::TIME,
+                    'key' => \Magento\Profiler\Driver\Standard\Stat::TIME,
                     'expectedValue' => $this->greaterThan(microtime(true))
                 ), array(
                     'timerId' => 'root',
-                    'key' => Magento_Profiler_Driver_Standard_Stat::ID,
+                    'key' => \Magento\Profiler\Driver\Standard\Stat::ID,
                     'expectedValue' => 'root'
                 ))
             ),

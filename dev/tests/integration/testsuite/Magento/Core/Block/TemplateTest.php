@@ -18,10 +18,9 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $params = array(
-            'layout' => Mage::getObjectManager()->create('Magento_Core_Model_Layout', array())
-        );
-        $context = Mage::getObjectManager()->create('Magento_Core_Block_Template_Context', $params);
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $params = array('layout' => $objectManager->create('Magento_Core_Model_Layout', array()));
+        $context = $objectManager->create('Magento_Core_Block_Template_Context', $params);
         $this->_block = Mage::app()->getLayout()->createBlock('Magento_Core_Block_Template', '',
             array('context' => $context)
         );
@@ -85,7 +84,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
 
     public function testGetObjectData()
     {
-        $object = new Magento_Object(array('key' => 'value'));
+        $object = new \Magento\Object(array('key' => 'value'));
         $this->assertEquals('value', $this->_block->getObjectData($object, 'key'));
     }
 

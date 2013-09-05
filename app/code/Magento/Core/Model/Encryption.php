@@ -18,7 +18,7 @@
 class Magento_Core_Model_Encryption
 {
     /**
-     * @var Magento_Crypt
+     * @var \Magento\Crypt
      */
     protected $_crypt;
     /**
@@ -27,14 +27,14 @@ class Magento_Core_Model_Encryption
     protected $_helper;
 
     /**
-     * @var Magento_ObjectManager|null
+     * @var \Magento\ObjectManager|null
      */
     protected $_objectManager = null;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -116,7 +116,7 @@ class Magento_Core_Model_Encryption
      * Instantiate crypt model
      *
      * @param string $key
-     * @return Magento_Crypt
+     * @return \Magento\Crypt
      */
     protected function _getCrypt($key = null)
     {
@@ -124,7 +124,7 @@ class Magento_Core_Model_Encryption
             if (null === $key) {
                 $key = (string)Mage::getConfig()->getNode('global/crypt/key');
             }
-            $this->_crypt = new Magento_Crypt($key);
+            $this->_crypt = new \Magento\Crypt($key);
         }
         return $this->_crypt;
     }
@@ -155,7 +155,7 @@ class Magento_Core_Model_Encryption
      * Return crypt model, instantiate if it is empty
      *
      * @param string $key
-     * @return Magento_Crypt
+     * @return \Magento\Crypt
      */
     public function validateKey($key)
     {

@@ -31,13 +31,13 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
      * Prepare response object and dispatch prepare price event
      * Return response object
      *
-     * @param Magento_DB_Select $select
-     * @return Magento_Object
+     * @param \Magento\DB\Select $select
+     * @return \Magento\Object
      */
     protected function _dispatchPreparePriceEvent($select)
     {
         // prepare response object for event
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setAdditionalCalculations(array());
 
         // prepare event arguments

@@ -15,7 +15,7 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Validator_Attribute_Backend extends Magento_Validator_ValidatorAbstract
+class Magento_Eav_Model_Validator_Attribute_Backend extends \Magento\Validator\ValidatorAbstract
 {
     /**
      * Returns true if and only if $value meets the validation requirements.

@@ -27,14 +27,14 @@ class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
     /**
      * Callback for save method in mocked model
      *
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function saveModelAndFailOnUpdate()
     {
         if (!$this->_model->getId()) {
             $this->saveModelSuccessfully();
         } else {
-            throw new Magento_Exception('Synthetic model update failure.');
+            throw new \Magento\Exception('Synthetic model update failure.');
         }
     }
 
@@ -50,7 +50,7 @@ class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'successful CRUD'         => array('saveModelSuccessfully'),
-            'cleanup on update error' => array('saveModelAndFailOnUpdate', 'Magento_Exception'),
+            'cleanup on update error' => array('saveModelAndFailOnUpdate', '\Magento\Exception'),
         );
     }
 
@@ -84,7 +84,7 @@ class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('id'));
 
         $test = $this->getMock(
-            'Magento_Test_Entity',
+            'Magento_TestFramework_Entity',
             array('_getEmptyModel'),
             array($this->_model, array('test' => 'test'))
         );

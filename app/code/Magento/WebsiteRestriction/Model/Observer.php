@@ -17,7 +17,7 @@ class Magento_WebsiteRestriction_Model_Observer
     /**
      * Implement website stub or private sales restriction
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function restrictWebsite($observer)
     {
@@ -25,7 +25,7 @@ class Magento_WebsiteRestriction_Model_Observer
         $controller = $observer->getEvent()->getControllerAction();
 
         if (!Mage::app()->getStore()->isAdmin()) {
-            $dispatchResult = new Magento_Object(array('should_proceed' => true, 'customer_logged_in' => false));
+            $dispatchResult = new \Magento\Object(array('should_proceed' => true, 'customer_logged_in' => false));
             Mage::dispatchEvent('websiterestriction_frontend', array(
                 'controller' => $controller, 'result' => $dispatchResult
             ));
@@ -128,7 +128,7 @@ class Magento_WebsiteRestriction_Model_Observer
     /**
      * Attempt to disallow customers registration
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function restrictCustomersRegistration($observer)
     {
@@ -146,7 +146,7 @@ class Magento_WebsiteRestriction_Model_Observer
     /**
      * Make layout load additional handler when in private sales mode
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function addPrivateSalesLayoutUpdate($observer)
     {

@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Model_Extension extends Magento_Object
+class Magento_Connect_Model_Extension extends \Magento\Object
 {
     /**
      * Cache for targets
@@ -27,20 +27,20 @@ class Magento_Connect_Model_Extension extends Magento_Object
     /**
      * Internal cache for package
      *
-     * @var Magento_Connect_Package
+     * @var \Magento\Connect\Package
      */
     protected $_package;
 
     /**
-     * @var Magento_Filesystem $filesystem
+     * @var \Magento\Filesystem $filesystem
      */
     protected $_filesystem;
 
     /**
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, array $data = array())
+    public function __construct(\Magento\Filesystem $filesystem, array $data = array())
     {
         parent::__construct($data);
         $this->_filesystem = $filesystem;
@@ -49,12 +49,12 @@ class Magento_Connect_Model_Extension extends Magento_Object
     /**
      * Return package object
      *
-     * @return Magento_Connect_Package
+     * @return \Magento\Connect\Package
      */
     protected function getPackage()
     {
-        if (!$this->_package instanceof Magento_Connect_Package) {
-            $this->_package = new Magento_Connect_Package();
+        if (!$this->_package instanceof \Magento\Connect\Package) {
+            $this->_package = new \Magento\Connect\Package();
         }
         return $this->_package;
     }
@@ -252,7 +252,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
             $this->unsPackageXml();
             $this->unsTargets();
             $xml = Mage::helper('Magento_Core_Helper_Data')->assocToXml($this->getData());
-            $xml = new Magento_Simplexml_Element($xml->asXML());
+            $xml = new \Magento\Simplexml\Element($xml->asXML());
 
             // prepare dir to save
             $parts = explode(DS, $fileName);
@@ -263,7 +263,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
                 $this->_filesystem->ensureDirectoryExists($path, $newDir, 0777);
             }
             $this->_filesystem->write($path . $fileName . '.xml', $xml->asNiceXml());
-        } catch (Magento_Filesystem_Exception $e) {
+        } catch (\Magento\Filesystem\FilesystemException $e) {
             return false;
         }
         return true;
@@ -332,7 +332,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
     public function getLabelTargets()
     {
         if (!is_array($this->_targets)) {
-            $objectTarget = new Magento_Connect_Package_Target();
+            $objectTarget = new \Magento\Connect\Package\Target();
             $this->_targets = $objectTarget->getLabelTargets();
         }
         return $this->_targets;

@@ -118,7 +118,7 @@ class Magento_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource
             : $object->getData('apply_to');
 
         Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
-            new Magento_Object(array('type_id' => $typeId)),
+            new \Magento\Object(array('type_id' => $typeId)),
             Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
             Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
         );
@@ -136,7 +136,7 @@ class Magento_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource
     protected function _beforeDelete(Magento_Core_Model_Abstract $object)
     {
         Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
-            new Magento_Object(array('type_id' => $object->getData('apply_to'))),
+            new \Magento\Object(array('type_id' => $object->getData('apply_to'))),
             Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
             Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
         );

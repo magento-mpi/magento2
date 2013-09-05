@@ -15,12 +15,12 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Wsdl_Config_Base extends Magento_Simplexml_Config
+class Magento_Api_Model_Wsdl_Config_Base extends \Magento\Simplexml\Config
 {
     protected $_handler = '';
 
     /**
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_wsdlVariables = null;
 
@@ -35,7 +35,7 @@ class Magento_Api_Model_Wsdl_Config_Base extends Magento_Simplexml_Config
         unset($queryParams['wsdl']);
 
         // set up default WSDL template variables
-        $this->_wsdlVariables = new Magento_Object(
+        $this->_wsdlVariables = new \Magento\Object(
             array(
                 'name' => 'Magento',
                 'url'  => htmlspecialchars(Mage::getUrl('*/*/*', array('_query' => $queryParams)))

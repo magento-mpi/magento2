@@ -27,7 +27,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_Time_Created extends Magento_Ea
     {
         $attributeCode = $this->getAttribute()->getAttributeCode();
         if ($object->isObjectNew() && is_null($object->getData($attributeCode))) {
-            $object->setData($attributeCode, Magento_Date::now());
+            $object->setData($attributeCode, \Magento\Date::now());
         }
 
         return $this;

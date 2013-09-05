@@ -118,8 +118,8 @@ class Magento_Core_Model_Resource_Website_Collection extends Magento_Core_Model_
      */
     public function load($printQuery = false, $logQuery = false)
     {
-        $this->unshiftOrder('main_table.name', Magento_DB_Select::SQL_ASC)       // website name SECOND
-             ->unshiftOrder('main_table.sort_order', Magento_DB_Select::SQL_ASC); // website sort order FIRST
+        $this->unshiftOrder('main_table.name', \Magento\DB\Select::SQL_ASC)       // website name SECOND
+             ->unshiftOrder('main_table.sort_order', \Magento\DB\Select::SQL_ASC); // website sort order FIRST
 
         return parent::load($printQuery, $logQuery);
     }
@@ -146,10 +146,10 @@ class Magento_Core_Model_Resource_Website_Collection extends Magento_Core_Model_
                 'group_table.group_id = store_table.group_id',
                 array('store_id' => 'store_id', 'store_title' => 'name')
             );
-            $this->addOrder('group_table.name', Magento_DB_Select::SQL_ASC)       // store name
-                ->addOrder('CASE WHEN store_table.store_id = 0 THEN 0 ELSE 1 END', Magento_DB_Select::SQL_ASC) // view is admin
-                ->addOrder('store_table.sort_order', Magento_DB_Select::SQL_ASC) // view sort order
-                ->addOrder('store_table.name', Magento_DB_Select::SQL_ASC)       // view name
+            $this->addOrder('group_table.name', \Magento\DB\Select::SQL_ASC)       // store name
+                ->addOrder('CASE WHEN store_table.store_id = 0 THEN 0 ELSE 1 END', \Magento\DB\Select::SQL_ASC) // view is admin
+                ->addOrder('store_table.sort_order', \Magento\DB\Select::SQL_ASC) // view sort order
+                ->addOrder('store_table.name', \Magento\DB\Select::SQL_ASC)       // view name
             ;
             $this->setFlag('groups_and_stores_joined', true);
         }

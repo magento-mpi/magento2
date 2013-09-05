@@ -38,7 +38,7 @@ class Magento_Install_Model_Installer_Pear extends Magento_Install_Model_Install
      */
     public function checkDownloads()
     {
-        $pear = new Magento_Pear;
+        $pear = new \Magento\Pear;
         $pkg = new PEAR_PackageFile($pear->getConfig(), false);
         $result = true;
         foreach ($this->getPackages() as $package) {

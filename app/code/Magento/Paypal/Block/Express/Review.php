@@ -99,10 +99,10 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     /**
      * Get either shipping rate code or empty value on error
      *
-     * @param Magento_Object $rate
+     * @param \Magento\Object $rate
      * @return string
      */
-    public function renderShippingRateValue(Magento_Object $rate)
+    public function renderShippingRateValue(\Magento\Object $rate)
     {
         if ($rate->getErrorMessage()) {
             return '';
@@ -113,7 +113,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     /**
      * Get shipping rate code title and its price or error message
      *
-     * @param Magento_Object $rate
+     * @param \Magento\Object $rate
      * @param string $format
      * @param string $inclTaxFormat
      * @return string

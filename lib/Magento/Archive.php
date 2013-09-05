@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Archive
+ * @package     \Magento\Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,12 @@
  * Class to work with archives
  *
  * @category    Magento
- * @package     Magento_Archive
+ * @package     \Magento\Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Archive
+namespace Magento;
+
+class Archive
 {
 
     /**
@@ -68,7 +70,7 @@ class Magento_Archive
         } else {
             $format = self::DEFAULT_ARCHIVER;
         }
-        $class = 'Magento_Archive_'.ucfirst($format);
+        $class = '\Magento_Archive_'.ucfirst($format);
         $this->_archiver = new $class();
         return $this->_archiver;
     }

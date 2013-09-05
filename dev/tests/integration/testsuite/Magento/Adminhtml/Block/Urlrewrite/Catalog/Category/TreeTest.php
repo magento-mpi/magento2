@@ -69,7 +69,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_TreeTest extends PHPUn
      */
     public function testGetLoadTreeUrl()
     {
-        $row = new Magento_Object(array('id' => 1));
+        $row = new \Magento\Object(array('id' => 1));
         $this->assertStringStartsWith('http://localhost/index.php', $this->_treeBlock->getLoadTreeUrl($row),
             'Tree load URL is invalid');
     }

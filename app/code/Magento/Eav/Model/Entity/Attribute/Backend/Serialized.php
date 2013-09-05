@@ -16,7 +16,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_Serialized extends Magento_Eav_
     /**
      * Serialize before saving
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Attribute_Backend_Serialized
      */
     public function beforeSave($object)
@@ -33,7 +33,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_Serialized extends Magento_Eav_
     /**
      * Unserialize after saving
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Attribute_Backend_Serialized
      */
     public function afterSave($object)
@@ -46,7 +46,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_Serialized extends Magento_Eav_
     /**
      * Unserialize after loading
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Attribute_Backend_Serialized
      */
     public function afterLoad($object)
@@ -59,10 +59,10 @@ class Magento_Eav_Model_Entity_Attribute_Backend_Serialized extends Magento_Eav_
     /**
      * Try to unserialize the attribute value
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Attribute_Backend_Serialized
      */
-    protected function _unserialize(Magento_Object $object)
+    protected function _unserialize(\Magento\Object $object)
     {
         $attrCode = $this->getAttribute()->getAttributeCode();
         if ($object->getData($attrCode)) {

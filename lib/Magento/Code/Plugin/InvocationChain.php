@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Code_Plugin_InvocationChain
+namespace Magento\Code\Plugin;
+
+class InvocationChain
 {
     /**
      * Original instance whose behavior is decorated by plugins
@@ -24,7 +26,7 @@ class Magento_Code_Plugin_InvocationChain
     protected $_methodName;
 
     /**
-     * @var \Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -38,10 +40,10 @@ class Magento_Code_Plugin_InvocationChain
     /**
      * @param mixed $subject
      * @param string $methodName
-     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param array $pluginList
      */
-    public function __construct($subject, $methodName, \Magento_ObjectManager $objectManager, array $pluginList)
+    public function __construct($subject, $methodName, \Magento\ObjectManager $objectManager, array $pluginList)
     {
         $this->_subject = $subject;
         $this->_methodName = $methodName;

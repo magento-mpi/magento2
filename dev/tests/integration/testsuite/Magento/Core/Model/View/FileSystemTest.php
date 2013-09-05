@@ -22,13 +22,16 @@ class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
-        $this->_model = Mage::getObjectManager()->create('Magento_Core_Model_View_FileSystem');
-        Mage::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')->setDesignTheme('test_default');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_FileSystem');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface')
+            ->setDesignTheme('test_default');
     }
 
     public function testGetFilename()

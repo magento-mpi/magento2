@@ -154,10 +154,10 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**
      * Clean up already loaded attribute collection.
      *
-     * @param Magento_Data_Collection $collection
-     * @return Magento_Data_Collection
+     * @param \Magento\Data\Collection $collection
+     * @return \Magento\Data\Collection
      */
-    public function filterAttributeCollection(Magento_Data_Collection $collection)
+    public function filterAttributeCollection(\Magento\Data\Collection $collection)
     {
         /** @var $attribute Magento_Customer_Model_Attribute */
         foreach (parent::filterAttributeCollection($collection) as $attribute) {

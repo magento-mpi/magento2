@@ -24,33 +24,33 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('adminnotification_inbox'))
-    ->addColumn('notification_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('notification_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Notification id')
-    ->addColumn('severity', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('severity', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Problem type')
-    ->addColumn('date_added', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+    ->addColumn('date_added', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Create date')
-    ->addColumn('title', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('title', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         ), 'Title')
-    ->addColumn('description', Magento_DB_Ddl_Table::TYPE_TEXT, '64k', array(
+    ->addColumn('description', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
         ), 'Description')
-    ->addColumn('url', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('url', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Url')
-    ->addColumn('is_read', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_read', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Flag if notification read')
-    ->addColumn('is_remove', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_remove', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',

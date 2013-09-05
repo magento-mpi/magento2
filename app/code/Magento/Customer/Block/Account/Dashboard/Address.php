@@ -27,7 +27,7 @@ class Magento_Customer_Block_Account_Dashboard_Address extends Magento_Core_Bloc
     {
         $address = $this->getCustomer()->getPrimaryShippingAddress();
 
-        if( $address instanceof Magento_Object ) {
+        if( $address instanceof \Magento\Object ) {
             return $address->format('html');
         } else {
             return __('You have not set a default shipping address.');
@@ -38,7 +38,7 @@ class Magento_Customer_Block_Account_Dashboard_Address extends Magento_Core_Bloc
     {
         $address = $this->getCustomer()->getPrimaryBillingAddress();
 
-        if( $address instanceof Magento_Object ) {
+        if( $address instanceof \Magento\Object ) {
             return $address->format('html');
         } else {
             return __('You have not set a default billing address.');

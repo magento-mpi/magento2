@@ -15,15 +15,15 @@ $installer = $this;
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('tax_class'))
-    ->addColumn('class_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('class_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Class Id')
-    ->addColumn('class_name', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('class_name', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         'nullable'  => false
         ), 'Class Name')
-    ->addColumn('class_type', Magento_DB_Ddl_Table::TYPE_TEXT, 8, array(
+    ->addColumn('class_type', \Magento\DB\Ddl\Table::TYPE_TEXT, 8, array(
         'nullable'  => false,
         'default'   => Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER,
         ), 'Class Type')
@@ -35,18 +35,18 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('tax_calculation_rule'))
-    ->addColumn('tax_calculation_rule_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('tax_calculation_rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Tax Calculation Rule Id')
-    ->addColumn('code', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('code', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         ), 'Code')
-    ->addColumn('priority', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('priority', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         ), 'Priority')
-    ->addColumn('position', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('position', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         ), 'Position')
     ->addIndex($installer->getIdxName('tax_calculation_rule', array('priority', 'position', 'tax_calculation_rule_id')),
@@ -61,31 +61,31 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('tax_calculation_rate'))
-    ->addColumn('tax_calculation_rate_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('tax_calculation_rate_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Tax Calculation Rate Id')
-    ->addColumn('tax_country_id', Magento_DB_Ddl_Table::TYPE_TEXT, 2, array(
+    ->addColumn('tax_country_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 2, array(
         'nullable'  => false,
         ), 'Tax Country Id')
-    ->addColumn('tax_region_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('tax_region_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         ), 'Tax Region Id')
-    ->addColumn('tax_postcode', Magento_DB_Ddl_Table::TYPE_TEXT, 21, array(
+    ->addColumn('tax_postcode', \Magento\DB\Ddl\Table::TYPE_TEXT, 21, array(
         ), 'Tax Postcode')
-    ->addColumn('code', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('code', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         ), 'Code')
-    ->addColumn('rate', Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+    ->addColumn('rate', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
         ), 'Rate')
-    ->addColumn('zip_is_range', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('zip_is_range', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         ), 'Zip Is Range')
-    ->addColumn('zip_from', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('zip_from', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         ), 'Zip From')
-    ->addColumn('zip_to', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('zip_to', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         ), 'Zip To')
     ->addIndex($installer->getIdxName('tax_calculation_rate', array('tax_country_id', 'tax_region_id', 'tax_postcode')),
@@ -102,21 +102,21 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('tax_calculation'))
-    ->addColumn('tax_calculation_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('tax_calculation_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Tax Calculation Id')
-    ->addColumn('tax_calculation_rate_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('tax_calculation_rate_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         ), 'Tax Calculation Rate Id')
-    ->addColumn('tax_calculation_rule_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('tax_calculation_rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         ), 'Tax Calculation Rule Id')
-    ->addColumn('customer_tax_class_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('customer_tax_class_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         ), 'Customer Tax Class Id')
-    ->addColumn('product_tax_class_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('product_tax_class_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         ), 'Product Tax Class Id')
     ->addIndex($installer->getIdxName('tax_calculation', array('tax_calculation_rule_id')),
@@ -131,16 +131,16 @@ $table = $installer->getConnection()
         array('tax_calculation_rate_id', 'customer_tax_class_id', 'product_tax_class_id'))
     ->addForeignKey($installer->getFkName('tax_calculation', 'product_tax_class_id', 'tax_class', 'class_id'),
         'product_tax_class_id', $installer->getTable('tax_class'), 'class_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('tax_calculation', 'customer_tax_class_id', 'tax_class', 'class_id'),
         'customer_tax_class_id', $installer->getTable('tax_class'), 'class_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('tax_calculation', 'tax_calculation_rate_id', 'tax_calculation_rate', 'tax_calculation_rate_id'),
         'tax_calculation_rate_id', $installer->getTable('tax_calculation_rate'), 'tax_calculation_rate_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('tax_calculation', 'tax_calculation_rule_id', 'tax_calculation_rule', 'tax_calculation_rule_id'),
         'tax_calculation_rule_id', $installer->getTable('tax_calculation_rule'), 'tax_calculation_rule_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Tax Calculation');
 $installer->getConnection()->createTable($table);
 
@@ -149,19 +149,19 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('tax_calculation_rate_title'))
-    ->addColumn('tax_calculation_rate_title_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('tax_calculation_rate_title_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Tax Calculation Rate Title Id')
-    ->addColumn('tax_calculation_rate_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('tax_calculation_rate_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         ), 'Tax Calculation Rate Id')
-    ->addColumn('store_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Store Id')
-    ->addColumn('value', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('value', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         ), 'Value')
     ->addIndex($installer->getIdxName('tax_calculation_rate_title', array('tax_calculation_rate_id', 'store_id')),
@@ -172,10 +172,10 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addForeignKey($installer->getFkName('tax_calculation_rate_title', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('tax_calculation_rate_title', 'tax_calculation_rate_id', 'tax_calculation_rate', 'tax_calculation_rate_id'),
         'tax_calculation_rate_id', $installer->getTable('tax_calculation_rate'), 'tax_calculation_rate_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Tax Calculation Rate Title');
 $installer->getConnection()->createTable($table);
 
@@ -184,32 +184,32 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('tax_order_aggregated_created'))
-    ->addColumn('id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Id')
-    ->addColumn('period', Magento_DB_Ddl_Table::TYPE_DATE, null, array(
+    ->addColumn('period', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
         'nullable'  => true,
         ), 'Period')
-    ->addColumn('store_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Store Id')
-    ->addColumn('code', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('code', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         ), 'Code')
-    ->addColumn('order_status', Magento_DB_Ddl_Table::TYPE_TEXT, 50, array(
+    ->addColumn('order_status', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
         'nullable'  => false,
         ), 'Order Status')
-    ->addColumn('percent', Magento_DB_Ddl_Table::TYPE_FLOAT, null, array(
+    ->addColumn('percent', \Magento\DB\Ddl\Table::TYPE_FLOAT, null, array(
         ), 'Percent')
-    ->addColumn('orders_count', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('orders_count', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Orders Count')
-    ->addColumn('tax_base_amount_sum', Magento_DB_Ddl_Table::TYPE_FLOAT, null, array(
+    ->addColumn('tax_base_amount_sum', \Magento\DB\Ddl\Table::TYPE_FLOAT, null, array(
         ), 'Tax Base Amount Sum')
     ->addIndex($installer->getIdxName('tax_order_aggregated_created', array('period', 'store_id', 'code', 'percent', 'order_status'), true),
         array('period', 'store_id', 'code', 'percent', 'order_status'), array('type' => 'unique'))
@@ -217,7 +217,7 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addForeignKey($installer->getFkName('tax_order_aggregated_created', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Tax Order Aggregation');
 $installer->getConnection()->createTable($table);
 

@@ -14,7 +14,7 @@ class Magento_Core_Model_File_Storage_Response
      */
     protected $_objectManager;
 
-    public function __construct(Magento_ObjectManager $objectManager = null)
+    public function __construct(\Magento\ObjectManager $objectManager = null)
     {
         $this->_objectManager = $objectManager;
     }
@@ -26,7 +26,7 @@ class Magento_Core_Model_File_Storage_Response
      */
     public function sendFile($filePath)
     {
-        $transfer = $this->_objectManager->create('Magento_File_Transfer_Adapter_Http');
+        $transfer = $this->_objectManager->create('Magento\File\Transfer\Adapter\Http');
         $transfer->send($filePath);
     }
 

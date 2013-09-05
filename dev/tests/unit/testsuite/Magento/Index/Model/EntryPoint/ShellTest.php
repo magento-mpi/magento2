@@ -33,7 +33,7 @@ class Magento_Index_Model_EntryPoint_ShellTest extends PHPUnit_Framework_TestCas
     protected function setUp()
     {
         $this->_primaryConfig = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_shellErrorHandler = $this->getMock(
             'Magento_Index_Model_EntryPoint_Shell_ErrorHandler',
             array(),

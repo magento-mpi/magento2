@@ -15,7 +15,7 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Search_Customer extends Magento_Object
+class Magento_Adminhtml_Model_Search_Customer extends \Magento\Object
 {
     /**
      * Load search results

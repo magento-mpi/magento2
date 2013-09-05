@@ -19,7 +19,7 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
      * Redirect out if system is already installed
      * Throw a bootstrap exception if page cannot be displayed due to mis-configured base directories
      *
-     * @throws Magento_BootstrapException
+     * @throws \Magento\BootstrapException
      */
     public function preDispatch()
     {
@@ -234,7 +234,7 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
      */
     public function installAction()
     {
-        $pear = Magento_Pear::getInstance();        
+        $pear = \Magento\Pear::getInstance();        
         $params = array(
             'comment' => __("Downloading and installing Magento, please wait...") . "\r\n\r\n"
         );

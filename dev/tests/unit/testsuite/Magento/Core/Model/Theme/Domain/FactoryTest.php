@@ -26,7 +26,7 @@ class Magento_Core_Model_Theme_Domain_FactoryTest extends PHPUnit_Framework_Test
 
         $newThemeMock = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);
 
-        $objectManager = $this->getMock('Magento_ObjectManager', array(), array('create'), '', false);
+        $objectManager = $this->getMock('Magento\ObjectManager', array(), array('create'), '', false);
         $objectManager->expects($this->once())
             ->method('create')
             ->with('Magento_Core_Model_Theme_Domain_Virtual', array('theme' => $themeMock))
@@ -47,7 +47,7 @@ class Magento_Core_Model_Theme_Domain_FactoryTest extends PHPUnit_Framework_Test
             ->method('getType')
             ->will($this->returnValue($wrongThemeType));
 
-        $objectManager = $this->getMock('Magento_ObjectManager', array(), array('create'), '', false);
+        $objectManager = $this->getMock('Magento\ObjectManager', array(), array('create'), '', false);
 
         $themeDomainFactory = new Magento_Core_Model_Theme_Domain_Factory($objectManager);
 

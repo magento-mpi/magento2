@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Object
+ * @package    \Magento\Object
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -11,13 +11,15 @@
 /**
  * Utility class for mapping data between objects or arrays
  */
-class Magento_Object_Mapper
+namespace Magento\Object;
+
+class Mapper
 {
     /**
      * Convert data from source to target item using map array
      *
      * Will get or set data with generic or magic, or specified Magento Object methods, or with array keys
-     * from or to Magento_Object or array
+     * from or to \Magento\Object or array
      * :)
      *
      * Map must either be associative array of keys from=>to
@@ -28,14 +30,14 @@ class Magento_Object_Mapper
      *
      * Callbacks explanation (when $from or $to is not array):
      *   for $from:
-     *     <Magento_Object> => $from->getData($key) (default)
-     *     array(<Magento_Object>, <method>) => $from->$method($key)
-     *   for $to (makes sense only for Magento_Object):
-     *     <Magento_Object> => $from->setData($key, <from>)
-     *     array(<Magento_Object>, <method>) => $from->$method($key, <from>)
+     *     <\Magento\Object> => $from->getData($key) (default)
+     *     array(<\Magento\Object>, <method>) => $from->$method($key)
+     *   for $to (makes sense only for \Magento\Object):
+     *     <\Magento\Object> => $from->setData($key, <from>)
+     *     array(<\Magento\Object>, <method>) => $from->$method($key, <from>)
      *
-     * @param array|Magento_Object|callback $from
-     * @param array|Magento_Object|callback $to
+     * @param array|\Magento\Object|callback $from
+     * @param array|\Magento\Object|callback $to
      * @param array $map
      * @param array $defaults
      * @return array|object
@@ -47,14 +49,14 @@ class Magento_Object_Mapper
             list($from, $get) = $from;
         }
         $fromIsArray = is_array($from);
-        $fromIsVO    = $from instanceof Magento_Object;
+        $fromIsVO    = $from instanceof \Magento\Object;
 
         $set = 'setData';
         if (is_array($to) && isset($to[0]) && is_object($to[0]) && isset($to[1]) && is_string($to[1]) && is_callable($to)) {
             list($to, $set) = $to;
         }
         $toIsArray = is_array($to);
-        $toIsVO    = $to instanceof Magento_Object;
+        $toIsVO    = $to instanceof \Magento\Object;
 
         foreach ($map as $keyFrom => $keyTo) {
             if (!is_string($keyFrom)) {

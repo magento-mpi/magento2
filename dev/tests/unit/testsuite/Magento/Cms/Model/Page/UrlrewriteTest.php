@@ -20,7 +20,7 @@ class Magento_Cms_Model_Page_UrlrewriteTest extends PHPUnit_Framework_TestCase
     protected $_model = null;
 
     /**
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_cmsPage = null;
 
@@ -33,7 +33,7 @@ class Magento_Cms_Model_Page_UrlrewriteTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('getResourceModelInstance'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_cmsPage = new Magento_Object(array(
+        $this->_cmsPage = new \Magento\Object(array(
             'id' => 3,
             'identifier' => 'cms-page'
         ));

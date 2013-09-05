@@ -20,7 +20,7 @@ abstract class Magento_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Magen
     /**
      * Getting all available childs for Invoice, Shipmen or Creditmemo item
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return array
      */
     public function getChilds($item)
@@ -56,7 +56,7 @@ abstract class Magento_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Magen
     /**
      * Retrieve is Shipment Separately flag for Item
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return bool
      */
     public function isShipmentSeparately($item = null)
@@ -103,7 +103,7 @@ abstract class Magento_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Magen
     /**
      * Retrieve is Child Calculated
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return bool
      */
     public function isChildCalculated($item = null)
@@ -152,7 +152,7 @@ abstract class Magento_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Magen
     /**
      * Retrieve Bundle Options
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return array
      */
     public function getBundleOptions($item = null)
@@ -169,7 +169,7 @@ abstract class Magento_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Magen
     /**
      * Retrieve Selection attributes
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return mixed
      */
     public function getSelectionAttributes($item)
@@ -188,7 +188,7 @@ abstract class Magento_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Magen
     /**
      * Retrieve Order options
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return array
      */
     public function getOrderOptions($item = null)

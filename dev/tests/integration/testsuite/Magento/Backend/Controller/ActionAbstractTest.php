@@ -22,10 +22,10 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
      */
     public function testPreDispatchWithEmptyUrlRedirectsToStartupPage()
     {
-        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $backendUrlModel Magento_Backend_Model_Url */
-        $backendUrlModel = Mage::getObjectManager()->get('Magento_Backend_Model_Url');
+        $backendUrlModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url');
         $url = $backendUrlModel->getStartupPageUrl();
         $expected = $backendUrlModel->getUrl($url);
         $this->dispatch('backend');
@@ -46,8 +46,8 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
         $this->_auth->logout();
 
         $postLogin = array('login' => array(
-            'username' => Magento_Test_Bootstrap::ADMIN_NAME,
-            'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD
+            'username' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
+            'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
         ));
 
         $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/system_account/index');
@@ -74,10 +74,11 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
             $noticeInbox->addCritical('Test notice', 'Test description');
         }
 
-        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(
+            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
 
-        /** @var $acl Magento_Acl */
-        $acl = Mage::getSingleton('Magento_Acl_Builder')->getAcl();
+        /** @var $acl \Magento\Acl */
+        $acl = Mage::getSingleton('Magento\Acl\Builder')->getAcl();
         if ($isLimitedAccess) {
             $acl->deny(null, $resource);
         }

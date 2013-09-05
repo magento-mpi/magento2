@@ -198,7 +198,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Co
      * Validate Web API user data.
      *
      * @param Magento_Webapi_Model_Acl_User $user
-     * @throws Magento_Validator_Exception
+     * @throws \Magento\Validator\ValidatorException
      */
     protected function _validateUserData($user)
     {
@@ -206,7 +206,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Co
         $validator = $this->_objectManager->get('Magento_Core_Model_Validator_Factory')
             ->createValidator('api_user', $group);
         if (!$validator->isValid($user)) {
-            throw new Magento_Validator_Exception($validator->getMessages());
+            throw new \Magento\Validator\ValidatorException($validator->getMessages());
         }
     }
 

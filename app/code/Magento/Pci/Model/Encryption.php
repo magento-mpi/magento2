@@ -30,9 +30,9 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
     protected $_keys = array();
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         parent::__construct($objectManager);
         // load all possible keys
@@ -149,7 +149,7 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
      * By default initializes with latest key and crypt versions
      *
      * @param string $key
-     * @return Magento_Crypt
+     * @return \Magento\Crypt
      */
     protected function _getCrypt($key = null, $cipherVersion = null, $initVector = true)
     {
@@ -176,7 +176,7 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
             $mode   = MCRYPT_MODE_ECB;
         }
 
-        return new Magento_Crypt($key, $cipher, $mode, $initVector);
+        return new \Magento\Crypt($key, $cipher, $mode, $initVector);
     }
 
     /**

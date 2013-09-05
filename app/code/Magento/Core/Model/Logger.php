@@ -31,15 +31,15 @@ class Magento_Core_Model_Logger
     protected $_dirs = null;
 
     /**
-     * @var Magento_Io_File
+     * @var \Magento\Io\File
      */
     protected $_fileSystem;
 
     /**
      * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Io_File $fileSystem
+     * @param \Magento\Io\File $fileSystem
      */
-    public function __construct(Magento_Core_Model_Dir $dirs, Magento_Io_File $fileSystem, $defaultFile = '')
+    public function __construct(Magento_Core_Model_Dir $dirs, \Magento\Io\File $fileSystem, $defaultFile = '')
     {
         $this->_dirs = $dirs;
         $this->_fileSystem = $fileSystem;

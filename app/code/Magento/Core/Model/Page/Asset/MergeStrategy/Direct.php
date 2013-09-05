@@ -12,7 +12,7 @@
 class Magento_Core_Model_Page_Asset_MergeStrategy_Direct implements Magento_Core_Model_Page_Asset_MergeStrategyInterface
 {
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     private $_filesystem;
 
@@ -27,12 +27,12 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_Direct implements Magento_Core
     private $_cssHelper;
 
     /**
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Helper_Css $cssHelper
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Helper_Css $cssHelper
     ) {
@@ -59,7 +59,7 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_Direct implements Magento_Core
      * @param string $targetFile
      * @param string $contentType
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _composeMergedContent(array $publicFiles, $targetFile, $contentType)
     {
@@ -68,7 +68,7 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_Direct implements Magento_Core
 
         foreach ($publicFiles as $file) {
             if (!$this->_filesystem->has($file)) {
-                throw new Magento_Exception("Unable to locate file '{$file}' for merging.");
+                throw new \Magento\Exception("Unable to locate file '{$file}' for merging.");
             }
             $content = $this->_filesystem->read($file);
             if ($isCss) {

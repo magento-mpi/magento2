@@ -63,7 +63,7 @@ class Magento_GoogleShopping_Helper_Price
                 }
 
                 Mage::unregister('rule_data');
-                Mage::register('rule_data', new Magento_Object(array(
+                Mage::register('rule_data', new \Magento\Object(array(
                     'store_id'          => $product->getStoreId(),
                     'website_id'        => $product->getWebsiteId(),
                     'customer_group_id' => $product->getCustomerGroupId())));

@@ -359,7 +359,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         // form attribute list
         $keyAttribute = 'postcode';
-        $requiredAttributes[] = array($keyAttribute);
+        $requiredAttributes[] = $keyAttribute;
         foreach (array('update', 'remove') as $action) {
             foreach ($this->_updateData[$action] as $attributes) {
                 $requiredAttributes = array_merge($requiredAttributes, array_keys($attributes));

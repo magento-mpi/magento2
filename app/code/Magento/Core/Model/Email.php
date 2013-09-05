@@ -20,7 +20,7 @@
  * - module (for template)
  *
  */
-class Magento_Core_Model_Email extends Magento_Object
+class Magento_Core_Model_Email extends \Magento\Object
 {
     protected $_tplVars = array();
     protected $_block;

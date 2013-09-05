@@ -37,7 +37,7 @@ class Magento_Acl_BuilderTest extends PHPUnit_Framework_TestCase
     protected $_resourceLoader;
 
     /**
-     * @var Magento_Acl_Builder
+     * @var \Magento\Acl\Builder
      */
     protected $_model;
 
@@ -48,14 +48,14 @@ class Magento_Acl_BuilderTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_aclMock = new Magento_Acl();
-        $this->_aclCacheMock = $this->getMock('Magento_Acl_CacheInterface');
-        $this->_aclFactoryMock = $this->getMock('Magento_AclFactory', array(), array(), '', false);
+        $this->_aclMock = new \Magento\Acl();
+        $this->_aclCacheMock = $this->getMock('Magento\Acl\CacheInterface');
+        $this->_aclFactoryMock = $this->getMock('Magento\AclFactory', array(), array(), '', false);
         $this->_aclFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_aclMock));
-        $this->_roleLoader = $this->getMock('Magento_Acl_Loader_Default');
-        $this->_ruleLoader = $this->getMock('Magento_Acl_Loader_Default');
-        $this->_resourceLoader = $this->getMock('Magento_Acl_Loader_Default');
-        $this->_model = new Magento_Acl_Builder(
+        $this->_roleLoader = $this->getMock('Magento\Acl\Loader\DefaultLoader');
+        $this->_ruleLoader = $this->getMock('Magento\Acl\Loader\DefaultLoader');
+        $this->_resourceLoader = $this->getMock('Magento\Acl\Loader\DefaultLoader');
+        $this->_model = new \Magento\Acl\Builder(
             $this->_aclFactoryMock, $this->_aclCacheMock, $this->_roleLoader, $this->_resourceLoader, $this->_ruleLoader
         );
     }

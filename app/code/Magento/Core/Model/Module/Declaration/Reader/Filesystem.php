@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Config_Reader_Filesystem
+class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends \Magento\Config\Reader\Filesystem
 {
     /**
      * The list of allowed modules
@@ -21,7 +21,7 @@ class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Co
         '/config/module' => 'name',
         '/config/module/depends/extension' => 'name',
         '/config/module/depends/choice/extension' => 'name',
-        '/config/module/depends/module' => 'name',
+        '/config/module/sequence/module' => 'name',
     );
 
     /**
@@ -43,7 +43,7 @@ class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Co
         $schema = null,
         $perFileSchema = null,
         $isValidated = true,
-        $domDocumentClass = 'Magento_Config_Dom',
+        $domDocumentClass = '\Magento\Config\Dom',
         array $allowedModules = array()
     ) {
         $schema = realpath(__DIR__ . '/../../../../etc/module.xsd');

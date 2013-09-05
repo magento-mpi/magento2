@@ -31,10 +31,10 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var $factory Magento_Webhook_Model_Subscription_Factory */
-        $this->_subscriptionFactory = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription_Factory');
+        $this->_subscriptionFactory = $objectManager->create('Magento_Webhook_Model_Subscription_Factory');
 
         $this->_subscription = $objectManager->create('Magento_Webhook_Model_Subscription_Factory')
             ->create()
@@ -70,14 +70,14 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testAfterWebapiUserDelete()
     {
         //setup
-        $this->_subscription->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE)
+        $this->_subscription->setStatus(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE)
             ->save();
 
         //action
         $this->_user->delete();
 
         //verify
-        $this->assertEquals((Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE),
+        $this->assertEquals((\Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE),
             $this->_subscriptionFactory->create()->load($this->_subscription->getId())->getStatus());
     }
 
@@ -87,7 +87,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testAfterWebapiUserChange()
     {
         //setup
-        $this->_subscription->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE)
+        $this->_subscription->setStatus(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE)
             ->setTopics(array('test/hook'))
             ->save();
         $this->_endpoint->setApiUserId($this->_user->getUserId())
@@ -97,7 +97,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_user->setSecret('new secret')->save();
 
         //verify
-        $this->assertEquals((Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE),
+        $this->assertEquals((\Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE),
             $this->_subscriptionFactory->create()->load($this->_subscription->getId())->getStatus());
     }
 
@@ -107,7 +107,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testAfterWebapiRoleChange()
     {
         //setup
-        $this->_subscription->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE)
+        $this->_subscription->setStatus(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE)
             ->setTopics(array('test/hook'))
             ->save();
         $this->_endpoint->setApiUserId($this->_user->getUserId())
@@ -117,7 +117,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_role->setRoleName('a new name')->save();
 
         //verify
-        $this->assertEquals((Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE),
+        $this->assertEquals((\Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE),
             $this->_subscriptionFactory->create()->load($this->_subscription->getId())->getStatus());
     }
 

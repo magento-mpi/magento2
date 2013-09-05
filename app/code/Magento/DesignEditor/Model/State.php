@@ -63,7 +63,7 @@ class Magento_DesignEditor_Model_State
     protected $_dataHelper;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -78,7 +78,7 @@ class Magento_DesignEditor_Model_State
      * @param Magento_DesignEditor_Model_Url_Factory $urlModelFactory
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Magento_DesignEditor_Helper_Data $dataHelper
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_App $application
      * @param Magento_DesignEditor_Model_Theme_Context $themeContext
      */
@@ -88,7 +88,7 @@ class Magento_DesignEditor_Model_State
         Magento_DesignEditor_Model_Url_Factory $urlModelFactory,
         Magento_Core_Model_Cache_StateInterface $cacheState,
         Magento_DesignEditor_Helper_Data $dataHelper,
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_App $application,
         Magento_DesignEditor_Model_Theme_Context $themeContext
     ) {

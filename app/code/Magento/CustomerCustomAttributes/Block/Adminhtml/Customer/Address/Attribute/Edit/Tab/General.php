@@ -29,8 +29,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     {
         $result = parent::_prepareLayout();
         $renderer = $this->getLayout()->getBlock('fieldset_element_renderer');
-        if ($renderer instanceof Magento_Data_Form_Element_Renderer_Interface) {
-            Magento_Data_Form::setFieldsetElementRenderer($renderer);
+        if ($renderer instanceof \Magento\Data\Form\Element\Renderer\RendererInterface) {
+            \Magento\Data\Form::setFieldsetElementRenderer($renderer);
         }
         return $result;
     }
@@ -220,7 +220,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
 
         $this->getForm()->setDataObject($this->getAttributeObject());
 
-        Mage::dispatchEvent('enterprise_customer_address_attribute_edit_tab_general_prepare_form', array(
+        Mage::dispatchEvent('magento_customercustomattributes_address_attribute_edit_tab_general_prepare_form', array(
             'form'      => $form,
             'attribute' => $attribute
         ));

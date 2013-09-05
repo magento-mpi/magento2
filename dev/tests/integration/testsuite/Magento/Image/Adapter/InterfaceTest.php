@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Image
+ * @package     \Magento\Image
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -94,7 +94,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      * Check is format supported.
      *
      * @param string $image
-     * @param Magento_Image_Adapter_Abstract $adapter
+     * @param \Magento\Image\Adapter\AbstractAdapter $adapter
      * @return bool
      */
     protected function _isFormatSupported($image, $adapter)
@@ -114,7 +114,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     protected function _getAdapter($adapterType)
     {
         try {
-            $objectManager = Mage::getObjectManager();
+            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
             $adapter = $objectManager->get('Magento_Core_Model_Image_AdapterFactory')->create($adapterType);
             return $adapter;
         } catch (Exception $e) {
@@ -226,7 +226,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
 
     public function saveDataProvider()
     {
-        $dir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR;
+        $dir = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR;
         return $this->_prepareData(array(
             array(
                 $this->_getFixture('image_adapters_test.png'),
@@ -419,7 +419,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
                 50,
                 50,
                 100,
-                Magento_Image_Adapter_Abstract::POSITION_BOTTOM_RIGHT,
+                \Magento\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_RIGHT,
                 10,
                 10
             ),
@@ -429,7 +429,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
                 100,
                 70,
                 100,
-                Magento_Image_Adapter_Abstract::POSITION_TOP_LEFT,
+                \Magento\Image\Adapter\AbstractAdapter::POSITION_TOP_LEFT,
                 10,
                 10
             ),
@@ -439,7 +439,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
                 100,
                 70,
                 100,
-                Magento_Image_Adapter_Abstract::POSITION_TILE,
+                \Magento\Image\Adapter\AbstractAdapter::POSITION_TILE,
                 10,
                 10
             ),
@@ -449,7 +449,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
                 100,
                 100,
                 100,
-                Magento_Image_Adapter_Abstract::POSITION_STRETCH,
+                \Magento\Image\Adapter\AbstractAdapter::POSITION_STRETCH,
                 10,
                 10
             ),
@@ -459,7 +459,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
                 50,
                 50,
                 100,
-                Magento_Image_Adapter_Abstract::POSITION_BOTTOM_RIGHT,
+                \Magento\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_RIGHT,
                 10,
                 10
             ),
@@ -469,7 +469,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
                 50,
                 50,
                 100,
-                Magento_Image_Adapter_Abstract::POSITION_BOTTOM_RIGHT,
+                \Magento\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_RIGHT,
                 10,
                 10
             ),
@@ -481,34 +481,34 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      *
      * @param array $pixel ('x' => ..., 'y' => ...)
      * @param string $position
-     * @param Magento_Image_Adapter_Abstract $adapter
+     * @param \Magento\Image\Adapter\AbstractAdapter $adapter
      * @return array
      */
     protected function _prepareColor($pixel, $position, $adapter)
     {
         switch ($position) {
-            case Magento_Image_Adapter_Abstract::POSITION_BOTTOM_RIGHT:
+            case \Magento\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_RIGHT:
                 $pixel['x'] = $adapter->getOriginalWidth() - 1;
                 $pixel['y'] = $adapter->getOriginalHeight() - 1;
                 break;
-            case Magento_Image_Adapter_Abstract::POSITION_BOTTOM_LEFT:
+            case \Magento\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_LEFT:
                 $pixel['x'] = 1;
                 $pixel['y'] = $adapter->getOriginalHeight() - 1;
                 break;
-            case Magento_Image_Adapter_Abstract::POSITION_TOP_LEFT:
+            case \Magento\Image\Adapter\AbstractAdapter::POSITION_TOP_LEFT:
                 $pixel['x'] = 1;
                 $pixel['y'] = 1;
                 break;
-            case Magento_Image_Adapter_Abstract::POSITION_TOP_RIGHT:
+            case \Magento\Image\Adapter\AbstractAdapter::POSITION_TOP_RIGHT:
                 $pixel['x'] = $adapter->getOriginalWidth() - 1;
                 $pixel['y'] = 1;
                 break;
-            case Magento_Image_Adapter_Abstract::POSITION_CENTER:
+            case \Magento\Image\Adapter\AbstractAdapter::POSITION_CENTER:
                 $pixel['x'] = $adapter->getOriginalWidth() / 2;
                 $pixel['y'] = $adapter->getOriginalHeight() / 2;
                 break;
-            case Magento_Image_Adapter_Abstract::POSITION_STRETCH:
-            case Magento_Image_Adapter_Abstract::POSITION_TILE:
+            case \Magento\Image\Adapter\AbstractAdapter::POSITION_STRETCH:
+            case \Magento\Image\Adapter\AbstractAdapter::POSITION_TILE:
                 $pixel['x'] = round($adapter->getOriginalWidth() / 3);
                 $pixel['y'] = round($adapter->getOriginalHeight() / 3);
                 break;
@@ -628,7 +628,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
 
     public function testValidateUploadFile()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $imageAdapter = $objectManager->get('Magento_Core_Model_Image_AdapterFactory')->create();
         $this->assertTrue($imageAdapter->validateUploadFile($this->_getFixture('magento_thumbnail.jpg')));
     }
@@ -638,7 +638,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateUploadFileException()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $imageAdapter = $objectManager->get('Magento_Core_Model_Image_AdapterFactory')->create();
         $imageAdapter->validateUploadFile(__FILE__);
     }

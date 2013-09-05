@@ -59,7 +59,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
     /**
      * Return gift wrapping designs info
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDesignsInfo()
     {
@@ -69,7 +69,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
             $temp['design'] = $this->escapeHtml($item->getDesign());
             $data[$item->getId()] = $temp;
         }
-       return new Magento_Object($data);
+       return new \Magento\Object($data);
     }
 
     /**

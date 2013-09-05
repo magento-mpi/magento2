@@ -22,10 +22,10 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Renderer_Id
     /**
      * Renders Google Shopping Item Id
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $baseUrl = 'http://www.google.com/merchants/view?docId=';
 

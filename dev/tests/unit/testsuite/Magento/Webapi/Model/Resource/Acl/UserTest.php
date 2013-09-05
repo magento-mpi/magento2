@@ -12,7 +12,7 @@ class Magento_Webapi_Model_Resource_Acl_UserTest extends Magento_Webapi_Model_Re
     /**
      * Create resource model.
      *
-     * @param Magento_DB_Select $selectMock
+     * @param \Magento\DB\Select $selectMock
      * @return Magento_Webapi_Model_Resource_Acl_User
      */
     protected function _createModel($selectMock = null)
@@ -27,14 +27,14 @@ class Magento_Webapi_Model_Resource_Acl_UserTest extends Magento_Webapi_Model_Re
             ->withAnyParameters()
             ->will($this->returnArgument(0));
 
-        $this->_adapter = $this->getMockBuilder('Magento_DB_Adapter_Pdo_Mysql')
+        $this->_adapter = $this->getMockBuilder('Magento\DB\Adapter\Pdo\Mysql')
             ->disableOriginalConstructor()
             ->setMethods(array('select', 'fetchCol'))
             ->getMock();
 
         if (!$selectMock) {
-            $selectMock = new Magento_DB_Select(
-                $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false));
+            $selectMock = new \Magento\DB\Select(
+                $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false));
         }
 
         $this->_adapter->expects($this->any())
@@ -84,8 +84,8 @@ class Magento_Webapi_Model_Resource_Acl_UserTest extends Magento_Webapi_Model_Re
      */
     public function testGetRoleUsers()
     {
-        $selectMock = $this->getMockBuilder('Magento_DB_Select')
-            ->setConstructorArgs(array($this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false)))
+        $selectMock = $this->getMockBuilder('Magento\DB\Select')
+            ->setConstructorArgs(array($this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false)))
             ->setMethods(array('from', 'where'))
             ->getMock();
 

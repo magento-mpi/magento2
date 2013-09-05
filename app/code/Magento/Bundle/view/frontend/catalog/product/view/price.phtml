@@ -14,13 +14,13 @@
 <?php $_weeeTaxAmount = 0; ?>
 <?php
 if ($_product->getPriceType() == 1) {
-    $_weeeTaxAmount = Mage::helper('Magento_Weee_Helper_Data')->getAmount($_product);
-    if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(1,2,4))) {
-        $_weeeTaxAttributes = Mage::helper('Magento_Weee_Helper_Data')->getProductWeeeAttributesForDisplay($_product);
+    $_weeeTaxAmount = $this->helper('Magento_Weee_Helper_Data')->getAmount($_product);
+    if ($this->helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(1,2,4))) {
+        $_weeeTaxAttributes = $this->helper('Magento_Weee_Helper_Data')->getProductWeeeAttributesForDisplay($_product);
     }
 }
-$isMAPTypeOnGesture = Mage::helper('Magento_Catalog_Helper_Data')->isShowPriceOnGesture($_product);
-$canApplyMAP  = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_product);
+$isMAPTypeOnGesture = $this->helper('Magento_Catalog_Helper_Data')->isShowPriceOnGesture($_product);
+$canApplyMAP  = $this->helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_product);
 ?>
 <?php if ($_product->getCanShowPrice() !== false):?>
 <div class="price-box">
@@ -34,21 +34,21 @@ $canApplyMAP  = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_prod
                 <span class="label"><?php echo __('Excl. Tax:') ?></span>
                 <span class="price" id="price-excluding-tax-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>">
                 <?php if (!$canApplyMAP): ?>
-                    <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_finalPrice,true,false) ?>
+                    <?php echo $this->helper('Magento_Core_Helper_Data')->currency($_finalPrice,true,false) ?>
                 <?php endif ?>
                 </span>
             </span>
-            <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
+            <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && $this->helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
                 <span class="weee">(<small>
                     <?php $_weeeSeparator = ''; foreach ($_weeeTaxAttributes as $_weeeTaxAttribute): ?>
-                        <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
+                        <?php if ($this->helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
                             <?php $amount = $_weeeTaxAttribute->getAmount()+$_weeeTaxAttribute->getTaxAmount(); ?>
                         <?php else: ?>
                             <?php $amount = $_weeeTaxAttribute->getAmount(); ?>
                         <?php endif; ?>
 
                         <?php echo $_weeeSeparator; ?>
-                        <?php echo $_weeeTaxAttribute->getName(); ?>: <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($amount, true, true); ?>
+                        <?php echo $_weeeTaxAttribute->getName(); ?>: <?php echo $this->helper('Magento_Core_Helper_Data')->currency($amount, true, true); ?>
                         <?php $_weeeSeparator = ' + '; ?>
                     <?php endforeach; ?>
                 </small>)</span>
@@ -57,7 +57,7 @@ $canApplyMAP  = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_prod
                 <span class="label"><?php echo __('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>">
                 <?php if (!$canApplyMAP): ?>
-                    <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_finalPriceInclTax,true,false) ?>
+                    <?php echo $this->helper('Magento_Core_Helper_Data')->currency($_finalPriceInclTax,true,false) ?>
                 <?php endif ?>
                 </span>
             </span>
@@ -65,20 +65,20 @@ $canApplyMAP  = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_prod
         <?php else: ?>
         <span class="price" id="product-price-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>">
             <?php if (!$canApplyMAP): ?>
-                <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_finalPrice,true,false) ?>
+                <?php echo $this->helper('Magento_Core_Helper_Data')->currency($_finalPrice,true,false) ?>
             <?php endif ?>
         </span>
-        <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
+        <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && $this->helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
             <span class="weee">(<small>
                 <?php $_weeeSeparator = ''; foreach ($_weeeTaxAttributes as $_weeeTaxAttribute): ?>
-                    <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
+                    <?php if ($this->helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
                         <?php $amount = $_weeeTaxAttribute->getAmount()+$_weeeTaxAttribute->getTaxAmount(); ?>
                     <?php else: ?>
                         <?php $amount = $_weeeTaxAttribute->getAmount(); ?>
                     <?php endif; ?>
 
                     <?php echo $_weeeSeparator; ?>
-                    <?php echo $_weeeTaxAttribute->getName(); ?>: <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($amount, true, true); ?>
+                    <?php echo $_weeeTaxAttribute->getName(); ?>: <?php echo $this->helper('Magento_Core_Helper_Data')->currency($amount, true, true); ?>
                     <?php $_weeeSeparator = ' + '; ?>
                 <?php endforeach; ?>
             </small>)</span>

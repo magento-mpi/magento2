@@ -23,14 +23,14 @@ class Magento_Customer_Block_Address_Renderer_Default
     /**
      * Format type object
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_type;
 
     /**
      * Retrive format type object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getType()
     {
@@ -40,10 +40,10 @@ class Magento_Customer_Block_Address_Renderer_Default
     /**
      * Retrive format type object
      *
-     * @param  Magento_Object $type
+     * @param  \Magento\Object $type
      * @return Magento_Customer_Model_Address_Renderer_Default
      */
-    public function setType(Magento_Object $type)
+    public function setType(\Magento\Object $type)
     {
         $this->_type = $type;
         return $this;
@@ -81,7 +81,7 @@ class Magento_Customer_Block_Address_Renderer_Default
                 break;
         }
 
-        $formater   = new Magento_Filter_Template();
+        $formater   = new \Magento\Filter\Template();
         $attributes = Mage::helper('Magento_Customer_Helper_Address')->getAttributes();
 
         $data = array();

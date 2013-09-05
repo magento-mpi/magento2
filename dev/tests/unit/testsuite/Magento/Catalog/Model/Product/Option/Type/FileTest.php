@@ -17,8 +17,8 @@ class Magento_Catalog_Model_Product_Option_Type_FileTest extends PHPUnit_Framewo
      */
     public function testCreateWritableDir($isWritable, $throwException)
     {
-        $helper = new Magento_Test_Helper_ObjectManager($this);
-        $filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $filesystemMock->expects($this->once())
             ->method('isWritable')
             ->will($this->returnValue($isWritable));
@@ -26,7 +26,7 @@ class Magento_Catalog_Model_Product_Option_Type_FileTest extends PHPUnit_Framewo
             $filesystemMock->expects($this->once())
                 ->method('createDirectory')
                 ->will($throwException
-                    ? $this->throwException(new Magento_Filesystem_Exception)
+                    ? $this->throwException(new \Magento\Filesystem\FilesystemException)
                     : $this->returnValue(null)
                 );
         } else {

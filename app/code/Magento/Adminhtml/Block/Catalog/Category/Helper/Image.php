@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Helper_Image extends Magento_Data_Form_Element_Image
+class Magento_Adminhtml_Block_Catalog_Category_Helper_Image extends \Magento\Data\Form\Element\Image
 {
     protected function _getUrl()
     {

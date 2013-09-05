@@ -15,19 +15,19 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Wysiwyg_Images_Storage_Collection extends Magento_Data_Collection_Filesystem
+class Magento_Cms_Model_Wysiwyg_Images_Storage_Collection extends \Magento\Data\Collection\Filesystem
 {
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * Constructor
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(Magento_Filesystem $filesystem)
+    public function __construct(\Magento\Filesystem $filesystem)
     {
         $this->_filesystem = $filesystem;
         parent::__construct();

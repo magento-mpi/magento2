@@ -15,7 +15,9 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Checkboxes extends Magento_Data_Form_Element_Abstract
+namespace Magento\Data\Form\Element;
+
+class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
      * Init Element

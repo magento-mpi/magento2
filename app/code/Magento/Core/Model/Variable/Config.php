@@ -33,7 +33,7 @@ class Magento_Core_Model_Variable_Config
     /**
      * Prepare variable wysiwyg config
      *
-     * @param Magento_Object $config
+     * @param \Magento\Object $config
      * @return array
      */
     public function getWysiwygPluginSettings($config)

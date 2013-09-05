@@ -16,7 +16,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Layer extends Magento_Object
+class Magento_Catalog_Model_Layer extends \Magento\Object
 {
     /**
      * Product collections array
@@ -239,10 +239,10 @@ class Magento_Catalog_Model_Layer extends Magento_Object
     {
         $state = $this->getData('state');
         if (is_null($state)) {
-            Magento_Profiler::start(__METHOD__);
+            \Magento\Profiler::start(__METHOD__);
             $state = Mage::getModel('Magento_Catalog_Model_Layer_State');
             $this->setData('state', $state);
-            Magento_Profiler::stop(__METHOD__);
+            \Magento\Profiler::stop(__METHOD__);
         }
 
         return $state;

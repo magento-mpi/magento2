@@ -98,7 +98,7 @@ class Magento_Tax_Model_Rate_CsvImportHandler
         if (!isset($file['tmp_name'])) {
             Mage::throwException('Invalid file upload attempt.');
         }
-        $csvProcessor = new Magento_File_Csv();
+        $csvProcessor = new \Magento\File\Csv();
         $ratesRawData = $csvProcessor->getData($file['tmp_name']);
         // first row of file represents headers
         $fileFields = $ratesRawData[0];

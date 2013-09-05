@@ -76,7 +76,7 @@ class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core
             )
             ->where('num_results > 0 AND display_in_terms = 1 AND query_text LIKE ?',
                 Mage::getResourceHelper('Magento_Core')->addLikeEscape($query, array('position' => 'start')))
-            ->order('popularity ' . Magento_DB_Select::SQL_DESC);
+            ->order('popularity ' . \Magento\DB\Select::SQL_DESC);
         if ($this->getStoreId()) {
             $this->getSelect()
                 ->where('store_id = ?', (int)$this->getStoreId());

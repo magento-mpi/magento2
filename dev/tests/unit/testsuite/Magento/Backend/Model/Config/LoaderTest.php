@@ -46,7 +46,7 @@ class Magento_Backend_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
 
         $this->_configCollection->expects($this->once())->method('getItems')->will($this->returnValue(
             array(
-                new Magento_Object(array('path' => 'section', 'value' => 10, 'config_id' => 20))
+                new \Magento\Object(array('path' => 'section', 'value' => 10, 'config_id' => 20))
             )
         ));
     }

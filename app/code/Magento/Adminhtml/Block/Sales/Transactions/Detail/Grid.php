@@ -34,9 +34,9 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
      */
     protected function _prepareCollection()
     {
-        $collection = new Magento_Data_Collection();
+        $collection = new \Magento\Data\Collection();
         foreach ($this->getTransactionAdditionalInfo() as $key => $value) {
-            $data = new Magento_Object(array('key' => $key, 'value' => $value));
+            $data = new \Magento\Object(array('key' => $key, 'value' => $value));
             $collection->addItem($data);
         }
 

@@ -17,7 +17,7 @@
  */
 class Magento_VersionsCms_Model_Hierarchy_Config
 {
-    const XML_PATH_CONTEXT_MENU_LAYOUTS = 'global/enterprise_cms/hierarchy/menu/layouts';
+    const XML_PATH_CONTEXT_MENU_LAYOUTS = 'global/magento_versionscms/hierarchy/menu/layouts';
 
     /**
      * Menu layouts configuration
@@ -46,7 +46,7 @@ class Magento_VersionsCms_Model_Hierarchy_Config
             $this->_contextMenuLayouts = array();
         }
         foreach ($config->children() as $layoutCode => $layoutConfig) {
-            $this->_contextMenuLayouts[$layoutCode] = new Magento_Object(array(
+            $this->_contextMenuLayouts[$layoutCode] = new \Magento\Object(array(
                 'label'                 => __((string)$layoutConfig->label),
                 'code'                  => $layoutCode,
                 'layout_handle'         => (string)$layoutConfig->layout_handle,
@@ -75,7 +75,7 @@ class Magento_VersionsCms_Model_Hierarchy_Config
      * Return Context Menu layout by its code
      *
      * @param string $layoutCode
-     * @return Magento_Object|boolean
+     * @return \Magento\Object|boolean
      */
     public function getContextMenuLayout($layoutCode)
     {

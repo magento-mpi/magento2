@@ -17,7 +17,7 @@ $installer->getConnection()->addColumn(
     $installer->getTable('magento_targetrule_index'),
     'customer_segment_id',
     array(
-        'type'     => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+        'type'     => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
         'nullable' => false,
         'default'  => '0',
         'comment'  => 'Customer Segment Id'
@@ -34,14 +34,14 @@ $installer->getConnection()->addIndex(
         'type_id',
         'customer_segment_id'
     ),
-    Magento_DB_Adapter_Interface::INDEX_TYPE_PRIMARY
+    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY
 );
 
 $installer->getConnection()->addColumn(
     $installer->getTable('magento_targetrule_index_related'),
     'customer_segment_id',
     array(
-        'type'     => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+        'type'     => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
         'unsigned' => true,
         'nullable' => false,
         'default'  => '0',
@@ -57,14 +57,14 @@ $installer->getConnection()->addIndex(
         'customer_group_id',
         'customer_segment_id'
     ),
-    Magento_DB_Adapter_Interface::INDEX_TYPE_PRIMARY
+    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY
 );
 
 $installer->getConnection()->addColumn(
     $installer->getTable('magento_targetrule_index_upsell'),
     'customer_segment_id',
     array(
-        'type'     => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+        'type'     => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
         'unsigned' => true,
         'nullable' => false,
         'default'  => '0',
@@ -80,14 +80,14 @@ $installer->getConnection()->addIndex(
         'customer_group_id',
         'customer_segment_id'
     ),
-    Magento_DB_Adapter_Interface::INDEX_TYPE_PRIMARY
+    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY
 );
 
 $installer->getConnection()->addColumn(
     $installer->getTable('magento_targetrule_index_crosssell'),
     'customer_segment_id',
     array(
-        'type'     => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+        'type'     => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
         'unsigned' => true,
         'nullable' => false,
         'default'  => '0',
@@ -103,7 +103,7 @@ $installer->getConnection()->addIndex(
         'customer_group_id',
         'customer_segment_id'
     ),
-    Magento_DB_Adapter_Interface::INDEX_TYPE_PRIMARY
+    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY
 );
 
 $installer->endSetup();

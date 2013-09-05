@@ -11,7 +11,7 @@
 /**
  * Quick style file uploader
  */
-class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Magento_Object
+class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends \Magento\Object
 {
     /**
      * Quick style images path prefix
@@ -26,7 +26,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends 
     protected $_storagePath;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -47,12 +47,12 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends 
      * Generic constructor of change instance
      *
      * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_File_UploaderFactory $uploaderFactory,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_uploaderFactory = $uploaderFactory;
@@ -68,8 +68,8 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends 
     public function getStoragePath()
     {
         if (null === $this->_storagePath) {
-            $this->_storagePath = implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array(
-                Magento_Filesystem::fixSeparator($this->_getTheme()->getCustomization()->getCustomizationPath()),
+            $this->_storagePath = implode(\Magento\Filesystem::DIRECTORY_SEPARATOR, array(
+                \Magento\Filesystem::fixSeparator($this->_getTheme()->getCustomization()->getCustomizationPath()),
                 self::PATH_PREFIX_QUICK_STYLE,
             ));
         }

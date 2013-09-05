@@ -16,7 +16,9 @@
  * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_DB_Helper
+namespace Magento\DB;
+
+class Helper
 {
     /**
      * Dictionary for generate short name

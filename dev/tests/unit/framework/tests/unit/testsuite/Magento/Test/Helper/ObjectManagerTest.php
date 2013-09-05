@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * List of block default dependencies
@@ -37,15 +37,15 @@ class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
         'eventDispatcher'    => 'Magento_Core_Model_Event_Manager',
         'cacheManager'       => 'Magento_Core_Model_CacheInterface',
         'resource'           => 'Magento_Core_Model_Resource_Abstract',
-        'resourceCollection' => 'Magento_Data_Collection_Db'
+        'resourceCollection' => '\Magento\Data\Collection\Db'
     );
 
     /**
-     * @covers Magento_Test_TestCase_ObjectManager::getBlock
+     * @covers Magento_TestFramework_TestCase_ObjectManager::getBlock
      */
     public function testGetBlock()
     {
-        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $template Magento_Core_Block_Template */
         $template = $objectManager->getObject('Magento_Core_Block_Template');
         $this->assertInstanceOf('Magento_Core_Block_Template', $template);
@@ -67,11 +67,11 @@ class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Test_TestCase_ObjectManager::getModel
+     * @covers Magento_TestFramework_ObjectManager::getModel
      */
     public function testGetModel()
     {
-        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model Magento_Core_Model_Config_Data */
         $model = $objectManager->getObject('Magento_Core_Model_Config_Data');
         $this->assertInstanceOf('Magento_Core_Model_Config_Data', $model);

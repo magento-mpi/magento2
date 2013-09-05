@@ -15,7 +15,7 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
+class Magento_Cms_Model_Wysiwyg_Images_Storage extends \Magento\Object
 {
     const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';
     const THUMBS_DIRECTORY_NAME = '.thumbs';
@@ -36,7 +36,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     protected $_configAsArray;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -53,13 +53,13 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     /**
      * Constructor
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $data
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Image_AdapterFactory $imageFactory,
         Magento_Core_Model_View_Url $viewUrl,
         array $data = array()
@@ -76,7 +76,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      * Return one-level child directories for specified path
      *
      * @param string $path Parent directory path
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function getDirsCollection($path)
     {
@@ -123,7 +123,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      *
      * @param string $path Parent directory path
      * @param string $type Type of storage, e.g. image, media etc.
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function getFilesCollection($path, $type = null)
     {
@@ -140,7 +140,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
             ->setCollectDirs(false)
             ->setCollectFiles(true)
             ->setCollectRecursively(false)
-            ->setOrder('mtime', Magento_Data_Collection::SORT_ORDER_ASC);
+            ->setOrder('mtime', \Magento\Data\Collection::SORT_ORDER_ASC);
 
         // Add files extension filter
         if ($allowed = $this->getAllowedExtensions($type)) {
@@ -184,7 +184,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      * Storage collection
      *
      * @param string $path Path to the directory
-     * @return Magento_Data_Collection_Filesystem
+     * @return \Magento\Data\Collection\Filesystem
      */
     public function getCollection($path = null)
     {
@@ -232,7 +232,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
                 'id'            => $this->getHelper()->convertPathToId($newPath)
             );
             return $result;
-        } Catch (Magento_Filesystem_Exception $e) {
+        } Catch (\Magento\Filesystem\FilesystemException $e) {
             Mage::throwException(__('We cannot create a new directory.'));
         }
     }
@@ -261,7 +261,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         }
         try {
             $this->_filesystem->delete($path);
-        } catch (Magento_Filesystem_Exception $e) {
+        } catch (\Magento\Filesystem\FilesystemException $e) {
             Mage::throwException(__('We cannot delete directory %1.', $path));
         }
 

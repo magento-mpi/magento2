@@ -45,7 +45,7 @@ class Magento_Rma_Model_Resource_Rma_Grid_Collection extends Magento_Rma_Model_R
     /**
      * Get SQL for get record count
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {

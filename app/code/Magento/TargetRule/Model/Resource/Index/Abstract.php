@@ -160,7 +160,7 @@ abstract class Magento_TargetRule_Model_Resource_Index_Abstract extends Magento_
     /**
      * Remove index by product ids
      *
-     * @param Magento_DB_Select|array $entityIds
+     * @param \Magento\DB\Select|array $entityIds
      * @return Magento_TargetRule_Model_Resource_Index_Abstract
      */
     public function removeIndex($entityIds)

@@ -28,15 +28,15 @@ class Magento_GoogleOptimizer_Model_Observer_Product_DeleteTest extends PHPUnit_
         $storeId = 0;
 
         $this->_codeMock = $this->getMock('Magento_GoogleOptimizer_Model_Code', array(), array(), '', false);
-        $event = $this->getMock('Magento_Event', array('getProduct'), array(), '', false);
-        $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
+        $event = $this->getMock('Magento\Event', array('getProduct'), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $product = $this->getMock('Magento_Catalog_Model_Product', array('getId', 'getStoreId'), array(), '', false);
         $product->expects($this->once())->method('getId')->will($this->returnValue($entityId));
         $product->expects($this->once())->method('getStoreId')->will($this->returnValue($storeId));
         $event->expects($this->once())->method('getProduct')->will($this->returnValue($product));
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_GoogleOptimizer_Model_Observer_Product_Delete', array(
             'modelCode' => $this->_codeMock
         ));

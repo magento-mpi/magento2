@@ -17,10 +17,10 @@ class Magento_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Qty
     /**
      * Render gift registry item qty as input html element
      *
-     * @param  Magento_Object $row
+     * @param  \Magento\Object $row
      * @return string
      */
-    protected function _getValue(Magento_Object $row)
+    protected function _getValue(\Magento\Object $row)
     {
         $value = $row->getData($this->getColumn()->getIndex()) * 1;
 

@@ -65,7 +65,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Bl
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $htmlIdPrefix = 'rma_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 

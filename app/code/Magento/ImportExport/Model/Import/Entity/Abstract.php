@@ -29,7 +29,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
     /**
      * DB connection.
      *
-     * @var Magento_DB_Adapter_Interface
+     * @var \Magento\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 

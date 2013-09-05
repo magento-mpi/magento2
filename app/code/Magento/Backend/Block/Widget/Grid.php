@@ -82,7 +82,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Totals
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_varTotals;
 
@@ -163,7 +163,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Set collection object
      *
-     * @param Magento_Data_Collection $collection
+     * @param \Magento\Data\Collection $collection
      */
     public function setCollection($collection)
     {
@@ -173,7 +173,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Get collection object
      *
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function getCollection()
     {
@@ -297,7 +297,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Get prepared collection
      *
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function getPreparedCollection()
     {
@@ -677,7 +677,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      */
     public function addRssList($url, $label)
     {
-        $this->_rssLists[] = new Magento_Object(
+        $this->_rssLists[] = new \Magento\Object(
             array(
                 'url'   => $this->_getRssUrl($url),
                 'label' => $label
@@ -803,9 +803,9 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Set totals
      *
-     * @param Magento_Object $totals
+     * @param \Magento\Object $totals
      */
-    public function setTotals(Magento_Object $totals)
+    public function setTotals(\Magento\Object $totals)
     {
         $this->_varTotals = $totals;
     }
@@ -813,7 +813,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Retrieve totals
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getTotals()
     {

@@ -80,7 +80,7 @@
 <script type="text/javascript">
 jQuery(function ($) {
     var fieldSet = $('#Custom_Options');
-    fieldSet.customOptions(<?php echo Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
+    fieldSet.customOptions(<?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode(
         array(
             'fieldId' => $this->getFieldId(),
             'productGridUrl' => $this->getProductGridUrl(),
@@ -91,7 +91,7 @@ jQuery(function ($) {
         )
     )?>);
     //adding data to templates
-    <?php /** @var $_value Magento_Object */ ?>
+    <?php /** @var $_value \Magento\Object */ ?>
     <?php foreach ($this->getOptionValues() as $_value): ?>
         fieldSet.customOptions('addOption', <?php echo $_value->toJson() ?>);
     <?php endforeach; ?>

@@ -64,7 +64,7 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
            if ($validator = $this->_getValidator()) {
                 $request = $this->getRequest();
 
-                $data = new Magento_Object();
+                $data = new \Magento\Object();
                 $data->setTransactionId($request->getParam('MD'));
                 $data->setPaResPayload($request->getParam('PaRes'));
 

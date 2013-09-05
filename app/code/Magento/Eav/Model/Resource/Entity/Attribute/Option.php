@@ -68,7 +68,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option extends Magento_Core_Mo
      * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param int $store
      * @param bool $hasValueField flag which require option value
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getFlatUpdateSelect(Magento_Eav_Model_Entity_Attribute_Abstract $attribute, $store,
         $hasValueField = true
@@ -88,7 +88,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option extends Magento_Core_Mo
         }
 
         $valueExpr = $adapter->getCheckSql('t2.value_id > 0', 't2.value', 't1.value');
-        /** @var $select Magento_DB_Select */
+        /** @var $select \Magento\DB\Select */
         $select = $adapter->select()
             ->joinLeft(array('t1' => $attributeTable), $joinCondition, array())
             ->joinLeft(array('t2' => $attributeTable),

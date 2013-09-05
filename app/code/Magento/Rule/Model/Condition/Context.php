@@ -10,7 +10,7 @@
  * Abstract block context object. Will be used as rule condition constructor modification point after release.
  * Important: Should not be modified by extension developers.
  */
-class Magento_Rule_Model_Condition_Context implements Magento_ObjectManager_ContextInterface
+class Magento_Rule_Model_Condition_Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
      * @var Magento_Core_Model_View_Url

@@ -9,14 +9,16 @@
 /**
  * Interface of collection data retrieval
  */
-interface Magento_Data_Collection_Db_FetchStrategyInterface
+namespace Magento\Data\Collection\Db;
+
+interface FetchStrategyInterface
 {
     /**
      * Retrieve all records
      *
-     * @param Zend_Db_Select $select
+     * @param \Zend_Db_Select $select
      * @param array $bindParams
      * @return array
      */
-    public function fetchAll(Zend_Db_Select $select, array $bindParams = array());
+    public function fetchAll(\Zend_Db_Select $select, array $bindParams = array());
 }

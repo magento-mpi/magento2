@@ -18,12 +18,12 @@ class Magento_Core_Model_View_UrlTest extends PHPUnit_Framework_TestCase
     public function testGetViewFileUrlProductionMode($themeModel)
     {
         $isProductionMode = true;
-        $isSigned = false;      //NOTE: If going to test with signature enabled mock Magento_Filesystem::getMTime()
+        $isSigned = false;      //NOTE: If going to test with signature enabled mock \Magento\Filesystem::getMTime()
         $expected = 'http://example.com/public_dir/a/t/m/file.js';
 
         // 1. Get fileSystem model
-        /** @var $filesystem Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject */
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        /** @var $filesystem \Magento\Filesystem|PHPUnit_Framework_MockObject_MockObject */
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->never())
             ->method('isFile');
         $filesystem->expects($this->never())

@@ -16,19 +16,19 @@ class Magento_DesignEditor_Model_Url_FactoryTest extends PHPUnit_Framework_TestC
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     public function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_model = new Magento_DesignEditor_Model_Url_Factory($this->_objectManager);
     }
 
     public function testConstruct()
     {
-        $this->assertAttributeInstanceOf('Magento_ObjectManager', '_objectManager', $this->_model);
+        $this->assertAttributeInstanceOf('\Magento\ObjectManager', '_objectManager', $this->_model);
     }
 
     public function testReplaceClassName()

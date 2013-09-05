@@ -36,12 +36,13 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
         $this->_viewService = Mage::getModel('Magento_Core_Model_View_Service');
         $this->_fileSystem = Mage::getModel('Magento_Core_Model_View_FileSystem');
         $this->_viewUrl = Mage::getModel('Magento_Core_Model_View_Url');
-        $this->_model = Mage::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface');
     }
 
     protected function tearDown()
     {
-        $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
+        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $publicDir = $this->_viewService->getPublicDir();
         $filesystem->delete($publicDir . '/adminhtml');
         $filesystem->delete($publicDir . '/frontend');
@@ -54,7 +55,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     public function testGetPublicDir()
     {
         /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
+        $dirs = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir');
         $expectedPublicDir = $dirs->getDir(Magento_Core_Model_Dir::STATIC_VIEW);
         $this->assertEquals($expectedPublicDir, $this->_viewService->getPublicDir());
     }
@@ -148,7 +149,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @dataProvider getViewUrlExceptionDataProvider
      */
     public function testGetViewUrlException($file)
@@ -170,7 +171,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     /**
      * Test on vulnerability for protected files
      *
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage because it does not reside in a public directory
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
@@ -410,14 +411,15 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     protected function _testPublishResourcesAndCssWhenChangedCss($expectedPublished)
     {
-        $appInstallDir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir();
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        $appInstallDir = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir();
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
 
-        $this->_model = Mage::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface');
         $this->_model->setDesignTheme('test_default');
 
         $this->_viewService = Mage::getModel('Magento_Core_Model_View_Service');
@@ -492,14 +494,15 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     protected function _testPublishChangedResourcesWhenUnchangedCss($expectedPublished)
     {
-        $appInstallDir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir();
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        $appInstallDir = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir();
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
 
-        $this->_model = Mage::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface');
         $this->_model->setDesignTheme('test_default');
 
         $this->_viewService = Mage::getModel('Magento_Core_Model_View_Service');
@@ -534,14 +537,15 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     protected function _initTestTheme()
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
 
         // Reinit model with new directories
-        $this->_model = Mage::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface');
         $this->_model->setDesignTheme('test_default');
 
         $this->_viewService = Mage::getModel('Magento_Core_Model_View_Service');
@@ -557,7 +561,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testCssWithBase64Data()
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
@@ -568,7 +572,8 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var $themeCollection Magento_Core_Model_Theme_Collection */
-        $themeCollection = Mage::getObjectManager()->create('Magento_Core_Model_Theme_Collection');
+        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme_Collection');
         $theme = $themeCollection->setBaseDir(dirname(__DIR__) . '/_files/design/')
             ->addTargetPattern(implode(DIRECTORY_SEPARATOR, array('frontend', 'vendor_default', 'theme.xml')))
             ->getFirstItem()

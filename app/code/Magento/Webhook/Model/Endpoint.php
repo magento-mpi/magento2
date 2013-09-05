@@ -20,7 +20,7 @@
  * @method Magento_Webhook_Model_Endpoint setAuthenticationType(string $value)
  * @method Magento_Webhook_Model_Endpoint setTimeoutInSecs(string $value)
  */
-class Magento_Webhook_Model_Endpoint extends Magento_Core_Model_Abstract implements Magento_Outbound_EndpointInterface
+class Magento_Webhook_Model_Endpoint extends Magento_Core_Model_Abstract implements \Magento\Outbound\EndpointInterface
 {
     /**
      * Used to create a User abstraction from a given webapi user associated with this subscription.
@@ -32,14 +32,14 @@ class Magento_Webhook_Model_Endpoint extends Magento_Core_Model_Abstract impleme
      * @param Magento_Webhook_Model_User_Factory $userFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Webhook_Model_User_Factory $userFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -87,7 +87,7 @@ class Magento_Webhook_Model_Endpoint extends Magento_Core_Model_Abstract impleme
         parent::_beforeSave();
 
         if (!$this->hasAuthenticationType()) {
-            $this->setAuthenticationType(Magento_Outbound_EndpointInterface::AUTH_TYPE_NONE);
+            $this->setAuthenticationType(\Magento\Outbound\EndpointInterface::AUTH_TYPE_NONE);
         }
 
         if ($this->hasDataChanges()) {
@@ -110,7 +110,7 @@ class Magento_Webhook_Model_Endpoint extends Magento_Core_Model_Abstract impleme
     /**
      * Returns the user abstraction associated with this subscription or null if no user has been associated yet.
      *
-     * @return Magento_Outbound_UserInterface|null
+     * @return \Magento\Outbound\UserInterface|null
      */
     public function getUser()
     {

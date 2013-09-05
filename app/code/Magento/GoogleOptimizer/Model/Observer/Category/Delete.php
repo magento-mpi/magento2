@@ -25,7 +25,7 @@ class Magento_GoogleOptimizer_Model_Observer_Category_Delete
     /**
      * Delete Product scripts after deleting product
      *
-     * @param Magento_Object $observer
+     * @param \Magento\Object $observer
      * @return Magento_GoogleOptimizer_Model_Observer_Category_Delete
      */
     public function deleteCategoryGoogleExperimentScript($observer)

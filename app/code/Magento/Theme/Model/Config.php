@@ -36,12 +36,12 @@ class Magento_Theme_Model_Config
     protected $_eventManager;
 
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_configCache;
 
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_layoutCache;
 
@@ -50,16 +50,16 @@ class Magento_Theme_Model_Config
      * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Cache_FrontendInterface $configCache
-     * @param Magento_Cache_FrontendInterface $layoutCache
+     * @param \Magento\Cache\FrontendInterface $configCache
+     * @param \Magento\Cache\FrontendInterface $layoutCache
      */
     public function __construct(
         Magento_Core_Model_Config_Data $configData,
         Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Cache_FrontendInterface $configCache,
-        Magento_Cache_FrontendInterface $layoutCache
+        \Magento\Cache\FrontendInterface $configCache,
+        \Magento\Cache\FrontendInterface $layoutCache
     ) {
         $this->_configData   = $configData;
         $this->_configWriter = $configWriter;

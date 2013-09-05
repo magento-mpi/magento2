@@ -48,7 +48,7 @@ class Magento_Core_Model_Config_Resource
      * Retrieve resource connection configuration by name
      *
      * @param $name
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function getResourceConnectionConfig($name)
     {
@@ -70,7 +70,7 @@ class Magento_Core_Model_Config_Resource
      * Retrieve reosurce type configuration
      *
      * @param $type
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function getResourceTypeConfig($type)
     {

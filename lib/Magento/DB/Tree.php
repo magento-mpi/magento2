@@ -8,15 +8,14 @@
  * @license    {license_link}
  */
 
-require_once 'Magento/Db/Tree/Exception.php';
-Zend_Loader::loadClass('Zend_Db_Select');
-Zend_Loader::loadClass('Magento_Db_Tree_Node');
-Zend_Loader::loadClass('Magento_Db_Tree_NodeSet');
+namespace Magento\DB;
+ \Zend_Loader::loadClass('\Zend_Db_Select'); \Zend_Loader::loadClass('\Magento_Db_Tree_Node'); \Zend_Loader::loadClass('\Magento_Db_Tree_NodeSet');
 
 /**
  * Magento Library
  */
-class Magento_DB_Tree
+require_once 'Magento/Db/Tree/Exception.php';
+class Tree
 {
     private $_id;
     private $_left;
@@ -40,9 +39,9 @@ class Magento_DB_Tree
     private $_extTables = array();
 
     /**
-     * Zend_Db_Adapter
+     * \Zend_Db_Adapter
      *
-     * @var Zend_Db_Adapter_Abstract
+     * @var \Zend_Db_Adapter_Abstract
      */
     private $_db;
 
@@ -54,7 +53,7 @@ class Magento_DB_Tree
      */
     public function __construct($config = array())
     {
-        // set a Zend_Db_Adapter connection
+        // set a \Zend_Db_Adapter connection
         if (!empty($config['db'])) {
 
             // convenience variable
@@ -65,19 +64,19 @@ class Magento_DB_Tree
                 $connection = Zend::registry($connection);
             }
 
-            // make sure it's a Zend_Db_Adapter
-            if (! $connection instanceof Zend_Db_Adapter_Abstract) {
-                throw new Magento_DB_Tree_Exception('db object does not implement Zend_Db_Adapter_Abstract');
+            // make sure it's a \Zend_Db_Adapter
+            if (! $connection instanceof \Zend_Db_Adapter_Abstract) {
+                throw new \Magento\DB\Tree\TreeException('db object does not implement \Zend_Db_Adapter_Abstract');
             }
 
             // save the connection
             $this->_db = $connection;
             $conn = $this->_db->getConnection();
-            if ($conn instanceof PDO) {
-                $conn->setAttribute (PDO::ATTR_EMULATE_PREPARES, true);
+            if ($conn instanceof \PDO) {
+                $conn->setAttribute (\PDO::ATTR_EMULATE_PREPARES, true);
             }
         } else {
-            throw new Magento_DB_Tree_Exception('db object is not set in config');
+            throw new \Magento\DB\Tree\TreeException('db object is not set in config');
         }
 
         if (!empty($config['table'])) {
@@ -119,7 +118,7 @@ class Magento_DB_Tree
      * set name of id field
      *
      * @param string $name
-     * @return Magento_DB_Tree
+     * @return \Magento\DB\Tree
      */
     public function setIdField($name)
     {
@@ -131,7 +130,7 @@ class Magento_DB_Tree
      * set name of left field
      *
      * @param string $name
-     * @return Magento_DB_Tree
+     * @return \Magento\DB\Tree
      */
     public function setLeftField($name)
     {
@@ -143,7 +142,7 @@ class Magento_DB_Tree
      * set name of right field
      *
      * @param string $name
-     * @return Magento_DB_Tree
+     * @return \Magento\DB\Tree
      */
     public function setRightField($name)
     {
@@ -155,7 +154,7 @@ class Magento_DB_Tree
      * set name of level field
      *
      * @param string $name
-     * @return Magento_DB_Tree
+     * @return \Magento\DB\Tree
      */
     public function setLevelField($name)
     {
@@ -167,7 +166,7 @@ class Magento_DB_Tree
      * set name of pid Field
      *
      * @param string $name
-     * @return Magento_DB_Tree
+     * @return \Magento\DB\Tree
      */
     public function setPidField($name)
     {
@@ -179,7 +178,7 @@ class Magento_DB_Tree
      * set table name
      *
      * @param string $name
-     * @return Magento_DB_Tree
+     * @return \Magento\DB\Tree
      */
     public function setTable($name)
     {
@@ -220,7 +219,7 @@ class Magento_DB_Tree
 
         try {
             $this->_db->insert($this->_table, $data);
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             echo $e->getMessage();
         }
         return $this->_db->lastInsertId();
@@ -276,11 +275,11 @@ class Magento_DB_Tree
                 $this->_db->query($sql, array('left' => $info[$this->_left], 'right' => $info[$this->_right]));
                 $this->_db->insert($this->_table, $data);
                 $this->_db->commit();
-            } catch (PDOException $p) {
+            } catch (\PDOException $p) {
                 $this->_db->rollBack();
                 echo $p->getMessage();
                 exit();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_db->rollBack();
                 echo $e->getMessage();
                 echo $sql;
@@ -301,9 +300,9 @@ class Magento_DB_Tree
         $sql = $this->_db->select();
         $sql->from(
             array('t1' => $this->_table),
-            array('t1.' . $this->_id, new Zend_Db_Expr('COUNT(t1.' . $this->_id . ') AS rep'))
+            array('t1.' . $this->_id, new \Zend_Db_Expr('COUNT(t1.' . $this->_id . ') AS rep'))
         )->from(array('t2' => $this->_table))
-        ->from(array('t3' => $this->_table), new Zend_Db_Expr('MAX(t3.' . $this->_right . ') AS max_right'));
+        ->from(array('t3' => $this->_table), new \Zend_Db_Expr('MAX(t3.' . $this->_right . ') AS max_right'));
 
         $sql->where('t1.' . $this->_left . ' <> t2.' . $this->_left)
         ->where('t1.' . $this->_left . ' <> t2.' . $this->_right)
@@ -350,8 +349,8 @@ class Magento_DB_Tree
                     . $this->_right . ' > ' . $info[$this->_right];
                 $this->_db->query($sql);
                 $this->_db->commit();
-                return new Magento_DB_Tree_Node($info, $this->getKeys());
-            } catch (Exception $e) {
+                return new \Magento\DB\Tree\Node($info, $this->getKeys());
+            } catch (\Exception $e) {
                 $this->_db->rollBack();
                 echo $e->getMessage();
             }
@@ -441,7 +440,7 @@ class Magento_DB_Tree
             $this->_db->commit();
             echo "alert('node moved');";
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_db->rollBack();
             echo "alert('node not moved: fatal error');";
             echo $e->getMessage();
@@ -532,7 +531,7 @@ class Magento_DB_Tree
         try {
             $this->_db->query($sql);
             $this->_db->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_db->rollBack();
             echo $e->getMessage();
             echo "<br>\r\n";
@@ -557,9 +556,9 @@ class Magento_DB_Tree
     }
 
     /**
-     * @param Zend_Db_Select $select
+     * @param \Zend_Db_Select $select
      */
-    protected function _addExtTablesToSelect(Zend_Db_Select &$select)
+    protected function _addExtTablesToSelect(\Zend_Db_Select &$select)
     {
         foreach ($this->_extTables as $tableName => $info) {
             $select->joinInner($tableName, $info['joinCondition'], $info['fields']);
@@ -576,12 +575,12 @@ class Magento_DB_Tree
     {
         try {
             $info = $this->getNodeInfo($nodeId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo $e->getMessage();
             exit;
         }
 
-        $dbSelect = new Zend_Db_Select($this->_db);
+        $dbSelect = new \Zend_Db_Select($this->_db);
         $dbSelect->from($this->_table)
             ->where($this->_left  . ' >= :left')
             ->where($this->_right . ' <= :right')
@@ -601,9 +600,9 @@ class Magento_DB_Tree
         //echo $dbSelect->__toString();
         $data = $this->_db->fetchAll($dbSelect, $data);
 
-        $nodeSet = new Magento_DB_Tree_NodeSet();
+        $nodeSet = new \Magento\DB\Tree\NodeSet();
         foreach ($data as $node) {
-             $nodeSet->addNode(new Magento_DB_Tree_Node($node, $this->getKeys()));
+             $nodeSet->addNode(new \Magento\DB\Tree\Node($node, $this->getKeys()));
         }
         return $nodeSet;
     }
@@ -614,7 +613,7 @@ class Magento_DB_Tree
      */
     public function getNode($nodeId)
     {
-        $dbSelect = new Zend_Db_Select($this->_db);
+        $dbSelect = new \Zend_Db_Select($this->_db);
         $dbSelect->from($this->_table)
             ->where($this->_table . '.' . $this->_id  . ' >= :id');
 
@@ -625,6 +624,6 @@ class Magento_DB_Tree
 
         $data = $this->_db->fetchRow($dbSelect, $data);
 
-        return new Magento_DB_Tree_Node($data, $this->getKeys());
+        return new \Magento\DB\Tree\Node($data, $this->getKeys());
     }
 }

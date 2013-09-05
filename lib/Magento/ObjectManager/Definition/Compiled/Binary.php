@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_ObjectManager_Definition_Compiled_Binary extends Magento_ObjectManager_Definition_Compiled
+namespace Magento\ObjectManager\Definition\Compiled;
+
+class Binary extends \Magento\ObjectManager\Definition\Compiled
 {
     /**
      * Unpack signature

@@ -164,11 +164,11 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
     /**
      * Upload table rate file and import data from it
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @throws Magento_Core_Exception
      * @return Magento_Shipping_Model_Resource_Carrier_Tablerate
      */
-    public function uploadAndImport(Magento_Object $object)
+    public function uploadAndImport(\Magento\Object $object)
     {
         if (empty($_FILES['groups']['tmp_name']['tablerate']['fields']['import']['value'])) {
             return $this;
@@ -182,7 +182,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
         $this->_importErrors        = array();
         $this->_importedRows        = 0;
 
-        $io     = new Magento_Io_File();
+        $io     = new \Magento\Io\File();
         $info   = pathinfo($csvFile);
         $io->open(array('path' => $info['dirname']));
         $io->streamOpen($info['basename'], 'r');

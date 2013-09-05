@@ -27,7 +27,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Daterange
     /**
      * Value form element
      *
-     * @var Magento_Data_Form_Element_Text
+     * @var \Magento\Data\Form\Element\Text
      */
     private $_valueElement = null;
 

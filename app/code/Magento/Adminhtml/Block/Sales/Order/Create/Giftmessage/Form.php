@@ -35,10 +35,10 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Set entity for form
      *
-     * @param Magento_Object $entity
+     * @param \Magento\Object $entity
      * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
      */
-    public function setEntity(Magento_Object $entity)
+    public function setEntity(\Magento\Object $entity)
     {
         $this->_entity  = $entity;
         return $this;
@@ -47,7 +47,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Retrive entity for form
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getEntity()
     {
@@ -120,7 +120,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
      */
     public function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $fieldset = $form->addFieldset('main', array('no_container'=>true));
 
         $fieldset->addField('type','hidden',
@@ -161,11 +161,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
      * Prepare form fieldset
      * All fields are hidden
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      *
      * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
      */
-    protected function _prepareHiddenFields(Magento_Data_Form_Element_Fieldset $fieldset)
+    protected function _prepareHiddenFields(\Magento\Data\Form\Element\Fieldset $fieldset)
     {
         $fieldset->addField('sender', 'hidden',
             array(
@@ -190,11 +190,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
      * Prepare form fieldset
      * All fields are visible
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      *
      * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
      */
-    protected function _prepareVisibleFields(Magento_Data_Form_Element_Fieldset $fieldset)
+    protected function _prepareVisibleFields(\Magento\Data\Form\Element\Fieldset $fieldset)
     {
         $fieldset->addField('sender', 'text',
             array(

@@ -21,10 +21,10 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reason
     /**
      * Renders column as select when it is editable
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    protected function _getEditableView(Magento_Object $row)
+    protected function _getEditableView(\Magento\Object $row)
     {
         /** @var $rmaItemAttribute Magento_Rma_Model_Item_Attribute */
         $rmaItemAttribute = Mage::getModel('Magento_Rma_Model_Item_Form')
@@ -60,10 +60,10 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reason
     /**
      * Renders column as select when it is not editable
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    protected function _getNonEditableView(Magento_Object $row)
+    protected function _getNonEditableView(\Magento\Object $row)
     {
         /** @var $rmaItemAttribute Magento_Rma_Model_Item_Attribute */
         $rmaItemAttribute = Mage::getModel('Magento_Rma_Model_Item_Form')

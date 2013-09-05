@@ -16,7 +16,7 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_System_Store extends Magento_Object
+class Magento_Core_Model_System_Store extends \Magento\Object
 {
 
     /**

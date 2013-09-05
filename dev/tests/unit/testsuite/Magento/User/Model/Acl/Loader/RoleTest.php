@@ -42,12 +42,12 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
             ->will($this->returnArgument(1));
 
 
-        $selectMock = $this->getMock('Magento_DB_Select', array(), array(), '', false);
+        $selectMock = $this->getMock('Magento\DB\Select', array(), array(), '', false);
         $selectMock->expects($this->any())
             ->method('from')
             ->will($this->returnValue($selectMock));
 
-        $this->_adapterMock = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false);
+        $this->_adapterMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $this->_adapterMock->expects($this->once())
             ->method('select')
             ->will($this->returnValue($selectMock));
@@ -79,7 +79,7 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
             array('roleId' => 'U1')
         );
 
-        $aclMock = $this->getMock('Magento_Acl');
+        $aclMock = $this->getMock('Magento\Acl');
         $aclMock->expects($this->at(0))->method('addRole')->with($this->anything(), null);
         $aclMock->expects($this->at(2))->method('addRole')->with($this->anything(), 'G1');
 
@@ -96,7 +96,7 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
 
         $this->_objectFactoryMock->expects($this->never())->method('getModelInstance');
 
-        $aclMock = $this->getMock('Magento_Acl');
+        $aclMock = $this->getMock('Magento\Acl');
         $aclMock->expects($this->at(0))->method('hasRole')->with('U1')
             ->will($this->returnValue(true));
         $aclMock->expects($this->at(1))->method('addRoleParent')->with('U1', 'G1');

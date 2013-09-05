@@ -100,7 +100,7 @@ class Magento_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_F
     public function testGetFieldsetSetsOnlyNonArrayValuesToFieldset()
     {
         $fieldsetMock = $this->getMock(
-            'Magento_Data_Form_Element_Fieldset', array('setOriginalData'), array(), '', false
+            'Magento\Data\Form\Element\Fieldset', array('setOriginalData'), array(), '', false
         );
         $fieldsetMock->expects($this->once())->method('setOriginalData')->with(array(
             'var1' => 'val1',

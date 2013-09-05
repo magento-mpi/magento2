@@ -36,9 +36,9 @@ class Magento_Core_Model_ObjectManager_ConfigLoader_Primary
      */
     public function load()
     {
-        $reader = new Magento_ObjectManager_Config_Reader_Dom(
+        $reader = new \Magento\ObjectManager\Config\Reader\Dom(
             new Magento_Core_Model_Config_FileResolver_Primary($this->_dirs),
-            new Magento_ObjectManager_Config_Mapper_Dom(),
+            new \Magento\ObjectManager\Config\Mapper\Dom(),
             new Magento_Core_Model_Config_ValidationState(new Magento_Core_Model_App_State($this->_appMode))
         );
 

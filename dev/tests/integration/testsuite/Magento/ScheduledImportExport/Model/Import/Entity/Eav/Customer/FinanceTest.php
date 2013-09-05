@@ -56,7 +56,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         }
 
         $userName = 'TestAdmin';
-        $user = new Magento_Object(array(
+        $user = new \Magento\Object(array(
             'username' => $userName
         ));
         /** @var $session Magento_Backend_Model_Auth_Session */

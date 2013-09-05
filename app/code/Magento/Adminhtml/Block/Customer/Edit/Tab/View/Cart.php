@@ -42,7 +42,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Magento_Adminh
             $collection = $quote->getItemsCollection(false);
         }
         else {
-            $collection = new Magento_Data_Collection();
+            $collection = new \Magento\Data\Collection();
         }
 
         $collection->addFieldToFilter('parent_item_id', array('null' => true));

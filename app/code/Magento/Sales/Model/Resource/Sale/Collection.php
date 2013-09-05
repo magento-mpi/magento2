@@ -16,7 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collection_Db
+class Magento_Sales_Model_Resource_Sale_Collection extends \Magento\Data\Collection\Db
 {
 
     /**
@@ -54,7 +54,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
      *
      */
     public function __construct(
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         Magento_Sales_Model_Resource_Order $resource
     ) {
         parent::__construct($fetchStrategy, $resource->getReadConnection());
@@ -101,7 +101,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     /**
      * Before load action
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     protected function _beforeLoad()
     {
@@ -143,7 +143,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     /**
      * Load data
      *
-     * @return  Magento_Data_Collection_Db
+     * @return  \Magento\Data\Collection\Db
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -168,7 +168,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
             ->toOptionHash();
         $this->_items = array();
         foreach ($data as $v) {
-            $storeObject = new Magento_Object($v);
+            $storeObject = new \Magento\Object($v);
             $storeId     = $v['store_id'];
             $storeName   = isset($stores[$storeId]) ? $stores[$storeId] : null;
             $storeObject->setStoreName($storeName)
@@ -190,12 +190,12 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     }
 
     /**
-     * Retrieve totals data converted into Magento_Object
+     * Retrieve totals data converted into \Magento\Object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getTotals()
     {
-        return new Magento_Object($this->_totals);
+        return new \Magento\Object($this->_totals);
     }
 }

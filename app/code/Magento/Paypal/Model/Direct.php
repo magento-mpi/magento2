@@ -157,7 +157,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
      * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
-    public function authorize(Magento_Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
         return $this->_placeOrder($payment, $amount);
     }
@@ -168,7 +168,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
      * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $this->_pro->void($payment);
         return $this;
@@ -180,7 +180,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
      * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         if (false === $this->_pro->capture($payment, $amount)) {
             $this->_placeOrder($payment, $amount);
@@ -194,7 +194,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
      * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $this->_pro->refund($payment, $amount);
         return $this;
@@ -206,7 +206,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
      * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
-    public function cancel(Magento_Object $payment)
+    public function cancel(\Magento\Object $payment)
     {
         $this->void($payment);
 
@@ -366,10 +366,10 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Check void availability
      *
-     * @param   Magento_Object $payment
+     * @param   \Magento\Object $payment
      * @return  bool
      */
-    public function canVoid(Magento_Object $payment)
+    public function canVoid(\Magento\Object $payment)
     {
         if ($payment instanceof Magento_Sales_Model_Order_Invoice
             || $payment instanceof Magento_Sales_Model_Order_Creditmemo

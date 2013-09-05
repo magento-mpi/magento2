@@ -5,70 +5,72 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_ObjectManager_Interception_FactoryDecorator implements Magento_ObjectManager_Factory
+namespace Magento\ObjectManager\Interception;
+
+class FactoryDecorator implements \Magento\ObjectManager\Factory
 {
     /**
      * Configurable factory
      *
-     * @var Magento_ObjectManager_Factory
+     * @var \Magento\ObjectManager\Factory
      */
     protected $_factory;
 
     /**
      * List of plugin definitions
      *
-     * @var Magento_ObjectManager_Interception_Definition
+     * @var \Magento\ObjectManager\Interception\Definition
      */
     protected $_definitions;
 
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Object manager config
      *
-     * @var Magento_ObjectManager_Config
+     * @var \Magento\ObjectManager\Config
      */
     protected $_config;
 
     /**
      * Interceptor class builder
      *
-     * @var Magento_ObjectManager_Interception_ClassBuilder
+     * @var \Magento\ObjectManager\Interception\ClassBuilder
      */
     protected $_classBuilder;
 
     /**
-     * @param Magento_ObjectManager_Factory $factory
-     * @param Magento_ObjectManager_Config $config
-     * @param Magento_ObjectManager_ObjectManager $objectManager
-     * @param Magento_ObjectManager_Interception_Definition $definitions
-     * @param Magento_ObjectManager_Interception_ClassBuilder $classBuilder
+     * @param \Magento\ObjectManager\Factory $factory
+     * @param \Magento\ObjectManager\Config $config
+     * @param \Magento\ObjectManager\ObjectManager $objectManager
+     * @param \Magento\ObjectManager\Interception\Definition $definitions
+     * @param \Magento\ObjectManager\Interception\ClassBuilder $classBuilder
      */
     public function __construct(
-        Magento_ObjectManager_Factory $factory,
-        Magento_ObjectManager_Config $config,
-        Magento_ObjectManager_ObjectManager $objectManager = null,
-        Magento_ObjectManager_Interception_Definition $definitions = null,
-        Magento_ObjectManager_Interception_ClassBuilder $classBuilder = null
+        \Magento\ObjectManager\Factory $factory,
+        \Magento\ObjectManager\Config $config,
+        \Magento\ObjectManager\ObjectManager $objectManager = null,
+        \Magento\ObjectManager\Interception\Definition $definitions = null,
+        \Magento\ObjectManager\Interception\ClassBuilder $classBuilder = null
     ) {
         $this->_factory = $factory;
         $this->_config = $config;
         $this->_objectManager = $objectManager;
-        $this->_definitions = $definitions ?: new Magento_ObjectManager_Interception_Definition_Runtime();
-        $this->_classBuilder = $classBuilder ?: new Magento_ObjectManager_Interception_ClassBuilder_General();
+        $this->_definitions = $definitions ?: new \Magento\ObjectManager\Interception\Definition\Runtime();
+        $this->_classBuilder = $classBuilder ?: new \Magento\ObjectManager\Interception\ClassBuilder\General();
     }
 
     /**
      * Set object manager
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function setObjectManager(Magento_ObjectManager $objectManager)
+    public function setObjectManager(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
         $this->_factory->setObjectManager($objectManager);

@@ -89,6 +89,11 @@ final class Mage
     const DEFAULT_TIMEZONE  = 'UTC';
 
     /**
+     * Magento version
+     */
+    const VERSION = '2.0.0.0-dev43';
+
+    /**
      * Registry collection
      *
      * @var array
@@ -119,14 +124,14 @@ final class Mage
     /**
      * Object manager interface
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     static private $_objectManager;
 
     /**
      * Object cache instance
      *
-     * @var Magento_Object_Cache
+     * @var \Magento\Object\Cache
      */
     static private $_objects;
 
@@ -208,7 +213,7 @@ final class Mage
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '43',
+            'number'    => '45',
         );
     }
 
@@ -322,14 +327,14 @@ final class Mage
      * Retrieve application root absolute path
      *
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public static function getRoot()
     {
         if (!self::$_appRoot) {
             $appRootDir = __DIR__;
             if (!is_readable($appRootDir)) {
-                throw new Magento_Exception("Application root directory '$appRootDir' is not readable.");
+                throw new \Magento\Exception("Application root directory '$appRootDir' is not readable.");
             }
             self::$_appRoot = $appRootDir;
         }
@@ -340,12 +345,12 @@ final class Mage
      * Magento Objects Cache
      *
      * @param string $key optional, if specified will load this key
-     * @return Magento_Object_Cache
+     * @return \Magento\Object\Cache
      */
     public static function objects($key = null)
     {
         if (!self::$_objects) {
-            self::$_objects = new Magento_Object_Cache;
+            self::$_objects = new \Magento\Object\Cache;
         }
         if (is_null($key)) {
             return self::$_objects;
@@ -510,7 +515,7 @@ final class Mage
      * Retrieve object manager
      *
      * @static
-     * @return Magento_ObjectManager
+     * @return \Magento\ObjectManager
      */
     public static function getObjectManager()
     {
@@ -520,10 +525,10 @@ final class Mage
     /**
      * Set application object manager
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @throws LogicException
      */
-    public static function setObjectManager(Magento_ObjectManager $objectManager)
+    public static function setObjectManager(\Magento\ObjectManager $objectManager)
     {
         if (!self::$_objectManager) {
             self::$_objectManager = $objectManager;

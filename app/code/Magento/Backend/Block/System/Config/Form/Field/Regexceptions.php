@@ -48,7 +48,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
             /** @var $label Magento_Core_Model_Theme_Label */
             $label = Mage::getModel('Magento_Core_Model_Theme_Label');
             $options = $label->getLabelsCollection(__('-- No Theme --'));
-            $element = new Magento_Data_Form_Element_Select();
+            $element = new \Magento\Data\Form\Element\Select();
             $element
                 ->setForm($this->getForm())
                 ->setName($this->_getCellInputElementName($columnName))

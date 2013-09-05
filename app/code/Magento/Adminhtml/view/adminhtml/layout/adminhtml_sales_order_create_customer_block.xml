@@ -7,91 +7,88 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_create_customer_block>
-        <reference name='customer.grid.container'>
-            <block type="Magento_Backend_Block_Widget_Grid" name='adminhtml.customer.grid.container' as='grid'>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_create_customer_block">
+        <reference name="customer.grid.container">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.customer.grid.container" as="grid">
                 <arguments>
-                    <id>sales_order_create_customer_grid</id>
-                    <use_ajax>1</use_ajax>
-                    <default_sort>entity_id</default_sort>
-                    <dataSource type="object">Magento_Sales_Model_Resource_Order_Customer_Collection</dataSource>
-                    <pager_visibility>1</pager_visibility>
-                    <grid_url type="url">
-                        <path>*/*/loadBlock</path>
-                        <params>
-                            <block>customer_grid</block>
-                        </params>
-                    </grid_url>
-                    <row_click_callback>order.selectCustomer.bind(order)</row_click_callback>
+                    <argument name="id" xsi:type="string">sales_order_create_customer_grid</argument>
+                    <argument name="use_ajax" xsi:type="string">1</argument>
+                    <argument name="default_sort" xsi:type="string">entity_id</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Sales_Model_Resource_Order_Customer_Collection</argument>
+                    <argument name="pager_visibility" xsi:type="string">1</argument>
+                    <argument name="grid_url" xsi:type="url" path="*/*/loadBlock">
+                        <param name="block">customer_grid</param>
+                    </argument>
+                    <argument name="row_click_callback" xsi:type="string">order.selectCustomer.bind(order)</argument>
                 </arguments>
-                <block type='Magento_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.customer.grid.columnSet' as='grid.columnSet'>
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.customer.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <filter_visibility>1</filter_visibility>
-                        <rowUrl>
-                            <generatorClass>Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorId</generatorClass>
-                        </rowUrl>
+                        <argument name="filter_visibility" xsi:type="string">1</argument>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="generatorClass" xsi:type="string">Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorId</item>
+                        </argument>
                     </arguments>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='entity_id'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="entity_id">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>ID</header>
-                            <index>entity_id</index>
-                            <width>50</width>
-                            <align>right</align>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
+                            <argument name="index" xsi:type="string">entity_id</argument>
+                            <argument name="width" xsi:type="string">50</argument>
+                            <argument name="align" xsi:type="string">right</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='name'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>Name</header>
-                            <index>name</index>
+                            <argument name="header" xsi:type="string" translate="true">Name</argument>
+                            <argument name="index" xsi:type="string">name</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='email'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>Email</header>
-                            <index>email</index>
-                            <width>150</width>
+                            <argument name="header" xsi:type="string" translate="true">Email</argument>
+                            <argument name="index" xsi:type="string">email</argument>
+                            <argument name="width" xsi:type="string">150</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='Telephone'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="Telephone">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>Phone</header>
-                            <index>billing_telephone</index>
-                            <width>100</width>
+                            <argument name="header" xsi:type="string" translate="true">Phone</argument>
+                            <argument name="index" xsi:type="string">billing_telephone</argument>
+                            <argument name="width" xsi:type="string">100</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='billing_postcode'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="billing_postcode">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>ZIP/Post Code</header>
-                            <index>billing_postcode</index>
-                            <width>120</width>
+                            <argument name="header" xsi:type="string" translate="true">ZIP/Post Code</argument>
+                            <argument name="index" xsi:type="string">billing_postcode</argument>
+                            <argument name="width" xsi:type="string">120</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='billing_country_id'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="billing_country_id">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>Country</header>
-                            <index>billing_country_id</index>
-                            <width>100</width>
-                            <type>country</type>
+                            <argument name="header" xsi:type="string" translate="true">Country</argument>
+                            <argument name="index" xsi:type="string">billing_country_id</argument>
+                            <argument name="width" xsi:type="string">100</argument>
+                            <argument name="type" xsi:type="string">country</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='billing_regione'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="billing_regione">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>State/Province</header>
-                            <index>billing_regione</index>
-                            <width>100</width>
+                            <argument name="header" xsi:type="string" translate="true">State/Province</argument>
+                            <argument name="index" xsi:type="string">billing_regione</argument>
+                            <argument name="width" xsi:type="string">100</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='store_name'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="store_name">
                         <arguments>
-                            <header translate='true' module='Magento_Sales'>Signed-up Point</header>
-                            <index>store_name</index>
-                            <width>130</width>
-                            <align>center</align>
+                            <argument name="header" xsi:type="string" translate="true">Signed-up Point</argument>
+                            <argument name="index" xsi:type="string">store_name</argument>
+                            <argument name="width" xsi:type="string">130</argument>
+                            <argument name="align" xsi:type="string">center</argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_sales_order_create_customer_block>
+    </handle>
 </layout>

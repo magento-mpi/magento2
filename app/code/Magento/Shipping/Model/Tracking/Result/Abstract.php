@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Shipping_Model_Tracking_Result_Abstract extends Magento_Object
+class Magento_Shipping_Model_Tracking_Result_Abstract extends \Magento\Object
 {
 
 }

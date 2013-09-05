@@ -16,7 +16,9 @@
  * @package     Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Filter_Striptags implements Magento_Data_Form_Filter_Interface
+namespace Magento\Data\Form\Filter;
+
+class Striptags implements \Magento\Data\Form\Filter\FilterInterface
 {
     /**
      * Returns the result of filtering $value

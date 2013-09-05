@@ -16,7 +16,7 @@ class Magento_Core_Model_Theme_FlyweightFactory
     /**
      * Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -31,9 +31,9 @@ class Magento_Core_Model_Theme_FlyweightFactory
     protected $_themesByPath = array();
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

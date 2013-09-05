@@ -15,7 +15,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Sales_Model_Order_Total_Abstract extends Magento_Object
+abstract class Magento_Sales_Model_Order_Total_Abstract extends \Magento\Object
 {
     /**
      * Process model configuration array.

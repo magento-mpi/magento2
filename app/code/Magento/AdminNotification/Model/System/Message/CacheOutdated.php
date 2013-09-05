@@ -14,7 +14,7 @@ class Magento_AdminNotification_Model_System_Message_CacheOutdated
     protected $_urlBuilder;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -24,12 +24,12 @@ class Magento_AdminNotification_Model_System_Message_CacheOutdated
     protected $_cacheTypeList;
 
     /**
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      * @param Magento_Core_Model_UrlInterface $urlBuilder
      * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
      */
     public function __construct(
-        Magento_AuthorizationInterface $authorization,
+        \Magento\AuthorizationInterface $authorization,
         Magento_Core_Model_UrlInterface $urlBuilder,
         Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
     ) {

@@ -7,7 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-class Magento_Autoload_ClassMap
+namespace Magento\Autoload;
+
+class ClassMap
 {
     /**
      * Absolute path to base directory that will be prepended as prefix to the included files
@@ -31,13 +33,13 @@ class Magento_Autoload_ClassMap
      * Set base directory absolute path
      *
      * @param string $baseDir
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct($baseDir)
     {
         $this->_baseDir = realpath($baseDir);
         if (!$this->_baseDir || !is_dir($this->_baseDir)) {
-            throw new InvalidArgumentException("Specified path is not a valid directory: '{$baseDir}'");
+            throw new \InvalidArgumentException("Specified path is not a valid directory: '{$baseDir}'");
         }
     }
 
@@ -59,7 +61,7 @@ class Magento_Autoload_ClassMap
      * Add classes files declaration to the map. New map will override existing values if such was defined before.
      *
      * @param array $map
-     * @return Magento_Autoload_ClassMap
+     * @return \Magento\Autoload\ClassMap
      */
     public function addMap(array $map)
     {

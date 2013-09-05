@@ -22,7 +22,7 @@ class Magento_Sales_Model_Resource_Order_Invoice_Attribute_Backend_Order
     /**
      * Method is invoked before save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Sales_Model_Resource_Order_Invoice_Attribute_Backend_Order
      */
     public function beforeSave($object)

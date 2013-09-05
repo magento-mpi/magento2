@@ -15,7 +15,7 @@ $installer->startSetup();
 $tableName = $installer->getTable('admin_rule');
 
 if ($tableName) {
-    /** @var Magento_DB_Adapter_Interface $connection */
+    /** @var \Magento\DB\Adapter\AdapterInterface $connection */
     $connection = $installer->getConnection();
     $remove = array(
         'Magento_Catalog::catalog_attributes',
@@ -24,8 +24,6 @@ if ($tableName) {
         'Magento_Review::pending',
         'Magento_Review::reviews',
         'Magento_Review::reviews_ratings',
-        'Magento_Tag::tag',
-        'Magento_Tag::tag_pending',
     );
     $connection->delete($tableName, array('resource_id IN (?)' => $remove));
 }

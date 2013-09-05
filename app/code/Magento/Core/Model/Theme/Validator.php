@@ -180,10 +180,10 @@ class Magento_Core_Model_Theme_Validator
     /**
      * Validate all data items
      *
-     * @param Magento_Object $data
+     * @param \Magento\Object $data
      * @return bool
      */
-    public function validate(Magento_Object $data)
+    public function validate(\Magento\Object $data)
     {
         $this->_errorMessages = array();
         foreach ($this->_dataValidators as $dataKey => $validators) {

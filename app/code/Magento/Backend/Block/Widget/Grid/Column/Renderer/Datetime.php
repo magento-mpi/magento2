@@ -51,21 +51,21 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Datetime
     /**
      * Renders grid column
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if ($data = $this->_getValue($row)) {
             $format = $this->_getFormat();
             try {
                 $data = Mage::app()->getLocale()
-                    ->date($data, Magento_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
+                    ->date($data, \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString($format);
             }
             catch (Exception $e)
             {
                 $data = Mage::app()->getLocale()
-                    ->date($data, Magento_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
+                    ->date($data, \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString($format);
             }
             return $data;
         }

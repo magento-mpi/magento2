@@ -21,7 +21,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     /**
      * Block config data
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_config;
 
@@ -33,6 +33,21 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     protected $_purchasedSeparatelyAttribute = null;
 
     protected $_template = 'product/edit/downloadable/links.phtml';
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_storeManager = $storeManager;
+    }
 
     /**
      * Class constructor
@@ -212,7 +227,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
             if ($this->getProduct()->getStoreId() && $priceWebsiteScope) {
                 $tmpLinkItem['website_price'] = $item->getWebsitePrice();
             }
-            $linkArr[] = new Magento_Object($tmpLinkItem);
+            $linkArr[] = new \Magento\Object($tmpLinkItem);
         }
         return $linkArr;
     }
@@ -312,14 +327,31 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     /**
      * Retrieve config object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getConfig()
     {
         if (is_null($this->_config)) {
-            $this->_config = new Magento_Object();
+            $this->_config = new \Magento\Object();
         }
 
         return $this->_config;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSingleStoreMode()
+    {
+        return $this->_storeManager->isSingleStoreMode();
+    }
+
+    /**
+     * @param null|string|bool|int|Magento_Core_Model_Store $storeId $storeId
+     * @return string
+     */
+    public function getBaseCurrencyCode($storeId)
+    {
+        return $this->_storeManager->getStore($storeId)->getBaseCurrencyCode();
     }
 }

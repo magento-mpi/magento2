@@ -20,7 +20,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_Increment extends Magento_Eav_M
     /**
      * Set new increment id
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Attribute_Backend_Increment
      */
     public function beforeSave($object)

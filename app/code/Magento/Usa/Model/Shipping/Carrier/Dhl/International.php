@@ -53,7 +53,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Raw rate request data
      *
-     * @var Magento_Object|null
+     * @var \Magento\Object|null
      */
     protected $_rawRequest = null;
 
@@ -270,15 +270,15 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Prepare and set request in property of current instance
      *
-     * @param Magento_Object $request
+     * @param \Magento\Object $request
      * @return Magento_Usa_Model_Shipping_Carrier_Dhl
      */
-    public function setRequest(Magento_Object $request)
+    public function setRequest(\Magento\Object $request)
     {
         $this->_request = $request;
         $this->setStore($request->getStoreId());
 
-        $requestObject = new Magento_Object();
+        $requestObject = new \Magento\Object();
 
         $requestObject->setIsGenerateLabelReturn($request->getIsGenerateLabelReturn());
 
@@ -798,7 +798,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
 
         $nodeBkgDetails = $nodeGetQuote->addChild('BkgDetails');
         $nodeBkgDetails->addChild('PaymentCountryCode', $rawRequest->getOrigCountryId());
-        $nodeBkgDetails->addChild('Date', Magento_Date::now(true));
+        $nodeBkgDetails->addChild('Date', \Magento\Date::now(true));
         $nodeBkgDetails->addChild('ReadyTime', 'PT' . (int)(string)$this->getConfigData('ready_time') . 'H00M');
 
         $nodeBkgDetails->addChild('DimensionUnit', $this->_getDimensionUnit());
@@ -830,11 +830,11 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         if ($responseBody === null) {
             $debugData = array('request' => $request);
             try {
-                $client = new Magento_HTTP_ZendClient();
+                $client = new \Magento\HTTP\ZendClient();
                 $client->setUri((string)$this->getConfigData('gateway_url'));
                 $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
                 $client->setRawData($request);
-                $responseBody = $client->request(Magento_HTTP_ZendClient::POST)->getBody();
+                $responseBody = $client->request(\Magento\HTTP\ZendClient::POST)->getBody();
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
             } catch (Exception $e) {
@@ -896,7 +896,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                                 $this->_addRate($quotedShipment);
                             }
                         } elseif (isset($xml->AirwayBillNumber)) {
-                            $result = new Magento_Object();
+                            $result = new \Magento\Object();
                             $result->setTrackingNumber((string)$xml->AirwayBillNumber);
                             try {
                                 /* @var $pdf Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf */
@@ -1046,7 +1046,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
      * Get Country Params by Country Code
      *
      * @param string $countryCode
-     * @return Magento_Object
+     * @return \Magento\Object
      *
      * @see $countryCode ISO 3166 Codes (Countries) A2
      */
@@ -1055,21 +1055,21 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         if (empty($this->_countryParams)) {
             $dhlConfigPath = Mage::getModuleDir('etc', 'Magento_Usa')  . DS . 'dhl' . DS;
             $countriesXml = file_get_contents($dhlConfigPath . 'international' . DS . 'countries.xml');
-            $this->_countryParams = new Magento_Simplexml_Element($countriesXml);
+            $this->_countryParams = new \Magento\Simplexml\Element($countriesXml);
         }
         if (isset($this->_countryParams->$countryCode)) {
-            $countryParams = new Magento_Object($this->_countryParams->$countryCode->asArray());
+            $countryParams = new \Magento\Object($this->_countryParams->$countryCode->asArray());
         }
-        return isset($countryParams) ? $countryParams : new Magento_Object();
+        return isset($countryParams) ? $countryParams : new \Magento\Object();
     }
 
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param Magento_Object $request
-     * @return Magento_Object
+     * @param \Magento\Object $request
+     * @return \Magento\Object
      */
-    protected function _doShipmentRequest(Magento_Object $request)
+    protected function _doShipmentRequest(\Magento\Object $request)
     {
         $this->_prepareShipmentRequest($request);
         $this->_mapRequestToShipment($request);
@@ -1130,10 +1130,10 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Return container types of carrier
      *
-     * @param Magento_Object|null $params
+     * @param \Magento\Object|null $params
      * @return array
      */
-    public function getContainerTypes(Magento_Object $params = null)
+    public function getContainerTypes(\Magento\Object $params = null)
     {
         return array(
             self::DHL_CONTENT_TYPE_DOC      => __('Documents'),
@@ -1144,10 +1144,10 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Map request to shipment
      *
-     * @param Magento_Object $request
+     * @param \Magento\Object $request
      * @return null
      */
-    protected function _mapRequestToShipment(Magento_Object $request)
+    protected function _mapRequestToShipment(\Magento\Object $request)
     {
 
         $request->setOrigCountryId($request->getShipperAddressCountryCode());
@@ -1199,7 +1199,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Do rate request and handle errors
      *
-     * @return Magento_Shipping_Model_Rate_Result|Magento_Object
+     * @return Magento_Shipping_Model_Rate_Result|\Magento\Object
      */
     protected function _doRequest()
     {
@@ -1351,11 +1351,11 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         if ($responseBody === null) {
             $debugData = array('request' => $request);
             try {
-                $client = new Magento_HTTP_ZendClient();
+                $client = new \Magento\HTTP\ZendClient();
                 $client->setUri((string)$this->getConfigData('gateway_url'));
                 $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
                 $client->setRawData($request);
-                $responseBody = $client->request(Magento_HTTP_ZendClient::POST)->getBody();
+                $responseBody = $client->request(\Magento\HTTP\ZendClient::POST)->getBody();
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
             } catch (Exception $e) {
@@ -1543,11 +1543,11 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         if ($responseBody === null) {
             $debugData = array('request' => $request);
             try {
-                $client = new Magento_HTTP_ZendClient();
+                $client = new \Magento\HTTP\ZendClient();
                 $client->setUri((string)$this->getConfigData('gateway_url'));
                 $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
                 $client->setRawData($request);
-                $responseBody = $client->request(Magento_HTTP_ZendClient::POST)->getBody();
+                $responseBody = $client->request(\Magento\HTTP\ZendClient::POST)->getBody();
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
             } catch (Exception $e) {
@@ -1676,7 +1676,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
      * Do request to shipment
      *
      * @param Magento_Shipping_Model_Shipment_Request $request
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function requestToShipment(Magento_Shipping_Model_Shipment_Request $request)
     {
@@ -1686,7 +1686,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         }
         $result = $this->_doShipmentRequest($request);
 
-        $response = new Magento_Object(array(
+        $response = new \Magento\Object(array(
             'info' => array(array(
                 'tracking_number' => $result->getTrackingNumber(),
                 'label_content'   => $result->getShippingLabelContent()

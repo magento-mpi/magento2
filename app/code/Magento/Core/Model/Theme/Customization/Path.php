@@ -61,7 +61,7 @@ class Magento_Core_Model_Theme_Customization_Path
         $path = null;
         if ($theme->getFullPath()) {
             $physicalThemesDir = $this->_dir->getDir(Magento_Core_Model_Dir::THEMES);
-            $path = Magento_Filesystem::fixSeparator($physicalThemesDir . DIRECTORY_SEPARATOR . $theme->getFullPath());
+            $path = \Magento\Filesystem::fixSeparator($physicalThemesDir . DIRECTORY_SEPARATOR . $theme->getFullPath());
         }
         return $path;
     }

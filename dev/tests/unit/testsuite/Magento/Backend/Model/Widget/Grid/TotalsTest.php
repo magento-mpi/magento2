@@ -34,17 +34,17 @@ class Magento_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_Tes
         );
 
         $this->_factoryMock = $this->getMock(
-            'Magento_Object_Factory', array('create'), array(), '', false, false, false
+            'Magento\Object\Factory', array('create'), array(), '', false, false, false
         );
 
         $createValueMap = array(
             array(
                 array('test1' => 3, 'test2' => 2),
-                new Magento_Object(array('test1' => 3, 'test2' => 2))
+                new \Magento\Object(array('test1' => 3, 'test2' => 2))
             ),
             array(
                 array('test4' => 9, 'test5' => 2),
-                new Magento_Object(array('test4' => 9, 'test5' => 2))
+                new \Magento\Object(array('test4' => 9, 'test5' => 2))
             )
         );
         $this->_factoryMock->expects($this->any())
@@ -56,7 +56,7 @@ class Magento_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_Tes
             'parser' =>  $this->_parserMock
         );
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_Backend_Model_Widget_Grid_Totals', $arguments);
 
         // setup columns
@@ -78,17 +78,17 @@ class Magento_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_Tes
     public function testCountTotals()
     {
         // prepare collection
-        $collection = new Magento_Data_Collection();
+        $collection = new \Magento\Data\Collection();
         $items = array(
-            new Magento_Object(array('test1' => '1', 'test2' => '2')),
-            new Magento_Object(array('test1' => '1', 'test2' => '2')),
-            new Magento_Object(array('test1' => '1', 'test2' => '2'))
+            new \Magento\Object(array('test1' => '1', 'test2' => '2')),
+            new \Magento\Object(array('test1' => '1', 'test2' => '2')),
+            new \Magento\Object(array('test1' => '1', 'test2' => '2'))
         );
         foreach ($items as $item) {
             $collection->addItem($item);
         }
 
-        $expected = new Magento_Object(array('test1' => 3, 'test2' => 2));
+        $expected = new \Magento\Object(array('test1' => 3, 'test2' => 2));
         $this->assertEquals($expected, $this->_model->countTotals($collection));
     }
 
@@ -99,21 +99,21 @@ class Magento_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_Tes
         $this->_model->setColumn('test5', 'avg');
 
         // prepare collection
-        $collection = new Magento_Data_Collection();
+        $collection = new \Magento\Data\Collection();
         $items = array(
-            new Magento_Object(array('children' => new Magento_Object(array('test4' => '1','test5' => '2')))),
-            new Magento_Object(array('children' => new Magento_Object(array('test4' => '1','test5' => '2')))),
-            new Magento_Object(array('children' => new Magento_Object(array('test4' => '1','test5' => '2')))),
+            new \Magento\Object(array('children' => new \Magento\Object(array('test4' => '1','test5' => '2')))),
+            new \Magento\Object(array('children' => new \Magento\Object(array('test4' => '1','test5' => '2')))),
+            new \Magento\Object(array('children' => new \Magento\Object(array('test4' => '1','test5' => '2')))),
         );
         foreach ($items as $item) {
             // prepare sub-collection
-            $subCollection = new Magento_Data_Collection();
-            $subCollection->addItem(new Magento_Object(array('test4' => '1','test5' => '2')));
-            $subCollection->addItem(new Magento_Object(array('test4' => '2','test5' => '2')));
+            $subCollection = new \Magento\Data\Collection();
+            $subCollection->addItem(new \Magento\Object(array('test4' => '1','test5' => '2')));
+            $subCollection->addItem(new \Magento\Object(array('test4' => '2','test5' => '2')));
             $item->setChildren($subCollection);
             $collection->addItem($item);
         }
-        $expected = new Magento_Object(array('test4' => 9, 'test5' => 2));
+        $expected = new \Magento\Object(array('test4' => 9, 'test5' => 2));
         $this->assertEquals($expected, $this->_model->countTotals($collection));
     }
 }

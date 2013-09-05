@@ -3,9 +3,11 @@
  * {license_notice}
  *
  * @copyright   {copyright}
- * @license     {license_link}Magento_Acl_Loader_Resource
+ * @license     {license_link}\Magento\Acl\Loader\Resource
  */
-class Magento_Acl_Resource_Config_Dom extends Magento_Config_Dom
+namespace Magento\Acl\Resource\Config;
+
+class Dom extends \Magento\Config\Dom
 {
     /**
      * Return attribute for resource node that identify it as unique

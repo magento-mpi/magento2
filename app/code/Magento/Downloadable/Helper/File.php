@@ -69,7 +69,7 @@ class Magento_Downloadable_Helper_File extends Magento_Core_Helper_Abstract
      */
     protected function _moveFileFromTmp($baseTmpPath, $basePath, $file)
     {
-        $ioObject = new Magento_Io_File();
+        $ioObject = new \Magento\Io\File();
         $destDirectory = dirname($this->getFilePath($basePath, $file));
         try {
             $ioObject->open(array('path'=>$destDirectory));

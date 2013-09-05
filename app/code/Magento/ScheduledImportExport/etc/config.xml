@@ -20,21 +20,21 @@
         </resources>
         <template>
             <email>
-                <enterprise_importexport_import_failed translate="label" module="Magento_ScheduledImportExport">
+                <magento_scheduledimportexport_import_failed translate="label" module="Magento_ScheduledImportExport">
                     <label>Import Failed</label>
                     <file>email/import_failed.html</file>
                     <type>html</type>
-                </enterprise_importexport_import_failed>
-                <enterprise_importexport_export_failed translate="label" module="Magento_ScheduledImportExport">
+                </magento_scheduledimportexport_import_failed>
+                <magento_scheduledimportexport_export_failed translate="label" module="Magento_ScheduledImportExport">
                     <label>Export Failed</label>
                     <file>email/export_failed.html</file>
                     <type>html</type>
-                </enterprise_importexport_export_failed>
-                <system_enterprise_import_export_log_error_email_template translate="label" module="Magento_ScheduledImportExport">
+                </magento_scheduledimportexport_export_failed>
+                <system_magento_scheduled_import_export_log_error_email_template translate="label" module="Magento_ScheduledImportExport">
                     <label>File History Clean Failed</label>
                     <file>email/file_history_clean_failed.html</file>
                     <type>html</type>
-                </system_enterprise_import_export_log_error_email_template>
+                </system_magento_scheduled_import_export_log_error_email_template>
             </email>
         </template>
         <importexport>
@@ -58,7 +58,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_importexport before="Magento_Adminhtml">Magento_ScheduledImportExport_Adminhtml</enterprise_importexport>
+                        <magento_scheduledimportexport before="Magento_Adminhtml">Magento_ScheduledImportExport_Adminhtml</magento_scheduledimportexport>
                     </modules>
                 </args>
             </adminhtml>
@@ -77,18 +77,18 @@
     </adminhtml>
     <default>
         <system>
-            <enterprise_import_export_log>
+            <magento_scheduled_import_export_log>
                 <save_days>5</save_days>
-                <error_email_template>system_enterprise_import_export_log_error_email_template</error_email_template>
-            </enterprise_import_export_log>
+                <error_email_template>system_magento_scheduled_import_export_log_error_email_template</error_email_template>
+            </magento_scheduled_import_export_log>
         </system>
         <crontab>
             <jobs>
-                <enterprise_import_export_log_clean>
+                <magento_scheduled_import_export_log_clean>
                     <run>
                         <model>Magento_ScheduledImportExport_Model_Observer::scheduledLogClean</model>
                     </run>
-                </enterprise_import_export_log_clean>
+                </magento_scheduled_import_export_log_clean>
             </jobs>
         </crontab>
         <export>

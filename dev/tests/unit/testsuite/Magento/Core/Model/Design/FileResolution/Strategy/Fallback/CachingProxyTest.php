@@ -71,7 +71,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
 
     protected function tearDown()
     {
-        Magento_Io_File::rmdirRecursive($this->_tmpDir);
+        \Magento\Io\File::rmdirRecursive($this->_tmpDir);
     }
 
     /**
@@ -128,7 +128,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
      */
     public function testProxyMethods($method, $params, $expectedResult)
     {
-        $helper = new Magento_Test_Helper_ProxyTesting();
+        $helper = new Magento_TestFramework_Helper_ProxyTesting();
         $actualResult = $helper->invokeWithExpectations($this->_model, $this->_fallback, $method, $params,
             $expectedResult);
         $this->assertEquals($expectedResult, $actualResult);
@@ -182,10 +182,10 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
     }
 
     /**
-     * @return Magento_Filesystem
+     * @return \Magento\Filesystem
      */
     protected function _createFilesystem()
     {
-        return new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
+        return new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local());
     }
 }

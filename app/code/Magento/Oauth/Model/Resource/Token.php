@@ -69,7 +69,7 @@ class Magento_Oauth_Model_Resource_Token extends Magento_Core_Model_Resource_Db_
                 $this->getMainTable(),
                 $adapter->quoteInto(
                     'type = "' . Magento_Oauth_Model_Token::TYPE_REQUEST . '" AND created_at <= ?',
-                    Magento_Date::formatDate(time() - $minutes * 60)
+                    \Magento\Date::formatDate(time() - $minutes * 60)
                 )
             );
         } else {

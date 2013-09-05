@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Phrase_RendererInterface
+namespace Magento\Phrase;
+
+interface RendererInterface
 {
     /**
      * Render result text

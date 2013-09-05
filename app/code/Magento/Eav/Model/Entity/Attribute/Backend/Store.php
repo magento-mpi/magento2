@@ -14,7 +14,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_Store extends Magento_Eav_Model
     /**
      * Prepare data before save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Attribute_Backend_Store
      */
     protected function _beforeSave($object)

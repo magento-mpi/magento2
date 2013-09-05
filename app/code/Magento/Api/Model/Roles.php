@@ -77,7 +77,7 @@ class Magento_Api_Model_Roles extends Magento_Core_Model_Abstract
     }
 
     protected function _buildResourcesArray(
-        Magento_Simplexml_Element $resource = null, $parentName = null, $level = 0, $represent2Darray = null,
+        \Magento\Simplexml\Element $resource = null, $parentName = null, $level = 0, $represent2Darray = null,
         $rawNodes = false, $module = 'Magento_Adminhtml'
     ) {
         static $result;

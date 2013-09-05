@@ -21,16 +21,16 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Rendere
     /**
      * Renders grid column
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $result = parent::render($row);
         return $result.'<input type="hidden" class="value-json" value="'.htmlspecialchars($this->getAttributesJson($row)).'" />';
     }
 
-    public function getAttributesJson(Magento_Object $row)
+    public function getAttributesJson(\Magento\Object $row)
     {
         if(!$this->getColumn()->getAttributes()) {
             return '[]';

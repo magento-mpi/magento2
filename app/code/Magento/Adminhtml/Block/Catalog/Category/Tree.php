@@ -247,7 +247,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     /**
      * Get JSON of a tree node or an associative array
      *
-     * @param Magento_Data_Tree_Node|array $node
+     * @param \Magento\Data\Tree\Node|array $node
      * @param int $level
      * @return string
      */
@@ -255,7 +255,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     {
         // create a node from data array
         if (is_array($node)) {
-            $node = new Magento_Data_Tree_Node($node, 'entity_id', new Magento_Data_Tree);
+            $node = new \Magento\Data\Tree\Node($node, 'entity_id', new \Magento\Data\Tree);
         }
 
         $item = array();
@@ -302,7 +302,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     /**
      * Get category name
      *
-     * @param Magento_Object $node
+     * @param \Magento\Object $node
      * @return string
      */
     public function buildNodeName($node)
@@ -316,7 +316,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
 
     protected function _isCategoryMoveable($node)
     {
-        $options = new Magento_Object(array(
+        $options = new \Magento\Object(array(
             'is_moveable' => true,
             'category' => $node
         ));
@@ -357,7 +357,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
      */
     public function canAddRootCategory()
     {
-        $options = new Magento_Object(array('is_allow'=>true));
+        $options = new \Magento\Object(array('is_allow'=>true));
         Mage::dispatchEvent(
             'adminhtml_catalog_category_tree_can_add_root_category',
             array(
@@ -377,7 +377,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
      */
     public function canAddSubCategory()
     {
-        $options = new Magento_Object(array('is_allow'=>true));
+        $options = new \Magento\Object(array('is_allow'=>true));
         Mage::dispatchEvent(
             'adminhtml_catalog_category_tree_can_add_sub_category',
             array(

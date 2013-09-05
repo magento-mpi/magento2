@@ -16,7 +16,7 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
+class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
 {
     /**
      * Use absolute links flag
@@ -234,7 +234,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
      */
     protected function _getBlockParameters($value)
     {
-        $tokenizer = new Magento_Filter_Template_Tokenizer_Parameter();
+        $tokenizer = new \Magento\Filter\Template\Tokenizer\Parameter();
         $tokenizer->setString($value);
 
         return $tokenizer->tokenize();

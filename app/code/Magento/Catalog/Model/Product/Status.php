@@ -218,7 +218,7 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
      *
      * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

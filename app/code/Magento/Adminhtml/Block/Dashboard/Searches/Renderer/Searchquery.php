@@ -18,7 +18,7 @@
 class Magento_Adminhtml_Block_Dashboard_Searches_Renderer_Searchquery
     extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $value = $row->getData($this->getColumn()->getIndex());
         if (Mage::helper('Magento_Core_Helper_String')->strlen($value) > 30) {

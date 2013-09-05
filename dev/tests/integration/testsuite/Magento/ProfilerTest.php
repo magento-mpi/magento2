@@ -1,6 +1,6 @@
 <?php
 /**
- * Test case for Magento_Profiler
+ * Test case for \Magento\Profiler
  *
  * {license_notice}
  *
@@ -11,7 +11,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
 {
     protected function tearDown()
     {
-        Magento_Profiler::reset();
+        \Magento\Profiler::reset();
     }
 
     /**
@@ -21,8 +21,8 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
      */
     public function testApplyConfigWithDrivers(array $config, array $expectedDrivers)
     {
-        Magento_Profiler::applyConfig($config, '');
-        $this->assertAttributeEquals($expectedDrivers, '_drivers', 'Magento_Profiler');
+        \Magento\Profiler::applyConfig($config, '');
+        $this->assertAttributeEquals($expectedDrivers, '_drivers', '\Magento\Profiler');
     }
 
     /**
@@ -41,17 +41,17 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
             ),
             'Integer 1 does creates standard driver' => array(
                 'config' => array('drivers' => array(1)),
-                'drivers' => array(new Magento_Profiler_Driver_Standard())
+                'drivers' => array(new \Magento\Profiler\Driver\Standard())
             ),
             'Config array key sets driver type' => array(
                 'configs' => array('drivers' => array('standard' => 1)),
-                'drivers' => array(new Magento_Profiler_Driver_Standard())
+                'drivers' => array(new \Magento\Profiler\Driver\Standard())
             ),
             'Config array key ignored when type set' => array(
                 'config' => array(
                     'drivers' => array('custom' => array('type' => 'standard'))
                 ),
-                'drivers' => array(new Magento_Profiler_Driver_Standard())
+                'drivers' => array(new \Magento\Profiler\Driver\Standard())
             ),
             'Config with outputs element as integer 1 creates output' => array(
                 'config' => array(
@@ -59,7 +59,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
                     'baseDir' => '/some/base/dir'
                 ),
                 'drivers' => array(
-                    new Magento_Profiler_Driver_Standard(array(
+                    new \Magento\Profiler\Driver\Standard(array(
                         'outputs' => array(array(
                             'type' => 'html',
                             'baseDir' => '/some/base/dir'
@@ -71,7 +71,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
                 'config' => array(
                     'drivers' => array(array('outputs' => array('html' => 0)))
                 ),
-                'drivers' => array(new Magento_Profiler_Driver_Standard())
+                'drivers' => array(new \Magento\Profiler\Driver\Standard())
             ),
             'Config with shortly defined outputs element' => array(
                 'config' => array(
@@ -79,7 +79,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
                         array('outputs' => array('foo' => 'html'))
                     ),
                 ),
-                'drivers' => array(new Magento_Profiler_Driver_Standard(array(
+                'drivers' => array(new \Magento\Profiler\Driver\Standard(array(
                         'outputs' => array(array('type' => 'html'))
                     ))
                 )
@@ -100,7 +100,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
                     )
                 ),
                 'drivers' => array(
-                    new Magento_Profiler_Driver_Standard(array(
+                    new \Magento\Profiler\Driver\Standard(array(
                         'outputs' => array(array(
                             'type' => 'html',
                             'filterName' => '/someFilter/',
@@ -117,7 +117,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
                     )
                 ),
                 'drivers' => array(
-                    new Magento_Profiler_Driver_Standard(array(
+                    new \Magento\Profiler\Driver\Standard(array(
                         'outputs' => array(array(
                             'type' => 'html'
                         ))

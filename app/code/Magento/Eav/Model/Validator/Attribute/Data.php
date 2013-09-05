@@ -15,7 +15,7 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_ValidatorAbstract
+class Magento_Eav_Model_Validator_Attribute_Data extends \Magento\Validator\ValidatorAbstract
 {
     /**
      * @var array
@@ -108,7 +108,7 @@ class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Valid
         $data = array();
         if ($this->_data) {
             $data = $this->_data;
-        } elseif ($entity instanceof Magento_Object) {
+        } elseif ($entity instanceof \Magento\Object) {
             $data = $entity->getData();
         }
 

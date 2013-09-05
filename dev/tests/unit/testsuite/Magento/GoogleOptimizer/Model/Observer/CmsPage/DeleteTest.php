@@ -29,12 +29,12 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_DeleteTest extends PHPUnit_
 
         $page = $this->getMock('Magento_Cms_Model_Page', array(), array(), '', false);
         $page->expects($this->once())->method('getId')->will($this->returnValue(3));
-        $event = $this->getMock('Magento_Event', array('getObject'), array(), '', false);
+        $event = $this->getMock('Magento\Event', array('getObject'), array(), '', false);
         $event->expects($this->once())->method('getObject')->will($this->returnValue($page));
-        $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_GoogleOptimizer_Model_Observer_CmsPage_Delete', array(
             'modelCode' => $this->_codeMock
         ));

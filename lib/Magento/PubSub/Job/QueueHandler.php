@@ -9,39 +9,41 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_Job_QueueHandler
+namespace Magento\PubSub\Job;
+
+class QueueHandler
 {
     /**
-     * @var Magento_PubSub_Job_QueueReaderInterface
+     * @var \Magento\PubSub\Job\QueueReaderInterface
      */
     protected $_jobQueueReader;
 
     /**
-     * @var Magento_PubSub_Job_QueueWriterInterface
+     * @var \Magento\PubSub\Job\QueueWriterInterface
      */
     protected $_jobQueueWriter;
 
     /**
-     * @var Magento_Outbound_TransportInterface
+     * @var \Magento\Outbound\TransportInterface
      */
     protected $_transport;
 
     /**
-     * @var Magento_Outbound_Message_FactoryInterface
+     * @var \Magento\Outbound\Message\FactoryInterface
      */
     protected $_messageFactory;
 
     /**
-     * @param Magento_PubSub_Job_QueueReaderInterface $jobQueueReader
-     * @param Magento_PubSub_Job_QueueWriterInterface $jobQueueWriter
-     * @param Magento_Outbound_TransportInterface $transport
-     * @param Magento_Outbound_Message_FactoryInterface $messageFactory
+     * @param \Magento\PubSub\Job\QueueReaderInterface $jobQueueReader
+     * @param \Magento\PubSub\Job\QueueWriterInterface $jobQueueWriter
+     * @param \Magento\Outbound\TransportInterface $transport
+     * @param \Magento\Outbound\Message\FactoryInterface $messageFactory
      */
     public function __construct(
-        Magento_PubSub_Job_QueueReaderInterface $jobQueueReader,
-        Magento_PubSub_Job_QueueWriterInterface $jobQueueWriter,
-        Magento_Outbound_TransportInterface $transport,
-        Magento_Outbound_Message_FactoryInterface $messageFactory
+        \Magento\PubSub\Job\QueueReaderInterface $jobQueueReader,
+        \Magento\PubSub\Job\QueueWriterInterface $jobQueueWriter,
+        \Magento\Outbound\TransportInterface $transport,
+        \Magento\Outbound\Message\FactoryInterface $messageFactory
     ) {
         $this->_jobQueueReader = $jobQueueReader;
         $this->_jobQueueWriter = $jobQueueWriter;

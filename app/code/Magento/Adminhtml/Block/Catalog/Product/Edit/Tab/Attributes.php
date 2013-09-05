@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
         /** @var $group Magento_Eav_Model_Entity_Attribute_Group */
         $group = $this->getGroup();
         if ($group) {
-            $form = new Magento_Data_Form();
+            $form = new \Magento\Data\Form();
             $product = Mage::registry('product');
             $isWrapped = Mage::registry('use_wrapper');
             if (!isset($isWrapped)) {
@@ -163,7 +163,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
             'textarea' => 'Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg',
         );
 
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setTypes(array());
         Mage::dispatchEvent('adminhtml_catalog_product_edit_element_types', array('response' => $response));
 

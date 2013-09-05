@@ -211,7 +211,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
         $this->validate();
 
         if ($this->isObjectNew() && null === $this->getCreatedAt()) {
-            $this->setCreatedAt(Magento_Date::now());
+            $this->setCreatedAt(\Magento\Date::now());
         }
         parent::_beforeSave();
         return $this;

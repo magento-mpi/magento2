@@ -77,7 +77,7 @@ class Magento_Core_Model_Observer
      */
     public function cleanCache(Magento_Cron_Model_Schedule $schedule)
     {
-        /** @var $cacheFrontend Magento_Cache_FrontendInterface */
+        /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             // Magento cache frontend does not support the 'old' cleaning mode, that's why backend is used directly
             $cacheFrontend->getBackend()->clean(Zend_Cache::CLEANING_MODE_OLD);
@@ -87,10 +87,10 @@ class Magento_Core_Model_Observer
     /**
      * Theme registration
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Core_Model_Observer
      */
-    public function themeRegistration(Magento_Event_Observer $observer)
+    public function themeRegistration(\Magento\Event\Observer $observer)
     {
         $baseDir = $observer->getEvent()->getBaseDir();
         $pathPattern = $observer->getEvent()->getPathPattern();
@@ -105,10 +105,10 @@ class Magento_Core_Model_Observer
     /**
      * Apply customized static files to frontend
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function applyThemeCustomization(Magento_Event_Observer $observer)
+    public function applyThemeCustomization(\Magento\Event\Observer $observer)
     {
         /** @var $themeFile Magento_Core_Model_Theme_File */
         foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {
@@ -130,11 +130,11 @@ class Magento_Core_Model_Observer
     /**
      * Rebuild whole config and save to fast storage
      *
-     * @param  Magento_Event_Observer $observer
+     * @param  \Magento\Event\Observer $observer
      * @return Magento_Core_Model_Observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function processReinitConfig(Magento_Event_Observer $observer)
+    public function processReinitConfig(\Magento\Event\Observer $observer)
     {
         $this->_config->reinit();
         return $this;

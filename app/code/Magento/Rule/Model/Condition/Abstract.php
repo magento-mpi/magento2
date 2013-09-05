@@ -15,7 +15,7 @@
  * @method string getOperator()
  */
 abstract class Magento_Rule_Model_Condition_Abstract
-    extends Magento_Object
+    extends \Magento\Object
     implements Magento_Rule_Model_Condition_Interface
 {
     /**
@@ -333,7 +333,7 @@ abstract class Magento_Rule_Model_Condition_Abstract
             // date format intentionally hard-coded
             $this->setValue(
                 Mage::app()->getLocale()->date($this->getData('value'),
-                Magento_Date::DATE_INTERNAL_FORMAT, null, false)->toString(Magento_Date::DATE_INTERNAL_FORMAT)
+                \Magento\Date::DATE_INTERNAL_FORMAT, null, false)->toString(\Magento\Date::DATE_INTERNAL_FORMAT)
             );
             $this->setIsValueParsed(true);
         }
@@ -467,7 +467,7 @@ abstract class Magento_Rule_Model_Condition_Abstract
      * Retrieve Condition Operator element Instance
      * If the operator value is empty - define first available operator value as default
      *
-     * @return Magento_Data_Form_Element_Select
+     * @return \Magento\Data\Form\Element\Select
      */
     public function getOperatorElement()
     {
@@ -503,7 +503,7 @@ abstract class Magento_Rule_Model_Condition_Abstract
     /**
      * Value element type will define renderer for condition value element
      *
-     * @see Magento_Data_Form_Element
+     * @see Magento\Data\Form\Element
      * @return string
      */
     public function getValueElementType()
@@ -534,8 +534,8 @@ abstract class Magento_Rule_Model_Condition_Abstract
         );
         if ($this->getInputType() == 'date') {
             // date format intentionally hard-coded
-            $elementParams['input_format'] = Magento_Date::DATE_INTERNAL_FORMAT;
-            $elementParams['date_format']  = Magento_Date::DATE_INTERNAL_FORMAT;
+            $elementParams['input_format'] = \Magento\Date::DATE_INTERNAL_FORMAT;
+            $elementParams['date_format']  = \Magento\Date::DATE_INTERNAL_FORMAT;
         }
         return $this->getForm()->addField($this->getPrefix() . '__' . $this->getId() . '__value',
             $this->getValueElementType(),
@@ -744,10 +744,10 @@ abstract class Magento_Rule_Model_Condition_Abstract
     }
 
     /**
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return bool
      */
-    public function validate(Magento_Object $object)
+    public function validate(\Magento\Object $object)
     {
         return $this->validateAttribute($object->getData($this->getAttribute()));
     }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Cache_Config_Data extends Magento_Config_Data
+class Magento_Core_Model_Cache_Config_Data extends \Magento\Config\Data
 {
     /**
      * Scope priority loading scheme
@@ -18,14 +18,14 @@ class Magento_Core_Model_Cache_Config_Data extends Magento_Config_Data
 
     /**
      * @param Magento_Core_Model_Cache_Config_Reader $reader
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
         Magento_Core_Model_Cache_Config_Reader $reader,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Config_CacheInterface $cache,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Config\CacheInterface $cache,
         $cacheId
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);

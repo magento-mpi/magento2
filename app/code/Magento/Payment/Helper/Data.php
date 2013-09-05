@@ -35,7 +35,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      * Get and sort available payment methods for specified or current store
      *
      * array structure:
-     *  $index => Magento_Simplexml_Element
+     *  $index => \Magento\Simplexml\Element
      *
      * @param mixed $store
      * @param Magento_Sales_Model_Quote $quote

@@ -24,7 +24,7 @@ class Magento_Tax_Model_Class_FactoryTest extends PHPUnit_Framework_TestCase
         $classMock->expects($this->once())->method('getClassType')->will($this->returnValue($classType));
         $classMock->expects($this->once())->method('getId')->will($this->returnValue(1));
 
-        $objectManager = $this->getMock('Magento_ObjectManager', array(), array('create'), '', false);
+        $objectManager = $this->getMock('Magento\ObjectManager', array(), array('create'), '', false);
         $objectManager->expects($this->once())
             ->method('create')
             ->with($this->equalTo($className), $this->equalTo(array('data' => array('id' => 1))))
@@ -58,7 +58,7 @@ class Magento_Tax_Model_Class_FactoryTest extends PHPUnit_Framework_TestCase
         $classMock = $this->getMock('Magento_Tax_Model_Class', array('getClassType', 'getId'), array(), '', false);
         $classMock->expects($this->once())->method('getClassType')->will($this->returnValue($wrongClassType));
 
-        $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
         $taxClassFactory = new Magento_Tax_Model_Class_Factory($objectManager);
 

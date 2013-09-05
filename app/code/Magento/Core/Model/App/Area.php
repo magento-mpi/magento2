@@ -68,7 +68,7 @@ class Magento_Core_Model_App_Area
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -194,7 +194,7 @@ class Magento_Core_Model_App_Area
         if (isset($this->_loadedParts[$part])) {
             return $this;
         }
-        Magento_Profiler::start('load_area:' . $this->_code . '.' . $part,
+        \Magento\Profiler::start('load_area:' . $this->_code . '.' . $part,
             array('group' => 'load_area', 'area_code' => $this->_code, 'part' => $part));
         switch ($part) {
             case self::PART_CONFIG:
@@ -211,7 +211,7 @@ class Magento_Core_Model_App_Area
                 break;
         }
         $this->_loadedParts[$part] = true;
-        Magento_Profiler::stop('load_area:' . $this->_code . '.' . $part);
+        \Magento\Profiler::stop('load_area:' . $this->_code . '.' . $part);
         return $this;
     }
 
@@ -241,7 +241,7 @@ class Magento_Core_Model_App_Area
      */
     protected function _initTranslate()
     {
-        $dispatchResult = new Magento_Object(array(
+        $dispatchResult = new \Magento\Object(array(
             'inline_type' => null,
             'params' => array('area' => $this->_code)
         ));
@@ -252,7 +252,7 @@ class Magento_Core_Model_App_Area
         ));
         $this->_translator->init($this->_code, $dispatchResult, false);
 
-        Magento_Phrase::setRenderer($this->_objectManager->get('Magento_Phrase_RendererInterface'));
+        \Magento\Phrase::setRenderer($this->_objectManager->get('Magento\Phrase\RendererInterface'));
         return $this;
     }
 

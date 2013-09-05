@@ -28,7 +28,7 @@ class Magento_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_Tes
 
         $dirVerification = $this->getMock('Magento_Core_Model_Dir_Verification', array(), array(), '', false);
 
-        $cacheFrontend = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
+        $cacheFrontend = $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
         $cacheFrontend->expects($this->once())->method('clean')->with('all', array());
         $cacheFrontendPool = $this->getMock(
             'Magento_Core_Model_Cache_Frontend_Pool', array('valid', 'current'), array(
@@ -47,7 +47,7 @@ class Magento_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_Tes
             'Magento_Index_Model_Indexer', array('reindexAll', 'reindexRequired'), array(), '', false
         );
 
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_objectManager->expects($this->any())->method('get')->will($this->returnValueMap(array(
             array('Magento_Core_Model_Cache_Frontend_Pool', $cacheFrontendPool),
             array('Magento_Core_Model_Db_Updater', $update),

@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Magento_Data_Form_Element_Abstract
+class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
      * Model Url instance
@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
     protected $_catalogHelperData;
 
     /**
-     * @var Magento_File_Size
+     * @var \Magento\File\Size
      */
     protected $_fileConfig;
 
@@ -62,7 +62,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
         $this->_catalogHelperData = isset($attributes['catalogHelperData']) ? $attributes['catalogHelperData']
             : Mage::helper('Magento_Catalog_Helper_Data');
         $this->_fileConfig = isset($attributes['fileConfig']) ? $attributes['fileConfig'] :
-            Mage::getSingleton('Magento_File_Size');
+            Mage::getSingleton('Magento\File\Size');
         $this->_maxFileSize = $this->_getFileMaxSize();
     }
 

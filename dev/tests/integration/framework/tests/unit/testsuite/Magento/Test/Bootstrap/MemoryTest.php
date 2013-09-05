@@ -10,17 +10,17 @@
  */
 
 /**
- * Test class for Magento_Test_Bootstrap_Memory.
+ * Test class for Magento_TestFramework_Bootstrap_Memory.
  */
 class Magento_Test_Bootstrap_MemoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Bootstrap_Memory
+     * @var Magento_TestFramework_Bootstrap_Memory
      */
     protected $_object;
 
     /**
-     * @var Magento_Test_MemoryLimit|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_TestFramework_MemoryLimit|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_memoryLimit;
 
@@ -31,9 +31,10 @@ class Magento_Test_Bootstrap_MemoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_memoryLimit = $this->getMock('Magento_Test_MemoryLimit', array('printStats'), array(), '', false);
+        $this->_memoryLimit = $this->getMock(
+            'Magento_TestFramework_MemoryLimit', array('printStats'), array(), '', false);
         $this->_activationPolicy = $this->getMock('stdClass', array('register_shutdown_function'));
-        $this->_object = new Magento_Test_Bootstrap_Memory(
+        $this->_object = new Magento_TestFramework_Bootstrap_Memory(
             $this->_memoryLimit, array($this->_activationPolicy, 'register_shutdown_function')
         );
     }
@@ -51,7 +52,7 @@ class Magento_Test_Bootstrap_MemoryTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new Magento_Test_Bootstrap_Memory($this->_memoryLimit, 'non_existing_callable');
+        new Magento_TestFramework_Bootstrap_Memory($this->_memoryLimit, 'non_existing_callable');
     }
 
     public function testDisplayStats()

@@ -23,7 +23,7 @@ class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
         $xml = file_get_contents(__DIR__ . "/_files/dom/{$xmlFile}");
         $newXml = file_get_contents(__DIR__ . "/_files/dom/{$newXmlFile}");
         $expectedXml = file_get_contents(__DIR__ . "/_files/dom/{$expectedXmlFile}");
-        $config = new Magento_Config_Dom($xml, $ids);
+        $config = new \Magento\Config\Dom($xml, $ids);
         $config->merge($newXml);
         $this->assertXmlStringEqualsXmlString($expectedXml, $config->getDom()->saveXML());
     }
@@ -51,13 +51,13 @@ class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
      * @param string $xmlFile
      * @param string $newXmlFile
      * @dataProvider mergeExceptionDataProvider
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      */
     public function testMergeException($xmlFile, $newXmlFile)
     {
         $xml = file_get_contents(__DIR__ . "/_files/dom/{$xmlFile}");
         $newXml = file_get_contents(__DIR__ . "/_files/dom/{$newXmlFile}");
-        $config = new Magento_Config_Dom($xml, array());
+        $config = new \Magento\Config\Dom($xml, array());
         $config->merge($newXml);
     }
 
@@ -78,7 +78,7 @@ class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
      */
     public function testValidate($xml, $isExpectedValid)
     {
-        $config = new Magento_Config_Dom($xml);
+        $config = new \Magento\Config\Dom($xml);
         $schema = __DIR__ . '/_files/sample.xsd';
         if ($isExpectedValid) {
             $this->assertTrue($config->validate($schema));

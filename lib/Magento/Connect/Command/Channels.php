@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-final class Magento_Connect_Command_Channels
-extends Magento_Connect_Command
+namespace Magento\Connect\Command;
+
+final class Channels
+extends \Magento\Connect\Command
 {
 
     /**
@@ -38,7 +40,7 @@ extends Magento_Connect_Command
             }            
             $out = array($command => array('data'=>$data, 'title'=>$title, 'title_aliases'=>$aliasT));
             $this->ui()->output($out);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->doError($command, $e->getMessage());
         }
     }
@@ -54,7 +56,7 @@ extends Magento_Connect_Command
         $this->cleanupParams($params);
         try {
             if(count($params) != 1) {
-                throw new Exception("Parameters count should be equal to 1");
+                throw new \Exception("Parameters count should be equal to 1");
             }
             $packager = $this->getPackager();
 
@@ -71,7 +73,7 @@ extends Magento_Connect_Command
             }
             $this->ui()->output("Successfully deleted");
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->doError($command, $e->getMessage());
         }
     }
@@ -87,7 +89,7 @@ extends Magento_Connect_Command
         $this->cleanupParams($params);
         try {
             if(count($params) != 1) {
-                throw new Exception("Parameters count should be equal to 1");
+                throw new \Exception("Parameters count should be equal to 1");
             }
             $url = $params[0];
             $rest = $this->rest();
@@ -109,7 +111,7 @@ extends Magento_Connect_Command
             }
             
             $this->ui()->output("Successfully added: ".$url);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->doError($command, $e->getMessage());
         }
     }
@@ -137,7 +139,7 @@ extends Magento_Connect_Command
         $this->cleanupParams($params);
         try {
             if(count($params) != 2) {
-                throw new Exception("Parameters count should be equal to 2");
+                throw new \Exception("Parameters count should be equal to 2");
             }
 
             $packager = $this->getPackager();
@@ -155,7 +157,7 @@ extends Magento_Connect_Command
                 $cache->addChannelAlias($chanUrl, $alias);                
             }
             $this->ui()->output("Successfully added: ".$alias);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->doError($command, $e->getMessage());
         }
     }

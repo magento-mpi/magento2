@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Webapi_Model_Acl_Resource_Config_Converter_Dom extends Magento_Acl_Resource_Config_Converter_Dom
+class Magento_Webapi_Model_Acl_Resource_Config_Converter_Dom extends \Magento\Acl\Resource\Config\Converter\Dom
 {
     /**
      * {@inheritdoc}

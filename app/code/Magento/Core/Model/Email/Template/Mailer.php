@@ -15,7 +15,7 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Email_Template_Mailer extends Magento_Object
+class Magento_Core_Model_Email_Template_Mailer extends \Magento\Object
 {
     /**
      * List of email infos

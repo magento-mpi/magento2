@@ -7,8 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method Magento_Object getApiUser() getApiUser()
- * @method Magento_Webapi_Block_Adminhtml_User_Edit setApiUser() setApiUser(Magento_Object $apiUser)
+ * @method \Magento\Object getApiUser() getApiUser()
+ * @method Magento_Webapi_Block_Adminhtml_User_Edit setApiUser() setApiUser(\Magento\Object $apiUser)
  */
 class Magento_Webapi_Block_Adminhtml_User_Edit extends Magento_Backend_Block_Widget_Form_Container
 {

@@ -129,7 +129,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      * Instantiate state and set it to state object
      *
      * @param string $paymentAction
-     * @param Magento_Object $stateObject
+     * @param \Magento\Object $stateObject
      */
     public function initialize($paymentAction, $stateObject)
     {
@@ -343,7 +343,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      * Build request for getting token
      *
      * @param Magento_Sales_Model_Order_Payment $payment
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _buildTokenRequest(Magento_Sales_Model_Order_Payment $payment)
     {
@@ -415,10 +415,10 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
     /**
       * Return request object with basic information for gateway request
       *
-      * @param Magento_Object $payment
+      * @param \Magento\Object $payment
       * @return Magento_Paypal_Model_Payflow_Request
       */
-    protected function _buildBasicRequest(Magento_Object $payment)
+    protected function _buildBasicRequest(\Magento\Object $payment)
     {
         $request = Mage::getModel('Magento_Paypal_Model_Payflow_Request');
         $cscEditable = $this->getConfigData('csc_editable');
@@ -485,7 +485,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
       * If response is failed throw exception
       * Set token data in payment object
       *
-      * @param Magento_Object $response
+      * @param \Magento\Object $response
       * @param Magento_Sales_Model_Order_Payment $payment
       * @throws Magento_Core_Exception
       */
@@ -529,7 +529,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      * Add transaction with correct transaction Id
      *
      * @deprecated since 1.6.2.0
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param string $txnId
      * @return void
      */
@@ -541,11 +541,11 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      * Initialize request
      *
      * @deprecated since 1.6.2.0
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param  $amount
      * @return Magento_Paypal_Model_Payflowlink
      */
-    protected function _initialize(Magento_Object $payment, $amount)
+    protected function _initialize(\Magento\Object $payment, $amount)
     {
         return $this;
     }
@@ -565,13 +565,13 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      * Additional authorization logic for Account Verification
      *
      * @deprecated since 1.6.2.0
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param mixed $amount
      * @param Magento_Paypal_Model_Payment_Transaction $transaction
      * @param string $txnId
      * @return Magento_Paypal_Model_Payflowlink
      */
-    protected function _authorize(Magento_Object $payment, $amount, $transaction, $txnId)
+    protected function _authorize(\Magento\Object $payment, $amount, $transaction, $txnId)
     {
         return $this;
     }
@@ -580,9 +580,9 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      * Operate with order or quote using information from silent post
      *
      * @deprecated since 1.6.2.0
-     * @param Magento_Object $document
+     * @param \Magento\Object $document
      */
-    protected function _process(Magento_Object $document)
+    protected function _process(\Magento\Object $document)
     {
     }
 

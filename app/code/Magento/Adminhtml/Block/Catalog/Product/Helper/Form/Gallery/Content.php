@@ -16,7 +16,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @method Magento_Data_Form_Element_Abstract getElement()
+ * @method \Magento\Data\Form\Element\AbstractElement getElement()
  */
 class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends Magento_Adminhtml_Block_Widget
 {

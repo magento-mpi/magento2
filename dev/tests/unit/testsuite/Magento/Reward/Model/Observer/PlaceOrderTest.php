@@ -54,7 +54,7 @@ class Magento_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_Tes
         $this->_validatorMock
             = $this->getMock('Magento_Reward_Model_Reward_Balance_Validator', array(), array(), '', false);
 
-        $this->_observerMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
+        $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
 
         $this->_model = new Magento_Reward_Model_Observer_PlaceOrder(
             $this->_restrictionMock,
@@ -75,7 +75,7 @@ class Magento_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_Tes
     {
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $order = $this->getMock('Magento_Sales_Model_Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
-        $event = $this->getMock('Magento_Event', array('getOrder'), array(), '', false);
+        $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
         $order->expects($this->once())
@@ -96,7 +96,7 @@ class Magento_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_Tes
     {
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $order = $this->getMock('Magento_Sales_Model_Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
-        $event = $this->getMock('Magento_Event', array('getOrder'), array(), '', false);
+        $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
         $order->expects($this->once())->method('getBaseRewardCurrencyAmount')->will($this->returnValue(-1));
@@ -113,7 +113,7 @@ class Magento_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_Tes
         $order = $this->getMock('Magento_Sales_Model_Order',
             array('getBaseRewardCurrencyAmount', 'setRewardSalesrulePoints'), array(), '', false
         );
-        $event = $this->getMock('Magento_Event', array('getOrder'), array(), '', false);
+        $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
         $order->expects($this->once())->method('getBaseRewardCurrencyAmount')->will($this->returnValue(-1));

@@ -31,7 +31,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Bl
     /**
      * Chooser form element getter
      *
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function getElement()
     {
@@ -41,16 +41,16 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Bl
     /**
      * Convert Array config to Object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getConfig()
     {
-        if ($this->_getData('config') instanceof Magento_Object) {
+        if ($this->_getData('config') instanceof \Magento\Object) {
             return $this->_getData('config');
         }
 
         $configArray = $this->_getData('config');
-        $config = new Magento_Object();
+        $config = new \Magento\Object();
         $this->setConfig($config);
         if (!is_array($configArray)) {
             return $this->_getData('config');
@@ -114,7 +114,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Bl
     protected function _toHtml()
     {
         $element   = $this->getElement();
-        /* @var $fieldset Magento_Data_Form_Element_Fieldset */
+        /* @var $fieldset \Magento\Data\Form\Element\Fieldset */
         $fieldset  = $element->getForm()->getElement($this->getFieldsetId());
         $chooserId = $this->getUniqId();
         $config    = $this->getConfig();
@@ -126,7 +126,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Bl
         ));
         $hiddenHtml = '';
         if ($this->getHiddenEnabled()) {
-            $hidden = new Magento_Data_Form_Element_Hidden($element->getData());
+            $hidden = new \Magento\Data\Form\Element\Hidden($element->getData());
             $hidden->setId("{$chooserId}value")->setForm($element->getForm());
             if ($element->getRequired()) {
                 $hidden->addClass('required-entry');

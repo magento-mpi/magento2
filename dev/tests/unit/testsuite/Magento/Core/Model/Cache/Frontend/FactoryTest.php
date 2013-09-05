@@ -9,7 +9,7 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
 {
     public static function setUpBeforeClass()
     {
-        require_once __DIR__ . '/_files/CacheDecoratorDummy.php';
+        require_once __DIR__ . '/FactoryTest/CacheDecoratorDummy.php';
     }
 
     public function testCreate()
@@ -18,14 +18,14 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
         $result = $model->create(array('backend' => 'Zend_Cache_Backend_BlackHole'));
 
         $this->assertInstanceOf(
-            'Magento_Cache_FrontendInterface',
+            '\Magento\Cache\FrontendInterface',
             $result,
-            'Created object must implement Magento_Cache_FrontendInterface'
+            'Created object must implement \Magento\Cache\FrontendInterface'
         );
         $this->assertInstanceOf(
-            'Magento_Cache_Core',
+            '\Magento\Cache\Core',
             $result->getLowLevelFrontend(),
-            'Created object must have Magento_Cache_Core frontend by default'
+            'Created object must have \Magento\Cache\Core frontend by default'
         );
         $this->assertInstanceOf(
             'Zend_Cache_Backend_BlackHole',
@@ -37,15 +37,17 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
     public function testCreateOptions()
     {
         $model = $this->_buildModelForCreate();
-        $result = $model->create(array(
-            'backend' => 'Zend_Cache_Backend_Static',
-            'frontend_options' => array(
-                'lifetime' => 2601
-            ),
-            'backend_options' => array(
-                'file_extension' => '.wtf'
-            ),
-        ));
+        $result = $model->create(
+            array(
+                'backend' => 'Zend_Cache_Backend_Static',
+                'frontend_options' => array(
+                    'lifetime' => 2601
+                ),
+                'backend_options' => array(
+                    'file_extension' => '.wtf'
+                ),
+            )
+        );
 
         $frontend = $result->getLowLevelFrontend();
         $backend = $result->getBackend();
@@ -109,11 +111,16 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
     {
         $model = $this->_buildModelForCreate(
             array(),
-            array(array('class' => 'CacheDecoratorDummy', 'parameters' => array('param' => 'value')))
+            array(
+                array(
+                    'class' => 'Magento_Core_Model_Cache_Frontend_FactoryTest_CacheDecoratorDummy',
+                    'parameters' => array('param' => 'value')
+                )
+            )
         );
         $result = $model->create(array('backend' => 'Zend_Cache_Backend_BlackHole'));
 
-        $this->assertInstanceOf('CacheDecoratorDummy', $result);
+        $this->assertInstanceOf('Magento_Core_Model_Cache_Frontend_FactoryTest_CacheDecoratorDummy', $result);
 
         $params = $result->getParams();
         $this->assertArrayHasKey('param', $params);
@@ -131,9 +138,9 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
     {
         $processFrontendFunc = function ($class, $params) {
             switch ($class) {
-                case 'Magento_Cache_Frontend_Adapter_Zend':
+                case 'Magento\Cache\Frontend\Adapter\Zend':
                     return new $class($params['frontend']);
-                case 'CacheDecoratorDummy':
+                case 'Magento_Core_Model_Cache_Frontend_FactoryTest_CacheDecoratorDummy':
                     $frontend = $params['frontend'];
                     unset($params['frontend']);
                     return new $class($frontend, $params);
@@ -143,12 +150,12 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
             }
         };
         /** @var $objectManager PHPUnit_Framework_MockObject_MockObject */
-        $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $objectManager->expects($this->any())
             ->method('create')
             ->will($this->returnCallback($processFrontendFunc));
 
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->any())
             ->method('isDirectory')
             ->will($this->returnValue(true));

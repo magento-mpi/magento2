@@ -66,7 +66,7 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -75,7 +75,7 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -122,13 +122,13 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
      */
     public function processEvent($eventName, $customer, $website)
     {
-        Magento_Profiler::start('__SEGMENTS_MATCHING__');
+        \Magento\Profiler::start('__SEGMENTS_MATCHING__');
         $website = Mage::app()->getWebsite($website);
         $segments = $this->getActiveSegmentsForEvent($eventName, $website->getId());
 
         $this->_processSegmentsValidation($customer, $website, $segments);
 
-        Magento_Profiler::stop('__SEGMENTS_MATCHING__');
+        \Magento\Profiler::stop('__SEGMENTS_MATCHING__');
         return $this;
     }
 

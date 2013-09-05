@@ -46,7 +46,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_specificEntitiesLayoutHandles = array();
 
     /**
-     * @var Magento_Simplexml_Element
+     * @var \Magento\Simplexml\Element
      */
     protected $_widgetConfigXml = null;
 
@@ -66,14 +66,14 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -278,7 +278,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     /**
      * Load widget XML config and merge with theme widget config
      *
-     * @return Magento_Simplexml_Element|null
+     * @return \Magento\Simplexml\Element|null
      */
     public function getWidgetConfig()
     {
@@ -295,7 +295,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
                 ));
 
                 if (is_readable($configFile)) {
-                    $themeWidgetsConfig = new Magento_Simplexml_Config();
+                    $themeWidgetsConfig = new \Magento\Simplexml\Config();
                     $themeWidgetsConfig->loadFile($configFile);
                     $themeWidgetConfig = $themeWidgetsConfig->getNode($this->_widgetConfigXml->getName());
                     if ($themeWidgetConfig) {
@@ -410,15 +410,16 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         }
 
         $hash = Mage::helper('Magento_Core_Helper_Data')->uniqHash();
-        $xml .= '<block type="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
+        $xml .= '<block class="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
             if (is_array($value)) {
                 $value = implode(',', $value);
             }
             if ($name && strlen((string)$value)) {
                 $xml .= '<action method="setData">'
-                    . '<name>' . $name . '</name>'
-                    . '<value>' . Mage::helper('Magento_Widget_Helper_Data')->escapeHtml($value) . '</value>'
+                    . '<argument name="name" xsi:type="string">' . $name . '</argument>'
+                    . '<argument name="value" xsi:type="string">'
+                    . Mage::helper('Magento_Widget_Helper_Data')->escapeHtml($value) . '</argument>'
                     . '</action>';
             }
         }

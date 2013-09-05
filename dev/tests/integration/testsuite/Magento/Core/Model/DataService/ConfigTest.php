@@ -16,8 +16,9 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
 
     public function setUp()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var Magento_Core_Model_Dir $dirs */
-        $dirs = Mage::getObjectManager()->create(
+        $dirs = $objectManager->create(
             'Magento_Core_Model_Dir', array(
                 'baseDir' => BP,
                 'dirs' => array(
@@ -27,27 +28,25 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
             )
         );
 
-        $moduleList = Mage::getObjectManager()->create('Magento_Core_Model_ModuleList', array(
-            'reader' => Mage::getObjectManager()
-                ->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem', array(
-                'fileResolver' => Mage::getObjectManager()->create('Magento_Core_Model_Module_Declaration_FileResolver',
+        $moduleList = $objectManager->create('Magento_Core_Model_ModuleList', array(
+            'reader' => $objectManager->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem', array(
+                'fileResolver' => $objectManager->create('Magento_Core_Model_Module_Declaration_FileResolver',
                     array(
                         'applicationDirs' => $dirs
                     )
                 )
             )),
-            'cache' => $this->getMock('Magento_Config_CacheInterface')
+            'cache' => $this->getMock('Magento\Config\CacheInterface')
         ));
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Mage::getObjectManager()->create('Magento_Core_Model_Config_Modules_Reader', array(
-            'dirs' => $dirs,
+        $moduleReader = $objectManager->create('Magento_Core_Model_Config_Modules_Reader', array(
+            'dirs'       => $dirs,
             'moduleList' => $moduleList
         ));
 
         /** @var Magento_Core_Model_DataService_Config_Reader_Factory $dsCfgReaderFactory */
-        $dsCfgReaderFactory = Mage::getObjectManager()->create(
-            'Magento_Core_Model_DataService_Config_Reader_Factory');
+        $dsCfgReaderFactory = $objectManager->create('Magento_Core_Model_DataService_Config_Reader_Factory');
 
         $this->_config = new Magento_Core_Model_DataService_Config($dsCfgReaderFactory, $moduleReader);
     }
@@ -60,5 +59,4 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
         $this->assertEquals('last_value', $classInfo['methodArguments']['last_arg']);
         $this->assertEquals('last_value_two', $classInfo['methodArguments']['last_arg_two']);
     }
-
 }

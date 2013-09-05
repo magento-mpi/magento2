@@ -11,13 +11,13 @@ require_once __DIR__ . '/../../_files/Child.php';
 class Magento_ObjectManager_Relations_RuntimeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager_Relations_Runtime
+     * @var \Magento\ObjectManager\Relations\Runtime
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_ObjectManager_Relations_Runtime();
+        $this->_model = new \Magento\ObjectManager\Relations\Runtime();
     }
 
     /**

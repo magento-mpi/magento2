@@ -93,7 +93,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
      *
      * @return Magento_Eav_Model_Entity_Attribute_Source_Table
      */
-    public function addValueSortToCollection($collection, $dir = Magento_DB_Select::SQL_ASC)
+    public function addValueSortToCollection($collection, $dir = \Magento\DB\Select::SQL_ASC)
     {
         $valueTable1    = $this->getAttribute()->getAttributeCode() . '_t1';
         $valueTable2    = $this->getAttribute()->getAttributeCode() . '_t2';
@@ -152,7 +152,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
                 );
             }
         } else {
-            $type = ($isMulti) ? Magento_DB_Ddl_Table::TYPE_TEXT : Magento_DB_Ddl_Table::TYPE_INTEGER;
+            $type = ($isMulti) ? \Magento\DB\Ddl\Table::TYPE_TEXT : \Magento\DB\Ddl\Table::TYPE_INTEGER;
             $columns[$attributeCode] = array(
                 'type'      => $type,
                 'length'    => $isMulti ? '255' : null,
@@ -164,7 +164,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
             );
             if (!$isMulti) {
                 $columns[$attributeCode . '_value'] = array(
-                    'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
+                    'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
                     'length'    => 255,
                     'unsigned'  => false,
                     'nullable'  => true,
@@ -210,7 +210,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

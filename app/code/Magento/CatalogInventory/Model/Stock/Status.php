@@ -66,7 +66,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
     {
         if (is_null($this->_productTypes)) {
             $this->_productTypes = array();
-            $productEmulator     = new Magento_Object();
+            $productEmulator     = new \Magento\Object();
 
             foreach (array_keys(Magento_Catalog_Model_Product_Type::getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
@@ -470,7 +470,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
 
         /* back compatible stock item */
         foreach ($productCollection as $product) {
-            $object = new Magento_Object(array('is_in_stock' => $product->getData('is_salable')));
+            $object = new \Magento\Object(array('is_in_stock' => $product->getData('is_salable')));
             $product->setStockItem($object);
         }
 
@@ -480,11 +480,11 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
     /**
      * Add stock status to prepare index select
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param Magento_Core_Model_Website $website
      * @return Magento_CatalogInventory_Model_Stock_Status
      */
-    public function addStockStatusToSelect(Magento_DB_Select $select, Magento_Core_Model_Website $website)
+    public function addStockStatusToSelect(\Magento\DB\Select $select, Magento_Core_Model_Website $website)
     {
         $this->_getResource()->addStockStatusToSelect($select, $website);
         return $this;
@@ -493,12 +493,12 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
     /**
      * Add stock status limitation to catalog product price index select object
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param string|Zend_Db_Expr $entityField
      * @param string|Zend_Db_Expr $websiteField
      * @return Magento_CatalogInventory_Model_Stock_Status
      */
-    public function prepareCatalogProductIndexSelect(Magento_DB_Select $select, $entityField, $websiteField)
+    public function prepareCatalogProductIndexSelect(\Magento\DB\Select $select, $entityField, $websiteField)
     {
         if (Mage::helper('Magento_CatalogInventory_Helper_Data')->isShowOutOfStock()) {
             return $this;

@@ -31,7 +31,7 @@ class Magento_ImportExport_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getMaxUploadSizeMessage()
     {
-        $maxImageSize = Mage::getObjectManager()->get('Magento_File_Size')->getMaxFileSizeInMb();
+        $maxImageSize = Mage::getObjectManager()->get('Magento\File\Size')->getMaxFileSizeInMb();
         if ($maxImageSize) {
             $message = __('The total size of the uploadable files can\'t be more that %1M', $maxImageSize);
         } else {

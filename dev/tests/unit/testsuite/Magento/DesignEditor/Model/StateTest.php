@@ -117,7 +117,7 @@ class Magento_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_dataHelper = $this->getMock('Magento_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
             array(), '', false);
 
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_application = $this->getMock('Magento_Core_Model_App', array('getStore', 'getConfig'),
             array(), '', false);
 

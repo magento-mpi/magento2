@@ -35,7 +35,7 @@ interface Magento_Widget_Block_Interface
      *
      * @param string|array $key
      * @param mixed $value
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function setData($key, $value = null);
 }

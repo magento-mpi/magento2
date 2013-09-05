@@ -31,7 +31,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Collection object
      *
-     * @var Magento_Data_Collection
+     * @var \Magento\Data\Collection
      */
     protected $_collection = null;
 
@@ -236,7 +236,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      */
     public function addExportType($url, $label)
     {
-        $this->_exportTypes[] = new Magento_Object(
+        $this->_exportTypes[] = new \Magento\Object(
             array(
                 'url'   => $this->getUrl($url, array('_current'=>true)),
                 'label' => $label
@@ -249,7 +249,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Add column to grid
      *
      * @param   string $columnId
-     * @param   array || Magento_Object $column
+     * @param   array || \Magento\Object $column
      * @return  Magento_Backend_Block_Widget_Grid
      */
     public function addColumn($columnId, $column)
@@ -292,7 +292,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Add column to grid after specified column.
      *
      * @param   string $columnId
-     * @param   array|Magento_Object $column
+     * @param   array|\Magento\Object $column
      * @param   string $after
      * @return  Magento_Backend_Block_Widget_Grid
      */
@@ -576,7 +576,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Check whether should render cell
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @param Magento_Backend_Block_Widget_Grid_Column $column
      * @return boolean
      */
@@ -616,7 +616,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Return row url for js event handlers
      *
-     * @param Magento_Catalog_Model_Product|Magento_Object
+     * @param Magento_Catalog_Model_Product|\Magento\Object
      * @return string
      */
     public function getRowUrl($item)
@@ -628,7 +628,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Get children of specified item
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return array
      */
     public function getMultipleRows($item)
@@ -652,7 +652,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Check whether subtotal should be rendered
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return boolean
      */
     public function shouldRenderSubTotal($item)
@@ -663,7 +663,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Retrieve rowspan number
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @param Magento_Backend_Block_Widget_Grid_Column $column
      * @return integer|boolean
      */
@@ -697,7 +697,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Check whether should render empty cell
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @param Magento_Backend_Block_Widget_Grid_Column $column
      * @return boolean
      */
@@ -719,8 +719,8 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Retrieve subtotal item
      *
-     * @param Magento_Object $item
-     * @return Magento_Object
+     * @param \Magento\Object $item
+     * @return \Magento\Object
      */
     public function getSubTotalItem($item)
     {
@@ -931,10 +931,10 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Write item data to csv export file
      *
-     * @param Magento_Object $item
-     * @param Magento_Filesystem_StreamInterface $stream
+     * @param \Magento\Object $item
+     * @param \Magento\Filesystem\StreamInterface $stream
      */
-    protected function _exportCsvItem(Magento_Object $item, Magento_Filesystem_StreamInterface $stream)
+    protected function _exportCsvItem(\Magento\Object $item, \Magento\Filesystem\StreamInterface $stream)
     {
         $row = array();
         foreach ($this->getColumns() as $column) {
@@ -1063,10 +1063,10 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      *  Get a row data of the particular columns
      *
-     * @param Magento_Object $data
+     * @param \Magento\Object $data
      * @return array
      */
-    public function getRowRecord(Magento_Object $data)
+    public function getRowRecord(\Magento\Object $data)
     {
         $row = array();
         foreach ($this->getColumns() as $column) {
@@ -1090,7 +1090,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
         $this->_isExport = true;
         $this->_prepareGrid();
 
-        $convert = new Magento_Convert_Excel($this->getCollection()->getIterator(), array($this, 'getRowRecord'));
+        $convert = new \Magento\Convert\Excel($this->getCollection()->getIterator(), array($this, 'getRowRecord'));
 
         $name = md5(microtime());
         $file = $this->_exportPath . DS . $name . '.xml';
@@ -1157,7 +1157,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
             $data[] = $row;
         }
 
-        $convert = new Magento_Convert_Excel(new ArrayIterator($data));
+        $convert = new \Magento\Convert\Excel(new ArrayIterator($data));
         return $convert->convert('single_sheet');
     }
 
@@ -1173,7 +1173,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Set collection object
      *
-     * @param Magento_Data_Collection $collection
+     * @param \Magento\Data\Collection $collection
      */
     public function setCollection($collection)
     {
@@ -1183,7 +1183,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * get collection object
      *
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function getCollection()
     {

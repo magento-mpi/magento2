@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Image
+ * @package    \Magento\Image
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,10 +12,12 @@
  * Image handler library
  *
  * @category   Magento
- * @package    Magento_Image
+ * @package    \Magento\Image
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Image
+namespace Magento;
+
+class Image
 {
     protected $_adapter;
 
@@ -24,11 +26,11 @@ class Magento_Image
     /**
      * Constructor
      *
-     * @param Magento_Image_Adapter_Abstract $adapter. Default value is GD2
+     * @param \Magento\Image\Adapter\AbstractAdapter $adapter. Default value is GD2
      * @param string $fileName
      * @return void
      */
-    function __construct(Magento_Image_Adapter_Abstract $adapter, $fileName = null)
+    function __construct(\Magento\Image\Adapter\AbstractAdapter $adapter, $fileName = null)
     {
         $this->_adapter = $adapter;
         $this->_fileName = $fileName;
@@ -48,7 +50,7 @@ class Magento_Image
         $this->_adapter->checkDependencies();
 
         if( !file_exists($this->_fileName) ) {
-            throw new Exception("File '{$this->_fileName}' does not exists.");
+            throw new \Exception("File '{$this->_fileName}' does not exists.");
         }
 
         $this->_adapter->open($this->_fileName);
@@ -168,7 +170,7 @@ class Magento_Image
     public function watermark($watermarkImage, $positionX=0, $positionY=0, $watermarkImageOpacity=30, $repeat=false)
     {
         if( !file_exists($watermarkImage) ) {
-            throw new Exception("Required file '{$watermarkImage}' does not exists.");
+            throw new \Exception("Required file '{$watermarkImage}' does not exists.");
         }
         $this->_adapter->watermark($watermarkImage, $positionX, $positionY, $watermarkImageOpacity, $repeat);
     }
@@ -222,7 +224,7 @@ class Magento_Image
      * Set watermark position
      *
      * @param string $position
-     * @return Magento_Image
+     * @return \Magento\Image
      */
     public function setWatermarkPosition($position)
     {
@@ -234,7 +236,7 @@ class Magento_Image
      * Set watermark image opacity
      *
      * @param int $imageOpacity
-     * @return Magento_Image
+     * @return \Magento\Image
      */
     public function setWatermarkImageOpacity($imageOpacity)
     {
@@ -246,7 +248,7 @@ class Magento_Image
      * Set watermark width
      *
      * @param int $width
-     * @return Magento_Image
+     * @return \Magento\Image
      */
     public function setWatermarkWidth($width)
     {
@@ -258,7 +260,7 @@ class Magento_Image
      * Set watermark height
      *
      * @param int $height
-     * @return Magento_Image
+     * @return \Magento\Image
      */
     public function setWatermarkHeight($height)
     {
@@ -292,7 +294,7 @@ class Magento_Image
      *
      * @param string $text
      * @param string $font Path to font file
-     * @return Magento_Image
+     * @return \Magento\Image
      */
     public function createPngFromString($text, $font = '')
     {

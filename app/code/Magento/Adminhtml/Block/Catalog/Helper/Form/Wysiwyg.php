@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_Form_Element_Textarea
+class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends \Magento\Data\Form\Element\Textarea
 {
     /**
      * Retrieve additional html and put it at the end of element html

@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_webhook_subscription_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_webhook_subscription_edit">
         <reference name="content">
-            <block type="Magento_Webhook_Block_Adminhtml_Subscription_Edit" name="webhook.subscriptions.edit" />
+            <block class="Magento_Webhook_Block_Adminhtml_Subscription_Edit" name="webhook.subscriptions.edit"/>
         </reference>
-    </adminhtml_webhook_subscription_edit>
+    </handle>
 </layout>

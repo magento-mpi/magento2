@@ -18,7 +18,7 @@ class Magento_Core_Model_Cache_StateTest extends PHPUnit_Framework_TestCase
     protected $_resource;
 
     /**
-     * @var Magento_Cache_FrontendInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cache\FrontendInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheFrontend;
 
@@ -96,7 +96,7 @@ class Magento_Core_Model_Cache_StateTest extends PHPUnit_Framework_TestCase
         $appInstalled = true,
         $banAll = false
     ) {
-        $this->_cacheFrontend = $this->getMock('Magento_Cache_FrontendInterface');
+        $this->_cacheFrontend = $this->getMock('Magento\Cache\FrontendInterface');
         $this->_cacheFrontend->expects($this->any())
             ->method('load')
             ->with(Magento_Core_Model_Cache_State::CACHE_ID)

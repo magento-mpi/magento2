@@ -19,7 +19,7 @@ class Magento_Core_Model_TemplateEngine_Factory
     const ENGINE_TWIG = 'twig';
     const ENGINE_PHTML = 'phtml';
 
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

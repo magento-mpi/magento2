@@ -33,9 +33,9 @@ interface Magento_Payment_Model_Recurring_Profile_MethodInterface
      * Fetch details
      *
      * @param string $referenceId
-     * @param Magento_Object $result
+     * @param \Magento\Object $result
      */
-    public function getRecurringProfileDetails($referenceId, Magento_Object $result);
+    public function getRecurringProfileDetails($referenceId, \Magento\Object $result);
 
     /**
      * Check whether can get recurring profile details

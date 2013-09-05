@@ -21,7 +21,7 @@ class Magento_Sales_Model_Resource_Order_Attribute_Backend_Child extends Magento
     /**
      * Perform operation before save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Sales_Model_Resource_Order_Attribute_Backend_Child
      */
     public function beforeSave($object)

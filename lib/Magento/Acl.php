@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Acl extends Zend_Acl
+namespace Magento;
+
+class Acl extends \Zend_Acl
 {
     /**
      * Permission level to deny access
@@ -26,15 +28,15 @@ class Magento_Acl extends Zend_Acl
 
     public function __construct()
     {
-        $this->_roleRegistry = new Magento_Acl_Role_Registry();
+        $this->_roleRegistry = new \Magento\Acl\Role\Registry();
     }
     
     /**
      * Add parent to role object
      *
-     * @param Zend_Acl_Role $role
-     * @param Zend_Acl_Role $parent
-     * @return Magento_Acl
+     * @param \Zend_Acl_Role $role
+     * @param \Zend_Acl_Role $parent
+     * @return \Magento\Acl
      */
     public function addRoleParent($role, $parent)
     {

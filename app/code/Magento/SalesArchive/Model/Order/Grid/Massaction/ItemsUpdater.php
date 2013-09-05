@@ -24,19 +24,19 @@ class Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
     protected $_salesArchiveConfig;
 
     /**
-     * @var Magento_AuthorizationInterface $_authModel
+     * @var \Magento\AuthorizationInterface $_authModel
      */
     protected $_authorizationModel;
 
     /**
      * @param Magento_SalesArchive_Model_Config $config
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      * @param array $data
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(
         Magento_SalesArchive_Model_Config $config,
-        Magento_AuthorizationInterface $authorization,
+        \Magento\AuthorizationInterface $authorization,
         $data = array()
     ) {
         $this->_salesArchiveConfig = $config;

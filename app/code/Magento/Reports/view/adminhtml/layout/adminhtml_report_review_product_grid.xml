@@ -7,112 +7,112 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_review_product_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_review_product_grid">
         <reference name="adminhtml.report.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.report.review.product.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.report.review.product.grid" as="grid">
                 <arguments>
-                    <id>gridProducts</id>
-                    <default_sort>review_cnt</default_sort>
-                    <default_dir>desc</default_dir>
-                    <dataSource type="object">Magento_Reports_Model_Resource_Review_Product_Collection</dataSource>
+                    <argument name="id" xsi:type="string">gridProducts</argument>
+                    <argument name="default_sort" xsi:type="string">review_cnt</argument>
+                    <argument name="default_dir" xsi:type="string">desc</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Reports_Model_Resource_Review_Product_Collection</argument>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.block.report.review.product.export" as="grid.export">
+                <block class="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.block.report.review.product.export" as="grid.export">
                     <arguments>
-                        <exportTypes>
-                            <csv>
-                                <urlPath>*/*/exportProductCsv</urlPath>
-                                <label translate="true">CSV</label>
-                            </csv>
-                            <excel>
-                                <urlPath>*/*/exportProductExcel</urlPath>
-                                <label translate="true">Excel XML</label>
-                            </excel>
-                        </exportTypes>
+                        <argument name="exportTypes" xsi:type="array">
+                            <item name="csv" xsi:type="array">
+                                <item name="urlPath" xsi:type="string">*/*/exportProductCsv</item>
+                                <item name="label" xsi:type="string" translate="true">CSV</item>
+                            </item>
+                            <item name="excel" xsi:type="array">
+                                <item name="urlPath" xsi:type="string">*/*/exportProductExcel</item>
+                                <item name="label" xsi:type="string" translate="true">Excel XML</item>
+                            </item>
+                        </argument>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.block.report.review.product.grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.block.report.review.product.grid.columnSet">
                     <arguments>
-                        <filter_visibility>0</filter_visibility>
-                        <id>gridProducts</id>
-                        <rowUrl>
-                            <path>*/catalog_product_review</path>
-                            <extraParamsTemplate>
-                                <productId>getrId</productId>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="filter_visibility" xsi:type="string">0</argument>
+                        <argument name="id" xsi:type="string">gridProducts</argument>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/catalog_product_review</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="productId" xsi:type="string">getrId</item>
+                            </item>
+                        </argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="entity_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="entity_id">
                         <arguments>
-                            <header translate="true">ID</header>
-                            <index>entity_id</index>
-                            <type>text</type>
-                            <id>entity_id</id>
-                            <column_css_class>col-id</column_css_class>
-                            <header_css_class>col-id</header_css_class>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
+                            <argument name="index" xsi:type="string">entity_id</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="id" xsi:type="string">entity_id</argument>
+                            <argument name="column_css_class" xsi:type="string">col-id</argument>
+                            <argument name="header_css_class" xsi:type="string">col-id</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true">Product</header>
-                            <type>text</type>
-                            <index>name</index>
-                            <column_css_class>col-product</column_css_class>
-                            <header_css_class>col-product</header_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Product</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">name</argument>
+                            <argument name="column_css_class" xsi:type="string">col-product</argument>
+                            <argument name="header_css_class" xsi:type="string">col-product</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="review_cnt">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="review_cnt">
                         <arguments>
-                            <header translate="true">Reviews</header>
-                            <id>review_cnt</id>
-                            <index>review_cnt</index>
-                            <column_css_class>col-qty</column_css_class>
-                            <header_css_class>col-qty</header_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Reviews</argument>
+                            <argument name="id" xsi:type="string">review_cnt</argument>
+                            <argument name="index" xsi:type="string">review_cnt</argument>
+                            <argument name="column_css_class" xsi:type="string">col-qty</argument>
+                            <argument name="header_css_class" xsi:type="string">col-qty</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="avg_rating">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="avg_rating">
                         <arguments>
-                            <header translate="true">Average</header>
-                            <id>avg_rating</id>
-                            <index>avg_rating</index>
-                            <column_css_class>col-rating</column_css_class>
-                            <header_css_class>col-rating</header_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Average</argument>
+                            <argument name="id" xsi:type="string">avg_rating</argument>
+                            <argument name="index" xsi:type="string">avg_rating</argument>
+                            <argument name="column_css_class" xsi:type="string">col-rating</argument>
+                            <argument name="header_css_class" xsi:type="string">col-rating</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="avg_rating_approved">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="avg_rating_approved">
                         <arguments>
-                            <header translate="true">Average (Approved)</header>
-                            <id>avg_rating_approved</id>
-                            <index>avg_rating_approved</index>
-                            <column_css_class>col-avg-rating</column_css_class>
-                            <header_css_class>col-avg-rating</header_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Average (Approved)</argument>
+                            <argument name="id" xsi:type="string">avg_rating_approved</argument>
+                            <argument name="index" xsi:type="string">avg_rating_approved</argument>
+                            <argument name="column_css_class" xsi:type="string">col-avg-rating</argument>
+                            <argument name="header_css_class" xsi:type="string">col-avg-rating</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="last_created">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="last_created">
                         <arguments>
-                            <header translate="true">Last Review</header>
-                            <type>datetime</type>
-                            <id>last_created</id>
-                            <index>last_created</index>
-                            <column_css_class>col-date</column_css_class>
-                            <header_css_class>col-date</header_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Last Review</argument>
+                            <argument name="type" xsi:type="string">datetime</argument>
+                            <argument name="id" xsi:type="string">last_created</argument>
+                            <argument name="index" xsi:type="string">last_created</argument>
+                            <argument name="column_css_class" xsi:type="string">col-date</argument>
+                            <argument name="header_css_class" xsi:type="string">col-date</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
-                            <header translate="true">Action</header>
-                            <align>center</align>
-                            <filter>0</filter>
-                            <sortable>0</sortable>
-                            <renderer>Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Product</renderer>
-                            <id>action</id>
-                            <is_system>1</is_system>
-                            <column_css_class>col-actions</column_css_class>
-                            <header_css_class>col-actions</header_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Action</argument>
+                            <argument name="align" xsi:type="string">center</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Product</argument>
+                            <argument name="id" xsi:type="string">action</argument>
+                            <argument name="is_system" xsi:type="string">1</argument>
+                            <argument name="column_css_class" xsi:type="string">col-actions</argument>
+                            <argument name="header_css_class" xsi:type="string">col-actions</argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_report_review_product_grid>
+    </handle>
 </layout>

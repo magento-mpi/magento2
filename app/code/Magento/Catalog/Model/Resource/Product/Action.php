@@ -42,7 +42,7 @@ class Magento_Catalog_Model_Resource_Product_Action extends Magento_Catalog_Mode
      */
     public function updateAttributes($entityIds, $attrData, $storeId)
     {
-        $object = new Magento_Object();
+        $object = new \Magento\Object();
         $object->setIdFieldName('entity_id')
             ->setStoreId($storeId);
 

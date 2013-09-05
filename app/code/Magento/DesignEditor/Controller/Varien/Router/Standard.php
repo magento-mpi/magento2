@@ -11,7 +11,7 @@
 class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Core_Controller_Varien_Router_Base
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -24,8 +24,8 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
 
     /**
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param string $areaCode
@@ -33,8 +33,8 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
-        Magento_ObjectManager $objectManager,
-        Magento_Filesystem $filesystem,
+        \Magento\ObjectManager $objectManager,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
         $areaCode,

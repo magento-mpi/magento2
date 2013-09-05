@@ -83,7 +83,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     public function testNotAllowedPath()
     {
-        $fileMock = $this->getMockBuilder('Magento_Io_File')
+        $fileMock = $this->getMockBuilder('Magento\Io\File')
             ->setMethods(array('allowedPath', 'getCleanPath'))
             ->getMock();
         $fileMock->expects($this->once())
@@ -106,7 +106,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     public function testPathNotExists()
     {
-        $fileMock = $this->getMockBuilder('Magento_Io_File')
+        $fileMock = $this->getMockBuilder('Magento\Io\File')
             ->setMethods(array('allowedPath', 'getCleanPath', 'fileExists'))
             ->getMock();
         $fileMock->expects($this->once())
@@ -131,7 +131,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     public function testPathNotWritable()
     {
-        $fileMock = $this->getMockBuilder('Magento_Io_File')
+        $fileMock = $this->getMockBuilder('Magento\Io\File')
             ->setMethods(array('allowedPath', 'getCleanPath', 'fileExists', 'isWriteable'))
             ->getMock();
         $fileMock->expects($this->once())
@@ -162,7 +162,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     //@codingStandardsIgnoreEnd
     public function testFilenameInvalidChars()
     {
-        $fileMock = $this->getMockBuilder('Magento_Io_File')
+        $fileMock = $this->getMockBuilder('Magento\Io\File')
             ->setMethods(array('allowedPath', 'getCleanPath', 'fileExists', 'isWriteable'))
             ->getMock();
         $fileMock->expects($this->once())
@@ -325,7 +325,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->getMock();
         Mage::register('_singleton/Magento_Core_Model_Date', $dateMock, true);
 
-        $fileMock = $this->getMockBuilder('Magento_Io_File')
+        $fileMock = $this->getMockBuilder('Magento\Io\File')
             ->setMethods(array('streamWrite', 'open', 'streamOpen', 'streamClose',
                 'allowedPath', 'getCleanPath', 'fileExists', 'isWriteable', 'mv', 'read', 'write'))
             ->getMock();
@@ -432,7 +432,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     /**
      * Get model mock object
      *
-     * @param Magento_Io_File|PHPUnit_Framework_MockObject_MockObject $fileIoMock
+     * @param \Magento\Io\File|PHPUnit_Framework_MockObject_MockObject $fileIoMock
      * @param bool $mockBeforeSave
      * @return Magento_Sitemap_Model_Sitemap|PHPUnit_Framework_MockObject_MockObject
      */
@@ -451,9 +451,9 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
+        $adapterMock = $this->getMockBuilder('Magento\Filesystem\AdapterInterface')
             ->getMock();
-        $filesystem = new Magento_Filesystem($adapterMock);
+        $filesystem = new \Magento\Filesystem($adapterMock);
 
         $model->expects($this->any())
             ->method('_getFilesystem')
@@ -473,11 +473,11 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $model->expects($this->any())
             ->method('_getCategoryItemsCollection')
             ->will($this->returnValue(array(
-                new Magento_Object(array(
+                new \Magento\Object(array(
                     'url' => 'category.html',
                     'updated_at' => '2012-12-21 00:00:00'
                 )),
-                new Magento_Object(array(
+                new \Magento\Object(array(
                     'url' => '/category/sub-category.html',
                     'updated_at' => '2012-12-21 00:00:00'
                 ))
@@ -485,20 +485,20 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $model->expects($this->any())
             ->method('_getProductItemsCollection')
             ->will($this->returnValue(array(
-                new Magento_Object(array(
+                new \Magento\Object(array(
                     'url' => 'product.html',
                     'updated_at' => '2012-12-21 00:00:00'
                 )),
-                new Magento_Object(array(
+                new \Magento\Object(array(
                     'url' => 'product2.html',
                     'updated_at' => '2012-12-21 00:00:00',
-                    'images' => new Magento_Object(array(
+                    'images' => new \Magento\Object(array(
                         'collection' => array(
-                            new Magento_Object(array(
+                            new \Magento\Object(array(
                                 'url' => 'image1.png',
                                 'caption' => 'caption & > title < "'
                             )),
-                            new Magento_Object(array(
+                            new \Magento\Object(array(
                                 'url' => 'image_no_caption.png',
                                 'caption' => null
                             ))
@@ -546,10 +546,10 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
+        $adapterMock = $this->getMockBuilder('Magento\Filesystem\AdapterInterface')
             ->getMock();
 
-        $filesystem = new Magento_Filesystem($adapterMock);
+        $filesystem = new \Magento\Filesystem($adapterMock);
 
         $model->expects($this->any())
             ->method('_getFilesystem')

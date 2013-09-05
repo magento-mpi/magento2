@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Report_Sales_Invoiced_GridTest extends PHPUnit_Fra
     {
         $block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Sales_Invoiced_Grid');
 
-        $filterData = new Magento_Object();
+        $filterData = new \Magento\Object();
         if ($reportType) {
             $filterData->setReportType($reportType);
         }

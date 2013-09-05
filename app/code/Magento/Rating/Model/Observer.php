@@ -21,10 +21,10 @@ class Magento_Rating_Model_Observer
     /**
      * Cleanup product ratings after product delete
      *
-     * @param   Magento_Event_Observer $observer
+     * @param   \Magento\Event\Observer $observer
      * @return  Magento_Rating_Model_Observer
      */
-    public function processProductAfterDeleteEvent(Magento_Event_Observer $observer)
+    public function processProductAfterDeleteEvent(\Magento\Event\Observer $observer)
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {

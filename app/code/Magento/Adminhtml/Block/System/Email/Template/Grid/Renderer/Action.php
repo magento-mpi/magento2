@@ -18,7 +18,7 @@
 
 class Magento_Adminhtml_Block_System_Email_Template_Grid_Renderer_Action extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
 {
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $actions = array();
 
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Grid_Renderer_Action extends
     protected function _actionsToHtml(array $actions)
     {
         $html = array();
-        $attributesObject = new Magento_Object();
+        $attributesObject = new \Magento\Object();
         foreach ($actions as $action) {
             $attributesObject->setData($action['@']);
             $html[] = '<a ' . $attributesObject->serialize() . '>' . $action['#'] . '</a>';

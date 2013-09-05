@@ -36,7 +36,7 @@ class Magento_Cron_Model_Observer
      * Geterate tasks schedule
      * Cleanup tasks schedule
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function dispatch($observer)
     {

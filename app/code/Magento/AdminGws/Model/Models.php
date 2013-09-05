@@ -322,9 +322,9 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Catalog product validate after add|remove to|from websites on mass update attributes
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function catalogProductActionWithWebsitesAfter(Magento_Event_Observer $observer)
+    public function catalogProductActionWithWebsitesAfter(\Magento\Event\Observer $observer)
     {
         if ($this->_role->getIsAll()) {
             return ;
@@ -342,10 +342,10 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Catalog product validate after
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Models
      */
-    public function catalogProductValidateAfter(Magento_Event_Observer $observer)
+    public function catalogProductValidateAfter(\Magento\Event\Observer $observer)
     {
         if ($this->_role->getIsAll()) {
             return;
@@ -750,7 +750,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Check whether category can be moved
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function catalogCategoryMoveBefore($observer)
     {
@@ -771,7 +771,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Check whether catalog permissions can be edited per category
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function catalogCategoryIsCatalogPermissionsAllowed($observer)
     {
@@ -843,7 +843,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Update role store group ids in helper and role
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function coreStoreGroupSaveAfter($observer)
     {
@@ -861,7 +861,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Update role store ids in helper and role
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function coreStoreSaveAfter($observer)
     {

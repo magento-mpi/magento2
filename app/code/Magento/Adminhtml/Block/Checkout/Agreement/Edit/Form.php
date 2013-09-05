@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Admin
     protected function _prepareForm()
     {
         $model  = Mage::registry('checkout_agreement');
-        $form   = new Magento_Data_Form(array(
+        $form   = new \Magento\Data\Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post'

@@ -135,7 +135,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      */
     protected function _assignProducts()
     {
-        Magento_Profiler::start('WISHLIST:'.__METHOD__, array('group' => 'WISHLIST', 'method' => __METHOD__));
+        \Magento\Profiler::start('WISHLIST:'.__METHOD__, array('group' => 'WISHLIST', 'method' => __METHOD__));
         $productIds = array();
 
         $isStoreAdmin = Mage::app()->getStore()->isAdmin();
@@ -196,7 +196,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
             }
         }
 
-        Magento_Profiler::stop('WISHLIST:'.__METHOD__);
+        \Magento\Profiler::stop('WISHLIST:'.__METHOD__);
 
         return $this;
     }
@@ -343,14 +343,14 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
         $now = Mage::getSingleton('Magento_Core_Model_Date')->date();
         $gmtOffset = (int) Mage::getSingleton('Magento_Core_Model_Date')->getGmtOffset();
         if (isset($constraints['from'])) {
-            $lastDay = new Zend_Date($now, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $lastDay = new Zend_Date($now, \Magento\Date::DATETIME_INTERNAL_FORMAT);
             $lastDay->subSecond($gmtOffset)
                 ->subDay(intval($constraints['from']));
             $filter['to'] = $lastDay;
         }
 
         if (isset($constraints['to'])) {
-            $firstDay = new Zend_Date($now, Magento_Date::DATETIME_INTERNAL_FORMAT);
+            $firstDay = new Zend_Date($now, \Magento\Date::DATETIME_INTERNAL_FORMAT);
             $firstDay->subSecond($gmtOffset)
                 ->subDay(intval($constraints['to']) + 1);
             $filter['from'] = $firstDay;
@@ -441,7 +441,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     }
 
     /**
-     * @return Magento_Wishlist_Model_Resource_Item_Collection|Magento_Data_Collection_Db
+     * @return Magento_Wishlist_Model_Resource_Item_Collection|\Magento\Data\Collection\Db
      */
     protected function _afterLoadData()
     {

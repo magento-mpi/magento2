@@ -18,7 +18,7 @@
 class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_Api_Resource
 {
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     private $_attributeLabelCache;
 
@@ -32,7 +32,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
     /**
      * Constructor. Initializes default values.
      */
-    public function __construct(Magento_Cache_FrontendInterface $attributeLabelCache)
+    public function __construct(\Magento\Cache\FrontendInterface $attributeLabelCache)
     {
         $this->_attributeLabelCache = $attributeLabelCache;
         $this->_storeIdSessionField = 'product_store_id';

@@ -96,8 +96,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
 
         $translator = $this->getMock('stdClass');
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $attributeCollection = new Magento_Data_Collection();
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $attributeCollection = new \Magento\Data\Collection();
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments('Magento_Eav_Model_Entity_Attribute_Abstract');
             $arguments['data'] = $attributeData;
@@ -141,7 +141,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
                 'id'   => $id,
                 'code' => $code,
             );
-            $websites[$id] = new Magento_Object($websiteData);
+            $websites[$id] = new \Magento\Object($websiteData);
         }
 
         return $websites;
@@ -167,7 +167,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
                 'id'   => $id,
                 'code' => $code,
             );
-            $stores[$id] = new Magento_Object($storeData);
+            $stores[$id] = new \Magento\Object($storeData);
         }
 
         return $stores;
@@ -191,7 +191,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
 
         $this->_model->setWriter($writer);
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
         $arguments['data'] = $this->_customerData;
         $item = $this->getMockForAbstractClass('Magento_Core_Model_Abstract', $arguments);

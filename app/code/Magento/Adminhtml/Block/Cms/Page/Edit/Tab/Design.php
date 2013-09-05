@@ -36,7 +36,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             $isElementDisabled = true;
         }
 
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
 
         $form->setHtmlIdPrefix('page_');
 

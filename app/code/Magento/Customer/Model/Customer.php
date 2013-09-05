@@ -121,7 +121,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Eav_Model_Config $config
      * @param Magento_Core_Model_Resource_Abstract|null $resource
-     * @param Magento_Data_Collection_Db|null $resourceCollection
+     * @param \Magento\Data\Collection\Db|null $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -130,7 +130,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Eav_Model_Config $config,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_sender = $sender;
@@ -934,7 +934,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     {
         $date = $this->getCreatedAt();
         if ($date) {
-            return Magento_Date::toTimestamp($date);
+            return \Magento\Date::toTimestamp($date);
         }
         return null;
     }
@@ -1101,9 +1101,9 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
 
         $expirationPeriod = Mage::helper('Magento_Customer_Helper_Data')->getResetPasswordLinkExpirationPeriod();
 
-        $currentDate = Magento_Date::now();
-        $currentTimestamp = Magento_Date::toTimestamp($currentDate);
-        $tokenTimestamp = Magento_Date::toTimestamp($linkTokenCreatedAt);
+        $currentDate = \Magento\Date::now();
+        $currentTimestamp = \Magento\Date::toTimestamp($currentDate);
+        $tokenTimestamp = \Magento\Date::toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;
         }

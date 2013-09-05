@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAbstract
+namespace Magento\Code\Generator;
+
+class Interceptor extends \Magento\Code\Generator\EntityAbstract
 {
     /**
      * Entity type
@@ -37,7 +39,7 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
                 'docblock' => array(
                     'shortDescription' => 'Object Manager factory',
                     'tags' => array(
-                        array('name' => 'var', 'description' => '\Magento_ObjectManager_Factory')
+                        array('name' => 'var', 'description' => '\Magento\ObjectManager\Factory')
                     )
                 ),
             ),
@@ -47,7 +49,7 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
                 'docblock' => array(
                     'shortDescription' => 'Object Manager instance',
                     'tags' => array(
-                        array('name' => 'var', 'description' => '\Magento_ObjectManager')
+                        array('name' => 'var', 'description' => '\Magento\ObjectManager')
                     )
                 ),
             ),
@@ -104,8 +106,8 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
         return array(
             'name'       => '__construct',
             'parameters' => array(
-                array('name' => 'factory', 'type' => '\Magento_ObjectManager_Factory'),
-                array('name' => 'objectManager', 'type' => '\Magento_ObjectManager_ObjectManager'),
+                array('name' => 'factory', 'type' => '\Magento\ObjectManager\Factory'),
+                array('name' => 'objectManager', 'type' => '\Magento\ObjectManager\ObjectManager'),
                 array('name' => 'subjectType'),
                 array('name' => 'pluginList', 'type' => 'array'),
                 array('name' => 'arguments', 'type' => 'array'),
@@ -120,11 +122,11 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
                 'tags' => array(
                     array(
                         'name' => 'param',
-                        'description' => '\Magento_ObjectManager_Factory $factory',
+                        'description' => '\Magento\ObjectManager\Factory $factory',
                     ),
                     array(
                         'name' => 'param',
-                        'description' => '\Magento_ObjectManager_ObjectManager $objectManager',
+                        'description' => '\Magento\ObjectManager\ObjectManager $objectManager',
                     ),
                     array(
                         'name' => 'param',
@@ -205,11 +207,11 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
             'docblock' => array(
                 'shortDescription' => 'Retrieve ObjectManager from the global scope',
             ),
-            'body' => '$this->_objectManager = Mage::getObjectManager();',
+            'body' => '$this->_objectManager = \Mage::getObjectManager();',
         );
 
-        $reflectionClass = new ReflectionClass($this->_getSourceClassName());
-        $publicMethods   = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
+        $reflectionClass = new \ReflectionClass($this->_getSourceClassName());
+        $publicMethods   = $reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC);
         foreach ($publicMethods as $method) {
             if (!($method->isConstructor() || $method->isFinal() || $method->isStatic() || $method->isDestructor())
                 && !in_array($method->getName(), array('__sleep', '__wakeup', '__clone'))
@@ -238,7 +240,7 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
             . "\n\$aroundMethodName = \$methodName . 'Around';"
             . "\n\$insteadPluginList = isset(\$this->_pluginList[\$aroundMethodName])"
             . "\n    ? \$this->_pluginList[\$aroundMethodName] : array();"
-            . "\n\$invocationChain = new Magento_Code_Plugin_InvocationChain("
+            . "\n\$invocationChain = new \Magento\Code\Plugin\InvocationChain("
             . "\n    \$this->_getSubject(),"
             . "\n    \$methodName,"
             . "\n    \$this->_objectManager,"
@@ -258,10 +260,10 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
     /**
      * Retrieve method info
      *
-     * @param ReflectionMethod $method
+     * @param \ReflectionMethod $method
      * @return array
      */
-    protected function _getMethodInfo(ReflectionMethod $method)
+    protected function _getMethodInfo(\ReflectionMethod $method)
     {
         $parameters = array();
         foreach ($method->getParameters() as $parameter) {
@@ -288,7 +290,7 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
     protected function _generateCode()
     {
         $typeName = $this->_getFullyQualifiedClassName($this->_getSourceClassName());
-        $reflection = new ReflectionClass($typeName);
+        $reflection = new \ReflectionClass($typeName);
 
         if ($reflection->isInterface()) {
             $this->_classGenerator->setImplementedInterfaces(array($typeName));

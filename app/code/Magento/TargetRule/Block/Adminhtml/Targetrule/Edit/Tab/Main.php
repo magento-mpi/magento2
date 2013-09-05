@@ -28,7 +28,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
     {
         /* @var $model Magento_TargetRule_Model_Rule */
         $model = Mage::registry('current_target_rule');
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
 
 
         $form->setHtmlIdPrefix('rule_');
@@ -79,14 +79,14 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
             'name'         => 'from_date',
             'label'        => __('From Date'),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
             'name'         => 'to_date',
             'label'        => __('To Date'),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
 

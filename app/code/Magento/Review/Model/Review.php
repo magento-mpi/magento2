@@ -78,7 +78,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
         $summaryData = Mage::getModel('Magento_Review_Model_Review_Summary')
             ->setStoreId($storeId)
             ->load($product->getId());
-        $summary = new Magento_Object();
+        $summary = new \Magento\Object();
         $summary->setData($summaryData->getData());
         $product->setRatingSummary($summary);
     }

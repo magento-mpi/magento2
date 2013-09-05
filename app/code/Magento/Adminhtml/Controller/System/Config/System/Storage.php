@@ -119,7 +119,7 @@ class Magento_Adminhtml_Controller_System_Config_System_Storage extends Magento_
                         if (is_array($flagData)
                             && !(isset($flagData['timeout_reached']) && $flagData['timeout_reached'])
                         ) {
-                            Mage::logException(new Magento_Exception(
+                            Mage::logException(new \Magento\Exception(
                                 __('The timeout limit for response from synchronize process was reached.')
                             ));
 

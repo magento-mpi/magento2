@@ -15,7 +15,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_CategoryTest extends PHPUn
     {
         $categoryIds = array(1,2,3,4,5);
 
-        $product = $this->getMock('Magento_Object', array('getCategoryIds', 'setData'));
+        $product = $this->getMock('Magento\Object', array('getCategoryIds', 'setData'));
         $product->expects($this->once())
             ->method('getCategoryIds')
             ->will($this->returnValue($categoryIds));
@@ -24,7 +24,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_CategoryTest extends PHPUn
             ->method('setData')
             ->with('category_ids', $categoryIds);
 
-        $categoryAttribute = $this->getMock('Magento_Object', array('getAttributeCode'));
+        $categoryAttribute = $this->getMock('Magento\Object', array('getAttributeCode'));
         $categoryAttribute->expects($this->once())
             ->method('getAttributeCode')
             ->will($this->returnValue('category_ids'));

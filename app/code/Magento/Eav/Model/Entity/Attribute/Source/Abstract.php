@@ -93,7 +93,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Source_Abstract
      * @param string $dir direction
      * @return Magento_Eav_Model_Entity_Attribute_Source_Abstract
      */
-    public function addValueSortToCollection($collection, $dir = Magento_Data_Collection::SORT_ORDER_DESC) {
+    public function addValueSortToCollection($collection, $dir = \Magento\Data\Collection::SORT_ORDER_DESC) {
         return $this;
     }
 
@@ -121,7 +121,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Source_Abstract
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return Magento_DB_Select|null
+     * @return \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

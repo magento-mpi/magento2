@@ -185,8 +185,8 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
     /**
      * Compare two items for ordered list
      *
-     * @param Magento_Object $item1
-     * @param Magento_Object $item2
+     * @param \Magento\Object $item1
+     * @param \Magento\Object $item2
      * @return int
      */
     public function compareItems($item1, $item2)

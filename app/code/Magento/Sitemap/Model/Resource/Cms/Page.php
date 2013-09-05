@@ -62,11 +62,11 @@ class Magento_Sitemap_Model_Resource_Cms_Page extends Magento_Core_Model_Resourc
      * Prepare page object
      *
      * @param array $data
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _prepareObject(array $data)
     {
-        $object = new Magento_Object();
+        $object = new \Magento\Object();
         $object->setId($data[$this->getIdFieldName()]);
         $object->setUrl($data['url']);
         $object->setUpdatedAt($data['updated_at']);

@@ -35,7 +35,7 @@ abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Ma
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        $form = new \Magento\Data\Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post'
@@ -68,7 +68,7 @@ abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Ma
      * Build store type specific fieldset
      *
      * @abstract
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      */
-    abstract protected function _prepareStoreFieldset(Magento_Data_Form $form);
+    abstract protected function _prepareStoreFieldset(\Magento\Data\Form $form);
 }

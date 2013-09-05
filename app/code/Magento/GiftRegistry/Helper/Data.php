@@ -124,7 +124,7 @@ class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
 
         if (count($entityCollection)) {
             foreach ($entityCollection as $entity) {
-                $result[] = new Magento_Object(array('value' => $entity->getId(),
+                $result[] = new \Magento\Object(array('value' => $entity->getId(),
                         'title' => $this->escapeHtml($entity->getTitle())));
             }
         }
@@ -181,7 +181,7 @@ class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
             'locale'      => Mage::app()->getLocale()->getLocaleCode()
         ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => Magento_Date::DATE_INTERNAL_FORMAT
+            'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
         ));
 
         $value = $filterInput->filter($value);

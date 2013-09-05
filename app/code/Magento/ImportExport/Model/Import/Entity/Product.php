@@ -1046,7 +1046,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
 
                     if ('datetime' == $attribute->getBackendType() && strtotime($attrValue)) {
                         $attrValue = new DateTime('@' . strtotime($attrValue));
-                        $attrValue = $attrValue->format(Magento_Date::DATETIME_PHP_FORMAT);
+                        $attrValue = $attrValue->format(\Magento\Date::DATETIME_PHP_FORMAT);
                     } elseif ($backModel) {
                         $attribute->getBackend()->beforeSave($product);
                         $attrValue = $product->getData($attribute->getAttributeCode());
@@ -1181,7 +1181,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
 
             $mediaDir = Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA);
             if (!$mediaDir) {
-                throw new Magento_Exception('Media directory is unavailable.');
+                throw new \Magento\Exception('Media directory is unavailable.');
             }
             $tmpDir = "{$mediaDir}/import";
             if (!$this->_fileUploader->setTmpDir($tmpDir)) {
@@ -1409,7 +1409,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
                     if ($stockItem->verifyNotification()) {
                         $stockItem->setLowStockDate(Mage::app()->getLocale()
                             ->date(null, null, null, false)
-                            ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT)
+                            ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT)
                         );
                     }
                     $stockItem->setStockStatusChangedAuto((int) !$stockItem->verifyStock());
@@ -1440,7 +1440,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
     /**
      * DB connection getter.
      *
-     * @return Magento_DB_Adapter_Pdo_Mysql
+     * @return \Magento\DB\Adapter\Pdo\Mysql
      */
     public function getConnection()
     {

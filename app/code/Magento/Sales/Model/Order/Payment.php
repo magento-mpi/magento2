@@ -258,7 +258,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
         $orderState = Magento_Sales_Model_Order::STATE_NEW;
         $orderStatus= false;
 
-        $stateObject = new Magento_Object();
+        $stateObject = new \Magento\Object();
 
         /**
          * Do order payment validation on payment method level
@@ -548,7 +548,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      *
      * @return bool
      */
-    public function canVoid(Magento_Object $document)
+    public function canVoid(\Magento\Object $document)
     {
         if (null === $this->_canVoidLookup) {
             $this->_canVoidLookup = (bool)$this->getMethodInstance()->canVoid($document);
@@ -564,10 +564,10 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * Void payment online
      *
      * @see self::_void()
-     * @param Magento_Object $document
+     * @param \Magento\Object $document
      * @return Magento_Sales_Model_Order_Payment
      */
-    public function void(Magento_Object $document)
+    public function void(\Magento\Object $document)
     {
         $this->_void(true);
         Mage::dispatchEvent('sales_order_payment_void', array('payment' => $this, 'invoice' => $document));
@@ -778,7 +778,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     public function cancel()
     {
         $isOnline = true;
-        if (!$this->canVoid(new Magento_Object())) {
+        if (!$this->canVoid(new \Magento\Object())) {
             $isOnline = false;
         }
 
@@ -1331,8 +1331,8 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
                     ->setOrderFilter($this->getOrder())
                     ->addPaymentIdFilter($this->getId())
                     ->addTxnTypeFilter($txnType)
-                    ->setOrder('created_at', Magento_Data_Collection::SORT_ORDER_DESC)
-                    ->setOrder('transaction_id', Magento_Data_Collection::SORT_ORDER_DESC);
+                    ->setOrder('created_at', \Magento\Data\Collection::SORT_ORDER_DESC)
+                    ->setOrder('transaction_id', \Magento\Data\Collection::SORT_ORDER_DESC);
                 foreach ($collection as $txn) {
                     $txn->setOrderPaymentObject($this);
                     $this->_transactionsLookup[$txn->getTxnId()] = $txn;

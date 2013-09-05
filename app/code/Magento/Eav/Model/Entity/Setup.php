@@ -572,7 +572,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
         $select = $this->getConnection()->select()
             ->from($this->getTable('eav_attribute_group'), 'attribute_group_id')
             ->where('attribute_set_id = :attribute_set_id')
-            ->order(array('default_id ' . Magento_DB_Select::SQL_DESC, 'sort_order'))
+            ->order(array('default_id ' . \Magento\DB\Select::SQL_DESC, 'sort_order'))
             ->limit(1);
 
         return $this->getConnection()->fetchOne($select, $bind);
@@ -1254,37 +1254,37 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
             $connection = $this->getConnection();
             $mainTable = $connection
                 ->newTable($this->getTable($baseTableName))
-                ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+                ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
                     'identity'  => true,
                     'nullable'  => false,
                     'primary'   => true,
                  ), 'Entity Id')
-                ->addColumn('entity_type_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('entity_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
                 ), 'Entity Type Id')
-                ->addColumn('attribute_set_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('attribute_set_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
                 ), 'Attribute Set Id')
-                ->addColumn('increment_id', Magento_DB_Ddl_Table::TYPE_TEXT, 50, array(
+                ->addColumn('increment_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
                     'nullable'  => false,
                     'default'   => '',
                 ), 'Increment Id')
-                ->addColumn('store_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
                 ), 'Store Id')
-                ->addColumn('created_at', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+                ->addColumn('created_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
                     'nullable'  => false,
                 ), 'Created At')
-                ->addColumn('updated_at', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+                ->addColumn('updated_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
                     'nullable'  => false,
                 ), 'Updated At')
-                ->addColumn('is_active', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('is_active', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '1',
@@ -1295,10 +1295,10 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
                     array('store_id'))
                 ->addForeignKey($this->getFkName($baseTableName, 'entity_type_id', 'eav_entity_type', 'entity_type_id'),
                     'entity_type_id', $this->getTable('eav_entity_type'), 'entity_type_id',
-                    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+                    \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
                 ->addForeignKey($this->getFkName($baseTableName, 'store_id', 'core_store', 'store_id'),
                     'store_id', $this->getTable('core_store'), 'store_id',
-                    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+                    \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
                 ->setComment('Eav Entity Main Table');
 
             $tables[$this->getTable($baseTableName)] = $mainTable;
@@ -1307,12 +1307,12 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
         $types = array();
         if (!$isNoDefaultTypes) {
             $types = array(
-                'datetime'  => array(Magento_DB_Ddl_Table::TYPE_DATETIME, null),
-                'decimal'   => array(Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4'),
-                'int'       => array(Magento_DB_Ddl_Table::TYPE_INTEGER, null),
-                'text'      => array(Magento_DB_Ddl_Table::TYPE_TEXT, '64k'),
-                'varchar'   => array(Magento_DB_Ddl_Table::TYPE_TEXT, '255'),
-                'char'   => array(Magento_DB_Ddl_Table::TYPE_TEXT, '255')
+                'datetime'  => array(\Magento\DB\Ddl\Table::TYPE_DATETIME, null),
+                'decimal'   => array(\Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4'),
+                'int'       => array(\Magento\DB\Ddl\Table::TYPE_INTEGER, null),
+                'text'      => array(\Magento\DB\Ddl\Table::TYPE_TEXT, '64k'),
+                'varchar'   => array(\Magento\DB\Ddl\Table::TYPE_TEXT, '255'),
+                'char'   => array(\Magento\DB\Ddl\Table::TYPE_TEXT, '255')
             );
         }
 
@@ -1333,27 +1333,27 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
 
             $eavTable = $connection->newTable($this->getTable($eavTableName));
             $eavTable
-                ->addColumn('value_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+                ->addColumn('value_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
                     'identity'  => true,
                     'nullable'  => false,
                     'primary'   => true,
                     ), 'Value Id')
-                ->addColumn('entity_type_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('entity_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
                     ), 'Entity Type Id')
-                ->addColumn('attribute_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
                     ), 'Attribute Id')
-                ->addColumn('store_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+                ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
                     ), 'Store Id')
-                ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+                ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
                     'unsigned'  => true,
                     'nullable'  => false,
                     'default'   => '0',
@@ -1379,13 +1379,13 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
             $eavTable
                 ->addForeignKey($this->getFkName($eavTableName, 'entity_id', $baseTableName, 'entity_id'),
                     'entity_id', $this->getTable($baseTableName), 'entity_id',
-                    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+                    \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
                 ->addForeignKey($this->getFkName($eavTableName, 'entity_type_id', 'eav_entity_type', 'entity_type_id'),
                     'entity_type_id', $this->getTable('eav_entity_type'), 'entity_type_id',
-                    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+                    \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
                 ->addForeignKey($this->getFkName($eavTableName, 'store_id', 'core_store', 'store_id'),
                     'store_id', $this->getTable('core_store'), 'store_id',
-                    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+                    \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
                 ->setComment('Eav Entity Value Table');
 
             $tables[$this->getTable($eavTableName)] = $eavTable;

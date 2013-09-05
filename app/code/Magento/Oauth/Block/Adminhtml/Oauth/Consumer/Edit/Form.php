@@ -46,7 +46,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Adm
     protected function _prepareForm()
     {
         $model = $this->getModel();
-        $form = new Magento_Data_Form(array(
+        $form = new \Magento\Data\Form(array(
             'id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'
         ));
 

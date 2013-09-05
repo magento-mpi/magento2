@@ -8,7 +8,8 @@
  * @license    {license_link}
  */
 
-require_once('phpseclib/Net/SFTP.php');
+namespace Magento\Io;
+
 
 /**
  * Sftp client interface
@@ -18,7 +19,8 @@ require_once('phpseclib/Net/SFTP.php');
  * @author      Magento Core Team <core@magentocommerce.com>
  * @link        http://www.php.net/manual/en/function.ssh2-connect.php
  */
-class Magento_Io_Sftp extends Magento_Io_Abstract implements Magento_Io_Interface
+require_once('phpseclib/Net/SFTP.php');
+class Sftp extends \Magento\Io\AbstractIo implements \Magento\Io\IoInterface
 {
     const REMOTE_TIMEOUT = 10;
     const SSH2_PORT = 22;
@@ -37,7 +39,7 @@ class Magento_Io_Sftp extends Magento_Io_Abstract implements Magento_Io_Interfac
      *        string $args[password] Connection password
      *        int $args[timeout] Connection timeout [=10]
      * @return void
-     * @throws Exception
+     * @throws \Exception
      */
     public function open(array $args = array())
     {
@@ -52,7 +54,7 @@ class Magento_Io_Sftp extends Magento_Io_Abstract implements Magento_Io_Interfac
         }
         $this->_connection = new Net_SFTP($host, $port, $args['timeout']);
         if (!$this->_connection->login($args['username'], $args['password'])) {
-            throw new Exception(sprintf("Unable to open SFTP connection as %s@%s", $args['username'], $args['host']));
+            throw new \Exception(sprintf("Unable to open SFTP connection as %s@%s", $args['username'], $args['host']));
         }
 
     }
@@ -104,7 +106,7 @@ class Magento_Io_Sftp extends Magento_Io_Abstract implements Magento_Io_Interfac
             $no_errors = true;
             $currentWorkingDir = $this->pwd();
             if(!$this->_connection->chdir($dir)) {
-                throw new Exception("chdir(): $dir: Not a directory");
+                throw new \Exception("chdir(): $dir: Not a directory");
             }
             $list = $this->_connection->nlist();
             if (!count($list)) {

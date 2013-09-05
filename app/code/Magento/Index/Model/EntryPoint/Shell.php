@@ -23,13 +23,13 @@ class Magento_Index_Model_EntryPoint_Shell extends Magento_Core_Model_EntryPoint
      * @param string $entryFileName filename of the entry point script
      * @param Magento_Index_Model_EntryPoint_Shell_ErrorHandler $errorHandler
      * @param Magento_Core_Model_Config_Primary $config
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         $entryFileName,
         Magento_Index_Model_EntryPoint_Shell_ErrorHandler $errorHandler,
         Magento_Core_Model_Config_Primary $config,
-        Magento_ObjectManager $objectManager = null
+        \Magento\ObjectManager $objectManager = null
     ) {
         parent::__construct($config, $objectManager);
         $this->_entryFileName = $entryFileName;

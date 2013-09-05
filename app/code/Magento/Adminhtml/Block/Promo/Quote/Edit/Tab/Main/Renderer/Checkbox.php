@@ -17,17 +17,17 @@
  */
 class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main_Renderer_Checkbox
     extends Magento_Backend_Block_Abstract
-    implements Magento_Data_Form_Element_Renderer_Interface
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Checkbox render function
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $checkbox = new Magento_Data_Form_Element_Checkbox($element->getData());
+        $checkbox = new \Magento\Data\Form\Element\Checkbox($element->getData());
         $checkbox->setForm($element->getForm());
 
         $elementHtml = sprintf(

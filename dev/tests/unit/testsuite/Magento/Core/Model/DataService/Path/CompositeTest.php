@@ -27,8 +27,8 @@ class Magento_Core_Model_DataService_Path_CompositeTest extends PHPUnit_Framewor
 
     public function setUp()
     {
-        /** @var $objectManagerMock Magento_ObjectManager */
-        $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->disableOriginalConstructor()->getMock();
+        /** @var $objectManagerMock \Magento\ObjectManager */
+        $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->disableOriginalConstructor()->getMock();
         $this->_map = array(
             array(self::ITEM_ONE, (object)array('name' => self::ITEM_ONE)),
             array(self::ITEM_TWO, (object)array('name' => self::ITEM_TWO)),

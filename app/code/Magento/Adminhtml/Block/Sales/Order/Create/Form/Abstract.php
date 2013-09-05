@@ -22,13 +22,13 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     /**
      * Data Form object
      *
-     * @var Magento_Data_Form
+     * @var \Magento\Data\Form
      */
     protected $_form;
 
     /**
      * Prepare global layout
-     * Add renderers to Magento_Data_Form
+     * Add renderers to \Magento\Data\Form
      *
      * @return Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
      */
@@ -36,19 +36,19 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     {
         parent::_prepareLayout();
 
-        Magento_Data_Form::setElementRenderer(
+        \Magento\Data\Form::setElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento_Adminhtml_Block_Widget_Form_Renderer_Element',
                 $this->getNameInLayout() . '_element'
             )
         );
-        Magento_Data_Form::setFieldsetRenderer(
+        \Magento\Data\Form::setFieldsetRenderer(
             $this->getLayout()->createBlock(
                 'Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset',
                 $this->getNameInLayout() . '_fieldset'
             )
         );
-        Magento_Data_Form::setFieldsetElementRenderer(
+        \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element',
                 $this->getNameInLayout() . '_fieldset_element'
@@ -61,12 +61,12 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     /**
      * Return Form object
      *
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     public function getForm()
     {
         if (is_null($this->_form)) {
-            $this->_form = new Magento_Data_Form();
+            $this->_form = new \Magento\Data\Form();
             $this->_prepareForm();
         }
 
@@ -109,10 +109,10 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     /**
      * Add additional data to form element
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
      */
-    protected function _addAdditionalFormElementData(Magento_Data_Form_Element_Abstract $element)
+    protected function _addAdditionalFormElementData(\Magento\Data\Form\Element\AbstractElement $element)
     {
         return $this;
     }
@@ -120,11 +120,11 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     /**
      * Add rendering EAV attributes to Form element
      *
-     * @param array|Magento_Data_Collection $attributes
-     * @param Magento_Data_Form_Abstract $form
+     * @param array|\Magento\Data\Collection $attributes
+     * @param \Magento\Data\Form\AbstractForm $form
      * @return Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
      */
-    protected function _addAttributesToForm($attributes, Magento_Data_Form_Abstract $form)
+    protected function _addAttributesToForm($attributes, \Magento\Data\Form\AbstractForm $form)
     {
         // add additional form types
         $types = $this->_getAdditionalFormElementTypes();

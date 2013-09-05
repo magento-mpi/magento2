@@ -164,10 +164,10 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     /**
      * Clean up already loaded attribute collection.
      *
-     * @param Magento_Data_Collection $collection
-     * @return Magento_Data_Collection
+     * @param \Magento\Data\Collection $collection
+     * @return \Magento\Data\Collection
      */
-    public function filterAttributeCollection(Magento_Data_Collection $collection)
+    public function filterAttributeCollection(\Magento\Data\Collection $collection)
     {
         return $this->_getEntityAdapter()->filterAttributeCollection($collection);
     }
@@ -227,7 +227,7 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     /**
      * Entity attributes collection getter.
      *
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function getEntityAttributeCollection()
     {

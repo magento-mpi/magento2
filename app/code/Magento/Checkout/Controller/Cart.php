@@ -150,14 +150,14 @@ class Magento_Checkout_Controller_Cart
          */
         $this->_checkoutSession->setCartWasUpdated(true);
 
-        Magento_Profiler::start(__METHOD__ . 'cart_display');
+        \Magento\Profiler::start(__METHOD__ . 'cart_display');
         $this
             ->loadLayout()
             ->_initLayoutMessages('Magento_Checkout_Model_Session')
             ->_initLayoutMessages('Magento_Catalog_Model_Session')
             ->getLayout()->getBlock('head')->setTitle(__('Shopping Cart'));
         $this->renderLayout();
-        Magento_Profiler::stop(__METHOD__ . 'cart_display');
+        \Magento\Profiler::stop(__METHOD__ . 'cart_display');
     }
 
     /**
@@ -283,7 +283,7 @@ class Magento_Checkout_Controller_Cart
         }
 
         try {
-            $params = new Magento_Object();
+            $params = new \Magento\Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
             $params->setBuyRequest($quoteItem->getBuyRequest());
@@ -324,7 +324,7 @@ class Magento_Checkout_Controller_Cart
                 Mage::throwException(__("We can't find the quote item."));
             }
 
-            $item = $cart->updateItem($id, new Magento_Object($params));
+            $item = $cart->updateItem($id, new \Magento\Object($params));
             if (is_string($item)) {
                 Mage::throwException($item);
             }

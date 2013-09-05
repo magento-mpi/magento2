@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Paygate_Model_Authorizenet_Result extends Magento_Object 
+class Magento_Paygate_Model_Authorizenet_Result extends \Magento\Object 
 {
     
 }

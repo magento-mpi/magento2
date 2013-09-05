@@ -20,10 +20,10 @@ class Magento_Adminhtml_Block_Tax_Rate_Grid_Renderer_Country extends Magento_Adm
 /**
      * Render column for export
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function renderExport(Magento_Object $row)
+    public function renderExport(\Magento\Object $row)
     {
         return $row->getData($this->getColumn()->getIndex());
     }

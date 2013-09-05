@@ -7,31 +7,31 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_sales_bestsellers>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_sales_bestsellers">
         <update handle="report_sales"/>
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Report_Sales_Bestsellers" template="report/grid/container.phtml" name="sales.report.grid.container">
-                <block type="Magento_Backend_Block_Store_Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
+            <block class="Magento_Adminhtml_Block_Report_Sales_Bestsellers" template="report/grid/container.phtml" name="sales.report.grid.container">
+                <block class="Magento_Backend_Block_Store_Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName">
-                        <var_name>store_ids</var_name>
+                        <argument name="var_name" xsi:type="string">store_ids</argument>
                     </action>
                 </block>
-                <block type="Magento_Sales_Block_Adminhtml_Report_Filter_Form" name="grid.filter.form">
+                <block class="Magento_Sales_Block_Adminhtml_Report_Filter_Form" name="grid.filter.form">
                     <action method="setFieldVisibility">
-                        <field>report_type</field>
-                        <visibility>0</visibility>
+                        <argument name="field" xsi:type="string">report_type</argument>
+                        <argument name="visibility" xsi:type="string">0</argument>
                     </action>
                     <action method="setFieldVisibility">
-                        <field>show_order_statuses</field>
-                        <visibility>0</visibility>
+                        <argument name="field" xsi:type="string">show_order_statuses</argument>
+                        <argument name="visibility" xsi:type="string">0</argument>
                     </action>
                     <action method="setFieldVisibility">
-                        <field>order_statuses</field>
-                        <visibility>0</visibility>
+                        <argument name="field" xsi:type="string">order_statuses</argument>
+                        <argument name="visibility" xsi:type="string">0</argument>
                     </action>
                 </block>
             </block>
         </reference>
-    </adminhtml_report_sales_bestsellers>
+    </handle>
 </layout>

@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Apply extends Magento_Data_Form_Element_Multiselect
+class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Apply extends \Magento\Data\Form\Element\Multiselect
 {
     public function getElementHtml()
     {
@@ -39,7 +39,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Apply extends Magento_
     }
 
     /**
-     * Dublicate interface of Magento_Data_Form_Element_Abstract::setReadonly
+     * Dublicate interface of \Magento\Data\Form\Element\AbstractElement::setReadonly
      *
      * @param bool $readonly
      * @param bool $useDisabled

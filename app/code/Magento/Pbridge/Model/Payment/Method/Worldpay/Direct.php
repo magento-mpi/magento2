@@ -148,11 +148,11 @@ class Magento_Pbridge_Model_Payment_Method_Worldpay_Direct extends Magento_Payme
     /**
      * PSi Gate method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return Magento_Pbridge_Model_Payment_Method_Worldpay_Direct
      */
-    public function authorize(Magento_Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
@@ -161,11 +161,11 @@ class Magento_Pbridge_Model_Payment_Method_Worldpay_Direct extends Magento_Payme
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return Magento_Pbridge_Model_Payment_Method_Worldpay_Direct
      */
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {
@@ -178,11 +178,11 @@ class Magento_Pbridge_Model_Payment_Method_Worldpay_Direct extends Magento_Payme
     /**
      * Refunding method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return Magento_Pbridge_Model_Payment_Method_Worldpay_Direct
      */
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
@@ -193,10 +193,10 @@ class Magento_Pbridge_Model_Payment_Method_Worldpay_Direct extends Magento_Payme
     /**
      * Voiding method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @return Magento_Pbridge_Model_Payment_Method_Worldpay_Direct
      */
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $response = $this->getPbridgeMethodInstance()->void($payment);
         $payment->addData((array)$response);
@@ -206,10 +206,10 @@ class Magento_Pbridge_Model_Payment_Method_Worldpay_Direct extends Magento_Payme
     /**
      * Cancel method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @return Magento_Pbridge_Model_Payment_Method_Worldpay_Direct
      */
-    public function cancel(Magento_Object $payment)
+    public function cancel(\Magento\Object $payment)
     {
         return $this->void($payment);
     }

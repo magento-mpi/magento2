@@ -160,9 +160,9 @@ class Magento_Sales_Model_Observer
     /**
      * Set Quote information about MSRP price enabled
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function setQuoteCanApplyMsrp(Magento_Event_Observer $observer)
+    public function setQuoteCanApplyMsrp(\Magento\Event\Observer $observer)
     {
         /** @var $quote Magento_Sales_Model_Quote */
         $quote = $observer->getEvent()->getQuote();
@@ -183,10 +183,10 @@ class Magento_Sales_Model_Observer
     /**
      * Add VAT validation request date and identifier to order comments
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return null
      */
-    public function addVatRequestParamsOrderComment(Magento_Event_Observer $observer)
+    public function addVatRequestParamsOrderComment(\Magento\Event\Observer $observer)
     {
         /** @var $orderInstance Magento_Sales_Model_Order */
         $orderInstance = $observer->getOrder();
@@ -253,9 +253,9 @@ class Magento_Sales_Model_Observer
     /**
      * Handle customer VAT number if needed on collect_totals_before event of quote address
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function changeQuoteCustomerGroupId(Magento_Event_Observer $observer)
+    public function changeQuoteCustomerGroupId(\Magento\Event\Observer $observer)
     {
         /** @var $addressHelper Magento_Customer_Helper_Address */
         $addressHelper = Mage::helper('Magento_Customer_Helper_Address');
@@ -321,7 +321,7 @@ class Magento_Sales_Model_Observer
                 ->save();
         } else {
             // Restore validation results from corresponding quote address
-            $gatewayResponse = new Magento_Object(array(
+            $gatewayResponse = new \Magento\Object(array(
                 'is_valid' => (int)$quoteAddress->getVatIsValid(),
                 'request_identifier' => (string)$quoteAddress->getVatRequestId(),
                 'request_date' => (string)$quoteAddress->getVatRequestDate(),
@@ -344,7 +344,7 @@ class Magento_Sales_Model_Observer
     /**
      * Restore initial customer group ID in quote if needed on collect_totals_after event of quote address
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function restoreQuoteCustomerGroupId($observer)
     {

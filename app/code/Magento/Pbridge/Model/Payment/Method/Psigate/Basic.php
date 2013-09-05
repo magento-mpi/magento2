@@ -184,11 +184,11 @@ class Magento_Pbridge_Model_Payment_Method_Psigate_Basic extends Magento_Payment
     /**
      * PSi Gate method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return Magento_Pbridge_Model_Payment_Method_Psigate_Basic
      */
-    public function authorize(Magento_Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
@@ -197,11 +197,11 @@ class Magento_Pbridge_Model_Payment_Method_Psigate_Basic extends Magento_Payment
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return Magento_Pbridge_Model_Payment_Method_Psigate_Basic
      */
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {
@@ -214,11 +214,11 @@ class Magento_Pbridge_Model_Payment_Method_Psigate_Basic extends Magento_Payment
     /**
      * Refunding method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return Magento_Pbridge_Model_Payment_Method_Psigate_Basic
      */
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
@@ -229,10 +229,10 @@ class Magento_Pbridge_Model_Payment_Method_Psigate_Basic extends Magento_Payment
     /**
      * Voiding method being executed via Payment Bridge
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @return Magento_Pbridge_Model_Payment_Method_Psigate_Basic
      */
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $response = $this->getPbridgeMethodInstance()->void($payment);
         $payment->addData((array)$response);

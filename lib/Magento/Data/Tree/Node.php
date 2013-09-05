@@ -15,26 +15,28 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Tree_Node extends Magento_Object
+namespace Magento\Data\Tree;
+
+class Node extends \Magento\Object
 {
     /**
      * Parent node
      *
-     * @var Magento_Data_Tree_Node
+     * @var \Magento\Data\Tree\Node
      */
     protected $_parent;
 
     /**
      * Main tree object
      *
-     * @var Magento_Data_Tree
+     * @var \Magento\Data\Tree
      */
     protected $_tree;
 
     /**
      * Child nodes
      *
-     * @var Magento_Data_Tree_Node_Collection
+     * @var \Magento\Data\Tree\Node\Collection
      */
     protected $_childNodes;
 
@@ -50,8 +52,8 @@ class Magento_Data_Tree_Node extends Magento_Object
      *
      * @param array $data
      * @param string $idFeild
-     * @param Magento_Data_Tree $tree
-     * @param Magento_Data_Tree_Node $parent
+     * @param \Magento\Data\Tree $tree
+     * @param \Magento\Data\Tree\Node $parent
      */
     public function __construct($data, $idFeild, $tree, $parent = null)
     {
@@ -59,7 +61,7 @@ class Magento_Data_Tree_Node extends Magento_Object
         $this->setParent($parent);
         $this->setIdField($idFeild);
         $this->setData($data);
-        $this->_childNodes = new Magento_Data_Tree_Node_Collection($this);
+        $this->_childNodes = new \Magento\Data\Tree\Node\Collection($this);
     }
 
     /**
@@ -97,10 +99,10 @@ class Magento_Data_Tree_Node extends Magento_Object
     /**
      * Set node tree object
      *
-     * @param   Magento_Data_Tree $tree
+     * @param   \Magento\Data\Tree $tree
      * @return  this
      */
-    public function setTree(Magento_Data_Tree $tree)
+    public function setTree(\Magento\Data\Tree $tree)
     {
         $this->_tree = $tree;
         return $this;
@@ -109,7 +111,7 @@ class Magento_Data_Tree_Node extends Magento_Object
     /**
      * Retrieve node tree object
      *
-     * @return Magento_Data_Tree
+     * @return \Magento\Data\Tree
      */
     public function getTree()
     {
@@ -119,8 +121,8 @@ class Magento_Data_Tree_Node extends Magento_Object
     /**
      * Set node parent
      *
-     * @param   Magento_Data_Tree_Node $parent
-     * @return  Magento_Data_Tree_Node
+     * @param   \Magento\Data\Tree\Node $parent
+     * @return  \Magento\Data\Tree\Node
      */
     public function setParent($parent)
     {
@@ -131,7 +133,7 @@ class Magento_Data_Tree_Node extends Magento_Object
     /**
      * Retrieve node parent
      *
-     * @return Magento_Data_Tree
+     * @return \Magento\Data\Tree
      */
     public function getParent()
     {
@@ -169,7 +171,7 @@ class Magento_Data_Tree_Node extends Magento_Object
      * Load node children
      *
      * @param   int  $recursionLevel
-     * @return  Magento_Data_Tree_Node
+     * @return  \Magento\Data\Tree\Node
      */
     public function loadChildren($recursionLevel=0)
     {
@@ -180,7 +182,7 @@ class Magento_Data_Tree_Node extends Magento_Object
     /**
      * Retrieve node children collection
      *
-     * @return Magento_Data_Tree_Node_Collection
+     * @return \Magento\Data\Tree\Node\Collection
      */
     public function getChildren()
     {
@@ -204,8 +206,8 @@ class Magento_Data_Tree_Node extends Magento_Object
     /**
      * Add child node
      *
-     * @param   Magento_Data_Tree_Node $node
-     * @return  Magento_Data_Tree_Node
+     * @param   \Magento\Data\Tree\Node $node
+     * @return  \Magento\Data\Tree\Node
      */
     public function addChild($node)
     {

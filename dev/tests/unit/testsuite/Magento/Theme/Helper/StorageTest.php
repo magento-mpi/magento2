@@ -14,7 +14,7 @@
 class Magento_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var null|Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
+     * @var null|\Magento\Filesystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
@@ -45,11 +45,11 @@ class Magento_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_customizationPath = Magento_Filesystem::DIRECTORY_SEPARATOR
-            . implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array('var', 'theme'));
+        $this->_customizationPath = \Magento\Filesystem::DIRECTORY_SEPARATOR
+            . implode(\Magento\Filesystem::DIRECTORY_SEPARATOR, array('var', 'theme'));
 
         $this->_request = $this->getMock('Zend_Controller_Request_Http', array('getParam'), array(), '', false);
-        $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_session = $this->getMock('Magento_Backend_Model_Session', array(), array(), '', false);
         $this->_themeFactory = $this->getMock('Magento_Core_Model_Theme_FlyweightFactory', array('create'), array(),
             '', false);
@@ -146,7 +146,7 @@ class Magento_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
             ->method('getCustomizationPath')
             ->will($this->returnValue($this->_customizationPath));
 
-        $expectedStorageRoot = implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array(
+        $expectedStorageRoot = implode(\Magento\Filesystem::DIRECTORY_SEPARATOR, array(
             $this->_customizationPath,
             Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
         ));
@@ -158,9 +158,9 @@ class Magento_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetThumbnailDirectory()
     {
-        $imagePath = implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array('root', 'image', 'image_name.jpg'));
+        $imagePath = implode(\Magento\Filesystem::DIRECTORY_SEPARATOR, array('root', 'image', 'image_name.jpg'));
         $thumbnailDir = implode(
-            Magento_Filesystem::DIRECTORY_SEPARATOR,
+            \Magento\Filesystem::DIRECTORY_SEPARATOR,
             array('root', 'image', Magento_Theme_Model_Wysiwyg_Storage::THUMBNAIL_DIRECTORY)
         );
 
@@ -173,13 +173,13 @@ class Magento_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
     public function testGetThumbnailPath()
     {
         $image       = 'image_name.jpg';
-        $storageRoot = $this->_customizationPath . Magento_Filesystem::DIRECTORY_SEPARATOR
+        $storageRoot = $this->_customizationPath . \Magento\Filesystem::DIRECTORY_SEPARATOR
             . Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE;
-        $currentPath = $storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'some_dir';
+        $currentPath = $storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'some_dir';
 
-        $imagePath   = $currentPath . Magento_Filesystem::DIRECTORY_SEPARATOR . $image;
+        $imagePath   = $currentPath . \Magento\Filesystem::DIRECTORY_SEPARATOR . $image;
         $thumbnailPath = implode(
-            Magento_Filesystem::DIRECTORY_SEPARATOR,
+            \Magento\Filesystem::DIRECTORY_SEPARATOR,
             array($currentPath, Magento_Theme_Model_Wysiwyg_Storage::THUMBNAIL_DIRECTORY, $image)
         );
 

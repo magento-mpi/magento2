@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_File_Transfer_Adapter_Http
+namespace Magento\File\Transfer\Adapter;
+
+class Http
 {
     protected $_mimeTypes = array(
         'txt' => 'text/plain',
@@ -73,16 +75,16 @@ class Magento_File_Transfer_Adapter_Http
         } else if (is_array($options)) {
             $filepath = $options['filepath'];
         } else {
-            throw new Exception("Filename is not set.");
+            throw new \Exception("Filename is not set.");
         }
 
         if (!is_file($filepath) || !is_readable($filepath)) {
-            throw new Exception("File '{$filepath}' does not exists.");
+            throw new \Exception("File '{$filepath}' does not exists.");
         }
 
         $mimeType = $this->_detectMimeType(array('name' => $filepath));
 
-        $response = new Zend_Controller_Response_Http();
+        $response = new \Zend_Controller_Response_Http();
 
         $response->setHeader('Content-length', filesize($filepath));
         $response->setHeader('Content-Type', $mimeType);
@@ -95,7 +97,7 @@ class Magento_File_Transfer_Adapter_Http
                 echo $buffer;
             }
             if (!feof($handle)) {
-                throw new Exception("Error: unexpected fgets() fail.");
+                throw new \Exception("Error: unexpected fgets() fail.");
             }
             fclose($handle);
         }

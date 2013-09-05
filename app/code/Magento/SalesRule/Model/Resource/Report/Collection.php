@@ -51,7 +51,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
      *
      */
     public function __construct(
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         Magento_Sales_Model_Resource_Report $resource
     ) {
         $resource->init($this->_aggregationTable);
@@ -70,7 +70,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m');
         } elseif ('year' == $this->_period) {
             $this->_periodFormat =
-                $adapter->getDateExtractSql('period', Magento_DB_Adapter_Interface::INTERVAL_YEAR);
+                $adapter->getDateExtractSql('period', \Magento\DB\Adapter\AdapterInterface::INTERVAL_YEAR);
         } else {
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m-%d');
         }

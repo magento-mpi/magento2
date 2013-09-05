@@ -23,12 +23,12 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
     {
         self::$_testResourceName = 'testtest_' . mt_rand(1000, 9999) . '_setup';
 
-        Magento_Profiler::enable();
+        \Magento\Profiler::enable();
     }
 
     public static function tearDownAfterClass()
     {
-        Magento_Profiler::disable();
+        \Magento\Profiler::disable();
     }
 
     public function setUp()
@@ -37,11 +37,11 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     protected function _getConnectionReadConfig()
     {
-        $connReadConfig = Mage::getObjectManager()
+        $connReadConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_Config_Resource')
             ->getResourceConnectionConfig('core_read');
         $profilerConfig = $connReadConfig->addChild('profiler');
@@ -61,7 +61,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
     public function testProfilerInit($selectQuery, $queryType)
     {
         $connReadConfig = $this->_getConnectionReadConfig();
-        /** @var Magento_Test_Db_Adapter_Mysql $connection */
+        /** @var Magento_TestFramework_Db_Adapter_Mysql $connection */
         $connection = $this->_model->getConnection('core_read');
 
         /** @var Magento_Core_Model_Resource $resource */
@@ -95,13 +95,13 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
     public function profileQueryDataProvider()
     {
         return array(
-            array("SELECT * FROM %s", Magento_DB_Profiler::SELECT),
+            array("SELECT * FROM %s", \Magento\DB\Profiler::SELECT),
             array("INSERT INTO %s (code, version, data_version) "
-                . "VALUES ('" . self::$_testResourceName . "', '1.1', '1.1')", Magento_DB_Profiler::INSERT),
+                . "VALUES ('" . self::$_testResourceName . "', '1.1', '1.1')", \Magento\DB\Profiler::INSERT),
             array("UPDATE %s SET version = '1.2' WHERE code = '" . self::$_testResourceName . "'",
-                Magento_DB_Profiler::UPDATE),
+                \Magento\DB\Profiler::UPDATE),
             array("DELETE FROM %s WHERE code = '" . self::$_testResourceName . "'",
-                Magento_DB_Profiler::DELETE),
+                \Magento\DB\Profiler::DELETE),
         );
     }
 
@@ -131,7 +131,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
         $profiler = $connection->getProfiler();
         $this->assertInstanceOf('Magento_Core_Model_Resource_Db_Profiler', $profiler);
 
-        $queryProfiles = $profiler->getQueryProfiles(Magento_DB_Profiler::SELECT);
+        $queryProfiles = $profiler->getQueryProfiles(\Magento\DB\Profiler::SELECT);
         $this->assertCount(2, $queryProfiles);
     }
 }

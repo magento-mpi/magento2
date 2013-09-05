@@ -67,8 +67,8 @@ class Magento_GiftRegistry_Model_Resource_Entity extends Magento_Core_Model_Reso
     /**
      * Join event table to select object
      *
-     * @param Magento_DB_Select $select
-     * @return Magento_DB_Select
+     * @param \Magento\DB\Select $select
+     * @return \Magento\DB\Select
      */
     protected function _joinEventData($select)
     {

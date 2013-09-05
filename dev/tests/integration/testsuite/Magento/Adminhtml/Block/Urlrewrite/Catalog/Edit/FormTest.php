@@ -19,7 +19,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
      * Get form instance
      *
      * @param array $args
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     protected function _getFormInstance($args = array())
     {
@@ -53,10 +53,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
     {
         $args = array();
         if ($productData) {
-            $args['product'] = new Magento_Object($productData);
+            $args['product'] = new \Magento\Object($productData);
         }
         if ($categoryData) {
-            $args['category'] = new Magento_Object($categoryData);
+            $args['category'] = new \Magento\Object($categoryData);
         }
         $form = $this->_getFormInstance($args);
         $this->assertContains($action, $form->getAction());
@@ -84,10 +84,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
     {
         $args = array();
         if ($productData) {
-            $args['product'] = new Magento_Object($productData);
+            $args['product'] = new \Magento\Object($productData);
         }
         if ($categoryData) {
-            $args['category'] = new Magento_Object($categoryData);
+            $args['category'] = new \Magento\Object($categoryData);
         }
         $form = $this->_getFormInstance($args);
         $this->assertEquals($expectedStores, $form->getElement('store_id')->getValues());
@@ -105,7 +105,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
     public function testGetEntityStoresProductStoresException()
     {
         $args = array(
-            'product' => new Magento_Object(array('id' => 1))
+            'product' => new \Magento\Object(array('id' => 1))
         );
         $this->_getFormInstance($args);
     }
@@ -122,8 +122,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
     public function testGetEntityStoresProductCategoryStoresException()
     {
         $args = array(
-            'product' => new Magento_Object(array('id' => 1, 'store_ids' => array(1))),
-            'category' => new Magento_Object(array('id' => 1, 'store_ids' => array(3)))
+            'product' => new \Magento\Object(array('id' => 1, 'store_ids' => array(1))),
+            'category' => new \Magento\Object(array('id' => 1, 'store_ids' => array(3)))
         );
         $this->_getFormInstance($args);
     }
@@ -140,7 +140,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
     public function testGetEntityStoresCategoryStoresException()
     {
         $args = array(
-            'category' => new Magento_Object(array('id' => 1))
+            'category' => new \Magento\Object(array('id' => 1))
         );
         $this->_getFormInstance($args);
     }

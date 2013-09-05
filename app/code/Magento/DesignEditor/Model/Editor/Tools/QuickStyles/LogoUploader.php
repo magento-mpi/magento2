@@ -24,17 +24,17 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader
     /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_DesignEditor_Model_Config_Backend_File_RequestData $requestData
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_DesignEditor_Model_Config_Backend_File_RequestData $requestData,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(

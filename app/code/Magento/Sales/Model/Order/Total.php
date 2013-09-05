@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Sales_Model_Order_Total extends Magento_Object
+class Magento_Sales_Model_Order_Total extends \Magento\Object
 {
 
 }

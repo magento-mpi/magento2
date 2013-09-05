@@ -47,7 +47,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        $form = new \Magento\Data\Form(array(
             'action' => '#',
             'method' => 'post'
         ));

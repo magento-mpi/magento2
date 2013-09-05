@@ -295,7 +295,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         /* @var $productHelper Magento_Catalog_Helper_Product */
         $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
         foreach ($items as $id => $item) {
-            $buyRequest = new Magento_Object($item);
+            $buyRequest = new \Magento\Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');
             $buyRequest = $productHelper->addParamsToBuyRequest($buyRequest, $params);
             if ($buyRequest->hasData()) {
@@ -413,7 +413,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         }
 
         // Form result for client javascript
-        $updateResult = new Magento_Object();
+        $updateResult = new \Magento\Object();
         if ($errorMessage) {
             $updateResult->setError(true);
             $updateResult->setMessage($errorMessage);
@@ -538,7 +538,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         // Prepare data
         $productId  = (int) $this->getRequest()->getParam('id');
 
-        $configureResult = new Magento_Object();
+        $configureResult = new \Magento\Object();
         $configureResult->setOk(true);
         $configureResult->setProductId($productId);
         $sessionQuote = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
@@ -561,7 +561,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     public function configureQuoteItemsAction()
     {
         // Prepare data
-        $configureResult = new Magento_Object();
+        $configureResult = new \Magento\Object();
         try {
             $quoteItemId = (int) $this->getRequest()->getParam('id');
             if (!$quoteItemId) {

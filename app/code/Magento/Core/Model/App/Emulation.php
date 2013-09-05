@@ -15,7 +15,7 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_App_Emulation extends Magento_Object
+class Magento_Core_Model_App_Emulation extends \Magento\Object
 {
     /**
      * Start environment emulation of the specified store
@@ -26,7 +26,7 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
      * @param string $area
      * @param bool $emulateStoreInlineTranslation emulate inline translation of the specified store or just disable it
      *
-     * @return Magento_Object information about environment of the initial store
+     * @return \Magento\Object information about environment of the initial store
      */
     public function startEnvironmentEmulation($storeId, $area = Magento_Core_Model_App_Area::AREA_FRONTEND,
         $emulateStoreInlineTranslation = false
@@ -42,7 +42,7 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
         Mage::getObjectManager()->get('Magento_Core_Model_StoreManager')->setCurrentStore($storeId);
         $initialLocaleCode = $this->_emulateLocale($storeId, $area);
 
-        $initialEnvironmentInfo = new Magento_Object();
+        $initialEnvironmentInfo = new \Magento\Object();
         $initialEnvironmentInfo->setInitialTranslateInline($initialTranslateInline)
             ->setInitialDesign($initialDesign)
             ->setInitialLocaleCode($initialLocaleCode);
@@ -55,11 +55,11 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
      *
      * Function restores initial store environment
      *
-     * @param Magento_Object $initialEnvironmentInfo information about environment of the initial store
+     * @param \Magento\Object $initialEnvironmentInfo information about environment of the initial store
      *
      * @return Magento_Core_Model_App_Emulation
      */
-    public function stopEnvironmentEmulation(Magento_Object $initialEnvironmentInfo)
+    public function stopEnvironmentEmulation(\Magento\Object $initialEnvironmentInfo)
     {
         $this->_restoreInitialInlineTranslation($initialEnvironmentInfo->getInitialTranslateInline());
         $initialDesign = $initialEnvironmentInfo->getInitialDesign();
@@ -108,7 +108,7 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
      */
     protected function _emulateDesign($storeId, $area = Magento_Core_Model_App_Area::AREA_FRONTEND)
     {
-        /** @var $objectManager Magento_ObjectManager */
+        /** @var $objectManager \Magento\ObjectManager */
         $objectManager = Mage::getObjectManager();
 
         /** @var $store Magento_Core_Model_StoreManager */

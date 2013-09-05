@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_FileResolver implements Magento_Config_FileResolverInterface
+class Magento_Core_Model_Config_FileResolver implements \Magento\Config\FileResolverInterface
 {
     /**
      * Module configuration file reader

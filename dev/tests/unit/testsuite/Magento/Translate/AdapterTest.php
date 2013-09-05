@@ -27,7 +27,7 @@ class Magento_Translate_AdapterTest extends PHPUnit_Framework_TestCase
             ->method('translate')
             ->with($strToTranslate)
             ->will($this->returnValue($translatedStr));
-        $translator = new Magento_Translate_Adapter(array(
+        $translator = new \Magento\Translate\Adapter(array(
             'translator' => array($translatorMock, 'translate')
         ));
 
@@ -49,7 +49,7 @@ class Magento_Translate_AdapterTest extends PHPUnit_Framework_TestCase
      */
     public function testTranslateNoProxy()
     {
-        $translator = new Magento_Translate_Adapter();
+        $translator = new \Magento\Translate\Adapter();
         $this->assertEquals('test string', $translator->translate('test string'));
     }
 
@@ -64,7 +64,7 @@ class Magento_Translate_AdapterTest extends PHPUnit_Framework_TestCase
         $translatorMock->expects($this->once())
             ->method('translate')
             ->will($this->returnArgument(0));
-        $translator = new Magento_Translate_Adapter(array(
+        $translator = new \Magento\Translate\Adapter(array(
             'translator' => array($translatorMock, 'translate')
         ));
 

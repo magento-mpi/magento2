@@ -113,7 +113,7 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
         $timeSubtract     = $readAdapter->getDateAddSql(
             'logdate',
             $timeout,
-            Magento_DB_Adapter_Interface::INTERVAL_SECOND);
+            \Magento\DB\Adapter\AdapterInterface::INTERVAL_SECOND);
         $writeAdapter->delete(
             $this->getTable('api_session'),
             array('user_id = ?' => $user->getId(), $readAdapter->quote(now()) . ' > '.$timeSubtract)
@@ -339,7 +339,7 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
         if ($user->getId() > 0) {
             $role = Mage::getModel('Magento_Api_Model_Role')->load($user->getRoleId());
         } else {
-            $role = new Magento_Object(array('tree_level' => 0));
+            $role = new \Magento\Object(array('tree_level' => 0));
         }
         $adapter->insert($this->getTable('api_role'), array(
             'parent_id' => $user->getRoleId(),

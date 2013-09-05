@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_Form extends Magento_Adminht
 {
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
 
         $fieldset = $form->addFieldset('add_answer_form', array('legend' => __('Add New Answer')));
 

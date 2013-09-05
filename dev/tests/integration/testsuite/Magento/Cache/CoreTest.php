@@ -7,7 +7,7 @@
  */
 
 /**
- * Magento_Cache_Core test case
+ * \Magento\Cache\Core test case
  */
 class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
         $config = array(
             'backend_decorators' => array(
                 'test_decorator' => array(
-                    'class' => 'Magento_Cache_Backend_Decorator_Compression',
+                    'class' => '\Magento\Cache\Backend\Decorator\Compression',
                     'options' => array(
                         'compression_threshold' => '100',
                     )
@@ -25,10 +25,10 @@ class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $core = new Magento_Cache_Core($config);
+        $core = new \Magento\Cache\Core($config);
         $core->setBackend($mockBackend);
 
-        $this->assertInstanceOf('Magento_Cache_Backend_Decorator_DecoratorAbstract', $core->getBackend());
+        $this->assertInstanceOf('\Magento\Cache\Backend\Decorator\DecoratorAbstract', $core->getBackend());
     }
 
     /**
@@ -45,7 +45,7 @@ class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $core = new Magento_Cache_Core($config);
+        $core = new \Magento\Cache\Core($config);
         $core->setBackend($mockBackend);
     }
 }

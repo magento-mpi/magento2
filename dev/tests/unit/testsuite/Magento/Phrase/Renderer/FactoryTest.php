@@ -8,21 +8,21 @@
 class Magento_Phrase_Renderer_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Phrase_Renderer_Factory
+     * @var \Magento\Phrase\Renderer\Factory
      */
     protected $_factory;
 
     public function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_factory = $objectManagerHelper->getObject('Magento_Phrase_Renderer_Factory', array(
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_factory = $objectManagerHelper->getObject('\Magento\Phrase\Renderer\Factory', array(
             'objectManager' => $this->_objectManager,
         ));
     }
@@ -30,7 +30,7 @@ class Magento_Phrase_Renderer_FactoryTest extends PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $className = 'class-name';
-        $rendererMock = $this->getMock('Magento_Phrase_RendererInterface');
+        $rendererMock = $this->getMock('Magento\Phrase\RendererInterface');
 
         $this->_objectManager->expects($this->once())->method('get')->with($className)
             ->will($this->returnValue($rendererMock));

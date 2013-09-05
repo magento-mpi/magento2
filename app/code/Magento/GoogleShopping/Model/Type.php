@@ -45,8 +45,8 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Prepare Entry data and attributes before saving in Google Content
      *
-     * @param Magento_Gdata_Gshopping_Entry $entry
-     * @return Magento_Gdata_Gshopping_Entry
+     * @param \Magento\Gdata\Gshopping\Entry $entry
+     * @return \Magento\Gdata\Gshopping\Entry
      */
     public function convertProductToEntry($product, $entry)
     {
@@ -202,9 +202,9 @@ class Magento_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Remove attributes which were removed from mapping.
      *
-     * @param Magento_Gdata_Gshopping_Entry $entry
+     * @param \Magento\Gdata\Gshopping\Entry $entry
      * @param array $existAttributes
-     * @return Magento_Gdata_Gshopping_Entry
+     * @return \Magento\Gdata\Gshopping\Entry
      */
     protected function _removeNonexistentAttributes($entry, $existAttributes)
     {

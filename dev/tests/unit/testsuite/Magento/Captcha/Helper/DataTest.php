@@ -45,13 +45,13 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $adapterMock = $this->getMockBuilder('Magento_Filesystem_Adapter_Local')
+        $adapterMock = $this->getMockBuilder('Magento\Filesystem\Adapter\Local')
             ->getMock();
         $adapterMock->expects($this->any())
             ->method('isDirectory')
             ->will($this->returnValue(true));
 
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
 
         $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false);
 
@@ -73,7 +73,7 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->with('customer/captcha/type')
             ->will($this->returnValue('zend'));
 
-        $objectManager = $this->getMock('Magento_ObjectManager');
+        $objectManager = $this->getMock('Magento\ObjectManager');
         $config = $this->_getConfigStub();
         $config->expects($this->once())
             ->method('getModelInstance')

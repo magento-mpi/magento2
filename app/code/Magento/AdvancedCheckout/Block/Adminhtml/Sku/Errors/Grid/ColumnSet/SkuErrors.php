@@ -13,10 +13,10 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_ColumnSet_SkuErro
     /**
      * Retrieve row css class for specified item
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
-    public function getRowClass(Magento_Object $item)
+    public function getRowClass(\Magento\Object $item)
     {
         if ($item->getCode() == Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED) {
             return 'qty-not-available';

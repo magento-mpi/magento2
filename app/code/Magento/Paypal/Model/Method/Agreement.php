@@ -160,11 +160,11 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Authorize payment
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Method_Agreement
      */
-    public function authorize(Magento_Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
         return $this->_placeOrder($payment, $amount);
     }
@@ -175,7 +175,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
      * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Method_Agreement
      */
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $this->_pro->void($payment);
         return $this;
@@ -188,7 +188,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
      * @param float $amount
      * @return Magento_Paypal_Model_Method_Agreement
      */
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         if (false === $this->_pro->capture($payment, $amount)) {
             $this->_placeOrder($payment, $amount);
@@ -203,7 +203,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
      * @param float $amount
      * @return Magento_Paypal_Model_Method_Agreement
      */
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $this->_pro->refund($payment, $amount);
         return $this;
@@ -215,7 +215,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
      * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Method_Agreement
      */
-    public function cancel(Magento_Object $payment)
+    public function cancel(\Magento\Object $payment)
     {
         $this->_pro->cancel($payment);
         return $this;

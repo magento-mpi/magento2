@@ -19,7 +19,8 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** @var Magento_Sales_Model_Resource_Order_Collection $orderCollection */
-        $orderCollection = Mage::getObjectManager()->create('Magento_Sales_Model_Resource_Order_Collection');
+        $orderCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Resource_Order_Collection');
         $orders = $orderCollection->getItems();
         $this->assertCount(2, $orders);
         $this->_order = array_shift($orders);
@@ -33,7 +34,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
     {
         /** @var $order Magento_Sales_Model_Order */
         $order = $this->_order;
-        $orderInfo = Magento_Test_Helper_Api::call(
+        $orderInfo = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderInfo',
             array(
@@ -61,7 +62,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
             'order_currency_code'
         );
 
-        Magento_Test_Helper_Api::checkEntityFields($this, $order->getData(), $orderInfo, $fieldsToCompare);
+        Magento_TestFramework_Helper_Api::checkEntityFields($this, $order->getData(), $orderInfo, $fieldsToCompare);
     }
 
     /**
@@ -75,7 +76,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
         $historySizeBefore = count($order->getAllStatusHistory());
         $newOrderStatus = self::STATUS_PENDING;
         $statusChangeComment = "Order status change comment.";
-        $isAdded = Magento_Test_Helper_Api::call(
+        $isAdded = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderAddComment',
             array(
@@ -123,7 +124,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $result = Magento_Test_Helper_Api::call($this, 'salesOrderList', $filters);
+        $result = Magento_TestFramework_Helper_Api::call($this, 'salesOrderList', $filters);
 
         if (!isset($result[0])) { // workaround for WS-I
             $result = array($result);
@@ -145,7 +146,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
         $order->setStatus(self::STATUS_PENDING)
             ->save();
 
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderCancel',
             array(
@@ -172,7 +173,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
         $order->setState(Magento_Sales_Model_Order::STATE_NEW, self::STATUS_PENDING)
             ->save();
 
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderHold',
             array(
@@ -197,7 +198,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
     {
         /** @var $order Magento_Sales_Model_Order */
         $order = $this->_order;
-        $isUnholded = Magento_Test_Helper_Api::call(
+        $isUnholded = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderUnhold',
             array(

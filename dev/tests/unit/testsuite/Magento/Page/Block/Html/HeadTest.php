@@ -25,9 +25,9 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_pageAssets = $this->getMock('Magento_Page_Model_Asset_GroupedCollection', array(), array(), '', false);
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(
             'Magento_Page_Block_Html_Head',
             array('page' => new Magento_Core_Model_Page($this->_pageAssets), 'objectManager' => $this->_objectManager)

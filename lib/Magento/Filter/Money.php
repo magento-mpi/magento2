@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Filter_Money implements Zend_Filter_Interface
+namespace Magento\Filter;
+
+class Money implements \Zend_Filter_Interface
 {
     protected $_format = null;
     

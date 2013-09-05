@@ -19,7 +19,7 @@
 class Magento_Catalog_Block_Adminhtml_System_Config_Form_Field_Select_Flatcatalog
     extends Magento_Backend_Block_System_Config_Form_Field
 {
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         if (!$this->helper('Magento_Catalog_Helper_Category_Flat')->isBuilt()) {
             $element->setDisabled(true)

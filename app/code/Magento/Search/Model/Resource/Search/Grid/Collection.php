@@ -14,12 +14,12 @@ class Magento_Search_Model_Resource_Search_Grid_Collection
     protected $_registryManager;
 
     /**
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Registry $registry,
         $resource = null
     ) {

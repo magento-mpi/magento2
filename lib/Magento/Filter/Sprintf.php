@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Filter_Sprintf implements Zend_Filter_Interface
+namespace Magento\Filter;
+
+class Sprintf implements \Zend_Filter_Interface
 {
     protected $_format = null;
     protected $_decimals = null;

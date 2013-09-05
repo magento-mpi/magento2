@@ -71,7 +71,7 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
         $directory = dirname($filePath);
         @mkdir($directory, 0777, true);
 
-        $io = new Magento_Io_File();
+        $io = new \Magento\Io\File();
         $io->cd($directory);
 
         $io->streamOpen($filePath);

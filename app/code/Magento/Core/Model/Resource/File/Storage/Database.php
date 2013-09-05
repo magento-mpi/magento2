@@ -42,36 +42,36 @@ class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Mod
         $dirStorageTable = $this->getTable('core_directory_storage'); // For foreign key
 
         $ddlTable = $adapter->newTable($table)
-            ->addColumn('file_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+            ->addColumn('file_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
                 'identity'  => true,
                 'unsigned'  => true,
                 'nullable'  => false,
                 'primary'   => true
                 ), 'File Id')
-            ->addColumn('content', Magento_DB_Ddl_Table::TYPE_VARBINARY, Magento_DB_Ddl_Table::MAX_VARBINARY_SIZE, array(
+            ->addColumn('content', \Magento\DB\Ddl\Table::TYPE_VARBINARY, \Magento\DB\Ddl\Table::MAX_VARBINARY_SIZE, array(
                 'nullable' => false
                 ), 'File Content')
-            ->addColumn('upload_time', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
+            ->addColumn('upload_time', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
                 'nullable' => false,
-                'default' => Magento_DB_Ddl_Table::TIMESTAMP_INIT
+                'default' => \Magento\DB\Ddl\Table::TIMESTAMP_INIT
                 ), 'Upload Timestamp')
-            ->addColumn('filename', Magento_DB_Ddl_Table::TYPE_TEXT, 100, array(
+            ->addColumn('filename', \Magento\DB\Ddl\Table::TYPE_TEXT, 100, array(
                 'nullable' => false
                 ), 'Filename')
-            ->addColumn('directory_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+            ->addColumn('directory_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
                 'unsigned' => true,
                 'default' => null
                 ), 'Identifier of Directory where File is Located')
-            ->addColumn('directory', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+            ->addColumn('directory', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
                 'default' => null
                 ), 'Directory Path')
             ->addIndex($adapter->getIndexName($table, array('filename', 'directory_id'),
-                Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
-                array('filename', 'directory_id'), array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE))
+                \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+                array('filename', 'directory_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
             ->addIndex($adapter->getIndexName($table, array('directory_id')), array('directory_id'))
             ->addForeignKey($adapter->getForeignKeyName($table, 'directory_id', $dirStorageTable, 'directory_id'),
                 'directory_id', $dirStorageTable, 'directory_id',
-                Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+                \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
             ->setComment('File Storage');
 
         $adapter->createTable($ddlTable);
@@ -177,7 +177,7 @@ class Magento_Core_Model_Resource_File_Storage_Database extends Magento_Core_Mod
     {
         $adapter = $this->_getWriteAdapter();
 
-        $contentParam = new Magento_DB_Statement_Parameter($file['content']);
+        $contentParam = new \Magento\DB\Statement\Parameter($file['content']);
         $contentParam->setIsBlob(true);
         $data = array(
             'content'        => $contentParam,

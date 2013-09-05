@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem_Adapter_Zlib extends Magento_Filesystem_Adapter_Local
+namespace Magento\Filesystem\Adapter;
+
+class Zlib extends \Magento\Filesystem\Adapter\Local
 {
     /**
      * @var int
@@ -41,7 +43,7 @@ class Magento_Filesystem_Adapter_Zlib extends Magento_Filesystem_Adapter_Local
      *
      * @param string $key
      * @return string
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function read($key)
     {
@@ -53,7 +55,7 @@ class Magento_Filesystem_Adapter_Zlib extends Magento_Filesystem_Adapter_Local
         $compressed = (bool)$info['compress'];
         if ($compressed && !$this->_isCompressionAvailable()) {
             $stream->close();
-            throw new Magento_Filesystem_Exception('The file was compressed, but zlib extension is not installed.');
+            throw new \Magento\Filesystem\FilesystemException('The file was compressed, but zlib extension is not installed.');
         }
         if ($compressed) {
             $content = gzuncompress($stream->read($info['length']));
@@ -89,11 +91,11 @@ class Magento_Filesystem_Adapter_Zlib extends Magento_Filesystem_Adapter_Local
      * Create Zlib stream
      *
      * @param string $path
-     * @return Magento_Filesystem_Stream_Zlib
+     * @return \Magento\Filesystem\Stream\Zlib
      */
     public function createStream($path)
     {
-        return new Magento_Filesystem_Stream_Zlib($path);
+        return new \Magento\Filesystem\Stream\Zlib($path);
     }
 
     /**

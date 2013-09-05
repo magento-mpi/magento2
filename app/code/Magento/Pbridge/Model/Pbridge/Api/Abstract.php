@@ -16,7 +16,7 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
+class Magento_Pbridge_Model_Pbridge_Api_Abstract extends \Magento\Object
 {
     /**
      * Api response
@@ -37,7 +37,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
         $response = null;
         $debugData = array('request' => $request);
         try {
-            $http = new Magento_HTTP_Adapter_Curl();
+            $http = new \Magento\HTTP\Adapter\Curl();
             $config = array('timeout' => 60);
             $http->setConfig($config);
             $http->write(

@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_system_design_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_system_design_grid">
         <update handle="formkey"/>
         <update handle="adminhtml_system_design_grid_block"/>
         <container label="System Design Block" name="adminhtml.system.design.container" output="1"/>
-    </adminhtml_system_design_grid>
+    </handle>
 </layout>

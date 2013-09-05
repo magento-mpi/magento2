@@ -93,7 +93,7 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
     /**
      * Get SQL for get record count
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {

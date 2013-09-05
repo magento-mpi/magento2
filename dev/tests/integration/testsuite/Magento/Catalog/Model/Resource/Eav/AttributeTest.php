@@ -26,7 +26,7 @@ class Magento_Catalog_Model_Resource_Eav_AttributeTest extends PHPUnit_Framework
         $this->_model->setAttributeCode('test')
             ->setEntityTypeId(Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('catalog_product')->getId())
             ->setFrontendLabel('test');
-        $crud = new Magento_Test_Entity($this->_model, array('frontend_label' => uniqid()));
+        $crud = new Magento_TestFramework_Entity($this->_model, array('frontend_label' => uniqid()));
         $crud->testCrud();
     }
 }

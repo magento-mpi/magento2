@@ -48,13 +48,13 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
         }
 
         $idSuffix = Mage::helper('Magento_Core_Helper_Data')->uniqHash();
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         foreach (array(
             'from' => __('From'),
             'to'   => __('To')) as $key => $label) {
             $id = "{$key}_{$idSuffix}";
-            $element = new Magento_Data_Form_Element_Date(array(
-                'format'   => Magento_Date::DATE_INTERNAL_FORMAT, // hardcode because hardcoded values delimiter
+            $element = new \Magento\Data\Form\Element\Date(array(
+                'format'   => \Magento\Date::DATE_INTERNAL_FORMAT, // hardcode because hardcoded values delimiter
                 'label'    => $label,
                 'image'    => $this->getViewFileUrl('images/grid-cal.gif'),
                 'onchange' => "dateTimeChoose_{$idSuffix}()", // won't work through Event.observe()

@@ -17,7 +17,7 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
      * XPath selector to get CSS files from layout added for HEAD block directly
      */
     const XPATH_SELECTOR_BLOCKS =
-        '//block[@type="Magento_Page_Block_Html_Head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
+        '//block[@class="Magento_Page_Block_Html_Head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
 
     /**
      * XPath selector to get CSS files from layout added for HEAD block using reference
@@ -107,7 +107,7 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
             $path = $this->_viewFileSystem->getViewFile($fileId, $params);
             $file = array(
                 'id'       => $fileId,
-                'path'     => Magento_Filesystem::fixSeparator($path),
+                'path'     => \Magento\Filesystem::fixSeparator($path),
              );
             $file['safePath'] = $this->getSafePath($file['path'], $basePath);
 
@@ -127,9 +127,9 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
      */
     public function getGroupedCssFiles($theme)
     {
-        $jsDir = Magento_Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::PUB_LIB));
-        $codeDir = Magento_Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::MODULES));
-        $designDir = Magento_Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::THEMES));
+        $jsDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::PUB_LIB));
+        $codeDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::MODULES));
+        $designDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::THEMES));
 
         $groups = array();
         $themes = array();
@@ -192,8 +192,8 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
 
         $relativePath = substr($file['path'], strlen($designDir));
 
-        $area = strtok($relativePath, Magento_Filesystem::DIRECTORY_SEPARATOR);
-        $theme = strtok(Magento_Filesystem::DIRECTORY_SEPARATOR);
+        $area = strtok($relativePath, \Magento\Filesystem::DIRECTORY_SEPARATOR);
+        $theme = strtok(\Magento\Filesystem::DIRECTORY_SEPARATOR);
 
         if ($area === false || $theme === false) {
             throw new LogicException(__('Theme path "%1/%2" is incorrect', $area, $theme));

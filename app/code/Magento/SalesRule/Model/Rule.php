@@ -376,7 +376,7 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
                 Magento_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON => __('No Coupon'),
                 Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC  => __('Specific Coupon'),
             );
-            $transport = new Magento_Object(array(
+            $transport = new \Magento\Object(array(
                 'coupon_types'                => $this->_couponTypes,
                 'is_coupon_type_auto_visible' => false
             ));

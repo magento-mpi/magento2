@@ -22,7 +22,7 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Urlkey extends Magento_Ea
     /**
      * Enter description here...
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Catalog_Model_Category_Attribute_Backend_Urlkey
      */
     public function beforeSave($object)
@@ -45,7 +45,7 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Urlkey extends Magento_Ea
     /**
      * Enter description here...
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      */
     public function afterSave($object)
     {

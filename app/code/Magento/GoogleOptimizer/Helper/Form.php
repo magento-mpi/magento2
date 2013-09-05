@@ -12,11 +12,11 @@ class Magento_GoogleOptimizer_Helper_Form extends Magento_Core_Helper_Abstract
     /**
      * Prepare form
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @param Magento_GoogleOptimizer_Model_Code|null $experimentCodeModel
      */
     public function addGoogleoptimizerFields(
-        Magento_Data_Form $form,
+        \Magento\Data\Form $form,
         Magento_GoogleOptimizer_Model_Code $experimentCodeModel = null
     ) {
         $fieldset = $form->addFieldset('googleoptimizer_fields', array(

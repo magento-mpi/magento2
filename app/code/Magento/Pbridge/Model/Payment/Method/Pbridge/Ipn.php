@@ -109,7 +109,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
         $url = rtrim($helper->getBridgeBaseUrl(), '/') . '/ipn.php?action=PaypalIpn';
 
         try {
-            $http = new Magento_HTTP_Adapter_Curl();
+            $http = new \Magento\HTTP\Adapter\Curl();
             $http->write(Zend_Http_Client::POST, $url, '1.1', array(), $sReq);
             $response = $http->read();
         } catch (Exception $e) {

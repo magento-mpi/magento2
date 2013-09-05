@@ -176,7 +176,7 @@ class Magento_Media_Model_File_Image extends Magento_Core_Model_Resource_Abstrac
      * Retrive image dimensions
      *
      * @param Magento_Media_Model_Image $object
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDimensions(Magento_Media_Model_Image $object)
     {
@@ -186,7 +186,7 @@ class Magento_Media_Model_File_Image extends Magento_Core_Model_Resource_Abstrac
         }
 
         $info = array('width'=>$info[0], 'height'=>$info[1], 'type'=>$info[2]);
-        return new Magento_Object($info);
+        return new \Magento\Object($info);
     }
 
     /**

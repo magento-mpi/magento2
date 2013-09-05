@@ -18,19 +18,19 @@ require __DIR__ . '/../_files/Aggregate/WithOptional.php';
 class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager_ObjectManager
+     * @var \Magento\ObjectManager\ObjectManager
      */
     protected $_object;
 
     protected function setUp()
     {
-        $config = new Magento_ObjectManager_Config_Config(new Magento_ObjectManager_Relations_Runtime());
-        $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
-            new Magento_ObjectManager_Factory_Factory(
+        $config = new \Magento\ObjectManager\Config\Config(new \Magento\ObjectManager\Relations\Runtime());
+        $factory = new \Magento\ObjectManager\Interception\FactoryDecorator(
+            new \Magento\ObjectManager\Factory\Factory(
                 $config, null, null, array('one' => 'first_val', 'two' => 'second_val')
             ), $config
         );
-        $this->_object = new Magento_ObjectManager_ObjectManager($factory, $config);
+        $this->_object = new \Magento\ObjectManager\ObjectManager($factory, $config);
     }
 
     public function testCreateCreatesNewInstanceEveryTime()

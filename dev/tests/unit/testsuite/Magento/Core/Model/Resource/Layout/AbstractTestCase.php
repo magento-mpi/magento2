@@ -59,7 +59,7 @@ abstract class Magento_Core_Model_Resource_Layout_AbstractTestCase extends PHPUn
      */
     protected function _getResource(Zend_Db_Select $select)
     {
-        $connection = $this->getMock('Magento_DB_Adapter_Pdo_Mysql',
+        $connection = $this->getMock('Magento\DB\Adapter\Pdo\Mysql',
             array(), array(), '', false
         );
         $connection->expects($this->once())
@@ -107,7 +107,7 @@ abstract class Magento_Core_Model_Resource_Layout_AbstractTestCase extends PHPUn
         $datetime = new DateTime();
         $storeInterval = new DateInterval('P' . self::TEST_DAYS_BEFORE . 'D');
         $datetime->sub($storeInterval);
-        $expectedDate = Magento_Date::formatDate($datetime->getTimestamp());
+        $expectedDate = \Magento\Date::formatDate($datetime->getTimestamp());
         $this->_expectedConditions['data'][1][1]['lt'] = $expectedDate;
 
         $collection->addUpdatedDaysBeforeFilter(self::TEST_DAYS_BEFORE);

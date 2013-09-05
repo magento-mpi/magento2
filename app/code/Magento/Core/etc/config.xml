@@ -187,7 +187,7 @@
             <js>
                 <merge_files>0</merge_files>
                 <minify_files>0</minify_files>
-                <minify_adapter>Magento_Code_Minifier_Adapter_Js_Jsmin</minify_adapter>
+                <minify_adapter>\Magento\Code\Minifier\Adapter\Js\Jsmin</minify_adapter>
             </js>
         </dev>
         <system>

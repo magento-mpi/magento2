@@ -16,7 +16,7 @@ interface Magento_Core_Model_CacheInterface
     /**
      * Get cache frontend API object
      *
-     * @return Magento_Cache_FrontendInterface
+     * @return \Magento\Cache\FrontendInterface
      */
     public function getFrontend();
 

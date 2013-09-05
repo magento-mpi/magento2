@@ -116,7 +116,7 @@ class Magento_CustomerSegment_Model_Resource_Segment_Collection
      * Get SQL for get record count.
      * Reset left join, group and having parts
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {

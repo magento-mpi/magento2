@@ -17,8 +17,8 @@ class Magento_Cache_Frontend_Adapter_ZendTest extends PHPUnit_Framework_TestCase
     public function testProxyMethod($method, $params, $expectedParams, $expectedResult)
     {
         $frontendMock = $this->getMock('Zend_Cache_Core');
-        $object = new Magento_Cache_Frontend_Adapter_Zend($frontendMock);
-        $helper = new Magento_Test_Helper_ProxyTesting();
+        $object = new \Magento\Cache\Frontend\Adapter\Zend($frontendMock);
+        $helper = new Magento_TestFramework_Helper_ProxyTesting();
         $result = $helper->invokeWithExpectations($object, $frontendMock, $method, $params, $expectedResult, $method,
             $expectedParams);
         $this->assertSame($expectedResult, $result);
@@ -74,7 +74,7 @@ class Magento_Cache_Frontend_Adapter_ZendTest extends PHPUnit_Framework_TestCase
     public function testCleanException($cleaningMode, $expectedErrorMessage)
     {
         $this->setExpectedException('InvalidArgumentException', $expectedErrorMessage);
-        $object = new Magento_Cache_Frontend_Adapter_Zend($this->getMock('Zend_Cache_Core'));
+        $object = new \Magento\Cache\Frontend\Adapter\Zend($this->getMock('Zend_Cache_Core'));
         $object->clean($cleaningMode);
     }
 
@@ -99,7 +99,7 @@ class Magento_Cache_Frontend_Adapter_ZendTest extends PHPUnit_Framework_TestCase
     public function testGetLowLevelFrontend()
     {
         $frontendMock = $this->getMock('Zend_Cache_Core');
-        $object = new Magento_Cache_Frontend_Adapter_Zend($frontendMock);
+        $object = new \Magento\Cache\Frontend\Adapter\Zend($frontendMock);
         $this->assertSame($frontendMock, $object->getLowLevelFrontend());
     }
 }

@@ -44,7 +44,7 @@ abstract class Magento_GiftCardAccount_Model_Pool_Abstract extends Magento_Core_
     /**
      * Load code pool usage info
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getPoolUsageInfo()
     {
@@ -60,7 +60,7 @@ abstract class Magento_GiftCardAccount_Model_Pool_Abstract extends Magento_Core_
             }
         }
 
-        $result = new Magento_Object();
+        $result = new \Magento\Object();
         $result
             ->setTotal($this->_pool_size)
             ->setFree($this->_pool_free_size)

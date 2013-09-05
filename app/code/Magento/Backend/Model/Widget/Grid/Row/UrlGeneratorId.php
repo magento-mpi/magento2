@@ -12,7 +12,7 @@ class Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorId
 {
     /**
      * Create url for passed item using passed url model
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
     public function getUrl($item)

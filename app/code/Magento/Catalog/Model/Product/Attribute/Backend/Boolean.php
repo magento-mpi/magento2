@@ -20,7 +20,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Boolean extends Magento_Ea
     /**
      * Set attribute default value if value empty
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Catalog_Model_Product_Attribute_Backend_Boolean
      */
     public function beforeSave($object)

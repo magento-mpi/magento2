@@ -29,7 +29,7 @@ class Magento_CustomerCustomAttributes_Model_Sales_Order_AddressTest extends PHP
         $address = Mage::getModel('Magento_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
 
-        $entity = new Magento_Object(array('id' => $address->getId()));
+        $entity = new \Magento\Object(array('id' => $address->getId()));
         $this->assertEmpty($entity->getData('fixture_address_attribute'));
         $this->_model->attachDataToEntities(array($entity));
         $this->assertEquals('fixture_attribute_custom_value', $entity->getData('fixture_address_attribute'));

@@ -13,7 +13,7 @@
  *
  * @todo utilize the class for all manipulations with the cache type
  */
-class Magento_Api_Model_Cache_Type extends Magento_Cache_Frontend_Decorator_TagScope
+class Magento_Api_Model_Cache_Type extends \Magento\Cache\Frontend\Decorator\TagScope
 {
     /**
      * Cache type code unique among all cache types

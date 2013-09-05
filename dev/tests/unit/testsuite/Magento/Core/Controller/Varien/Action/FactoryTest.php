@@ -35,13 +35,13 @@ class Magento_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
     }
 
     public function testConstruct()
     {
         $this->_model = new Magento_Core_Controller_Varien_Action_Factory($this->_objectManager);
-        $this->assertAttributeInstanceOf('Magento_ObjectManager', '_objectManager', $this->_model);
+        $this->assertAttributeInstanceOf('\Magento\ObjectManager', '_objectManager', $this->_model);
     }
 
     public function testCreateController()

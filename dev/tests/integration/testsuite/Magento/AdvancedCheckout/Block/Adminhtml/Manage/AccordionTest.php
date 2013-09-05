@@ -23,7 +23,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
     protected function setUp()
     {
         parent::setUp();
-        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion');
@@ -33,7 +33,9 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
     {
         $this->_block = null;
         $this->_layout = null;
-        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')->setCurrentScope(null);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Config_Scope')
+            ->setCurrentScope(null);
     }
 
     public function testToHtml()
@@ -79,8 +81,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
         $user->setId(1)->setRole(true);
         Mage::getSingleton('Magento_Backend_Model_Auth_Session')->setUpdatedAt(time())->setUser($user);
         Mage::getModel(
-            'Magento_AuthorizationInterface', array(
-                'data' => array('policy' => new Magento_Authorization_Policy_Default())
+            '\Magento\AuthorizationInterface', array(
+                'data' => array('policy' => new \Magento\Authorization\Policy\DefaultPolicy())
         ));
     }
 }

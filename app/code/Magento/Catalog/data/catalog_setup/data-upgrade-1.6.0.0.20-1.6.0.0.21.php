@@ -79,7 +79,7 @@ $attributesOrder = array(
     'description' => array($newGeneralTabName => 90, 'is_required' => 0),
     'status' => array(
         $newGeneralTabName => 100, 'is_required' => 0, 'default_value' => 1,
-        'frontend_input_renderer' => 'Magento_Data_Form_Element_Hidden'
+        'frontend_input_renderer' => '\Magento\Data\Form\Element\Hidden'
     ),
     //Autosettings tab
     'short_description' => array($autosettingsTabName => 0, 'is_required' => 0),

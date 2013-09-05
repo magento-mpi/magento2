@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectManager_ContextInterface
+class Magento_Core_Controller_Varien_Action_Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
      * @var Magento_Core_Controller_Request_Http
@@ -20,7 +20,7 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
     protected $_response;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -42,7 +42,7 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
     /**
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Controller_Varien_Front $frontController
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -50,7 +50,7 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
     public function __construct(
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Controller_Varien_Front $frontController,
         Magento_Core_Model_Layout $layout,
         Magento_Core_Model_Event_Manager $eventManager
@@ -80,7 +80,7 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
     }
 
     /**
-     * @return \Magento_ObjectManager
+     * @return \Magento\ObjectManager
      */
     public function getObjectManager()
     {

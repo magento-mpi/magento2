@@ -65,7 +65,7 @@ class Magento_Page_Block_Template_Links extends Magento_Core_Block_Template
         if (is_null($label) || false === $label) {
             return $this;
         }
-        $link = new Magento_Object(array(
+        $link = new \Magento\Object(array(
             'label'       => $label,
             'url'         => ($prepare ? $this->getUrl($url, (is_array($urlParams) ? $urlParams : array())) : $url),
             'title'       => $title,
@@ -144,7 +144,7 @@ class Magento_Page_Block_Template_Links extends Magento_Core_Block_Template
             $links = array();
             if (!empty($this->_links)) {
                 foreach ($this->_links as $position => $link) {
-                    if ($link instanceof Magento_Object) {
+                    if ($link instanceof \Magento\Object) {
                         $links[$position] = $link->getData();
                     }
                 }

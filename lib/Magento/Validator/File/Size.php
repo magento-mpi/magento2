@@ -7,6 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Validator_File_Size extends Zend_Validate_File_Size implements Magento_Validator_ValidatorInterface
+namespace Magento\Validator\File;
+
+class Size extends \Zend_Validate_File_Size implements \Magento\Validator\ValidatorInterface
 {
 }

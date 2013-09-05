@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_Abstract
 {
     /**
@@ -29,6 +28,44 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
      * @var array
      */
     protected $_address = array();
+
+    /**
+     * @var Magento_Directory_Block_Data
+     */
+    protected $_directoryBlock;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Directory_Block_Data $directoryBlock
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Directory_Block_Data $directoryBlock,
+        array $data = array()
+    ) {
+        $this->_directoryBlock = $directoryBlock;
+        parent::__construct($context, $data);
+    }
+
+    /**
+     * Get config
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public function getConfig($path)
+    {
+        return $this->_storeConfig->getConfig($path);
+    }
+
+    /**
+     * @return Magento_Directory_Block_Data
+     */
+    public function getDirectoryBlock()
+    {
+        return $this->_directoryBlock;
+    }
 
     /**
      * Get Estimate Rates

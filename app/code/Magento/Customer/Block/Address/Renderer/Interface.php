@@ -21,14 +21,14 @@ interface Magento_Customer_Block_Address_Renderer_Interface
     /**
      * Set format type object
      *
-     * @param Magento_Object $type
+     * @param \Magento\Object $type
      */
-    function setType(Magento_Object $type);
+    function setType(\Magento\Object $type);
 
     /**
      * Retrive format type object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     function getType();
 

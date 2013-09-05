@@ -20,7 +20,7 @@ class Magento_Core_Model_Layout_File_FactoryTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMockForAbstractClass('Magento_ObjectManager');
+        $this->_objectManager = $this->getMockForAbstractClass('\Magento\ObjectManager');
         $this->_model = new Magento_Core_Model_Layout_File_Factory($this->_objectManager);
     }
 

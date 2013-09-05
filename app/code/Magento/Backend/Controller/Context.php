@@ -25,7 +25,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     protected $_helper;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -37,13 +37,13 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     /**
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Controller_Varien_Front $frontController
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Backend_Model_Session $session
      * @param Magento_Backend_Helper_Data $helper
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      * @param Magento_Core_Model_Translate $translator
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -51,13 +51,13 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     public function __construct(
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Controller_Varien_Front $frontController,
         Magento_Core_Model_Layout $layout,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Backend_Model_Session $session,
         Magento_Backend_Helper_Data $helper,
-        Magento_AuthorizationInterface $authorization,
+        \Magento\AuthorizationInterface $authorization,
         Magento_Core_Model_Translate $translator
     ) {
         parent::__construct($request, $response, $objectManager, $frontController, $layout, $eventManager);
@@ -84,7 +84,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     }
 
     /**
-     * @return \Magento_AuthorizationInterface
+     * @return \Magento\AuthorizationInterface
      */
     public function getAuthorization()
     {

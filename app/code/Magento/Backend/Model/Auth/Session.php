@@ -32,14 +32,14 @@ class Magento_Backend_Model_Auth_Session
     /**
      * Access Control List builder
      *
-     * @var Magento_Acl_Builder
+     * @var \Magento\Acl\Builder
      */
     protected $_aclBuilder;
 
     /**
-     * @param Magento_Acl_Builder $aclBuilder
+     * @param \Magento\Acl\Builder $aclBuilder
      */
-    public function __construct(Magento_Acl_Builder $aclBuilder)
+    public function __construct(\Magento\Acl\Builder $aclBuilder)
     {
         $this->_aclBuilder = $aclBuilder;
         $this->init('admin');

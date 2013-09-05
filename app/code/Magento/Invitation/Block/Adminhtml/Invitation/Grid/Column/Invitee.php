@@ -18,10 +18,10 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee
     /**
      * Render invitee email linked to its account edit page
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    protected function _getValue(Magento_Object $row)
+    protected function _getValue(\Magento\Object $row)
     {
         if ($this->_authorization->isAllowed('Magento_Customer::manage')) {
             if (!$row->getReferralId()) {

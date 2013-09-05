@@ -89,7 +89,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
      */
     public function loadByCode($entityType, $code)
     {
-        Magento_Profiler::start('load_by_code');
+        \Magento\Profiler::start('load_by_code');
         if (is_numeric($entityType)) {
             $entityTypeId = $entityType;
         } elseif (is_string($entityType)) {
@@ -103,7 +103,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
         }
         $this->_getResource()->loadByCode($this, $entityTypeId, $code);
         $this->_afterLoad();
-        Magento_Profiler::stop('load_by_code');
+        \Magento\Profiler::stop('load_by_code');
         return $this;
     }
 
@@ -534,7 +534,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
                 break;
             case 'datetime':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => Magento_DB_Ddl_Table::TYPE_DATETIME,
+                    'type'      => \Magento\DB\Ddl\Table::TYPE_DATETIME,
                     'unsigned'  => false,
                     'nullable'  => true,
                     'default'   => null,
@@ -543,7 +543,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
                 break;
             case 'decimal':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+                    'type'      => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
                     'length'    => '12,4',
                     'unsigned'  => false,
                     'nullable'  => true,
@@ -553,7 +553,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
                 break;
             case 'int':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => Magento_DB_Ddl_Table::TYPE_INTEGER,
+                    'type'      => \Magento\DB\Ddl\Table::TYPE_INTEGER,
                     'unsigned'  => false,
                     'nullable'  => true,
                     'default'   => null,
@@ -562,17 +562,17 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
                 break;
             case 'text':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
+                    'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
                     'unsigned'  => false,
                     'nullable'  => true,
                     'default'   => null,
                     'extra'     => null,
-                    'length'    => Magento_DB_Ddl_Table::MAX_TEXT_SIZE
+                    'length'    => \Magento\DB\Ddl\Table::MAX_TEXT_SIZE
                 );
                 break;
             case 'varchar':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
+                    'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
                     'length'    => '255',
                     'unsigned'  => false,
                     'nullable'  => true,
@@ -736,7 +736,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getFlatUpdateSelect($store = null) {
         if ($store === null) {

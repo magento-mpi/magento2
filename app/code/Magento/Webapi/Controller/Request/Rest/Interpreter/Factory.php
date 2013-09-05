@@ -15,7 +15,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_Factory
     const XML_PATH_WEBAPI_REQUEST_INTERPRETERS = 'global/webapi/rest/request/interpreters';
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -23,10 +23,10 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_Factory
     protected $_applicationConfig;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_Config $applicationConfig
      */
-    public function __construct(Magento_ObjectManager $objectManager, Magento_Core_Model_Config $applicationConfig)
+    public function __construct(\Magento\ObjectManager $objectManager, Magento_Core_Model_Config $applicationConfig)
     {
         $this->_objectManager = $objectManager;
         $this->_applicationConfig = $applicationConfig;

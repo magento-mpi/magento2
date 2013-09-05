@@ -17,7 +17,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded
     /**
      * Return collapse state
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return bool
      */
     protected function _isCollapseState($element)

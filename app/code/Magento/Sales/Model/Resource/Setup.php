@@ -144,25 +144,25 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
         $length = null;
         switch ($data['type']) {
             case 'timestamp':
-                $type = Magento_DB_Ddl_Table::TYPE_TIMESTAMP;
+                $type = \Magento\DB\Ddl\Table::TYPE_TIMESTAMP;
                 break;
             case 'datetime':
-                $type = Magento_DB_Ddl_Table::TYPE_DATETIME;
+                $type = \Magento\DB\Ddl\Table::TYPE_DATETIME;
                 break;
             case 'decimal':
-                $type = Magento_DB_Ddl_Table::TYPE_DECIMAL;
+                $type = \Magento\DB\Ddl\Table::TYPE_DECIMAL;
                 $length = '12,4';
                 break;
             case 'int':
-                $type = Magento_DB_Ddl_Table::TYPE_INTEGER;
+                $type = \Magento\DB\Ddl\Table::TYPE_INTEGER;
                 break;
             case 'text':
-                $type = Magento_DB_Ddl_Table::TYPE_TEXT;
+                $type = \Magento\DB\Ddl\Table::TYPE_TEXT;
                 $length = 65536;
                 break;
             case 'char':
             case 'varchar':
-                $type = Magento_DB_Ddl_Table::TYPE_TEXT;
+                $type = \Magento\DB\Ddl\Table::TYPE_TEXT;
                 $length = 255;
                 break;
         }

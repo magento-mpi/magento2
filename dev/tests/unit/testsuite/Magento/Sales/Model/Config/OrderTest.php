@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Config_OrderedTest extends PHPUnit_Framework_TestCase
+class Magento_Sales_Model_Config_OrderTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider getSortedCollectorCodesDataProvider
@@ -53,7 +53,7 @@ class Magento_Sales_Model_Config_OrderedTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider ambiguousTotalsDataProvider
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      */
     public function testValidateCollectorDeclarations($config)
     {

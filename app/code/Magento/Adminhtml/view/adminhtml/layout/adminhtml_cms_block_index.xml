@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_cms_block_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_cms_block_index">
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Cms_Block" name="cms_block"/>
+            <block class="Magento_Adminhtml_Block_Cms_Block" name="cms_block"/>
         </reference>
-    </adminhtml_cms_block_index>
+    </handle>
 </layout>

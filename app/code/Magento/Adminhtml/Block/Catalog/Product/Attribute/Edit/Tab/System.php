@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends 
     {
         $model = Mage::registry('entity_attribute');
 
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('System Properties')));
 
         if ($model->getAttributeId()) {

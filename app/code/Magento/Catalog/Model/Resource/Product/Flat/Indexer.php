@@ -343,7 +343,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     {
         $columns = array();
         $columns['entity_id'] = array(
-            'type'      => Magento_DB_Ddl_Table::TYPE_INTEGER,
+            'type'      => \Magento\DB\Ddl\Table::TYPE_INTEGER,
             'length'    => null,
             'unsigned'  => true,
             'nullable'  => false,
@@ -353,7 +353,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
         );
         if ($this->getFlatHelper()->isAddChildData()) {
             $columns['child_id'] = array(
-                'type'      => Magento_DB_Ddl_Table::TYPE_INTEGER,
+                'type'      => \Magento\DB\Ddl\Table::TYPE_INTEGER,
                 'length'    => null,
                 'unsigned'  => true,
                 'nullable'  => true,
@@ -362,7 +362,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
                 'comment'   => 'Child Id'
             );
             $columns['is_child'] = array(
-                'type'      => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+                'type'      => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
                 'length'    => 1,
                 'unsigned'  => true,
                 'nullable'  => false,
@@ -371,7 +371,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             );
         }
         $columns['attribute_set_id'] = array(
-            'type'      => Magento_DB_Ddl_Table::TYPE_SMALLINT,
+            'type'      => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
             'length'    => 5,
             'unsigned'  => true,
             'nullable'  => false,
@@ -379,7 +379,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             'comment'   => 'Attribute Set Id'
         );
         $columns['type_id'] = array(
-            'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
+            'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
             'length'    => 32,
             'unsigned'  => false,
             'nullable'  => false,
@@ -415,7 +415,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
                 }
             }
 
-            $columnsObject = new Magento_Object();
+            $columnsObject = new \Magento\Object();
             $columnsObject->setColumns($this->_columns);
             Mage::dispatchEvent('catalog_product_flat_prepare_columns',
                 array('columns' => $columnsObject)
@@ -438,29 +438,29 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
 
             if ($this->getFlatHelper()->isAddChildData()) {
                 $this->_indexes['PRIMARY'] = array(
-                    'type'   => Magento_DB_Adapter_Interface::INDEX_TYPE_PRIMARY,
+                    'type'   => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY,
                     'fields' => array('entity_id', 'child_id')
                 );
                 $this->_indexes['IDX_CHILD'] = array(
-                    'type'   => Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX,
+                    'type'   => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX,
                     'fields' => array('child_id')
                 );
                 $this->_indexes['IDX_IS_CHILD'] = array(
-                    'type'   => Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX,
+                    'type'   => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX,
                     'fields' => array('entity_id', 'is_child')
                 );
             } else {
                 $this->_indexes['PRIMARY'] = array(
-                    'type'   => Magento_DB_Adapter_Interface::INDEX_TYPE_PRIMARY,
+                    'type'   => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY,
                     'fields' => array('entity_id')
                 );
             }
             $this->_indexes['IDX_TYPE_ID'] = array(
-                'type'   => Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX,
+                'type'   => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX,
                 'fields' => array('type_id')
             );
             $this->_indexes['IDX_ATTRIBUTE_SET'] = array(
-                'type'   => Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX,
+                'type'   => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX,
                 'fields' => array('attribute_set_id')
             );
 
@@ -475,7 +475,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
                 }
             }
 
-            $indexesObject = new Magento_Object();
+            $indexesObject = new \Magento\Object();
             $indexesObject->setIndexes($this->_indexes);
             Mage::dispatchEvent('catalog_product_flat_prepare_indexes', array(
                 'indexes'   => $indexesObject
@@ -549,7 +549,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
         // Process indexes to create names for them in MMDB-style and reformat to common index definition
         $indexKeys = array();
         $indexProps = array_values($indexesNeed);
-        $upperPrimaryKey = strtoupper(Magento_DB_Adapter_Interface::INDEX_TYPE_PRIMARY);
+        $upperPrimaryKey = strtoupper(\Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY);
         foreach ($indexProps as $i => $indexProp) {
             $indexName = $adapter->getIndexName($tableName, $indexProp['fields'], $indexProp['type']);
             $indexProp['type'] = strtoupper($indexProp['type']);
@@ -574,7 +574,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
 
         // Create table or modify existing one
         if (!$this->_isFlatTableExists($storeId)) {
-            /** @var $table Magento_DB_Ddl_Table */
+            /** @var $table \Magento\DB\Ddl\Table */
             $table = $adapter->newTable($tableName);
             foreach ($columns as $fieldName => $fieldProp) {
                 $table->addColumn(
@@ -598,12 +598,12 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
 
             $table->addForeignKey($foreignEntityKey,
                 'entity_id', $this->getTable('catalog_product_entity'), 'entity_id',
-                Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE);
+                \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE);
 
             if ($this->getFlatHelper()->isAddChildData()) {
                 $table->addForeignKey($foreignChildKey,
                     'child_id', $this->getTable('catalog_product_entity'), 'entity_id',
-                    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE);
+                    \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE);
             }
             $table->setComment("Catalog Product Flat (Store {$storeId})");
 
@@ -650,8 +650,8 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
                 'table_index'   => 'entity_id',
                 'ref_table'     => $this->getTable('catalog_product_entity'),
                 'ref_index'     => 'entity_id',
-                'on_update'     => Magento_DB_Ddl_Table::ACTION_CASCADE,
-                'on_delete'     => Magento_DB_Ddl_Table::ACTION_CASCADE
+                'on_update'     => \Magento\DB\Ddl\Table::ACTION_CASCADE,
+                'on_delete'     => \Magento\DB\Ddl\Table::ACTION_CASCADE
             );
 
             // Additional data from childs
@@ -669,8 +669,8 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
                     'table_index'   => 'child_id',
                     'ref_table'     => $this->getTable('catalog_product_entity'),
                     'ref_index'     => 'entity_id',
-                    'on_update'     => Magento_DB_Ddl_Table::ACTION_CASCADE,
-                    'on_delete'     => Magento_DB_Ddl_Table::ACTION_CASCADE
+                    'on_update'     => \Magento\DB\Ddl\Table::ACTION_CASCADE,
+                    'on_delete'     => \Magento\DB\Ddl\Table::ACTION_CASCADE
                 );
             }
 
@@ -901,7 +901,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             }
 
             $select = $attribute->getFlatUpdateSelect($storeId);
-            if ($select instanceof Magento_DB_Select) {
+            if ($select instanceof \Magento\DB\Select) {
                 if ($productIds !== null) {
                     $select->where('e.entity_id IN(?)', $productIds);
                 }
@@ -959,7 +959,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     {
         if ($this->_productTypes === null) {
             $this->_productTypes = array();
-            $productEmulator     = new Magento_Object();
+            $productEmulator     = new \Magento\Object();
 
             foreach (array_keys(Magento_Catalog_Model_Product_Type::getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);

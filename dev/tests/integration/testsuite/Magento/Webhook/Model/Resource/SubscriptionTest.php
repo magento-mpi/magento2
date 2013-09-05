@@ -18,7 +18,8 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
 
     public function setUp()
     {
-        $this->_resource = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Subscription');
+        $this->_resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Resource_Subscription');
     }
 
     public function testLoadTopics()
@@ -30,7 +31,8 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
         );
 
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setTopics($topics);
         $subscription->save();
 
@@ -49,7 +51,8 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
             'customer/deleted',
         );
 
-        $subscription = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscriptionId = $subscription
             ->setTopics($topics)
             ->setName('subscription to load')
@@ -63,7 +66,8 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
         $subscription->setTopics($topics)
             ->save();
 
-        $loadedSubscription = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $loadedSubscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $loadedSubscription->load($subscriptionId);
 
         $this->assertEquals('subscription to load', $loadedSubscription->getName());

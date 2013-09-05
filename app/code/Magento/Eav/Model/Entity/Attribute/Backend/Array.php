@@ -20,7 +20,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_Array extends Magento_Eav_Model
     /**
      * Prepare data for save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function beforeSave($object)

@@ -35,7 +35,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
             'is_unique' => 0,
         );
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model Magento_Core_Model_Abstract */
         $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
         $arguments['data'] = $attributeData;
@@ -90,7 +90,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
         );
 
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model Magento_Core_Model_Abstract */
         $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
         $arguments['data'] = $attributeData;
@@ -151,7 +151,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
         /** @var $resourceModel Magento_Eav_Model_Resource_Entity_Attribute */
         list($adapter, $resourceModel) = $this->_prepareResourceModel();
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model Magento_Core_Model_Abstract */
         $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
         $model = $this->getMock('Magento_Core_Model_Abstract', null, $arguments);
@@ -171,7 +171,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
      */
     protected function _prepareResourceModel()
     {
-        $adapter = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(
+        $adapter = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(
             '_connect', 'delete', 'describeTable', 'fetchRow', 'insert', 'lastInsertId', 'quote', 'update',
         ), array(), '', false);
         $adapter->expects($this->any())
@@ -192,8 +192,8 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
             ->method('getStores')
             ->with(true)
             ->will($this->returnValue(array(
-                new Magento_Object(array('id' => 0)),
-                new Magento_Object(array('id' => 1)),
+                new \Magento\Object(array('id' => 0)),
+                new \Magento\Object(array('id' => 1)),
             )));
 
         /** @var $resource Magento_Core_Model_Resource */

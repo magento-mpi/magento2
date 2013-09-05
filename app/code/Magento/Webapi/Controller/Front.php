@@ -34,7 +34,7 @@ class Magento_Webapi_Controller_Front implements Magento_Core_Controller_FrontIn
     /** @var Magento_Webapi_Controller_Dispatcher_Factory */
     protected $_dispatcherFactory;
 
-    /** @var Magento_Controller_Router_Route_Factory */
+    /** @var \Magento\Controller\Router\Route\Factory */
     protected $_routeFactory;
 
     /** @var Magento_Webapi_Controller_Dispatcher_ErrorProcessor */
@@ -45,13 +45,13 @@ class Magento_Webapi_Controller_Front implements Magento_Core_Controller_FrontIn
      *
      * @param Magento_Webapi_Controller_Dispatcher_Factory $dispatcherFactory
      * @param Magento_Core_Model_App $application
-     * @param Magento_Controller_Router_Route_Factory $routeFactory
+     * @param \Magento\Controller\Router\Route\Factory $routeFactory
      * @param Magento_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      */
     public function __construct(
         Magento_Webapi_Controller_Dispatcher_Factory $dispatcherFactory,
         Magento_Core_Model_App $application,
-        Magento_Controller_Router_Route_Factory $routeFactory,
+        \Magento\Controller\Router\Route\Factory $routeFactory,
         Magento_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
     ) {
         $this->_dispatcherFactory = $dispatcherFactory;

@@ -40,7 +40,7 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
      *
      * @param   boolean|string $sorted
      * @param   boolean $asCollection
-     * @return  Magento_Data_Tree_Node_Collection|Magento_Catalog_Model_Resource_Category_Collection|array
+     * @return  \Magento\Data\Tree\Node\Collection|Magento_Catalog_Model_Resource_Category_Collection|array
      */
     public function getStoreCategories($sorted=false, $asCollection=false, $toLoad=true)
     {
@@ -57,7 +57,7 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
         /* @var $category Magento_Catalog_Model_Category */
         if (!$category->checkId($parent)) {
             if ($asCollection) {
-                return new Magento_Data_Collection();
+                return new \Magento\Data\Collection();
             }
             return array();
         }

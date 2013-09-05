@@ -5,23 +5,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Code_Reader_ClassReader
+namespace Magento\Code\Reader;
+
+class ClassReader
 {
     /**
      * Read class constructor signature
      *
      * @param string $className
      * @return array|null
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function getConstructor($className)
     {
-        $class = new ReflectionClass($className);
+        $class = new \ReflectionClass($className);
         $result = null;
         $constructor = $class->getConstructor();
         if ($constructor) {
             $result = array();
-            /** @var $parameter ReflectionParameter */
+            /** @var $parameter \ReflectionParameter */
             foreach ($constructor->getParameters() as $parameter) {
                 $result[] = array(
                     $parameter->getName(),

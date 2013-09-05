@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminh
     {
         $model = Mage::registry('current_status');
 
-        $form = new Magento_Data_Form(array(
+        $form = new \Magento\Data\Form(array(
             'id' => 'edit_form',
             'action' => $this->getData('action'),
             'method' => 'post'
@@ -76,7 +76,7 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminh
      * Add Fieldset with Store labels
      *
      * @param Magento_Sales_Model_Order_Status $model
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      */
     protected function _addStoresFieldset($model, $form)
     {

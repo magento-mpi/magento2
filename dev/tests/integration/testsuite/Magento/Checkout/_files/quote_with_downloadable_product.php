@@ -24,7 +24,7 @@ $linkCollection = Mage::getModel('Magento_Downloadable_Model_Link')->getCollecti
 /** @var $link Magento_Downloadable_Model_Link */
 $link = $linkCollection->getFirstItem();
 
-$requestInfo = new Magento_Object(array(
+$requestInfo = new \Magento\Object(array(
     'qty' => 1,
     'links' => array($link->getId())
 ));
@@ -36,6 +36,6 @@ $cart->save();
 
 Mage::unregister('_singleton/Magento_Checkout_Model_Session');
 
-/** @var $objectManager Magento_Test_ObjectManager */
-$objectManager = Mage::getObjectManager();
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 $objectManager->removeSharedInstance('Magento_Checkout_Model_Session');

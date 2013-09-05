@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes e
     protected function _prepareForm()
     {
 
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         /**
          * Initialize product object as form property
          * for using it in elements generation
@@ -59,7 +59,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes e
             'boolean' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean',
         );
 
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setTypes(array());
         Mage::dispatchEvent('adminhtml_catalog_product_edit_element_types', array('response'=>$response));
 

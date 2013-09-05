@@ -93,10 +93,10 @@ class Magento_SalesRule_Model_Rule_Condition_Address extends Magento_Rule_Model_
     /**
      * Validate Address Rule Condition
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return bool
      */
-    public function validate(Magento_Object $object)
+    public function validate(\Magento\Object $object)
     {
         $address = $object;
         if (!$address instanceof Magento_Sales_Model_Quote_Address) {

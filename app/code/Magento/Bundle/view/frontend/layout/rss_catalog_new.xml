@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <rss_catalog_new>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="rss_catalog_new">
         <reference name="rss.catalog.new">
             <action method="addPriceBlockType">
-                <type>bundle</type>
-                <block>Magento_Bundle_Block_Catalog_Product_Price</block>
-                <template>rss/catalog/product/price.phtml</template>
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+                <argument name="template" xsi:type="string">rss/catalog/product/price.phtml</argument>
             </action>
         </reference>
-    </rss_catalog_new>
+    </handle>
 </layout>

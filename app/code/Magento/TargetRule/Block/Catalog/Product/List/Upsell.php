@@ -71,7 +71,7 @@ class Magento_TargetRule_Block_Catalog_Product_List_Upsell
             }
 
             $ids = parent::getAllIds();
-            $ids = new Magento_Object(array('items' => array_flip($ids)));
+            $ids = new \Magento\Object(array('items' => array_flip($ids)));
             /**
              * Updating collection with desired items
              */

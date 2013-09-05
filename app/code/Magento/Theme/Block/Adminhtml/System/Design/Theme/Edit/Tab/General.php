@@ -29,22 +29,22 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     protected $_themeImagePath;
 
     /**
-     * @var Magento_File_Size
+     * @var \Magento\File\Size
      */
     protected $_fileSize;
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_Theme_Image_Path $themeImagePath
-     * @param Magento_File_Size $fileSize
+     * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_Theme_Image_Path $themeImagePath,
-        Magento_File_Size $fileSize,
+        \Magento\File\Size $fileSize,
         array $data = array()
     ) {
         $this->_themeImagePath = $themeImagePath;
@@ -71,7 +71,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         }
         $this->setIsThemeExist(isset($formData['theme_id']));
 
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
 
         $this->_addThemeFieldset($form, $formData);
 
@@ -88,7 +88,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     /**
      * Add theme fieldset
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @param array $formData
      * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      */

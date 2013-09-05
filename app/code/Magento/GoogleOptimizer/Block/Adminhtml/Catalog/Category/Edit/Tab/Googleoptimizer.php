@@ -30,7 +30,7 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_GoogleOptimizer_Helper_Code $codeHelper
      * @param Magento_GoogleOptimizer_Helper_Form $formHelper
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @param array $data
      */
     public function __construct(
@@ -38,7 +38,7 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
         Magento_Core_Model_Registry $registry,
         Magento_GoogleOptimizer_Helper_Code $codeHelper,
         Magento_GoogleOptimizer_Helper_Form $formHelper,
-        Magento_Data_Form $form,
+        \Magento\Data\Form $form,
         array $data = array()
     ) {
         parent::__construct($context, $data);

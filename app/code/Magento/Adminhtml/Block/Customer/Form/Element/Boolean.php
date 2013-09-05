@@ -16,7 +16,7 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Form_Element_Boolean extends Magento_Data_Form_Element_Select
+class Magento_Adminhtml_Block_Customer_Form_Element_Boolean extends \Magento\Data\Form\Element\Select
 {
     /**
      * Prepare default SELECT values

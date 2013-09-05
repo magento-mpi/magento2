@@ -18,7 +18,7 @@ class Magento_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_coreAuthorization = $this->getMockBuilder('Magento_AuthorizationInterface')
+        $this->_coreAuthorization = $this->getMockBuilder('Magento\AuthorizationInterface')
             ->getMock();
         /** Initialize SUT. */
         $this->_webapiAuthorization = new Magento_Webapi_Model_Authorization(

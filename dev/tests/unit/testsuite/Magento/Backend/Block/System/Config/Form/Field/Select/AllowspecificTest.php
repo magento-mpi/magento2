@@ -25,7 +25,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Select_AllowspecificTest ex
     {
         $this->_object = new Magento_Backend_Block_System_Config_Form_Field_Select_Allowspecific();
         $this->_object->setData('html_id', 'spec_element');
-        $this->_formMock = $this->getMock('Magento_Data_Form',
+        $this->_formMock = $this->getMock('Magento\Data\Form',
             array('getHtmlIdPrefix', 'getHtmlIdSuffix', 'getElement'),
             array(), '', false, false
         );
@@ -57,7 +57,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Select_AllowspecificTest ex
     {
         $this->_object->setForm($this->_formMock);
 
-        $elementMock = $this->getMock('Magento_Data_Form_Element_Select',
+        $elementMock = $this->getMock('Magento\Data\Form\Element\Select',
             array('setDisabled'), array(), '', false, false
         );
 

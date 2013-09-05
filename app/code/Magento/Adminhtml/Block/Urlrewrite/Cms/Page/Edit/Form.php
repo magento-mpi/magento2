@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Admi
     /**
      * Form post init
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @return Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form
      */
     protected function _formPostInit($form)
@@ -37,11 +37,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Admi
         );
 
         // Fill id path, request path and target path elements
-        /** @var $idPath Magento_Data_Form_Element_Abstract */
+        /** @var $idPath \Magento\Data\Form\Element\AbstractElement */
         $idPath = $this->getForm()->getElement('id_path');
-        /** @var $requestPath Magento_Data_Form_Element_Abstract */
+        /** @var $requestPath \Magento\Data\Form\Element\AbstractElement */
         $requestPath = $this->getForm()->getElement('request_path');
-        /** @var $targetPath Magento_Data_Form_Element_Abstract */
+        /** @var $targetPath \Magento\Data\Form\Element\AbstractElement */
         $targetPath = $this->getForm()->getElement('target_path');
 
         $model = $this->_getModel();

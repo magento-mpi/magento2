@@ -17,7 +17,7 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
+class Magento_Sales_Model_Order_Pdf_Total_Default extends \Magento\Object
 {
     /**
      * @var Magento_Tax_Helper_Data
@@ -40,14 +40,14 @@ class Magento_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Tax_Helper_Data $taxHelper
      * @param Magento_Tax_Model_Calculation $taxCalculation
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
         Magento_Tax_Helper_Data $taxHelper,
         Magento_Tax_Model_Calculation $taxCalculation,
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         array $data = array()
     ){
         $this->_taxHelper = $taxHelper;

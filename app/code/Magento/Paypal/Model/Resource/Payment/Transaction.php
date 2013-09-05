@@ -97,7 +97,7 @@ class Magento_Paypal_Model_Resource_Payment_Transaction extends Magento_Core_Mod
      *
      * @param string $txnId
      * @param string|array|Zend_Db_Expr $columns
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     private function _getLoadByUniqueKeySelect($txnId, $columns = '*')
     {

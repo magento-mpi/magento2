@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_review_exportcustomercsv>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_review_exportcustomercsv">
         <update handle="adminhtml_report_review_customer_grid"/>
         <container name="adminhtml.report.review.customer.grid.container" label="Export CSV"/>
-    </adminhtml_report_review_exportcustomercsv>
+    </handle>
 </layout>

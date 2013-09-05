@@ -21,7 +21,7 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
      * Return Store level Service Instance
      *
      * @param int $storeId
-     * @return Magento_Gdata_Gshopping_Content
+     * @return \Magento\Gdata\Gshopping\Content
      */
     public function getService($storeId = null)
     {
@@ -110,14 +110,14 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
     /**
      * Return Google Content Item Attribute Value
      *
-     * @param Magento_Gdata_Gshopping_Entry $entry
+     * @param \Magento\Gdata\Gshopping\Entry $entry
      * @param string $name Google Content attribute name
      * @return string|null Attribute value
      */
     protected function _getAttributeValue($entry, $name)
     {
         $attribute = $entry->getContentAttributeByName($name);
-        return ($attribute instanceof Magento_Gdata_Gshopping_Extension_Attribute)
+        return ($attribute instanceof \Magento\Gdata\Gshopping\Extension\Attribute)
             ? $attribute->text
             : null;
     }
@@ -126,7 +126,7 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
      * Retrieve item query for Google Content
      *
      * @param Magento_GoogleShopping_Model_Item $item
-     * @return Magento_Gdata_Gshopping_ItemQuery
+     * @return \Magento\Gdata\Gshopping\ItemQuery
      */
     protected function _buildItemQuery($item)
     {
@@ -147,14 +147,14 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
     /**
      * Return item stats array based on Zend Gdata Entry object
      *
-     * @param Magento_Gdata_Gshopping_Entry $entry
+     * @param \Magento\Gdata\Gshopping\Entry $entry
      * @return array
      */
     protected function _getEntryStats($entry)
     {
         $result = array();
         $expirationDate = $entry->getContentAttributeByName('expiration_date');
-        if ($expirationDate instanceof Magento_Gdata_Gshopping_Extension_Attribute) {
+        if ($expirationDate instanceof \Magento\Gdata\Gshopping\Extension\Attribute) {
             $result['expires'] = $this->convertContentDateToTimestamp($expirationDate->text);
         }
 

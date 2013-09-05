@@ -156,7 +156,7 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
      */
     public function validateAction()
     {
-        $response = new Magento_Object(array('error' => false));
+        $response = new \Magento\Object(array('error' => false));
         $post     = $this->getRequest()->getParam('rate');
         $message  = null;
         if (Mage::app()->isSingleStoreMode()) {

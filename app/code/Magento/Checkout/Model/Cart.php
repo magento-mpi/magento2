@@ -15,7 +15,7 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Checkout_Model_Cart_Interface
+class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Checkout_Model_Cart_Interface
 {
     /**
      * Shopping cart items summary quantity(s)
@@ -158,7 +158,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
             }
 
             $info = $orderItem->getProductOptionByCode('info_buyRequest');
-            $info = new Magento_Object($info);
+            $info = new \Magento\Object($info);
             if (is_null($qtyFlag)) {
                 $info->setQty($orderItem->getQtyOrdered());
             } else {
@@ -201,16 +201,16 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      * Get request for product add to cart procedure
      *
      * @param   mixed $requestInfo
-     * @return  Magento_Object
+     * @return  \Magento\Object
      */
     protected function _getProductRequest($requestInfo)
     {
-        if ($requestInfo instanceof Magento_Object) {
+        if ($requestInfo instanceof \Magento\Object) {
             $request = $requestInfo;
         } elseif (is_numeric($requestInfo)) {
-            $request = new Magento_Object(array('qty' => $requestInfo));
+            $request = new \Magento\Object(array('qty' => $requestInfo));
         } else {
-            $request = new Magento_Object($requestInfo);
+            $request = new \Magento\Object($requestInfo);
         }
 
         if (!$request->hasQty()) {
@@ -532,12 +532,12 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
 
     /**
      * Update item in shopping cart (quote)
-     * $requestInfo - either qty (int) or buyRequest in form of array or Magento_Object
+     * $requestInfo - either qty (int) or buyRequest in form of array or \Magento\Object
      * $updatingParams - information on how to perform update, passed to Quote->updateItem() method
      *
      * @param int $itemId
-     * @param int|array|Magento_Object $requestInfo
-     * @param null|array|Magento_Object $updatingParams
+     * @param int|array|\Magento\Object $requestInfo
+     * @param null|array|\Magento\Object $updatingParams
      * @return Magento_Sales_Model_Quote_Item|string
      *
      * @see Magento_Sales_Model_Quote::updateItem()

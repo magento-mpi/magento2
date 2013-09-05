@@ -337,7 +337,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
             if (!isset($urlData[$product->getId()])) {
                 return false;
             }
-            $product->setUrlDataObject(new Magento_Object($urlData));
+            $product->setUrlDataObject(new \Magento\Object($urlData));
             $visibility = $product->getUrlDataObject()->getVisibility();
             if (!in_array($visibility, $product->getVisibleInSiteVisibilities())) {
                 return false;
@@ -385,19 +385,19 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      * Returns formatted buy request - object, holding request received from
      * product view page with keys and options for configured product
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getBuyRequest()
     {
         $option = $this->getOptionByCode('info_buyRequest');
         $initialData = $option ? unserialize($option->getValue()) : null;
 
-        // There can be wrong data due to bug in Grouped products - it formed 'info_buyRequest' as Magento_Object
-        if ($initialData instanceof Magento_Object) {
+        // There can be wrong data due to bug in Grouped products - it formed 'info_buyRequest' as \Magento\Object
+        if ($initialData instanceof \Magento\Object) {
             $initialData = $initialData->getData();
         }
 
-        $buyRequest = new Magento_Object($initialData);
+        $buyRequest = new \Magento\Object($initialData);
         $buyRequest->setOriginalQty($buyRequest->getQty())
             ->setQty($this->getQty() * 1);
         return $buyRequest;
@@ -406,11 +406,11 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Merge data to item info_buyRequest option
      *
-     * @param array|Magento_Object $buyRequest
+     * @param array|\Magento\Object $buyRequest
      * @return Magento_Wishlist_Model_Item
      */
     public function mergeBuyRequest($buyRequest) {
-        if ($buyRequest instanceof Magento_Object) {
+        if ($buyRequest instanceof \Magento\Object) {
             $buyRequest = $buyRequest->getData();
         }
 
@@ -438,7 +438,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Set buy request - object, holding request received from
      * product view page with keys and options for configured product
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @return Magento_Wishlist_Model_Item
      */
     public function setBuyRequest($buyRequest)
@@ -454,7 +454,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      * Check product representation in item
      *
      * @param   Magento_Catalog_Model_Product $product
-     * @param   Magento_Object $buyRequest
+     * @param   \Magento\Object $buyRequest
      * @return  bool
      */
     public function isRepresent($product, $buyRequest)
@@ -584,7 +584,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
                 ->setItem($this);
         } else if ($option instanceof Magento_Wishlist_Model_Item_Option) {
             $option->setItem($this);
-        } else if ($option instanceof Magento_Object) {
+        } else if ($option instanceof \Magento\Object) {
             $option = Mage::getModel('Magento_Wishlist_Model_Item_Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
@@ -664,11 +664,11 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      *
      * We have to customize only controller url, so return it.
      *
-     * @return null|Magento_Object
+     * @return null|\Magento\Object
      */
     public function getFileDownloadParams()
     {
-        $params = new Magento_Object();
+        $params = new \Magento\Object();
         $params->setUrl($this->_customOptionDownloadUrl);
         return $params;
     }

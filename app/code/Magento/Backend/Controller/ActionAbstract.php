@@ -55,7 +55,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     protected $_eventManager;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 

@@ -19,7 +19,7 @@ class Magento_Log_Model_Shell_Command_FactoryTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_model = new Magento_Log_Model_Shell_Command_Factory($this->_objectManagerMock);
     }
 

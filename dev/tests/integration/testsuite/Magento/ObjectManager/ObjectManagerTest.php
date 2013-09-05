@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_ObjectManager
+ * @package     \Magento\ObjectManager
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
+class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Test classes for basic instantiation
@@ -27,7 +27,7 @@ class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
     /**#@-*/
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected static $_objectManager;
 
@@ -70,7 +70,7 @@ class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_objectManager = new Magento_ObjectManager_ObjectManager();
+        self::$_objectManager = new \Magento\ObjectManager\ObjectManager();
         self::$_objectManager->configure(array(
             'preferences' => array(
                 self::TEST_INTERFACE => self::TEST_INTERFACE_IMPLEMENTATION

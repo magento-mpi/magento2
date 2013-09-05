@@ -18,7 +18,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit
 
     protected function setUp()
     {
-        $this->_xmlParserMock = $this->getMock('Magento_Xml_Parser', array('xmlToArray', 'loadXML'));
+        $this->_xmlParserMock = $this->getMock('Magento\Xml\Parser', array('xmlToArray', 'loadXML'));
         $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')
             ->setMethods(array('isDeveloperMode'))
             ->disableOriginalConstructor()

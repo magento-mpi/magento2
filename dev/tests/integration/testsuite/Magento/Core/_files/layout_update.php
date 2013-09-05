@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-/** @var $objectManager Magento_ObjectManager */
-$objectManager = Mage::getObjectManager();
+/** @var $objectManager \Magento\ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
 /** @var $theme Magento_Core_Model_Theme */
 $theme = $objectManager->create('Magento_Core_Model_Theme');

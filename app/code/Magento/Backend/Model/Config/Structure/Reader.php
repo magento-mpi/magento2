@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Structure_Reader extends Magento_Config_Reader_Filesystem
+class Magento_Backend_Model_Config_Structure_Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of identifier attributes for merging
@@ -41,7 +41,7 @@ class Magento_Backend_Model_Config_Structure_Reader extends Magento_Config_Reade
 
     /**
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
-     * @param Magento_Config_FileResolverInterface $fileResolver
+     * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param Magento_Backend_Model_Config_Structure_Converter $converter
      * @param string $fileName
      * @param array $idAttributes
@@ -51,13 +51,13 @@ class Magento_Backend_Model_Config_Structure_Reader extends Magento_Config_Reade
      */
     public function __construct(
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_Config_FileResolverInterface $fileResolver,
+        \Magento\Config\FileResolverInterface $fileResolver,
         Magento_Backend_Model_Config_Structure_Converter $converter,
         $fileName = 'system.xml',
         $idAttributes = array(),
         $schemaFile = null,
         $isValidated = true,
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = '\Magento\Config\Dom'
     ) {
         $schema = $moduleReader->getModuleDir('etc', 'Magento_Backend') . DIRECTORY_SEPARATOR . 'system.xsd';
         $perFileSchema =

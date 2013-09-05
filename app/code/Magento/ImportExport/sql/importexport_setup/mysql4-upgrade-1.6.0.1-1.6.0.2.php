@@ -15,7 +15,7 @@ $installer->getConnection()->modifyColumn(
     $installer->getTable('importexport_importdata'),
     'data',
     array(
-        'type' => Magento_DB_Ddl_Table::TYPE_TEXT,
+        'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
         'length' => '4G',
         'default' => '',
         'comment' => 'Data'

@@ -149,7 +149,7 @@ class Magento_Reminder_Controller_Adminhtml_Reminder extends Magento_Adminhtml_C
 
                 $data = $this->_filterDates($data, array('from_date', 'to_date'));
 
-                $validateResult = $model->validateData(new Magento_Object($data));
+                $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
                         $this->_getSession()->addError($errorMessage);

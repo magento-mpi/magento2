@@ -13,7 +13,7 @@ class Magento_Core_Model_Cache_Type_FrontendPoolTest extends PHPUnit_Framework_T
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -24,14 +24,14 @@ class Magento_Core_Model_Cache_Type_FrontendPoolTest extends PHPUnit_Framework_T
 
     public function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $this->_cachePool = $this->getMock('Magento_Core_Model_Cache_Frontend_Pool', array(), array(), '', false);
         $this->_model = new Magento_Core_Model_Cache_Type_FrontendPool($this->_objectManager, $this->_cachePool);
     }
 
     public function testGet()
     {
-        $instanceMock = $this->getMock('Magento_Cache_FrontendInterface');
+        $instanceMock = $this->getMock('Magento\Cache\FrontendInterface');
         $this->_cachePool->expects($this->once())
             ->method('get')
             ->with('cache_type')
@@ -58,7 +58,7 @@ class Magento_Core_Model_Cache_Type_FrontendPoolTest extends PHPUnit_Framework_T
          * Setup cache pool to have knowledge only about default cache instance. Also check appropriate sequence
          * of calls.
          */
-        $defaultInstance = $this->getMock('Magento_Cache_FrontendInterface');
+        $defaultInstance = $this->getMock('Magento\Cache\FrontendInterface');
         $this->_cachePool->expects($this->at(0))
             ->method('get')
             ->with('cache_type')

@@ -282,7 +282,7 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
             $emails = array_keys($emails);
         }
 
-        return $this->setData('_recipients', new Magento_Object(array(
+        return $this->setData('_recipients', new \Magento\Object(array(
             'emails' => $emails,
             'names'  => $names
         )));
@@ -291,13 +291,13 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
     /**
      * Retrieve Recipients object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getRecipients()
     {
         $recipients = $this->_getData('_recipients');
-        if (!$recipients instanceof Magento_Object) {
-            $recipients =  new Magento_Object(array(
+        if (!$recipients instanceof \Magento\Object) {
+            $recipients =  new \Magento\Object(array(
                 'emails' => array(),
                 'names'  => array()
             ));
@@ -344,19 +344,19 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
             __('Invalid Sender Information');
         }
 
-        return $this->setData('_sender', new Magento_Object($sender));
+        return $this->setData('_sender', new \Magento\Object($sender));
     }
 
     /**
      * Retrieve Sender Information Object
      *
      * @throws Magento_Core_Exception
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getSender()
     {
         $sender = $this->_getData('_sender');
-        if (!$sender instanceof Magento_Object) {
+        if (!$sender instanceof \Magento\Object) {
             Mage::throwException(__('Please define the correct Sender information.'));
         }
         return $sender;

@@ -113,7 +113,7 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctionsTest extends PHPUnit
      */
     public function testGetViewFileUrlException()
     {
-        $magentoException = new Magento_Exception('test exception');
+        $magentoException = new \Magento\Exception('test exception');
         $notFoundUrl = 'not found';
 
         $this->_viewUrl->expects($this->once())

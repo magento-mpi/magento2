@@ -16,7 +16,7 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Core_Model_Resource_Db_Collection_Abstract extends Magento_Data_Collection_Db
+abstract class Magento_Core_Model_Resource_Db_Collection_Abstract extends \Magento\Data\Collection\Db
 {
     /**
      * Model name
@@ -98,11 +98,11 @@ abstract class Magento_Core_Model_Resource_Db_Collection_Abstract extends Magent
     /**
      * Collection constructor
      *
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         parent::__construct($fetchStrategy);
@@ -170,7 +170,7 @@ abstract class Magento_Core_Model_Resource_Db_Collection_Abstract extends Magent
     /**
      * Get Zend_Db_Select instance and applies fields to select if needed
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelect()
     {
@@ -408,7 +408,7 @@ abstract class Magento_Core_Model_Resource_Db_Collection_Abstract extends Magent
      * Get model instance
      *
      * @param array $args
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getModelName($args = array())
     {
@@ -595,6 +595,6 @@ abstract class Magento_Core_Model_Resource_Db_Collection_Abstract extends Magent
      */
     public function formatDate($date, $includeTime = true)
     {
-        return Magento_Date::formatDate($date, $includeTime);
+        return \Magento\Date::formatDate($date, $includeTime);
     }
 }

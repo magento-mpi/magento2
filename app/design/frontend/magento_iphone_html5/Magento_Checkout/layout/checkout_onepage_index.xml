@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_index">
         <reference name="head">
             <action method="removeItem">
-                <type>js</type>
-                <file>Magento_Checkout::js/opcheckout.js</file>
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="file" xsi:type="string">Magento_Checkout::js/opcheckout.js</argument>
             </action>
         </reference>
         <remove name="checkout.progress"/>
-    </checkout_onepage_index>
+    </handle>
 </layout>

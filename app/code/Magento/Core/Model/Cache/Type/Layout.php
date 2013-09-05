@@ -11,7 +11,7 @@
 /**
  * System / Cache Management / Cache type "Layouts"
  */
-class Magento_Core_Model_Cache_Type_Layout extends Magento_Cache_Frontend_Decorator_TagScope
+class Magento_Core_Model_Cache_Type_Layout extends \Magento\Cache\Frontend\Decorator\TagScope
 {
     /**
      * Cache type code unique among all cache types

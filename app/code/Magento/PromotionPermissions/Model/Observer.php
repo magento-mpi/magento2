@@ -80,7 +80,7 @@ class Magento_PromotionPermissions_Model_Observer
     /**
      * Handle core_block_abstract_to_html_before event
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function coreBlockAbstractToHtmlBefore($observer)
@@ -101,7 +101,7 @@ class Magento_PromotionPermissions_Model_Observer
     /**
      * Handle adminhtml_block_html_before event
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function adminhtmlBlockHtmlBefore($observer)
@@ -217,7 +217,7 @@ class Magento_PromotionPermissions_Model_Observer
     /**
      * Handle controller_action_predispatch event
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function controllerActionPredispatch($observer)

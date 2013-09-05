@@ -23,7 +23,7 @@ class Magento_Core_Model_Layout_Merge
     /**
      * XPath of handles originally declared in layout updates
      */
-    const XPATH_HANDLE_DECLARATION = '/layout/*[@* or label]';
+    const XPATH_HANDLE_DECLARATION = '/layout/*[@*[local-name()!="id"] or label]';
 
     /**
      * @var Magento_Core_Model_Theme
@@ -86,7 +86,7 @@ class Magento_Core_Model_Layout_Merge
     private $_appState;
 
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_cache;
 
@@ -98,7 +98,7 @@ class Magento_Core_Model_Layout_Merge
      * @param Magento_Core_Model_Layout_File_SourceInterface $fileSource,
      * @param Magento_Core_Model_Resource_Layout_Update $resource
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Cache_FrontendInterface $cache
+     * @param \Magento\Cache\FrontendInterface $cache
      * @param Magento_Core_Model_Theme $theme Non-injectable theme instance
      */
     public function __construct(
@@ -107,7 +107,7 @@ class Magento_Core_Model_Layout_Merge
         Magento_Core_Model_Layout_File_SourceInterface $fileSource,
         Magento_Core_Model_Resource_Layout_Update $resource,
         Magento_Core_Model_App_State $appState,
-        Magento_Cache_FrontendInterface $cache,
+        \Magento\Cache\FrontendInterface $cache,
         Magento_Core_Model_Theme $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
@@ -262,11 +262,15 @@ class Magento_Core_Model_Layout_Merge
     protected function _getPageHandleNode($handleName)
     {
         /* quick validation for non-existing page types */
-        if (!$handleName || !isset($this->getFileLayoutUpdatesXml()->$handleName)) {
+        if (!$handleName) {
+            return null;
+        }
+        $handles = $this->getFileLayoutUpdatesXml()->xpath("handle[@id='$handleName']");
+        if (empty($handles)) {
             return null;
         }
         $condition = '@type="' . self::TYPE_PAGE . '" or @type="' . self::TYPE_FRAGMENT . '"';
-        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/{$handleName}[{$condition}][1]");
+        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/handle[@id=\"{$handleName}\" and ($condition)]");
         return $nodes ? reset($nodes) : null;
     }
 
@@ -330,10 +334,10 @@ class Magento_Core_Model_Layout_Merge
         $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
         /** @var $node Magento_Core_Model_Layout_Element */
         foreach ($nodes as $node) {
-            $name = $node->getName();
+            $name = $node->getAttribute('id');
             $info = array(
                 'name'     => $name,
-                'label'    => (string)$node->label,
+                'label'    => __((string)$node->getAttribute('label')),
                 'type'     => $node->getAttribute('type'),
                 'children' => array()
             );
@@ -343,18 +347,6 @@ class Magento_Core_Model_Layout_Merge
             $result[$name] = $info;
         }
         return $result;
-    }
-
-    /**
-     * Retrieve the label for a page handle
-     *
-     * @param string $handleName
-     * @return string|null
-     */
-    public function getPageHandleLabel($handleName)
-    {
-        $node = $this->_getPageHandleNode($handleName);
-        return $node ? (string)$node->label : null;
     }
 
     /**
@@ -373,7 +365,7 @@ class Magento_Core_Model_Layout_Merge
      * Load layout updates by handles
      *
      * @param array|string $handles
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      * @return Magento_Core_Model_Layout_Merge
      */
     public function load($handles = array())
@@ -381,7 +373,7 @@ class Magento_Core_Model_Layout_Merge
         if (is_string($handles)) {
             $handles = array($handles);
         } elseif (!is_array($handles)) {
-            throw new Magento_Exception('Invalid layout update handle');
+            throw new \Magento\Exception('Invalid layout update handle');
         }
 
         $this->addHandle($handles);
@@ -404,12 +396,13 @@ class Magento_Core_Model_Layout_Merge
     /**
      * Get layout updates as Magento_Core_Model_Layout_Element object
      *
-     * @return Magento_Core_Model_Layout_Element
+     * @return SimpleXMLElement
      */
     public function asSimplexml()
     {
         $updates = trim($this->asString());
-        $updates = '<' . '?xml version="1.0"?' . '><layout>' . $updates . '</layout>';
+        $updates = '<' . '?xml version="1.0"?' . '><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+            . $updates . '</layout>';
         return $this->_loadXmlString($updates);
     }
 
@@ -448,13 +441,13 @@ class Magento_Core_Model_Layout_Merge
     protected function _fetchPackageLayoutUpdates($handle)
     {
         $_profilerKey = 'layout_package_update:' . $handle;
-        Magento_Profiler::start($_profilerKey);
+        \Magento\Profiler::start($_profilerKey);
         $layout = $this->getFileLayoutUpdatesXml();
-        foreach ($layout->$handle as $updateXml) {
+        foreach ($layout->xpath("handle[@id='$handle']") as $updateXml) {
             $this->_fetchRecursiveUpdates($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }
-        Magento_Profiler::stop($_profilerKey);
+        \Magento\Profiler::stop($_profilerKey);
 
         return true;
     }
@@ -468,19 +461,21 @@ class Magento_Core_Model_Layout_Merge
     protected function _fetchDbLayoutUpdates($handle)
     {
         $_profilerKey = 'layout_db_update: ' . $handle;
-        Magento_Profiler::start($_profilerKey);
+        \Magento\Profiler::start($_profilerKey);
         $updateStr = $this->_getDbUpdateString($handle);
         if (!$updateStr) {
-            Magento_Profiler::stop($_profilerKey);
+            \Magento\Profiler::stop($_profilerKey);
             return false;
         }
-        $updateStr = '<update_xml>' . $updateStr . '</update_xml>';
+        $updateStr = '<update_xml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+            . $updateStr
+            . '</update_xml>';
         $updateStr = $this->_substitutePlaceholders($updateStr);
         $updateXml = $this->_loadXmlString($updateStr);
         $this->_fetchRecursiveUpdates($updateXml);
         $this->addUpdate($updateXml->innerXml());
 
-        Magento_Profiler::stop($_profilerKey);
+        \Magento\Profiler::stop($_profilerKey);
         return (bool)$updateStr;
     }
 
@@ -594,7 +589,7 @@ class Magento_Core_Model_Layout_Merge
     /**
      * Collect and merge layout updates from files
      *
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      * @return Magento_Core_Model_Layout_Element
      */
     protected function _loadFileLayoutUpdatesXml()
@@ -608,14 +603,14 @@ class Magento_Core_Model_Layout_Merge
             /** @var $fileXml Magento_Core_Model_Layout_Element */
             $fileXml = $this->_loadXmlString($fileStr);
             if (!$file->isBase() && $fileXml->xpath(self::XPATH_HANDLE_DECLARATION)) {
-                throw new Magento_Exception(sprintf(
+                throw new \Magento\Exception(sprintf(
                     "Theme layout update file '%s' must not declare page types.",
                     $file->getFileName()
                 ));
             }
             $layoutStr .= $fileXml->innerXml();
         }
-        $layoutStr = '<layouts>' . $layoutStr . '</layouts>';
+        $layoutStr = '<layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $layoutStr . '</layouts>';
         $layoutXml = $this->_loadXmlString($layoutStr);
         return $layoutXml;
     }
@@ -625,7 +620,7 @@ class Magento_Core_Model_Layout_Merge
      *
      * @param Magento_Core_Model_Theme $theme
      * @return Magento_Core_Model_Theme
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _getPhysicalTheme(Magento_Core_Model_Theme $theme)
     {
@@ -634,7 +629,7 @@ class Magento_Core_Model_Layout_Merge
             $result = $result->getParentTheme();
         }
         if (!$result) {
-            throw new Magento_Exception("Unable to find a physical ancestor for a theme '{$theme->getThemeTitle()}'.");
+            throw new \Magento\Exception("Unable to find a physical ancestor for a theme '{$theme->getThemeTitle()}'.");
         }
         return $result;
     }

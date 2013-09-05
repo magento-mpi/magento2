@@ -23,10 +23,10 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abstra
      *
      * Render column depending on row status value, which define whether cell is editable
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $statusManager = Mage::getSingleton('Magento_Rma_Model_Item_Status');
         $statusManager->setStatus($row->getStatus());
@@ -44,10 +44,10 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abstra
      *
      * Must be overwritten in child classes
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    protected function _getEditableView(Magento_Object $row)
+    protected function _getEditableView(\Magento\Object $row)
     {
         return parent::render($row);
     }
@@ -57,10 +57,10 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abstra
      *
      * Must be overwritten in child classes
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    protected function _getNonEditableView(Magento_Object $row)
+    protected function _getNonEditableView(\Magento\Object $row)
     {
         return parent::render($row);
     }

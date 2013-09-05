@@ -19,7 +19,7 @@ class Magento_Webhook_Model_Webapi_EventHandler_FactoryTest extends PHPUnit_Fram
 
     public function setUp()
     {
-        $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_factory = new Magento_Webhook_Model_Webapi_EventHandler_Factory($this->_mockObjectManager);

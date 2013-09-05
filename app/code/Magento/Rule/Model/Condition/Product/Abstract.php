@@ -72,7 +72,7 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
                 ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $this->getAttribute());
         }
         catch (Exception $e) {
-            $obj = new Magento_Object();
+            $obj = new \Magento\Object();
             $obj->setEntity(Mage::getResourceSingleton('Magento_Catalog_Model_Product'))
                 ->setFrontendInput('text');
         }
@@ -229,7 +229,7 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
     /**
      * Retrieve attribute element
      *
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function getAttributeElement()
     {
@@ -327,7 +327,7 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
     /**
      * Retrieve value element
      *
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function getValueElement()
     {
@@ -432,10 +432,10 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
     /**
      * Validate product attribute value for condition
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return bool
      */
-    public function validate(Magento_Object $object)
+    public function validate(\Magento\Object $object)
     {
         $attrCode = $this->getAttribute();
 

@@ -15,10 +15,10 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_Action
     /**
      * Render a given html for the subscription grid
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string The rendered html code for a given row
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if (!($row instanceof Magento_Webhook_Model_Subscription)) {
             return '';

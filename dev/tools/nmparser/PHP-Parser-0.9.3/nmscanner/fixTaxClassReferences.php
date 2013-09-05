@@ -5,7 +5,7 @@
  */
 
 require __DIR__ . '/../../../../../app/autoload.php';
-\Magento\Autoload\IncludePath::addIncludePath(__DIR__ . '/../../../../../lib');
+Magento_Autoload_IncludePath::addIncludePath(__DIR__ . '/../../../../../lib');
 
 
 class fixTaxClassReferences
@@ -70,8 +70,8 @@ class fixTaxClassReferences
             $string = $string . $key;
         }
         $stringBefore = $string;
-        $string = str_replace('Magento_Tax_Model_Resource_TaxClass_', 'Magento_Tax_Model_Resource_TaxClass_', $string);
-        $string = str_replace('Magento_Tax_Model_TaxClass_', 'Magento_Tax_Model_TaxClass_', $string);
+        $string = str_replace('Magento_Tax_Model_Resource_Class' . '_', 'Magento_Tax_Model_Resource_TaxClass_', $string);
+        $string = str_replace('Magento_Tax_Model_Class' . '_', 'Magento_Tax_Model_TaxClass_', $string);
         if ($stringBefore != $string) {
             echo "$file\n";
             file_put_contents($file, $string);
@@ -92,7 +92,7 @@ if (isset($argv[1])) {
         throw new exception("src parameter cannot be empty");
     }
 
-    $shell = new \Magento\Shell(null);
+    $shell = new Magento_Shell(null);
     $src = str_replace('\\','/', $src);
     $params = array(
         '../../../../../app/code/Magento/Tax/Model/Class',

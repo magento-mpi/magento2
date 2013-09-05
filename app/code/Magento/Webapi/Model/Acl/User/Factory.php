@@ -12,14 +12,14 @@ class Magento_Webapi_Model_Acl_User_Factory extends Magento_Oauth_Model_Consumer
     const CLASS_NAME = 'Magento_Webapi_Model_Acl_User';
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

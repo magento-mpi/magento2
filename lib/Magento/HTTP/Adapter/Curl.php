@@ -15,7 +15,9 @@
  * @package     Magento_HTTP
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_HTTP_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
+namespace Magento\HTTP\Adapter;
+
+class Curl implements \Zend_Http_Client_Adapter_Interface
 {
     /**
      * Parameters array
@@ -54,7 +56,7 @@ class Magento_HTTP_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
     /**
      * Apply current configuration array to transport resource
      *
-     * @return Magento_HTTP_Adapter_Curl
+     * @return \Magento\HTTP\Adapter\Curl
      */
     protected function _applyConfig()
     {
@@ -85,7 +87,7 @@ class Magento_HTTP_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
      * Set array of additional cURL options
      *
      * @param array $options
-     * @return Magento_HTTP_Adapter_Curl
+     * @return \Magento\HTTP\Adapter\Curl
      */
     public function setOptions(array $options = array())
     {
@@ -98,7 +100,7 @@ class Magento_HTTP_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
      *
      * @param  int $option      the CURLOPT_* constants
      * @param  mixed $value
-     * @return Magento_HTTP_Adapter_Curl
+     * @return \Magento\HTTP\Adapter\Curl
      */
     public function addOption($option, $value)
     {
@@ -110,7 +112,7 @@ class Magento_HTTP_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
      * Set the configuration array for the adapter
      *
      * @param array $config
-     * @return Magento_HTTP_Adapter_Curl
+     * @return \Magento\HTTP\Adapter\Curl
      */
     public function setConfig($config = array())
     {
@@ -125,7 +127,7 @@ class Magento_HTTP_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
      * @param string  $host
      * @param int     $port
      * @param boolean $secure
-     * @return Magento_HTTP_Adapter_Curl
+     * @return \Magento\HTTP\Adapter\Curl
      */
     public function connect($host, $port = 80, $secure = false)
     {
@@ -136,7 +138,7 @@ class Magento_HTTP_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
      * Send request to the remote server
      *
      * @param string $method
-     * @param Zend_Uri_Http|string $url
+     * @param \Zend_Uri_Http|string $url
      * @param string $http_ver
      * @param array $headers
      * @param string $body
@@ -144,7 +146,7 @@ class Magento_HTTP_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
      */
     public function write($method, $url, $http_ver = '1.1', $headers = array(), $body = '')
     {
-        if ($url instanceof Zend_Uri_Http) {
+        if ($url instanceof \Zend_Uri_Http) {
             $url = $url->getUri();
         }
         $this->_applyConfig();
@@ -152,11 +154,11 @@ class Magento_HTTP_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
         // set url to post to
         curl_setopt($this->_getResource(), CURLOPT_URL, $url);
         curl_setopt($this->_getResource(), CURLOPT_RETURNTRANSFER, true);
-        if ($method == Zend_Http_Client::POST) {
+        if ($method == \Zend_Http_Client::POST) {
             curl_setopt($this->_getResource(), CURLOPT_POST, true);
             curl_setopt($this->_getResource(), CURLOPT_POSTFIELDS, $body);
         }
-        elseif ($method == Zend_Http_Client::GET) {
+        elseif ($method == \Zend_Http_Client::GET) {
             curl_setopt($this->_getResource(), CURLOPT_HTTPGET, true);
         }
 
@@ -183,7 +185,7 @@ class Magento_HTTP_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
         $response = curl_exec($this->_getResource());
 
         // Remove 100 and 101 responses headers
-        if (Zend_Http_Response::extractCode($response) == 100 || Zend_Http_Response::extractCode($response) == 101) {
+        if (\Zend_Http_Response::extractCode($response) == 100 || \Zend_Http_Response::extractCode($response) == 101) {
             $response = preg_split('/^\r?$/m', $response, 2);
             $response = trim($response[1]);
         }
@@ -194,7 +196,7 @@ class Magento_HTTP_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
     /**
      * Close the connection to the server
      *
-     * @return Magento_HTTP_Adapter_Curl
+     * @return \Magento\HTTP\Adapter\Curl
      */
     public function close()
     {

@@ -7,27 +7,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_HTTP_Handler_Composite implements Magento_HTTP_HandlerInterface
+namespace Magento\HTTP\Handler;
+
+class Composite implements \Magento\HTTP\HandlerInterface
 {
     /**
      * Leaf request handlers
      *
-     * @var Magento_HTTP_HandlerInterface[]
+     * @var \Magento\HTTP\HandlerInterface[]
      */
     protected $_children;
 
     /**
      * Handler factory
      *
-     * @var Magento_HTTP_HandlerFactory
+     * @var \Magento\HTTP\HandlerFactory
      */
     protected $_handlerFactory;
 
     /**
-     * @param Magento_HTTP_HandlerFactory $factory
+     * @param \Magento\HTTP\HandlerFactory $factory
      * @param array $handlers
      */
-    public function __construct(Magento_HTTP_HandlerFactory $factory, array $handlers)
+    public function __construct(\Magento\HTTP\HandlerFactory $factory, array $handlers)
     {
         usort($handlers, array($this, '_cmp'));
         $this->_children = $handlers;
@@ -54,10 +56,10 @@ class Magento_HTTP_Handler_Composite implements Magento_HTTP_HandlerInterface
     /**
      * Handle http request
      *
-     * @param Zend_Controller_Request_Http $request
-     * @param Zend_Controller_Response_Http $response
+     * @param \Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Response_Http $response
      */
-    public function handle(Zend_Controller_Request_Http $request, Zend_Controller_Response_Http $response)
+    public function handle(\Zend_Controller_Request_Http $request, \Zend_Controller_Response_Http $response)
     {
         foreach ($this->_children as $handlerConfig) {
             $this->_handlerFactory->create($handlerConfig['class'])->handle($request, $response);

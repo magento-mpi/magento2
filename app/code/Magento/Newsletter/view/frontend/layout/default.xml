@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="left">
-            <block type="Magento_Newsletter_Block_Subscribe" name="newsletter_subscription" template="subscribe.phtml"/>
+            <block class="Magento_Newsletter_Block_Subscribe" name="newsletter_subscription" template="subscribe.phtml"/>
         </reference>
-    </default>
+    </handle>
 </layout>

@@ -46,7 +46,7 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock_Grid extends Magento_Backe
             ->joinInventoryItem('qty')
             ->useManageStockFilter($storeId)
             ->useNotifyStockQtyFilter($storeId)
-            ->setOrder('qty', Magento_Data_Collection::SORT_ORDER_ASC);
+            ->setOrder('qty', \Magento\Data\Collection::SORT_ORDER_ASC);
 
         if( $storeId ) {
             $collection->addStoreFilter($storeId);

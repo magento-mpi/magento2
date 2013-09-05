@@ -67,7 +67,7 @@ class Magento_Backend_Block_Widget_Tabs extends Magento_Backend_Block_Widget
      * Add new tab after another
      *
      * @param   string $tabId new tab Id
-     * @param   array|Magento_Object $tab
+     * @param   array|\Magento\Object $tab
      * @param   string $afterTabId
      * @return  Magento_Backend_Block_Widget_Tabs
      */
@@ -81,15 +81,15 @@ class Magento_Backend_Block_Widget_Tabs extends Magento_Backend_Block_Widget
      * Add new tab
      *
      * @param   string $tabId
-     * @param   array|Magento_Object|string $tab
+     * @param   array|\Magento\Object|string $tab
      * @return  Magento_Backend_Block_Widget_Tabs
      * @throws  Exception
      */
     public function addTab($tabId, $tab)
     {
         if (is_array($tab)) {
-            $this->_tabs[$tabId] = new Magento_Object($tab);
-        } elseif ($tab instanceof Magento_Object) {
+            $this->_tabs[$tabId] = new \Magento\Object($tab);
+        } elseif ($tab instanceof \Magento\Object) {
             $this->_tabs[$tabId] = $tab;
             if (!$this->_tabs[$tabId]->hasTabId()) {
                 $this->_tabs[$tabId]->setTabId($tabId);
@@ -382,7 +382,7 @@ class Magento_Backend_Block_Widget_Tabs extends Magento_Backend_Block_Widget
      */
     public function setTabData($tab, $key, $value)
     {
-        if (isset($this->_tabs[$tab]) && $this->_tabs[$tab] instanceof Magento_Object) {
+        if (isset($this->_tabs[$tab]) && $this->_tabs[$tab] instanceof \Magento\Object) {
             if ($key == 'url') {
                 $value = $this->getUrl($value, array('_current' => true, '_use_rewrite' => true));
             }

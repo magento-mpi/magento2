@@ -54,7 +54,7 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
     protected $_logger;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -211,7 +211,7 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
     public function fetchView($fileName)
     {
         $viewShortPath = str_replace($this->_dirs->getDir(Magento_Core_Model_Dir::ROOT), '', $fileName);
-        Magento_Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $viewShortPath));
+        \Magento\Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $viewShortPath));
 
 
         $do = $this->getDirectOutput();
@@ -264,7 +264,7 @@ HTML;
         } else {
             $html = '';
         }
-        Magento_Profiler::stop('TEMPLATE:' . $fileName);
+        \Magento\Profiler::stop('TEMPLATE:' . $fileName);
         return $html;
     }
 
@@ -297,11 +297,11 @@ HTML;
     /**
      * Get data from specified object
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @param string $key
      * @return mixed
      */
-    public function getObjectData(Magento_Object $object, $key)
+    public function getObjectData(\Magento\Object $object, $key)
     {
         return $object->getDataUsingMethod((string)$key);
     }

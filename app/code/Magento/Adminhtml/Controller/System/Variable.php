@@ -96,7 +96,7 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
      */
     public function validateAction()
     {
-        $response = new Magento_Object(array('error' => false));
+        $response = new \Magento\Object(array('error' => false));
         $variable = $this->_initVariable();
         $variable->addData($this->getRequest()->getPost('variable'));
         $result = $variable->validate();

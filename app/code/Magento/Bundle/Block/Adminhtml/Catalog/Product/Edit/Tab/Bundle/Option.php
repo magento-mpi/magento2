@@ -20,7 +20,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
     /**
      * Form element
      *
-     * @var Magento_Data_Form_Element_Abstract|null
+     * @var \Magento\Data\Form\Element\AbstractElement|null
      */
     protected $_element = null;
 
@@ -84,13 +84,13 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
         return $this->getData('product');
     }
 
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         return $this->toHtml();
     }
 
-    public function setElement(Magento_Data_Form_Element_Abstract $element)
+    public function setElement(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->_element = $element;
         return $this;

@@ -101,7 +101,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block
     protected function _prepareForm()
     {
         $actionUrl = $this->getUrl('*/*/sales');
-        $form = new Magento_Data_Form(
+        $form = new \Magento\Data\Form(
             array('id' => 'filter_form', 'action' => $actionUrl, 'method' => 'get')
         );
         $htmlIdPrefix = 'sales_report_';
@@ -192,10 +192,10 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block
     {
         $result = parent::_beforeToHtml();
 
-        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
+        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $this->getForm()->getElement('base_fieldset');
 
-        if (is_object($fieldset) && $fieldset instanceof Magento_Data_Form_Element_Fieldset) {
+        if (is_object($fieldset) && $fieldset instanceof \Magento\Data\Form\Element\Fieldset) {
             // apply field visibility
             foreach ($fieldset->getElements() as $field) {
                 if (!$this->getFieldVisibility($field->getId())) {
@@ -205,7 +205,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block
             // apply field options
             foreach ($this->_fieldOptions as $fieldId => $fieldOptions) {
                 $field = $fieldset->getElements()->searchById($fieldId);
-                /** @var Magento_Object $field */
+                /** @var \Magento\Object $field */
                 if ($field) {
                     foreach ($fieldOptions as $k => $v) {
                         $field->setDataUsingMethod($k, $v);

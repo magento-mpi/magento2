@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Shipping_Model_Config extends Magento_Object
+class Magento_Shipping_Model_Config extends \Magento\Object
 {
     /**
      * Shipping origin settings

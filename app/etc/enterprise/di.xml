@@ -33,7 +33,7 @@
             <instance type="Magento_Core_Model_View_Design_Proxy" />
         </param>
     </type>
-    <type name="Magento_HTTP_Handler_Composite">
+    <type name="Magento\HTTP\Handler\Composite">
         <param name="handlers">
             <value>
                 <fpc>

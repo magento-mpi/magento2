@@ -10,18 +10,18 @@
  */
 
 /**
- * Tests for Magento_Data_Form_Element_Fieldset
+ * Tests for \Magento\Data\Form\Element\Fieldset
  */
 class Magento_Data_Form_Element_FieldsetTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Data_Form_Element_Fieldset
+     * @var \Magento\Data\Form\Element\Fieldset
      */
     protected $_fieldset;
 
     public function setUp()
     {
-        $this->_fieldset = new Magento_Data_Form_Element_Fieldset(array());
+        $this->_fieldset = new \Magento\Data\Form\Element\Fieldset(array());
     }
 
     /**

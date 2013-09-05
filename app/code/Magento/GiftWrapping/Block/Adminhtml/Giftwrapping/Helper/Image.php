@@ -15,7 +15,7 @@
  * @category   Magento
  * @package    Magento_GiftWrapping
  */
-class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image extends Magento_Data_Form_Element_Image
+class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image extends \Magento\Data\Form\Element\Image
 {
     /**
      * Get gift wrapping image url

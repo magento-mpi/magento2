@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_Role_FactoryTest extends PHPUnit_Framework_TestCase
+class Magento_Webapi_Model_Authorization_RoleFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Webapi_Model_Authorization_Role_Factory
@@ -15,7 +15,7 @@ class Magento_Webapi_Model_Authorization_Role_FactoryTest extends PHPUnit_Framew
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -26,9 +26,9 @@ class Magento_Webapi_Model_Authorization_Role_FactoryTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $this->_objectManager = $this->getMockForAbstractClass('Magento_ObjectManager', array(), '', true, true, true,
+        $this->_objectManager = $this->getMockForAbstractClass('\Magento\ObjectManager', array(), '', true, true, true,
             array('create'));
 
         $this->_expectedObject = $this->getMock('Magento_Webapi_Model_Authorization_Role', array(), array(), '', false);

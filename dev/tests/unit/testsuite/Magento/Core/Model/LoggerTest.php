@@ -24,7 +24,7 @@ class Magento_Core_Model_LoggerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystemMock = $this->getMock('Magento_Io_File', array(), array(), '', false, false);
+        $this->_filesystemMock = $this->getMock('Magento\Io\File', array(), array(), '', false, false);
         $dirs = new Magento_Core_Model_Dir(TESTS_TEMP_DIR);
         $logDir = $dirs->getDir(Magento_Core_Model_Dir::LOG);
         if (!is_dir($logDir)) {

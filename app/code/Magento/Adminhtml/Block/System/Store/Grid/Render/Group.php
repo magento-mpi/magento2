@@ -19,7 +19,7 @@
 class Magento_Adminhtml_Block_System_Store_Grid_Render_Group
     extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if (!$row->getData($this->getColumn()->getIndex())) {
             return null;

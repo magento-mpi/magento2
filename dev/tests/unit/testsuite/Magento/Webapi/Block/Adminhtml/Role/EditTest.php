@@ -50,7 +50,7 @@ class Magento_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_Tes
             ->with('role_id')
             ->will($this->returnValue(1));
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_block = $helper->getObject('Magento_Webapi_Block_Adminhtml_Role_Edit', array(
             'urlBuilder' => $this->_urlBuilder,
             'layout' => $this->_layout,
@@ -90,7 +90,7 @@ class Magento_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_Tes
      */
     public function testGetHeaderText()
     {
-        $apiRole = new Magento_Object();
+        $apiRole = new \Magento\Object();
         $this->_block->setApiRole($apiRole);
         $this->assertEquals('New API Role', $this->_block->getHeaderText());
 

@@ -22,10 +22,10 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Renderer_Action
     /**
      * Render field HRML for column
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $actions = array();
         if ($row->getIsReturnable()) {

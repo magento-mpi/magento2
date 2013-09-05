@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Config_ValidationStateInterface
+namespace Magento\Config;
+
+interface ValidationStateInterface
 {
     /**
      * Retrieve current validation state

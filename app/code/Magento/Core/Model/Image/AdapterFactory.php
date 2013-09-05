@@ -21,7 +21,7 @@ class Magento_Core_Model_Image_AdapterFactory
     protected $_adapterClasses;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -41,13 +41,13 @@ class Magento_Core_Model_Image_AdapterFactory
     protected $_config;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Magento_Core_Model_Config $configModel
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_Store_Config $storeConfig,
         Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
         Magento_Core_Model_Config $configModel
@@ -57,8 +57,8 @@ class Magento_Core_Model_Image_AdapterFactory
         $this->_configWriter = $configWriter;
         $this->_config = $configModel;
         $this->_adapterClasses = array(
-            self::ADAPTER_GD2 => 'Magento_Image_Adapter_Gd2',
-            self::ADAPTER_IM => 'Magento_Image_Adapter_ImageMagick',
+            self::ADAPTER_GD2 => '\Magento\Image\Adapter\Gd2',
+            self::ADAPTER_IM => '\Magento\Image\Adapter\ImageMagick',
         );
     }
 
@@ -66,7 +66,7 @@ class Magento_Core_Model_Image_AdapterFactory
      * Return specified image adapter
      *
      * @param string $adapterType
-     * @return Magento_Image_Adapter_Abstract
+     * @return \Magento\Image\Adapter\AbstractAdapter
      * @throws InvalidArgumentException
      * @throws Exception if some of dependecies are missing
      */

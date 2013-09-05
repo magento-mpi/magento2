@@ -60,7 +60,7 @@ class Magento_Sales_Model_Resource_Order_Address extends Magento_Sales_Model_Res
     /**
      * Update related grid table after object save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _afterSave(Magento_Core_Model_Abstract $object)

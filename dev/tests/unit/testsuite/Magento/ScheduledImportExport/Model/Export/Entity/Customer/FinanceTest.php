@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_ScheduledImportExport_Model_Export_Entity_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
+class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Test attribute code and website specific attribute code
@@ -76,7 +76,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Eav_Customer_FinanceTest
      */
     protected function _getModelDependencies()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $websiteManager = $this->getMock('stdClass', array('getWebsites'));
         $websiteManager->expects($this->exactly(2))
@@ -85,8 +85,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Eav_Customer_FinanceTest
 
         $translator = $this->getMock('stdClass');
 
-        /** @var $attributeCollection Magento_Data_Collection|PHPUnit_Framework_TestCase */
-        $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
+        /** @var $attributeCollection \Magento\Data\Collection|PHPUnit_Framework_TestCase */
+        $attributeCollection = $this->getMock('Magento\Data\Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments(
                 'Magento_Eav_Model_Entity_Attribute_Abstract'
@@ -135,7 +135,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Eav_Customer_FinanceTest
                 'id'   => $id,
                 'code' => $code,
             );
-            $websites[$id] = new Magento_Object($websiteData);
+            $websites[$id] = new \Magento\Object($websiteData);
         }
 
         return $websites;

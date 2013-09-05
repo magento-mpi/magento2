@@ -23,7 +23,7 @@ class Magento_Page_Model_Asset_GroupedCollectionTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $objectManager = $this->getMock('Magento_ObjectManager');
+        $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager
             ->expects($this->any())
             ->method('create')

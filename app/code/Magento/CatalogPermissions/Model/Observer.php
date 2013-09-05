@@ -63,10 +63,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply category permissions for category collection
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function applyCategoryPermissionOnIsActiveFilterToCollection(Magento_Event_Observer $observer)
+    public function applyCategoryPermissionOnIsActiveFilterToCollection(\Magento\Event\Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;
@@ -86,10 +86,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply category permissions for category collection
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function applyCategoryPermissionOnLoadCollection(Magento_Event_Observer $observer)
+    public function applyCategoryPermissionOnLoadCollection(\Magento\Event\Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;
@@ -121,10 +121,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply category view for tree
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function applyCategoryInactiveIds(Magento_Event_Observer $observer)
+    public function applyCategoryInactiveIds(\Magento\Event\Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;
@@ -143,10 +143,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Applies permissions on product count for categories
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function applyCategoryPermissionOnProductCount(Magento_Event_Observer $observer)
+    public function applyCategoryPermissionOnProductCount(\Magento\Event\Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;
@@ -160,10 +160,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Applies category permission on model afterload
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function applyCategoryPermission(Magento_Event_Observer $observer)
+    public function applyCategoryPermission(\Magento\Event\Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;
@@ -196,10 +196,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply product permissions for collection
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function applyProductPermissionOnCollection(Magento_Event_Observer $observer)
+    public function applyProductPermissionOnCollection(\Magento\Event\Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;
@@ -213,10 +213,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply category permissions for collection on after load
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function applyProductPermissionOnCollectionAfterLoad(Magento_Event_Observer $observer)
+    public function applyProductPermissionOnCollectionAfterLoad(\Magento\Event\Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;
@@ -239,10 +239,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Checks permissions for all quote items
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function checkQuotePermissions(Magento_Event_Observer $observer)
+    public function checkQuotePermissions(\Magento\Event\Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;
@@ -280,10 +280,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Checks quote item for product permissions
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function checkQuoteItemSetProduct(Magento_Event_Observer $observer)
+    public function checkQuoteItemSetProduct(\Magento\Event\Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;
@@ -381,10 +381,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply product permissions on model after load
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function applyProductPermission(Magento_Event_Observer $observer)
+    public function applyProductPermission(\Magento\Event\Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;
@@ -408,7 +408,7 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply category related permissions on category
      *
-     * @param Magento_Data_Tree_Node|Magento_Catalog_Model_Category
+     * @param \Magento\Data\Tree\Node|Magento_Catalog_Model_Category
      * @return Magento_CatalogPermissions_Model_Observer
      */
     protected function _applyPermissionsOnCategory($category)
@@ -457,10 +457,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply is salable to product
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function applyIsSalableToProduct(Magento_Event_Observer $observer)
+    public function applyIsSalableToProduct(\Magento\Event\Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
         if ($product->getDisableAddToCart()) {
@@ -475,7 +475,7 @@ class Magento_CatalogPermissions_Model_Observer
      *
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function checkCatalogSearchLayout(Magento_Event_Observer $observer)
+    public function checkCatalogSearchLayout(\Magento\Event\Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;
@@ -495,7 +495,7 @@ class Magento_CatalogPermissions_Model_Observer
      *
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function checkCatalogSearchPreDispatch(Magento_Event_Observer $observer)
+    public function checkCatalogSearchPreDispatch(\Magento\Event\Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;
@@ -546,10 +546,10 @@ class Magento_CatalogPermissions_Model_Observer
     /**
      * Apply catalog permissions on product RSS feeds
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CatalogPermissions_Model_Observer
      */
-    public function checkIfProductAllowedInRss(Magento_Event_Observer $observer)
+    public function checkIfProductAllowedInRss(\Magento\Event\Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;

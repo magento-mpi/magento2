@@ -30,7 +30,7 @@ abstract class Magento_Rule_Model_Abstract extends Magento_Core_Model_Abstract
     /**
      * Store rule form instance
      *
-     * @var Magento_Data_Form
+     * @var \Magento\Data\Form
      */
     protected $_form;
 
@@ -231,12 +231,12 @@ abstract class Magento_Rule_Model_Abstract extends Magento_Core_Model_Abstract
     /**
      * Rule form getter
      *
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     public function getForm()
     {
         if (!$this->_form) {
-            $this->_form = new Magento_Data_Form();
+            $this->_form = new \Magento\Data\Form();
         }
         return $this->_form;
     }
@@ -295,7 +295,7 @@ abstract class Magento_Rule_Model_Abstract extends Magento_Core_Model_Abstract
                 if (in_array($key, array('from_date', 'to_date')) && $value) {
                     $value = Mage::app()->getLocale()->date(
                         $value,
-                        Magento_Date::DATE_INTERNAL_FORMAT,
+                        \Magento\Date::DATE_INTERNAL_FORMAT,
                         null,
                         false
                     );
@@ -310,11 +310,11 @@ abstract class Magento_Rule_Model_Abstract extends Magento_Core_Model_Abstract
     /**
      * Validate rule conditions to determine if rule can run
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      *
      * @return bool
      */
-    public function validate(Magento_Object $object)
+    public function validate(\Magento\Object $object)
     {
         return $this->getConditions()->validate($object);
     }
@@ -322,11 +322,11 @@ abstract class Magento_Rule_Model_Abstract extends Magento_Core_Model_Abstract
     /**
      * Validate rule data
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      *
      * @return bool|array - return true if validation passed successfully. Array with errors description otherwise
      */
-    public function validateData(Magento_Object $object)
+    public function validateData(\Magento\Object $object)
     {
         $result   = array();
         $fromDate = $toDate = null;
@@ -337,8 +337,8 @@ abstract class Magento_Rule_Model_Abstract extends Magento_Core_Model_Abstract
         }
 
         if ($fromDate && $toDate) {
-            $fromDate = new Zend_Date($fromDate, Magento_Date::DATE_INTERNAL_FORMAT);
-            $toDate = new Zend_Date($toDate, Magento_Date::DATE_INTERNAL_FORMAT);
+            $fromDate = new Zend_Date($fromDate, \Magento\Date::DATE_INTERNAL_FORMAT);
+            $toDate = new Zend_Date($toDate, \Magento\Date::DATE_INTERNAL_FORMAT);
 
             if ($fromDate->compare($toDate) === 1) {
                 $result[] = __('End Date must follow Start Date.');

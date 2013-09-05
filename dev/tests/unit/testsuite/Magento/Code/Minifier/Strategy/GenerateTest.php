@@ -15,7 +15,7 @@ class Magento_Code_Minifier_Strategy_GenerateTest extends PHPUnit_Framework_Test
         $content = 'content';
         $minifiedContent = 'minified content';
 
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('read')
             ->with($originalFile)
@@ -24,13 +24,13 @@ class Magento_Code_Minifier_Strategy_GenerateTest extends PHPUnit_Framework_Test
             ->method('write')
             ->with($minifiedFile, $minifiedContent);
 
-        $adapter = $this->getMockForAbstractClass('Magento_Code_Minifier_AdapterInterface', array(), '', false);
+        $adapter = $this->getMockForAbstractClass('\Magento\Code\Minifier\AdapterInterface', array(), '', false);
         $adapter->expects($this->once())
             ->method('minify')
             ->with($content)
             ->will($this->returnValue($minifiedContent));
 
-        $strategy = new Magento_Code_Minifier_Strategy_Generate($adapter, $filesystem);
+        $strategy = new \Magento\Code\Minifier\Strategy\Generate($adapter, $filesystem);
         $strategy->minifyFile($originalFile, $minifiedFile);
     }
 
@@ -39,7 +39,7 @@ class Magento_Code_Minifier_Strategy_GenerateTest extends PHPUnit_Framework_Test
         $originalFile = __DIR__ . '/original/some.js';
         $minifiedFile = __DIR__ . '/some.min.js';
 
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('has')
             ->with($minifiedFile)
@@ -56,11 +56,11 @@ class Magento_Code_Minifier_Strategy_GenerateTest extends PHPUnit_Framework_Test
         $filesystem->expects($this->never())
             ->method('write');
 
-        $adapter = $this->getMockForAbstractClass('Magento_Code_Minifier_AdapterInterface', array(), '', false);
+        $adapter = $this->getMockForAbstractClass('\Magento\Code\Minifier\AdapterInterface', array(), '', false);
         $adapter->expects($this->never())
             ->method('minify');
 
-        $strategy = new Magento_Code_Minifier_Strategy_Generate($adapter, $filesystem);
+        $strategy = new \Magento\Code\Minifier\Strategy\Generate($adapter, $filesystem);
         $strategy->minifyFile($originalFile, $minifiedFile);
     }
 }

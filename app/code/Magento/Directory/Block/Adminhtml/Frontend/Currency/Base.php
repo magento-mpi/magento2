@@ -16,7 +16,7 @@
 
 class Magento_Directory_Block_Adminhtml_Frontend_Currency_Base extends Magento_Backend_Block_System_Config_Form_Field
 {
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         if ($this->getRequest()->getParam('website') != '') {
             $priceScope = Mage::app()->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);

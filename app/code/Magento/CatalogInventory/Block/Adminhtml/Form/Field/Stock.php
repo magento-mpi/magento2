@@ -16,14 +16,14 @@
  * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_Data_Form_Element_Select
+class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends \Magento\Data\Form\Element\Select
 {
     const QUANTITY_FIELD_HTML_ID = 'qty';
 
     /**
      * Quantity field element
      *
-     * @var Magento_Data_Form_Element_Text
+     * @var \Magento\Data\Form\Element\Text
      */
     protected $_qty;
 
@@ -45,11 +45,11 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
     /**
      * Create quantity field
      *
-     * @return Magento_Data_Form_Element_Text
+     * @return \Magento\Data\Form\Element\Text
      */
     protected function _createQtyElement()
     {
-        $element = Mage::getModel('Magento_Data_Form_Element_Text');
+        $element = Mage::getModel('\Magento\Data\Form\Element\Text');
         $element->setId(self::QUANTITY_FIELD_HTML_ID)->setName('qty')->addClass('validate-number input-text');
         return $element;
     }
@@ -70,7 +70,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
      * Set form to quantity element in addition to current element
      *
      * @param $form
-     * @return Magento_Data_Form
+     * @return \Magento\Data\Form
      */
     public function setForm($form)
     {
@@ -82,7 +82,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
      * Set value to quantity element in addition to current element
      *
      * @param $value
-     * @return Magento_Data_Form_Element_Select
+     * @return \Magento\Data\Form\Element\Select
      */
     public function setValue($value)
     {

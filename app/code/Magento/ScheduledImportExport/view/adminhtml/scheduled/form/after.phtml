@@ -8,10 +8,10 @@
  * @license     {license_link}
  */
 ?>
-
+<?php /** @var $this Magento_ImportExport_Block_Adminhtml_Form_After */ ?>
 <?php
 /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
-$operation = Mage::registry('current_operation');
+$operation = $this->getOperation();
 $operationType = $operation->getOperationType();
 $entityBehavior = $operation->getBehavior();
 ?>

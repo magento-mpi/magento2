@@ -15,7 +15,7 @@ class Magento_Webapi_Controller_Response_Rest_Renderer_XmlTest extends PHPUnit_F
     protected function setUp()
     {
         /** Prepare object for SUT constructor. */
-        $xmlGenerator = new Magento_Xml_Generator();
+        $xmlGenerator = new \Magento\Xml\Generator();
         /** Initialize SUT. */
         $this->_restXmlRenderer = new Magento_Webapi_Controller_Response_Rest_Renderer_Xml($xmlGenerator);
         parent::setUp();
@@ -97,9 +97,9 @@ class Magento_Webapi_Controller_Response_Rest_Renderer_XmlTest extends PHPUnit_F
                 'Invalid XML render with simple data.'
             ),
             array(
-                new Magento_Object(array('key' => 'value')),
+                new \Magento\Object(array('key' => 'value')),
                 '<?xml version="1.0"?><response><key>value</key></response>',
-                'Invalid XML render with Magento_Object data.'
+                'Invalid XML render with \Magento\Object data.'
             ),
         );
     }

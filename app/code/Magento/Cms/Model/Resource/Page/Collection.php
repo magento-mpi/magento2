@@ -162,7 +162,7 @@ class Magento_Cms_Model_Resource_Page_Collection extends Magento_Core_Model_Reso
      * Get SQL for get record count.
      * Extra GROUP BY strip added.
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {

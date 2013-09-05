@@ -15,7 +15,9 @@
  * @package    Magento_Data
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Form_Element_Image extends Magento_Data_Form_Element_Abstract
+namespace Magento\Data\Form\Element;
+
+class Image extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
      * Constructor
@@ -41,7 +43,7 @@ class Magento_Data_Form_Element_Image extends Magento_Data_Form_Element_Abstract
             $url = $this->_getUrl();
 
             if( !preg_match("/^http\:\/\/|https\:\/\//", $url) ) {
-                $url = Mage::getBaseUrl('media') . $url;
+                $url = \Mage::getBaseUrl('media') . $url;
             }
 
             $html = '<a href="' . $url . '"'

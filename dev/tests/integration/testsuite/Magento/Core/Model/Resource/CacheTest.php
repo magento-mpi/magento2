@@ -41,7 +41,7 @@ class Magento_Core_Model_Resource_CacheTest extends PHPUnit_Framework_TestCase
 
     public function testHasDataChanged()
     {
-        $object = new Magento_Object(
+        $object = new \Magento\Object(
             array(
                 'code'  => 'value1',
                 'value' => 'value2'

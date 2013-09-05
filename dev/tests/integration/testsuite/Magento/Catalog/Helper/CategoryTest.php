@@ -36,11 +36,11 @@ class Magento_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
     public function testGetStoreCategories()
     {
         $categories = $this->_helper->getStoreCategories();
-        $this->assertInstanceOf('Magento_Data_Tree_Node_Collection', $categories);
+        $this->assertInstanceOf('\Magento\Data\Tree\Node\Collection', $categories);
         $index = 0;
         $expectedPaths = array(array(3, '1/2/3'), array(6, '1/2/6'), array(7, '1/2/7'));
         foreach ($categories as $category) {
-            $this->assertInstanceOf('Magento_Data_Tree_Node', $category);
+            $this->assertInstanceOf('\Magento\Data\Tree\Node', $category);
             $this->assertEquals($expectedPaths[$index][0], $category->getId());
             $this->assertEquals($expectedPaths[$index][1], $category->getData('path'));
             $index++;
@@ -53,7 +53,7 @@ class Magento_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
         $category = Mage::getModel('Magento_Catalog_Model_Category', array('data' => array('url' => $url)));
         $this->assertEquals($url, $this->_helper->getCategoryUrl($category));
 
-        $category = new Magento_Object(array('url' => $url));
+        $category = new \Magento\Object(array('url' => $url));
         $this->assertEquals($url, $this->_helper->getCategoryUrl($category));
     }
 

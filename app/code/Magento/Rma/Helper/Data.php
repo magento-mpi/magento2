@@ -192,7 +192,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
             $format = Mage::getStoreConfig($path, $storeId);
         }
 
-        $formater = new Magento_Filter_Template();
+        $formater = new \Magento\Filter\Template();
         $formater->setVariables($data);
         return $formater->filter($format);
     }
@@ -201,11 +201,11 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
      * Get return contact name
      *
      * @param int|null $storeId
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getReturnContactName($storeId = null)
     {
-        $contactName = new Magento_Object();
+        $contactName = new \Magento\Object();
         if (Mage::getStoreConfigFlag(Magento_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
             $admin = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
             $contactName->setFirstName($admin->getFirstname());
@@ -476,7 +476,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     public function getFormatedDate($date)
     {
         $storeDate = Mage::app()->getLocale()
-            ->storeDate(Mage::app()->getStore(), Magento_Date::toTimestamp($date), true);
+            ->storeDate(Mage::app()->getStore(), \Magento\Date::toTimestamp($date), true);
 
         return Mage::helper('Magento_Core_Helper_Data')
             ->formatDate($storeDate, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);

@@ -22,7 +22,7 @@ class Magento_Tax_Model_Resource_CalculationTest extends PHPUnit_Framework_TestC
         $customerTaxClasses = $taxRule->getTaxCustomerClass();
         $productTaxClasses = $taxRule->getTaxProductClass();
         $taxRate =  Mage::registry('_fixture/Magento_Tax_Model_Calculation_Rate');
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
         $data->setData(array(
             'country_id' => 'US',
             'region_id' => '12',

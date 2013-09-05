@@ -18,14 +18,14 @@
 class Magento_Sales_Model_Order_Grid_Massaction_ItemsUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
 {
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      */
-    public function __construct(Magento_AuthorizationInterface $authorization)
+    public function __construct(\Magento\AuthorizationInterface $authorization)
     {
         $this->_authorization = $authorization;
     }

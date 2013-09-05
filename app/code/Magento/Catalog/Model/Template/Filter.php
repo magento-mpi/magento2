@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @todo        Needs to be reimplemented to get rid of the copypasted methods
  */
-class Magento_Catalog_Model_Template_Filter extends Magento_Filter_Template
+class Magento_Catalog_Model_Template_Filter extends \Magento\Filter\Template
 {
     /**
      * Use absolute links flag

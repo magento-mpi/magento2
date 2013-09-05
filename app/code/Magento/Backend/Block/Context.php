@@ -12,7 +12,7 @@
 class Magento_Backend_Block_Context extends Magento_Core_Block_Context
 {
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -31,7 +31,7 @@ class Magento_Backend_Block_Context extends Magento_Core_Block_Context
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_Config $viewConfig
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -51,7 +51,7 @@ class Magento_Backend_Block_Context extends Magento_Core_Block_Context
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_Config $viewConfig,
         Magento_Core_Model_Cache_StateInterface $cacheState,
-        Magento_AuthorizationInterface $authorization,
+        \Magento\AuthorizationInterface $authorization,
         array $data = array()
     ) {
         $this->_authorization = $authorization;
@@ -63,7 +63,7 @@ class Magento_Backend_Block_Context extends Magento_Core_Block_Context
     /**
      * Retrieve Authorization
      *
-     * @return \Magento_AuthorizationInterface
+     * @return \Magento\AuthorizationInterface
      */
     public function getAuthorization()
     {

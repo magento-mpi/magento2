@@ -15,7 +15,7 @@
  * @package    Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Model_Fs_Collection extends Magento_Data_Collection_Filesystem
+class Magento_Backup_Model_Fs_Collection extends \Magento\Data\Collection\Filesystem
 {
     /**
      * Folder, where all backups are stored
@@ -25,16 +25,16 @@ class Magento_Backup_Model_Fs_Collection extends Magento_Data_Collection_Filesys
     protected $_baseDir;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * Set collection specific parameters and make sure backups folder will exist
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(Magento_Filesystem $filesystem)
+    public function __construct(\Magento\Filesystem $filesystem)
     {
         parent::__construct();
 

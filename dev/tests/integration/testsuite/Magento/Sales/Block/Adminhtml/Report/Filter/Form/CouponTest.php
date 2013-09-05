@@ -28,7 +28,7 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_CouponTest extends PHPUni
     protected function setUp()
     {
         parent::setUp();
-        $this->_application = Mage::getObjectManager()->get('Magento_Core_Model_App');
+        $this->_application = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App');
     }
 
     /**
@@ -39,7 +39,7 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_CouponTest extends PHPUni
         /** @var $block Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon */
         $block = $this->_application->getLayout()
             ->createBlock('Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon');
-        $block->setFilterData(new Magento_Object());
+        $block->setFilterData(new \Magento\Object());
         $html = $block->toHtml();
 
         $expectedStrings = array(

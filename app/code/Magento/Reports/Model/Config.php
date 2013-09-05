@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
- class Magento_Reports_Model_Config extends Magento_Object
+ class Magento_Reports_Model_Config extends \Magento\Object
  {
     public function getGlobalConfig( )
     {

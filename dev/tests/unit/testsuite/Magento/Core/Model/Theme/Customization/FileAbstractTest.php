@@ -45,7 +45,7 @@ class Magento_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Fr
             '',
             false
         );
-        $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
 
         $this->_modelBuilder = $this->getMockBuilder('Magento_Core_Model_Theme_Customization_FileAbstract')
             ->setMethods(array('getType', 'getContentType'))

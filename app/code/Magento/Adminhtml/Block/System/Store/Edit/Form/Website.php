@@ -21,9 +21,9 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Website
     /**
      * Prepare website specific fieldset
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      */
-    protected function _prepareStoreFieldset(Magento_Data_Form $form)
+    protected function _prepareStoreFieldset(\Magento\Data\Form $form)
     {
         $websiteModel = Mage::registry('store_data');
         if ($postData = Mage::registry('store_post_data')) {
@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Website
         $fieldset = $form->addFieldset('website_fieldset', array(
             'legend' => __('Web Site Information')
         ));
-        /* @var $fieldset Magento_Data_Form */
+        /* @var $fieldset \Magento\Data\Form */
 
         $fieldset->addField('website_name', 'text', array(
             'name'      => 'website[name]',

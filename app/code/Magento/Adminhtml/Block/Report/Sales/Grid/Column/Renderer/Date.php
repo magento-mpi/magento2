@@ -60,10 +60,10 @@ class Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date
     /**
      * Renders grid column
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if ($data = $row->getData($this->getColumn()->getIndex())) {
             switch ($this->getColumn()->getPeriodType()) {
@@ -74,7 +74,7 @@ class Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date
                     $dateFormat = 'yyyy';
                     break;
                 default:
-                    $dateFormat = Magento_Date::DATE_INTERNAL_FORMAT;
+                    $dateFormat = \Magento\Date::DATE_INTERNAL_FORMAT;
                     break;
             }
 

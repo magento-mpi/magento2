@@ -29,7 +29,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
         $quote->setWebsite(Mage::app()->getWebsite($this->getEntity()->getWebsiteId()));
         $quote->loadByCustomer(Mage::getModel('Magento_Customer_Model_Customer')->load($this->getEntity()->getCustomerId()));
 
-        $collection = ($quote) ? $quote->getItemsCollection(false) : new Magento_Data_Collection();
+        $collection = ($quote) ? $quote->getItemsCollection(false) : new \Magento\Data\Collection();
         $collection->addFieldToFilter('parent_item_id', array('null' => true));
         $this->setCollection($collection);
 

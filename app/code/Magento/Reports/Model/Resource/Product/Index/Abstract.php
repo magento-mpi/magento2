@@ -60,14 +60,14 @@ abstract class Magento_Reports_Model_Resource_Product_Index_Abstract extends Mag
                  $data  = array(
                      'visitor_id'    => $object->getVisitorId(),
                      'store_id'      => $object->getStoreId(),
-                     'added_at'      => Magento_Date::now(),
+                     'added_at'      => \Magento\Date::now(),
                  );
             } else {
                 $where = array('index_id = ?' => $row['index_id']);
                 $data  = array(
                     'customer_id'   => $object->getCustomerId(),
                     'store_id'      => $object->getStoreId(),
-                    'added_at'      => Magento_Date::now()
+                    'added_at'      => \Magento\Date::now()
                 );
             }
 
@@ -172,20 +172,20 @@ abstract class Magento_Reports_Model_Resource_Product_Index_Abstract extends Mag
      * @param array $productIds
      * @return Magento_Reports_Model_Resource_Product_Index_Abstract
      */
-    public function registerIds(Magento_Object $object, $productIds)
+    public function registerIds(\Magento\Object $object, $productIds)
     {
         $row = array(
             'visitor_id'    => $object->getVisitorId(),
             'customer_id'   => $object->getCustomerId(),
             'store_id'      => $object->getStoreId(),
         );
-        $addedAt    = Magento_Date::toTimestamp(true);
+        $addedAt    = \Magento\Date::toTimestamp(true);
         $data = array();
         foreach ($productIds as $productId) {
             $productId = (int) $productId;
             if ($productId) {
                 $row['product_id'] = $productId;
-                $row['added_at']   = Magento_Date::formatDate($addedAt);
+                $row['added_at']   = \Magento\Date::formatDate($addedAt);
                 $data[] = $row;
             }
             $addedAt -= ($addedAt > 0) ? 1 : 0;

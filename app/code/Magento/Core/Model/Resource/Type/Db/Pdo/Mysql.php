@@ -16,7 +16,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
      * Get connection
      *
      * @param array $config Connection config
-     * @return Magento_DB_Adapter_Pdo_Mysql
+     * @return \Magento\DB\Adapter\Pdo\Mysql
      */
     public function getConnection($config)
     {
@@ -36,7 +36,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
      * Create and return DB adapter object instance
      *
      * @param array $configArr Connection config
-     * @return Magento_DB_Adapter_Pdo_Mysql
+     * @return \Magento\DB\Adapter\Pdo\Mysql
      */
     protected function _getDbAdapterInstance($configArr)
     {
@@ -52,7 +52,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
      */
     protected function _getDbAdapterClassName()
     {
-        return 'Magento_DB_Adapter_Pdo_Mysql';
+        return '\Magento\DB\Adapter\Pdo\Mysql';
     }
 
 }

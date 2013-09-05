@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_product_exportsoldexcel>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_product_exportsoldexcel">
         <update handle="adminhtml_report_product_sold_grid"/>
         <container name="adminhtml.report.grid.container" label="Report Product Sold Container"/>
-    </adminhtml_report_product_exportsoldexcel>
+    </handle>
 </layout>

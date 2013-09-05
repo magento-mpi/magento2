@@ -62,7 +62,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Magent
     /**
      * Retrieve identifier of block item
      *
-     * @param   Magento_Object $item
+     * @param   \Magento\Object $item
      * @return  int
      */
     public function getIdentifierId($item)
@@ -137,7 +137,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Magent
                 } else {
                     $type = '';
                     // Maybe some item, that can give us product via getProduct()
-                    if (($item instanceof Magento_Object) || method_exists($item, 'getProduct')) {
+                    if (($item instanceof \Magento\Object) || method_exists($item, 'getProduct')) {
                         $product = $item->getProduct();
                         if ($product && ($product instanceof Magento_Catalog_Model_Product)) {
                             $type = $product->getTypeId();

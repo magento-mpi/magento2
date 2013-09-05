@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Magento_Filesystem_Adapter_Zlib
+ * Test for \Magento\Filesystem\Adapter\Zlib
  *
  * {license_notice}
  *
@@ -10,7 +10,7 @@
 class Magento_Filesystem_Adapter_ZlibTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Filesystem_Adapter_Zlib
+     * @var \Magento\Filesystem\Adapter\Zlib
      */
     protected $_adapter;
 
@@ -21,7 +21,7 @@ class Magento_Filesystem_Adapter_ZlibTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_adapter = new Magento_Filesystem_Adapter_Zlib();
+        $this->_adapter = new \Magento\Filesystem\Adapter\Zlib();
     }
 
     protected function tearDown()
@@ -38,7 +38,7 @@ class Magento_Filesystem_Adapter_ZlibTest extends PHPUnit_Framework_TestCase
     public function testCreateStream()
     {
         $file = $this->_getFixturesPath() . 'data.csv';
-        $this->assertInstanceOf('Magento_Filesystem_Stream_Zlib', $this->_adapter->createStream($file));
+        $this->assertInstanceOf('\Magento\Filesystem\Stream\Zlib', $this->_adapter->createStream($file));
     }
 
     public function testRW()

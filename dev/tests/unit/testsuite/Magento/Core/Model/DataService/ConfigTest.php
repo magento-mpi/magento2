@@ -24,7 +24,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
             ->getMock();
 
         $configXml = file_get_contents(__DIR__ . '/_files/service_calls.xml');
-        $config = new Magento_Config_Dom($configXml);
+        $config = new \Magento\Config\Dom($configXml);
         $reader->expects($this->any())
             ->method('getServiceCallConfig')
             ->will($this->returnValue($config->getDom()));

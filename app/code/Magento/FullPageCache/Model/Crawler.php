@@ -128,7 +128,7 @@ class Magento_FullPageCache_Model_Crawler extends Magento_Core_Model_Abstract
             return $this;
         }
         $storesInfo  = $this->getStoresInfo();
-        $adapter     = new Magento_HTTP_Adapter_Curl();
+        $adapter     = new \Magento\HTTP\Adapter\Curl();
 
         foreach ($storesInfo as $info) {
             $options = array(CURLOPT_USERAGENT => self::USER_AGENT);

@@ -12,12 +12,14 @@
 /**
  * Magento configuration XML DOM utility
  */
-class Magento_Config_Dom
+namespace Magento\Config;
+
+class Dom
 {
     /**
      * Dom document
      *
-     * @var DOMDocument
+     * @var \DOMDocument
      */
     protected $_dom;
 
@@ -44,13 +46,13 @@ class Magento_Config_Dom
      * @param string $xml
      * @param array $idAttributes
      * @param string $schemaFile
-     * @throws Magento_Config_Dom_ValidationException
+     * @throws \Magento\Config\Dom\ValidationException
      */
     public function __construct($xml, array $idAttributes = array(), $schemaFile = null)
     {
         $this->_schemaFile   = $schemaFile;
-        $this->_dom          = $this->_initDom($xml);
         $this->_idAttributes = $idAttributes;
+        $this->_dom = $this->_initDom($xml);
     }
 
     /**
@@ -58,7 +60,7 @@ class Magento_Config_Dom
      *
      * @param string $xml
      * @return void
-     * @throws Magento_Config_Dom_ValidationException
+     * @throws \Magento\Config\Dom\ValidationException
      */
     public function merge($xml)
     {
@@ -67,17 +69,17 @@ class Magento_Config_Dom
     }
 
     /**
-     * Recursive merging of the DOMElement into the original document
+     * Recursive merging of the \DOMElement into the original document
      *
      * Algorithm:
      * 1. Find the same node in original document
      * 2. Extend and override original document node attributes and scalar value if found
      * 3. Append new node if original document doesn't have the same node
      *
-     * @param DOMElement $node
+     * @param \DOMElement $node
      * @param string $parentPath path to parent node
      */
-    protected function _mergeNode(DOMElement $node, $parentPath)
+    protected function _mergeNode(\DOMElement $node, $parentPath)
     {
         $path = $this->_getNodePathByParent($node, $parentPath);
 
@@ -91,11 +93,11 @@ class Magento_Config_Dom
             /* Merge child nodes */
             if ($node->hasChildNodes()) {
                 /* override node value */
-                if ($node->childNodes->length == 1 && $node->childNodes->item(0) instanceof DOMText) {
+                if ($node->childNodes->length == 1 && $node->childNodes->item(0) instanceof \DOMText) {
                     $matchedNode->nodeValue = $node->childNodes->item(0)->nodeValue;
                 } else { /* recursive merge for all child nodes */
                     foreach ($node->childNodes as $childNode) {
-                        if ($childNode instanceof DOMElement) {
+                        if ($childNode instanceof \DOMElement) {
                             $this->_mergeNode($childNode, $path);
                         }
                     }
@@ -112,11 +114,11 @@ class Magento_Config_Dom
     /**
      * Identify node path based on parent path and node attributes
      *
-     * @param DOMElement $node
+     * @param \DOMElement $node
      * @param string $parentPath
      * @return string
      */
-    protected function _getNodePathByParent(DOMElement $node, $parentPath)
+    protected function _getNodePathByParent(\DOMElement $node, $parentPath)
     {
         $path = $parentPath . '/' . $node->tagName;
         $idAttribute = $this->_findIdAttribute($path);
@@ -142,16 +144,16 @@ class Magento_Config_Dom
      * Getter for node by path
      *
      * @param string $nodePath
-     * @throws Magento_Exception an exception is possible if original document contains multiple nodes for identifier
-     * @return DOMElement | null
+     * @throws \Magento\Exception an exception is possible if original document contains multiple nodes for identifier
+     * @return \DOMElement | null
      */
     protected function _getMatchedNode($nodePath)
     {
-        $xPath  = new DOMXPath($this->_dom);
+        $xPath  = new \DOMXPath($this->_dom);
         $matchedNodes = $xPath->query($nodePath);
         $node = null;
         if ($matchedNodes->length > 1) {
-            throw new Magento_Exception("More than one node matching the query: {$nodePath}");
+            throw new \Magento\Exception("More than one node matching the query: {$nodePath}");
         } elseif ($matchedNodes->length == 1) {
             $node = $matchedNodes->item(0);
         }
@@ -161,11 +163,11 @@ class Magento_Config_Dom
     /**
      * Validate dom document
      *
-     * @param DOMDocument $dom
+     * @param \DOMDocument $dom
      * @param string $schemaFileName
      * @return array of errors
      */
-    public static function validateDomDocument(DOMDocument $dom, $schemaFileName)
+    public static function validateDomDocument(\DOMDocument $dom, $schemaFileName)
     {
         libxml_use_internal_errors(true);
         $result = $dom->schemaValidate($schemaFileName);
@@ -187,7 +189,7 @@ class Magento_Config_Dom
     /**
      * DOM document getter
      *
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     public function getDom()
     {
@@ -198,17 +200,17 @@ class Magento_Config_Dom
      * Create DOM document based on $xml parameter
      *
      * @param string $xml
-     * @return DOMDocument
-     * @throws Magento_Config_Dom_ValidationException
+     * @return \DOMDocument
+     * @throws \Magento\Config\Dom\ValidationException
      */
     protected function _initDom($xml)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML($xml);
         if ($this->_schemaFile) {
             $errors = self::validateDomDocument($dom, $this->_schemaFile);
             if (count($errors)) {
-                throw new Magento_Config_Dom_ValidationException(implode("\n", $errors));
+                throw new \Magento\Config\Dom\ValidationException(implode("\n", $errors));
             }
         }
         return $dom;
@@ -225,5 +227,17 @@ class Magento_Config_Dom
     {
         $errors = self::validateDomDocument($this->_dom, $schemaFileName);
         return !count($errors);
+    }
+
+    /**
+     * Set schema file
+     *
+     * @param string $schemaFile
+     * @return \Magento\Config\Dom
+     */
+    public function setSchemaFile($schemaFile)
+    {
+        $this->_schemaFile = $schemaFile;
+        return $this;
     }
 }

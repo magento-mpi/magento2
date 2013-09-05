@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Rss_Controller_CatalogTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Rss_Controller_CatalogTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @param string $action
@@ -27,11 +27,7 @@ class Magento_Rss_Controller_CatalogTest extends Magento_Test_TestCase_Controlle
      */
     public function actionNoFeedDataProvider()
     {
-        $actions = array(array('new'), array('special'), array('salesrule'), array('category'));
-        if (Mage::getSingleton('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Tag')) {
-            $actions[] = array('tag');
-        }
-        return $actions;
+        return array(array('new'), array('special'), array('salesrule'), array('category'));
     }
 
     /**
@@ -67,20 +63,6 @@ class Magento_Rss_Controller_CatalogTest extends Magento_Test_TestCase_Controlle
         $this->assertContains(
             '<link>http://localhost/index.php/rss/catalog/salesrule/</link>', $this->getResponse()->getBody()
         );
-    }
-
-    /**
-     * @magentoConfigFixture current_store rss/catalog/tag 1
-     */
-    public function testTagAction()
-    {
-        if (!Mage::getSingleton('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Tag')) {
-            $this->markTestSkipped('"Magento_Tag" module is required for this test.');
-        }
-        $this->dispatch('rss/catalog/tag');
-        // this test is also inaccurate without a fixture of product with tags
-        $this->assertEquals('nofeed', $this->getRequest()->getActionName());
-        $this->assertHeaderPcre('Status', '/^404 File not found$/');
     }
 
     /**
@@ -156,8 +138,8 @@ class Magento_Rss_Controller_CatalogTest extends Magento_Test_TestCase_Controlle
     {
         Mage::getDesign()->setArea('adminhtml')->setDefaultDesignTheme();
         $this->getRequest()->setServer(array(
-            'PHP_AUTH_USER' => Magento_Test_Bootstrap::ADMIN_NAME,
-            'PHP_AUTH_PW' => Magento_Test_Bootstrap::ADMIN_PASSWORD
+            'PHP_AUTH_USER' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
+            'PHP_AUTH_PW' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
         ));
     }
 }

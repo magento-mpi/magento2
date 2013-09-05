@@ -9,25 +9,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Event_Factory implements Magento_PubSub_Event_FactoryInterface
+class Magento_Webhook_Model_Event_Factory implements \Magento\PubSub\Event\FactoryInterface
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
-    /** @var Magento_Convert_Object  */
+    /** @var \Magento\Convert\Object  */
     private  $_arrayConverter;
 
     /**
      * Initialize the class
      *
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Convert_Object $arrayConverter
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Convert\Object $arrayConverter
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_Convert_Object $arrayConverter
+        \Magento\ObjectManager $objectManager,
+        \Magento\Convert\Object $arrayConverter
     ) {
         $this->_objectManager = $objectManager;
         $this->_arrayConverter = $arrayConverter;

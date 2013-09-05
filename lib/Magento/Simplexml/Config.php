@@ -16,13 +16,15 @@
  * @package    Magento_Simplexml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Simplexml_Config
+namespace Magento\Simplexml;
+
+class Config
 {
 
     /**
      * Configuration xml
      *
-     * @var Magento_Simplexml_Element
+     * @var \Magento\Simplexml\Element
      */
     protected $_xml = null;
 
@@ -64,7 +66,7 @@ class Magento_Simplexml_Config
     /**
      * Cache resource object
      *
-     * @var Magento_Simplexml_Config_Cache_Abstract
+     * @var \Magento\Simplexml\Config\Cache\AbstractCache
      */
     protected $_cache = null;
 
@@ -73,7 +75,7 @@ class Magento_Simplexml_Config
      *
      * @var string
      */
-    protected $_elementClass = 'Magento_Simplexml_Element';
+    protected $_elementClass = '\Magento\Simplexml\Element';
 
     /**
      * Xpath describing nodes in configuration that need to be extended
@@ -88,14 +90,14 @@ class Magento_Simplexml_Config
      * Initializes XML for this configuration
      *
      * @see self::setXml
-     * @param string|Magento_Simplexml_Element $sourceData
+     * @param string|\Magento\Simplexml\Element $sourceData
      * @param string $sourceType
      */
     public function __construct($sourceData=null) {
         if (is_null($sourceData)) {
             return;
         }
-        if ($sourceData instanceof Magento_Simplexml_Element) {
+        if ($sourceData instanceof \Magento\Simplexml\Element) {
            $this->setXml($sourceData);
         } elseif (is_string($sourceData) && !empty($sourceData)) {
             if (strlen($sourceData)<1000 && is_readable($sourceData)) {
@@ -104,17 +106,17 @@ class Magento_Simplexml_Config
                 $this->loadString($sourceData);
             }
         }
-        #$this->setCache(new Magento_Simplexml_Config_Cache_File());
+        #$this->setCache(new \Magento\Simplexml\Config\Cache\File());
         #$this->getCache()->setConfig($this);
     }
 
     /**
      * Sets xml for this configuration
      *
-     * @param Magento_Simplexml_Element $sourceData
-     * @return Magento_Simplexml_Config
+     * @param \Magento\Simplexml\Element $sourceData
+     * @return \Magento\Simplexml\Config
      */
-    public function setXml(Magento_Simplexml_Element $node)
+    public function setXml(\Magento\Simplexml\Element $node)
     {
         $this->_xml = $node;
         return $this;
@@ -123,13 +125,13 @@ class Magento_Simplexml_Config
     /**
      * Returns node found by the $path
      *
-     * @see     Magento_Simplexml_Element::descend
+     * @see     \Magento\Simplexml\Element::descend
      * @param   string $path
-     * @return  Magento_Simplexml_Element
+     * @return  \Magento\Simplexml\Element
      */
     public function getNode($path=null)
     {
-        if (!$this->_xml instanceof Magento_Simplexml_Element) {
+        if (!$this->_xml instanceof \Magento\Simplexml\Element) {
             return false;
         } elseif ($path === null) {
             return $this->_xml;
@@ -160,8 +162,8 @@ class Magento_Simplexml_Config
     /**
      * Enter description here...
      *
-     * @param Magento_Simplexml_Config_Cache_Abstract $cache
-     * @return Magento_Simplexml_Config
+     * @param \Magento\Simplexml\Config\Cache\AbstractCache $cache
+     * @return \Magento\Simplexml\Config
      */
     public function setCache($cache)
     {
@@ -172,7 +174,7 @@ class Magento_Simplexml_Config
     /**
      * Enter description here...
      *
-     * @return Magento_Simplexml_Config_Cache_Abstract
+     * @return \Magento\Simplexml\Config\Cache\AbstractCache
      */
     public function getCache()
     {
@@ -183,7 +185,7 @@ class Magento_Simplexml_Config
      * Enter description here...
      *
      * @param boolean $flag
-     * @return Magento_Simplexml_Config
+     * @return \Magento\Simplexml\Config
      */
     public function setCacheSaved($flag)
     {
@@ -205,7 +207,7 @@ class Magento_Simplexml_Config
      * Enter description here...
      *
      * @param string $id
-     * @return Magento_Simplexml_Config
+     * @return \Magento\Simplexml\Config
      */
     public function setCacheId($id)
     {
@@ -227,7 +229,7 @@ class Magento_Simplexml_Config
      * Enter description here...
      *
      * @param array $tags
-     * @return Magento_Simplexml_Config
+     * @return \Magento\Simplexml\Config
      */
     public function setCacheTags($tags)
     {
@@ -249,7 +251,7 @@ class Magento_Simplexml_Config
      * Enter description here...
      *
      * @param int $lifetime
-     * @return Magento_Simplexml_Config
+     * @return \Magento\Simplexml\Config
      */
     public function setCacheLifetime($lifetime)
     {
@@ -271,7 +273,7 @@ class Magento_Simplexml_Config
      * Enter description here...
      *
      * @param string $data
-     * @return Magento_Simplexml_Config
+     * @return \Magento\Simplexml\Config
      */
     public function setCacheChecksum($data)
     {
@@ -289,7 +291,7 @@ class Magento_Simplexml_Config
      * Enter description here...
      *
      * @param string $data
-     * @return Magento_Simplexml_Config
+     * @return \Magento\Simplexml\Config
      */
     public function updateCacheChecksum($data)
     {
@@ -378,7 +380,7 @@ class Magento_Simplexml_Config
      * Enter description here...
      *
      * @param array $tags
-     * @return Magento_Simplexml_Config
+     * @return \Magento\Simplexml\Config
      */
     public function saveCache($tags=null)
     {
@@ -418,7 +420,7 @@ class Magento_Simplexml_Config
     /**
      * Enter description here...
      *
-     * @return Magento_Simplexml_Config
+     * @return \Magento\Simplexml\Config
      */
     public function removeCache()
     {
@@ -473,7 +475,7 @@ class Magento_Simplexml_Config
     public function loadFile($filePath)
     {
         if (!is_readable($filePath)) {
-            //throw new Exception('Can not read xml file '.$filePath);
+            //throw new \Exception('Can not read xml file '.$filePath);
             return false;
         }
 
@@ -492,7 +494,7 @@ class Magento_Simplexml_Config
     {
         if (!empty($string)) {
             $xml = simplexml_load_string($string, $this->_elementClass);
-            if ($xml instanceof Magento_Simplexml_Element) {
+            if ($xml instanceof \Magento\Simplexml\Element) {
                 $this->_xml = $xml;
                 return true;
             }
@@ -503,8 +505,8 @@ class Magento_Simplexml_Config
     /**
      * Imports DOM node
      *
-     * @param DOMNode $dom
-     * @return Magento_Simplexml_Element
+     * @param \DOMNode $dom
+     * @return \Magento\Simplexml\Element
      */
     public function loadDom($dom)
     {
@@ -524,7 +526,7 @@ class Magento_Simplexml_Config
      * @param string $path separated by slashes
      * @param string $value
      * @param boolean $overwrite
-     * @return Magento_Simplexml_Config
+     * @return \Magento\Simplexml\Config
      */
     public function setNode($path, $value, $overwrite=true)
     {
@@ -535,7 +537,7 @@ class Magento_Simplexml_Config
     /**
      * Process configuration xml
      *
-     * @return Magento_Simplexml_Config
+     * @return \Magento\Simplexml\Config
      */
     public function applyExtends()
     {
@@ -572,11 +574,11 @@ class Magento_Simplexml_Config
     /**
      * Enter description here...
      *
-     * @param Magento_Simplexml_Config $config
+     * @param \Magento\Simplexml\Config $config
      * @param boolean $overwrite
-     * @return Magento_Simplexml_Config
+     * @return \Magento\Simplexml\Config
      */
-    public function extend(Magento_Simplexml_Config $config, $overwrite=true)
+    public function extend(\Magento\Simplexml\Config $config, $overwrite=true)
     {
         $this->getNode()->extend($config->getNode(), $overwrite);
         return $this;

@@ -24,9 +24,9 @@ class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestC
 
         $this->_frontendInstances = array(
             Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID
-            => $this->getMock('Magento_Cache_FrontendInterface'),
-            'resource1' => $this->getMock('Magento_Cache_FrontendInterface'),
-            'resource2' => $this->getMock('Magento_Cache_FrontendInterface'),
+            => $this->getMock('Magento\Cache\FrontendInterface'),
+            'resource1' => $this->getMock('Magento\Cache\FrontendInterface'),
+            'resource2' => $this->getMock('Magento\Cache\FrontendInterface'),
         );
         $frontendFactory->expects($this->any())
             ->method('create')

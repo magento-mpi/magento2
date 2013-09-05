@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Preview extends Magento_Admi
             $filter->filter($template->getTemplateText())
         );
 
-        Magento_Profiler::start("email_template_proccessing");
+        \Magento\Profiler::start("email_template_proccessing");
         $vars = array();
 
         $template->setDesignConfig(
@@ -58,7 +58,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Preview extends Magento_Admi
             $templateProcessed = "<pre>" . htmlspecialchars($templateProcessed) . "</pre>";
         }
 
-        Magento_Profiler::stop("email_template_proccessing");
+        \Magento\Profiler::stop("email_template_proccessing");
 
         return $templateProcessed;
     }

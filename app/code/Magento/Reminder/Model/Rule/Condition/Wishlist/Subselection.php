@@ -77,7 +77,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
      *
      * @param $customer
      * @param int|Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {

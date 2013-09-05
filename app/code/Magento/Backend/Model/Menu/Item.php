@@ -88,7 +88,7 @@ class Magento_Backend_Model_Menu_Item
     /**
      * Acl
      *
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_acl;
 
@@ -149,7 +149,7 @@ class Magento_Backend_Model_Menu_Item
 
     /**
      * @param Magento_Backend_Model_Menu_Item_Validator $validator
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Magento_Backend_Model_MenuFactory $menuFactory
      * @param Magento_Backend_Model_Url $urlModel
@@ -159,7 +159,7 @@ class Magento_Backend_Model_Menu_Item
      */
     public function __construct(
         Magento_Backend_Model_Menu_Item_Validator $validator,
-        Magento_AuthorizationInterface $authorization,
+        \Magento\AuthorizationInterface $authorization,
         Magento_Core_Model_Store_Config $storeConfig,
         Magento_Backend_Model_MenuFactory $menuFactory,
         Magento_Backend_Model_Url $urlModel,
@@ -476,7 +476,7 @@ class Magento_Backend_Model_Menu_Item
         if (Mage::getIsSerializable()) {
             $this->_moduleHelper = Mage::helper($this->_moduleHelperName);
             $this->_validator = Mage::getSingleton('Magento_Backend_Model_Menu_Item_Validator');
-            $this->_acl = Mage::getSingleton('Magento_AuthorizationInterface');
+            $this->_acl = Mage::getSingleton('Magento\AuthorizationInterface');
             $this->_storeConfig =  Mage::getSingleton('Magento_Core_Model_Store_Config');
             $this->_menuFactory = Mage::getSingleton('Magento_Backend_Model_MenuFactory');
             $this->_urlModel = Mage::getSingleton('Magento_Backend_Model_Url');

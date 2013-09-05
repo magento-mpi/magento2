@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
  
-class Magento_Filter_Template_Tokenizer_Parameter extends Magento_Filter_Template_Tokenizer_Abstract
+namespace Magento\Filter\Template\Tokenizer;
+
+class Parameter extends \Magento\Filter\Template\Tokenizer\AbstractTokenizer
 {
        
     /**

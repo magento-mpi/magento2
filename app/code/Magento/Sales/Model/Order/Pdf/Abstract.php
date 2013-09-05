@@ -15,7 +15,7 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
+abstract class Magento_Sales_Model_Order_Pdf_Abstract extends \Magento\Object
 {
     /**
      * Y coordinate
@@ -600,7 +600,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     /**
      * Parse item description
      *
-     * @param  Magento_Object $item
+     * @param  \Magento\Object $item
      * @return array
      */
     protected function _parseItemDescription($item)
@@ -714,12 +714,12 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     /**
      * Draw Item process
      *
-     * @param  Magento_Object $item
+     * @param  \Magento\Object $item
      * @param  Zend_Pdf_Page $page
      * @param  Magento_Sales_Model_Order $order
      * @return Zend_Pdf_Page
      */
-    protected function _drawItem(Magento_Object $item, Zend_Pdf_Page $page, Magento_Sales_Model_Order $order)
+    protected function _drawItem(\Magento\Object $item, Zend_Pdf_Page $page, Magento_Sales_Model_Order $order)
     {
         $type = $item->getOrderItem()->getProductType();
         $renderer = $this->_getRenderer($type);

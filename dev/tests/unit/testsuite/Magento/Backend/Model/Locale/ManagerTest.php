@@ -38,7 +38,7 @@ class Magento_Backend_Model_Locale_ManagerTest extends PHPUnit_Framework_TestCas
         $this->_authSession = $this->getMock('Magento_Backend_Model_Auth_Session',
             array('getUser'), array(), '', false);
 
-        $userMock = new Magento_Object();
+        $userMock = new \Magento\Object();
 
         $this->_authSession->expects($this->any())
             ->method('getUser')

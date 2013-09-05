@@ -176,11 +176,11 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
     /**
      * Validate customer by segment conditions for current website
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      *
      * @return bool
      */
-    public function validate(Magento_Object $object)
+    public function validate(\Magento\Object $object)
     {
         $website = Mage::app()->getWebsite();
         if ($object instanceof Magento_Customer_Model_Customer) {
@@ -195,7 +195,7 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
     /**
      * Check if customer is matched by segment
      *
-     * @param int|Magento_Customer_Model_Customer|Magento_Object $customer
+     * @param int|Magento_Customer_Model_Customer|\Magento\Object $customer
      * @param null|Magento_Core_Model_Website|bool|int|string $website
      *
      * @return bool

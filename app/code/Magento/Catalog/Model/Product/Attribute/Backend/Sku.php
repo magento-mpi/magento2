@@ -73,7 +73,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Mo
     /**
      * Make SKU unique before save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Catalog_Model_Product_Attribute_Backend_Sku
      */
     public function beforeSave($object)

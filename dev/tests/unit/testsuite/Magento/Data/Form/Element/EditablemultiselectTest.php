@@ -12,20 +12,20 @@
 class Magento_Data_Form_Element_EditablemultiselectTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Data_Form_Element_Editablemultiselect
+     * @var \Magento\Data\Form\Element\Editablemultiselect
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Data_Form_Element_Editablemultiselect();
+        $this->_model = new \Magento\Data\Form\Element\Editablemultiselect();
         $values = array(
             array('value' => 1, 'label' => 'Value1'),
             array('value' => 2, 'label' => 'Value2'),
             array('value' => 3, 'label' => 'Value3'),
         );
         $value = array(1, 3);
-        $this->_model->setForm(new Magento_Object());
+        $this->_model->setForm(new \Magento\Object());
         $this->_model->setData(array('values' => $values, 'value' => $value));
     }
 

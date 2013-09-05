@@ -7,12 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <magento_pbridge_payment_profile_index translate="label" type="page">
-        <label>Payment Bridge Frame with Saved Payment Profiles</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Payment Bridge Frame with Saved Payment Profiles" id="magento_pbridge_payment_profile_index" type="page">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="Magento_Pbridge_Block_Payment_Profile" name="pbridge.payment.profile" template="payment/profile.phtml"/>
+            <block class="Magento_Pbridge_Block_Payment_Profile" name="pbridge.payment.profile" template="payment/profile.phtml"/>
         </reference>
-    </magento_pbridge_payment_profile_index>
+    </handle>
 </layout>

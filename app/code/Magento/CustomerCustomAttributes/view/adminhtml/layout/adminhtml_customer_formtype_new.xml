@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_customer_formtype_new>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_customer_formtype_new">
         <reference name="content">
-            <block type="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit" name="magento_customercustomattributes_formtype_new"/>
+            <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit" name="magento_customercustomattributes_formtype_new"/>
         </reference>
-    </adminhtml_customer_formtype_new>
+    </handle>
 </layout>

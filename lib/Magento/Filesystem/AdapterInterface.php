@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Filesystem_AdapterInterface
+namespace Magento\Filesystem;
+
+interface AdapterInterface
 {
     /**
      * Checks the file existence.
@@ -56,7 +58,7 @@ interface Magento_Filesystem_AdapterInterface
      * Deletes the file or directory recursively.
      *
      * @param string $key
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function delete($key);
 
@@ -66,7 +68,7 @@ interface Magento_Filesystem_AdapterInterface
      * @param string $key
      * @param int $permissions
      * @param bool $recursively
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function changePermissions($key, $permissions, $recursively);
 
@@ -75,7 +77,7 @@ interface Magento_Filesystem_AdapterInterface
      *
      * @param string $key
      * @return array
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function getNestedKeys($key);
 
@@ -84,7 +86,7 @@ interface Magento_Filesystem_AdapterInterface
      *
      * @param string $pattern
      * @return array
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function searchKeys($pattern);
 
@@ -125,7 +127,7 @@ interface Magento_Filesystem_AdapterInterface
      *
      * @param $key
      * @return string
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function getFileMd5($key);
 
@@ -134,7 +136,7 @@ interface Magento_Filesystem_AdapterInterface
      *
      * @param string $key
      * @param int $mode
-     * @throws Magento_Filesystem_Exception If cannot create directory
+     * @throws \Magento\Filesystem\FilesystemException If cannot create directory
      */
     public function createDirectory($key, $mode);
 
@@ -143,7 +145,7 @@ interface Magento_Filesystem_AdapterInterface
      *
      * @param string $key
      * @param int|null $fileModificationTime
-     * @throws Magento_Filesystem_Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function touch($key, $fileModificationTime = null);
 

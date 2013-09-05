@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Magento_Data_Form_Element_Text
+class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends \Magento\Data\Form\Element\Text
 {
 
     protected function _construct()

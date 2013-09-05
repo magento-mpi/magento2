@@ -14,7 +14,7 @@
  * @method Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader setAccept($accept)
  * @method Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader setMultiple(bool $isMultiple)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader extends Magento_Data_Form_Element_File
+class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader extends \Magento\Data\Form\Element\File
 {
     //const CONTROL_TYPE = 'uploader';
 

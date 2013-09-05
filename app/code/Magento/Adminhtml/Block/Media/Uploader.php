@@ -14,7 +14,7 @@
 class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Widget
 {
     /**
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_config;
 
@@ -29,16 +29,24 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     protected $_viewUrl;
 
     /**
+     * @var \Magento\File\Size
+     */
+    protected $_fileSizeService;
+
+    /**
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_View_Url $viewUrl,
+        \Magento\File\Size $fileSize,
         array $data = array()
     ) {
         $this->_viewUrl = $viewUrl;
+        $this->_fileSizeService = $fileSize;
         parent::__construct($context, $data);
     }
 
@@ -48,7 +56,8 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
 
         $this->setId($this->getId() . '_Uploader');
 
-        $this->getConfig()->setUrl(Mage::getModel('Magento_Backend_Model_Url')->addSessionParam()->getUrl('*/*/upload'));
+        $uploadUrl = Mage::getModel('Magento_Backend_Model_Url')->addSessionParam()->getUrl('*/*/upload');
+        $this->getConfig()->setUrl($uploadUrl);
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('file');
         $this->getConfig()->setFilters(array(
@@ -65,6 +74,16 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
                 'files' => array('*.*')
             )
         ));
+    }
+
+    /**
+     * Get file size
+     *
+     * @return \Magento\File\Size
+     */
+    public function getFileSizeService()
+    {
+        return $this->_fileSizeService;
     }
 
     /**
@@ -104,12 +123,12 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     /**
      * Retrive config object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getConfig()
     {
         if (null === $this->_config) {
-            $this->_config = new Magento_Object();
+            $this->_config = new \Magento\Object();
         }
 
         return $this->_config;

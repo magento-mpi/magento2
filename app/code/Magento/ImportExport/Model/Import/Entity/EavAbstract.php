@@ -21,7 +21,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
     /**
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Data_Collection';
+    const ATTRIBUTE_COLLECTION_NAME = '\Magento\Data\Collection';
 
     /**
      * Website manager (currently Magento_Core_Model_App works as website manager)
@@ -82,7 +82,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
     /**
      * Attributes collection
      *
-     * @var Magento_Data_Collection
+     * @var \Magento\Data\Collection
      */
     protected $_attributeCollection;
 
@@ -228,7 +228,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
     /**
      * Get attribute collection
      *
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function getAttributeCollection()
     {

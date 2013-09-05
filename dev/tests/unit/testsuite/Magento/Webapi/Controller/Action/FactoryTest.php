@@ -12,13 +12,13 @@ class Magento_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_Tes
     /** @var Magento_Webapi_Controller_Action_Factory */
     protected $_factory;
 
-    /** @var Magento_ObjectManager */
+    /** @var \Magento\ObjectManager */
     protected $_objectManagerMock;
 
     protected function setUp()
     {
         /** Init all dependencies for SUT. */
-        $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->disableOriginalConstructor()
+        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->disableOriginalConstructor()
             ->getMock();
         /** Init SUT. */
         $this->_factory = new Magento_Webapi_Controller_Action_Factory($this->_objectManagerMock);
@@ -55,7 +55,7 @@ class Magento_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_Tes
     public function testCreateActionControllerWithException()
     {
         /** Create object of class which is not instance of Magento_Webapi_Controller_ActionAbstract. */
-        $wrongController = new Magento_Object();
+        $wrongController = new \Magento\Object();
         /** Create request object. */
         $request = new Magento_Webapi_Controller_Request('SOAP');
         /** Mock object manager create method to return wrong controller */

@@ -783,7 +783,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
                  * Add relations between not anchor categories and products
                  */
                 $select = $idxAdapter->select();
-                /** @var $select Magento_DB_Select */
+                /** @var $select \Magento\DB\Select */
                 $select->from(
                     array('cp' => $this->_categoryProductTable),
                     array('category_id', 'product_id', 'position', 'is_parent' => new Zend_Db_Expr('1'),

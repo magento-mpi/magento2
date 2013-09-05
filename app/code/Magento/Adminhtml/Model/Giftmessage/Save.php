@@ -16,7 +16,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
+class Magento_Adminhtml_Model_Giftmessage_Save extends \Magento\Object
 {
     protected $_saved = false;
 
@@ -117,7 +117,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
      * Delete a single gift message from entity
      *
      * @param Magento_GiftMessage_Model_Message|null $giftmessageModel
-     * @param Magento_Object $entityModel
+     * @param \Magento\Object $entityModel
      * @return Magento_Adminhtml_Model_Giftmessage_Save
      */
     protected function _deleteOne($entityModel, $giftmessageModel=null)
@@ -196,7 +196,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
     /**
      * Checks allowed quote item for gift messages
      *
-     * @param  Magento_Object $item
+     * @param  \Magento\Object $item
      * @return boolean
      */
     public function getIsAllowedQuoteItem($item)
@@ -215,7 +215,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
     /**
      * Retrieve is gift message available for item (product)
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return bool
      */
     public function isGiftMessagesAvailable($item)

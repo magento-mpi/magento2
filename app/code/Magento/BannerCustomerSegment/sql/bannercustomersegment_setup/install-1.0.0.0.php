@@ -13,13 +13,13 @@ $tableName = 'magento_banner_customersegment';
 
 $table = $installer->getConnection()
     ->newTable($installer->getTable($tableName))
-    ->addColumn('banner_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('banner_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         'default'   => '0',
     ), 'Banner Id')
-    ->addColumn('segment_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('segment_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
@@ -32,11 +32,11 @@ $table = $installer->getConnection()
     ->addForeignKey(
         $installer->getFkName($tableName, 'banner_id', 'magento_banner', 'banner_id'),
         'banner_id', $installer->getTable('magento_banner'), 'banner_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName($tableName, 'segment_id', 'magento_customersegment_segment', 'segment_id'),
         'segment_id', $installer->getTable('magento_customersegment_segment'), 'segment_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Banner Customersegment');
 
 // Table used to be part of the Magento_Banner module, so during upgrade it may exist already

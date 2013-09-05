@@ -124,7 +124,7 @@ class Magento_Eav_Model_Resource_Form_Fieldset extends Magento_Core_Model_Resour
      * @param string $field
      * @param mixed $value
      * @param Magento_Eav_Model_Form_Fieldset $object
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

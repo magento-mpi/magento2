@@ -170,7 +170,7 @@ class Magento_Backend_Block_Widget_Form_Container extends Magento_Backend_Block_
     /**
      * Set data object and pass it to form
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Backend_Block_Widget_Form_Container
      */
     public function setDataObject($object)

@@ -17,7 +17,7 @@ class Magento_Webapi_Model_Soap_Wsdl_FactoryTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMockForAbstractClass();

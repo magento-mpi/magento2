@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Authorization_RoleLocator implements Magento_Authorization_RoleLocator
+class Magento_Backend_Model_Authorization_RoleLocator implements \Magento\Authorization\RoleLocator
 {
     /**
      * Authentication service

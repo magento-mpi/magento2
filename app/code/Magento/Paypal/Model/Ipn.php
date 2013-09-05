@@ -416,7 +416,7 @@ class Magento_Paypal_Model_Ipn
     protected function _registerRecurringProfilePaymentCapture()
     {
         $price = $this->getRequestData('mc_gross') - $this->getRequestData('tax') -  $this->getRequestData('shipping');
-        $productItemInfo = new Magento_Object;
+        $productItemInfo = new \Magento\Object;
         $type = trim($this->getRequestData('period_type'));
         if ($type == 'Trial') {
             $productItemInfo->setPaymentType(Magento_Sales_Model_Recurring_Profile::PAYMENT_TYPE_TRIAL);

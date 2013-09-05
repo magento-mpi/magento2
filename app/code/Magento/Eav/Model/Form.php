@@ -102,7 +102,7 @@ abstract class Magento_Eav_Model_Form
     protected $_ignoreInvisible = true;
 
     /**
-     * @var Magento_Validator
+     * @var \Magento\Validator
      */
     protected $_validator = null;
 
@@ -389,14 +389,14 @@ abstract class Magento_Eav_Model_Form
      * Get validator
      *
      * @param array $data
-     * @return Magento_Validator
+     * @return \Magento\Validator
      */
     protected function _getValidator(array $data)
     {
         if (is_null($this->_validator)) {
             $configFiles = Mage::getSingleton('Magento_Core_Model_Config_Modules_Reader')
                 ->getConfigurationFiles('validation.xml');
-            $validatorFactory = new Magento_Validator_Config($configFiles);
+            $validatorFactory = new \Magento\Validator\Config($configFiles);
             $builder = $validatorFactory->createValidatorBuilder('eav_entity', 'form');
 
             $builder->addConfiguration('eav_data_validator', array(

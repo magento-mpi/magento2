@@ -36,9 +36,9 @@ class Magento_Sales_Model_Observer_Backend_CatalogProductQuote
     /**
      * Catalog Product After Save (change status process)
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function catalogProductSaveAfter(Magento_Event_Observer $observer)
+    public function catalogProductSaveAfter(\Magento\Event\Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
         $this->_recollectQuotes($product->getId(), $product->getStatus());
@@ -47,9 +47,9 @@ class Magento_Sales_Model_Observer_Backend_CatalogProductQuote
     /**
      * Catalog Mass Status update process
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function catalogProductStatusUpdate(Magento_Event_Observer $observer)
+    public function catalogProductStatusUpdate(\Magento\Event\Observer $observer)
     {
         $status = $observer->getEvent()->getStatus();
         $productId  = $observer->getEvent()->getProductId();
@@ -59,7 +59,7 @@ class Magento_Sales_Model_Observer_Backend_CatalogProductQuote
     /**
      * When deleting product, subtract it from all quotes quantities
      *
-     * @param Magento_Event_Observer
+     * @param \Magento\Event\Observer
      */
     public function subtractQtyFromQuotes($observer)
     {

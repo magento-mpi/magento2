@@ -95,7 +95,7 @@ class Magento_VersionsCms_Model_Resource_Page_Version_Collection
      * @param string $dir
      * @return Magento_VersionsCms_Model_Resource_Page_Version_Collection
      */
-    public function addNumberSort($dir = Magento_DB_Select::SQL_DESC)
+    public function addNumberSort($dir = \Magento\DB\Select::SQL_DESC)
     {
         $this->setOrder('version_number', $dir);
         return $this;

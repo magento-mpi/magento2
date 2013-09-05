@@ -245,7 +245,7 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
             )
         );
         $this->_model->setData($params, 'scope');
-        $elementMock = $this->getMock('Magento_Data_Form_Element_Text', array('setOriginalData'), array(), '', false);
+        $elementMock = $this->getMock('Magento\Data\Form\Element\Text', array('setOriginalData'), array(), '', false);
         unset($params['someArr']);
         $elementMock->expects($this->once())->method('setOriginalData')->with($params);
         $this->_model->populateInput($elementMock);
@@ -344,7 +344,7 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
             array('source_model' => 'Source_Model_Name::retrieveElements', 'path' => 'path', 'type' => 'multiselect'),
             'scope'
         );
-        $sourceModelMock = $this->getMock('Magento_Object', array('setPath', 'retrieveElements'));
+        $sourceModelMock = $this->getMock('Magento\Object', array('setPath', 'retrieveElements'));
         $this->_sourceFactoryMock->expects($this->once())
             ->method('create')
             ->with('Source_Model_Name')
@@ -363,7 +363,7 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
             array('source_model' => 'Source_Model_Name::retrieveElements', 'path' => 'path', 'type' => 'select'),
             'scope'
         );
-        $sourceModelMock = $this->getMock('Magento_Object', array('setPath', 'retrieveElements'));
+        $sourceModelMock = $this->getMock('Magento\Object', array('setPath', 'retrieveElements'));
         $this->_sourceFactoryMock->expects($this->once())
             ->method('create')
             ->with('Source_Model_Name')

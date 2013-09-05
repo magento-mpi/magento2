@@ -15,7 +15,7 @@
  */
 class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
     extends Magento_Backend_Block_Template
-    implements Magento_Data_Form_Element_Renderer_Interface
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Path to template file
@@ -27,10 +27,10 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
     /**
      * Render service JavaScript code
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = Mage::getModel('Magento_Core_Model_StoreManagerInterface')->isSingleStoreMode() ? '' : $this->toHtml();
         return $html;

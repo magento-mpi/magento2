@@ -121,7 +121,7 @@ class Magento_Bundle_Block_Sales_Order_Items_Renderer extends Magento_Sales_Bloc
     /**
      * Getting all available childs for Invoice, Shipmen or Creditmemo item
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return array
      */
     public function getChilds($item)

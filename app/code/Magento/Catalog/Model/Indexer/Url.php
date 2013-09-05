@@ -204,7 +204,7 @@ class Magento_Catalog_Model_Indexer_Url extends Magento_Index_Model_Indexer_Abst
 
         // Force rewrites history saving
         $dataObject = $event->getDataObject();
-        if ($dataObject instanceof Magento_Object && $dataObject->hasData('save_rewrites_history')) {
+        if ($dataObject instanceof \Magento\Object && $dataObject->hasData('save_rewrites_history')) {
             $urlModel->setShouldSaveRewritesHistory($dataObject->getData('save_rewrites_history'));
         }
 

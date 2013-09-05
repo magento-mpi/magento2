@@ -19,7 +19,7 @@
 class Magento_Logging_Model_Resource_Event extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -27,10 +27,10 @@ class Magento_Logging_Model_Resource_Event extends Magento_Core_Model_Resource_D
      * Class constructor
      *
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @throws InvalidArgumentException
      */
-    public function __construct(Magento_Core_Model_Resource $resource, Magento_Filesystem $filesystem)
+    public function __construct(Magento_Core_Model_Resource $resource, \Magento\Filesystem $filesystem)
     {
         parent::__construct($resource);
         $this->_filesystem = $filesystem;

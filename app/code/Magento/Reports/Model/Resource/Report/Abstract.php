@@ -56,7 +56,7 @@ abstract class Magento_Reports_Model_Resource_Report_Abstract extends Magento_Co
             $this->_getFlag()->setFlagData($value);
         }
 
-        $time = Magento_Date::toTimestamp(true);
+        $time = \Magento\Date::toTimestamp(true);
         // touch last_update
         $this->_getFlag()->setLastUpdate($this->formatDate($time));
 
@@ -144,7 +144,7 @@ abstract class Magento_Reports_Model_Resource_Report_Abstract extends Magento_Co
      * @param string|null $to
      * @param array $additionalWhere
      * @param string $alias
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getTableDateRangeSelect($table, $column, $whereColumn, $from = null, $to = null,
         $additionalWhere = array(), $alias = 'date_range_table'
@@ -188,7 +188,7 @@ abstract class Magento_Reports_Model_Resource_Report_Abstract extends Magento_Co
      *
      * @result string|false
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param string $periodColumn
      * @return string
      */
@@ -241,7 +241,7 @@ abstract class Magento_Reports_Model_Resource_Report_Abstract extends Magento_Co
      * @param array $additionalWhere
      * @param string $alias
      * @param string $relatedAlias
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getTableDateRangeRelatedSelect($table, $relatedTable, $joinCondition, $column, $whereColumn,
         $from = null, $to = null, $additionalWhere = array(), $alias = 'date_range_table',
@@ -356,7 +356,7 @@ abstract class Magento_Reports_Model_Resource_Report_Abstract extends Magento_Co
             }
 
             $then = $this->_getWriteAdapter()
-                ->getDateAddSql($column, $offset, Magento_DB_Adapter_Interface::INTERVAL_SECOND);
+                ->getDateAddSql($column, $offset, \Magento\DB\Adapter\AdapterInterface::INTERVAL_SECOND);
 
             $query .= (++$i == $periodsCount) ? $then : "CASE WHEN " . join(" OR ", $subParts) . " THEN $then ELSE ";
         }
@@ -377,12 +377,12 @@ abstract class Magento_Reports_Model_Resource_Report_Abstract extends Magento_Co
         $tzTransitions = array();
         try {
             if (!empty($from)) {
-                $from = new Zend_Date($from, Magento_Date::DATETIME_INTERNAL_FORMAT);
+                $from = new Zend_Date($from, \Magento\Date::DATETIME_INTERNAL_FORMAT);
                 $from = $from->getTimestamp();
             }
 
-            $to = new Zend_Date($to, Magento_Date::DATETIME_INTERNAL_FORMAT);
-            $nextPeriod = $this->_getWriteAdapter()->formatDate($to->toString(Magento_Date::DATETIME_INTERNAL_FORMAT));
+            $to = new Zend_Date($to, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+            $nextPeriod = $this->_getWriteAdapter()->formatDate($to->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
             $to = $to->getTimestamp();
 
             $dtz = new DateTimeZone($timezone);
@@ -397,7 +397,7 @@ abstract class Magento_Reports_Model_Resource_Report_Abstract extends Magento_Co
 
                 $dateTimeObject->set($tr['time']);
                 $tr['time'] = $this->_getWriteAdapter()
-                    ->formatDate($dateTimeObject->toString(Magento_Date::DATETIME_INTERNAL_FORMAT));
+                    ->formatDate($dateTimeObject->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
                 $tzTransitions[$tr['offset']][] = array('from' => $tr['time'], 'to' => $nextPeriod);
 
                 if (!empty($from) && $tr['ts'] < $from) {

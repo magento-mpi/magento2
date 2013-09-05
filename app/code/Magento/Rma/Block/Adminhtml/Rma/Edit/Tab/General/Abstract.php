@@ -20,14 +20,14 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract extends Magento_
     /**
      * Form, created in parent block
      *
-     * @var Magento_Data_Form
+     * @var \Magento\Data\Form
      */
     protected $_parentForm = null;
 
     /**
      * Get Form Object Which is Parent to this block
      *
-     * @return null|Magento_Data_Form
+     * @return null|\Magento\Data\Form
      */
     public function getParentForm()
     {

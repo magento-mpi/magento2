@@ -27,10 +27,10 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form extends Magento_Adminhtml
         parent::_prepareForm();
         $form = $this->getForm();
         $htmlIdPrefix = $form->getHtmlIdPrefix();
-        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
+        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $this->getForm()->getElement('base_fieldset');
 
-        if (is_object($fieldset) && $fieldset instanceof Magento_Data_Form_Element_Fieldset) {
+        if (is_object($fieldset) && $fieldset instanceof \Magento\Data\Form\Element\Fieldset) {
 
             $statuses = Mage::getModel('Magento_Sales_Model_Order_Config')->getStatuses();
             $values = array();

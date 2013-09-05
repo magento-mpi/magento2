@@ -35,7 +35,7 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_FileExistsTest extends PHPUnit
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_strategy = $this->getMock('Magento_Core_Model_Page_Asset_MergeStrategyInterface');
 
         $this->_object = new Magento_Core_Model_Page_Asset_MergeStrategy_FileExists(

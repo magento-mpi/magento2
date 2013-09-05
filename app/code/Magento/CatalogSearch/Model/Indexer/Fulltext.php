@@ -252,7 +252,7 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
                 $event->addNewData('catalogsearch_delete_product_id', $product->getId());
                 break;
             case Magento_Index_Model_Event::TYPE_MASS_ACTION:
-                /* @var $actionObject Magento_Object */
+                /* @var $actionObject \Magento\Object */
                 $actionObject = $event->getDataObject();
 
                 $reindexData  = array();

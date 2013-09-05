@@ -41,10 +41,10 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
     /**
      * Set default shipping to address
      *
-     * @param Magento_Object $address
+     * @param \Magento\Object $address
      * @return Magento_Customer_Model_Resource_Address
      */
-    protected function _afterSave(Magento_Object $address)
+    protected function _afterSave(\Magento\Object $address)
     {
         if ($address->getIsCustomerSaveTransaction()) {
             return $this;
@@ -67,10 +67,10 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
     /**
      * Check customer address before saving
      *
-     * @param Magento_Object $address
+     * @param \Magento\Object $address
      * @return Magento_Customer_Model_Resource_Address
      */
-    protected function _beforeSave(Magento_Object $address)
+    protected function _beforeSave(\Magento\Object $address)
     {
         parent::_beforeSave($address);
 
@@ -83,14 +83,14 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
      * Validate customer address entity
      *
      * @param Magento_Customer_Model_Customer $address
-     * @throws Magento_Validator_Exception when validation failed
+     * @throws \Magento\Validator\ValidatorException when validation failed
      */
     protected function _validate($address)
     {
         $validator = $this->_validatorFactory->createValidator('customer_address', 'save');
 
         if (!$validator->isValid($address)) {
-            throw new Magento_Validator_Exception($validator->getMessages());
+            throw new \Magento\Validator\ValidatorException($validator->getMessages());
         }
     }
 }

@@ -24,7 +24,7 @@ class Magento_Core_Model_Page_Asset_MinifyService
     protected $_storeConfig;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -34,7 +34,7 @@ class Magento_Core_Model_Page_Asset_MinifyService
     protected $_enabled = array();
 
     /**
-     * @var Magento_Code_Minifier[]
+     * @var \Magento\Code\Minifier[]
      */
     protected $_minifiers = array();
 
@@ -50,13 +50,13 @@ class Magento_Core_Model_Page_Asset_MinifyService
 
     /**
      * @param Magento_Core_Model_Store_Config $config
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_App_State $appState
      */
     public function __construct(
         Magento_Core_Model_Store_Config $config,
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_App_State $appState
     ) {
@@ -95,7 +95,7 @@ class Magento_Core_Model_Page_Asset_MinifyService
      * Get minifier object configured with specified content type
      *
      * @param string $contentType
-     * @return Magento_Code_Minifier
+     * @return \Magento\Code\Minifier
      */
     protected function _getMinifier($contentType)
     {
@@ -106,14 +106,14 @@ class Magento_Core_Model_Page_Asset_MinifyService
             );
             switch ($this->_appState->getMode()) {
                 case Magento_Core_Model_App_State::MODE_PRODUCTION:
-                    $strategy = $this->_objectManager->create('Magento_Code_Minifier_Strategy_Lite', $strategyParams);
+                    $strategy = $this->_objectManager->create('Magento\Code\Minifier\Strategy\Lite', $strategyParams);
                     break;
                 default:
                     $strategy = $this->_objectManager
-                        ->create('Magento_Code_Minifier_Strategy_Generate', $strategyParams);
+                        ->create('Magento\Code\Minifier\Strategy\Generate', $strategyParams);
             }
 
-            $this->_minifiers[$contentType] = $this->_objectManager->create('Magento_Code_Minifier',
+            $this->_minifiers[$contentType] = $this->_objectManager->create('Magento\Code\Minifier',
                 array(
                     'strategy' => $strategy,
                     'baseDir' => $this->_dirs->getDir(Magento_Core_Model_Dir::PUB_VIEW_CACHE) . '/minify',

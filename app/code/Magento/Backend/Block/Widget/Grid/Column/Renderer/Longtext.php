@@ -24,10 +24,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Longtext
      * Text will be truncated as specified in string_limit, truncate or 250 by default
      * Also it can be html-escaped and nl2br()
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $truncateLength = 250;
         // stringLength() is for legacy purposes

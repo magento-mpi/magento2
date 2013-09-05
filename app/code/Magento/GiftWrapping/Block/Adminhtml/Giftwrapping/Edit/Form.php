@@ -32,7 +32,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
     {
         parent::_prepareLayout();
 
-        Magento_Data_Form::setFieldsetElementRenderer(
+        \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element',
                 $this->getNameInLayout() . '_element_gift_wrapping'
@@ -53,7 +53,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
         if ($model->getId()) {
             $actionParams['id'] = $model->getId();
         }
-        $form = new Magento_Data_Form(array(
+        $form = new \Magento\Data\Form(array(
             'id' => 'edit_form',
             'action' => $this->getUrl('*/*/save', $actionParams),
             'method' => 'post',

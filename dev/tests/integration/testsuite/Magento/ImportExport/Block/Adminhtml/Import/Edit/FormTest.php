@@ -53,21 +53,21 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_
 
         // check form
         $form = $formBlock->getForm();
-        $this->assertInstanceOf('Magento_Data_Form', $form, 'Incorrect import form class.');
+        $this->assertInstanceOf('\Magento\Data\Form', $form, 'Incorrect import form class.');
         $this->assertTrue($form->getUseContainer(), 'Form should use container.');
 
         // check form fieldsets
         $formFieldsets = array();
         $formElements = $form->getElements();
         foreach ($formElements as $element) {
-            /** @var $element Magento_Data_Form_Element_Abstract */
+            /** @var $element \Magento\Data\Form\Element\AbstractElement */
             if (in_array($element->getId(), $this->_expectedFieldsets)) {
                 $formFieldsets[] = $element;
             }
         }
         $this->assertSameSize($this->_expectedFieldsets, $formFieldsets);
         foreach ($formFieldsets as $fieldset) {
-            $this->assertInstanceOf('Magento_Data_Form_Element_Fieldset', $fieldset, 'Incorrect fieldset class.');
+            $this->assertInstanceOf('\Magento\Data\Form\Element\Fieldset', $fieldset, 'Incorrect fieldset class.');
         }
     }
 }

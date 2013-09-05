@@ -96,7 +96,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
                 }
 
                 if (isset($products[$product->getId()])) {
-                    $object = new Magento_Object($products[$product->getId()]);
+                    $object = new \Magento\Object($products[$product->getId()]);
                     $item->getProduct()->setUrlDataObject($object);
                 }
             }

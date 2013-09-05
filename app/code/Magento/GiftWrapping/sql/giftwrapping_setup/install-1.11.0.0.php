@@ -16,20 +16,20 @@ $installer = $this;
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_giftwrapping'))
-    ->addColumn('wrapping_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('wrapping_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Wrapping Id')
-    ->addColumn('status', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('status', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Status')
-    ->addColumn('base_price', Magento_DB_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+    ->addColumn('base_price', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
         ), 'Base Price')
-    ->addColumn('image', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('image', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         ), 'Image')
     ->addIndex($installer->getIdxName('magento_giftwrapping', array('status')),
         array('status'))
@@ -42,17 +42,17 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_giftwrapping_store_attributes'))
-    ->addColumn('wrapping_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('wrapping_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Wrapping Id')
-    ->addColumn('store_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Store Id')
-    ->addColumn('design', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('design', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         ), 'Design')
     ->addIndex($installer->getIdxName('magento_giftwrapping_store_attributes', array('store_id')),
@@ -65,7 +65,7 @@ $table = $installer->getConnection()
             'wrapping_id'
         ),
         'wrapping_id', $installer->getTable('magento_giftwrapping'), 'wrapping_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'magento_giftwrapping_store_attributes',
@@ -74,7 +74,7 @@ $table = $installer->getConnection()
             'store_id'
         ),
         'store_id', $installer->getTable('core_store'), 'store_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Wrapping Attribute Table');
 $installer->getConnection()->createTable($table);
 
@@ -84,12 +84,12 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_giftwrapping_website'))
-    ->addColumn('wrapping_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('wrapping_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Wrapping Id')
-    ->addColumn('website_id', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
@@ -104,7 +104,7 @@ $table = $installer->getConnection()
             'wrapping_id'
         ),
         'wrapping_id', $installer->getTable('magento_giftwrapping'), 'wrapping_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
             'magento_giftwrapping_website',
@@ -113,7 +113,7 @@ $table = $installer->getConnection()
             'website_id'
         ),
         'website_id', $installer->getTable('core_website'), 'website_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Wrapping Website Table');
 $installer->getConnection()->createTable($table);
 
@@ -121,9 +121,9 @@ $installer->getConnection()->createTable($table);
  * Add gift wrapping attributes for sales entities
  */
 $entityAttributesCodes = array(
-    'gw_id' => Magento_DB_Ddl_Table::TYPE_INTEGER,
-    'gw_allow_gift_receipt' => Magento_DB_Ddl_Table::TYPE_INTEGER,
-    'gw_add_card' => Magento_DB_Ddl_Table::TYPE_INTEGER,
+    'gw_id' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    'gw_allow_gift_receipt' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    'gw_add_card' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
     'gw_base_price' => 'decimal',
     'gw_price' => 'decimal',
     'gw_items_base_price' => 'decimal',
@@ -144,7 +144,7 @@ foreach ($entityAttributesCodes as $code => $type) {
 }
 
 $itemsAttributesCodes = array(
-    'gw_id' => Magento_DB_Ddl_Table::TYPE_INTEGER,
+    'gw_id' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
     'gw_base_price' => 'decimal',
     'gw_price' => 'decimal',
     'gw_base_tax_amount' => 'decimal',

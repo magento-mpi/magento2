@@ -320,10 +320,10 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
     }
 
     /**
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return bool
      */
-    public function validate(Magento_Object $object)
+    public function validate(\Magento\Object $object)
     {
         if (!$this->getConditions()) {
             return true;
@@ -345,7 +345,7 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
     }
 
     /**
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @return $this
      */
     public function setJsFormObject($form)

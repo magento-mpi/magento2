@@ -317,7 +317,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
                     break;
 
                 default:
-                    throw new Magento_Exception('Invalid revert mode "%s"', $revertTo);
+                    throw new \Magento\Exception('Invalid revert mode "%s"', $revertTo);
             }
             $response = array('message' => $message);
         } catch (Exception $e) {

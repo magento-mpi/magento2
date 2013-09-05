@@ -30,7 +30,7 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $this->_initCacheTypeMocks();
 
         $this->_cacheFrontendMock = $this->getMockForAbstractClass(
-            'Magento_Cache_FrontendInterface', array(), '', true, true, true, array('clean')
+            '\Magento\Cache\FrontendInterface', array(), '', true, true, true, array('clean')
         );
 
         $frontendPoolMock = $this->getMock('Magento_Core_Model_Cache_Frontend_Pool', array(), array(), '', false);
@@ -57,10 +57,10 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
      */
     protected function _initCacheTypeMocks()
     {
-        $cacheTypes = array('Magento_Cache_Frontend_Decorator_TagScope', 'Magento_Cache_Frontend_Decorator_Bare');
+        $cacheTypes = array('\Magento\Cache\Frontend\Decorator\TagScope', '\Magento\Cache\Frontend\Decorator\Bare');
         foreach ($cacheTypes as $type) {
             $this->_cacheTypeMocks[$type] = $this->getMock($type, array('clean'), array(
-                $this->getMockForAbstractClass('Magento_Cache_FrontendInterface'), 'FIXTURE_TAG'
+                $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface'), 'FIXTURE_TAG'
             ));
         }
     }

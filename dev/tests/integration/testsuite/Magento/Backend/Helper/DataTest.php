@@ -28,7 +28,7 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_helper = Mage::helper('Magento_Backend_Helper_Data');
     }
@@ -37,7 +37,9 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->_helper = null;
         $this->_auth = null;
-        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')->setCurrentScope(null);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Config_Scope')
+            ->setCurrentScope(null);
     }
 
     /**
@@ -47,7 +49,8 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
         $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
-        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(
+            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
     }
 
     /**
@@ -93,7 +96,7 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
         Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
 
         $auth = Mage::getModel('Magento_Backend_Model_Auth');
-        $auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
         $this->assertEquals(1, $this->_helper->getCurrentUserId());
 
         /**

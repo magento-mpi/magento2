@@ -26,7 +26,7 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
 
     public static function tearDownAfterClass()
     {
-        Magento_Io_File::rmdirRecursive(self::$_baseDir);
+        \Magento\Io\File::rmdirRecursive(self::$_baseDir);
     }
 
     /**
@@ -40,7 +40,7 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
         $collection = $model->getFilesCollection(self::$_baseDir, 'media');
         $this->assertInstanceOf('Magento_Cms_Model_Wysiwyg_Images_Storage_Collection', $collection);
         foreach ($collection as $item) {
-            $this->assertInstanceOf('Magento_Object', $item);
+            $this->assertInstanceOf('\Magento\Object', $item);
             $this->assertStringEndsWith('/1.swf', $item->getUrl());
             $this->assertStringMatchesFormat(
                 'http://%s/static/adminhtml/%s/%s/Magento_Cms/images/placeholder_thumbnail.jpg',
@@ -52,13 +52,13 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
 
     public function testGetThumbsPath()
     {
-        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
-        $objectManager = Mage::getObjectManager();
+        $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $imageFactory = $objectManager->get('Magento_Core_Model_Image_AdapterFactory');
         $viewUrl = $objectManager->get('Magento_Core_Model_View_Url');
         $model = new Magento_Cms_Model_Wysiwyg_Images_Storage($filesystem, $imageFactory, $viewUrl);
         $this->assertStringStartsWith(
-            realpath(Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir()),
+            realpath(Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir()),
             $model->getThumbsPath()
         );
     }

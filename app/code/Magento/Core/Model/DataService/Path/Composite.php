@@ -15,10 +15,10 @@ class Magento_Core_Model_DataService_Path_Composite implements Magento_Core_Mode
     protected $_children = array();
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param array string[] $items
      */
-    public function __construct(Magento_ObjectManager $objectManager, $items)
+    public function __construct(\Magento\ObjectManager $objectManager, $items)
     {
         foreach ($items as $key => $item) {
             $this->_children[$key] = $objectManager->get($item);

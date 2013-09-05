@@ -23,7 +23,7 @@ class Magento_Catalog_Model_Attribute_Backend_Customlayoutupdate extends Magento
     * Product custom layout update attribute validate function.
     * In case invalid data throws exception.
     *
-    * @param Magento_Object $object
+    * @param \Magento\Object $object
     * @throws Magento_Eav_Model_Entity_Attribute_Exception
     */
     public function validate($object)

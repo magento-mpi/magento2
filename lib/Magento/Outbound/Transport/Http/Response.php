@@ -1,6 +1,6 @@
 <?php
 /**
- * Wrapper for Zend_Http_Response class, provides isSuccessful() method
+ * Wrapper for \Zend_Http_Response class, provides isSuccessful() method
  *
  * {license_notice}
  *
@@ -9,10 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Outbound_Transport_Http_Response
+namespace Magento\Outbound\Transport\Http;
+
+class Response
 {
     /**
-     * @var Zend_Http_Response $_response
+     * @var \Zend_Http_Response $_response
      */
     protected $_response;
 
@@ -21,7 +23,7 @@ class Magento_Outbound_Transport_Http_Response
      */
     public function __construct($string)
     {
-        $this->_response = Zend_Http_Response::fromString($string);
+        $this->_response = \Zend_Http_Response::fromString($string);
     }
 
 
@@ -60,7 +62,7 @@ class Magento_Outbound_Transport_Http_Response
      *
      * This class is just hiding the 'getBody' function since calling that after our curl library has already decoded
      * the body, could cause an error. A perfect example is if the response for our curl call was gzip'ed, curl would
-     * have gunzipped it but left the header indicating it was compressed, then Zend_Http_Response::getBody() would
+     * have gunzipped it but left the header indicating it was compressed, then \Zend_Http_Response::getBody() would
      * attempt to decompress the raw body, which was already decompressed, causing an error/corruption.
      *
      * @return string

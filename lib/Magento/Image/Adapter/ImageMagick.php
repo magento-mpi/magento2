@@ -3,13 +3,15 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Image
+ * @package    \Magento\Image
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
 
-class Magento_Image_Adapter_ImageMagick extends Magento_Image_Adapter_Abstract
+namespace Magento\Image\Adapter;
+
+class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
 {
     /**
      * The blur factor where > 1 is blurry, < 1 is sharp
@@ -76,7 +78,7 @@ class Magento_Image_Adapter_ImageMagick extends Magento_Image_Adapter_Abstract
     /**
      * Open image for processing
      *
-     * @throws Exception
+     * @throws \Exception
      * @param string $filename
      */
     public function open($filename)
@@ -88,7 +90,7 @@ class Magento_Image_Adapter_ImageMagick extends Magento_Image_Adapter_Abstract
         try {
             $this->_imageHandler = new Imagick($this->_fileName);
         } catch (ImagickException $e) {
-            throw new Exception('Unsupported image format.', $e->getCode(), $e);
+            throw new \Exception('Unsupported image format.', $e->getCode(), $e);
         }
 
         $this->backgroundColor();
@@ -114,7 +116,7 @@ class Magento_Image_Adapter_ImageMagick extends Magento_Image_Adapter_Abstract
     /**
      * Apply options to image. Will be usable later when create an option container
      *
-     * @return Magento_Image_Adapter_ImageMagick
+     * @return \Magento\Image\Adapter\ImageMagick
      */
     protected function _applyOptions()
     {
@@ -133,7 +135,7 @@ class Magento_Image_Adapter_ImageMagick extends Magento_Image_Adapter_Abstract
     }
 
     /**
-     * @see Magento_Image_Adapter_Abstract::getImage
+     * @see \Magento\Image\Adapter\AbstractAdapter::getImage
      * @return string
      */
     public function getImage()
@@ -147,7 +149,7 @@ class Magento_Image_Adapter_ImageMagick extends Magento_Image_Adapter_Abstract
      *
      * @param int $frameWidth
      * @param int $frameHeight
-     * @throws Exception
+     * @throws \Exception
      */
     public function resize($frameWidth = null, $frameHeight = null)
     {
@@ -196,7 +198,7 @@ class Magento_Image_Adapter_ImageMagick extends Magento_Image_Adapter_Abstract
      * Rotate image on specific angle
      *
      * @param int $angle
-     * @throws Exception
+     * @throws \Exception
      */
     public function rotate($angle)
     {
@@ -243,12 +245,12 @@ class Magento_Image_Adapter_ImageMagick extends Magento_Image_Adapter_Abstract
      * @param int $positionY
      * @param int $opacity
      * @param bool $tile
-     * @throws Exception
+     * @throws \Exception
      */
     public function watermark($imagePath, $positionX = 0, $positionY = 0, $opacity = 30, $tile = false)
     {
         if (empty($imagePath) || !file_exists($imagePath)) {
-            throw new LogicException(self::ERROR_WATERMARK_IMAGE_ABSENT);
+            throw new \LogicException(self::ERROR_WATERMARK_IMAGE_ABSENT);
         }
         $this->_checkCanProcess();
 
@@ -329,7 +331,7 @@ class Magento_Image_Adapter_ImageMagick extends Magento_Image_Adapter_Abstract
                 );
             }
         } catch (ImagickException $e) {
-            throw new Exception('Unable to create watermark.', $e->getCode(), $e);
+            throw new \Exception('Unable to create watermark.', $e->getCode(), $e);
         }
 
         // merge layers
@@ -341,12 +343,12 @@ class Magento_Image_Adapter_ImageMagick extends Magento_Image_Adapter_Abstract
     /**
      * Checks required dependecies
      *
-     * @throws Exception if some of dependecies are missing
+     * @throws \Exception if some of dependecies are missing
      */
     public function checkDependencies()
     {
         if (!class_exists('Imagick', false)) {
-            throw new Exception("Required PHP extension 'Imagick' was not loaded.");
+            throw new \Exception("Required PHP extension 'Imagick' was not loaded.");
         }
     }
 
@@ -372,7 +374,7 @@ class Magento_Image_Adapter_ImageMagick extends Magento_Image_Adapter_Abstract
     /**
      * Destroy stored information about image
      *
-     * @return Magento_Image_Adapter_ImageMagick
+     * @return \Magento\Image\Adapter\ImageMagick
      */
     public function destroy()
     {
@@ -408,13 +410,13 @@ class Magento_Image_Adapter_ImageMagick extends Magento_Image_Adapter_Abstract
     /**
      * Check whether the adapter can work with the image
      *
-     * @throws LogicException
+     * @throws \LogicException
      * @return bool
      */
     protected function _checkCanProcess()
     {
         if (!$this->_canProcess()) {
-            throw new LogicException(self::ERROR_WRONG_IMAGE);
+            throw new \LogicException(self::ERROR_WRONG_IMAGE);
         }
         return true;
     }
@@ -424,7 +426,7 @@ class Magento_Image_Adapter_ImageMagick extends Magento_Image_Adapter_Abstract
      *
      * @param string $text
      * @param string $font
-     * @return Magento_Image_Adapter_Abstract
+     * @return \Magento\Image\Adapter\AbstractAdapter
      */
     public function createPngFromString($text, $font = '')
     {

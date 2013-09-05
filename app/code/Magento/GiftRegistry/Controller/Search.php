@@ -165,7 +165,7 @@ class Magento_GiftRegistry_Controller_Search extends Magento_Core_Controller_Fro
             'date_format' => Mage::app()->getLocale()->getDateFormat($format)
         ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => Magento_Date::DATE_INTERNAL_FORMAT
+            'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
         ));
 
         foreach ($dateFields as $dateField) {

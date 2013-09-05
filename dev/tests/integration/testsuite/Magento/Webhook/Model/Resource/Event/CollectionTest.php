@@ -12,10 +12,20 @@
  */
 class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Magento\ObjectManager
+     */
+    protected $_objectManager;
+
+    protected function setUp()
+    {
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+    }
+
     public function testInit()
     {
         /** @var Magento_Webhook_Model_Resource_Event_Collection $collection */
-        $collection = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection');
+        $collection = $this->_objectManager->create('Magento_Webhook_Model_Resource_Event_Collection');
         $this->assertEquals('Magento_Webhook_Model_Resource_Event', $collection->getResourceModelName());
         $this->assertEquals('Magento_Webhook_Model_Event', $collection->getModelName());
 
@@ -23,45 +33,42 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
         $forUpdate = $collection->getSelect()->getPart(Zend_Db_Select::FOR_UPDATE);
         $this->assertTrue($forUpdate);
 
-        $where = array("(`status` = '" . Magento_PubSub_EventInterface::STATUS_READY_TO_SEND . "')");
+        $where = array("(`status` = '" . \Magento\PubSub\EventInterface::STATUS_READY_TO_SEND . "')");
         $this->assertEquals($where, $collection->getSelect()->getPart(Zend_Db_Select::WHERE));
     }
 
     public function testGetData()
     {
-        $event = Mage::getObjectManager()->create('Magento_Webhook_Model_Event')
-            ->save();
+        $event = $this->_objectManager->create('Magento_Webhook_Model_Event')->save();
 
         /** @var Magento_Webhook_Model_Resource_Event_Collection $collection */
-        $collection = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection');
+        $collection = $this->_objectManager->create('Magento_Webhook_Model_Resource_Event_Collection');
         $this->assertEquals(1, count($collection->getItems()));
 
         /** @var Magento_Webhook_Model_Resource_Event_Collection $collectionSecond */
-        $collectionSecond = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection');
+        $collectionSecond = $this->_objectManager->create('Magento_Webhook_Model_Resource_Event_Collection');
         $this->assertEquals(0, count($collectionSecond->getItems()));
 
-        $updatedEvent = Mage::getObjectManager()->create('Magento_Webhook_Model_Event')
+        $updatedEvent = $this->_objectManager->create('Magento_Webhook_Model_Event')
             ->load($event->getId());
 
-        $this->assertEquals(Magento_PubSub_EventInterface::STATUS_IN_PROGRESS, $updatedEvent->getStatus());
+        $this->assertEquals(\Magento\PubSub\EventInterface::STATUS_IN_PROGRESS, $updatedEvent->getStatus());
         $event->delete();
     }
 
     public function testNewEventInNewCollection()
     {
-        $event1 = Mage::getObjectManager()->create('Magento_Webhook_Model_Event')
-            ->save();
+        $event1 = $this->_objectManager->create('Magento_Webhook_Model_Event')->save();
 
         /** @var Magento_Webhook_Model_Resource_Event_Collection $collection */
-        $collection = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection');
+        $collection = $this->_objectManager->create('Magento_Webhook_Model_Resource_Event_Collection');
         $this->assertEquals(1, count($collection->getItems()));
         $this->assertEquals($event1->getId(), $collection->getFirstItem()->getId());
 
-        $event2 = Mage::getObjectManager()->create('Magento_Webhook_Model_Event')
-            ->save();
+        $event2 = $this->_objectManager->create('Magento_Webhook_Model_Event')->save();
 
         /** @var Magento_Webhook_Model_Resource_Event_Collection $collectionSecond */
-        $collectionSecond = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection');
+        $collectionSecond = $this->_objectManager->create('Magento_Webhook_Model_Resource_Event_Collection');
         $this->assertEquals(1, count($collectionSecond->getItems()));
         $this->assertEquals($event2->getId(), $collectionSecond->getFirstItem()->getId(),
             sprintf("Event #%s is expected in second collection,"
@@ -76,7 +83,7 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
     public function testRevokeIdlingInProgress()
     {
         /** @var Magento_Webhook_Model_Resource_Event_Collection $collection */
-        $collection = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection');
+        $collection = $this->_objectManager->create('Magento_Webhook_Model_Resource_Event_Collection');
         $this->assertNull($collection->revokeIdlingInProgress());
     }
 
@@ -88,17 +95,15 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
      */
     public function testParallelTransactions()
     {
-        $event = Mage::getObjectManager()->create('Magento_Webhook_Model_Event')
-            ->save();
-        $event2 = Mage::getObjectManager()->create('Magento_Webhook_Model_Event')
-            ->save();
+        $event = $this->_objectManager->create('Magento_Webhook_Model_Event')->save();
+        $event2 = $this->_objectManager->create('Magento_Webhook_Model_Event')->save();
         /** @var Magento_Webhook_Model_Event $event3 */
-        $event3 = Mage::getObjectManager()->create('Magento_Webhook_Model_Event')
-            ->setStatus(Magento_PubSub_EventInterface::STATUS_IN_PROGRESS)
+        $event3 = $this->_objectManager->create('Magento_Webhook_Model_Event')
+            ->setStatus(\Magento\PubSub\EventInterface::STATUS_IN_PROGRESS)
             ->save();
 
         /** @var Magento_Webhook_Model_Resource_Event_Collection $collection */
-        $collection = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection');
+        $collection = $this->_objectManager->create('Magento_Webhook_Model_Resource_Event_Collection');
 
 
 
@@ -110,11 +115,11 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
         $this->assertEquals(2, count($data));
 
         /** @var Magento_Core_Model_Resource $resource */
-        $resource = Mage::getObjectManager()->create('Magento_Core_Model_Resource');
+        $resource = $this->_objectManager->create('Magento_Core_Model_Resource');
         $connection = $resource->getConnection('core_write');
 
         /** @var Magento_Webhook_Model_Resource_Event_Collection $collection2 */
-        $collection2 = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection');
+        $collection2 = $this->_objectManager->create('Magento_Webhook_Model_Resource_Event_Collection');
         $collection2->setConnection($connection);
         $initSelect = new ReflectionMethod(
             'Magento_Webhook_Model_Resource_Event_Collection', '_initSelect');

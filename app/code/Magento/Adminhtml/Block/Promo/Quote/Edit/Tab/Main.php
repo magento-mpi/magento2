@@ -63,7 +63,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
     {
         $model = Mage::registry('current_promo_quote_rule');
 
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('base_fieldset',
@@ -192,7 +192,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             'label'  => __('From Date'),
             'title'  => __('From Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
@@ -200,7 +200,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             'label'  => __('To Date'),
             'title'  => __('To Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => \Magento\Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
 

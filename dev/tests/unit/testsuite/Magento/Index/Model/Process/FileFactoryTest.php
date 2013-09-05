@@ -33,7 +33,7 @@ class Magento_Index_Model_Process_FileFactoryTest extends PHPUnit_Framework_Test
 
     public function testCreate()
     {
-        $objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $objectManagerMock->expects($this->once())
             ->method('create')
             ->with(self::EXPECTED_CLASS_NAME, $this->_arguments)

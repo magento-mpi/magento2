@@ -26,7 +26,7 @@ class Magento_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_Tes
 
     public function testGetPrice()
     {
-        $this->assertEquals('test', $this->_model->getPrice(new Magento_Object(array('price' => 'test'))));
+        $this->assertEquals('test', $this->_model->getPrice(new \Magento\Object(array('price' => 'test'))));
     }
 
     public function testGetFinalPrice()

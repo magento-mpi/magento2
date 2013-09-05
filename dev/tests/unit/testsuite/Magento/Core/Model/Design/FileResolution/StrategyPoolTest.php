@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Design_StrategyPoolTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Core_Model_ObjectManager|PHPUnit_Framework_MockObject_MockObject
@@ -26,7 +26,7 @@ class Magento_Core_Model_Design_StrategyPoolTest extends PHPUnit_Framework_TestC
     protected $_dirs;
 
     /**
-     * @var Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Filesystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
@@ -42,7 +42,7 @@ class Magento_Core_Model_Design_StrategyPoolTest extends PHPUnit_Framework_TestC
 
         $this->_dirs = new Magento_Core_Model_Dir('base_dir');
 
-        $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
 
         $config = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $config->expects($this->any())

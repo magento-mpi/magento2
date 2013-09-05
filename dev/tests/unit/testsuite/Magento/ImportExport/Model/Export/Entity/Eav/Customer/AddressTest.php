@@ -68,7 +68,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
     /**
      * ObjectManager helper
      *
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_objectManager;
 
@@ -81,7 +81,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
     public function setUp()
     {
-        $this->_objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model
             = new Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address($this->_getModelDependencies());
     }
@@ -106,8 +106,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
         $translator = $this->getMock('stdClass');
 
-        /** @var $attributeCollection Magento_Data_Collection|PHPUnit_Framework_TestCase */
-        $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
+        /** @var $attributeCollection \Magento\Data\Collection|PHPUnit_Framework_TestCase */
+        $attributeCollection = $this->getMock('Magento\Data\Collection', array('getEntityTypeCode'));
         $attributeCollection->expects($this->once())
             ->method('getEntityTypeCode')
             ->will($this->returnValue('customer_address'));
@@ -126,7 +126,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
             ->will($this->returnCallback(array($this, 'iterate')));
 
         $customerCollection = $this->getMock(
-            'Magento_Data_Collection_Db', array('addAttributeToSelect'), array(), '', false
+            'Magento\Data\Collection\Db', array('addAttributeToSelect'), array(), '', false
         );
 
         $customerEntity = $this->getMock('stdClass', array('filterEntityCollection', 'setParameters'));
@@ -173,7 +173,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
                 'id'   => $id,
                 'code' => $code,
             );
-            $websites[$id] = new Magento_Object($websiteData);
+            $websites[$id] = new \Magento\Object($websiteData);
         }
 
         return $websites;
@@ -184,11 +184,11 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param Magento_Data_Collection_Db $collection
+     * @param \Magento\Data\Collection\Db $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(Magento_Data_Collection_Db $collection, $pageSize, array $callbacks)
+    public function iterate(\Magento\Data\Collection\Db $collection, $pageSize, array $callbacks)
     {
         $arguments = $this->_objectManager->getConstructArguments('Magento_Customer_Model_Customer');
         $arguments['data'] = $this->_customerData;

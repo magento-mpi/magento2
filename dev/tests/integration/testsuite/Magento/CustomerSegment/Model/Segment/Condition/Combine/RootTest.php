@@ -25,7 +25,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine_RootTest extends P
 
     protected function setUp()
     {
-        $this->_model = Mage::getObjectManager()
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_CustomerSegment_Model_Segment_Condition_Combine_Root');
     }
 

@@ -42,7 +42,7 @@ class Magento_Catalog_Model_Observer_ReindexTest extends PHPUnit_Framework_TestC
             );
 
         $objectManager = $this->getMock(
-            'Magento_ObjectManager_ObjectManager',
+            'Magento\ObjectManager\ObjectManager',
             array('get'),
             array(),
             '',
@@ -53,15 +53,15 @@ class Magento_Catalog_Model_Observer_ReindexTest extends PHPUnit_Framework_TestC
             ->with('Magento_CatalogSearch_Model_Resource_Fulltext')
             ->will($this->returnValue($fulltextReindex));
 
-        $observer = new Magento_Event_Observer(
+        $observer = new \Magento\Event\Observer(
             array(
-                'data_object' => new Magento_Object(
+                'data_object' => new \Magento\Object(
                     array('affected_product_ids' => $affectedProduct)
                 )
             )
         );
 
-        /** @var $objectManager Magento_ObjectManager */
+        /** @var $objectManager \Magento\ObjectManager */
         $object = new Magento_Catalog_Model_Observer_Reindex($objectManager);
         $this->assertInstanceOf('Magento_Catalog_Model_Observer_Reindex', $object->fulltextReindex($observer));
     }

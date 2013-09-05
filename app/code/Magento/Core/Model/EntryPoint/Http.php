@@ -20,7 +20,7 @@ class Magento_Core_Model_EntryPoint_Http extends Magento_Core_Model_EntryPointAb
             header('Location: ' . Mage::getBaseUrl());
         } catch (Magento_Core_Model_Store_Exception $e) {
             require Mage::getBaseDir(Magento_Core_Model_Dir::PUB) . DS . 'errors' . DS . '404.php';
-        } catch (Magento_BootstrapException $e) {
+        } catch (\Magento\BootstrapException $e) {
             header('Content-Type: text/plain', true, 503);
             echo $e->getMessage();
         } catch (Exception $e) {
@@ -35,7 +35,7 @@ class Magento_Core_Model_EntryPoint_Http extends Magento_Core_Model_EntryPointAb
     {
         $request = $this->_objectManager->get('Magento_Core_Controller_Request_Http');
         $response = $this->_objectManager->get('Magento_Core_Controller_Response_Http');
-        $handler = $this->_objectManager->get('Magento_HTTP_Handler_Composite');
+        $handler = $this->_objectManager->get('Magento\HTTP\Handler\Composite');
         $handler->handle($request, $response);
     }
 }

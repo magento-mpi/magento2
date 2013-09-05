@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Outbound_Formatter_Json
+ * \Magento\Outbound\Formatter\Json
  *
  * {license_notice}
  *
@@ -9,17 +9,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once __DIR__ . '/_files/Data.php';
-class Magento_Webhook_Model_Formatter_JsonTest extends PHPUnit_Framework_TestCase
+require_once __DIR__ . '/JsonTest/Data.php';
+class Magento_Outbound_Formatter_JsonTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Outbound_Formatter_Json
+     * @var \Magento\Outbound\Formatter\Json
      */
     protected $_formatter;
 
     public function setUp()
     {
-        $this->_formatter = new Magento_Outbound_Formatter_Json();
+        $this->_formatter = new \Magento\Outbound\Formatter\Json();
     }
 
     /**
@@ -35,7 +35,7 @@ class Magento_Webhook_Model_Formatter_JsonTest extends PHPUnit_Framework_TestCas
 
     public function testGetContentType()
     {
-        $this->assertSame(Magento_Outbound_Formatter_Json::CONTENT_TYPE, $this->_formatter->getContentType());
+        $this->assertSame(\Magento\Outbound\Formatter\Json::CONTENT_TYPE, $this->_formatter->getContentType());
     }
 
     /**
@@ -58,7 +58,7 @@ class Magento_Webhook_Model_Formatter_JsonTest extends PHPUnit_Framework_TestCas
             array(array(1), '[1]'),
             array(array(2.4), '[2.4]'),
             array(array(2.0), '[2]'),
-            array(array(new Data('public', 'protected')), '[{"dataA":"public"}]')
+            array(array(new Magento_Outbound_Formatter_JsonTest_Data('public', 'protected')), '[{"dataA":"public"}]')
         );
     }
 }

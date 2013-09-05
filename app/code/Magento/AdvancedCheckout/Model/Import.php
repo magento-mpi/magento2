@@ -14,7 +14,7 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Magento_AdvancedCheckout_Model_Import extends Magento_Object
+class Magento_AdvancedCheckout_Model_Import extends \Magento\Object
 {
     /**
      * Form field name

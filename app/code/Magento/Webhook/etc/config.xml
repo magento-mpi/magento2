@@ -79,11 +79,11 @@
         <jobs>
             <webhook_process_messages>
                 <schedule><cron_expr>* * * * *</cron_expr></schedule>
-                <run><model>Magento_PubSub_Event_QueueHandler::handle</model></run>
+                <run><model>\Magento\PubSub\Event\QueueHandler::handle</model></run>
             </webhook_process_messages>
             <webhook_process_dispatchers>
                 <schedule><cron_expr>* * * * *</cron_expr></schedule>
-                <run><model>Magento_PubSub_Job_QueueHandler::handle</model></run>
+                <run><model>\Magento\PubSub\Job\QueueHandler::handle</model></run>
             </webhook_process_dispatchers>
             <webhook_events_revoke_idling>
                 <schedule><cron_expr>*/15 * * * *</cron_expr></schedule>

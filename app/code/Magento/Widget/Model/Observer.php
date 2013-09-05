@@ -20,10 +20,10 @@ class Magento_Widget_Model_Observer
     /**
      * Add additional settings to wysiwyg config for Widgets Insertion Plugin
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Widget_Model_Observer
      */
-    public function prepareWidgetsPluginConfig(Magento_Event_Observer $observer)
+    public function prepareWidgetsPluginConfig(\Magento\Event\Observer $observer)
     {
         $config = $observer->getEvent()->getConfig();
 

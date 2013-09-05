@@ -18,7 +18,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected $_blockInjections = array(
         'Magento_Core_Model_Context',
-        'Magento_Filesystem',
+        '\Magento\Filesystem',
         'Magento_Core_Model_View_Url',
         'Magento_Core_Model_View_FileSystem'
     );
@@ -34,8 +34,8 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $order = Mage::getModel('Magento_Sales_Model_Order');
         $this->_checkOrderItemProductOptions($order, true);
 
-        $event = new Magento_Event(array('order' => $order));
-        $observer = new Magento_Event_Observer(array('event' => $event));
+        $event = new \Magento\Event(array('order' => $order));
+        $observer = new \Magento\Event\Observer(array('event' => $event));
 
         $zendMailMock = $this->getMock('Zend_Mail', array('send'));
         $zendMailMock->expects($this->once())

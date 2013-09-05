@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * {license_notice}
  *

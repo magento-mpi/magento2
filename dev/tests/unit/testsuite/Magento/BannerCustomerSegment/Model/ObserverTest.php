@@ -76,7 +76,7 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
-        $banner = new Magento_Object(array('id' => 42));
+        $banner = new \Magento\Object(array('id' => 42));
         $segmentIds = array(123, 456);
 
         $this->_bannerSegmentLink
@@ -86,8 +86,8 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
             ->will($this->returnValue($segmentIds))
         ;
 
-        $this->_model->loadCustomerSegmentRelations(new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array('banner' => $banner)),
+        $this->_model->loadCustomerSegmentRelations(new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array('banner' => $banner)),
         )));
         $this->assertEquals($segmentIds, $banner->getData('customer_segment_ids'));
     }
@@ -96,12 +96,12 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $banner = new Magento_Object(array('id' => 42));
+        $banner = new \Magento\Object(array('id' => 42));
 
         $this->_bannerSegmentLink->expects($this->never())->method('loadBannerSegments');
 
-        $this->_model->loadCustomerSegmentRelations(new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array('banner' => $banner)),
+        $this->_model->loadCustomerSegmentRelations(new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array('banner' => $banner)),
         )));
     }
 
@@ -110,7 +110,7 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
         $segmentIds = array(123, 456);
-        $banner = new Magento_Object(array('id' => 42, 'customer_segment_ids' => $segmentIds));
+        $banner = new \Magento\Object(array('id' => 42, 'customer_segment_ids' => $segmentIds));
 
         $this->_bannerSegmentLink
             ->expects($this->once())
@@ -118,8 +118,8 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
             ->with($banner->getId(), $segmentIds)
         ;
 
-        $this->_model->saveCustomerSegmentRelations(new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array('banner' => $banner)),
+        $this->_model->saveCustomerSegmentRelations(new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array('banner' => $banner)),
         )));
     }
 
@@ -131,12 +131,12 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
-        $banner = new Magento_Object(array('id' => 42, 'customer_segment_ids' => 'invalid'));
+        $banner = new \Magento\Object(array('id' => 42, 'customer_segment_ids' => 'invalid'));
 
         $this->_bannerSegmentLink->expects($this->never())->method('saveBannerSegments');
 
-        $this->_model->saveCustomerSegmentRelations(new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array('banner' => $banner)),
+        $this->_model->saveCustomerSegmentRelations(new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array('banner' => $banner)),
         )));
     }
 
@@ -144,12 +144,12 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $banner = new Magento_Object(array('id' => 42, 'customer_segment_ids' => array(123, 456)));
+        $banner = new \Magento\Object(array('id' => 42, 'customer_segment_ids' => array(123, 456)));
 
         $this->_bannerSegmentLink->expects($this->never())->method('saveBannerSegments');
 
-        $this->_model->saveCustomerSegmentRelations(new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array('banner' => $banner)),
+        $this->_model->saveCustomerSegmentRelations(new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array('banner' => $banner)),
         )));
     }
 
@@ -157,14 +157,14 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
-        $form = new Magento_Data_Form();
-        $model = new Magento_Object();
+        $form = new \Magento\Data\Form();
+        $model = new \Magento\Object();
         $block = $this->getMock('Magento_Backend_Block_Widget_Form_Element_Dependence', array(), array(), '', false);
 
         $this->_segmentHelper->expects($this->once())->method('addSegmentFieldsToForm')->with($form, $model, $block);
 
-        $this->_model->addFieldsToBannerForm(new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array('form' => $form, 'model' => $model, 'after_form_block' => $block)),
+        $this->_model->addFieldsToBannerForm(new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array('form' => $form, 'model' => $model, 'after_form_block' => $block)),
         )));
     }
 
@@ -172,14 +172,14 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $form = new Magento_Data_Form();
-        $model = new Magento_Object();
+        $form = new \Magento\Data\Form();
+        $model = new \Magento\Object();
         $block = $this->getMock('Magento_Backend_Block_Widget_Form_Element_Dependence', array(), array(), '', false);
 
         $this->_segmentHelper->expects($this->never())->method('addSegmentFieldsToForm');
 
-        $this->_model->addFieldsToBannerForm(new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array('form' => $form, 'model' => $model, 'after_form_block' => $block)),
+        $this->_model->addFieldsToBannerForm(new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array('form' => $form, 'model' => $model, 'after_form_block' => $block)),
         )));
     }
 
@@ -202,8 +202,8 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
         $this->_bannerSegmentLink
             ->expects($this->once())->method('addBannerSegmentFilter')->with($this->_select, $segmentIds);
 
-        $this->_model->addCustomerSegmentFilterToCollection(new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array('collection' => new Magento_Object(array('select' => $this->_select)))),
+        $this->_model->addCustomerSegmentFilterToCollection(new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array('collection' => new \Magento\Object(array('select' => $this->_select)))),
         )));
     }
 
@@ -222,8 +222,8 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
         $this->_segmentCustomer->expects($this->never())->method('getCurrentCustomerSegmentIds');
         $this->_bannerSegmentLink->expects($this->never())->method('addBannerSegmentFilter');
 
-        $this->_model->addCustomerSegmentFilterToCollection(new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array('collection' => new Magento_Object(array('select' => $this->_select)))),
+        $this->_model->addCustomerSegmentFilterToCollection(new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array('collection' => new \Magento\Object(array('select' => $this->_select)))),
         )));
     }
 
@@ -238,8 +238,8 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
         $this->_bannerSegmentLink
             ->expects($this->once())->method('addBannerSegmentFilter')->with($this->_select, $segmentIds);
 
-        $this->_model->addCustomerSegmentFilterToSelect(new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array('select' => $this->_select)),
+        $this->_model->addCustomerSegmentFilterToSelect(new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array('select' => $this->_select)),
         )));
     }
 
@@ -250,8 +250,8 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
         $this->_segmentCustomer->expects($this->never())->method('getCurrentCustomerSegmentIds');
         $this->_bannerSegmentLink->expects($this->never())->method('addBannerSegmentFilter');
 
-        $this->_model->addCustomerSegmentFilterToCollection(new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array('select' => $this->_select)),
+        $this->_model->addCustomerSegmentFilterToCollection(new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array('select' => $this->_select)),
         )));
     }
 }

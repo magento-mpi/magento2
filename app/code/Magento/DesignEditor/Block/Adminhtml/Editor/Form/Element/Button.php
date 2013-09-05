@@ -11,7 +11,7 @@
 /**
  * Form element button
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Button extends Magento_Data_Form_Element_Abstract
+class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Button extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
      * Additional html attributes

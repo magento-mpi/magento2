@@ -29,10 +29,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Text
     /**
      * Renders grid column
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return mixed
      */
-    public function _getValue(Magento_Object $row)
+    public function _getValue(\Magento\Object $row)
     {
         $format = ( $this->getColumn()->getFormat() ) ? $this->getColumn()->getFormat() : null;
         $defaultValue = $this->getColumn()->getDefault();

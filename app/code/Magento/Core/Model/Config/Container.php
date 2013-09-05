@@ -79,9 +79,9 @@ class Magento_Core_Model_Config_Container implements Magento_Core_Model_ConfigIn
         }
 
         if (false == array_key_exists($sectionKey, $this->_loadedSections)) {
-            Magento_Profiler::start('init_config_section:' . $sectionKey);
+            \Magento\Profiler::start('init_config_section:' . $sectionKey);
             $this->_loadedSections[$sectionKey] = $this->_configCache->getSection($sectionKey);
-            Magento_Profiler::stop('init_config_section:' . $sectionKey);
+            \Magento\Profiler::stop('init_config_section:' . $sectionKey);
         }
 
         return $this->_loadedSections[$sectionKey] ?: null;
@@ -91,7 +91,7 @@ class Magento_Core_Model_Config_Container implements Magento_Core_Model_ConfigIn
      * Get configuration node
      *
      * @param string $path
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      * @throws Magento_Core_Model_Config_Cache_Exception
      */
     public function getNode($path = null)

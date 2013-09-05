@@ -46,7 +46,7 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Ba
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         foreach ($this->getData('fields') as $itemId => $item) {
             $this->_prepareFormItem($item);
             $form->addField($itemId, $item['type'], $item);

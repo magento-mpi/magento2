@@ -134,10 +134,10 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
             $ext->setData($p);
             $packageVersion = $this->getRequest()->getPost('version_ids');
             if (is_array($packageVersion)) {
-                if (in_array(Magento_Connect_Package::PACKAGE_VERSION_2X, $packageVersion)) {
+                if (in_array(\Magento\Connect\Package::PACKAGE_VERSION_2X, $packageVersion)) {
                     $ext->createPackage();
                 }
-                if (in_array(Magento_Connect_Package::PACKAGE_VERSION_1X, $packageVersion)) {
+                if (in_array(\Magento\Connect\Package::PACKAGE_VERSION_1X, $packageVersion)) {
                     $ext->createPackageV1x();
                 }
             }

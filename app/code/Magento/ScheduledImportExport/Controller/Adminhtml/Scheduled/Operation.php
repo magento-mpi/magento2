@@ -27,7 +27,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
         try {
             $this->_title(__('Scheduled Imports/Exports'))
                 ->loadLayout()
-                ->_setActiveMenu('Magento_ScheduledImportExport::system_convert_enterprise_scheduled_operation');
+                ->_setActiveMenu('Magento_ScheduledImportExport::system_convert_magento_scheduled_operation');
         } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/scheduled_operation/index');
@@ -43,7 +43,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Magento_ScheduledImportExport::enterprise_scheduled_operation');
+        return $this->_authorization->isAllowed('Magento_ScheduledImportExport::magento_scheduled_operation');
     }
 
     /**
@@ -297,7 +297,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
         $result = false;
         try {
             $operationId = (int)$this->getRequest()->getParam('operation');
-            $schedule = new Magento_Object();
+            $schedule = new \Magento\Object();
             $schedule->setJobCode(
                 Magento_ScheduledImportExport_Model_Scheduled_Operation::CRON_JOB_NAME_PREFIX . $operationId
             );
@@ -348,7 +348,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
      */
     public function logCleanAction()
     {
-        $schedule = new Magento_Object();
+        $schedule = new \Magento\Object();
         $result = Mage::getModel('Magento_ScheduledImportExport_Model_Observer')->scheduledLogClean($schedule, true);
         if ($result) {
             $this->_getSession()

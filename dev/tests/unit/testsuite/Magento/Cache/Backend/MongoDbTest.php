@@ -9,7 +9,7 @@
 class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cache_Backend_MongoDb|null
+     * @var \Magento\Cache\Backend\MongoDb|null
      */
     protected $_model = null;
 
@@ -27,7 +27,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_model = $this->getMock('Magento_Cache_Backend_MongoDb', array('_getCollection'), array(), '', false);
+        $this->_model = $this->getMock('Magento\Cache\Backend\MongoDb', array('_getCollection'), array(), '', false);
         $this->_model->expects($this->any())
             ->method('_getCollection')
             ->will($this->returnValue($this->_collection));
@@ -85,9 +85,9 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Cache_Backend_MongoDb::getIdsMatchingTags
-     * @covers Magento_Cache_Backend_MongoDb::getIdsNotMatchingTags
-     * @covers Magento_Cache_Backend_MongoDb::getIdsMatchingAnyTags
+     * @covers \Magento\Cache\Backend\MongoDb::getIdsMatchingTags
+     * @covers \Magento\Cache\Backend\MongoDb::getIdsNotMatchingTags
+     * @covers \Magento\Cache\Backend\MongoDb::getIdsMatchingAnyTags
      * @dataProvider getIdsMatchingTagsDataProvider
      */
     public function testGetIdsMatchingTags($method, $tags, $expectedInput)
@@ -139,9 +139,9 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Cache_Backend_MongoDb::getIdsMatchingTags
-     * @covers Magento_Cache_Backend_MongoDb::getIdsNotMatchingTags
-     * @covers Magento_Cache_Backend_MongoDb::getIdsMatchingAnyTags
+     * @covers \Magento\Cache\Backend\MongoDb::getIdsMatchingTags
+     * @covers \Magento\Cache\Backend\MongoDb::getIdsNotMatchingTags
+     * @covers \Magento\Cache\Backend\MongoDb::getIdsMatchingAnyTags
      */
     public function testGetIdsMatchingTagsNoInputTags()
     {
@@ -235,7 +235,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
         if ($doNotTestValidity) {
             $validityCondition = $this->logicalNot($validityCondition);
         }
-        $binData = new MongoBinData($expected, MongoBinData::BYTE_ARRAY);
+        $binData = new MongoBinData($expected, \MongoBinData::BYTE_ARRAY);
         $binData->bin = $expected;
         $this->_collection->expects($this->once())
             ->method('findOne')

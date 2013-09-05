@@ -92,7 +92,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
             return $this;
         }
 
-        /**@var $subSelect Magento_DB_Select*/
+        /**@var $subSelect \Magento\DB\Select*/
         $subSelect = $adapter->select()
             ->from(
                 array('s' => $this->getTable('core_store')),
@@ -109,7 +109,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source
             $subSelect->where('d.entity_id IN(?)', $entityIds);
         }
 
-        /**@var $select Magento_DB_Select*/
+        /**@var $select \Magento\DB\Select*/
         $select = $adapter->select()
             ->from(
                 array('pid' => new Zend_Db_Expr(sprintf('(%s)',$subSelect->assemble()))),

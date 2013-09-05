@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Validator
+ * @package     \Magento\Validator
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test case for Magento_Validator_Exception
+ * Test case for \Magento\Validator\ValidatorException
  */
 class Magento_Validator_ExceptionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Testing Magento_Validator_Exception::getMessage
+     * Testing \Magento\Validator\ValidatorException::getMessage
      */
     public function testGetMessage()
     {
@@ -29,7 +29,7 @@ class Magento_Validator_ExceptionTest extends PHPUnit_Framework_TestCase
                 'error3'
             )
         );
-        $exception = new Magento_Validator_Exception($messages);
+        $exception = new \Magento\Validator\ValidatorException($messages);
         $this->assertEquals($expectedMessage, $exception->getMessage());
     }
 }

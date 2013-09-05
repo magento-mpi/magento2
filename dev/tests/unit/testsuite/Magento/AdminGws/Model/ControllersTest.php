@@ -47,7 +47,7 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
     {
         $this->_roleMock = $this->getMock('Magento_AdminGws_Model_Role', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
-        $this->_objectFactory = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $this->_objectFactory = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
         $this->_controllerMock = $this->getMock('Magento_Adminhtml_Controller_Action', array(), array(), '', false);
         $this->_ctrlRequestMock = $this->getMock(

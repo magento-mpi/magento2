@@ -11,7 +11,7 @@
 /**
  * Log archive file model
  */
-class Magento_Logging_Model_Archive extends Magento_Object
+class Magento_Logging_Model_Archive extends \Magento\Object
 {
     /**
      * Full system name to current file, if set
@@ -21,14 +21,14 @@ class Magento_Logging_Model_Archive extends Magento_Object
     protected $_file = '';
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @param Magento_Filesystem $fileSystem
+     * @param \Magento\Filesystem $fileSystem
      */
-    public function __construct(Magento_Filesystem $fileSystem)
+    public function __construct(\Magento\Filesystem $fileSystem)
     {
         $this->_filesystem = $fileSystem;
     }

@@ -15,7 +15,7 @@
 class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 
@@ -27,9 +27,9 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
      */
     protected function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_objectManager->addSharedInstance(
-            Mage::getObjectManager()->get('Magento_Core_Model_Dir'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir'),
             'Magento_Core_Model_Dir'
         );
         $userFactory = new Magento_Webapi_Model_Acl_User_Factory($this->_objectManager);

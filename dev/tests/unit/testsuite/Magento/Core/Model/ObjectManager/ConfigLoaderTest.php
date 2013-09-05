@@ -13,7 +13,7 @@ class Magento_Core_Model_ObjectManager_ConfigLoaderTest extends PHPUnit_Framewor
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager_Config_Reader_Dom
+     * @var \Magento\ObjectManager\Config\Reader\Dom
      */
     protected $_readerMock;
 
@@ -24,7 +24,7 @@ class Magento_Core_Model_ObjectManager_ConfigLoaderTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento_ObjectManager_Config_Reader_Dom',
+        $this->_readerMock = $this->getMock('Magento\ObjectManager\Config\Reader\Dom',
             array(), array(), '', false
         );
 

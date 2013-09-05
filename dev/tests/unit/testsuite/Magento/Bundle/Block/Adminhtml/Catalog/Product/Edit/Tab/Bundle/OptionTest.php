@@ -14,15 +14,15 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_OptionTest
 {
     public function testGetAddButtonId()
     {
-        $button = new Magento_Object;
+        $button = new \Magento\Object;
 
-        $itemsBlock = $this->getMock('Magento_Object', array('getChildBlock'));
+        $itemsBlock = $this->getMock('Magento\Object', array('getChildBlock'));
         $itemsBlock->expects($this->atLeastOnce())
             ->method('getChildBlock')
             ->with('add_button')
             ->will($this->returnValue($button));
 
-        $layout = $this->getMock('Magento_Object', array('getBlock'));
+        $layout = $this->getMock('Magento\Object', array('getBlock'));
         $layout->expects($this->atLeastOnce())
             ->method('getBlock')
             ->with('admin.product.bundle.items')

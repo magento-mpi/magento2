@@ -20,7 +20,7 @@ class Magento_Catalog_Model_Product_Option_Observer
     /**
      * Copy quote custom option files to order custom option files
      *
-     * @param Magento_Object $observer
+     * @param \Magento\Object $observer
      * @return Magento_Catalog_Model_Product_Option_Observer
      */
     public function copyQuoteFilesToOrderFiles($observer)

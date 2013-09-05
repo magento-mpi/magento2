@@ -10,14 +10,14 @@
  */
 
 /**
- * Test class for Magento_AuthorizationInterface.
+ * Test class for \Magento\AuthorizationInterface.
  */
 class Magento_AuthorizationTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Authorization model
      *
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_model;
 
@@ -28,10 +28,10 @@ class Magento_AuthorizationTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_policyMock = $this->getMock('Magento_Authorization_Policy', array(), array(), '', false);
-        $roleLocatorMock = $this->getMock('Magento_Authorization_RoleLocator', array(), array(), '', false);
+        $this->_policyMock = $this->getMock('Magento\Authorization\Policy', array(), array(), '', false);
+        $roleLocatorMock = $this->getMock('Magento\Authorization\RoleLocator', array(), array(), '', false);
         $roleLocatorMock->expects($this->any())->method('getAclRoleId')->will($this->returnValue('U1'));
-        $this->_model = new Magento_Authorization($this->_policyMock, $roleLocatorMock);
+        $this->_model = new \Magento\Authorization($this->_policyMock, $roleLocatorMock);
     }
 
     public function tearDown()

@@ -63,7 +63,7 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
             $this->getParam(Mage::PARAM_APP_URIS, array()),
             $this->getParam(Mage::PARAM_APP_DIRS, array())
         );
-        Magento_Autoload_IncludePath::addIncludePath(array(
+        \Magento\Autoload\IncludePath::addIncludePath(array(
             $this->_dir->getDir(Magento_Core_Model_Dir::GENERATION)
         ));
 
@@ -176,7 +176,7 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
      */
     public function configure(Magento_Core_Model_ObjectManager $objectManager)
     {
-        Magento_Profiler::start('initial');
+        \Magento\Profiler::start('initial');
 
         $objectManager->configure(array(
             'Magento_Core_Model_Config_Loader_Local' => array(
@@ -202,7 +202,7 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
                 }
             }
         }
-        Magento_Profiler::stop('initial');
+        \Magento\Profiler::stop('initial');
     }
 
     /**
@@ -215,12 +215,12 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
         $result = array();
         // mark all cache entries with a special tag to be able to clean only cache belonging to the application
         $result[] = array(
-            'class' => 'Magento_Cache_Frontend_Decorator_TagScope',
+            'class' => '\Magento\Cache\Frontend\Decorator\TagScope',
             'parameters' => array('tag' => 'MAGE'),
         );
-        if (Magento_Profiler::isEnabled()) {
+        if (\Magento\Profiler::isEnabled()) {
             $result[] = array(
-                'class' => 'Magento_Cache_Frontend_Decorator_Profiler',
+                'class' => '\Magento\Cache\Frontend\Decorator\Profiler',
                 'parameters' => array('backendPrefixes' => array('Zend_Cache_Backend_', 'Magento_Cache_Backend_')),
             );
         }

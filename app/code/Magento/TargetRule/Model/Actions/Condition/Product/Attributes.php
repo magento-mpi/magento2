@@ -174,7 +174,7 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
     /**
      * Retrieve Value Type Select Element
      *
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function getValueTypeElement()
     {

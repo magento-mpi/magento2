@@ -7,19 +7,21 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
+namespace Magento\Config\Reader;
+
+class Filesystem implements \Magento\Config\ReaderInterface
 {
     /**
      * File locator
      *
-     * @var Magento_Config_FileResolverInterface
+     * @var \Magento\Config\FileResolverInterface
      */
     protected $_fileResolver;
 
     /**
      * Config converter
      *
-     * @var Magento_Config_Converter_Dom
+     * @var \Magento\Config\Converter\Dom
      */
     protected $_converter;
 
@@ -66,8 +68,8 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
     protected $_isValidated;
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Config_ConverterInterface $converter
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Config\ConverterInterface $converter
      * @param string $fileName
      * @param array $idAttributes
      * @param string $schema
@@ -76,14 +78,14 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Config_ConverterInterface $converter,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Config\ConverterInterface $converter,
         $fileName,
         $idAttributes,
         $schema = null,
         $perFileSchema = null,
         $isValidated = false,
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = '\Magento\Config\Dom'
     ) {
         $this->_fileResolver = $fileResolver;
         $this->_converter = $converter;
@@ -100,7 +102,7 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
      *
      * @param string $scope
      * @return array
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function read($scope)
     {
@@ -108,7 +110,7 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
         if (!count($fileList)) {
             return array();
         }
-        /** @var Magento_Config_Dom $domDocument */
+        /** @var \Magento\Config\Dom $domDocument */
         $domDocument = null;
         foreach ($fileList as $file) {
             try {
@@ -122,15 +124,15 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
                 } else {
                     $domDocument->merge(file_get_contents($file));
                 }
-            } catch (Magento_Config_Dom_ValidationException $e) {
-                throw new Magento_Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
+            } catch (\Magento\Config\Dom\ValidationException $e) {
+                throw new \Magento\Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
             }
         }
         if ($this->_isValidated) {
             $errors = array();
             if ($domDocument && !$domDocument->validate($this->_schemaFile, $errors)) {
                 $message = "Invalid Document \n";
-                throw new Magento_Exception($message . implode("\n", $errors));
+                throw new \Magento\Exception($message . implode("\n", $errors));
             }
         }
 

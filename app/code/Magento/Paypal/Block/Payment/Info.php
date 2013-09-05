@@ -29,8 +29,8 @@ class Magento_Paypal_Block_Payment_Info extends Magento_Payment_Block_Info_Cc
     /**
      * Prepare PayPal-specific payment information
      *
-     * @param Magento_Object|array $transport
-     * return Magento_Object
+     * @param \Magento\Object|array $transport
+     * return \Magento\Object
      */
     protected function _prepareSpecificInformation($transport = null)
     {

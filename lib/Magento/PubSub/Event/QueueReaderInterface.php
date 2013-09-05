@@ -9,12 +9,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_PubSub_Event_QueueReaderInterface
+namespace Magento\PubSub\Event;
+
+interface QueueReaderInterface
 {
     /**
      * Return the top event from the queue.
      *
-     * @return Magento_PubSub_EventInterface|null
+     * @return \Magento\PubSub\EventInterface|null
      */
     public function poll();
 }

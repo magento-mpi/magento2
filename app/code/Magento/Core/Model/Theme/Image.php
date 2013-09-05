@@ -24,7 +24,7 @@ class Magento_Core_Model_Theme_Image
     const PREVIEW_IMAGE_HEIGHT = 800;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -56,7 +56,7 @@ class Magento_Core_Model_Theme_Image
     /**
      * Initialize dependencies
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Image_Factory $imageFactory
      * @param Magento_Core_Model_Theme_Image_Uploader $uploader
      * @param Magento_Core_Model_Theme_Image_Path $themeImagePath
@@ -64,7 +64,7 @@ class Magento_Core_Model_Theme_Image
      * @param Magento_Core_Model_Theme $theme
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Image_Factory $imageFactory,
         Magento_Core_Model_Theme_Image_Uploader $uploader,
         Magento_Core_Model_Theme_Image_Path $themeImagePath,
@@ -117,7 +117,7 @@ class Magento_Core_Model_Theme_Image
 
         $isCopied = false;
         try {
-            $destinationFileName = Magento_File_Uploader::getNewFileName($destinationFilePath);
+            $destinationFileName = \Magento\File\Uploader::getNewFileName($destinationFilePath);
             $isCopied = $this->_filesystem->copy(
                 $destinationFilePath,
                 $previewDir . DIRECTORY_SEPARATOR . $destinationFileName

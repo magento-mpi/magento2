@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals extends Magento_Adminhtml_Block
     protected function _initTotals()
     {
         parent::_initTotals();
-        $this->_totals['paid'] = new Magento_Object(array(
+        $this->_totals['paid'] = new \Magento\Object(array(
             'code'      => 'paid',
             'strong'    => true,
             'value'     => $this->getSource()->getTotalPaid(),
@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals extends Magento_Adminhtml_Block
             'label'     => __('Total Paid'),
             'area'      => 'footer'
         ));
-        $this->_totals['refunded'] = new Magento_Object(array(
+        $this->_totals['refunded'] = new \Magento\Object(array(
             'code'      => 'refunded',
             'strong'    => true,
             'value'     => $this->getSource()->getTotalRefunded(),
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals extends Magento_Adminhtml_Block
             'label'     => __('Total Refunded'),
             'area'      => 'footer'
         ));
-        $this->_totals['due'] = new Magento_Object(array(
+        $this->_totals['due'] = new \Magento\Object(array(
             'code'      => 'due',
             'strong'    => true,
             'value'     => $this->getSource()->getTotalDue(),

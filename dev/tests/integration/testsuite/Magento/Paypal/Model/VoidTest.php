@@ -25,7 +25,7 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
             array('_postRequest'),
             array($this->getMock('Magento_Core_Model_ModuleListInterface'))
         );
-        $response = new Magento_Object(array(
+        $response = new \Magento\Object(array(
             'result' => '0',
             'pnref' => 'V19A3D27B61E',
             'respmsg' => 'Approved',
@@ -40,7 +40,7 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($response));
 
         $payment->setMethodInstance($instance);
-        $payment->void(new Magento_Object);
+        $payment->void(new \Magento\Object);
         $order->save();
         $order = Mage::getModel('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');

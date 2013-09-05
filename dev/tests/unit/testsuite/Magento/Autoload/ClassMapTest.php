@@ -9,13 +9,13 @@
 class Magento_Autoload_ClassMapTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Autoload_ClassMap
+     * @var \Magento\Autoload\ClassMap
      */
     protected $_loader = null;
 
     public function setUp()
     {
-        $this->_loader = new Magento_Autoload_ClassMap(__DIR__ . '/_files');
+        $this->_loader = new \Magento\Autoload\ClassMap(__DIR__ . '/_files');
     }
 
     /**
@@ -23,7 +23,7 @@ class Magento_Autoload_ClassMapTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructNonExistent()
     {
-        new Magento_Autoload_ClassMap('non_existent');
+        new \Magento\Autoload\ClassMap('non_existent');
     }
 
     /**
@@ -31,7 +31,7 @@ class Magento_Autoload_ClassMapTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructNotDir()
     {
-        new Magento_Autoload_ClassMap(__FILE__);
+        new \Magento\Autoload\ClassMap(__FILE__);
     }
 
     public function testGetFileAddMap()

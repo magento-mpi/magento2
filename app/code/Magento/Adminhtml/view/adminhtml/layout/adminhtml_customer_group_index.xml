@@ -7,53 +7,52 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_customer_group_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_customer_group_index">
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Customer_Group" name="adminhtml.block.customer.group.grid.container">
-                <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.customer.group.grid" as="grid">
+            <block class="Magento_Adminhtml_Block_Customer_Group" name="adminhtml.block.customer.group.grid.container">
+                <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.customer.group.grid" as="grid">
                     <arguments>
-                        <id>customerGroupGrid</id>
-                        <dataSource type="object">Magento_Customer_Model_Resource_Group_Grid_Collection</dataSource>
-                        <default_sort>type</default_sort>
-                        <default_dir>asc</default_dir>
-                        <save_parameters_in_session>1</save_parameters_in_session>
+                        <argument name="id" xsi:type="string">customerGroupGrid</argument>
+                        <argument name="dataSource" xsi:type="object">Magento_Customer_Model_Resource_Group_Grid_Collection</argument>
+                        <argument name="default_sort" xsi:type="string">type</argument>
+                        <argument name="default_dir" xsi:type="string">asc</argument>
+                        <argument name="save_parameters_in_session" xsi:type="string">1</argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet"
-                           name="adminhtml.customer.group.grid.columnSet">
+                    <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.customer.group.grid.columnSet">
                         <arguments>
-                            <rowUrl>
-                                <path>*/*/edit</path>
-                                <extraParamsTemplate>
-                                    <id>getId</id>
-                                </extraParamsTemplate>
-                            </rowUrl>
+                            <argument name="rowUrl" xsi:type="array">
+                                <item name="path" xsi:type="string">*/*/edit</item>
+                                <item name="extraParamsTemplate" xsi:type="array">
+                                    <item name="id" xsi:type="string">getId</item>
+                                </item>
+                            </argument>
                         </arguments>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="time">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column" as="time">
                             <arguments>
-                                <header translate="true">ID</header>
-                                <width>50px</width>
-                                <id>customer_group_id</id>
-                                <align>right</align>
-                                <index>customer_group_id</index>
+                                <argument name="header" xsi:type="string" translate="true">ID</argument>
+                                <argument name="width" xsi:type="string">50px</argument>
+                                <argument name="id" xsi:type="string">customer_group_id</argument>
+                                <argument name="align" xsi:type="string">right</argument>
+                                <argument name="index" xsi:type="string">customer_group_id</argument>
                             </arguments>
                         </block>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="type">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column" as="type">
                             <arguments>
-                                <header translate="true">Group</header>
-                                <index>customer_group_code</index>
+                                <argument name="header" xsi:type="string" translate="true">Group</argument>
+                                <argument name="index" xsi:type="string">customer_group_code</argument>
                             </arguments>
                         </block>
-                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="class_name">
+                        <block class="Magento_Backend_Block_Widget_Grid_Column" as="class_name">
                             <arguments>
-                                <header translate="true">Tax Class</header>
-                                <width>200px</width>
-                                <index>class_name</index>
+                                <argument name="header" xsi:type="string" translate="true">Tax Class</argument>
+                                <argument name="width" xsi:type="string">200px</argument>
+                                <argument name="index" xsi:type="string">class_name</argument>
                             </arguments>
                         </block>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_customer_group_index>
+    </handle>
 </layout>

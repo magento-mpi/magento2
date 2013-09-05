@@ -33,11 +33,11 @@ class Magento_AdminNotification_Model_System_Message_CacheOutdatedTest extends P
 
     public function setUp()
     {
-        $this->_authorizationMock = $this->getMock('Magento_AuthorizationInterface');
+        $this->_authorizationMock = $this->getMock('Magento\AuthorizationInterface');
         $this->_urlInterfaceMock = $this->getMock('Magento_Core_Model_UrlInterface');
         $this->_cacheTypeListMock = $this->getMock('Magento_Core_Model_Cache_TypeListInterface');
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = array(
             'authorization' => $this->_authorizationMock,
             'urlBuilder' => $this->_urlInterfaceMock,

@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Model_Extension_Collection extends Magento_Data_Collection_Filesystem
+class Magento_Connect_Model_Extension_Collection extends \Magento\Data\Collection\Filesystem
 {
     /**
      * Files and folders regexsp
@@ -39,7 +39,7 @@ class Magento_Connect_Model_Extension_Collection extends Magento_Data_Collection
     public function __construct()
     {
         $this->_baseDir = Mage::getBaseDir('var') . DS . 'connect';
-        $io = new Magento_Io_File();
+        $io = new \Magento\Io\File();
         $io->setAllowCreateFolders(true)->createDestinationDir($this->_baseDir);
         $this->addTargetDir($this->_baseDir);
     }

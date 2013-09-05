@@ -9,10 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_Event implements Magento_PubSub_EventInterface
+namespace Magento\PubSub;
+
+class Event implements \Magento\PubSub\EventInterface
 {
     /** @var int */
-    protected $_status = Magento_PubSub_EventInterface::STATUS_READY_TO_SEND;
+    protected $_status = \Magento\PubSub\EventInterface::STATUS_READY_TO_SEND;
 
     /** @var array */
     protected $_bodyData;
@@ -77,22 +79,22 @@ class Magento_PubSub_Event implements Magento_PubSub_EventInterface
     /**
      * Mark event as processed
      *
-     * @return Magento_PubSub_Event
+     * @return \Magento\PubSub\Event
      */
     public function complete()
     {
-        $this->_status = Magento_PubSub_EventInterface::STATUS_PROCESSED;
+        $this->_status = \Magento\PubSub\EventInterface::STATUS_PROCESSED;
         return $this;
     }
 
     /**
      * Mark event as processed
      *
-     * @return Magento_PubSub_Event
+     * @return \Magento\PubSub\Event
      */
     public function markAsInProgress()
     {
-        $this->_status = Magento_PubSub_EventInterface::STATUS_IN_PROGRESS;
+        $this->_status = \Magento\PubSub\EventInterface::STATUS_IN_PROGRESS;
         return $this;
     }
 }

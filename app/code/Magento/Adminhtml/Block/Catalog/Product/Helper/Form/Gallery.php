@@ -16,7 +16,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magento_Data_Form_Element_Abstract
+class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends \Magento\Data\Form\Element\AbstractElement
 {
 
     public function getElementHtml()

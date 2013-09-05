@@ -13,12 +13,12 @@ class Magento_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
     protected $_invoker;
 
     /**
-     * @var Magento_EventFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento\EventFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventFactory;
 
     /**
-     * @var Magento_Event|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Event|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_event;
 
@@ -28,7 +28,7 @@ class Magento_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
     protected $_observerFactory;
 
     /**
-     * @var Magento_Event_Observer|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Event\Observer|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_observer;
 
@@ -40,13 +40,13 @@ class Magento_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_invoker = $this->getMock('Magento_Core_Model_Event_InvokerInterface');
-        $this->_eventFactory = $this->getMock('Magento_EventFactory', array('create'), array(), '', false);
-        $this->_event = $this->getMock('Magento_Event', array(), array(), '', false);
-        $this->_observerFactory = $this->getMock('Magento_Event_ObserverFactory', array('create'), array(), '',
+        $this->_eventFactory = $this->getMock('Magento\EventFactory', array('create'), array(), '', false);
+        $this->_event = $this->getMock('Magento\Event', array(), array(), '', false);
+        $this->_observerFactory = $this->getMock('Magento\Event\ObserverFactory', array('create'), array(), '',
             false);
-        $this->_observer = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
+        $this->_observer = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_eventManager = $objectManagerHelper->getObject('Magento_Core_Model_Event_Manager', array(
             'invoker' => $this->_invoker,
             'eventFactory' => $this->_eventFactory,
@@ -120,11 +120,11 @@ class Magento_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
         $this->_invoker->expects($this->at(0))->method('dispatch')->with(array(
             'model' => 'some_class',
             'method' => 'some_method',
-        ), $this->isInstanceOf('Magento_Event_Observer'));
+        ), $this->isInstanceOf('\Magento\Event\Observer'));
         $this->_invoker->expects($this->at(1))->method('dispatch')->with(array(
             'model' => 'another_some_class',
             'method' => 'another_some_method',
-        ), $this->isInstanceOf('Magento_Event_Observer'));
+        ), $this->isInstanceOf('\Magento\Event\Observer'));
 
         $this->_eventManager->addObservers(Magento_Core_Model_App_Area::AREA_ADMIN, 'some_event', array(
             'some_observer_name' => array(

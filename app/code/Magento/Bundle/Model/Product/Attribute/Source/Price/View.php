@@ -75,7 +75,7 @@ class Magento_Bundle_Model_Product_Attribute_Source_Price_View extends Magento_E
             $column['type']     = 'int';
             $column['is_null']  = true;
         } else {
-            $column['type']     = Magento_DB_Ddl_Table::TYPE_INTEGER;
+            $column['type']     = \Magento\DB\Ddl\Table::TYPE_INTEGER;
             $column['nullable'] = true;
             $column['comment']  = 'Bundle Price View ' . $attributeCode . ' column';
         }
@@ -87,7 +87,7 @@ class Magento_Bundle_Model_Product_Attribute_Source_Price_View extends Magento_E
      * Retrieve Select for update Attribute value in flat table
      *
      * @param   int $store
-     * @return  Magento_DB_Select|null
+     * @return  \Magento\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

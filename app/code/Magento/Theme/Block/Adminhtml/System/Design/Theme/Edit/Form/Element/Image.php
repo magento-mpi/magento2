@@ -11,7 +11,7 @@
 /**
  * Image form element that generates correct thumbnail image URL for theme preview image
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image extends Magento_Data_Form_Element_Image
+class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image extends \Magento\Data\Form\Element\Image
 {
     /**
      * Get image preview url

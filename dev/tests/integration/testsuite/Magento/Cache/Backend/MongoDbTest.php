@@ -12,7 +12,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
     protected $_dbName = 'magento_integration_test';
 
     /**
-     * @var Magento_Cache_Backend_MongoDb|null
+     * @var \Magento\Cache\Backend\MongoDb|null
      */
     protected $_model = null;
 
@@ -29,7 +29,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
         if (defined('MONGODB_DATABASE_NAME')) {
             $this->_dbName = MONGODB_DATABASE_NAME;
         }
-        $this->_model = new Magento_Cache_Backend_MongoDb(
+        $this->_model = new \Magento\Cache\Backend\MongoDb(
             array('connection_string' => $this->_connectionString, 'db' => $this->_dbName)
         );
     }
@@ -49,7 +49,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new Magento_Cache_Backend_MongoDb();
+        new \Magento\Cache\Backend\MongoDb();
     }
 
     public function testGetIds()

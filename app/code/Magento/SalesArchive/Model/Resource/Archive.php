@@ -25,13 +25,13 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
      */
     protected $_tables   = array(
         Magento_SalesArchive_Model_Archive::ORDER
-            => array('sales_flat_order_grid', 'enterprise_sales_order_grid_archive'),
+            => array('sales_flat_order_grid', 'magento_sales_order_grid_archive'),
         Magento_SalesArchive_Model_Archive::INVOICE
-            => array('sales_flat_invoice_grid', 'enterprise_sales_invoice_grid_archive'),
+            => array('sales_flat_invoice_grid', 'magento_sales_invoice_grid_archive'),
         Magento_SalesArchive_Model_Archive::SHIPMENT
-            => array('sales_flat_shipment_grid', 'enterprise_sales_shipment_grid_archive'),
+            => array('sales_flat_shipment_grid', 'magento_sales_shipment_grid_archive'),
         Magento_SalesArchive_Model_Archive::CREDITMEMO
-            => array('sales_flat_creditmemo_grid', 'enterprise_sales_creditmemo_grid_archive')
+            => array('sales_flat_creditmemo_grid', 'magento_sales_creditmemo_grid_archive')
     );
 
     /**
@@ -144,7 +144,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
      *
      * @param array $statuses
      * @param int $archiveAge
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getOrderIdsForArchiveSelect($statuses, $archiveAge)
     {
@@ -157,7 +157,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
         if ($archiveAge) { // Check archive age
             $archivePeriodExpr = $adapter->getDateSubSql($adapter->quote($this->formatDate(true)),
                 (int) $archiveAge,
-                Magento_DB_Adapter_Interface::INTERVAL_DAY
+                \Magento\DB\Adapter\AdapterInterface::INTERVAL_DAY
             );
             $select->where($archivePeriodExpr . ' >= updated_at');
         }

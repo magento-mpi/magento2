@@ -26,7 +26,7 @@ class Magento_Banner_Model_Resource_Catalogrule_Collection extends Magento_Core_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Object', 'Magento_CatalogRule_Model_Resource_Rule');
+        $this->_init('\Magento\Object', 'Magento_CatalogRule_Model_Resource_Rule');
         $this->setMainTable('magento_banner_catalogrule');
     }
 

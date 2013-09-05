@@ -17,7 +17,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Check whether category can be moved
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function catalogCategoryIsMoveable($observer)
     {
@@ -33,7 +33,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Check whether sub category can be added
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function catalogCategoryCanBeAdded($observer)
     {
@@ -63,7 +63,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
      * Check whether root category can be added
      * Note: only user with full access can add root categories
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function catalogRootCategoryCanBeAdded($observer)
     {
@@ -78,7 +78,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Restrict customer grid container
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function widgetCustomerGridContainer($observer)
     {
@@ -90,7 +90,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Restrict system stores page container
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function widgetManageStores($observer)
     {
@@ -105,7 +105,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Restrict product grid container
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function widgetProductGridContainer($observer)
     {
@@ -117,7 +117,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Restrict event grid container
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function widgetCatalogEventGridContainer($observer)
     {
@@ -129,7 +129,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove product attribute add button
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function removeCatalogProductAttributeAddButton($observer)
     {
@@ -139,7 +139,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove product attribute save buttons
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function removeCatalogProductAttributeButtons($observer)
     {
@@ -152,7 +152,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Disable fields in tab "Main" of edit product attribute form
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function disableCatalogProductAttributeEditTabMainFields($observer)
     {
@@ -169,7 +169,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Disable fields in tab "Manage Label / Options" of edit product attribute form
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function disableCatalogProductAttributeEditTabOptionsFields($observer)
     {
@@ -179,7 +179,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove product attribute create button on product edit page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function disallowCreateAttributeButtonDisplay($observer)
     {
@@ -193,7 +193,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove attribute set management buttons on attribute set edit page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function removeAttributeSetControls($observer)
     {
@@ -215,7 +215,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove attribute set creation button on attribute set listing page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function removeAddNewAttributeSetButton($observer)
     {
@@ -231,7 +231,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove customer attribute creation button from grid container
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function removeAddNewCustomerAttributeButton($observer)
     {
@@ -245,7 +245,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove customer attribute deletion button from form container
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function removeDeleteCustomerAttributeButton($observer)
     {
@@ -259,7 +259,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove edit buttons on catalog events page and catalog event edit page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function widgetCatalogEventCategoryEditButtons($observer)
     {
@@ -284,7 +284,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Disables "Display Countdown Ticker On" checkboxes if user have not enough rights
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function restrictCatalogEventEditForm($observer)
     {
@@ -313,7 +313,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Set required Subscribers From field in newsletter queue form
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function setIsRequiredSubscribersFromFieldForNewsletterQueueForm($observer)
     {
@@ -326,7 +326,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Set websites readonly flag for store-level users on mass update attributes
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function catalogProductMassUpdateWebsites($observer)
     {
@@ -336,7 +336,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove 'delete' button for store-level roles on Catalog Product page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function catalogProductPrepareMassaction($observer)
@@ -355,7 +355,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove control buttons if user does not have exclusive access to current model
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @param string $registryKey
      * @param array $buttons
      * @return Magento_AdminGws_Model_Blocks
@@ -379,7 +379,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove control buttons if user does not have exclusive access to current page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeCmsPageButtons($observer)
@@ -391,7 +391,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove control buttons if user does not have exclusive access to current block
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeCmsBlockButtons($observer)
@@ -403,7 +403,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove control buttons if user does not have exclusive access to current poll
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removePollButtons($observer)
@@ -415,7 +415,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove control buttons if user does not have exclusive access to current reward rate
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeRewardRateButtons($observer)
@@ -436,7 +436,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove fetch button if user doesn't have exclusive access to order
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeSalesTransactionControlButtons($observer)
@@ -455,7 +455,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove buttons from gift wrapping edit form for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeGiftWrappingEditButtons($observer)
@@ -468,7 +468,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove 'delete' action from Gift Wrapping grid for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeGiftWrappingForbiddenMassactions($observer)
@@ -484,7 +484,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove buttons from rating edit form (in Manage Ratings) for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeRatingEditButtons($observer)
@@ -498,7 +498,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
      * Remove action column and massaction functionality
      * from grid for users with limited permissions.
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeProcessListButtons($observer)
@@ -516,7 +516,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove buttons for save and reindex on process edit page.
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeProcessEditButtons($observer)
@@ -531,7 +531,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Removing not allowed massactions for user with store level permissions.
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeNotAllowedMassactionsForOrders($observer)
@@ -554,7 +554,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
      * Removing buttons from revision edit page which can't be used
      * by users with limited permissions
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeRevisionEditButtons($observer)
@@ -576,7 +576,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
      * Removing publish button from preview screen to disallow
      * publishing for users with limited permissions
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removePreviewPublishButton($observer)
@@ -595,7 +595,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove control buttons for website-level roles on Manage Gift Card Accounts page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function removeGiftCardAccountAddButton($observer)
     {
@@ -610,7 +610,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove control buttons for website-level roles on Gift Card Account Edit page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function removeGiftCardAccountControlButtons($observer)
     {
@@ -627,7 +627,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove control buttons for limited user on Manage Currency Rates
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function removeManageCurrencyRatesButtons($observer)
     {
@@ -642,7 +642,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove Transactional Emails edit page control buttons for limited user
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function removeTransactionalEmailsEditButtons($observer)
     {
@@ -656,7 +656,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove buttons from transactional email template grid for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function  removeEmailTemplateGridButtons($observer)
@@ -672,7 +672,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove buttons from TargetRule grid for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeTargetRuleGridButtons($observer)
@@ -688,7 +688,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove buttons from TargetRule Edit/View for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeTargetRuleEditButtons($observer)
@@ -706,7 +706,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Disable Rule-based Settings for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function readonlyTargetRuleProductAttribute($observer)
@@ -724,7 +724,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Validate permissions for Catalog Permission tab Settings for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function validateCatalogPermissions($observer)
@@ -760,7 +760,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove buttons for widget instance editing if user does not have exclusive access
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeWidgetInstanceButtons($observer)
@@ -782,7 +782,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove buttons for banner editing if user does not have exclusive access
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function validateBannerPermissions($observer)
@@ -804,7 +804,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Validate permissions for Banner Content tab for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function disableAllStoreViewsContentFeild($observer)
@@ -819,7 +819,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove Save Hierarchy button if GWS permissions are applicable
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeCmsHierarchyFormButtons($observer)
@@ -834,7 +834,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Add append restriction flag to hierarchy nodes
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function prepareCmsHierarchyNodes($observer)
@@ -873,7 +873,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove add button for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeCustomerGroupAddButton($observer)
@@ -885,7 +885,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove control buttons for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeCustomerGroupControlButtons($observer)
@@ -898,7 +898,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove control buttons for all GWS limited users with no exclusive rights
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeCatalogEventControlButtons($observer)
@@ -918,7 +918,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove add button for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeTaxRuleAddButton($observer)
@@ -930,7 +930,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove control buttons for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeTaxRuleControlButtons($observer)
@@ -945,7 +945,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove add button for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeTaxRateAddButton($observer)
@@ -957,7 +957,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove control buttons for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeTaxRateControlButtons($observer)
@@ -971,7 +971,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove Import possibility for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeTaxRateImport($observer)
@@ -983,7 +983,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove rule entity grid buttons for users who does not have any permissions
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      *
      * @return Magento_AdminGws_Model_Blocks
      */
@@ -1008,7 +1008,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove rule entity edit buttons for users who does not have any permissions or does not have full permissions
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      *
      * @return Magento_AdminGws_Model_Blocks
      */
@@ -1065,7 +1065,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove button "Add RMA Attribute" for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeRmaAddAttributeButton($observer)
@@ -1077,7 +1077,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Remove "Delete Attribute" button for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function removeRmaDeleteAttributeButton($observer)
@@ -1089,7 +1089,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Disable "Delete Attribute Option" Button for all GWS limited users
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function disableRmaAttributeDeleteOptionButton($observer)
@@ -1112,7 +1112,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
      *
      * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      *
      * @return Magento_AdminGws_Model_Blocks
      */
@@ -1127,7 +1127,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
      *
      * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      *
      * @return Magento_AdminGws_Model_Blocks
      */
@@ -1142,7 +1142,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
      *
      * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      *
      * @return Magento_AdminGws_Model_Blocks
      */
@@ -1155,13 +1155,13 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Disable tax class and rate editable multiselects on the "Manage Tax Rule" page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_AdminGws_Model_Blocks
      */
     public function disableTaxRelatedMultiselects($observer)
     {
         /**
-         * @var $form Magento_Data_Form
+         * @var $form \Magento\Data\Form
          */
         $form = $observer->getEvent()->getBlock()->getForm();
         $form->getElement('tax_customer_class')->setDisabled(true);

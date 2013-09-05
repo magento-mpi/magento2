@@ -12,20 +12,20 @@
 class Magento_Data_Form_Element_MultiselectTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Data_Form_Element_Multiselect
+     * @var \Magento\Data\Form\Element\Multiselect
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Data_Form_Element_Multiselect();
-        $this->_model->setForm(new Magento_Object());
+        $this->_model = new \Magento\Data\Form\Element\Multiselect();
+        $this->_model->setForm(new \Magento\Object());
     }
 
     /**
      * Verify that hidden input is present in multiselect
      *
-     * @covers Magento_Data_Form_Element_Multiselect::getElementHtml
+     * @covers \Magento\Data\Form\Element\Multiselect::getElementHtml
      */
     public function testHiddenFieldPresentInMultiSelect()
     {

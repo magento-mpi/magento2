@@ -27,10 +27,10 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends Mag
      * - website_ids - string, comma-separated
      * - store_group_ids - string, comma-separated
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if ($row->getData('gws_is_all')) {
             return __('All');

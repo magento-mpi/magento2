@@ -11,7 +11,7 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     /**
      * Fixture XML instruction(s) to be used in tests
      */
-    const FIXTURE_LAYOUT_XML = '<block type="Magento_Core_Block_Template" template="fixture.phtml"/>';
+    const FIXTURE_LAYOUT_XML = '<block class="Magento_Core_Block_Template" template="fixture.phtml"/>';
 
     /**
      * @var Magento_Core_Model_Layout_Merge
@@ -62,7 +62,7 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 
         $this->_appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
 
-        $this->_cache = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
+        $this->_cache = $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
 
         $this->_theme = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false, false);
         $this->_theme->expects($this->any())->method('isPhysical')->will($this->returnValue(true));
@@ -160,6 +160,7 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $expected = require(__DIR__ . '/_files/pages_hierarchy.php');
         $actual = $this->_model->getPageHandlesHierarchy();
         $this->assertEquals($expected, $actual);
+        $this->assertInstanceOf('\Magento\Phrase', $actual['default']['label']);
     }
 
     /**
@@ -179,23 +180,6 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @dataProvider getPageHandleLabelDataProvider
-     */
-    public function testGetPageHandleLabel($inputPageType, $expectedResult)
-    {
-        $this->assertSame($expectedResult, $this->_model->getPageHandleLabel($inputPageType));
-    }
-
-    public function getPageHandleLabelDataProvider()
-    {
-        return array(
-            'non-existing handle'  => array('non_existing_handle', null),
-            'non page type handle' => array('not_a_page_type',     null),
-            'existing page type'   => array('default',             'All Pages'),
-        );
-    }
-
     public function testLoadFileSystem()
     {
         $handles = array('fixture_handle_one', 'fixture_handle_two');
@@ -205,8 +189,8 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($handles, $this->_model->getHandles());
         $expectedResult = '
             <root>
-                <block type="Magento_Core_Block_Template" template="fixture_template_one.phtml"/>
-                <block type="Magento_Core_Block_Template" template="fixture_template_two.phtml"/>
+                <block class="Magento_Core_Block_Template" template="fixture_template_one.phtml"/>
+                <block class="Magento_Core_Block_Template" template="fixture_template_two.phtml"/>
             </root>
         ';
         $actualResult = '<root>' . $this->_model->asString() . '</root>';

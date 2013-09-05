@@ -148,7 +148,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * DB connection
      *
-     * @var Magento_DB_Adapter_Interface
+     * @var \Magento\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
@@ -432,9 +432,10 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             $optionTitleTable = $this->_tables['catalog_product_option_title'];
             $productIds = array_values($this->_productsSkuToId);
             foreach ($this->_storeCodeToId as $storeId) {
-                $addCustomOptions = function (Magento_Catalog_Model_Product_Option $customOption)
-                    use (&$oldCustomOptions, $storeId)
-                {
+                $addCustomOptions = function (Magento_Catalog_Model_Product_Option $customOption) use (
+                    &$oldCustomOptions,
+                    $storeId
+                ) {
                     $productId = $customOption->getProductId();
                     if (!isset($oldCustomOptions[$productId])) {
                         $oldCustomOptions[$productId] = array();
@@ -1203,7 +1204,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             'entity_id'        => $productId,
             'has_options'      => 1,
             'required_options' => 0,
-            'updated_at'       => Magento_Date::now(),
+            'updated_at'       => \Magento\Date::now(),
         );
 
         if (!empty($rowData[self::COLUMN_IS_REQUIRED])) {

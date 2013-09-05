@@ -9,12 +9,14 @@
  */
 
 /**
- * Exception class parse google responses to human readble format
+ * \Exception class parse google responses to human readble format
  *
  * @category    Magento
  * @package     Magento_Gdata
  */
-class Magento_Gdata_Gshopping_HttpException extends Zend_Gdata_App_HttpException
+namespace Magento\Gdata\Gshopping;
+
+class HttpException extends \Zend_Gdata_App_HttpException
 {
     /**
      * Array of descriptions for Google's error codes.
@@ -77,7 +79,7 @@ class Magento_Gdata_Gshopping_HttpException extends Zend_Gdata_App_HttpException
 
     public function __construct($message = null, $httpClientException = null, $response = null)
     {
-        if ($message instanceof Zend_Gdata_App_HttpException) {
+        if ($message instanceof \Zend_Gdata_App_HttpException) {
             parent::__construct($message->getMessage(), $message->getHttpClientException(), $message->getResponse());
         } else {
             parent::__construct($message, $httpClientException, $response);
@@ -86,9 +88,9 @@ class Magento_Gdata_Gshopping_HttpException extends Zend_Gdata_App_HttpException
     }
 
     /**
-     * Set the Zend_Http_Response.
+     * Set the \Zend_Http_Response.
      *
-     * @param Zend_Http_Response $response
+     * @param \Zend_Http_Response $response
      */
     public function setResponse($response)
     {
@@ -119,12 +121,12 @@ class Magento_Gdata_Gshopping_HttpException extends Zend_Gdata_App_HttpException
     /**
      * Parse error response XML and fill arrays of codes and messages.
      *
-     * @param Zend_Http_Response $response
-     * @return Magento_Gdata_Gshopping_HttpException
+     * @param \Zend_Http_Response $response
+     * @return \Magento\Gdata\Gshopping\HttpException
      */
     protected function _parseResponse($response)
     {
-        if (!$response instanceof Zend_Http_Response) {
+        if (!$response instanceof \Zend_Http_Response) {
             return;
         }
         $body = $response->getBody();

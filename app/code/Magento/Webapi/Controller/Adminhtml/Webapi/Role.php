@@ -182,7 +182,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
      * Validate Web API role data.
      *
      * @param Magento_Webapi_Model_Acl_Role $role
-     * @throws Magento_Validator_Exception
+     * @throws \Magento\Validator\ValidatorException
      */
     protected function _validateRole($role)
     {
@@ -190,7 +190,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
         $validator = $this->_objectManager->get('Magento_Core_Model_Validator_Factory')
             ->createValidator('api_role', $group);
         if (!$validator->isValid($role)) {
-            throw new Magento_Validator_Exception($validator->getMessages());
+            throw new \Magento\Validator\ValidatorException($validator->getMessages());
         }
     }
 

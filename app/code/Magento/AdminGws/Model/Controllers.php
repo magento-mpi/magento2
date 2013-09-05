@@ -28,19 +28,19 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
     protected $_isForwarded = false;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * @param Magento_AdminGws_Model_Role $role
      * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         Magento_AdminGws_Model_Role $role,
         Magento_Core_Controller_Request_Http $request,
-        Magento_ObjectManager $objectManager
+        \Magento\ObjectManager $objectManager
     ) {
         parent::__construct($role);
         $this->_objectManager = $objectManager;

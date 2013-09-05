@@ -1,13 +1,15 @@
 <?php
 /**
- * Validates properties of entity (Magento_Object).
+ * Validates properties of entity (\Magento\Object).
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Validator_Entity_Properties extends Magento_Validator_ValidatorAbstract
+namespace Magento\Validator\Entity;
+
+class Properties extends \Magento\Validator\ValidatorAbstract
 {
     /**
      * @var array
@@ -25,19 +27,19 @@ class Magento_Validator_Entity_Properties extends Magento_Validator_ValidatorAbs
     }
 
     /**
-     * Successful if $value is Magento_Object an all condition are fulfilled.
+     * Successful if $value is \Magento\Object an all condition are fulfilled.
      *
      * If read-only properties are set than $value mustn't have changes in them.
      *
-     * @param Magento_Object|mixed $value
+     * @param \Magento\Object|mixed $value
      * @return bool
-     * @throws InvalidArgumentException when $value is not instanceof Magento_Object
+     * @throws \InvalidArgumentException when $value is not instanceof \Magento\Object
      */
     public function isValid($value)
     {
         $this->_clearMessages();
-        if (!($value instanceof Magento_Object)) {
-            throw new InvalidArgumentException('Instance of Magento_Object is expected.');
+        if (!($value instanceof \Magento\Object)) {
+            throw new \InvalidArgumentException('Instance of \Magento\Object is expected.');
         }
         if ($this->_readOnlyProperties) {
             if (!$value->hasDataChanges()) {

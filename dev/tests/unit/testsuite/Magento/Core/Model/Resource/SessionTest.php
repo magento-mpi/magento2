@@ -99,7 +99,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareMockForRead($isDataEncoded)
     {
-        $connection = $this->getMock('Magento_DB_Adapter_Pdo_Mysql',
+        $connection = $this->getMock('Magento\DB\Adapter\Pdo\Mysql',
             array('select', 'from', 'where', 'fetchOne'), array(), '', false
         );
         $connection->expects($this->once())
@@ -157,7 +157,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareMockForWrite($sessionExists)
     {
-        $connection = $this->getMock('Magento_DB_Adapter_Pdo_Mysql',
+        $connection = $this->getMock('Magento\DB\Adapter\Pdo\Mysql',
             array('select', 'from', 'where', 'fetchOne', 'update', 'insert'), array(), '', false
         );
         $connection->expects($this->once())

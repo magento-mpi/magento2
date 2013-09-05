@@ -74,11 +74,11 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstrac
     /**
      * Return items collection
      *
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function getItemsCollection()
     {
-        return new Magento_Data_Collection();
+        return new \Magento\Data\Collection();
     }
 
     /**

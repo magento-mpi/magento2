@@ -31,7 +31,7 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHP
     /**
      * Prepare price filter model
      *
-     * @param Magento_Test_Request|null $request
+     * @param Magento_TestFramework_Request|null $request
      */
     protected function _prepareFilter($request = null)
     {
@@ -41,7 +41,7 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHP
         $layer->setState(Mage::getModel('Magento_Catalog_Model_Layer_State'));
         /** @var $filter Magento_Catalog_Model_Layer_Filter_Price */
         $filter = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Price');
-        $filter->setLayer($layer)->setAttributeModel(new Magento_Object(array('attribute_code' => 'price')));
+        $filter->setLayer($layer)->setAttributeModel(new \Magento\Object(array('attribute_code' => 'price')));
         if (!is_null($request)) {
             $filter->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
             $interval = $filter->getInterval();
@@ -60,7 +60,7 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHP
 
     public function testWithoutLimits()
     {
-        $request = new Magento_Test_Request();
+        $request = new Magento_TestFramework_Request();
         $request->setParam('price', null);
         $this->_prepareFilter();
         $this->assertEquals(array(
@@ -72,7 +72,7 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHP
     public function testWithLimits()
     {
         $this->markTestIncomplete('Bug MAGE-6561');
-        $request = new Magento_Test_Request();
+        $request = new Magento_TestFramework_Request();
         $request->setParam('price', '10-100');
         $this->_prepareFilter($request);
         $this->assertEquals(array(

@@ -82,7 +82,7 @@ class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * Builds a dummy observer for testing adminPreDispatch method
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _buildObserver()
     {
@@ -90,14 +90,14 @@ class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $request->setPost(
             'login',
             array(
-                'username' => Magento_Test_Bootstrap::ADMIN_NAME,
-                'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD
+                'username' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
+                'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
             )
         );
 
-        $controller = new Magento_Object(array('request' => $request));
-        $event = new Magento_Object(array('controller_action' => $controller));
-        $observer = new Magento_Object(array('event' => $event));
+        $controller = new \Magento\Object(array('request' => $request));
+        $event = new \Magento\Object(array('controller_action' => $controller));
+        $observer = new \Magento\Object(array('event' => $event));
         return $observer;
     }
 }

@@ -160,14 +160,14 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         $customerEntity = $this->_createCustomerEntityMock();
 
-        $addressCollection = new Magento_Data_Collection();
+        $addressCollection = new \Magento\Data\Collection();
         foreach ($this->_addresses as $address) {
-            $addressCollection->addItem(new Magento_Object($address));
+            $addressCollection->addItem(new \Magento\Object($address));
         }
 
-        $regionCollection = new Magento_Data_Collection();
+        $regionCollection = new \Magento\Data\Collection();
         foreach ($this->_regions as $region) {
-            $regionCollection->addItem(new Magento_Object($region));
+            $regionCollection->addItem(new \Magento\Object($region));
         }
 
         $data = array(
@@ -197,12 +197,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Create mock of attribute collection, so it can be used for tests
      *
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Data_Collection
+     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Data\Collection
      */
     protected function _createAttrCollectionMock()
     {
-        $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $attributeCollection = $this->getMock('Magento\Data\Collection', array('getEntityTypeCode'));
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments('Magento_Eav_Model_Entity_Attribute_Abstract');
             $arguments['data'] = $attributeData;
@@ -229,7 +229,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     {
         $customerStorage = $this->getMock('Magento_ImportExport_Model_Resource_Customer_Storage', array('load'),
             array(), '', false);
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         foreach ($this->_customers as $customerData) {
             $arguments = $objectManagerHelper->getConstructArguments('Magento_Customer_Model_Customer');
             $arguments['data'] = $customerData;
@@ -277,7 +277,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
                 'id'   => $id,
                 'code' => $code,
             );
-            $websites[$id] = new Magento_Object($websiteData);
+            $websites[$id] = new \Magento\Object($websiteData);
         }
 
         return $websites;
@@ -288,11 +288,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param Magento_Data_Collection $collection
+     * @param \Magento\Data\Collection $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(Magento_Data_Collection $collection, $pageSize, array $callbacks)
+    public function iterate(\Magento\Data\Collection $collection, $pageSize, array $callbacks)
     {
         foreach ($collection as $customer) {
             foreach ($callbacks as $callback) {

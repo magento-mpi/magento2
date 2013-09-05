@@ -48,15 +48,15 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
             ->will($this->returnValue($formDependency))
         ;
 
-        $form = new Magento_Data_Form();
-        $model = new Magento_Object();
-        $block = new Magento_Object(array('layout' => $layout));
+        $form = new \Magento\Data\Form();
+        $model = new \Magento\Object();
+        $block = new \Magento\Object(array('layout' => $layout));
 
         $this->_segmentHelper
             ->expects($this->once())->method('addSegmentFieldsToForm')->with($form, $model, $formDependency);
 
-        $this->_model->addFieldsToTargetRuleForm(new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array('form' => $form, 'model' => $model, 'block' => $block)),
+        $this->_model->addFieldsToTargetRuleForm(new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array('form' => $form, 'model' => $model, 'block' => $block)),
         )));
     }
 
@@ -67,14 +67,14 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $layout = $this->getMock('Magento_Core_Model_Layout', array('createBlock'), array(), '', false);
         $layout->expects($this->never())->method('createBlock');
 
-        $form = new Magento_Data_Form();
-        $model = new Magento_Object();
-        $block = new Magento_Object(array('layout' => $layout));
+        $form = new \Magento\Data\Form();
+        $model = new \Magento\Object();
+        $block = new \Magento\Object(array('layout' => $layout));
 
         $this->_segmentHelper->expects($this->never())->method('addSegmentFieldsToForm');
 
-        $this->_model->addFieldsToTargetRuleForm(new Magento_Event_Observer(array(
-            'event' => new Magento_Object(array('form' => $form, 'model' => $model, 'block' => $block)),
+        $this->_model->addFieldsToTargetRuleForm(new \Magento\Event\Observer(array(
+            'event' => new \Magento\Object(array('form' => $form, 'model' => $model, 'block' => $block)),
         )));
     }
 }

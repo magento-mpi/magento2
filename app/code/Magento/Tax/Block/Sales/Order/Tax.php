@@ -47,7 +47,7 @@ class Magento_Tax_Block_Sales_Order_Tax extends Magento_Core_Block_Template
     /**
      * Get data (totals) source model
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getSource()
     {
@@ -88,7 +88,7 @@ class Magento_Tax_Block_Sales_Order_Tax extends Magento_Core_Block_Template
      */
     protected function _addTax($after='discount')
     {
-        $taxTotal = new Magento_Object(array(
+        $taxTotal = new \Magento\Object(array(
             'code'      => 'tax',
             'block_name'=> $this->getNameInLayout()
         ));
@@ -130,13 +130,13 @@ class Magento_Tax_Block_Sales_Order_Tax extends Magento_Core_Block_Template
             }
             $subtotalIncl = max(0, $subtotalIncl);
             $baseSubtotalIncl = max(0, $baseSubtotalIncl);
-            $totalExcl = new Magento_Object(array(
+            $totalExcl = new \Magento\Object(array(
                 'code'      => 'subtotal_excl',
                 'value'     => $subtotal,
                 'base_value'=> $baseSubtotal,
                 'label'     => __('Subtotal (Excl.Tax)')
             ));
-            $totalIncl = new Magento_Object(array(
+            $totalIncl = new \Magento\Object(array(
                 'code'      => 'subtotal_incl',
                 'value'     => $subtotalIncl,
                 'base_value'=> $baseSubtotalIncl,
@@ -190,13 +190,13 @@ class Magento_Tax_Block_Sales_Order_Tax extends Magento_Core_Block_Template
                 $baseShippingIncl = $baseShipping + (float) $this->_source->getBaseShippingTaxAmount();
             }
 
-            $totalExcl = new Magento_Object(array(
+            $totalExcl = new \Magento\Object(array(
                 'code'      => 'shipping',
                 'value'     => $shipping,
                 'base_value'=> $baseShipping,
                 'label'     => __('Shipping & Handling (Excl.Tax)')
             ));
-            $totalIncl = new Magento_Object(array(
+            $totalIncl = new \Magento\Object(array(
                 'code'      => 'shipping_incl',
                 'value'     => $shippingIncl,
                 'base_value'=> $baseShippingIncl,
@@ -251,14 +251,14 @@ class Magento_Tax_Block_Sales_Order_Tax extends Magento_Core_Block_Template
             $baseGrandtotalExcl = $baseGrandtotal - $this->_source->getBaseTaxAmount();
             $grandtotalExcl     = max($grandtotalExcl, 0);
             $baseGrandtotalExcl = max($baseGrandtotalExcl, 0);
-            $totalExcl = new Magento_Object(array(
+            $totalExcl = new \Magento\Object(array(
                 'code'      => 'grand_total',
                 'strong'    => true,
                 'value'     => $grandtotalExcl,
                 'base_value'=> $baseGrandtotalExcl,
                 'label'     => __('Grand Total (Excl.Tax)')
             ));
-            $totalIncl = new Magento_Object(array(
+            $totalIncl = new \Magento\Object(array(
                 'code'      => 'grand_total_incl',
                 'strong'    => true,
                 'value'     => $grandtotal,

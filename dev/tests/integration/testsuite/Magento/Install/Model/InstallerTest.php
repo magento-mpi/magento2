@@ -35,7 +35,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        Magento_Io_File::rmdirRecursive(self::$_tmpDir);
+        \Magento\Io\File::rmdirRecursive(self::$_tmpDir);
     }
 
     protected function setUp()
@@ -51,12 +51,12 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
      */
     protected function _emulateInstallerConfigDir($dir)
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $installerConfig = new Magento_Install_Model_Installer_Config(
             $objectManager->get('Magento_Core_Model_Config'),
             new Magento_Core_Model_Dir(__DIR__, array(), array(Magento_Core_Model_Dir::CONFIG => $dir)),
             $objectManager->get('Magento_Core_Model_Config_Resource'),
-            new Magento_Filesystem(new Magento_Filesystem_Adapter_Local())
+            new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local())
         );
         $objectManager->addSharedInstance($installerConfig, 'Magento_Install_Model_Installer_Config');
     }
@@ -115,7 +115,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage Key must not exceed
      */
     public function testInstallEncryptionKeySizeViolation()
@@ -137,7 +137,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage Key must not exceed
      */
     public function testGetValidEncryptionKeySizeViolation()
@@ -162,7 +162,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
     public function testFinish()
     {
         $this->_emulateInstallerConfigDir(self::$_tmpDir);
-        $configFile = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/etc/local.xml';
+        $configFile = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/etc/local.xml';
         copy($configFile, self::$_tmpConfigFile);
 
         $this->_model->finish();

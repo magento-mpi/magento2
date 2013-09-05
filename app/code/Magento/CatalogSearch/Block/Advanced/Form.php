@@ -35,7 +35,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     /**
      * Retrieve collection of product searchable attributes
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     public function getSearchableAttributes()
     {

@@ -64,8 +64,8 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        Magento_Io_File::rmdirRecursive(self::$_fixtureMediaDir);
-        Magento_Io_File::rmdirRecursive(
+        \Magento\Io\File::rmdirRecursive(self::$_fixtureMediaDir);
+        \Magento\Io\File::rmdirRecursive(
             Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath()
         );
     }

@@ -20,14 +20,14 @@ class Magento_Install_Model_EntryPoint_Console extends Magento_Core_Model_EntryP
      * @param Magento_Core_Model_Config_Primary $baseDir
      * @param array $params
      * @param Magento_Core_Model_Config_Primary $config
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Install_Model_EntryPoint_Output $output
      */
     public function __construct(
         $baseDir,
         array $params = array(),
         Magento_Core_Model_Config_Primary $config = null,
-        Magento_ObjectManager $objectManager = null,
+        \Magento\ObjectManager $objectManager = null,
         Magento_Install_Model_EntryPoint_Output $output = null
     ) {
         $this->_params = $this->_buildInitParams($params);

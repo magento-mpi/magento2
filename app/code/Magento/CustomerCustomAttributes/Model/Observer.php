@@ -24,10 +24,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * After load observer for quote
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function salesQuoteAfterLoad(Magento_Event_Observer $observer)
+    public function salesQuoteAfterLoad(\Magento\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         if ($quote instanceof Magento_Core_Model_Abstract) {
@@ -42,13 +42,13 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * After load observer for collection of quote address
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function salesQuoteAddressCollectionAfterLoad(Magento_Event_Observer $observer)
+    public function salesQuoteAddressCollectionAfterLoad(\Magento\Event\Observer $observer)
     {
         $collection = $observer->getEvent()->getQuoteAddressCollection();
-        if ($collection instanceof Magento_Data_Collection_Db) {
+        if ($collection instanceof \Magento\Data\Collection\Db) {
             Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Quote_Address')
                 ->attachDataToEntities($collection->getItems());
         }
@@ -59,10 +59,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * After save observer for quote
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function salesQuoteAfterSave(Magento_Event_Observer $observer)
+    public function salesQuoteAfterSave(\Magento\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         if ($quote instanceof Magento_Core_Model_Abstract) {
@@ -76,10 +76,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * After save observer for quote address
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function salesQuoteAddressAfterSave(Magento_Event_Observer $observer)
+    public function salesQuoteAddressAfterSave(\Magento\Event\Observer $observer)
     {
         $quoteAddress = $observer->getEvent()->getQuoteAddress();
         if ($quoteAddress instanceof Magento_Core_Model_Abstract) {
@@ -93,10 +93,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * After load observer for order
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function salesOrderAfterLoad(Magento_Event_Observer $observer)
+    public function salesOrderAfterLoad(\Magento\Event\Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
         if ($order instanceof Magento_Core_Model_Abstract) {
@@ -111,13 +111,13 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * After load observer for collection of order address
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function salesOrderAddressCollectionAfterLoad(Magento_Event_Observer $observer)
+    public function salesOrderAddressCollectionAfterLoad(\Magento\Event\Observer $observer)
     {
         $collection = $observer->getEvent()->getOrderAddressCollection();
-        if ($collection instanceof Magento_Data_Collection_Db) {
+        if ($collection instanceof \Magento\Data\Collection\Db) {
             Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Order_Address')
                 ->attachDataToEntities($collection->getItems());
         }
@@ -128,10 +128,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * After save observer for order
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function salesOrderAfterSave(Magento_Event_Observer $observer)
+    public function salesOrderAfterSave(\Magento\Event\Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
         if ($order instanceof Magento_Core_Model_Abstract) {
@@ -145,10 +145,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * After load observer for order address
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function salesOrderAddressAfterLoad(Magento_Event_Observer $observer)
+    public function salesOrderAddressAfterLoad(\Magento\Event\Observer $observer)
     {
         $address = $observer->getEvent()->getAddress();
         if ($address instanceof Magento_Core_Model_Abstract) {
@@ -162,10 +162,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * After save observer for order address
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function salesOrderAddressAfterSave(Magento_Event_Observer $observer)
+    public function salesOrderAddressAfterSave(\Magento\Event\Observer $observer)
     {
         $orderAddress = $observer->getEvent()->getAddress();
         if ($orderAddress instanceof Magento_Core_Model_Abstract) {
@@ -179,10 +179,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * Before save observer for customer attribute
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function enterpriseCustomerAttributeBeforeSave(Magento_Event_Observer $observer)
+    public function enterpriseCustomerAttributeBeforeSave(\Magento\Event\Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Magento_Customer_Model_Attribute && $attribute->isObjectNew()) {
@@ -206,10 +206,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * After save observer for customer attribute
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function enterpriseCustomerAttributeSave(Magento_Event_Observer $observer)
+    public function enterpriseCustomerAttributeSave(\Magento\Event\Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Magento_Customer_Model_Attribute && $attribute->isObjectNew()) {
@@ -225,10 +225,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * After delete observer for customer attribute
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function enterpriseCustomerAttributeDelete(Magento_Event_Observer $observer)
+    public function enterpriseCustomerAttributeDelete(\Magento\Event\Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Magento_Customer_Model_Attribute && !$attribute->isObjectNew()) {
@@ -244,10 +244,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * After save observer for customer address attribute
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function enterpriseCustomerAddressAttributeSave(Magento_Event_Observer $observer)
+    public function enterpriseCustomerAddressAttributeSave(\Magento\Event\Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Magento_Customer_Model_Attribute && $attribute->isObjectNew()) {
@@ -263,10 +263,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * After delete observer for customer address attribute
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function enterpriseCustomerAddressAttributeDelete(Magento_Event_Observer $observer)
+    public function enterpriseCustomerAddressAttributeDelete(\Magento\Event\Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Magento_Customer_Model_Attribute && !$attribute->isObjectNew()) {
@@ -282,10 +282,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * Observer for converting quote to order
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function coreCopyFieldsetSalesConvertQuoteToOrder(Magento_Event_Observer $observer)
+    public function coreCopyFieldsetSalesConvertQuoteToOrder(\Magento\Event\Observer $observer)
     {
         $this->_copyFieldset(
             $observer,
@@ -299,10 +299,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * Observer for converting quote address to order address
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function coreCopyFieldsetSalesConvertQuoteAddressToOrderAddress(Magento_Event_Observer $observer)
+    public function coreCopyFieldsetSalesConvertQuoteAddressToOrderAddress(\Magento\Event\Observer $observer)
     {
         $this->_copyFieldset(
             $observer,
@@ -316,10 +316,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * Observer for converting order to quote
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function coreCopyFieldsetSalesCopyOrderToEdit(Magento_Event_Observer $observer)
+    public function coreCopyFieldsetSalesCopyOrderToEdit(\Magento\Event\Observer $observer)
     {
         $this->_copyFieldset(
             $observer,
@@ -333,10 +333,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * Observer for converting order billing address to quote billing address
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function coreCopyFieldsetSalesCopyOrderBillingAddressToOrder(Magento_Event_Observer $observer)
+    public function coreCopyFieldsetSalesCopyOrderBillingAddressToOrder(\Magento\Event\Observer $observer)
     {
         $this->_copyFieldset(
             $observer,
@@ -350,10 +350,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * Observer for converting order shipping address to quote shipping address
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function coreCopyFieldsetSalesCopyOrderShippingAddressToOrder(Magento_Event_Observer $observer)
+    public function coreCopyFieldsetSalesCopyOrderShippingAddressToOrder(\Magento\Event\Observer $observer)
     {
         $this->_copyFieldset(
             $observer,
@@ -367,10 +367,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * Observer for converting customer to quote
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function coreCopyFieldsetCustomerAccountToQuote(Magento_Event_Observer $observer)
+    public function coreCopyFieldsetCustomerAccountToQuote(\Magento\Event\Observer $observer)
     {
         $this->_copyFieldset(
             $observer,
@@ -384,10 +384,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * Observer for converting customer address to quote address
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function coreCopyFieldsetCustomerAddressToQuoteAddress(Magento_Event_Observer $observer)
+    public function coreCopyFieldsetCustomerAddressToQuoteAddress(\Magento\Event\Observer $observer)
     {
         $this->_copyFieldset(
             $observer,
@@ -401,10 +401,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * Observer for converting quote address to customer address
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function coreCopyFieldsetQuoteAddressToCustomerAddress(Magento_Event_Observer $observer)
+    public function coreCopyFieldsetQuoteAddressToCustomerAddress(\Magento\Event\Observer $observer)
     {
         $this->_copyFieldset(
             $observer,
@@ -418,10 +418,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * Observer for converting quote to customer
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    public function coreCopyFieldsetCheckoutOnepageQuoteToCustomer(Magento_Event_Observer $observer)
+    public function coreCopyFieldsetCheckoutOnepageQuoteToCustomer(\Magento\Event\Observer $observer)
     {
         $this->_copyFieldset(
             $observer,
@@ -435,12 +435,12 @@ class Magento_CustomerCustomAttributes_Model_Observer
     /**
      * CopyFieldset converts customer attributes from source object to target object
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @param int $algoritm
      * @param int $convertType
      * @return Magento_CustomerCustomAttributes_Model_Observer
      */
-    protected function _copyFieldset(Magento_Event_Observer $observer, $algoritm, $convertType)
+    protected function _copyFieldset(\Magento\Event\Observer $observer, $algoritm, $convertType)
     {
         $source = $observer->getEvent()->getSource();
         $target = $observer->getEvent()->getTarget();

@@ -52,11 +52,11 @@ getFinalPrice() - used in shopping cart calculations
 
         $todayStartOfDayDate  = Mage::app()->getLocale()->date()
             ->setTime('00:00:00')
-            ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
+            ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
 
         $todayEndOfDayDate  = Mage::app()->getLocale()->date()
             ->setTime('23:59:59')
-            ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
+            ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
 
         $products = $product->getCollection()
             ->setStoreId($storeId)

@@ -42,13 +42,13 @@ class Magento_Core_Model_Layout_FactoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_model = new Magento_Core_Model_Layout_Factory($this->_objectManager);
     }
 
     public function testConstruct()
     {
-        $this->assertAttributeInstanceOf('Magento_ObjectManager', '_objectManager', $this->_model);
+        $this->assertAttributeInstanceOf('\Magento\ObjectManager', '_objectManager', $this->_model);
     }
 
     public function testCreateLayoutNew()

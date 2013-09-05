@@ -17,7 +17,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -37,9 +37,9 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
      */
     protected function _prepareModelArguments()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css',
             array(
@@ -61,12 +61,12 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
     public function testGetUploadCssFileNote()
     {
         $method = self::getMethod('_getUploadCssFileNote');
-        /** @var $sizeModel Magento_File_Size */
-        $sizeModel = $this->getMock('Magento_File_Size', null, array(), '', false);
+        /** @var $sizeModel \Magento\File\Size */
+        $sizeModel = $this->getMock('Magento\File\Size', null, array(), '', false);
 
         $this->_objectManager->expects($this->any())
             ->method('get')
-            ->with('Magento_File_Size')
+            ->with('Magento\File\Size')
             ->will($this->returnValue($sizeModel));
 
         $result = $method->invokeArgs($this->_model, array());

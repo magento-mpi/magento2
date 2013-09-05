@@ -34,7 +34,7 @@ class Magento_Adminhtml_Block_Sitemap_Edit_Form extends Magento_Adminhtml_Block_
     {
         $model = Mage::registry('sitemap_sitemap');
 
-        $form = new Magento_Data_Form(array(
+        $form = new \Magento\Data\Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post'

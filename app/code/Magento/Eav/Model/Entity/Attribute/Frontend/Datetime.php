@@ -17,7 +17,7 @@ class Magento_Eav_Model_Entity_Attribute_Frontend_Datetime extends Magento_Eav_M
      * @param $object
      * @return mixed
      */
-    public function getValue(Magento_Object $object)
+    public function getValue(\Magento\Object $object)
     {
         $data = '';
         $value = parent::getValue($object);

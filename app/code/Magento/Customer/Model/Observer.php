@@ -75,7 +75,7 @@ class Magento_Customer_Model_Observer
     /**
      * Address before save event handler
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function beforeAddressSave($observer)
     {
@@ -104,7 +104,7 @@ class Magento_Customer_Model_Observer
     /**
      * Address after save event handler
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function afterAddressSave($observer)
     {
@@ -169,7 +169,7 @@ class Magento_Customer_Model_Observer
     /**
      * Revert emulated customer group_id
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function quoteSubmitAfter($observer)
     {

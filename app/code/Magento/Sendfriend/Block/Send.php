@@ -73,15 +73,15 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
     }
 
     /**
-     * Retrieve Form data or empty Magento_Object
+     * Retrieve Form data or empty \Magento\Object
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
-        if (!$data instanceof Magento_Object) {
-            $data = new Magento_Object();
+        if (!$data instanceof \Magento\Object) {
+            $data = new \Magento\Object();
             $this->setData('form_data', $data);
         }
 
@@ -97,7 +97,7 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
     public function setFormData($data)
     {
         if (is_array($data)) {
-            $this->setData('form_data', new Magento_Object($data));
+            $this->setData('form_data', new \Magento\Object($data));
         }
 
         return $this;

@@ -26,7 +26,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     /**
      * The Magento SimpleXml object
      *
-     * @var Magento_Simplexml_Element
+     * @var \Magento\Simplexml\Element
      */
     protected $_value;
 
@@ -40,10 +40,25 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     );
 
     /**
-     * Construct
+     * @var Magento_Core_Model_Config_Modules_Reader
      */
-    public function __construct()
-    {
+    protected $_modulesReader;
+
+    /**
+     * @var \Magento\Config\DomFactory
+     */
+    protected $_domConfigFactory;
+
+    /**
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param \Magento\Config\DomFactory $domConfigFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        \Magento\Config\DomFactory $domConfigFactory
+    ) {
+        $this->_modulesReader = $modulesReader;
+        $this->_domConfigFactory = $domConfigFactory;
         $this->_initMessageTemplates();
     }
 
@@ -71,32 +86,30 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
      * getMessages() will return an array of messages that explain why the
      * validation failed.
      *
-     * @throws Exception            Throw exception when xml object is not
-     *                              instance of Magento_Simplexml_Element
-     * @param Magento_Simplexml_Element|string $value
+     * @param string $value
      * @return bool
      */
     public function isValid($value)
     {
-        if (is_string($value)) {
-            $value = trim($value);
-            try {
-                //wrap XML value in the "config" tag because config cannot
-                //contain multiple root tags
-                $value = new Magento_Simplexml_Element('<config>' . $value . '</config>');
-            } catch (Exception $e) {
-                $this->_error(self::XML_INVALID);
-                return false;
-            }
-        } elseif (!($value instanceof Magento_Simplexml_Element)) {
-            throw new Exception(
-                __('XML object is not instance of "Magento_Simplexml_Element".'));
+        try {
+            //wrap XML value in the "layout" and "handle" tags to make it validatable
+            $value = '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+                . '<handle id="handleId">' . trim($value) . '</handle>'
+                . '</layout>';
+
+            $schema = $this->_modulesReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'layouts.xsd';
+            $dom = $this->_domConfigFactory->createDom(array(
+                'xml' => $value,
+                'schemaFile' => $schema
+            ));
+            $value = new \Magento\Simplexml\Element($value);
+        } catch (Exception $e) {
+            $this->_error(self::XML_INVALID);
+            return false;
         }
 
-        $this->_setValue($value);
-
         foreach ($this->_protectedExpressions as $key => $xpr) {
-            if ($this->_value->xpath($xpr)) {
+            if ($value->xpath($xpr)) {
                 $this->_error($key);
                 return false;
             }

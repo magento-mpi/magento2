@@ -18,7 +18,7 @@ class Magento_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $connection = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false);
+        $connection = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
         $connection->expects($this->once())
             ->method('select')
@@ -37,7 +37,7 @@ class Magento_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Fr
         $localeMock = $this->getMock('Magento_Core_Model_LocaleInterface');
         $localeMock->expects($this->any())->method('getCountryTranslation')->will($this->returnArgument(0));
 
-        $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface');
         $this->_model = $this->getMock('Magento_Directory_Model_Resource_Country_Collection',
             array('_toOptionArray'), array($helperMock, $localeMock, $fetchStrategy, $resource), '', true
         );

@@ -28,9 +28,9 @@ class Magento_Catalog_Block_Product_View_Options_Type_File
     {
         $info = $this->getProduct()->getPreconfiguredValues()->getData('options/' . $this->getOption()->getId());
         if (empty($info)) {
-            $info = new Magento_Object();
+            $info = new \Magento\Object();
         } else if (is_array($info)) {
-            $info = new Magento_Object($info);
+            $info = new \Magento\Object($info);
         }
         return $info;
     }

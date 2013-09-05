@@ -39,7 +39,7 @@ class Magento_Core_Model_Dir_Verification
     );
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -58,12 +58,12 @@ class Magento_Core_Model_Dir_Verification
     /**
      * Constructor - initialize object with required dependencies, determine application state
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_App_State $appState
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_App_State $appState
     ) {
@@ -104,7 +104,7 @@ class Magento_Core_Model_Dir_Verification
             } else {
                 try {
                     $this->_filesystem->createDirectory($dir);
-                } catch (Magento_Filesystem_Exception $e) {
+                } catch (\Magento\Filesystem\FilesystemException $e) {
                     $fails[] = $dir;
                 }
             }
@@ -112,7 +112,7 @@ class Magento_Core_Model_Dir_Verification
 
         if ($fails) {
             $dirList = implode(', ', $fails);
-            throw new Magento_BootstrapException(
+            throw new \Magento\BootstrapException(
                 "Cannot create or verify write access: {$dirList}"
             );
         }

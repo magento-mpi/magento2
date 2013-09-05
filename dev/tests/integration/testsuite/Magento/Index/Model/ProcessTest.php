@@ -29,7 +29,7 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -55,7 +55,7 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $this->_eventRepositoryMock = $this->getMock(
             'Magento_Index_Model_EventRepository', array(), array(), '', false

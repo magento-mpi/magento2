@@ -51,7 +51,7 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
     {
         $theme = $this->getMock('Magento_Core_Model_Theme', array('getStagingVersion'), array(), '', false, false);
         $theme->expects($this->once())->method('getStagingVersion')->will($this->returnValue(null));
-        /** @var $theme Magento_Object */
+        /** @var $theme \Magento\Object */
         $theme->setData(array(
             'id'                    => 'fixture_theme_id',
             'theme_version'         => 'fixture_theme_version',
@@ -106,7 +106,7 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
         $customizationConfig->expects($this->atLeastOnce())->method('isThemeAssignedToStore')
             ->with($themeMock)
             ->will($this->returnValue(true));
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Theme_Domain_Virtual',
             array(
                  'theme' => $themeMock,

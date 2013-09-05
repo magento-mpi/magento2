@@ -14,7 +14,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
     protected $_storeConfig;
 
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -32,7 +32,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
     {
         $this->_storeConfig = $this->getMock('Magento_Core_Model_Store_Config');
         $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_appState = $this->getMock('Magento_Core_Model_App_State');
 
         $this->_model = new Magento_Core_Model_Page_Asset_MinifyService($this->_storeConfig, $this->_objectManager,
@@ -57,7 +57,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
         $this->_storeConfig->expects($this->once())
             ->method('getConfig')
             ->with('dev/js/minify_adapter')
-            ->will($this->returnValue('Magento_Code_Minifier_AdapterInterface'));
+            ->will($this->returnValue('\Magento\Code\Minifier\AdapterInterface'));
 
         $self = $this;
         $this->_objectManager->expects($this->any())
@@ -134,7 +134,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
         $this->_storeConfig->expects($this->once())
             ->method('getConfig')
             ->with('dev/js/minify_adapter')
-            ->will($this->returnValue('Magento_Code_Minifier_AdapterInterface'));
+            ->will($this->returnValue('\Magento\Code\Minifier\AdapterInterface'));
 
         $this->_objectManager->expects($this->at(1))
             ->method('create')
@@ -151,15 +151,15 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
         return array(
             'production' => array(
                 Magento_Core_Model_App_State::MODE_PRODUCTION,
-                'Magento_Code_Minifier_Strategy_Lite'
+                'Magento\Code\Minifier\Strategy\Lite'
             ),
             'default'    => array(
                 Magento_Core_Model_App_State::MODE_DEFAULT,
-                'Magento_Code_Minifier_Strategy_Generate'
+                'Magento\Code\Minifier\Strategy\Generate'
             ),
             'developer'  => array(
                 Magento_Core_Model_App_State::MODE_DEVELOPER,
-                'Magento_Code_Minifier_Strategy_Generate'
+                'Magento\Code\Minifier\Strategy\Generate'
             ),
         );
     }

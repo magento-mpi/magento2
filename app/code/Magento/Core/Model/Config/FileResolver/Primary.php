@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_FileResolver_Primary implements Magento_Config_FileResolverInterface
+class Magento_Core_Model_Config_FileResolver_Primary implements \Magento\Config\FileResolverInterface
 {
     /**
      * @var Magento_Core_Model_Dir

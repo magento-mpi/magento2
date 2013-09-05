@@ -769,7 +769,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
 
         $path = Mage::getBaseDir('media') . DS . 'rma_item';
 
-        $ioFile = new Magento_Io_File();
+        $ioFile = new \Magento\Io\File();
         $ioFile->open(array('path' => $path));
         $fileName   = $ioFile->getCleanPath($path . $file);
         $path       = $ioFile->getCleanPath($path);
@@ -1004,7 +1004,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
      */
     public function saveShippingAction()
     {
-        $responseAjax = new Magento_Object();
+        $responseAjax = new \Magento\Object();
 
         try {
             $model = $this->_initModel();
@@ -1037,7 +1037,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
      */
     public function createLabelAction()
     {
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         try {
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {

@@ -3,19 +3,21 @@
  * {license_notice}
  *
  * @category     Magento
- * @package      Magento_Backup
+ * @package      \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Extended version of Magento_Archive_Tar that supports filtering
+ * Extended version of \Magento\Archive\Tar that supports filtering
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Archive_Tar extends Magento_Archive_Tar
+namespace Magento\Backup\Archive;
+
+class Tar extends \Magento\Archive\Tar
 {
     /**
      * Filenames or filename parts that are used for filtering files
@@ -25,10 +27,10 @@ class Magento_Backup_Archive_Tar extends Magento_Archive_Tar
     protected $_skipFiles = array();
 
     /**
-     * Overridden Magento_Archive_Tar::_createTar method that does the same actions as it's parent but filters
-     * files using Magento_Backup_Filesystem_Iterator_Filter
+     * Overridden \Magento\Archive\Tar::_createTar method that does the same actions as it's parent but filters
+     * files using \Magento\Backup\Filesystem\Iterator\Filter
      *
-     * @see Magento_Archive_Tar::_createTar()
+     * @see \Magento\Archive\Tar::_createTar()
      * @param bool $skipRoot
      * @param bool $finalize
      */
@@ -36,11 +38,11 @@ class Magento_Backup_Archive_Tar extends Magento_Archive_Tar
     {
         $path = $this->_getCurrentFile();
 
-        $filesystemIterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST
+        $filesystemIterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($path), \RecursiveIteratorIterator::SELF_FIRST
         );
 
-        $iterator = new Magento_Backup_Filesystem_Iterator_Filter($filesystemIterator, $this->_skipFiles);
+        $iterator = new \Magento\Backup\Filesystem\Iterator\Filter($filesystemIterator, $this->_skipFiles);
 
         foreach ($iterator as $item) {
             $this->_setCurrentFile($item->getPathname());
@@ -56,7 +58,7 @@ class Magento_Backup_Archive_Tar extends Magento_Archive_Tar
      * Set files that shouldn't be added to tarball
      *
      * @param array $skipFiles
-     * @return Magento_Backup_Archive_Tar
+     * @return \Magento\Backup\Archive\Tar
      */
     public function setSkipFiles(array $skipFiles)
     {

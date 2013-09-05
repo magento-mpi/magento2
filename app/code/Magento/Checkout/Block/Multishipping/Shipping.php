@@ -60,8 +60,8 @@ class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_
             $item->setQuoteItem($this->getCheckout()->getQuote()->getItemById($item->getQuoteItemId()));
             $items[] = $item;
         }
-        $itemsFilter = new Magento_Filter_Object_Grid();
-        $itemsFilter->addFilter(new Magento_Filter_Sprintf('%d'), 'qty');
+        $itemsFilter = new \Magento\Filter\Object\Grid();
+        $itemsFilter->addFilter(new \Magento\Filter\Sprintf('%d'), 'qty');
         return $itemsFilter->filter($items);
     }
 

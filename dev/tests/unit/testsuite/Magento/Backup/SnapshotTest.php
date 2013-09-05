@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,12 +13,12 @@ class Magento_Backup_SnapshotTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param array $methods
-     * @return Magento_Backup_Snapshot
+     * @return \Magento\Backup\Snapshot
      */
     public function testGetDbBackupFilename()
     {
         $manager = $this->getMock(
-            'Magento_Backup_Snapshot',
+            'Magento\Backup\Snapshot',
             array('getBackupFilename')
         );
 
@@ -27,7 +27,7 @@ class Magento_Backup_SnapshotTest extends PHPUnit_Framework_TestCase
             ->method('getBackupFilename')
             ->will($this->returnValue($file));
 
-        $model = new Magento_Backup_Snapshot();
+        $model = new \Magento\Backup\Snapshot();
         $model->setDbBackupManager($manager);
         $this->assertEquals($file, $model->getDbBackupFilename());
     }

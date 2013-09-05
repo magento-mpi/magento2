@@ -264,7 +264,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve template processor for catalog content
      *
-     * @return Magento_Filter_Template
+     * @return \Magento\Filter\Template
      */
     public function getPageTemplateProcessor()
     {

@@ -26,7 +26,7 @@ class Magento_Core_Block_Template_Context extends Magento_Core_Block_Context
     /**
      * Filesystem instance
      *
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -57,7 +57,7 @@ class Magento_Core_Block_Template_Context extends Magento_Core_Block_Context
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_TemplateEngine_Factory $engineFactory
      */
@@ -78,7 +78,7 @@ class Magento_Core_Block_Template_Context extends Magento_Core_Block_Context
         Magento_Core_Model_Cache_StateInterface $cacheState,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_Logger $logger,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_TemplateEngine_Factory $engineFactory
     ) {
@@ -106,7 +106,7 @@ class Magento_Core_Block_Template_Context extends Magento_Core_Block_Context
     /**
      * Get filesystem instance
      *
-     * @return Magento_Filesystem
+     * @return \Magento\Filesystem
      */
     public function getFilesystem()
     {

@@ -17,7 +17,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Form extends Magento_Adminhtml_Block_
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(
+        $form = new \Magento\Data\Form(
             array(
                 'id' => 'edit_form',
                 'action' => $this->getData('action'),

@@ -14,7 +14,7 @@
 class Magento_Core_Model_Cache_Type_FrontendPool
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     private $_objectManager;
 
@@ -24,16 +24,16 @@ class Magento_Core_Model_Cache_Type_FrontendPool
     private $_frontendPool;
 
     /**
-     * @var Magento_Cache_FrontendInterface[]
+     * @var \Magento\Cache\FrontendInterface[]
      */
     private $_instances = array();
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_Cache_Frontend_Pool $frontendPool
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        \Magento\ObjectManager $objectManager,
         Magento_Core_Model_Cache_Frontend_Pool $frontendPool
     ) {
         $this->_objectManager = $objectManager;
@@ -44,7 +44,7 @@ class Magento_Core_Model_Cache_Type_FrontendPool
      * Retrieve cache frontend instance by its unique identifier, enforcing identifier-scoped access control
      *
      * @param string $identifier Cache frontend identifier
-     * @return Magento_Cache_FrontendInterface Cache frontend instance
+     * @return \Magento\Cache\FrontendInterface Cache frontend instance
      */
     public function get($identifier)
     {

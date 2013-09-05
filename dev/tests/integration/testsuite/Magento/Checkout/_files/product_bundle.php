@@ -82,7 +82,7 @@ foreach ($optionCollection as $option) {
     $bundleOptionsQty[$option->getId()] = 1;
 }
 
-$requestInfo = new Magento_Object(array(
+$requestInfo = new \Magento\Object(array(
     'qty' => 1,
     'bundle_option' => $bundleOptions,
     'bundle_option_qty' => $bundleOptionsQty

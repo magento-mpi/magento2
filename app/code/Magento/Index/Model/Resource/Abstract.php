@@ -41,7 +41,7 @@ abstract class Magento_Index_Model_Resource_Abstract extends Magento_Core_Model_
     /**
      * Get DB adapter for index data processing
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     protected function _getIndexAdapter()
     {
@@ -115,7 +115,7 @@ abstract class Magento_Index_Model_Resource_Abstract extends Magento_Core_Model_
      * Insert data from select statement of read adapter to
      * destination table related with index adapter
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param string $destTable
      * @param array $columns
      * @param bool $readToIndex data migration direction (true - read=>index, false - index=>read)

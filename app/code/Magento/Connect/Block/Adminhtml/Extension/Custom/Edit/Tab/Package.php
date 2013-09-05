@@ -27,7 +27,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
     {
         parent::_prepareForm();
 
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('_package');
 
         $fieldset = $form->addFieldset('package_fieldset', array(
@@ -62,11 +62,11 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
         $versionsInfo = array(
             array(
                 'label' => __('1.5.0.0 & later'),
-                'value' => Magento_Connect_Package::PACKAGE_VERSION_2X
+                'value' => \Magento\Connect\Package::PACKAGE_VERSION_2X
             ),
             array(
                 'label' => __('Pre-1.5.0.0'),
-                'value' => Magento_Connect_Package::PACKAGE_VERSION_1X
+                'value' => \Magento\Connect\Package::PACKAGE_VERSION_1X
             )
         );
         $fieldset->addField('version_ids','multiselect',array(

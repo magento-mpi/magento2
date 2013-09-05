@@ -32,7 +32,7 @@ class Magento_Webhook_Model_Webapi_User_Factory
     /** @var array virtual resource to resource mapping  */
     private $_topicMapping = array();
 
-    /** @var Magento_Acl_CacheInterface  */
+    /** @var \Magento\Acl\CacheInterface  */
     protected $_cache;
 
     /** @var Magento_Core_Helper_Data  */

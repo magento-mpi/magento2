@@ -162,8 +162,8 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
         // default mocks - not affected on method functionality
         $controllerFactory  = $this->getMock(
             'Magento_Core_Controller_Varien_Action_Factory', array(), array(), '', false);
-        $objectManager      = $this->getMock('Magento_ObjectManager');
-        $filesystem         = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $objectManager      = $this->getMock('Magento\ObjectManager');
+        $filesystem         = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
 
         $helper         = $this->_getHelperMock($isVde);
         $backendSession = $this->_getBackendSessionMock($isVde, $isLoggedIn);
@@ -172,10 +172,14 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
         $app            = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $callback = function ($name) use ($helper, $backendSession, $stateModel, $configuration) {
             switch ($name) {
-                case 'Magento_DesignEditor_Helper_Data': return $helper;
-                case 'Magento_Backend_Model_Auth_Session': return $backendSession;
-                case 'Magento_DesignEditor_Model_State': return $stateModel;
-                case 'Magento_Core_Model_Config': return $configuration;
+                case 'Magento_DesignEditor_Helper_Data':
+                    return $helper;
+                case 'Magento_Backend_Model_Auth_Session':
+                    return $backendSession;
+                case 'Magento_DesignEditor_Model_State':
+                    return $stateModel;
+                case 'Magento_Core_Model_Config':
+                    return $configuration;
                 default: return null;
             }
         };

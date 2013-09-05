@@ -80,11 +80,11 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
     /**
      * Return relation info about used products
      *
-     * @return Magento_Object Object with information data
+     * @return \Magento\Object Object with information data
      */
     public function getRelationInfo()
     {
-        $info = new Magento_Object();
+        $info = new \Magento\Object();
         $info->setTable('catalog_product_super_link')
             ->setParentFieldName('parent_id')
             ->setChildFieldName('product_id');
@@ -208,14 +208,14 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
      */
     public function getConfigurableAttributes($product)
     {
-        Magento_Profiler::start('CONFIGURABLE:'.__METHOD__, array('group' => 'CONFIGURABLE', 'method' => __METHOD__));
+        \Magento\Profiler::start('CONFIGURABLE:'.__METHOD__, array('group' => 'CONFIGURABLE', 'method' => __METHOD__));
         if (!$product->hasData($this->_configurableAttributes)) {
             $configurableAttributes = $this->getConfigurableAttributeCollection($product)
                 ->orderByPosition()
                 ->load();
             $product->setData($this->_configurableAttributes, $configurableAttributes);
         }
-        Magento_Profiler::stop('CONFIGURABLE:'.__METHOD__);
+        \Magento\Profiler::stop('CONFIGURABLE:'.__METHOD__);
         return $product->getData($this->_configurableAttributes);
     }
 
@@ -287,13 +287,13 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
      */
     public function getUsedProducts($product, $requiredAttributeIds = null)
     {
-        Magento_Profiler::start('CONFIGURABLE:'.__METHOD__, array('group' => 'CONFIGURABLE', 'method' => __METHOD__));
+        \Magento\Profiler::start('CONFIGURABLE:'.__METHOD__, array('group' => 'CONFIGURABLE', 'method' => __METHOD__));
         if (!$product->hasData($this->_usedProducts)) {
             if (is_null($requiredAttributeIds) && is_null($product->getData($this->_configurableAttributes))) {
                 // If used products load before attributes, we will load attributes.
                 $this->getConfigurableAttributes($product);
                 // After attributes loading products loaded too.
-                Magento_Profiler::stop('CONFIGURABLE:'.__METHOD__);
+                \Magento\Profiler::stop('CONFIGURABLE:'.__METHOD__);
                 return $product->getData($this->_usedProducts);
             }
 
@@ -316,7 +316,7 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
 
             $product->setData($this->_usedProducts, $usedProducts);
         }
-        Magento_Profiler::stop('CONFIGURABLE:'.__METHOD__);
+        \Magento\Profiler::stop('CONFIGURABLE:'.__METHOD__);
         return $product->getData($this->_usedProducts);
     }
 
@@ -509,7 +509,7 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
     public function getSelectedAttributesInfo($product)
     {
         $attributes = array();
-        Magento_Profiler::start('CONFIGURABLE:'.__METHOD__, array('group' => 'CONFIGURABLE', 'method' => __METHOD__));
+        \Magento\Profiler::start('CONFIGURABLE:'.__METHOD__, array('group' => 'CONFIGURABLE', 'method' => __METHOD__));
         if ($attributesOption = $product->getCustomOption('attributes')) {
             $data = unserialize($attributesOption->getValue());
             $this->getUsedProductAttributeIds($product);
@@ -531,7 +531,7 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
                 }
             }
         }
-        Magento_Profiler::stop('CONFIGURABLE:'.__METHOD__);
+        \Magento\Profiler::stop('CONFIGURABLE:'.__METHOD__);
         return $attributes;
     }
 
@@ -539,12 +539,12 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and then add Configurable specific options.
      *
-     * @param Magento_Object $buyRequest
+     * @param \Magento\Object $buyRequest
      * @param Magento_Catalog_Model_Product $product
      * @param string $processMode
      * @return array|string
      */
-    protected function _prepareProduct(Magento_Object $buyRequest, $product, $processMode)
+    protected function _prepareProduct(\Magento\Object $buyRequest, $product, $processMode)
     {
         $attributes = $buyRequest->getSuperAttribute();
         if ($attributes || !$this->_isStrictProcessMode($processMode)) {
@@ -568,7 +568,7 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
                 $subProduct = true;
                 if ($this->_isStrictProcessMode($processMode)) {
                     foreach($this->getConfigurableAttributes($product) as $attributeItem){
-                        /* @var $attributeItem Magento_Object */
+                        /* @var $attributeItem \Magento\Object */
                         $attrId = $attributeItem->getData('attribute_id');
                         if(!isset($attributes[$attrId]) || empty($attributes[$attrId])) {
                             $subProduct = null;
@@ -641,7 +641,7 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
         parent::checkProductBuyState($product);
         $option = $product->getCustomOption('info_buyRequest');
         if ($option instanceof Magento_Sales_Model_Quote_Item_Option) {
-            $buyRequest = new Magento_Object(unserialize($option->getValue()));
+            $buyRequest = new \Magento\Object(unserialize($option->getValue()));
             $attributes = $buyRequest->getSuperAttribute();
             if (is_array($attributes)) {
                 foreach ($attributes as $key => $val) {
@@ -810,7 +810,7 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
      * Prepare selected options for configurable product
      *
      * @param  Magento_Catalog_Model_Product $product
-     * @param  Magento_Object $buyRequest
+     * @param  \Magento\Object $buyRequest
      * @return array
      */
     public function processBuyRequest($product, $buyRequest)

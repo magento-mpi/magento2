@@ -195,9 +195,6 @@ $map = array(
     'admin/system/config/shipping' => 'Magento_Shipping::config_shipping',
     'admin/system/config/sitemap' => 'Magento_Sitemap::config_sitemap',
     'admin/catalog/sitemap' => 'Magento_Sitemap::sitemap',
-    'admin/catalog/tag' => 'Magento_Tag::tag',
-    'admin/catalog/tag/all' => 'Magento_Tag::tag_all',
-    'admin/catalog/tag/pending' => 'Magento_Tag::tag_pending',
     'admin/sales/tax/classes_customer' => 'Magento_Tax::classes_customer',
     'admin/sales/tax/classes_product' => 'Magento_Tax::classes_product',
     'admin/system/config/tax' => 'Magento_Tax::config_tax',
@@ -219,7 +216,7 @@ $map = array(
 );
 
 $tableName = $installer->getTable('admin_rule');
-/** @var Magento_DB_Adapter_Interface $connection */
+/** @var \Magento\DB\Adapter\AdapterInterface $connection */
 $connection = $installer->getConnection();
 
 $select = $connection->select();

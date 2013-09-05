@@ -27,8 +27,9 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
     protected function setUp()
     {
         $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
-        Mage::getObjectManager()->addSharedInstance($this->_moduleListMock, 'Magento_Core_Model_ModuleList');
-        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->addSharedInstance($this->_moduleListMock, 'Magento_Core_Model_ModuleList');
+        $objectManager->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
     }
@@ -52,7 +53,7 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
         );
         $this->_moduleListMock->expects($this->any())->method('getModule')->with('Magento_Banner')
             ->will($this->returnValue(true));
-        $event = new Magento_Event_Observer();
+        $event = new \Magento\Event\Observer();
         $event->setBlock($block);
         $observer = Mage::getModel('Magento_PromotionPermissions_Model_Observer');
         $observer->adminhtmlBlockHtmlBefore($event);

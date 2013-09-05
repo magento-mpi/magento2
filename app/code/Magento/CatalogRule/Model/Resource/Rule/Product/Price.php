@@ -30,7 +30,7 @@ class Magento_CatalogRule_Model_Resource_Rule_Product_Price extends Magento_Core
     /**
      * Apply price rule price to price index table
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param array|string $indexTable
      * @param string $entityId
      * @param string $customerGroupId
@@ -39,7 +39,7 @@ class Magento_CatalogRule_Model_Resource_Rule_Product_Price extends Magento_Core
      * @param string $websiteDate
      * @return Magento_CatalogRule_Model_Resource_Rule_Product_Price
      */
-    public function applyPriceRuleToIndexTable(Magento_DB_Select $select, $indexTable, $entityId, $customerGroupId,
+    public function applyPriceRuleToIndexTable(\Magento\DB\Select $select, $indexTable, $entityId, $customerGroupId,
         $websiteId, $updateFields, $websiteDate)
     {
         if (empty($updateFields)) {

@@ -15,7 +15,7 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Type_Multishipping_State extends Magento_Object
+class Magento_Checkout_Model_Type_Multishipping_State extends \Magento\Object
 {
     const STEP_SELECT_ADDRESSES = 'multishipping_addresses';
     const STEP_SHIPPING         = 'multishipping_shipping';
@@ -45,19 +45,19 @@ class Magento_Checkout_Model_Type_Multishipping_State extends Magento_Object
     {
         parent::__construct();
         $this->_steps = array(
-            self::STEP_SELECT_ADDRESSES => new Magento_Object(array(
+            self::STEP_SELECT_ADDRESSES => new \Magento\Object(array(
                 'label' => __('Select Addresses')
             )),
-            self::STEP_SHIPPING => new Magento_Object(array(
+            self::STEP_SHIPPING => new \Magento\Object(array(
                 'label' => __('Shipping Information')
             )),
-            self::STEP_BILLING => new Magento_Object(array(
+            self::STEP_BILLING => new \Magento\Object(array(
                 'label' => __('Billing Information')
             )),
-            self::STEP_OVERVIEW => new Magento_Object(array(
+            self::STEP_OVERVIEW => new \Magento\Object(array(
                 'label' => __('Place Order')
             )),
-            self::STEP_SUCCESS => new Magento_Object(array(
+            self::STEP_SUCCESS => new \Magento\Object(array(
                 'label' => __('Order Success')
             )),
         );

@@ -16,13 +16,13 @@
  * @package    Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Model_Observer extends Magento_Object
+class Magento_GiftMessage_Model_Observer extends \Magento\Object
 {
 
     /**
      * Set gift messages to order item on import item
      *
-     * @param Magento_Object $observer
+     * @param \Magento\Object $observer
      * @return Magento_GiftMessage_Model_Observer
      */
     public function salesEventConvertQuoteItemToOrderItem($observer)
@@ -44,7 +44,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
     /**
      * Set gift messages to order from quote address
      *
-     * @param Magento_Object $observer
+     * @param \Magento\Object $observer
      * @return Magento_GiftMessage_Model_Observer
      */
     public function salesEventConvertQuoteAddressToOrder($observer)
@@ -59,7 +59,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
     /**
      * Set gift messages to order from quote address
      *
-     * @param Magento_Object $observer
+     * @param \Magento\Object $observer
      * @return Magento_GiftMessage_Model_Observer
      */
     public function salesEventConvertQuoteToOrder($observer)
@@ -138,7 +138,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
     /**
      * Duplicates giftmessage from order to quote on import or reorder
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_GiftMessage_Model_Observer
      */
     public function salesEventOrderToQuote($observer)
@@ -166,7 +166,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
     /**
      * Duplicates giftmessage from order item to quote item on import or reorder
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_GiftMessage_Model_Observer
      */
     public function salesEventOrderItemToQuoteItem($observer)

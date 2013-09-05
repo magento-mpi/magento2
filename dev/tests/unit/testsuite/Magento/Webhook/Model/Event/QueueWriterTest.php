@@ -49,7 +49,7 @@ class Magento_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_Test
             ->will($this->returnValue($magentoEvent));
 
 
-        $event = $this->getMockBuilder('Magento_PubSub_EventInterface')
+        $event = $this->getMockBuilder('Magento\PubSub\EventInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $result = $this->_eventQueue->offer($event);

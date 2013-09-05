@@ -65,7 +65,7 @@ class Magento_DesignEditor_Model_Translate_InlineVde implements Magento_Core_Mod
     protected $_isScriptInserted = false;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -75,13 +75,13 @@ class Magento_DesignEditor_Model_Translate_InlineVde implements Magento_Core_Mod
      * @param Magento_Core_Model_Translate_InlineParser $parser
      * @param Magento_DesignEditor_Helper_Data $helper
      * @param Magento_Core_Model_Url $url
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         Magento_Core_Model_Translate_InlineParser $parser,
         Magento_DesignEditor_Helper_Data $helper,
         Magento_Core_Model_Url $url,
-        Magento_ObjectManager $objectManager
+        \Magento\ObjectManager $objectManager
     ) {
         $this->_parser = $parser;
         $this->_helper = $helper;

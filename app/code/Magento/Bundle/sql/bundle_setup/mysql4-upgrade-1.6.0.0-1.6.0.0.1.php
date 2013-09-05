@@ -15,7 +15,7 @@ if (file_exists($installFile)) {
 
 /** @var $installer Magento_Catalog_Model_Resource_Setup */
 $installer = $this;
-/** @var $connection Magento_DB_Adapter_Pdo_Mysql */
+/** @var $connection \Magento\DB\Adapter\Pdo\Mysql */
 $connection = $installer->getConnection();
 $memoryTables = array(
     'catalog_product_index_price_bundle_opt_tmp',
@@ -24,5 +24,5 @@ $memoryTables = array(
 );
 
 foreach ($memoryTables as $table) {
-    $connection->changeTableEngine($installer->getTable($table), Magento_DB_Adapter_Pdo_Mysql::ENGINE_MEMORY);
+    $connection->changeTableEngine($installer->getTable($table), \Magento\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY);
 }

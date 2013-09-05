@@ -24,7 +24,7 @@ class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
     private $_factory;
 
     /**
-     * @var Magento_Cache_FrontendInterface[]
+     * @var \Magento\Cache\FrontendInterface[]
      */
     private $_instances;
 
@@ -69,7 +69,7 @@ class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
             // additional front-ends
 
             if ($this->_advancedSettings) {
-                /** @var $frontendNode Magento_Simplexml_Element */
+                /** @var $frontendNode \Magento\Simplexml\Element */
                 foreach ($this->_advancedSettings as  $frontendId => $frontendOptions) {
                     $this->_instances[$frontendId] = $this->_factory->create($frontendOptions);
                 }
@@ -80,7 +80,7 @@ class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
     /**
      * {@inheritdoc}
      *
-     * @return Magento_Cache_FrontendInterface
+     * @return \Magento\Cache\FrontendInterface
      */
     public function current()
     {
@@ -128,7 +128,7 @@ class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
      * Retrieve frontend instance by its unique identifier, or return NULL, if identifier is not recognized
      *
      * @param string $identifier Cache frontend identifier
-     * @return Magento_Cache_FrontendInterface Cache frontend instance
+     * @return \Magento\Cache\FrontendInterface Cache frontend instance
      */
     public function get($identifier)
     {

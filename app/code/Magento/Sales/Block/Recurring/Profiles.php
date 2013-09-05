@@ -35,30 +35,30 @@ class Magento_Sales_Block_Recurring_Profiles extends Magento_Core_Block_Template
         $profile = Mage::getModel('Magento_Sales_Model_Recurring_Profile');
 
         $this->setGridColumns(array(
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'reference_id',
                 'title' => $profile->getFieldLabel('reference_id'),
                 'is_nobr' => true,
                 'width' => 1,
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'state',
                 'title' => $profile->getFieldLabel('state'),
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'created_at',
                 'title' => $profile->getFieldLabel('created_at'),
                 'is_nobr' => true,
                 'width' => 1,
                 'is_amount' => true,
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'updated_at',
                 'title' => $profile->getFieldLabel('updated_at'),
                 'is_nobr' => true,
                 'width' => 1,
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'method_code',
                 'title' => $profile->getFieldLabel('method_code'),
                 'is_nobr' => true,
@@ -71,7 +71,7 @@ class Magento_Sales_Block_Recurring_Profiles extends Magento_Core_Block_Template
         $locale = Mage::app()->getLocale();
         foreach($this->_profiles as $profile) {
             $profile->setStore($store)->setLocale($locale);
-            $profiles[] = new Magento_Object(array(
+            $profiles[] = new \Magento\Object(array(
                 'reference_id' => $profile->getReferenceId(),
                 'reference_id_link_url' => $this->getUrl('sales/recurring_profile/view/', array('profile' => $profile->getId())),
                 'state'       => $profile->renderData('state'),

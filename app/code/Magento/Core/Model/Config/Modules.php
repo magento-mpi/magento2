@@ -28,17 +28,17 @@ class Magento_Core_Model_Config_Modules implements Magento_Core_Model_ConfigInte
      */
     public function __construct(Magento_Core_Model_Config_StorageInterface $storage)
     {
-        Magento_Profiler::start('config_modules_load');
+        \Magento\Profiler::start('config_modules_load');
         $this->_storage = $storage;
         $this->_data = $this->_storage->getConfiguration();
-        Magento_Profiler::stop('config_modules_load');
+        \Magento\Profiler::stop('config_modules_load');
     }
 
     /**
      * Get configuration node
      *
      * @param string $path
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function getNode($path = null)
     {

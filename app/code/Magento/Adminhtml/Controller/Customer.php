@@ -10,7 +10,7 @@
 class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller_Action
 {
     /**
-     * @var Magento_Validator
+     * @var \Magento\Validator
      */
     protected $_validator;
 
@@ -226,7 +226,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
                 $customerId = $customer->getId();
-            } catch (Magento_Validator_Exception $exception) {
+            } catch (\Magento\Validator\ValidatorException $exception) {
                 $this->_addSessionErrorMessages($exception->getMessages());
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
@@ -575,7 +575,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
      */
     public function validateAction()
     {
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setError(0);
 
         $customer = $this->_validateCustomer($response);
@@ -594,7 +594,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
     /**
      * Customer validation
      *
-     * @param Magento_Object $response
+     * @param \Magento\Object $response
      * @return Magento_Customer_Model_Customer|null
      */
     protected function _validateCustomer($response)
@@ -650,7 +650,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
     /**
      * Customer address validation.
      *
-     * @param Magento_Object $response
+     * @param \Magento\Object $response
      * @param Magento_Customer_Model_Customer $customer
      */
     protected function _validateCustomerAddress($response, $customer)
@@ -808,8 +808,8 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
 
         $path = Mage::getBaseDir('media') . DS . 'customer';
 
-        /** @var Magento_Filesystem $filesystem */
-        $filesystem = $this->_objectManager->get('Magento_Filesystem');
+        /** @var \Magento\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento\Filesystem');
         $filesystem->setWorkingDirectory($path);
         $fileName   = $path . $file;
         if (!$filesystem->isFile($fileName)

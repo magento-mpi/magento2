@@ -499,7 +499,7 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
      */
     public function currency($currency)
     {
-        Magento_Profiler::start('locale/currency');
+        \Magento\Profiler::start('locale/currency');
         if (!isset(self::$_currencyCache[$this->getLocaleCode()][$currency])) {
             $options = array();
             try {
@@ -511,7 +511,7 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
                 $options['symbol'] = $currency;
             }
 
-            $options = new Magento_Object($options);
+            $options = new \Magento\Object($options);
             Mage::dispatchEvent('currency_display_options_forming', array(
                 'currency_options' => $options,
                 'base_code' => $currency
@@ -520,7 +520,7 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
             $currencyObject->setFormat($options->toArray());
             self::$_currencyCache[$this->getLocaleCode()][$currency] = $currencyObject;
         }
-        Magento_Profiler::stop('locale/currency');
+        \Magento\Profiler::stop('locale/currency');
         return self::$_currencyCache[$this->getLocaleCode()][$currency];
     }
 

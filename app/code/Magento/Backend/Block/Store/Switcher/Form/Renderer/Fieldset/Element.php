@@ -17,12 +17,12 @@
  */
 class Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element
     extends Magento_Backend_Block_Widget_Form_Renderer_Fieldset_Element
-    implements Magento_Data_Form_Element_Renderer_Interface
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Form element which re-rendering
      *
-     * @var Magento_Data_Form_Element_Fieldset
+     * @var \Magento\Data\Form\Element\Fieldset
      */
     protected $_element;
 
@@ -31,7 +31,7 @@ class Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element
     /**
      * Retrieve an element
      *
-     * @return Magento_Data_Form_Element_Fieldset
+     * @return \Magento\Data\Form\Element\Fieldset
      */
     public function getElement()
     {
@@ -41,10 +41,10 @@ class Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element
     /**
      * Render element
      *
-     * @param Magento_Data_Form_Element_Abstract $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $this->_element = $element;
         return $this->toHtml();

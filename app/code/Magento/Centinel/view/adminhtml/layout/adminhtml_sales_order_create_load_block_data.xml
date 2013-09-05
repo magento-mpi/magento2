@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_create_load_block_data>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_create_load_block_data">
         <reference name="data">
-            <block type="Magento_Centinel_Block_Adminhtml_Validation" as="card_validation" name="card_validation" template="Magento_Adminhtml::sales/order/create/abstract.phtml">
-                <block type="Magento_Centinel_Block_Adminhtml_Validation_Form" template="validation/form.phtml" name="form"/>
+            <block class="Magento_Centinel_Block_Adminhtml_Validation" as="card_validation" name="card_validation" template="Magento_Adminhtml::sales/order/create/abstract.phtml">
+                <block class="Magento_Centinel_Block_Adminhtml_Validation_Form" template="validation/form.phtml" name="form"/>
             </block>
         </reference>
-    </adminhtml_sales_order_create_load_block_data>
+    </handle>
 </layout>

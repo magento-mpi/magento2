@@ -88,7 +88,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
             return;
         }
 
-        Magento_Profiler::start('apply_db_schema_updates');
+        \Magento\Profiler::start('apply_db_schema_updates');
         $this->_appState->setUpdateMode(true);
 
         $resources = $this->_config->getNode('global/resources')->children();
@@ -117,7 +117,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
 
         $this->_appState->setUpdateMode(false);
         $this->_isUpdatedSchema = true;
-        Magento_Profiler::stop('apply_db_schema_updates');
+        \Magento\Profiler::stop('apply_db_schema_updates');
     }
 
     /**

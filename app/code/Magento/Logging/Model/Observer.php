@@ -34,7 +34,7 @@ class Magento_Logging_Model_Observer
     /**
      * Mark actions for logging, if required
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function controllerPredispatch($observer)
     {
@@ -75,7 +75,7 @@ class Magento_Logging_Model_Observer
     /**
      * Model after save observer.
      *
-     * @param Magento_Event_Observer
+     * @param \Magento\Event\Observer
      */
     public function modelSaveAfter($observer)
     {
@@ -85,7 +85,7 @@ class Magento_Logging_Model_Observer
     /**
      * Model after delete observer.
      *
-     * @param Magento_Event_Observer
+     * @param \Magento\Event\Observer
      */
     public function modelDeleteAfter($observer)
     {
@@ -95,7 +95,7 @@ class Magento_Logging_Model_Observer
     /**
      * Model after load observer.
      *
-     * @param Magento_Event_Observer
+     * @param \Magento\Event\Observer
      */
     public function modelLoadAfter($observer)
     {
@@ -105,7 +105,7 @@ class Magento_Logging_Model_Observer
     /**
      * Log marked actions
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function controllerPostdispatch($observer)
     {
@@ -117,7 +117,7 @@ class Magento_Logging_Model_Observer
     /**
      * Log successful admin sign in
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function adminSessionLoginSuccess($observer)
     {
@@ -127,7 +127,7 @@ class Magento_Logging_Model_Observer
     /**
      * Log failure of sign in
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function adminSessionLoginFailed($observer)
     {

@@ -32,7 +32,7 @@ foreach ($optionCollection as $option) {
     $bundleOptionsQty[$option->getId()] = 1;
 }
 
-$requestInfo = new Magento_Object(array(
+$requestInfo = new \Magento\Object(array(
     'qty' => 1,
     'bundle_option' => $bundleOptions,
     'bundle_option_qty' => $bundleOptionsQty
@@ -45,6 +45,6 @@ $cart->save();
 
 Mage::unregister('_singleton/Magento_Checkout_Model_Session');
 
-/** @var $objectManager Magento_Test_ObjectManager */
-$objectManager = Mage::getObjectManager();
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 $objectManager->removeSharedInstance('Magento_Checkout_Model_Session');

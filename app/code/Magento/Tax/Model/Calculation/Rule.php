@@ -62,7 +62,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
      * @param Magento_Tax_Helper_Data $taxHelper
      * @param Magento_Tax_Model_Class $taxClass
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -70,7 +70,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
         Magento_Tax_Helper_Data $taxHelper,
         Magento_Tax_Model_Class $taxClass,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(

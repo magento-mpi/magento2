@@ -19,7 +19,7 @@ class Magento_Core_Model_View_Url
     const XML_PATH_STATIC_FILE_SIGNATURE = 'dev/static/sign';
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -52,7 +52,7 @@ class Magento_Core_Model_View_Url
     /**
      * View files URL model
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_View_Service $viewService
@@ -60,7 +60,7 @@ class Magento_Core_Model_View_Url
      * @param Magento_Core_Model_View_DeployedFilesManager $deployedFileManager
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_View_Service $viewService,
@@ -117,7 +117,7 @@ class Magento_Core_Model_View_Url
      * @param string $publicFilePath
      * @param bool|null $isSecure
      * @return string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function getPublicFileUrl($publicFilePath, $isSecure = null)
     {
@@ -141,7 +141,7 @@ class Magento_Core_Model_View_Url
                 return $url;
             }
         }
-        throw new Magento_Exception(
+        throw new \Magento\Exception(
             "Cannot build URL for the file '$publicFilePath' because it does not reside in a public directory."
         );
     }

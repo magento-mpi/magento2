@@ -173,11 +173,11 @@ class Magento_AdvancedCheckout_Controller_Cart
         $qty = $this->getRequest()->getParam('qty', 1);
 
         try {
-            $params = new Magento_Object();
+            $params = new \Magento\Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
 
-            $buyRequest = new Magento_Object(array(
+            $buyRequest = new \Magento\Object(array(
                 'product'   => $id,
                 'qty'       => $qty
             ));
@@ -206,7 +206,7 @@ class Magento_AdvancedCheckout_Controller_Cart
     {
         $hasError = false;
         $id = (int)$this->getRequest()->getParam('id');
-        $buyRequest = new Magento_Object($this->getRequest()->getParams());
+        $buyRequest = new \Magento\Object($this->getRequest()->getParams());
         try {
             $cart = $this->_getCart();
 

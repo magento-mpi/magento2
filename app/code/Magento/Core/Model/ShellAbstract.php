@@ -39,18 +39,18 @@ abstract class Magento_Core_Model_ShellAbstract
     protected $_entryPoint = null;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * Initializes application and parses input parameters
      *
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param string $entryPoint
      * @throws Exception
      */
-    public function __construct(Magento_Filesystem $filesystem, $entryPoint)
+    public function __construct(\Magento\Filesystem $filesystem, $entryPoint)
     {
         if (isset($_SERVER['REQUEST_METHOD'])) {
             throw new Exception('This script cannot be run from Browser. This is the shell script.');

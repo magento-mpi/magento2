@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Converter implements Magento_Config_ConverterInterface
+class Magento_Backend_Model_Config_Structure_Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * @var Magento_Backend_Model_Config_Structure_Mapper_Factory

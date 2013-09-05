@@ -236,7 +236,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -245,7 +245,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_urlModel = $urlModel;
@@ -295,7 +295,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      */
     protected function _getValidationRulesBeforeSave()
     {
-        $validator = new Magento_Validator_Composite_VarienObject();
+        $validator = new \Magento\Validator\Composite\VarienObject();
 
         $storeLabelRule = new Zend_Validate_NotEmpty();
         $storeLabelRule->setMessage(
@@ -478,7 +478,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      *
      * @param string $fullPath
      * @param string $path
-     * @param Magento_Simplexml_Element $node
+     * @param \Magento\Simplexml\Element $node
      * @return string
      */
     protected function _processConfigValue($fullPath, $path, $node)
@@ -1020,7 +1020,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     /**
      * Get store price filter
      *
-     * @return Magento_Filter_Sprintf
+     * @return \Magento\Filter\Sprintf
      */
     public function getPriceFilter()
     {
@@ -1031,7 +1031,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
             } elseif($this->getDefaultCurrency()) {
                 $this->_priceFilter = $this->getDefaultCurrency()->getFilter();
             } else {
-                $this->_priceFilter = new Magento_Filter_Sprintf('%s', 2);
+                $this->_priceFilter = new \Magento\Filter\Sprintf('%s', 2);
             }
         }
         return $this->_priceFilter;

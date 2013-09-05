@@ -54,7 +54,7 @@ class Magento_Captcha_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_config;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -73,14 +73,14 @@ class Magento_Captcha_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config $config
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config $config,
-        Magento_Filesystem $filesystem
+        \Magento\Filesystem $filesystem
     ) {
         $this->_dirs = $dirs;
         $this->_app = $app;

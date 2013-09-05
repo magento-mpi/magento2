@@ -80,7 +80,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
         $this->_urlModelMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false, false);
         $configFactoryMock = $this->getMock('Magento_Backend_Model_Config_Factory', array(), array(), '', false, false);
-        $this->_formFactoryMock = $this->getMock('Magento_Data_Form_Factory', array(), array(), '', false, false);
+        $this->_formFactoryMock = $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false, false);
         $cloneFactoryMock = $this->getMock('Magento_Backend_Model_Config_Clone_Factory',
             array(), array(), '', false, false
         );
@@ -107,7 +107,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         $this->_backendConfigMock->expects($this->once())->method('load')
             ->will($this->returnValue(array('section1/group1/field1' => 'some_value')));
 
-        $this->_formMock = $this->getMock('Magento_Data_Form',
+        $this->_formMock = $this->getMock('Magento\Data\Form',
             array('setParent', 'setBaseUrl', 'addFieldset'), array(), '', false, false
         );
         $data = array(
@@ -123,7 +123,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             'coreConfig' => $this->_coreConfigMock,
         );
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_object = $helper->getObject('Magento_Backend_Block_System_Config_Form', $data);
         $this->_object->setData('scope_id', 1);
     }
@@ -186,7 +186,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         $this->_systemConfigMock->expects($this->once())->method('getElement')
             ->with('section_code')->will($this->returnValue($sectionMock));
 
-        $formFieldsetMock = $this->getMock('Magento_Data_Form_Element_Fieldset',
+        $formFieldsetMock = $this->getMock('Magento\Data\Form\Element\Fieldset',
             array(), array(), '', false, false
         );
 
@@ -207,7 +207,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
     public function testInitFields($backendConfigValue, $xmlConfig, $configPath, $inherit, $expectedValue)
     {
         // Parameters initialization
-        $fieldsetMock = $this->getMock('Magento_Data_Form_Element_Fieldset', array(), array(), '', false, false);
+        $fieldsetMock = $this->getMock('Magento\Data\Form\Element\Fieldset', array(), array(), '', false, false);
         $groupMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group',
             array(), array(), '', false, false
         );
@@ -262,7 +262,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
         $sectionMock->expects($this->once())->method('getId')->will($this->returnValue('section1'));
 
-        $formFieldMock = $this->getMockForAbstractClass('Magento_Data_Form_Element_Abstract',
+        $formFieldMock = $this->getMockForAbstractClass('\Magento\Data\Form\Element\AbstractElement',
             array(), '', false, false, true, array('setRenderer')
         );
 

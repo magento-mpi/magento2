@@ -144,10 +144,10 @@ class Magento_SalesRule_Model_Observer
     /**
      * After save attribute if it is not used for promo rules already check rules for containing this attribute
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_SalesRule_Model_Observer
      */
-    public function catalogAttributeSaveAfter(Magento_Event_Observer $observer)
+    public function catalogAttributeSaveAfter(\Magento\Event\Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute->dataHasChangedFor('is_used_for_promo_rules') && !$attribute->getIsUsedForPromoRules()) {
@@ -161,10 +161,10 @@ class Magento_SalesRule_Model_Observer
      * After delete attribute check rules that contains deleted attribute
      * If rules was found they will seted to inactive and added notice to admin session
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_SalesRule_Model_Observer
      */
-    public function catalogAttributeDeleteAfter(Magento_Event_Observer $observer)
+    public function catalogAttributeDeleteAfter(\Magento\Event\Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute->getIsUsedForPromoRules()) {
@@ -177,12 +177,12 @@ class Magento_SalesRule_Model_Observer
     /**
      * Append sales rule product attributes to select by quote item collection
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_SalesRule_Model_Observer
      */
-    public function addProductAttributes(Magento_Event_Observer $observer)
+    public function addProductAttributes(\Magento\Event\Observer $observer)
     {
-        // @var Magento_Object
+        // @var \Magento\Object
         $attributesTransfer = $observer->getEvent()->getAttributes();
 
         $attributes = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Rule')
@@ -201,7 +201,7 @@ class Magento_SalesRule_Model_Observer
     /**
      * Add coupon's rule name to order data
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_SalesRule_Model_Observer
      */
     public function addSalesRuleNameToOrder($observer)

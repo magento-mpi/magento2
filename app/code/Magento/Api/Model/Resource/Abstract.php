@@ -21,7 +21,7 @@ class Magento_Api_Model_Resource_Abstract
     /**
      * Resource configuration
      *
-     * @var Magento_Simplexml_Element
+     * @var \Magento\Simplexml\Element
      */
     protected $_resourceConfig = null;
 
@@ -48,10 +48,10 @@ class Magento_Api_Model_Resource_Abstract
     /**
      * Set configuration for api resource
      *
-     * @param Magento_Simplexml_Element $xml
+     * @param \Magento\Simplexml\Element $xml
      * @return Magento_Api_Model_Resource_Abstract
      */
-    public function setResourceConfig(Magento_Simplexml_Element $xml)
+    public function setResourceConfig(\Magento\Simplexml\Element $xml)
     {
         $this->_resourceConfig = $xml;
         return $this;
@@ -60,7 +60,7 @@ class Magento_Api_Model_Resource_Abstract
     /**
      * Retrieve configuration for api resource
      *
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function getResourceConfig()
     {

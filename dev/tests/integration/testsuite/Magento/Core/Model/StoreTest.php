@@ -18,11 +18,12 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $params = array(
-            'context' => Mage::getObjectManager()->get('Magento_Core_Model_Context'),
-            'configCacheType' => Mage::getObjectManager()->get('Magento_Core_Model_Cache_Type_Config'),
-            'urlModel' => Mage::getObjectManager()->get('Magento_Core_Model_Url'),
-            'appState' => Mage::getObjectManager()->get('Magento_Core_Model_App_State'),
+            'context'         => $objectManager->get('Magento_Core_Model_Context'),
+            'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
+            'urlModel'        => $objectManager->get('Magento_Core_Model_Url'),
+            'appState'        => $objectManager->get('Magento_Core_Model_App_State'),
         );
 
         $this->_model = $this->getMock(
@@ -146,7 +147,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBaseUrlInPub()
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_URIS => array(Magento_Core_Model_Dir::PUB => '')
         ));
         $this->_model->load('default');
@@ -259,7 +260,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 
         /* emulate admin store */
         Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
-        $crud = new Magento_Test_Entity($this->_model, array('name' => 'new name'));
+        $crud = new Magento_TestFramework_Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }
 
@@ -318,11 +319,12 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             ->method('isInstalled')
             ->will($this->returnValue($isInstalled));
 
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $params = array(
-            'context' => Mage::getObjectManager()->get('Magento_Core_Model_Context'),
-            'configCacheType' => Mage::getObjectManager()->get('Magento_Core_Model_Cache_Type_Config'),
-            'urlModel' => Mage::getObjectManager()->get('Magento_Core_Model_Url'),
-            'appState' => $appStateMock,
+            'context'         => $objectManager->get('Magento_Core_Model_Context'),
+            'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
+            'urlModel'        => $objectManager->get('Magento_Core_Model_Url'),
+            'appState'        => $appStateMock,
         );
 
         $model = $this->getMock('Magento_Core_Model_Store', array('getConfig'), $params);

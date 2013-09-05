@@ -12,12 +12,12 @@
 /**
  * Installer model
  */
-class Magento_Install_Model_Installer extends Magento_Object
+class Magento_Install_Model_Installer extends \Magento\Object
 {
     /**
      * Installer data model used to store data between installation steps
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_dataModel;
 
@@ -102,10 +102,10 @@ class Magento_Install_Model_Installer extends Magento_Object
     /**
      * Set data model to store data between installation steps
      *
-     * @param Magento_Object $model
+     * @param \Magento\Object $model
      * @return Magento_Install_Model_Installer
      */
-    public function setDataModel(Magento_Object $model)
+    public function setDataModel(\Magento\Object $model)
     {
         $this->_dataModel = $model;
         return $this;

@@ -57,12 +57,12 @@ class Magento_Core_Model_Resource_Url_Rewrite extends Magento_Core_Model_Resourc
      */
     protected function _getLoadSelect($field, $value, $object)
     {
-        /** @var $select Magento_DB_Select */
+        /** @var $select \Magento\DB\Select */
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if (!is_null($object->getStoreId())) {
             $select->where('store_id IN(?)', array(Magento_Core_Model_AppInterface::ADMIN_STORE_ID, $object->getStoreId()));
-            $select->order('store_id ' . Magento_DB_Select::SQL_DESC);
+            $select->order('store_id ' . \Magento\DB\Select::SQL_DESC);
             $select->limit(1);
         }
 
@@ -85,7 +85,7 @@ class Magento_Core_Model_Resource_Url_Rewrite extends Magento_Core_Model_Resourc
         }
 
         $select = $this->_getReadAdapter()->select();
-        /** @var $select Magento_DB_Select */
+        /** @var $select \Magento\DB\Select */
         $select->from(array('main_table' => $this->getMainTable()), 'request_path')
             ->where('main_table.store_id = :store_id')
             ->where('main_table.id_path = :id_path')

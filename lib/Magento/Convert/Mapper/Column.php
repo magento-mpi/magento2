@@ -16,8 +16,10 @@
  * @package    Magento_Convert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Convert_Mapper_Column extends Magento_Convert_Container_Abstract
-    implements Magento_Convert_Mapper_Interface
+namespace Magento\Convert\Mapper;
+
+class Column extends \Magento\Convert\Container\AbstractContainer
+    implements \Magento\Convert\Mapper\MapperInterface
 {
     public function map()
     {

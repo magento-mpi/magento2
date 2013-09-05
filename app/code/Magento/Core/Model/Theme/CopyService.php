@@ -14,7 +14,7 @@
 class Magento_Core_Model_Theme_CopyService
 {
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -44,7 +44,7 @@ class Magento_Core_Model_Theme_CopyService
     protected $_customizationPath;
 
     /**
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_Theme_FileFactory $fileFactory
      * @param Magento_Core_Model_Layout_Link $link
      * @param Magento_Core_Model_Layout_UpdateFactory $updateFactory
@@ -52,7 +52,7 @@ class Magento_Core_Model_Theme_CopyService
      * @param Magento_Core_Model_Theme_Customization_Path $customization
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_Theme_FileFactory $fileFactory,
         Magento_Core_Model_Layout_Link $link,
         Magento_Core_Model_Layout_UpdateFactory $updateFactory,

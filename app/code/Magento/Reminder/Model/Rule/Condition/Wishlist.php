@@ -98,7 +98,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist
      *
      * @param $customer
      * @param $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -137,7 +137,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist
      *
      * @param $customer
      * @param $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

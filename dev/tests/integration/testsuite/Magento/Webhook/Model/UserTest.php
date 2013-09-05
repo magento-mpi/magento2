@@ -16,11 +16,13 @@ class Magento_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
 {
     public function testGetSharedSecret()
     {
-        $webapiUserId = Mage::getObjectManager()->create('Magento_Webapi_Model_Acl_User')
+        $webapiUserId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webapi_Model_Acl_User')
             ->setSecret('secret')
             ->save()
             ->getId();
-        $user = Mage::getObjectManager()->create('Magento_Webhook_Model_User', array('webapiUserId' => $webapiUserId));
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_User', array('webapiUserId' => $webapiUserId));
         $this->assertEquals('secret', $user->getSharedSecret());
     }
 }

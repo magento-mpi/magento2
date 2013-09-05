@@ -28,7 +28,7 @@ class Magento_Core_Model_Cache implements Magento_Core_Model_CacheInterface
     /**
      * Cache frontend API
      *
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_frontend;
 
@@ -44,7 +44,7 @@ class Magento_Core_Model_Cache implements Magento_Core_Model_CacheInterface
     /**
      * Get cache frontend API object
      *
-     * @return Magento_Cache_FrontendInterface
+     * @return \Magento\Cache\FrontendInterface
      */
     public function getFrontend()
     {
@@ -100,7 +100,7 @@ class Magento_Core_Model_Cache implements Magento_Core_Model_CacheInterface
         } else {
             /** @deprecated special case of cleaning by empty tags is deprecated after 2.0.0.0-dev42 */
             $result = false;
-            /** @var $cacheFrontend Magento_Cache_FrontendInterface */
+            /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
             foreach ($this->_frontendPool as $cacheFrontend) {
                 if ($cacheFrontend->clean()) {
                     $result = true;

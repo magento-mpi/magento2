@@ -58,7 +58,7 @@ abstract class Magento_Eav_Model_Resource_Attribute extends Magento_Eav_Model_Re
      * @param string $field
      * @param mixed $value
      * @param Magento_Core_Model_Abstract $object
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

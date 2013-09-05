@@ -30,7 +30,7 @@ class Magento_Logging_Model_Resource_Event_Collection extends Magento_Core_Model
     /**
      * Minimize usual count select
      *
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getSelectCountSql()
     {

@@ -19,17 +19,17 @@
 class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adminhtml_Controller_Action
 {
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     private $_attributeLabelCache;
 
     /**
      * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Cache_FrontendInterface $attributeLabelCache
+     * @param \Magento\Cache\FrontendInterface $attributeLabelCache
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Magento_Cache_FrontendInterface $attributeLabelCache
+        \Magento\Cache\FrontendInterface $attributeLabelCache
     ) {
         parent::__construct($context);
         $this->_attributeLabelCache = $attributeLabelCache;
@@ -134,7 +134,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
 
     public function validateAction()
     {
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setError(false);
 
         $attributeCode = $this->getRequest()->getParam('attribute_code');

@@ -442,7 +442,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         // Prepare data
         $productId  = (int) $this->getRequest()->getParam('id');
 
-        $configureResult = new Magento_Object();
+        $configureResult = new \Magento\Object();
         $configureResult->setOk(true)
             ->setProductId($productId)
             ->setCurrentStoreId($storeId)
@@ -464,7 +464,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     public function configureWishlistItemAction()
     {
         // Prepare data
-        $configureResult = new Magento_Object();
+        $configureResult = new \Magento\Object();
         try {
             $this->_initData();
 
@@ -509,7 +509,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     public function configureOrderedItemAction()
     {
         // Prepare data
-        $configureResult = new Magento_Object();
+        $configureResult = new \Magento\Object();
         try {
             $this->_initData();
 
@@ -597,7 +597,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         $this->_initData();
 
         // Prepare data
-        $configureResult = new Magento_Object();
+        $configureResult = new \Magento\Object();
         try {
             $quoteItemId = (int) $this->getRequest()->getParam('id');
 
@@ -702,17 +702,17 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
      * Returns item info by list and list item id
      * Returns object on success or false on error. Returned object has following keys:
      *  - product_id - null if no item found
-     *  - buy_request - Magento_Object, empty if not buy request stored for this item
+     *  - buy_request - \Magento\Object, empty if not buy request stored for this item
      *
      * @param string $listType
      * @param int    $itemId
      *
-     * @return Magento_Object|false
+     * @return \Magento\Object|false
      */
     protected function _getListItemInfo($listType, $itemId)
     {
         $productId = null;
-        $buyRequest = new Magento_Object();
+        $buyRequest = new \Magento\Object();
         switch ($listType) {
             case 'wishlist':
                 $item = Mage::getModel('Magento_Wishlist_Model_Item')
@@ -735,7 +735,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 break;
         }
 
-        return new Magento_Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
+        return new \Magento\Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
     }
 
     /**
@@ -746,12 +746,12 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
      * @param string $listType
      * @param int    $itemId
      * @param array  $info
-     * @return Magento_Object|false
+     * @return \Magento\Object|false
      */
     protected function _getInfoForListItem($listType, $itemId, $info)
     {
         $productId = null;
-        $buyRequest = new Magento_Object();
+        $buyRequest = new \Magento\Object();
         switch ($listType) {
             case Magento_AdvancedCheckout_Block_Adminhtml_Sku_Abstract::LIST_TYPE:
                 $info['sku'] = $itemId;
@@ -770,7 +770,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             default:
                 return $this->_getListItemInfo($listType, $itemId);
         }
-        return new Magento_Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
+        return new \Magento\Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
     }
 
     /**
@@ -883,7 +883,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
 
         if (is_array($listTypes) &&  array_intersect($listTypes, $skuListTypes)) {
             $cart = $this->getCartModel();
-            // We need to save products to enterprise_checkout/cart instead of checkout/cart
+            // We need to save products to magento_advancedcheckout/cart instead of checkout/cart
             $cart->saveAffectedProducts($cart, false);
         }
 
@@ -922,7 +922,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         /* @var $productHelper Magento_Catalog_Helper_Product */
         $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
         foreach ($items as $id => $item) {
-            $buyRequest = new Magento_Object($item);
+            $buyRequest = new \Magento\Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');
             $buyRequest = $productHelper->addParamsToBuyRequest($buyRequest, $params);
             if ($buyRequest->hasData()) {

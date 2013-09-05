@@ -14,7 +14,7 @@
  */
 class Magento_PersistentHistory_Block_Adminhtml_System_Config_Customer extends Magento_Backend_Block_System_Config_Form_Field
 {
-    public function render(Magento_Data_Form_Element_Abstract $element)
+    public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $elementId = $element->getHtmlId();
         $optionShoppingCartId = str_replace('/', '_', Magento_Persistent_Helper_Data::XML_PATH_PERSIST_SHOPPING_CART);

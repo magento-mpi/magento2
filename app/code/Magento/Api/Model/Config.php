@@ -15,12 +15,12 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Config extends Magento_Simplexml_Config
+class Magento_Api_Model_Config extends \Magento\Simplexml\Config
 {
     /**
      * Constructor
      *
-     * @see Magento_Simplexml_Config
+     * @see \Magento\Simplexml\Config
      */
     public function __construct($sourceData=null)
     {
@@ -83,7 +83,7 @@ class Magento_Api_Model_Config extends Magento_Simplexml_Config
     {
         $adapters = array();
         foreach ($this->getNode('adapters')->children() as $adapterName => $adapter) {
-            /* @var $adapter Magento_Simplexml_Element */
+            /* @var $adapter \Magento\Simplexml\Element */
             if (isset($adapter->use)) {
                 $adapter = $this->getNode('adapters/' . (string) $adapter->use);
             }
@@ -122,7 +122,7 @@ class Magento_Api_Model_Config extends Magento_Simplexml_Config
     /**
      * Retrieve handlers
      *
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function getHandlers()
     {
@@ -132,7 +132,7 @@ class Magento_Api_Model_Config extends Magento_Simplexml_Config
     /**
      * Retrieve resources
      *
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function getResources()
     {
@@ -142,7 +142,7 @@ class Magento_Api_Model_Config extends Magento_Simplexml_Config
     /**
      * Retrieve resources alias
      *
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function getResourcesAlias()
     {
@@ -234,7 +234,7 @@ class Magento_Api_Model_Config extends Magento_Simplexml_Config
         } else {
             $faultsNode = $this->getResources()->$resourceName->faults;
         }
-        /* @var $faultsNode Magento_Simplexml_Element */
+        /* @var $faultsNode \Magento\Simplexml\Element */
 
         $faults = array();
         foreach ($faultsNode->children() as $faultName => $fault) {

@@ -58,7 +58,7 @@ class Magento_Directory_Model_Country extends Magento_Core_Model_Abstract
         return $collection;
     }
 
-    public function formatAddress(Magento_Object $address, $html=false)
+    public function formatAddress(\Magento\Object $address, $html=false)
     {
         //TODO: is it still used?
         $address->getRegion();
@@ -84,7 +84,7 @@ T: {{telephone}}";
             }
         }
 
-        $filter = new Magento_Filter_Template_Simple();
+        $filter = new \Magento\Filter\Template\Simple();
         $addressText = $filter->setData($address->getData())->filter($template);
 
         if ($html) {

@@ -28,14 +28,14 @@ require_once BP . '/app/code/Magento/Core/functions.php';
 require_once BP . '/app/Mage.php';
 
 require_once __DIR__ . '/autoload.php';
-Magento_Autoload_IncludePath::addIncludePath(array(
+\Magento\Autoload\IncludePath::addIncludePath(array(
     BP . DS . 'app' . DS . 'code',
     BP . DS . 'lib',
 ));
 $classMapPath = BP . DS . 'var/classmap.ser';
 if (file_exists($classMapPath)) {
     require_once BP . '/lib/Magento/Autoload/ClassMap.php';
-    $classMap = new Magento_Autoload_ClassMap(BP);
+    $classMap = new \Magento\Autoload\ClassMap(BP);
     $classMap->addMap(unserialize(file_get_contents($classMapPath)));
     spl_autoload_register(array($classMap, 'load'), true, true);
 }
@@ -71,7 +71,7 @@ HTML;
     }
 
     if (!empty($_SERVER['MAGE_PROFILER'])) {
-        Magento_Profiler::applyConfig($_SERVER['MAGE_PROFILER'], dirname(__DIR__), !empty($_REQUEST['isAjax']));
+        \Magento\Profiler::applyConfig($_SERVER['MAGE_PROFILER'], dirname(__DIR__), !empty($_REQUEST['isAjax']));
     }
 }
 set_error_handler(Mage::DEFAULT_ERROR_HANDLER);

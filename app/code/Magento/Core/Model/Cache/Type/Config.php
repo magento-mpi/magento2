@@ -11,8 +11,8 @@
 /**
  * System / Cache Management / Cache type "Configuration"
  */
-class Magento_Core_Model_Cache_Type_Config extends Magento_Cache_Frontend_Decorator_TagScope
-    implements Magento_Config_CacheInterface
+class Magento_Core_Model_Cache_Type_Config extends \Magento\Cache\Frontend\Decorator\TagScope
+    implements \Magento\Config\CacheInterface
 {
     /**
      * Cache type code unique among all cache types

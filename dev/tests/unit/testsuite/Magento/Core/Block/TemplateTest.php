@@ -23,7 +23,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             'viewFileSystem' => $fileSystem,
             'data'           => array('template' => $template, 'area' => $area),
         );
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $block = $helper->getObject('Magento_Core_Block_Template', $arguments);
 
@@ -44,11 +44,11 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         $dirMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false, false);
         $dirMock->expects($this->any())->method('getDir')->will($this->returnValueMap($map));
         $layout = $this->getMock('Magento_Core_Model_Layout', array('isDirectOutput'), array(), '', false);
-        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
+        $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
         $design = $this->getMock('Magento_Core_Model_View_DesignInterface', array(), array(), '', false);
         $translator = $this->getMock('Magento_Core_Model_Translate', array(), array(), '', false);
 
-        $objectManagerMock = $this->getMock('Magento_ObjectManager', array('get', 'create', 'configure'));
+        $objectManagerMock = $this->getMock('Magento\ObjectManager', array('get', 'create', 'configure'));
         $objectManagerMock->expects($this->any())
             ->method('get')
             ->with('Magento_Core_Model_TemplateEngine_Php')
@@ -63,7 +63,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             'translator'    => $translator,
             'engineFactory' => $engineFactory,
         );
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $block = $this->getMock(
             'Magento_Core_Block_Template',

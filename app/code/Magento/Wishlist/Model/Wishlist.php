@@ -299,14 +299,14 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
             ->setStoreId($storeId)
             ->load($productId);
 
-        if ($buyRequest instanceof Magento_Object) {
+        if ($buyRequest instanceof \Magento\Object) {
             $_buyRequest = $buyRequest;
         } elseif (is_string($buyRequest)) {
-            $_buyRequest = new Magento_Object(unserialize($buyRequest));
+            $_buyRequest = new \Magento\Object(unserialize($buyRequest));
         } elseif (is_array($buyRequest)) {
-            $_buyRequest = new Magento_Object($buyRequest);
+            $_buyRequest = new \Magento\Object($buyRequest);
         } else {
-            $_buyRequest = new Magento_Object();
+            $_buyRequest = new \Magento\Object();
         }
 
         $cartCandidates = $product->getTypeInstance()
@@ -489,7 +489,7 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
      * It's passed to Magento_Catalog_Helper_Product->addParamsToBuyRequest() to compose resulting buyRequest.
      *
      * Basically it can hold
-     * - 'current_config', Magento_Object or array - current buyRequest that configures product in this item,
+     * - 'current_config', \Magento\Object or array - current buyRequest that configures product in this item,
      *   used to restore currently attached files
      * - 'files_prefix': string[a-z0-9_] - prefix that was added at frontend to names of file options (file inputs),
      * so they won't intersect with other submitted options
@@ -497,8 +497,8 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
      * For more options see Magento_Catalog_Helper_Product->addParamsToBuyRequest()
      *
      * @param int|Magento_Wishlist_Model_Item $itemId
-     * @param Magento_Object $buyRequest
-     * @param null|array|Magento_Object $params
+     * @param \Magento\Object $buyRequest
+     * @param null|array|\Magento\Object $params
      * @return Magento_Wishlist_Model_Wishlist
      *
      * @see Magento_Catalog_Helper_Product::addParamsToBuyRequest()
@@ -519,9 +519,9 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
         $productId = $product->getId();
         if ($productId) {
             if (!$params) {
-                $params = new Magento_Object();
+                $params = new \Magento\Object();
             } else if (is_array($params)) {
-                $params = new Magento_Object($params);
+                $params = new \Magento\Object($params);
             }
             $params->setCurrentConfig($item->getBuyRequest());
             $buyRequest = Mage::helper('Magento_Catalog_Helper_Product')->addParamsToBuyRequest($buyRequest, $params);

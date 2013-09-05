@@ -20,7 +20,7 @@ $installer->getConnection()
         $tableName,
         'qty_returned',
         array(
-            'TYPE'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
+            'TYPE'      => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
             'SCALE'     => 4,
             'PRECISION' => 12,
             'DEFAULT'   => '0.0000',

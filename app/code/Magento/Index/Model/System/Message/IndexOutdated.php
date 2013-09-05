@@ -18,7 +18,7 @@ class Magento_Index_Model_System_Message_IndexOutdated implements Magento_AdminN
     protected $_urlBuilder;
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -30,12 +30,12 @@ class Magento_Index_Model_System_Message_IndexOutdated implements Magento_AdminN
     /**
      * @param Magento_Index_Model_Indexer $indexer
      * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      */
     public function __construct(
         Magento_Index_Model_Indexer $indexer,
         Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_AuthorizationInterface $authorization
+        \Magento\AuthorizationInterface $authorization
     ) {
         $this->_indexer = $indexer;
         $this->_urlBuilder = $urlBuilder;

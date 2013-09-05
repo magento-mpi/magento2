@@ -22,8 +22,8 @@ if ($installer->tableExists($fileStorageTable)) {
         $fileStorageTable,
         $temporaryColumnName,
         array(
-            'type' => Magento_DB_Ddl_Table::TYPE_VARBINARY,
-            'size' => Magento_DB_Ddl_Table::MAX_VARBINARY_SIZE,
+            'type' => \Magento\DB\Ddl\Table::TYPE_VARBINARY,
+            'size' => \Magento\DB\Ddl\Table::MAX_VARBINARY_SIZE,
             'nullable' => true,
             'comment' => 'File Content',
         )

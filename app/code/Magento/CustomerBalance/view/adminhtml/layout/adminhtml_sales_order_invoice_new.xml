@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_invoice_new>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_invoice_new">
         <reference name="invoice_totals">
-            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Magento_CustomerBalance::sales/order/totals/customerbalance.phtml" after="-">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Magento_CustomerBalance::sales/order/totals/customerbalance.phtml" after="-">
                 <action method="setSourceField">
-                    <value>customer_balance_amount</value>
+                    <argument name="value" xsi:type="string">customer_balance_amount</argument>
                 </action>
                 <action method="setLabel">
-                    <value>Store Credit</value>
+                    <argument name="value" xsi:type="string">Store Credit</argument>
                 </action>
             </block>
         </reference>
-    </adminhtml_sales_order_invoice_new>
+    </handle>
 </layout>

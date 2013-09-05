@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_ObjectManager_Interception_Definition_Runtime implements Magento_ObjectManager_Interception_Definition
+namespace Magento\ObjectManager\Interception\Definition;
+
+class Runtime implements \Magento\ObjectManager\Interception\Definition
 {
     /**
      * Retrieve list of methods

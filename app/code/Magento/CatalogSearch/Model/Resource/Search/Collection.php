@@ -48,7 +48,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
     /**
      * Retrieve collection of all attributes
      *
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     protected function _getAttributesCollection()
     {

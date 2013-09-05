@@ -71,7 +71,7 @@ class Magento_Core_Model_Store_StorageFactoryTest extends PHPUnit_Framework_Test
     protected function setUp()
     {
         $this->_arguments = array('test' => 'argument');
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_eventManagerMock = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $this->_logMock = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_configMock = $this->getMock('Magento_Core_Model_ConfigInterface', array(), array(), '', false);

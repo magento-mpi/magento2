@@ -175,9 +175,9 @@ abstract class Zend_Cache
             #require_once str_replace('_', DIRECTORY_SEPARATOR, $frontendClass) . '.php';
         } else {
             // we use a custom frontend
-            if (!preg_match('~^[\w]+$~D', $frontend)) {
-                Zend_Cache::throwException("Invalid frontend name [$frontend]");
-            }
+//            if (!preg_match('~^[\w]+$~D', $frontend)) {
+//                Zend_Cache::throwException("Invalid frontend name [$frontend]");
+//            }
             if (!$customFrontendNaming) {
                 // we use this boolean to avoid an API break
                 $frontendClass = 'Zend_Cache_Frontend_' . $frontend;

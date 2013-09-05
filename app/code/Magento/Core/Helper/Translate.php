@@ -47,7 +47,7 @@ class Magento_Core_Helper_Translate extends Magento_Core_Helper_Abstract
     {
         $this->_translator->setLocale($localeCode);
 
-        $dispatchResult = new Magento_Object(array(
+        $dispatchResult = new \Magento\Object(array(
             'inline_type' => null,
             'params' => array('area' => $area)
         ));

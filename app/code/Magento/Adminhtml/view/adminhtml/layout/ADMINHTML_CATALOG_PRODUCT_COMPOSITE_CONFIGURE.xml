@@ -7,33 +7,33 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE>
-        <block type="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset" name="product.composite.fieldset" output="1">
-            <block name="product.composite.fieldset.options" type="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options" template="catalog/product/composite/fieldset/options.phtml">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE">
+        <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset" name="product.composite.fieldset" output="1">
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options" name="product.composite.fieldset.options" template="catalog/product/composite/fieldset/options.phtml">
                 <action method="addOptionRenderer">
-                    <type>text</type>
-                    <block>Magento_Catalog_Block_Product_View_Options_Type_Text</block>
-                    <template>Magento_Adminhtml::catalog/product/composite/fieldset/options/type/text.phtml</template>
+                    <argument name="type" xsi:type="string">text</argument>
+                    <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_Text</argument>
+                    <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/composite/fieldset/options/type/text.phtml</argument>
                 </action>
                 <action method="addOptionRenderer">
-                    <type>file</type>
-                    <block>Magento_Catalog_Block_Product_View_Options_Type_File</block>
-                    <template>Magento_Adminhtml::catalog/product/composite/fieldset/options/type/file.phtml</template>
+                    <argument name="type" xsi:type="string">file</argument>
+                    <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_File</argument>
+                    <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/composite/fieldset/options/type/file.phtml</argument>
                 </action>
                 <action method="addOptionRenderer">
-                    <type>select</type>
-                    <block>Magento_Catalog_Block_Product_View_Options_Type_Select</block>
-                    <template>Magento_Adminhtml::catalog/product/composite/fieldset/options/type/select.phtml</template>
+                    <argument name="type" xsi:type="string">select</argument>
+                    <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_Select</argument>
+                    <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/composite/fieldset/options/type/select.phtml</argument>
                 </action>
                 <action method="addOptionRenderer">
-                    <type>date</type>
-                    <block>Magento_Catalog_Block_Product_View_Options_Type_Date</block>
-                    <template>Magento_Adminhtml::catalog/product/composite/fieldset/options/type/date.phtml</template>
+                    <argument name="type" xsi:type="string">date</argument>
+                    <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_View_Options_Type_Date</argument>
+                    <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/composite/fieldset/options/type/date.phtml</argument>
                 </action>
-                <block type="Magento_Core_Block_Template" name="product.composite.fieldset.options.js" as="options_js" template="Magento_Adminhtml::catalog/product/composite/fieldset/options/js.phtml"/>
+                <block class="Magento_Core_Block_Template" name="product.composite.fieldset.options.js" as="options_js" template="Magento_Adminhtml::catalog/product/composite/fieldset/options/js.phtml"/>
             </block>
-            <block type="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Qty" name="product.composite.fieldset.qty" template="catalog/product/composite/fieldset/qty.phtml"/>
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Qty" name="product.composite.fieldset.qty" template="catalog/product/composite/fieldset/qty.phtml"/>
         </block>
-    </ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE>
+    </handle>
 </layout>

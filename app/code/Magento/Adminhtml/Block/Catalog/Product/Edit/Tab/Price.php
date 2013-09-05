@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price extends Magento_Adm
     {
         $product = Mage::registry('product');
 
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $fieldset = $form->addFieldset('tiered_price', array('legend' => __('Tier Pricing')));
 
         $fieldset->addField('default_price', 'label', array(

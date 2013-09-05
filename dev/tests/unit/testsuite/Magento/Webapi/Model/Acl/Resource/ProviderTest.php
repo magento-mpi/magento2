@@ -32,9 +32,9 @@ class Magento_Webapi_Model_Acl_Resource_ProviderTest extends PHPUnit_Framework_T
         $this->_configReaderMock = $this->getMock(
             'Magento_Webapi_Model_Acl_Resource_Config_Reader_Filesystem', array(), array(), '', false
         );
-        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
+        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_treeBuilderMock =
-            $this->getMock('Magento_Acl_Resource_TreeBuilder', array(), array(), '', false);
+            $this->getMock('Magento\Acl\Resource\TreeBuilder', array(), array(), '', false);
         $this->_model = new Magento_Webapi_Model_Acl_Resource_Provider(
             $this->_configReaderMock,
             $this->_configScopeMock,

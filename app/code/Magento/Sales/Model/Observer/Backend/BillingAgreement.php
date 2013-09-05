@@ -8,14 +8,14 @@
 class Magento_Sales_Model_Observer_Backend_BillingAgreement
 {
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      */
-    public function __construct(Magento_AuthorizationInterface $authorization)
+    public function __construct(\Magento\AuthorizationInterface $authorization)
     {
         $this->_authorization = $authorization;
     }
@@ -23,7 +23,7 @@ class Magento_Sales_Model_Observer_Backend_BillingAgreement
     /**
      * Block admin ability to use customer billing agreements
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function dispatch($observer)
     {

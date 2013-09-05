@@ -24,7 +24,7 @@ class Magento_Customer_Model_Customer_Attribute_Backend_Password extends Magento
      * a) check some rules for password
      * b) transform temporary attribute 'password' into real attribute 'password_hash'
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      */
     public function beforeSave($object)
     {
@@ -48,7 +48,7 @@ class Magento_Customer_Model_Customer_Attribute_Backend_Password extends Magento
     }
 
     /**
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return bool
      */
     public function validate($object)

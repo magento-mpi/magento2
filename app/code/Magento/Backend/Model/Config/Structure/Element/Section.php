@@ -14,19 +14,19 @@ class Magento_Backend_Model_Config_Structure_Element_Section
     /**
      * Authorization service
      *
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
      * @param Magento_Core_Model_App $application
      * @param Magento_Backend_Model_Config_Structure_Element_Iterator $childrenIterator
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      */
     public function __construct(
         Magento_Core_Model_App $application,
         Magento_Backend_Model_Config_Structure_Element_Iterator $childrenIterator,
-        Magento_AuthorizationInterface $authorization
+        \Magento\AuthorizationInterface $authorization
     ) {
         parent::__construct($application, $childrenIterator);
         $this->_authorization = $authorization;

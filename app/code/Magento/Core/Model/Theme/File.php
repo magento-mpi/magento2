@@ -53,7 +53,7 @@ class Magento_Core_Model_Theme_File extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
      * @param Magento_Core_Model_Theme_Customization_FileServiceFactory $fileServiceFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -61,7 +61,7 @@ class Magento_Core_Model_Theme_File extends Magento_Core_Model_Abstract
         Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
         Magento_Core_Model_Theme_Customization_FileServiceFactory $fileServiceFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -116,13 +116,13 @@ class Magento_Core_Model_Theme_File extends Magento_Core_Model_Abstract
     /**
      * {@inheritdoc}
      *
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function getTheme()
     {
         $theme = $this->_themeFactory->create($this->getData('theme_id'));
         if (!$theme) {
-            throw new Magento_Exception('Theme id should be set');
+            throw new \Magento\Exception('Theme id should be set');
         }
         return $theme;
     }

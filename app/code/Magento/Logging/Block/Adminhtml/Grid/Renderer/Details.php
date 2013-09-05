@@ -18,10 +18,10 @@ class Magento_Logging_Block_Adminhtml_Grid_Renderer_Details
     /**
      * Render the grid cell value
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $html = '-';
         $columnData = $row->getData($this->getColumn()->getIndex());

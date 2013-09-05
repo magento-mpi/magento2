@@ -19,13 +19,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     protected $_model;
 
     /**
-     * @var Magento_Data_Form_Element_Checkbox
+     * @var \Magento\Data\Form\Element\Checkbox
      */
     protected $_virtual;
 
     public function testSetForm()
     {
-        $this->_virtual = new Magento_Object();
+        $this->_virtual = new \Magento\Object();
 
         $helper = $this->getMock('Magento_Catalog_Helper_Product', array('getTypeSwitcherControlLabel'),
             array(), '', false, false
@@ -42,7 +42,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
             array('element' => $this->_virtual, 'helper' => $helper)
         );
 
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $this->_model->setForm($form);
 
         $this->assertEquals(

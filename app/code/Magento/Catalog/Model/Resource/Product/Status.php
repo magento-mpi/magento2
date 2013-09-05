@@ -97,7 +97,7 @@ class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_R
         $refreshIndex       = true;
         $adapter            = $this->_getWriteAdapter();
 
-        $data = new Magento_Object(array(
+        $data = new \Magento\Object(array(
             'entity_type_id' => $statusEntityTypeId,
             'attribute_id'   => $statusAttributeId,
             'store_id'       => $storeId,

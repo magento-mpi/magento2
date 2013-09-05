@@ -18,21 +18,21 @@
 class Magento_Payment_Model_Observer
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
     /**
      * Set forced canCreditmemo flag
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_Payment_Model_Observer
      */
     public function salesOrderBeforeSave($observer)
@@ -64,7 +64,7 @@ class Magento_Payment_Model_Observer
      *
      * Also sets the collected information and schedule as informational static options
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function prepareProductRecurringProfileOptions($observer)
     {
@@ -107,10 +107,10 @@ class Magento_Payment_Model_Observer
     /**
      * Sets current instructions for bank transfer account
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function beforeOrderPaymentSave(Magento_Event_Observer $observer)
+    public function beforeOrderPaymentSave(\Magento\Event\Observer $observer)
     {
         /** @var Magento_Sales_Model_Order_Payment $payment */
         $payment = $observer->getEvent()->getPayment();
@@ -121,9 +121,9 @@ class Magento_Payment_Model_Observer
     }
 
     /**
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
-    public function updateOrderStatusForPaymentMethods(Magento_Event_Observer $observer)
+    public function updateOrderStatusForPaymentMethods(\Magento\Event\Observer $observer)
     {
         if ($observer->getEvent()->getState() !== Magento_Sales_Model_Order::STATE_NEW) {
             return;

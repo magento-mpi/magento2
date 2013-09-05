@@ -22,21 +22,21 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Setup resource configuration object
      *
-     * @var Magento_Simplexml_Element
+     * @var \Magento\Simplexml\Element
      */
     protected $_resourceConfig;
 
     /**
      * Connection configuration object
      *
-     * @var Magento_Simplexml_Element
+     * @var \Magento\Simplexml\Element
      */
     protected $_connectionConfig;
 
     /**
      * Setup module configuration object
      *
-     * @var Magento_Simplexml_Element
+     * @var \Magento\Simplexml\Element
      */
     protected $_moduleConfig;
 
@@ -50,7 +50,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Setup Connection
      *
-     * @var Magento_DB_Adapter_Pdo_Mysql
+     * @var \Magento\DB\Adapter\Pdo\Mysql
      */
     protected $_conn;
     /**
@@ -136,7 +136,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Get connection object
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     public function getConnection()
     {
@@ -455,7 +455,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * @param string $fromVersion
      * @param string $toVersion
      * @return bool|string
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _modifyResourceDb($actionType, $fromVersion, $toVersion)
     {
@@ -508,7 +508,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
                     Mage::log("Failed resource setup: {$fileName}");
                 }
             } catch (Exception $e) {
-                throw new Magento_Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);
+                throw new \Magento\Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);
             }
             $version = $file['toVersion'];
             $this->getConnection()->allowDdlCache();

@@ -66,7 +66,7 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
 
     public function jsonSaveAction()
     {
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setError(0);
 
         if ( $post = $this->getRequest()->getPost() ) {
@@ -88,7 +88,7 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
 
     public function jsonDeleteAction()
     {
-        $response = new Magento_Object();
+        $response = new \Magento\Object();
         $response->setError(0);
 
         if ( $id = $this->getRequest()->getParam('id') ) {

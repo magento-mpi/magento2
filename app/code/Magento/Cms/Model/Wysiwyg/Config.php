@@ -15,7 +15,7 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
+class Magento_Cms_Model_Wysiwyg_Config extends \Magento\Object
 {
     /**
      * Wysiwyg behaviour
@@ -26,7 +26,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     const IMAGE_DIRECTORY = 'wysiwyg';
 
     /**
-     * @var Magento_AuthorizationInterface
+     * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
     
@@ -36,12 +36,12 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_viewUrl;
 
     /**
-     * @param Magento_AuthorizationInterface $authorization
+     * @param \Magento\AuthorizationInterface $authorization
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $data
      */
     public function __construct(
-        Magento_AuthorizationInterface $authorization,
+        \Magento\AuthorizationInterface $authorization,
         Magento_Core_Model_View_Url $viewUrl,
         array $data = array()
     ) {
@@ -51,7 +51,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     }
 
     /**
-     * Return Wysiwyg config as Magento_Object
+     * Return Wysiwyg config as \Magento\Object
      *
      * Config options description:
      *
@@ -63,12 +63,12 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      * files_browser_*:         Files Browser (media, images) settings
      * encode_directives:       Encode template directives with JS or not
      *
-     * @param array|Magento_Object $data Magento_Object constructor params to override default config values
-     * @return Magento_Object
+     * @param array|\Magento\Object $data \Magento\Object constructor params to override default config values
+     * @return \Magento\Object
      */
     public function getConfig($data = array())
     {
-        $config = new Magento_Object();
+        $config = new \Magento\Object();
         $viewUrl = $this->_viewUrl;
 
         $config->setData(array(

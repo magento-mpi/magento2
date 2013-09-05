@@ -19,15 +19,15 @@
 class Magento_User_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
-     * @var Magento_Acl_CacheInterface
+     * @var \Magento\Acl\CacheInterface
      */
     protected $_aclCache;
 
     /**
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Acl_CacheInterface $aclCache
+     * @param \Magento\Acl\CacheInterface $aclCache
      */
-    public function __construct(Magento_Core_Model_Resource $resource, Magento_Acl_CacheInterface $aclCache)
+    public function __construct(Magento_Core_Model_Resource $resource, \Magento\Acl\CacheInterface $aclCache)
     {
         $this->_aclCache = $aclCache;
         parent::__construct($resource);
@@ -198,12 +198,12 @@ class Magento_User_Model_Resource_User extends Magento_Core_Model_Resource_Db_Ab
         if ($parentId > 0) {
             $parentRole = Mage::getModel('Magento_User_Model_Role')->load($parentId);
         } else {
-            $role = new Magento_Object();
+            $role = new \Magento\Object();
             $role->setTreeLevel(0);
         }
 
         if ($parentRole->getId()) {
-            $data = new Magento_Object(array(
+            $data = new \Magento\Object(array(
                 'parent_id'  => $parentRole->getId(),
                 'tree_level' => $parentRole->getTreeLevel() + 1,
                 'sort_order' => 0,

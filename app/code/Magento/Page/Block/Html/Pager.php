@@ -117,7 +117,7 @@ class Magento_Page_Block_Html_Pager extends Magento_Core_Block_Template
     /**
      * Set collection for pagination
      *
-     * @param  Magento_Data_Collection $collection
+     * @param  \Magento\Data\Collection $collection
      * @return Magento_Page_Block_Html_Pager
      */
     public function setCollection($collection)

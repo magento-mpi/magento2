@@ -10,7 +10,7 @@
 class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -20,9 +20,9 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     protected $_app = null;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -54,7 +54,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Throw an exception, if the application has not been installed yet
      *
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function requireInstalledInstance()
     {

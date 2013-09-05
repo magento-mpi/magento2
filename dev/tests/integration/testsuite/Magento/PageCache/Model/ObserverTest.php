@@ -29,7 +29,7 @@ class Magento_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         /** @var $cookie Magento_Core_Model_Cookie */
         $cookie = Mage::getSingleton('Magento_Core_Model_Cookie');
         $this->assertEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
-        $this->_observer->setNoCacheCookie(new Magento_Event_Observer());
+        $this->_observer->setNoCacheCookie(new \Magento\Event\Observer());
         $this->assertNotEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
     }
 
@@ -41,7 +41,7 @@ class Magento_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         /** @var $cookie Magento_Core_Model_Cookie */
         $cookie = Mage::getSingleton('Magento_Core_Model_Cookie');
         $cookie->set(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE, '1');
-        $this->_observer->deleteNoCacheCookie(new Magento_Event_Observer());
+        $this->_observer->deleteNoCacheCookie(new \Magento\Event\Observer());
         $this->assertEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
     }
 }

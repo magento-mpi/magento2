@@ -12,13 +12,13 @@
 class Magento_Config_ViewTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Config_View
+     * @var \Magento\Config\View
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Config_View(array(
+        $this->_model = new \Magento\Config\View(array(
             __DIR__ . '/_files/view_one.xml', __DIR__ . '/_files/view_two.xml'
         ));
     }
@@ -28,7 +28,7 @@ class Magento_Config_ViewTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructException()
     {
-        new Magento_Config_View(array());
+        new \Magento\Config\View(array());
     }
 
     public function testGetSchemaFile()
@@ -50,10 +50,10 @@ class Magento_Config_ViewTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      */
     public function testInvalidXml()
     {
-        new Magento_Config_View(array(__DIR__ . '/_files/view_invalid.xml'));
+        new \Magento\Config\View(array(__DIR__ . '/_files/view_invalid.xml'));
     }
 }

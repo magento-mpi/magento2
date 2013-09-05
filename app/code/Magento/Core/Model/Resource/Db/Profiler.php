@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_Db_Profiler extends Magento_DB_Profiler
+class Magento_Core_Model_Resource_Db_Profiler extends \Magento\DB\Profiler
 {
     /**
      * Default connection type for timer name creation
@@ -100,7 +100,7 @@ class Magento_Core_Model_Resource_Db_Profiler extends Magento_DB_Profiler
                 $tags['host'] = $this->_host;
             }
 
-            Magento_Profiler::start($timerName, $tags);
+            \Magento\Profiler::start($timerName, $tags);
         }
 
         return $result;
@@ -122,7 +122,7 @@ class Magento_Core_Model_Resource_Db_Profiler extends Magento_DB_Profiler
             $queryTypeParsed = $this->_parseQueryType($queryProfile->getQuery());
             $timerName = $this->_getTimerName($queryTypeParsed);
 
-            Magento_Profiler::stop($timerName);
+            \Magento\Profiler::stop($timerName);
         }
 
         return $result;

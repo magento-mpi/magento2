@@ -240,7 +240,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Return row url for js event handlers
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
     public function getRowUrl($item)
@@ -255,7 +255,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Get children of specified item
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return array
      */
     public function getMultipleRows($item)
@@ -266,7 +266,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Has children of specified item
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return bool
      */
     public function hasMultipleRows($item)
@@ -290,7 +290,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Check whether subtotal should be rendered
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return boolean
      */
     public function shouldRenderSubTotal($item)
@@ -315,7 +315,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Retrieve rowspan number
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @param Magento_Backend_Block_Widget_Grid_Column $column
      * @return integer|boolean
      */
@@ -350,7 +350,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Check whether should render empty cell
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @param Magento_Backend_Block_Widget_Grid_Column $column
      * @return boolean
      */
@@ -372,7 +372,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Check whether should render cell
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @param Magento_Backend_Block_Widget_Grid_Column $column
      * @return boolean
      */
@@ -502,7 +502,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
 
     /**
      * Return collection of current grid
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function getCollection()
     {
@@ -556,8 +556,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Retrieve subtotal for item
      *
-     * @param $item Magento_Object
-     * @return Magento_Object
+     * @param $item \Magento\Object
+     * @return \Magento\Object
      */
     public function getSubTotals($item)
     {
@@ -569,7 +569,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Retrieve subtotal items
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getTotals()
     {
@@ -581,13 +581,13 @@ class Magento_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Tem
     /**
      * Update item with first sub-item data
      *
-     * @param $item Magento_Object
+     * @param $item \Magento\Object
      */
-    public function updateItemByFirstMultiRow(Magento_Object $item)
+    public function updateItemByFirstMultiRow(\Magento\Object $item)
     {
         $multiRows = $this->getMultipleRows($item);
-        if (is_object($multiRows) && $multiRows instanceof Magento_Data_Collection) {
-            /** @var $multiRows Magento_Data_Collection */
+        if (is_object($multiRows) && $multiRows instanceof \Magento\Data\Collection) {
+            /** @var $multiRows \Magento\Data\Collection */
             $item->addData($multiRows->getFirstItem()->getData());
         } elseif (is_array($multiRows)) {
             $firstItem = $multiRows[0];

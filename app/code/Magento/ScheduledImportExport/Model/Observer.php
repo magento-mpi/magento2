@@ -20,32 +20,32 @@ class Magento_ScheduledImportExport_Model_Observer
     /**
      * Cron tab expression path
      */
-    const CRON_STRING_PATH = 'crontab/jobs/enterprise_import_export_log_clean/schedule/cron_expr';
+    const CRON_STRING_PATH = 'crontab/jobs/magento_scheduled_import_export_log_clean/schedule/cron_expr';
 
     /**
      * Configuration path of log status
      */
-    const LOG_CLEANING_ENABLE_PATH = 'system/enterprise_import_export_log/enabled';
+    const LOG_CLEANING_ENABLE_PATH = 'system/magento_scheduled_import_export_log/enabled';
 
     /**
      * Configuration path of log save days
      */
-    const SAVE_LOG_TIME_PATH = 'system/enterprise_import_export_log/save_days';
+    const SAVE_LOG_TIME_PATH = 'system/magento_scheduled_import_export_log/save_days';
 
     /**
      * Recipient email configuraiton path
      */
-    const XML_RECEIVER_EMAIL_PATH = 'system/enterprise_import_export_log/error_email';
+    const XML_RECEIVER_EMAIL_PATH = 'system/magento_scheduled_import_export_log/error_email';
 
     /**
      * Sender email configuraiton path
      */
-    const XML_SENDER_EMAIL_PATH   = 'system/enterprise_import_export_log/error_email_identity';
+    const XML_SENDER_EMAIL_PATH   = 'system/magento_scheduled_import_export_log/error_email_identity';
 
     /**
      * Email template configuraiton path
      */
-    const XML_TEMPLATE_EMAIL_PATH = 'system/enterprise_import_export_log/error_email_template';
+    const XML_TEMPLATE_EMAIL_PATH = 'system/magento_scheduled_import_export_log/error_email_template';
 
     /**
      * Clear old log files and folders
@@ -87,7 +87,7 @@ class Magento_ScheduledImportExport_Model_Observer
 
                 $direcotryDate = new DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3]);
                 if ($forceRun || $direcotryDate < $dateCompass) {
-                    $fs = new Magento_Io_File();
+                    $fs = new \Magento\Io\File();
                     if (!$fs->rmdirRecursive($directory, true)) {
                         $directory = str_replace(Mage::getBaseDir() . DS, '', $directory);
                         Mage::throwException(
@@ -117,7 +117,7 @@ class Magento_ScheduledImportExport_Model_Observer
         $result = array();
 
         $logPath = rtrim($logPath, DS);
-        $fs = new Magento_Io_File();
+        $fs = new \Magento\Io\File();
         $fs->cd($logPath);
 
         foreach ($fs->ls() as $entity) {
@@ -136,7 +136,7 @@ class Magento_ScheduledImportExport_Model_Observer
     /**
      * Run operation in crontab
      *
-     * @param Magento_Cron_Model_Schedule|Magento_Object $schedule
+     * @param Magento_Cron_Model_Schedule|\Magento\Object $schedule
      * @param bool $forceRun
      * @return bool
      */

@@ -10,7 +10,7 @@
 class Magento_Backend_Model_Menu_Item_Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -20,10 +20,10 @@ class Magento_Backend_Model_Menu_Item_Factory
     protected $_helperFactory;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param Magento_Core_Model_Factory_Helper $helperFactory
      */
-    public function __construct(Magento_ObjectManager $objectManager, Magento_Core_Model_Factory_Helper $helperFactory)
+    public function __construct(\Magento\ObjectManager $objectManager, Magento_Core_Model_Factory_Helper $helperFactory)
     {
         $this->_objectManager = $objectManager;
         $this->_helperFactory = $helperFactory;

@@ -14,7 +14,7 @@ class Magento_Core_Model_View_Design_ProxyTest extends PHPUnit_Framework_TestCas
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_ObjectManager
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -25,7 +25,7 @@ class Magento_Core_Model_View_Design_ProxyTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_viewDesign = $this->getMock('Magento_Core_Model_View_DesignInterface');
         $this->_objectManager->expects($this->once())
             ->method('get')

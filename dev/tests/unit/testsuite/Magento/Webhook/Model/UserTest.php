@@ -55,7 +55,7 @@ class Magento_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
             ->with(array('data' => array('roleId' => 'role_id')))
             ->will($this->returnValue('role_locator'));
 
-        $this->_mockAuthorization = $this->getMockBuilder('Magento_Authorization')
+        $this->_mockAuthorization = $this->getMockBuilder('Magento\Authorization')
             ->setMethods(array('isAllowed'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -64,7 +64,7 @@ class Magento_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockAuthFactory = $this->getMockBuilder('Magento_Authorization_Factory')
+        $mockAuthFactory = $this->getMockBuilder('Magento\Authorization\Factory')
             ->disableOriginalConstructor()
             ->getMock();
 

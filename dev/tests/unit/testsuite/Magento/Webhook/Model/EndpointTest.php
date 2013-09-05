@@ -129,7 +129,7 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
         if (!$hasAuthType) {
             $this->_endpoint->expects($this->once())
                 ->method('setAuthenticationType')
-                ->with($this->equalTo(Magento_Outbound_EndpointInterface::AUTH_TYPE_NONE));
+                ->with($this->equalTo(\Magento\Outbound\EndpointInterface::AUTH_TYPE_NONE));
         } else {
             $this->_endpoint->expects($this->never())
                 ->method('setAuthenticationType');

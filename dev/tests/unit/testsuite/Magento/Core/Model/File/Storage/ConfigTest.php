@@ -41,7 +41,7 @@ class Magento_Core_Model_File_Storage_ConfigTest extends PHPUnit_Framework_TestC
              ->will($this->returnValue($this->_config));
         $this->_streamFactoryMock =
             $this->getMock('Magento_Filesystem_Stream_LocalFactory', array('create'), array(), '', false);
-        $this->_streamMock = $this->getMock('Magento_Filesystem_StreamInterface');
+        $this->_streamMock = $this->getMock('Magento\Filesystem\StreamInterface');
         $this->_streamFactoryMock
             ->expects($this->any())->method('create')->will($this->returnValue($this->_streamMock));
         $this->_model = new Magento_Core_Model_File_Storage_Config(

@@ -7,49 +7,46 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_webapi_role_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_webapi_role_grid_block">
         <reference name="webapi_role.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" as="grid" name="webapi.role.grid">
+            <block class="Magento_Backend_Block_Widget_Grid" as="grid" name="webapi.role.grid">
                 <arguments>
-                    <id>webapiRoleGrid</id>
-                    <dataSource type="object">Magento_Webapi_Model_Resource_Acl_Role_Collection</dataSource>
-                    <use_ajax>true</use_ajax>
-                    <default_sort>role_id</default_sort>
-                    <default_dir>asc</default_dir>
-                    <grid_url type="url">
-                        <path>*/*/rolegrid</path>
-                        <params>
-                            <_current>1</_current>
-                        </params>
-                    </grid_url>
+                    <argument name="id" xsi:type="string">webapiRoleGrid</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Webapi_Model_Resource_Acl_Role_Collection</argument>
+                    <argument name="use_ajax" xsi:type="string">true</argument>
+                    <argument name="default_sort" xsi:type="string">role_id</argument>
+                    <argument name="default_dir" xsi:type="string">asc</argument>
+                    <argument name="grid_url" xsi:type="url" path="*/*/rolegrid">
+                        <param name="_current">1</param>
+                    </argument>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="webapi.role.grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="webapi.role.grid.columnSet">
                     <arguments>
-                        <rowUrl>
-                            <path>*/*/edit</path>
-                            <extraParamsTemplate>
-                                <role_id>getId</role_id>
-                            </extraParamsTemplate>
-                        </rowUrl>
-                        <empty_text translate="true">No Roles Found</empty_text>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="role_id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
+                        <argument name="empty_text" xsi:type="string" translate="true">No Roles Found</argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="role_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_id">
                         <arguments>
-                            <header translate="true">ID</header>
-                            <width>80px</width>
-                            <type>text</type>
-                            <index>role_id</index>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
+                            <argument name="width" xsi:type="string">80px</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">role_id</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="role_name">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_name">
                         <arguments>
-                            <header translate="true">Role Name</header>
-                            <index>role_name</index>
+                            <argument name="header" xsi:type="string" translate="true">Role Name</argument>
+                            <argument name="index" xsi:type="string">role_name</argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_webapi_role_grid_block>
+    </handle>
 </layout>

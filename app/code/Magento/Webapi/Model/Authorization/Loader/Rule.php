@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_Loader_Rule implements Magento_Acl_LoaderInterface
+class Magento_Webapi_Model_Authorization_Loader_Rule implements \Magento\Acl\LoaderInterface
 {
     /**
      * @var Magento_Webapi_Model_Resource_Acl_Rule
@@ -25,9 +25,9 @@ class Magento_Webapi_Model_Authorization_Loader_Rule implements Magento_Acl_Load
     /**
      * Populate ACL with rules from external storage.
      *
-     * @param Magento_Acl $acl
+     * @param \Magento\Acl $acl
      */
-    public function populateAcl(Magento_Acl $acl)
+    public function populateAcl(\Magento\Acl $acl)
     {
         $ruleList = $this->_ruleResource->getRuleList();
         foreach ($ruleList as $rule) {

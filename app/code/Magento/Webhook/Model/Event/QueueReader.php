@@ -10,7 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Event_QueueReader implements Magento_PubSub_Event_QueueReaderInterface
+class Magento_Webhook_Model_Event_QueueReader implements \Magento\PubSub\Event\QueueReaderInterface
 {
     /** @var ArrayIterator */
     protected $_iterator;
@@ -28,7 +28,7 @@ class Magento_Webhook_Model_Event_QueueReader implements Magento_PubSub_Event_Qu
     /**
      * Get the top event from the queue.
      *
-     * @return Magento_PubSub_EventInterface|null
+     * @return \Magento\PubSub\EventInterface|null
      */
     public function poll()
     {

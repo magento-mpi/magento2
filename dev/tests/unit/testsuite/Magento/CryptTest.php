@@ -3,14 +3,14 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Crypt
+ * @package     \Magento\Crypt
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test case for Magento_Crypt
+ * Test case for \Magento\Crypt
  */
 class Magento_CryptTest extends PHPUnit_Framework_TestCase
 {
@@ -97,7 +97,7 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
         /* Generate random init vector */
         $initVector = $this->_getRandomString($this->_getInitVectorSize($cipher, $mode));
 
-        $crypt = new Magento_Crypt($this->_key, $cipher, $mode, $initVector);
+        $crypt = new \Magento\Crypt($this->_key, $cipher, $mode, $initVector);
 
         $this->assertEquals($cipher, $crypt->getCipher());
         $this->assertEquals($mode, $crypt->getMode());
@@ -122,17 +122,17 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getConstructorExceptionData
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      */
     public function testConstructorException($key, $cipher, $mode, $initVector)
     {
-        new Magento_Crypt($key, $cipher, $mode, $initVector);
+        new \Magento\Crypt($key, $cipher, $mode, $initVector);
     }
 
     public function testConstructorDefaults()
     {
-        $cryptExpected = new Magento_Crypt($this->_key, MCRYPT_BLOWFISH, MCRYPT_MODE_ECB, false);
-        $cryptActual = new Magento_Crypt($this->_key);
+        $cryptExpected = new \Magento\Crypt($this->_key, MCRYPT_BLOWFISH, MCRYPT_MODE_ECB, false);
+        $cryptActual = new \Magento\Crypt($this->_key);
 
         $this->assertEquals($cryptExpected->getCipher(), $cryptActual->getCipher());
         $this->assertEquals($cryptExpected->getMode(), $cryptActual->getMode());
@@ -149,7 +149,7 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
                 foreach ($this->_supportedModes as $mode) {
                     $randomKey = $this->_getRandomString($this->_getKeySize($cipher, $mode));
                     $randomInitVector = $this->_getRandomString($this->_getInitVectorSize($cipher, $mode));
-                    $crypt = new Magento_Crypt($randomKey, $cipher, $mode, $randomInitVector);
+                    $crypt = new \Magento\Crypt($randomKey, $cipher, $mode, $randomInitVector);
                     $fixtures[] = array(
                         $randomKey, // Encryption key
                         $cipher,
@@ -177,7 +177,7 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
      */
     public function testEncrypt($key, $cipher, $mode, $initVector, $inputData, $expectedData)
     {
-        $crypt = new Magento_Crypt($key, $cipher, $mode, $initVector);
+        $crypt = new \Magento\Crypt($key, $cipher, $mode, $initVector);
         $actualData = $crypt->encrypt($inputData);
         $this->assertEquals($expectedData, $actualData);
     }
@@ -187,7 +187,7 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
      */
     public function testDecrypt($key, $cipher, $mode, $initVector, $expectedData, $inputData)
     {
-        $crypt = new Magento_Crypt($key, $cipher, $mode, $initVector);
+        $crypt = new \Magento\Crypt($key, $cipher, $mode, $initVector);
         $actualData = $crypt->decrypt($inputData);
         $this->assertEquals($expectedData, $actualData);
     }
@@ -197,10 +197,10 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
      */
     public function testInitVectorRandom($cipher, $mode)
     {
-        $crypt1 = new Magento_Crypt($this->_key, $cipher, $mode, true);
+        $crypt1 = new \Magento\Crypt($this->_key, $cipher, $mode, true);
         $initVector1 = $crypt1->getInitVector();
 
-        $crypt2 = new Magento_Crypt($this->_key, $cipher, $mode, true);
+        $crypt2 = new \Magento\Crypt($this->_key, $cipher, $mode, true);
         $initVector2 = $crypt2->getInitVector();
 
         $expectedSize = $this->_getInitVectorSize($cipher, $mode);
@@ -214,7 +214,7 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
      */
     public function testInitVectorNone($cipher, $mode)
     {
-        $crypt = new Magento_Crypt($this->_key, $cipher, $mode, false);
+        $crypt = new \Magento\Crypt($this->_key, $cipher, $mode, false);
         $actualInitVector = $crypt->getInitVector();
 
         $expectedInitVector = str_repeat("\0", $this->_getInitVectorSize($cipher, $mode));

@@ -54,7 +54,7 @@ class Magento_Core_Model_Resource_Config extends Magento_Core_Model_Resource_Db_
         $stores = array();
         $select = $read->select()
             ->from($this->getTable('core_store'), array('store_id', 'code', 'name', 'website_id'))
-            ->order('sort_order ' . Magento_DB_Select::SQL_ASC);
+            ->order('sort_order ' . \Magento\DB\Select::SQL_ASC);
         $rowset = $read->fetchAssoc($select);
         foreach ($rowset as $s) {
             if (!isset($websites[$s['website_id']])) {

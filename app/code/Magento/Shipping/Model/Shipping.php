@@ -344,11 +344,11 @@ class Magento_Shipping_Model_Shipping
     /**
      * Collect rates by address
      *
-     * @param Magento_Object $address
+     * @param \Magento\Object $address
      * @param null|bool|array $limitCarrier
      * @return Magento_Shipping_Model_Shipping
      */
-    public function collectRatesByAddress(Magento_Object $address, $limitCarrier = null)
+    public function collectRatesByAddress(\Magento\Object $address, $limitCarrier = null)
     {
         /** @var $request Magento_Shipping_Model_Rate_Request */
         $request = Mage::getModel('Magento_Shipping_Model_Rate_Request');
@@ -411,7 +411,7 @@ class Magento_Shipping_Model_Shipping
      * Prepare and do request to shipment
      *
      * @param Magento_Sales_Model_Order_Shipment $orderShipment
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function requestToShipment(Magento_Sales_Model_Order_Shipment $orderShipment)
     {
@@ -434,7 +434,7 @@ class Magento_Shipping_Model_Shipping
 
         $originStreet1 = Mage::getStoreConfig(self::XML_PATH_STORE_ADDRESS1, $shipmentStoreId);
         $originStreet2 = Mage::getStoreConfig(self::XML_PATH_STORE_ADDRESS2, $shipmentStoreId);
-        $storeInfo = new Magento_Object(Mage::getStoreConfig('general/store_information', $shipmentStoreId));
+        $storeInfo = new \Magento\Object(Mage::getStoreConfig('general/store_information', $shipmentStoreId));
 
         if (!$admin->getFirstname() || !$admin->getLastname() || !$storeInfo->getName() || !$storeInfo->getPhone()
             || !$originStreet1 || !Mage::getStoreConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId)

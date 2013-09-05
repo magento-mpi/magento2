@@ -26,7 +26,7 @@ class Magento_Core_Model_Resource_File_Storage_File
     protected $_mediaBaseDirectory = null;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
@@ -41,12 +41,12 @@ class Magento_Core_Model_Resource_File_Storage_File
     protected $_logger;
 
     /**
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Helper_File_Storage_Database $dbHelper
      * @param Magento_Core_Model_Logger $log
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Helper_File_Storage_Database $dbHelper,
         Magento_Core_Model_Logger $log
     ) {
@@ -174,7 +174,7 @@ class Magento_Core_Model_Resource_File_Storage_File
                 $this->_filesystem->write($filePath, $content);
                 return true;
             }
-        } catch (Magento_Filesystem_Exception $e) {
+        } catch (\Magento\Filesystem\FilesystemException $e) {
             $this->_logger->log($e->getMessage());
             Mage::throwException(__('Unable to save file: %1', $filePath));
         }
@@ -190,6 +190,6 @@ class Magento_Core_Model_Resource_File_Storage_File
      */
     protected function _getRelativePath($path)
     {
-        return ltrim(str_replace($this->getMediaBaseDirectory(), '', $path), Magento_Filesystem::DIRECTORY_SEPARATOR);
+        return ltrim(str_replace($this->getMediaBaseDirectory(), '', $path), \Magento\Filesystem::DIRECTORY_SEPARATOR);
     }
 }

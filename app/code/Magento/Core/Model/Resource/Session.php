@@ -35,7 +35,7 @@ class Magento_Core_Model_Resource_Session implements Zend_Session_SaveHandler_In
     /**
      * Database write connection
      *
-     * @var Magento_DB_Adapter_Interface
+     * @var \Magento\DB\Adapter\AdapterInterface
      */
     protected $_write;
 

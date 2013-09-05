@@ -19,12 +19,12 @@ class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishl
     protected $_registryManager;
 
     /**
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Db_Abstract $resource
     ) {
@@ -52,7 +52,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishl
      *
      * @param   string $field
      * @param   string $direction
-     * @return  Magento_Data_Collection_Db
+     * @return  \Magento\Data\Collection\Db
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -74,7 +74,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishl
      *
      * @param string|array $field
      * @param null|string|array $condition
-     * @return Magento_Data_Collection_Db
+     * @return \Magento\Data\Collection\Db
      */
     public function addFieldToFilter($field, $condition = null)
     {

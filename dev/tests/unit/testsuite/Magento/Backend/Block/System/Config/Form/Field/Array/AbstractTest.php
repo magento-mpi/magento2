@@ -26,7 +26,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Array_AbstractTest extends 
         $block->expects($this->any())
             ->method('escapeHtml')
             ->will($this->returnArgument(0));
-        $element = new Magento_Data_Form_Element_Multiselect();
+        $element = new \Magento\Data\Form\Element\Multiselect();
         $element->setValue(array(
             array(
                 'test' => 'test',
@@ -36,7 +36,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Array_AbstractTest extends 
         $block->setElement($element);
         $this->assertEquals(
             array(
-                new Magento_Object(array(
+                new \Magento\Object(array(
                     'test' => 'test',
                     'data1' => 'data1',
                     '_id' => 0,

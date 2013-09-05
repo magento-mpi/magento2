@@ -3,32 +3,32 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Image
+ * @package     \Magento\Image
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Magento_Image_Adapter_Abstract.
+ * Test class for \Magento\Image\Adapter\AbstractAdapter.
  */
 class Magento_Image_Adapter_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Image_Adapter_Abstract
+     * @var \Magento\Image\Adapter\AbstractAdapter
      */
     protected $_model;
 
     protected function setUp()
     {
         parent::setUp();
-        $ioFile = $this->getMock('Magento_Io_File', array('mkdir'));
+        $ioFile = $this->getMock('Magento\Io\File', array('mkdir'));
         $ioFile->expects($this->any())
             ->method('mkdir')
             ->will($this->returnValue(true));
 
         $data = array('io' => $ioFile);
-        $this->_model = $this->getMockForAbstractClass('Magento_Image_Adapter_Abstract', array($data));
+        $this->_model = $this->getMockForAbstractClass('\Magento\Image\Adapter\AbstractAdapter', array($data));
     }
 
     /**

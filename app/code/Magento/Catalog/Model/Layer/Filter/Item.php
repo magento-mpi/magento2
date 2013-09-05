@@ -15,7 +15,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Layer_Filter_Item extends Magento_Object
+class Magento_Catalog_Model_Layer_Filter_Item extends \Magento\Object
 {
     /**
      * Get filter instance

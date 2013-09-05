@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <MAP_popup>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="MAP_popup">
         <reference name="content">
-            <block type="Magento_Core_Block_Template" template="Magento_Catalog::msrp/popup.phtml" name="product.tooltip"/>
+            <block class="Magento_Core_Block_Template" template="Magento_Catalog::msrp/popup.phtml" name="product.tooltip"/>
         </reference>
-    </MAP_popup>
+    </handle>
 </layout>

@@ -29,14 +29,14 @@ class Magento_Code_Generator_ClassTest extends PHPUnit_Framework_TestCase
 
     public function testGenerateForConstructor()
     {
-        $generatorMock = $this->getMock('Magento_Code_Generator', array('generateClass'), array(), '', false);
+        $generatorMock = $this->getMock('Magento\Code\Generator', array('generateClass'), array(), '', false);
         foreach ($this->_expectedArguments as $order => $class) {
             $generatorMock->expects($this->at($order))
                 ->method('generateClass')
                 ->with($class);
         }
 
-        $classGenerator = new Magento_Code_Generator_Class($generatorMock);
+        $classGenerator = new \Magento\Code\Generator\ClassGenerator($generatorMock);
         $classGenerator->generateForConstructor(self::TEST_CLASS_NAME);
     }
 }

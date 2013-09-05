@@ -155,7 +155,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
 
             $group = $option->groupFactory($option->getType())
                 ->setOption($option)
-                ->setRequest(new Magento_Object($request))
+                ->setRequest(new \Magento\Object($request))
                 ->setProduct($productMock)
                 ->setUseQuotePath(true)
                 ->setQuoteItemOption($quoteItemOptionMock)
@@ -270,30 +270,30 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
         $this->setChild('pager', $pager);
 
         $this->setGridColumns(array(
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'increment_id',
                 'title' => __('Order #'),
                 'is_nobr' => true,
                 'width' => 1,
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'created_at',
                 'title' => __('Date'),
                 'is_nobr' => true,
                 'width' => 1,
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'customer_name',
                 'title' => __('Customer Name'),
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'base_grand_total',
                 'title' => __('Order Total'),
                 'is_nobr' => true,
                 'width' => 1,
                 'is_amount' => true,
             )),
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'index' => 'status',
                 'title' => __('Order Status'),
                 'is_nobr' => true,
@@ -303,7 +303,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
 
         $orders = array();
         foreach ($this->_relatedOrders as $order) {
-            $orders[] = new Magento_Object(array(
+            $orders[] = new \Magento\Object(array(
                 'increment_id' => $order->getIncrementId(),
                 'created_at' => $this->formatDate($order->getCreatedAt()),
                 'customer_name' => $order->getCustomerName(),
@@ -322,10 +322,10 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
     /**
      * Get rendered row value
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function renderRowValue(Magento_Object $row)
+    public function renderRowValue(\Magento\Object $row)
     {
         $value = $row->getValue();
         if (is_array($value)) {
@@ -361,7 +361,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
      */
     protected function _addInfo(array $data, $key = null)
     {
-        $object = new Magento_Object($data);
+        $object = new \Magento\Object($data);
         if ($key) {
             $this->_info[$key] = $object;
         } else {

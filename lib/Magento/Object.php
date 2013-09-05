@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Object
+ * @package    \Magento\Object
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -13,10 +13,12 @@
  * Universal data container with array access implementation
  *
  * @category    Magento
- * @package     Magento_Object
+ * @package     \Magento\Object
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Object implements ArrayAccess
+namespace Magento;
+
+class Object implements \ArrayAccess
 {
 
     /**
@@ -105,7 +107,7 @@ class Magento_Object implements ArrayAccess
      * Id field name setter
      *
      * @param  string $name
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function setIdFieldName($name)
     {
@@ -137,7 +139,7 @@ class Magento_Object implements ArrayAccess
      * Identifier setter
      *
      * @param   mixed $value
-     * @return  Magento_Object
+     * @return  \Magento\Object
      */
     public function setId($value)
     {
@@ -151,7 +153,7 @@ class Magento_Object implements ArrayAccess
      * Retains previous data in the object.
      *
      * @param array $arr
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function addData(array $arr)
     {
@@ -171,7 +173,7 @@ class Magento_Object implements ArrayAccess
      *
      * @param string|array  $key
      * @param mixed         $value
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function setData($key, $value = null)
     {
@@ -193,7 +195,7 @@ class Magento_Object implements ArrayAccess
      * Unset data from the object.
      *
      * @param null|string|array $key
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function unsetData($key = null)
     {
@@ -246,7 +248,7 @@ class Magento_Object implements ArrayAccess
             } elseif (is_string($data)) {
                 $data = explode("\n", $data);
                 $data = isset($data[$index]) ? $data[$index] : null;
-            } elseif ($data instanceof Magento_Object) {
+            } elseif ($data instanceof \Magento\Object) {
                 $data = $data->getData($index);
             } else {
                 $data = null;
@@ -271,7 +273,7 @@ class Magento_Object implements ArrayAccess
         foreach ($keys as $key) {
             if (is_array($data) && isset($data[$key])) {
                 $data = $data[$key];
-            } elseif ($data instanceof Magento_Object) {
+            } elseif ($data instanceof \Magento\Object) {
                 $data = $data->getDataByKey($key);
             } else {
                 return null;
@@ -307,7 +309,7 @@ class Magento_Object implements ArrayAccess
      *
      * @param string $key
      * @param mixed $args
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function setDataUsingMethod($key, $args = array())
     {
@@ -450,7 +452,7 @@ class Magento_Object implements ArrayAccess
     public function toJson(array $keys = array())
     {
         $data = $this->toArray($keys);
-        return Zend_Json::encode($data);
+        return \Zend_Json::encode($data);
     }
 
     /**
@@ -511,7 +513,7 @@ class Magento_Object implements ArrayAccess
                 $key = $this->_underscore(substr($method, 3));
                 return isset($this->_data[$key]);
         }
-        throw new Magento_Exception(
+        throw new \Magento\Exception(
             sprintf('Invalid method %s::%s(%s)', get_class($this), $method, print_r($args, 1))
         );
     }
@@ -582,7 +584,7 @@ class Magento_Object implements ArrayAccess
      *
      * @param string $key
      * @param mixed $data
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function setOrigData($key = null, $data = null)
     {
@@ -625,7 +627,7 @@ class Magento_Object implements ArrayAccess
      * Clears data changes status
      *
      * @param boolean $value
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function setDataChanges($value)
     {
@@ -656,7 +658,7 @@ class Magento_Object implements ArrayAccess
                 $debug[$key] = $value;
             } elseif (is_array($value)) {
                 $debug[$key] = $this->debug($value, $objects);
-            } elseif ($value instanceof Magento_Object) {
+            } elseif ($value instanceof \Magento\Object) {
                 $debug[$key . ' (' . get_class($value) . ')'] = $value->debug(null, $objects);
             }
         }
@@ -664,7 +666,7 @@ class Magento_Object implements ArrayAccess
     }
 
     /**
-     * Implementation of ArrayAccess::offsetSet()
+     * Implementation of \ArrayAccess::offsetSet()
      *
      * @link http://www.php.net/manual/en/arrayaccess.offsetset.php
      * @param string $offset
@@ -676,7 +678,7 @@ class Magento_Object implements ArrayAccess
     }
 
     /**
-     * Implementation of ArrayAccess::offsetExists()
+     * Implementation of \ArrayAccess::offsetExists()
      *
      * @link http://www.php.net/manual/en/arrayaccess.offsetexists.php
      * @param string $offset
@@ -688,7 +690,7 @@ class Magento_Object implements ArrayAccess
     }
 
     /**
-     * Implementation of ArrayAccess::offsetUnset()
+     * Implementation of \ArrayAccess::offsetUnset()
      *
      * @link http://www.php.net/manual/en/arrayaccess.offsetunset.php
      * @param string $offset
@@ -699,7 +701,7 @@ class Magento_Object implements ArrayAccess
     }
 
     /**
-     * Implementation of ArrayAccess::offsetGet()
+     * Implementation of \ArrayAccess::offsetGet()
      *
      * @link http://www.php.net/manual/en/arrayaccess.offsetget.php
      * @param string $offset

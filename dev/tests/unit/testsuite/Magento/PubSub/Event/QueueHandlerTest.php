@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_PubSub_Event_QueueHandler
+ * \Magento\PubSub\Event\QueueHandler
  *
  * {license_notice}
  *
@@ -12,7 +12,7 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
     const TOPIC = 'some_topic';
     const ANOTHER_TOPIC = 'some_other_topic';
 
-    /** @var  Magento_PubSub_Event_QueueHandler */
+    /** @var  \Magento\PubSub\Event\QueueHandler */
     private $_queueHandler;
 
     /** @var  PHPUnit_Framework_MockObject_MockObject */
@@ -123,7 +123,7 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
 
     public function testHandle()
     {
-        $this->_queueHandler = new Magento_PubSub_Event_QueueHandler(
+        $this->_queueHandler = new \Magento\PubSub\Event\QueueHandler(
             $this->_eventQueueMock,
             $this->_jobQueueMock,
             $this->_jobFactoryMock,

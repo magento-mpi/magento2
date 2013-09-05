@@ -18,7 +18,7 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Magento_Checkout_Model_Cart_Interface
+class Magento_AdvancedCheckout_Model_Cart extends \Magento\Object implements Magento_Checkout_Model_Cart_Interface
 {
     /**
      * Context of the cart - admin order
@@ -116,7 +116,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
      */
     public function setCustomer($customer)
     {
-        if ($customer instanceof Magento_Object && $customer->getId()) {
+        if ($customer instanceof \Magento\Object && $customer->getId()) {
             $this->_customer = $customer;
             $this->_quote = null;
         }
@@ -292,18 +292,18 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
      * In case of newer behaviour same product ids with different configs are added as separate quote items.
      *
      * @param   mixed $product
-     * @param   array|float|int|Magento_Object $config
+     * @param   array|float|int|\Magento\Object $config
      * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
     public function addProduct($product, $config = 1)
     {
-        if (is_array($config) || ($config instanceof Magento_Object)) {
-            $config = is_array($config) ? new Magento_Object($config) : $config;
+        if (is_array($config) || ($config instanceof \Magento\Object)) {
+            $config = is_array($config) ? new \Magento\Object($config) : $config;
             $qty = (float) $config->getQty();
             $separateSameProducts = true;
         } else {
             $qty = (float) $config;
-            $config = new Magento_Object();
+            $config = new \Magento\Object();
             $config->setQty($qty);
             $separateSameProducts = false;
         }
@@ -368,7 +368,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
 
         if ($product->getId()) {
             $info = $orderItem->getProductOptionByCode('info_buyRequest');
-            $info = new Magento_Object($info);
+            $info = new \Magento\Object($info);
             $product->setSkipCheckRequiredOption(true);
             $item = $this->createQuote()->addProduct($product, $info);
             if (is_string($item)) {
@@ -378,7 +378,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
             $item->setQty($qty);
 
             if ($additionalOptions = $orderItem->getProductOptionByCode('additional_options')) {
-                $item->addOption(new Magento_Object(
+                $item->addOption(new \Magento\Object(
                     array(
                         'product'   => $item->getProduct(),
                         'code'      => 'additional_options',
@@ -474,7 +474,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
 
         foreach ($data as $itemId => $info) {
             if (!empty($info['configured'])) {
-                $item = $this->getQuote()->updateItem($itemId, new Magento_Object($info));
+                $item = $this->getQuote()->updateItem($itemId, new \Magento\Object($info));
                 $itemQty = (float) $item->getQty();
             } else {
                 $item = $this->getQuote()->getItemById($itemId);

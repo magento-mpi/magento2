@@ -15,7 +15,9 @@
  * @package     Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Collection implements IteratorAggregate, Countable
+namespace Magento\Data;
+
+class Collection implements \IteratorAggregate, \Countable
 {
     const SORT_ORDER_ASC    = 'ASC';
     const SORT_ORDER_DESC   = 'DESC';
@@ -32,7 +34,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      *
      * @var string
      */
-    protected $_itemObjectClass = 'Magento_Object';
+    protected $_itemObjectClass = '\Magento\Object';
 
     /**
      * Order configuration
@@ -106,7 +108,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      */
     public function addFilter($field, $value, $type = 'and')
     {
-        $filter = new Magento_Object(); // implements ArrayAccess
+        $filter = new \Magento\Object(); // implements \ArrayAccess
         $filter['field']   = $field;
         $filter['value']   = $value;
         $filter['type']    = strtolower($type);
@@ -126,7 +128,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      * - array() -- get all filters
      *
      * @param string|array $field
-     * @return Magento_Object|array|null
+     * @return \Magento\Object|array|null
      */
     public function getFilter($field)
     {
@@ -239,7 +241,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Retrieve collection first item
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getFirstItem()
     {
@@ -250,13 +252,13 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
             return current($this->_items);
         }
 
-        return Mage::getModel($this->_itemObjectClass);
+        return \Mage::getModel($this->_itemObjectClass);
     }
 
     /**
      * Retrieve collection last item
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getLastItem()
     {
@@ -266,7 +268,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
             return end($this->_items);
         }
 
-        return Mage::getModel($this->_itemObjectClass);
+        return \Mage::getModel($this->_itemObjectClass);
     }
 
     /**
@@ -322,7 +324,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      *
      * @param   string $column
      * @param   mixed $value
-     * @return  Magento_Object || null
+     * @return  \Magento\Object || null
      */
     public function getItemByColumnValue($column, $value)
     {
@@ -339,16 +341,16 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Adding item to item array
      *
-     * @param   Magento_Object $item
-     * @return  Magento_Data_Collection
+     * @param   \Magento\Object $item
+     * @return  \Magento\Data\Collection
      */
-    public function addItem(Magento_Object $item)
+    public function addItem(\Magento\Object $item)
     {
         $itemId = $this->_getItemId($item);
 
         if (!is_null($itemId)) {
             if (isset($this->_items[$itemId])) {
-                throw new Exception('Item ('.get_class($item).') with the same id "'.$item->getId().'" already exist');
+                throw new \Exception('Item ('.get_class($item).') with the same id "'.$item->getId().'" already exist');
             }
             $this->_items[$itemId] = $item;
         } else {
@@ -360,8 +362,8 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Add item that has no id to collection
      *
-     * @param Magento_Object $item
-     * @return Magento_Data_Collection
+     * @param \Magento\Object $item
+     * @return \Magento\Data\Collection
      */
     protected function _addItem($item)
     {
@@ -372,10 +374,10 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Retrieve item id
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return mixed
      */
-    protected function _getItemId(Magento_Object $item)
+    protected function _getItemId(\Magento\Object $item)
     {
         return $item->getId();
     }
@@ -398,7 +400,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      * Remove item from collection by item key
      *
      * @param   mixed $key
-     * @return  Magento_Data_Collection
+     * @return  \Magento\Data\Collection
      */
     public function removeItemByKey($key)
     {
@@ -411,7 +413,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Remove all items from collection
      *
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function removeAllItems()
     {
@@ -422,7 +424,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Clear collection
      *
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function clear()
     {
@@ -469,7 +471,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      *
      * @param   mixed $key
      * @param   mixed $value
-     * @return  Magento_Data_Collection
+     * @return  \Magento\Data\Collection
      */
     public function setDataToAll($key, $value=null)
     {
@@ -489,7 +491,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      * Set current page
      *
      * @param   int $page
-     * @return  Magento_Data_Collection
+     * @return  \Magento\Data\Collection
      */
     public function setCurPage($page)
     {
@@ -501,7 +503,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      * Set collection page size
      *
      * @param   int $size
-     * @return  Magento_Data_Collection
+     * @return  \Magento\Data\Collection
      */
     public function setPageSize($size)
     {
@@ -514,7 +516,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      *
      * @param   string $field
      * @param   string $direction
-     * @return  Magento_Data_Collection
+     * @return  \Magento\Data\Collection
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -526,15 +528,15 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      * Set collection item class name
      *
      * @param   string $className
-     * @return  Magento_Data_Collection
+     * @return  \Magento\Data\Collection
      */
     function setItemObjectClass($className)
     {
         /**
-         * is_subclass_of($className, 'Magento_Object') - Segmentation fault in php 5.2.3
+         * is_subclass_of($className, '\Magento\Object') - Segmentation fault in php 5.2.3
          */
-        /*if (!is_subclass_of($className, 'Magento_Object')) {
-            throw new Exception($className.' does not extends from Magento_Object');
+        /*if (!is_subclass_of($className, '\Magento\Object')) {
+            throw new \Exception($className.' does not extends from \Magento\Object');
         }*/
         $this->_itemObjectClass = $className;
         return $this;
@@ -543,17 +545,17 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Retrieve collection empty item
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getNewEmptyItem()
     {
-        return Mage::getModel($this->_itemObjectClass);
+        return \Mage::getModel($this->_itemObjectClass);
     }
 
     /**
      * Render sql select conditions
      *
-     * @return  Magento_Data_Collection
+     * @return  \Magento\Data\Collection
      */
     protected function _renderFilters()
     {
@@ -563,7 +565,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Render sql select orders
      *
-     * @return  Magento_Data_Collection
+     * @return  \Magento\Data\Collection
      */
     protected function _renderOrders()
     {
@@ -573,7 +575,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Render sql select limit
      *
-     * @return  Magento_Data_Collection
+     * @return  \Magento\Data\Collection
      */
     protected function _renderLimit()
     {
@@ -593,7 +595,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Load data
      *
-     * @return  Magento_Data_Collection
+     * @return  \Magento\Data\Collection
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
@@ -603,7 +605,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Load data
      *
-     * @return  Magento_Data_Collection
+     * @return  \Magento\Data\Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -710,7 +712,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      * Retrieve item by id
      *
      * @param   mixed $idValue
-     * @return  Magento_Object
+     * @return  \Magento\Object
      */
     public function getItemById($idValue)
     {
@@ -722,12 +724,12 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     }
 
     /**
-     * Implementation of IteratorAggregate::getIterator()
+     * Implementation of \IteratorAggregate::getIterator()
      */
     public function getIterator()
     {
         $this->load();
-        return new ArrayIterator($this->_items);
+        return new \ArrayIterator($this->_items);
     }
 
     /**
@@ -757,7 +759,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      *
      * @param string $flag
      * @param mixed $value
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function setFlag($flag, $value = null)
     {

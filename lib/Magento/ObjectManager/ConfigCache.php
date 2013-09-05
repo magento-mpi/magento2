@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-interface Magento_ObjectManager_ConfigCache
+namespace Magento\ObjectManager;
+
+interface ConfigCache
 {
     /**
      * Retrieve configuration from cache

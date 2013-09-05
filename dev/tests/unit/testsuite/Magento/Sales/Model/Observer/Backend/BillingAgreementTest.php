@@ -25,8 +25,8 @@ class Magento_Sales_Model_Observer_Backend_BillingAgreementTest extends PHPUnit_
 
     public function setUp()
     {
-        $this->_authorizationMock = $this->getMock('Magento_AuthorizationInterface');
-        $this->_observerMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
+        $this->_authorizationMock = $this->getMock('Magento\AuthorizationInterface');
+        $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_model = new Magento_Sales_Model_Observer_Backend_BillingAgreement(
             $this->_authorizationMock
         );
@@ -34,7 +34,7 @@ class Magento_Sales_Model_Observer_Backend_BillingAgreementTest extends PHPUnit_
 
     public function testDispatchIfMethodInterfaceNotAgreement()
     {
-        $event = $this->getMock('Magento_Event', array('getMethodInstance'), array(), '', false);
+        $event = $this->getMock('Magento\Event', array('getMethodInstance'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getMethodInstance')->will($this->returnValue('some incorrect value'));
         $event->expects($this->never())->method('isAvailable');
@@ -43,7 +43,7 @@ class Magento_Sales_Model_Observer_Backend_BillingAgreementTest extends PHPUnit_
 
     public function testDispatchIfMethodInterfaceAgreement()
     {
-        $event = $this->getMock('Magento_Event', array('getMethodInstance', 'getResult'), array(), '', false);
+        $event = $this->getMock('Magento\Event', array('getMethodInstance', 'getResult'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $methodInstance = $this->getMock('Magento_Paypal_Model_Method_Agreement', array(), array(), '', false);
         $event->expects($this->once())->method('getMethodInstance')->will($this->returnValue($methodInstance));

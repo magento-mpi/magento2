@@ -144,7 +144,7 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
             }
 
             if ($this->_eventPrefix && $this->_eventObject) {
-                $proxy = new Magento_Object();
+                $proxy = new \Magento\Object();
                 $proxy->setIds($ids)
                     ->setData($this->_eventObject, $this);
 
@@ -170,7 +170,7 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
      * @param array $ids
      * @param array $flatColumnsToSelect
      * @param array|null $gridColumns
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getUpdateGridRecordsSelect($ids, &$flatColumnsToSelect, $gridColumns = null)
     {
@@ -325,7 +325,7 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
             $this->beginTransaction();
             try {
                 $this->_beforeSaveAttribute($object, $attribute);
-                $data = new Magento_Object();
+                $data = new \Magento\Object();
                 foreach ($attribute as $code) {
                     $data->setData($code, $object->getData($code));
                 }
@@ -351,7 +351,7 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
     /**
      * Perform actions before object save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Sales_Model_Resource_Order_Abstract
      */
     protected function _beforeSave(Magento_Core_Model_Abstract $object)

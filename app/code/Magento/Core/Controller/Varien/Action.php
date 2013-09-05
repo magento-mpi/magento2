@@ -37,7 +37,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
     const XML_PAGE_TYPE_RENDER_INHERITED = 'global/dev/page_type/render_inherited';
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -187,8 +187,8 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      */
     public function getLayout()
     {
-        /** @var Magento_Config_ScopeInterface $configScope */
-        $configScope = $this->_objectManager->get('Magento_Config_ScopeInterface');
+        /** @var \Magento\Config\ScopeInterface $configScope */
+        $configScope = $this->_objectManager->get('Magento\Config\ScopeInterface');
         $this->_layout->setArea($configScope->getCurrentScope());
         return $this->_layout;
     }
@@ -275,7 +275,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      */
     public function loadLayoutUpdates()
     {
-        Magento_Profiler::start('LAYOUT');
+        \Magento\Profiler::start('LAYOUT');
 
         // dispatch event for adding handles to layout update
         $this->_eventManager->dispatch(
@@ -284,11 +284,11 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         );
 
         // load layout updates by specified handles
-        Magento_Profiler::start('layout_load');
+        \Magento\Profiler::start('layout_load');
         $this->getLayout()->getUpdate()->load();
-        Magento_Profiler::stop('layout_load');
+        \Magento\Profiler::stop('layout_load');
 
-        Magento_Profiler::stop('LAYOUT');
+        \Magento\Profiler::stop('LAYOUT');
         return $this;
     }
 
@@ -299,7 +299,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      */
     public function generateLayoutXml()
     {
-        Magento_Profiler::start('LAYOUT');
+        \Magento\Profiler::start('LAYOUT');
 
         // dispatch event for adding text layouts
         if (!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
@@ -310,11 +310,11 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         }
 
         // generate xml from collected text updates
-        Magento_Profiler::start('layout_generate_xml');
+        \Magento\Profiler::start('layout_generate_xml');
         $this->getLayout()->generateXml();
-        Magento_Profiler::stop('layout_generate_xml');
+        \Magento\Profiler::stop('layout_generate_xml');
 
-        Magento_Profiler::stop('LAYOUT');
+        \Magento\Profiler::stop('LAYOUT');
         return $this;
     }
 
@@ -325,7 +325,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      */
     public function generateLayoutBlocks()
     {
-        Magento_Profiler::start('LAYOUT');
+        \Magento\Profiler::start('LAYOUT');
 
         // dispatch event for adding xml layout elements
         if (!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
@@ -336,9 +336,9 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         }
 
         // generate blocks from xml layout
-        Magento_Profiler::start('layout_generate_blocks');
+        \Magento\Profiler::start('layout_generate_blocks');
         $this->getLayout()->generateElements();
-        Magento_Profiler::stop('layout_generate_blocks');
+        \Magento\Profiler::stop('layout_generate_blocks');
 
         if (!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
             $this->_eventManager->dispatch(
@@ -347,7 +347,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
             );
         }
 
-        Magento_Profiler::stop('LAYOUT');
+        \Magento\Profiler::stop('LAYOUT');
         return $this;
     }
 
@@ -367,11 +367,11 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
             return;
         }
 
-        Magento_Profiler::start('LAYOUT');
+        \Magento\Profiler::start('LAYOUT');
 
         $this->_renderTitles();
 
-        Magento_Profiler::start('layout_render');
+        \Magento\Profiler::start('layout_render');
 
         if ('' !== $output) {
             $this->getLayout()->addOutputElement($output);
@@ -385,9 +385,9 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         $output = $this->getLayout()->getOutput();
         $this->_objectManager->get('Magento_Core_Model_Translate')->processResponseBody($output);
         $this->getResponse()->appendBody($output);
-        Magento_Profiler::stop('layout_render');
+        \Magento\Profiler::stop('layout_render');
 
-        Magento_Profiler::stop('LAYOUT');
+        \Magento\Profiler::stop('LAYOUT');
         return $this;
     }
 
@@ -406,28 +406,28 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
             }
 
             $profilerKey = 'CONTROLLER_ACTION:' . $this->getFullActionName();
-            Magento_Profiler::start($profilerKey);
+            \Magento\Profiler::start($profilerKey);
 
-            Magento_Profiler::start('predispatch');
+            \Magento\Profiler::start('predispatch');
             $this->preDispatch();
-            Magento_Profiler::stop('predispatch');
+            \Magento\Profiler::stop('predispatch');
 
             if ($this->getRequest()->isDispatched()) {
                 /**
                  * preDispatch() didn't change the action, so we can continue
                  */
                 if (!$this->getFlag('', self::FLAG_NO_DISPATCH)) {
-                    Magento_Profiler::start('action_body');
+                    \Magento\Profiler::start('action_body');
                     $this->$actionMethodName();
-                    Magento_Profiler::stop('action_body');
+                    \Magento\Profiler::stop('action_body');
 
-                    Magento_Profiler::start('postdispatch');
+                    \Magento\Profiler::start('postdispatch');
                     $this->postDispatch();
-                    Magento_Profiler::stop('postdispatch');
+                    \Magento\Profiler::stop('postdispatch');
                 }
             }
 
-            Magento_Profiler::stop($profilerKey);
+            \Magento\Profiler::stop($profilerKey);
         } catch (Magento_Core_Controller_Varien_Exception $e) {
             // set prepared flags
             foreach ($e->getResultFlags() as $flagData) {
@@ -596,8 +596,8 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
     public function norouteAction($coreRoute = null)
     {
         $status = $this->getRequest()->getParam('__status__');
-        if (!$status instanceof Magento_Object) {
-            $status = new Magento_Object();
+        if (!$status instanceof \Magento\Object) {
+            $status = new \Magento\Object();
         }
 
         $this->_eventManager->dispatch('controller_action_noroute', array('action' => $this, 'status' => $status));
@@ -623,7 +623,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      */
     public function noCookiesAction()
     {
-        $redirect = new Magento_Object();
+        $redirect = new \Magento\Object();
         $this->_eventManager->dispatch('controller_action_nocookies', array(
             'action'    => $this,
             'redirect'  => $redirect
@@ -998,7 +998,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
             'date_format' => Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => Magento_Date::DATE_INTERNAL_FORMAT
+            'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
         ));
 
         foreach ($dateFields as $dateField) {
@@ -1027,7 +1027,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
                 ->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => Magento_Date::DATETIME_INTERNAL_FORMAT
+            'date_format' => \Magento\Date::DATETIME_INTERNAL_FORMAT
         ));
 
         foreach ($dateFields as $dateField) {
@@ -1055,8 +1055,8 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         $contentType = 'application/octet-stream',
         $contentLength = null
     ) {
-        /** @var Magento_Filesystem $filesystem */
-        $filesystem = $this->_objectManager->create('Magento_Filesystem');
+        /** @var \Magento\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->create('Magento\Filesystem');
         $isFile = false;
         $file   = null;
         if (is_array($content)) {

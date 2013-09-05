@@ -19,7 +19,7 @@ class Magento_Webapi_Controller_Request_FactoryTest extends PHPUnit_Framework_Te
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_objectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->setMethods(array('get'))
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();

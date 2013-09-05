@@ -72,7 +72,7 @@ class Magento_Downloadable_Model_Link_Api_Uploader extends Magento_Core_Model_Fi
     {
         $tmpFileName = $this->_getTmpFilePath();
 
-        $file = new Magento_Io_File();
+        $file = new \Magento\Io\File();
         $file->open(array('path' => sys_get_temp_dir()));
         $file->streamOpen($tmpFileName);
         $file->streamWrite(base64_decode($fileInfo['base64_content']));

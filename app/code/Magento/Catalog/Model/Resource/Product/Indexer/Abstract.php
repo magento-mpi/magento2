@@ -34,7 +34,7 @@ abstract class Magento_Catalog_Model_Resource_Product_Indexer_Abstract extends M
      * attribute value definition
      * If $condition is not empty apply limitation for select
      *
-     * @param Magento_DB_Select $select
+     * @param \Magento\DB\Select $select
      * @param string $attrCode              the attribute code
      * @param string|Zend_Db_Expr $entity   the entity field or expression for condition
      * @param string|Zend_Db_Expr $store    the store field or expression for condition
@@ -94,7 +94,7 @@ abstract class Magento_Catalog_Model_Resource_Product_Indexer_Abstract extends M
      *  csg for store group table (joined by website default group)
      *  cs for store table (joined by website default store)
      *
-     * @param Magento_DB_Select $select              the select object
+     * @param \Magento\DB\Select $select              the select object
      * @param bool $store                           add default store join
      * @param string|Zend_Db_Expr $joinCondition    the limitation for website_id
      * @return Magento_Catalog_Model_Resource_Product_Indexer_Abstract
@@ -129,7 +129,7 @@ abstract class Magento_Catalog_Model_Resource_Product_Indexer_Abstract extends M
      * Add join for catalog/product_website table
      * Joined table has alias pw
      *
-     * @param Magento_DB_Select $select          the select object
+     * @param \Magento\DB\Select $select          the select object
      * @param string|Zend_Db_Expr $website      the limitation of website_id
      * @param string|Zend_Db_Expr $product      the limitation of product_id
      * @return Magento_Catalog_Model_Resource_Product_Indexer_Abstract

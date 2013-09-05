@@ -146,10 +146,10 @@ class Magento_Catalog_Model_Category_Api extends Magento_Catalog_Model_Api_Resou
     /**
      * Convert node to array
      *
-     * @param Magento_Data_Tree_Node $node
+     * @param \Magento\Data\Tree\Node $node
      * @return array
      */
-    protected function _nodeToArray(Magento_Data_Tree_Node $node)
+    protected function _nodeToArray(\Magento\Data\Tree\Node $node)
     {
         // Only basic category data
         $result = array();

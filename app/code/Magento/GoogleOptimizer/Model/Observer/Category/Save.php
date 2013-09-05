@@ -17,7 +17,7 @@ class Magento_GoogleOptimizer_Model_Observer_Category_Save extends Magento_Googl
     /**
      * Init entity
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      */
     protected function _initEntity($observer)
     {

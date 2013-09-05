@@ -7,6 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Validator_Regex extends Zend_Validate_Regex implements Magento_Validator_ValidatorInterface
+namespace Magento\Validator;
+
+class Regex extends \Zend_Validate_Regex implements \Magento\Validator\ValidatorInterface
 {
 }

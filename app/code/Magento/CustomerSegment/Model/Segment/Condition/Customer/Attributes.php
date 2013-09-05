@@ -174,7 +174,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     /**
      * Retrieve value element
      *
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function getValueElement()
     {
@@ -208,7 +208,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     /**
      * Retrieve attribute element
      *
-     * @return Magento_Data_Form_Element_Abstract
+     * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function getAttributeElement()
     {
@@ -279,11 +279,11 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     {
         if ($this->getOperator() == '==') {
             $dateObj = Mage::app()->getLocale()
-                ->date($this->getValue(), Magento_Date::DATE_INTERNAL_FORMAT, null, false)
+                ->date($this->getValue(), \Magento\Date::DATE_INTERNAL_FORMAT, null, false)
                 ->setHour(0)->setMinute(0)->setSecond(0);
             $value = array(
-                'start' => $dateObj->toString(Magento_Date::DATETIME_INTERNAL_FORMAT),
-                'end' => $dateObj->addDay(1)->toString(Magento_Date::DATETIME_INTERNAL_FORMAT)
+                'start' => $dateObj->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT),
+                'end' => $dateObj->addDay(1)->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT)
             );
             return $value;
         }
@@ -308,7 +308,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      *
      * @param $customer
      * @param $website
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

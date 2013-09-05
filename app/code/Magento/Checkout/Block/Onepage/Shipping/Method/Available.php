@@ -30,7 +30,7 @@ class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_C
             $groups = $this->getAddress()->getGroupedAllShippingRates();
             /*
             if (!empty($groups)) {
-                $ratesFilter = new Magento_Filter_Object_Grid();
+                $ratesFilter = new \Magento\Filter\Object\Grid();
                 $ratesFilter->addFilter(Mage::app()->getStore()->getPriceFilter(), 'price');
 
                 foreach ($groups as $code => $groupItems) {

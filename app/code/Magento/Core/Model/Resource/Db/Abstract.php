@@ -273,7 +273,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
      * Get connection by name or type
      *
      * @param string $connectionName
-     * @return Magento_DB_Adapter_Interface|bool
+     * @return \Magento\DB\Adapter\AdapterInterface|bool
      */
     protected function _getConnection($connectionName)
     {
@@ -292,7 +292,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
     /**
      * Retrieve connection for read data
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     protected function _getReadAdapter()
     {
@@ -307,7 +307,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
     /**
      * Retrieve connection for write data
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     protected function _getWriteAdapter()
     {
@@ -317,7 +317,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
     /**
      * Temporary resolving collection compatibility
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     public function getReadConnection()
     {
@@ -577,7 +577,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
                 ));
             }
 
-            $data = new Magento_Object($this->_prepareDataForSave($object));
+            $data = new \Magento\Object($this->_prepareDataForSave($object));
             $select = $this->_getWriteAdapter()->select()
                 ->from($this->getMainTable());
 
@@ -627,7 +627,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
     /**
      * Perform actions after object load
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _afterLoad(Magento_Core_Model_Abstract $object)
@@ -638,7 +638,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
     /**
      * Perform actions before object save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _beforeSave(Magento_Core_Model_Abstract $object)
@@ -649,7 +649,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
     /**
      * Perform actions after object save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _afterSave(Magento_Core_Model_Abstract $object)
@@ -660,7 +660,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
     /**
      * Perform actions before object delete
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _beforeDelete(Magento_Core_Model_Abstract $object)
@@ -671,7 +671,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
     /**
      * Perform actions after object delete
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _afterDelete(Magento_Core_Model_Abstract $object)

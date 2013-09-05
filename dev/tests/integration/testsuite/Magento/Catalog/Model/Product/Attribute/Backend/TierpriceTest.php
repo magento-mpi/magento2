@@ -31,7 +31,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPU
 
     public function testValidate()
     {
-        $product = new Magento_Object();
+        $product = new \Magento\Object();
         $product->setTierPrice(
             array(
                 array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8,),
@@ -46,7 +46,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPU
      */
     public function testValidateDuplicate()
     {
-        $product = new Magento_Object();
+        $product = new \Magento\Object();
         $product->setTierPrice(
             array(
                 array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8,),
@@ -62,7 +62,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPU
      */
     public function testValidateDuplicateWebsite()
     {
-        $product = new Magento_Object();
+        $product = new \Magento\Object();
         $product->setTierPrice(
             array(
                 array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8,),

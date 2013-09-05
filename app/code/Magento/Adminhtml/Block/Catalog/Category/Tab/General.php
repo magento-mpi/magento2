@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_General extends Magento_Admin
     public function _prepareLayout()
     {
         parent::_prepareLayout();
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('_general');
         $form->setDataObject($this->getCategory());
 

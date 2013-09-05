@@ -15,7 +15,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Convert_Order extends Magento_Object
+class Magento_Sales_Model_Convert_Order extends \Magento\Object
 {
     /**
      * Converting order object to quote object

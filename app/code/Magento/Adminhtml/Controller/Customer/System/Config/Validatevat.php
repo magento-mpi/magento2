@@ -20,7 +20,7 @@ class Magento_Adminhtml_Controller_Customer_System_Config_Validatevat extends Ma
     /**
      * Perform customer VAT ID validation
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _validate()
     {

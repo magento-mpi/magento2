@@ -91,7 +91,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
         $this->_initFormValues();
 
         // Prepare form
-        $form = new Magento_Data_Form(array(
+        $form = new \Magento\Data\Form(array(
             'id'            => 'edit_form',
             'use_container' => true,
             'method'        => 'post'
@@ -170,7 +170,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
     /**
      * Prepare store element
      *
-     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param \Magento\Data\Form\Element\Fieldset $fieldset
      */
     protected function _prepareStoreElement($fieldset)
     {
@@ -201,7 +201,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
     /**
      * Form post init
      *
-     * @param Magento_Data_Form $form
+     * @param \Magento\Data\Form $form
      * @return Magento_Adminhtml_Block_Urlrewrite_Edit_Form
      */
     protected function _formPostInit($form)

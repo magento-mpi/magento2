@@ -110,7 +110,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -148,7 +148,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     protected $_invalidator;
 
     /**
-     * @var Magento_Config_ScopeInterface
+     * @var \Magento\Config\ScopeInterface
      */
     protected $_configScope;
 
@@ -164,7 +164,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Config_InvalidatorInterface $invalidator
-     * @param Magento_Config_ScopeInterface $configScope
+     * @param \Magento\Config\ScopeInterface $configScope
      */
     public function __construct(
         Magento_Core_Model_ObjectManager $objectManager,
@@ -173,9 +173,9 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Config_InvalidatorInterface $invalidator,
-        Magento_Config_ScopeInterface $configScope
+        \Magento\Config\ScopeInterface $configScope
     ) {
-        Magento_Profiler::start('config_load');
+        \Magento\Profiler::start('config_load');
         $this->_objectManager = $objectManager;
         $this->_app = $app;
         $this->_storage = $storage;
@@ -184,7 +184,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         $this->_moduleList = $moduleList;
         $this->_invalidator = $invalidator;
         $this->_configScope = $configScope;
-        Magento_Profiler::stop('config_load');
+        \Magento\Profiler::stop('config_load');
     }
 
     /**
@@ -398,7 +398,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     {
         $storeValues = array();
         $stores = $this->getNode('stores');
-        /** @var $store Magento_Simplexml_Element */
+        /** @var $store \Magento\Simplexml\Element */
         foreach ($stores->children() as $code => $store) {
             switch ($useAsKey) {
                 case 'id':
@@ -572,9 +572,9 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     public function getModelInstance($modelClass = '', $constructArguments = array())
     {
         if (class_exists($modelClass)) {
-            Magento_Profiler::start('FACTORY:' . $modelClass);
+            \Magento\Profiler::start('FACTORY:' . $modelClass);
             $obj = $this->_objectManager->create($modelClass, $constructArguments);
-            Magento_Profiler::stop('FACTORY:' . $modelClass);
+            \Magento\Profiler::stop('FACTORY:' . $modelClass);
             return $obj;
         } else {
             return false;

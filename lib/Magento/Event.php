@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_Event
+ * @package    \Magento\Event
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -13,15 +13,17 @@
  * Event object and dispatcher
  *
  * @category   Magento
- * @package    Magento_Event
+ * @package    \Magento\Event
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Event extends Magento_Object
+namespace Magento;
+
+class Event extends \Magento\Object
 {
     /**
      * Observers collection
      *
-     * @var Magento_Event_Observer_Collection
+     * @var \Magento\Event\Observer\Collection
      */
     protected $_observers;
 
@@ -34,14 +36,14 @@ class Magento_Event extends Magento_Object
      */
     public function __construct(array $data=array())
     {
-        $this->_observers = new Magento_Event_Observer_Collection();
+        $this->_observers = new \Magento\Event\Observer\Collection();
         parent::__construct($data);
     }
 
     /**
      * Returns all the registered observers for the event
      *
-     * @return Magento_Event_Observer_Collection
+     * @return \Magento\Event\Observer\Collection
      */
     public function getObservers()
     {
@@ -51,10 +53,10 @@ class Magento_Event extends Magento_Object
     /**
      * Register an observer for the event
      *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Event
+     * @param \Magento\Event\Observer $observer
+     * @return \Magento\Event
      */
-    public function addObserver(Magento_Event_Observer $observer)
+    public function addObserver(\Magento\Event\Observer $observer)
     {
         $this->getObservers()->addObserver($observer);
         return $this;
@@ -64,7 +66,7 @@ class Magento_Event extends Magento_Object
      * Removes an observer by its name
      *
      * @param string $observerName
-     * @return Magento_Event
+     * @return \Magento\Event
      */
     public function removeObserverByName($observerName)
     {
@@ -75,7 +77,7 @@ class Magento_Event extends Magento_Object
     /**
      * Dispatches the event to registered observers
      *
-     * @return Magento_Event
+     * @return \Magento\Event
      */
     public function dispatch()
     {

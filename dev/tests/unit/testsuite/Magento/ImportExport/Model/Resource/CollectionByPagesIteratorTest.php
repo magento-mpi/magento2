@@ -40,12 +40,12 @@ class Magento_ImportExport_Model_Resource_CollectionByPagesIteratorTest extends 
         /** @var $callbackMock PHPUnit_Framework_MockObject_MockObject */
         $callbackMock = $this->getMock('stdClass', array('callback'));
 
-        $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface');
 
         $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
 
-        /** @var $collectionMock Magento_Data_Collection_Db|PHPUnit_Framework_MockObject_MockObject */
-        $collectionMock = $this->getMock('Magento_Data_Collection_Db',
+        /** @var $collectionMock \Magento\Data\Collection\Db|PHPUnit_Framework_MockObject_MockObject */
+        $collectionMock = $this->getMock('Magento\Data\Collection\Db',
             array('clear', 'setPageSize', 'setCurPage', 'count', 'getLastPageNumber', 'getSelect'),
             array($fetchStrategy)
         );
@@ -77,7 +77,7 @@ class Magento_ImportExport_Model_Resource_CollectionByPagesIteratorTest extends 
         for ($pageNumber = 1; $pageNumber <= $pageCount; $pageNumber++) {
             for ($rowNumber = 1; $rowNumber <= $pageSize; $rowNumber++) {
                 $itemId = ($pageNumber - 1)*$pageSize + $rowNumber;
-                $item = new Magento_Object(array('id' => $itemId));
+                $item = new \Magento\Object(array('id' => $itemId));
                 $collectionMock->addItem($item);
 
                 $callbackMock->expects($this->at($itemId - 1))

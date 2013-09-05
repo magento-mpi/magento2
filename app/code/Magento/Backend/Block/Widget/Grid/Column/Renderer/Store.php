@@ -59,10 +59,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Store
     /**
      * Render row store views
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $out = '';
         $skipAllStoresLabel = $this->_getShowAllStoresLabelFlag();
@@ -109,10 +109,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Store
     /**
      * Render row store views for export
      *
-     * @param Magento_Object $row
+     * @param \Magento\Object $row
      * @return string
      */
-    public function renderExport(Magento_Object $row)
+    public function renderExport(\Magento\Object $row)
     {
         $out = '';
         $skipAllStoresLabel = $this->_getShowAllStoresLabelFlag();

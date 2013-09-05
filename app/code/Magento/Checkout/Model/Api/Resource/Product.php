@@ -43,17 +43,17 @@ class Magento_Checkout_Model_Api_Resource_Product extends Magento_Checkout_Model
      * Get request for product add to cart procedure
      *
      * @param   mixed $requestInfo
-     * @return  Magento_Object
+     * @return  \Magento\Object
      */
     protected function _getProductRequest($requestInfo)
     {
-        if ($requestInfo instanceof Magento_Object) {
+        if ($requestInfo instanceof \Magento\Object) {
             $request = $requestInfo;
         } elseif (is_numeric($requestInfo)) {
-            $request = new Magento_Object();
+            $request = new \Magento\Object();
             $request->setQty($requestInfo);
         } else {
-            $request = new Magento_Object($requestInfo);
+            $request = new \Magento\Object($requestInfo);
         }
 
         if (!$request->hasQty()) {
@@ -67,13 +67,13 @@ class Magento_Checkout_Model_Api_Resource_Product extends Magento_Checkout_Model
      *
      * @param Magento_Sales_Model_Quote $quote
      * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Object $requestInfo
+     * @param \Magento\Object $requestInfo
      * @return Magento_Sales_Model_Quote_Item
      * @throw Magento_Core_Exception
      */
     protected function _getQuoteItemByProduct(Magento_Sales_Model_Quote $quote,
                             Magento_Catalog_Model_Product $product,
-                            Magento_Object $requestInfo)
+                            \Magento\Object $requestInfo)
     {
         $cartCandidates = $product->getTypeInstance()
                         ->prepareForCartAdvanced($requestInfo,

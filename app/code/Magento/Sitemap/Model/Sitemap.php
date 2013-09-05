@@ -46,7 +46,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
     /**
      * File handler
      *
-     * @var Magento_Io_File
+     * @var \Magento\Io\File
      */
     protected $_fileHandler;
 
@@ -93,22 +93,22 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
     private $_crlf = array("win" => "\r\n", "unix" => "\n", "mac" => "\r");
 
     /**
-     * @var Magento_Filesystem $filesystem
+     * @var \Magento\Filesystem $filesystem
      */
     protected $_filesystem;
 
     /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
-        Magento_Filesystem $filesystem,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
@@ -127,7 +127,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
      * Get file handler
      *
      * @throws Magento_Core_Exception
-     * @return Magento_Io_File
+     * @return \Magento\Io\File
      */
     protected function _getFileHandler()
     {
@@ -147,19 +147,19 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
         $helper = Mage::helper('Magento_Sitemap_Helper_Data');
         $storeId = $this->getStoreId();
 
-        $this->_sitemapItems[] = new Magento_Object(array(
+        $this->_sitemapItems[] = new \Magento\Object(array(
             'changefreq' => $helper->getCategoryChangefreq($storeId),
             'priority' => $helper->getCategoryPriority($storeId),
             'collection' => $this->_getCategoryItemsCollection($storeId)
         ));
 
-        $this->_sitemapItems[] = new Magento_Object(array(
+        $this->_sitemapItems[] = new \Magento\Object(array(
             'changefreq' => $helper->getProductChangefreq($storeId),
             'priority' => $helper->getProductPriority($storeId),
             'collection' => $this->_getProductItemsCollection($storeId)
         ));
 
-        $this->_sitemapItems[] = new Magento_Object(array(
+        $this->_sitemapItems[] = new \Magento\Object(array(
             'changefreq' => $helper->getPageChangefreq($storeId),
             'priority' => $helper->getPagePriority($storeId),
             'collection' => $this->_getPageItemsCollection($storeId)
@@ -271,7 +271,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
     public function generateXml()
     {
         $this->_initSitemapItems();
-        /** @var $sitemapItem Magento_Object */
+        /** @var $sitemapItem \Magento\Object */
         foreach ($this->_sitemapItems as $sitemapItem) {
             $changefreq = $sitemapItem->getChangefreq();
             $priority = $sitemapItem->getPriority();
@@ -337,7 +337,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
      */
     protected function _getCurrentDateTime()
     {
-        $date = new Magento_Date();
+        $date = new \Magento\Date();
         return $date->now();
     }
 
@@ -516,11 +516,11 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
     /**
      * Get file object
      *
-     * @return Magento_Io_File
+     * @return \Magento\Io\File
      */
     protected function _getFileObject()
     {
-        return new Magento_Io_File();
+        return new \Magento\Io\File();
     }
 
     /**
@@ -657,9 +657,9 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
     }
 
     /**
-     * Get Magento_Filesystem object
+     * Get \Magento\Filesystem object
      *
-     * @return Magento_Filesystem
+     * @return \Magento\Filesystem
      */
     protected function _getFilesystem()
     {

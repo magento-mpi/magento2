@@ -36,7 +36,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Item extends Magento_Adminhtml_
      */
     public function initTotals()
     {
-        $total = new Magento_Object(array(
+        $total = new \Magento\Object(array(
             'code'      => $this->getNameInLayout(),
             'block_name'=> $this->getNameInLayout(),
             'area'      => $this->getDisplayArea(),

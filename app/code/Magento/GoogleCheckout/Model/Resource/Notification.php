@@ -53,7 +53,7 @@ class Magento_GoogleCheckout_Model_Resource_Notification extends Magento_Core_Mo
     {
         $data = array(
             'serial_number' => $serialNumber,
-            'started_at'    => Magento_Date::now(),
+            'started_at'    => \Magento\Date::now(),
             'status'        => Magento_GoogleCheckout_Model_Notification::STATUS_INPROCESS
         );
         $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
@@ -84,7 +84,7 @@ class Magento_GoogleCheckout_Model_Resource_Notification extends Magento_Core_Mo
     public function updateProcess($serialNumber)
     {
         $this->_getWriteAdapter()->update($this->getMainTable(),
-            array('started_at' => Magento_Date::now()),
+            array('started_at' => \Magento\Date::now()),
             array('serial_number = ?' => $serialNumber)
         );
 

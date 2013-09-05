@@ -8,7 +8,7 @@
 class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager_Config_Reader_Dom
+     * @var \Magento\ObjectManager\Config\Reader\Dom
      */
     protected $_model;
 
@@ -33,7 +33,7 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
     protected $_validationState;
 
     /**
-     * @var Magento_ObjectManager_Config_Mapper_Dom
+     * @var \Magento\ObjectManager\Config\Mapper\Dom
      */
     protected $_mapper;
 
@@ -49,7 +49,7 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
             'Magento_Core_Model_Config_FileResolver_Primary', array(), array(), '', false
         );
         $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue($this->_fileList));
-        $this->_mapper = new Magento_ObjectManager_Config_Mapper_Dom();
+        $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom();
         $this->_validationState = new Magento_Core_Model_Config_ValidationState(new Magento_Core_Model_App_State());
 
         $this->_mergedConfig = new DOMDocument();
@@ -58,7 +58,7 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
 
     public function testRead()
     {
-        $model = new Magento_ObjectManager_Config_Reader_Dom($this->_fileResolverMock,
+        $model = new \Magento\ObjectManager\Config\Reader\Dom($this->_fileResolverMock,
             $this->_mapper, $this->_validationState);
         $this->assertEquals($this->_mapper->convert($this->_mergedConfig), $model->read('scope'));
     }

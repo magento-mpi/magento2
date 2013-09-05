@@ -14,7 +14,9 @@
  * @category    Magento
  * @package     Magento_Gdata
  */
-class Magento_Gdata_Gshopping_Content extends Zend_Gdata
+namespace Magento\Gdata\Gshopping;
+
+class Content extends \Zend_Gdata
 {
     /**
      * Authentication service name for Google Shopping
@@ -62,7 +64,7 @@ class Magento_Gdata_Gshopping_Content extends Zend_Gdata
     /**
      * Create object
      *
-     * @param Zend_Http_Client $client (optional) The HTTP client to use when
+     * @param \Zend_Http_Client $client (optional) The HTTP client to use when
      *          when communicating with the Google Apps servers.
      * @param string $applicationId The identity of the app in the form of Company-AppName-Version
      */
@@ -79,17 +81,17 @@ class Magento_Gdata_Gshopping_Content extends Zend_Gdata
      * Retreive entry object
      *
      * @param mixed $location The location for the feed, as a URL or Query
-     * @return Magento_Gdata_Gshopping_Entry
+     * @return \Magento\Gdata\Gshopping\Entry
      */
     public function getItem($location = null)
     {
         if ($location === null) {
-            throw new Zend_Gdata_App_InvalidArgumentException('Location must not be null');
+            throw new \Zend_Gdata_App_InvalidArgumentException('Location must not be null');
         }
 
-        $uri = ($location instanceof Zend_Gdata_Query) ? $location->getQueryUrl() : $location;
+        $uri = ($location instanceof \Zend_Gdata_Query) ? $location->getQueryUrl() : $location;
 
-        $entry = $this->getEntry($uri, 'Magento_Gdata_Gshopping_Entry')
+        $entry = $this->getEntry($uri, '\Magento\Gdata\Gshopping\Entry')
             ->setService($this);
         return $entry;
     }
@@ -98,28 +100,28 @@ class Magento_Gdata_Gshopping_Content extends Zend_Gdata
     /**
      * Insert an entry
      *
-     * @param Magento_Gdata_Gshopping_Entry $entry The Content entry to upload
+     * @param \Magento\Gdata\Gshopping\Entry $entry The Content entry to upload
      * @param boolean $dryRun Flag for the 'dry-run' parameter
-     * @return Magento_Gdata_Gshopping_Entry
+     * @return \Magento\Gdata\Gshopping\Entry
      */
-    public function insertItem(Magento_Gdata_Gshopping_Entry $entry, $dryRun = false)
+    public function insertItem(\Magento\Gdata\Gshopping\Entry $entry, $dryRun = false)
     {
         $uri = $this->_getItemsUri();
         if ($dryRun) {
             $uri .= '?dry-run=true';
         }
 
-        return $this->insertEntry($entry, $uri, 'Magento_Gdata_Gshopping_Entry');
+        return $this->insertEntry($entry, $uri, '\Magento\Gdata\Gshopping\Entry');
     }
 
     /**
      * Update an entry
      *
-     * @param Magento_Gdata_Gshopping_Entry $entry The Content entry to be updated
+     * @param \Magento\Gdata\Gshopping\Entry $entry The Content entry to be updated
      * @param boolean $dryRun Flag for the 'dry-run' parameter
-     * @return Magento_Gdata_Gshopping_Entry
+     * @return \Magento\Gdata\Gshopping\Entry
      */
-    public function updateItem(Magento_Gdata_Gshopping_Entry $entry, $dryRun = false)
+    public function updateItem(\Magento\Gdata\Gshopping\Entry $entry, $dryRun = false)
     {
         return $entry->save($dryRun);
     }
@@ -127,11 +129,11 @@ class Magento_Gdata_Gshopping_Content extends Zend_Gdata
     /**
      * Delete an entry
      *
-     * @param Magento_Gdata_Gshopping_Entry $entry The Content entry to remove
+     * @param \Magento\Gdata\Gshopping\Entry $entry The Content entry to remove
      * @param boolean $dryRun Flag for the 'dry-run' parameter
-     * @return Magento_Gdata_Gshopping_Content Implements fluent interface
+     * @return \Magento\Gdata\Gshopping\Content Implements fluent interface
      */
-    public function deleteItem(Magento_Gdata_Gshopping_Entry $entry, $dryRun = false)
+    public function deleteItem(\Magento\Gdata\Gshopping\Entry $entry, $dryRun = false)
     {
         $entry->delete($dryRun);
         return $this;
@@ -140,11 +142,11 @@ class Magento_Gdata_Gshopping_Content extends Zend_Gdata
     /**
      * Create new item's query object
      *
-     * @return Magento_Gdata_Gshopping_ItemQuery
+     * @return \Magento\Gdata\Gshopping\ItemQuery
      */
     public function newItemQuery()
     {
-        $itemQuery = new Magento_Gdata_Gshopping_ItemQuery();
+        $itemQuery = new \Magento\Gdata\Gshopping\ItemQuery();
         $itemQuery->setFeedUri($this->_getItemsUri());
 
         return $itemQuery;
@@ -156,11 +158,11 @@ class Magento_Gdata_Gshopping_Content extends Zend_Gdata
      * @param string $text
      * @param string $type
      * @param string $src
-     * @return Zend_Gdata_App_Extension_Content
+     * @return \Zend_Gdata_App_Extension_Content
      */
     public function newContent($text = null, $type = 'text', $src = null)
     {
-        return new Zend_Gdata_App_Extension_Content($text, $type, $src);
+        return new \Zend_Gdata_App_Extension_Content($text, $type, $src);
     }
 
     /**
@@ -186,7 +188,7 @@ class Magento_Gdata_Gshopping_Content extends Zend_Gdata
      *                                of the request body
      * @param int $remainingRedirects Number of redirects to follow if request
      *                              s results in one
-     * @return Zend_Http_Response The response object
+     * @return \Zend_Http_Response The response object
      */
     public function performHttpRequest($method, $url, $headers = null, $body = null, $contentType = null, $remainingRedirects = null)
     {
@@ -204,10 +206,10 @@ class Magento_Gdata_Gshopping_Content extends Zend_Gdata
             $debugData['response'] = $result;
             $this->debugData($debugData);
             return $result;
-        } catch (Zend_Gdata_App_HttpException $e) {
+        } catch (\Zend_Gdata_App_HttpException $e) {
             $debugData['response'] = $e->getResponse();
             $this->debugData($debugData);
-            throw new Magento_Gdata_Gshopping_HttpException($e);
+            throw new \Magento\Gdata\Gshopping\HttpException($e);
         }
     }
 
@@ -215,7 +217,7 @@ class Magento_Gdata_Gshopping_Content extends Zend_Gdata
      * Log debug data
      *
      * @param mixed $debugData
-     * @return Magento_Gdata_Gshopping_Content
+     * @return \Magento\Gdata\Gshopping\Content
      */
     public function debugData($debugData)
     {
@@ -230,7 +232,7 @@ class Magento_Gdata_Gshopping_Content extends Zend_Gdata
      * Set debug flag
      *
      * @param bool $flag
-     * @return Magento_Gdata_Gshopping_Content
+     * @return \Magento\Gdata\Gshopping\Content
      */
     public function setDebug($flag)
     {
@@ -243,7 +245,7 @@ class Magento_Gdata_Gshopping_Content extends Zend_Gdata
      *
      * @param object $instance
      * @param string $method
-     * @return Magento_Gdata_Gshopping_Content
+     * @return \Magento\Gdata\Gshopping\Content
      */
     public function setLogAdapter($instance, $method)
     {

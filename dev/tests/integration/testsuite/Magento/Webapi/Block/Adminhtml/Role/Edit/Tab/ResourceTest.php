@@ -14,7 +14,7 @@
 class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 
@@ -54,7 +54,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
             ->setMethods(array('getResourceIdsByRole'))
             ->getMock();
 
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
         $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
         $this->_block = $this->_blockFactory->createBlock('Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource',
@@ -83,7 +83,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
     public function testPrepareForm($originResTree, $selectedRes, $expectedRes)
     {
         // TODO: Move to unit tests after MAGETWO-4015 complete.
-        $apiRole = new Magento_Object(array(
+        $apiRole = new \Magento\Object(array(
             'role_id' => 1
         ));
         $apiRole->setIdFieldName('role_id');

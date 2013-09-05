@@ -140,10 +140,10 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Process product data before save
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Catalog_Model_Resource_Product
      */
-    protected function _beforeSave(Magento_Object $object)
+    protected function _beforeSave(\Magento\Object $object)
     {
         /**
          * Check if declared category ids in object data.
@@ -168,10 +168,10 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Save data related with product
      *
-     * @param Magento_Object $product
+     * @param \Magento\Object $product
      * @return Magento_Catalog_Model_Resource_Product
      */
-    protected function _afterSave(Magento_Object $product)
+    protected function _afterSave(\Magento\Object $product)
     {
         $this->_saveWebsiteIds($product)
             ->_saveCategories($product);
@@ -230,10 +230,10 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Save product category relations
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Catalog_Model_Resource_Product
      */
-    protected function _saveCategories(Magento_Object $object)
+    protected function _saveCategories(\Magento\Object $object)
     {
         /**
          * If category ids data is not declared we haven't do manipulations
@@ -584,7 +584,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
                     'entity_id',
                     'value'
                 ),
-                Magento_DB_Adapter_Interface::INSERT_ON_DUPLICATE
+                \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
             ));
         }
 

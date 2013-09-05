@@ -47,12 +47,12 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     /**
      * Check customer scope, email and confirmation key before saving
      *
-     * @param Magento_Object $customer
+     * @param \Magento\Object $customer
      * @throws Magento_Customer_Exception
      * @throws Magento_Core_Exception
      * @return Magento_Customer_Model_Resource_Customer
      */
-    protected function _beforeSave(Magento_Object $customer)
+    protected function _beforeSave(\Magento\Object $customer)
     {
         /** @var Magento_Customer_Model_Customer $customer */
         parent::_beforeSave($customer);
@@ -106,24 +106,24 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
      * Validate customer entity
      *
      * @param Magento_Customer_Model_Customer $customer
-     * @throws Magento_Validator_Exception when validation failed
+     * @throws \Magento\Validator\ValidatorException when validation failed
      */
     protected function _validate($customer)
     {
         $validator = $this->_validatorFactory->createValidator('customer', 'save');
 
         if (!$validator->isValid($customer)) {
-            throw new Magento_Validator_Exception($validator->getMessages());
+            throw new \Magento\Validator\ValidatorException($validator->getMessages());
         }
     }
 
     /**
      * Save customer addresses and set default addresses in attributes backend
      *
-     * @param Magento_Object $customer
+     * @param \Magento\Object $customer
      * @return Magento_Eav_Model_Entity_Abstract
      */
-    protected function _afterSave(Magento_Object $customer)
+    protected function _afterSave(\Magento\Object $customer)
     {
         $this->_saveAddresses($customer);
         return parent::_afterSave($customer);
@@ -182,9 +182,9 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     /**
      * Retrieve select object for loading base entity row
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @param mixed $rowId
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getLoadRowSelect($object, $rowId)
     {
@@ -307,10 +307,10 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     /**
      * Custom setter of increment ID if its needed
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Customer_Model_Resource_Customer
      */
-    public function setNewIncrementId(Magento_Object $object)
+    public function setNewIncrementId(\Magento\Object $object)
     {
         if (Mage::getStoreConfig(Magento_Customer_Model_Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID)) {
             parent::setNewIncrementId($object);
@@ -331,7 +331,7 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     {
         if (is_string($passwordLinkToken) && !empty($passwordLinkToken)) {
             $customer->setRpToken($passwordLinkToken);
-            $currentDate = Magento_Date::now();
+            $currentDate = \Magento\Date::now();
             $customer->setRpTokenCreatedAt($currentDate);
             $this->saveAttribute($customer, 'rp_token');
             $this->saveAttribute($customer, 'rp_token_created_at');

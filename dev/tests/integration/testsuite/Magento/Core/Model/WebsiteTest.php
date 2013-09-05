@@ -149,7 +149,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
 
     public function testGetDefaultStoresSelect()
     {
-        $this->assertInstanceOf('Magento_DB_Select', $this->_model->getDefaultStoresSelect());
+        $this->assertInstanceOf('\Magento\DB\Select', $this->_model->getDefaultStoresSelect());
     }
 
     public function testIsReadonly()
@@ -174,7 +174,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
 
         /* emulate admin store */
         Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
-        $crud = new Magento_Test_Entity($this->_model, array('name' => 'new name'));
+        $crud = new Magento_TestFramework_Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }
 

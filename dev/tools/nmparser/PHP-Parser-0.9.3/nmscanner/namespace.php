@@ -7,6 +7,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
+require __DIR__ . '/../../../../../app/autoload.php';
+Magento\Autoload\IncludePath::addIncludePath(__DIR__ . '/../../../../../lib');
+
 class namespacer
 {
 
@@ -20,7 +23,6 @@ class namespacer
         'Interface',
         'Class',
         'Array',
-        'Exception',
         'Default',
         'List',
         'Global',
@@ -31,32 +33,309 @@ class namespacer
     private $fileMapper = array();
     private $renameFileLogger = "nmrenameFile.txt";
     private $renameClassLogger = "nmrenameClass.txt";
-    private $globalScanner="globalscanner.txt";
+    private $globalScanner = "globalscanner.txt";
     private $errorLog = "error.txt";
     private $fileChanged = array();
     private $rootDirectory = null;
     private $classSearch = array();
     private $classReplace = array();
-    private $allowedFileExtensions = array('php', 'phtml', 'html', 'sql');
-    private $ignoreFile="blacklist.txt";
-    private $blackListArray=array();
+    private $allowedFileExtensions = array('php', 'phtml', 'html', 'xml', 'sql');
+    private $ignoreFile = "blacklist.txt";
+    private $blackListArray = array();
+    private $testDir=array();
+    private $addSlashArray = array(
+        "Zend_",
+        "Twig_",
+        "Apache_Solrs",
+        "PHPUnit_",
+        "ArrayIterator",
+        "CentinelClient",
+        "Countable",
+        "Exception",
+        "InvalidArgumentException",
+        "IteratorAggregate",
+        "LogicException",
+        "ReflectionClass",
+        "ReflectionMethod",
+        "DOMDocument",
+        "DOMXPath",
+        "BadMethodCallException",
+        "PDO",
+        "ArrayAccess",
+        "SimpleXMLElement",
+        "RecursiveDirectoryIterator",
+        "Mage::",
+        "Zend\\\\",
+        "DOMException",
+        "DOMNode",
+        "RecursiveIteratorIterator",
+        "DOMNodeList",
+        "DOMElement",
+        "stdClass",
+        "ErrorException",
+        "COMPersistHelper",
+        "DateTime",
+        "DateTimeZone",
+        "DateInterval",
+        "DatePeriod",
+        "BadFunctionCallException",
+        "DomainException",
+        "LengthException",
+        "OutOfRangeException",
+        "RuntimeException",
+        "OutOfBoundsException",
+        "OverflowException",
+        "RangeException",
+        "UnderflowException",
+        "UnexpectedValueException",
+        "IteratorIterator",
+        "FilterIterator",
+        "RecursiveFilterIterator",
+        "ParentIterator",
+        "LimitIterator",
+        "CachingIterator",
+        "RecursiveCachingIterator",
+        "NoRewindIterator",
+        "AppendIterator",
+        "InfiniteIterator",
+        "RegexIterator",
+        "RecursiveRegexIterator",
+        "EmptyIterator",
+        "RecursiveTreeIterator",
+        "ArrayObject",
+        "RecursiveArrayIterator",
+        "SplFileInfo",
+        "DirectoryIterator",
+        "FilesystemIterator",
+        "GlobIterator",
+        "SplFileObject",
+        "SplTempFileObject",
+        "SplDoublyLinkedList",
+        "SplQueue",
+        "SplStack",
+        "SplHeap",
+        "SplMinHeap",
+        "SplMaxHeap",
+        "SplPriorityQueue",
+        "SplFixedArray",
+        "SplObjectStorage",
+        "MultipleIterator",
+        "ReflectionException",
+        "Reflection",
+        "ReflectionFunctionAbstract",
+        "ReflectionFunction",
+        "ReflectionParameter",
+        "ReflectionObject",
+        "ReflectionProperty",
+        "ReflectionExtension",
+        "php_user_filter",
+        "Directory",
+        "ZipArchive",
+        "LibXMLError",
+        "DOMStringList",
+        "DOMNameList",
+        "DOMImplementationList",
+        "DOMImplementationSource",
+        "DOMImplementation",
+        "DOMNameSpaceNode",
+        "DOMDocumentFragment",
+        "DOMNamedNodeMap",
+        "DOMCharacterData",
+        "DOMAttr",
+        "DOMText",
+        "DOMComment",
+        "DOMTypeinfo",
+        "DOMUserDataHandler",
+        "DOMDomError",
+        "DOMErrorHandler",
+        "DOMLocator",
+        "DOMConfiguration",
+        "DOMCdataSection",
+        "DOMDocumentType",
+        "DOMNotation",
+        "DOMEntity",
+        "DOMEntityReference",
+        "DOMProcessingInstruction",
+        "DOMStringExtend",
+        "GearmanClient",
+        "Iterator",
+        "PDOException",
+        "PDOStatement",
+        "PDORow",
+        "SimpleXMLIterator",
+        "XMLReader",
+        "XMLWriter",
+        "PharException",
+        "Phar",
+        "PharData",
+        "PharFileInfo",
+        "SoapClient",
+        "SoapVar",
+        "SoapServer",
+        "SoapFault",
+        "SoapParam",
+        "SoapHeader"
+    );
+    private $gitShell = null;
 
-    public function __construct($path, $rootDirectory, $def = false)
+
+    private $xmlFile=array();
+    private $phpFile=array();
+
+    public function __construct($path, $rootDirectory, $tesDir = false)
     {
+
+
+        $this->rootDirPath = realpath(__DIR__);
         $this->path = $path;
+        $this->gitShell = new Magento\Shell(null);
+        $this->gitClassMove();
+        $this->gitListPackageMove();
         $this->rootDirectory = $rootDirectory;
-        $this->renameFileLogger=time().$this->renameFileLogger;
-        $this->renameClassLogger=time().$this->renameClassLogger;
-        $this->globalScanner=time().$this->globalScanner;
-        if(file_exists($this->ignoreFile)){
-            $temp=file($this->ignoreFile);
-            foreach($temp as $fl){
-                if(!empty($fl)){
-                    $array=$this->scanDirectory(trim($fl),false);
-                    $this->blackListArray=array_merge($this->blackListArray,$array);
+        if($tesDir){
+            $this->testDir=$path;
+        }
+        $this->renameFileLogger = time() . $this->renameFileLogger;
+        $this->renameClassLogger = time() . $this->renameClassLogger;
+        $this->globalScanner = time() . $this->globalScanner;
+        if (file_exists($this->ignoreFile)) {
+            $temp = file($this->ignoreFile);
+            foreach ($temp as $fl) {
+                if (!empty($fl)) {
+                    $array = $this->scanDirectory(trim($fl), false);
+                    $this->blackListArray = array_merge($this->blackListArray, $array);
                 }
 
             }
+        }
+    }
+
+    public function gitClassMove()
+    {
+        $params = array(
+            '../../../../../app/code/Magento/Tax/Model/Class',
+            '../../../../../' . 'app/code/Magento/Tax/Model/TaxClass'
+        );
+
+        try {
+            if (realpath($params[0]) && !realpath($params[1])) {
+                echo "git-moving $params[0] to $params[1]\n";
+                $this->gitShell->execute(
+                    'git mv %s %s',
+                    $params
+                );
+                $RealPath1 = realpath($params[1]);
+                $files1 = $this->scanDirectory($RealPath1);
+                if (!empty($files1)) {
+                    foreach ($files1 as $key) {
+                        $pattern1 = 'Magento_Tax_Model_Class_';
+                        $rep1 = 'Magento_Tax_Model_TaxClass_';
+
+                        $cont = str_replace($pattern1, $rep1, file_get_contents($key));
+                        file_put_contents($key, $cont);
+                    }
+
+                }
+            } else {
+                echo "skipping already-moved $params[0]\n";
+            }
+
+            $params = array(
+                '../../../../../app/code/Magento/Tax/Model/Resource/Class',
+                '../../../../../' . 'app/code/Magento/Tax/Model/Resource/TaxClass'
+            );
+            //git mv %s %s',
+            if (realpath($params[0]) && !realpath($params[1])) {
+                echo "git-moving $params[0] to $params[1]\n";
+                $this->gitShell->execute(
+                    'git mv %s %s',
+                    $params
+                );
+                $RealPath = realpath($params[1]);
+                $files = $this->scanDirectory($RealPath);
+                if (!empty($files)) {
+                    foreach ($files as $key) {
+                        $pattern = 'Magento_Tax_Model_Resource_Class_';
+                        $rep = 'Magento_Tax_Model_Resource_TaxClass_';
+
+                        $cont = str_replace($pattern, $rep, file_get_contents($key));
+                        file_put_contents($key, $cont);
+                    }
+
+                }
+            } else {
+                echo "skipping already-moved $params[0]\n";
+            }
+        } catch (Exception $e) {
+            $string = 'Message: ' . $e->getMessage() . "\n";
+            $this->logFile($this->errorLog, $string);
+        }
+
+    }
+
+    /**
+     * rename the List package
+     * Magento\Core\Model\Layout\File\List
+     */
+    public function gitListPackageMove()
+    {
+        $params = array(
+            '../../../../../' . 'app/code/Magento/Core/Model/Layout/File/List',
+            '../../../../../' . 'app/code/Magento/Core/Model/Layout/File/ListFile',
+        );
+
+        try {
+            if (realpath($params[0]) && !realpath($params[1])) {
+                echo "git-moving $params[0] to $params[1]\n";
+                $this->gitShell->execute(
+                    'git mv %s %s',
+                    $params
+                );
+                $RealPath1 = realpath($params[1]);
+                $files1 = $this->scanDirectory($RealPath1);
+                if (!empty($files1)) {
+                    foreach ($files1 as $key) {
+                        $pattern1 = 'Magento_Core_Model_' . 'Layout_File_List_';
+                        $rep1 = 'Magento_Core_Model_' . 'Layout_File_ListFile_';
+
+                        $cont = str_replace($pattern1, $rep1, file_get_contents($key));
+                        file_put_contents($key, $cont);
+                    }
+
+                }
+            } else {
+                echo "skipping already-moved $params[0]\n";
+            }
+
+            $params = array(
+                '../../../../../dev/tests/unit/testsuite/Magento/Core/Model/Layout/File/List',
+                '../../../../../dev/tests/unit/testsuite/Magento/Core/Model/Layout/File/ListFile'
+            );
+            //git mv %s %s',
+            if (realpath($params[0]) && !realpath($params[1])) {
+                echo "git-moving $params[0] to $params[1]\n";
+                $this->gitShell->execute(
+                    'git mv %s %s',
+                    $params
+                );
+                $RealPath = realpath($params[1]);
+                $files = $this->scanDirectory($RealPath);
+                if (!empty($files)) {
+                    foreach ($files as $key) {
+                        $pattern = 'Magento_Core_Model' . '_Layout_File_List_';
+                        $rep = 'Magento_Core_Model' . '_Layout_File_ListFile_';
+
+                        $cont = str_replace($pattern, $rep, file_get_contents($key));
+                        file_put_contents($key, $cont);
+                    }
+
+                }
+            } else {
+                echo "skipping already-moved $params[0]\n";
+            }
+        } catch (Exception $e) {
+            $string = 'Message: ' . $e->getMessage() . "\n";
+            $this->logFile($this->errorLog, $string);
         }
 
     }
@@ -79,32 +358,8 @@ class namespacer
         }
     }
 
-    private function checkClassFile($file)
-    {
-        $classes = array();
-        $default = false;
-        $php_code = file_get_contents($file);
-        $tokens = token_get_all($php_code);
-        $count = count($tokens);
 
-        for ($i = 2; $i < $count; $i++) {
-
-            if ($tokens[$i - 2][0]==T_INTERFACE||($tokens[$i - 2][0] == T_CLASS
-                && $tokens[$i - 1][0] == T_WHITESPACE
-                && $tokens[$i][0] == T_STRING)
-            ) {
-
-                $class_name = $tokens[$i][1];
-                $classes[] = $class_name;
-            }
-        }
-        if (count($classes)) {
-            $default = true;
-        }
-        return $default;
-    }
-
-    protected function scanDirectory($path, $onlyPhp = true,$blackList=false)
+    protected function scanDirectory($path, $onlyPhp = true, $blackList = false)
     {
         $files = array();
         clearstatcache();
@@ -121,11 +376,11 @@ class namespacer
                         continue;
                     }
                 }
-                if($blackList){
-                    if(!in_array($file->getRealPath(),$this->blackListArray)){
+                if ($blackList) {
+                    if (!in_array($file->getRealPath(), $this->blackListArray)) {
                         $files[] = $file->getRealPath();
                     }
-                }else{
+                } else {
                     $files[] = $file->getRealPath();
                 }
 
@@ -152,53 +407,53 @@ class namespacer
                 continue;
             }
 
-           /* if(!$this->checkClassFile($file)){
-                echo "$file Not a clas file \n";
-                continue;
-            }*/
+            /* if(!$this->checkClassFile($file)){
+                 echo "$file Not a clas file \n";
+                 continue;
+             }*/
 
             clearstatcache();
             $lines = file($file);
             $parsedLine = null;
-            $this->requireOnce=0;
+            $this->requireOnce = 0;
             $this->namespace = array();
             $count = 0;
             echo "$file psr1 process started \n";
             foreach ($lines as $line) {
                 $trimLine = trim($line);
-               if($this->compareInString($trimLine, 0, 12, 'require_once')){
-                   $this->requireOnce=$count;
-                   $parsedLine[] = $line;
-               }else{
-                   if ($this->compareInString($trimLine, 0, 5, 'class')
-                   ) {
-                       if ($this->compareInString($line, 0, 5, 'class')) {
-                           $this->splitLine = $count;
-                       }
-                       $parsedLine = $this->scanClass($line, $parsedLine, $file);
-                   } else {
-                       if ($this->compareInString($line, 0, 14, 'abstract class')) {
-                           $this->splitLine = $count;
+                if ($this->compareInString($trimLine, 0, 12, 'require_once')) {
+                    $this->requireOnce = $count;
+                    $parsedLine[] = $line;
+                } else {
+                    if ($this->compareInString($trimLine, 0, 5, 'class')
+                    ) {
+                        if ($this->compareInString($line, 0, 5, 'class')) {
+                            $this->splitLine = $count;
+                        }
+                        $parsedLine = $this->scanClass($line, $parsedLine, $file);
+                    } else {
+                        if ($this->compareInString($line, 0, 14, 'abstract class')) {
+                            $this->splitLine = $count;
 
-                           $parsedLine = $this->scanClass($line, $parsedLine, $file);
-                       } else {
-                           if ($this->compareInString($line, 0, 9, "interface")) {
+                            $parsedLine = $this->scanClass($line, $parsedLine, $file);
+                        } else {
+                            if ($this->compareInString($line, 0, 9, "interface")) {
 
-                               $this->splitLine = $count;
-                               $parsedLine = $this->scanClass($line, $parsedLine, $file);
-                           } else {
-                               if ($this->compareInString($line, 0, 11, "final class")) {
+                                $this->splitLine = $count;
+                                $parsedLine = $this->scanClass($line, $parsedLine, $file);
+                            } else {
+                                if ($this->compareInString($line, 0, 11, "final class")) {
 
-                                   $this->splitLine = $count;
-                                   $parsedLine = $this->scanClass($line, $parsedLine, $file);
-                               } else {
-                                   $parsedLine[] = $line;
+                                    $this->splitLine = $count;
+                                    $parsedLine = $this->scanClass($line, $parsedLine, $file);
+                                } else {
+                                    $parsedLine[] = $line;
 
-                               }
-                           }
-                       }
-                   }
-               }
+                                }
+                            }
+                        }
+                    }
+                }
 
                 $count++;
 
@@ -208,28 +463,77 @@ class namespacer
 
 
         }
+        echo "=====================\n";
+        echo "Started Global Scanning \n";
         $this->globalClassnameScanner();
+        echo "=====================\n";
+        echo "Finished Global Scanning \n";
+
+        $this->replaceThirdParty($this->path);
+        echo "Finished Third Party  Replacement \n";
+
+        echo "=====================\n";
+        echo "Started Started Sanity check Cleanup \n";
+        $this->sanityCheckCleanup();
     }
 
+    private function sanityCheckCleanup()
+    {
+
+        $sanitySearchXML = array("type name=\"\\Magento\\", "preference for=\"\\Magento",
+            "module name=\"\\Magento\\","type=\"\\Magento\\");
+        $sanityReplaceXMl=array("type name=\"Magento\\", "preference for=\"Magento",
+            "module name=\"Magento_","type=\"Magento\\");
+
+        echo "=====================\n";
+        echo "XML Sanity check  Started\n";
+        foreach($this->xmlFile as $key){
+            $contentsXml=str_replace($sanitySearchXML,$sanityReplaceXMl,file_get_contents($key));
+            file_put_contents($key, $contentsXml);
+        }
+        echo "XML Sanity check Completed \n";
+
+        echo "=====================\n";
+        echo "php Sanity check  Started\n";
+        $sanityPhpSearch = array("['\\Magento\\", "get('\\Magento\\","\\\\Magento");
+        $sanityphpReplace = array("['Magento\\", "get('Magento\\","\\Magento");
+        echo "php Sanity check  Completed\n";
+
+        foreach($this->phpFile as $key){
+            $contentsPhp=str_replace($sanityPhpSearch,$sanityphpReplace,file_get_contents($key));
+            file_put_contents($key, $contentsPhp);
+        }
+
+
+    }
     private function globalClassnameScanner()
     {
         clearstatcache();
         if (is_dir($this->rootDirectory) && !empty($this->classSearch) & !empty($this->classReplace)) {
-            $files = $this->scanDirectory($this->rootDirectory, false,true);
+            $files = $this->scanDirectory($this->rootDirectory, false, true);
             $search = array();
             foreach ($this->classSearch as $searchKey) {
                 $search[] = "/\\" . $searchKey . "\\b/";
             }
+
             if (count($search) === count($this->classReplace) && count($search) === count($this->classSearch)) {
                 $this->classSearch = $search;
                 foreach ($files as $file) {
+                    $ext=strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                    if($ext=='xml'){
+                        $this->xmlFile[]=$file;
+                    }
+                    if($ext=='php'||$ext=='phtml'){
+                        $this->phpFile[]=$file;
+                    }
 
-                    $this->logFile($this->globalScanner, $file."Start Processing \n");
+                    $this->logFile($this->globalScanner, $file . "Start Processing \n");
                     clearstatcache();
                     //$contents=str_replace($this->classSearch,$this->classReplace,file_get_contents($file));
                     $contents = preg_replace($this->classSearch, $this->classReplace, file_get_contents($file));
                     file_put_contents($file, $contents);
-                    $this->logFile($this->globalScanner, $file."Scanning completed \n");
+                    $contents=str_replace("\\\\Magento\\","\\Magento\\",$contents);
+                    $this->logFile($this->globalScanner, $file . "Scanning completed \n");
                 }
             } else {
                 $string = "Cannot do a global scan and replacement , Error Please do check the rename class and rename files" . "\n";
@@ -261,7 +565,7 @@ class namespacer
             if (trim(
                     $val
                 ) == '' || $val === 'abstract' || $val === 'class' || $val === 'final' || $val === 'interface' || $val === 'extends' || $val === 'implements'
-                || $val=='{'  || $val=='}'  || $val=='{}'
+                || $val == '{' || $val == '}' || $val == '{}'
             ) {
                 $parse = true;
                 if ($val === 'abstract' || $val === 'class' || $val === 'final' || $val === 'interface') {
@@ -320,11 +624,11 @@ class namespacer
                             );
                             $this->reserveCheck = false;
 
-                        }else{
-                            if(in_Array($file,$this->reservedKeyWords)){
+                        } else {
+                            if (in_Array($file, $this->reservedKeyWords)) {
                                 $baseFileName = basename($file);
-                                       $newClass=trim($newClass);// $file is set to "index.php";
-                                if($baseFileName!=$newClass && !empty($newClass)){
+                                $newClass = trim($newClass); // $file is set to "index.php";
+                                if ($baseFileName != $newClass && !empty($newClass)) {
                                     $newFileName = dirname($file) . "\\" . $newClass . '.php';
                                     $this->fileMapper[$file] = $newFileName;
                                 }
@@ -348,10 +652,10 @@ class namespacer
                                 )
                             );
                         if ((trim($val) !== 'implements') || (trim($val) !== 'extends')) {
-                            $val=str_replace('//','',trim($val));
-                            $change=str_replace('//','',trim($change));
-                            $val=str_replace("\\\\", "\\",trim($val));
-                            $change=str_replace("\\\\", "\\",trim($change));
+                            $val = str_replace('//', '', trim($val));
+                            $change = str_replace('//', '', trim($change));
+                            $val = str_replace("\\\\", "\\", trim($val));
+                            $change = str_replace("\\\\", "\\", trim($change));
 
                             $mess = trim($val) . "  =>  " . $change . "\n";
                             $this->classSearch[] = trim($val);
@@ -412,13 +716,26 @@ class namespacer
     {
         if (isset($this->fileMapper[$file])) {
             clearstatcache();
-            if (rename($file, $this->fileMapper[$file])) {
-                $string = $file . " =>  " . $this->fileMapper[$file] . "\n";
-                $this->logFile($this->renameFileLogger, $string);
-            } else {
-                $string = $file . " cannot be  renamed to " . $this->fileMapper[$file] . "\n";
+
+            try {
+                if (!empty($this->rootDirPath)) {
+                    $path = $this->getRelativePath($this->rootDirPath, $file);
+                    $tar = $this->getRelativePath($this->rootDirPath, $this->fileMapper[$file]);
+                    $this->gitRename($path, $tar);
+                    $string = $file . " =>  " . $this->fileMapper[$file] . "\n";
+                    $this->logFile($this->renameFileLogger, $string);
+                } else {
+                    $this->gitRename($file, $this->fileMapper[$file]);
+                    $string = $file . " =>  " . $this->fileMapper[$file] . "\n";
+                    $this->logFile($this->renameFileLogger, $string);
+                }
+
+
+            } catch (Exception $e) {
+                $string = 'Message: ' . $e->getMessage() . "\n";
                 $this->logFile($this->errorLog, $string);
             }
+
         }
 
     }
@@ -435,11 +752,11 @@ class namespacer
         if (end($array) == "}") {
             $array[] = "\n";
         }
-        if($this->requireOnce!==0){
-            $namespace=$array[$this->splitLine];
-            $requireOnce=$array[$this->requireOnce];
-            $array[$this->requireOnce]=$namespace;
-            $array[$this->splitLine]=$requireOnce;
+        if ($this->requireOnce !== 0) {
+            $namespace = $array[$this->splitLine];
+            $requireOnce = $array[$this->requireOnce];
+            $array[$this->requireOnce] = $namespace;
+            $array[$this->splitLine] = $requireOnce;
         }
         foreach ($array as $key) {
             $string = $string . $key;
@@ -466,6 +783,85 @@ class namespacer
         ) == '#' || ($first_two_chars == '/*' && $last_two_chars == '*/');
     }
 
+    public function replaceThirdParty($path)
+    {
+        foreach ($this->addSlashArray as $key) {
+            $libSearch[] = "/\\s" . $key . "/";
+            $libSearch[] = "/\\(" . $key . "/";
+            $libReplace[] = " \\$key";
+            $libReplace[] = "(\\$key";
+        }
+        $files = $this->scanDirectory($path);
+        echo "=====================\n";
+        echo "Started ThirdParty Replacement \n";
+        foreach ($files as $file) {
+            if (file_exists($file)) {
+                $contents = preg_replace($libSearch, $libReplace, file_get_contents($file));
+                $contents=str_replace("\\\\Magento\\","\\Magento\\",$contents);
+                file_put_contents($file, $contents);
+            }
+        }
+
+    }
+
+    private function gitRename($sourcePathModule, $targetPathModule)
+    {
+
+        $this->gitShell->execute(
+            'git mv %s %s',
+            array($sourcePathModule, $targetPathModule)
+        );
+        //$ git add app/code/Magento/<newModule>/
+        $this->gitShell->execute(
+            'git add %s',
+            array($targetPathModule)
+        );
+
+    }
+
+    private function getRelativePath($from, $to)
+    {
+        // some compatibility fixes for Windows paths
+        $windows = false;
+        $from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
+        $to = is_dir($to) ? rtrim($to, '\/') . '/' : $to;
+        $from = str_replace('\\', '/', $from);
+        $to = str_replace('\\', '/', $to);
+
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $windows = true;
+        }
+
+        $from = explode('/', $from);
+        $to = explode('/', $to);
+        $relPath = $to;
+
+        foreach ($from as $depth => $dir) {
+            // find first non-matching dir
+            if ($dir === $to[$depth]) {
+                // ignore this directory
+                array_shift($relPath);
+            } else {
+                // get number of remaining dirs to $from
+                $remaining = count($from) - $depth;
+                if ($remaining > 1) {
+                    // add traversals up to first matching dir
+                    $padLength = (count($relPath) + $remaining - 1) * -1;
+                    $relPath = array_pad($relPath, $padLength, '..');
+                    break;
+                } else {
+                    $relPath[0] = './' . $relPath[0];
+                }
+            }
+        }
+
+        $path = implode('/', $relPath);
+        if (!$windows) {
+            $path = str_replace("\\", "/", $path);
+        }
+
+        return $path;
+    }
 }
 
 
@@ -474,12 +870,14 @@ class namespacer
 // root directory
 
 
-function errHandle($errNo, $errStr, $errFile, $errLine) {
+function errHandle($errNo, $errStr, $errFile, $errLine)
+{
     $msg = "$errStr in $errFile on line $errLine";
     if ($errNo) {
         die($msg);
     }
 }
+
 set_error_handler('errHandle');
 
 if (isset($argv[1])) {
@@ -498,9 +896,21 @@ if (isset($argv[1])) {
     } else {
         throw new exception("src paramter cannot be empty");
     }
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if (is_dir('C:\Program Files (x86)\Git\cmd')) {
+            exec('PATH=C:\Program Files (x86)\Git\cmd');
+        } elseif (is_dir('C:\Program Files\Git\cmd')) {
+            exec("PATH=C:\\Program Files\\Git\\cmd");
+        }
+        exec("git", $output, $ret);
+        if (empty($output)) {
+            die("Please set the git path Manually");
+        }
+    }
 
     $PSRX = new namespacer($src, $rootDirectory);
     $PSRX->convertToPSRX();
 } else {
     echo "Please provide the arguments";
 }
+

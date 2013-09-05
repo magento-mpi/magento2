@@ -40,7 +40,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
         /* @var $model Magento_Eav_Model_Form_Type */
         $model      = Mage::registry('current_form_type');
 
-        $form       = new Magento_Data_Form();
+        $form       = new \Magento\Data\Form();
         $fieldset   = $form->addFieldset('general_fieldset', array(
             'legend'    => __('General Information')
         ));

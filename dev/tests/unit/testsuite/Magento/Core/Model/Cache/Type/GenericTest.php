@@ -17,7 +17,7 @@ class Magento_Core_Model_Cache_Type_GenericTest extends PHPUnit_Framework_TestCa
      */
     public function testConstructor($className)
     {
-        $frontendMock = $this->getMock('Magento_Cache_FrontendInterface');
+        $frontendMock = $this->getMock('Magento\Cache\FrontendInterface');
 
         $poolMock = $this->getMock('Magento_Core_Model_Cache_Type_FrontendPool', array(), array(), '', false);
         $poolMock->expects($this->atLeastOnce())

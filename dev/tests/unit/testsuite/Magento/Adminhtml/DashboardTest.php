@@ -16,7 +16,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
         $request->setParam('h', $fixture);
 
         $tunnelResponse = new Zend_Http_Response(200, array('Content-Type' => 'test_header'), 'success_msg');
-        $httpClient = $this->getMock('Magento_HTTP_ZendClient', array('request'));
+        $httpClient = $this->getMock('Magento\HTTP\ZendClient', array('request'));
         $httpClient->expects($this->once())->method('request')->will($this->returnValue($tunnelResponse));
         /** @var $helper Magento_Adminhtml_Helper_Dashboard_Data|PHPUnit_Framework_MockObject_MockObject */
         $helper = $this->getMock('Magento_Adminhtml_Helper_Dashboard_Data',
@@ -24,14 +24,14 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
         );
         $helper->expects($this->any())->method('getChartDataHash')->will($this->returnValue($fixture));
 
-        $objectManager = $this->getMock('Magento_ObjectManager');
+        $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager->expects($this->at(0))
             ->method('get')
             ->with('Magento_Adminhtml_Helper_Dashboard_Data')
             ->will($this->returnValue($helper));
         $objectManager->expects($this->at(1))
             ->method('create')
-            ->with('Magento_HTTP_ZendClient')
+            ->with('Magento\HTTP\ZendClient')
             ->will($this->returnValue($httpClient));
 
         $controller = $this->_factory($request, null, $objectManager);
@@ -60,7 +60,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
         );
         $helper->expects($this->any())->method('getChartDataHash')->will($this->returnValue($fixture));
 
-        $objectManager = $this->getMock('Magento_ObjectManager');
+        $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager->expects($this->at(0))
             ->method('get')
             ->with('Magento_Adminhtml_Helper_Dashboard_Data')
@@ -68,7 +68,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
         $exceptionMock = new Exception();
         $objectManager->expects($this->at(1))
             ->method('create')
-            ->with('Magento_HTTP_ZendClient')
+            ->with('Magento\HTTP\ZendClient')
             ->will($this->throwException($exceptionMock));
         $loggerMock = $this->getMock('Magento_Core_Model_Logger', array('logException'), array(), '', false);
         $loggerMock->expects($this->once())->method('logException')->with($exceptionMock);
@@ -87,7 +87,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
      *
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Controller_Response_Http|null $response
-     * @param Magento_ObjectManager|null $objectManager
+     * @param \Magento\ObjectManager|null $objectManager
      * @return Magento_Adminhtml_Controller_Dashboard|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _factory($request, $response = null, $objectManager = null)
@@ -98,10 +98,10 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
             $response->headersSentThrowsException = false;
         }
         if (!$objectManager) {
-            $objectManager = new Magento_ObjectManager_ObjectManager();
+            $objectManager = new \Magento\ObjectManager\ObjectManager();
         }
         $rewriteFactory = $this->getMock('Magento_Core_Model_Url_RewriteFactory', array('create'), array(), '', false);
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $varienFront = $helper->getObject('Magento_Core_Controller_Varien_Front',
             array('rewriteFactory' => $rewriteFactory)
         );

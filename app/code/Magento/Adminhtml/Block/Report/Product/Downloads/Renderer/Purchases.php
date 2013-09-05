@@ -21,10 +21,10 @@ class Magento_Adminhtml_Block_Report_Product_Downloads_Renderer_Purchases
     /**
      * Renders Purchases value
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         if ( ($value = $row->getData($this->getColumn()->getIndex())) > 0) {
             return $value;

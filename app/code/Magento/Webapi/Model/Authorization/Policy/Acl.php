@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_Policy_Acl extends Magento_Authorization_Policy_Acl
+class Magento_Webapi_Model_Authorization_Policy_Acl extends \Magento\Authorization\Policy\Acl
 {
     /**
-     * @param Magento_Acl_Builder $aclBuilder
+     * @param \Magento\Acl\Builder $aclBuilder
      */
-    public function __construct(Magento_Acl_Builder $aclBuilder)
+    public function __construct(\Magento\Acl\Builder $aclBuilder)
     {
         parent::__construct($aclBuilder);
     }

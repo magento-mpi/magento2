@@ -16,7 +16,7 @@ class Magento_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Frame
 {
     public function testPrepareForm()
     {
-        $user = Mage::getModel('Magento_User_Model_User')->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
+        $user = Mage::getModel('Magento_User_Model_User')->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
 
         /** @var $session Magento_Backend_Model_Auth_Session */
         $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Frame
 
         $form = $block->getForm();
 
-        $this->assertInstanceOf('Magento_Data_Form', $form);
+        $this->assertInstanceOf('\Magento\Data\Form', $form);
         $this->assertEquals('post', $form->getData('method'));
         $this->assertEquals($block->getUrl('*/system_account/save'), $form->getData('action'));
         $this->assertEquals('edit_form', $form->getId());
@@ -81,7 +81,7 @@ class Magento_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Frame
 
         foreach ($expectedFieldset as $fieldId => $field) {
             $element = $form->getElement($fieldId);
-            $this->assertInstanceOf('Magento_Data_Form_Element_Abstract', $element);
+            $this->assertInstanceOf('\Magento\Data\Form\Element\AbstractElement', $element);
             $this->assertEquals($field['name'], $element->getName(), 'Wrong \'' . $fieldId . '\' field name');
             $this->assertEquals($field['type'], $element->getType(), 'Wrong \'' . $fieldId . ' field type');
             $this->assertEquals(

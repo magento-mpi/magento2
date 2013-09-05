@@ -14,13 +14,32 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info exte
     protected $_template = 'edit/tab/info.phtml';
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Init form fields
      *
      * @return Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
      */
     public function initForm()
     {
-        $form = new Magento_Data_Form();
+        $form = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('_info');
 
         $model = Mage::registry('current_giftcardaccount');
@@ -142,5 +161,15 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info exte
     {
         $result = $this->_getCurrency();
         return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+    }
+
+    /**
+     * Get is single store mode
+     *
+     * @return bool
+     */
+    public function isSingleStoreMode()
+    {
+        return $this->_storeManager->isSingleStoreMode();
     }
 }

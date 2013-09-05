@@ -57,15 +57,15 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk
      * Attempt to capture payment
      * Will return false if the payment is not supposed to be captured
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return false|null
      */
-    public function capture(Magento_Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         $result = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (false !== $result) {
-            $result = new Magento_Object($result);
+            $result = new \Magento\Object($result);
             $this->_importCaptureResultToPayment($result, $payment);
         }
         return $result;
@@ -75,15 +75,15 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk
     /**
      * Refund a capture transaction
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      */
-    public function refund(Magento_Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $result = $this->getPbridgeMethodInstance()->refund($payment, $amount);
 
         if ($result) {
-            $result = new Magento_Object($result);
+            $result = new \Magento\Object($result);
             $canRefundMore = $payment->getOrder()->canCreditmemo();
             $this->_importRefundResultToPayment($result, $payment, $canRefundMore);
         }
@@ -94,25 +94,25 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk
     /**
      * Refund a capture transaction
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      */
-    public function void(Magento_Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new Magento_Object($result), $payment);
+        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new \Magento\Object($result), $payment);
         return $result;
     }
 
     /**
      * Cancel payment
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      */
-    public function cancel(Magento_Object $payment)
+    public function cancel(\Magento\Object $payment)
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new Magento_Object($result), $payment);
+            Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new \Magento\Object($result), $payment);
         }
     }
 
@@ -120,10 +120,10 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk
     /**
      * Parent transaction id getter
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @return string
      */
-    protected function _getParentTransactionId(Magento_Object $payment)
+    protected function _getParentTransactionId(\Magento\Object $payment)
     {
         return $payment->getParentTransactionId();
     }

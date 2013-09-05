@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_GridTest extends PHPUni
         $this->assertStringStartsWith('http://localhost/index.php', $gridBlock->getGridUrl(),
             'Grid URL is invalid');
 
-        $row = new Magento_Object(array('id' => 1));
+        $row = new \Magento\Object(array('id' => 1));
         $this->assertStringStartsWith('http://localhost/index.php/product/1', $gridBlock->getRowUrl($row),
             'Grid row URL is invalid');
         $this->assertStringEndsWith('/category', $gridBlock->getRowUrl($row), 'Grid row URL is invalid');

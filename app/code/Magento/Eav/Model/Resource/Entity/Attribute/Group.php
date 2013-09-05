@@ -114,7 +114,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Group extends Magento_Core_Mod
         $select  = $adapter->select()
             ->from($this->getMainTable(), $this->getIdFieldName())
             ->where('attribute_set_id = :attribute_set_id')
-            ->order('default_id ' . Magento_Data_Collection::SORT_ORDER_DESC)
+            ->order('default_id ' . \Magento\Data\Collection::SORT_ORDER_DESC)
             ->limit(1);
 
         $groupId = $adapter->fetchOne($select, $bind);

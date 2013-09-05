@@ -48,9 +48,9 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
 
     public function setUp()
     {
-        $this->_selectMock = $this->_makeMock('Magento_DB_Select');
+        $this->_selectMock = $this->_makeMock('\Magento\DB\Select');
         $this->_resourceMock = $this->_makeMock('Magento_Core_Model_Resource');
-        $this->_adapterMock = $this->_makeMock('Magento_DB_Adapter_Pdo_Mysql');
+        $this->_adapterMock = $this->_makeMock('\Magento\DB\Adapter\Pdo\Mysql');
         $this->_adapterMock->expects($this->any())
             ->method('select')
             ->with()

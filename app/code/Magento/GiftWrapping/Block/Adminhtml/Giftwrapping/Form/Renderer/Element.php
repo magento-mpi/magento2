@@ -22,7 +22,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element
     /**
      * Retrieve data object related with form
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getDataObject()
     {

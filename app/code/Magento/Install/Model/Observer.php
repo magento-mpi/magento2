@@ -14,7 +14,7 @@
 class Magento_Install_Model_Observer
 {
     /**
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function bindLocale($observer)

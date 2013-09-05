@@ -29,7 +29,7 @@ class Magento_Eav_Model_Resource_Entity_Store extends Magento_Core_Model_Resourc
     /**
      * Load an object by entity type and store
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @param int $entityTypeId
      * @param int $storeId
      * @return boolean

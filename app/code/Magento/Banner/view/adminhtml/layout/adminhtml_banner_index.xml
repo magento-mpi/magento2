@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_banner_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_banner_index">
         <reference name="content">
-            <block type="Magento_Banner_Block_Adminhtml_Banner" name="banner_list"/>
+            <block class="Magento_Banner_Block_Adminhtml_Banner" name="banner_list"/>
         </reference>
-    </adminhtml_banner_index>
+    </handle>
 </layout>

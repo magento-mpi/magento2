@@ -22,14 +22,14 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Read connection
      *
-     * @var Magento_DB_Adapter_Pdo_Mysql
+     * @var \Magento\DB\Adapter\Pdo\Mysql
      */
     protected $_read;
 
     /**
      * Write connection
      *
-     * @var Magento_DB_Adapter_Pdo_Mysql
+     * @var \Magento\DB\Adapter\Pdo\Mysql
      */
     protected $_write;
 
@@ -199,7 +199,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Retrieve connection for read data
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     protected function _getReadAdapter()
     {
@@ -212,7 +212,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Retrieve connection for write data
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     protected function _getWriteAdapter()
     {
@@ -225,7 +225,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Retrieve read DB connection
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     public function getReadConnection()
     {
@@ -235,7 +235,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Retrieve write DB connection
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     public function getWriteConnection()
     {
@@ -596,7 +596,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Check whether the attribute is Applicable to the object
      *
-     * @param   Magento_Object $object
+     * @param   \Magento\Object $object
      * @param   Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @return  boolean
      */
@@ -839,7 +839,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Validate all object's attributes against configuration
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @throws Magento_Eav_Model_Entity_Attribute_Exception
      * @return bool|array
      */
@@ -865,10 +865,10 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Set new increment id to object
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Abstract
      */
-    public function setNewIncrementId(Magento_Object $object)
+    public function setNewIncrementId(\Magento\Object $object)
     {
         if ($object->getIncrementId()) {
             return $this;
@@ -887,7 +887,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
      * Check attribute unique value
      *
      * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return boolean
      */
     public function checkAttributeUniqueValue(Magento_Eav_Model_Entity_Attribute_Abstract $attribute, $object)
@@ -908,8 +908,8 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
         } else {
             $value = $object->getData($attribute->getAttributeCode());
             if ($attribute->getBackend()->getType() == 'datetime') {
-                $date  = new Zend_Date($value, Magento_Date::DATE_INTERNAL_FORMAT);
-                $value = $date->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
+                $date  = new Zend_Date($value, \Magento\Date::DATE_INTERNAL_FORMAT);
+                $value = $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
             }
             $bind = array(
                 'entity_type_id' => $this->getTypeId(),
@@ -954,7 +954,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
      */
     public function load($object, $entityId, $attributes = array())
     {
-        Magento_Profiler::start('EAV:load_entity');
+        \Magento\Profiler::start('EAV:load_entity');
         /**
          * Load object base row data
          */
@@ -981,7 +981,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
 
         $this->_afterLoad($object);
 
-        Magento_Profiler::stop('EAV:load_entity');
+        \Magento\Profiler::stop('EAV:load_entity');
         return $this;
     }
 
@@ -997,7 +997,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
             return $this;
         }
 
-        Magento_Profiler::start('load_model_attributes');
+        \Magento\Profiler::start('load_model_attributes');
 
         $selects = array();
         foreach (array_keys($this->getAttributesByTable()) as $table) {
@@ -1017,7 +1017,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
             }
         }
 
-        Magento_Profiler::stop('load_model_attributes');
+        \Magento\Profiler::stop('load_model_attributes');
 
         return $this;
     }
@@ -1036,7 +1036,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Retrieve select object for loading base entity row
      *
-     * @param   Magento_Object $object
+     * @param   \Magento\Object $object
      * @param   mixed $rowId
      * @return  Zend_Db_Select
      */
@@ -1052,7 +1052,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Retrieve select object for loading entity attributes values
      *
-     * @param   Magento_Object $object
+     * @param   \Magento\Object $object
      * @param   string $table
      * @return  Zend_Db_Select
      */
@@ -1068,7 +1068,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Initialize attribute value for object
      *
-     * @param   Magento_Object $object
+     * @param   \Magento\Object $object
      * @param   array $valueRow
      * @return  Magento_Eav_Model_Entity_Abstract
      */
@@ -1087,10 +1087,10 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Save entity's attributes into the object's resource
      *
-     * @param   Magento_Object $object
+     * @param   \Magento\Object $object
      * @return  Magento_Eav_Model_Entity_Abstract
      */
-    public function save(Magento_Object $object)
+    public function save(\Magento\Object $object)
     {
         if ($object->isDeleted()) {
             return $this->delete($object);
@@ -1116,8 +1116,8 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Retrieve Object instance with original data
      *
-     * @param Magento_Object $object
-     * @return Magento_Object
+     * @param \Magento\Object $object
+     * @return \Magento\Object
      */
     protected function _getOrigObject($object)
     {
@@ -1154,7 +1154,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
      *  'newObject', 'entityRow', 'insert', 'update', 'delete'
      * )
      *
-     * @param   Magento_Object $newObject
+     * @param   \Magento\Object $newObject
      * @return  array
      */
     protected function _collectSaveData($newObject)
@@ -1216,6 +1216,14 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
             }
 
             $attrId = $attribute->getAttributeId();
+
+            /**
+             * Only scalar values can be stored in generic tables
+             */
+            if (!$attribute->getBackend()->isScalar()) {
+                continue;
+            }
+
 
             /**
              * if attribute is static add to entity row and continue
@@ -1344,7 +1352,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
         /**
          * Process base row
          */
-        $entityObject = new Magento_Object($entityRow);
+        $entityObject = new \Magento\Object($entityRow);
         $entityRow    = $this->_prepareDataForTable($entityObject, $entityTable);
         if ($insertEntity) {
             if (!empty($entityId)) {
@@ -1399,7 +1407,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Insert entity attribute value
      *
-     * @param   Magento_Object $object
+     * @param   \Magento\Object $object
      * @param   Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param   mixed $value
      * @return  Magento_Eav_Model_Entity_Abstract
@@ -1412,7 +1420,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Update entity attribute value
      *
-     * @param   Magento_Object $object
+     * @param   \Magento\Object $object
      * @param   Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param   mixed $valueId
      * @param   mixed $value
@@ -1486,10 +1494,12 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
      */
     protected function _prepareValueForSave($value, Magento_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
-        if ($attribute->getBackendType() == 'decimal') {
-            return Mage::app()->getLocale()->getNumber($value);
+        $type = $attribute->getBackendType();
+        if (($type == 'int' || $type == 'decimal' || $type == 'datetime') && $value === '') {
+            $value = null;
+        } else if ($type == 'decimal') {
+            $value = Mage::app()->getLocale()->getNumber($value);
         }
-
         $backendTable = $attribute->getBackendTable();
         if (!isset(self::$_attributeBackendTables[$backendTable])) {
             self::$_attributeBackendTables[$backendTable] = $this->_getReadAdapter()->describeTable($backendTable);
@@ -1501,10 +1511,10 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Delete entity attribute values
      *
-     * @param   Magento_Object $object
+     * @param   \Magento\Object $object
      * @param   string $table
      * @param   array $info
-     * @return  Magento_Object
+     * @return  \Magento\Object
      */
     protected function _deleteAttributes($object, $table, $info)
     {
@@ -1529,12 +1539,12 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Save attribute
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @param string $attributeCode
      * @return Magento_Eav_Model_Entity_Abstract
      * @throws Exception
      */
-    public function saveAttribute(Magento_Object $object, $attributeCode)
+    public function saveAttribute(\Magento\Object $object, $attributeCode)
     {
         $attribute      = $this->getAttribute($attributeCode);
         $backend        = $attribute->getBackend();
@@ -1588,7 +1598,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Delete entity using current object's data
      *
-     * @param Magento_Object|int|string $object
+     * @param \Magento\Object|int|string $object
      * @return Magento_Eav_Model_Entity_Abstract
      * @throws Exception
      */
@@ -1596,7 +1606,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     {
         if (is_numeric($object)) {
             $id = (int)$object;
-        } elseif ($object instanceof Magento_Object) {
+        } elseif ($object instanceof \Magento\Object) {
             $id = (int)$object->getId();
         }
 
@@ -1622,24 +1632,24 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * After Load Entity process
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Abstract
      */
-    protected function _afterLoad(Magento_Object $object)
+    protected function _afterLoad(\Magento\Object $object)
     {
-        Magento_Profiler::start('after_load');
+        \Magento\Profiler::start('after_load');
         $this->walkAttributes('backend/afterLoad', array($object));
-        Magento_Profiler::stop('after_load');
+        \Magento\Profiler::stop('after_load');
         return $this;
     }
 
     /**
      * Before delete Entity process
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Abstract
      */
-    protected function _beforeSave(Magento_Object $object)
+    protected function _beforeSave(\Magento\Object $object)
     {
         $this->walkAttributes('backend/beforeSave', array($object));
         return $this;
@@ -1648,10 +1658,10 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * After Save Entity process
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Abstract
      */
-    protected function _afterSave(Magento_Object $object)
+    protected function _afterSave(\Magento\Object $object)
     {
         $this->walkAttributes('backend/afterSave', array($object));
         return $this;
@@ -1660,10 +1670,10 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Before Delete Entity process
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Abstract
      */
-    protected function _beforeDelete(Magento_Object $object)
+    protected function _beforeDelete(\Magento\Object $object)
     {
         $this->walkAttributes('backend/beforeDelete', array($object));
         return $this;
@@ -1672,10 +1682,10 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * After delete entity process
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Eav_Model_Entity_Abstract
      */
-    protected function _afterDelete(Magento_Object $object)
+    protected function _afterDelete(\Magento\Object $object)
     {
         $this->walkAttributes('backend/afterDelete', array($object));
         return $this;

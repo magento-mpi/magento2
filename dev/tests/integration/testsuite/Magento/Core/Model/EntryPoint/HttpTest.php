@@ -13,15 +13,15 @@ class Magento_Core_Model_EntryPoint_HttpTest extends PHPUnit_Framework_TestCase
      */
     public function testProcessRequestBootstrapException()
     {
-        if (!Magento_Test_Helper_Bootstrap::canTestHeaders()) {
+        if (!Magento_TestFramework_Helper_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test entry point response without sending headers');
         }
 
         $config = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
-        $objectManager = $this->getMock('Magento_ObjectManager');
+        $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager->expects($this->any())
             ->method('get')
-            ->will($this->throwException(new Magento_BootstrapException('exception_message')));
+            ->will($this->throwException(new \Magento\BootstrapException('exception_message')));
 
         $config = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
 

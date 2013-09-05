@@ -74,7 +74,7 @@ class Magento_CatalogEvent_Model_Resource_Event extends Magento_Core_Model_Resou
     {
         $rootCategoryId = Mage::app()->getStore($storeId)->getRootCategoryId();
 
-        /* @var $select Magento_DB_Select */
+        /* @var $select \Magento\DB\Select */
         $select = Mage::getModel('Magento_Catalog_Model_Category')->getCollection()
             ->setStoreId(Mage::app()->getStore($storeId)->getId())
             ->addIsActiveFilter()

@@ -171,7 +171,7 @@ class Magento_Widget_Model_Resource_Widget_Instance extends Magento_Core_Model_R
      * Perform actions before object delete.
      * Collect page ids and layout update ids and set to object for further delete
      *
-     * @param Magento_Object $object
+     * @param \Magento\Object $object
      * @return Magento_Widget_Model_Resource_Widget_Instance
      */
     protected function _beforeDelete(Magento_Core_Model_Abstract $object)

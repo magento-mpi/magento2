@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_ObjectManager_Interception_Definition_Compiled implements Magento_ObjectManager_Interception_Definition
+namespace Magento\ObjectManager\Interception\Definition;
+
+class Compiled implements \Magento\ObjectManager\Interception\Definition
 {
     /**
      * List of plugin definitions

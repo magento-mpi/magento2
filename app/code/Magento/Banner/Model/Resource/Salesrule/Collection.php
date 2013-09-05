@@ -26,7 +26,7 @@ class Magento_Banner_Model_Resource_Salesrule_Collection extends Magento_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('Magento_Object', 'Magento_SalesRule_Model_Resource_Rule');
+        $this->_init('\Magento\Object', 'Magento_SalesRule_Model_Resource_Rule');
         $this->setMainTable('magento_banner_salesrule');
     }
 

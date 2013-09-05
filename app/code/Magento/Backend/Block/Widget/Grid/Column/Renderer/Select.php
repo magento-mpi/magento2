@@ -51,10 +51,10 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Select
     /**
      * Renders grid column
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $name = $this->getColumn()->getName() ? $this->getColumn()->getName() : $this->getColumn()->getId();
         $html = '<select name="' . $this->escapeHtml($name) . '" ' . $this->getColumn()->getValidateClass() . '>';

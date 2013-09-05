@@ -14,7 +14,7 @@
 class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 
@@ -37,7 +37,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Fram
     {
         parent::setUp();
 
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
         $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
         $this->_block = $this->_blockFactory->createBlock('Magento_Webapi_Block_Adminhtml_User_Edit_Tab_Main');
@@ -54,7 +54,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Fram
      * Test _prepareForm method.
      *
      * @dataProvider prepareFormDataProvider
-     * @param Magento_Object $apiUser
+     * @param \Magento\Object $apiUser
      * @param array $formElements
      */
     public function testPrepareForm($apiUser, array $formElements)
@@ -66,10 +66,10 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Fram
         $this->_block->toHtml();
 
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('Magento_Data_Form', $form);
-        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
+        $this->assertInstanceOf('\Magento\Data\Form', $form);
+        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
-        $this->assertInstanceOf('Magento_Data_Form_Element_Fieldset', $fieldset);
+        $this->assertInstanceOf('\Magento\Data\Form\Element\Fieldset', $fieldset);
         $elements = $fieldset->getElements();
         foreach ($formElements as $elementId) {
             $element = $elements->searchById($elementId);
@@ -85,7 +85,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Fram
     {
         return array(
             'Empty API User' => array(
-                new Magento_Object(),
+                new \Magento\Object(),
                 array(
                     'company_name',
                     'contact_email',
@@ -94,7 +94,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Fram
                 )
             ),
             'New API User' => array(
-                new Magento_Object(array(
+                new \Magento\Object(array(
                     'company_name' => 'Company',
                     'contact_email' => 'mail@example.com',
                     'api_key' => 'API Key',
@@ -109,7 +109,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Fram
                 )
             ),
             'Existed API User' => array(
-                new Magento_Object(array(
+                new \Magento\Object(array(
                     'id' => 1,
                     'company_name' => 'Company',
                     'contact_email' => 'mail@example.com',

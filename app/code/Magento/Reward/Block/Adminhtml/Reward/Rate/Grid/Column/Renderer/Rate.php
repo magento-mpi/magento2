@@ -22,10 +22,10 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Grid_Column_Renderer_Rate
     /**
      * Renders grid column
      *
-     * @param   Magento_Object $row
+     * @param   \Magento\Object $row
      * @return  string
      */
-    public function render(Magento_Object $row)
+    public function render(\Magento\Object $row)
     {
         $websiteId = $row->getWebsiteId();
         return Magento_Reward_Model_Reward_Rate::getRateText($row->getDirection(), $row->getPoints(),

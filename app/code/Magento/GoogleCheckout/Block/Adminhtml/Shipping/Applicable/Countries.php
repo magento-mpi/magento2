@@ -14,7 +14,7 @@ class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Applicable_Countries
     protected $_addRowButtonHtml = array();
     protected $_removeRowButtonHtml = array();
 
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = parent::_getElementHtml($element);
         $html .= $this->_appendJs($element);

@@ -19,7 +19,7 @@ class Magento_Webhook_Model_Job_FactoryTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_jobFactory = new Magento_Webhook_Model_Job_Factory($this->_mockObjectManager);
@@ -27,10 +27,10 @@ class Magento_Webhook_Model_Job_FactoryTest extends PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $subscription = $this->getMockBuilder('Magento_PubSub_SubscriptionInterface')
+        $subscription = $this->getMockBuilder('Magento\PubSub\SubscriptionInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $event = $this->getMockBuilder('Magento_PubSub_EventInterface')
+        $event = $this->getMockBuilder('Magento\PubSub\EventInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $job = 'JOB';

@@ -13,23 +13,23 @@ class Magento_DB_SelectTest extends PHPUnit_Framework_TestCase
 {
     public function testWhere()
     {
-        $select = new Magento_DB_Select($this->_getAdapterMockWithMockedQuote(1, "'5'"));
+        $select = new \Magento\DB\Select($this->_getAdapterMockWithMockedQuote(1, "'5'"));
         $select->from('test')->where('field = ?', 5);
         $this->assertEquals("SELECT `test`.* FROM `test` WHERE (field = '5')", $select->assemble());
 
-        $select = new Magento_DB_Select($this->_getAdapterMockWithMockedQuote(1, "''"));
+        $select = new \Magento\DB\Select($this->_getAdapterMockWithMockedQuote(1, "''"));
         $select->from('test')->where('field = ?');
         $this->assertEquals("SELECT `test`.* FROM `test` WHERE (field = '')", $select->assemble());
 
-        $select = new Magento_DB_Select($this->_getAdapterMockWithMockedQuote(1, "'%?%'"));
+        $select = new \Magento\DB\Select($this->_getAdapterMockWithMockedQuote(1, "'%?%'"));
         $select->from('test')->where('field LIKE ?', '%value?%');
         $this->assertEquals("SELECT `test`.* FROM `test` WHERE (field LIKE '%?%')", $select->assemble());
 
-        $select = new Magento_DB_Select($this->_getAdapterMockWithMockedQuote(0));
-        $select->from('test')->where("field LIKE '%value?%'", null, Magento_DB_Select::TYPE_CONDITION);
+        $select = new \Magento\DB\Select($this->_getAdapterMockWithMockedQuote(0));
+        $select->from('test')->where("field LIKE '%value?%'", null, \Magento\DB\Select::TYPE_CONDITION);
         $this->assertEquals("SELECT `test`.* FROM `test` WHERE (field LIKE '%value?%')", $select->assemble());
 
-        $select = new Magento_DB_Select($this->_getAdapterMockWithMockedQuote(1, "'1', '2', '4', '8'"));
+        $select = new \Magento\DB\Select($this->_getAdapterMockWithMockedQuote(1, "'1', '2', '4', '8'"));
         $select->from('test')->where("id IN (?)", array(1, 2, 4, 8));
         $this->assertEquals("SELECT `test`.* FROM `test` WHERE (id IN ('1', '2', '4', '8'))", $select->assemble());
     }

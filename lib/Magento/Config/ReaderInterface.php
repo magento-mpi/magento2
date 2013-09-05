@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Config_ReaderInterface
+namespace Magento\Config;
+
+interface ReaderInterface
 {
     /**
      * Read configuration scope

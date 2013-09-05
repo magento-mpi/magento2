@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-interface Magento_Config_CacheInterface
+namespace Magento\Config;
+
+interface CacheInterface
 {
     /**
      * Retrieve config data

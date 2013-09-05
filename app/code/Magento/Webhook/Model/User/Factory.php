@@ -1,6 +1,6 @@
 <?php
 /**
- * Creates new instances of Magento_Outbound_UserInterface (via Magento_Webhook_Model_User)
+ * Creates new instances of \Magento\Outbound\UserInterface (via Magento_Webhook_Model_User)
  *
  * {license_notice}
  *
@@ -12,16 +12,16 @@
 class Magento_Webhook_Model_User_Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Initialize the class
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

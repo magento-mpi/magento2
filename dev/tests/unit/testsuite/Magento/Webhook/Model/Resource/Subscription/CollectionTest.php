@@ -39,7 +39,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $this->_selectMock->expects($this->any())
             ->method('from')
             ->with(array('main_table' => null));
-        $this->_connectionMock = $this->_makeMock('Magento_DB_Adapter_Pdo_Mysql');
+        $this->_connectionMock = $this->_makeMock('\Magento\DB\Adapter\Pdo\Mysql');
 
         $this->_connectionMock->expects($this->any())
             ->method('select')
@@ -50,7 +50,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $configResourceMock = $this->_makeMock('Magento_Core_Model_Config_Resource');
 
         // Arguments to collection constructor
-        $this->_fetchStrategyMock = $this->_makeMock('Magento_Data_Collection_Db_FetchStrategyInterface');
+        $this->_fetchStrategyMock = $this->_makeMock('\Magento\Data\Collection\Db\FetchStrategyInterface');
         $this->_endpointResMock = $this->_makeMock('Magento_Webhook_Model_Resource_Endpoint');
         $this->_resourceMock = $this-> _makeMock('Magento_Webhook_Model_Resource_Subscription');
         $this->_resourceMock->expects($this->any())
@@ -216,7 +216,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $collection = $this->_makeCollectionMock(array('addFieldToFilter'));
         $collection->expects($this->once())
             ->method('addFieldToFilter')
-            ->with('status', Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE);
+            ->with('status', \Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE);
         $this->assertInstanceOf('Magento_Webhook_Model_Resource_Subscription_Collection',
             $collection->addIsActiveFilter(true));
     }
@@ -226,7 +226,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $collection = $this->_makeCollectionMock(array('addFieldToFilter'));
         $collection->expects($this->once())
             ->method('addFieldToFilter')
-            ->with('status', Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE);
+            ->with('status', \Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE);
         $this->assertInstanceOf('Magento_Webhook_Model_Resource_Subscription_Collection',
             $collection->addIsActiveFilter(false));
     }
@@ -276,7 +276,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     protected function _setMageObjectManager()
     {
         Mage::reset();
-        $mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+        $mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
         Mage::setObjectManager($mockObjectManager);

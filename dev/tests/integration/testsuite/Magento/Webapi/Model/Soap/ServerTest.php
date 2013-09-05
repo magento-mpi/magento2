@@ -15,7 +15,7 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Webapi_Controller_Request_Soap */
     protected $_requestMock;
 
-    /** @var Magento_DomDocument_Factory */
+    /** @var \Magento\DomDocument\Factory */
     protected $_domDocumentFactory;
 
     /** @var Magento_Core_Model_Store */
@@ -34,7 +34,7 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         $this->_requestMock = $this->getMockBuilder('Magento_Webapi_Controller_Request_Soap')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
+        $this->_domDocumentFactory = $this->getMockBuilder('Magento\DomDocument\Factory')
             ->disableOriginalConstructor()->getMock();
 
         parent::setUp();

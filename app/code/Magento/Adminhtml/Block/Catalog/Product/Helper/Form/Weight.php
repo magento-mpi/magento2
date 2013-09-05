@@ -15,14 +15,14 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight extends Magento_Data_Form_Element_Text
+class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight extends \Magento\Data\Form\Element\Text
 {
     const VIRTUAL_FIELD_HTML_ID = 'weight_and_type_switcher';
 
     /**
      * Is virtual checkbox element
      *
-     * @var Magento_Data_Form_Element_Checkbox
+     * @var \Magento\Data\Form\Element\Checkbox
      */
     protected $_virtual;
 
@@ -38,7 +38,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight extends Magento
         $this->_helper = isset($data['helper']) ? $data['helper'] : Mage::helper('Magento_Catalog_Helper_Product');
         $this->_virtual = isset($data['element'])
             ? $data['element']
-            : Mage::getModel('Magento_Data_Form_Element_Checkbox');
+            : Mage::getModel('\Magento\Data\Form\Element\Checkbox');
         $this->_virtual->setId(self::VIRTUAL_FIELD_HTML_ID)->setName('is_virtual')
             ->setLabel($this->_helper->getTypeSwitcherControlLabel());
         $data['class'] = 'validate-number validate-zero-or-greater validate-number-range number-range-0-99999999.9999';
@@ -68,8 +68,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight extends Magento
     /**
      * Set form for both fields
      *
-     * @param Magento_Data_Form $form
-     * @return Magento_Data_Form
+     * @param \Magento\Data\Form $form
+     * @return \Magento\Data\Form
      */
     public function setForm($form)
     {

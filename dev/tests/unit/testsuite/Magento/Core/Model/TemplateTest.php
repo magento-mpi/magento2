@@ -23,7 +23,7 @@ class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $this->getMockForAbstractClass(
             'Magento_Core_Model_Template',
             $helper->getConstructArguments(
@@ -40,7 +40,7 @@ class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param array $config
-     * @expectedException Magento_Exception
+     * @expectedException \Magento\Exception
      * @dataProvider invalidInputParametersDataProvider
      */
     public function testSetDesignConfigWithInvalidInputParametersThrowsException($config)

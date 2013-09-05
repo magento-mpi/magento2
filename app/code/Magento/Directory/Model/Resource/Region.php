@@ -42,7 +42,7 @@ class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resourc
      * @param mixed $value
      * @param Magento_Core_Model_Abstract $object
      * 
-     * @return Magento_DB_Select
+     * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

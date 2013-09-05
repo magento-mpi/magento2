@@ -16,7 +16,7 @@ $installer = $this;
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_customercustomattributes_sales_flat_order'))
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
@@ -24,7 +24,7 @@ $table = $installer->getConnection()
         ), 'Entity Id')
     ->addForeignKey($installer->getFkName('magento_customercustomattributes_sales_flat_order', 'entity_id', 'sales_flat_order', 'entity_id'),
         'entity_id', $installer->getTable('sales_flat_order'), 'entity_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Customer Sales Flat Order');
 $installer->getConnection()->createTable($table);
 
@@ -33,7 +33,7 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_customercustomattributes_sales_flat_order_address'))
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
@@ -41,7 +41,7 @@ $table = $installer->getConnection()
         ), 'Entity Id')
     ->addForeignKey($installer->getFkName('magento_customercustomattributes_sales_flat_order_address', 'entity_id', 'sales_flat_order_address', 'entity_id'),
         'entity_id', $installer->getTable('sales_flat_order_address'), 'entity_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Customer Sales Flat Order Address');
 $installer->getConnection()->createTable($table);
 
@@ -50,7 +50,7 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_customercustomattributes_sales_flat_quote'))
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
@@ -58,7 +58,7 @@ $table = $installer->getConnection()
         ), 'Entity Id')
     ->addForeignKey($installer->getFkName('magento_customercustomattributes_sales_flat_quote', 'entity_id', 'sales_flat_quote', 'entity_id'),
         'entity_id', $installer->getTable('sales_flat_quote'), 'entity_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Customer Sales Flat Quote');
 $installer->getConnection()->createTable($table);
 
@@ -67,7 +67,7 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('magento_customercustomattributes_sales_flat_quote_address'))
-    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
@@ -75,6 +75,6 @@ $table = $installer->getConnection()
         ), 'Entity Id')
     ->addForeignKey($installer->getFkName('magento_customercustomattributes_sales_flat_quote_address', 'entity_id', 'sales_flat_quote_address', 'address_id'),
         'entity_id', $installer->getTable('sales_flat_quote_address'), 'address_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Customer Sales Flat Quote Address');
 $installer->getConnection()->createTable($table);

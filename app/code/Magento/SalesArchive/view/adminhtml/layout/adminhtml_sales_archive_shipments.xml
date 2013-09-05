@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_archive_shipments>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_archive_shipments">
         <reference name="content">
-            <block type="Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment" name="archive">
-                <block type="Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid" name="archive.grid" as="grid"/>
+            <block class="Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment" name="archive">
+                <block class="Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid" name="archive.grid" as="grid"/>
             </block>
         </reference>
-    </adminhtml_sales_archive_shipments>
+    </handle>
 </layout>

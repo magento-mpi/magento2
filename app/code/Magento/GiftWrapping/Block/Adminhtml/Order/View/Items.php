@@ -21,7 +21,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Items
     /**
      * Prepare and return order items info
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function getItemsInfo()
     {
@@ -44,7 +44,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Items
             $temp['design'] = $item->getGwId();
             $data[$item->getId()] = $temp;
         }
-        return new Magento_Object($data);
+        return new \Magento\Object($data);
     }
 
     /**

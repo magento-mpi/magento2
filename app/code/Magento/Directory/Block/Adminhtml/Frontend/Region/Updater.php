@@ -11,7 +11,7 @@
 class Magento_Directory_Block_Adminhtml_Frontend_Region_Updater
     extends Magento_Backend_Block_System_Config_Form_Field
 {
-    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = parent::_getElementHtml($element);
         $html .= "<script type=\"text/javascript\">var updater = new RegionUpdater('tax_defaults_country',"

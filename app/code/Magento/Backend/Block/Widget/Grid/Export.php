@@ -68,7 +68,7 @@ class Magento_Backend_Block_Widget_Grid_Export
     /**
      * Retrieve totals
      *
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _getTotals()
     {
@@ -88,7 +88,7 @@ class Magento_Backend_Block_Widget_Grid_Export
     /**
      * Get collection object
      *
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     protected function _getCollection()
     {
@@ -152,7 +152,7 @@ class Magento_Backend_Block_Widget_Grid_Export
      */
     public function addExportType($url, $label)
     {
-        $this->_exportTypes[] = new Magento_Object(
+        $this->_exportTypes[] = new \Magento\Object(
             array(
                 'url'   => $this->getUrl($url, array('_current'=>true)),
                 'label' => $label
@@ -215,7 +215,7 @@ class Magento_Backend_Block_Widget_Grid_Export
      */
     public function _exportIterateCollection($callback, array $args)
     {
-        /** @var $originalCollection Magento_Data_Collection */
+        /** @var $originalCollection \Magento\Data\Collection */
         $originalCollection = $this->getParentBlock()->getPreparedCollection();
         $count = null;
         $page  = 1;
@@ -245,10 +245,10 @@ class Magento_Backend_Block_Widget_Grid_Export
     /**
      * Write item data to csv export file
      *
-     * @param Magento_Object $item
-     * @param Magento_Filesystem_StreamInterface $stream
+     * @param \Magento\Object $item
+     * @param \Magento\Filesystem\StreamInterface $stream
      */
-    protected function _exportCsvItem(Magento_Object $item, Magento_Filesystem_StreamInterface $stream)
+    protected function _exportCsvItem(\Magento\Object $item, \Magento\Filesystem\StreamInterface $stream)
     {
         $row = array();
         foreach ($this->_getColumns() as $column) {
@@ -367,10 +367,10 @@ class Magento_Backend_Block_Widget_Grid_Export
     /**
      *  Get a row data of the particular columns
      *
-     * @param Magento_Object $data
+     * @param \Magento\Object $data
      * @return array
      */
-    public function getRowRecord(Magento_Object $data)
+    public function getRowRecord(\Magento\Object $data)
     {
         $row = array();
         foreach ($this->_getColumns() as $column) {
@@ -393,7 +393,7 @@ class Magento_Backend_Block_Widget_Grid_Export
     {
         $collection = $this->_getRowCollection();
 
-        $convert = new Magento_Convert_Excel($collection->getIterator(), array($this, 'getRowRecord'));
+        $convert = new \Magento\Convert\Excel($collection->getIterator(), array($this, 'getRowRecord'));
 
         $name = md5(microtime());
         $file = $this->_exportPath . DS . $name . '.xml';
@@ -457,30 +457,30 @@ class Magento_Backend_Block_Widget_Grid_Export
             $data[] = $row;
         }
 
-        $convert = new Magento_Convert_Excel(new ArrayIterator($data));
+        $convert = new \Magento\Convert\Excel(new ArrayIterator($data));
         return $convert->convert('single_sheet');
     }
 
     /**
      * Reformat base collection into collection without sub-collection in items
      *
-     * @param Magento_Data_Collection $baseCollection
-     * @return Magento_Data_Collection
+     * @param \Magento\Data\Collection $baseCollection
+     * @return \Magento\Data\Collection
      */
-    protected function _getRowCollection(Magento_Data_Collection $baseCollection = null)
+    protected function _getRowCollection(\Magento\Data\Collection $baseCollection = null)
     {
         if (null === $baseCollection) {
             $baseCollection = $this->getParentBlock()->getPreparedCollection();
         }
-        $collection = new Magento_Data_Collection();
+        $collection = new \Magento\Data\Collection();
 
-        /** @var $item Magento_Object */
+        /** @var $item \Magento\Object */
         foreach ($baseCollection as $item) {
             if ($item->getIsEmpty()) {
                 continue;
             }
             if ($item->hasChildren() && count($item->getChildren()) > 0) {
-                /** @var $subItem Magento_Object */
+                /** @var $subItem \Magento\Object */
                 foreach ($item->getChildren() as $subItem) {
                     $tmpItem = clone $item;
                     $tmpItem->unsChildren();
@@ -498,11 +498,11 @@ class Magento_Backend_Block_Widget_Grid_Export
     /**
      * Return prepared collection as row collection with additional conditions
      *
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function _getPreparedCollection()
     {
-        /** @var $collection Magento_Data_Collection */
+        /** @var $collection \Magento\Data\Collection */
         $collection = $this->getParentBlock()->getPreparedCollection();
         $collection->setPageSize(0);
         $collection->load();

@@ -125,10 +125,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Save page body to cache storage
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function cacheResponse(Magento_Event_Observer $observer)
+    public function cacheResponse(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -144,10 +144,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Check when cache should be disabled
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function processPreDispatch(Magento_Event_Observer $observer)
+    public function processPreDispatch(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -192,10 +192,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * model_load_after event processor. Collect tags of all loaded entities
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function registerModelTag(Magento_Event_Observer $observer)
+    public function registerModelTag(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -213,10 +213,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Check category state on post dispatch to allow category page be cached
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function checkCategoryState(Magento_Event_Observer $observer)
+    public function checkCategoryState(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -234,10 +234,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Check product state on post dispatch to allow product page be cached
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function checkProductState(Magento_Event_Observer $observer)
+    public function checkProductState(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -255,10 +255,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Check if data changes duering object save affect cached pages
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function validateDataChanges(Magento_Event_Observer $observer)
+    public function validateDataChanges(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -271,10 +271,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Check if data delete affect cached pages
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function validateDataDelete(Magento_Event_Observer $observer)
+    public function validateDataDelete(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -311,10 +311,10 @@ class Magento_FullPageCache_Model_Observer
      * Render placeholder tags around the block if needed
      *
      * Event: core_layout_render_element
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function renderBlockPlaceholder(Magento_Event_Observer $observer)
+    public function renderBlockPlaceholder(\Magento\Event\Observer $observer)
     {
         if (!$this->_isEnabled) {
             return $this;
@@ -340,10 +340,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Set cart hash in cookie on quote change
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function registerQuoteChange(Magento_Event_Observer $observer)
+    public function registerQuoteChange(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -362,10 +362,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Set compare list in cookie on list change. Also modify recently compared cookie.
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function registerCompareListChange(Magento_Event_Observer $observer)
+    public function registerCompareListChange(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -408,10 +408,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Set new message cookie on adding messsage to session.
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function processNewMessage(Magento_Event_Observer $observer)
+    public function processNewMessage(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -456,10 +456,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Set cookie for logged in customer
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function customerLogin(Magento_Event_Observer $observer)
+    public function customerLogin(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -472,10 +472,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Remove customer cookie
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function customerLogout(Magento_Event_Observer $observer)
+    public function customerLogout(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -494,10 +494,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Set wishlist hash in cookie on wishlist change
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function registerWishlistChange(Magento_Event_Observer $observer)
+    public function registerWishlistChange(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -521,10 +521,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Clear wishlist list
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function registerWishlistListChange(Magento_Event_Observer $observer)
+    public function registerWishlistListChange(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -543,10 +543,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Set poll hash in cookie on poll vote
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function registerPollChange(Magento_Event_Observer $observer)
+    public function registerPollChange(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -561,10 +561,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Clean order sidebar cache
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function registerNewOrder(Magento_Event_Observer $observer)
+    public function registerNewOrder(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -579,10 +579,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Remove new message cookie on clearing session messages.
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function processMessageClearing(Magento_Event_Observer $observer)
+    public function processMessageClearing(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -594,10 +594,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Resave exception rules to cache storage
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function registerDesignExceptionsChange(Magento_Event_Observer $observer)
+    public function registerDesignExceptionsChange(\Magento\Event\Observer $observer)
     {
         $object = $observer->getDataObject();
         $this->_fpcCache->save($object->getValue(), Magento_FullPageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY,
@@ -608,17 +608,17 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Update info about product on product page
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function updateProductInfo(Magento_Event_Observer $observer)
+    public function updateProductInfo(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
         }
 
         $paramsObject = $observer->getEvent()->getParams();
-        if ($paramsObject instanceof Magento_Object) {
+        if ($paramsObject instanceof \Magento\Object) {
             if (array_key_exists(Magento_FullPageCache_Model_Cookie::COOKIE_CATEGORY_ID, $_COOKIE)) {
                 $paramsObject->setCategoryId($_COOKIE[Magento_FullPageCache_Model_Cookie::COOKIE_CATEGORY_ID]);
             }
@@ -629,10 +629,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Check cross-domain session messages
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function checkMessages(Magento_Event_Observer $observer)
+    public function checkMessages(\Magento\Event\Observer $observer)
     {
         $transport = $observer->getEvent()->getTransport();
         if (!$transport || !$transport->getUrl()) {
@@ -653,10 +653,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Observer on changed Customer SegmentIds
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function changedCustomerSegmentIds(Magento_Event_Observer $observer)
+    public function changedCustomerSegmentIds(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return;
@@ -669,10 +669,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Disabling full page caching using no-cache cookie
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function setNoCacheCookie(Magento_Event_Observer $observer)
+    public function setNoCacheCookie(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -684,10 +684,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Activating full page cache by deleting no-cache cookie
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function deleteNoCacheCookie(Magento_Event_Observer $observer)
+    public function deleteNoCacheCookie(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -699,10 +699,10 @@ class Magento_FullPageCache_Model_Observer
     /**
      * Invalidate design changes cache when design change was added/deleted
      *
-     * @param Magento_Event_Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return Magento_FullPageCache_Model_Observer
      */
-    public function invalidateDesignChange(Magento_Event_Observer $observer)
+    public function invalidateDesignChange(\Magento\Event\Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;

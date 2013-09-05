@@ -144,10 +144,10 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Retrieve rendered item html content
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
-    public function getItemHtml(Magento_Object $item)
+    public function getItemHtml(\Magento\Object $item)
     {
         if ($item->getOrderItem()) {
             $type = $item->getOrderItem()->getProductType();
@@ -164,10 +164,10 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Retrieve rendered item extra info html content
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
-    public function getItemExtraInfoHtml(Magento_Object $item)
+    public function getItemExtraInfoHtml(\Magento\Object $item)
     {
         $extraInfoBlock = $this->getChildBlock('order_item_extra_info');
         if ($extraInfoBlock) {
@@ -181,12 +181,12 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Retrieve rendered column html content
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @param string $column the column key
      * @param string $field the custom item field
      * @return string
      */
-    public function getColumnHtml(Magento_Object $item, $column, $field = null)
+    public function getColumnHtml(\Magento\Object $item, $column, $field = null)
     {
         if ($item->getOrderItem()) {
             $block = $this->getColumnRenderer($column, $item->getOrderItem()->getProductType());
@@ -331,10 +331,10 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Retrieve include tax html formated content
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
-    public function displayPriceInclTax(Magento_Object $item)
+    public function displayPriceInclTax(\Magento\Object $item)
     {
         $qty = ($item->getQtyOrdered() ? $item->getQtyOrdered() : ($item->getQty() ? $item->getQty() : 1));
         $baseTax = ($item->getTaxBeforeDiscount() ? $item->getTaxBeforeDiscount() : ($item->getTaxAmount() ? $item->getTaxAmount() : 0));
@@ -357,7 +357,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Retrieve subtotal price include tax html formated content
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
     public function displaySubtotalInclTax($item)
@@ -374,10 +374,10 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Retrieve tax calculation html content
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
-    public function displayTaxCalculation(Magento_Object $item)
+    public function displayTaxCalculation(\Magento\Object $item)
     {
         if ($item->getTaxPercent() && $item->getTaxString() == '') {
             $percents = array($item->getTaxPercent());
@@ -396,10 +396,10 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Retrieve tax with persent html content
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return string
      */
-    public function displayTaxPercent(Magento_Object $item)
+    public function displayTaxPercent(\Magento\Object $item)
     {
         if ($item->getTaxPercent()) {
             return sprintf('%s%%', $item->getTaxPercent() + 0);

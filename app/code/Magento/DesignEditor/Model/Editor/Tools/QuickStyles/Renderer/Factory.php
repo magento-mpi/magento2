@@ -21,7 +21,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_Factory
     /**
      * Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -35,9 +35,9 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_Factory
     );
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

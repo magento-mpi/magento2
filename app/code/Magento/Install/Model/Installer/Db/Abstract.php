@@ -35,7 +35,7 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
     /**
      *  Adapter instance
      *
-     * @var Magento_DB_Adapter_Interface
+     * @var \Magento\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
@@ -118,7 +118,7 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
     /**
      * Create new connection with custom config
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return \Magento\DB\Adapter\AdapterInterface
      */
     protected function _getConnection()
     {

@@ -13,19 +13,20 @@ class Magento_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_Test
 {
     public function testOfferWebhookEvent()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         // New collection must be created to avoid interference between QueueReader tests
-        $collection =  Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection');
+        $collection =  $objectManager->create('Magento_Webhook_Model_Resource_Event_Collection');
         $readerArgs = array('collection' => $collection);
 
         $bodyData = array('webhook', 'event', 'body', 'data');
         /** @var Magento_Webhook_Model_Event_QueueWriter $queueWriter */
-        $queueWriter = Mage::getObjectManager()->create('Magento_Webhook_Model_Event_QueueWriter');
+        $queueWriter = $objectManager->create('Magento_Webhook_Model_Event_QueueWriter');
         /** @var Magento_Webhook_Model_Event $event */
-        $event = Mage::getObjectManager()->create('Magento_Webhook_Model_Event')
+        $event = $objectManager->create('Magento_Webhook_Model_Event')
             ->setBodyData($bodyData);
         $queueWriter->offer($event);
         /** @var Magento_Webhook_Model_Event_QueueReader $queueReader */
-        $queueReader = Mage::getObjectManager()->create('Magento_Webhook_Model_Event_QueueReader', $readerArgs);
+        $queueReader = $objectManager->create('Magento_Webhook_Model_Event_QueueReader', $readerArgs);
 
         $this->assertEquals($event->getBodyData(), $queueReader->poll()->getBodyData());
         // Make sure poll returns null after queue is empty
@@ -34,8 +35,9 @@ class Magento_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_Test
 
     public function testOfferMagentoEvent()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         // New collection must be created to avoid interference between QueueReader tests
-        $collection =  Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection');
+        $collection =  $objectManager->create('Magento_Webhook_Model_Resource_Event_Collection');
         $readerArgs = array('collection' => $collection);
 
         $bodyData = array('magento', 'event', 'body', 'data');
@@ -46,12 +48,12 @@ class Magento_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_Test
         );
 
         /** @var Magento_Webhook_Model_Event_QueueWriter $queueWriter */
-        $queueWriter = Mage::getObjectManager()->create('Magento_Webhook_Model_Event_QueueWriter');
+        $queueWriter = $objectManager->create('Magento_Webhook_Model_Event_QueueWriter');
         /** @var Magento_Webhook_Model_Event $magentoEvent */
-        $magentoEvent = Mage::getObjectManager()->create('Magento_PubSub_Event', $eventArgs);
+        $magentoEvent = $objectManager->create('Magento\PubSub\Event', $eventArgs);
         $queueWriter->offer($magentoEvent);
         /** @var Magento_Webhook_Model_Event_QueueReader $queueReader */
-        $queueReader = Mage::getObjectManager()->create('Magento_Webhook_Model_Event_QueueReader', $readerArgs);
+        $queueReader = $objectManager->create('Magento_Webhook_Model_Event_QueueReader', $readerArgs);
 
         $this->assertEquals($magentoEvent->getBodyData(), $queueReader->poll()->getBodyData());
         // Make sure poll returns null after queue is empty

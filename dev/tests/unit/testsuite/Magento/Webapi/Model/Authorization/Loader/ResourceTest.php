@@ -15,12 +15,12 @@ class Magento_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Fra
     protected $_model;
 
     /**
-     * @var Magento_Acl
+     * @var \Magento\Acl
      */
     protected $_acl;
 
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_helper;
 
@@ -35,12 +35,12 @@ class Magento_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Fra
     protected function setUp()
     {
         $fixturePath = __DIR__ . '/../../_files/';
-        $this->_helper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $resource = new Magento_Acl_Resource('test resource');
+        $resource = new \Magento\Acl\Resource('test resource');
 
-        /** @var $resourceFactory Magento_Acl_ResourceFactory */
-        $resourceFactory = $this->getMock('Magento_Acl_ResourceFactory',
+        /** @var $resourceFactory \Magento\Acl\ResourceFactory */
+        $resourceFactory = $this->getMock('Magento\Acl\ResourceFactory',
             array('createResource'), array(), '', false);
         $resourceFactory->expects($this->any())
             ->method('createResource')
@@ -57,7 +57,7 @@ class Magento_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Fra
         ));
 
         $this->_acl = $this->getMock(
-            'Magento_Acl', array('has', 'addResource', 'deny', 'getResources'), array(), '', false
+            'Magento\Acl', array('has', 'addResource', 'deny', 'getResources'), array(), '', false
         );
     }
 

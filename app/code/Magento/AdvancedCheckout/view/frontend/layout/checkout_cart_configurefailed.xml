@@ -7,22 +7,21 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_cart_configurefailed translate="label" type="page" parent="checkout_cart_configure">
-        <label>Configure Cart Item Failed</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Configure Cart Item Failed" id="checkout_cart_configurefailed" type="page" parent="checkout_cart_configure">
         <update handle="catalog_product_view"/>
         <reference name="product.info">
-            <block type="Magento_AdvancedCheckout_Block_Cart_Item_Configure" name="checkout.cart.item.configure.block"/>
+            <block class="Magento_AdvancedCheckout_Block_Cart_Item_Configure" name="checkout.cart.item.configure.block"/>
         </reference>
         <reference name="product.info.addtocart">
             <action method="setTemplate">
-                <template>Magento_Checkout::cart/item/configure/updatecart.phtml</template>
+                <argument name="template" xsi:type="string">Magento_Checkout::cart/item/configure/updatecart.phtml</argument>
             </action>
         </reference>
         <reference name="product.info.addtocart.additional">
             <action method="setTemplate">
-                <template>Magento_Checkout::cart/item/configure/updatecart.phtml</template>
+                <argument name="template" xsi:type="string">Magento_Checkout::cart/item/configure/updatecart.phtml</argument>
             </action>
         </reference>
-    </checkout_cart_configurefailed>
+    </handle>
 </layout>

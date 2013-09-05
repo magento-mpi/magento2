@@ -24,7 +24,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Form extends Magento
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        $form = new \Magento\Data\Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post'

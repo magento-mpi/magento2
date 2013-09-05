@@ -31,7 +31,7 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
 
     public function testObserverAction()
     {
-        $object = new Magento_Object();
+        $object = new \Magento\Object();
         $observer = Mage::getSingleton('Magento_ProductAlert_Model_Observer');
         $observer->process($object);
     }

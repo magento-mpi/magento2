@@ -111,10 +111,10 @@ class Magento_SalesRule_Model_Rule_Condition_Product_Subselect
     /**
      * validate
      *
-     * @param Magento_Object $object Quote
+     * @param \Magento\Object $object Quote
      * @return boolean
      */
-    public function validate(Magento_Object $object)
+    public function validate(\Magento\Object $object)
     {
         if (!$this->getConditions()) {
             return false;

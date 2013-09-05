@@ -47,7 +47,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     /**
      * Raw rate request data
      *
-     * @var Magento_Object
+     * @var \Magento\Object
      */
     protected $_rawRequest;
 
@@ -154,7 +154,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     {
         $this->_request = $request;
 
-        $rowRequest = new Magento_Object();
+        $rowRequest = new \Magento\Object();
 
         if ($request->getLimitMethod()) {
             $rowRequest->setAction($this->getCode('action', 'single'));
@@ -987,7 +987,7 @@ XMLRequest;
         $costArr = array();
         $priceArr = array();
         if (strlen(trim($xmlResponse)) > 0) {
-            $xml = new Magento_Simplexml_Config();
+            $xml = new \Magento\Simplexml\Config();
             $xml->loadString($xmlResponse);
             $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/ResponseStatusCode/text()");
             $success = (int)$arr[0];
@@ -1211,7 +1211,7 @@ XMLAuth;
         $packageProgress = array();
 
         if ($xmlResponse) {
-            $xml = new Magento_Simplexml_Config();
+            $xml = new \Magento\Simplexml\Config();
             $xml->loadString($xmlResponse);
             $arr = $xml->getXpath("//TrackResponse/Response/ResponseStatusCode/text()");
             $success = (int)$arr[0][0];
@@ -1356,10 +1356,10 @@ XMLAuth;
     /**
      * Form XML for shipment request
      *
-     * @param Magento_Object $request
+     * @param \Magento\Object $request
      * @return string
      */
-    protected function _formShipmentRequest(Magento_Object $request)
+    protected function _formShipmentRequest(\Magento\Object $request)
     {
         $packageParams = $request->getPackageParams();
         $height = $packageParams->getHeight();
@@ -1371,7 +1371,7 @@ XMLAuth;
         $itemsDesc = array();
         $itemsShipment = $request->getPackageItems();
         foreach ($itemsShipment as $itemShipment) {
-            $item = new Magento_Object();
+            $item = new \Magento\Object();
             $item->setData($itemShipment);
             $itemsDesc[] = $item->getName();
         }
@@ -1559,7 +1559,7 @@ XMLAuth;
      * Send and process shipment accept request
      *
      * @param Magento_Usa_Model_Simplexml_Element
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     protected function _sendShipmentAcceptRequest(Magento_Usa_Model_Simplexml_Element $shipmentConfirmResponse)
     {
@@ -1594,7 +1594,7 @@ XMLAuth;
             $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
         }
 
-        $result = new Magento_Object();
+        $result = new \Magento\Object();
         if (isset($response->Error)) {
             $result->setErrors((string)$response->Error->ErrorDescription);
         } else {
@@ -1627,14 +1627,14 @@ XMLAuth;
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param Magento_Object $request
-     * @return Magento_Object
+     * @param \Magento\Object $request
+     * @return \Magento\Object
      * @throws Exception
      */
-    protected function _doShipmentRequest(Magento_Object $request)
+    protected function _doShipmentRequest(\Magento\Object $request)
     {
         $this->_prepareShipmentRequest($request);
-        $result = new Magento_Object();
+        $result = new \Magento\Object();
         $xmlRequest = $this->_formShipmentRequest($request);
         $xmlResponse = $this->_getCachedQuotes($xmlRequest);
 
@@ -1704,10 +1704,10 @@ XMLAuth;
     /**
      * Return container types of carrier
      *
-     * @param Magento_Object|null $params
+     * @param \Magento\Object|null $params
      * @return array|bool
      */
-    public function getContainerTypes(Magento_Object $params = null)
+    public function getContainerTypes(\Magento\Object $params = null)
     {
         if ($params === null) {
             return $this->_getAllowedContainers($params);
@@ -1787,10 +1787,10 @@ XMLAuth;
     /**
      * Return delivery confirmation types of carrier
      *
-     * @param Magento_Object|null $params
+     * @param \Magento\Object|null $params
      * @return array|bool
      */
-    public function getDeliveryConfirmationTypes(Magento_Object $params = null)
+    public function getDeliveryConfirmationTypes(\Magento\Object $params = null)
     {
         $countryRecipient           = $params != null ? $params->getCountryRecipient() : null;
         $deliveryConfirmationTypes  = array();

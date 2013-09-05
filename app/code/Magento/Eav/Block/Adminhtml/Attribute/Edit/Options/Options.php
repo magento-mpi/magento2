@@ -119,7 +119,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Magento
                 ? $this->_prepareSystemAttributeOptionValues($option, $inputType, $defaultValues)
                 : $this->_prepareUserDefinedAttributeOptionValues($option, $inputType, $defaultValues);
             foreach ($bunch as $value) {
-                $values[] = new Magento_Object($value);
+                $values[] = new \Magento\Object($value);
             }
         }
 

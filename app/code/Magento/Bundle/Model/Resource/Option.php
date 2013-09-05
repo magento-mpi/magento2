@@ -45,7 +45,7 @@ class Magento_Bundle_Model_Resource_Option extends Magento_Core_Model_Resource_D
         $write = $this->_getWriteAdapter();
         $write->delete($this->getTable('catalog_product_bundle_option_value'), $condition);
 
-        $data = new Magento_Object();
+        $data = new \Magento\Object();
         $data->setOptionId($object->getId())
             ->setStoreId($object->getStoreId())
             ->setTitle($object->getTitle());

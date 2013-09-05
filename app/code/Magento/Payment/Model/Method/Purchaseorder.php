@@ -23,8 +23,8 @@ class Magento_Payment_Model_Method_Purchaseorder extends Magento_Payment_Model_M
      */
     public function assignData($data)
     {
-        if (!($data instanceof Magento_Object)) {
-            $data = new Magento_Object($data);
+        if (!($data instanceof \Magento\Object)) {
+            $data = new \Magento\Object($data);
         }
 
         $this->getInfoInstance()->setPoNumber($data->getPoNumber());

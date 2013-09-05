@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <customer_account>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="customer_account">
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label">
-                <name>magento_customerbalance</name>
-                <path>magento_customerbalance/info/</path>
-                <label>Store Credit</label>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">magento_customerbalance</argument>
+                <argument name="path" xsi:type="string">magento_customerbalance/info/</argument>
+                <argument translate="true" name="label" xsi:type="string">Store Credit</argument>
             </action>
         </reference>
-    </customer_account>
+    </handle>
 </layout>

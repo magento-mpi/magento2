@@ -17,7 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Backend_Model_Config extends Magento_Object
+class Magento_Backend_Model_Config extends \Magento\Object
 {
     /**
      * Config data for sections
@@ -444,7 +444,7 @@ class Magento_Backend_Model_Config extends Magento_Object
      * @param string $path
      * @param null|bool $inherit
      * @param null|array $configData
-     * @return Magento_Simplexml_Element
+     * @return \Magento\Simplexml\Element
      */
     public function getConfigDataValue($path, &$inherit = null, $configData = null)
     {

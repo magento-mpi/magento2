@@ -41,7 +41,7 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
     protected function setUp()
     {
         $this->_writeAdapter = $this->getMockForAbstractClass(
-            'Magento_DB_Adapter_Interface', array(), '', false, true, true,
+            '\Magento\DB\Adapter\AdapterInterface', array(), '', false, true, true,
             array(
                 'query',
                 'insertMultiple',
@@ -81,7 +81,7 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
      */
     public function testSaveCustomersFromSelect()
     {
-        $select = $this->getMock('Magento_DB_Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+        $select = $this->getMock('Magento\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
         $this->_segment->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(3));
@@ -139,7 +139,7 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
      */
     public function testAggregateMatchedCustomersOneWebsite($scope, $websites, $websiteIds)
     {
-        $select = $this->getMock('Magento_DB_Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+        $select = $this->getMock('Magento\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
         $this->_conditions->expects($this->once())
             ->method('getConditionsSql')
             ->with($this->isNull(), $this->equalTo($websiteIds))

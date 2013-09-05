@@ -14,9 +14,11 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-require_once 'Magento/File/Csv.php';
+namespace Magento\File;
 
-class Magento_File_CsvMulty extends Magento_File_Csv {
+
+require_once 'Magento/File/Csv.php';
+class CsvMulty extends \Magento\File\Csv {
 	/**
      * Retrieve CSV file data as pairs with duplicates
      *

@@ -15,7 +15,7 @@
  * @category   Magento
  * @package    Magento_Core
  */
-class Magento_Core_Model_Config_Element extends Magento_Simplexml_Element
+class Magento_Core_Model_Config_Element extends \Magento\Simplexml\Element
 {
 
     /**

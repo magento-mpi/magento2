@@ -44,15 +44,15 @@ class Magento_Core_Helper_File_Storage_Database extends Magento_Core_Helper_Abst
     protected $_mediaBaseDirectory;
 
     /**
-     * @var Magento_Filesystem
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Filesystem $filesystem)
+    public function __construct(Magento_Core_Helper_Context $context, \Magento\Filesystem $filesystem)
     {
         parent::__construct($context);
         $this->_filesystem = $filesystem;

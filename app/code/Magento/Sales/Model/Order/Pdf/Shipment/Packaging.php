@@ -99,8 +99,8 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
             $page->drawText($packageText, 525, $this->y , 'UTF-8');
             $packageNum++;
 
-            $package = new Magento_Object($package);
-            $params = new Magento_Object($package->getParams());
+            $package = new \Magento\Object($package);
+            $params = new \Magento\Object($package->getParams());
             $dimensionUnits = Mage::helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits());
 
             $typeText = __('Type') . ' : '
@@ -225,7 +225,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
 
             $i = 0;
             foreach ($package->getItems() as $itemId => $item) {
-                $item = new Magento_Object($item);
+                $item = new \Magento\Object($item);
                 $i = 0;
 
                 $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));

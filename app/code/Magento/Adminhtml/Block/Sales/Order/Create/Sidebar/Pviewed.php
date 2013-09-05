@@ -84,7 +84,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Magento
     /**
      * Retrieve identifier of block item
      *
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return int
      */
     public function getIdentifierId($item)

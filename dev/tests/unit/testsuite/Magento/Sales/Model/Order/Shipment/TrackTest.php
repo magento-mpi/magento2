@@ -18,7 +18,7 @@ class Magento_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_Sales_Model_Order_Shipment_Track');
     }
 
@@ -38,7 +38,7 @@ class Magento_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_Tes
     public function testGetStoreId()
     {
         $storeId = 10;
-        $storeObject = new Magento_Object(
+        $storeObject = new \Magento\Object(
             array('id' => $storeId)
         );
 

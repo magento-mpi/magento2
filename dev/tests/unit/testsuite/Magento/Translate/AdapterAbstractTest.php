@@ -11,13 +11,13 @@
 class Magento_Translate_AdapterAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Translate_AdapterAbstract
+     * @var \Magento\Translate\AdapterAbstract
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = $this->getMockBuilder('Magento_Translate_AdapterAbstract')
+        $this->_model = $this->getMockBuilder('Magento\Translate\AdapterAbstract')
             ->getMockForAbstractClass();
     }
 
@@ -34,7 +34,7 @@ class Magento_Translate_AdapterAbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testSetLocale()
     {
-        $this->assertInstanceOf('Magento_Translate_AdapterAbstract', $this->_model->setLocale('en_US'));
+        $this->assertInstanceOf('\Magento\Translate\AdapterAbstract', $this->_model->setLocale('en_US'));
     }
 
     /**
@@ -42,6 +42,6 @@ class Magento_Translate_AdapterAbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testToString()
     {
-        $this->assertEquals('Magento_Translate_Adapter', $this->_model->toString());
+        $this->assertEquals('\Magento\Translate\Adapter', $this->_model->toString());
     }
 }

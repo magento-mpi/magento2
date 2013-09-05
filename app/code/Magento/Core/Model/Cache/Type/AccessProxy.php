@@ -13,7 +13,7 @@
  * It's typical for "access proxies" to have a decorator-like implementation, the difference is logical -
  * controlling access rather than attaching additional responsibility to a subject.
  */
-class Magento_Core_Model_Cache_Type_AccessProxy extends Magento_Cache_Frontend_Decorator_Bare
+class Magento_Core_Model_Cache_Type_AccessProxy extends \Magento\Cache\Frontend\Decorator\Bare
 {
     /**
      * Cache types manager
@@ -30,12 +30,12 @@ class Magento_Core_Model_Cache_Type_AccessProxy extends Magento_Cache_Frontend_D
     private $_identifier;
 
     /**
-     * @param Magento_Cache_FrontendInterface $frontend
+     * @param \Magento\Cache\FrontendInterface $frontend
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param string $identifier Cache type identifier
      */
     public function __construct(
-        Magento_Cache_FrontendInterface $frontend,
+        \Magento\Cache\FrontendInterface $frontend,
         Magento_Core_Model_Cache_StateInterface $cacheState,
         $identifier
     ) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_DB_Profiler test case
+ * \Magento\DB\Profiler test case
  *
  * {license_notice}
  *
@@ -11,7 +11,7 @@ class Magento_DB_ProfilerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Profiler instance for test
-     * @var Magento_DB_Profiler
+     * @var \Magento\DB\Profiler
      */
     protected $_profiler;
 
@@ -20,7 +20,7 @@ class Magento_DB_ProfilerTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_profiler = new Magento_DB_Profiler(true);
+        $this->_profiler = new \Magento\DB\Profiler(true);
     }
 
     public function testSetHost()
@@ -46,7 +46,7 @@ class Magento_DB_ProfilerTest extends PHPUnit_Framework_TestCase
         $lastQueryId = $this->_profiler->queryStart('SELECT * FROM table');
         $endResult = $this->_profiler->queryEnd($lastQueryId);
         $this->assertAttributeEquals(null, '_lastQueryId', $this->_profiler);
-        $this->assertEquals(Magento_DB_Profiler::STORED, $endResult);
+        $this->assertEquals(\Magento\DB\Profiler::STORED, $endResult);
     }
 
     public function testQueryEndLast()
@@ -54,9 +54,9 @@ class Magento_DB_ProfilerTest extends PHPUnit_Framework_TestCase
         $this->_profiler->queryStart('SELECT * FROM table');
         $endResult = $this->_profiler->queryEndLast();
         $this->assertAttributeEquals(null, '_lastQueryId', $this->_profiler);
-        $this->assertEquals(Magento_DB_Profiler::STORED, $endResult);
+        $this->assertEquals(\Magento\DB\Profiler::STORED, $endResult);
 
         $endResult = $this->_profiler->queryEndLast();
-        $this->assertEquals(Magento_DB_Profiler::IGNORED, $endResult);
+        $this->assertEquals(\Magento\DB\Profiler::IGNORED, $endResult);
     }
 }

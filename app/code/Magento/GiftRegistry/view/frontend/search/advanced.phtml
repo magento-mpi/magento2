@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 ?>
+<?php /** @var $this Enterprise_GiftRegistry_Block_Search_Advanced  */ ?>
 
 <?php foreach ($this->getAttributes() as $code => $attribute): ?>
     <div class="field">
@@ -25,7 +26,7 @@
         head.js("<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
             function() {
                 $('#<?php echo $this->getFieldIdPrefix() . $this->getElementCountry()?>').regionUpdater({
-                    optionalRegionAllowed: <?php echo (Mage::getStoreConfig('general/region/display_all')? 'true' : 'false'); ?>,
+                    optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
                     regionListId: '#<?php echo $this->getFieldIdPrefix() . $this->getElementRegion()?>',
                     regionInputId: '#<?php echo $this->getFieldIdPrefix() . $this->getElementRegionText()?>',
                     regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson(); ?>,

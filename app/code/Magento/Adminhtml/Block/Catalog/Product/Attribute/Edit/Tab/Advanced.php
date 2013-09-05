@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
     {
         $attributeObject = $this->getAttributeObject();
 
-        $form = new Magento_Data_Form(array(
+        $form = new \Magento\Data\Form(array(
             'id' => 'edit_form',
             'action' => $this->getData('action'),
             'method' => 'post'

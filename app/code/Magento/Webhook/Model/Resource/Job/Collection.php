@@ -27,12 +27,12 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
     /**
      * Collection constructor
      *
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      * @param int $timeoutIdling
      */
     public function __construct(
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Resource_Db_Abstract $resource = null,
         $timeoutIdling = null
     ) {
@@ -62,11 +62,11 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
 
         $this->addFieldToFilter('status', array(
                 'in' => array(
-                    Magento_PubSub_JobInterface::STATUS_READY_TO_SEND,
-                    Magento_PubSub_JobInterface::STATUS_RETRY
+                    \Magento\PubSub\JobInterface::STATUS_READY_TO_SEND,
+                    \Magento\PubSub\JobInterface::STATUS_RETRY
                 )))
-            ->addFieldToFilter('retry_at', array('to' => Magento_Date::formatDate(true), 'datetime' => true))
-            ->setOrder('updated_at', Magento_Data_Collection::SORT_ORDER_ASC)
+            ->addFieldToFilter('retry_at', array('to' => \Magento\Date::formatDate(true), 'datetime' => true))
+            ->setOrder('updated_at', \Magento\Data\Collection::SORT_ORDER_ASC)
             ->setPageSize(self::PAGE_SIZE);
         return $this;
     }
@@ -96,7 +96,7 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
             $loadedIds = $this->_getLoadedIds();
             if (!empty($loadedIds)) {
                 $this->getConnection()->update($this->getMainTable(),
-                    array('status' => Magento_PubSub_JobInterface::STATUS_IN_PROGRESS),
+                    array('status' => \Magento\PubSub\JobInterface::STATUS_IN_PROGRESS),
                     array('dispatch_job_id IN (?)' => $loadedIds));
             }
             $this->getConnection()->commit();
@@ -138,8 +138,8 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
         try {
             /* if event is in progress state for less than defined delay we do nothing with it */
             $okUpdatedTime = time() - $this->_timeoutIdling;
-            $this->addFieldToFilter('status', Magento_PubSub_JobInterface::STATUS_IN_PROGRESS)
-                ->addFieldToFilter('updated_at', array('to' => Magento_Date::formatDate($okUpdatedTime),
+            $this->addFieldToFilter('status', \Magento\PubSub\JobInterface::STATUS_IN_PROGRESS)
+                ->addFieldToFilter('updated_at', array('to' => \Magento\Date::formatDate($okUpdatedTime),
                     'datetime' => true));
 
             if (!count($this->getItems())) {
