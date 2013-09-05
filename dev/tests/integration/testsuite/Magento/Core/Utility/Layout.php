@@ -73,6 +73,8 @@ class Magento_Core_Utility_Layout
     {
         $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         return array(
+            'factoryHelper'      => $objectManager->get('Magento_Core_Model_Factory_Helper'),
+            'coreData'           => $objectManager->get('Magento_Core_Helper_Data'),
             'design'             => $objectManager->get('Magento_Core_Model_View_DesignInterface'),
             'blockFactory'       => $objectManager->create('Magento_Core_Model_BlockFactory', array()),
             'structure'          => $objectManager->create('Magento_Data_Structure', array()),
