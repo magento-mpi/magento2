@@ -24,7 +24,6 @@ class Context
     const CONTEXT_TYPE_MODULE = 'module';
     const CONTEXT_TYPE_THEME = 'theme';
     const CONTEXT_TYPE_PUB = 'pub';
-    const CONTEXT_TYPE_PATH = 'path';
     /**#@-*/
 
     /**
@@ -32,10 +31,10 @@ class Context
      * - for module: <Namespace>_<module name>
      * - for theme: <area>/<theme name>
      * - for pub: relative path to file
-     * - for arbitrary directory: relative path to file
      *
      * @param string $path
      * @return array
+     * @throws \InvalidArgumentException
      */
     public function getContextByPath($path)
     {
@@ -51,8 +50,7 @@ class Context
             $type = self::CONTEXT_TYPE_PUB;
             $value = ltrim($value, '/');
         } else {
-            $type = self::CONTEXT_TYPE_PATH;
-            $value = $path;
+            throw new \InvalidArgumentException(sprintf('Invalid path given: "%s".', $path));
         }
         return array($type, $value);
     }
@@ -76,9 +74,6 @@ class Context
                 break;
             case self::CONTEXT_TYPE_PUB:
                 $path = 'pub/lib';
-                break;
-            case self::CONTEXT_TYPE_PATH:
-                $path = ltrim(pathinfo($value, PATHINFO_DIRNAME), '/');
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('Invalid meta-type given: "%s".', $type));

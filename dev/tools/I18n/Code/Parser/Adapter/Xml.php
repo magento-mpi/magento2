@@ -22,9 +22,8 @@ class Xml extends AbstractAdapter
      */
     protected function _parse($file)
     {
-        $this->_setErrorHandler();
         foreach ($this->_getNodes($file) as $element) {
-            if (!$element instanceof \Magento_Simplexml_Element) {
+            if (!$element instanceof \SimpleXMLElement) {
                 continue;
             }
             $attributes = $element->attributes();
@@ -40,25 +39,6 @@ class Xml extends AbstractAdapter
                 }
             }
         }
-        $this->_restoreErrorHandler();
-    }
-
-    /**
-     * Set error handler
-     */
-    protected function _setErrorHandler()
-    {
-        set_error_handler(function () {
-            return true;
-        }, \E_WARNING);
-    }
-
-    /**
-     * Restore error handler
-     */
-    protected function _restoreErrorHandler()
-    {
-        restore_error_handler();
     }
 
     /**
@@ -69,10 +49,14 @@ class Xml extends AbstractAdapter
      */
     protected function _getNodes($file)
     {
-        $xml = new \Magento_Simplexml_Config();
-        $xml->loadFile($file, 'SimpleXMLElement');
-        $nodes = $xml->getXpath("//*[@translate]");
-        unset($xml);
-        return is_array($nodes) ? $nodes : array();
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_file($file);
+        libxml_use_internal_errors(false);
+        if ($xml) {
+            $nodes = $xml->xpath('//*[@translate]');
+            unset($xml);
+            return is_array($nodes) ? $nodes : array();
+        }
+        return array();
     }
 }

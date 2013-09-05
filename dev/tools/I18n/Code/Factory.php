@@ -58,13 +58,6 @@ class Factory
     /**
      * Create Phrase
      *
-     * Row format:
-     * 0 cell: phrase
-     * 1: translate
-     * 2: context type
-     * 3: context value
-     * 4: line
-     *
      * @param array $data
      * @return \Magento\Tools\I18n\Code\Dictionary\Phrase
      */

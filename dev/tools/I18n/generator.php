@@ -5,30 +5,27 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/Code/bootstrap.php';
 
 use Magento\Tools\I18n\Code\ServiceLocator;
-use Magento\Tools\I18n\Code\Dictionary;
 
 try {
     $console = new Zend_Console_Getopt(array(
         'directory|d=s' => 'Absolute path to base directory, Magento code base by default',
-        'context|c=s' => 'Whether to infuse output with additional meta-information, by default "yes"',
         'output|o=s' => 'Path to output file name, by default output the results into standard output stream',
         'magento|m=s' => 'Is it magento folder?',
     ));
     $console->parse();
 
     $directory = $console->getOption('directory') ?: null;
-    $withContext = in_array($console->getOption('context'), array('y', 'yes', 'Y', 'Yes', 'YES'));
     $outputFilename = $console->getOption('output') ?: null;
-    $magento = $console->getOption('magento') ?: null;
+    $isMagento = in_array($console->getOption('magento'), array('y', 'yes', 'Y', 'Yes', 'YES'));
 
     if (!$directory) {
         throw new \InvalidArgumentException('Directory parameter is required.');
     }
 
-    if ($magento) {
+    if ($isMagento) {
         $parseOptions = array(
             array(
                 'type' => 'php',
@@ -77,8 +74,9 @@ try {
         );
     }
 
+
     $generator = ServiceLocator::getDictionaryGenerator();
-    $generator->generate($parseOptions, $outputFilename, $withContext);
+    $generator->generate($parseOptions, $outputFilename, $isMagento);
     $resultMessage = $generator->getResultMessage();
 
     fwrite(STDOUT, $resultMessage);

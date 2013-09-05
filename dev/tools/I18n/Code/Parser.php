@@ -67,12 +67,16 @@ class Parser implements ParserInterface
         $this->_validateOptions($parseOptions);
 
         foreach ($parseOptions as $parserOptions) {
+            $type = $parserOptions['type'];
+            if (!isset($this->_adapters[$type])) {
+                throw new \InvalidArgumentException(sprintf('Adapter is not set for type "%s".', $type));
+            }
+
             $fileMask = isset($parserOptions['fileMask']) ? $parserOptions['fileMask']  : '';
             $files = $this->_filesCollector->getFiles($parserOptions['paths'], $fileMask);
-
             foreach ($files as $file) {
-                $this->_adapters[$parserOptions['type']]->parse($file);
-                $this->_phrases = array_merge($this->_phrases, $this->_adapters[$parserOptions['type']]->getPhrases());
+                $this->_adapters[$type]->parse($file);
+                $this->_phrases = array_merge($this->_phrases, $this->_adapters[$type]->getPhrases());
             }
         }
     }
@@ -87,19 +91,10 @@ class Parser implements ParserInterface
     {
         foreach ($parseOptions as $parserOptions) {
             if (empty($parserOptions['type'])) {
-                throw new \InvalidArgumentException('Missed type in parser options.');
+                throw new \InvalidArgumentException('Missed "type" in parser options.');
             }
-            if (empty($parserOptions['paths'])) {
-                throw new \InvalidArgumentException('Missed paths in parser options.');
-            }
-            if (!is_array($parserOptions['paths'])) {
-                throw new \InvalidArgumentException('Paths in parser options must be array.');
-            }
-            if (empty($parserOptions['type'])) {
-                throw new \InvalidArgumentException('Missed type in parser options.');
-            }
-            if (!in_array($parserOptions['type'], array('php', 'js', 'xml'))) {
-                throw new \InvalidArgumentException('Missed type in parser options.');
+            if (!isset($parserOptions['paths']) || !is_array($parserOptions['paths'])) {
+                throw new \InvalidArgumentException('"paths" in parser options must be array.');
             }
         }
     }
