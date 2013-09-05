@@ -18,7 +18,8 @@ class Magento_Data_Form_Element_MultiselectTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_model = new Magento_Data_Form_Element_Multiselect();
+        $factoryElement = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
+        $this->_model = new Magento_Data_Form_Element_Multiselect($factoryElement);
         $this->_model->setForm(new Magento_Object());
     }
 

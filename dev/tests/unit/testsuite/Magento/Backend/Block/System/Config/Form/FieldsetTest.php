@@ -149,8 +149,9 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
         $fieldMock->expects($this->any())->method('toHtml')->will($this->returnValue('test_field_toHTML'));
 
         $helper = new Magento_Test_Helper_ObjectManager($this);
+        $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
         $collection = $helper->getObject('Magento_Data_Form_Element_Collection', array(
-            'container' => $this->getMock('Magento_Data_Form_Abstract')
+            'container' => $this->getMock('Magento_Data_Form_Abstract', array(), array($factory))
         ));
         $collection->add($fieldMock);
         $this->_elementMock->expects($this->any())->method('getElements')

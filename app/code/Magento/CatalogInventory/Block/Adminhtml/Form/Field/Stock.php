@@ -44,7 +44,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
     ) {
         $this->_qty = isset($attributes['qty']) ? $attributes['qty'] : $this->_createQtyElement();
         unset($attributes['qty']);
-        parent::__construct($attributes);
+        parent::__construct($factoryElement, $attributes);
         $this->setName($attributes['name']);
     }
 
