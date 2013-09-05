@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_Modular_EventConfigFilesTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Modular_EventConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -39,7 +39,7 @@ class Integrity_Modular_EventConfigFilesTest extends PHPUnit_Framework_TestCase
      */
     public function eventConfigFilesDataProvider()
     {
-        return Utility_Files::init()->getConfigFiles('{*/events.xml,events.xml}');
+        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('{*/events.xml,events.xml}');
 
     }
 }

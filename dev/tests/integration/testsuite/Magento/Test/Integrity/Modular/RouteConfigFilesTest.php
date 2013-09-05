@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-class Integrity_Modular_RouteConfigFilesTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Modular_RouteConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * attributes represent merging rules

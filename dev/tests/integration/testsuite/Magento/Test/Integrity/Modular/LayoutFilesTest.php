@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_ObjectManager
