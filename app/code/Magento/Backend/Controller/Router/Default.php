@@ -6,9 +6,9 @@
  * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-
-
 class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_Varien_Router_Base
 {
     /**
