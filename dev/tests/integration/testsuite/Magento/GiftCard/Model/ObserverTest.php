@@ -21,7 +21,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         'Magento_Filesystem',
         'Magento_Core_Model_View_Url',
         'Magento_Core_Model_View_FileSystem',
-        'Magento_Core_Model_View_DesignInterface'
+        'Magento_Core_Model_View_Design_Proxy'
     );
 
     /**
