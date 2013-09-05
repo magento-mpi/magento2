@@ -16,7 +16,7 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Backend_Block_Template
+class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Backend_Block_Template
 {
     /**
      * Renderers with render type key

@@ -13,7 +13,6 @@
             <module name="Magento_Enterprise"/>
         </sequence>
         <depends>
-            <module name="Magento_Adminhtml"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Core"/>
             <module name="Magento_AdminNotification" type="soft"/>

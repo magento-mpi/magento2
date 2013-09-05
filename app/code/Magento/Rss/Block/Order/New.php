@@ -20,17 +20,17 @@ class Magento_Rss_Block_Order_New extends Magento_Core_Block_Abstract
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var Magento_Backend_Helper_Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Core_Block_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Core_Block_Context $context,
         array $data = array()
     ) {
