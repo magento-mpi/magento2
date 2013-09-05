@@ -26,7 +26,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config_Modules $modulesConfig
+     * @param Magento_Core_Model_Config $modulesConfig
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
@@ -36,7 +36,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config_Modules $modulesConfig,
+        Magento_Core_Model_Config $modulesConfig,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
