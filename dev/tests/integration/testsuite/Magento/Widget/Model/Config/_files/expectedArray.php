@@ -9,7 +9,6 @@ return array(
     'sales_widget_guestform' => array(
         '@' => array(
             'type' => 'Magento_Sales_Block_Widget_Guest_Form',
-            'translate' => 'label description',
         ),
         'is_email_compatible' => '1',
         'name' => 'Orders and Returns',
@@ -18,9 +17,6 @@ return array(
             'title' => array(
                 'type' => 'text',
                 'visible' => '0',
-                '@' => array(
-                    'translate' => 'label',
-                ),
                 'label' => 'Anchor Custom Title'
             ),
             'template' => array(
@@ -28,16 +24,10 @@ return array(
                 'value' => 'hierarchy/widget/link/link_block.phtml',
                 'values' => array(
                     'default' => array(
-                        '@' => array(
-                            'translate' => 'label',
-                        ),
                         'value' => 'hierarchy/widget/link/link_block.phtml',
                         'label' => 'CMS Page Link Block Template',
                     ),
                     'link_inline' => array(
-                        '@' => array(
-                            'translate' => 'label',
-                        ),
                         'value' => 'hierarchy/widget/link/link_inline.phtml',
                         'label' => 'CMS Page Link Inline Template'
                     ),
@@ -48,9 +38,6 @@ return array(
                 'source_model' => 'Magento_Backend_Model_Config_Source_Yesno',
                 'type' => 'select',
                 'visible' => '1',
-                '@' => array(
-                    'translate' => 'label_description',
-                ),
                 'sort_order' => '10',
                 'label' => 'Display a Link to Loading a Spreadsheet',
                 'description' => "Defines whether a link to My Account",
@@ -60,9 +47,6 @@ return array(
                 'value' => 'Load a list of SKUs',
                 'visible' => '1',
                 'required' => '1',
-                '@' => array(
-                    'translate' => 'label description value',
-                ),
                 'sort_order' => '20',
                 'label' => 'Link Text',
                 'description' => 'The text of the link to the My Account &gt; Order by SKU page',
@@ -76,7 +60,6 @@ return array(
                 'type' => 'label',
                 '@' => array(
                     'type' => 'complex',
-                    'translate' => 'label'
                 ),
                 'helper_block' => array(
                     'type' => 'Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser',

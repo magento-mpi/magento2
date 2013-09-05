@@ -50,7 +50,6 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
             $element = $config['parameters']['template']['values']['list'];
         }
         $expected = array(
-            '@' => array('translate' => 'label'),
             'value' => 'product/widget/new/content/new_list.phtml',
             'label' => 'New Products List Template'
         );
