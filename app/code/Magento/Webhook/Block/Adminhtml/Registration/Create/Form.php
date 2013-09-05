@@ -42,11 +42,9 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
         Magento_Data_Form_Factory $formFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $formFactory, $data);
-
-        $this->_formFactory = $formFactory;
         $this->_coreHelper = $coreHelper;
         $this->_registry = $registry;
+        parent::__construct($context, $formFactory, $data);
     }
 
     /**
