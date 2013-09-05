@@ -34,7 +34,6 @@ app/code/Magento/Cms/Controller/Router.php
 app/code/Magento/Core/Block/Abstract.php
 app/code/Magento/Core/Controller/Varien/ActionAbstract.php
 app/code/Magento/Core/Controller/Varien/Action/Factory.php
-app/code/Magento/Core/Controller/Varien/Router/Factory.php
 app/code/Magento/Core/Controller/Varien/Action/Forward.php
 app/code/Magento/Core/Controller/Varien/DispatchableInterface.php
 app/code/Magento/Core/Controller/Varien/Router/Abstract.php

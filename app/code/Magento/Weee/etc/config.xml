@@ -19,41 +19,6 @@
                 </setup>
             </weee_setup>
         </resources>
-        <events>
-            <catalog_entity_attribute_save_before>
-                <observers>
-                    <weee>
-                        <type>model</type>
-                        <class>Magento_Weee_Model_Observer</class>
-                        <method>assignBackendModelToAttribute</method>
-                    </weee>
-                </observers>
-            </catalog_entity_attribute_save_before>
-            <catalogrule_after_apply>
-                <observers>
-                    <weee>
-                        <class>Magento_Weee_Model_Observer</class>
-                        <method>updateDiscountPercents</method>
-                    </weee>
-                </observers>
-            </catalogrule_after_apply>
-            <catalog_product_view_config>
-                <observers>
-                    <weee>
-                        <class>Magento_Weee_Model_Observer</class>
-                        <method>updateConfigurableProductOptions</method>
-                    </weee>
-                </observers>
-            </catalog_product_view_config>
-            <bundle_product_view_config>
-                <observers>
-                    <weee>
-                        <class>Magento_Weee_Model_Observer</class>
-                        <method>updateBundleProductOptions</method>
-                    </weee>
-                </observers>
-            </bundle_product_view_config>
-        </events>
         <sales>
             <quote>
                 <totals>
@@ -91,41 +56,6 @@
         </sales>
     </global>
     <adminhtml>
-        <events>
-            <adminhtml_catalog_product_edit_prepare_form>
-                <observers>
-                    <weee>
-                        <class>Magento_Weee_Model_Observer</class>
-                        <method>setWeeeRendererInForm</method>
-                    </weee>
-                </observers>
-            </adminhtml_catalog_product_edit_prepare_form>
-            <adminhtml_catalog_product_form_prepare_excluded_field_list>
-                <observers>
-                    <weee>
-                        <class>Magento_Weee_Model_Observer</class>
-                        <method>updateExcludedFieldList</method>
-                    </weee>
-                </observers>
-            </adminhtml_catalog_product_form_prepare_excluded_field_list>
-            <adminhtml_product_attribute_types>
-                <observers>
-                    <weee>
-                        <type>model</type>
-                        <class>Magento_Weee_Model_Observer</class>
-                        <method>addWeeeTaxAttributeType</method>
-                    </weee>
-                </observers>
-            </adminhtml_product_attribute_types>
-            <adminhtml_catalog_product_edit_element_types>
-                <observers>
-                    <weee>
-                        <class>Magento_Weee_Model_Observer</class>
-                        <method>updateElementTypes</method>
-                    </weee>
-                </observers>
-            </adminhtml_catalog_product_edit_element_types>
-        </events>
         <translate>
             <modules>
                 <Magento_Weee>
@@ -173,4 +103,4 @@
             </modules>
         </translate>
     </frontend>
-</config>
+</config>

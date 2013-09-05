@@ -72,9 +72,9 @@ class Magento_Test_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
     public function testGetModel()
     {
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        /** @var $model Magento_Core_Model_Config_Data */
-        $model = $objectManager->getObject('Magento_Core_Model_Config_Data');
-        $this->assertInstanceOf('Magento_Core_Model_Config_Data', $model);
+        /** @var $model Magento_Core_Model_Config_Value */
+        $model = $objectManager->getObject('Magento_Core_Model_Config_Value');
+        $this->assertInstanceOf('Magento_Core_Model_Config_Value', $model);
         foreach ($this->_modelDependencies as $propertyName => $propertyType) {
             $this->assertAttributeInstanceOf($propertyType, '_' . $propertyName, $model);
         }
@@ -94,7 +94,7 @@ class Magento_Test_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
             ->method('getIdFieldName')
             ->will($this->returnValue('id'));
         $arguments = array('resource' => $resourceMock);
-        $model = $objectManager->getObject('Magento_Core_Model_Config_Data', $arguments);
+        $model = $objectManager->getObject('Magento_Core_Model_Config_Value', $arguments);
         $this->assertFalse($model->getResource()->getDataVersion('test'));
     }
 }

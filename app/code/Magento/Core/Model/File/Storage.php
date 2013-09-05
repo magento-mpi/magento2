@@ -27,9 +27,9 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     /**
      * Config pathes for storing storage configuration
      */
-    const XML_PATH_STORAGE_MEDIA            = 'default/system/media_storage_configuration/media_storage';
-    const XML_PATH_STORAGE_MEDIA_DATABASE   = 'default/system/media_storage_configuration/media_database';
-    const XML_PATH_MEDIA_RESOURCE_WHITELIST = 'default/system/media_storage_configuration/allowed_resources';
+    const XML_PATH_STORAGE_MEDIA            = 'system/media_storage_configuration/media_storage';
+    const XML_PATH_STORAGE_MEDIA_DATABASE   = 'system/media_storage_configuration/media_database';
+    const XML_PATH_MEDIA_RESOURCE_WHITELIST = 'system/media_storage_configuration/allowed_resources';
     const XML_PATH_MEDIA_UPDATE_TIME        = 'system/media_storage_configuration/configuration_update_time';
 
 
@@ -206,7 +206,7 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
         $config = array();
         $config['media_directory'] = Mage::getBaseDir('media');
 
-        $allowedResources = (array) Mage::getConfig()->getNode(self::XML_PATH_MEDIA_RESOURCE_WHITELIST);
+        $allowedResources = Mage::getConfig()->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');
         foreach ($allowedResources as $allowedResource) {
             $config['allowed_resources'][] = $allowedResource;
         }

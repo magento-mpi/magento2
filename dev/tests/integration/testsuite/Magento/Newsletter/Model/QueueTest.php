@@ -14,7 +14,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Newsletter/_files/queue.php
      * @magentoConfigFixture frontend/design/theme/full_name magento_blank
-     * @magentoConfigFixture fixturestore_store general/locale/code  de_DE
+     * @magentoConfigFixture fixturestore_store general/locale/code de_DE
      * @magentoAppIsolation enabled
      */
     public function testSendPerSubscriber()

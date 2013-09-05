@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Core_Model_RouterList">
+        <param name="routerList">
+            <value>
+                <vde>
+                    <instance>Magento_DesignEditor_Controller_Varien_Router_Standard</instance>
+                    <disable type="bool">false</disable>
+                    <sortOrder>40</sortOrder>
+                </vde>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_DesignEditor_Controller_Varien_Router_Standard">
+        <param name="areaCode">
+            <value>frontend</value>
+        </param>
+        <param name="baseController">
+            <value>Magento_Core_Controller_Varien_Action</value>
+        </param>
+        <param name="routerId">
+            <value>vde</value>
+        </param>
+    </type>
+</config>

@@ -21,41 +21,6 @@
         </resources>
     </global>
     <frontend>
-        <events>
-            <controller_action_predispatch>
-                <observers>
-                    <magento_websiterestriction>
-                        <class>Magento_WebsiteRestriction_Model_Observer</class>
-                        <method>restrictWebsite</method>
-                    </magento_websiterestriction>
-                </observers>
-            </controller_action_predispatch>
-            <customer_registration_is_allowed>
-                <observers>
-                    <magento_websiterestriction>
-                        <class>Magento_WebsiteRestriction_Model_Observer</class>
-                        <method>restrictCustomersRegistration</method>
-                    </magento_websiterestriction>
-                </observers>
-            </customer_registration_is_allowed>
-            <controller_action_layout_load_before>
-                <observers>
-                    <magento_websiterestriction>
-                        <class>Magento_WebsiteRestriction_Model_Observer</class>
-                        <method>addPrivateSalesLayoutUpdate</method>
-                    </magento_websiterestriction>
-                </observers>
-            </controller_action_layout_load_before>
-        </events>
-        <routers>
-            <restriction>
-                <use>standard</use>
-                <args>
-                    <module>Magento_WebsiteRestriction</module>
-                    <frontName>restriction</frontName>
-                </args>
-            </restriction>
-        </routers>
         <magento>
             <websiterestriction>
                 <full_action_names>

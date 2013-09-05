@@ -16,16 +16,16 @@ class Magento_Backend_Model_Config_Loader
     /**
      * Config data factory
      *
-     * @var Magento_Core_Model_Config_DataFactory
+     * @var Magento_Core_Model_Config_ValueFactory
      */
-    protected $_configDataFactory;
+    protected $_configValueFactory;
 
     /**
-     * @param Magento_Core_Model_Config_DataFactory $configDataFactory
+     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
      */
-    public function __construct(Magento_Core_Model_Config_DataFactory $configDataFactory)
+    public function __construct(Magento_Core_Model_Config_ValueFactory $configValueFactory)
     {
-        $this->_configDataFactory = $configDataFactory;
+        $this->_configValueFactory = $configValueFactory;
     }
 
     /**
@@ -39,7 +39,7 @@ class Magento_Backend_Model_Config_Loader
      */
     public function getConfigByPath($path, $scope, $scopeId, $full = true)
     {
-        $configDataCollection = $this->_configDataFactory->create();
+        $configDataCollection = $this->_configValueFactory->create();
         $configDataCollection = $configDataCollection
             ->getCollection()
             ->addScopeFilter($scope, $scopeId, $path);

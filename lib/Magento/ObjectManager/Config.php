@@ -56,22 +56,6 @@ interface Magento_ObjectManager_Config
     public function getPreference($type);
 
     /**
-     * Check whether type has configured plugins
-     *
-     * @param string $type
-     * @return bool
-     */
-    public function hasPlugins($type);
-
-    /**
-     * Retrieve list of plugins
-     *
-     * @param string $type
-     * @return array
-     */
-    public function getPlugins($type);
-
-    /**
      * Extend configuration
      *
      * @param array $configuration
