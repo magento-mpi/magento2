@@ -132,6 +132,6 @@ class Phrase
      */
     public function getKey()
     {
-        return $this->getPhrase() . $this->getTranslation() . $this->getContextType();
+        return $this->getPhrase() . $this->getContextType();
     }
 }

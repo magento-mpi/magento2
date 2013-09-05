@@ -11,8 +11,8 @@ use Magento\Tools\I18n\Code\ServiceLocator;
 
 try {
     $console = new Zend_Console_Getopt(array(
-        'dictionary|s=s' => 'Path to source file dictionary with translations',
-        'pack|p=s' => 'Path to pack',
+        'dictionary|s=s' => 'Path to source dictionary file with translations',
+        'pack|p=s' => 'Path to language package',
         'locale|l=s' => 'Target locale for dictionary, for example "de_DE"',
         'mode|m=s' => 'Save mode for dictionary
         - "replace" - replace language pack by new one
