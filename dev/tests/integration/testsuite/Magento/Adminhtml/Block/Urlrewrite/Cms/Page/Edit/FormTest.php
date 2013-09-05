@@ -47,6 +47,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
      * @param string $requestPath
      * @param string $targetPath
      * @magentoConfigFixture current_store general/single_store_mode/enabled 1
+     * @magentoAppIsolation enabled
      */
     public function testFormPostInit($cmsPageData, $action, $idPath, $requestPath, $targetPath)
     {
@@ -126,7 +127,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
     {
         return array(
             array(
-                array('id' => 3, 'identifier' => 'cms-page'),
+                array('page_id' => 3, 'identifier' => 'cms-page'),
                 'cms_page/3', 'cms_page/3', 'cms-page', 'cms/page/view/page_id/3'
             )
         );

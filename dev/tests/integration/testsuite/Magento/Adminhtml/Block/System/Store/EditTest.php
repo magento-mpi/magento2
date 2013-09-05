@@ -32,6 +32,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
     }
 
     /**
+     * @magentoAppIsolation enabled
      * @param $registryData
      * @param $expected
      * @dataProvider getStoreTypesForLayout
@@ -70,6 +71,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
         );
     }
     /**
+     * @magentoAppIsolation enabled
      * @param $registryData
      * @param $expected
      * @dataProvider getStoreDataForBlock
