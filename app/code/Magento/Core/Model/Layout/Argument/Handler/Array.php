@@ -56,9 +56,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Array extends Magento_Core_Mode
      */
     protected function _validate(array $argument)
     {
-        if (!isset($argument['value'])) {
-            throw new InvalidArgumentException('Value is required for array argument');
-        }
+        parent::_validate($argument);
         $items = $argument['value'];
         if (!is_array($items)) {
             throw new InvalidArgumentException('Passed value has incorrect format');
@@ -71,32 +69,20 @@ class Magento_Core_Model_Layout_Argument_Handler_Array extends Magento_Core_Mode
     }
 
     /**
-     * Parse Array argument
-     *
-     * @param Magento_Core_Model_Layout_Element $argument
-     * @return array
-     */
-    public function parse(Magento_Core_Model_Layout_Element $argument)
-    {
-        $result = parent::parse($argument);
-        $result = array_merge_recursive($result, array(
-            'value' => $this->_getArgumentValue($argument)
-        ));
-
-        return $result;
-    }
-
-    /**
      * Retrive value from Array argument
      *
      * @param Magento_Core_Model_Layout_Element $argument
-     * @return array
+     * @return array|null
      */
     protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
     {
+        $items = $argument->xpath('item');
+        if ($this->_isUpdater($argument) && empty($items)) {
+            return null;
+        }
         $result = array();
         /** @var $item Magento_Core_Model_Layout_Element */
-        foreach ($argument->xpath('item') as $item) {
+        foreach ($items as $item) {
             $itemName = (string)$item['name'];
             $itemType = $this->_getArgumentType($item);
             $result[$itemName] = $this->_handlerFactory

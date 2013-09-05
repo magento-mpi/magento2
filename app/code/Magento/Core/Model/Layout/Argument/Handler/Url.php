@@ -31,22 +31,6 @@ class Magento_Core_Model_Layout_Argument_Handler_Url extends Magento_Core_Model_
     }
 
     /**
-     * Parse argument node
-     *
-     * @param Magento_Core_Model_Layout_Element $argument
-     * @return array
-     */
-    public function parse(Magento_Core_Model_Layout_Element $argument)
-    {
-        $result = parent::parse($argument);
-        $result = array_merge_recursive($result, array(
-            'value' => $this->_getArgumentValue($argument)
-        ));
-
-        return $result;
-    }
-
-    /**
      * Generate url
      *
      * @param array $argument
@@ -67,9 +51,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Url extends Magento_Core_Model_
      */
     protected function _validate(array $argument)
     {
-        if (!isset($argument['value'])) {
-            throw new InvalidArgumentException('Value is required for url argument');
-        }
+        parent::_validate($argument);
         $value = $argument['value'];
 
         if (!isset($value['path'])) {
@@ -83,17 +65,17 @@ class Magento_Core_Model_Layout_Argument_Handler_Url extends Magento_Core_Model_
      */
     protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
     {
-        $value = array(
+        $result = array(
             'path' => (string)$argument['path'],
             'params' => array()
         );
 
         if (isset($argument->param)) {
             foreach ($argument->param as $param) {
-                $value['params'][(string)$param['name']] = (string)$param;
+                $result['params'][(string)$param['name']] = (string)$param;
             }
         }
 
-        return $value;
+        return $result;
     }
 }

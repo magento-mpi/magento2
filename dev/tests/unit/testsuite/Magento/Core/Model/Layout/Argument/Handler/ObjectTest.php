@@ -132,7 +132,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
     {
 
         return array(
-            array(array('value' => null), 'Value is required for object argument'),
+            array(array('value' => null), 'Value is required for argument'),
             array(array('value' => array()), 'Passed value has incorrect format'),
             array(array('value' => array('object' => 'Test_Model')), 'Incorrect data source model'),
         );

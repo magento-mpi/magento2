@@ -544,7 +544,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $arguments = array();
         foreach ($node->xpath('argument') as $argument) {
             /** @var $argument Magento_Core_Model_Layout_Element */
-            $arguments[$argument['name']] = $this->_argumentProcessor->parse($argument);
+            $argumentName = (string)$argument['name'];
+            $arguments[$argumentName] = $this->_argumentProcessor->parse($argument);
         }
         return $arguments;
     }
@@ -557,11 +558,11 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      */
     protected function _processArguments(array $arguments)
     {
-        $arguments = array();
+        $result = array();
         foreach ($arguments as $name => $argument) {
-            $arguments[$name] = $this->_argumentProcessor->process($argument);
+            $result[$name] = $this->_argumentProcessor->process($argument);
         }
-        return $arguments;
+        return $result;
     }
 
     /**

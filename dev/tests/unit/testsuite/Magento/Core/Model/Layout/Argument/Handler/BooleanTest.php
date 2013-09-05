@@ -103,7 +103,7 @@ class Magento_Core_Model_Layout_Argument_Handler_BooleanTest extends PHPUnit_Fra
     public function processExceptionDataProvider()
     {
         return array(
-            array(array('value' => null), 'Value is required for boolean argument'),
+            array(array('value' => null), 'Value is required for argument'),
             array(array('value' => 'wrong'), 'Value is not boolean argument'),
         );
     }

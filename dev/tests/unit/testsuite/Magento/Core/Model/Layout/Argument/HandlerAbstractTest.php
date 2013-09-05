@@ -33,7 +33,7 @@ class Magento_Core_Model_Layout_Argument_HandlerAbstractTest extends PHPUnit_Fra
     public function testParse($argument, $expectedResult)
     {
         $result = $this->_model->parse($argument);
-        $this->assertEquals($expectedResult, $result);
+        $this->_assertArrayContainsArray($expectedResult, $result);
     }
 
     /**
@@ -52,7 +52,8 @@ class Magento_Core_Model_Layout_Argument_HandlerAbstractTest extends PHPUnit_Fra
             array(
                 reset($withoutUpdater),
                 array(
-                    'type' => 'string')
+                    'type' => 'string'
+                )
             ),
             array(
                 reset($withUpdater),
@@ -62,5 +63,24 @@ class Magento_Core_Model_Layout_Argument_HandlerAbstractTest extends PHPUnit_Fra
                 )
             ),
         );
+    }
+
+    /**
+     * Asserting that an array contains another array
+     *
+     * @param array $needle
+     * @param array $haystack
+     */
+    protected function _assertArrayContainsArray(array $needle, array $haystack)
+    {
+        foreach ($needle as $key => $val) {
+            $this->assertArrayHasKey($key, $haystack);
+
+            if (is_array($val)) {
+                $this->_assertArrayContainsArray($val, $haystack[$key]);
+            } else {
+                $this->assertEquals($val, $haystack[$key]);
+            }
+        }
     }
 }

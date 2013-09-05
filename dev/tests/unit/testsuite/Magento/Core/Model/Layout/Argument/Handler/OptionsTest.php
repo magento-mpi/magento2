@@ -133,7 +133,7 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
     public function processExceptionDataProvider()
     {
         return array(
-            array(array(), 'Value is required for options argument'),
+            array(array(), 'Value is required for argument'),
             array(array('value' => array()), 'Passed value has incorrect format'),
             array(array('value' => array('model' => 'Magento_Dummy_Model')), 'Incorrect options model'),
         );

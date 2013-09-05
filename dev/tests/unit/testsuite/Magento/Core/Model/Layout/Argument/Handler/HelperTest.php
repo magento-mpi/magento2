@@ -142,7 +142,7 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
             array($invalidMethod, 'Passed helper has incorrect format'),
             array($nonExisting, 'Helper method "Dummy_Helper::dummyMethod" does not exist'),
             array($nonExisting, 'Helper method "Dummy_Helper::dummyMethod" does not exist'),
-            array($emptyValue, 'Value is required for helper argument'),
+            array($emptyValue, 'Value is required for argument'),
         );
     }
 }

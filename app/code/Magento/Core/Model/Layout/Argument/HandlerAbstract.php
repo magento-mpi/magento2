@@ -27,16 +27,34 @@ abstract class Magento_Core_Model_Layout_Argument_HandlerAbstract
      * Retrieve value from argument
      *
      * @param Magento_Core_Model_Layout_Element $argument
-     * @return mixed
+     * @return mixed|null
      */
     protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
     {
+        if ($this->_isUpdater($argument)) {
+            return null;
+        }
         if (isset($argument->value)) {
             $value = $argument->value;
         } else {
             $value = $argument;
         }
         return trim((string)$value);
+    }
+
+    /**
+     * Check whether updater used and value not overwriten
+     *
+     * @param Magento_Core_Model_Layout_Element $argument
+     * @return string
+     */
+    protected function _isUpdater(Magento_Core_Model_Layout_Element $argument)
+    {
+        $updaters = $argument->xpath('./updater');
+        if (!empty($updaters) && !isset($argument->value)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -62,9 +80,17 @@ abstract class Magento_Core_Model_Layout_Argument_HandlerAbstract
         $result['type'] = $this->_getArgumentType($argument);
         foreach ($argument->xpath('./updater') as $updaterNode) {
             /** @var $updaterNode Magento_Core_Model_Layout_Element */
-            $updaters[] = trim((string)$updaterNode);
+            $updaters[uniqid() . '_' . mt_rand()] = trim((string)$updaterNode);
         }
-        return !empty($updaters) ? $result + array('updaters' => $updaters) : $result;
+
+        $result = !empty($updaters) ? $result + array('updaters' => $updaters) : $result;
+        $argumentValue = $this->_getArgumentValue($argument);
+        if (isset($argumentValue)) {
+            $result = array_merge_recursive($result, array(
+                'value' => $argumentValue
+            ));
+        }
+        return $result;
     }
 
     /**
@@ -73,5 +99,10 @@ abstract class Magento_Core_Model_Layout_Argument_HandlerAbstract
      * @param array $argument
      * @throws InvalidArgumentException
      */
-    abstract protected function _validate(array $argument);
+    protected function _validate(array $argument)
+    {
+        if (!isset($argument['value'])) {
+            throw new InvalidArgumentException('Value is required for argument');
+        }
+    }
 }

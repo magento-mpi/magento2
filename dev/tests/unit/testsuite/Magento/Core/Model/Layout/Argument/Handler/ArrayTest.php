@@ -38,7 +38,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
      */
     public function testProcess($argument, $expected)
     {
-        $getArgumentHandlerByTypeCallback = function ($type) use ($expected) {
+        $getHandlerCallback = function ($type) use ($expected) {
             $handlerModel = $this->getMock(
                 'Magento_Core_Model_Layout_Argument_HandlerInterface',
                 array(),
@@ -52,7 +52,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
 
         $this->_factoryMock->expects($this->any())
             ->method('getArgumentHandlerByType')
-            ->will($this->returnCallback($getArgumentHandlerByTypeCallback));
+            ->will($this->returnCallback($getHandlerCallback));
         $this->assertEquals($expected, $this->_model->process($argument));
     }
 
@@ -110,7 +110,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
      */
     public function testParse($node, $expected)
     {
-        $getArgumentHandlerByTypeCallback = function ($type) {
+        $getHandlerCallback = function ($type) {
             $handlerModel = $this->getMock(
                 'Magento_Core_Model_Layout_Argument_HandlerInterface',
                 array(),
@@ -124,7 +124,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
 
         $this->_factoryMock->expects($this->any())
             ->method('getArgumentHandlerByType')
-            ->will($this->returnCallback($getArgumentHandlerByTypeCallback));
+            ->will($this->returnCallback($getHandlerCallback));
 
         $result = $this->_model->parse(reset($node));
         $this->assertEquals($expected, $result);

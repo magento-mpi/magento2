@@ -103,7 +103,7 @@ class Magento_Core_Model_Layout_Argument_Handler_NumberTest extends PHPUnit_Fram
     public function processExceptionDataProvider()
     {
         return array(
-            array(array('value' => null), 'Value is required for number argument'),
+            array(array('value' => null), 'Value is required for argument'),
             array(array('value' => 'true'), 'Value is not number argument'),
         );
     }

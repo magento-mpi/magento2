@@ -120,7 +120,7 @@ class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framewo
     public function processExceptionDataProvider()
     {
         return array(
-            array(array(), 'Value is required for url argument'),
+            array(array(), 'Value is required for argument'),
             array(array('value' => array()), 'Passed value has incorrect format'),
         );
     }

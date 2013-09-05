@@ -110,7 +110,7 @@ class Magento_Core_Model_Layout_Argument_Handler_StringTest extends PHPUnit_Fram
     public function processExceptionDataProvider()
     {
         return array(
-            array(array('value' => null), 'Value is required for string argument'),
+            array(array('value' => null), 'Value is required for argument'),
             array(array('value' => array()), 'Passed value has incorrect format'),
             array(array('value' => array('string' => false)), 'Value is not string argument'),
         );

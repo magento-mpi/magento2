@@ -18,22 +18,6 @@
 class Magento_Core_Model_Layout_Argument_Handler_String extends Magento_Core_Model_Layout_Argument_HandlerAbstract
 {
     /**
-     * Parse argument node
-     *
-     * @param Magento_Core_Model_Layout_Element $argument
-     * @return array
-     */
-    public function parse(Magento_Core_Model_Layout_Element $argument)
-    {
-        $result = parent::parse($argument);
-        $result = array_merge_recursive($result, array(
-            'value' => $this->_getArgumentValue($argument),
-        ));
-
-        return $result;
-    }
-
-    /**
      * Process argument value
      *
      * @param array $argument
@@ -58,9 +42,7 @@ class Magento_Core_Model_Layout_Argument_Handler_String extends Magento_Core_Mod
      */
     protected function _validate(array $argument)
     {
-        if (!isset($argument['value'])) {
-            throw new InvalidArgumentException('Value is required for string argument');
-        }
+        parent::_validate($argument);
 
         if (!isset($argument['value']['string'])) {
             throw new InvalidArgumentException('Passed value has incorrect format');
@@ -75,11 +57,15 @@ class Magento_Core_Model_Layout_Argument_Handler_String extends Magento_Core_Mod
      * Retrieve value from argument
      *
      * @param Magento_Core_Model_Layout_Element $argument
-     * @return mixed
+     * @return array|null
      */
     protected function _getArgumentValue(Magento_Core_Model_Layout_Element $argument)
     {
-        $result = array('string' => parent::_getArgumentValue($argument));
+        $value = parent::_getArgumentValue($argument);
+        if (!isset($value)) {
+            return null;
+        }
+        $result = array('string' => $value);
         if ($argument->getAttribute('translate')) {
             $result['translate'] = true;
         }
