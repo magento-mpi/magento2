@@ -13,7 +13,7 @@
             <instance type="Magento_Persistent_Helper_SessionProxy" />
         </param>
         <param name="config">
-            <instance type="Magento_Core_Model_Config_ModulesProxy" />
+            <instance type="Magento_Core_Model_ConfigProxy" />
         </param>
     </type>
 </config>
