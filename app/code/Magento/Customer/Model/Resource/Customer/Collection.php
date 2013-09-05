@@ -52,7 +52,9 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
     public function addNameToSelect()
     {
         $fields = array();
-        $customerAccount = Mage::getConfig()->getFieldset('customer_account');
+        $customerAccount = Mage::getObjectManager()
+            ->get('Magento_Core_Model_Fieldset_Config')
+            ->getFieldset('customer_account');
         foreach ($customerAccount as $code => $field) {
             if (isset($field['name'])) {
                 $fields[$code] = $code;

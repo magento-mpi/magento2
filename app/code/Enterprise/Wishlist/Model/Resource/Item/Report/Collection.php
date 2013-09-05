@@ -31,7 +31,10 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
         /* @var Magento_Customer_Model_Resource_Customer $customer */
         $customer  = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');
 
-        $customerAccount = Mage::getConfig()->getFieldset('customer_account');
+        $customerAccount = Mage::getObjectManager()
+            ->get('Magento_Core_Model_Fieldset_Config')
+            ->getFieldset('customer_account');
+
         foreach ($customerAccount as $code => $field) {
             if (isset($field['name'])) {
                 $fields[$code] = $code;

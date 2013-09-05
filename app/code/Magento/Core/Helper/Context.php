@@ -19,27 +19,21 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
      */
     protected $_moduleManager;
 
-    /** @var  Magento_Core_Model_Config */
-    protected $_coreConfig;
-
     /** @var  Magento_Core_Model_Event_Manager */
     protected $_eventManager;
 
     /**
      * @param Magento_Core_Model_Translate $translator
      * @param Magento_Core_Model_ModuleManager $moduleManager
-     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
         Magento_Core_Model_Translate $translator,
         Magento_Core_Model_ModuleManager $moduleManager,
-        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Event_Manager $eventManager
     ) {
         $this->_translator = $translator;
         $this->_moduleManager = $moduleManager;
-        $this->_coreConfig = $coreConfig;
         $this->_eventManager = $eventManager;
     }
 
@@ -57,14 +51,6 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     public function getModuleManager()
     {
         return $this->_moduleManager;
-    }
-
-    /**
-     * @return Magento_Core_Model_Config
-     */
-    public function getCoreConfig()
-    {
-        return $this->_coreConfig;
     }
 
     /**

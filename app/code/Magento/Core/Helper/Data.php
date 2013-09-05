@@ -67,9 +67,6 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected $_config;
 
-    /** @var  Magento_Core_Model_Config */
-    protected $_coreConfig;
-
     /** @var  Magento_Core_Model_Event_Manager */
     protected $_eventManager;
 
@@ -83,7 +80,6 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     ) {
         parent::__construct($context);
         $this->_config = $config;
-        $this->_coreConfig = $context->getCoreConfig();
         $this->_eventManager = $context->getEventManager();
     }
 
@@ -419,7 +415,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         if (!$this->_isFieldsetInputValid($source, $target)) {
             return null;
         }
-        $fields = $this->_coreConfig->getFieldset($fieldset, $root);
+        $fields = Mage::getObjectManager()->get('Magento_Core_Model_Fieldset_Config')->getFieldset($fieldset, $root);
         if (is_null($fields)) {
             return $target;
         }
