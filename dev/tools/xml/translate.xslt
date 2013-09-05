@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
+    <!-- This is an XSLT 2.0 file.  Any software that supports XSLT 2.0 can be used to convert an xml file to use the
+     new translate format.  The software that I used is Saxon9HE, which requires java.
+     The jar file can be downloaded from:
+            http://saxon.sourceforge.net/
+     The converter can be run with the following command:
+            java -jar saxon9he.jar -l:on -s:file_to_convert.xml -xsl:translate.xslt -o:converted_file.xml
+     -->
+    <!--
+        Known bugs:
+        This script currently may vertically align long lists of attributes which can make it difficult to read diffs.
+        Comments in your xml file are not converted and must be re-introduced.
+    -->
     <xsl:output indent="yes" />
 
     <xsl:template name="refactor-translate">
@@ -33,15 +44,15 @@
         </xsl:copy>
     </xsl:template>
 
-    <xsl:template match="./.">
+    <xsl:template match="/">
+        <!-- An attempt to reintroduce the license comment -->
         <xsl:comment>
 /**
 * {license_notice}
 *
-* @copyright   {copyright}
-* @license     {license_link}
-*/
-</xsl:comment>
+* @copyright {copyright}
+* @license {license_link}
+*/</xsl:comment>
         <xsl:call-template name="refactor-translate">
             <xsl:with-param name="node" select="." />
         </xsl:call-template>
