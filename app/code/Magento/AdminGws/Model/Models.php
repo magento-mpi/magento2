@@ -747,26 +747,6 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
         }
     }
 
-    /**
-     * Check whether category can be moved
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function catalogCategoryMoveBefore($observer)
-    {
-        if ($this->_role->getIsAll()) {
-            return;
-        }
-
-        $parentCategory = $observer->getEvent()->getParent();
-        $currentCategory = $observer->getEvent()->getCategory();
-
-        foreach (array($parentCategory, $currentCategory) as $category) {
-            if (!$this->_role->hasExclusiveCategoryAccess($category->getData('path'))) {
-                $this->_throwSave();
-            }
-        }
-    }
 
     /**
      * Check whether catalog permissions can be edited per category

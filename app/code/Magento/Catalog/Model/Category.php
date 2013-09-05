@@ -210,17 +210,7 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
 
         $this->_getResource()->beginTransaction();
         try {
-            /**
-             * catalog_category_tree_move_before and catalog_category_tree_move_after
-             * events declared for backward compatibility
-             */
-            Mage::dispatchEvent('catalog_category_tree_move_before', $eventParams);
-            Mage::dispatchEvent($this->_eventPrefix.'_move_before', $eventParams);
-
             $this->getResource()->changeParent($this, $parent, $afterCategoryId);
-
-            Mage::dispatchEvent($this->_eventPrefix.'_move_after', $eventParams);
-            Mage::dispatchEvent('catalog_category_tree_move_after', $eventParams);
             $this->_getResource()->commit();
 
             // Set data for indexer
