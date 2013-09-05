@@ -23,7 +23,7 @@ class Magento_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Fram
      */
     public function testPrepareLayout($blockType, $blockName, $tabsType, $tabsName)
     {
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $layout->addBlock($blockType, $blockName);
