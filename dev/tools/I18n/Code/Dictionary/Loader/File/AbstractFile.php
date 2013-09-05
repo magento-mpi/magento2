@@ -60,9 +60,8 @@ abstract class AbstractFile implements FileInterface
             $dictionary->addPhrase($this->_createPhrase(array(
                 'phrase' => isset($data[0]) ? $data[0] : null,
                 'translation' => isset($data[1]) ? $data[1] : null,
-                'contextType' => isset($data[2]) ? $data[2] : null,
-                'contextValue' => isset($data[3]) ? $data[3] : null,
-                'line' => $this->_position,
+                'context_type' => isset($data[2]) ? $data[2] : null,
+                'context_value' => isset($data[3]) ? $data[3] : null,
             )));
         }
         $this->_closeFile();

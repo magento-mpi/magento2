@@ -23,14 +23,17 @@ class Csv extends AbstractFile
      */
     public function _writeFile($file, $phrases)
     {
-        if ($this->_saveMode == self::MODE_MERGE) {
+        if (self::MODE_MERGE == $this->_mode) {
             $phrases = $this->_mergeDictionaries($file, $phrases);
         }
 
         $writer = $this->_factory->createDictionaryWriter($file);
         /** @var \Magento\Tools\I18n\Code\Dictionary\Phrase $phrase */
         foreach ($phrases as $phrase) {
-            $writer->write(array($phrase->getPhrase(), $phrase->getTranslation()));
+            $phrase->setContextType(null);
+            $phrase->setContextValue(null);
+
+            $writer->write($phrase);
         }
     }
 

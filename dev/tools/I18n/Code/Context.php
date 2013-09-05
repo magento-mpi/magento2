@@ -50,7 +50,7 @@ class Context
             $type = self::CONTEXT_TYPE_PUB;
             $value = ltrim($value, '/');
         } else {
-            return array('', '');
+            throw new \InvalidArgumentException(sprintf('Invalid path given: "%s".', $path));
         }
         return array($type, $value);
     }

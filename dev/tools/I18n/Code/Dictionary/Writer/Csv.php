@@ -9,6 +9,7 @@
 namespace Magento\Tools\I18n\Code\Dictionary\Writer;
 
 use Magento\Tools\I18n\Code\Dictionary\WriterInterface;
+use \Magento\Tools\I18n\Code\Dictionary\Phrase;
 
 /**
  * Csv writer
@@ -40,8 +41,14 @@ class Csv implements WriterInterface
     /**
      * {@inheritdoc}
      */
-    public function write(array $fields)
+    public function write(Phrase $phrase)
     {
+        $fields = array($phrase->getPhrase(), $phrase->getTranslation());
+        if (($contextType = $phrase->getContextType()) && ($contextValue = $phrase->getContextValueAsString())) {
+            $fields[] = $contextType;
+            $fields[] = $contextValue;
+        }
+
         fputcsv($this->_fileHandler, $fields, ',', '"');
     }
 

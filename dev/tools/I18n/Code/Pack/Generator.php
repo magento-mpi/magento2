@@ -61,11 +61,11 @@ class Generator
      * @param string $dictionaryPath
      * @param string $packPath
      * @param string $locale
-     * @param string $saveMode One of const of WriterInterface::MODE_
+     * @param string $mode One of const of WriterInterface::MODE_
      * @param bool $allowDuplicates
      * @throws \RuntimeException
      */
-    public function generate($dictionaryPath, $packPath, $locale, $saveMode = WriterInterface::MODE_REPLACE,
+    public function generate($dictionaryPath, $packPath, $locale, $mode = WriterInterface::MODE_REPLACE,
         $allowDuplicates = false
     ) {
         $locale = $this->_factory->createLocale($locale);
@@ -75,7 +75,7 @@ class Generator
             throw new \RuntimeException($this->_createDuplicatesPhrasesError($duplicates));
         }
 
-        $this->_packWriter->write($dictionary, $packPath, $locale, $saveMode);
+        $this->_packWriter->write($dictionary, $packPath, $locale, $mode);
     }
 
     /**

@@ -24,6 +24,13 @@ class Generator
     protected $_parser;
 
     /**
+     * Contextual parser
+     *
+     * @var \Magento\Tools\I18n\Code\ParserInterface
+     */
+    protected $_contextualParser;
+
+    /**
      * Domain abstract factory
      *
      * @var \Magento\Tools\I18n\Code\Factory
@@ -34,33 +41,43 @@ class Generator
      * Generator construct
      *
      * @param \Magento\Tools\I18n\Code\ParserInterface $parser
+     * @param \Magento\Tools\I18n\Code\ParserInterface $contextualParser
      * @param \Magento\Tools\I18n\Code\Factory $factory
      */
-    public function __construct(ParserInterface $parser, Factory $factory)
+    public function __construct(ParserInterface $parser, ParserInterface $contextualParser, Factory $factory)
     {
         $this->_parser = $parser;
+        $this->_contextualParser = $contextualParser;
         $this->_factory = $factory;
     }
 
     /**
      * Generate dictionary
      *
-     * @param array $parseOptions
+     * @param array $filesOptions
      * @param string $outputFilename
      * @param bool $withContext
      */
-    public function generate(array $parseOptions, $outputFilename, $withContext)
+    public function generate(array $filesOptions, $outputFilename, $withContext = false)
     {
+        $parser = $this->_getActualParser($withContext);
+        $parser->parse($filesOptions);
+
         $writer = $this->_factory->createDictionaryWriter($outputFilename);
 
-        $this->_parser->parse($parseOptions);
-
-        foreach ($this->_parser->getPhrases() as $phrase) {
-            $fields = array($phrase['phrase'], $phrase['phrase']);
-            if ($withContext) {
-                array_push($fields, $phrase['context_type'], implode(',', array_keys($phrase['context_values'])));
-            }
-            $writer->write($fields, $outputFilename);
+        foreach ($parser->getPhrases() as $phrase) {
+            $writer->write($phrase);
         }
+    }
+
+    /**
+     * Get actual parser
+     *
+     * @param bool $withContext
+     * @return \Magento\Tools\I18n\Code\ParserInterface
+     */
+    protected function _getActualParser($withContext)
+    {
+        return $withContext ? $this->_contextualParser : $this->_parser;
     }
 }

@@ -20,21 +20,21 @@ class Xml extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    protected function _parse($file)
+    protected function _parse()
     {
-        foreach ($this->_getNodes($file) as $element) {
+        foreach ($this->_getNodes($this->_file) as $element) {
             if (!$element instanceof \SimpleXMLElement) {
                 continue;
             }
             $attributes = $element->attributes();
             if ((string)$attributes['translate'] == 'true') {
-                $this->_addPhrase((string)$element, $file);
+                $this->_addPhrase((string)$element);
             } else {
                 $nodesDelimiter = strpos($attributes, ' ') === false ? ',' : ' ';
                 foreach (explode($nodesDelimiter, $attributes) as $value) {
                     $phrase = (string)$element->$value;
                     if ($phrase) {
-                        $this->_addPhrase($phrase, $file);
+                        $this->_addPhrase($phrase);
                     }
                 }
             }

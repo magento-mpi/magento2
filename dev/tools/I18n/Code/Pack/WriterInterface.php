@@ -29,7 +29,7 @@ interface WriterInterface
      * @param \Magento\Tools\I18n\Code\Dictionary $dictionary
      * @param string $packPath
      * @param \Magento\Tools\I18n\Code\Locale $locale
-     * @param string $saveMode One of const of WriterInterface::MODE_
+     * @param string $mode One of const of WriterInterface::MODE_
      */
-    public function write(Dictionary $dictionary, $packPath, Locale $locale, $saveMode);
+    public function write(Dictionary $dictionary, $packPath, Locale $locale, $mode);
 }

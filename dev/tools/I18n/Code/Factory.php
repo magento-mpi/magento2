@@ -21,15 +21,20 @@ class Factory
      *
      * @param string $filename
      * @return \Magento\Tools\I18n\Code\Dictionary\WriterInterface
+     * @throws \InvalidArgumentException
      */
     public function createDictionaryWriter($filename = null)
     {
-        switch (pathinfo($filename, \PATHINFO_EXTENSION)) {
-            case 'csv':
-                $writer = new Dictionary\Writer\Csv($filename);
-                break;
-            default:
-                $writer = new Dictionary\Writer\Csv\Stdo();
+        if (!$filename) {
+            $writer = new Dictionary\Writer\Csv\Stdo();
+        } else {
+            switch (pathinfo($filename, \PATHINFO_EXTENSION)) {
+                case 'csv':
+                    $writer = new Dictionary\Writer\Csv($filename);
+                    break;
+                default:
+                    throw new \InvalidArgumentException(sprintf('Writer for "%s" is not exist.', $filename));
+            }
         }
         return $writer;
     }
@@ -66,9 +71,8 @@ class Factory
         return new Dictionary\Phrase(
             $data['phrase'],
             $data['translation'],
-            $data['contextType'],
-            $data['contextValue'],
-            $data['line']
+            isset($data['context_type']) ? $data['context_type'] : null,
+            isset($data['context_value']) ? $data['context_value'] : null
         );
     }
 }

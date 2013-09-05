@@ -53,17 +53,24 @@ class ServiceLocator
     public static function getDictionaryGenerator()
     {
         if (null === self::$_dictionaryGenerator) {
-            $parser = new Parser(new FilesCollector());
+            $filesCollector = new FilesCollector();
 
-            $tokenizer = new Parser\Adapter\Php\Tokenizer();
-            $phraseCollector = new Parser\Adapter\Php\Tokenizer\PhraseCollector($tokenizer);
-            $adapterPhp = new Parser\Adapter\Php(self::_getContext(), $phraseCollector);
+            $phraseCollector = new Parser\Adapter\Php\Tokenizer\PhraseCollector(new Parser\Adapter\Php\Tokenizer());
+            $phpAdapter = new Parser\Adapter\Php($phraseCollector);
+            $jsAdapter = new Parser\Adapter\Js();
+            $xmlAdapter = new Parser\Adapter\Xml();
 
-            $parser->addAdapter('php', $adapterPhp);
-            $parser->addAdapter('js', new Parser\Adapter\Js(self::_getContext()));
-            $parser->addAdapter('xml', new Parser\Adapter\Xml(self::_getContext()));
+            $parser = new Parser\Parser($filesCollector, self::_getFactory());
+            $parser->addAdapter('php', $phpAdapter);
+            $parser->addAdapter('js', $jsAdapter);
+            $parser->addAdapter('xml', $xmlAdapter);
 
-            self::$_dictionaryGenerator = new Dictionary\Generator($parser, self::_getFactory());
+            $parserContextual = new Parser\Contextual($filesCollector, self::_getFactory(), self::_getContext());
+            $parserContextual->addAdapter('php', $phpAdapter);
+            $parserContextual->addAdapter('js', $jsAdapter);
+            $parserContextual->addAdapter('xml', $xmlAdapter);
+
+            self::$_dictionaryGenerator = new Dictionary\Generator($parser, $parserContextual, self::_getFactory());
         }
         return self::$_dictionaryGenerator;
     }

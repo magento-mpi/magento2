@@ -16,9 +16,9 @@ class Js extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    protected function _parse($file)
+    protected function _parse()
     {
-        $fileHandle = @fopen($file, 'r');
+        $fileHandle = @fopen($this->_file, 'r');
         $lineNumber = 0;
         while (!feof($fileHandle)) {
             $lineNumber++;
@@ -28,7 +28,7 @@ class Js extends AbstractAdapter
             for ($i = 0; $i < count($results); $i++) {
                 if (isset($results[$i][2])) {
                     $quote = $results[$i][1];
-                    $this->_addPhrase($quote . $results[$i][2] . $quote, $file, $lineNumber);
+                    $this->_addPhrase($quote . $results[$i][2] . $quote, $lineNumber);
                 }
             }
         }

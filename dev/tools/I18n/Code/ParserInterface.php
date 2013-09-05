@@ -15,6 +15,8 @@ interface ParserInterface
 {
     /**
      * Parse by parser options
+     *
+     * @param array $parseOptions
      */
     public function parse(array $parseOptions);
 

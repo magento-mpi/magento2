@@ -17,11 +17,11 @@ use Magento\Tools\I18n\Code\Parser\AdapterInterface;
 abstract class AbstractAdapter implements AdapterInterface
 {
     /**
-     * Context
+     * Processed file
      *
-     * @var \Magento\Tools\I18n\Code\Context
+     * @var string
      */
-    protected $_context;
+    protected $_file;
 
     /**
      * Parsed phrases
@@ -31,65 +31,48 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $_phrases = array();
 
     /**
-     * Adapter construct
-     *
-     * @param \Magento\Tools\I18n\Code\Context $context
-     */
-    public function __construct(Context $context)
-    {
-        $this->_context = $context;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function parse($file)
     {
         $this->_phrases = array();
-        $this->_parse($file);
+        $this->_file = $file;
+        $this->_parse();
     }
 
     /**
      * Template method
-     *
-     * @param string $file
      */
-    abstract protected function _parse($file);
+    abstract protected function _parse();
 
     /**
      * {@inheritdoc}
      */
     public function getPhrases()
     {
-        return $this->_phrases;
+        return array_values($this->_phrases);
     }
 
     /**
      * Add phrase
      *
      * @param string $phrase
-     * @param string $file
      * @param string|int $line
      * @throws \InvalidArgumentException
      */
-    protected function _addPhrase($phrase, $file, $line = '')
+    protected function _addPhrase($phrase, $line = '')
     {
         if (!$phrase) {
-            throw new \InvalidArgumentException(sprintf('Phrase cannot be empty. File: "%s" Line: "%s"', $file, $line));
+            throw new \InvalidArgumentException(sprintf('Phrase cannot be empty. File: "%s" Line: "%s"',
+                $this->_file, $line));
         }
-        $phrase = $this->_stripQuotes($phrase);
-        list($contextType, $contextValue) = $this->_context->getContextByPath($file);
-        $phraseKey = $contextType . '::' . $phrase;
+        if (!isset($this->_phrases[$phrase])) {
+            $phrase = $this->_stripQuotes($phrase);
 
-        if (isset($this->_phrases[$phraseKey])) {
-            $this->_phrases[$phraseKey]['context_values'][$contextValue] = 1;
-        } else {
-            $this->_phrases[$phraseKey] = array(
+            $this->_phrases[$phrase] = array(
                 'phrase' => $phrase,
-                'file' => $file,
+                'file' => $this->_file,
                 'line' => $line,
-                'context_values' => array($contextValue => 1),
-                'context_type' => $contextType,
             );
         }
     }

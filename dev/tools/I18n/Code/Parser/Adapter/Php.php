@@ -8,7 +8,6 @@
 
 namespace Magento\Tools\I18n\Code\Parser\Adapter;
 
-use Magento\Tools\I18n\Code\Context;
 use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;
 
 /**
@@ -26,25 +25,22 @@ class Php extends AbstractAdapter
     /**
      * Adapter construct
      *
-     * @param \Magento\Tools\I18n\Code\Context $context
      * @param \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector $phraseCollector
      */
-    public function __construct(Context $context, PhraseCollector $phraseCollector)
+    public function __construct(PhraseCollector $phraseCollector)
     {
-        parent::__construct($context);
-
         $this->_phraseCollector = $phraseCollector;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function _parse($file)
+    protected function _parse()
     {
-        $this->_phraseCollector->parse($file);
+        $this->_phraseCollector->parse($this->_file);
 
         foreach ($this->_phraseCollector->getPhrases() as $phrase) {
-            $this->_addPhrase($phrase['phrase'], $phrase['file'], $phrase['line']);
+            $this->_addPhrase($phrase['phrase'], $phrase['line']);
         }
     }
 }

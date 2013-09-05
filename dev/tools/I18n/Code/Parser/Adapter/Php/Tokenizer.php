@@ -143,7 +143,7 @@ class Tokenizer
      */
     public function isLastToken()
     {
-        return (key($this->_tokens) + 1) == $this->_tokensCount;
+        return 0 == $this->_tokensCount || ((key($this->_tokens) + 1) == $this->_tokensCount);
     }
 
     /**

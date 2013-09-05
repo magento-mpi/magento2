@@ -10,8 +10,8 @@ require __DIR__ . '/Code/bootstrap.php';
 use Magento\Tools\I18n\Code\ServiceLocator;
 
 try {
-    $console = new Zend_Console_Getopt(array(
-        'dictionary|s=s' => 'Path to source dictionary file with translations',
+    $console = new \Zend_Console_Getopt(array(
+        'source|s=s' => 'Path to source dictionary file with translations',
         'pack|p=s' => 'Path to language package',
         'locale|l=s' => 'Target locale for dictionary, for example "de_DE"',
         'mode|m=s' => 'Save mode for dictionary
@@ -22,7 +22,7 @@ try {
     ));
     $console->parse();
 
-    $dictionaryPath = $console->getOption('dictionary') ?: null;
+    $dictionaryPath = $console->getOption('source') ?: null;
     $packPath = $console->getOption('pack') ?: null;
     $locale = $console->getOption('locale') ?: null;
     $allowDuplicates = in_array($console->getOption('allow_duplicates'), array('y', 'Y', 'yes', 'Yes'));
@@ -40,14 +40,13 @@ try {
 
     $generator = ServiceLocator::getPackGenerator();
     $generator->generate($dictionaryPath, $packPath, $locale, $saveMode, $allowDuplicates);
-    $resultMessage = $generator->getResultMessage();
 
     fwrite(STDOUT, sprintf("\nSuccessfully saved %s language package.\n", $locale));
 
 } catch (\Zend_Console_Getopt_Exception $e) {
-    echo $e->getUsageMessage();
+    fwrite(STDERR, $e->getUsageMessage() . "\n");
     exit(1);
-} catch (Exception $e) {
+} catch (\Exception $e) {
     fwrite(STDERR, 'Language pack failed: ' . $e->getMessage() . "\n");
     exit(1);
 }

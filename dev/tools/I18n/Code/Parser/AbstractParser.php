@@ -6,16 +6,15 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\I18n\Code;
+namespace Magento\Tools\I18n\Code\Parser;
 
-use Magento\Tools\I18n\Code\ParserInterface;
-use Magento\Tools\I18n\Code\FilesCollector;
+use Magento\Tools\I18n\Code;
 use Magento\Tools\I18n\Code\Parser\AdapterInterface;
 
 /**
- * Parser
+ * Abstract parser
  */
-class Parser implements ParserInterface
+abstract class AbstractParser implements Code\ParserInterface
 {
     /**
      * Files collector
@@ -23,6 +22,13 @@ class Parser implements ParserInterface
      * @var \Magento\Tools\I18n\Code\FilesCollector
      */
     protected $_filesCollector = array();
+
+    /**
+     * Domain abstract factory
+     *
+     * @var \Magento\Tools\I18n\Code\Factory
+     */
+    protected $_factory;
 
     /**
      * Adapters
@@ -42,10 +48,12 @@ class Parser implements ParserInterface
      * Parser construct
      *
      * @param \Magento\Tools\I18n\Code\FilesCollector $filesCollector
+     * @param \Magento\Tools\I18n\Code\Factory $factory
      */
-    public function __construct(FilesCollector $filesCollector)
+    public function __construct(Code\FilesCollector $filesCollector, Code\Factory $factory)
     {
         $this->_filesCollector = $filesCollector;
+        $this->_factory = $factory;
     }
 
     /**
@@ -66,20 +74,18 @@ class Parser implements ParserInterface
     {
         $this->_validateOptions($parseOptions);
 
-        foreach ($parseOptions as $parserOptions) {
-            $type = $parserOptions['type'];
-            if (!isset($this->_adapters[$type])) {
-                throw new \InvalidArgumentException(sprintf('Adapter is not set for type "%s".', $type));
-            }
-
-            $fileMask = isset($parserOptions['fileMask']) ? $parserOptions['fileMask']  : '';
-            $files = $this->_filesCollector->getFiles($parserOptions['paths'], $fileMask);
-            foreach ($files as $file) {
-                $this->_adapters[$type]->parse($file);
-                $this->_phrases = array_merge($this->_phrases, $this->_adapters[$type]->getPhrases());
-            }
+        foreach ($parseOptions as $typeOptions) {
+            $this->_parseByTypeOptions($typeOptions);
         }
+        return $this->_phrases;
     }
+
+    /**
+     * Parse one type
+     *
+     * @param $options
+     */
+    abstract protected function _parseByTypeOptions($options);
 
     /**
      * Validate options
@@ -96,8 +102,26 @@ class Parser implements ParserInterface
             if (!isset($parserOptions['paths']) || !is_array($parserOptions['paths'])) {
                 throw new \InvalidArgumentException('"paths" in parser options must be array.');
             }
+            if (!isset($this->_adapters[$parserOptions['type']])) {
+                throw new \InvalidArgumentException(sprintf('Adapter is not set for type "%s".',
+                    $parserOptions['type']));
+            }
         }
     }
+
+    /**
+     * Get files for parsing
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function _getFiles($options)
+    {
+        $fileMask = isset($options['fileMask']) ? $options['fileMask']  : '';
+
+        return $this->_filesCollector->getFiles($options['paths'], $fileMask);
+    }
+
     /**
      * {@inheritdoc}
      */

@@ -59,7 +59,7 @@ abstract class AbstractFile implements WriterInterface
      *
      * @var string
      */
-    protected $_saveMode;
+    protected $_mode;
 
     /**
      * Writer construct
@@ -78,11 +78,11 @@ abstract class AbstractFile implements WriterInterface
     /**
      * {@inheritdoc}
      */
-    public function write(Dictionary $dictionary, $packPath, Locale $locale, $saveMode = self::MODE_REPLACE)
+    public function write(Dictionary $dictionary, $packPath, Locale $locale, $mode = self::MODE_REPLACE)
     {
-        $this->_packPath = $packPath;
+        $this->_packPath = rtrim($packPath, '\\/') . '/';
         $this->_locale = $locale;
-        $this->_saveMode = $saveMode;
+        $this->_mode = $mode;
 
         foreach ($this->_buildPackFilesData($dictionary) as $file => $phrases) {
             $this->_createDirectoryIfNotExist(dirname($file));
@@ -109,13 +109,14 @@ abstract class AbstractFile implements WriterInterface
     protected function _buildPackFilesData(Dictionary $dictionary)
     {
         $files = array();
-        foreach ($dictionary->getPhrases() as $phrase) {
+        foreach ($dictionary->getPhrases() as $key => $phrase) {
             if (!$phrase->getContextType() || !$phrase->getContextValue()) {
-                throw new \RuntimeException(sprintf('Missed context in row #%d.', $phrase->getLine()));
+                throw new \RuntimeException(sprintf('Missed context in row #%d.', $key + 1));
             }
             foreach ($phrase->getContextValue() as $context) {
                 $path = $this->_context->buildPathToLocaleDirectoryByContext($phrase->getContextType(), $context);
-                $files[$path . $this->_locale . '.' . $this->_getFileExtension()][] = $phrase;
+                $filename = $this->_packPath . $path . $this->_locale . '.' . $this->_getFileExtension();
+                $files[$filename][] = $phrase;
             }
         }
         return $files;

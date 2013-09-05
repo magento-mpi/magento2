@@ -10,10 +10,10 @@ require_once __DIR__ . '/Code/bootstrap.php';
 use Magento\Tools\I18n\Code\ServiceLocator;
 
 try {
-    $console = new Zend_Console_Getopt(array(
-        'directory|d=s' => 'Absolute path to base directory, Magento code base by default',
-        'output|o=s' => 'Path to output file name, by default output the results into standard output stream',
-        'magento|m=s' => 'Is it magento folder?',
+    $console = new \Zend_Console_Getopt(array(
+        'directory|d=s' => 'Path to base directory for parsing',
+        'output|o=s' => 'Path(with filename) to output file, by default output the results into standard output stream',
+        'magento|m=s' => 'Indicates whether directory for parsing is Magento directory, "no" by default',
     ));
     $console->parse();
 
@@ -26,36 +26,37 @@ try {
     }
 
     if ($isMagento) {
-        $parseOptions = array(
+        $directory = rtrim($directory, '\\/');
+        $filesOptions = array(
             array(
                 'type' => 'php',
                 'paths' => array(
-                    $directory . 'app/code/',
-                    $directory . 'app/design/',
+                    $directory . '/app/code/',
+                    $directory . '/app/design/',
                 ),
                 'fileMask' => '/\.(php|phtml)$/',
             ),
             array(
                 'type' => 'js',
                 'paths' => array(
-                    $directory . 'app/code/',
-                    $directory . 'app/design/',
-                    $directory . 'pub/lib/mage/',
-                    $directory . 'pub/lib/varien/',
+                    $directory . '/app/code/',
+                    $directory . '/app/design/',
+                    $directory . '/pub/lib/mage/',
+                    $directory . '/pub/lib/varien/',
                 ),
                 'fileMask' => '/\.(js|phtml)$/',
             ),
             array(
                 'type' => 'xml',
                 'paths' => array(
-                    $directory . 'app/code/',
-                    $directory . 'app/design/',
+                    $directory . '/app/code/',
+                    $directory . '/app/design/',
                 ),
                 'fileMask' => '/\.xml$/',
             ),
         );
     } else {
-        $parseOptions = array(
+        $filesOptions = array(
             array(
                 'type' => 'php',
                 'paths' => array($directory),
@@ -76,14 +77,14 @@ try {
 
 
     $generator = ServiceLocator::getDictionaryGenerator();
-    $generator->generate($parseOptions, $outputFilename, $isMagento);
+    $generator->generate($filesOptions, $outputFilename, $isMagento);
 
     fwrite(STDOUT, "\nDictionary successfully processed.\n");
 
 } catch (\Zend_Console_Getopt_Exception $e) {
-    echo $e->getUsageMessage();
+    fwrite(STDERR, $e->getUsageMessage() . "\n");
     exit(1);
-} catch (Exception $e) {
+} catch (\Exception $e) {
     fwrite(STDERR, 'Translate phrase generator failed: ' . $e->getMessage() . "\n");
     exit(1);
 }

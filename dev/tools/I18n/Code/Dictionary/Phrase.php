@@ -39,40 +39,36 @@ class Phrase
      *
      * @var array
      */
-    private $_contextValue;
-
-    /**
-     * Line
-     *
-     * @var int
-     */
-    private $_line;
+    private $_contextValue = array();
 
     /**
      * Phrase construct
      *
      * @param string $phrase
      * @param string $translation
-     * @param string $contextType
-     * @param string|array $contextValue
-     * @param int $line
+     * @param string|null $contextType
+     * @param string|array|null $contextValue
+     */
+    public function __construct($phrase, $translation, $contextType = null, $contextValue = null)
+    {
+        $this->setPhrase($phrase);
+        $this->setTranslation($translation);
+        $this->setContextType($contextType);
+        $this->setContextValue($contextValue);
+    }
+
+    /**
+     * Set phrase
+     *
+     * @param string $phrase
      * @throws \DomainException
      */
-    public function __construct($phrase, $translation, $contextType, $contextValue, $line)
+    protected function setPhrase($phrase)
     {
         if (!$phrase) {
             throw new \DomainException('Missed phrase.');
         }
         $this->_phrase = $phrase;
-
-        if (!$translation) {
-            throw new \DomainException('Missed translation.');
-        }
-        $this->_translation = $translation;
-
-        $this->_contextType = $contextType;
-        $this->_contextValue = is_string($contextValue) ? explode(',', $contextValue) : $contextValue;
-        $this->_line = $line;
     }
 
     /**
@@ -86,6 +82,20 @@ class Phrase
     }
 
     /**
+     * Set translation
+     *
+     * @param string $translation
+     * @throws \DomainException
+     */
+    public function setTranslation($translation)
+    {
+        if (!$translation) {
+            throw new \DomainException('Missed translation.');
+        }
+        $this->_translation = $translation;
+    }
+
+    /**
      * Get translation
      *
      * @return string
@@ -93,6 +103,16 @@ class Phrase
     public function getTranslation()
     {
         return $this->_translation;
+    }
+
+    /**
+     * Set context type
+     *
+     * @param string $contextType
+     */
+    public function setContextType($contextType)
+    {
+        $this->_contextType = $contextType;
     }
 
     /**
@@ -106,6 +126,36 @@ class Phrase
     }
 
     /**
+     * Add context value
+     *
+     * @param string $contextValue
+     */
+    public function addContextValue($contextValue)
+    {
+        if (!in_array($contextValue, $this->_contextValue)) {
+            $this->_contextValue[] = $contextValue;
+        }
+    }
+
+    /**
+     * Set context type
+     *
+     * @param string $contextValue
+     * @throws \DomainException
+     */
+    public function setContextValue($contextValue)
+    {
+        if (is_string($contextValue)) {
+            $contextValue = explode(',', $contextValue);
+        } else if (null == $contextValue) {
+            $contextValue = array();
+        } else if (!is_array($contextValue)) {
+            throw new \DomainException('Wrong context type.');
+        }
+        $this->_contextValue = $contextValue;
+    }
+
+    /**
      * Get context value
      *
      * @return array
@@ -116,13 +166,14 @@ class Phrase
     }
 
     /**
-     * Get line
+     * Get context value as string
      *
-     * @return array
+     * @param string $separator
+     * @return string
      */
-    public function getLine()
+    public function getContextValueAsString($separator = ',')
     {
-        return $this->_line;
+        return implode($separator, $this->_contextValue);
     }
 
     /**
