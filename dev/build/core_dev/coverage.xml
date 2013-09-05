@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 /**
- * Apache Ant's build file with general-purpose routines common to various CI builds
+ * Apache Ant's build file with general-purpose routines common to code coverage CI builds
  *
  * {license_notice}
  *
