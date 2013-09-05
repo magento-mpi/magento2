@@ -55,8 +55,8 @@
         <param name="defaultAreaFrontName">
             <value>backend</value>
         </param>
-        <param name="applicationConfig">
-            <instance type="Magento_Core_Model_ConfigProxy"/>
+        <param name="primaryConfig">
+            <instance type="Magento_Core_Model_Config_PrimaryProxy"/>
         </param>
     </type>
     <type name="Magento_Core_Model_NoRouteHandlerList">
