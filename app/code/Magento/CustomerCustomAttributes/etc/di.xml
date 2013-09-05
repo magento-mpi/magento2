@@ -12,8 +12,6 @@
         <param name="customerAddress">
             <instance type="Magento_CustomerCustomAttributes_Helper_Address_Proxy" />
         </param>
-    </type>
-    <type name="Magento_CustomerCustomAttributes_Helper_Data">
         <param name="customerCustomer">
             <instance type="Magento_CustomerCustomAttributes_Helper_Customer_Proxy" />
         </param>
