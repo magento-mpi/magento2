@@ -8,13 +8,13 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../')
     . '/tools/migration/System/Configuration/Generator.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../')
     . '/tools/migration/System/FileManager.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../')
     . '/tools/migration/System/Configuration/LoggerAbstract.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../')
     . '/tools/migration/System/Configuration/Formatter.php';
 
 

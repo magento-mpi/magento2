@@ -23,7 +23,7 @@ class Magento_Catalog_Model_Product_Api_ImageTest extends PHPUnit_Framework_Test
      */
     protected function setUp()
     {
-        $productFixture = require dirname(__FILE__) . '/_files/ProductData.php';
+        $productFixture = require __DIR__ . '/_files/ProductData.php';
         $product = Mage::getModel('Magento_Catalog_Model_Product');
 
         $product->setData($productFixture['create_full_fledged']);
@@ -90,7 +90,7 @@ class Magento_Catalog_Model_Product_Api_ImageTest extends PHPUnit_Framework_Test
 
         // TXT file
         $requestData['file']['content'] = base64_encode(
-            file_get_contents(dirname(__FILE__) . '/_files/_data/files/test.txt')
+            file_get_contents(__DIR__ . '/_files/_data/files/test.txt')
         );
 
         Magento_Test_Helper_Api::callWithException(
@@ -144,8 +144,8 @@ class Magento_Catalog_Model_Product_Api_ImageTest extends PHPUnit_Framework_Test
     public function invalidImageProvider()
     {
         return array(
-            array(dirname(__FILE__) . '/_files/_data/files/images/test.bmp.jpg'),
-            array(dirname(__FILE__) . '/_files/_data/files/images/test.php.jpg')
+            array(__DIR__ . '/_files/_data/files/images/test.bmp.jpg'),
+            array(__DIR__ . '/_files/_data/files/images/test.php.jpg')
         );
     }
 
@@ -157,8 +157,8 @@ class Magento_Catalog_Model_Product_Api_ImageTest extends PHPUnit_Framework_Test
     public function validImageProvider()
     {
         return array(
-            array(dirname(__FILE__) . '/_files/_data/files/images/test.jpg.jpg'),
-            array(dirname(__FILE__) . '/_files/_data/files/images/test.png.jpg')
+            array(__DIR__ . '/_files/_data/files/images/test.jpg.jpg'),
+            array(__DIR__ . '/_files/_data/files/images/test.png.jpg')
         );
     }
 }

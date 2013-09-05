@@ -8,10 +8,10 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/migration/Acl/Db/LoggerAbstract.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/migration/Acl/Db/Logger/Factory.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/migration/Acl/Db/Logger/Console.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/migration/Acl/Db/Logger/File.php';
+require_once realpath(__DIR__ . '/../../../../../../../../') . '/tools/migration/Acl/Db/LoggerAbstract.php';
+require_once realpath(__DIR__ . '/../../../../../../../../') . '/tools/migration/Acl/Db/Logger/Factory.php';
+require_once realpath(__DIR__ . '/../../../../../../../../') . '/tools/migration/Acl/Db/Logger/Console.php';
+require_once realpath(__DIR__ . '/../../../../../../../../') . '/tools/migration/Acl/Db/Logger/File.php';
 
 
 
@@ -39,7 +39,7 @@ class Tools_Migration_Acl_Db_Logger_FactoryTest extends PHPUnit_Framework_TestCa
     {
         return array(
             array('console', null),
-            array('file', realpath(dirname(__FILE__) . '/../../../../../') . '/tmp') ,
+            array('file', realpath(__DIR__ . '/../../../../../') . '/tmp') ,
         );
     }
 

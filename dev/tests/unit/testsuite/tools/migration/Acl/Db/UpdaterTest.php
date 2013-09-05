@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/migration/Acl/Db/Updater.php';
+require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/migration/Acl/Db/Updater.php';
 
 class Tools_Migration_Acl_Db_UpdaterTest extends PHPUnit_Framework_TestCase
 {

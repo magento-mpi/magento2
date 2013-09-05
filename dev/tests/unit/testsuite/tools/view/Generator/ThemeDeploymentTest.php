@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/view/Generator/ThemeDeployment.php';
+require_once realpath(__DIR__ . '/../../../../../../') . '/tools/view/Generator/ThemeDeployment.php';
 
 class Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCase
 {

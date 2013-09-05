@@ -74,7 +74,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     public function testAddImageToMediaGallery()
     {
         // Model accepts only files in tmp media path, we need to copy fixture file there
-        $mediaFile = $this->_copyFileToBaseTmpMediaPath(dirname(dirname(__FILE__)) . '/_files/magento_image.jpg');
+        $mediaFile = $this->_copyFileToBaseTmpMediaPath(dirname(__DIR__) . '/_files/magento_image.jpg');
 
         $this->_model->addImageToMediaGallery($mediaFile);
         $gallery = $this->_model->getData('media_gallery');

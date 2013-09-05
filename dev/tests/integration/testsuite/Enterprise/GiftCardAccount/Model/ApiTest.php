@@ -22,7 +22,7 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
         /** @var Enterprise_GiftCardAccount_Model_Giftcardaccount $testModel */
         $testModel = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
         $accountFixture = simplexml_load_file(
-            dirname(__FILE__) . '/../_files/fixture/giftcard_account.xml'
+            __DIR__ . '/../_files/fixture/giftcard_account.xml'
         );
 
         //Test create
@@ -84,7 +84,7 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
      */
     public function testCreateExceptionInvalidData()
     {
-        $fixture = simplexml_load_file(dirname(__FILE__) . '/../_files/fixture/giftcard_account.xml');
+        $fixture = simplexml_load_file(__DIR__ . '/../_files/fixture/giftcard_account.xml');
         $invalidCreateData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalidCreate);
         Magento_Test_Helper_Api::callWithException($this, 'giftcardAccountCreate', array($invalidCreateData));
     }
@@ -94,7 +94,7 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
      */
     public function testExceptionNotFound()
     {
-        $fixture = simplexml_load_file(dirname(__FILE__) . '/../_files/fixture/giftcard_account.xml');
+        $fixture = simplexml_load_file(__DIR__ . '/../_files/fixture/giftcard_account.xml');
         $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalidInfo);
         Magento_Test_Helper_Api::callWithException($this, 'giftcardAccountInfo', array($invalidData['giftcard_id']));
     }

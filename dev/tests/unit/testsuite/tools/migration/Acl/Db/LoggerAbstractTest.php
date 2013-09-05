@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/migration/Acl/Db/LoggerAbstract.php';
+require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/migration/Acl/Db/LoggerAbstract.php';
 
 class Tools_Migration_Acl_Db_LoggerAbstractTest extends PHPUnit_Framework_TestCase
 {

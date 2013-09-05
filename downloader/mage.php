@@ -10,8 +10,8 @@
 
 define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
-define('BP', dirname(dirname(__FILE__)));
-define('MAGENTO_ROOT', dirname(dirname(__FILE__)));
+define('BP', dirname(__DIR__));
+define('MAGENTO_ROOT', dirname(__DIR__));
 
 class __cli_Magento_Connect
 {
@@ -69,7 +69,7 @@ class __cli_Magento_Connect
         }
         $config = new Magento_Connect_Config($fileName);
         if (empty($config->magento_root)) {
-           $config->magento_root = dirname(dirname(__FILE__));
+           $config->magento_root = dirname(__DIR__);
         }
         Magento_Connect_Command::setConfigObject($config);
         $this->config = $config;

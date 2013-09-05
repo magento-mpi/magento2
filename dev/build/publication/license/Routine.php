@@ -292,7 +292,7 @@ class Routine
     {
         $licenseClassName = ucfirst(strtolower($license));
         if (!class_exists($licenseClassName)) {
-            $licenseClassFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . $licenseClassName . '.php';
+            $licenseClassFile = __DIR__ . DIRECTORY_SEPARATOR . $licenseClassName . '.php';
             if (!file_exists($licenseClassFile) || !is_readable($licenseClassFile)) {
                 throw new Exception("Can't access license file: {$licenseClassFile}.\n");
             }

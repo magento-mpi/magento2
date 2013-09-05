@@ -180,7 +180,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
     protected function _getFixtureData()
     {
         if (null === $this->_fixtureData) {
-            $this->_fixtureData = require dirname(__FILE__) . '/_files/category_data.php';
+            $this->_fixtureData = require __DIR__ . '/_files/category_data.php';
         }
         return $this->_fixtureData;
     }

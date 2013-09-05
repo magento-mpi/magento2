@@ -16,7 +16,7 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
      */
     public function testDownloadableLinkCreate()
     {
-        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/../../../_files/_data/xml/LinkCRUD.xml');
+        $tagFixture = simplexml_load_file(__DIR__ . '/../../../_files/_data/xml/LinkCRUD.xml');
         $items = Magento_Test_Helper_Api::simpleXmlToArray($tagFixture->items);
 
         $productId = Mage::registry('productData')->getId();
@@ -24,7 +24,7 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
         foreach ($items as $item) {
             foreach ($item as $key => $value) {
                 if ($value['type'] == 'file') {
-                    $filePath = dirname(__FILE__)
+                    $filePath = __DIR__
                               . '/../../../../../Magento/Catalog/Model/Product/Api/_files/_data/files/'
                               . $value['file']['filename'];
                     $value['file'] = array(
@@ -34,7 +34,7 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
                     );
                 }
                 if ($key == 'link' && $value['sample']['type'] == 'file') {
-                    $filePath = dirname(__FILE__)
+                    $filePath = __DIR__
                               . '/../../../../../Magento/Catalog/Model/Product/Api/_files/_data/files/'
                               . $value['sample']['file']['filename'];
                     $value['sample']['file'] = array(

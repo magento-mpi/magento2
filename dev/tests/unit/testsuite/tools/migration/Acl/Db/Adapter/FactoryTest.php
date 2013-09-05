@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/migration/Acl/Db/Adapter/Factory.php';
+require_once realpath(__DIR__ . '/../../../../../../../../') . '/tools/migration/Acl/Db/Adapter/Factory.php';
 
 class Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Framework_TestCase
 {

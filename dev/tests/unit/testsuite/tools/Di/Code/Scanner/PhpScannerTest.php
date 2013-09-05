@@ -6,9 +6,9 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/Di/Code/Scanner/ScannerInterface.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/Di/Code/Scanner/FileScanner.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/Di/Code/Scanner/PhpScanner.php';
+require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Di/Code/Scanner/ScannerInterface.php';
+require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Di/Code/Scanner/FileScanner.php';
+require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Di/Code/Scanner/PhpScanner.php';
 
 class Magento_Tools_Di_Code_Scanner_PhpScannerTest extends PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,7 @@ class Magento_Tools_Di_Code_Scanner_PhpScannerTest extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         $this->_model = new Magento\Tools\Di\Code\Scanner\PhpScanner();
-        $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../') . '/_files');
+        $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
         $this->_testFiles = array(
             $this->_testDir . '/app/code/Magento/SomeModule/Helper/Test.php',
             $this->_testDir . '/app/code/Magento/SomeModule/Model/Test.php',

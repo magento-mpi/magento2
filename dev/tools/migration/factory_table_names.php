@@ -31,8 +31,8 @@ $isDryRunMode = isset($options['d']);
 $isSearchTables = isset($options['s']);
 
 require realpath(dirname(dirname(dirname(__DIR__)))) . '/dev/tests/static/framework/bootstrap.php';
-$tablesAssociation = getFilesCombinedArray(dirname(__FILE__) . '/factory_table_names', 'replace_*.php');
-$blackList = getFilesCombinedArray(dirname(__FILE__) . '/factory_table_names', 'blacklist_*.php');
+$tablesAssociation = getFilesCombinedArray(__DIR__ . '/factory_table_names', 'replace_*.php');
+$blackList = getFilesCombinedArray(__DIR__ . '/factory_table_names', 'blacklist_*.php');
 
 $phpFiles = Utility_Files::init()->getPhpFiles(true, false, false, false);
 

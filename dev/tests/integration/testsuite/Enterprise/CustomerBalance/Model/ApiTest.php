@@ -29,7 +29,7 @@ class Enterprise_CustomerBalance_Model_ApiTest extends PHPUnit_Framework_TestCas
      */
     public function testCustomerBalanceBalance()
     {
-        $customerBalanceData = simplexml_load_file(dirname(__FILE__) . '/../_files/fixture/CustomerBalance.xml');
+        $customerBalanceData = simplexml_load_file(__DIR__ . '/../_files/fixture/CustomerBalance.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($customerBalanceData);
 
         $data['input']['customerId'] = self::$customer->getId();
@@ -60,7 +60,7 @@ class Enterprise_CustomerBalance_Model_ApiTest extends PHPUnit_Framework_TestCas
     public function testCustomerBalanceHistory()
     {
         $balanceHistory = simplexml_load_file(
-            dirname(__FILE__) . '/../_files/fixture/CustomerBalanceHistory.xml'
+            __DIR__ . '/../_files/fixture/CustomerBalanceHistory.xml'
         );
         $data = Magento_Test_Helper_Api::simpleXmlToArray($balanceHistory);
 

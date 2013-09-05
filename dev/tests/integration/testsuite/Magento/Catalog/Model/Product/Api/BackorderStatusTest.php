@@ -19,7 +19,7 @@ class Magento_Catalog_Model_Product_Api_BackorderStatusTest extends PHPUnit_Fram
      */
     protected function setUp()
     {
-        $productData = require dirname(__FILE__) . '/_files/ProductData.php';
+        $productData = require __DIR__ . '/_files/ProductData.php';
         $product = Mage::getModel('Magento_Catalog_Model_Product');
 
         $product->setData($productData['create_full_fledged']);

@@ -6,7 +6,7 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/Di/Code/Scanner/DirectoryScanner.php';
+require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Di/Code/Scanner/DirectoryScanner.php';
 
 class Magento_Tools_Di_Code_Scanner_DirectoryScannerTest extends PHPUnit_Framework_TestCase
 {
@@ -23,7 +23,7 @@ class Magento_Tools_Di_Code_Scanner_DirectoryScannerTest extends PHPUnit_Framewo
     protected function setUp()
     {
         $this->_model = new Magento\Tools\Di\Code\Scanner\DirectoryScanner();
-        $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../') . '/_files');
+        $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
     }
 
     public function testScan()

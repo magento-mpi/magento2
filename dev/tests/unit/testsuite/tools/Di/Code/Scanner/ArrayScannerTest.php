@@ -6,9 +6,9 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/Di/Code/Scanner/ScannerInterface.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/Di/Code/Scanner/FileScanner.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/Di/Code/Scanner/ArrayScanner.php';
+require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Di/Code/Scanner/ScannerInterface.php';
+require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Di/Code/Scanner/FileScanner.php';
+require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Di/Code/Scanner/ArrayScanner.php';
 
 class Magento_Tools_Di_Code_Scanner_ArrayScannerTest extends PHPUnit_Framework_TestCase
 {
@@ -25,7 +25,7 @@ class Magento_Tools_Di_Code_Scanner_ArrayScannerTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         $this->_model = new Magento\Tools\Di\Code\Scanner\ArrayScanner();
-        $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../') . '/_files');
+        $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
     }
 
     public function testCollectEntities()

@@ -16,7 +16,7 @@ class Magento_Catalog_Model_Product_Api_TagCRUDTest extends PHPUnit_Framework_Te
      */
     public function testTagCRUD()
     {
-        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/TagCRUD.xml');
+        $tagFixture = simplexml_load_file(__DIR__ . '/_files/_data/xml/TagCRUD.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($tagFixture->tagData);
         $expected = Magento_Test_Helper_Api::simpleXmlToArray($tagFixture->expected);
 

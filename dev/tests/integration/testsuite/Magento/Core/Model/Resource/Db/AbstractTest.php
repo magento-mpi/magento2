@@ -34,10 +34,6 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
 
     public function testSetMainTable()
     {
-        if (!method_exists('ReflectionMethod', 'setAccessible')) {
-            $this->markTestSkipped('Test requires ReflectionMethod::setAccessible (PHP 5 >= 5.3.2).');
-        }
-
         $setMainTableMethod = new ReflectionMethod($this->_model, '_setMainTable');
         $setMainTableMethod->setAccessible(true);
 
