@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Config_Reader extends Magento_Config_XmlAbstract
+class Mage_Webapi_Model_Config_Reader extends Magento_Config_XmlAbstract
 {
     /**
      * Get absolute path to the XML-schema file
@@ -58,7 +58,7 @@ class Mage_Webapi_Config_Reader extends Magento_Config_XmlAbstract
     protected function _getDomConfigModel()
     {
         if (is_null($this->_domConfig)) {
-            $this->_domConfig = new Mage_Webapi_Config_Dom(
+            $this->_domConfig = new Mage_Webapi_Model_Config_Dom(
                 $this->_getInitialXml(),
                 $this->_getIdAttributes()
             );

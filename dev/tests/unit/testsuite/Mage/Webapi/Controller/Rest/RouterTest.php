@@ -100,28 +100,4 @@ class Mage_Webapi_Controller_Rest_RouterTest extends PHPUnit_Framework_TestCase
 
         $this->_router->match($this->_request);
     }
-
-    /**
-     * Prepare mocks for SUT constructor for testCheckRoute().
-     *
-     * @return array
-     */
-    protected function _prepareMockDataForCheckRouteTest()
-    {
-        $methodName = 'foo';
-        $version = 'bar';
-        $request = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getServiceName'))
-            ->getMock();
-        $serviceName = 'Service Name';
-        $request->expects($this->once())
-            ->method('getServiceName')
-            ->will($this->returnValue($serviceName));
-        $this->_apiConfigMock->expects($this->once())
-            ->method('getMethodRestRoutes')
-            ->with($serviceName, $methodName, $version)
-            ->will($this->returnValue(array($this->_routeMock)));
-        return array('request' => $request, 'methodName' => $methodName, 'version' => $version);
-    }
 }

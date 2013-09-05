@@ -18,6 +18,17 @@ class Mage_Webapi_Model_Rest_Config
     const HTTP_METHOD_POST = 'POST';
     /**#@-*/
 
+    /**#@+
+     * Keys that a used for config internal representation.
+     */
+    const KEY_IS_SECURE = 'isSecure';
+    const KEY_CLASS = 'class';
+    const KEY_HTTP_METHOD = 'httpMethod';
+    const KEY_METHOD = 'serviceMethod';
+    const KEY_VERSION = 'version';
+    const KEY_PATH = 'routePath';
+    /*#@-*/
+
     /** @var Mage_Webapi_Model_Config  */
     protected $_config;
 
@@ -44,7 +55,7 @@ class Mage_Webapi_Model_Rest_Config
      *      'routePath' => '/categories/:categoryId',
      *      'httpMethod' => 'GET',
      *      'version' => 1,
-     *      'serviceId' => 'Mage_Catalog_Service_CategoryService',
+     *      'class' => 'Mage_Catalog_Service_CategoryService',
      *      'serviceMethod' => 'item'
      *      'secure' => true
      *  );</pre>
@@ -55,14 +66,14 @@ class Mage_Webapi_Model_Rest_Config
         /** @var $route Mage_Webapi_Controller_Rest_Router_Route */
         $route = $this->_routeFactory->createRoute(
             'Mage_Webapi_Controller_Rest_Router_Route',
-            strtolower($routeData['routePath'])
+            strtolower($routeData[self::KEY_PATH])
         );
 
-        $route->setServiceId($routeData['serviceId'])
-            ->setHttpMethod($routeData['httpMethod'])
-            ->setServiceMethod($routeData['serviceMethod'])
-            ->setServiceVersion(Mage_Webapi_Model_Config::VERSION_NUMBER_PREFIX . $routeData['version'])
-            ->setSecure($routeData[Mage_Webapi_Model_Config::SECURE_ATTR_NAME]);
+        $route->setServiceId($routeData[self::KEY_CLASS])
+            ->setHttpMethod($routeData[self::KEY_HTTP_METHOD])
+            ->setServiceMethod($routeData[self::KEY_METHOD])
+            ->setServiceVersion(Mage_Webapi_Model_Config::VERSION_NUMBER_PREFIX . $routeData[self::KEY_VERSION])
+            ->setSecure($routeData[self::KEY_IS_SECURE]);
         return $route;
     }
 
@@ -95,28 +106,30 @@ class Mage_Webapi_Model_Rest_Config
         foreach ($this->_config->getServices() as $serviceName => $serviceData) {
             // skip if baseurl is not null and does not match
             if (
-                !isset($serviceData['baseUrl'])
+                !isset($serviceData[Mage_Webapi_Model_Config::ATTR_SERVICE_PATH])
                 || !$serviceBaseUrl
-                || strcasecmp(trim($serviceBaseUrl, '/'), trim($serviceData['baseUrl'], '/')) !== 0
+                || strcasecmp(
+                    trim($serviceBaseUrl, '/'),
+                    trim($serviceData[Mage_Webapi_Model_Config::ATTR_SERVICE_PATH], '/')
+                ) !== 0
             ) {
                 // baseurl does not match, just skip this service
                 continue;
             }
             // TODO: skip if version is not null and does not match
-            foreach ($serviceData[Mage_Webapi_Model_Config::KEY_OPERATIONS] as $operationName => $operationData) {
-                if (strtoupper($operationData['httpMethod']) == strtoupper($httpMethod)) {
-                    $secure = isset($operationData[Mage_Webapi_Model_Config::SECURE_ATTR_NAME])
-                        ? $operationData[Mage_Webapi_Model_Config::SECURE_ATTR_NAME]
-                        : false;
-                    $methodRoute = isset($operationData['route']) ? $operationData['route'] : '';
+            foreach ($serviceData['methods'] as $methodName => $methodInfo) {
+                if (strtoupper($methodInfo[Mage_Webapi_Model_Config::ATTR_HTTP_METHOD]) == strtoupper($httpMethod)) {
+                    $secure = isset($methodInfo[Mage_Webapi_Model_Config::ATTR_IS_SECURE])
+                        ? $methodInfo[Mage_Webapi_Model_Config::ATTR_IS_SECURE] : false;
+                    $methodRoute = isset($methodInfo['route']) ? $methodInfo['route'] : '';
                     $routes[] = $this->_createRoute(
                         array(
-                            'routePath' => $serviceData['baseUrl'] . $methodRoute,
-                            'version' => $request->getServiceVersion(), // TODO: Take version from config
-                            'serviceId' => $serviceName,
-                            'serviceMethod' => $operationName,
-                            'httpMethod' => $httpMethod,
-                            Mage_Webapi_Model_Config::SECURE_ATTR_NAME => $secure
+                            self::KEY_PATH => $serviceData[Mage_Webapi_Model_Config::ATTR_SERVICE_PATH] . $methodRoute,
+                            self::KEY_VERSION => $request->getServiceVersion(), // TODO: Take version from config
+                            self::KEY_CLASS => $serviceName,
+                            self::KEY_METHOD => $methodName,
+                            self::KEY_HTTP_METHOD => $httpMethod,
+                            self::KEY_IS_SECURE => $secure
                         )
                     );
                 }

@@ -91,7 +91,6 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
             // TODO: $this->_authentication->authenticate();
             $route = $this->_router->match($this->_request);
 
-            // check if the operation is a secure operation & whether the request was made in HTTPS
             if ($route->isSecure() && !$this->_request->isSecure()) {
                 throw new Mage_Webapi_Exception(
                     $this->_helper->__('Operation allowed only in HTTPS'),

@@ -13,9 +13,18 @@
 class Mage_Webapi_Model_Config
 {
     const CACHE_ID = 'webapi';
-    const KEY_OPERATIONS = 'operations';
     const VERSION_NUMBER_PREFIX = 'V';
-    const SECURE_ATTR_NAME = 'isSecure';
+
+    /**#@+
+     * Attributes and nodes used in webapi.xml config.
+     */
+    const ATTR_SERVICE_CLASS = 'class';
+    const ATTR_SERVICE_PATH = 'baseUrl';
+    const ATTR_SERVICE_METHOD = 'method';
+    const ATTR_HTTP_METHOD = 'httpMethod';
+    const ATTR_IS_SECURE = 'isSecure';
+    const NODE_ROUTE = 'rest-route';
+    /**#@-*/
 
     /**
      * Pattern for Web API interface name.
@@ -33,7 +42,7 @@ class Mage_Webapi_Model_Config
     protected $_configCacheType;
 
     /**
-     * @var Mage_Webapi_Config_Reader
+     * @var Mage_Webapi_Model_Config_Reader
      */
     protected $_reader;
 
@@ -78,14 +87,14 @@ class Mage_Webapi_Model_Config
     /**
      * Reader object initialization
      *
-     * @return Mage_Webapi_Config_Reader
+     * @return Mage_Webapi_Model_Config_Reader
      */
     protected function _getReader()
     {
         if (null === $this->_reader) {
             $configFiles = $this->_getConfigFile();
             $this->_reader = $this->_config->getModelInstance(
-                'Mage_Webapi_Config_Reader',
+                'Mage_Webapi_Model_Config_Reader',
                 array('configFiles' => $configFiles)
             );
         }
@@ -143,8 +152,8 @@ class Mage_Webapi_Model_Config
      */
     protected function _getNodeId($children, $child)
     {
-        $nodeId = isset($children['class']) ? $children['class'] :
-            (isset($children['method']) ? $children['method'] : $child->nodeName);
+        $nodeId = isset($children[self::ATTR_SERVICE_CLASS]) ? $children[self::ATTR_SERVICE_CLASS] :
+            (isset($children[self::ATTR_SERVICE_METHOD]) ? $children[self::ATTR_SERVICE_METHOD] : $child->nodeName);
 
         return $nodeId;
     }
@@ -201,35 +210,33 @@ class Mage_Webapi_Model_Config
 
         for ($i = 0; $i < $children->length; $i++) {
             $child = $children->item($i);
-            $_children = $this->_toArray($child);
+            $childAsArray = $this->_toArray($child);
 
-            $nodeId = $this->_getNodeId($_children, $child);
+            $nodeId = $this->_getNodeId($childAsArray, $child);
 
-            if ('rest-route' === $child->nodeName) {
-                if (!isset($result[self::KEY_OPERATIONS])) {
-                    $result[self::KEY_OPERATIONS] = array();
+            if (self::NODE_ROUTE === $child->nodeName) {
+                if (!isset($result['methods'])) {
+                    $result['methods'] = array();
                 }
 
-                $result[self::KEY_OPERATIONS][$nodeId] =
-                    isset($result[self::KEY_OPERATIONS][$nodeId])
-                        ? array_merge($result[self::KEY_OPERATIONS][$nodeId], $_children)
-                        : $_children;
+                $result['methods'][$nodeId] = isset($result['methods'][$nodeId])
+                    ? array_merge($result['methods'][$nodeId], $childAsArray)
+                    : $childAsArray;
 
-                if (isset($result[self::KEY_OPERATIONS][$nodeId]['value'])) {
-                    $result[self::KEY_OPERATIONS][$nodeId]['route']
-                        = $result[self::KEY_OPERATIONS][$nodeId]['value'];
-                    unset($result[self::KEY_OPERATIONS][$nodeId]['value']);
+                if (isset($result['methods'][$nodeId]['value'])) {
+                    $result['methods'][$nodeId]['route'] = $result['methods'][$nodeId]['value'];
+                    unset($result['methods'][$nodeId]['value']);
                 }
             } else {
                 if (!isset($result[$nodeId])) {
-                    $result[$nodeId] = $_children;
+                    $result[$nodeId] = $childAsArray;
                 } else {
                     if (!isset($group[$nodeId])) {
                         $tmp = $result[$nodeId];
                         $result[$nodeId] = array($tmp);
                         $group[$nodeId] = 1;
                     }
-                    $result[$nodeId][] = $_children;
+                    $result[$nodeId][] = $childAsArray;
                 }
             }
         }

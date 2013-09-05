@@ -85,21 +85,22 @@ class Mage_Webapi_Controller_Soap_Handler
 
                 $requestedServices = $this->_request->getRequestedServices();
                 $serviceMethodInfo = $this->_apiConfig->getServiceMethodInfo($operation, $requestedServices);
-                $serviceId = $serviceMethodInfo['class'];
-                $serviceMethod = $serviceMethodInfo['method'];
+                $serviceId = $serviceMethodInfo[Mage_Webapi_Model_Soap_Config::KEY_CLASS];
+                $serviceMethod = $serviceMethodInfo[Mage_Webapi_Model_Soap_Config::KEY_METHOD];
 
                 // check if the operation is a secure operation & whether the request was made in HTTPS
-                if ($serviceMethodInfo[Mage_Webapi_Model_Config::SECURE_ATTR_NAME] && !$this->_request->isSecure()) {
+                if ($serviceMethodInfo[Mage_Webapi_Model_Soap_Config::KEY_IS_SECURE] && !$this->_request->isSecure()) {
                     throw new Mage_Webapi_Exception(
-                        "Operation allowed only in HTTPS", Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+                        $this->_helper->__("Operation allowed only in HTTPS"),
+                        Mage_Webapi_Exception::HTTP_BAD_REQUEST
+                    );
                 }
 
                 $service = $this->_objectManager->get($serviceId);
                 $outputData = $service->$serviceMethod($arguments);
                 if (!is_array($outputData)) {
                     throw new LogicException(
-                        $this->_helper->__('The method "%s" of service "%s" must return an array.', $serviceMethod,
-                            $serviceId)
+                        sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod, $serviceId)
                     );
                 }
                 // TODO: Check why 'result' node is not generated in WSDL

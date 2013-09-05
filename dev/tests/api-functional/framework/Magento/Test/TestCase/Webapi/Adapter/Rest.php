@@ -70,10 +70,10 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
             $services = $this->_config->getServices();
             $serviceInterface = $serviceInfo['serviceInterface'];
             $method = $serviceInfo['method'];
-            if (isset($services[$serviceInterface]['operations'][$method])) {
+            if (isset($services[$serviceInterface]['methods'][$method])) {
                 $serviceData = $services[$serviceInterface];
-                $methodData = $serviceData['operations'][$method];
-                $routePattern = $serviceData['baseUrl'] . $methodData['route'];
+                $methodData = $serviceData['methods'][$method];
+                $routePattern = $serviceData[Mage_Webapi_Model_Config::ATTR_SERVICE_PATH] . $methodData['route'];
                 $numberOfPlaceholders = substr_count($routePattern, ':');
                 if ($numberOfPlaceholders == 1) {
                     if (!isset($serviceInfo['entityId'])) {
@@ -108,8 +108,9 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
             $services = $this->_config->getServices();
             $serviceInterface = $serviceInfo['serviceInterface'];
             $method = $serviceInfo['method'];
-            if (isset($services[$serviceInterface]['operations'][$method])) {
-                $httpMethod = $services[$serviceInterface]['operations'][$method]['httpMethod'];
+            if (isset($services[$serviceInterface]['methods'][$method])) {
+                $httpMethod
+                    = $services[$serviceInterface]['methods'][$method][Mage_Webapi_Model_Config::ATTR_HTTP_METHOD];
             }
         }
         if (!isset($httpMethod)) {

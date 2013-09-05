@@ -9,6 +9,15 @@
  */
 class Mage_Webapi_Model_Soap_Config
 {
+    /**#@+
+     * Keys that a used for service config internal representation.
+     */
+    const KEY_CLASS = 'class';
+    const KEY_IS_SECURE = 'isSecure';
+    const KEY_METHOD = 'method';
+    const KEY_IS_REQUIRED = 'inputRequired';
+    /**#@-*/
+
     /** @var Magento_Filesystem */
     protected $_filesystem;
 
@@ -69,6 +78,7 @@ class Mage_Webapi_Model_Soap_Config
      *     array(
      *         'class' => $serviceClass,
      *         'method' => $serviceMethod
+     *         'isSecure' => $isSecure
      *     ),
      *      ...
      * )</pre>
@@ -78,13 +88,13 @@ class Mage_Webapi_Model_Soap_Config
         if (null == $this->_soapOperations) {
             $this->_soapOperations = array();
             foreach ($this->getRequestedSoapServices($requestedService) as $serviceData) {
-                foreach ($serviceData[Mage_Webapi_Model_Config::KEY_OPERATIONS] as $method => $methodData) {
-                    $operationName = $this->getSoapOperation($serviceData['class'], $method);
+                foreach ($serviceData['methods'] as $method => $methodData) {
+                    $class = $serviceData[Mage_Webapi_Model_Config::ATTR_SERVICE_CLASS];
+                    $operationName = $this->getSoapOperation($class, $method);
                     $this->_soapOperations[$operationName] = array(
-                        'class' => $serviceData['class'],
-                        'method' => $method,
-                        Mage_Webapi_Model_Config::SECURE_ATTR_NAME
-                            => $methodData[Mage_Webapi_Model_Config::SECURE_ATTR_NAME]
+                        self::KEY_CLASS => $class,
+                        self::KEY_METHOD => $method,
+                        self::KEY_IS_SECURE => $methodData[Mage_Webapi_Model_Config::ATTR_IS_SECURE]
                     );
                 }
             }
@@ -105,25 +115,24 @@ class Mage_Webapi_Model_Soap_Config
         if (is_null($this->_soapServices)) {
             $this->_soapServices = array();
             foreach ($this->_config->getServices() as $serviceData) {
-                $reflection = new ReflectionClass($serviceData['class']);
+                $serviceClass = $serviceData[Mage_Webapi_Model_Config::ATTR_SERVICE_CLASS];
+                $reflection = new ReflectionClass($serviceClass);
                 foreach ($reflection->getMethods() as $method) {
-                    // find if method is secure, look into rest operation definition of each operation
-                    // if operation is not defined, assume operation is not secure
-                    $isOperationSecure = false;
-                    if (isset($serviceData[Mage_Webapi_Model_Config::KEY_OPERATIONS][$method->getName()]
-                    [Mage_Webapi_Model_Config::SECURE_ATTR_NAME])) {
-                        $secureFlagValue = $serviceData[Mage_Webapi_Model_Config::KEY_OPERATIONS]
-                        [$method->getName()][Mage_Webapi_Model_Config::SECURE_ATTR_NAME];
-                        $isOperationSecure = (strtolower($secureFlagValue) === 'true');
+                    // find if method is secure, assume operation is not secure by default
+                    $isSecure = false;
+                    $methodName = $method->getName();
+                    if (isset($serviceData['methods'][$methodName][Mage_Webapi_Model_Config::ATTR_IS_SECURE])) {
+                        $methodData = $serviceData['methods'][$methodName];
+                        $isSecure = strtolower($methodData[Mage_Webapi_Model_Config::ATTR_IS_SECURE]) === 'true';
                     }
 
                     // TODO: Simplify the structure in SOAP. Currently it is unified in SOAP and REST
-                    $this->_soapServices[$serviceData['class']]['operations'][$method->getName()] = array(
-                        'method' => $method->getName(),
-                        'inputRequired' => (bool)$method->getNumberOfParameters(),
-                        Mage_Webapi_Model_Config::SECURE_ATTR_NAME => $isOperationSecure
+                    $this->_soapServices[$serviceClass]['methods'][$methodName] = array(
+                        self::KEY_METHOD => $methodName,
+                        self::KEY_IS_REQUIRED => (bool)$method->getNumberOfParameters(),
+                        self::KEY_IS_SECURE => $isSecure
                     );
-                    $this->_soapServices[$serviceData['class']]['class'] = $serviceData['class'];
+                    $this->_soapServices[$serviceClass][self::KEY_CLASS] = $serviceClass;
                 };
             };
         }
@@ -148,10 +157,9 @@ class Mage_Webapi_Model_Soap_Config
             );
         }
         return array(
-            'class' => $soapOperations[$soapOperation]['class'],
-            'method' => $soapOperations[$soapOperation]['method'],
-            Mage_Webapi_Model_Config::SECURE_ATTR_NAME =>
-                $soapOperations[$soapOperation][Mage_Webapi_Model_Config::SECURE_ATTR_NAME]
+            self::KEY_CLASS => $soapOperations[$soapOperation][self::KEY_CLASS],
+            self::KEY_METHOD => $soapOperations[$soapOperation][self::KEY_METHOD],
+            self::KEY_IS_REQUIRED => $soapOperations[$soapOperation][self::KEY_IS_REQUIRED]
         );
     }
 
@@ -170,7 +178,7 @@ class Mage_Webapi_Model_Soap_Config
         $services = array();
         foreach ($requestedServices as $serviceName) {
             foreach ($this->_getSoapServices() as $serviceData) {
-                $serviceWithVersion = $this->getServiceName($serviceData['class']);
+                $serviceWithVersion = $this->getServiceName($serviceData[self::KEY_CLASS]);
                 if ($serviceWithVersion === $serviceName) {
                     $services[] = $serviceData;
                 }

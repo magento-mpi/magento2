@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Webapi_Config_Dom extends Magento_Config_Dom
+class Mage_Webapi_Model_Config_Dom extends Magento_Config_Dom
 {
 
     /**

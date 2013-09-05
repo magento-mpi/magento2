@@ -39,8 +39,8 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Core_Model_App_State */
     protected $_appStateMock;
 
-    const SERVICE_METHOD = 'serviceMethod';
-    const SERVICE_ID = 'serviceId';
+    const SERVICE_METHOD = Mage_Webapi_Model_Rest_Config::KEY_METHOD;
+    const SERVICE_ID = Mage_Webapi_Model_Rest_Config::KEY_CLASS;
 
     protected function setUp()
     {

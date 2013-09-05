@@ -52,7 +52,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Core_Model_CacheInterface $cache
-     * 
+     *
      * @throws InvalidArgumentException
      */
     public function __construct(
@@ -433,9 +433,9 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
         /** $requestedServices is expected to contain exactly one item */
         $serviceData = reset($requestedServices);
         $serviceDataTypes = array('methods' => array());
-        $serviceClass = $serviceData['class'];
-        foreach ($serviceData['operations'] as $operationData) {
-            $serviceMethod = $operationData['method'];
+        $serviceClass = $serviceData[Mage_Webapi_Model_Soap_Config::KEY_CLASS];
+        foreach ($serviceData['methods'] as $operationData) {
+            $serviceMethod = $operationData[Mage_Webapi_Model_Soap_Config::KEY_METHOD];
             /** @var $payloadSchemaDom DOMDocument */
             $payloadSchemaDom = $this->_getServiceSchemaDOM($serviceClass);
             $operationName = $this->getOperationName($serviceName, $serviceMethod);
@@ -444,7 +444,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
                 $this->getXsdRequestTypeName($serviceMethod),
                 $payloadSchemaDom);
             if (empty($inputComplexTypes)) {
-                if ($operationData['inputRequired']) {
+                if ($operationData[Mage_Webapi_Model_Soap_Config::KEY_IS_REQUIRED]) {
                     throw new LogicException(
                         // @codingStandardsIgnoreStart
                         $this->_helper->__('The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
