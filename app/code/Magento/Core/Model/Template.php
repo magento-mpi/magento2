@@ -74,12 +74,12 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     protected $_design = null;
 
     /**
-     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_View_Design_Proxy $design
      * @param Magento_Core_Model_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_View_Design_Proxy $design,
         Magento_Core_Model_Context $context,
         array $data = array()
     ) {

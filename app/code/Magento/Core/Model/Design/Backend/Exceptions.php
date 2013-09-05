@@ -18,14 +18,14 @@ class Magento_Core_Model_Design_Backend_Exceptions extends Magento_Backend_Model
     protected $_design = null;
 
     /**
-     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_View_Design_Proxy $design
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_View_Design_Proxy $design,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,

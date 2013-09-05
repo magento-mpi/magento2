@@ -29,14 +29,14 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
     protected $_design = null;
 
     /**
-     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_View_Design_Proxy $design
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_View_Design_Proxy $design,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,

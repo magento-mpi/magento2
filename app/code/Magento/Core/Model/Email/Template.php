@@ -95,7 +95,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_View_Design_Proxy $design
      * @param array $data
      */
     public function __construct(
@@ -103,7 +103,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         Magento_Filesystem $filesystem,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_View_Design_Proxy $design,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
