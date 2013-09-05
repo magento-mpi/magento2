@@ -381,7 +381,6 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
     public function testCheckProductConfiguration()
     {
-//        $product = new Magento_Object;
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $buyRequest = new Magento_Object(array('qty' => 5));
         $this->_model->checkProductConfiguration($product, $buyRequest);
