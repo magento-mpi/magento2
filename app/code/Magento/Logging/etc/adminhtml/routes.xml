@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <router id="admin">
+        <route id="adminhtml">
+            <module name="Magento_Logging_Adminhtml" before="Magento_Adminhtml" />
+        </route>
+    </router>
+</config>

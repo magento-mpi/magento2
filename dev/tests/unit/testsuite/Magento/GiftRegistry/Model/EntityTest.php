@@ -41,7 +41,7 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
         $resource = $this->getMock('Magento_GiftRegistry_Model_Resource_Entity', array(), array(), '', false);
         $translate = $this->getMock('Magento_Core_Model_Translate', array(), array(), '', false);
 
-        $config = $this->getMock('Magento_Core_Model_Config', array('getModelInstance'), array(), '', false);
+        $factory = $this->getMock('Magento_Core_Model_Email_TemplateFactory', array('create'), array(), '', false);
         $this->_store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $this->_emailTemplate = $this->getMock('Magento_Core_Model_Email_Template',
             array('setDesignConfig', 'sendTransactional'), array(), '', false
@@ -57,9 +57,8 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
 
         $emailTemplate = $this->_emailTemplate;
 
-        $config->expects($this->any())
-            ->method('getModelInstance')
-            ->with($this->equalTo('Magento_Core_Model_Email_Template'))
+        $factory->expects($this->any())
+            ->method('create')
             ->will($this->returnCallback(
                 function () use ($emailTemplate) {
                     return clone $emailTemplate;
@@ -80,7 +79,9 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $this->_model = new Magento_GiftRegistry_Model_Entity(
-            $coreData, $giftRegistryData, $context, $app, $this->_store, $config, $translate, $resource, null, array()
+            $coreData, $giftRegistryData, $context, $app, $this->_store, $translate, $factory, $resource, null, array(
+                'helpers' => array('Magento_GiftRegistry_Helper_Data' => $helper)
+            )
         );
     }
 

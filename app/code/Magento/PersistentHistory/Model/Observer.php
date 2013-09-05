@@ -352,7 +352,7 @@ class Magento_PersistentHistory_Model_Observer
         $eventDataObject = $observer->getEvent()->getDataObject();
 
         if ($eventDataObject->getValue()) {
-            $optionCustomerSegm = Mage::getModel('Magento_Core_Model_Config_Data')
+            $optionCustomerSegm = Mage::getModel('Magento_Core_Model_Config_Value')
                 ->setScope($eventDataObject->getScope())
                 ->setScopeId($eventDataObject->getScopeId())
                 ->setPath(Magento_PersistentHistory_Helper_Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM)

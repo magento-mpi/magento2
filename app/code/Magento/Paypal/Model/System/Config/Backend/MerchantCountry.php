@@ -11,7 +11,7 @@
 /**
  * Backend model for merchant country. Default country used instead of empty value.
  */
-class Magento_Paypal_Model_System_Config_Backend_MerchantCountry extends Magento_Core_Model_Config_Data
+class Magento_Paypal_Model_System_Config_Backend_MerchantCountry extends Magento_Core_Model_Config_Value
 {
     /**
      * Core data

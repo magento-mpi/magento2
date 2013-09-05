@@ -49,7 +49,7 @@ class Magento_Core_Model_Resource_Config_Data extends Magento_Core_Model_Resourc
      * Validate unique configuration data before save
      * Set id to object if exists configuration instead of throw exception
      *
-     * @param Magento_Core_Model_Config_Data $object
+     * @param Magento_Core_Model_Config_Value $object
      * @return Magento_Core_Model_Resource_Config_Data
      */
     protected function _checkUnique(Magento_Core_Model_Abstract $object)
@@ -71,5 +71,30 @@ class Magento_Core_Model_Resource_Config_Data extends Magento_Core_Model_Resourc
         }
 
         return $this;
+    }
+
+    /**
+     * Clear website data
+     *
+     * @param $website
+     */
+    public function clearWebsiteData(Magento_Core_Model_Website $website)
+    {
+        $this->_getWriteAdapter()->delete(
+            $this->getMainTable(), array('scope = ?' => 'websites', 'scope_id' => $website->getId())
+        );
+        $this->clearStoreData($website->getStoreIds());
+    }
+
+    /**
+     * Cleare store data
+     *
+     * @param array $storeIds
+     */
+    public function clearStoreData(array $storeIds)
+    {
+        $this->_getWriteAdapter()->delete(
+            $this->getMainTable(), array('scope = ?' => 'stores', 'scope_id IN (?)' => $storeIds)
+        );
     }
 }

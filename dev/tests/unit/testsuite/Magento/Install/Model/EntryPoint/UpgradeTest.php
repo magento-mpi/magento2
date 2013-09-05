@@ -70,8 +70,7 @@ class Magento_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_Tes
         $this->_config->expects($this->once())
             ->method('getParam')->with(Magento_Install_Model_EntryPoint_Upgrade::REINDEX)
             ->will($this->returnValue($reindexMode));
-        $upgrade = $this->getMock('Magento_Install_Model_EntryPoint_Upgrade', array('_setGlobalObjectManager'),
-            array($this->_config, $this->_objectManager));
+        $upgrade = new Magento_Install_Model_EntryPoint_Upgrade($this->_config, $this->_objectManager);
         $upgrade->processRequest();
     }
 

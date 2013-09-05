@@ -42,7 +42,6 @@ class Magento_Test_Helper_Api
             array('_getServer', '_getSession'), array(), '', false
         );
         self::$_previousHandler = set_error_handler(array($handlerMock, 'handlePhpError'));
-        Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMIN, Magento_Core_Model_App_Area::PART_EVENTS);
 
         $handlerMock->expects($testCase->any())->method('_getServer')->will($testCase->returnValue($serverMock));
         $handlerMock->expects($testCase->any())->method('_getSession')->will($testCase->returnValue($apiSessionMock));

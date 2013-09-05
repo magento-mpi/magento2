@@ -1,5 +1,8 @@
 <?php
 /**
+ * Abstract configuration class
+ * Used to retrieve core configuration values
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -7,18 +10,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Abstract configuration class
- *
- * Used to retrieve core configuration values
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
 class Magento_Core_Model_Config_Base extends Magento_Simplexml_Config implements Magento_Core_Model_ConfigInterface
 {
     /**

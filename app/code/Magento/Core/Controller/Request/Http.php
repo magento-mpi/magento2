@@ -229,7 +229,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     public function setRouteName($route)
     {
         $this->_route = $route;
-        $router = Mage::app()->getFrontController()->getRouterByRoute($route);
+        $router = Mage::app()->getFrontController()->getRouterList()->getRouterByRoute($route);
         if (!$router) {
             return $this;
         }
@@ -375,9 +375,9 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
         }
         if ($this->_requestedRouteName === null) {
             if ($this->_rewritedPathInfo !== null && isset($this->_rewritedPathInfo[0])) {
-                $fronName = $this->_rewritedPathInfo[0];
-                $router = Mage::app()->getFrontController()->getRouterByFrontName($fronName);
-                $this->_requestedRouteName = $router->getRouteByFrontName($fronName);
+                $frontName = $this->_rewritedPathInfo[0];
+                $router = Mage::app()->getFrontController()->getRouterList()->getRouterByFrontName($frontName);
+                $this->_requestedRouteName = $router->getRouteByFrontName($frontName);
             } else {
                 // no rewritten path found, use default route name
                 return $this->getRouteName();
@@ -518,5 +518,31 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
         }
 
         return (isset($_FILES[$key])) ? $_FILES[$key] : $default;
+    }
+
+    /**
+     * Get website instance base url
+     *
+     * @return string
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    public function getDistroBaseUrl()
+    {
+        if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
+            $secure = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off'))
+                || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443');
+            $scheme = ($secure ? 'https' : 'http') . '://' ;
+
+            $hostArr = explode(':', $_SERVER['HTTP_HOST']);
+            $host = $hostArr[0];
+            $port = isset($hostArr[1]) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443)
+                ? ':'. $hostArr[1]
+                : '';
+            $path = $this->getBasePath();
+
+            return $scheme . $host . $port . rtrim($path, '/') . '/';
+        }
+        return 'http://localhost/';
     }
 }

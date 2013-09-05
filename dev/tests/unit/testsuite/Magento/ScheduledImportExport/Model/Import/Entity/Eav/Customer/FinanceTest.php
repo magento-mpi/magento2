@@ -138,6 +138,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
 
         $moduleHelper = $this->getMock('Magento_ScheduledImportExport_Helper_Data',
             array('isRewardPointsEnabled', 'isCustomerBalanceEnabled'), array(), '', false);
+        $moduleHelper->expects($this->any())->method('__')->will($this->returnArgument(0));
         $moduleHelper->expects($this->any())->method('isRewardPointsEnabled')->will($this->returnValue(true));
         $moduleHelper->expects($this->any())->method('isCustomerBalanceEnabled')->will($this->returnValue(true));
 
@@ -145,10 +146,30 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
 
         $coreString = $this->getMock('Magento_Core_Helper_String', array(), array(), '', false);
 
+        $customerFactory = $this->getMock(
+            'Magento_Customer_Model_CustomerFactory', array('create'), array(), '', false
+        );
+        $balanceFactory = $this->getMock(
+            'Magento_CustomerBalance_Model_BalanceFactory', array('create'), array(), '', false
+        );
+        $rewardFactory = $this->getMock(
+            'Magento_Reward_Model_RewardFactory', array('create'), array(), '', false
+        );
+
+        $customerFactory->expects($this->any())->method('create')
+            ->will($this->returnValue($this->getModelInstance('Magento_Customer_Model_Customer')));
+        $balanceFactory->expects($this->any())->method('create')
+            ->will($this->returnValue($this->getModelInstance('Magento_CustomerBalance_Model_Balance')));
+        $rewardFactory->expects($this->any())->method('create')
+            ->will($this->returnValue($this->getModelInstance('Magento_Reward_Model_Reward')));
+
         $this->_model = new Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance(
             $coreData,
             $coreString,
             $moduleHelper,
+            $customerFactory,
+            $balanceFactory,
+            $rewardFactory,
             $dependencies
         );
     }

@@ -24,17 +24,27 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_objectFactoryMock;
+    protected $_adapterMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_adapterMock;
+    protected $_roleFactoryMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_groupFactoryMock;
 
     public function setUp()
     {
         $this->_resourceMock = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false);
-        $this->_objectFactoryMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $this->_groupFactoryMock = $this->getMock('Magento_User_Model_Acl_Role_GroupFactory',
+            array('create'), array(), '', false
+        );
+        $this->_roleFactoryMock = $this->getMock(
+            'Magento_User_Model_Acl_Role_UserFactory', array('create'), array(), '', false
+        );
 
         $this->_resourceMock->expects($this->once())
             ->method('getTableName')
@@ -56,10 +66,11 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->will($this->returnValue($this->_adapterMock));
 
-        $this->_model = new Magento_User_Model_Acl_Loader_Role(array(
-            'resource' => $this->_resourceMock,
-            'objectFactory' => $this->_objectFactoryMock
-        ));
+        $this->_model = new Magento_User_Model_Acl_Loader_Role(
+            $this->_groupFactoryMock,
+            $this->_roleFactoryMock,
+            $this->_resourceMock
+        );
     }
 
     public function testPopulateAclAddsRolesAndTheirChildren()
@@ -72,12 +83,8 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
             )));
 
 
-        $this->_objectFactoryMock->expects($this->at(0))->method('getModelInstance')->with($this->anything(),
-            array('roleId' => 'G1')
-        );
-        $this->_objectFactoryMock->expects($this->at(1))->method('getModelInstance')->with($this->anything(),
-            array('roleId' => 'U1')
-        );
+        $this->_groupFactoryMock->expects($this->once())->method('create')->with(array('roleId' => 'G1'));
+        $this->_roleFactoryMock->expects($this->once())->method('create')->with(array('roleId' => 'U1'));
 
         $aclMock = $this->getMock('Magento_Acl');
         $aclMock->expects($this->at(0))->method('addRole')->with($this->anything(), null);
@@ -94,7 +101,8 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
             array('role_id' => 1, 'role_type' => 'U', 'parent_id' => 1, 'user_id' => 1),
         )));
 
-        $this->_objectFactoryMock->expects($this->never())->method('getModelInstance');
+        $this->_roleFactoryMock->expects($this->never())->method('getModelInstance');
+        $this->_groupFactoryMock->expects($this->never())->method('getModelInstance');
 
         $aclMock = $this->getMock('Magento_Acl');
         $aclMock->expects($this->at(0))->method('hasRole')->with('U1')

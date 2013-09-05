@@ -19,64 +19,14 @@
                 </setup>
             </designeditor_setup>
         </resources>
-        <events>
-            <save_view_configuration>
-                <observers>
-                    <save_view_configuration_observer>
-                        <class>Magento_DesignEditor_Model_Observer</class>
-                        <method>saveQuickStyles</method>
-                    </save_view_configuration_observer>
-                    <design_editor_change_timestamp>
-                        <class>Magento_DesignEditor_Model_Observer</class>
-                        <method>saveChangeTime</method>
-                    </design_editor_change_timestamp>
-                </observers>
-            </save_view_configuration>
-            <theme_copy_after>
-                <observers>
-                    <copy_theme_change_time>
-                        <class>Magento_DesignEditor_Model_Observer</class>
-                        <method>copyChangeTime</method>
-                    </copy_theme_change_time>
-                </observers>
-            </theme_copy_after>
-            <theme_file_save_after>
-                <observers>
-                    <theme_file_save>
-                        <class>Magento_DesignEditor_Model_Observer</class>
-                        <method>saveChangeTime</method>
-                    </theme_file_save>
-                </observers>
-            </theme_file_save_after>
-        </events>
     </global>
     <default>
-        <web>
-            <routers>
-                <vde>
-                    <area>frontend</area>
-                    <class>Magento_DesignEditor_Controller_Varien_Router_Standard</class>
-                    <base_controller>Magento_Core_Controller_Varien_Action</base_controller>
-                </vde>
-            </routers>
-        </web>
         <theme>
             <customization>
                 <quick_style_css>Magento_DesignEditor_Model_Theme_Customization_File_QuickStyleCss</quick_style_css>
             </customization>
         </theme>
     </default>
-    <frontend>
-        <routers>
-            <designeditor>
-                <use>standard</use>
-                <args>
-                    <module>Magento_DesignEditor</module>
-                    <frontName>design</frontName>
-                </args>
-            </designeditor>
-        </routers>
-    </frontend>
     <vde>
         <design_editor>
             <frontName>vde</frontName>
@@ -85,34 +35,5 @@
                 <config />
             </disabledCacheTypes>
         </design_editor>
-        <events>
-            <controller_action_layout_generate_blocks_after>
-                <observers>
-                    <vde_editor>
-                        <class>Magento_DesignEditor_Model_Observer</class>
-                        <method>clearJs</method>
-                    </vde_editor>
-                </observers>
-            </controller_action_layout_generate_blocks_after>
-            <translate_initialization_before>
-                <observers>
-                    <initialize_translation>
-                        <class>Magento_DesignEditor_Model_Observer</class>
-                        <method>initializeTranslation</method>
-                    </initialize_translation>
-                </observers>
-            </translate_initialization_before>
-        </events>
     </vde>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <magento_designeditor before="Magento_Adminhtml">Magento_DesignEditor_Adminhtml</magento_designeditor>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
-</config>
+</config>

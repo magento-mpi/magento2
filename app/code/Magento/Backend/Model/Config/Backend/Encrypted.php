@@ -1,5 +1,7 @@
 <?php
 /**
+ * Encrypted config field backend model
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -7,17 +9,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Encrypted config field backend model
- *
- * @category   Magento
- * @package    Magento_Backend
- */
-class Magento_Backend_Model_Config_Backend_Encrypted extends Magento_Core_Model_Config_Data
+class Magento_Backend_Model_Config_Backend_Encrypted
+    extends Magento_Core_Model_Config_Value
+    implements Magento_Core_Model_Config_Data_BackendModelInterface
 {
-
     /**
      * Core data
      *
@@ -79,5 +74,16 @@ class Magento_Backend_Model_Config_Backend_Encrypted extends Magento_Core_Model_
     public function getOldValue()
     {
         return $this->_coreData->decrypt(parent::getOldValue());
+    }
+
+    /**
+     * Process config value
+     *
+     * @param string $value
+     * @return string
+     */
+    public function processValue($value)
+    {
+        return $this->_coreData->decrypt($value);
     }
 }

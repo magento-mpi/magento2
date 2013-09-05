@@ -24,7 +24,7 @@ class Magento_Core_Model_Resource_Config_Data_Collection extends Magento_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('Magento_Core_Model_Config_Data', 'Magento_Core_Model_Resource_Config_Data');
+        $this->_init('Magento_Core_Model_Config_Value', 'Magento_Core_Model_Resource_Config_Data');
     }
 
     /**

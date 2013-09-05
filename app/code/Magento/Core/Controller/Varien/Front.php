@@ -7,22 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 class Magento_Core_Controller_Varien_Front extends Magento_Object implements Magento_Core_Controller_FrontInterface
 {
-    const XML_STORE_ROUTERS_PATH = 'web/routers';
-
-    /**
-     * Prevent redirect to baseUrl for some areas (use for VDE into Magento Go)
-     */
-    const XML_FORBIDDEN_FOR_REDIRECT_AREAS = 'default/web/forbiddenForRedirectAreas';
-
-    /**
-     * @var Magento_Core_Controller_Varien_Router_Factory
-     */
-    protected $_routerFactory;
-
     /**
      * @var Magento_Core_Model_Url_RewriteFactory
      */
@@ -34,11 +20,9 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     protected $_defaults = array();
 
     /**
-     * Available routers array
-     *
-     * @var array
+     * @var Magento_Core_Model_RouterList
      */
-    protected $_routers = array();
+    protected $_routerList;
 
     /**
      * @var Magento_Backend_Helper_Data
@@ -47,21 +31,24 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
 
     /**
      * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Core_Controller_Varien_Router_Factory $routerFactory
      * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_RouterList $routerList
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
-        Magento_Core_Controller_Varien_Router_Factory $routerFactory,
         Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_RouterList $routerList,
         array $data = array()
     ) {
         parent::__construct($data);
 
         $this->_backendData = $backendData;
-        $this->_routerFactory  = $routerFactory;
         $this->_rewriteFactory = $rewriteFactory;
+        $this->_eventManager = $eventManager;
+        $this->_routerList = $routerList;
     }
 
     public function setDefault($key, $value=null)
@@ -105,17 +92,13 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     }
 
     /**
-     * Adding new router
+     * Get routerList model
      *
-     * @param   string $name
-     * @param   Magento_Core_Controller_Varien_Router_Abstract $router
-     * @return  Magento_Core_Controller_Varien_Front
+     * @return Magento_Core_Model_RouterList
      */
-    public function addRouter($name, Magento_Core_Controller_Varien_Router_Abstract $router)
+    public function getRouterList()
     {
-        $router->setFront($this);
-        $this->_routers[$name] = $router;
-        return $this;
+        return $this->_routerList;
     }
 
     /**
@@ -126,8 +109,9 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
      */
     public function getRouter($name)
     {
-        if (isset($this->_routers[$name])) {
-            return $this->_routers[$name];
+        $routers = $this->_routerList->getRouters();
+        if (isset($routers[$name])) {
+            return $routers[$name];
         }
         return false;
     }
@@ -139,45 +123,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
      */
     public function getRouters()
     {
-        return $this->_routers;
-    }
-
-    /**
-     * Init Front Controller
-     *
-     * @return Magento_Core_Controller_Varien_Front
-     */
-    public function init()
-    {
-        Mage::dispatchEvent('controller_front_init_before', array('front'=>$this));
-
-        $routersInfo = array_merge(
-            Mage::app()->getConfig()->getRouters(),
-            Mage::app()->getStore()->getConfig(self::XML_STORE_ROUTERS_PATH) ?: array()
-        );
-
-        Magento_Profiler::start('collect_routers');
-        foreach ($routersInfo as $routerCode => $routerInfo) {
-            if (isset($routerInfo['disabled']) && $routerInfo['disabled']) {
-                continue;
-            }
-            if (isset($routerInfo['class'])) {
-                $router = $this->_routerFactory->createRouter($routerInfo['class'], $routerInfo);
-                if (isset($routerInfo['area'])) {
-                    $router->collectRoutes($routerInfo['area'], $routerCode);
-                }
-                $this->addRouter($routerCode, $router);
-            }
-        }
-        Magento_Profiler::stop('collect_routers');
-
-        Mage::dispatchEvent('controller_front_init_routers', array('front'=>$this));
-
-        // Add default router at the last
-        $default = $this->_routerFactory->createRouter('Magento_Core_Controller_Varien_Router_Default');
-        $this->addRouter('default', $default);
-
-        return $this;
+        return $this->_routerList->getRouters();
     }
 
     /**
@@ -203,7 +149,9 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         $routingCycleCounter = 0;
         while (!$request->isDispatched() && $routingCycleCounter++ < 100) {
             /** @var $router Magento_Core_Controller_Varien_Router_Abstract */
-            foreach ($this->_routers as $router) {
+            foreach ($this->_routerList->getRouters() as $router) {
+                $router->setFront($this);
+
                 /** @var $controllerInstance Magento_Core_Controller_Varien_Action */
                 $controllerInstance = $router->match($this->getRequest());
                 if ($controllerInstance) {
@@ -246,52 +194,6 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         Magento_Profiler::start('config_url_rewrite');
         $this->rewrite($request);
         Magento_Profiler::stop('config_url_rewrite');
-    }
-
-    public function getRouterByRoute($routeName)
-    {
-        // empty route supplied - return base url
-        if (empty($routeName)) {
-            $router = $this->getRouter('standard');
-        } elseif ($this->getRouter('admin') && $this->getRouter('admin')->getFrontNameByRoute($routeName)) {
-            // try standard router url assembly
-            $router = $this->getRouter('admin');
-        } elseif ($this->getRouter('standard')->getFrontNameByRoute($routeName)) {
-            // try standard router url assembly
-            $router = $this->getRouter('standard');
-        } elseif ($router = $this->getRouter($routeName)) {
-            // try custom router url assembly
-        } else {
-            // get default router url
-            $router = $this->getRouter('default');
-        }
-
-        return $router;
-    }
-
-    /**
-     * @param string $frontName
-     * @return Magento_Core_Controller_Varien_Router_Abstract
-     */
-    public function getRouterByFrontName($frontName)
-    {
-        // empty route supplied - return base url
-        if (empty($frontName)) {
-            $router = $this->getRouter('standard');
-        } elseif ($this->getRouter('admin')->getRouteByFrontName($frontName)) {
-            // try standard router url assembly
-            $router = $this->getRouter('admin');
-        } elseif ($this->getRouter('standard')->getRouteByFrontName($frontName)) {
-            // try standard router url assembly
-            $router = $this->getRouter('standard');
-        } elseif ($router = $this->getRouter($frontName)) {
-            // try custom router url assembly
-        } else {
-            // get default router url
-            $router = $this->getRouter('default');
-        }
-
-        return $router;
     }
 
     /**
@@ -339,11 +241,11 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         $startPos = strpos($url, '{');
         if ($startPos!==false) {
             $endPos = strpos($url, '}');
-            $routeName = substr($url, $startPos+1, $endPos-$startPos-1);
-            $router = $this->getRouterByRoute($routeName);
+            $routeId = substr($url, $startPos+1, $endPos-$startPos-1);
+            $router = $this->_routerList->getRouterByRoute($routeId);
             if ($router) {
-                $fronName = $router->getFrontNameByRoute($routeName);
-                $url = str_replace('{'.$routeName.'}', $fronName, $url);
+                $frontName = $router->getFrontNameByRoute($routeId);
+                $url = str_replace('{'.$routeId.'}', $frontName, $url);
             }
         }
         return $url;
@@ -369,11 +271,6 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         }
 
         if ($this->_isAdminFrontNameMatched($request)) {
-            return;
-        }
-
-        if($this->_isForbiddenForRedirectArea($request)) {
-
             return;
         }
 
@@ -429,30 +326,5 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         }
 
         return $pathPrefix;
-    }
-
-    /**
-     * Check is current request may be redirected into base URL
-     *
-     * @param Zend_Controller_Request_Http $request
-     * @return bool
-     */
-    protected function _isForbiddenForRedirectArea($request)
-    {
-        $result = false;
-        $pathPrefix = $this->_extractPathPrefixFromUrl($request);
-
-        $forbiddenForRedirectAreas = Mage::app()->getConfig()->getNode();
-        if ($forbiddenForRedirectAreas) {
-            $areasList = $forbiddenForRedirectAreas->asArray();
-            foreach ($areasList as $nodeName => $nodeValue)
-            {
-                if ($nodeName == $pathPrefix) {
-                    $result = true;
-                    break;
-                }
-            }
-        }
-        return $result;
     }
 }

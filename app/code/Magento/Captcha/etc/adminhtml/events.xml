@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="controller_action_predispatch_adminhtml_auth_forgotpassword">
+        <observer name="captcha" instance="Magento_Captcha_Model_Observer" method="checkUserForgotPasswordBackend" />
+    </event>
+    <event name="controller_action_predispatch_customer_account_forgotpasswordpost">
+        <observer name="captcha" instance="Magento_Captcha_Model_Observer" method="checkForgotPassword" />
+    </event>
+</config>

@@ -26,11 +26,12 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $this->_modelParams = array(
             'coreFileStorageDatabase' => $objectManager->get('Magento_Core_Helper_File_Storage_Database'),
-            'context'         => $objectManager->get('Magento_Core_Model_Context'),
+            'context' => $objectManager->get('Magento_Core_Model_Context'),
             'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
-            'urlModel'        => $objectManager->get('Magento_Core_Model_Url'),
-            'appState'        => $objectManager->get('Magento_Core_Model_App_State'),
-            'resource'        => $objectManager->get('Magento_Core_Model_Resource_Store'),
+            'urlModel' => $objectManager->get('Magento_Core_Model_Url'),
+            'appState' => $objectManager->get('Magento_Core_Model_App_State'),
+            'request' => $objectManager->get('Magento_Core_Controller_Request_Http'),
+            'configDataResource' => $objectManager->get('Magento_Core_Model_Resource_Config_Data'),
         );
 
         $this->_model = $this->getMock(
@@ -228,6 +229,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPriceFilter()
     {
+        $this->_model->load('default');
         $this->assertInstanceOf('Magento_Directory_Model_Currency_Filter', $this->_model->getPriceFilter());
     }
 
@@ -242,6 +244,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 
     public function testGetCurrentUrl()
     {
+        $this->_model->load('admin');
         $this->_model->expects($this->any())
             ->method('getUrl')
             ->will($this->returnValue('http://localhost/index.php'));

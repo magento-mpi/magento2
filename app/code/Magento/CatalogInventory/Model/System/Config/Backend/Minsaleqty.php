@@ -12,7 +12,7 @@
  * Backend for serialized array data
  *
  */
-class Magento_CatalogInventory_Model_System_Config_Backend_Minsaleqty extends Magento_Core_Model_Config_Data
+class Magento_CatalogInventory_Model_System_Config_Backend_Minsaleqty extends Magento_Core_Model_Config_Value
 {
     /**
      * Catalog inventory minsaleqty

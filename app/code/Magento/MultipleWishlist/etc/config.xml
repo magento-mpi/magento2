@@ -20,17 +20,6 @@
             </multiplewishlist_setup>
         </resources>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <magento_multiplewishlist before="Magento_Adminhtml">Magento_MultipleWishlist_Adminhtml</magento_multiplewishlist>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -43,22 +32,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <routers>
-            <wishlist>
-                <args>
-                    <modules>
-                        <magento_multiplewishlist before="Magento_Wishlist">Magento_MultipleWishlist</magento_multiplewishlist>
-                    </modules>
-                </args>
-            </wishlist>
-            <magento_multiplewishlist>
-                <use>standard</use>
-                <args>
-                    <module>Magento_MultipleWishlist</module>
-                    <frontName>wishlists</frontName>
-                </args>
-            </magento_multiplewishlist>
-        </routers>
         <translate>
             <modules>
                 <Magento_MultipleWishlist>
@@ -68,28 +41,6 @@
                 </Magento_MultipleWishlist>
             </modules>
         </translate>
-        <events>
-            <wishlist_delete_commit_after>
-                <observers>
-                    <magento_fullpagecache>
-                        <class>Magento_FullPageCache_Model_Observer</class>
-                        <method>registerWishlistChange</method>
-                    </magento_fullpagecache>
-                    <magento_fullpagecache>
-                        <class>Magento_FullPageCache_Model_Observer</class>
-                        <method>registerWishlistListChange</method>
-                    </magento_fullpagecache>
-                </observers>
-            </wishlist_delete_commit_after>
-            <wishlist_save_commit_after>
-                <observers>
-                    <magento_fullpagecache>
-                        <class>Magento_FullPageCache_Model_Observer</class>
-                        <method>registerWishlistListChange</method>
-                    </magento_fullpagecache>
-                </observers>
-            </wishlist_save_commit_after>
-        </events>
     </frontend>
     <default>
         <wishlist>
@@ -98,4 +49,4 @@
             </general>
         </wishlist>
     </default>
-</config>
+</config>

@@ -116,7 +116,6 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     public function getLastUpdate()
     {
         return Mage::app()->loadCache('admin_notifications_lastcheck');
-//        return Mage::getStoreConfig(self::XML_LAST_UPDATE_PATH);
     }
 
     /**

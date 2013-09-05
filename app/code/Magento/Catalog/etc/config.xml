@@ -41,40 +41,6 @@
                 </catalog_category_product>
             </indexer>
         </index>
-        <events>
-            <catalog_category_save_commit_after>
-                <observers>
-                    <fulltext_reindex>
-                        <class>Magento_Catalog_Model_Observer_Reindex</class>
-                        <method>fulltextReindex</method>
-                    </fulltext_reindex>
-                </observers>
-            </catalog_category_save_commit_after>
-            <log_log_clean_after>
-                <observers>
-                    <catalog_product_compare_item>
-                        <class>Magento_Catalog_Model_Observer</class>
-                        <method>catalogProductCompareClean</method>
-                    </catalog_product_compare_item>
-                </observers>
-            </log_log_clean_after>
-            <page_block_html_topmenu_gethtml_before>
-                <observers>
-                    <catalog_add_topmenu_items>
-                        <class>Magento_Catalog_Model_Observer</class>
-                        <method>addCatalogToTopmenuItems</method>
-                    </catalog_add_topmenu_items>
-                </observers>
-            </page_block_html_topmenu_gethtml_before>
-            <catalog_product_transition_product_type>
-                <observers>
-                    <type_transition>
-                        <class>Magento_Catalog_Model_Observer</class>
-                        <method>transitionProductType</method>
-                    </type_transition>
-                </observers>
-            </catalog_product_transition_product_type>
-        </events>
         <catalog>
             <product>
                 <type>
@@ -290,59 +256,11 @@
                 </Magento_Catalog>
             </modules>
         </translate>
-        <events>
-            <cms_wysiwyg_images_static_urls_allowed>
-                <observers>
-                    <catalog_wysiwyg>
-                        <class>Magento_Catalog_Model_Observer</class>
-                        <method>catalogCheckIsUsingStaticUrlsAllowed</method>
-                    </catalog_wysiwyg>
-                </observers>
-            </cms_wysiwyg_images_static_urls_allowed>
-        </events>
     </adminhtml>
     <frontend>
-        <routers>
-            <catalog>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Catalog</module>
-                    <frontName>catalog</frontName>
-                </args>
-            </catalog>
-        </routers>
         <default>
             <router>catalog</router>
         </default>
-        <events>
-            <customer_login>
-                <observers>
-                    <catalog>
-                        <type>model</type>
-                        <class>Magento_Catalog_Model_Product_Compare_Item</class>
-                        <method>bindCustomerLogin</method>
-                    </catalog>
-                </observers>
-            </customer_login>
-            <customer_logout>
-                <observers>
-                    <catalog>
-                        <type>model</type>
-                        <class>Magento_Catalog_Model_Product_Compare_Item</class>
-                        <method>bindCustomerLogout</method>
-                    </catalog>
-                </observers>
-            </customer_logout>
-            <sales_convert_quote_item_to_order_item>
-                <observers>
-                    <catalog>
-                        <type>model</type>
-                        <class>Magento_Catalog_Model_Product_Option_Observer</class>
-                        <method>copyQuoteFilesToOrderFiles</method>
-                    </catalog>
-                </observers>
-            </sales_convert_quote_item_to_order_item>
-        </events>
         <translate>
             <modules>
                 <Magento_Catalog>

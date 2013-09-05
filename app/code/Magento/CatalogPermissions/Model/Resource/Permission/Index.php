@@ -67,17 +67,25 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     protected $_catalogPermData = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Class constructor
-     * 
+     *
      * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
         Magento_CatalogPermissions_Helper_Data $catalogPermData,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Resource $resource
     ) {
         $this->_catalogPermData = $catalogPermData;
         parent::__construct($resource);
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -639,12 +647,9 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     {
         if (empty($this->_storeIds)) {
             $this->_storeIds = array();
-            $stores = Mage::app()->getConfig()->getNode('stores');
-            foreach ($stores->children() as $store) {
-                $storeId = (int) $store->descend('system/store/id');
-                if ($storeId) {
-                    $this->_storeIds[] = $storeId;
-                }
+            /** @var $store Magento_Core_Model_Store */
+            foreach ($this->_storeManager->getStores(true) as $store) {
+                $this->_storeIds[] = (int)$store->getId();
             }
         }
 

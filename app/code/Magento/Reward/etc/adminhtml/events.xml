@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="adminhtml_customer_prepare_save">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="saveRewardNotifications" />
+    </event>
+    <event name="adminhtml_customer_save_after">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="saveRewardPoints" />
+    </event>
+    <event name="review_save_commit_after">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="reviewSubmit" />
+    </event>
+    <event name="adminhtml_sales_order_create_process_data">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="processOrderCreationData" />
+    </event>
+    <event name="adminhtml_sales_order_creditmemo_register_before">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="setRewardPointsBalanceToRefund" />
+    </event>
+    <event name="website_delete_after">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="prepareCustomerOrphanPoints" />
+    </event>
+    <event name="adminhtml_block_salesrule_actions_prepareform">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="prepareSalesruleForm" />
+    </event>
+    <event name="salesrule_rule_load_after">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="loadRewardSalesruleData" />
+    </event>
+    <event name="salesrule_rule_save_after">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="saveRewardSalesruleData" />
+    </event>
+    <event name="order_cancel_after">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="returnRewardPoints" />
+    </event>
+    <event name="payment_method_is_active">
+        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="preparePaymentMethod" />
+    </event>
+</config>

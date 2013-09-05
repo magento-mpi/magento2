@@ -18,6 +18,18 @@
         <param name="controllerFactory">
             <instance type="Magento_Backend_Controller_Factory" />
         </param>
+        <param name="areaCode">
+            <value>adminhtml</value>
+        </param>
+        <param name="baseController">
+            <value>Magento_Backend_Controller_ActionAbstract</value>
+        </param>
+        <param name="routerId">
+            <value>admin</value>
+        </param>
+        <param name="defaultRouteId">
+            <value>adminhtml</value>
+        </param>
     </type>
     <type name="Magento_Backend_Controller_Adminhtml_System_Config_Save">
         <param name="cache">
@@ -27,9 +39,34 @@
     <type name="Magento_Backend_Model_Menu_Config">
         <param name="menuDirector"><instance type="Magento_Backend_Model_Menu_Director_Director"/></param>
     </type>
+    <type name="Magento_Core_Model_RouterList">
+        <param name="routerList">
+            <value>
+                <admin>
+                    <instance>Magento_Backend_Controller_Router_Default</instance>
+                    <disable type="bool">false</disable>
+                    <sortOrder>10</sortOrder>
+                </admin>
+            </value>
+        </param>
+    </type>
+
     <type name="Magento_Backend_Helper_Data">
+        <param name="defaultAreaFrontName">
+            <value>backend</value>
+        </param>
         <param name="applicationConfig">
             <instance type="Magento_Core_Model_ConfigProxy"/>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_NoRouteHandlerList">
+        <param name="handlerClassesList">
+            <value>
+                <backend>
+                    <instance>Magento_Backend_Model_Router_NoRouteHandler</instance>
+                    <sortOrder>10</sortOrder>
+                </backend>
+            </value>
         </param>
     </type>
 </config>
