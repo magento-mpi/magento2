@@ -10,6 +10,7 @@
     <!--
         Known bugs:
         This script currently may vertically align long lists of attributes which can make it difficult to read diffs.
+        This script will merge comments that are the same parent node.
     -->
     <xsl:output indent="yes" />
 
