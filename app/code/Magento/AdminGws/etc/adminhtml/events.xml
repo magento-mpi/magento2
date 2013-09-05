@@ -50,9 +50,6 @@
     <event name="adminhtml_catalog_category_tree_can_add_sub_category">
         <observer name="magento_admingws" instance="Magento_AdminGws_Model_Blocks" method="catalogCategoryCanBeAdded" />
     </event>
-    <event name="magento_catalog_permissions_is_allowed_category">
-        <observer name="magento_admingws" instance="Magento_AdminGws_Model_Models" method="catalogCategoryIsCatalogPermissionsAllowed" />
-    </event>
     <event name="adminhtml_block_html_before">
         <observer name="magento_admingws" instance="Magento_AdminGws_Model_Observer" method="restrictBlocks" />
     </event>

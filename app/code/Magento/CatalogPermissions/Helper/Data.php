@@ -50,8 +50,6 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
         $options->setCategory($category);
         $options->setIsAllowed(true);
 
-        Mage::dispatchEvent('magento_catalog_permissions_is_allowed_category', array('options' => $options));
-
         return $options->getIsAllowed();
     }
 

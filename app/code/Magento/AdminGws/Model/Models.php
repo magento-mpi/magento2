@@ -727,23 +727,6 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
         }
     }
 
-
-    /**
-     * Check whether catalog permissions can be edited per category
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function catalogCategoryIsCatalogPermissionsAllowed($observer)
-    {
-        if ($this->_role->getIsAll()) {
-            return;
-        }
-        if (!$this->_role->hasExclusiveCategoryAccess(
-            $observer->getEvent()->getOptions()->getCategory()->getPath())) {
-            $observer->getEvent()->getOptions()->setIsAllowed(false);
-        }
-    }
-
     /**
      * Make websites read-only
      *
