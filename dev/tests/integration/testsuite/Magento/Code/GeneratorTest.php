@@ -244,9 +244,9 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testGenerateInterfaceInterceptorWithoutNamespace()
     {
-        $interceptorInterfaceName = self::INTERFACE_NAME_WITHOUT_NAMESPACE . 'Interceptor';
+        $interceptorName = self::INTERFACE_NAME_WITHOUT_NAMESPACE . 'Interceptor';
         $result = false;
-        $generatorResult = $this->_generator->generateClass($interceptorInterfaceName);
+        $generatorResult = $this->_generator->generateClass($interceptorName);
         if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult
             || Magento_Code_generator::GENERATION_SKIP == $generatorResult
         ) {
