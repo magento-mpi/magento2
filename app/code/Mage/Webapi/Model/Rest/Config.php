@@ -24,9 +24,9 @@ class Mage_Webapi_Model_Rest_Config
     const KEY_IS_SECURE = 'isSecure';
     const KEY_CLASS = 'class';
     const KEY_HTTP_METHOD = 'httpMethod';
-    const KEY_METHOD = 'serviceMethod';
+    const KEY_METHOD = 'method';
     const KEY_VERSION = 'version';
-    const KEY_PATH = 'routePath';
+    const KEY_ROUTE_PATH = 'routePath';
     /*#@-*/
 
     /** @var Mage_Webapi_Model_Config  */
@@ -66,7 +66,7 @@ class Mage_Webapi_Model_Rest_Config
         /** @var $route Mage_Webapi_Controller_Rest_Router_Route */
         $route = $this->_routeFactory->createRoute(
             'Mage_Webapi_Controller_Rest_Router_Route',
-            strtolower($routeData[self::KEY_PATH])
+            strtolower($routeData[self::KEY_ROUTE_PATH])
         );
 
         $route->setServiceId($routeData[self::KEY_CLASS])
@@ -124,7 +124,8 @@ class Mage_Webapi_Model_Rest_Config
                     $methodRoute = isset($methodInfo['route']) ? $methodInfo['route'] : '';
                     $routes[] = $this->_createRoute(
                         array(
-                            self::KEY_PATH => $serviceData[Mage_Webapi_Model_Config::ATTR_SERVICE_PATH] . $methodRoute,
+                            self::KEY_ROUTE_PATH =>
+                                $serviceData[Mage_Webapi_Model_Config::ATTR_SERVICE_PATH] . $methodRoute,
                             self::KEY_VERSION => $request->getServiceVersion(), // TODO: Take version from config
                             self::KEY_CLASS => $serviceName,
                             self::KEY_METHOD => $methodName,

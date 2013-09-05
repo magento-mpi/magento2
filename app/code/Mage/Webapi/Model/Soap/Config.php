@@ -159,7 +159,7 @@ class Mage_Webapi_Model_Soap_Config
         return array(
             self::KEY_CLASS => $soapOperations[$soapOperation][self::KEY_CLASS],
             self::KEY_METHOD => $soapOperations[$soapOperation][self::KEY_METHOD],
-            self::KEY_IS_REQUIRED => $soapOperations[$soapOperation][self::KEY_IS_REQUIRED]
+            self::KEY_IS_SECURE => $soapOperations[$soapOperation][self::KEY_IS_SECURE]
         );
     }
 

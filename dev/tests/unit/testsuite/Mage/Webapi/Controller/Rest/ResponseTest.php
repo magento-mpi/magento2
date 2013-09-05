@@ -84,7 +84,8 @@ class Mage_Webapi_Controller_Rest_ResponseTest extends PHPUnit_Framework_TestCas
             Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
         );
         /** Set exception to Rest response to get in to the _renderMessages method. */
-        $this->_responseRest->setException(new Mage_Webapi_Exception('Message.', 400));
+        $this->_responseRest->setException(
+            new Mage_Webapi_Exception('Message.', Mage_Webapi_Exception::HTTP_BAD_REQUEST));
         $this->_responseRest->sendResponse();
     }
 
@@ -105,7 +106,8 @@ class Mage_Webapi_Controller_Rest_ResponseTest extends PHPUnit_Framework_TestCas
             Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
         );
         /** Set exception to Rest response to get in to the _renderMessages method. */
-        $this->_responseRest->setException(new Mage_Webapi_Exception('Message.', 400));
+        $this->_responseRest->setException(
+            new Mage_Webapi_Exception('Message.', Mage_Webapi_Exception::HTTP_BAD_REQUEST));
         $this->_responseRest->sendResponse();
     }
 
@@ -178,7 +180,7 @@ class Mage_Webapi_Controller_Rest_ResponseTest extends PHPUnit_Framework_TestCas
     {
         return array(
             'Mage_Webapi_Exception' => array(
-                new Mage_Webapi_Exception('Message', 400),
+                new Mage_Webapi_Exception('Message', Mage_Webapi_Exception::HTTP_BAD_REQUEST),
                 '{"errors":[{"code":400,"message":"Message"}]}',
                 'Response sending with Mage_Webapi_Exception is invalid'
             ),
@@ -199,12 +201,12 @@ class Mage_Webapi_Controller_Rest_ResponseTest extends PHPUnit_Framework_TestCas
     {
         return array(
             'Mage_Webapi_Exception' => array(
-                new Mage_Webapi_Exception('Message', 400),
+                new Mage_Webapi_Exception('Message', Mage_Webapi_Exception::HTTP_BAD_REQUEST),
                 '{"errors":[{"code":400,"message":"Message","trace":"',
                 'Response sending with Mage_Webapi_Exception in developer mode is invalid'
             ),
             'Logical Exception' => array(
-                new LogicException('Message', 500),
+                new LogicException('Message', Mage_Webapi_Exception::HTTP_INTERNAL_ERROR),
                 '{"errors":[{"code":500,"message":"Message","trace":"',
                 'Response sending with Logical Exception in developer mode is invalid'
             ),

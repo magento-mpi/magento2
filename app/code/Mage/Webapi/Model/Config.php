@@ -23,7 +23,7 @@ class Mage_Webapi_Model_Config
     const ATTR_SERVICE_METHOD = 'method';
     const ATTR_HTTP_METHOD = 'httpMethod';
     const ATTR_IS_SECURE = 'isSecure';
-    const NODE_ROUTE = 'rest-route';
+    const REST_ROUTE = 'rest-route';
     /**#@-*/
 
     /**
@@ -214,7 +214,7 @@ class Mage_Webapi_Model_Config
 
             $nodeId = $this->_getNodeId($childAsArray, $child);
 
-            if (self::NODE_ROUTE === $child->nodeName) {
+            if (self::REST_ROUTE === $child->nodeName) {
                 if (!isset($result['methods'])) {
                     $result['methods'] = array();
                 }

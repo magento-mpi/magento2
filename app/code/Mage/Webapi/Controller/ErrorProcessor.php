@@ -228,7 +228,7 @@ class Mage_Webapi_Controller_ErrorProcessor
         $reportDir = BP . 'var/report/api';
         $file->checkAndCreateFolder($reportDir, 0777);
         $reportId = abs(intval(microtime(true) * rand(100, 1000)));
-        $reportFile = $reportDir . DS . $reportId;
+        $reportFile = "$reportDir/$reportId";
         $file->write($reportFile, serialize($reportData), 0777);
         return $reportId;
     }
