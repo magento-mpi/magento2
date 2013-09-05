@@ -48,6 +48,13 @@
                     </item>
                 </argument>
                 <argument name="testOptions" xsi:type="options" model="Magento_Core_Model_Layout_Argument_Handler_Files_TestOptions"/>
+                <argument name="testSimpleObject" xsi:type="object">
+                    Magento_Core_Model_Layout_Argument_Handler_Files_TestObject
+                </argument>
+                <argument name="testComplexObject" xsi:type="object">
+                    <value>Magento_Core_Model_Layout_Argument_Handler_Files_TestObject</value>
+                    <updater>Magento_Test_Updater</updater>
+                </argument>
             </arguments>
         </block>
     </handle>
