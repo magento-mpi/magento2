@@ -42,6 +42,17 @@ class Magento_GoogleAnalytics_Block_Ga extends Magento_Core_Block_Template
     }
 
     /**
+     * Get config
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public function getConfig($path)
+    {
+        return $this->_storeConfig->getConfig($path);
+    }
+
+    /**
      * Get a specific page name (may be customized via layout)
      *
      * @return string|null

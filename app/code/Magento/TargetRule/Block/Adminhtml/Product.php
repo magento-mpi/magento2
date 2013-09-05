@@ -25,18 +25,26 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_W
     protected $_targetRuleData = null;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_TargetRule_Helper_Data $targetRuleData,
+        Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_targetRuleData = $targetRuleData;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -164,5 +172,15 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_W
             $flag = false;
         }
         return $flag;
+    }
+
+    /**
+     * Get is single store mode
+     *
+     * @return bool
+     */
+    public function isSingleStoreMode()
+    {
+        return $this->_storeManager->isSingleStoreMode();
     }
 }

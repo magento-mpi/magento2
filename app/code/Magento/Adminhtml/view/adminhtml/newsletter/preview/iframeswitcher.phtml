@@ -9,7 +9,7 @@
  */
 ?>
 <?php
-/* @var $this Magento_Core_Block_Template */
+/* @var $this Magento_Adminhtml_Block_Page */
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
@@ -19,7 +19,7 @@
 <body id="html-body" class="preview-window">
 <div id="preview" class="cms-revision-preview">
     <div class="toolbar">
-        <?php if (!Mage::app()->isSingleStoreMode()) :?>
+        <?php if (!$this->isSingleStoreMode()) :?>
         <div class="store-switcher">
             <?php echo $this->getChildHtml('store_switcher') ?>
             <button class="button" onclick="preview();"><span><?php echo __('Preview'); ?></span></button>

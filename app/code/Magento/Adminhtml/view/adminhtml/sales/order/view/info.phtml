@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 ?>
+<?php /** @var $this Magento_Adminhtml_Block_Sales_Order_View_Info */ ?>
 <?php $_order = $this->getOrder() ?>
 <?php
 $orderAdminDate = $this->formatDate($_order->getCreatedAtDate(), 'medium', true);
@@ -47,7 +48,7 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
                     <th><?php echo __('Order Status') ?></th>
                     <td><span id="order_status"><?php echo $_order->getStatusLabel() ?></span></td>
                 </tr>
-                <?php if (Mage::app()->isSingleStoreMode() == false):?>
+                <?php if ($this->isSingleStoreMode() == false):?>
                 <tr>
                     <th><?php echo __('Purchased From') ?></th>
                     <td><?php echo $this->getOrderStoreName() ?></td>

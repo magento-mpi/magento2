@@ -27,7 +27,7 @@
                 <input type="checkbox" id="<?php echo $this->getFieldName('position_limit'); ?>_default" name="product[<?php echo $this->getFieldName('position_limit'); ?>_default]" value="1" onclick="targetruleSetDefault(this, '<?php echo $this->getFieldName('position_limit'); ?>');" class="checkbox" <?php echo $_readonly ?><?php echo $this->isDefault('position_limit') ? 'checked' : ''; ?>/>
                 <label for="<?php echo $this->getFieldName('position_limit'); ?>_default" class="normal"><?php echo __('Use Config Settings') ?></label>
             </td>
-            <?php if (!Mage::app()->isSingleStoreMode()): ?>
+            <?php if (!$this->isSingleStoreMode()): ?>
             <td class="value scope-label"><?php echo __('[GLOBAL]') ?></td>
             <?php endif; ?>
         </tr>
@@ -45,7 +45,7 @@
             <input type="checkbox" id="<?php echo $this->getFieldName('position_behavior'); ?>_default" name="product[<?php echo $this->getFieldName('position_behavior'); ?>_default]" value="1" onclick="targetruleSetDefault(this, '<?php echo $this->getFieldName('position_behavior'); ?>');" class="checkbox" <?php echo $_readonly?><?php echo $this->isDefault('position_behavior') ? 'checked' : ''; ?>/>
             <label for="<?php echo $this->getFieldName('position_behavior'); ?>_default" class="normal"><?php echo __('Use Config Settings') ?></label>
             </td>
-            <?php if (!Mage::app()->isSingleStoreMode()): ?>
+            <?php if (!$this->isSingleStoreMode()): ?>
             <td class="value scope-label"><?php echo __('[GLOBAL]') ?></td>
             <?php endif; ?>
         </tr>

@@ -29,7 +29,7 @@ class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
     {
         //init primary configs
         /** @var $dir Magento_Core_Model_Dir */
-        $dir = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
+        $dir = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir');
 
         $configPath = $dir->getDir(Magento_Core_Model_Dir::APP) . DS . 'etc' . DS . '*' . DS;
         self::$_primaryFiles = glob($configPath . DS. 'di.xml');
@@ -37,7 +37,8 @@ class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
 
         //init module global configs
         /** @var $modulesReader Magento_Core_Model_Config_Modules_Reader */
-        $modulesReader = Mage::getObjectManager()->get('Magento_Core_Model_Config_Modules_Reader');
+        $modulesReader = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Config_Modules_Reader');
         self::$_moduleGlobalFiles = $modulesReader->getConfigurationFiles('di.xml');
 
         //init module area configs

@@ -219,7 +219,7 @@
                     }).find('input:text').attr('autocomplete', 'off');
                     <?php if ($this->getShowAddressFields()): ?>
                         $('#country').regionUpdater({
-                            optionalRegionAllowed: <?php echo (Mage::getStoreConfig('general/region/display_all')? 'true' : 'false'); ?>,
+                            optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
                             regionListId: '#region_id',
                             regionInputId: '#region',
                             postcodeId: '#zip',

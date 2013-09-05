@@ -20,14 +20,15 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
      */
     public function testAddAttributesToForm()
     {
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $arguments = array(
-            Mage::getObjectManager()->get('Magento_Core_Helper_Data'),
-            Mage::getObjectManager()->get('Magento_Backend_Block_Template_Context'),
+            $objectManager->get('Magento_Core_Helper_Data'),
+            $objectManager->get('Magento_Backend_Block_Template_Context'),
         );
         /** @var $block Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract */
         $block = $this->getMockForAbstractClass('Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract', $arguments);
-        $block->setLayout(Mage::getObjectManager()->create('Magento_Core_Model_Layout'));
+        $block->setLayout($objectManager->create('Magento_Core_Model_Layout'));
 
         $method = new ReflectionMethod(
             'Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract', '_addAttributesToForm');
@@ -43,7 +44,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
                 'frontend_label' => 'Date',
             )
         );
-        $dateAttribute = Mage::getObjectManager()->create('Magento_Customer_Model_Attribute', $arguments);
+        $dateAttribute = $objectManager->create('Magento_Customer_Model_Attribute', $arguments);
         $attributes = array('date' => $dateAttribute);
         $method->invoke($block, $attributes, $fieldset);
 

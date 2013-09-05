@@ -25,7 +25,7 @@ class Magento_CustomerSegment_Model_Condition_Combine_AbstractTest extends PHPUn
 
     protected function setUp()
     {
-        $this->_model = Mage::getObjectManager()
+        $this->_model = Magento_Test_Helper_Bootstrap::getObjectManager()
             ->create('Magento_CustomerSegment_Model_Segment_Condition_Combine_Root');
     }
 

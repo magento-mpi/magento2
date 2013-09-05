@@ -25,6 +25,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
     protected $_catalogData = null;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -32,11 +37,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -154,5 +161,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
     public function isVirtual()
     {
         return $this->getProduct()->getIsVirtual();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSingleStoreMode()
+    {
+        return $this->_storeManager->isSingleStoreMode();
     }
 }

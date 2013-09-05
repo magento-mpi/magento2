@@ -30,8 +30,8 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Mage::getObjectManager()->get('Magento_Webapi_Helper_Data');
-        $objectManager = Mage::getObjectManager();
+        $this->_helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Webapi_Helper_Data');
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         /** Prepare arguments for SUT constructor. */
         $pathToFixtures = __DIR__ . '/../_files/autodiscovery';
         /** @var Magento_Webapi_Model_Config_Reader_Soap $reader */
