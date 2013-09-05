@@ -149,34 +149,4 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $this->_model->getRouters());
     }
-
-    public function testGetFieldset()
-    {
-        $fieldsetConfigMock = $this->getMockBuilder('Magento_Core_Model_Fieldset_Config')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getFieldsets'))
-            ->getMock();
-
-        $expectedFieldset = array(
-            'aspect' => 'firstAspect'
-        );
-
-        $fieldsets = array(
-            'test' => $expectedFieldset,
-            'test_second' => array(
-                'aspect' => 'secondAspect'
-            ),
-        );
-
-        $fieldsetConfigMock->expects($this->once())
-            ->method('getFieldsets')
-            ->with($this->equalTo('global'))
-            ->will($this->returnValue($fieldsets));
-
-        $this->_objectManagerMock->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo('Magento_Core_Model_Fieldset_Config'))
-            ->will($this->returnValue($fieldsetConfigMock));
-        $this->assertEquals($expectedFieldset, $this->_model->getFieldset('test'));
-    }
 }

@@ -53,4 +53,21 @@ class Magento_Core_Model_Fieldset_ConfigTest extends PHPUnit_Framework_TestCase
         $result = $this->_model->getFieldsets('global');
         $this->assertEquals($expected, $result);
     }
+
+    public function testGetFieldset()
+    {
+        $expectedFieldset = array(
+            'aspect' => 'firstAspect'
+        );
+        $fieldsets = array(
+            'test' => $expectedFieldset,
+            'test_second' => array(
+                'aspect' => 'secondAspect'
+            ),
+        );
+        $this->_storageMock->expects($this->once())->method('get')
+            ->will($this->returnValue($fieldsets));
+        $result = $this->_model->getFieldset('test');
+        $this->assertEquals($expectedFieldset, $result);
+    }
 }
