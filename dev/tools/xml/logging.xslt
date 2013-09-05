@@ -3,6 +3,14 @@
 
     <xsl:output indent="yes"/>
     <xsl:template match="/">
+        <xsl:comment>
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+</xsl:comment>
         <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:noNamespaceSchemaLocation="../../../app/code/Magento/Logging/etc/logging.xsd">
             <xsl:for-each select="logging/*">
