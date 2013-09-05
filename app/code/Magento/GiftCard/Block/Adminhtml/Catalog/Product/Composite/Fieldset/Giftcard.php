@@ -17,11 +17,14 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Giftca
     protected $_storeManager;
 
     public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
         $this->_storeManager = $storeManager;
     }
 

@@ -19,16 +19,18 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
     protected $_storeManager;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
     }
 
