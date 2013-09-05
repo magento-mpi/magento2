@@ -21,7 +21,10 @@ class Magento_Data_Form_Element_FieldsetTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_fieldset = new Magento_Data_Form_Element_Fieldset(array());
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $elementFactory Magento_Data_Form_ElementFactory */
+        $elementFactory = $objectManager->create('Magento_Data_Form_ElementFactory');
+        $this->_fieldset = $elementFactory->create('Magento_Data_Form_Element_Fieldset', array());
     }
 
     /**

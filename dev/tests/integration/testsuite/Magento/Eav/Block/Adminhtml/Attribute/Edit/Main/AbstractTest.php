@@ -20,6 +20,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
      */
     public function testPrepareForm()
     {
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer');
         $model = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Customer_Model_Attribute');
@@ -28,9 +29,12 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
 
         $block = $this->getMockForAbstractClass(
             'Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract',
-            array(Mage::getSingleton('Magento_Backend_Block_Template_Context'))
+            array(
+                $objectManager->get('Magento_Backend_Block_Template_Context'),
+                $objectManager->get('Magento_Data_Form_Factory')
+            )
         )
-        ->setLayout(Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout'));
+        ->setLayout($objectManager->create('Magento_Core_Model_Layout'));
 
         $method = new ReflectionMethod(
             'Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract', '_prepareForm');
