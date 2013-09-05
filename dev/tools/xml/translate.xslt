@@ -10,7 +10,6 @@
     <!--
         Known bugs:
         This script currently may vertically align long lists of attributes which can make it difficult to read diffs.
-        Comments in your xml file are not converted and must be re-introduced.
     -->
     <xsl:output indent="yes" />
 
@@ -23,6 +22,9 @@
                 <xsl:attribute name="translate">true</xsl:attribute>
             </xsl:if>
             <xsl:copy-of select="@*[name()!='translate']" />
+            <xsl:if test="./comment() != ''">
+                <xsl:comment><xsl:value-of select="comment()"/></xsl:comment>
+            </xsl:if>
             <xsl:if test="text() != '' ">
                 <xsl:value-of select="text()[normalize-space()]" />
             </xsl:if>
@@ -45,14 +47,6 @@
     </xsl:template>
 
     <xsl:template match="/">
-        <!-- An attempt to reintroduce the license comment -->
-        <xsl:comment>
-/**
-* {license_notice}
-*
-* @copyright {copyright}
-* @license {license_link}
-*/</xsl:comment>
         <xsl:call-template name="refactor-translate">
             <xsl:with-param name="node" select="." />
         </xsl:call-template>
