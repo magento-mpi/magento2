@@ -13,6 +13,7 @@
 -->
 <project name="Core Development Unit Tests" basedir="../../../../" default="_unit_tests_all">
     <import file="../util.xml"/>
+    <import file="../coverage.xml"/>
 
     <target name="_jstestdriver_path_substitution" description="JsTestDriver JAR file path substitution in configuration file from environment variable">
         <fail unless="jstestdriver_config_file" message="Property 'jstestdriver_config_file' must be defined"/>
@@ -84,17 +85,18 @@
         <antcall target="_code_coverage_configuration">
             <param name="configuration_file" value="${product_root_dir}/dev/tests/unit/phpunit.xml.dist"/>
         </antcall>
-        <antcall target="unit_tests_ce"/>
+        <antcall target="unit_tests_ce">
+            <param name="phpunit" value="${basedir}/dev/build/bin/phpunit-with-xdebug.sh"/>
+        </antcall>
     </target>
 
     <target name="unit_tests_ee_magento_code_coverage" depends="_product_location" description="Code Coverage All EE Unit Tests with Xdebug">
-        <script language="javascript">
-            project.setProperty("phpunit", basedir + "/dev/build/bin/phpunit-with-xdebug.sh");
-        </script>
         <antcall target="_code_coverage_configuration">
             <param name="configuration_file" value="${product_root_dir}/dev/tests/unit/phpunit.xml.dist"/>
         </antcall>
-        <antcall target="unit_tests_ee"/>
+        <antcall target="unit_tests_ee">
+            <param name="phpunit" value="${basedir}/dev/build/bin/phpunit-with-xdebug.sh"/>
+        </antcall>
     </target>
 
 </project>
