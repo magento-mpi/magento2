@@ -56,11 +56,11 @@
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="options" xsi:type="array">
                                 <item name="active" xsi:type="array">
-                                    <item name="value" xsi:type="string">0</item>
+                                    <item name="value" xsi:type="string">1</item>
                                     <item name="label" xsi:type="string" translate="true">Active</item>
                                 </item>
                                 <item name="inactive" xsi:type="array">
-                                    <item name="value" xsi:type="string">1</item>
+                                    <item name="value" xsi:type="string">0</item>
                                     <item name="label" xsi:type="string" translate="true">Inactive</item>
                                 </item>
                             </argument>

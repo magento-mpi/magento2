@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="controller_action_predispatch">
+        <observer name="log" instance="Magento_Log_Model_Visitor" method="initByRequest" />
+    </event>
+    <event name="controller_action_postdispatch">
+        <observer name="log" instance="Magento_Log_Model_Visitor" method="saveByRequest" />
+    </event>
+    <event name="customer_login">
+        <observer name="log" instance="Magento_Log_Model_Visitor" method="bindCustomerLogin" />
+    </event>
+    <event name="customer_logout">
+        <observer name="log" instance="Magento_Log_Model_Visitor" method="bindCustomerLogout" />
+    </event>
+    <event name="sales_quote_save_after">
+        <observer name="log" instance="Magento_Log_Model_Visitor" method="bindQuoteCreate" />
+    </event>
+    <event name="checkout_quote_destroy">
+        <observer name="log" instance="Magento_Log_Model_Visitor" method="bindQuoteDestroy" />
+    </event>
+</config>

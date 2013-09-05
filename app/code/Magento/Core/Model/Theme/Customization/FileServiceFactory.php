@@ -16,7 +16,7 @@ class Magento_Core_Model_Theme_Customization_FileServiceFactory
     /**
      * XML path to definitions of customization services
      */
-    const XML_PATH_CUSTOM_FILES = 'default/theme/customization';
+    const XML_PATH_CUSTOM_FILES = 'theme/customization';
 
     /**
      * @var Magento_ObjectManager
@@ -42,11 +42,10 @@ class Magento_Core_Model_Theme_Customization_FileServiceFactory
         $this->_objectManager = $objectManager;
         $this->_config = $config;
 
-        $convertNode = $config->getNode(self::XML_PATH_CUSTOM_FILES);
+        $convertNode = $config->getValue(self::XML_PATH_CUSTOM_FILES, 'default');
         if ($convertNode) {
-            /** @var $node Magento_Core_Model_Config_Element */
-            foreach ($convertNode->children() as $node) {
-                $this->_types[$node->getName()] = strval($node);
+            foreach ($convertNode as $name => $value) {
+                $this->_types[$name] = $value;
             }
         }
     }

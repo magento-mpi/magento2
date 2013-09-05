@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Backend_Theme extends Magento_Core_Model_Config_Data
+class Magento_Core_Model_Design_Backend_Theme extends Magento_Core_Model_Config_Value
 {
     /**
      * Design package instance

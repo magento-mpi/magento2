@@ -12,7 +12,7 @@
  * Backend model for "Reward Points Balance"
  *
  */
-class Magento_Reward_Model_System_Config_Backend_Balance extends Magento_Core_Model_Config_Data
+class Magento_Reward_Model_System_Config_Backend_Balance extends Magento_Core_Model_Config_Value
 {
     /**
      * Check if max_points_balance >= than min_points_balance

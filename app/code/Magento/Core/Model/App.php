@@ -168,8 +168,12 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     {
         Magento_Profiler::start('init');
 
+        if ($this->_appState->isInstalled() && !$this->_cache->load('data_upgrade')) {
+            $this->_dbUpdater->updateScheme();
+            $this->_dbUpdater->updateData();
+            $this->_cache->save(1, 'data_upgrade');
+        }
         $this->_initRequest();
-        $this->_dbUpdater->updateData();
 
         $controllerFront = $this->getFrontController();
         Magento_Profiler::stop('init');
@@ -220,9 +224,6 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     protected function _initFrontController()
     {
         $this->_frontController = $this->_getFrontControllerByCurrentArea();
-        Magento_Profiler::start('init_front_controller');
-        $this->_frontController->init();
-        Magento_Profiler::stop('init_front_controller');
         return $this;
     }
 
@@ -364,7 +365,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      */
     public function getBaseCurrencyCode()
     {
-        return (string)$this->_config->getNode('default/' . Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
+        return $this->_config->getValue(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, 'default');
     }
 
     /**

@@ -195,7 +195,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
         }
 
         if ($object->getData('groups/tablerate/fields/condition_name/inherit') == '1') {
-            $conditionName = (string)Mage::getConfig()->getNode('default/carriers/tablerate/condition_name');
+            $conditionName = (string)Mage::getConfig()->getValue('carriers/tablerate/condition_name', 'default');
         } else {
             $conditionName = $object->getData('groups/tablerate/fields/condition_name/value');
         }

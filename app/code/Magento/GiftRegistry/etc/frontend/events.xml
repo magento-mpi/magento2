@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="controller_action_layout_generate_blocks_after">
+        <observer name="magento_giftregistry" instance="Magento_GiftRegistry_Model_Observer" method="assignHtmlHeadRenderingFlag" />
+    </event>
+    <event name="checkout_cart_product_add_after">
+        <observer name="magento_giftregistry" instance="Magento_GiftRegistry_Model_Observer" method="addGiftRegistryQuoteFlag" />
+    </event>
+    <event name="customer_address_format">
+        <observer name="magento_giftregistry" instance="Magento_GiftRegistry_Model_Observer" method="addressFormatFront" />
+    </event>
+</config>

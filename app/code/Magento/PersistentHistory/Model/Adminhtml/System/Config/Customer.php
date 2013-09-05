@@ -12,7 +12,7 @@
  * Enterprise Persistent System Config Shopping Customer option backend model
  *
  */
-class Magento_PersistentHistory_Model_Adminhtml_System_Config_Customer extends Magento_Core_Model_Config_Data
+class Magento_PersistentHistory_Model_Adminhtml_System_Config_Customer extends Magento_Core_Model_Config_Value
 {
     /**
      * Prefix of model events names

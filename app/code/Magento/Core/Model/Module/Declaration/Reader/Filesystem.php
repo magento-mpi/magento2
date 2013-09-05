@@ -27,35 +27,25 @@ class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Co
     /**
      * @param Magento_Core_Model_Module_Declaration_FileResolver $fileResolver
      * @param Magento_Core_Model_Module_Declaration_Converter_Dom $converter
+     * @param Magento_Core_Model_Module_Declaration_SchemaLocator $schemaLocator
+     * @param Magento_Config_ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
-     * @param null|string $schema
-     * @param null|string $perFileSchema
-     * @param bool $isValidated
      * @param string $domDocumentClass
      * @param array $allowedModules
      */
     public function __construct(
         Magento_Core_Model_Module_Declaration_FileResolver $fileResolver,
         Magento_Core_Model_Module_Declaration_Converter_Dom $converter,
+        Magento_Core_Model_Module_Declaration_SchemaLocator $schemaLocator,
+        Magento_Config_ValidationStateInterface $validationState,
         $fileName = 'module.xml',
         $idAttributes = array(),
-        $schema = null,
-        $perFileSchema = null,
-        $isValidated = true,
         $domDocumentClass = 'Magento_Config_Dom',
         array $allowedModules = array()
     ) {
-        $schema = realpath(__DIR__ . '/../../../../etc/module.xsd');
         parent::__construct(
-            $fileResolver,
-            $converter,
-            $fileName,
-            $idAttributes,
-            $schema,
-            $perFileSchema,
-            $isValidated,
-            $domDocumentClass
+            $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass
         );
         $this->_allowedModules = $allowedModules;
     }

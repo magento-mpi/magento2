@@ -11,7 +11,7 @@
 /**
  * Flat category on/off backend
  */
-class Magento_Catalog_Model_System_Config_Backend_Catalog_Category_Flat extends Magento_Core_Model_Config_Data
+class Magento_Catalog_Model_System_Config_Backend_Catalog_Category_Flat extends Magento_Core_Model_Config_Value
 {
     /**
      * After enable flat category required reindex

@@ -8,7 +8,7 @@
  * @license {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-abstract class Magento_GoogleAdwords_Model_Config_Backend_ConversionAbstract extends Magento_Core_Model_Config_Data
+abstract class Magento_GoogleAdwords_Model_Config_Backend_ConversionAbstract extends Magento_Core_Model_Config_Value
 {
     /**
      * @var Magento_Validator_Composite_VarienObject

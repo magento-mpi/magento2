@@ -84,13 +84,6 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected $_moduleHelper;
 
     /**
-     * Object factory model, currently it is config model
-     *
-     * @var Magento_Core_Model_Config
-     */
-    protected $_objectFactory;
-
-    /**
      * Admin user object
      *
      * @var Magento_User_Model_User
@@ -105,21 +98,44 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected $_importedRowPks = array();
 
     /**
-     * Constructor
-     *
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Magento_CustomerBalance_Model_BalanceFactory
+     */
+    protected $_balanceFactory;
+
+    /**
+     * @var Magento_Reward_Model_RewardFactory
+     */
+    protected $_rewardFactory;
+
+    /**
+     * @param Magento_ScheduledImportExport_Helper_Data $helper
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_CustomerBalance_Model_BalanceFactory $balanceFactory
+     * @param Magento_Reward_Model_RewardFactory $rewardFactory
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_ScheduledImportExport_Helper_Data $helper,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_CustomerBalance_Model_BalanceFactory $balanceFactory,
+        Magento_Reward_Model_RewardFactory $rewardFactory,
+        array $data = array()
+    ) {
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
         parent::__construct($data);
 
-        $this->_moduleHelper = isset($data['module_helper']) ? $data['module_helper']
-            : Mage::helper('Magento_ScheduledImportExport_Helper_Data');
-        $this->_objectFactory = isset($data['object_factory']) ? $data['object_factory']
-            : Mage::app()->getConfig();
+        $this->_rewardFactory = $rewardFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_balanceFactory = $balanceFactory;
+        $this->_moduleHelper = $helper;
+
         $this->_adminUser = isset($data['admin_user']) ? $data['admin_user']
             : Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
 
@@ -132,7 +148,6 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
         $this->addMessageTemplate(self::ERROR_DUPLICATE_PK,
             __('Row with such email, website, finance website combination was already found.')
         );
-
         $this->_initAttributes();
     }
 
@@ -167,7 +182,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
         }
 
         /** @var $customer Magento_Customer_Model_Customer */
-        $customer = $this->_objectFactory->getModelInstance('Magento_Customer_Model_Customer');
+        $customer = $this->_customerFactory->create();
         $rewardPointsKey =
             Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
         $customerBalanceKey =
@@ -229,7 +244,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected function _updateRewardPointsForCustomer(Magento_Customer_Model_Customer $customer, $websiteId, $value)
     {
         /** @var $rewardModel Magento_Reward_Model_Reward */
-        $rewardModel = $this->_objectFactory->getModelInstance('Magento_Reward_Model_Reward');
+        $rewardModel = $this->_rewardFactory->create();
         $rewardModel->setCustomer($customer)
             ->setWebsiteId($websiteId)
             ->loadByCustomer();
@@ -268,7 +283,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected function _updateCustomerBalanceForCustomer(Magento_Customer_Model_Customer $customer, $websiteId, $value)
     {
         /** @var $balanceModel Magento_CustomerBalance_Model_Balance */
-        $balanceModel = $this->_objectFactory->getModelInstance('Magento_CustomerBalance_Model_Balance');
+        $balanceModel = $this->_balanceFactory->create();
         $balanceModel->setCustomer($customer)
             ->setWebsiteId($websiteId)
             ->loadByCustomer();
