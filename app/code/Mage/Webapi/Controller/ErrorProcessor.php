@@ -210,7 +210,7 @@ class Mage_Webapi_Controller_ErrorProcessor
                 $this->render($errorMessage);
             } else {
                 $this->render(
-                    $this->_apiHelper->__('Server internal error. See details in report api/%s.log', $reportId)
+                    $this->_apiHelper->__('Server internal error. See details in report api/%s', $reportId)
                 );
             }
         }
@@ -228,7 +228,7 @@ class Mage_Webapi_Controller_ErrorProcessor
         $reportDir = BP . 'var/report/api';
         $file->checkAndCreateFolder($reportDir, 0777);
         $reportId = abs(intval(microtime(true) * rand(100, 1000)));
-        $reportFile = $reportDir . DS . $reportId . '.log';
+        $reportFile = $reportDir . DS . $reportId;
         $file->write($reportFile, serialize($reportData), 0777);
         return $reportId;
     }
