@@ -446,10 +446,8 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
             if (empty($inputComplexTypes)) {
                 if ($operationData[Mage_Webapi_Model_Soap_Config::KEY_IS_REQUIRED]) {
                     throw new LogicException(
-                        // @codingStandardsIgnoreStart
-                        $this->_helper->__('The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
+                        sprintf('The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
                             $serviceMethod, $serviceName, $inputParameterName)
-                        // @codingStandardsIgnoreEnd
                     );
                 } else {
                     /** Generate empty input request to make WSDL compliant with WS-I basic profile */
@@ -465,10 +463,8 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
                 $serviceDataTypes['methods'][$serviceMethod]['interface']['outputComplexTypes'] = $outputComplexTypes;
             } else {
                 throw new LogicException(
-                    // @codingStandardsIgnoreStart
-                    $this->_helper->__('The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
+                    sprintf('The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
                         $serviceMethod, $serviceName, $outputParameterName)
-                    // @codingStandardsIgnoreEnd
                 );
             }
         }

@@ -238,8 +238,8 @@ class Mage_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
         // Override default prepareResponse. It should never be called in this case
         $this->_responseMock->expects($this->never())->method('prepareResponse');
 
-        $expectedMsg = 'The method' . self::SERVICE_METHOD . ' of service '
-            . self::SERVICE_ID . ' must return an array.';
+        $expectedMsg = 'The method "' . self::SERVICE_METHOD . '" of service "'
+            . self::SERVICE_ID . '" must return an array.';
         $this->_helperMock->expects($this->any())
             ->method('__')
             ->with('The method "%s" of service "%s" must return an array.', self::SERVICE_METHOD, self::SERVICE_ID)

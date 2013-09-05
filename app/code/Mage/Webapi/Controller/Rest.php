@@ -105,7 +105,7 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
             $outputData = $service->$serviceMethod($inputData);
             if (!is_array($outputData)) {
                 throw new LogicException(
-                    $this->_helper->__('The method "%s" of service "%s" must return an array.', $serviceMethod,
+                    sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod,
                         $route->getServiceId())
                 );
             }
