@@ -326,7 +326,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function uploadFile($targetPath, $type = null)
     {
-        $uploader = new Magento_Core_Model_File_Uploader('image');
+        $uploader = Mage::getModel('Magento_Core_Model_File_Uploader', array('fileId' => 'image'));
         $allowed = $this->getAllowedExtensions($type);
         if ($allowed) {
             $uploader->setAllowedExtensions($allowed);
@@ -465,15 +465,6 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         }
 
         return $thumbnailDir;
-    }
-
-    /**
-     * Media Storage Helper getter
-     * @return Magento_Cms_Helper_Wysiwyg_Images
-     */
-    public function getHelper()
-    {
-        return $this->_cmsWysiwygImages;
     }
 
     /**
