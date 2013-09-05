@@ -40,7 +40,7 @@ class Integrity_Modular_WidgetConfigFilesTest extends PHPUnit_Framework_TestCase
             /** @var $dirs Magento_Core_Model_Dir */
             $dirs = $this->_objectManager->get('Magento_Core_Model_Dir');
             $modulesDir = $dirs->getDir(Magento_Core_Model_Dir::MODULES);
-            $this->_schemaFile = $modulesDir . '/Magento/Widget/etc/widget.xsd';
+            $this->_schemaFile = $modulesDir . '/Magento/Widget/etc/widget_file.xsd';
         }
     }
 
