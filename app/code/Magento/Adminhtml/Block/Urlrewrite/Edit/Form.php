@@ -18,7 +18,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block_Widget_Form
 {
     /**
      * @var array
@@ -43,18 +43,18 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var Magento_Backend_Helper_Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
