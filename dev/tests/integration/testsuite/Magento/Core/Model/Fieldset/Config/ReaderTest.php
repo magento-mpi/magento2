@@ -65,7 +65,7 @@ class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_Te
             )
         );
 
-        $schema = __DIR__ . '/../../../../../../../../../../app/code/Magento/Core/etc/fieldset.xsd';
+        $schema = __DIR__ . '/../../../../../../../../../app/code/Magento/Core/etc/fieldset.xsd';
         $this->_model = Mage::getObjectManager()->create(
             'Magento_Core_Model_Fieldset_Config_Reader', array(
                 'moduleReader' => $moduleReader,
