@@ -15,5 +15,5 @@
  * @package     Mage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\MagentoException extends Exception
+class Magento_Exception extends Exception
 {}

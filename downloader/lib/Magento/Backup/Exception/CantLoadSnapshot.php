@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,9 +12,9 @@
  * Exception
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Backup\Exception\CantLoadSnapshot extends \Magento\Backup\BackupException
+class Magento_Backup_Exception_CantLoadSnapshot extends Magento_Backup_Exception
 {
 }

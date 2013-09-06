@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,49 +12,49 @@
  * Rollback worker for rolling back via local filesystem
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Backup\Filesystem\Rollback\Fs extends \Magento\Backup\Filesystem\Rollback\AbstractRollback
+class Magento_Backup_Filesystem_Rollback_Fs extends Magento_Backup_Filesystem_Rollback_AbstractRollback
 {
     /**
      * Files rollback implementation via local filesystem
      *
-     * @see \Magento\Backup\Filesystem\Rollback\AbstractRollback::run()
-     * @throws \Magento\MagentoException
+     * @see Magento_Backup_Filesystem_Rollback_AbstractRollback::run()
+     * @throws Magento_MagentoException
      */
     public function run()
     {
         $snapshotPath = $this->_snapshot->getBackupPath();
 
         if (!is_file($snapshotPath) || !is_readable($snapshotPath)) {
-            throw new \Magento\Backup\Exception\CantLoadSnapshot('Cant load snapshot archive');
+            throw new Magento_Backup_Exception_CantLoadSnapshot('Cant load snapshot archive');
         }
 
-        $fsHelper = new \Magento\Backup\Filesystem\Helper();
+        $fsHelper = new Magento_Backup_Filesystem_Helper();
 
         $filesInfo = $fsHelper->getInfo(
             $this->_snapshot->getRootDir(),
-            \Magento\Backup\Filesystem\Helper::INFO_WRITABLE,
+            Magento_Backup_Filesystem_Helper::INFO_WRITABLE,
             $this->_snapshot->getIgnorePaths()
         );
 
         if (!$filesInfo['writable']) {
-            throw new \Magento\Backup\Exception\NotEnoughPermissions(
+            throw new Magento_Backup_Exception_NotEnoughPermissions(
                 'Unable to make rollback because not all files are writable'
             );
         }
 
-        $archiver = new \Magento\Archive();
+        $archiver = new Magento_Archive();
 
         /**
          * we need these fake initializations because all magento's files in filesystem will be deleted and autoloader
          * wont be able to load classes that we need for unpacking
          */
-        new \Magento\Archive\Tar();
-        new \Magento\Archive\Gz();
-        new \Magento\Archive\Helper\File('');
-        new \Magento\Archive\Helper\File\Gz('');
+        new Magento_Archive_Tar();
+        new Magento_Archive_Gz();
+        new Magento_Archive_Helper_File('');
+        new Magento_Archive_Helper_File_Gz('');
 
         $fsHelper->rm($this->_snapshot->getRootDir(), $this->_snapshot->getIgnorePaths());
         $archiver->unpack($snapshotPath, $this->_snapshot->getRootDir());
