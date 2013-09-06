@@ -308,9 +308,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isRegistrationAllowed()
     {
-        $result = new Magento_Object(array('is_allowed' => true));
-        Mage::dispatchEvent('customer_registration_is_allowed', array('result' => $result));
-        return $result->getIsAllowed();
+        return true;
     }
 
     /**
