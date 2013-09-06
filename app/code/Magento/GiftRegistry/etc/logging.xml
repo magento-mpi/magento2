@@ -9,25 +9,32 @@
  * @license     {license_link}
  */
 -->
-<logging xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
-    <title action="share" translate="true" >Share</title >
-    <event id="magento_giftregistry_type" >
-        <label translate="true" >Gift Registry Type</label >
-        <expected_model class="Magento_GiftRegistry_Model_Type" />
-        <handle name="adminhtml_giftregistry_edit" action="edit" />
-        <handle name="adminhtml_giftregistry_save" action="save"
-                post_dispatch="Magento_GiftRegistry_Model_Type::postDispatchTypeSave" />
-        <handle name="adminhtml_giftregistry_delete" action="delete" />
-    </event >
-    <event id="magento_giftregistry_entity" >
-        <label translate="true" >Gift Registry Entity</label >
-        <expected_model class="Magento_GiftRegistry_Model_Entity" />
-        <expected_model class="Magento_GiftRegistry_Model_Item" />
-        <handle name="adminhtml_giftregistry_customer_add" action="new" />
-        <handle name="adminhtml_giftregistry_customer_edit" action="edit" />
-        <handle name="adminhtml_giftregistry_customer_share" action="share"
-                post_dispatch="Magento_GiftRegistry_Model_Entity::postDispatchShare" />
-        <handle name="adminhtml_giftregistry_customer_delete" action="delete" />
-    </event >
-</logging >
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
+    <action id="share">
+        <label translate="true">Share</label>
+    </action>
+    <log id="magento_giftregistry_type">
+        <label translate="true">Gift Registry Type</label>
+        <expected_model class="Magento_GiftRegistry_Model_Type"/>
+        <event controller_action="adminhtml_giftregistry_edit" action_alias="edit"/>
+        <event controller_action="adminhtml_giftregistry_save"
+               action_alias="save"
+               post_dispatch="Magento_GiftRegistry_Model_Type::postDispatchTypeSave"/>
+        <event controller_action="adminhtml_giftregistry_delete" action_alias="delete"/>
+    </log>
+    <log id="magento_giftregistry_entity">
+        <label translate="true">Gift Registry Entity</label>
+        <expected_model class="Magento_GiftRegistry_Model_Entity"/>
+        <expected_model class="Magento_GiftRegistry_Model_Item"/>
+        <event controller_action="adminhtml_giftregistry_customer_add"
+               action_alias="new"/>
+        <event controller_action="adminhtml_giftregistry_customer_edit"
+               action_alias="edit"/>
+        <event controller_action="adminhtml_giftregistry_customer_share"
+               action_alias="share"
+               post_dispatch="Magento_GiftRegistry_Model_Entity::postDispatchShare"/>
+        <event controller_action="adminhtml_giftregistry_customer_delete"
+               action_alias="delete"/>
+    </log>
+</logging>

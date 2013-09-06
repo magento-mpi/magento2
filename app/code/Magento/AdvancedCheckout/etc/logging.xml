@@ -9,24 +9,33 @@
  * @license     {license_link}
  */
 -->
-<logging xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
-    <title action="apply_coupon" translate="true" >Apply Coupon</title >
-    <title action="add_to_cart" translate="true" >Add to Cart</title >
-    <event id="enterprise_checkout" >
-        <label translate="true" >Shopping Cart Management</label >
-        <handle name="adminhtml_checkout_index" action="view" >
-            <expected_model class="Magento_Sales_Model_Quote" />
-        </handle >
-        <handle name="adminhtml_checkout_applyCoupon" action="apply_coupon"
-                post_dispatch="postDispatchAdminCheckoutApplyCoupon" >
-            <expected_model class="Magento_Sales_Model_Quote" />
-        </handle >
-        <handle name="adminhtml_checkout_updateItems" action="save" >
-            <expected_model class="Magento_Sales_Model_Quote_Item" />
-        </handle >
-        <handle name="adminhtml_checkout_addToCart" action="add_to_cart" >
-            <expected_model class="Magento_Sales_Model_Quote_Item" additional_fields="item_id quote_id " />
-        </handle >
-    </event >
-</logging >
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
+    <action id="apply_coupon">
+        <label translate="true">Apply Coupon</label>
+    </action>
+    <action id="add_to_cart">
+        <label translate="true">Add to Cart</label>
+    </action>
+    <log id="enterprise_checkout">
+        <label translate="true">Shopping Cart Management</label>
+        <event controller_action="adminhtml_checkout_index" action_alias="view">
+            <expected_model class="Magento_Sales_Model_Quote"/>
+        </event>
+        <event controller_action="adminhtml_checkout_applyCoupon"
+               action_alias="apply_coupon"
+               post_dispatch="postDispatchAdminCheckoutApplyCoupon">
+            <expected_model class="Magento_Sales_Model_Quote"/>
+        </event>
+        <event controller_action="adminhtml_checkout_updateItems" action_alias="save">
+            <expected_model class="Magento_Sales_Model_Quote_Item"/>
+        </event>
+        <event controller_action="adminhtml_checkout_addToCart"
+               action_alias="add_to_cart">
+            <expected_model class="Magento_Sales_Model_Quote_Item">
+                <additional_field>item_id</additional_field>
+                <additional_field>quote_id</additional_field>
+            </expected_model>
+        </event>
+    </log>
+</logging>

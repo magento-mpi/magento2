@@ -9,20 +9,32 @@
  * @license     {license_link}
  */
 -->
-<logging xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
-    <title action="massAdd" translate="true" >Mass Add</title >
-    <title action="add" translate="true" >Add</title >
-    <event id="magento_salesarchive" >
-        <label translate="true" >Sales Archive</label >
-        <expected_model class="Magento_SalesArchive_Model_Archive" />
-        <handle name="adminhtml_sales_archive_add" action="add" skip_on_back="adminhtml_sales_order_view "
-                post_dispatch="postDispatchSalesArchiveManagement" />
-        <handle name="adminhtml_sales_archive_remove" action="delete" skip_on_back="adminhtml_sales_order_view "
-                post_dispatch="postDispatchSalesArchiveManagement" />
-        <handle name="adminhtml_sales_archive_massAdd" action="massAdd"
-                post_dispatch="postDispatchSalesArchiveManagement" />
-        <handle name="adminhtml_sales_archive_massRemove" action="massDelete"
-                post_dispatch="postDispatchSalesArchiveManagement" />
-    </event >
-</logging >
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
+    <action id="massAdd">
+        <label translate="true">Mass Add</label>
+    </action>
+    <action id="add">
+        <label translate="true">Add</label>
+    </action>
+    <log id="magento_salesarchive">
+        <label translate="true">Sales Archive</label>
+        <expected_model class="Magento_SalesArchive_Model_Archive"/>
+        <event controller_action="adminhtml_sales_archive_add"
+               action_alias="add"
+               post_dispatch="postDispatchSalesArchiveManagement">
+            <skip_on_back>adminhtml_sales_order_view</skip_on_back>
+        </event>
+        <event controller_action="adminhtml_sales_archive_remove"
+               action_alias="delete"
+               post_dispatch="postDispatchSalesArchiveManagement">
+            <skip_on_back>adminhtml_sales_order_view</skip_on_back>
+        </event>
+        <event controller_action="adminhtml_sales_archive_massAdd"
+               action_alias="massAdd"
+               post_dispatch="postDispatchSalesArchiveManagement"/>
+        <event controller_action="adminhtml_sales_archive_massRemove"
+               action_alias="massDelete"
+               post_dispatch="postDispatchSalesArchiveManagement"/>
+    </log>
+</logging>

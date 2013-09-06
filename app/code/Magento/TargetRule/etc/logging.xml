@@ -9,13 +9,15 @@
  * @license     {license_link}
  */
 -->
-<logging xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
-    <event id="magento_targetrule" >
-        <label translate="true" >Rule-Based Product Relations</label >
-        <expected_model class="Magento_TargetRule_Model_Rule" />
-        <handle name="adminhtml_targetrule_edit" action="view" />
-        <handle name="adminhtml_targetrule_save" action="save" skip_on_back="adminhtml_targetrule_edit " />
-        <handle name="adminhtml_targetrule_delete" action="delete" />
-    </event >
-</logging >
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
+    <log id="magento_targetrule">
+        <label translate="true">Rule-Based Product Relations</label>
+        <expected_model class="Magento_TargetRule_Model_Rule"/>
+        <event controller_action="adminhtml_targetrule_edit" action_alias="view"/>
+        <event controller_action="adminhtml_targetrule_save" action_alias="save">
+            <skip_on_back>adminhtml_targetrule_edit</skip_on_back>
+        </event>
+        <event controller_action="adminhtml_targetrule_delete" action_alias="delete"/>
+    </log>
+</logging>

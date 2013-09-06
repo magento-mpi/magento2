@@ -4,21 +4,23 @@
     <xsl:output indent="yes"/>
     <xsl:template match="/">
         <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xsi:noNamespaceSchemaLocation="../../../app/code/Magento/Logging/etc/logging.xsd">
+                 xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
             <xsl:for-each select="logging/*">
                 <xsl:if test="local-name() = 'actions'">
                     <xsl:for-each select="./*">
-                        <title>
-                            <xsl:attribute name="action">
+                        <action>
+                            <xsl:attribute name="id">
                                 <xsl:value-of select='local-name()' />
                             </xsl:attribute>
-                            <xsl:attribute name="translate">true</xsl:attribute>
-                            <xsl:value-of select="label" />
-                        </title>
+                            <label>
+                                <xsl:attribute name="translate">true</xsl:attribute>
+                                <xsl:value-of select="label" />
+                            </label>
+                        </action>
                     </xsl:for-each>
                 </xsl:if>
                 <xsl:if test="local-name() != 'actions'">
-                    <event>
+                    <log>
                         <xsl:attribute name="id">
                             <xsl:value-of select='local-name()' />
                         </xsl:attribute>
@@ -31,34 +33,26 @@
                                 <xsl:attribute name="class">
                                     <xsl:value-of select='local-name()' />
                                 </xsl:attribute>
-                                <xsl:if test="./additional_data">
-                                    <xsl:attribute name="additional_fields">
-                                        <xsl:value-of select="for $a in (additional_data/*) return name($a)"
-                                                      separator=" " />
-                                    </xsl:attribute>
-                                </xsl:if>
-                                <xsl:if test="./skip_data">
-                                    <xsl:attribute name="skip_fields">
-                                        <xsl:value-of select="for $a in (skip_data/*) return name($a)"
-                                                      separator=" " />
-                                    </xsl:attribute>
-                                </xsl:if>
+                                <xsl:for-each select="./additional_data/*">
+                                    <additional_field >
+                                        <xsl:value-of select='local-name()' />
+                                    </additional_field >
+                                </xsl:for-each>
+                                <xsl:for-each select="./skip_data/*">
+                                    <skip_field >
+                                        <xsl:value-of select='local-name()' />
+                                    </skip_field >
+                                </xsl:for-each>
                             </expected_model>
                         </xsl:for-each>
                         <xsl:for-each select="./actions/*">
-                            <handle>
-                                <xsl:attribute name="name">
+                            <event>
+                                <xsl:attribute name="controller_action">
                                     <xsl:value-of select="local-name()" />
                                 </xsl:attribute>
                                 <xsl:if test="./action">
-                                    <xsl:attribute name="action">
+                                    <xsl:attribute name="action_alias">
                                         <xsl:value-of select="action" />
-                                    </xsl:attribute>
-                                </xsl:if>
-                                <xsl:if test="./skip_on_back">
-                                    <xsl:attribute name="skip_on_back">
-                                        <xsl:value-of select="for $a in (skip_on_back/*) return name($a)"
-                                                      separator=" " />
                                     </xsl:attribute>
                                 </xsl:if>
                                 <xsl:if test="./post_dispatch">
@@ -74,27 +68,26 @@
                                         <xsl:attribute name="class">
                                             <xsl:value-of select="local-name()" />
                                         </xsl:attribute>
-                                        <xsl:if test="./additional_data">
-                                            <xsl:attribute name="additional_fields">
-                                                <xsl:for-each select="./additional_data/*">
-                                                    <xsl:value-of select="local-name()" />
-                                                    <xsl:text> </xsl:text>
-                                                </xsl:for-each>
-                                            </xsl:attribute>
-                                        </xsl:if>
-                                        <xsl:if test="./skip_data">
-                                            <xsl:attribute name="skip_fields">
-                                                <xsl:for-each select="./skip_data/*">
-                                                    <xsl:value-of select="local-name()" />
-                                                    <xsl:text> </xsl:text>
-                                                </xsl:for-each>
-                                            </xsl:attribute>
-                                        </xsl:if>
+                                        <xsl:for-each select="./additional_data/*">
+                                            <additional_field >
+                                                <xsl:value-of select='local-name()' />
+                                            </additional_field >
+                                        </xsl:for-each>
+                                        <xsl:for-each select="./skip_data/*">
+                                            <skip_field >
+                                                <xsl:value-of select='local-name()' />
+                                            </skip_field >
+                                        </xsl:for-each>
                                     </expected_model>
                                 </xsl:for-each>
-                            </handle>
+                                <xsl:for-each select="./skip_on_back/*">
+                                    <skip_on_back >
+                                        <xsl:value-of select='local-name()' />
+                                    </skip_on_back>
+                                </xsl:for-each>
+                            </event>
                         </xsl:for-each>
-                    </event>
+                    </log>
                 </xsl:if>
             </xsl:for-each>
         </logging>

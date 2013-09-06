@@ -9,20 +9,27 @@
  * @license     {license_link}
  */
 -->
-<logging xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
-    <event id="magento_reward_rate" >
-        <label translate="true" >Reward Points Rates</label >
-        <expected_model class="Magento_Reward_Model_Reward_Rate" />
-        <handle name="adminhtml_reward_rate_edit" action="edit" />
-        <handle name="adminhtml_reward_rate_save" action="save" />
-        <handle name="adminhtml_reward_rate_delete" action="delete" />
-    </event >
-    <event id="customer" >
-        <label translate="true" />
-        <handle name="adminhtml_customer_save" extends_expected_models="true" >
-            <expected_model class="Magento_Reward_Model_Reward_History"
-                            skip_fields="history_id action additional_data notification_sent created_at expired_at " />
-        </handle >
-    </event >
-</logging >
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
+    <log id="magento_reward_rate">
+        <label translate="true">Reward Points Rates</label>
+        <expected_model class="Magento_Reward_Model_Reward_Rate"/>
+        <event controller_action="adminhtml_reward_rate_edit" action_alias="edit"/>
+        <event controller_action="adminhtml_reward_rate_save" action_alias="save"/>
+        <event controller_action="adminhtml_reward_rate_delete" action_alias="delete"/>
+    </log>
+    <log id="customer">
+        <label translate="true"/>
+        <event controller_action="adminhtml_customer_save"
+               extends_expected_models="true">
+            <expected_model class="Magento_Reward_Model_Reward_History">
+                <skip_field>history_id</skip_field>
+                <skip_field>action</skip_field>
+                <skip_field>additional_data</skip_field>
+                <skip_field>notification_sent</skip_field>
+                <skip_field>created_at</skip_field>
+                <skip_field>expired_at</skip_field>
+            </expected_model>
+        </event>
+    </log>
+</logging>
