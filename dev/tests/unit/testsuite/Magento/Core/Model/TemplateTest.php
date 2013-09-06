@@ -29,10 +29,7 @@ class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
             $helper->getConstructArguments(
                 'Magento_Core_Model_Template',
                 array(
-                    'design' => $this->getMock('Magento_Core_Model_View_Design',
-                        array(),
-                        array($this->getMock('Magento_ObjectManager'))
-                    ),
+                    'design' => $this->getMock('Magento_Core_Model_View_DesignInterface'),
                     'data' => array(
                         'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
                         'store' => 1
