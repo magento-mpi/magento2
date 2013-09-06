@@ -9,7 +9,7 @@
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../../../../../../../app/code/Magento/Logging/etc/logging_file.xsd">
-    <log id="enterprise_checkout">
+    <log name="enterprise_checkout">
         <label translate="true">Shopping Cart Management</label>
         <event controller_action="adminhtml_checkout_index" action_alias="view">
             <expected_model class="Magento_Sales_Model_Quote"/>
