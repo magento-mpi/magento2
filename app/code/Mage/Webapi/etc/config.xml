@@ -156,9 +156,9 @@
                     </identifier>
                 </parameters>
             </Mage_Core_Model_Acl_RootResource>
-            <Mage_Webapi_Controller_Router_Route>
+            <Mage_Webapi_Controller_Rest_Router_Route>
                 <shared>0</shared>
-            </Mage_Webapi_Controller_Router_Route>
+            </Mage_Webapi_Controller_Rest_Router_Route>
             <Mage_Xml_Generator>
                 <shared>0</shared>
             </Mage_Xml_Generator>

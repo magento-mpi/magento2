@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Rest_Router_Route extends Mage_Webapi_Controller_Router_Route
+class Mage_Webapi_Controller_Rest_Router_Route extends Zend_Controller_Router_Route
 {
     /** @var string */
     protected $_serviceId;
@@ -132,5 +132,18 @@ class Mage_Webapi_Controller_Rest_Router_Route extends Mage_Webapi_Controller_Ro
     public function isSecure()
     {
         return $this->_secure;
+    }
+
+    /**
+     * Matches a Request with parts defined by a map. Assigns and
+     * returns an array of variables on a successful match.
+     *
+     * @param Mage_Webapi_Controller_Request $request
+     * @param boolean $partial Partial path matching
+     * @return array|bool An array of assigned values or a boolean false on a mismatch
+     */
+    public function match($request, $partial = false)
+    {
+        return parent::match(strtolower(ltrim($request->getPathInfo(), $this->_urlDelimiter)), $partial);
     }
 }
