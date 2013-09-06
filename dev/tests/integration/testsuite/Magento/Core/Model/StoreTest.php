@@ -16,7 +16,15 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
+    {
+        $this->_model = $this->_getStoreModel();
+    }
+
+    /**
+     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Store
+     */
+    protected function _getStoreModel()
     {
         $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $params = array(
@@ -26,12 +34,12 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             'appState'        => $objectManager->get('Magento_Core_Model_App_State'),
             'dir'             => $objectManager->get('Magento_Core_Model_Dir')
         );
+        return $this->getMock('Magento_Core_Model_Store', array('getUrl'), $params);
+    }
 
-        $this->_model = $this->getMock(
-            'Magento_Core_Model_Store',
-            array('getUrl'),
-            $params
-        );
+    protected function tearDown()
+    {
+        $this->_model = null;
     }
 
     /**
@@ -151,6 +159,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_URIS => array(Magento_Core_Model_Dir::PUB => '')
         ));
+        $this->_model = $this->_getStoreModel();
         $this->_model->load('default');
 
         $this->assertEquals(
@@ -326,6 +335,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
             'urlModel'        => $objectManager->get('Magento_Core_Model_Url'),
             'appState'        => $appStateMock,
+            'dir'             => $objectManager->get('Magento_Core_Model_Dir'),
         );
 
         $model = $this->getMock('Magento_Core_Model_Store', array('getConfig'), $params);
