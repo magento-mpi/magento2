@@ -1,23 +1,28 @@
 <?php
 /**
- * Scan source code for detects invocations of __() function, analyzes placeholders with arguments
- * and see if they not equal
- *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
+
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
+
+/**
+ * Scan source code for detects invocations of __() function, analyzes placeholders with arguments
+ * and see if they not equal
  */
 class Magento_Test_Integrity_Phrase_ArgumentsTest extends Magento_Test_Integrity_Phrase_AbstractTestCase
 {
     /**
-     * @var Magento_Tokenizer_PhraseCollector
+     * @var \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector
      */
     protected $_phraseCollector;
 
     protected function setUp()
     {
-        $this->_phraseCollector = new Magento_Tokenizer_PhraseCollector();
+        $this->_phraseCollector = new PhraseCollector(new Tokenizer());
     }
 
     public function testCase()

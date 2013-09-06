@@ -1,13 +1,16 @@
 <?php
 /**
- * Abstract class for phrase testing
- *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 
+use Magento\Tools\I18n\Code\FilesCollector;
+
+/**
+ * Abstract class for phrase testing
+ */
 class Magento_Test_Integrity_Phrase_AbstractTestCase extends PHPUnit_Framework_TestCase
 {
     /**
@@ -24,8 +27,8 @@ class Magento_Test_Integrity_Phrase_AbstractTestCase extends PHPUnit_Framework_T
      */
     protected function _getFiles()
     {
-        $path = Utility_Files::init()->getPathToSource() . '/app/';
-        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
-        return new RegexIterator($files, '/\.(php|phtml)$/');
+        $filesCollector = new FilesCollector();
+
+        return $filesCollector->getFiles(array(Utility_Files::init()->getPathToSource() . '/app/'), '/\.(php|phtml)$/');
     }
 }

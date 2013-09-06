@@ -1,22 +1,27 @@
 <?php
 /**
- * Scan source code for detects invocations of outdated __() method
- *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
+
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Translate\MethodCollector;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
+
+/**
+ * Scan source code for detects invocations of outdated __() method
  */
 class Magento_Test_Integrity_Phrase_Legacy_SignatureTest extends Magento_Test_Integrity_Phrase_AbstractTestCase
 {
     /**
-     * @var Magento_Tokenizer_Translate_MethodCollector
+     * @var \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Translate\MethodCollector
      */
     protected $_phraseCollector;
 
     protected function setUp()
     {
-        $this->_phraseCollector = new Magento_Tokenizer_Translate_MethodCollector();
+        $this->_phraseCollector = new MethodCollector(new Tokenizer());
     }
 
     public function testCase()
