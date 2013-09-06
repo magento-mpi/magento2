@@ -9,7 +9,6 @@ return array(
     '@' => array(
         'type' => 'Magento_GiftRegistry_Block_Search_Widget_Form',
         'module' => 'Magento_GiftRegistry',
-        'translate' => 'name description',
     ),
     'name' => 'Gift Registry Search',
     'description' => 'Gift Registry Quick Search Form',
