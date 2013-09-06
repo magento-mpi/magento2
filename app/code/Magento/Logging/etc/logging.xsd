@@ -63,10 +63,14 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="additional_field" type="xs:token" minOccurs="0" maxOccurs="unbounded" />
-            <xs:element name="skip_field" type="xs:token" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="additional_field" type="fieldType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="skip_field" type="fieldType" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="class" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="fieldType">
+        <xs:attribute name="name" type="xs:token" use="required" />
     </xs:complexType>
 
     <xs:complexType name="eventType">
@@ -77,7 +81,7 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="expected_model" type="expectedModelType" minOccurs="0" maxOccurs="unbounded" />
-            <xs:element name="skip_on_back" type="xs:token" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="skip_on_back" type="skipOnBackType" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="controller_action" type="xs:token" use="required" />
         <xs:attribute name="action_alias" type="xs:token" use="optional" />
@@ -85,4 +89,12 @@
         <xs:attribute name="extends_expected_models" type="xs:boolean" use="optional" />
     </xs:complexType>
 
+    <xs:complexType name="skipOnBackType">
+        <xs:annotation>
+            <xs:documentation>
+                The controller actions that should skip
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="controller_action" type="xs:token" use="required" />
+    </xs:complexType>
 </xs:schema>
