@@ -90,20 +90,20 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
             // item container has plugins only in the backend scope
             array(
                 true,
-                'Custom_Module_Model_ItemContainer',
+                'Magento_Interception_Custom_Module_Model_ItemContainer',
             ),
             array(
                 true,
-                'Custom_Module_Model_Item',
+                'Magento_Interception_Custom_Module_Model_Item',
             ),
             array(
                 true,
-                'Custom_Module_Model_Item_Enhanced',
+                'Magento_Interception_Custom_Module_Model_Item_Enhanced',
             ),
             array(
                 // the following model has only inherited plugins
                 true,
-                'Custom_Module_Model_ItemContainer_Enhanced',
+                'Magento_Interception_Custom_Module_Model_ItemContainer_Enhanced',
             )
         );
     }
