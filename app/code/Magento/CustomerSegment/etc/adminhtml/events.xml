@@ -8,9 +8,6 @@
  */
 -->
 <config>
-    <event name="salesrule_rule_condition_combine">
-        <observer name="magento_customersegment" instance="Magento_CustomerSegment_Model_Observer" method="addSegmentsToSalesRuleCombine" />
-    </event>
     <event name="sales_quote_collect_totals_before">
         <observer name="magento_customersegment" instance="Magento_CustomerSegment_Model_Observer" method="processQuote" />
     </event>
@@ -23,4 +20,4 @@
     <event name="targetrule_edit_tab_main_after_prepare_form">
         <observer name="magento_customersegment" instance="Magento_CustomerSegment_Model_Observer" method="addFieldsToTargetRuleForm" />
     </event>
-</config>
+</config>

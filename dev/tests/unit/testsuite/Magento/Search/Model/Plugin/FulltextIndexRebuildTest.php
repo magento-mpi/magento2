@@ -47,7 +47,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildText extends PHPUnit_Frame
      */
     protected $_arguments;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_searchHelperMock = $this->getMock('Magento_Search_Helper_Data', array(), array(), '', false);
         $this->_catalogHelperMock = $this->getMock('Magento_CatalogSearch_Helper_Data', array(), array(), '', false);

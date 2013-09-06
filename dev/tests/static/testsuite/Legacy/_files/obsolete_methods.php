@@ -162,6 +162,7 @@ return array(
     array('addPageHandles', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
     array('addSaleableFilterToCollection'),
     array('addSearchQfFilter'),
+    array('addSegmentsToSalesRuleCombine', 'Magento_CustomerSegment_Model_Observer'),
     array('addStoresFilter', 'Magento_Poll_Model_Resource_Poll_Collection'),
     array('addTemplateData', 'Magento_Newsletter_Model_Queue'),
     array('addToAlersAction'),

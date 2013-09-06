@@ -28,23 +28,6 @@ class Magento_CustomerSegment_Model_Observer
     }
 
     /**
-     * Add Customer Segment condition to the salesrule management
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function addSegmentsToSalesRuleCombine(Magento_Event_Observer $observer)
-    {
-        if (!$this->_segmentHelper->isEnabled()) {
-            return;
-        }
-        $additional = $observer->getEvent()->getAdditional();
-        $additional->setConditions(array(array(
-            'label' => __('Customer Segment'),
-            'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Segment'
-        )));
-    }
-
-    /**
      * Process customer related data changing. Method can process just events with customer object
      *
      * @param   Magento_Event_Observer $observer
