@@ -186,10 +186,10 @@ class namespacer
     private $xmlFile = array();
     private $phpFile = array();
 
-    public function __construct($path, $rootDirectory, $rerun)
+    public function __construct($path, $rootDirectory, $rerun, $testMode)
     {
-
         $this->rootDirPath = realpath(__DIR__);
+        $this->testFolder = $testMode;
         $this->path = $path;
         $this->gitShell = new Magento\Shell(null);
         $this->rootDirectory = $rootDirectory;
@@ -513,7 +513,7 @@ class namespacer
                     echo "Map Merged\n";
                 }
             }
-            if(empty($this->classSearch) & empty($this->classReplace)){
+            if (empty($this->classSearch) & empty($this->classReplace)) {
                 echo "Nothing to change\n";
                 return false;
             }
@@ -543,14 +543,14 @@ class namespacer
                     $this->logFile($this->globalScanner, $file . "Scanning completed \n");
 
                 }
-                if ($this->rerunUpdate &&!empty($this->rerunSearch) && !empty($this->rerunreplace)) {
+                if ($this->rerunUpdate && !empty($this->rerunSearch) && !empty($this->rerunreplace)) {
                     echo "updating the rerun data file  \n";
                     $combineArray = array_combine($classSearch, $this->classReplace);
                     $string = null;
                     foreach ($combineArray as $key => $value) {
                         $string = $string . $key . " => " . $value . "\n";
                     }
-                    file_put_contents($this->renameClassLogger,$string);
+                    file_put_contents($this->renameClassLogger, $string);
                 }
             } else {
                 $string = "Cannot do a global scan and replacement , Error Please do check the rename class and rename files" . "\n";
@@ -649,13 +649,15 @@ class namespacer
                                     $newFileName = dirname($file) . "\\" . $newClass . '.php';
                                     $this->fileMapper[$file] = $newFileName;
                                 }
-                            } /*else {
+                            } else {
                                 $newClass = trim($newClass);
-                                if ($baseFileName != $newClass && !empty($newClass)) {
-                                    $newFileName = dirname($file) . "\\" . $newClass . '.php';
-                                    $this->fileMapper[$file] = $newFileName;
+                                if (!$this->testFolder) {
+                                    if ($baseFileName != $newClass && !empty($newClass)) {
+                                        $newFileName = dirname($file) . "\\" . $newClass . '.php';
+                                        $this->fileMapper[$file] = $newFileName;
+                                    }
                                 }
-                            }*/
+                            }
 
                         }
                         $change = "\\" . str_replace(
@@ -920,6 +922,16 @@ if (isset($argv[1])) {
             }
 
         }
+        $testMode = false;
+
+        if (isset($argv[4])) {
+            $testMode = $argv[4];
+            $updateTest = explode("=", $argv[4]);
+            if (isset($update[1])) {
+                $testMode = trim($updateTest[1]);
+            }
+
+        }
     }
     $src = explode("=", $argv[1]);
     if (isset($src[1])) {
@@ -941,7 +953,7 @@ if (isset($argv[1])) {
     }
 
 
-    $PSRX = new namespacer($src, $rootDirectory, $rerun);
+    $PSRX = new namespacer($src, $rootDirectory, $rerun, $testMode);
     $PSRX->convertToPSRX();
 } else {
     echo "Please provide the arguments";
