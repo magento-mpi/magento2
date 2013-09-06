@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="logging">
+        <xs:annotation>
+            <xs:documentation>
+                Specifies logging configuration.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="action" type="actionType"  minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name='log'  type="logType"  minOccurs="1" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="actionType">
+        <xs:annotation>
+            <xs:documentation>
+                The definition of the action.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="label" type="translatableType" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="logType">
+        <xs:annotation>
+            <xs:documentation>
+                The set of events which will be logged
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="label" type="translatableType" minOccurs="1" maxOccurs="1" />
+            <xs:element name="expected_model" type="expectedModelType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="event" type="eventType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="translatableType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="translate" use="optional" fixed="true" type="xs:boolean"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="expectedModelType">
+        <xs:annotation>
+            <xs:documentation>
+                The model that the logging service is monitoring
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="additional_field" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="skip_field" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="class" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="eventType">
+        <xs:annotation>
+            <xs:documentation>
+                The name of an event associated with a controller action and a logging action.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="expected_model" type="expectedModelType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="skip_on_back" type="xs:token" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="controller_action" type="xs:token" use="required" />
+        <xs:attribute name="action_alias" type="xs:token" use="optional" />
+        <xs:attribute name="post_dispatch" type="xs:token" use="optional" />
+        <xs:attribute name="extends_expected_models" type="xs:boolean" use="optional" />
+    </xs:complexType>
+
+</xs:schema>
