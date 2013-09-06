@@ -1642,7 +1642,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         if (!$helper) {
             return false;
         }
-        return $helper->setLayout($this);
+        $helper->setLayout($this);
+        return $helper;
     }
 
     /**
