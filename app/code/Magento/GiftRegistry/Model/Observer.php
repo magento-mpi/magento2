@@ -141,29 +141,6 @@ class Magento_GiftRegistry_Model_Observer
     }
 
     /**
-     * Copy gift registry item id flag from quote item to order item
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftRegistry_Model_Observer
-     */
-    public function convertItems($observer)
-    {
-        $orderItem = $observer->getEvent()->getOrderItem();
-        $item = $observer->getEvent()->getItem();
-
-        if ($item instanceof Magento_Sales_Model_Quote_Address_Item) {
-            $registryItemId = $item->getQuoteItem()->getGiftregistryItemId();
-        } else {
-            $registryItemId = $item->getGiftregistryItemId();
-        }
-
-        if ($registryItemId) {
-            $orderItem->setGiftregistryItemId($registryItemId);
-        }
-        return $this;
-    }
-
-    /**
      * After place order processing, update gift registry items fulfilled qty
      *
      * @param Magento_Event_Observer $observer

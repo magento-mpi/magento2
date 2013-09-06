@@ -18,29 +18,6 @@
  */
 class Magento_GiftMessage_Model_Observer extends Magento_Object
 {
-
-    /**
-     * Set gift messages to order item on import item
-     *
-     * @param Magento_Object $observer
-     * @return Magento_GiftMessage_Model_Observer
-     */
-    public function salesEventConvertQuoteItemToOrderItem($observer)
-    {
-        $orderItem = $observer->getEvent()->getOrderItem();
-        $quoteItem = $observer->getEvent()->getItem();
-
-        $isAvailable = Mage::helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
-            'item',
-            $quoteItem,
-            $quoteItem->getStoreId()
-        );
-
-        $orderItem->setGiftMessageId($quoteItem->getGiftMessageId())
-            ->setGiftMessageAvailable($isAvailable);
-        return $this;
-    }
-
     /**
      * Set gift messages to order from quote address
      *
@@ -160,42 +137,6 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
             $observer->getEvent()->getQuote()->setGiftMessageId($giftMessage->getId());
         }
 
-        return $this;
-    }
-
-    /**
-     * Duplicates giftmessage from order item to quote item on import or reorder
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_GiftMessage_Model_Observer
-     */
-    public function salesEventOrderItemToQuoteItem($observer)
-    {
-        /** @var $orderItem Magento_Sales_Model_Order_Item */
-        $orderItem = $observer->getEvent()->getOrderItem();
-        // Do not import giftmessage data if order is reordered
-        $order = $orderItem->getOrder();
-        if ($order && $order->getReordered()) {
-            return $this;
-        }
-
-        $isAvailable = Mage::helper('Magento_GiftMessage_Helper_Message')->isMessagesAvailable(
-            'order_item',
-            $orderItem,
-            $orderItem->getStoreId()
-        );
-        if (!$isAvailable) {
-            return $this;
-        }
-
-        /** @var $quoteItem Magento_Sales_Model_Quote_Item */
-        $quoteItem = $observer->getEvent()->getQuoteItem();
-        if ($giftMessageId = $orderItem->getGiftMessageId()) {
-            $giftMessage = Mage::getModel('Magento_GiftMessage_Model_Message')->load($giftMessageId)
-                ->setId(null)
-                ->save();
-            $quoteItem->setGiftMessageId($giftMessage->getId());
-        }
         return $this;
     }
 }
