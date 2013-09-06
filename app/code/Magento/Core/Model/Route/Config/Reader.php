@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Route_Config_Reader extends Magento_Config_Reader_Filesystem
+class Magento_Core_Model_Route_Config_Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of paths to identifiable nodes
