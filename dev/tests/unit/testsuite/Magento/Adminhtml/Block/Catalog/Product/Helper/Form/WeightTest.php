@@ -26,7 +26,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     public function testSetForm()
     {
         $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $form = new Magento_Data_Form($factory);
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
+
+        $form = new Magento_Data_Form($factory, $collectionFactory);
 
         $helper = $this->getMock('Magento_Catalog_Helper_Product', array('getTypeSwitcherControlLabel'),
             array(), '', false, false
@@ -51,16 +53,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
             ->with($this->equalTo($form))
             ->will($this->returnSelf());
 
-        $elementFactory = $this->getMock('Magento_Data_Form_Element_CheckboxFactory',
-            array('create'), array(), '', false, false);
-        $elementFactory->expects($this->once())
+        $factory->expects($this->once())
             ->method('create')
+            ->with($this->equalTo('checkbox'))
             ->will($this->returnValue($this->_virtual));
 
-        $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-
-        $this->_model = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight($factory,
-            $helper, $elementFactory);
+        $this->_model = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight($factory, $collectionFactory,
+            $helper);
         $this->_model->setForm($form);
     }
 }

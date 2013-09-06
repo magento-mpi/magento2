@@ -36,15 +36,17 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
 
     /**
      * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
         Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         array $attributes = array()
     ) {
         $this->_qty = isset($attributes['qty']) ? $attributes['qty'] : $this->_createQtyElement();
         unset($attributes['qty']);
-        parent::__construct($factoryElement, $attributes);
+        parent::__construct($factoryElement, $factoryCollection, $attributes);
         $this->setName($attributes['name']);
     }
 

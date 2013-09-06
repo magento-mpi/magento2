@@ -75,8 +75,9 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         ;
 
         $factoryElement = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
 
-        $form = new Magento_Data_Form($factoryElement, array('html_id_prefix' => 'pfx_'));
+        $form = new Magento_Data_Form($factoryElement, $collectionFactory, array('html_id_prefix' => 'pfx_'));
         $data = new Magento_Object($fixtureFormData);
         $dependencies = $this->getMock(
             'Magento_Backend_Block_Widget_Form_Element_Dependence',
@@ -86,6 +87,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $fieldset = new Magento_Data_Form_Element_Fieldset(
             $factoryElement,
+            $collectionFactory,
             array('advancedSection' => 'Additional Settings')
         );
         $fieldset->setId('base_fieldset');
@@ -196,7 +198,8 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_segmentCollection->expects($this->never())->method('toOptionArray');
 
         $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $form = new Magento_Data_Form($factory, array('html_id_prefix' => 'pfx_'));
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
+        $form = new Magento_Data_Form($factory, $collectionFactory, array('html_id_prefix' => 'pfx_'));
         $data = new Magento_Object();
         $dependencies = $this->getMock(
             'Magento_Backend_Block_Widget_Form_Element_Dependence',

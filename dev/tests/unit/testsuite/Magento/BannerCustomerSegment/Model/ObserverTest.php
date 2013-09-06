@@ -158,7 +158,8 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
         $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $form = new Magento_Data_Form($factory);
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
+        $form = new Magento_Data_Form($factory, $collectionFactory);
         $model = new Magento_Object();
         $block = $this->getMock('Magento_Backend_Block_Widget_Form_Element_Dependence', array(), array(), '', false);
 
@@ -174,7 +175,8 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
         $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $form = new Magento_Data_Form($factory);
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
+        $form = new Magento_Data_Form($factory, $collectionFactory);
         $model = new Magento_Object();
         $block = $this->getMock('Magento_Backend_Block_Widget_Form_Element_Dependence', array(), array(), '', false);
 

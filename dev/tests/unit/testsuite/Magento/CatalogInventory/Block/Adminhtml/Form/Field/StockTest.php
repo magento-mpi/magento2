@@ -28,9 +28,16 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
      */
     protected $_factory;
 
+    /**
+     * @var Magento_Data_Form_Element_CollectionFactory
+     */
+    protected $_collectionFactory;
+
     protected function setUp()
     {
         $this->_factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
+        $this->_collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(),
+            array(), '', false);
         $this->_qty = $this->getMock('Magento_Data_Form_Element_Text',
             array('getElementHtml', 'setForm', 'setValue', 'setName'), array($this->_factory)
         );
@@ -52,7 +59,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
     {
         $this->_qty->expects($this->once())->method('setForm')
             ->with($this->isInstanceOf('Magento_Data_Form_Element_Abstract'));
-        $this->_model->setForm(new Magento_Data_Form_Element_Text($this->_factory));
+        $this->_model->setForm(new Magento_Data_Form_Element_Text($this->_factory, $this->_collectionFactory));
     }
 
     public function testSetValue()

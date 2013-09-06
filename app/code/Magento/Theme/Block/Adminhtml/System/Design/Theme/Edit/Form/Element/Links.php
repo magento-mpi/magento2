@@ -18,13 +18,15 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links
 {
     /**
      * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
         Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
-        parent::__construct($factoryElement, $attributes);
+        parent::__construct($factoryElement, $factoryCollection, $attributes);
         $this->setType('links');
     }
 

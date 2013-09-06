@@ -26,15 +26,17 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Magento_
 
     /**
      * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param Magento_Tax_Helper_Data $taxData
      * @param array $attributes
      */
     public function __construct(
         Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         Magento_Tax_Helper_Data $taxData,
         array $attributes = array()
     ) {
-        parent::__construct($factoryElement, $attributes);
+        parent::__construct($factoryElement, $factoryCollection, $attributes);
         $this->_taxData = $taxData;
     }
 

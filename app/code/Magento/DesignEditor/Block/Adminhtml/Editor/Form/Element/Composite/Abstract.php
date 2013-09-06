@@ -53,12 +53,14 @@ abstract class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composit
 
     /**
      * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
      * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
      * @param array $attributes
      */
     public function __construct(
         Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory,
         Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
         $attributes = array()
@@ -66,7 +68,7 @@ abstract class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composit
         $this->_elementsFactory = $elementsFactory;
         $this->_rendererFactory = $rendererFactory;
 
-        parent::__construct($factoryElement, $attributes);
+        parent::__construct($factoryElement, $factoryCollection, $attributes);
     }
 
     /**

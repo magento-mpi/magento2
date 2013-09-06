@@ -26,16 +26,18 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Text extends Magent
 
     /**
      * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param Magento_Rma_Helper_Eav $rmaEav
      * @param array $attributes
      */
     public function __construct(
         Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         Magento_Rma_Helper_Eav $rmaEav,
         array $attributes = array()
     ) {
         $this->_rmaEav = $rmaEav;
-        parent::__construct($factoryElement, $attributes);
+        parent::__construct($factoryElement, $factoryCollection, $attributes);
     }
 
     /**

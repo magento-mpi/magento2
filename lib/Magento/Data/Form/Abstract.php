@@ -38,14 +38,22 @@ class Magento_Data_Form_Abstract extends Magento_Object
     protected $_factoryElement;
 
     /**
+     * @var Magento_Data_Form_Element_CollectionFactory
+     */
+    protected $factoryCollection;
+
+    /**
      * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
         Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
         $this->_factoryElement = $factoryElement;
+        $this->_factoryCollection = $factoryCollection;
         parent::__construct($attributes);
         $this->_construct();
     }
@@ -81,7 +89,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
     public function getElements()
     {
         if (empty($this->_elements)) {
-            $this->_elements = new Magento_Data_Form_Element_Collection($this);
+            $this->_elements = $this->_factoryCollection->create($this);
         }
         return $this->_elements;
     }
@@ -187,7 +195,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
      */
     public function addColumn($elementId, $config)
     {
-        $element = new Magento_Data_Form_Element_Column($config);
+        $element = $this->_factoryElement->create('column', $config);
         $element->setForm($this)
             ->setId($elementId);
         $this->addElement($element);

@@ -30,6 +30,7 @@ class Magento_Data_Form_Element_Button extends Magento_Data_Form_Element_Abstrac
      */
     public function __construct(
         Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
         parent::__construct($factoryElement, $attributes);
