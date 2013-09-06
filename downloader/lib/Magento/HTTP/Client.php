@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\HTTP\Client
+class Magento_HTTP_Client
 {
     /**
      * Disallow to instantiate - pvt constructor
@@ -31,7 +31,7 @@ class \Magento\HTTP\Client
      * @static
      * @throws Exception
      * @param string|bool $frontend  'curl'/'socket' or false for auto-detect
-     * @return \Magento\HTTP\IClient
+     * @return Magento_HTTP_IClient
      */
     public static function getInstance($frontend = false)
     {
