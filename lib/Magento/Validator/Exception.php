@@ -19,7 +19,7 @@ class Magento_Validator_Exception extends Exception
      *
      * @param array $messages Validation error messages
      */
-    public function __construct(array $messages)
+    public function __construct(array $messages = array())
     {
         $this->_messages = $messages;
 

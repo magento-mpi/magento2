@@ -115,13 +115,13 @@ class Magento_Test_Event_Transaction
      * Retrieve database adapter instance
      *
      * @param string $connectionName 'read' or 'write'
-     * @return Varien_Db_Adapter_Interface|Magento_Test_Db_Adapter_TransactionInterface
+     * @return Magento_DB_Adapter_Interface|Magento_Test_Db_Adapter_TransactionInterface
      * @throws Magento_Exception
      */
     protected function _getAdapter($connectionName = 'write')
     {
-        /** @var $resource Mage_Core_Model_Resource */
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        /** @var $resource Magento_Core_Model_Resource */
+        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         return $resource->getConnection($connectionName);
     }
 

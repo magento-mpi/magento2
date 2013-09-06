@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer Account Edit Form" id="customer_account_edit" type="page" parent="customer_account">
+        <update handle="customer_account"/>
+        <reference name="root">
+            <action method="setHeaderTitle">
+                <argument translate="true" name="title" xsi:type="string">Edit Account Info</argument>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block class="Magento_Customer_Block_Form_Edit" name="customer_edit" template="form/edit.phtml">
+                <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+                    <action method="setFormCode">
+                        <argument name="code" xsi:type="string">customer_account_edit</argument>
+                    </action>
+                </block>
+            </block>
+        </reference>
+        <reference name="left">
+            <action method="unsetChild">
+                <argument name="name" xsi:type="string">left.permanent.callout</argument>
+            </action>
+        </reference>
+        <update handle="customer_form_template_handle"/>
+    </handle>
+</layout>

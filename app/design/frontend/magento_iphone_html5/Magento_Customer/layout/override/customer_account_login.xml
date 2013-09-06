@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer Account Login Form" id="customer_account_login" type="page" parent="customer_account">
+        <reference name="root">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">1column.phtml</argument>
+            </action>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Customer_Block_Form_Login" name="customer_form_login" template="form/login.phtml"/>
+        </reference>
+    </handle>
+</layout>

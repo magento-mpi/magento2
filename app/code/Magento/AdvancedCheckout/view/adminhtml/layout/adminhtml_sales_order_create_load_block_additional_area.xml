@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_create_load_block_additional_area">
+        <reference name="content">
+            <update handle="adminhtml_sku_errors_block"/>
+            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku" name="additional_area" template="Magento_Adminhtml::sales/order/create/abstract.phtml">
+                <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Add"/>
+            </block>
+            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors"/>
+        </reference>
+    </handle>
+</layout>

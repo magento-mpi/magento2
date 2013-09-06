@@ -1,6 +1,6 @@
 <?php
 /**
- * Check whether XEnterprise_Edition.xml.dist exactly corresponds to /app/code/Enterprise contents
+ * Check whether enterprise module.xml.dist exactly corresponds to /app/code/Enterprise contents
  *
  * {license_notice}
  *
@@ -16,31 +16,37 @@ class Integrity_Enterprise_EditionTest extends PHPUnit_Framework_TestCase
     {
         $root = Utility_Files::init()->getPathToSource();
 
-        $xmlFile = $root . '/app/etc/modules/XEnterprise_Edition.xml.dist';
-        $xml = simplexml_load_file($xmlFile);
-        $xmlModuleNodes = $xml->xpath('/config/modules');
-        $this->assertEquals(1, count($xmlModuleNodes));
-
-        $modules = array();
-        foreach (reset($xmlModuleNodes) as $moduleName => $node) {
-            $this->assertObjectHasAttribute('active', $node);
-            $this->assertFalse(isset($modules[$moduleName]), "$moduleName module appears more than once in $xmlFile");
-            $modules[$moduleName] = 1;
+        $xmlFile = $root . '/app/etc/enterprise/module.xml.dist';
+        $dom = new DOMDocument();
+        $dom->loadXML(file_get_contents($xmlFile));
+        $xpath = new DOMXPath($dom);
+        $moduleNames = array();
+        /** @var $moduleNode DOMNode */
+        foreach ($xpath->query('/config/module') as $moduleNode) {
+            $nameNode = $moduleNode->attributes->getNamedItem('name');
+            $activeNode = $moduleNode->attributes->getNamedItem('active');
+            $this->assertNotNull($nameNode);
+            $this->assertNotNull($activeNode);
+            $moduleName = $nameNode->nodeValue;
+            $this->assertFalse(
+                in_array($moduleName, $moduleNames),
+                "Module {$moduleName} appears more than once in {$xmlFile} file."
+            );
+            $moduleNames[] = $moduleName;
         }
 
-        $poolPath = $root . '/app/code/Enterprise';
-        foreach (new DirectoryIterator($poolPath) as $dir) {
+        $magentoPoolPath = $root . '/app/code/Magento';
+        foreach (new DirectoryIterator($magentoPoolPath) as $dir) {
             if (!$dir->isDot()) {
-                $moduleName = 'Enterprise_' . $dir->getFilename();
-                $this->assertTrue(isset($modules[$moduleName]), "$moduleName module not found in $xmlFile");
-                unset($modules[$moduleName]);
+                $moduleName = 'Magento_' . $dir->getFilename();
+                $moduleNames = array_diff($moduleNames, array($moduleName));
             }
         }
 
         $this->assertEquals(
             0,
-            count($modules),
-            implode(', ', array_keys($modules)) . " module(s) not found in $poolPath"
+            count($moduleNames),
+            implode(', ', $moduleNames) . " module(s) not found in {$magentoPoolPath}."
         );
     }
 }

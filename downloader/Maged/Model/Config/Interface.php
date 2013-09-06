@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +11,8 @@
 /**
  * Class config
  *
- * @category   Mage
- * @package    Mage_Connect
+ * @category   Magento
+ * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 interface Maged_Model_Config_Interface
@@ -21,7 +21,7 @@ interface Maged_Model_Config_Interface
     /**
      * Set data for Settings View
      *
-     * @param Mage_Connect_Config $config
+     * @param Magento_Connect_Config $config
      * @param Maged_View $view
      * @return null
      */
@@ -48,7 +48,7 @@ interface Maged_Model_Config_Interface
     /**
      * Set config data from POST
      *
-     * @param Mage_Connect_Config $config Config object
+     * @param Magento_Connect_Config $config Config object
      * @param array $post post data
      * @return boolean
      */

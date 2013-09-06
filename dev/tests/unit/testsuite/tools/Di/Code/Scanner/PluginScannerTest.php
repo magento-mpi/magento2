@@ -15,8 +15,8 @@ class Magento_Tools_Di_Code_Scanner_PluginScannerTest extends PHPUnit_Framework_
         $this->_model = new Magento\Tools\Di\Code\Scanner\PluginScanner();
         $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../') . '/_files');
         $this->_testFiles = array(
-            $this->_testDir . '/app/code/Mage/SomeModule/etc/config.xml',
-            $this->_testDir . '/app/etc/config.xml',
+            $this->_testDir . '/app/code/Magento/SomeModule/etc/di.xml',
+            $this->_testDir . '/app/etc/di/config.xml',
         );
     }
 
@@ -29,8 +29,8 @@ class Magento_Tools_Di_Code_Scanner_PluginScannerTest extends PHPUnit_Framework_
     {
         $actual = $this->_model->collectEntities($this->_testFiles);
         $expected = array(
-            'Mage_Core_Model_Cache_TagPlugin',
-            'Mage_Core_Model_Action_Plugin',
+            'Magento_Core_Model_Cache_TagPlugin',
+            'Magento_Core_Model_Action_Plugin',
             'Custom_PageCache_Model_Action_Plugin',
         );
         $this->assertEquals($expected, $actual);

@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Template for displaying wishlist item price at rss feeds pages
+ *
+ * @var $this Magento_Catalog_Block_Product_Price
+ */
+?>
+<div class="price-box map-info">
+    <?php if ($this->helper('Magento_Catalog_Helper_Data')->canApplyMsrp($this->getProduct())): ?>
+        <a href="<?php echo $this->getProduct()->getProductUrl() ?>"><?php echo __('Click for price'); ?></a>
+    <?php endif; ?>
+</div>

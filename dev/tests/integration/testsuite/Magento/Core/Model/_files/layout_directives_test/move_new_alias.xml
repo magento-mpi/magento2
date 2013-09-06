@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <handle id="move_new_alias">
+        <container name="container1" label="Container 1">
+            <block class="Magento_Core_Block_Text" name="no_name1" as="same_alias"/>
+        </container>
+        <move element="no_name3" destination="container1" as="new_alias"/>
+        <block class="Magento_Core_Block_Text" name="no_name3" as="same_alias"/>
+    </handle>
+</layout>

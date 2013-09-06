@@ -90,7 +90,7 @@ class Magento_Validator_Constraint_PropertyTest extends PHPUnit_Framework_TestCa
                 true
             ),
             array(
-                new Varien_Object(array(self::PROPERTY_NAME => 'Property value')),
+                new Magento_Object(array(self::PROPERTY_NAME => 'Property value')),
                 'Property value',
                 true
             ),

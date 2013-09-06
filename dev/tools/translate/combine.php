@@ -24,7 +24,7 @@ define('MESSAGE_TYPE_ERROR', '2');
 
 define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS);
 
-include(BASE_PATH . DS . 'lib' . DS . 'Varien' . DS . 'File' . DS . 'Csv.php');
+include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
 include(__DIR__ . DS . 'ModuleTranslations.php');
 
 class Combine
@@ -34,7 +34,7 @@ class Combine
      *
      * @var array
      */
-    private $_namePatterns = array('#^(Mage_\w+)\.csv$#', '#^(translate).csv$#');
+    private $_namePatterns = array('#^(Magento_\w+)\.csv$#', '#^(translate).csv$#');
 
     /**
      * Pattern of the locale path
@@ -170,7 +170,7 @@ class Combine
         $resultData = array();
 
         $files = $this->_getFilesToProcess(sprintf($this->_localePath, $this->_localeName));
-        $csv = new Varien_File_Csv();
+        $csv = new Magento_File_Csv();
 
         foreach ($files as $alias=>$file){
             $data = $csv->getData($file);

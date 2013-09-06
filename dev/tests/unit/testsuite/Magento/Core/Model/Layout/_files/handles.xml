@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layouts>
+    <handle id="fixture_handle_one">
+        <block class="Magento_Core_Block_Template" template="fixture_template_one.phtml"/>
+    </handle>
+    <handle id="fixture_handle_two">
+        <block class="Magento_Core_Block_Template" template="fixture_template_two.phtml"/>
+    </handle>
+</layouts>

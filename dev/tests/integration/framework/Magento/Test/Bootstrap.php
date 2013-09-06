@@ -96,7 +96,7 @@ class Magento_Test_Bootstrap
                 $this->_settings->getAsConfigFile('TESTS_LOCAL_CONFIG_FILE'),
                 $this->_settings->getAsConfigFile('TESTS_LOCAL_CONFIG_EXTRA_FILE'),
             ),
-            $this->_settings->getAsMatchingPaths('TESTS_GLOBAL_CONFIG_FILES'),
+            $this->_settings->get('TESTS_GLOBAL_CONFIG_DIR'),
             $this->_settings->getAsMatchingPaths('TESTS_MODULE_CONFIG_FILES'),
             $this->_settings->get('TESTS_MAGENTO_MODE')
         );
@@ -177,13 +177,13 @@ class Magento_Test_Bootstrap
      * Create and return new application instance
      *
      * @param array $localConfigFiles
-     * @param array $globalConfigFiles
+     * @param string $globalConfigDir
      * @param array $moduleConfigFiles
      * @param string $appMode
      * @return Magento_Test_Application
      */
     protected function _createApplication(
-        array $localConfigFiles, array $globalConfigFiles, array $moduleConfigFiles, $appMode
+        array $localConfigFiles, $globalConfigDir, array $moduleConfigFiles, $appMode
     ) {
         $localConfigXml = $this->_loadConfigFiles($localConfigFiles);
         $dbConfig = $localConfigXml->global->resources->default_setup->connection;
@@ -201,7 +201,7 @@ class Magento_Test_Bootstrap
             $this->_shell
         );
         return new Magento_Test_Application(
-            $dbInstance, $installDir, $localConfigXml, $globalConfigFiles, $moduleConfigFiles, $appMode
+            $dbInstance, $installDir, $localConfigXml, $globalConfigDir, $moduleConfigFiles, $appMode
         );
     }
 
@@ -223,15 +223,15 @@ class Magento_Test_Bootstrap
 
     /**
      * @param array $configFiles
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     protected function _loadConfigFiles(array $configFiles)
     {
-        /** @var $result Varien_Simplexml_Element */
-        $result = simplexml_load_string('<config/>', 'Varien_Simplexml_Element');
+        /** @var $result Magento_Simplexml_Element */
+        $result = simplexml_load_string('<config/>', 'Magento_Simplexml_Element');
         foreach ($configFiles as $configFile) {
-            /** @var $configXml Varien_Simplexml_Element */
-            $configXml = simplexml_load_file($configFile, 'Varien_Simplexml_Element');
+            /** @var $configXml Magento_Simplexml_Element */
+            $configXml = simplexml_load_file($configFile, 'Magento_Simplexml_Element');
             $result->extend($configXml);
         }
         return $result;
@@ -247,7 +247,7 @@ class Magento_Test_Bootstrap
     protected function _determineDbVendorName(SimpleXMLElement $dbConfig)
     {
         $dbVendorAlias = (string)$dbConfig->model;
-        $dbVendorMap = array('mysql4' => 'mysql', 'mssql' => 'mssql', 'oracle' => 'oracle');
+        $dbVendorMap = array('mysql4' => 'mysql');
         if (!array_key_exists($dbVendorAlias, $dbVendorMap)) {
             throw new Magento_Exception("Database vendor '$dbVendorAlias' is not supported.");
         }

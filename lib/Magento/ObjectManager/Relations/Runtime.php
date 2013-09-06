@@ -28,6 +28,17 @@ class Magento_ObjectManager_Relations_Runtime implements Magento_ObjectManager_R
     }
 
     /**
+     * Check whether requested type is available for read
+     *
+     * @param string $type
+     * @return bool
+     */
+    public function has($type)
+    {
+        return class_exists($type) || interface_exists($type);
+    }
+
+    /**
      * Retrieve list of parents
      *
      * @param string $type

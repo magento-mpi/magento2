@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Sitemap_Model_Sitemap">
+        <param name="resource">
+            <instance type="Magento_Sitemap_Model_Resource_Sitemap" />
+        </param>
+    </type>
+</config>

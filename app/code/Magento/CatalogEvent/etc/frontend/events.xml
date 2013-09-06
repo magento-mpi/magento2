@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="catalog_category_load_after">
+        <observer name="magento_catalogevent" instance="Magento_CatalogEvent_Model_Observer" method="applyEventToCategory" />
+    </event>
+    <event name="catalog_controller_product_init_after">
+        <observer name="magento_catalogevent" instance="Magento_CatalogEvent_Model_Observer" method="applyEventToProduct" />
+    </event>
+    <event name="review_controller_product_init_after">
+        <observer name="magento_catalogevent" instance="Magento_CatalogEvent_Model_Observer" method="applyEventToProduct" />
+    </event>
+    <event name="catalog_category_collection_load_after">
+        <observer name="magento_catalogevent" instance="Magento_CatalogEvent_Model_Observer" method="applyEventToCategoryCollection" />
+    </event>
+    <event name="catalog_product_collection_load_after">
+        <observer name="magento_catalogevent" instance="Magento_CatalogEvent_Model_Observer" method="applyEventToProductCollection" />
+    </event>
+    <event name="catalog_product_is_salable_after">
+        <observer name="magento_catalogevent" instance="Magento_CatalogEvent_Model_Observer" method="applyIsSalableToProduct" />
+    </event>
+    <event name="checkout_cart_product_add_after">
+        <observer name="magento_catalogevent" instance="Magento_CatalogEvent_Model_Observer" method="applyEventOnQuoteItemSetProduct" />
+    </event>
+    <event name="sales_quote_item_qty_set_after">
+        <observer name="magento_catalogevent" instance="Magento_CatalogEvent_Model_Observer" method="applyEventOnQuoteItemSetQty" />
+    </event>
+</config>

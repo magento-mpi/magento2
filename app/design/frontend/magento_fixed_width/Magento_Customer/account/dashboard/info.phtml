@@ -1,0 +1,38 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="col2-set">
+    <div class="col-1">
+        <div class="info-box">
+            <h3 class="box-title"><?php echo __('Contact Information') ?> <span class="separator">|</span> <a href="<?php echo $this->getUrl('customer/account/edit') ?>"><?php echo __('Edit') ?></a></h3>
+            <p class="box-content">
+                <?php echo $this->escapeHtml($this->getCustomer()->getName()) ?><br />
+                <?php echo $this->escapeHtml($this->getCustomer()->getEmail()) ?><br />
+                <a href="<?php echo $this->getChangePasswordUrl() ?>"><?php echo __('Change Password') ?></a>
+            </p>
+        </div>
+    </div>
+    <?php if( $this->isNewsletterEnabled() ): ?>
+    <div class="col-2">
+        <div class="info-box">
+            <h3 class="box-title"><?php echo __('Newsletters') ?> <span class="separator">|</span> <a href="<?php echo $this->getUrl('newsletter/manage') ?>"><?php echo __('Edit') ?></a></h3>
+            <p class="box-content">
+                <?php if( $this->getIsSubscribed() ): ?>
+                    <?php echo __("You are currently subscribed to 'General Subscription'.") ?>
+                <?php else: ?>
+                    <?php echo __('You are currently not subscribed to any newsletter.') ?>
+                <?php endif; ?>
+            </p>
+        </div>
+        <?php /* Extensions placeholder */ ?>
+        <?php echo $this->getChildHtml('customer.account.dashboard.info.extra')?>
+    </div>
+    <?php endif; ?>
+</div>

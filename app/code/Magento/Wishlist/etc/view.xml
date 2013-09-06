@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Wishlist
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<view>
+    <vars module="Magento_Wishlist">
+        <var name="product_image_size">113</var>        <!-- Product image size used in wishlist -->
+    </vars>
+</view>

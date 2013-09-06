@@ -62,7 +62,7 @@ $copyRules = array(
 
 // Relative expected paths, of what files must exist in destination dir, after running the tool
 $expectedRelPaths = array(
-    'frontend/package1/inherited_theme/Mage_Catalog/resource.png',
+    'frontend/package1/inherited_theme/Magento_Catalog/resource.png',
     'frontend/package1/inherited_theme/subdir/subdir.css',
     'frontend/package1/inherited_theme/subdir/subdir.js',
     'frontend/package1/inherited_theme/overwritten.css',
@@ -76,9 +76,9 @@ $expectedRelPaths = array(
 // Expected file contents, so we can check overwriting and proper css expansion
 $expectedFileContent = array(
     'frontend/package1/inherited_theme/overwritten.css' => 'Overwritten by next theme',
-    'frontend/package1/inherited_theme/public.css' => 'a {background:url(Mage_Catalog/resource.png)}',
-    'frontend/package1/inherited_theme/subdir/subdir.css' => "div {background:url(images/somefile.png)}" . PHP_EOL
-        . 'a {background:url(../Mage_Catalog/resource.png)}'
+    'frontend/package1/inherited_theme/public.css' => 'a {background:url(Magento_Catalog/resource.png)}',
+    'frontend/package1/inherited_theme/subdir/subdir.css' => "div {background:url(images/somefile.png)}\n"
+        . 'a {background:url(../Magento_Catalog/resource.png)}'
 );
 
 // Return fixture

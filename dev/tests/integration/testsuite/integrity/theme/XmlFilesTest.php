@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,12 +11,17 @@
 
 class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
 {
+    const NO_VIEW_XML_FILES_MARKER = 'no-view-xml';
+
     /**
      * @param string $file
      * @dataProvider viewConfigFileDataProvider
      */
     public function testViewConfigFile($file)
     {
+        if ($file === self::NO_VIEW_XML_FILES_MARKER) {
+            $this->markTestSkipped('No view.xml files in themes.');
+        }
         $this->_validateConfigFile($file, Mage::getBaseDir('lib') . '/Magento/Config/etc/view.xsd');
     }
 
@@ -26,10 +31,10 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
     public function viewConfigFileDataProvider()
     {
         $result = array();
-        foreach (glob(Mage::getBaseDir('design') . '/*/*/*/view.xml') as $file) {
+        foreach (glob(Mage::getBaseDir('design') . '/*/*/view.xml') as $file) {
             $result[$file] = array($file);
         }
-        return $result;
+        return $result === array() ? array(array(self::NO_VIEW_XML_FILES_MARKER)) : $result;
     }
 
     /**
@@ -47,7 +52,7 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
     public function themeConfigFileExistsDataProvider()
     {
         $result = array();
-        foreach (glob(Mage::getBaseDir('design') . '/*/*/*', GLOB_ONLYDIR) as $themeDir) {
+        foreach (glob(Mage::getBaseDir('design') . '/*/*', GLOB_ONLYDIR) as $themeDir) {
             $result[$themeDir] = array($themeDir);
         }
         return $result;
@@ -68,25 +73,12 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
      * @param string $file
      * @dataProvider themeConfigFileDataProvider
      */
-    public function testThemeConfigFilePackageTheme($file)
+    public function testThemeConfigFileHasSingleTheme($file)
     {
-        list($expectedPackage, $expectedTheme) = array_slice(preg_split('[\\/]', $file), -3, 2);
         /** @var $configXml SimpleXMLElement */
         $configXml = simplexml_load_file($file);
-        $actualPackages = $configXml->xpath('/design/package');
-        $this->assertCount(1, $actualPackages, 'Single design package declaration is expected.');
-        $this->assertEquals(
-            $expectedPackage,
-            $actualPackages[0]['code'],
-            'Design package code does not correspond to the directory name.'
-        );
-        $actualThemes = $configXml->xpath('/design/package/theme');
+        $actualThemes = $configXml->xpath('/theme');
         $this->assertCount(1, $actualThemes, 'Single theme declaration is expected.');
-        $this->assertEquals(
-            $expectedTheme,
-            $actualThemes[0]['code'],
-            'Theme code does not correspond to the directory name.'
-        );
     }
 
     /**
@@ -95,7 +87,7 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
     public function themeConfigFileDataProvider()
     {
         $result = array();
-        foreach (glob(Mage::getBaseDir('design') . '/*/*/*/theme.xml') as $file) {
+        foreach (glob(Mage::getBaseDir('design') . '/*/*/theme.xml') as $file) {
             $result[$file] = array($file);
         }
         return $result;

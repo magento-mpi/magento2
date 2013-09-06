@@ -75,7 +75,7 @@ abstract class Magento_Code_Generator_EntityAbstract
         if ($ioObject) {
             $this->_ioObject = $ioObject;
         } else {
-            $this->_ioObject = new Magento_Code_Generator_Io(new Varien_Io_File(), $this->_autoloader);
+            $this->_ioObject = new Magento_Code_Generator_Io(new Magento_Io_File(), $this->_autoloader);
         }
         if ($classGenerator) {
             $this->_classGenerator = $classGenerator;

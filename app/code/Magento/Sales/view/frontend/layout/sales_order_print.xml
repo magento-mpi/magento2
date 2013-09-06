@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Sales Order Print View" id="sales_order_print" type="page" parent="print">
+        <reference name="content">
+            <block class="Magento_Sales_Block_Order_Print" name="sales.order.print" template="order/print.phtml">
+                <action method="addItemRender">
+                    <argument name="type" xsi:type="string">default</argument>
+                    <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Item_Renderer_Default</argument>
+                    <argument name="template" xsi:type="string">order/items/renderer/default.phtml</argument>
+                </action>
+                <action method="addItemRender">
+                    <argument name="type" xsi:type="string">grouped</argument>
+                    <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Item_Renderer_Grouped</argument>
+                    <argument name="template" xsi:type="string">order/items/renderer/default.phtml</argument>
+                </action>
+                <block class="Magento_Sales_Block_Order_Totals" name="order_totals" template="order/totals.phtml">
+                    <action method="setLabelProperties">
+                        <argument name="value" xsi:type="string">colspan="4" class="a-right"</argument>
+                    </action>
+                    <action method="setValueProperties">
+                        <argument name="value" xsi:type="string">class="last a-right"</argument>
+                    </action>
+                    <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml">
+                        <action method="setIsPlaneMode">
+                            <argument name="value" xsi:type="string">1</argument>
+                        </action>
+                    </block>
+                </block>
+            </block>
+        </reference>
+        <container name="additional.product.info" label="Additional Product Info"/>
+    </handle>
+</layout>

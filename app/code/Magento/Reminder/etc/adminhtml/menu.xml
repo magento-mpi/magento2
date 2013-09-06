@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Reminder
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_Reminder::promo_reminder" title="Email Reminders" module="Magento_Reminder" sortOrder="60" parent="Magento_Adminhtml::marketing_communications" action="adminhtml/reminder" resource="Magento_Reminder::magento_reminder" dependsOnModule="Magento_Reminder" dependsOnConfig="promo/magento_reminder/enabled"/>
+    </menu>
+</config>

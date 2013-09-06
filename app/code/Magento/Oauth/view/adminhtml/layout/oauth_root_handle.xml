@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="oauth_root_handle">
+        <reference name="root">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Magento_Oauth::empty.phtml</argument>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/controls.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">prototype/window.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/builder.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/dragdrop.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/controls.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/slider.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">lib/ccard.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">varien/js.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/hash.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/events.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/varienLoader.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/grid.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/tabs.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/accordion.js</argument>
+            </action>
+            <!--<action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/tools.js</argument>
+            </action>-->
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/product.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/rules.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/adminhtml/wysiwyg/tiny_mce/setup.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">lib/ds-sleight.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">varien/iehover-fix.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">css</argument>
+                <argument name="name" xsi:type="string">print.css</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js_css</argument>
+                <argument name="name" xsi:type="string">extjs/resources/css/ext-all.css</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js_css</argument>
+                <argument name="name" xsi:type="string">extjs/resources/css/ytheme-magento.css</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js_css</argument>
+                <argument name="name" xsi:type="string">menu.css</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js_css</argument>
+                <argument name="name" xsi:type="string">mage/calendar.css</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">jquery/jquery-ui-timepicker-addon.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">mage/calendar.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">extjs/fix-defer-before.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">extjs/ext-tree.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">extjs/fix-defer.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">extjs/ext-tree-checkbox.js</argument>
+            </action>
+        </reference>
+    </handle>
+</layout>

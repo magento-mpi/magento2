@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_product_new">
+        <update handle="editor"/>
+        <reference name="head">
+            <action method="addCss">
+                <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.iframe-transport.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/fileUploader/load-image.min.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/fileUploader/canvas-to-blob.min.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload-fp.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">mage/proxy-event.js</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/category-selector.css</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/jstree/jquery.hotkeys.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/jstree/jquery.jstree.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/type-switcher.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product-variation.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/base-image-uploader.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">Magento_Catalog::js/product-gallery.js</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">Magento_Catalog::product/product.css</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">Magento_Catalog::js/custom-options.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">Magento_Catalog::js/new-category-dialog.js</argument>
+            </action>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit" name="product_edit">
+                <container name="product-type-tabs" label="Tabs">
+                </container>
+            </block>
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Magento_Adminhtml::catalog/product/edit/attribute_set.phtml"/>
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category" template="Magento_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
+            <block class="Magento_Core_Block_Template" name="affected-attribute-set-form" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
+        </reference>
+        <reference name="left">
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"/>
+        </reference>
+        <reference name="js">
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Js" name="catalog_product_js" template="catalog/product/js.phtml"/>
+            <block class="Magento_Core_Block_Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml"/>
+            <block class="Magento_Catalog_Block_Product_Configurable_AttributeSelector" template="Magento_Catalog::product/configurable/attribute-selector/js.phtml"/>
+            <block class="Magento_Catalog_Block_Product_Configurable_AttributeSelector" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/js.phtml"/>
+        </reference>
+    </handle>
+</layout>

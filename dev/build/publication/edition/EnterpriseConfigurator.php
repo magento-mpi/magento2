@@ -17,15 +17,15 @@ class EnterpriseConfigurator implements ConfiguratorInterface
     protected $_basePath;
 
     /**
-     * @var Varien_Io_File
+     * @var Magento_Io_File
      */
     protected $_filesystem;
 
     /**
      * @param $basePath
-     * @param Varien_Io_File $filesystem
+     * @param Magento_Io_File $filesystem
      */
-    public function __construct($basePath, Varien_Io_File $filesystem)
+    public function __construct($basePath, Magento_Io_File $filesystem)
     {
         $this->_basePath = $basePath;
         $this->_filesystem = $filesystem;
@@ -41,11 +41,13 @@ class EnterpriseConfigurator implements ConfiguratorInterface
         $enablerPath = $this->_basePath
             . DIRECTORY_SEPARATOR . 'app'
             . DIRECTORY_SEPARATOR . 'etc'
-            . DIRECTORY_SEPARATOR . 'modules'
             . DIRECTORY_SEPARATOR;
 
         //enable enterprise edition modules
-        $this->_filesystem->cp($enablerPath . 'XEnterprise_Edition.xml.dist', $enablerPath . 'XEnterprise_Edition.xml');
+        $this->_filesystem->cp(
+            $enablerPath . 'enterprise' . DIRECTORY_SEPARATOR . 'module.xml.dist',
+            $enablerPath . 'enterprise' . DIRECTORY_SEPARATOR . 'module.xml'
+        );
 
         //set edition constant
         $mageFile = $this->_basePath . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Mage.php';

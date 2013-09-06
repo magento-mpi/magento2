@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="page_calendar">
+        <reference name="head">
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/jquery-ui-timepicker-addon.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">mage/calendar.js</argument>
+            </action>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
+        </reference>
+    </handle>
+</layout>

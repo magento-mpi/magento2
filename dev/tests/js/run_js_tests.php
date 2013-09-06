@@ -118,7 +118,7 @@ if (count($serveFiles) > 0) {
 fclose($fh);
 
 $testOutput = __DIR__ . '/test-output';
-Varien_Io_File::rmdirRecursive($testOutput);
+Magento_Io_File::rmdirRecursive($testOutput);
 mkdir($testOutput);
 
 $command

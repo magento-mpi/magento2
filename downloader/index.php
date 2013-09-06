@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +13,8 @@ if (version_compare(phpversion(), '5.2.0', '<')===true) {
     exit;
 }
 
-require_once("lib/Mage/Autoload/Simple.php");
-Mage_Autoload_Simple::register();
+require_once("lib/Magento/Autoload/Simple.php");
+Magento_Autoload_Simple::register();
 
 umask(0);
 Maged_Controller::run();

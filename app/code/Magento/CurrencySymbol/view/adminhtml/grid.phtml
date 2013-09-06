@@ -1,0 +1,69 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CurrencySymbol
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @var $this Magento_CurrencySymbol_Block_Adminhtml_System_Currencysymbol
+ */
+?>
+<div class="page-actions"><?php echo $this->getSaveButtonHtml(); ?></div>
+
+<?php $this->getCurrencySymbolsData();?>
+
+<form id="currency-symbols-form" action="<?php echo $this->getFormActionUrl() ?>" method="post">
+    <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
+
+    <div class="grid">
+        <div class="hor-scroll">
+            <table cellspacing="0" class="data table-cat-img-sizes">
+                <colgroup>
+                    <col width="15%"/>
+                    <col />
+                </colgroup>
+                <thead>
+                    <tr class="headings">
+                        <th><span class="nobr"><span class="not-sort"><?php echo __('Currency'); ?></span></span></th>
+                        <th><span class="nobr"><span class="not-sort"><?php echo __('Symbol'); ?><span class="required"><em>*</em></span></span></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($this->getCurrencySymbolsData() as $code => $data): ?>
+                    <tr>
+                        <td class="label">
+                        <label for="custom_currency_symbol<?php echo $code; ?>"><?php echo $code; ?> (<?php echo $data['displayName']; ?>)</label>
+                        </td>
+                        <td class="value">
+                            <input id="custom_currency_symbol<?php echo $code; ?>" class=" required-entry input-text" type="text" value="<?php echo $this->helper('Magento_Core_Helper_Data')->quoteEscape($data['displaySymbol']); ?>"<?php echo $data['inherited'] ? ' disabled="disabled"' : '';?> name="custom_currency_symbol[<?php echo $code; ?>]">
+                            <input id="custom_currency_symbol_inherit<?php echo $code; ?>" class="checkbox config-inherit" type="checkbox" onclick="toggleUseDefault(<?php echo '\'' . $code . '\',\'' . $this->helper('Magento_Core_Helper_Data')->quoteEscape($data['parentSymbol'], true) . '\''; ?>)"<?php echo $data['inherited'] ? ' checked="checked"' : ''; ?> value="1" name="inherit_custom_currency_symbol[<?php echo $code; ?>]">
+                            <label for="custom_currency_symbol_inherit<?php echo $code; ?>"><?php echo $this->getInheritText(); ?></label>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    jQuery('#currency-symbols-form').mage('form').mage('validation');
+
+    function toggleUseDefault(code, value)
+    {
+        checkbox = $('custom_currency_symbol_inherit'+code);
+        input = $('custom_currency_symbol'+code);
+        if (checkbox.checked) {
+            input.value = value;
+            input.disabled = true;
+        } else {
+            input.disabled = false;
+        }
+    }
+</script>
+

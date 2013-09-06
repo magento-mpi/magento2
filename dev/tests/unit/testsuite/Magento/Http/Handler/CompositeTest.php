@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Http_Handler_CompositeTest extends PHPUnit_Framework_TestCase
+class Magento_HTTP_Handler_CompositeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Http_Handler_Composite
+     * @var Magento_HTTP_Handler_Composite
      */
     protected $_model;
 
@@ -41,9 +41,9 @@ class Magento_Http_Handler_CompositeTest extends PHPUnit_Framework_TestCase
         );
         $this->_requestMock = $this->getMock('Zend_Controller_Request_Http', array(), array(), '', false);
         $this->_responseMock = $this->getMock('Zend_Controller_Response_Http', array(), array(), '', false);
-        $this->_handlerFactoryMock = $this->getMock('Magento_Http_HandlerFactory', array(), array(), '', false, false);
-        $this->_handlerMock = $this->getMock('Magento_Http_HandlerInterface', array(), array(), '', false, false);
-        $this->_model = new Magento_Http_Handler_Composite($this->_handlerFactoryMock, $handlers);
+        $this->_handlerFactoryMock = $this->getMock('Magento_HTTP_HandlerFactory', array(), array(), '', false, false);
+        $this->_handlerMock = $this->getMock('Magento_HTTP_HandlerInterface', array(), array(), '', false, false);
+        $this->_model = new Magento_HTTP_Handler_Composite($this->_handlerFactoryMock, $handlers);
     }
 
     public function tearDown()
@@ -78,7 +78,7 @@ class Magento_Http_Handler_CompositeTest extends PHPUnit_Framework_TestCase
             ),
         );
 
-        $model = new Magento_Http_Handler_Composite($this->_handlerFactoryMock, $handlers);
+        $model = new Magento_HTTP_Handler_Composite($this->_handlerFactoryMock, $handlers);
 
         $this->_handlerMock->expects($this->exactly(2))->method('handle')
             ->with($this->_requestMock, $this->_responseMock);

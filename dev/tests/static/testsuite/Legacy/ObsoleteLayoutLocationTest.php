@@ -34,7 +34,7 @@ class Legacy_ObsoleteLayoutLocationTest extends PHPUnit_Framework_TestCase
     {
         $root = Utility_Files::init()->getPathToSource();
         $modulePaths = glob("{$root}/app/code/*/*/view/*");
-        $themePaths = glob("{$root}/app/design/*/*/*/*");
+        $themePaths = glob("{$root}/app/design/*/*/*");
         $merged = array_merge($modulePaths, $themePaths);
 
         return Utility_Files::composeDataSets($merged);

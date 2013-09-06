@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_MultipleWishlist
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <multiplewishlist_setup>
+                <setup>
+                    <module>Magento_MultipleWishlist</module>
+                    <class>Magento_MultipleWishlist_Model_Resource_Setup</class>
+                </setup>
+            </multiplewishlist_setup>
+        </resources>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_MultipleWishlist>
+                    <files>
+                        <default>Magento_MultipleWishlist.csv</default>
+                    </files>
+                </Magento_MultipleWishlist>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frontend>
+        <translate>
+            <modules>
+                <Magento_MultipleWishlist>
+                    <files>
+                        <default>Magento_MultipleWishlist.csv</default>
+                    </files>
+                </Magento_MultipleWishlist>
+            </modules>
+        </translate>
+    </frontend>
+    <default>
+        <wishlist>
+            <general>
+                <multiple_wishlist_number>5</multiple_wishlist_number>
+            </general>
+        </wishlist>
+    </default>
+</config>

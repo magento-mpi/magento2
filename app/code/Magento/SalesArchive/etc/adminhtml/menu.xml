@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_SalesArchive
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_SalesArchive::sales_archive" title="Archive" module="Magento_SalesArchive" sortOrder="20" parent="Magento_Sales::sales" dependsOnConfig="sales/magento_salesarchive/active" resource="Magento_SalesArchive::archive"/>
+        <add id="Magento_SalesArchive::sales_archive_orders" title="Orders" module="Magento_SalesArchive" sortOrder="10" parent="Magento_SalesArchive::sales_archive" action="adminhtml/sales_archive/orders" resource="Magento_SalesArchive::orders"/>
+        <add id="Magento_SalesArchive::sales_archive_invoices" title="Invoices" module="Magento_SalesArchive" sortOrder="20" parent="Magento_SalesArchive::sales_archive" action="adminhtml/sales_archive/invoices" resource="Magento_SalesArchive::invoices"/>
+        <add id="Magento_SalesArchive::sales_archive_shipments" title="Shipments" module="Magento_SalesArchive" sortOrder="30" parent="Magento_SalesArchive::sales_archive" action="adminhtml/sales_archive/shipments" resource="Magento_SalesArchive::shipments"/>
+        <add id="Magento_SalesArchive::sales_archive_creditmemos" title="Credit Memos" module="Magento_SalesArchive" sortOrder="40" parent="Magento_SalesArchive::sales_archive" action="adminhtml/sales_archive/creditmemos" resource="Magento_SalesArchive::creditmemos"/>
+    </menu>
+</config>

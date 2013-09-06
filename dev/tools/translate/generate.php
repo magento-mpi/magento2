@@ -15,7 +15,7 @@
  * Output file format (CSV):
  * Columns:
  *
- * Module_Name (like 'Mage_Catalog' or design package name like 'translate')
+ * Module_Name (like 'Magento_Catalog' or design package name like 'translate')
  * Translation Key (like "Translate Me")
  * Translation Value (the same)
  * Source File (source file name)
@@ -65,7 +65,7 @@ if (!is_writeable(dirname($args['output']))) {
 }
 
 require_once __DIR__ . '/config.inc.php';
-require_once BASE_PATH . DS . 'lib/Varien/File/Csv.php';
+require_once BASE_PATH . DS . 'lib/Magento/File/Csv.php';
 
 $CONFIG['generate'] = array(
     'base_dir'      => BASE_PATH,
@@ -417,5 +417,5 @@ else {
 }
 
 /** write to file */
-$varienCsv = new Varien_File_Csv();
+$varienCsv = new Magento_File_Csv();
 $varienCsv->saveData($args['output'], $csvData);

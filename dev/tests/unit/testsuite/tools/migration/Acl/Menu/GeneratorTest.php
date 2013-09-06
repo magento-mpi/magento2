@@ -78,7 +78,7 @@ class Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framework_TestCase
             'Module_Name::system_config' => 'system/config',
             'Module_Name::area_config_design_node' => 'area_config/design/node',
             'Some_Module::area_config_design' => 'area_config/design',
-            'Mage_Module::area_config' => 'area_config',
+            'Magento_Module::area_config' => 'area_config',
             'Local_Module::area_config_design_node_email_template' => 'area_config/design/node/email_template',
         );
     }
@@ -157,7 +157,7 @@ class Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framework_TestCase
         $expected = array(
             'Module_Name::area_config_design_node',
             'Some_Module::area_config_design',
-            'Mage_Module::area_config',
+            'Magento_Module::area_config',
         );
         $maps = $this->_model->getMenuIdMaps();
         $this->assertEquals($expected, $maps[$menuId]['parents']);
@@ -186,7 +186,7 @@ class Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framework_TestCase
         $map = $this->_model->getMenuIdToAclId();
         $expectedMap = array(
             'Module_Name::area_config_design_node' => 'Module_Name::acl_resource_design',
-            'Mage_Module::area_config' => 'Module_Name::acl_resource_area',
+            'Magento_Module::area_config' => 'Module_Name::acl_resource_area',
         );
         $this->assertEquals($expectedMap, $map);
         $this->assertEquals(array_keys($expectedMap), $result['mapped']);

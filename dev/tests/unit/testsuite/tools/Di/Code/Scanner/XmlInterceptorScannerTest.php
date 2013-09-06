@@ -32,8 +32,8 @@ class Magento_Tools_Di_Code_Scanner_XmlInterceptorScannerTest extends PHPUnit_Fr
         $this->_model = new Magento\Tools\Di\Code\Scanner\XmlInterceptorScanner();
         $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../') . '/_files');
         $this->_testFiles =  array(
-            $this->_testDir . '/app/code/Mage/SomeModule/etc/config.xml',
-            $this->_testDir . '/app/etc/config.xml',
+            $this->_testDir . '/app/code/Magento/SomeModule/etc/di.xml',
+            $this->_testDir . '/app/etc/di/config.xml',
         );
     }
 
@@ -41,8 +41,8 @@ class Magento_Tools_Di_Code_Scanner_XmlInterceptorScannerTest extends PHPUnit_Fr
     {
         $actual = $this->_model->collectEntities($this->_testFiles);
         $expected = array(
-            'Mage_Core_Model_Cache_Interceptor',
-            'Mage_Core_Controller_Varien_Action_Context_Interceptor',
+            'Magento_Core_Model_Cache_Interceptor',
+            'Magento_Core_Controller_Varien_Action_Context_Interceptor',
         );
         $this->assertEquals($expected, $actual);
     }

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="MAP_popup">
+        <reference name="content">
+            <block class="Magento_Core_Block_Template" template="Magento_Catalog::msrp/popup.phtml" name="product.tooltip"/>
+        </reference>
+    </handle>
+</layout>

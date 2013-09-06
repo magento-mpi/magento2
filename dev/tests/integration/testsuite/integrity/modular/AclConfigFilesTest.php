@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -27,10 +27,8 @@ class Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $readerMock = $this->getMock('Magento_Acl_Loader_Resource_ConfigReader_Xml',
-            array('_merge', '_extractData'), array(), '', false
-        );
-        $this->_schemeFile = $readerMock->getSchemaFile();
+        $this->_schemeFile = Mage::getBaseDir('lib')
+            . str_replace('/', DIRECTORY_SEPARATOR, '/Magento/Acl/etc/acl.xsd');
     }
 
     /**

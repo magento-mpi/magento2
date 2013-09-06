@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_GoogleShopping" version="1.6.0.0.1" active="true">
+        <sequence>
+            <module name="Magento_Catalog"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_AdminNotification"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_GoogleCheckout"/>
+            <module name="Magento_Tax"/>
+            <module name="Magento_Page" type="soft"/>
+        </depends>
+    </module>
+</config>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Checkout
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_Checkout::sales_checkoutagreement" title="Terms and Conditions" module="Magento_Checkout" sortOrder="30" parent="Magento_Adminhtml::stores_settings" action="adminhtml/checkout_agreement/" resource="Magento_Checkout::checkoutagreement"/>
+    </menu>
+</config>

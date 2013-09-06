@@ -2,13 +2,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
 /*jshint jquery:true browser:true */
 /*global FORM_KEY:true*/
-(function ($) {
+(function ($, console) {
     'use strict';
     $.ajaxSetup({
         /*
@@ -68,18 +68,6 @@
         $.mage.init();
 
         /*
-         * Show loader on ajax send
-         */
-        $('body').on('ajaxSend processStart', function(e, jqxhr, settings) {
-            if (settings && settings.showLoader || e.type === 'processStart') {
-                $(e.target).mage('loader', {
-                    icon: $('#loading_mask_loader img').attr('src'),
-                    showOnInit: true
-                });
-            }
-        });
-
-        /*
          * Initialization of notification widget
          */
         $('body').mage('notification');
@@ -88,4 +76,4 @@
     };
 
     $(bootstrap);
-})(jQuery);
+})(jQuery, console);

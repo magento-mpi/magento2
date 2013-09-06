@@ -38,7 +38,7 @@ define('ACTION_SPLIT', 3);
 
 define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS . 'template' . DS);
 
-include(BASE_PATH . DS . 'lib' . DS . 'Varien' . DS . 'File' . DS . 'Csv.php');
+include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
 
 class Generate
 {
@@ -47,7 +47,7 @@ class Generate
      *
      * @var array
      */
-    protected $_namePatterns = array('#^(Mage_\w+)\.csv$#', '#^(Enterprise_\w+)\.csv$#', '#^(translate).csv$#');
+    protected $_namePatterns = array('#^(Magento_\w+)\.csv$#', '#^(Enterprise_\w+)\.csv$#', '#^(translate).csv$#');
 
     /**
      * Pattern of the locale path
@@ -286,12 +286,12 @@ class Generate
         $files = $this->_getFilesToProcess($localePath);
         $csv = null;
         if (!$outputSeparate) {
-            $csv = new Varien_File_Csv();
+            $csv = new Magento_File_Csv();
         }
 
         foreach ($files as $alias=>$file){
             if ($outputSeparate) {
-                $csv = new Varien_File_Csv();
+                $csv = new Magento_File_Csv();
                 $resultData = array();
             }
 
@@ -379,7 +379,7 @@ class Generate
         }
 
         $files = $this->_getFilesToProcess($translatedDirName);
-        $csv = new Varien_File_Csv();
+        $csv = new Magento_File_Csv();
         if (!$inputSeparate) {
             $strings = $csv->getData($this->_translateName);
             $strings = $this->separateTranslations($strings);
@@ -412,7 +412,7 @@ class Generate
         $this->_arguments = array(
             'inputName' => $inputName,
         );*/
-        $csv = new Varien_File_Csv();
+        $csv = new Magento_File_Csv();
         $inputData = $csv->getData($this->_arguments['inputName']);
         $output = array();
         foreach ($inputData as $row){
@@ -442,7 +442,7 @@ class Generate
             'outputName' => $outputName,
         );*/
 
-        $csv = new Varien_File_Csv();
+        $csv = new Magento_File_Csv();
         $strings1 = $this->separateTranslations($csv->getData($this->_arguments['inputName1']));
         $strings2 = $this->separateTranslations($csv->getData($this->_arguments['inputName2']));
         $resultArray = array();

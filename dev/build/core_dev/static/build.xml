@@ -75,16 +75,6 @@
         </antcall>
     </target>
 
-    <target name="static_tests_saas" description="Static tests for Go">
-        <antcall>
-            <param name="license_replacement_enabled" value="true"/>
-            <param name="product_edition_code" value="saas"/>
-            <target name="_product_edition"/>
-            <target name="_static_tests_no_js"/>
-            <target name="_sanity_check"/>
-        </antcall>
-    </target>
-
     <target name="static_tests_js" depends="_product_location" description="JS static tests">
         <copy file="${basedir}/dev/build/core_dev/static/phpunit.js.xml"
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
@@ -107,14 +97,6 @@
     <target name="code_legacy_tests_ce" description="Code Legacy Tests for Community Edition">
         <antcall>
             <param name="product_edition_code" value="ce"/>
-            <target name="_product_edition"/>
-            <target name="_code_legacy_tests"/>
-        </antcall>
-    </target>
-
-    <target name="code_legacy_tests_saas" description="Code Legacy Tests for Saas Edition">
-        <antcall>
-            <param name="product_edition_code" value="saas"/>
             <target name="_product_edition"/>
             <target name="_code_legacy_tests"/>
         </antcall>

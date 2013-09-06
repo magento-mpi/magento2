@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="review_product_list">
+        <reference name="root">
+            <action method="setMyClass">
+                <argument name="value" xsi:type="string">review-product-page</argument>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">css</argument>
+                <argument name="name" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">varien/product.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">varien/configurable.js</argument>
+            </action>
+        </reference>
+        <remove name="product.info.media"/>
+        <remove name="product.info.addto"/>
+        <remove name="product.info.addtocart"/>
+    </handle>
+</layout>

@@ -32,10 +32,10 @@ class Magento_Tools_Di_Code_Scanner_XmlScannerTest extends PHPUnit_Framework_Tes
         $this->_model = new Magento\Tools\Di\Code\Scanner\XmlScanner();
         $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../') . '/_files');
         $this->_testFiles =  array(
-            $this->_testDir . '/app/code/Mage/SomeModule/etc/adminhtml/system.xml',
-            $this->_testDir . '/app/code/Mage/SomeModule/etc/config.xml',
-            $this->_testDir . '/app/code/Mage/SomeModule/view/frontend/layout.xml',
-            $this->_testDir . '/app/etc/config.xml'
+            $this->_testDir . '/app/code/Magento/SomeModule/etc/adminhtml/system.xml',
+            $this->_testDir . '/app/code/Magento/SomeModule/etc/di.xml',
+            $this->_testDir . '/app/code/Magento/SomeModule/view/frontend/layout.xml',
+            $this->_testDir . '/app/etc/di/config.xml'
 
         );
     }
@@ -44,12 +44,12 @@ class Magento_Tools_Di_Code_Scanner_XmlScannerTest extends PHPUnit_Framework_Tes
     {
         $actual = $this->_model->collectEntities($this->_testFiles);
         $expected = array(
-            'Mage_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput_Proxy',
-            'Mage_Core_Model_App_Proxy',
-            'Mage_Core_Model_Cache_Proxy',
-            'Mage_Backend_Block_Menu_Proxy',
-            'Mage_Core_Model_StoreManager_Proxy',
-            'Mage_Core_Model_Layout_Factory',
+            'Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput_Proxy',
+            'Magento_Core_Model_App_Proxy',
+            'Magento_Core_Model_Cache_Proxy',
+            'Magento_Backend_Block_Menu_Proxy',
+            'Magento_Core_Model_StoreManager_Proxy',
+            'Magento_Core_Model_Layout_Factory',
         );
         $this->assertEquals($expected, $actual);
     }

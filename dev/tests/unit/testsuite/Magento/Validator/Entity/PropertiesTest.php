@@ -15,13 +15,13 @@
 class Magento_Validator_Entity_PropertiesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = $this->getMock('Varien_Object', array('hasDataChanges', 'getData', 'getOrigData'));
+        $this->_object = $this->getMock('Magento_Object', array('hasDataChanges', 'getData', 'getOrigData'));
     }
 
     protected function tearDown()
@@ -33,7 +33,7 @@ class Magento_Validator_Entity_PropertiesTest extends PHPUnit_Framework_TestCase
      * Testing Magento_Validator_Entity_Properties::isValid on invalid argument passed
      *
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Instance of Varien_Object is expected.
+     * @expectedExceptionMessage Instance of Magento_Object is expected.
      */
     public function testIsValidException()
     {

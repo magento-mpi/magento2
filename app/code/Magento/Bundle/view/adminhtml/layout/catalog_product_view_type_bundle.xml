@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_product_view_type_bundle">
+        <reference name="product.composite.fieldset">
+            <block class="Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Bundle" before="product.composite.fieldset.options" name="product.composite.fieldset.bundle" template="product/composite/fieldset/options/bundle.phtml">
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">select</argument>
+                    <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Select</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">multi</argument>
+                    <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Multi</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">radio</argument>
+                    <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Radio</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">checkbox</argument>
+                    <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Checkbox</argument>
+                </action>
+            </block>
+        </reference>
+    </handle>
+</layout>

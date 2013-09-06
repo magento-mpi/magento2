@@ -2,7 +2,7 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Mage_DesignEditor
+# @package     Magento_DesignEditor
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
@@ -302,13 +302,11 @@ preview_theme_in_design:
                                 framework_files:
                                     xpath: //div[@class='files-list' and contains (., 'Framework files')]
                                     pageelements:
-                                        mage_catalog: //span[contains(text(), 'Mage_Catalog::widgets.css')]
-                                        mage_oauth: //span[contains(text(), 'Mage_Oauth::css/oauth-simple.css')]
-                                        social_facebook: //span[contains(text(), 'Social_Facebook::css/facebook.css')]
-                                    liks:
-                                        mage_cat_download: //li[@class='item' and contains (., 'Mage_Catalog::widgets.css')]/a[@class='action-download']
-                                        mage_oauth_download: //li[@class='item' and contains (., 'Mage_Oauth::css/oauth-simple.css')]/a[@class='action-download']
-                                        social_facebook_download: //li[@class='item' and contains (., 'Social_Facebook::css/facebook.css')]/a[@class='action-download']
+                                        mage_catalog: //span[contains(text(), 'Magento_Catalog::widgets.css')]
+                                        mage_oauth: //span[contains(text(), 'Magento_Oauth::css/oauth-simple.css')]
+                                    links:
+                                        mage_cat_download: //li[@class='item' and contains (., 'Magento_Catalog::widgets.css')]/a[@class='action-download']
+                                        mage_oauth_download: //li[@class='item' and contains (., 'Magento_Oauth::css/oauth-simple.css')]/a[@class='action-download']
                             -
                                 library_files:
                                     xpath: //div[@class='files-list' and contains (., 'Library files')]
@@ -324,19 +322,19 @@ preview_theme_in_design:
                                         css_styles_ie: //span[contains(text(), 'css/styles-ie.css')]
                                         css_styles: //span[contains(text(), 'css/styles.css')]
                                         jquery_jqzoom: //span[contains(text(), 'js/jqzoom/css/jquery.jqzoom.css')]
-                                        mage_cms: //span[contains(text(), 'Mage_Cms::widgets.css')]
-                                        mage_page: //span[contains(text(), 'Mage_Page::css/tabs.css')]
-                                        mage_reports: //span[contains(text(), 'Mage_Reports::widgets.css')]
-                                        mage_widget: //span[contains(text(), 'Mage_Widget::widgets.css')]
+                                        mage_cms: //span[contains(text(), 'Magento_Cms::widgets.css')]
+                                        mage_page: //span[contains(text(), 'Magento_Page::css/tabs.css')]
+                                        mage_reports: //span[contains(text(), 'Magento_Reports::widgets.css')]
+                                        mage_widget: //span[contains(text(), 'Magento_Widget::widgets.css')]
                                     links:
                                         css_print_download: //li[@class='item' and contains (., 'css/print.css')]/a[@class='action-download']
                                         css_styles_ie_download: //li[@class='item' and contains (., 'css/styles-ie.css')]/a[@class='action-download']
                                         css_styles_download: //li[@class='item' and contains (., 'css/styles.css')]/a[@class='action-download']
                                         jquery_jqzoom_download: //li[@class='item' and contains (., 'js/jqzoom/css/jquery.jqzoom.css')]/a[@class='action-download']
-                                        mage_cms_download: //li[@class='item' and contains (., 'Mage_Cms::widgets.css')]/a[@class='action-download']
-                                        mage_page_download: //li[@class='item' and contains (., 'Mage_Page::css/tabs.css')]/a[@class='action-download']
-                                        mage_reports_download: //li[@class='item' and contains (., 'Mage_Reports::widgets.css')]/a[@class='action-download']
-                                        mage_widget_download: //li[@class='item' and contains (., 'Mage_Widget::widgets.css')]/a[@class='action-download']
+                                        mage_cms_download: //li[@class='item' and contains (., 'Magento_Cms::widgets.css')]/a[@class='action-download']
+                                        mage_page_download: //li[@class='item' and contains (., 'Magento_Page::css/tabs.css')]/a[@class='action-download']
+                                        mage_reports_download: //li[@class='item' and contains (., 'Magento_Reports::widgets.css')]/a[@class='action-download']
+                                        mage_widget_download: //li[@class='item' and contains (., 'Magento_Widget::widgets.css')]/a[@class='action-download']
                 -
                     js:
                         xpath: //div[@id='vde-tab-code']//a[contains(@href, '#vde-tab-js')]

@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category   Mage
+ * @category   Magento
  * @package    Mage
  * @copyright  {copyright}
  * @license    {license_link}
@@ -225,7 +225,6 @@ return array(
     'eav_entity_text' => 'eav_entity_text',
     'eav_entity_varchar' => 'eav_entity_varchar',
     'eway/api_debug' => 'eway_api_debug',
-    'find_feed/feed_import_codes' => 'find_feed_import_codes',
     'flo2cash/api_debug' => 'flo2cash_api_debug',
     'giftmessage/message' => 'gift_message',
     'googlebase/attributes' => 'googlebase_attributes',
@@ -373,7 +372,6 @@ return array(
     'sendfriend/sendfriend' => 'sendfriend_log',
     'shipping/tablerate' => 'shipping_tablerate',
     'sitemap/sitemap' => 'sitemap',
-    'social_facebook/facebook' => 'social_facebook_actions',
     'strikeiron/tax_rate' => 'strikeiron_tax_rate',
     'tag/properties' => 'tag_properties',
     'tag/relation' => 'tag_relation',

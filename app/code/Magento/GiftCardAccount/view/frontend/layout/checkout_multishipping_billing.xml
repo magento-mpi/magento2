@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_multishipping_billing">
+        <reference name="payment_methods_after">
+            <block class="Magento_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional" template="multishipping/payment.phtml" name="giftcardaccount"/>
+        </reference>
+    </handle>
+</layout>

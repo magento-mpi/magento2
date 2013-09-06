@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_order_print">
+        <reference name="order_totals">
+            <block class="Magento_CustomerBalance_Block_Sales_Order_Customerbalance" name="customerbalance" template="order/customerbalance.phtml"/>
+            <block class="Magento_CustomerBalance_Block_Sales_Order_Customerbalance" name="customerbalance_total_refunded" template="order/customerbalance_refunded.phtml" after="-">
+                <action method="setAfterTotal">
+                    <argument name="value" xsi:type="string">grand_total</argument>
+                </action>
+            </block>
+        </reference>
+    </handle>
+</layout>

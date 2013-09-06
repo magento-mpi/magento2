@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +11,8 @@
 /**
  * Class config
  *
- * @category   Mage
- * @package    Mage_Connect
+ * @category   Magento
+ * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Maged_Model_Config_Abstract extends Maged_Model
@@ -66,7 +66,7 @@ class Maged_Model_Config_Abstract extends Maged_Model
         if ((!is_writable($this->getFilename())&&is_file($this->getFilename()))||(dirname($this->getFilename())!=''&&!is_writable(dirname($this->getFilename())))) {
             if(isset($this->_data['ftp'])&&!empty($this->_data['ftp'])&&strlen($this->get('downloader_path'))>0){
                 $confFile=$this->get('downloader_path').DIRECTORY_SEPARATOR.basename($this->getFilename());
-                $ftpObj = new Mage_Connect_Ftp();
+                $ftpObj = new Magento_Connect_Ftp();
                 $ftpObj->connect($this->_data['ftp']);
                 $tempFile = tempnam(sys_get_temp_dir(),'configini');
                 $fp = fopen($tempFile, 'w');

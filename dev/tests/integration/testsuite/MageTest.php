@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -29,19 +29,20 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function testLog($level, $file, $forceLog, $expectedLevel, $expectedKey, $expectsAddLog)
     {
         $message = uniqid();
-        /** @var $logger Mage_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject */
-        $logger = $this->getMock('Mage_Core_Model_Logger', array('log', 'addStreamLog'), array(), '', false);
-        $realLogger = Mage::getObjectManager()->get('Mage_Core_Model_Logger');
-        Mage::getObjectManager()->addSharedInstance($logger, 'Mage_Core_Model_Logger');
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $logger Magento_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject */
+        $logger = $this->getMock('Magento_Core_Model_Logger', array('log', 'addStreamLog'), array(), '', false);
+        $realLogger = $objectManager->get('Magento_Core_Model_Logger');
+        $objectManager->addSharedInstance($logger, 'Magento_Core_Model_Logger');
         try {
             $logger->expects($this->once())->method('log')->with($message, $expectedLevel, $expectedKey);
             if ($expectsAddLog) {
                 $logger->expects($this->once())->method('addStreamLog');
             }
             Mage::log($message, $level, $file, $forceLog);
-            Mage::getObjectManager()->addSharedInstance($realLogger, 'Mage_Core_Model_Logger');
+            $objectManager->addSharedInstance($realLogger, 'Magento_Core_Model_Logger');
         } catch (Exception $e) {
-            Mage::getObjectManager()->addSharedInstance($realLogger, 'Mage_Core_Model_Logger');
+            $objectManager->addSharedInstance($realLogger, 'Magento_Core_Model_Logger');
             throw $e;
         }
 
@@ -53,11 +54,11 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function logDataProvider()
     {
         return array(
-            array(null, '', false, Zend_Log::DEBUG, Mage_Core_Model_Logger::LOGGER_SYSTEM, false),
-            array(Zend_Log::CRIT, 'system.log', true, Zend_Log::CRIT, Mage_Core_Model_Logger::LOGGER_SYSTEM, false),
-            array(null, 'exception.log', false, Zend_Log::DEBUG, Mage_Core_Model_Logger::LOGGER_EXCEPTION, false),
+            array(null, '', false, Zend_Log::DEBUG, Magento_Core_Model_Logger::LOGGER_SYSTEM, false),
+            array(Zend_Log::CRIT, 'system.log', true, Zend_Log::CRIT, Magento_Core_Model_Logger::LOGGER_SYSTEM, false),
+            array(null, 'exception.log', false, Zend_Log::DEBUG, Magento_Core_Model_Logger::LOGGER_EXCEPTION, false),
             array(null, 'custom.log', false, Zend_Log::DEBUG, 'custom.log', true, false),
-            array(null, 'exception.log', true, Zend_Log::DEBUG, Mage_Core_Model_Logger::LOGGER_EXCEPTION, true),
+            array(null, 'exception.log', true, Zend_Log::DEBUG, Magento_Core_Model_Logger::LOGGER_EXCEPTION, true),
         );
     }
 
@@ -143,7 +144,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getModelDataProvider()
     {
         return array(
-            array('Mage_Core_Model_Config', 'Mage_Core_Model_Config')
+            array('Magento_Core_Model_Config', 'Magento_Core_Model_Config')
         );
     }
 
@@ -163,7 +164,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getResourceModelDataProvider()
     {
         return array(
-            array('Mage_Core_Model_Resource_Config', 'Mage_Core_Model_Resource_Config')
+            array('Magento_Core_Model_Resource_Config', 'Magento_Core_Model_Resource_Config')
         );
     }
 
@@ -183,7 +184,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getResourceHelperDataProvider()
     {
         return array(
-            array('Mage_Core', 'Mage_Core_Model_Resource_Helper_Abstract')
+            array('Magento_Core', 'Magento_Core_Model_Resource_Helper_Abstract')
         );
     }
 
@@ -203,8 +204,8 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function helperDataProvider()
     {
         return array(
-            'module name' => array('Mage_Core',           'Mage_Core_Helper_Data'),
-            'class name'  => array('Mage_Core_Helper_Js', 'Mage_Core_Helper_Js'),
+            'module name' => array('Magento_Core',           'Magento_Core_Helper_Data'),
+            'class name'  => array('Magento_Core_Helper_Js', 'Magento_Core_Helper_Js'),
         );
     }
 }

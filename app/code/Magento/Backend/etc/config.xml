@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Backend
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <areas>
+            <adminhtml>
+                <frontName>backend</frontName>
+                <auth />
+            </adminhtml>
+        </areas>
+    </global>
+</config>

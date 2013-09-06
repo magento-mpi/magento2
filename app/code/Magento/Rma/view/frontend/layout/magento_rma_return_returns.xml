@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer My Account Order Returns View" id="magento_rma_return_returns" type="page" parent="magento_rma_return_view">
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block class="Magento_Sales_Block_Order_Info" as="info" name="sales.order.info">
+                <block class="Magento_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
+                    <block class="Magento_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml"/>
+                </block>
+            </block>
+            <block class="Magento_Rma_Block_Return_Returns" name="rma.return.returns"/>
+        </reference>
+        <reference name="sales.order.info">
+            <action method="addLink">
+                <argument name="name" xsi:type="string">view</argument>
+                <argument name="path" xsi:type="string">sales/order/view</argument>
+                <argument translate="true" name="label" xsi:type="string">Order Information</argument>
+            </action>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">invoice</argument>
+                <argument name="path" xsi:type="string">sales/order/invoice</argument>
+                <argument translate="true" name="label" xsi:type="string">Invoices</argument>
+            </action>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">shipment</argument>
+                <argument name="path" xsi:type="string">sales/order/shipment</argument>
+                <argument translate="true" name="label" xsi:type="string">Shipments</argument>
+            </action>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">creditmemo</argument>
+                <argument name="path" xsi:type="string">sales/order/creditmemo</argument>
+                <argument translate="true" name="label" xsi:type="string">Refunds</argument>
+            </action>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">returns</argument>
+                <argument name="path" xsi:type="string"/>
+                <argument translate="true" name="label" xsi:type="string">Returns</argument>
+            </action>
+        </reference>
+    </handle>
+</layout>

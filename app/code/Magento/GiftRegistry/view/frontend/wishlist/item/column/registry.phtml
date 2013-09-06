@@ -1,0 +1,23 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if ($this->checkProductType($this->getItem()->getProduct())): ?>
+    <div class="split-button giftregisty-add light">
+        <strong><?php echo __('Add to Gift Registry');?></strong>
+        <a href="#" class="change"><?php echo __('Add To:') ?></a>
+        <div class="list-container">
+            <ul>
+                <?php foreach ($this->getGiftRegistryList() as $_entity):?>
+                    <li data-wishlist-to-giftregistry='{"itemId":"<?php echo $this->getItem()->getId() ?>", "entity":"<?php echo $_entity->getValue()?>", "url":"<?php echo $this->getUrl('giftregistry/index/wishlist') ?>"}'><span title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_String')->truncate($_entity->getTitle(), 40)); ?></span></li>
+                <?php endforeach;?>
+            </ul>
+        </div>
+    </div>
+<?php endif;?>

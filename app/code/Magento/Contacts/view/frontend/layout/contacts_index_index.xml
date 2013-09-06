@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Contact Us Form" id="contacts_index_index" type="page" parent="cms_page_view">
+        <reference name="head">
+            <action method="setTitle">
+                <argument translate="true" name="title" xsi:type="string">Contact Us</argument>
+            </action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">2columns-right.phtml</argument>
+            </action>
+            <action method="setHeaderTitle">
+                <argument translate="true" name="title" xsi:type="string">Contact Us</argument>
+            </action>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Core_Block_Template" name="contactForm" template="Magento_Contacts::form.phtml">
+                <container name="form.additional.info" label="Form Additional Info"/>
+            </block>
+        </reference>
+    </handle>
+</layout>

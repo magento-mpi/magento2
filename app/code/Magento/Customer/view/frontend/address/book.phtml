@@ -1,0 +1,89 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    customer address book
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Temlate for Magento_Customer_Block_Address_Book block
+ * @var $this Magento_Customer_Block_Address_Book
+ */
+?>
+<div class="page-title title-buttons">
+    <h1><?php echo __('Address Book') ?></h1>
+    <button type="button" role="add-address" title="<?php echo __('Add New Address') ?>" class="button"><span><span><?php echo __('Add New Address') ?></span></span></button>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div class="col2-set addresses-list">
+    <div class="col-1 addresses-primary">
+        <h2><?php echo __('Default Addresses') ?></h2>
+        <ol>
+        <?php if($_pAddsses = $this->getDefaultBilling()): ?>
+            <li class="item">
+                <h3><?php echo __('Default Billing Address') ?></h3>
+                <address>
+                    <?php echo $this->getAddressHtml($this->getAddressById($_pAddsses)) ?>
+                </address>
+                <p><a href="<?php echo $this->getAddressEditUrl($this->getAddressById($_pAddsses)) ?>"><?php echo __('Change Billing Address') ?></a></p>
+           </li>
+        <?php else: ?>
+            <li class="item">
+                <h3><?php echo __('Default Billing Address') ?></h3>
+                <?php echo __('You have no default billing address in your address book.') ?>
+            </li>
+        <?php endif ?>
+
+        <?php if($_pAddsses = $this->getDefaultShipping()): ?>
+            <li class="item">
+                <h3><?php echo __('Default Shipping Address') ?></h3>
+                <address>
+                    <?php echo $this->getAddressHtml($this->getAddressById($_pAddsses)) ?>
+                </address>
+                <p><a href="<?php echo $this->getAddressEditUrl($this->getAddressById($_pAddsses)) ?>"><?php echo __('Change Shipping Address') ?></a></p>
+            </li>
+        <?php else: ?>
+            <li class="item empty">
+                <h3><?php echo __('Default Shipping Address') ?></h3>
+                <p><?php echo __('You have no default shipping address in your address book.') ?></p>
+            </li>
+        <?php endif ?>
+        </ol>
+    </div>
+    <div class="col-2 addresses-additional">
+        <h2><?php echo __('Additional Address Entries') ?></h2>
+        <ol>
+        <?php if($_pAddsses = $this->getAdditionalAddresses()): ?>
+            <?php foreach($_pAddsses as $_address): ?>
+            <li class="item">
+                <address>
+                    <?php echo $this->getAddressHtml($_address) ?>
+                </address>
+                <p><a href="<?php echo $this->getUrl('customer/address/edit', array('id'=>$_address->getId())) ?>"><?php echo __('Edit Address') ?></a> <span class="separator">|</span> <a href="#" class="link-remove" role="delete-address" data-address="<?php echo $_address->getId() ?>"><?php echo __('Delete Address') ?></a></p>
+            </li>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <li class="item empty">
+                <p><?php echo __('You have no more address entries in your address book.') ?></p>
+            </li>
+        <?php endif ?>
+        </ol>
+    </div>
+</div>
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo __('Back') ?></a></p>
+</div>
+<script type="text/javascript">
+    head.js("<?php echo $this->getViewFileUrl('Magento_Customer::address.js');?>", function() {
+        jQuery('div.page-title').address({
+            deleteAddress: "li.item a[role='delete-address']",
+            deleteUrlPrefix: '<?php echo $this->getDeleteUrl() ?>id/',
+            addAddress: "div.title-buttons button[role='add-address']",
+            addAddressLocation: '<?php echo $this->getAddAddressUrl() ?>'
+        });
+    });
+</script>

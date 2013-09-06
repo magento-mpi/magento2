@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <googleoptimizer_setup>
+                <setup>
+                    <module>Magento_GoogleOptimizer</module>
+                </setup>
+            </googleoptimizer_setup>
+        </resources>
+    </global>
+    <frontend>
+        <translate>
+            <modules>
+                <Magento_GoogleOptimizer>
+                    <files>
+                        <default>Magento_GoogleOptimizer.csv</default>
+                    </files>
+                </Magento_GoogleOptimizer>
+            </modules>
+        </translate>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_GoogleOptimizer>
+                    <files>
+                        <default>Magento_GoogleOptimizer.csv</default>
+                    </files>
+                </Magento_GoogleOptimizer>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <google>
+            <optimizer>
+                <active>0</active>
+            </optimizer>
+        </google>
+    </default>
+</config>

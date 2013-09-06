@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/** @var $this Magento_Wishlist_Block_Customer_Wishlist_Item_Column */
+?>
+<?php
+    $product = $this->getItem()->getProduct();
+    $layout = $this->getLayout();
+?>
+<h3 class="product-name"><a href="<?php echo $this->getProductUrl($this->getItem()); ?>"><?php echo $this->escapeHtml($product->getName()) ?></a></h3>
+<div class="description std"><div class="inner"><?php echo $this->escapeHtml($this->stripTags($product->getShortDescription()));?></div></div>
+<?php foreach($this->getChildNames() as $childName):?>
+    <?php echo $layout->renderElement($childName, false);?>
+<?php endforeach;?>

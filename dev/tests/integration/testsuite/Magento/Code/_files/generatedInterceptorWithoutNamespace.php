@@ -40,7 +40,7 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceInterceptor ex
     /**
      * List of plugins
      *
-     * @var array
+     * @var \Magento_Interception_PluginList
      */
     protected $_pluginList = null;
 
@@ -57,10 +57,10 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceInterceptor ex
      * @param \Magento_ObjectManager_Factory $factory
      * @param \Magento_ObjectManager_ObjectManager $objectManager
      * @param string $subjectType
-     * @param array $pluginList
+     * @param \Magento_Interception_PluginList $pluginList
      * @param array $arguments
      */
-    public function __construct(\Magento_ObjectManager_Factory $factory, \Magento_ObjectManager_ObjectManager $objectManager, $subjectType, array $pluginList, array $arguments)
+    public function __construct(\Magento_ObjectManager_Factory $factory, \Magento_ObjectManager_ObjectManager $objectManager, $subjectType, \Magento_Interception_PluginList $pluginList, array $arguments)
     {
         $this->_factory = $factory;
         $this->_objectManager = $objectManager;
@@ -91,29 +91,25 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceInterceptor ex
      */
     protected function _invoke($methodName, array $methodArguments)
     {
-        $beforeMethodName = $methodName . 'Before';
-        if (isset($this->_pluginList[$beforeMethodName])) {
-            foreach ($this->_pluginList[$beforeMethodName] as $plugin) {
-                $methodArguments = $this->_objectManager->get($plugin)
-                    ->$beforeMethodName($methodArguments);
-            }
+        $beforeMethodName = 'before' . $methodName;
+        foreach ($this->_pluginList->getPlugins($this->_subjectType, $methodName, 'before') as $plugin) {
+            $methodArguments = $this->_objectManager->get($plugin)
+                ->$beforeMethodName($methodArguments);
         }
-        $aroundMethodName = $methodName . 'Around';
-        $insteadPluginList = isset($this->_pluginList[$aroundMethodName])
-            ? $this->_pluginList[$aroundMethodName] : array();
-        $invocationChain = new Magento_Code_Plugin_InvocationChain(
+        $invocationChain = new \Magento_Code_Plugin_InvocationChain(
             $this->_getSubject(),
             $methodName,
             $this->_objectManager,
-            $insteadPluginList
+            $this->_pluginList->getPlugins($this->_subjectType, $methodName, 'around')
         );
         $invocationResult = $invocationChain->proceed($methodArguments);
-        $afterMethodName = $methodName . 'After';
-        if (isset($this->_pluginList[$afterMethodName])) {
-            foreach (array_reverse($this->_pluginList[$afterMethodName]) as $plugin) {
-                $invocationResult = $this->_objectManager->get($plugin)
-                    ->$afterMethodName($invocationResult);
-            }
+        $afterMethodName = 'after' . $methodName;
+        $afterPlugins = array_reverse(
+            $this->_pluginList->getPlugins($this->_subjectType, $methodName, 'after')
+        );
+        foreach ($afterPlugins as $plugin) {
+            $invocationResult = $this->_objectManager->get($plugin)
+                ->$afterMethodName($invocationResult);
         }
         return $invocationResult;
     }
@@ -124,7 +120,7 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceInterceptor ex
     public function __sleep()
     {
         $this->_getSubject();
-        return array('_subject', '_pluginList');
+        return array('_subject', '_subjectType');
     }
 
     /**
@@ -141,6 +137,7 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceInterceptor ex
     public function __wakeup()
     {
         $this->_objectManager = Mage::getObjectManager();
+        $this->_pluginList = $this->_objectManager->get('Magento_Interception_PluginList');
     }
 
     /**

@@ -8,19 +8,19 @@
  * @license     {license_link}
  */
 
-$themeOne = new Varien_Object(array(
+$themeOne = new Magento_Object(array(
     'area' => 'area_one',
     'theme_path' => 'fixture/theme_one',
 ));
-$themeTwo = new Varien_Object(array(
+$themeTwo = new Magento_Object(array(
     'area' => 'area_one',
     'theme_path' => 'fixture/theme_two',
 ));
-$themeThree = new Varien_Object(array(
+$themeThree = new Magento_Object(array(
     'area' => 'area_two',
     'theme_path' => 'fixture/theme_three',
 ));
-$themeFour = new Varien_Object(array(
+$themeFour = new Magento_Object(array(
     'area' => 'area_two',
     'theme_path' => 'fixture/theme_four',
 ));
@@ -45,17 +45,17 @@ return array(
         'filesystem_glob_map' => array(
             array(
                 '/base/dir/area_one/fixture/theme_one/', '*_*',
-                array('/base/dir/area_one/fixture/theme_one/Mage_Core'),
+                array('/base/dir/area_one/fixture/theme_one/Magento_Core'),
             ),
         ),
         'expected_result' => array(
             array(
-                'source' => '/base/dir/area_one/fixture/theme_one/Mage_Core',
+                'source' => '/base/dir/area_one/fixture/theme_one/Magento_Core',
                 'destinationContext' => array(
                     'area' => 'area_one',
                     'themePath' => 'fixture/theme_one',
                     'locale' => null,
-                    'module' => 'Mage_Core',
+                    'module' => 'Magento_Core',
                 ),
             ),
             array(

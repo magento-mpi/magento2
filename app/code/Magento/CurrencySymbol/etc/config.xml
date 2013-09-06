@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CurrencySymbol
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_CurrencySymbol>
+                    <files>
+                        <default>Magento_CurrencySymbol.csv</default>
+                    </files>
+                </Magento_CurrencySymbol>
+            </modules>
+        </translate>
+    </adminhtml>
+</config>

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CatalogPermissions
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <catalogpermissions_setup>
+                <setup>
+                    <module>Magento_CatalogPermissions</module>
+                    <class>Magento_CatalogPermissions_Model_Resource_Setup</class>
+                </setup>
+            </catalogpermissions_setup>
+        </resources>
+        <index>
+            <indexer>
+                <catalogpermissions>
+                    <model>Magento_CatalogPermissions_Model_Permission_Index</model>
+                </catalogpermissions>
+            </indexer>
+        </index>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_CatalogPermissions>
+                    <files>
+                        <default>Magento_CatalogPermissions.csv</default>
+                    </files>
+                </Magento_CatalogPermissions>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frontend>
+        <translate>
+            <modules>
+                <Magento_CatalogPermissions>
+                    <files>
+                        <default>Magento_CatalogPermissions.csv</default>
+                    </files>
+                </Magento_CatalogPermissions>
+            </modules>
+        </translate>
+    </frontend>
+    <default>
+        <catalog>
+            <magento_catalogpermissions>
+                <grant_catalog_category_view>0</grant_catalog_category_view>
+                <grant_catalog_product_price>0</grant_catalog_product_price>
+                <grant_checkout_items>0</grant_checkout_items>
+                <restricted_landing_page>no-route</restricted_landing_page>
+                <deny_catalog_search />
+                <enabled>0</enabled>
+            </magento_catalogpermissions>
+        </catalog>
+    </default>
+</config>

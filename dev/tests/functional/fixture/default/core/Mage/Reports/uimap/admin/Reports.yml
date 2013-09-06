@@ -146,7 +146,25 @@ report_product_lowstock:
     mca: report_product/lowstock/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/lowstock/')]
     title: Low Stock Report / Products / Reports / Magento Admin
-    uimap: ~
+    uimap:
+        form:
+            fieldsets:
+                -
+                    report_product_lowstock_grid:
+                        xpath: //div[@id='gridLowstock']
+                        fields:
+                            page: //input[@name='page']
+                            filter_product: //input[@id='gridLowstock_filter_name']
+                            filter_sku: //input[@id='gridLowstock_filter_sku']
+                            filter_stock_quantity_from: //input[@id='gridLowstock_filter_qty_from']
+                            filter_stock_quantity_to: //input[@id='gridLowstock_filter_qty_to']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            export_to: //select[@id='gridLowstock_export']
+                        buttons:
+                            export: //button[span='Export']
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
 
 # Products: Downloads page
 report_product_downloads:

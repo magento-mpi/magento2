@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Webhook
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+<<<<<<< HEAD:app/code/Mage/Webhook/etc/webapi.xml
+    <service class="Mage_Webhook_Service_SubscriptionV1Interface" baseUrl="/V1/subscriptions">
+=======
+    <service class="Magento_Webhook_Service_SubscriptionV1" baseUrl="/V1/subscriptions">
+>>>>>>> upstream/develop:app/code/Magento/Webhook/etc/webapi.xml
+        <rest-route httpMethod="GET" method="getAll" secure="true"/>
+        <rest-route httpMethod="POST" method="create" secure="true"/>
+        <rest-route httpMethod="PUT" method="update" secure="true">/:subscriptionId</rest-route>
+        <rest-route httpMethod="GET" method="get" secure="true">/:subscriptionId</rest-route>
+        <rest-route httpMethod="DELETE" method="delete" secure="true">/:subscriptionId</rest-route>
+    </service>
+</config>

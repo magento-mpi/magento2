@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="adminhtml_sales_order_create_process_data">
+        <observer name="magento_giftwrapping" instance="Magento_GiftWrapping_Model_Observer" method="processOrderCreationData" />
+    </event>
+    <event name="sales_convert_order_to_quote">
+        <observer name="magento_giftwrapping" instance="Magento_GiftWrapping_Model_Observer" method="salesEventOrderToQuote" shared="false" />
+    </event>
+    <event name="sales_convert_order_item_to_quote_item">
+        <observer name="magento_giftwrapping" instance="Magento_GiftWrapping_Model_Observer" method="salesEventOrderItemToQuoteItem" shared="false" />
+    </event>
+</config>

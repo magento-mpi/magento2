@@ -1,169 +1,145 @@
 <?php
 /**
- * Magento_PubSub_EventManager
+ * Magento_PubSub_Job_QueueHandler
+ *
+ * @magentoDbIsolation enabled
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * @magentoDbIsolation enabled
- */
-class Magento_PubSub_Job_QueueHandlerTests extends PHPUnit_Framework_TestCase
+class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Magento_PubSub_Job_QueueHandler
-     */
-    protected $_model;
+    /** @var  Magento_ObjectManager */
+    private $_objectManager;
 
-    /**
-     * Initialize the model
-     */
+    /** @var  PHPUnit_Framework_MockObject_MockObject  */
+    private $_transportMock;
+
+    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    private $_responseMock;
+
+    /** @var  Magento_Webhook_Model_Event */
+    private $_event;
+
+    /** @var  Magento_Webhook_Model_Subscription */
+    private $_subscription;
+    
     public function setUp()
     {
-        Mage::getObjectManager()->configure(array(
-            'Mage_Core_Model_Config_Base' => array(
-                'parameters' => array(
-                    'sourceData' => __DIR__ . '/../_files/config.xml',
-                ),
-            ),
-            'Mage_Webhook_Model_Resource_Subscription' => array(
-                'parameters' => array(
-                    'config' => array('instance' => 'Mage_Core_Model_Config_Base'),
-                ),
-            )
-        ));
+        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
 
-        /** @var Mage_Webhook_Model_Resource_Event_Collection $eventCollection */
-        $eventCollection = Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Event_Collection')
-            ->addFieldToFilter('status', Magento_PubSub_EventInterface::READY_TO_SEND);
-        /** @var array $event */
-        $events = $eventCollection->getItems();
-        /** @var Mage_Webhook_Model_Event $event */
-        foreach ($events as $event) {
-            $event->markAsProcessed();
-            $event->save();
-        }
-        /** @var $factory Mage_Webhook_Model_Event_Factory */
-        $factory = Mage::getObjectManager()->create('Magento_PubSub_Event_FactoryInterface');
+        // Must mock transport to avoid actual network actions
+        $this->_transportMock = $this->getMockBuilder('Magento_Outbound_Transport_Http')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_responseMock = $this->getMockBuilder('Magento_Outbound_Transport_Http_Response')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_transportMock->expects($this->any())
+            ->method('dispatch')
+            ->will($this->returnValue($this->_responseMock));
 
-        /** @var $event Mage_Webhook_Model_Event */
-        $factory->create('testinstance/created', array(
-            'testKey1' => 'testValue1'
-        ))->save();
-
-        $factory->create('testinstance/updated', array(
-            'testKey2' => 'testValue2'
-        ))->save();
-
-        $webApiUser = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_User')
-            ->setData('api_key', 'test')
-            ->setData('secret', 'secret')
+        /** Magento_Webapi_Model_Acl_User $user */
+        $user = $this->_objectManager->create('Magento_Webapi_Model_Acl_User')
+            ->setSecret('shhh...')
+            ->setApiKey(uniqid())
             ->save();
 
-        $endpoint = Mage::getObjectManager()->create('Mage_Webhook_Model_Endpoint')
-            ->setData(
-                array(
-                    'endpoint_url' => 'http://test.domain.com/',
-                    'format' => 'json',
-                    'authentication_type' => 'hmac',
-                    'api_user_id' => $webApiUser->getId(),
-                    'timeout_in_secs' => 20,
-                )
-            )
+        /** @var Magento_Webhook_Model_Event $_event */
+        $this->_event = Mage::getModel('Magento_Webhook_Model_Event')
+            ->setTopic('topic')
+            ->setBodyData(array('body data'))
             ->save();
-
-        /** @var Mage_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getObjectManager()->create('Mage_Webhook_Model_Subscription');
-        $subscription->setData(
-            array(
-                'name' => 'test',
-                'status' => 1,
-                'version' => 1,
-                'alias' => 'test',
-                'topics' => array(
-                    'testinstance/created',
-                    'testinstance/updated'
-                ),
-                'endpoint_id' => $endpoint->getId(),
-            ))->save();
-
-        Mage::getObjectManager()->get('Magento_PubSub_Event_QueueHandler')
-            ->handle();
-
-        /** @var $transport Magento_Outbound_Transport_Http */
-        $transport = Mage::getObjectManager()->create('Magento_Outbound_Transport_Http', array(
-             'curl' => $this->_initHttpAdapter()
-        ));
-
-        $this->_model = Mage::getObjectManager()->create('Magento_PubSub_Job_QueueHandler', array(
-            'transport' => $transport
-        ));
+        /** @var Magento_Webhook_Model_Subscription $_subscription */
+        $this->_subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription')
+            ->setFormat('json')
+            ->setAuthenticationType('hmac')
+            ->setApiUserId($user->getId())
+            ->save();
     }
-
+    
     /**
-     * Test the main flow of event queue handling
+     * Test the main flow of event queue handling given a successful job
      */
-    public function testHandle()
+    public function testHandleSuccess()
     {
-        $this->_model->handle();
-    }
+        $this->_responseMock->expects($this->any())
+            ->method('isSuccessful')
+            ->will($this->returnValue(true));
 
-    /**
-     * @return Varien_Http_Adapter_Curl
-     */
-    protected function _initHttpAdapter()
-    {
-        /** @var $httpAdapterMock Varien_Http_Adapter_Curl */
-        $httpAdapterMock = $this->getMock('Varien_Http_Adapter_Curl', array('setConfig', 'write', 'read'));
-        $config = array(
-            'verifypeer' => TRUE,
-            'verifyhost' => 2,
-            'timeout' => 20
+        $queueWriter = $this->_objectManager->create('Magento_PubSub_Job_QueueWriterInterface');
+
+        /** @var Magento_Webhook_Model_Job $job */
+        $job = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Webhook_Model_Job');
+        $job->setEventId($this->_event->getId());
+        $job->setSubscriptionId($this->_subscription->getId());
+        $jobId = $job->save()
+            ->getId();
+        $queueWriter->offer($job);
+
+        // Must clear collection to avoid interaction with other tests
+        /** @var Magento_Webhook_Model_Resource_Job_Collection $collection */
+        $collection = $this->_objectManager->create('Magento_Webhook_Model_Resource_Job_Collection');
+        $collection->removeAllItems();
+        $queueArgs = array(
+            'collection' => $collection
         );
-        $httpAdapterMock->expects($this->at(0))
-            ->method('setConfig')
-            ->with($config);
 
-        $httpAdapterMock->expects($this->at(1))
-            ->method('write')
-            ->with(
-                $this->equalTo('POST'),
-                $this->equalTo('http://test.domain.com/'),
-                $this->equalTo('1.1'),
-                $this->anything(),
-                $this->equalTo('{"testKey1":"testValue1"}')
-            );
+        $queueReader = $this->_objectManager->create('Magento_PubSub_Job_QueueReaderInterface', $queueArgs);
+        $queueHandlerArgs = array(
+            'jobQueueReader' => $queueReader,
+            'jobQueueWriter' => $queueWriter,
+            'transport' => $this->_transportMock
+        );
 
-        $response = 'HTTP/1.1 200 OK
-Content-Type: text/plain; charset=utf-8
-Content-Length: 20
+        /** @var Magento_PubSub_Job_QueueHandler $queueHandler */
+        $queueHandler = $this->_objectManager->create('Magento_PubSub_Job_QueueHandler', $queueHandlerArgs);
+        $queueHandler->handle();
+        $loadedJob = $this->_objectManager->create('Magento_Webhook_Model_Job')
+            ->load($jobId);
 
-OK';
-        $httpAdapterMock->expects($this->at(2))
-            ->method('read')
-            ->will($this->returnValue($response));
+        $this->assertEquals(Magento_PubSub_JobInterface::STATUS_SUCCEEDED, $loadedJob->getStatus());
+    }
 
-        $httpAdapterMock->expects($this->at(3))
-            ->method('setConfig')
-            ->with($config);
+    public function testHandleFailure()
+    {
+        $this->_responseMock->expects($this->any())
+            ->method('isSuccessful')
+            ->will($this->returnValue(false));
 
-        $httpAdapterMock->expects($this->at(4))
-            ->method('write')
-            ->with(
-                $this->equalTo('POST'),
-                $this->equalTo('http://test.domain.com/'),
-                $this->equalTo('1.1'),
-                $this->anything(),
-                $this->equalTo('{"testKey2":"testValue2"}')
-            );
+        $queueWriter = $this->_objectManager->create('Magento_PubSub_Job_QueueWriterInterface');
 
-        $httpAdapterMock->expects($this->at(5))
-            ->method('read')
-            ->will($this->returnValue($response));
+        /** @var Magento_Webhook_Model_Job $job */
+        $job = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Webhook_Model_Job');
+        $job->setEventId($this->_event->getId());
+        $job->setSubscriptionId($this->_subscription->getId());
+        $jobId = $job->save()
+            ->getId();
+        $queueWriter->offer($job);
 
-        return $httpAdapterMock;
+        // Must clear collection to avoid interaction with other tests
+        /** @var Magento_Webhook_Model_Resource_Job_Collection $collection */
+        $collection = $this->_objectManager->create('Magento_Webhook_Model_Resource_Job_Collection');
+        $collection->removeAllItems();
+        $queueArgs = array(
+            'collection' => $collection
+        );
+
+        $queueReader = $this->_objectManager->create('Magento_PubSub_Job_QueueReaderInterface', $queueArgs);
+        $queueHandlerArgs = array(
+            'jobQueueReader' => $queueReader,
+            'jobQueueWriter' => $queueWriter,
+            'transport' => $this->_transportMock
+        );
+
+        /** @var Magento_PubSub_Job_QueueHandler $queueHandler */
+        $queueHandler = $this->_objectManager->create('Magento_PubSub_Job_QueueHandler', $queueHandlerArgs);
+        $queueHandler->handle();
+        $loadedJob = $this->_objectManager->create('Magento_Webhook_Model_Job')
+            ->load($jobId);
+
+        $this->assertEquals(Magento_PubSub_JobInterface::STATUS_RETRY, $loadedJob->getStatus());
     }
 }

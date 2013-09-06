@@ -29,6 +29,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     protected static $_constants  = array();
     protected static $_methods    = array();
     protected static $_attributes = array();
+    protected static $_namespaces = array();
     /**#@-*/
 
     /**
@@ -40,6 +41,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
         self::_populateList(self::$_classes, $errors, 'obsolete_classes*.php', false);
         self::_populateList(self::$_constants, $errors, 'obsolete_constants*.php');
         self::_populateList(self::$_methods, $errors, 'obsolete_methods*.php');
+        self::_populateList(self::$_namespaces, $errors, 'obsolete_namespaces*.php', false);
         self::_populateList(self::$_attributes, $errors, 'obsolete_properties*.php');
         if ($errors) {
             $message = 'Duplicate patterns identified in list declarations:' . PHP_EOL . PHP_EOL;
@@ -122,6 +124,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
         $this->_testObsoleteActions($content);
         $this->_testObsoleteConstants($content);
         $this->_testObsoletePropertySkipCalculate($content);
+        $this->_testObsoleteNamespace($file);
     }
 
     /**
@@ -134,12 +137,31 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $file
+     * @dataProvider phtmlFileDataProvider
+     */
+    public function testTemplateMageCall($file)
+    {
+        $content = file_get_contents($file);
+        $this->_assertNotRegExp('/\bMage::(\w+?)\(/iS', $content, "Static Method of 'Mage' class is obsolete.");
+    }
+
+    /**
+     * @return array
+     */
+    public function phtmlFileDataProvider()
+    {
+        return Utility_Files::init()->getPhpFiles(false, false, true);
+    }
+
+    /**
+     * @param string $file
      * @dataProvider xmlFileDataProvider
      */
     public function testXmlFile($file)
     {
         $content = file_get_contents($file);
         $this->_testObsoleteClasses($content, $file);
+        $this->_testObsoleteNamespace($file);
     }
 
     /**
@@ -224,6 +246,28 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Assert that obsolete namespaces are not used in the content
+     *
+     * This method will search the content for references to class
+     * that start with obsolete namespace
+     *
+     * @param string $content
+     */
+    protected function _testObsoleteNamespace($file)
+    {
+        foreach (self::$_namespaces as $row) {
+            list($namespacePath, , $replacementPath) = $row;
+            $relativePath = str_replace(Utility_Files::init()->getPathToSource(), "", $file);
+            $namespacePathArray = explode('/', $namespacePath);
+            $namespace = $namespacePathArray[4];
+            $replacementPathArray = explode('/', $replacementPath);
+            $replacement = $replacementPathArray[3];
+            $message = $this->_suggestReplacement("Namespace '{$namespace}' is obsolete.", $replacement);
+            $this->assertStringStartsNotWith($namespace, $relativePath, $message);
+        }
+    }
+
+    /**
      * Special case: don't allow usage of getChild() method anywhere within app directory
      *
      * In Magento 1.x it used to belong only to abstract block (therefore all blocks)
@@ -236,7 +280,8 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     {
         if (0 === strpos($file, Utility_Files::init()->getPathToSource() . '/app/')) {
             $this->_assertNotRegexp('/[^a-z\d_]getChild\s*\(/iS', $content,
-                'Block method getChild() is obsolete. Replacement suggestion: Mage_Core_Block_Abstract::getChildBlock()'
+                'Block method getChild() is obsolete. ' .
+                'Replacement suggestion: Magento_Core_Block_Abstract::getChildBlock()'
             );
         }
     }
@@ -252,7 +297,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
             '/getOptions\(\)\s*->get(Base|App|Code|Design|Etc|Lib|Locale|Js|Media'
                 .'|Var|Tmp|Cache|Log|Session|Upload|Export)?Dir\(/S',
             $content,
-            'The class Mage_Core_Model_Config_Options is obsolete. Replacement suggestion: Mage_Core_Model_Dir'
+            'The class Magento_Core_Model_Config_Options is obsolete. Replacement suggestion: Magento_Core_Model_Dir'
         );
     }
 

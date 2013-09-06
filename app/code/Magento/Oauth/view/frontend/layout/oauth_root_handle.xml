@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="oauth_root_handle">
+        <reference name="root">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">1column.phtml</argument>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">lib/ccard.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/controls.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/builder.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/dragdrop.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/controls.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">scriptaculous/slider.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">varien/js.js</argument>
+            </action>
+            <action method="removeItem">
+                <argument name="type" xsi:type="string">js</argument>
+                <argument name="name" xsi:type="string">varien/menu.js</argument>
+            </action>
+        </reference>
+        <remove name="top.links"/>
+        <remove name="top.search"/>
+        <remove name="top.menu"/>
+        <remove name="footer"/>
+    </handle>
+</layout>

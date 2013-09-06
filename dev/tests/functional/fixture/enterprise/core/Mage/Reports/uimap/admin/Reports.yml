@@ -117,4 +117,59 @@ customer_segment_report:
 customer_wishlist_report:
     mca: report_customer_wishlist/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_wishlist/')]
-    title: Customer Wishlist Report / Customers / Reports / Magento Admin
+    title: Customer Wish List Report / Customers / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    customer_wishlist_report_grid:
+                        xpath: //div[@id='gridReportWishlists']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                            export: //button[span='Export']
+                        fields:
+                            filter_from: //input[@name='added_at[from]']
+                            filter_to: //input[@name='added_at[to]']
+                            comment: //input[@id='gridReportWishlists_filter_item_comment']
+                            wishlist_quantity_from: //input[@id='gridReportWishlists_filter_item_qty_from']
+                            wishlist_quantity_to: //input[@id='gridReportWishlists_filter_item_qty_to']
+                            store_quantity_from: //input[@id='gridReportWishlists_filter_product_qty_from']
+                            store_quantity_to: //input[@id='gridReportWishlists_filter_product_qty_to']
+                            surplus_from: //input[@id='gridReportWishlists_filter_qty_diff_from']
+                            surplus_to: //input[@id='gridReportWishlists_filter_qty_diff_to']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            filter_status: //select[@id='gridReportWishlists_filter_visibility']
+
+# Customer Segment Report page
+customer_segment_report_detail:
+    mca: report_customer_customersegment/detail/segment_id/%id%/
+    title: Details / Customer Segment Report / Customers / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    customer_segment_report_detail_grid:
+                        xpath: //div[@id='segmentGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                            export: //button[span='Export']
+                        fields:
+                            id_from: //input[@id='segmentGrid_filter_grid_entity_id_from']
+                            id_to: //input[@id='segmentGrid_filter_grid_entity_id_to']
+                            name: //input[@id='segmentGrid_filter_grid_name']
+                            email: //input[@id='segmentGrid_filter_grid_email']
+                            phone: //input[@id='segmentGrid_filter_grid_telephone']
+                            zip: //input[@id='segmentGrid_filter_grid_billing_postcode']
+                            state: //input[@id='segmentGrid_filter_grid_billing_region']
+                            customer_from: //input[@name='grid_customer_since[from]']
+                            customer_to: //input[@name='grid_customer_since[to]']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            group: //select[@id='segmentGrid_filter_grid_group']
+                            country: //select[@id='segmentGrid_filter_grid_billing_country_id']
+            buttons:
+                back: //button[@id='back']
+                refresh_data: //button[@id='refresh']

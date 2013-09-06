@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,8 +30,8 @@ if (strpos($_includePath, $_libDir) === false) {
 /**
  * Class for connect
  *
- * @category   Mage
- * @package    Mage_Connect
+ * @category   Magento
+ * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Maged_Connect
@@ -40,21 +40,21 @@ class Maged_Connect
     /**
      * Object of config
      *
-     * @var Mage_Connect_Config
+     * @var Magento_Connect_Config
      */
     protected $_config;
 
     /**
      * Object of single config
      *
-     * @var Mage_Connect_Singleconfig
+     * @var Magento_Connect_Singleconfig
      */
     protected $_sconfig;
 
     /**
     * Object of frontend
     *
-    * @var Mage_Connect_Frontend
+    * @var Magento_Connect_Frontend
     */
     protected $_frontend;
 
@@ -113,49 +113,49 @@ class Maged_Connect
     }
 
     /**
-     * Retrieve object of config and set it to Mage_Connect_Command
+     * Retrieve object of config and set it to Magento_Connect_Command
      *
-     * @return Mage_Connect_Config
+     * @return Magento_Connect_Config
      */
     public function getConfig()
     {
         if (!$this->_config) {
-            $this->_config = new Mage_Connect_Config();
+            $this->_config = new Magento_Connect_Config();
             $ftp=$this->_config->__get('remote_config');
             if(!empty($ftp)){
-                $packager = new Mage_Connect_Packager();
+                $packager = new Magento_Connect_Packager();
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
                 $this->_config=$config;
                 $this->_sconfig=$cache;
             }
             $this->_config->magento_root = dirname(dirname(__FILE__)).DS.'..';
-            Mage_Connect_Command::setConfigObject($this->_config);
+            Magento_Connect_Command::setConfigObject($this->_config);
         }
         return $this->_config;
     }
 
     /**
-     * Retrieve object of single config and set it to Mage_Connect_Command
+     * Retrieve object of single config and set it to Magento_Connect_Command
      *
      * @param bool $reload
-     * @return Mage_Connect_Singleconfig
+     * @return Magento_Connect_Singleconfig
      */
     public function getSingleConfig($reload = false)
     {
         if(!$this->_sconfig || $reload) {
-            $this->_sconfig = new Mage_Connect_Singleconfig(
+            $this->_sconfig = new Magento_Connect_Singleconfig(
                 $this->getConfig()->magento_root . DIRECTORY_SEPARATOR
                 . $this->getConfig()->downloader_path . DIRECTORY_SEPARATOR
-                . Mage_Connect_Singleconfig::DEFAULT_SCONFIG_FILENAME
+                . Magento_Connect_Singleconfig::DEFAULT_SCONFIG_FILENAME
             );
         }
-        Mage_Connect_Command::setSconfig($this->_sconfig);
+        Magento_Connect_Command::setSconfig($this->_sconfig);
         return $this->_sconfig;
 
     }
 
     /**
-     * Retrieve object of frontend and set it to Mage_Connect_Command
+     * Retrieve object of frontend and set it to Magento_Connect_Command
      *
      * @return Maged_Connect_Frontend
      */
@@ -163,7 +163,7 @@ class Maged_Connect
     {
         if (!$this->_frontend) {
             $this->_frontend = new Maged_Connect_Frontend();
-            Mage_Connect_Command::setFrontendObject($this->_frontend);
+            Magento_Connect_Command::setFrontendObject($this->_frontend);
         }
         return $this->_frontend;
     }
@@ -221,12 +221,12 @@ class Maged_Connect
     }
 
     /**
-     * Run commands from Mage_Connect_Command
+     * Run commands from Magento_Connect_Command
      *
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return boolean|Mage_Connect_Error
+     * @return boolean|Magento_Connect_Error
      */
     public function run($command, $options=array(), $params=array())
     {
@@ -234,18 +234,18 @@ class Maged_Connect
         @ini_set('memory_limit', '256M');
 
         if (empty($this->_cmdCache[$command])) {
-            Mage_Connect_Command::getCommands();
+            Magento_Connect_Command::getCommands();
             /**
-            * @var $cmd Mage_Connect_Command
+            * @var $cmd Magento_Connect_Command
             */
-            $cmd = Mage_Connect_Command::getInstance($command);
-            if ($cmd instanceof Mage_Connect_Error) {
+            $cmd = Magento_Connect_Command::getInstance($command);
+            if ($cmd instanceof Magento_Connect_Error) {
                 return $cmd;
             }
             $this->_cmdCache[$command] = $cmd;
         } else {
             /**
-            * @var $cmd Mage_Connect_Command
+            * @var $cmd Magento_Connect_Command
             */
             $cmd = $this->_cmdCache[$command];
         }
@@ -296,11 +296,11 @@ class Maged_Connect
     }
 
     /**
-     * Run Mage_Connect_Command with html output console style
+     * Run Magento_Connect_Command with html output console style
      *
      * @throws Maged_Exception
      * @param array|string|Maged_Model $runParams command, options, params, comment, success_callback, failure_callback
-     * @return bool|Mage_Connect_Error
+     * @return bool|Magento_Connect_Error
      */
     public function runHtmlConsole($runParams)
     {

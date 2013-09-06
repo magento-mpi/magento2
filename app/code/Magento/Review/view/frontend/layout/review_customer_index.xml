@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer My Account Product Reviews" id="review_customer_index" type="page" parent="customer_account_index">
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block class="Magento_Review_Block_Customer_List" name="review_customer_list" template="customer/list.phtml"/>
+        </reference>
+    </handle>
+</layout>

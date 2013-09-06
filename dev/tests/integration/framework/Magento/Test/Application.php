@@ -31,7 +31,7 @@ class Magento_Test_Application
     protected $_db;
 
     /**
-     * @var Varien_Simplexml_Element
+     * @var Magento_Simplexml_Element
      */
     protected $_localXml;
 
@@ -40,7 +40,7 @@ class Magento_Test_Application
      *
      * @var array
      */
-    protected $_globalEtcFiles;
+    protected $_globalConfigDir;
 
     /**
      * Module declaration *.xml configuration files
@@ -85,22 +85,29 @@ class Magento_Test_Application
     protected $_appArea = null;
 
     /**
+     * Primary DI Config
+     *
+     * @var array
+     */
+    protected $_primaryConfig = array();
+
+    /**
      * Constructor
      *
      * @param Magento_Test_Db_DbAbstract $dbInstance
      * @param string $installDir
-     * @param Varien_Simplexml_Element $localXml
-     * @param array $globalEtcFiles
+     * @param Magento_Simplexml_Element $localXml
+     * @param $globalConfigDir
      * @param array $moduleEtcFiles
      * @param string $appMode
      */
     public function __construct(
-        Magento_Test_Db_DbAbstract $dbInstance, $installDir, Varien_Simplexml_Element $localXml,
-        array $globalEtcFiles, array $moduleEtcFiles, $appMode
+        Magento_Test_Db_DbAbstract $dbInstance, $installDir, Magento_Simplexml_Element $localXml,
+        $globalConfigDir, array $moduleEtcFiles, $appMode
     ) {
         $this->_db              = $dbInstance;
         $this->_localXml        = $localXml;
-        $this->_globalEtcFiles  = $globalEtcFiles;
+        $this->_globalConfigDir = realpath($globalConfigDir);
         $this->_moduleEtcFiles  = $moduleEtcFiles;
         $this->_appMode = $appMode;
 
@@ -110,12 +117,12 @@ class Magento_Test_Application
         $generationDir = "$installDir/generation";
         $this->_initParams = array(
             Mage::PARAM_APP_DIRS => array(
-                Mage_Core_Model_Dir::CONFIG      => $this->_installEtcDir,
-                Mage_Core_Model_Dir::VAR_DIR     => $installDir,
-                Mage_Core_Model_Dir::MEDIA       => "$installDir/media",
-                Mage_Core_Model_Dir::STATIC_VIEW => "$installDir/pub_static",
-                Mage_Core_Model_Dir::PUB_VIEW_CACHE => "$installDir/pub_cache",
-                Mage_Core_Model_Dir::GENERATION => $generationDir,
+                Magento_Core_Model_Dir::CONFIG      => $this->_installEtcDir,
+                Magento_Core_Model_Dir::VAR_DIR     => $installDir,
+                Magento_Core_Model_Dir::MEDIA       => "$installDir/media",
+                Magento_Core_Model_Dir::STATIC_VIEW => "$installDir/pub_static",
+                Magento_Core_Model_Dir::PUB_VIEW_CACHE => "$installDir/pub_cache",
+                Magento_Core_Model_Dir::GENERATION => $generationDir,
             ),
             Mage::PARAM_MODE => $appMode
         );
@@ -169,27 +176,56 @@ class Magento_Test_Application
         $overriddenParams[Mage::PARAM_BASEDIR] = BP;
         $overriddenParams[Mage::PARAM_MODE] = $this->_appMode;
         Mage::$headersSentThrowsException = false;
-        $config = new Mage_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
-        if (!Mage::getObjectManager()) {
+        $config = new Magento_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
+        if (!Magento_Test_Helper_Bootstrap::getObjectManager()) {
             $objectManager = new Magento_Test_ObjectManager($config, new Magento_Test_ObjectManager_Config());
-            Mage::setObjectManager($objectManager);
+            $primaryLoader = new Magento_Core_Model_ObjectManager_ConfigLoader_Primary($config->getDirectories());
+            $this->_primaryConfig = $primaryLoader->load();
+            $objectManager->get('Magento_Core_Model_Resource')
+                ->setResourceConfig(Mage::getObjectManager()->get('Magento_Core_Model_Config_Resource'));
         } else {
-            $objectManager = Mage::getObjectManager();
+            $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
             $config->configure($objectManager);
-            $objectManager->addSharedInstance($config, 'Mage_Core_Model_Config_Primary');
-            $objectManager->addSharedInstance($config->getDirectories(), 'Mage_Core_Model_Dir');
+            $objectManager->addSharedInstance($config, 'Magento_Core_Model_Config_Primary');
+            $objectManager->addSharedInstance($config->getDirectories(), 'Magento_Core_Model_Dir');
+            $objectManager->loadPrimaryConfig($this->_primaryConfig);
+            /** @var $configResource Magento_Core_Model_Config_Resource */
+            $configResource = $objectManager->get('Magento_Core_Model_Config_Resource');
+            $configResource->setConfig($config);
+            $objectManager->get('Magento_Core_Model_Resource')->setResourceConfig($configResource);
+            $verification = $objectManager->get('Magento_Core_Model_Dir_Verification');
+            $verification->createAndVerifyDirectories();
+            $objectManager->configure(
+                $objectManager->get('Magento_Core_Model_ObjectManager_ConfigLoader')->load('global')
+            );
         }
+        Magento_Test_Helper_Bootstrap::setObjectManager($objectManager);
+        $objectManager->get('Magento_Core_Model_Resource')
+            ->setResourceConfig($objectManager->get('Magento_Core_Model_Config_Resource'));
+        $objectManager->get('Magento_Core_Model_Resource')
+            ->setCache($objectManager->get('Magento_Core_Model_CacheInterface'));
 
-        $objectManager->get('Mage_Core_Model_Resource')
-            ->setResourceConfig(Mage::getObjectManager()->get('Mage_Core_Model_Config_Resource'));
-        $objectManager->get('Mage_Core_Model_Resource')
-            ->setCache(Mage::getObjectManager()->get('Mage_Core_Model_CacheInterface'));
-
-        /** @var Mage_Core_Model_Dir_Verification $verification */
-        $verification = $objectManager->get('Mage_Core_Model_Dir_Verification');
+        /** Register event observer of Integration Framework */
+        /** @var Magento_Core_Model_Event_Config_Data $eventConfigData */
+        $eventConfigData = $objectManager->get('Magento_Core_Model_Event_Config_Data');
+        $eventConfigData->merge(
+            array('core_app_init_current_store_after' =>
+                array('integration_tests' =>
+                    array(
+                        'instance' => 'Magento_Test_Event_Magento',
+                        'method' => 'initStoreAfter',
+                        'name' => 'integration_tests'
+                    )
+                )
+            )
+        );
+        /** @var Magento_Core_Model_Dir_Verification $verification */
+        $verification = $objectManager->get('Magento_Core_Model_Dir_Verification');
         $verification->createAndVerifyDirectories();
 
         $this->loadArea(Magento_Test_Application::DEFAULT_APP_AREA);
+
+        Magento_Phrase::setRenderer($objectManager->get('Magento_Phrase_Renderer_Placeholder'));
     }
 
     /**
@@ -211,8 +247,8 @@ class Magento_Test_Application
      */
     public function run(Magento_Test_Request $request, Magento_Test_Response $response)
     {
-        $composer = Mage::getObjectManager();
-        $handler = $composer->get('Magento_Http_Handler_Composite');
+        $composer = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $handler = $composer->get('Magento_HTTP_Handler_Composite');
         $handler->handle($request, $response);
     }
 
@@ -240,17 +276,20 @@ class Magento_Test_Application
         $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'media');
         $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'static');
 
-        /* Copy configuration files */
-        $etcDirsToFilesMap = array(
-            $this->_installEtcDir              => $this->_globalEtcFiles,
-            $this->_installEtcDir . '/modules' => $this->_moduleEtcFiles,
+        // Copy configuration files
+        $globalConfigFiles = glob(
+            $this->_globalConfigDir . DIRECTORY_SEPARATOR . '{*,*' . DIRECTORY_SEPARATOR . '*}.xml', GLOB_BRACE
         );
-        foreach ($etcDirsToFilesMap as $targetEtcDir => $sourceEtcFiles) {
-            $this->_ensureDirExists($targetEtcDir);
-            foreach ($sourceEtcFiles as $sourceEtcFile) {
-                $targetEtcFile = $targetEtcDir . '/' . basename($sourceEtcFile);
-                copy($sourceEtcFile, $targetEtcFile);
-            }
+        foreach ($globalConfigFiles as $file) {
+            $targetFile = $this->_installEtcDir . str_replace($this->_globalConfigDir, '', $file);
+            $this->_ensureDirExists(dirname($targetFile));
+            copy($file, $targetFile);
+        }
+
+        foreach ($this->_moduleEtcFiles as $file) {
+            $targetModulesDir = $this->_installEtcDir . '/modules';
+            $this->_ensureDirExists($targetModulesDir);
+            copy($file, $targetModulesDir . DIRECTORY_SEPARATOR . basename($file));
         }
 
         /* Make sure that local.xml contains an invalid installation date */
@@ -267,16 +306,19 @@ class Magento_Test_Application
         $this->initialize();
 
         /* Run all install and data-install scripts */
-        /** @var $updater Mage_Core_Model_Db_Updater */
-        $updater = Mage::getObjectManager()->get('Mage_Core_Model_Db_Updater');
+        /** @var $updater Magento_Core_Model_Db_Updater */
+        $updater = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Db_Updater');
         $updater->updateScheme();
         $updater->updateData();
 
         /* Enable configuration cache by default in order to improve tests performance */
-        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
-        $cacheTypes = Mage::getObjectManager()->get('Mage_Core_Model_Cache_Types');
-        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, true);
-        $cacheTypes->persist();
+        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+        $cacheState->setEnabled(Magento_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, true);
+        $cacheState->setEnabled(Magento_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER, true);
+        $cacheState->setEnabled(Magento_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER, true);
+        $cacheState->setEnabled(Magento_Eav_Model_Cache_Type::TYPE_IDENTIFIER, true);
+        $cacheState->persist();
 
         /* Fill installation date in local.xml to indicate that application is installed */
         $localXml = file_get_contents($targetLocalXml);
@@ -310,20 +352,20 @@ class Magento_Test_Application
     protected function _resetApp()
     {
         /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $objectManager->clearCache();
 
-        $resource = Mage::registry('_singleton/Mage_Core_Model_Resource');
+        $resource = Mage::registry('_singleton/Magento_Core_Model_Resource');
 
         Mage::reset();
         Mage::setObjectManager($objectManager);
-        Varien_Data_Form::setElementRenderer(null);
-        Varien_Data_Form::setFieldsetRenderer(null);
-        Varien_Data_Form::setFieldsetElementRenderer(null);
+        Magento_Data_Form::setElementRenderer(null);
+        Magento_Data_Form::setFieldsetRenderer(null);
+        Magento_Data_Form::setFieldsetElementRenderer(null);
         $this->_appArea = null;
 
         if ($resource) {
-            Mage::register('_singleton/Mage_Core_Model_Resource', $resource);
+            Mage::register('_singleton/Magento_Core_Model_Resource', $resource);
         }
     }
 
@@ -349,7 +391,7 @@ class Magento_Test_Application
      */
     protected function _cleanupFilesystem()
     {
-        Varien_Io_File::rmdirRecursive($this->_installDir);
+        Magento_Io_File::rmdirRecursive($this->_installDir);
     }
 
     /**
@@ -361,8 +403,8 @@ class Magento_Test_Application
      */
     protected function _createAdminUser($adminUserName, $adminPassword, $adminRoleName)
     {
-        /** @var $user Mage_User_Model_User */
-        $user = mage::getModel('Mage_User_Model_User');
+        /** @var $user Magento_User_Model_User */
+        $user = mage::getModel('Magento_User_Model_User');
         $user->setData(array(
             'firstname' => 'firstname',
             'lastname'  => 'lastname',
@@ -373,16 +415,16 @@ class Magento_Test_Application
         ));
         $user->save();
 
-        /** @var $roleAdmin Mage_User_Model_Role */
-        $roleAdmin = Mage::getModel('Mage_User_Model_Role');
+        /** @var $roleAdmin Magento_User_Model_Role */
+        $roleAdmin = Mage::getModel('Magento_User_Model_Role');
         $roleAdmin->load($adminRoleName, 'role_name');
 
-        /** @var $roleUser Mage_User_Model_Role */
-        $roleUser = Mage::getModel('Mage_User_Model_Role');
+        /** @var $roleUser Magento_User_Model_Role */
+        $roleUser = Mage::getModel('Magento_User_Model_Role');
         $roleUser->setData(array(
             'parent_id'  => $roleAdmin->getId(),
             'tree_level' => $roleAdmin->getTreeLevel() + 1,
-            'role_type'  => Mage_User_Model_Acl_Role_User::ROLE_TYPE,
+            'role_type'  => Magento_User_Model_Acl_Role_User::ROLE_TYPE,
             'user_id'    => $user->getId(),
             'role_name'  => $user->getFirstname(),
         ));
@@ -408,11 +450,9 @@ class Magento_Test_Application
     {
         $this->_appArea = $area;
         if ($area == Magento_Test_Application::DEFAULT_APP_AREA) {
-            Mage::app()->loadAreaPart($area, Mage_Core_Model_App_Area::PART_CONFIG);
-            Mage::app()->loadAreaPart($area, Mage_Core_Model_App_Area::PART_EVENTS);
+            Mage::app()->loadAreaPart($area, Magento_Core_Model_App_Area::PART_CONFIG);
         } else {
             Mage::app()->loadArea($area);
-            Mage::getConfig()->setCurrentAreaCode($area);
         }
     }
 }

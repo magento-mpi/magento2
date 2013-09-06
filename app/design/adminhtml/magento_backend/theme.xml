@@ -1,0 +1,14 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<theme>
+    <title>Magento 2 backend</title>
+    <version>1.0.0.0</version>
+</theme>

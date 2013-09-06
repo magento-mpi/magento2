@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Theme
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_Theme::system_design_theme" title="Themes" module="Magento_Theme" sortOrder="20" parent="Magento_Adminhtml::system_design" action="adminhtml/system_design_theme" resource="Magento_Theme::theme"/>
+    </menu>
+</config>

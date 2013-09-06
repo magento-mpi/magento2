@@ -42,7 +42,7 @@ class Magento_Performance_Bootstrap
     public function cleanupReports()
     {
         $reportDir = $this->_config->getReportDir();
-        if (file_exists($reportDir) && !Varien_Io_File::rmdirRecursive($reportDir)) {
+        if (file_exists($reportDir) && !Magento_Io_File::rmdirRecursive($reportDir)) {
             throw new Magento_Exception("Cannot cleanup reports directory '$reportDir'.");
         }
         mkdir($reportDir, 0777, true);

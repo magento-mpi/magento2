@@ -12,7 +12,7 @@ class Magento_Code_Generator_Io
 {
     /**
      * Default code generation directory
-     * Should correspond the value from Mage_Core_Model_Dir
+     * Should correspond the value from Magento_Core_Model_Dir
      */
     const DEFAULT_DIRECTORY = 'var/generation';
 
@@ -29,7 +29,7 @@ class Magento_Code_Generator_Io
     private $_generationDirectory;
 
     /**
-     * @var Varien_Io_Interface
+     * @var Magento_Io_Interface
      */
     private $_ioObject;
 
@@ -46,14 +46,14 @@ class Magento_Code_Generator_Io
     private $_directorySeparator;
 
     /**
-     * @param Varien_Io_Interface $ioObject
+     * @param Magento_Io_Interface $ioObject
      * @param Magento_Autoload_IncludePath $autoLoader
      * @param string $generationDirectory
      */
-    public function __construct(Varien_Io_Interface $ioObject = null, Magento_Autoload_IncludePath $autoLoader = null,
+    public function __construct(Magento_Io_Interface $ioObject = null, Magento_Autoload_IncludePath $autoLoader = null,
         $generationDirectory = null
     ) {
-        $this->_ioObject           = $ioObject ? : new Varien_Io_File();
+        $this->_ioObject           = $ioObject ? : new Magento_Io_File();
         $this->_autoloader         = $autoLoader ? : new Magento_Autoload_IncludePath();
         $this->_directorySeparator = $this->_ioObject->dirsep();
 
