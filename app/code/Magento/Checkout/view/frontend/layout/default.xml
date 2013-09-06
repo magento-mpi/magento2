@@ -37,7 +37,7 @@
                     <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
                     <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
                 </action>
-                <container name="cart_sidebar.extra_actions" as="extra_actions" label="My Cart Extra Actions" module="Magento_Checkout"/>
+                <container name="cart_sidebar.extra_actions" as="extra_actions" label="My Cart Extra Actions"/>
             </block>
         </reference>
     </handle>

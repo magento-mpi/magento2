@@ -130,10 +130,15 @@ class Magento_Test_Annotation_DataFixture
      */
     protected function _applyOneFixture($fixture)
     {
-        if (is_callable($fixture)) {
-            call_user_func($fixture);
-        } else {
-            require($fixture);
+        try {
+            if (is_callable($fixture)) {
+                call_user_func($fixture);
+            } else {
+                    require($fixture);
+            }
+        } catch (Zend_Db_Statement_Exception $e) {
+            echo 'Error in fixture: ', json_encode($fixture), PHP_EOL, $e;
+            throw $e;
         }
     }
 

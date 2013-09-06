@@ -21,7 +21,7 @@
                 <action method="setImgSrc">
                     <argument name="src" xsi:type="string">Magento_Catalog::images/media/col_left_callout.jpg</argument>
                 </action>
-                <action method="setImgAlt" module="Magento_Catalog">
+                <action method="setImgAlt">
                     <argument translate="true" name="alt" xsi:type="string">Our customer service is available 24/7.</argument>
                 </action>
                 <action method="setLinkUrl">

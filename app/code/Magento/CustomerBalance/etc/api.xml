@@ -81,7 +81,7 @@
         </resources_alias>
         <v2>
             <resources_function_prefix>
-                <storecredit>magentoCustomerbalance</storecredit>
+                <storecredit>enterpriseCustomerbalance</storecredit>
                 <storecredit_quote>shoppingCartCustomerbalance</storecredit_quote>
             </resources_function_prefix>
         </v2>

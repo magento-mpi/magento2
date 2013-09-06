@@ -418,7 +418,7 @@ class Magento_Catalog_Model_Product_Option extends Magento_Core_Model_Abstract
     {
         $this->setProductId(null);
         $this->setOptionId(null);
-        $newOption = __toArray();
+        $newOption = $this->__toArray();
         if ($_values = $this->getValues()) {
             $newValuesArray = array();
             foreach ($_values as $_value) {

@@ -27,7 +27,7 @@
                 <block class="Magento_Catalog_Block_Product_View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
                 <block class="Magento_Catalog_Block_Product_View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml">
                     <!-- workaround: a better place for this code is in paypal.xml -->
-                    <container name="review.product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" module="Magento_Paypal" htmlTag="div">
+                    <container name="review.product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
                         <block class="Magento_Paypal_Block_Express_Shortcut" name="review.product.info.addtocart.paypal" template="express/shortcut.phtml">
                             <action method="setIsInCatalogProduct">
                                 <argument name="value" xsi:type="string">1</argument>

@@ -25,7 +25,7 @@
             <module name="Magento_Index"/>
             <module name="Magento_Api"/>
             <module name="Magento_Log"/>
-            <module name="Magento_Page" type="soft"/>
+            <module name="Magento_Page"/>
         </depends>
     </module>
 </config>

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Catalog Product View (Bundle)" id="catalog_product_view_type_bundle" module="Magento_Bundle" type="page" parent="catalog_product_view">
+    <handle label="Catalog Product View (Bundle)" id="catalog_product_view_type_bundle" type="page" parent="catalog_product_view">
         <reference name="head">
             <block class="Magento_Page_Block_Html_Head_Script" name="magento-bundle-bundle-js">
                 <arguments>
