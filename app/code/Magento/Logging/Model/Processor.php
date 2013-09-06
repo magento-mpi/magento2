@@ -135,7 +135,7 @@ class Magento_Logging_Model_Processor
         Magento_Core_Helper_Http $httpHelper,
         Magento_Core_Model_Logger $logger
     ) {
-        $this->_config = $config;;
+        $this->_config = $config;
         $this->_modelsHandler = $modelsHandler;
         $this->_controllersHandler = $controllersHandler;
         $this->_authSession = $authSession;

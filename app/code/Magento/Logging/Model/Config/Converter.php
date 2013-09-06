@@ -17,15 +17,15 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
      */
     public function convert($source)
     {
-        $result = array();
+        $result = array('logging' => array());
         $xpath = new DOMXPath($source);
-        $result['actions'] = $this->_getTitles($xpath);
+        $result['logging']['actions'] = $this->_getTitles($xpath);
 
         $events = $xpath->query('/logging/event');
         /** @var DOMNode $event */
         foreach ($events as $event) {
             $eventId = $event->attributes->getNamedItem('id')->nodeValue;
-            $result[$eventId] = $this->_convertEvent($event);
+            $result['logging'][$eventId] = $this->_convertEvent($event);
         }
 
         return $result;

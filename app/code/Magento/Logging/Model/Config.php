@@ -41,7 +41,7 @@ class Magento_Logging_Model_Config
     public function __construct(Magento_Logging_Model_Config_Data $dataStorage)
     {
         $this->_dataStorage = $dataStorage;
-        $this->_xmlConfig = $this->_dataStorage->get('/logging');
+        $this->_xmlConfig = $this->_dataStorage->get('logging');
     }
 
     /**
@@ -55,7 +55,7 @@ class Magento_Logging_Model_Config
             $this->_systemConfigValues = Mage::getStoreConfig('admin/magento_logging/actions');
             if (null === $this->_systemConfigValues) {
                 $this->_systemConfigValues = array();
-                foreach ($this->getLabels() as $key => $label) {
+                foreach (array_keys($this->getLabels()) as $key) {
                     $this->_systemConfigValues[$key] = 1;
                 }
             }
@@ -128,10 +128,13 @@ class Magento_Logging_Model_Config
     {
         if (!$this->_labels) {
             foreach ($this->_xmlConfig as $logName => $logConfig) {
-                $this->_labels[$logName] = __($logConfig['label'])->render();
+                if (isset($logConfig['label'])) {
+                    $this->_labels[$logName] = __($logConfig['label']);
+                }
             }
             asort($this->_labels);
-        }
+        };
+        var_dump($this->_labels); die();
         return $this->_labels;
     }
 
@@ -143,15 +146,12 @@ class Magento_Logging_Model_Config
      */
     public function getActionLabel($action)
     {
-        $xpath = 'actions/' . $action . '/label';
-        $actionLabelNode = $this->_xmlConfig['actions'][$action]['label'];
-
-
-        if (!$actionLabelNode) {
+        $actionLabel = $this->_xmlConfig['actions'][$action];
+        if (!isset($actionLabel['label'])) {
             return $action;
         }
 
-        return __($actionLabelNode);
+        return __($actionLabel['label']);
     }
 
     /**
@@ -165,7 +165,13 @@ class Magento_Logging_Model_Config
         if (!$fullActionName) {
             return array();
         }
-        $actionNodes = $this->_xmlConfig->getXpath("/logging/*/actions/{$fullActionName}[1]");
+        //$actionNodes = $this->_xmlConfig["logging/*/actions/{$fullActionName}[1]"];
+        var_dump($fullActionName);
+        foreach ($this->_xmlConfig as $configData) {
+            if (isset($configData['actions']) && isset ($configData['actions'][$fullActionName])) {
+                $actionNodes = $configData['actions'][$fullActionName];
+            }
+        }
         if ($actionNodes) {
             return $actionNodes;
         }
