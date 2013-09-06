@@ -29,10 +29,10 @@ class Magento_GiftRegistry_Model_Observer
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_View_Design_Proxy $design
+     * @param Magento_Core_Model_View_DesignInterface $design
      */
     public function __construct(
-        Magento_Core_Model_View_Design_Proxy $design
+        Magento_Core_Model_View_DesignInterface $design
     ) {
         $this->_design = $design;
         $this->_isEnabled = Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled();

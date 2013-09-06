@@ -21,11 +21,11 @@ class Magento_Core_Helper_Translate extends Magento_Core_Helper_Abstract
     protected $_design = null;
 
     /**
-     * @param Magento_Core_Model_View_Design_Proxy $design
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
-        Magento_Core_Model_View_Design_Proxy $design,
+        Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Helper_Context $context
     ) {
         $this->_design = $design;

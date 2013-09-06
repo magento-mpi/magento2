@@ -25,11 +25,11 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
     protected $_design = null;
 
     /**
-     * @param Magento_Core_Model_View_Design_Proxy $design
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_View_Design_Proxy $design,
+        Magento_Core_Model_View_DesignInterface $design,
         array $data = array()
     ) {
         $this->_design = $design;

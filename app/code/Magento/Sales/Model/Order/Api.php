@@ -27,11 +27,11 @@ class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
     /**
      * Initialize attributes map
      *
-     * @param Magento_Core_Model_View_Design_Proxy $design
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Api_Helper_Data $apiHelper
      */
     public function __construct(
-        Magento_Core_Model_View_Design_Proxy $design,
+        Magento_Core_Model_View_DesignInterface $design,
         Magento_Api_Helper_Data $apiHelper
     ) {
         $this->_design = $design;

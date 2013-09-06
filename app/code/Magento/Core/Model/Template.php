@@ -74,12 +74,12 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     protected $_design = null;
 
     /**
-     * @param Magento_Core_Model_View_Design_Proxy $design
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_View_Design_Proxy $design,
+        Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Context $context,
         array $data = array()
     ) {
@@ -132,7 +132,6 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     {
         if ($this->_designConfig === null) {
             if ($this->_area === null) {
-                mageDebugBacktrace(0,0,1);
                 $this->_area = $this->_design->getArea();
             }
             if ($this->_store === null) {
