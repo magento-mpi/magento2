@@ -118,7 +118,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      *
      * @return int Minutes Interval
      */
-    public static function getOnlineMinutesInterval()
+    public function getOnlineMinutesInterval()
     {
         $configValue = $this->_coreStoreConfig->getConfig('customer/online_customers/online_minutes_interval');
         return intval($configValue) > 0

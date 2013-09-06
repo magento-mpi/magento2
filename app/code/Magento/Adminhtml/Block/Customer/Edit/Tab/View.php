@@ -24,6 +24,25 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     protected $_customerLog;
 
+    /**
+     * @var Magento_Log_Model_Visitor
+     */
+    protected $_modelVisitor;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Log_Model_Visitor $modelVisitor
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Log_Model_Visitor $modelVisitor,
+        array $data = array()
+    ) {
+        $this->_modelVisitor = $modelVisitor;
+        parent::__construct($context, $data);
+    }
+
     public function getCustomer()
     {
         if (!$this->_customer) {
@@ -126,7 +145,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     {
         $log = $this->getCustomerLog();
         if ($log->getLogoutAt() ||
-            strtotime(now())-strtotime($log->getLastVisitAt())>Magento_Log_Model_Visitor::getOnlineMinutesInterval()*60) {
+            strtotime(now())-strtotime($log->getLastVisitAt()) > $this->_modelVisitor->getOnlineMinutesInterval()*60) {
             return __('Offline');
         }
         return __('Online');
