@@ -11,13 +11,13 @@
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
-    <log id="magento_pci_crypt">
+    <log name="magento_pci_crypt">
         <label translate="true">Encryption Key Change</label>
         <event controller_action="adminhtml_crypt_key_save"
                action_alias="save"
                post_dispatch="postDispatchSimpleSave" />
     </log>
-    <log id="magento_pci_locks">
+    <log name="magento_pci_locks">
         <label translate="true">Admin Accounts Locks</label>
         <event controller_action="adminhtml_locks_massUnlock"
                action_alias="massUpdate"

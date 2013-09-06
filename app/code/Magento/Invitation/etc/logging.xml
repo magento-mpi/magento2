@@ -11,7 +11,7 @@
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
-    <log id="magento_invitation">
+    <log name="magento_invitation">
         <label translate="true">Customer Invitations</label>
         <expected_model class="Magento_Invitation_Model_Invitation" />
         <event controller_action="adminhtml_invitation_view" action_alias="view" />

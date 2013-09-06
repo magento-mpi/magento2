@@ -11,7 +11,7 @@
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
-    <log id="magento_banner">
+    <log name="magento_banner">
         <label translate="true">Manage Banners</label>
         <expected_model class="Magento_Banner_Model_Banner" />
         <event controller_action="adminhtml_banner_edit" action_alias="view" />

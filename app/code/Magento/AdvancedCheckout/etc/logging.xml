@@ -17,7 +17,7 @@
     <action id="add_to_cart">
         <label translate="true">Add to Cart</label>
     </action>
-    <log id="enterprise_checkout">
+    <log name="enterprise_checkout">
         <label translate="true">Shopping Cart Management</label>
         <event controller_action="adminhtml_checkout_index" action_alias="view">
             <expected_model class="Magento_Sales_Model_Quote" />

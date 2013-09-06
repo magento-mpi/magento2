@@ -11,13 +11,13 @@
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
-    <log id="magento_customerbalance">
+    <log name="magento_customerbalance">
         <label translate="true">Store Credit</label>
         <event controller_action="adminhtml_customerbalance_form" action_alias="view">
             <expected_model class="Magento_CustomerBalance_Model_Balance" />
         </event>
     </log>
-    <log id="customer">
+    <log name="customer">
         <label translate="true" />
         <event controller_action="adminhtml_customer_save"
                extends_expected_models="true">

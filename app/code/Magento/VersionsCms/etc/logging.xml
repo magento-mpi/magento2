@@ -17,7 +17,7 @@
     <action id="publish">
         <label translate="true">Publish</label>
     </action>
-    <log id="magento_versionscms_hierarchy">
+    <log name="magento_versionscms_hierarchy">
         <label translate="true">CMS Hierarchy</label>
         <expected_model class="Magento_VersionsCms_Model_Hierarchy_Node" />
         <event controller_action="adminhtml_cms_hierarchy_index"
@@ -27,7 +27,7 @@
             <skip_on_back>adminhtml_cms_hierarchy_index</skip_on_back>
         </event>
     </log>
-    <log id="magento_versionscms_page_versioning">
+    <log name="magento_versionscms_page_versioning">
         <label translate="true">CMS Versioning</label>
         <event controller_action="adminhtml_cms_page_massDeleteVersions"
                action_alias="massDelete">

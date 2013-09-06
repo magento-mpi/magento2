@@ -11,7 +11,7 @@
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
-    <log id="magento_giftcardaccount">
+    <log name="magento_giftcardaccount">
         <label translate="true">Gift Card Accounts</label>
         <expected_model class="Magento_GiftCardAccount_Model_Giftcardaccount" />
         <event controller_action="adminhtml_giftcardaccount_edit" action_alias="view" />
@@ -28,3 +28,4 @@
                post_dispatch="postDispatchSimpleSave" />
     </log>
 </logging>
+

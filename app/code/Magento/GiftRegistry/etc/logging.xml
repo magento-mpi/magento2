@@ -14,7 +14,7 @@
     <action id="share">
         <label translate="true">Share</label>
     </action>
-    <log id="magento_giftregistry_type">
+    <log name="magento_giftregistry_type">
         <label translate="true">Gift Registry Type</label>
         <expected_model class="Magento_GiftRegistry_Model_Type" />
         <event controller_action="adminhtml_giftregistry_edit" action_alias="edit" />
@@ -23,7 +23,7 @@
                post_dispatch="Magento_GiftRegistry_Model_Type::postDispatchTypeSave" />
         <event controller_action="adminhtml_giftregistry_delete" action_alias="delete" />
     </log>
-    <log id="magento_giftregistry_entity">
+    <log name="magento_giftregistry_entity">
         <label translate="true">Gift Registry Entity</label>
         <expected_model class="Magento_GiftRegistry_Model_Entity" />
         <expected_model class="Magento_GiftRegistry_Model_Item" />

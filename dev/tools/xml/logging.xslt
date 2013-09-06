@@ -21,7 +21,7 @@
                 </xsl:if>
                 <xsl:if test="local-name() != 'actions'">
                     <log>
-                        <xsl:attribute name="id">
+                        <xsl:attribute name="name">
                             <xsl:value-of select='local-name()' />
                         </xsl:attribute>
                         <label>

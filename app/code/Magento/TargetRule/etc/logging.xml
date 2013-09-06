@@ -11,7 +11,7 @@
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
-    <log id="magento_targetrule">
+    <log name="magento_targetrule">
         <label translate="true">Rule-Based Product Relations</label>
         <expected_model class="Magento_TargetRule_Model_Rule" />
         <event controller_action="adminhtml_targetrule_edit" action_alias="view" />
