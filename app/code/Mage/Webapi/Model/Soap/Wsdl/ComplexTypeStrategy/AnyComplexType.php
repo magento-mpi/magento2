@@ -23,6 +23,6 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_AnyComplexType extends Abs
     {
         $complexType = $this->getContext()->toDomDocument()->importNode($complexTypeNode, true);
         $this->getContext()->getSchema()->appendChild($complexType);
-        return $this->scanRegisteredTypes($complexTypeNode);
+        return $this->scanRegisteredTypes($complexTypeNode->nodeName);
     }
 }
