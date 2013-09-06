@@ -64,7 +64,7 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
                 try {
                     $this->_entityAdapter = Mage::getModel($entityTypes[$this->getEntity()]['model']);
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                     Mage::throwException(
                         __('Please enter a correct entity model')
                     );
@@ -109,7 +109,7 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
                 try {
                     $this->_writer = Mage::getModel($validWriters[$this->getFileFormat()]['model']);
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                     Mage::throwException(
                         __('Please enter a correct entity model')
                     );

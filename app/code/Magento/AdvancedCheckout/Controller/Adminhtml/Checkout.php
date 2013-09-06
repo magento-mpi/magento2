@@ -166,7 +166,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_getSession()->addError(
                 __('An error has occurred. See error log for details.')
             );
@@ -369,7 +369,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_getSession()->addError(
                 __('An error has occurred. See error log for details.')
             );
@@ -556,7 +556,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         if ($e instanceof Magento_Core_Exception) {
             $result = array('error' => $e->getMessage());
         } elseif ($e instanceof Exception) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $result = array(
                 'error' => __('An error has occurred. See error log for details.')
             );
@@ -873,7 +873,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                         } catch (Magento_Core_Exception $e){
                             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                         } catch (Exception $e){
-                            Mage::logException($e);
+                            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                         }
                     }
                 }
@@ -957,7 +957,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         try {
             $this->_initData();
         } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_redirect('*/customer');
             $this->_redirectFlag = true;
         }

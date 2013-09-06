@@ -20,13 +20,23 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     protected $_moduleManager;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Translate $translator
      * @param Magento_Core_Model_ModuleManager $moduleManager
      */
-    public function __construct(Magento_Core_Model_Translate $translator, Magento_Core_Model_ModuleManager $moduleManager)
-    {
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_Translate $translator,
+        Magento_Core_Model_ModuleManager $moduleManager
+    ) {
         $this->_translator = $translator;
         $this->_moduleManager = $moduleManager;
+        $this->_logger = $logger;
     }
 
     /**
@@ -43,5 +53,13 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     public function getModuleManager()
     {
         return $this->_moduleManager;
+    }
+
+    /**
+     * @return Magento_Core_Model_Logger
+     */
+    public function getLogger()
+    {
+        return $this->_logger;
     }
 }

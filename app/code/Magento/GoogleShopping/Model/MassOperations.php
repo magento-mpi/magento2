@@ -39,6 +39,21 @@ class Magento_GoogleShopping_Model_MassOperations
     protected $_flag;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(Magento_Core_Model_Logger $logger)
+    {
+        $this->_logger = $logger;
+    }
+
+    /**
      * Set process locking flag.
      *
      * @param Magento_GoogleShopping_Model_Flag $flag
@@ -93,7 +108,7 @@ class Magento_GoogleShopping_Model_MassOperations
                 } catch (Magento_Core_Exception $e) {
                     $errors[] = __('The product "%1" cannot be added to Google Content. %2', $product->getName(), $e->getMessage());
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                     $errors[] = __('The product "%1" hasn\'t been added to Google Content.', $product->getName());
                 }
             }
@@ -177,7 +192,7 @@ class Magento_GoogleShopping_Model_MassOperations
                     $errors[] = __('The item "%1" cannot be updated at Google Content. %2', $item->getProduct()->getName(), $e->getMessage());
                     $totalFailed++;
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                     $errors[] = __('The item "%1" hasn\'t been updated.', $item->getProduct()->getName());
                     $totalFailed++;
                 }
@@ -232,7 +247,7 @@ class Magento_GoogleShopping_Model_MassOperations
                     $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')
                         ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                     $errors[] = __('The item "%1" hasn\'t been deleted.', $item->getProduct()->getName());
                 }
             }

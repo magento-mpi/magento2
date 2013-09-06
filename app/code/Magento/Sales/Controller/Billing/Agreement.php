@@ -83,7 +83,7 @@ class Magento_Sales_Controller_Billing_Agreement extends Magento_Core_Controller
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 $this->_getSession()->addError(__('We couldn\'t start the billing agreement wizard.'));
             }
         }
@@ -114,7 +114,7 @@ class Magento_Sales_Controller_Billing_Agreement extends Magento_Core_Controller
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 $this->_getSession()->addError(__('We couldn\'t finish the billing agreement wizard.'));
             }
             $this->_redirect('*/*/index');
@@ -145,7 +145,7 @@ class Magento_Sales_Controller_Billing_Agreement extends Magento_Core_Controller
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 $this->_getSession()->addError(__('We couldn\'t cancel the billing agreement.'));
             }
         }

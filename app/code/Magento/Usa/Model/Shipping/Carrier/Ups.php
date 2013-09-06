@@ -114,13 +114,22 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     protected $_simpleXmlElementFactory;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Usp constructor
      *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
      */
-    public function __construct(Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory)
-    {
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+    ) {
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
+        $this->_logger = $logger;
     }
 
     /**
@@ -455,7 +464,8 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
                         break;
                     case 5:
                         $errorTitle = $row[1];
-                        Mage::log(__('Sorry, something went wrong. Please try again or contact us and we\'ll try to help.') . ': ' . $errorTitle);
+                        $message = __('Sorry, something went wrong. Please try again or contact us and we\'ll try to help.');
+                        $this->_logger->log($message . ': ' . $errorTitle);
                         break;
                     case 6:
                         if (in_array($row[3], $allowedMethods)) {

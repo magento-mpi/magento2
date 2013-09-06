@@ -102,7 +102,7 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
                     $messages[] = __('%1 for "%2".', trim($e->getMessage(), '.'), $item->getProduct()->getName());
                 }
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 $messages[] = __('We cannot add this item to your shopping cart.');
             }
         }

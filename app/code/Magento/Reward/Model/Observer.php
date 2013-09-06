@@ -19,6 +19,21 @@
 class Magento_Reward_Model_Observer
 {
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(Magento_Core_Model_Logger $logger)
+    {
+        $this->_logger = $logger;
+    }
+
+    /**
      * Update reward points for customer, send notification
      *
      * @param Magento_Event_Observer $observer
@@ -117,7 +132,7 @@ class Magento_Reward_Model_Observer
                 $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
             } catch (Exception $e) {
                 //save exception if something were wrong during saving reward and allow to register customer
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
         }
         return $this;

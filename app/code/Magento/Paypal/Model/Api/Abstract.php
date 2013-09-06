@@ -77,6 +77,21 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
     protected $_debugReplacePrivateDataKeys = array();
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param array $data
+     */
+    public function __construct(Magento_Core_Model_Logger $logger, array $data = array())
+    {
+        $this->_logger = $logger;
+        parent::__construct($data);
+    }
+
+    /**
      * Return Paypal Api user name based on config data
      *
      * @return string

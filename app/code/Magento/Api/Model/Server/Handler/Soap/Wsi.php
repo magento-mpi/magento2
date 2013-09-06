@@ -155,7 +155,7 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
                 if ($parameter->isOptional()) {
                     $callArgs[$pName] = $parameter->getDefaultValue();
                 } else {
-                    Mage::logException(new Exception("Required parameter \"$pName\" is missing.", 0));
+                    $this->_logger->logException(new Exception("Required parameter \"$pName\" is missing.", 0));
                     $this->_fault('invalid_request_param');
                 }
             }

@@ -85,12 +85,28 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     protected $_preparedFlatTables   = array();
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Initialize connection
      *
      */
     protected function _construct()
     {
         $this->_init('catalog_product_entity', 'entity_id');
+    }
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(Magento_Core_Model_Logger $logger)
+    {
+        $this->_logger = $logger;
+        $this->_construct();
     }
 
     /**
@@ -239,7 +255,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
                     $attribute->getBackend();
                     $this->_attributes[$attributeCode] = $attribute;
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
         }

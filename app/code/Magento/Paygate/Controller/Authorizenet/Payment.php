@@ -33,10 +33,10 @@ class Magento_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Contr
             $result['success']  = true;
             $result['update_html'] = $this->_getPaymentMethodsHtml();
         } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $result['error_message'] = $e->getMessage();
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $result['error_message'] = __('There was an error canceling transactions. Please contact us or try again later.');
         }
 

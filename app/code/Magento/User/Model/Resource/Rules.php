@@ -33,11 +33,18 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
     protected $_aclCache;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Acl_RootResource $rootResource
      * @param Magento_Acl_CacheInterface $aclCache
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Acl_RootResource $rootResource,
         Magento_Acl_CacheInterface $aclCache
@@ -45,6 +52,7 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
         parent::__construct($resource);
         $this->_rootResource = $rootResource;
         $this->_aclCache = $aclCache;
+        $this->_logger = $logger;
     }
 
     /**
@@ -110,7 +118,7 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
             throw $e;
         } catch (Exception $e){
             $adapter->rollBack();
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
     }
 }

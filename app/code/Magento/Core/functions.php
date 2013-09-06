@@ -200,7 +200,7 @@ function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
     if (Mage::getIsDeveloperMode()) {
         throw new Exception($errorMessage);
     } else {
-        Mage::log($errorMessage, Zend_Log::ERR);
+        Mage::getObjectManager()->get('Magento_Core_Model_Logger')->log($errorMessage, Zend_Log::ERR);
     }
 }
 

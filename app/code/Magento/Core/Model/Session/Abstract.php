@@ -63,6 +63,26 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     protected $_skipSessionIdFlag   = false;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object attributes
+     * This behavior may change in child classes
+     *
+     * @param Magento_Core_Model_Logger $logger
+     * @param array $data
+     */
+    public function __construct(Magento_Core_Model_Logger $logger, array $data = array())
+    {
+        $this->_logger = $logger;
+        parent::__construct($data);
+    }
+
+    /**
      * This method needs to support sessions with APC enabled
      */
     public function __destruct()
@@ -433,7 +453,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
             "\n",
             $exception->getTraceAsString());
         $file = Mage::getStoreConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
-        Mage::log($message, Zend_Log::DEBUG, $file);
+        $this->_logger->log($message, Zend_Log::DEBUG, $file);
 
         $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->error($alternativeText));
         return $this;
@@ -780,7 +800,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     public function renewSession()
     {
         if (headers_sent()) {
-            Mage::log('Can not regenerate session id because HTTP headers already sent.');
+            $this->_logger->log('Can not regenerate session id because HTTP headers already sent.');
             return $this;
         }
         session_regenerate_id(true);

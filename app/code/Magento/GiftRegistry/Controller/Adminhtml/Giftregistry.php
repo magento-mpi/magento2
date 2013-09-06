@@ -165,7 +165,7 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We couldn't save this gift registry type."));
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
         $this->_redirect('*/*/');
@@ -187,7 +187,7 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
             return;
         } catch (Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We couldn't delete this gift registry type."));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }

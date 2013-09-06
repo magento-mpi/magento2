@@ -82,6 +82,12 @@ class Magento_FullPageCache_Model_Observer
     protected $_designRules;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_FullPageCache_Model_Processor $processor
      * @param Magento_FullPageCache_Model_Request_Identifier $_requestIdentifier
      * @param Magento_FullPageCache_Model_Config $config
@@ -92,6 +98,7 @@ class Magento_FullPageCache_Model_Observer
      * @param Magento_FullPageCache_Model_DesignPackage_Rules $designRules
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_FullPageCache_Model_Processor $processor,
         Magento_FullPageCache_Model_Request_Identifier $_requestIdentifier,
         Magento_FullPageCache_Model_Config $config,
@@ -110,6 +117,7 @@ class Magento_FullPageCache_Model_Observer
         $this->_requestIdentifier = $_requestIdentifier;
         $this->_designRules = $designRules;
         $this->_isEnabled = $this->_cacheState->isEnabled('full_page');
+        $this->_logger = $logger;
     }
 
     /**
@@ -435,7 +443,7 @@ class Magento_FullPageCache_Model_Observer
                 Mage::getModel('Magento_Reports_Model_Product_Index_Viewed')->registerIds($productIds);
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
 
         // renew customer viewed product ids cookie

@@ -105,7 +105,7 @@ class Magento_Sales_Controller_Recurring_Profile extends Magento_Core_Controller
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_session->addError(__('We couldn\'t update the profile.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         if ($profile) {
             $this->_redirect('*/*/view', array('profile' => $profile->getId()));
@@ -133,7 +133,7 @@ class Magento_Sales_Controller_Recurring_Profile extends Magento_Core_Controller
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_session->addError(__('We couldn\'t update the profile.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         if ($profile) {
             $this->_redirect('*/*/view', array('profile' => $profile->getId()));
@@ -161,7 +161,7 @@ class Magento_Sales_Controller_Recurring_Profile extends Magento_Core_Controller
         } catch (Magento_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }

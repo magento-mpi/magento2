@@ -64,14 +64,21 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     protected $_viewFileSystem;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * View files publisher model
      *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Helper_Css $cssHelper
      * @param Magento_Core_Model_View_Service $viewService
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
         Magento_Core_Helper_Css $cssHelper,
         Magento_Core_Model_View_Service $viewService,
@@ -81,6 +88,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
         $this->_cssHelper = $cssHelper;
         $this->_viewService = $viewService;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_logger = $logger;
     }
 
     /**
@@ -319,7 +327,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
         try {
             $content = $this->_cssHelper->replaceCssRelativeUrls($content, $sourcePath, $publicPath, $callback);
         } catch (Magento_Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $content;
     }

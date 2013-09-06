@@ -186,7 +186,7 @@ class Magento_Reminder_Controller_Adminhtml_Reminder extends Magento_Adminhtml_C
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We could not save the reminder rule.'));
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
         $this->_redirect('*/*/');
@@ -208,7 +208,7 @@ class Magento_Reminder_Controller_Adminhtml_Reminder extends Magento_Adminhtml_C
             return;
         } catch (Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We could not delete the reminder rule.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -226,7 +226,7 @@ class Magento_Reminder_Controller_Adminhtml_Reminder extends Magento_Adminhtml_C
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addException($e, __('Reminder rule matching error.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/edit', array('id' => $model->getId(), 'active_tab' => 'matched_customers'));
     }

@@ -102,9 +102,15 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      */
     protected $_quote;
 
-    public function __construct()
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    public function __construct(Magento_Core_Model_Logger $logger)
     {
         $this->_session = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
+        $this->_logger = $logger;
     }
 
     /**
@@ -838,7 +844,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 $this->recollectCart();
                 throw $e;
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
             $this->recollectCart();
         }

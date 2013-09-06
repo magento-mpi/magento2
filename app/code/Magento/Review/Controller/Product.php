@@ -75,7 +75,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
                 'controller_action' => $this
             ));
         } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             return false;
         }
 

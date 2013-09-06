@@ -77,6 +77,12 @@ class Magento_Core_Model_App_Area
     protected $_diConfigLoader;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Translate $translator
      * @param Magento_Core_Model_Config $config
@@ -85,6 +91,7 @@ class Magento_Core_Model_App_Area
      * @param string $areaCode
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Translate $translator,
         Magento_Core_Model_Config $config,
@@ -98,6 +105,7 @@ class Magento_Core_Model_App_Area
         $this->_diConfigLoader = $diConfigLoader;
         $this->_eventManager = $eventManager;
         $this->_translator = $translator;
+        $this->_logger = $logger;
     }
 
     /**
@@ -160,7 +168,7 @@ class Magento_Core_Model_App_Area
                 }
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return false;
     }

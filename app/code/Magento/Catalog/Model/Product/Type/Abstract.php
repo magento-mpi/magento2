@@ -101,6 +101,11 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     protected $_filesystem;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Delete data specific for this product type
      *
      * @param Magento_Catalog_Model_Product $product
@@ -110,13 +115,18 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     /**
      * Initialize data
      *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
+        array $data = array()
+    ) {
         $this->_filesystem = $filesystem;
         $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
+        $this->_logger = $logger;
     }
 
     /**
@@ -938,7 +948,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
         } catch (Magento_Core_Exception $e) {
             $errors[] = $e->getMessages();
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
             $errors[] = __('Something went wrong while processing the request.');
         }
 

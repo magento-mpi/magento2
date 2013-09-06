@@ -24,10 +24,17 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
     protected $_configScope;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Api_Helper_Data $apiHelper
      * @param Magento_Core_Model_Config_Scope $configScope
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Api_Helper_Data $apiHelper,
         Magento_Core_Model_Config_Scope $configScope
     ) {
@@ -38,6 +45,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
         $this->_attributesMap['quote_customer'] = array('customer_id' => 'entity_id');
         $this->_attributesMap['quote_address'] = array('address_id' => 'entity_id');
         $this->_attributesMap['quote_payment'] = array('payment_id' => 'entity_id');
+        $this->_logger = $logger;
     }
 
     /**
@@ -237,7 +245,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
                 try {
                     $customerResource->involveNewCustomer($quote);
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
 
@@ -251,7 +259,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
                 try {
                     $order->sendNewOrderEmail();
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
 

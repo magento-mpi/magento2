@@ -48,6 +48,11 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_viewUrl;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
      */
@@ -55,6 +60,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     {
         parent::__construct($context);
         $this->_viewUrl = $viewUrl;
+        $this->_logger = $context->getLogger();
     }
 
     /**
@@ -352,7 +358,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
                             )
             );
         } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
             return false;
         }
 

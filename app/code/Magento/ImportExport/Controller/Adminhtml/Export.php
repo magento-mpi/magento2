@@ -62,7 +62,7 @@ class Magento_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 $this->_getSession()->addError(__('Please correct the data sent.'));
             }
         } else {

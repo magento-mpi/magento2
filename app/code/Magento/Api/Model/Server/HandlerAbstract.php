@@ -19,14 +19,20 @@ abstract class Magento_Api_Model_Server_HandlerAbstract
 {
     protected $_resourceSuffix = null;
 
-    public function __construct()
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    public function __construct(Magento_Core_Model_Logger $logger)
     {
         set_error_handler(array($this, 'handlePhpError'), E_ALL);
+        $this->_logger = $logger;
     }
 
     public function handlePhpError($errorCode, $errorMessage, $errorFile)
     {
-        Mage::log($errorMessage . $errorFile);
+        $this->_logger->log($errorMessage . $errorFile);
         if (in_array($errorCode, array(E_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR))) {
             $this->_fault('internal');
         }

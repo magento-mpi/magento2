@@ -46,7 +46,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -62,7 +62,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -76,7 +76,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
             $this->_initProfile();
             $this->loadLayout()->renderLayout();
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->norouteAction();
         }
     }
@@ -106,7 +106,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(__('We could not update the profile.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         if ($profile) {
             $this->_redirect('*/*/view', array('profile' => $profile->getId()));
@@ -134,7 +134,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(__('We could not update the profile.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         if ($profile) {
             $this->_redirect('*/*/view', array('profile' => $profile->getId()));

@@ -93,6 +93,12 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_config;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_ModuleListInterface $moduleList
@@ -101,6 +107,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * @param string $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_ModuleListInterface $moduleList,
@@ -131,6 +138,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
             $connection = $this->_resourceModel->getConnection($this->_resourceName);
         }
         $this->_conn = $connection;
+        $this->_logger = $logger;
     }
 
     /**
@@ -503,9 +511,9 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
 
                 if ($result) {
                     $this->_setResourceVersion($actionType, $file['toVersion']);
-                    Mage::log($fileName);
+                    $this->_logger->log($fileName);
                 } else {
-                    Mage::log("Failed resource setup: {$fileName}");
+                    $this->_logger->log("Failed resource setup: {$fileName}");
                 }
             } catch (Exception $e) {
                 throw new Magento_Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);

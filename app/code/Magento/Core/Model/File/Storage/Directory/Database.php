@@ -186,7 +186,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
                     Mage::throwException(__('Parent directory does not exist: %1', $dir['path']));
                 }
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
         }
 

@@ -35,10 +35,10 @@ class Magento_Paygate_Controller_Adminhtml_Paygate_Authorizenet_Payment extends 
             $result['success']  = true;
             $result['update_html'] = $this->_getPaymentMethodsHtml();
         } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $result['error_message'] = $e->getMessage();
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $result['error_message'] = __('Something went wrong canceling the transactions.');
         }
 

@@ -21,11 +21,18 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     protected $_moduleList;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      */
-    public function __construct(Magento_Core_Model_ModuleListInterface $moduleList)
+    public function __construct(Magento_Core_Model_Logger $logger, Magento_Core_Model_ModuleListInterface $moduleList)
     {
         $this->_moduleList = $moduleList;
+        $this->_logger = $logger;
     }
 
     /**

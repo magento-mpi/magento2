@@ -49,12 +49,18 @@ abstract class Magento_Core_Helper_Abstract
     private $_moduleManager;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(Magento_Core_Helper_Context $context)
     {
         $this->_translator = $context->getTranslator();
         $this->_moduleManager = $context->getModuleManager();
+        $this->_logger = $context->getLogger();
     }
 
     /**

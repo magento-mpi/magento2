@@ -441,8 +441,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         ));
 
         if (!extension_loaded('soap')) {
-            Mage::logException(Mage::exception('Magento_Core',
-                __('PHP SOAP extension is required.')));
+            $this->_logger->logException(Mage::exception('Magento_Core', __('PHP SOAP extension is required.')));
             return $gatewayResponse;
         }
 

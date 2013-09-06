@@ -69,7 +69,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
             try {
                 $auth->login($login, $password);
             } catch (Magento_Backend_Model_Auth_Exception $e) {
-                Mage::logException($e);
+                $controller->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
 

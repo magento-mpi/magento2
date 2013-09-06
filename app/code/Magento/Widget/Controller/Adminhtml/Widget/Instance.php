@@ -162,7 +162,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
             return;
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_redirect('*/*/edit', array('_current' => true));
             return;
         }

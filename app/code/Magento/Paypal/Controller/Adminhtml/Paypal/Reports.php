@@ -76,13 +76,13 @@ class Magento_Paypal_Controller_Adminhtml_Paypal_Reports extends Magento_Adminht
                     $this->_getSession()->addError(
                         __("We couldn't fetch reports from '%1@%2'.", $config['username'], $config['hostname'])
                     );
-                    Mage::logException($e);
+                    $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 }
             }
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/index');
     }

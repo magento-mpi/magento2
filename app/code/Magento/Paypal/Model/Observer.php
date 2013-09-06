@@ -17,6 +17,19 @@
 class Magento_Paypal_Model_Observer
 {
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(Magento_Core_Model_Logger $logger)
+    {
+        $this->_logger = $logger;
+    }
+
+    /**
      * Goes to reports.paypal.com and fetches Settlement reports.
      * @return Magento_Paypal_Model_Observer
      */
@@ -30,11 +43,11 @@ class Magento_Paypal_Model_Observer
                 try {
                     $reports->fetchAndSave(Magento_Paypal_Model_Report_Settlement::createConnection($config));
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
     }
 

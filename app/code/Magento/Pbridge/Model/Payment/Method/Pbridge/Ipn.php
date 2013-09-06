@@ -53,6 +53,21 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
     protected $_debugReplacePrivateDataKeys = array();
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(Magento_Core_Model_Logger $logger)
+    {
+        $this->_logger = $logger;
+    }
+
+    /**
      * Config model setter
      * @param Magento_Paypal_Model_Config $config
      * @return Magento_Paypal_Model_Ipn
@@ -248,7 +263,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
                 $this->_notifyAdmin($history->getComment(), $e);
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         if ($wasPaymentInformationChanged) {
             $order->getPayment()->save();
@@ -444,13 +459,13 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
     {
         // prevent notification failure cause order procesing failure
         try {
-            Mage::log($message);
+            $this->_logger->log($message);
             if ($exception) {
-                Mage::logException($exception);
+                $this->_logger->logException($exception);
             }
             // @TODO: dump the message and IPN form data
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
     }
 

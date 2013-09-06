@@ -30,6 +30,16 @@ class Magento_Backup_Model_Observer
     protected $_errors = array();
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    public function __construct(Magento_Core_Model_Logger $logger)
+    {
+        $this->_logger = $logger;
+    }
+
+    /**
      * Create Backup
      *
      * @return Magento_Log_Model_Cron
@@ -61,13 +71,14 @@ class Magento_Backup_Model_Observer
             }
 
             $backupManager->create();
-            Mage::log(Mage::helper('Magento_Backup_Helper_Data')->getCreateSuccessMessageByType($type));
+            $message = Mage::helper('Magento_Backup_Helper_Data')->getCreateSuccessMessageByType($type);
+            $this->_logger->log($message);
         }
         catch (Exception $e) {
             $this->_errors[] = $e->getMessage();
             $this->_errors[] = $e->getTrace();
-            Mage::log($e->getMessage(), Zend_Log::ERR);
-            Mage::logException($e);
+            $this->_logger->log($e->getMessage(), Zend_Log::ERR);
+            $this->_logger->logException($e);
         }
 
         if (Mage::getStoreConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {

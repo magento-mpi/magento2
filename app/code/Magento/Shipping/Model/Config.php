@@ -22,6 +22,21 @@ class Magento_Shipping_Model_Config extends Magento_Object
     protected static $_carriers;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(Magento_Core_Model_Logger $logger)
+    {
+        $this->_logger = $logger;
+    }
+
+    /**
      * Retrieve active system carriers
      *
      * @param   mixed $store
@@ -99,7 +114,7 @@ class Magento_Shipping_Model_Config extends Magento_Object
         try {
             $carrier = Mage::getModel($modelName);
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
             return false;
         }
         $carrier->setId($code)->setStore($store);

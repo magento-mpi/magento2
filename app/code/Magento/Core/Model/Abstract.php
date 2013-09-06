@@ -107,6 +107,11 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     protected $_cacheManager;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -122,6 +127,7 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
         $this->_cacheManager = $context->getCacheManager();
         $this->_resource = $resource;
         $this->_resourceCollection = $resourceCollection;
+        $this->_logger = $context->getLogger();
 
         if ($this->_resource) {
             $this->_idFieldName = $this->_getResource()->getIdFieldName();

@@ -167,7 +167,7 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
                     $session->addError($message);
                     $session->setUsername($login['username']);
                 } catch (Exception $e) {
-                    // Mage::logException($e); // PA DSS violation: this exception log can disclose customer password
+                    // $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e); // PA DSS violation: this exception log can disclose customer password
                 }
             } else {
                 $session->addError(__('Login and password are required.'));

@@ -483,7 +483,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
                     ->delete();
             }
             catch (Exception $exception) {
-                Mage::logException($exception);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($exception);
             }
         }
 

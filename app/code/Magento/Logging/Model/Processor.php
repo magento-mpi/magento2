@@ -87,13 +87,21 @@ class Magento_Logging_Model_Processor
     protected $_collectedAdditionalData = array();
 
     /**
-     * Initialize configuration model, controller and model handler
+     * @var Magento_Core_Model_Logger
      */
-    public function __construct()
+    protected $_logger;
+
+    /**
+     * Initialize configuration model, controller and model handler
+     *
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(Magento_Core_Model_Logger $logger)
     {
         $this->_config = Mage::getSingleton('Magento_Logging_Model_Config');
         $this->_modelsHandler = Mage::getModel('Magento_Logging_Model_Handler_Models');
         $this->_controllerActionsHandler = Mage::getModel('Magento_Logging_Model_Handler_Controllers');
+        $this->_logger = $logger;
     }
 
     /**
@@ -319,7 +327,7 @@ class Magento_Logging_Model_Processor
                 }
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
     }
 
@@ -425,7 +433,7 @@ class Magento_Logging_Model_Processor
             }
         } catch (Exception $e) {
             $return['handler'] = false;
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
 
         return $return;

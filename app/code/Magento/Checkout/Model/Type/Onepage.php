@@ -48,15 +48,22 @@ class Magento_Checkout_Model_Type_Onepage
     protected $_helper;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Class constructor
      * Set customer already exists message
+     * @param Magento_Core_Model_Logger $logger
      */
-    public function __construct()
+    public function __construct(Magento_Core_Model_Logger $logger)
     {
         $this->_helper = Mage::helper('Magento_Checkout_Helper_Data');
         $this->_customerEmailExistsMessage = __('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.');
         $this->_checkoutSession = Mage::getSingleton('Magento_Checkout_Model_Session');
         $this->_customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+        $this->_logger = $logger;
     }
 
     /**
@@ -690,7 +697,7 @@ class Magento_Checkout_Model_Type_Onepage
             try {
                 $this->_involveNewCustomer();
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
         }
 
@@ -715,7 +722,7 @@ class Magento_Checkout_Model_Type_Onepage
                 try {
                     $order->sendNewOrderEmail();
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
 

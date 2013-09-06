@@ -26,6 +26,21 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
     protected $_response = array();
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Set log file name
+     *
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(Magento_Core_Model_Logger $logger)
+    {
+        $this->_logger = $logger;
+    }
+
+    /**
      * Make a call to Payment Bridge service with given request parameters
      *
      * @param array $request
@@ -69,7 +84,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
             $this->_debug($debugData);
 
             if ($curlErrorNumber) {
-                Mage::logException(new Exception(
+               $this->_logger->logException(new Exception(
                     sprintf('Payment Bridge CURL connection error #%s: %s', $curlErrorNumber, $curlError)
                 ));
 
