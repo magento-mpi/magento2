@@ -49,8 +49,8 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
         $result = $this->_model->getWidgets(array(
             'name' => 'CMS Page Link',
             'description' => 'Link to a CMS Page',));
-        $configFile1 = __DIR__ . '/_files/mappedConfigArray1.php';
-        $expected = array('cms_page_link' => include $configFile1);
+        $configFileOne = __DIR__ . '/_files/mappedConfigArray1.php';
+        $expected = array('cms_page_link' => include $configFileOne);
         $this->assertEquals($expected, $result);
     }
 
@@ -69,18 +69,17 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
 
     public function testGetWidgetByClassType()
     {
-        $widget1 = array(
+        $widgetOne = array(
             '@' => array(
                 'type' => 'type1',
-                'translate' => 'label'
             )
         );
         $widgets = array(
-            'widget1' => $widget1
+            'widget1' => $widgetOne
         );
         $this->_storage->expects($this->any())->method('get')
             ->will($this->returnValue($widgets));
-        $this->assertEquals($widget1, $this->_model->getWidgetByClassType('type1'));
+        $this->assertEquals($widgetOne, $this->_model->getWidgetByClassType('type1'));
         $this->assertNull($this->_model->getWidgetByClassType('type2'));
     }
 }

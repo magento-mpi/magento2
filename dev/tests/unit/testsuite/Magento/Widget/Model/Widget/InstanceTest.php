@@ -62,7 +62,6 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
             '@' => array(
                 'type' => 'Magento_Cms_Block_Widget_Page_Link',
                 'module' => 'Magento_Cms',
-                'translate' => 'name description',
             ),
             'name' => 'CMS Page Link',
             'description' => 'Link to a CMS Page',
@@ -72,16 +71,12 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
                 'page_id' => array(
                     '@' => array(
                         'type' => 'complex',
-                        'translate' => 'label',
                     ),
                     'type' => 'label',
                     'helper_block' => array(
                         'type' => 'Magento_Adminhtml_Block_Cms_Page_Widget_Chooser',
                         'data' => array(
                             'button' => array(
-                                '@' => array(
-                                    'translate' => 'open',
-                                ),
                                 'open' => 'Select Page...',
                             ),
                         ),
@@ -137,7 +132,6 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
             '@' => array(
                 'type' => 'Magento_Cms_Block_Widget_Page_Link',
                 'module' => 'Magento_Cms',
-                'translate' => 'name description',
             ),
             'name' => 'CMS Page Link',
             'description' => 'Link to a CMS Page',
@@ -145,9 +139,6 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
             'placeholder_image' => 'Magento_Cms::images/widget_page_link.gif',
             'parameters' => array(
                 'template' => array(
-                    '@' => array(
-                        'translate' => 'label',
-                    ),
                     'values' => array(
                         'default' => array(
                             'value' => 'product/widget/link/link_block.phtml',
@@ -180,7 +171,6 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
             '@' => array(
                 'type' => 'Magento_Cms_Block_Widget_Page_Link',
                 'module' => 'Magento_Cms',
-                'translate' => 'name description',
             ),
             'name' => 'CMS Page Link',
             'description' => 'Link to a CMS Page',
@@ -215,7 +205,6 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
             '@' => array(
                 'type' => 'Magento_Cms_Block_Widget_Page_Link',
                 'module' => 'Magento_Cms',
-                'translate' => 'name description',
             ),
             'name' => 'CMS Page Link',
             'description' => 'Link to a CMS Page',
@@ -274,7 +263,6 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
             '@' => array(
                 'type' => 'Magento_Cms_Block_Widget_Page_Link',
                 'module' => 'Magento_Cms',
-                'translate' => 'name description',
             ),
             'name' => 'CMS Page Link',
             'description' => 'Link to a CMS Page',
@@ -282,9 +270,6 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
             'placeholder_image' => 'Magento_Cms::images/widget_page_link.gif',
             'parameters' => array(
                 'template' => array(
-                    '@' => array(
-                        'translate' => 'label',
-                    ),
                     'values' => array(
                         'default' => array(
                             'value' => 'product/widget/link/link_block.phtml',
