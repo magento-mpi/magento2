@@ -34,12 +34,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight extends Magento
     protected $_helper;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param Magento_Catalog_Helper_Product $helper
      * @param array $attributes
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         Magento_Catalog_Helper_Product $helper,
@@ -51,7 +53,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight extends Magento
             ->setLabel($this->_helper->getTypeSwitcherControlLabel());
         $attributes['class'] =
             'validate-number validate-zero-or-greater validate-number-range number-range-0-99999999.9999';
-        parent::__construct($factoryElement, $factoryCollection, $attributes);
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
     }
 
     /**

@@ -23,17 +23,19 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends Magento_Data_
     protected $_element;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         array $attributes = array()
     ) {
         $this->_element = $this->_factoryElement->create('checkbox');
-        parent::__construct($factoryElement, $factoryCollection, $attributes);
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
     }
 
     /**

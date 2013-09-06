@@ -23,10 +23,11 @@ class Magento_Backend_Block_System_Config_Form_Field_Select_AllowspecificTest ex
 
     protected function setUp()
     {
+        $coreHelper = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
         $factoryColl = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
         $this->_object = new Magento_Backend_Block_System_Config_Form_Field_Select_Allowspecific(
-            $factory, $factoryColl
+            $coreHelper, $factory, $factoryColl
         );
         $this->_object->setData('html_id', 'spec_element');
         $this->_formMock = $this->getMock('Magento_Data_Form',
