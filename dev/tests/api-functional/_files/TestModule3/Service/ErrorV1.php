@@ -36,7 +36,7 @@ class Mage_TestModule3_Service_ErrorV1 implements Mage_TestModule3_Service_Error
 
     public function webapiException()
     {
-        throw new Mage_Webapi_Exception('Service not found', Mage_Webapi_Exception::HTTP_NOT_FOUND);
+        throw new Mage_Webapi_Exception('Service not found', Mage_Webapi_Exception::HTTP_NOT_FOUND, 5555);
     }
 
     public function otherException()

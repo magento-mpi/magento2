@@ -54,10 +54,14 @@ class Mage_Webapi_Controller_Rest_Response extends Mage_Webapi_Controller_Respon
             }
             parent::sendResponse();
         } catch (Exception $e) {
-            // If the server does not support all MIME types accepted by the client it SHOULD send 406 (not acceptable).
-            $httpCode = $e->getCode() == Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
-                ? Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
-                : Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
+            if ($e instanceof Mage_Webapi_Exception) {
+                // If the server does not support all MIME types accepted by the client it SHOULD send 406.
+                $httpCode = $e->getHttpCode() == Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
+                    ? Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
+                    : Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
+            } else {
+                $httpCode = Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
+            }
 
             /** If error was encountered during "error rendering" process then use error renderer. */
             $this->_errorProcessor->renderException($e, $httpCode);
@@ -73,29 +77,32 @@ class Mage_Webapi_Controller_Rest_Response extends Mage_Webapi_Controller_Respon
         $responseHttpCode = null;
         /** @var Exception $exception */
         foreach ($this->getException() as $exception) {
+            // TODO: Move the following checks to error processor
             if ($exception instanceof Mage_Service_ResourceNotFoundException) {
-                $code = Mage_Webapi_Exception::HTTP_NOT_FOUND;
+                $httpCode = Mage_Webapi_Exception::HTTP_NOT_FOUND;
             } elseif ($exception instanceof Mage_Service_AuthorizationException) {
-                $code = Mage_Webapi_Exception::HTTP_UNAUTHORIZED;
+                $httpCode = Mage_Webapi_Exception::HTTP_UNAUTHORIZED;
             } elseif ($exception instanceof Mage_Service_Exception) {
-                $code = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
+                $httpCode = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
             } elseif ($exception instanceof Mage_Webapi_Exception) {
-                $code = $exception->getCode();
+                $httpCode = $exception->getHttpCode();
             } else {
-                $code = Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
+                $httpCode = Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
             }
 
             $messageData = array('code' => $exception->getCode(), 'message' => $exception->getMessage());
             if ($exception instanceof Mage_Service_Exception) {
                 /** @var Mage_Service_Exception $exception */
                 $messageData['parameters'] = $exception->getParameters();
+            } elseif ($exception instanceof Mage_Webapi_Exception) {
+                $messageData['http_code'] = $exception->getHttpCode();
             }
             if ($this->_app->isDeveloperMode()) {
                 $messageData['trace'] = $exception->getTraceAsString();
             }
             $formattedMessages['errors'][] = $messageData;
             // keep HTTP code for response
-            $responseHttpCode = $code;
+            $responseHttpCode = $httpCode;
         }
         // set HTTP code of the last error, Content-Type, and all rendered error messages to body
         $this->setHttpResponseCode($responseHttpCode);

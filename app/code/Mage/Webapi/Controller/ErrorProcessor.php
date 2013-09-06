@@ -55,23 +55,41 @@ class Mage_Webapi_Controller_ErrorProcessor
     /**
      * Mask actual exception for security reasons in case when it should not be exposed to API clients.
      *
+     * Convert any exception into Mage_Webapi_Exception.
+     *
      * @param Exception $exception
-     * @return Exception
+     * @return Mage_Webapi_Exception
      */
     public function maskException(Exception $exception)
     {
-        if (!($exception instanceof Mage_Webapi_Exception) && !$this->_app->isDeveloperMode()) {
-            /** Log information about actual exception. */
-            $reportId = $this->_logException($exception);
-            /** Create exception with masked message. */
-            return new Mage_Webapi_Exception(
-                $this->_apiHelper
-                    ->__('Internal Error. Details are available in Magento log file. Report ID: "%s"', $reportId),
-                Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
+        if ($exception instanceof Mage_Service_Exception) {
+            $maskedException = new Mage_Webapi_Exception(
+                $exception->getMessage(),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST,
+                $exception->getCode(),
+                $exception->getParameters()
             );
+        } else if($exception instanceof Mage_Webapi_Exception) {
+            $maskedException = $exception;
         } else {
-            return $exception;
+            if (!$this->_app->isDeveloperMode()) {
+                /** Log information about actual exception. */
+                $reportId = $this->_logException($exception);
+                /** Create exception with masked message. */
+                $maskedException = new Mage_Webapi_Exception(
+                    $this->_apiHelper
+                        ->__('Internal Error. Details are available in Magento log file. Report ID: "%s"', $reportId),
+                    Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
+                );
+            } else {
+                $maskedException = new Mage_Webapi_Exception(
+                    $exception->getMessage(),
+                    Mage_Webapi_Exception::HTTP_INTERNAL_ERROR,
+                    $exception->getCode()
+                );
+            }
         }
+        return $maskedException;
     }
 
     /**
@@ -86,7 +104,7 @@ class Mage_Webapi_Controller_ErrorProcessor
     public function renderException(Exception $exception, $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
     {
         if ($this->_app->isDeveloperMode() || $exception instanceof Mage_Webapi_Exception) {
-            $this->render($exception->getMessage(), $exception->getTraceAsString(), $exception->getCode());
+            $this->render($exception->getMessage(), $exception->getTraceAsString(), $httpCode);
         } else {
             $reportId = $this->_logException($exception);
             $this->render(

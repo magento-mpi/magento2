@@ -90,14 +90,16 @@ class Mage_Webapi_Controller_Rest_Request_Interpreter_JsonTest extends PHPUnit_F
             ->method('isDeveloperMode')
             ->will($this->returnValue(false));
         $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            'Decoding error.',
-            Mage_Webapi_Exception::HTTP_BAD_REQUEST
-        );
         /** Initialize SUT. */
         $inputInvalidJson = '{"key1":"test1"."key2":"test2"}';
-        $this->_jsonInterpreter->interpret($inputInvalidJson);
+        try {
+            $this->_jsonInterpreter->interpret($inputInvalidJson);
+            $this->fail("Exception is expected to be raised");
+        } catch (Mage_Webapi_Exception $e) {
+            $this->assertInstanceOf('Mage_Webapi_Exception', $e, 'Exception type is invalid');
+            $this->assertEquals('Decoding error.', $e->getMessage(), 'Exception message is invalid');
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+        }
     }
 
     public function testInterpretInvalidEncodedBodyExceptionDeveloperModeOn()
@@ -113,13 +115,15 @@ class Mage_Webapi_Controller_Rest_Request_Interpreter_JsonTest extends PHPUnit_F
         $this->_appMock->expects($this->once())
             ->method('isDeveloperMode')
             ->will($this->returnValue(true));
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            'Decoding error: %s%s%s%s',
-            Mage_Webapi_Exception::HTTP_BAD_REQUEST
-        );
         /** Initialize SUT. */
         $inputInvalidJson = '{"key1":"test1"."key2":"test2"}';
-        $this->_jsonInterpreter->interpret($inputInvalidJson);
+        try {
+            $this->_jsonInterpreter->interpret($inputInvalidJson);
+            $this->fail("Exception is expected to be raised");
+        } catch (Mage_Webapi_Exception $e) {
+            $this->assertInstanceOf('Mage_Webapi_Exception', $e, 'Exception type is invalid');
+            $this->assertEquals('Decoding error: %s%s%s%s', $e->getMessage(), 'Exception message is invalid');
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+        }
     }
 }

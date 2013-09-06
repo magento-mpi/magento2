@@ -22,9 +22,6 @@ class Mage_Webapi_Controller_Soap_Handler
     /** @var Mage_Webapi_Controller_Soap_Request */
     protected $_request;
 
-    /** @var Mage_Webapi_Controller_ErrorProcessor */
-    protected $_errorProcessor;
-
     /** @var Magento_ObjectManager */
     protected $_objectManager;
 
@@ -39,7 +36,6 @@ class Mage_Webapi_Controller_Soap_Handler
      *
      * @param Mage_Core_Model_App $application
      * @param Mage_Webapi_Controller_Soap_Request $request
-     * @param Mage_Webapi_Controller_ErrorProcessor $errorProcessor
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Webapi_Model_Soap_Config $apiConfig
      * @param Mage_Webapi_Controller_Soap_Security $security
@@ -48,7 +44,6 @@ class Mage_Webapi_Controller_Soap_Handler
     public function __construct(
         Mage_Core_Model_App $application,
         Mage_Webapi_Controller_Soap_Request $request,
-        Mage_Webapi_Controller_ErrorProcessor $errorProcessor,
         Magento_ObjectManager $objectManager,
         Mage_Webapi_Model_Soap_Config $apiConfig,
         Mage_Webapi_Controller_Soap_Security $security,
@@ -56,7 +51,6 @@ class Mage_Webapi_Controller_Soap_Handler
     ) {
         $this->_application = $application;
         $this->_request = $request;
-        $this->_errorProcessor = $errorProcessor;
         $this->_objectManager = $objectManager;
         $this->_apiConfig = $apiConfig;
         $this->_security = $security;
@@ -68,77 +62,43 @@ class Mage_Webapi_Controller_Soap_Handler
      *
      * @param string $operation
      * @param array $arguments
-     *
      * @return stdClass
-     * @throws Mage_Webapi_Exception
+     * @throws Mage_Webapi_Exception|LogicException
      */
     public function __call($operation, $arguments)
     {
-        try {
-            if ($this->_security->isSecurityHeader($operation)) {
-                $this->_security->processSecurityHeader($operation, $arguments);
-            } else {
-                $this->_security->checkPermissions($operation, $arguments);
-                $arguments = reset($arguments);
-                $this->_unpackArguments($arguments);
-                $arguments = get_object_vars($arguments);
-
-                $requestedServices = $this->_request->getRequestedServices();
-                $serviceMethodInfo = $this->_apiConfig->getServiceMethodInfo($operation, $requestedServices);
-                $serviceId = $serviceMethodInfo[Mage_Webapi_Model_Soap_Config::KEY_CLASS];
-                $serviceMethod = $serviceMethodInfo[Mage_Webapi_Model_Soap_Config::KEY_METHOD];
-
-                // check if the operation is a secure operation & whether the request was made in HTTPS
-                if ($serviceMethodInfo[Mage_Webapi_Model_Soap_Config::KEY_IS_SECURE] && !$this->_request->isSecure()) {
-                    throw new Mage_Webapi_Exception(
-                        $this->_helper->__("Operation allowed only in HTTPS"),
-                        Mage_Webapi_Exception::HTTP_BAD_REQUEST
-                    );
-                }
-
-                $service = $this->_objectManager->get($serviceId);
-                $outputData = $service->$serviceMethod($arguments);
-                if (!is_array($outputData)) {
-                    throw new LogicException(
-                        sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod, $serviceId)
-                    );
-                }
-                // TODO: Check why 'result' node is not generated in WSDL
-                // return (object)array(self::RESULT_NODE_NAME => $outputData);
-                return $outputData;
-            }
-        } catch (Exception $exception) {
-            $this->_getException($exception);
-        }
-    }
-
-    /**
-     * Get Exception
-     *
-     * @param Exception $exception
-     *
-     * @throws Mage_Webapi_Model_Soap_Fault
-     * @throws Mage_Webapi_Exception
-     */
-    protected function _getException($exception)
-    {
-        if ($exception instanceof Mage_Service_Exception) {
-            $originator = Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER;
-            $parameters = $exception->getParameters();
-        } elseif ($exception instanceof Mage_Webapi_Exception) {
-            $originator = $exception->getOriginator();
+        if ($this->_security->isSecurityHeader($operation)) {
+            $this->_security->processSecurityHeader($operation, $arguments);
         } else {
-            $originator = Mage_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER;
-            $exception = $this->_errorProcessor->maskException($exception);
+            $this->_security->checkPermissions($operation, $arguments);
+            $arguments = reset($arguments);
+            $this->_unpackArguments($arguments);
+            $arguments = get_object_vars($arguments);
+
+            $requestedServices = $this->_request->getRequestedServices();
+            $serviceMethodInfo = $this->_apiConfig->getServiceMethodInfo($operation, $requestedServices);
+            $serviceId = $serviceMethodInfo[Mage_Webapi_Model_Soap_Config::KEY_CLASS];
+            $serviceMethod = $serviceMethodInfo[Mage_Webapi_Model_Soap_Config::KEY_METHOD];
+
+            // check if the operation is a secure operation & whether the request was made in HTTPS
+            if ($serviceMethodInfo[Mage_Webapi_Model_Soap_Config::KEY_IS_SECURE] && !$this->_request->isSecure()) {
+                throw new Mage_Webapi_Exception(
+                    $this->_helper->__("Operation allowed only in HTTPS"),
+                    Mage_Webapi_Exception::HTTP_BAD_REQUEST
+                );
+            }
+
+            $service = $this->_objectManager->get($serviceId);
+            $outputData = $service->$serviceMethod($arguments);
+            if (!is_array($outputData)) {
+                throw new LogicException(
+                    sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod, $serviceId)
+                );
+            }
+            // TODO: Check why 'result' node is not generated in WSDL
+            // return (object)array(self::RESULT_NODE_NAME => $outputData);
+            return $outputData;
         }
-        throw new Mage_Webapi_Model_Soap_Fault(
-            $this->_application,
-            $exception->getMessage(),
-            $originator,
-            $exception,
-            isset($parameters) ? $parameters : array(),
-            $exception->getCode()
-        );
     }
 
     /**

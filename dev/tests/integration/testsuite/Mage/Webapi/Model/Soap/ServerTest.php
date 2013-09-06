@@ -21,6 +21,9 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Core_Model_Store */
     protected $_storeMock;
 
+    /** @var Mage_Webapi_Controller_Soap_Handler */
+    protected $_soapHandler;
+
     protected function setUp()
     {
         /** Init all dependencies for SUT. */
@@ -30,6 +33,8 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Request')->disableOriginalConstructor()
             ->getMock();
         $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
+            ->disableOriginalConstructor()->getMock();
+        $this->_soapHandler = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Handler')
             ->disableOriginalConstructor()->getMock();
 
         parent::setUp();
@@ -43,12 +48,12 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         /** Mock getConfig method to return true. */
         $this->_storeMock->expects($this->any())->method('getConfig')->will($this->returnValue(true));
         /** Create SOAP server object. */
-        $server = new Mage_Webapi_Model_Soap_Server(
+        new Mage_Webapi_Model_Soap_Server(
             $this->_applicationMock,
             $this->_requestMock,
-            $this->_domDocumentFactory
+            $this->_domDocumentFactory,
+            $this->_soapHandler
         );
-        $server->initWsdlCache();
         /** Assert that SOAP WSDL caching option was enabled after SOAP server initialization. */
         $this->assertTrue((bool)ini_get('soap.wsdl_cache_enabled'), 'WSDL caching was not enabled.');
     }
@@ -61,12 +66,12 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         /** Mock getConfig method to return false. */
         $this->_storeMock->expects($this->any())->method('getConfig')->will($this->returnValue(false));
         /** Create SOAP server object. */
-        $server = new Mage_Webapi_Model_Soap_Server(
+        new Mage_Webapi_Model_Soap_Server(
             $this->_applicationMock,
             $this->_requestMock,
-            $this->_domDocumentFactory
+            $this->_domDocumentFactory,
+            $this->_soapHandler
         );
-        $server->initWsdlCache();
         /** Assert that SOAP WSDL caching option was disabled after SOAP server initialization. */
         $this->assertFalse((bool)ini_get('soap.wsdl_cache_enabled'), 'WSDL caching was not disabled.');
     }

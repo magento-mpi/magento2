@@ -104,12 +104,15 @@ XML;
     {
         /** Mock request to return empty Accept Types. */
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue(''));
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            'Server cannot understand Accept HTTP header media type.',
-            Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
-        );
-        $this->_factory->get();
+        try {
+            $this->_factory->get();
+            $this->fail("Exception is expected to be raised");
+        } catch (Mage_Webapi_Exception $e) {
+            $exceptionMessage = 'Server cannot understand Accept HTTP header media type.';
+            $this->assertInstanceOf('Mage_Webapi_Exception', $e, 'Exception type is invalid');
+            $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE, $e->getHttpCode(), 'HTTP code is invalid');
+        }
     }
 
     /**

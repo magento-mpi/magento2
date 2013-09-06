@@ -107,13 +107,15 @@ class Mage_Webapi_Controller_Soap_AuthenticationTest extends PHPUnit_Framework_T
                 $this->_usernameToken->Created,
                 $this->_usernameToken->Nonce
             )->will($this->throwException($exception));
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            $exceptionMessage,
-            Mage_Webapi_Exception::HTTP_BAD_REQUEST
-        );
         /** Execute SUT. */
-        $this->_soapAuthentication->authenticate($this->_usernameToken);
+        try {
+            $this->_soapAuthentication->authenticate($this->_usernameToken);
+            $this->fail("Exception is expected to be raised");
+        } catch (Mage_Webapi_Exception $e) {
+            $this->assertInstanceOf('Mage_Webapi_Exception', $e, 'Exception type is invalid');
+            $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+        }
     }
 
     /**

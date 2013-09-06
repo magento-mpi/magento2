@@ -35,9 +35,6 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
     /** @var array */
     protected $_parameters;
 
-    /** @var string */
-    protected $_language;
-
     /**
      * Details that are used to generate 'Detail' node of SoapFault.
      *
@@ -45,40 +42,34 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
      */
     protected $_details = array();
 
+    /** @var Mage_Core_Model_App */
+    protected $_application;
+
     /**
      * Construct exception.
      *
      * @param Mage_Core_Model_App $application
-     * @param string $reason
-     * @param string $faultCode
-     * @param Exception $previous
-     * @param array $parameters
-     * @param string|null $errorCode
+     * @param Mage_Webapi_Exception $previousException
      */
     public function __construct(
         Mage_Core_Model_App $application,
-        $reason = self::FAULT_REASON_INTERNAL,
-        $faultCode = self::FAULT_CODE_RECEIVER,
-        Exception $previous = null,
-        $parameters = array(),
-        $errorCode = null
+        Mage_Webapi_Exception $previousException
     ) {
-        parent::__construct($reason, 0, $previous);
-        $this->_soapCode = $faultCode;
-        $this->_parameters = $parameters;
-        $this->_errorCode = $errorCode;
-        $this->_language = $application->getLocale()->getLocale()->getLanguage();
+        parent::__construct($previousException->getMessage(), $previousException->getCode(), $previousException);
+        $this->_soapCode = $previousException->getOriginator();
+        $this->_parameters = $previousException->getDetails();
+        $this->_errorCode = $previousException->getCode();
+        $this->_application = $application;
     }
 
     /**
      * Render exception as XML.
      *
-     * @param $isDeveloperMode
      * @return string
      */
-    public function toXml($isDeveloperMode = false)
+    public function toXml()
     {
-        if ($isDeveloperMode) {
+        if ($this->_application->isDeveloperMode()) {
             $this->addDetails(array(self::NODE_ERROR_DETAIL_TRACE => "<![CDATA[{$this->getTraceAsString()}]]>"));
         }
         if ($this->getParameters()) {
@@ -150,7 +141,7 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
      */
     public function getLanguage()
     {
-        return $this->_language;
+        return $this->_application->getLocale()->getLocale()->getLanguage();
     }
 
     /**

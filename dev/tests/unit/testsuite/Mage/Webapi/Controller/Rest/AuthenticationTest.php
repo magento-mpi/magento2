@@ -66,22 +66,25 @@ class Mage_Webapi_Controller_Rest_AuthenticationTest extends PHPUnit_Framework_T
     public function testAuthenticateMageWebapiException()
     {
         /** Prepare mocks for SUT constructor. */
+        $exceptionMessage = 'Exception message.';
         $this->_oauthServerMock
             ->expects($this->once())
             ->method('authenticateTwoLegged')
             ->will($this->throwException(
-                Mage::exception('Mage_Oauth', 'Exception message.', Mage_Oauth_Model_Server::HTTP_BAD_REQUEST)
+                Mage::exception('Mage_Oauth', $exceptionMessage, Mage_Oauth_Model_Server::HTTP_BAD_REQUEST)
             ));
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            'Exception message.',
-            Mage_Webapi_Exception::HTTP_UNAUTHORIZED
-        );
         $this->_oauthServerMock
             ->expects($this->once())
             ->method('reportProblem')
-            ->will($this->returnValue('Exception message.'));
+            ->will($this->returnValue($exceptionMessage));
         /** Execute SUT. */
-        $this->_restAuthentication->authenticate();
+        try {
+            $this->_restAuthentication->authenticate();
+            $this->fail("Exception is expected to be raised");
+        } catch (Mage_Webapi_Exception $e) {
+            $this->assertInstanceOf('Mage_Webapi_Exception', $e, 'Exception type is invalid');
+            $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_UNAUTHORIZED, $e->getHttpCode(), 'HTTP code is invalid');
+        }
     }
 }

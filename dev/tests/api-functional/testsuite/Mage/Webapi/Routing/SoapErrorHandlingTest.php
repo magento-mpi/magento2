@@ -59,7 +59,7 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
                 $e,
                 'Service not found',
                 'env:Sender',
-                Mage_Webapi_Exception::HTTP_NOT_FOUND
+                5555
             );
         }
     }
@@ -88,8 +88,7 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
                 $this->_checkSoapFault(
                     $e,
                     'Internal Error. Details are available in Magento log file. Report ID:',
-                    'env:Receiver',
-                    500
+                    'env:Receiver'
                 );
             }
         }
@@ -112,15 +111,13 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
                 $this->_checkSoapFault(
                     $e,
                     'Non service exception',
-                    'env:Receiver',
-                    0
+                    'env:Receiver'
                 );
             } else {
                 $this->_checkSoapFault(
                     $e,
                     'Internal Error. Details are available in Magento log file. Report ID:',
-                    'env:Receiver',
-                    500
+                    'env:Receiver'
                 );
             }
         }
@@ -140,38 +137,42 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
         $soapFault,
         $expectedMessage,
         $expectedFaultCode,
-        $expectedErrorCode,
+        $expectedErrorCode = null,
         $expectedErrorParams = array(),
         $isTraceExpected = false
     ) {
         $this->assertContains($expectedMessage, $soapFault->getMessage(), "Fault message is invalid.");
 
-        /** Check SOAP fault details */
         $errorDetailsNode = Mage_Webapi_Model_Soap_Fault::NODE_ERROR_DETAILS;
         $errorDetails = isset($soapFault->detail->$errorDetailsNode) ? $soapFault->detail->$errorDetailsNode : null;
-        $this->assertNotNull($errorDetails, "Details must be present.");
+        if (!is_null($expectedErrorCode) || !empty($expectedErrorParams) || $isTraceExpected) {
+            /** Check SOAP fault details */
+            $this->assertNotNull($errorDetails, "Details must be present.");
 
-        /** Check additional error parameters */
-        $paramsNode = Mage_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_PARAMETERS;
-        if ($expectedErrorParams) {
-            $this->assertEquals(
-                $expectedErrorParams,
-                (array)$errorDetails->$paramsNode,
-                "Parameters in fault details are invalid."
-            );
-        } else {
-            $this->assertFalse(isset($errorDetails->$paramsNode), "Parameters are not expected in fault details.");
-        }
-
-        /** Check error trace */
-        $traceNode = Mage_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_TRACE;
-        if (!Mage::app()->isDeveloperMode()) {
-            /** Developer mode changes tested behavior and it cannot properly be tested for now */
-            if ($isTraceExpected) {
-                $this->assertNotNull($errorDetails->$traceNode, "Exception trace was expected.");
+            /** Check additional error parameters */
+            $paramsNode = Mage_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_PARAMETERS;
+            if ($expectedErrorParams) {
+                $this->assertEquals(
+                    $expectedErrorParams,
+                    (array)$errorDetails->$paramsNode,
+                    "Parameters in fault details are invalid."
+                );
             } else {
-                $this->assertNull($errorDetails->$traceNode, "Exception trace was not expected.");
+                $this->assertFalse(isset($errorDetails->$paramsNode), "Parameters are not expected in fault details.");
             }
+
+            /** Check error trace */
+            $traceNode = Mage_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_TRACE;
+            if (!Mage::app()->isDeveloperMode()) {
+                /** Developer mode changes tested behavior and it cannot properly be tested for now */
+                if ($isTraceExpected) {
+                    $this->assertNotNull($errorDetails->$traceNode, "Exception trace was expected.");
+                } else {
+                    $this->assertNull($errorDetails->$traceNode, "Exception trace was not expected.");
+                }
+            }
+        } else {
+            $this->assertNull($errorDetails, "Details are not expected.");
         }
 
         /** Check error code */

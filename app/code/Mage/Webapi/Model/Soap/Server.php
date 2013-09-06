@@ -51,114 +51,58 @@ class Mage_Webapi_Model_Soap_Server
      */
     protected $faultExceptions = array();
 
+    /** @var Mage_Webapi_Controller_Soap_Handler */
+    protected $_soapHandler;
+
     /**
      * Initialize dependencies.
      *
      * @param Mage_Core_Model_App $application
      * @param Mage_Webapi_Controller_Soap_Request $request
      * @param Magento_DomDocument_Factory $domDocumentFactory
+     * @param Mage_Webapi_Controller_Soap_Handler
      * @throws Mage_Webapi_Exception with invalid SOAP extension
      */
     public function __construct(
         Mage_Core_Model_App $application,
         Mage_Webapi_Controller_Soap_Request $request,
-        Magento_DomDocument_Factory $domDocumentFactory
+        Magento_DomDocument_Factory $domDocumentFactory,
+        Mage_Webapi_Controller_Soap_Handler $soapHandler
     ) {
         if (!extension_loaded('soap')) {
             throw new Mage_Webapi_Exception('SOAP extension is not loaded.',
                 Mage_Webapi_Exception::HTTP_INTERNAL_ERROR);
         }
-
         $this->_application = $application;
         $this->_request = $request;
         $this->_domDocumentFactory = $domDocumentFactory;
+        $this->_soapHandler = $soapHandler;
+        $this->_initWsdlCache();
     }
 
     /**
-     * Process Webapi SOAP fault.
+     * Generate exception if request is invalid.
      *
-     * @param Mage_Webapi_Model_Soap_Fault|Exception|string $fault
-     * @param string $code
-     * @return SoapFault|string
-     */
-    public function fault($fault = null, $code = null)
-    {
-        if ($fault instanceof Mage_Webapi_Model_Soap_Fault) {
-            return $fault->toXml($this->_application->isDeveloperMode());
-        } else {
-            if ($fault instanceof \Exception) {
-                $class = get_class($fault);
-                if (in_array($class, $this->faultExceptions)) {
-                    $message = $fault->getMessage();
-                    $eCode   = $fault->getCode();
-                    $code    = empty($eCode) ? $code : $eCode;
-                } else {
-                    $message = 'Unknown error';
-                }
-            } elseif (is_string($fault)) {
-                $message = $fault;
-            } else {
-                $message = 'Unknown error';
-            }
-
-            $allowedFaultModes = array(
-                'VersionMismatch', 'MustUnderstand', 'DataEncodingUnknown',
-                'Sender', 'Receiver', 'Server'
-            );
-            if (!in_array($code, $allowedFaultModes)) {
-                $code = "Receiver";
-            }
-
-            return new \SoapFault($code, $message);
-        }
-    }
-
-    /**
-     * Catch exceptions if request is invalid and output fault message.
-     *
-     * @param DOMDocument|DOMNode|SimpleXMLElement|stdClass|string $request
+     * @param string $soapRequest
      * @throws Mage_Webapi_Exception with invalid SOAP extension
      * @return Mage_Webapi_Model_Soap_Server
-     * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    protected function _setRequest($request)
+    protected function _checkRequest($soapRequest)
     {
-        try {
-            if ($request instanceof DOMDocument) {
-                $xml = $request->saveXML();
-            } elseif ($request instanceof DOMNode) {
-                $xml = $request->ownerDocument->saveXML();
-            } elseif ($request instanceof SimpleXMLElement) {
-                $xml = $request->asXML();
-            } elseif (is_object($request) || is_string($request)) {
-                if (is_object($request)) {
-                    $xml = $request->__toString();
-                } else {
-                    $xml = $request;
-                }
-                libxml_disable_entity_loader(true);
-                $dom = new DOMDocument();
-                if (strlen($xml) == 0 || !$dom->loadXML($xml)) {
-                    throw new Mage_Webapi_Exception('Invalid XML', Mage_Webapi_Exception::HTTP_INTERNAL_ERROR);
-                }
-                foreach ($dom->childNodes as $child) {
-                    if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
-                        throw new Mage_Webapi_Exception('Invalid XML: Detected use of illegal DOCTYPE',
-                            Mage_Webapi_Exception::HTTP_INTERNAL_ERROR);
-                    }
-                }
-                libxml_disable_entity_loader(false);
-            }
-            $this->request = $xml;
-            return $this;
-        } catch (Exception $e) {
-            $fault = new Mage_Webapi_Model_Soap_Fault(
-                $this->_application,
-                $e->getMessage(),
-                Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER
-            );
-            die($fault->toXml($this->_application->isDeveloperMode()));
+        // TODO: Check why entity loader is required here
+        // TODO: Add translation to all Mage_Webapi_Exceptions
+        libxml_disable_entity_loader(true);
+        $dom = new DOMDocument();
+        if (strlen($soapRequest) == 0 || !$dom->loadXML($soapRequest)) {
+            throw new Mage_Webapi_Exception('Invalid XML', Mage_Webapi_Exception::HTTP_INTERNAL_ERROR);
         }
+        foreach ($dom->childNodes as $child) {
+            if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
+                throw new Mage_Webapi_Exception('Invalid XML: Detected use of illegal DOCTYPE',
+                    Mage_Webapi_Exception::HTTP_INTERNAL_ERROR);
+            }
+        }
+        libxml_disable_entity_loader(false);
         return $this;
     }
 
@@ -185,7 +129,7 @@ class Mage_Webapi_Model_Soap_Server
     /**
      * Enable or disable SOAP extension WSDL cache depending on Magento configuration.
      */
-    public function initWsdlCache()
+    protected function _initWsdlCache()
     {
         $wsdlCacheEnabled = (bool)$this->_application->getStore()->getConfig(self::CONFIG_PATH_WSDL_CACHE_ENABLED);
         if ($wsdlCacheEnabled) {
@@ -234,136 +178,40 @@ class Mage_Webapi_Model_Soap_Server
     public function getEndpointUri()
     {
         // @TODO: Implement proper endpoint URL retrieval mechanism in APIA-718 story
-        return $this->_application->getStore()->getBaseUrl()
-            . $this->_application->getConfig()->getAreaFrontName();
+        return $this->_application->getStore()->getBaseUrl() . $this->_application->getConfig()->getAreaFrontName();
     }
 
     /**
-     * Attach an object to a server
-     *
-     * Accepts an instanciated object to use when handling requests.
-     *
-     * @param object $object
-     * @throws Mage_Webapi_Exception
-     * @return Mage_Webapi_Model_Soap_Server
-     */
-    public function setObject($object)
-    {
-        if (!is_object($object)) {
-            throw new Mage_Webapi_Exception('Invalid object argument ('.gettype($object).')',
-                Mage_Webapi_Exception::HTTP_INTERNAL_ERROR);
-        }
-
-        if (isset($this->object)) {
-            throw new Mage_Webapi_Exception('An object has already been registered with this soap server instance',
-                Mage_Webapi_Exception::HTTP_INTERNAL_ERROR);
-        }
-
-        $this->object = $object;
-
-        return $this;
-    }
-
-    /**
+     * TODO: Fix method description
      * Handle a request
      *
      * Instantiates SoapServer object with options set in object, and
      * dispatches its handle() method.
+     * Pulls request using php:://input (for cross-platform compatibility purposes).
      *
-     * $request may be any of:
-     * - DOMDocument; if so, then cast to XML
-     * - DOMNode; if so, then grab owner document and cast to XML
-     * - SimpleXMLElement; if so, then cast to XML
-     * - stdClass; if so, calls __toString() and verifies XML
-     * - string; if so, verifies XML
-     *
-     * If no request is passed, pulls request using php:://input (for
-     * cross-platform compatibility purposes).
-     *
-     * @param DOMDocument|DOMNode|SimpleXMLElement|stdClass|string $request Optional request
      * @return string
      */
-    public function handle($request = null)
+    public function handle()
     {
-        if (null === $request) {
-            $request = file_get_contents('php://input');
-        }
-
-        // Set Server error handler
-        $displayErrorsOriginalState = $this->_initializeSoapErrorContext();
-
-        $setRequestException = null;
-        try {
-            $this->_setRequest($request);
-        } catch (\Exception $e) {
-            $setRequestException = $e;
-        }
-
-        $soap = $this->_getSoap();
-
-        $fault = false;
-        ob_start();
-        if ($setRequestException instanceof \Exception) {
-            // Create SOAP fault message if we've caught a request exception
-            $fault = $this->fault($setRequestException->getMessage(), 'Sender');
-        } else {
-            try {
-                $soap->handle($this->request);
-            } catch (\Exception $e) {
-                $fault = $this->fault($e);
-            }
-        }
-        $this->response = ob_get_clean();
-
-        // Restore original error handler
-        restore_error_handler();
-        ini_set('display_errors', $displayErrorsOriginalState);
-
-        // Send a fault, if we have one
-        if ($fault) {
-            $this->response = $fault;
-        }
-            echo $this->response;
+        $soapRequest = file_get_contents('php://input');
+        $this->_checkRequest($soapRequest);
+        $soap = $this->_createSoapServer();
+        return $soap->handle($soapRequest);
     }
 
     /**
-     * Method initializes the error context that the SOAPServer environment will run in.
+     * Instantiate SoapServer object.
      *
-     * @return boolean display_errors original value
+     * @return SoapServer
      */
-    protected function _initializeSoapErrorContext()
-    {
-        $displayErrorsOriginalState = ini_get('display_errors');
-        ini_set('display_errors', false);
-        set_error_handler(array($this, 'handlePhpErrors'), E_USER_ERROR);
-        return $displayErrorsOriginalState;
-    }
-
-    /**
-     * Get SoapServer object
-     *
-     * Uses {@link $wsdl} and return value of {@link getOptions()} to instantiate
-     * SoapServer object, and then registers any functions or class with it, as
-     * well as persistence.
-     *
-     * @return \SoapServer
-     */
-    protected function _getSoap()
+    protected function _createSoapServer()
     {
         $options = array(
             'encoding' => $this->getApiCharset(),
             'soap_version' => SOAP_1_2
         );
-        $server  = new \SoapServer($this->generateUri(true), $options);
-
-        if (!empty($this->functions)) {
-            $server->addFunction($this->functions);
-        }
-
-        if (!empty($this->object)) {
-            $server->setObject($this->object);
-        }
-
+        $server  = new SoapServer($this->generateUri(true), $options);
+        $server->setObject($this->_soapHandler);
         return $server;
     }
 }

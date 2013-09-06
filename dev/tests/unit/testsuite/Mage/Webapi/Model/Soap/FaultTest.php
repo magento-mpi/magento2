@@ -24,7 +24,16 @@ class Mage_Webapi_Model_Soap_FaultTest extends PHPUnit_Framework_TestCase
         $localeMock->expects($this->any())->method('getLocale')->will($this->returnValue(new Zend_Locale('en_US')));
         $this->_appMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
         /** Initialize SUT. */
-        $this->_soapFault = new Mage_Webapi_Model_Soap_Fault($this->_appMock);
+        $message = "Soap fault reason.";
+        $details = array('param1' => 'value1', 'param2' => 2);
+        $code = 111;
+        $webapiException = new Mage_Webapi_Exception(
+            $message,
+            Mage_Webapi_Exception::HTTP_INTERNAL_ERROR,
+            $code,
+            $details
+        );
+        $this->_soapFault = new Mage_Webapi_Model_Soap_Fault($this->_appMock, $webapiException);
         parent::setUp();
     }
 
@@ -37,22 +46,32 @@ class Mage_Webapi_Model_Soap_FaultTest extends PHPUnit_Framework_TestCase
 
     public function testToXmlDeveloperModeOff()
     {
+        $this->_appMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(false));
         $expectedResult = <<<XML
 <?xml version="1.0" encoding="utf-8" ?>
-<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="http://magento.com">
     <env:Body>
         <env:Fault>
             <env:Code>
                 <env:Value>env:Receiver</env:Value>
             </env:Code>
             <env:Reason>
-                <env:Text xml:lang="en">Internal Error.</env:Text>
+                <env:Text xml:lang="en">Soap fault reason.</env:Text>
             </env:Reason>
+            <env:Detail>
+                <m:ErrorDetails>
+                    <m:Parameters>
+                        <m:param1>value1</m:param1>
+                        <m:param2>2</m:param2>
+                    </m:Parameters>
+                    <m:Code>111</m:Code>
+                </m:ErrorDetails>
+            </env:Detail>
         </env:Fault>
     </env:Body>
 </env:Envelope>
 XML;
-        $actualXml = $this->_soapFault->toXml(false);
+        $actualXml = $this->_soapFault->toXml();
         $this->assertXmlStringEqualsXmlString(
             $expectedResult,
             $actualXml,
@@ -62,6 +81,7 @@ XML;
 
     public function testToXmlDeveloperModeOn()
     {
+        $this->_appMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(true));
         $actualXml = $this->_soapFault->toXml(true);
         $this->assertContains('<m:Trace>', $actualXml, 'Exception trace is not found in XML.');
     }
@@ -138,13 +158,17 @@ XML;
     public function testConstructor()
     {
         $message = "Soap fault reason.";
+        $details = array('param1' => 'value1', 'param2' => 2);
+        $code = 111;
+        $webapiException = new Mage_Webapi_Exception(
+            $message,
+            Mage_Webapi_Exception::HTTP_INTERNAL_ERROR,
+            $code,
+            $details
+        );
         $soapFault = new Mage_Webapi_Model_Soap_Fault(
             $this->_appMock,
-            $message,
-            Mage_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER,
-            null,
-            array('param1' => 'value1', 'param2' => 2),
-            111
+            $webapiException
         );
         $actualXml = $soapFault->toXml();
         $expectedXml = <<<FAULT_XML
@@ -156,7 +180,7 @@ XML;
                 <env:Value>env:Receiver</env:Value>
             </env:Code>
             <env:Reason>
-                <env:Text xml:lang="en">Soap fault reason.</env:Text>
+                <env:Text xml:lang="en">{$message}</env:Text>
             </env:Reason>
             <env:Detail>
                 <m:ErrorDetails>
@@ -164,7 +188,7 @@ XML;
                         <m:param1>value1</m:param1>
                         <m:param2>2</m:param2>
                     </m:Parameters>
-                    <m:Code>111</m:Code>
+                    <m:Code>{$code}</m:Code>
                 </m:ErrorDetails>
             </env:Detail>
         </env:Fault>

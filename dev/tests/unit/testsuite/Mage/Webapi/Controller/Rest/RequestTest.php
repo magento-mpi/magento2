@@ -218,11 +218,14 @@ class Mage_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestCase
 
     public function testSetServiceVersionVersionIsNotSpecifiedException()
     {
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            'Service version is not specified or invalid one is specified.',
-            Mage_Webapi_Exception::HTTP_BAD_REQUEST
-        );
-        $this->_request->setServiceVersion('x1');
+        $exceptionMessage = 'Service version is not specified or invalid one is specified.';
+        try {
+            $this->_request->setServiceVersion('x1');
+            $this->fail("Exception is expected to be raised");
+        } catch (Mage_Webapi_Exception $e) {
+            $this->assertInstanceOf('Mage_Webapi_Exception', $e, 'Exception type is invalid');
+            $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+        }
     }
 }

@@ -172,12 +172,15 @@ class Mage_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_TestCa
         /** Mock app isDeveloperMode to return true. */
         $this->_appMock->expects($this->once())->method('isDeveloperMode')->will($this->returnValue(true));
         /** Init Logical exception. */
-        $logicalException = new LogicException();
-        /** Assert that Webapi exception was not masked. */
+        $errorMessage = 'Error Message';
+        $logicalException = new LogicException($errorMessage);
+        /** Assert that Logic exception is converted to Mage_Webapi_Exception without message obfuscation. */
+        $maskedException = $this->_errorProcessor->maskException($logicalException);
+        $this->assertInstanceOf('Mage_Webapi_Exception', $maskedException);
         $this->assertEquals(
-            $this->_errorProcessor->maskException($logicalException),
-            $logicalException,
-            'Exception was masked wrong in developer mode.'
+            $errorMessage,
+            $maskedException->getMessage(),
+            'Exception was masked incorrectly in developer mode.'
         );
     }
 
@@ -188,13 +191,14 @@ class Mage_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_TestCa
     {
         /** Assert that exception was logged. */
         $this->_loggerMock->expects($this->once())->method('logException');
-        $maskedException = $this->_errorProcessor->maskException(new LogicException());
+        $exceptionMessage = 'Exception Message';
+        $maskedException = $this->_errorProcessor->maskException(new LogicException($exceptionMessage));
         /** Assert that masked exception type is Mage_Webapi_Exception. */
         $this->assertInstanceOf('Mage_Webapi_Exception', $maskedException, 'Masked exception type is not Webapi.');
         /** Assert that masked exception code is 500. */
         $this->assertEquals(
             Mage_Webapi_Exception::HTTP_INTERNAL_ERROR,
-            $maskedException->getCode(),
+            $maskedException->getHttpCode(),
             'Masked exception code is invalid.'
         );
         /** Assert masked exception message. */

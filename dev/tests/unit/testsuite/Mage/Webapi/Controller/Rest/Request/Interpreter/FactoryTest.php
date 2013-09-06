@@ -96,17 +96,20 @@ class Mage_Webapi_Controller_Rest_Request_Interpreter_FactoryTest extends PHPUni
             ->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue(array($expectedMetadata)));
+        $exceptionMessage = 'Server cannot understand Content-Type HTTP header media type "%s"';
         $this->_helperMock->expects($this->once())
             ->method('__')
-            ->with('Server cannot understand Content-Type HTTP header media type "%s"', 'text_xml')
-            ->will($this->returnValue('Server cannot understand Content-Type HTTP header media type "text_xml"'));
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            'Server cannot understand Content-Type HTTP header media type "text_xml"',
-            Mage_Webapi_Exception::HTTP_BAD_REQUEST
-        );
+            ->with($exceptionMessage)
+            ->will($this->returnValue($exceptionMessage));
         /** Initialize SUT. */
-        $this->_interpreterFactory->get('text_xml');
+        try {
+            $this->_interpreterFactory->get('text_xml');
+            $this->fail("Exception is expected to be raised");
+        } catch (Mage_Webapi_Exception $e) {
+            $this->assertInstanceOf('Mage_Webapi_Exception', $e, 'Exception type is invalid');
+            $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+        }
     }
 
     public function testGetLogicExceptionInvalidRequestInterpreter()

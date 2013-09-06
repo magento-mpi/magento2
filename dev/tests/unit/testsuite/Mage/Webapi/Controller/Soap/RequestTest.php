@@ -64,14 +64,17 @@ class Mage_Webapi_Controller_Soap_RequestTest extends PHPUnit_Framework_TestCase
             ->method('__')
             ->with('Please use only "%s" and "%s".', $wsdlParam, $servicesParam)
             ->will($this->returnValue('Please use only "' . $wsdlParam . '" and "' . $servicesParam . '".'));
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            'Not allowed parameters: param_1, param_2. Please use only "'
-            . $wsdlParam . '" and "' . $servicesParam . '".',
-            Mage_Webapi_Exception::HTTP_BAD_REQUEST
-        );
+        $exceptionMessage = 'Not allowed parameters: param_1, param_2. Please use only "'
+            . $wsdlParam . '" and "' . $servicesParam . '".';
         /** Execute SUT. */
-        $this->_soapRequest->getRequestedServices();
+        try {
+            $this->_soapRequest->getRequestedServices();
+            $this->fail("Exception is expected to be raised");
+        } catch (Mage_Webapi_Exception $e) {
+            $this->assertInstanceOf('Mage_Webapi_Exception', $e, 'Exception type is invalid');
+            $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+        }
     }
 
     public function testGetRequestedServicesEmptyRequestedServicesException()
@@ -82,13 +85,16 @@ class Mage_Webapi_Controller_Soap_RequestTest extends PHPUnit_Framework_TestCase
         $this->_helperMock->expects($this->any())
             ->method('__')
             ->will($this->returnArgument(0));
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            'Incorrect format of WSDL request URI or Requested services are missing',
-            Mage_Webapi_Exception::HTTP_BAD_REQUEST
-        );
+        $exceptionMessage = 'Incorrect format of WSDL request URI or Requested services are missing.';
         /** Execute SUT. */
-        $this->_soapRequest->getRequestedServices();
+        try {
+            $this->_soapRequest->getRequestedServices();
+            $this->fail("Exception is expected to be raised");
+        } catch (Mage_Webapi_Exception $e) {
+            $this->assertInstanceOf('Mage_Webapi_Exception', $e, 'Exception type is invalid');
+            $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+        }
     }
 
     /**

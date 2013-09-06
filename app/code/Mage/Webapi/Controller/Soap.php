@@ -18,20 +18,17 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
     /** @var Mage_Webapi_Controller_Soap_Request */
     protected $_request;
 
-    /** @var Mage_Webapi_Model_Soap_Fault */
-    protected $_soapFault;
-
     /** @var Mage_Webapi_Controller_Response */
     protected $_response;
 
     /** @var Mage_Webapi_Controller_ErrorProcessor */
     protected $_errorProcessor;
 
-    /** @var Mage_Webapi_Controller_Soap_Handler */
-    protected $_soapHandler;
-
     /** @var Mage_Core_Model_App_State */
     protected $_appState;
+
+    /** @var Mage_Core_Model_App */
+    protected $_application;
 
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
@@ -43,10 +40,9 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Webapi_Model_Soap_Wsdl_Generator $wsdlGenerator
      * @param Mage_Webapi_Model_Soap_Server $soapServer
-     * @param Mage_Webapi_Model_Soap_Fault $soapFault
      * @param Mage_Webapi_Controller_ErrorProcessor $errorProcessor
-     * @param Mage_Webapi_Controller_Soap_Handler $soapHandler
      * @param Mage_Core_Model_App_State $appState
+     * @param Mage_Core_Model_App $application
      * @param Mage_Webapi_Helper_Data $helper
      */
     public function __construct(
@@ -54,20 +50,18 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Model_Soap_Wsdl_Generator $wsdlGenerator,
         Mage_Webapi_Model_Soap_Server $soapServer,
-        Mage_Webapi_Model_Soap_Fault $soapFault,
         Mage_Webapi_Controller_ErrorProcessor $errorProcessor,
-        Mage_Webapi_Controller_Soap_Handler $soapHandler,
         Mage_Core_Model_App_State $appState,
+        Mage_Core_Model_App $application,
         Mage_Webapi_Helper_Data $helper
     ) {
         $this->_request = $request;
         $this->_response = $response;
         $this->_wsdlGenerator = $wsdlGenerator;
         $this->_soapServer = $soapServer;
-        $this->_soapFault = $soapFault;
         $this->_errorProcessor = $errorProcessor;
-        $this->_soapHandler = $soapHandler;
         $this->_appState = $appState;
+        $this->_application = $application;
         $this->_helper = $helper;
     }
 
@@ -95,7 +89,7 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST
                 );
             }
-            if ($this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {
+            if ($this->_isWsdlRequest()) {
                 $responseBody = $this->_wsdlGenerator->generate(
                     $this->_request->getRequestedServices(),
                     $this->_soapServer->generateUri()
@@ -107,31 +101,38 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
             }
             $this->_setResponseBody($responseBody);
         } catch (Exception $e) {
-            $maskedException = $this->_errorProcessor->maskException($e);
-            $this->_processBadRequest($maskedException->getMessage());
+            $this->_prepareErrorResponse($e);
         }
         $this->_response->sendResponse();
         return $this;
     }
 
     /**
-     * Process request as HTTP 400 and set error message.
+     * Check if current request is WSDL request. SOAP operation execution request is another type of requests.
      *
-     * @param string $message
+     * @return bool
      */
-    protected function _processBadRequest($message)
+    protected function _isWsdlRequest()
     {
+        return $this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null;
+    }
+
+    /**
+     * Set body and status code to response using information extracted from provided exception.
+     *
+     * @param Mage_Webapi_Exception $exception
+     */
+    protected function _prepareErrorResponse($exception)
+    {
+        $maskedException = $this->_errorProcessor->maskException($exception);
         $this->_setResponseContentType('text/xml');
-        $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Rest_Response::HTTP_OK);
-        $details = array();
+        $soapFault = new Mage_Webapi_Model_Soap_Fault($this->_application, $maskedException);
+        $httpCode = $this->_isWsdlRequest()
+            ? $maskedException->getHttpCode()
+            : Mage_Webapi_Controller_Rest_Response::HTTP_OK;
+        $this->_response->setHttpResponseCode($httpCode);
         // TODO: Generate list of available URLs when invalid WSDL URL specified
-        $this->_setResponseBody(
-            $this->_soapFault->getSoapFaultMessage(
-                $message,
-                Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER,
-                $details
-            )
-        );
+        $this->_setResponseBody($soapFault->toXml());
     }
 
     /**
@@ -172,11 +173,9 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
      */
     protected function _initSoapServer()
     {
-        $this->_soapServer->initWsdlCache();
         use_soap_error_handler(false);
         // TODO: Headers are not available at this point.
         // $this->_soapHandler->setRequestHeaders($this->_getRequestHeaders());
-        $this->_soapServer->setObject($this->_soapHandler);
 
         return $this->_soapServer;
     }

@@ -94,15 +94,14 @@ class Mage_Webapi_Controller_Rest_ResponseTest extends PHPUnit_Framework_TestCas
      */
     public function testSendResponseRenderMessagesHttpNotAcceptable()
     {
-        /** Init logic exception. */
-        $logicException = new LogicException('Message', Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE);
-        /** Mock renderer to throw LogicException in getMimeType method. */
+        $exception = new Mage_Webapi_Exception('Message', Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE);
+        /** Mock renderer to throw Exception in getMimeType method. */
         $this->_rendererMock->expects($this->any())->method('getMimeType')->will(
-            $this->throwException($logicException)
+            $this->throwException($exception)
         );
         /** Assert that renderException method will be executed once with specified parameters. */
         $this->_errorProcessorMock->expects($this->once())->method('renderException')->with(
-            $logicException,
+            $exception,
             Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
         );
         /** Set exception to Rest response to get in to the _renderMessages method. */
@@ -181,7 +180,7 @@ class Mage_Webapi_Controller_Rest_ResponseTest extends PHPUnit_Framework_TestCas
         return array(
             'Mage_Webapi_Exception' => array(
                 new Mage_Webapi_Exception('Message', Mage_Webapi_Exception::HTTP_BAD_REQUEST),
-                '{"errors":[{"code":400,"message":"Message"}]}',
+                '{"errors":[{"code":0,"message":"Message","http_code":400}]}',
                 'Response sending with Mage_Webapi_Exception is invalid'
             ),
             'Logical Exception' => array(
@@ -202,7 +201,7 @@ class Mage_Webapi_Controller_Rest_ResponseTest extends PHPUnit_Framework_TestCas
         return array(
             'Mage_Webapi_Exception' => array(
                 new Mage_Webapi_Exception('Message', Mage_Webapi_Exception::HTTP_BAD_REQUEST),
-                '{"errors":[{"code":400,"message":"Message","trace":"',
+                '{"errors":[{"code":0,"message":"Message","http_code":400,"trace"',
                 'Response sending with Mage_Webapi_Exception in developer mode is invalid'
             ),
             'Logical Exception' => array(

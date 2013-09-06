@@ -27,6 +27,9 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     /** @var Magento_DomDocument_Factory */
     protected $_domDocumentFactory;
 
+    /** @var Mage_Webapi_Controller_Soap_Handler */
+    protected $_soapHandler;
+
     protected function setUp()
     {
         /** Init all dependencies for SUT. */
@@ -48,11 +51,15 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
             ->disableOriginalConstructor()->getMock();
 
+        $this->_soapHandler = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Handler')
+            ->disableOriginalConstructor()->getMock();
+
         /** Init SUT. */
         $this->_soapServer = new Mage_Webapi_Model_Soap_Server(
             $this->_appMock,
             $this->_requestMock,
-            $this->_domDocumentFactory
+            $this->_domDocumentFactory,
+            $this->_soapHandler
         );
 
         parent::setUp();
@@ -64,6 +71,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         unset($this->_appMock);
         unset($this->_requestMock);
         unset($this->_storeMock);
+        unset($this->_soapHandler);
         parent::tearDown();
     }
 
@@ -102,31 +110,6 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         $actualResult = $this->_soapServer->getEndpointUri();
         $this->assertEquals($expectedResult, $actualResult, 'Endpoint URI building is invalid.');
     }
-
-    /**
-     * Test fault method with Exception.
-     */
-    public function testExceptionFault()
-    {
-        /** Init Exception. */
-        $exception = new Exception();
-        $faultResult = $this->_soapServer->fault($exception);
-        /** Assert that returned object is instance of SoapFault class. */
-        $this->assertInstanceOf('SoapFault', $faultResult, 'SoapFault was not returned.');
-    }
-
-    /**
-     * Test fault method with Mage_Webapi_Model_Soap_Fault.
-     */
-    public function testWebapiSoapFault()
-    {
-        /** Mock Webapi Soap fault. */
-        $apiFault = $this->getMockBuilder('Mage_Webapi_Model_Soap_Fault')->disableOriginalConstructor()->getMock();
-        /** Assert that mocked fault toXml method will be executed once. */
-        $apiFault->expects($this->once())->method('toXml');
-        $this->_soapServer->fault($apiFault);
-    }
-
 
     /**
      * Test generate uri with wsdl param as true

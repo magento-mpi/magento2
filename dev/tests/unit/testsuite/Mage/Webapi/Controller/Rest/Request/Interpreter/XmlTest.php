@@ -114,13 +114,16 @@ class Mage_Webapi_Controller_Rest_Request_Interpreter_XmlTest extends PHPUnit_Fr
         $this->_xmlInterpreter->handleErrors(null, $errorMessage, null, null);
         $this->_xmlParserMock->expects($this->once())->method('loadXML');
         $invalidXml = '<?xml version="1.0"?><xml><key1>test1</xml>';
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            'Decoding Error: End tag for "key1" was omitted.',
-            Mage_Webapi_Exception::HTTP_BAD_REQUEST
-        );
         /** Initialize SUT. */
-        $this->_xmlInterpreter->interpret($invalidXml);
+        try {
+            $this->_xmlInterpreter->interpret($invalidXml);
+            $this->fail("Exception is expected to be raised");
+        } catch (Mage_Webapi_Exception $e) {
+            $exceptionMessage = 'Decoding Error: End tag for "key1" was omitted.';
+            $this->assertInstanceOf('Mage_Webapi_Exception', $e, 'Exception type is invalid');
+            $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+        }
     }
 
     public function testInterpretMageWebapiExceptionDeveloperModeOff()
@@ -133,12 +136,14 @@ class Mage_Webapi_Controller_Rest_Request_Interpreter_XmlTest extends PHPUnit_Fr
         $this->_xmlInterpreter->handleErrors(null, $errorMessage, null, null);
         $this->_xmlParserMock->expects($this->once())->method('loadXML');
         $invalidXml = '<?xml version="1.0"?><xml><key1>test1</xml>';
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            'Decoding error.',
-            Mage_Webapi_Exception::HTTP_BAD_REQUEST
-        );
         /** Initialize SUT. */
-        $this->_xmlInterpreter->interpret($invalidXml);
+        try {
+            $this->_xmlInterpreter->interpret($invalidXml);
+            $this->fail("Exception is expected to be raised");
+        } catch (Mage_Webapi_Exception $e) {
+            $this->assertInstanceOf('Mage_Webapi_Exception', $e, 'Exception type is invalid');
+            $this->assertEquals('Decoding error.', $e->getMessage(), 'Exception message is invalid');
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+        }
     }
 }

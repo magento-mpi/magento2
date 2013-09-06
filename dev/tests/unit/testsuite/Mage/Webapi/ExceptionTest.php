@@ -14,18 +14,28 @@ class Mage_Webapi_ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $apiException = new Mage_Webapi_Exception('Message', Mage_Webapi_Exception::HTTP_UNAUTHORIZED);
-        /** Assert the set Exception code. */
+        $code = 1111;
+        $details = array('key1' => 'value1', 'key2' => 'value2');
+        $apiException = new Mage_Webapi_Exception('Message', Mage_Webapi_Exception::HTTP_UNAUTHORIZED, $code, $details);
         $this->assertEquals(
-            $apiException->getCode(),
+            $apiException->getHttpCode(),
             Mage_Webapi_Exception::HTTP_UNAUTHORIZED,
-            'Exception code is set incorrectly in construct.'
+            'Exception HTTP code is set incorrectly in construct.'
         );
-        /** Assert the set Exception message. */
         $this->assertEquals(
             $apiException->getMessage(),
             'Message',
             'Exception message is set incorrectly in construct.'
+        );
+        $this->assertEquals(
+            $apiException->getCode(),
+            $code,
+            'Exception code is set incorrectly in construct.'
+        );
+        $this->assertEquals(
+            $apiException->getDetails(),
+            $details,
+            'Details are set incorrectly in construct.'
         );
     }
 
@@ -36,7 +46,7 @@ class Mage_Webapi_ExceptionTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructInvalidCode($code)
     {
-        $this->setExpectedException('InvalidArgumentException', 'The specified code "' . $code . '" is invalid.');
+        $this->setExpectedException('InvalidArgumentException', 'The specified HTTP code "' . $code . '" is invalid.');
         /** Create Mage_Webapi_Exception object with invalid code. */
         /** Valid codes range is from 400 to 599. */
         new Mage_Webapi_Exception('Message', $code);
