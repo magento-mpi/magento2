@@ -16,7 +16,7 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Admin_Custom extends Magento_Core_Model_Config_Data
+class Magento_Backend_Model_Config_Backend_Admin_Custom extends Magento_Core_Model_Config_Value
 {
     const CONFIG_SCOPE                      = 'stores';
     const CONFIG_SCOPE_ID                   = 0;

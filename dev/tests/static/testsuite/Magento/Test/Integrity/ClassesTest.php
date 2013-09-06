@@ -188,20 +188,13 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $relativePath = str_replace(Magento_TestFramework_Utility_Files::init()->getPathToSource(), "", $file);
 
         $classPattern = '/^class\s[A-Z][^\s\/]+/m';
-        $namespacePattern = '/(Maged|Magento|Zend)\/[a-zA-Z]+[^\.]+/';
-        $formalPattern = '/^namespace\s[\\\\a-zA-Z]+/m';
 
         $classNameMatch = array();
-        $namespaceMatch = array();
-        $formalNamespaceArray = array();
         $className = null;
-        $namespace = null;
-        $namespaceFolders = null;
 
-        // exceptions made for the following files
-        if ($relativePath == "/app/code/Zend/Soap/Wsdl.php"
-            || $relativePath == "/dev/tests/unit/testsuite/Magento/Test/Tools/Di/_files/app/code/Magento/SomeModule/Model/Test.php"
-            || $relativePath == "/dev/tests/unit/testsuite/Magento/Test/Tools/Di/_files/app/code/Magento/SomeModule/Helper/Test.php") {
+        // exceptions made for the files from the blacklist
+        $blacklist = require __DIR__ . '/Blacklist.php';
+        if (in_array($relativePath, $blacklist)) {
             return;
         }
 
@@ -209,7 +202,29 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         if (!preg_match($classPattern, $contents, $classNameMatch) != 0) {
             return;
         }
+
         $className = substr($classNameMatch[0], 6);
+        $this->_assertClassNamespace($file, $relativePath, $contents, $className);
+    }
+
+    /**
+     * Assert PHP classes have valid pseudo-namespaces according to file locations
+     *
+     *
+     * @param string $file
+     * @param string $relativePath
+     * @param string $contents
+     * @param string $className
+     */
+    protected function _assertClassNamespace($file, $relativePath, $contents, $className)
+    {
+        $namespacePattern = '/(Maged|Magento|Zend)\/[a-zA-Z]+[^\.]+/';
+        $formalPattern = '/^namespace\s[\\\\a-zA-Z]+/m';
+
+        $namespaceMatch = array();
+        $formalNamespaceArray = array();
+        $namespace = null;
+        $namespaceFolders = null;
 
         if (preg_match($namespacePattern, $relativePath, $namespaceMatch) != 0) {
             $namespace = str_replace('/', '_', $namespaceMatch[0]);

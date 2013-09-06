@@ -58,19 +58,9 @@ class Magento_Webapi_Controller_Front implements Magento_Core_Controller_FrontIn
         $this->_application = $application;
         $this->_routeFactory = $routeFactory;
         $this->_errorProcessor = $errorProcessor;
-    }
 
-    /**
-     * Prepare environment, initialize dispatcher.
-     *
-     * @return Magento_Webapi_Controller_Front
-     */
-    public function init()
-    {
         ini_set('display_startup_errors', 0);
         ini_set('display_errors', 0);
-
-        return $this;
     }
 
     /**

@@ -14,7 +14,7 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
-*/
+ */
 class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader extends Magento_Adminhtml_Block_Media_Uploader
 {
     protected function _construct()

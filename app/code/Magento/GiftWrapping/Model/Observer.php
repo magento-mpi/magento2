@@ -26,7 +26,7 @@ class Magento_GiftWrapping_Model_Observer
      */
     protected function _saveItemInfo($entity, $data)
     {
-        if (is_array($data)) {
+        if (is_array($data) && isset($data['design'])) {
             $wrapping = Mage::getModel('Magento_GiftWrapping_Model_Wrapping')->load($data['design']);
             $entity->setGwId($wrapping->getId())
                 ->save();

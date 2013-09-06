@@ -15,7 +15,7 @@
  * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_System_Config_Backend_Minqty extends Magento_Core_Model_Config_Data
+class Magento_CatalogInventory_Model_System_Config_Backend_Minqty extends Magento_Core_Model_Config_Value
 {
     /**
     * Validate minimum product qty value

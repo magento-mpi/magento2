@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Model_System_Config_Backend_Pool extends Magento_Core_Model_Config_Data
+class Magento_GiftCardAccount_Model_System_Config_Backend_Pool extends Magento_Core_Model_Config_Value
 {
     protected function _beforeSave()
     {

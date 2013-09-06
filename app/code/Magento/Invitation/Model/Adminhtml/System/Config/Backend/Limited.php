@@ -16,7 +16,7 @@
  * @package    Magento_Invitation
  */
 class Magento_Invitation_Model_Adminhtml_System_Config_Backend_Limited
-    extends Magento_Core_Model_Config_Data
+    extends Magento_Core_Model_Config_Value
 {
 
     /**

@@ -105,10 +105,8 @@ class Magento_Reward_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getConfigValue($section, $field, $websiteId = null)
     {
-        if ($websiteId === null) {
-            $websiteId = Mage::app()->getWebsite()->getId();
-        }
-        return (string)Mage::app()->getConfig()->getNode($section . $field, 'website', (int)$websiteId);
+        $code = Mage::app()->getWebsite($websiteId)->getCode();
+        return (string)Mage::app()->getConfig()->getValue($section . $field, 'website', $code);
     }
 
     /**

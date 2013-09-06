@@ -122,7 +122,7 @@ class Magento_Index_Model_Observer
         $configData = $observer->getEvent()->getConfigData();
         $this->_indexer->processEntityAction(
             $configData,
-            Magento_Core_Model_Config_Data::ENTITY,
+            Magento_Core_Model_Config_Value::ENTITY,
             Magento_Index_Model_Event::TYPE_SAVE
         );
     }

@@ -145,26 +145,17 @@ class Magento_Core_Model_Translate
      */
     protected $_placeholderRender;
 
-    /**
-     * Initialize translate model
-     *
-     * @param Magento_Core_Model_View_DesignInterface $viewDesign
-     * @param Magento_Core_Model_Locale_Hierarchy_Loader $loader
-     * @param Magento_core_Model_Translate_Factory $translateFactory
-     * @param \Magento\Cache\FrontendInterface $cache
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
-     */
+   
     public function __construct(
         Magento_Core_Model_View_DesignInterface $viewDesign,
-        Magento_Core_Model_Locale_Hierarchy_Loader $loader,
+        Magento_Core_Model_Locale_Hierarchy_Config $config,
         Magento_Core_Model_Translate_Factory $translateFactory,
         \Magento\Cache\FrontendInterface $cache,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         \Magento\Phrase\Renderer\Placeholder $placeholderRender
     ) {
         $this->_viewDesign = $viewDesign;
-        $this->_localeHierarchy = $loader->load();
+        $this->_localeHierarchy = $config->getHierarchy();
         $this->_translateFactory = $translateFactory;
         $this->_cache = $cache;
         $this->_viewFileSystem = $viewFileSystem;

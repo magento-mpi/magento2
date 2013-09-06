@@ -62,128 +62,6 @@
                 </totals>
             </order_creditmemo>
         </sales>
-        <events>
-            <newsletter_subscriber_save_commit_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>customerSubscribed</method>
-                    </magento_reward>
-                </observers>
-            </newsletter_subscriber_save_commit_after>
-            <paypal_prepare_line_items>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>addPaypalRewardItem</method>
-                    </magento_reward>
-                </observers>
-            </paypal_prepare_line_items>
-            <sales_order_save_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>orderCompleted</method>
-                    </magento_reward>
-                </observers>
-            </sales_order_save_after>
-            <sales_quote_collect_totals_before>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>quoteCollectTotalsBefore</method>
-                    </magento_reward>
-                </observers>
-            </sales_quote_collect_totals_before>
-            <sales_quote_merge_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>quoteMergeAfter</method>
-                    </magento_reward>
-                </observers>
-            </sales_quote_merge_after>
-            <sales_order_load_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>orderLoadAfter</method>
-                    </magento_reward>
-                </observers>
-            </sales_order_load_after>
-            <sales_order_invoice_register>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>invoiceRegister</method>
-                    </magento_reward>
-                </observers>
-            </sales_order_invoice_register>
-            <sales_order_invoice_pay>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>invoicePay</method>
-                    </magento_reward>
-                </observers>
-            </sales_order_invoice_pay>
-            <sales_order_invoice_save_commit_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>applyRewardSalesrulePoints</method>
-                    </magento_reward>
-                </observers>
-            </sales_order_invoice_save_commit_after>
-            <sales_order_creditmemo_refund>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>creditmemoRefund</method>
-                    </magento_reward>
-                </observers>
-            </sales_order_creditmemo_refund>
-            <sales_order_creditmemo_save_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>creditmemoSaveAfter</method>
-                    </magento_reward>
-                </observers>
-            </sales_order_creditmemo_save_after>
-            <sales_model_service_quote_submit_before>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer_PlaceOrder</class>
-                        <method>dispatch</method>
-                    </magento_reward>
-                </observers>
-            </sales_model_service_quote_submit_before>
-            <sales_model_service_quote_submit_failure>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>revertRewardPoints</method>
-                    </magento_reward>
-                </observers>
-            </sales_model_service_quote_submit_failure>
-            <checkout_type_multishipping_create_orders_single>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer_PlaceOrder</class>
-                        <method>dispatch</method>
-                    </magento_reward>
-                </observers>
-            </checkout_type_multishipping_create_orders_single>
-            <checkout_multishipping_refund_all>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>revertRewardPointsForAllOrders</method>
-                    </magento_reward>
-                </observers>
-            </checkout_multishipping_refund_all>
-        </events>
         <pdf>
             <totals>
                 <reward translate="title">
@@ -197,17 +75,6 @@
             </totals>
         </pdf>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <reward before="Magento_Adminhtml">Magento_Reward_Adminhtml</reward>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -218,96 +85,6 @@
                 </Magento_Reward>
             </modules>
         </translate>
-        <events>
-            <adminhtml_customer_prepare_save>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>saveRewardNotifications</method>
-                    </magento_reward>
-                </observers>
-            </adminhtml_customer_prepare_save>
-            <adminhtml_customer_save_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>saveRewardPoints</method>
-                    </magento_reward>
-                </observers>
-            </adminhtml_customer_save_after>
-            <review_save_commit_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>reviewSubmit</method>
-                    </magento_reward>
-                </observers>
-            </review_save_commit_after>
-            <adminhtml_sales_order_create_process_data>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>processOrderCreationData</method>
-                    </magento_reward>
-                </observers>
-            </adminhtml_sales_order_create_process_data>
-            <adminhtml_sales_order_creditmemo_register_before>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>setRewardPointsBalanceToRefund</method>
-                    </magento_reward>
-                </observers>
-            </adminhtml_sales_order_creditmemo_register_before>
-            <website_delete_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>prepareCustomerOrphanPoints</method>
-                    </magento_reward>
-                </observers>
-            </website_delete_after>
-            <adminhtml_block_salesrule_actions_prepareform>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>prepareSalesruleForm</method>
-                    </magento_reward>
-                </observers>
-            </adminhtml_block_salesrule_actions_prepareform>
-            <salesrule_rule_load_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>loadRewardSalesruleData</method>
-                    </magento_reward>
-                </observers>
-            </salesrule_rule_load_after>
-            <salesrule_rule_save_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>saveRewardSalesruleData</method>
-                    </magento_reward>
-                </observers>
-            </salesrule_rule_save_after>
-            <order_cancel_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>returnRewardPoints</method>
-                    </magento_reward>
-                </observers>
-            </order_cancel_after>
-            <payment_method_is_active>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>preparePaymentMethod</method>
-                    </magento_reward>
-                </observers>
-            </payment_method_is_active>
-        </events>
     </adminhtml>
     <frontend>
         <translate>
@@ -319,57 +96,6 @@
                 </Magento_Reward>
             </modules>
         </translate>
-        <routers>
-            <magento_reward>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Reward</module>
-                    <frontName>reward</frontName>
-                </args>
-            </magento_reward>
-        </routers>
-        <events>
-            <customer_session_init>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>checkRates</method>
-                    </magento_reward>
-                </observers>
-            </customer_session_init>
-            <customer_save_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>customerRegister</method>
-                    </magento_reward>
-                </observers>
-            </customer_save_after>
-            <payment_method_is_active>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>preparePaymentMethod</method>
-                    </magento_reward>
-                </observers>
-            </payment_method_is_active>
-            <sales_quote_payment_import_data_before>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>paymentDataImport</method>
-                    </magento_reward>
-                </observers>
-            </sales_quote_payment_import_data_before>
-            <magento_invitation_save_commit_after>
-                <observers>
-                    <magento_reward>
-                        <class>Magento_Reward_Model_Observer</class>
-                        <method>invitationToCustomer</method>
-                    </magento_reward>
-                </observers>
-            </magento_invitation_save_commit_after>
-        </events>
     </frontend>
     <default>
         <magento_reward>
@@ -413,4 +139,4 @@
             </magento_reward_expire_points>
         </jobs>
     </crontab>
-</config>
+</config>

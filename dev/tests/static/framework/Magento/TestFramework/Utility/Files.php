@@ -105,7 +105,8 @@ class Magento_TestFramework_Utility_Files
                 );
             }
             if ($otherCode) {
-                $files = array_merge($files,
+                $files = array_merge(
+                    $files,
                     glob($this->_path . '/*.php', GLOB_NOSORT),
                     glob($this->_path . '/pub/*.php', GLOB_NOSORT),
                     self::_getFiles(array("{$this->_path}/downloader"), '*.php'),
@@ -113,10 +114,12 @@ class Magento_TestFramework_Utility_Files
                 );
             }
             if ($templates) {
-                $files = array_merge($files,
+                $files = array_merge(
+                    $files,
                     self::_getFiles(array("{$this->_path}/app/code/{$namespace}/{$module}"), '*.phtml'),
                     self::_getFiles(
-                        array("{$this->_path}/app/design/{$area}/{$package}/{$theme}/{$namespace}_{$module}"), '*.phtml'
+                        array("{$this->_path}/app/design/{$area}/{$package}/{$theme}/{$namespace}_{$module}"),
+                        '*.phtml'
                     )
                 );
             }
@@ -145,6 +148,7 @@ class Magento_TestFramework_Utility_Files
 
             $files = array_merge(
                 self::_getFiles(array("{$this->_path}/app/code/{$namespace}"), '*.php'),
+                self::_getFiles(array("{$this->_path}/dev"), '*.php'),
                 self::_getFiles(array("{$this->_path}/downloader/Maged"), '*.php'),
                 self::_getFiles(array("{$this->_path}/downloader/lib/Magento"), '*.php'),
                 self::_getFiles(array("{$this->_path}/lib/Magento"), '*.php')
@@ -177,14 +181,19 @@ class Magento_TestFramework_Utility_Files
      * @return array
      */
     public function getConfigFiles(
-        $fileNamePattern = '*.xml', $excludedFileNames = array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'), $asDataSet = true
+        $fileNamePattern = '*.xml',
+        $excludedFileNames = array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
+        $asDataSet = true
     ) {
         $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
         if (!isset(self::$_cache[$cacheKey])) {
             $files = glob($this->_path . "/app/code/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
-            $files = array_filter($files, function ($file) use ($excludedFileNames) {
-                return !in_array(basename($file), $excludedFileNames);
-            });
+            $files = array_filter(
+                $files,
+                function ($file) use ($excludedFileNames) {
+                    return !in_array(basename($file), $excludedFileNames);
+                }
+            );
             self::$_cache[$cacheKey] = $files;
         }
         if ($asDataSet) {
@@ -212,7 +221,7 @@ class Magento_TestFramework_Utility_Files
      */
     public function getLayoutFiles($incomingParams = array(), $asDataSet = true)
     {
-         $params = array(
+        $params = array(
             'namespace' => '*',
             'module' => '*',
             'area' => '*',
@@ -231,8 +240,10 @@ class Magento_TestFramework_Utility_Files
             $files = array();
             if ($params['include_code']) {
                 $files = self::_getFiles(
-                    array("{$this->_path}/app/code/{$params['namespace']}/{$params['module']}"
-                        . "/view/{$params['area']}/layout"),
+                    array(
+                        "{$this->_path}/app/code/{$params['namespace']}/{$params['module']}"
+                        . "/view/{$params['area']}/layout"
+                    ),
                     '*.xml'
                 );
             }

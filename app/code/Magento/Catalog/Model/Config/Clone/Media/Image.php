@@ -16,7 +16,7 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Config_Clone_Media_Image extends Magento_Core_Model_Config_Data
+class Magento_Catalog_Model_Config_Clone_Media_Image extends Magento_Core_Model_Config_Value
 {
 
     /**

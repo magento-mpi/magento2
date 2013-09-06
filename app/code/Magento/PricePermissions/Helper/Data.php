@@ -41,7 +41,7 @@ class Magento_PricePermissions_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Path to default_product_price node in config
      */
-    const DEFAULT_PRODUCT_PRICE_CONFIG_PATH = 'default/catalog/price/default_product_price';
+    const DEFAULT_PRODUCT_PRICE_CONFIG_PATH = 'catalog/price/default_product_price';
 
     /**
      * @var \Magento\AuthorizationInterface
@@ -95,6 +95,6 @@ class Magento_PricePermissions_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getDefaultProductPriceString()
     {
-        return (string) Mage::getConfig()->getNode(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH);
+        return (string) Mage::getConfig()->getValue(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH, 'default');
     }
 }

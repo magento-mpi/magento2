@@ -60,8 +60,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Configuration path to expiration period of reset password link
      */
-    const XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD
-        = 'default/customer/password/reset_link_expiration_period';
+    const XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD = 'customer/password/reset_link_expiration_period';
 
     /**
      * VAT class constants
@@ -376,7 +375,10 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getResetPasswordLinkExpirationPeriod()
     {
-        return (int) Mage::getConfig()->getNode(self::XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD);
+        return (int) Mage::getConfig()->getValue(
+            self::XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
+            'default'
+        );
     }
 
     /**

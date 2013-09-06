@@ -69,32 +69,6 @@
                 </item>
             </quote>
         </sales>
-        <events>
-            <sales_convert_quote_item_to_order_item>
-                <observers>
-                    <magento_giftcard_append_additional_data>
-                        <class>Magento_GiftCard_Model_Observer</class>
-                        <method>appendGiftcardAdditionalData</method>
-                    </magento_giftcard_append_additional_data>
-                </observers>
-            </sales_convert_quote_item_to_order_item>
-            <sales_order_save_commit_after>
-                <observers>
-                    <magento_giftcard_generate_giftcardaccounts>
-                        <class>Magento_GiftCard_Model_Observer</class>
-                        <method>generateGiftCardAccounts</method>
-                    </magento_giftcard_generate_giftcardaccounts>
-                </observers>
-            </sales_order_save_commit_after>
-            <catalog_product_collection_load_after>
-                <observers>
-                    <magento_giftcard>
-                        <class>Magento_GiftCard_Model_Observer</class>
-                        <method>loadAttributesAfterCollectionLoad</method>
-                    </magento_giftcard>
-                </observers>
-            </catalog_product_collection_load_after>
-        </events>
     </global>
     <frontend>
         <product>
@@ -124,16 +98,6 @@
         <secure_url>
             <giftcard_customer>/giftcard/customer/</giftcard_customer>
         </secure_url>
-        <events>
-            <product_option_renderer_init>
-                <observers>
-                    <giftcard_observer>
-                        <class>Magento_GiftCard_Model_Observer</class>
-                        <method>initOptionRenderer</method>
-                    </giftcard_observer>
-                </observers>
-            </product_option_renderer_init>
-        </events>
     </frontend>
     <adminhtml>
         <translate>
@@ -154,24 +118,6 @@
                 </create>
             </order>
         </sales>
-        <events>
-            <adminhtml_catalog_product_edit_prepare_form>
-                <observers>
-                    <magento_giftcard_product_edit_prepare_form>
-                        <class>Magento_GiftCard_Model_Observer</class>
-                        <method>setAmountsRendererInForm</method>
-                    </magento_giftcard_product_edit_prepare_form>
-                </observers>
-            </adminhtml_catalog_product_edit_prepare_form>
-            <adminhtml_catalog_product_form_prepare_excluded_field_list>
-                <observers>
-                    <magento_giftcard_product_excluded_field_list>
-                        <class>Magento_GiftCard_Model_Observer</class>
-                        <method>updateExcludedFieldList</method>
-                    </magento_giftcard_product_excluded_field_list>
-                </observers>
-            </adminhtml_catalog_product_form_prepare_excluded_field_list>
-        </events>
     </adminhtml>
     <default>
         <giftcard>
@@ -188,4 +134,4 @@
             </general>
         </giftcard>
     </default>
-</config>
+</config>

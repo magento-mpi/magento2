@@ -42,29 +42,21 @@ class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framew
             false);
         $this->_appStateMock = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_invokerDefault = $objectManagerHelper->getObject(
-            'Magento_Core_Model_Event_Invoker_InvokerDefault',
-            array(
-                'observerFactory' => $this->_observerFactoryMock,
-                'appState' => $this->_appStateMock,
-            )
+        $this->_invokerDefault = new Magento_Core_Model_Event_Invoker_InvokerDefault(
+            $this->_observerFactoryMock,
+            $this->_appStateMock
         );
     }
 
-    public function testDispatchWithDisabledType()
+    public function testDispatchWithDisabledObserver()
     {
         $this->_observerFactoryMock->expects($this->never())->method('get');
         $this->_observerFactoryMock->expects($this->never())->method('create');
 
-        $this->_invokerDefault->dispatch(array('type' => 'disabled'), $this->_observerMock);
+        $this->_invokerDefault->dispatch(array('disabled' => true), $this->_observerMock);
     }
 
-    /**
-     * @param string $type
-     * @dataProvider dataProviderForDispatchWithNotSingletonType
-     */
-    public function testDispatchWithNotSingletonType($type)
+    public function testDispatchWithNonSharedInstance()
     {
         $this->_listenerMock->expects($this->once())->method('method_name');
         $this->_observerFactoryMock->expects($this->never())->method('get');
@@ -72,23 +64,12 @@ class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framew
             ->will($this->returnValue($this->_listenerMock));
 
         $this->_invokerDefault->dispatch(
-            array('type' => $type, 'model' => 'class_name', 'method' => 'method_name'),
+            array('shared' => false, 'instance' => 'class_name', 'method' => 'method_name', 'name' => 'observer'),
             $this->_observerMock
         );
     }
 
-    /**
-     * @return array
-     */
-    public function dataProviderForDispatchWithNotSingletonType()
-    {
-        return array(
-            array('object'),
-            array('model'),
-        );
-    }
-
-    public function testDispatchWithSingletonType()
+    public function testDispatchWithSharedInstance()
     {
         $this->_listenerMock->expects($this->once())->method('method_name');
         $this->_observerFactoryMock->expects($this->never())->method('create');
@@ -96,17 +77,17 @@ class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framew
             ->will($this->returnValue($this->_listenerMock));
 
         $this->_invokerDefault->dispatch(
-            array('type' => 'unknown', 'model' => 'class_name', 'method' => 'method_name'),
+            array('shared' => true, 'instance' => 'class_name', 'method' => 'method_name', 'name' => 'observer'),
             $this->_observerMock
         );
     }
 
     /**
-     * @param string $type
+     * @param string $shared
      * @dataProvider dataProviderForMethodIsNotDefined
      * @expectedException Magento_Core_Exception
      */
-    public function testMethodIsNotDefinedExceptionWithEnabledDeveloperMode($type)
+    public function testMethodIsNotDefinedExceptionWithEnabledDeveloperMode($shared)
     {
         $this->_observerFactoryMock->expects($this->any())->method('create')->with('class_name')
             ->will($this->returnValue($this->_listenerMock));
@@ -116,16 +97,21 @@ class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framew
             ->will($this->returnValue(Magento_Core_Model_App_State::MODE_DEVELOPER));
 
         $this->_invokerDefault->dispatch(
-            array('type' => $type, 'model' => 'class_name', 'method' => 'unknown_method_name'),
+            array(
+                'shared' => $shared,
+                'instance' => 'class_name',
+                'method' => 'unknown_method_name',
+                'name' => 'observer'
+            ),
             $this->_observerMock
         );
     }
 
     /**
-     * @param string $type
+     * @param string $shared
      * @dataProvider dataProviderForMethodIsNotDefined
      */
-    public function testMethodIsNotDefinedWithDisabledDeveloperMode($type)
+    public function testMethodIsNotDefinedWithDisabledDeveloperMode($shared)
     {
         $this->_observerFactoryMock->expects($this->any())->method('create')->with('class_name')
             ->will($this->returnValue($this->_listenerMock));
@@ -135,7 +121,12 @@ class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framew
             ->will($this->returnValue(Magento_Core_Model_App_State::MODE_PRODUCTION));
 
         $this->_invokerDefault->dispatch(
-            array('type' => $type, 'model' => 'class_name', 'method' => 'unknown_method_name'),
+            array(
+                'shared' => $shared,
+                'instance' => 'class_name',
+                'method' => 'unknown_method_name',
+                'name' => 'observer'
+            ),
             $this->_observerMock
         );
     }
@@ -146,9 +137,8 @@ class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framew
     public function dataProviderForMethodIsNotDefined()
     {
         return array(
-            array('object'),
-            array('model'),
-            array('unknown'),
+            'shared' => array(true),
+            'non shared' => array(false),
         );
     }
 }

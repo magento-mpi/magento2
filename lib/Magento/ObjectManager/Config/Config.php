@@ -127,8 +127,12 @@ class Config implements \Magento\ObjectManager\Config
      */
     public function getArguments($type, $arguments)
     {
-        if (isset($this->_mergedArguments[$type]) && is_array($this->_mergedArguments[$type])) {
-            $arguments = array_replace($this->_mergedArguments[$type], $arguments);
+        $configuredArguments = isset($this->_mergedArguments[$type])
+            ? $this->_mergedArguments[$type]
+            : $this->_collectConfiguration($type);
+
+        if (is_array($configuredArguments)) {
+            $arguments = array_replace($configuredArguments, $arguments);
         }
         return $arguments;
     }
@@ -187,40 +191,27 @@ class Config implements \Magento\ObjectManager\Config
      * @param string $type
      * @return array
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _collectConfiguration($type)
     {
         if (!isset($this->_mergedArguments[$type])) {
             if (isset($this->_virtualTypes[$type])) {
-                list($plugins, $arguments) = $this->_collectConfiguration($this->_virtualTypes[$type]);
+                $arguments = $this->_collectConfiguration($this->_virtualTypes[$type]);
             } else if ($this->_relations->has($type)) {
                 $relations = $this->_relations->getParents($type);
-                $plugins = array();
                 $arguments = array();
                 foreach ($relations as $relation) {
                     if ($relation) {
-                        list($relationPlugins, $relationArguments) = $this->_collectConfiguration($relation);
-                        if ($relationPlugins) {
-                            $plugins = array_replace($plugins, $relationPlugins);
-                        }
+                        $relationArguments = $this->_collectConfiguration($relation);
                         if ($relationArguments) {
                             $arguments = array_replace($arguments, $relationArguments);
                         }
                     }
                 }
             } else {
-                $plugins = array();
                 $arguments = array();
             }
 
-            if (isset($this->_plugins[$type])) {
-                if ($plugins && count($plugins)) {
-                    $plugins = array_replace_recursive($plugins, $this->_plugins[$type]);
-                } else {
-                    $plugins = $this->_plugins[$type];
-                }
-            }
             if (isset($this->_arguments[$type])) {
                 if ($arguments && count($arguments)) {
                     $arguments = array_replace_recursive($arguments, $this->_arguments[$type]);
@@ -228,51 +219,16 @@ class Config implements \Magento\ObjectManager\Config
                     $arguments = $this->_arguments[$type];
                 }
             }
-            if (!is_array($plugins) || !count($plugins)) {
-                $plugins = false;
-            } else {
-                usort($plugins, array($this, '_sort'));
-                $this->_mergedPlugins[$type] = $plugins;
-            }
             $this->_mergedArguments[$type] = $arguments;
-            return array($plugins, $arguments);
+            return $arguments;
         }
-        return array(
-            isset($this->_mergedPlugins[$type]) ? $this->_mergedArguments[$type] : false,
-            $this->_mergedArguments[$type]
-        );
-    }
-
-    /**
-     * Check whether type has configured plugins
-     *
-     * @param string $type
-     * @return bool
-     */
-    public function hasPlugins($type)
-    {
-        if (!isset($this->_mergedArguments[$type])) {
-            $this->_collectConfiguration($type);
-        }
-        return isset($this->_mergedPlugins[$type]);
-    }
-
-    /**
-     * Retrieve list of plugins
-     *
-     * @param string $type
-     * @return array
-     */
-    public function getPlugins($type)
-    {
-        return $this->_mergedPlugins[$type];
+        return $this->_mergedArguments[$type];
     }
 
     /**
      * Merge configuration
      *
      * @param array $configuration
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function _mergeConfiguration(array $configuration)
     {
@@ -303,39 +259,8 @@ class Config implements \Magento\ObjectManager\Config
                             unset($this->_nonShared[$key]);
                         }
                     }
-                    if (isset($curConfig['plugins'])) {
-                        if (!empty($this->_mergedPlugins)) {
-                            $this->_mergedPlugins = array();
-                        }
-                        if (isset($this->_plugins[$key])) {
-                            $this->_plugins[$key] = array_replace($this->_plugins[$key], $curConfig['plugins']);
-                        } else {
-                            $this->_plugins[$key] = $curConfig['plugins'];
-                        }
-                    }
                     break;
             }
-        }
-    }
-
-    /**
-     * Sort items
-     *
-     * @param array $itemA
-     * @param array $itemB
-     * @return int
-     */
-    protected function _sort($itemA, $itemB)
-    {
-        if (isset($itemA['sortOrder'])) {
-            if (isset($itemB['sortOrder'])) {
-                return $itemA['sortOrder'] - $itemB['sortOrder'];
-            }
-            return $itemA['sortOrder'];
-        } else if (isset($itemB['sortOrder'])) {
-            return $itemB['sortOrder'];
-        } else {
-            return 1;
         }
     }
 
@@ -343,33 +268,32 @@ class Config implements \Magento\ObjectManager\Config
      * Extend configuration
      *
      * @param array $configuration
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function extend(array $configuration)
     {
         if ($this->_cache) {
             if (!$this->_currentCacheKey) {
                 $this->_currentCacheKey = md5(serialize(array(
-                    $this->_plugins, $this->_arguments, $this->_nonShared, $this->_preferences, $this->_virtualTypes
+                    $this->_arguments, $this->_nonShared, $this->_preferences, $this->_virtualTypes
                 )));
             }
             $key = md5($this->_currentCacheKey . serialize($configuration));
             $cached = $this->_cache->get($key);
             if ($cached) {
                 list(
-                    $this->_plugins, $this->_arguments, $this->_nonShared, $this->_preferences, $this->_virtualTypes,
-                    $this->_mergedPlugins, $this->_mergedArguments
+                    $this->_arguments, $this->_nonShared, $this->_preferences,
+                    $this->_virtualTypes, $this->_mergedArguments
                 ) = $cached;
             } else {
                 $this->_mergeConfiguration($configuration);
-                if (!$this->_mergedArguments || !$this->_mergedPlugins) {
+                if (!$this->_mergedArguments) {
                     foreach ($this->_definitions->getClasses() as $class) {
                         $this->_collectConfiguration($class);
                     }
                 }
                 $this->_cache->save(array(
-                    $this->_plugins, $this->_arguments, $this->_nonShared, $this->_preferences, $this->_virtualTypes,
-                    $this->_mergedPlugins, $this->_mergedArguments
+                    $this->_arguments, $this->_nonShared, $this->_preferences, $this->_virtualTypes,
+                    $this->_mergedArguments
                 ), $key);
             }
             $this->_currentCacheKey = $key;

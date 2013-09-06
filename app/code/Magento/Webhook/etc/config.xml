@@ -18,63 +18,7 @@
                 </setup>
             </webhook_setup>
         </resources>
-        <events>
-            <webapi_user_delete_after>
-                <observers>
-                    <webhook_subscription_status_update>
-                        <class>Magento_Webhook_Model_Observer</class>
-                        <method>afterWebapiUserDelete</method>
-                    </webhook_subscription_status_update>
-                </observers>
-            </webapi_user_delete_after>
-            <webapi_user_save_commit_after>
-                <observers>
-                    <webhook_subscription_status_update>
-                        <class>Magento_Webhook_Model_Observer</class>
-                        <method>afterWebapiUserChange</method>
-                    </webhook_subscription_status_update>
-                </observers>
-            </webapi_user_save_commit_after>
-            <webapi_role_save_commit_after>
-                <observers>
-                    <webhook_subscription_status_update>
-                        <class>Magento_Webhook_Model_Observer</class>
-                        <method>afterWebapiRoleChange</method>
-                    </webhook_subscription_status_update>
-                </observers>
-            </webapi_role_save_commit_after>
-            <webapi_role_delete_commit_after>
-                <observers>
-                    <webhook_subscription_status_update>
-                        <class>Magento_Webhook_Model_Observer</class>
-                        <method>afterWebapiRoleChange</method>
-                    </webhook_subscription_status_update>
-                </observers>
-            </webapi_role_delete_commit_after>
-        </events>
     </global>
-    <frontend>
-        <routers>
-            <webhook>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Webhook</module>
-                    <frontName>webhook</frontName>
-                </args>
-            </webhook>
-        </routers>
-    </frontend>
-    <admin>
-         <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <webhook before="Magento_Adminhtml">Magento_Webhook_Adminhtml</webhook>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <crontab>
         <jobs>
             <webhook_process_messages>

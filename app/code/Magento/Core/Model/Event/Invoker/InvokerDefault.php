@@ -41,19 +41,17 @@ class Magento_Core_Model_Event_Invoker_InvokerDefault implements Magento_Core_Mo
      */
     public function dispatch(array $configuration, \Magento\Event\Observer $observer)
     {
-        switch ($configuration['type']) {
-            case 'disabled':
-                break;
-            case 'object':
-            case 'model':
-                $object = $this->_observerFactory->create($configuration['model']);
-                $this->_callObserverMethod($object, $configuration['method'], $observer);
-                break;
-            default:
-                $object = $this->_observerFactory->get($configuration['model']);
-                $this->_callObserverMethod($object, $configuration['method'], $observer);
-                break;
+        /** Check whether event observer is disabled */
+        if (isset($configuration['disabled']) && true === $configuration['disabled']) {
+            return;
         }
+
+        if (isset($configuration['shared']) && false === $configuration['shared']) {
+            $object = $this->_observerFactory->create($configuration['instance']);
+        } else {
+            $object = $this->_observerFactory->get($configuration['instance']);
+        }
+        $this->_callObserverMethod($object, $configuration['method'], $observer);
     }
 
     /**

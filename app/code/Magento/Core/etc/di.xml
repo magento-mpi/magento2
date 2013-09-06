@@ -18,6 +18,7 @@
     <preference for="Twig_LoaderInterface" type="Magento_Core_Model_TemplateEngine_Twig_FullFileName" />
     <preference for="Magento_Core_Model_DataService_ConfigInterface" type="Magento_Core_Model_DataService_Config" />
     <preference for="Magento_Core_Model_ConfigInterface" type="Magento_Core_Model_Config" />
+    <preference for="Magento_Core_Model_Config_DataInterface" type="Magento_Core_Model_Config_Data" />
     <preference for="Magento_Core_Model_Config_Storage_WriterInterface" type="Magento_Core_Model_Config_Storage_Writer_Db" />
     <preference for="Magento\PubSub\Event\QueueWriterInterface" type="Magento\PubSub\Event\QueueWriter" />
     <preference for="Magento\PubSub\Event\FactoryInterface" type="Magento\PubSub\Event\Factory" />
@@ -196,6 +197,58 @@
     <type name="Magento_Core_Model_Translate_InlineParser">
         <param name="inputFilter">
             <instance type="Magento_Core_Model_Input_Filter_MaliciousCode" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Config_SectionPool">
+        <param name="cache">
+            <instance type="Magento_Core_Model_Cache_Type_Config" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Config_Section_Reader_Website">
+        <param name="sectionPool">
+            <instance type="Magento_Core_Model_Config_SectionPool_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Config_Section_Reader_Store">
+        <param name="sectionPool">
+            <instance type="Magento_Core_Model_Config_SectionPool_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_RouterList" shared="true">
+        <param name="routerList">
+            <value>
+                <standard>
+                    <instance>Magento_Core_Controller_Varien_Router_Base</instance>
+                    <disable type="bool">false</disable>
+                    <sortOrder>20</sortOrder>
+                </standard>
+                <default>
+                    <instance>Magento_Core_Controller_Varien_Router_Default</instance>
+                    <disable type="bool">false</disable>
+                    <sortOrder>100</sortOrder>
+                </default>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Core_Controller_Varien_Router_Base">
+        <param name="areaCode">
+            <value>frontend</value>
+        </param>
+        <param name="baseController">
+            <value>Magento_Core_Controller_Varien_Action</value>
+        </param>
+        <param name="routerId">
+            <value>standard</value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_NoRouteHandlerList">
+        <param name="handlerClassesList">
+            <value>
+                <default>
+                    <instance>Magento_Core_Model_Router_NoRouteHandler</instance>
+                    <sortOrder>100</sortOrder>
+                </default>
+            </value>
         </param>
     </type>
 </config>
