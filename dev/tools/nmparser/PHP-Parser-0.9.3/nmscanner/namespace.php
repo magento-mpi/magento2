@@ -42,6 +42,9 @@ class namespacer
     private $allowedFileExtensions = array('php', 'phtml', 'html', 'xml', 'sql');
     private $ignoreFile = "blacklist.txt";
     private $blackListArray = array();
+    private $rerunUpdate = null;
+    private $rerunSearch = array();
+    private $rerunreplace = array();
 
 
     private $addSlashArray = array(
@@ -183,7 +186,7 @@ class namespacer
     private $xmlFile = array();
     private $phpFile = array();
 
-    public function __construct($path, $rootDirectory, $tesDir = false)
+    public function __construct($path, $rootDirectory, $rerun)
     {
 
         $this->rootDirPath = realpath(__DIR__);
@@ -191,6 +194,13 @@ class namespacer
         $this->gitShell = new Magento\Shell(null);
         $this->rootDirectory = $rootDirectory;
         $this->gitMove();
+        if ($rerun) {
+            if (is_file($rerun)) {
+                $this->rerunUpdate = $rerun;
+
+            }
+        }
+
         $this->renameFileLogger = time() . $this->renameFileLogger;
         $this->renameClassLogger = time() . $this->renameClassLogger;
         $this->globalScanner = time() . $this->globalScanner;
@@ -468,11 +478,45 @@ class namespacer
 
     }
 
+    private function makeRerunArrays()
+    {
+        echo "=====================\n";
+        echo "Rerun data map started\n";
+        $fileContents = file($this->rerunUpdate);
+        foreach ($fileContents as $fileLine) {
+            $arr = explode("=>", $fileLine);
+            if (count($arr) == 2) {
+                $this->rerunSearch[] = trim($arr[0]);
+                $this->rerunreplace[] = trim($arr[1]);
+            }
+
+        }
+        echo "Rerun data map completed\n";
+
+    }
+
     private function globalClassnameScanner()
     {
         clearstatcache();
-        if (is_dir($this->rootDirectory) && !empty($this->classSearch) & !empty($this->classReplace)) {
+
+        if (is_dir($this->rootDirectory)) {
             $files = $this->scanDirectory($this->rootDirectory, false, true);
+            if ($this->rerunUpdate) {
+                echo "=====================\n";
+                echo "Preparing rerun\n";
+                $this->makeRerunArrays();
+                if (!empty($this->rerunSearch) && !empty($this->rerunreplace)) {
+                    $classSearch = array_unique(array_merge($this->classSearch, $this->rerunSearch));
+                    $classReplace = array_unique(array_merge($this->classReplace, $this->rerunreplace));
+                    $this->classSearch = $classSearch;
+                    $this->classReplace = $classReplace;
+                    echo "Map Merged\n";
+                }
+            }
+            if(empty($this->classSearch) & empty($this->classReplace)){
+                echo "Nothing to change\n";
+                return false;
+            }
             $search = array();
             foreach ($this->classSearch as $searchKey) {
                 $search[] = "/\\" . $searchKey . "\\b/";
@@ -497,6 +541,16 @@ class namespacer
                     $contents = str_replace("class \\Exception", "class Exception", $contents);
                     file_put_contents($file, $contents);
                     $this->logFile($this->globalScanner, $file . "Scanning completed \n");
+
+                }
+                if ($this->rerunUpdate &&!empty($this->rerunSearch) && !empty($this->rerunreplace)) {
+                    echo "updating the rerun data file  \n";
+                    $combineArray = array_combine($classSearch, $this->classReplace);
+                    $string = null;
+                    foreach ($combineArray as $key => $value) {
+                        $string = $string . $key . " => " . $value . "\n";
+                    }
+                    file_put_contents($this->renameClassLogger,$string);
                 }
             } else {
                 $string = "Cannot do a global scan and replacement , Error Please do check the rename class and rename files" . "\n";
@@ -857,6 +911,15 @@ if (isset($argv[1])) {
         if (isset($update[1])) {
             $rootDirectory = trim($update[1]);
         }
+        $rerun = false;
+        if (isset($argv[3])) {
+            $rerun = $argv[3];
+            $updates = explode("=", $argv[3]);
+            if (isset($update[1])) {
+                $rerun = trim($updates[1]);
+            }
+
+        }
     }
     $src = explode("=", $argv[1]);
     if (isset($src[1])) {
@@ -877,7 +940,8 @@ if (isset($argv[1])) {
         }
     }
 
-    $PSRX = new namespacer($src, $rootDirectory);
+
+    $PSRX = new namespacer($src, $rootDirectory, $rerun);
     $PSRX->convertToPSRX();
 } else {
     echo "Please provide the arguments";

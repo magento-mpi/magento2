@@ -40,7 +40,7 @@ class Magento_Interception_Config_Config implements Magento_Interception_Config
     /**
      * Cache
      *
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_cache;
 
@@ -61,7 +61,7 @@ class Magento_Interception_Config_Config implements Magento_Interception_Config
     /**
      * Configuration scope resolver
      *
-     * @var Magento_Config_ScopeInterface
+     * @var \Magento\Config\ScopeInterface
      */
     protected $_configScope;
 

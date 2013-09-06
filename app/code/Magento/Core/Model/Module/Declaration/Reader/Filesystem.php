@@ -28,7 +28,7 @@ class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends \Magento\C
      * @param Magento_Core_Model_Module_Declaration_FileResolver $fileResolver
      * @param Magento_Core_Model_Module_Declaration_Converter_Dom $converter
      * @param Magento_Core_Model_Module_Declaration_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
@@ -38,7 +38,7 @@ class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends \Magento\C
         Magento_Core_Model_Module_Declaration_FileResolver $fileResolver,
         Magento_Core_Model_Module_Declaration_Converter_Dom $converter,
         Magento_Core_Model_Module_Declaration_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'module.xml',
         $idAttributes = array(),
         $domDocumentClass = '\Magento\Config\Dom',

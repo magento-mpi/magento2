@@ -22,14 +22,14 @@ class Magento_Backend_Model_Config_Backend_Encrypted
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Helper_Data $helper
      * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Helper_Data $helper,
         Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_helper = $helper;

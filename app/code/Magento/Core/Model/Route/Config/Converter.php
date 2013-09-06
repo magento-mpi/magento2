@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Route_Config_Converter implements Magento_Config_ConverterInterface
+class Magento_Core_Model_Route_Config_Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert config

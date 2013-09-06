@@ -45,7 +45,7 @@ class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
             ),
         );
 
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_model = new Magento_Core_Model_RouterList($this->_objectManagerMock, $this->_routerList);
     }
 

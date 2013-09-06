@@ -20,22 +20,22 @@ class Magento_Core_Model_Event_Config_Reader extends \Magento\Config\Reader\File
     );
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
+     * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param Magento_Core_Model_Event_Config_Converter $converter
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param Magento_Core_Model_Event_Config_SchemaLocator $schemaLocator
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
+        \Magento\Config\FileResolverInterface $fileResolver,
         Magento_Core_Model_Event_Config_Converter $converter,
         Magento_Core_Model_Event_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'events.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = '\Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass

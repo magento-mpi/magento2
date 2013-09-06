@@ -13,7 +13,7 @@ class Magento_Core_Model_Config_Initial_ReaderTest extends PHPUnit_Framework_Tes
     protected $_model;
 
     /**
-     * @var Magento_Config_FileResolverInterface
+     * @var \Magento\Config\FileResolverInterface
      */
     protected $_fileResolverMock;
 
@@ -30,7 +30,7 @@ class Magento_Core_Model_Config_Initial_ReaderTest extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         $this->_filePath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
-        $this->_fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
+        $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $this->_converterMock = $this->getMock('Magento_Core_Model_Config_Initial_Converter');
 
         $this->_model = new Magento_Core_Model_Config_Initial_Reader(

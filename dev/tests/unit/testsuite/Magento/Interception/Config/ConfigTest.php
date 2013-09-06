@@ -28,7 +28,7 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $fixtureBasePath = __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/..');
-        $fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
+        $fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $fileResolverMock->expects($this->any())
             ->method('get')
             ->will($this->returnValueMap(array(
@@ -37,22 +37,22 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
                 array('di.xml', 'frontend', array($fixtureBasePath . '/Custom/Module/etc/frontend/di.xml')),
             )));
 
-        $validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())
             ->method('isValidated')
             ->will($this->returnValue(true));
 
-        $reader = new Magento_ObjectManager_Config_Reader_Dom(
+        $reader = new \Magento\ObjectManager\Config\Reader\Dom(
             $fileResolverMock,
-            new Magento_ObjectManager_Config_Mapper_Dom(),
+            new \Magento\ObjectManager\Config\Mapper\Dom(),
             new Magento_ObjectManager_Config_SchemaLocator(),
             $validationStateMock
         );
-        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
+        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_configScopeMock->expects($this->any())
             ->method('getAllScopes')
             ->will($this->returnValue(array('global', 'backend', 'frontend')));
-        $cacheMock = $this->getMock('Magento_Cache_FrontendInterface');
+        $cacheMock = $this->getMock('Magento\Cache\FrontendInterface');
         // turn cache off
         $cacheMock->expects($this->any())
             ->method('load')

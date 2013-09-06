@@ -19,7 +19,7 @@ class Magento_Core_Model_Config_Data_BackendModelPoolTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_model = new Magento_Core_Model_Config_Data_BackendModelPool($this->_objectManager);
     }
 

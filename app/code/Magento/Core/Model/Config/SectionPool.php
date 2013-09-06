@@ -20,7 +20,7 @@ class Magento_Core_Model_Config_SectionPool
     protected $_dataFactory;
 
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_cache;
 
@@ -37,13 +37,13 @@ class Magento_Core_Model_Config_SectionPool
     /**
      * @param Magento_Core_Model_Config_Section_ReaderPool $readerList
      * @param Magento_Core_Model_Config_DataFactory $dataFactory
-     * @param Magento_Cache_FrontendInterface $cache
+     * @param \Magento\Cache\FrontendInterface $cache
      * @param string $cacheId
      */
     public function __construct(
         Magento_Core_Model_Config_Section_ReaderPool $readerList,
         Magento_Core_Model_Config_DataFactory $dataFactory,
-        Magento_Cache_FrontendInterface $cache,
+        \Magento\Cache\FrontendInterface $cache,
         $cacheId = 'default_config_cache'
     ) {
         $this->_readerPool = $readerList;

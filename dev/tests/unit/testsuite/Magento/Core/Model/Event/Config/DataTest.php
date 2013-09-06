@@ -35,8 +35,8 @@ class Magento_Core_Model_Event_Config_DataTest extends PHPUnit_Framework_TestCas
     protected function setUp()
     {
         $this->_readerMock = $this->getMock('Magento_Core_Model_Event_Config_Reader', array(), array(), '', false);
-        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
-        $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
+        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
+        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
         $this->_appStateMock = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
         $this->_model = new Magento_Core_Model_Event_Config_Data(
             $this->_readerMock,

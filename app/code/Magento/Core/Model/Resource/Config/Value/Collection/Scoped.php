@@ -24,13 +24,13 @@ class Magento_Core_Model_Resource_Config_Value_Collection_Scoped extends Magento
     protected $_scopeId;
 
     /**
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Resource_Config_Data $resource
      * @param string $scope
      * @param int $scopeId
      */
     public function __construct(
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Resource_Config_Data $resource,
         $scope,
         $scopeId = null
