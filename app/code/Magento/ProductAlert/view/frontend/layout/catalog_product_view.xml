@@ -20,7 +20,7 @@
                             <argument translate="true" name="value" xsi:type="string">Sign up for price alert</argument>
                         </action>
                     </block>
-                    <block type="Magento_Sales_Block_Recurring_Profile_View_Stock" name="productalert.stock" as="productalert_stock" template="product/view.phtml">
+                    <block type="Magento_ProductAlert_Block_Product_View_Stock" name="productalert.stock" as="productalert_stock" template="product/view.phtml">
                         <action method="setHtmlClass">
                             <argument name="value" xsi:type="string">alert-stock link-stock-alert</argument>
                         </action>

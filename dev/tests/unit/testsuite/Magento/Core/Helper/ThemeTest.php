@@ -149,7 +149,9 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             array(
                 '<block class="Magento_Page_Block_Html_Head" name="head">
                     <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
-                        <arguments><argument name="file" xsi:type="string">Magento_Core::test3.css</argument></arguments>
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::test3.css</argument>
+                        </arguments>
                     </block>
                 </block>',
                 array(
@@ -177,7 +179,9 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             array(
                 '<reference name="head">
                     <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
-                        <arguments><argument name="file" xsi:type="string">Magento_Core::test23.css</argument></arguments>
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
+                        </arguments>
                     </block>
                 </reference>',
                 array(
@@ -191,7 +195,9 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             array(
                 '<block type="Some_Block_Class">
                     <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
-                        <arguments><argument name="file" xsi:type="string">Magento_Core::test23.css</argument></arguments>
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
+                        </arguments>
                     </block>
                 </block>',
                 array(),
@@ -200,7 +206,9 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             array(
                 '<block type="Some_Block_Class">
                     <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
-                        <arguments><argument name="file" xsi:type="string">Magento_Core::test23.css</argument></arguments>
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
+                        </arguments>
                     </block>
                 </block>',
                 array(),
@@ -216,7 +224,9 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             array(
                 '<reference name="some_block_name">
                     <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
-                        <arguments><argument name="file" xsi:type="string">Magento_Core::test23.css</argument></arguments>
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
+                        </arguments>
                     </block>
                 </reference>',
                 array(),
@@ -227,7 +237,9 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                         <arguments><argument name="file" xsi:type="string">test.css</argument></arguments>
                     </block>
                     <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
-                        <arguments><argument name="file" xsi:type="string">Magento_Core::test.css</argument></arguments>
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::test.css</argument>
+                        </arguments>
                     </block>
                 </block>
                 <reference name="head">
@@ -243,7 +255,9 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                         <arguments><argument name="file" xsi:type="string">testa.css</argument></arguments>
                     </block>
                     <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
-                        <arguments><argument name="file" xsi:type="string">Magento_Core::testa.css</argument></arguments>
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::testa.css</argument>
+                        </arguments>
                     </block>
                 </block>
                 <reference name="some_block_name">
@@ -251,7 +265,9 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                         <arguments><argument name="file" xsi:type="string">testb.css</argument></arguments>
                     </block>
                     <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
-                        <arguments><argument name="file" xsi:type="string">Magento_Core::testb.css</argument></arguments>
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::testb.css</argument>
+                        </arguments>
                     </block>
                 </reference>',
                 array(
