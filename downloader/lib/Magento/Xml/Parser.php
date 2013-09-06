@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class \Magento\Xml\Parser
+class Magento_Xml_Parser
 {
     protected $_dom = null;
     protected $_currentDom;
