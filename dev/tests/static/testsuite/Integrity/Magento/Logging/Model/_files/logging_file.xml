@@ -1,0 +1,23 @@
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../../../../../../../app/code/Magento/Logging/etc/logging_file.xsd">
+    <log id="enterprise_checkout">
+        <label translate="true">Shopping Cart Management</label>
+        <event controller_action="adminhtml_checkout_index" action_alias="view">
+            <expected_model class="Magento_Sales_Model_Quote"/>
+        </event>
+        <event controller_action="adminhtml_checkout_applyCoupon"
+               action_alias="apply_coupon"
+               post_dispatch="postDispatchAdminCheckoutApplyCoupon">
+            <expected_model class="Magento_Sales_Model_Quote"/>
+        </event>
+        <event controller_action="adminhtml_checkout_updateItems" action_alias="save">
+            <expected_model class="Magento_Sales_Model_Quote_Item"/>
+        </event>
+        <event controller_action="adminhtml_checkout_addToCart"
+               action_alias="add_to_cart">
+            <expected_model class="Magento_Sales_Model_Quote_Item">
+                <additional_field>another_new_field/additional_field>
+            </expected_model>
+        </event>
+    </log>
+</logging>

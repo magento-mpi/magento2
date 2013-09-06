@@ -14,8 +14,49 @@ class Integrity_Magento_Logging_Model_ConfigTest extends Integrity_ConfigAbstrac
      *
      * @return string
      */
-    protected function _getXMLName() {
+    protected function _getXmlName()
+    {
         return 'logging.xml';
+    }
+
+    /**
+     * The location of a single valid complete xml file
+     *
+     * @return string
+     */
+    protected function _getKnownValidXml()
+    {
+        return __DIR__ . '/_files/logging.xml';
+    }
+
+    /**
+     * The location of a single known invalid complete xml file
+     *
+     * @return string
+     */
+    protected function _getKnownInvalidXml()
+    {
+        return __DIR__ . '/_files/invalid_logging.xml';
+    }
+
+    /**
+     * The location of a single known valid partial xml file
+     *
+     * @return string
+     */
+    protected function _getKnownValidPartialXml()
+    {
+        return __DIR__ . '/_files/logging_file.xml';
+    }
+
+    /**
+     * The location of a single known invalid partial xml file
+     *
+     * @return string
+     */
+    protected function _getKnownInvalidPartialXml()
+    {
+        return __DIR__ . '/_files/invalid_logging.xml';
     }
 
     /**
@@ -23,7 +64,18 @@ class Integrity_Magento_Logging_Model_ConfigTest extends Integrity_ConfigAbstrac
      *
      * @return string
      */
-    protected function _getXSDFile() {
+    protected function _getXsd()
+    {
         return '/app/code/Magento/Logging/etc/logging.xsd';
+    }
+
+    /**
+     * Returns the name of the XSD file to be used to validate partial XML
+     *
+     * @return string
+     */
+    protected function _getFileXsd()
+    {
+        return '/app/code/Magento/Logging/etc/logging_file.xsd';
     }
 }
