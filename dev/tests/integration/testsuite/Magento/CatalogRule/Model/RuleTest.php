@@ -37,12 +37,15 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('id'));
         $contextMock = $this->getMock('Magento_Core_Model_Context',
             array(), array(), '', false);
+        $formFactoryMock = $this->getMock('Magento_Data_Form_Factory',
+            array(), array(), '', false);
         $ctlgRuleHlprMock = $this->getMock('Magento_CatalogRule_Helper_Data',
             array('__construct'), array(), '', false);
         /** @var $catalogRule Magento_CatalogRule_Model_Rule */
         $catalogRule = $this->getMock('Magento_CatalogRule_Model_Rule',
             array('_getRulesFromProduct'), array(
                 $ctlgRuleHlprMock,
+                $formFactoryMock,
                 $contextMock,
                 $resourceMock
             ), '');
