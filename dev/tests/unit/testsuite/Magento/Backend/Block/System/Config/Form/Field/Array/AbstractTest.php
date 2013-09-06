@@ -27,7 +27,8 @@ class Magento_Backend_Block_System_Config_Form_Field_Array_AbstractTest extends 
             ->method('escapeHtml')
             ->will($this->returnArgument(0));
         $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
+            array(), '', false);
         $element = new Magento_Data_Form_Element_Multiselect($factory, $collectionFactory);
         $element->setValue(array(
             array(

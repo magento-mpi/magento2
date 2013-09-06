@@ -33,6 +33,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
         $data = array(
             'application' => $this->_application,
             'locale' => $this->_locale,
+            'formFactory' => $this->getMock('Magento_Data_Form_Factory', array(), array(), '', false),
         );
         $helper = new Magento_Test_Helper_ObjectManager($this);
         $this->_object = $helper->getObject('Magento_Backend_Block_System_Config_Form', $data);

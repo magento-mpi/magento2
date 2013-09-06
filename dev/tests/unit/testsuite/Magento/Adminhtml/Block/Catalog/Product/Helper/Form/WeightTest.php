@@ -26,7 +26,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     public function testSetForm()
     {
         $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
+            array(), '', false);
 
         $form = new Magento_Data_Form($factory, $collectionFactory);
 
