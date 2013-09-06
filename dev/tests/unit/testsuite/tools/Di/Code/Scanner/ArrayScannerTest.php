@@ -6,10 +6,6 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/Di/Code/Scanner/ScannerInterface.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/Di/Code/Scanner/FileScanner.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/Di/Code/Scanner/ArrayScanner.php';
-
 class Magento_Tools_Di_Code_Scanner_ArrayScannerTest extends PHPUnit_Framework_TestCase
 {
     /**
