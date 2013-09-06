@@ -45,10 +45,12 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Fo
         }
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'        => 'edit_form',
-            'action'    => $saveUrl,
-            'method'    => 'post'
-        ));
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $saveUrl,
+                'method'    => 'post',
+            ))
+        );
 
         if ($showNew) {
             $fieldset = $form->addFieldset('base_fieldset', array(

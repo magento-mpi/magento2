@@ -39,10 +39,12 @@ abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Ma
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
-        ));
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
 
         $this->_prepareStoreFieldSet($form);
 

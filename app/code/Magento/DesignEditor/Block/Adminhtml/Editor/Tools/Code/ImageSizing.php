@@ -75,9 +75,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'action'   => '#',
-            'method'   => 'post'
-        ));
+            'attributes' => array(
+                'action'   => '#',
+                'method'   => 'post',
+            ))
+        );
         $form->setId('product_image_sizing_form');
         $this->setForm($form);
         $form->setUseContainer(true);

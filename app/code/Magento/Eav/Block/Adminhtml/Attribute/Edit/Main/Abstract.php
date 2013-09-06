@@ -74,10 +74,12 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
 
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id' => 'edit_form',
-            'action' => $this->getData('action'),
-            'method' => 'post'
-        ));
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend' => __('Attribute Properties'))

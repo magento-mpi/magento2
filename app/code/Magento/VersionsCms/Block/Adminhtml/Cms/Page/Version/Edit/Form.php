@@ -56,10 +56,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id' => 'edit_form',
-            'action' => $this->getUrl('*/*/save', array('_current' => true)),
-            'method' => 'post',
-        ));
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getUrl('*/*/save', array('_current' => true)),
+                'method' => 'post',
+            ))
+        );
 
         $form->setUseContainer(true);
 

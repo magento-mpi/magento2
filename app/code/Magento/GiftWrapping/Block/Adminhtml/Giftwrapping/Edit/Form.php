@@ -55,12 +55,14 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
         }
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id' => 'edit_form',
-            'action' => $this->getUrl('*/*/save', $actionParams),
-            'method' => 'post',
-            'field_name_suffix' => 'wrapping',
-            'enctype'=> 'multipart/form-data'
-        ));
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getUrl('*/*/save', $actionParams),
+                'method' => 'post',
+                'field_name_suffix' => 'wrapping',
+                'enctype'=> 'multipart/form-data',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend'=>__('Gift Wrapping Information')));

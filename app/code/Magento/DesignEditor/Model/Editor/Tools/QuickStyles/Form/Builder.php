@@ -84,14 +84,20 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
 
         if ($isFilePresent) {
             /** @var $form Magento_Data_Form */
-            $form = $this->_formFactory->create($data);
+            $form = $this->_formFactory->create(array(
+                'attributes' => $data,
+            ));
 
             $this->_addElementTypes($form);
 
             $columns = $this->_initColumns($form, $data['tab']);
             $this->_populateColumns($columns, $data['tab']);
         } else {
-            $form = $this->_formFactory->create(array('action' => '#'));
+            $form = $this->_formFactory->create(array(
+                'attributes' => array(
+                    'action' => '#',
+                ))
+            );
         }
 
         if ($this->_isFormEmpty($form)) {

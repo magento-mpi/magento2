@@ -28,8 +28,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front
         $attributeObject = Mage::registry('entity_attribute');
 
         /** @var Magento_Data_Form $form */
-        $form = $this->_formFactory->create(
-            array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
         );
 
         $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();;

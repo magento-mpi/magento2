@@ -23,10 +23,12 @@ class Magento_User_Block_User_Edit_Form extends Magento_Backend_Block_Widget_For
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id' => 'edit_form',
-            'action' => $this->getData('action'),
-            'method' => 'post',
-        ));
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();

@@ -101,10 +101,16 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Backend_Block_W
     protected function _prepareForm()
     {
         $actionUrl = $this->getUrl('*/*/sales');
+
         /** @var Magento_Data_Form $form */
-        $form   = $this->_formFactory->create(
-            array('id' => 'filter_form', 'action' => $actionUrl, 'method' => 'get')
+        $form   = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'filter_form',
+                'action' => $actionUrl,
+                'method' => 'get',
+            ))
         );
+
         $htmlIdPrefix = 'sales_report_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Filter')));

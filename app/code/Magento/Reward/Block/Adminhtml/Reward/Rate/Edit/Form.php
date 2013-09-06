@@ -37,10 +37,12 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Backe
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id' => 'edit_form',
-            'action' => $this->getUrl('*/*/save', array('_current' => true)),
-            'method' => 'post'
-        ));
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getUrl('*/*/save', array('_current' => true)),
+                'method' => 'post',
+            ))
+        );
         $form->setFieldNameSuffix('rate');
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Reward Exchange Rate Information')

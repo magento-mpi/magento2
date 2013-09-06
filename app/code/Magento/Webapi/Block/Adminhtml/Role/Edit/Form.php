@@ -23,10 +23,12 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Form extends Magento_Backend_Bloc
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'action' => $this->getUrl('*/*/save'),
-            'id' => 'edit_form',
-            'method' => 'post',
-        ));
+            'attributes' => array(
+                'action' => $this->getUrl('*/*/save'),
+                'id' => 'edit_form',
+                'method' => 'post',
+            ))
+        );
         $form->setUseContainer(true);
         $this->setForm($form);
 

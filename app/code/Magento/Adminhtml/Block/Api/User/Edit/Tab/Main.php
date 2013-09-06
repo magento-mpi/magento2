@@ -18,14 +18,12 @@
 
 class Magento_Adminhtml_Block_Api_User_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form_Generic
 {
-
     protected function _prepareForm()
     {
         $model = Mage::registry('api_user');
 
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create();
-
         $form->setHtmlIdPrefix('user_');
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account Information')));
@@ -88,8 +86,7 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Main extends Magento_Backend_Blo
                 'id'    => 'confirmation',
                 'class' => 'input-text validate-cpassword',
             ));
-        }
-        else {
+        } else {
            $fieldset->addField('password', 'password', array(
                 'name'  => 'api_key',
                 'label' => __('API Key'),

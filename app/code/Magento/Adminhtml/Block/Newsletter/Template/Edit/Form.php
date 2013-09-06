@@ -42,10 +42,12 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Back
 
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post',
-        ));
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
             'legend'    => __('Template Information'),

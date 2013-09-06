@@ -74,10 +74,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getUrl('*/*/save'),
-            'method'    => 'post'
-        ));
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getUrl('*/*/save'),
+                'method'    => 'post',
+            ))
+        );
 
         /**
          * Define general properties for each node

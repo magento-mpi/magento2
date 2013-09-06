@@ -30,10 +30,12 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Backen
 
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id' => 'edit_form',
-            'action' => $this->getData('action'),
-            'method' => 'post'
-        ));
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Order Status Information')

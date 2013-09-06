@@ -39,10 +39,12 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Backe
         $model  = Mage::registry('checkout_agreement');
         /** @var Magento_Data_Form $form */
         $form   = $this->_formFactory->create(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
-        ));
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
             'legend'    => __('Terms and Conditions Information'),

@@ -28,10 +28,12 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_F
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
-        ));
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();

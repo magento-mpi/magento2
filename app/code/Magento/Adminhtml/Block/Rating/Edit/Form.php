@@ -22,10 +22,12 @@ class Magento_Adminhtml_Block_Rating_Edit_Form extends Magento_Backend_Block_Wid
     {
         /** @var Magento_Data_Form $form */
         $form   = $this->_formFactory->create(array(
-            'id' => 'edit_form',
-            'action' => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'))),
-            'method' => 'post',
-        ));
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'))),
+                'method' => 'post',
+            ))
+        );
 
         $form->setUseContainer(true);
         $this->setForm($form);

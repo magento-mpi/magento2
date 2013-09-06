@@ -29,10 +29,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Form
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id' => 'edit_form',
-            'action' => $this->getData('action'),
-            'method' => 'post',
-        ));
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();

@@ -53,7 +53,8 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ba
      *
      * @return Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes
      */
-    protected function _prepareForm() {
+    protected function _prepareForm()
+    {
         $group      = $this->getGroup();
         $attributes = $this->getAttributes();
 

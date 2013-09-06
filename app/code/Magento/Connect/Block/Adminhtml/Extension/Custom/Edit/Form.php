@@ -26,10 +26,12 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Form extends Magento
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
-        ));
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
 
         $form->setUseContainer(true);
         $this->setForm($form);

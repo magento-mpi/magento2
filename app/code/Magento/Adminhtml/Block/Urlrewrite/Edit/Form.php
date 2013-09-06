@@ -120,10 +120,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
         // Prepare form
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'            => 'edit_form',
-            'use_container' => true,
-            'method'        => 'post'
-        ));
+            'attributes' => array(
+                'id'            => 'edit_form',
+                'use_container' => true,
+                'method'        => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('URL Rewrite Information')

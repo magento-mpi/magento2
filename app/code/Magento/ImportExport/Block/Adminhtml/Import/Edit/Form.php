@@ -26,11 +26,13 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Back
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'      => 'edit_form',
-            'action'  => $this->getUrl('*/*/validate'),
-            'method'  => 'post',
-            'enctype' => 'multipart/form-data',
-        ));
+            'attributes' => array(
+                'id'      => 'edit_form',
+                'action'  => $this->getUrl('*/*/validate'),
+                'method'  => 'post',
+                'enctype' => 'multipart/form-data',
+            ))
+        );
 
         // base fieldset
         /** @var $importEntity Magento_ImportExport_Model_Source_Import_Entity */

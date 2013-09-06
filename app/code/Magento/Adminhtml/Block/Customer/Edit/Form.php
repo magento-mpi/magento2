@@ -22,11 +22,13 @@ class Magento_Adminhtml_Block_Customer_Edit_Form extends Magento_Backend_Block_W
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post',
-            'enctype'   => 'multipart/form-data',
-        ));
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+                'enctype'   => 'multipart/form-data',
+            ))
+        );
 
         $customer = Mage::registry('current_customer');
 

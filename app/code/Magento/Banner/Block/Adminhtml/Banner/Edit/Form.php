@@ -24,8 +24,12 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Form extends Magento_Backend_Bl
     protected function _prepareForm()
     {
         /** @var Magento_Data_Form $form */
-        $form = $this->_formFactory->create(
-            array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
         );
 
         $banner = Mage::registry('current_banner');

@@ -34,12 +34,12 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Bac
     protected function _prepareForm()
     {
         /** @var Magento_Data_Form $form */
-        $form = $this->_formFactory->create(
-            array(
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
                 'id' => 'edit_form',
                 'action' => $this->getActionUrl(),
-                'method' => 'post'
-            )
+                'method' => 'post',
+            ))
         );
 
         $fieldset = $form->addFieldset('base_fieldset', array(

@@ -78,12 +78,14 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Backe
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'      => 'edit_form',
-            'action'  => $this->getActionUrl(),
-            'method'  => 'post',
-            'field_name_suffix' => 'catalogevent',
-            'enctype' => 'multipart/form-data',
-        ));
+            'attributes' => array(
+                'id'      => 'edit_form',
+                'action'  => $this->getActionUrl(),
+                'method'  => 'post',
+                'field_name_suffix' => 'catalogevent',
+                'enctype' => 'multipart/form-data',
+            ))
+        );
 
         $form->setHtmlIdPrefix('event_edit_');
 

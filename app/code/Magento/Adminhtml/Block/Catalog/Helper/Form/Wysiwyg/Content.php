@@ -27,8 +27,12 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content
     protected function _prepareForm()
     {
         /** @var Magento_Data_Form $form */
-        $form = $this->_formFactory->create(
-            array('id' => 'wysiwyg_edit_form', 'action' => $this->getData('action'), 'method' => 'post')
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'wysiwyg_edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
         );
 
         $config['document_base_url']     = $this->getData('store_media_url');

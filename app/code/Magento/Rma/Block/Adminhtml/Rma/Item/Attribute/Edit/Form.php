@@ -28,11 +28,13 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Form
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post',
-            'enctype'   => 'multipart/form-data'
-        ));
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+                'enctype'   => 'multipart/form-data',
+            ))
+        );
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();

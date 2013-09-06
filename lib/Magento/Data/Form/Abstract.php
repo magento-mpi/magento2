@@ -40,7 +40,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
     /**
      * @var Magento_Data_Form_Element_CollectionFactory
      */
-    protected $factoryCollection;
+    protected $_factoryCollection;
 
     /**
      * @param Magento_Data_Form_Element_Factory $factoryElement
@@ -89,7 +89,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
     public function getElements()
     {
         if (empty($this->_elements)) {
-            $this->_elements = $this->_factoryCollection->create($this);
+            $this->_elements = $this->_factoryCollection->create(array('container' => $this));
         }
         return $this->_elements;
     }
@@ -149,8 +149,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
         if (isset($this->_types[$type])) {
             $type = $this->_types[$type];
         }
-        $arguments = array('attributes' => $config);
-        $element = $this->_factoryElement->create($type, $arguments);
+        $element = $this->_factoryElement->create($type, array('attributes' => $config));
         $element->setId($elementId);
         $this->addElement($element, $after);
         return $element;
@@ -179,7 +178,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
      */
     public function addFieldset($elementId, $config, $after = false, $isAdvanced = false)
     {
-        $element = $this->_factoryElement->create('fieldset', $config);
+        $element = $this->_factoryElement->create('fieldset', array('attributes' => $config));
         $element->setId($elementId);
         $element->setAdvanced($isAdvanced);
         $this->addElement($element, $after);
@@ -195,7 +194,7 @@ class Magento_Data_Form_Abstract extends Magento_Object
      */
     public function addColumn($elementId, $config)
     {
-        $element = $this->_factoryElement->create('column', $config);
+        $element = $this->_factoryElement->create('column', array('attributes' => $config));
         $element->setForm($this)
             ->setId($elementId);
         $this->addElement($element);

@@ -24,11 +24,13 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form extends Magent
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-              'id'      => 'edit_form',
-              'action'  => $this->getUrl('*/*/save'),
-              'enctype' => 'multipart/form-data',
-              'method'  => 'post'
-         ));
+            'attributes' => array(
+                'id'      => 'edit_form',
+                'action'  => $this->getUrl('*/*/save'),
+                'enctype' => 'multipart/form-data',
+                'method'  => 'post',
+            ))
+        );
 
         $form->setUseContainer(true);
         $this->setForm($form);

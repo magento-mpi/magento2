@@ -27,10 +27,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Form extends Magento_
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id' => 'preview_form',
-            'action' => $this->getUrl('*/*/drop', array('_current' => true)),
-            'method' => 'post',
-        ));
+            'attributes' => array(
+                'id' => 'preview_form',
+                'action' => $this->getUrl('*/*/drop', array('_current' => true)),
+                'method' => 'post',
+            ))
+        );
 
         if ($data = $this->getFormData()) {
             foreach ($data as $key => $value) {

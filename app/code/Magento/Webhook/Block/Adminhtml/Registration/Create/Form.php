@@ -61,10 +61,11 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
         $inputLength = max(self::API_KEY_LENGTH, self::API_SECRET_LENGTH, self::MIN_TEXT_INPUT_LENGTH);
 
         $form = $this->_formFactory->create(array(
+            'attributes' => array(
                 'id' => 'api_user',
                 'action' => $this->getUrl('*/*/register', array('id' => $subscription[self::DATA_SUBSCRIPTION_ID])),
                 'method' => 'post',
-            )
+            ))
         );
 
         $fieldset = $form;

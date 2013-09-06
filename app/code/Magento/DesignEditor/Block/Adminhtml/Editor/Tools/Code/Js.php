@@ -55,9 +55,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'action' => '#',
-            'method' => 'post'
-        ));
+            'attributes' => array(
+                'action' => '#',
+                'method' => 'post',
+            ))
+        );
         $this->setForm($form);
         $form->setUseContainer(true);
 

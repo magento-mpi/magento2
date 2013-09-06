@@ -82,13 +82,14 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
      */
     protected function _prepareForm()
     {
-        $widgetInstance = $this->getWidgetInstance();
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id' => 'edit_form',
-            'action' => $this->getData('action'),
-            'method' => 'post'
-        ));
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend'=>__('Settings'))

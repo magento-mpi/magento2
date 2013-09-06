@@ -74,15 +74,12 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Bac
         $subscriptionId = isset($subscriptionData[self::DATA_SUBSCRIPTION_ID])
             ? $subscriptionData[self::DATA_SUBSCRIPTION_ID]
             : 0;
-        $form = $this->_formFactory->create(
-            array(
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
                  'id'     => 'edit_form',
-                 'action' => $this->getUrl(
-                     '*/*/save',
-                     array('id' => $subscriptionId)
-                 ),
-                 'method' => 'post'
-            )
+                 'action' => $this->getUrl('*/*/save', array('id' => $subscriptionId)),
+                 'method' => 'post',
+            ))
         );
 
         // We don't want to allow subscriptions defined in config to be edited by the user.

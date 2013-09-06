@@ -51,13 +51,15 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Wid
 
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getUrl('*/*/save', array(
-                'id' => $this->getRequest()->getParam('id'),
-                'ret' => Mage::registry('ret')
-            )),
-            'method'    => 'post'
-        ));
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getUrl('*/*/save', array(
+                    'id' => $this->getRequest()->getParam('id'),
+                    'ret' => Mage::registry('ret')
+                )),
+                'method'    => 'post'
+            ))
+        );
 
         $fieldset = $form->addFieldset('review_details', array(
             'legend' => __('Review Details'),

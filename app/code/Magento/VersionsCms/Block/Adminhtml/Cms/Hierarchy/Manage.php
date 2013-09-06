@@ -46,9 +46,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_B
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'        => 'manage_form',
-            'method'    => 'post',
-        ));
+            'attributes' => array(
+                'id'        => 'manage_form',
+                'method'    => 'post',
+            ))
+        );
 
         $currentWebsite = $this->getRequest()->getParam('website');
         $currentStore   = $this->getRequest()->getParam('store');

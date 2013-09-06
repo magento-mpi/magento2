@@ -15,8 +15,12 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Form
     protected function _prepareForm()
     {
         /** @var Magento_Data_Form $form */
-        $form = $this->_formFactory->create(
-            array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
         );
 
         $giftcardaccount = Mage::registry('current_giftcardaccount');

@@ -16,10 +16,12 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id' => 'edit_form',
-            'action' => $this->getActionUrl(),
-            'method' => 'post'
-        ));
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getActionUrl(),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Sharing Information'),

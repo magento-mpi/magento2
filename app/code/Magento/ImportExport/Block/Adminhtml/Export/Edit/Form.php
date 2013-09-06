@@ -26,10 +26,12 @@ class Magento_ImportExport_Block_Adminhtml_Export_Edit_Form extends Magento_Back
     {
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
-            'id'     => 'edit_form',
-            'action' => $this->getUrl('*/*/getFilter'),
-            'method' => 'post'
-        ));
+            'attributes' => array(
+                'id'     => 'edit_form',
+                'action' => $this->getUrl('*/*/getFilter'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Export Settings')));
         /** @var $entitySourceModel Magento_ImportExport_Model_Source_Export_Entity */

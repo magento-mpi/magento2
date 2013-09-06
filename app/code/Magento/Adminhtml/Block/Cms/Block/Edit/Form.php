@@ -45,8 +45,12 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Backend_Block_
         $model = Mage::registry('cms_block');
 
         /** @var Magento_Data_Form $form */
-        $form   = $this->_formFactory->create(
-            array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
+        $form   = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
         );
 
         $form->setHtmlIdPrefix('block_');

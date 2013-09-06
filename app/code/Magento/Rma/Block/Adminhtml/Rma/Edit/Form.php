@@ -18,13 +18,13 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Form extends Magento_Backend_Block_Wi
     protected function _prepareForm()
     {
         /** @var Magento_Data_Form $form */
-        $form = $this->_formFactory->create(
-            array(
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
                 'id' => 'edit_form',
                 'action' => $this->getData('action'),
                 'method' => 'post',
-                'enctype' => 'multipart/form-data'
-            )
+                'enctype' => 'multipart/form-data',
+            ))
         );
 
         $model = Mage::registry('current_rma');
