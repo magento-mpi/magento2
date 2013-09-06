@@ -14,7 +14,4 @@
     <type name="Magento_Catalog_Model_Product_Action">
         <plugin name="admingws_product_action_plugin" type="Magento_AdminGws_Model_Plugin_ProductAction"/>
     </type>
-    <type name="Magento_CatalogPermissions_Helper_Data">
-        <plugin name="admingws_category_permission_plugin" type="Magento_AdminGws_Model_Plugin_CategoryCategory"/>
-    </type>
 </config>
