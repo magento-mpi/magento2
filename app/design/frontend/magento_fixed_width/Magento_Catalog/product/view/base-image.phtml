@@ -28,8 +28,8 @@
     <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
         <?php list($_imgWidth, $_imgHeight) = $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->getOriginalSizeArray(); ?>
         <?php if ($_imgWidth > $_zoomSize+10 && $_imgHeight > $_zoomSize+10):?>
-            <div data-role="base-imagento-container">
-                <a class="product-image imagento-zoom" id="base-image" data-role="base-imagento-zoom"
+            <div data-role="base-image-container">
+                <a class="product-image image-zoom" id="base-image" data-role="base-image-zoom"
                    title="<?php echo $this->escapeHtml($_product->getImageLabel()); ?>"
                    href="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image'); ?>">
                     <?php
@@ -41,8 +41,8 @@
                     ?>
                 </a>
             </div>
-            <script data-role="base-imagento-template" type="text/x-jquery-tmpl">
-                <a class="product-image imagento-zoom" id="base-image" data-role="base-imagento-zoom"
+            <script data-role="base-image-template" type="text/x-jquery-tmpl">
+                <a class="product-image image-zoom" id="base-image" data-role="base-image-zoom"
                    title="<?php echo $this->escapeHtml($_product->getImageLabel()); ?>"
                    href="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image'); ?>">
                     <?php
@@ -67,15 +67,15 @@
                             imageOpacity: 0.6,
                             title : false
                         };
-                    $('[data-role=base-imagento-zoom]').jqzoom(options);
+                    $('[data-role=base-image-zoom]').jqzoom(options);
                     /* On these events, need to remove all elements associated with jqzoom
                     * add back the original element using jQuery template
                     * update image source and attach jqzoom
                     */
-                    $('[data-role=base-imagento-container]').on('imageChanged', function(event, data) {
-                        $('[data-role=base-imagento-zoom]').remove();
-                        $('[data-role=base-imagento-template]').tmpl().appendTo('[data-role=base-imagento-container]');
-                        $('[data-role=base-imagento-zoom]').attr('href', data)
+                    $('[data-role=base-image-container]').on('imageChanged', function(event, data) {
+                        $('[data-role=base-image-zoom]').remove();
+                        $('[data-role=base-image-template]').tmpl().appendTo('[data-role=base-image-container]');
+                        $('[data-role=base-image-zoom]').attr('href', data)
                             .find('[data-role=base-image]')
                             .attr('src', data);
                         // Hidden image element to get actual image size
@@ -83,13 +83,13 @@
                             if ($(this).height() <= imageSize && $(this).width() <= imageSize) {
                                 return;
                             }
-                            $('[data-role=base-imagento-zoom]').jqzoom(options);
+                            $('[data-role=base-image-zoom]').jqzoom(options);
                         });
                     });
-                    $('[data-role=base-imagento-container]').on('loadOriginalImage', function() {
-                        $('[data-role=base-imagento-zoom]').remove();
-                        $('[data-role=base-imagento-template]').tmpl().appendTo('[data-role=base-imagento-container]');
-                        $('[data-role=base-imagento-zoom]').jqzoom(options);
+                    $('[data-role=base-image-container]').on('loadOriginalImage', function() {
+                        $('[data-role=base-image-zoom]').remove();
+                        $('[data-role=base-image-template]').tmpl().appendTo('[data-role=base-image-container]');
+                        $('[data-role=base-image-zoom]').jqzoom(options);
                     });
                 });
             </script>
@@ -117,7 +117,7 @@
 <?php /* --------- native magento zoom --------- */ ?>
 
     <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
-        <p class="product-image product-imagento-zoom">
+        <p class="product-image product-image-zoom">
             <?php
                 $_img = '<img data-role="base-image" id="image" src="'.$this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
                 echo $_helper->productAttribute($_product, $_img, 'image');

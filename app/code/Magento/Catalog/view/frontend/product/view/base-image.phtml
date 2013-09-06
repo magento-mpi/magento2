@@ -19,7 +19,7 @@
     $_helper = $this->helper('Magento_Catalog_Helper_Output');
 ?>
 <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
-<p class="product-image product-imagento-zoom">
+<p class="product-image product-image-zoom">
     <?php
         $_img = '<img data-role="base-image" id="image" src="'.$this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
         echo $_helper->productAttribute($_product, $_img, 'image');

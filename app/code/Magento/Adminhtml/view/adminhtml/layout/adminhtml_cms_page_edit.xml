@@ -25,7 +25,7 @@
                     <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload.js</argument>
                 </arguments>
             </block>
-            <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-load-imagento-min-js">
+            <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-load-image-min-js">
                 <arguments>
                     <argument name="file" xsi:type="string">jquery/fileUploader/load-image.min.js</argument>
                 </arguments>

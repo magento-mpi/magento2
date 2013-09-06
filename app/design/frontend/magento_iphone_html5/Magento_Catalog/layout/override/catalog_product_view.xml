@@ -30,8 +30,8 @@
         <reference name="content">
             <remove name="breadcrumbs"/>
             <block class="Magento_Catalog_Block_Product_View" name="product.info" template="product/view.phtml">
-                <container htmlTag="div" htmlClass="product-imagento-wrap" name="product-info-imagento-wrapper">
-                    <container htmlTag="div" htmlClass="product-image" name="product-info-imagento-container">
+                <container htmlTag="div" htmlClass="product-image-wrap" name="product-info-image-wrapper">
+                    <container htmlTag="div" htmlClass="product-image" name="product-info-image-container">
                         <container htmlTag="ul" name="product-info-image">
                             <block class="Magento_Catalog_Block_Product_View_BaseImage" name="product-info-base-image" as="base-image" template="product/view/base-image.phtml"/>
                             <block class="Magento_Catalog_Block_Product_View_Gallery" name="product-info-gallery" as="gallery" template="product/view/gallery.phtml"/>

@@ -78,9 +78,9 @@
                     <argument name="file" xsi:type="string">Magento_DesignEditor::js/theme-save.js</argument>
                 </arguments>
             </block>
-            <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-imagento-sizing-js">
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-image-sizing-js">
                 <arguments>
-                    <argument name="file" xsi:type="string">Magento_DesignEditor::js/imagento-sizing.js</argument>
+                    <argument name="file" xsi:type="string">Magento_DesignEditor::js/image-sizing.js</argument>
                 </arguments>
             </block>
             <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-quick-style-element-js">
