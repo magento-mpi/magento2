@@ -45,7 +45,7 @@
             <xs:element name="expected_model" type="expectedModelType" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="event" type="eventType" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
-        <xs:attribute name="id" type="xs:ID" use="required"/>
+        <xs:attribute name="name" type="xs:token" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="translatableType">
@@ -63,8 +63,8 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="additional_field" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-            <xs:element name="skip_field" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="additional_field" type="xs:token" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="skip_field" type="xs:token" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="class" type="xs:string" use="required"/>
     </xs:complexType>
