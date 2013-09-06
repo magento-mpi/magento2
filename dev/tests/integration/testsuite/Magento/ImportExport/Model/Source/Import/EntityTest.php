@@ -39,7 +39,11 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        self::$sourceModel = new Magento_ImportExport_Model_Source_Import_Entity();
+        /** @var $config Magento_ImportExport_Model_Config */
+        $config = PHPUnit_Framework_MockObject_Generator::getMock('Magento_ImportExport_Model_Config', null, array(),
+            '', false
+        );
+        self::$sourceModel = new Magento_ImportExport_Model_Source_Import_Entity($config);
     }
 
     /**

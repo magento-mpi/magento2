@@ -39,7 +39,8 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_Data
      * @param Magento_Core_Helper_Data $coreHelper
      * @param array $arguments
      */
-    public function __construct(Magento_Core_Model_Resource $resource,
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
         Magento_Core_Helper_Data $coreHelper,
         array $arguments = array()
     ) {

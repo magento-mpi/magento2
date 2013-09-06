@@ -60,6 +60,10 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
      * @var array
      */
     protected $_textFieldTypes = array(
+        'text',
+        'varchar'
+    );
+
     /**
      * @var Magento_Core_Model_Config
      */
@@ -80,10 +84,6 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
         );
         $this->_coreConfig = $coreConfig;
     }
-
-        'text',
-        'varchar'
-    );
 
     /**
      * Retrive text field types

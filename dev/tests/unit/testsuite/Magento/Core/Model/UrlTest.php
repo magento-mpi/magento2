@@ -22,7 +22,8 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $this->_model = new Magento_Core_Model_Url($coreStoreConfig);
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $this->_model = new Magento_Core_Model_Url($coreStoreConfig, $coreConfig);
     }
 
     public function testSetRoutePath()

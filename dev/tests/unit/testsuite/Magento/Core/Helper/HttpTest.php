@@ -19,7 +19,8 @@ class Magento_Core_Helper_HttpTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_object = new Magento_Core_Helper_Http(
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
+            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Model_Config', array(), array(), '', false, false)
         );
     }
 

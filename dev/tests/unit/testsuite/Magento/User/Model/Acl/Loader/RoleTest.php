@@ -56,10 +56,15 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->will($this->returnValue($this->_adapterMock));
 
-        $this->_model = new Magento_User_Model_Acl_Loader_Role(array(
-            'resource' => $this->_resourceMock,
-            'objectFactory' => $this->_objectFactoryMock
-        ));
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+
+        $this->_model = new Magento_User_Model_Acl_Loader_Role(
+            $coreConfig,
+            array(
+                'resource' => $this->_resourceMock,
+                'objectFactory' => $this->_objectFactoryMock
+            )
+        );
     }
 
     public function testPopulateAclAddsRolesAndTheirChildren()
