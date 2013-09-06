@@ -187,7 +187,7 @@
             <instance type="Magento_Core_Model_Cache_Type_Config" />
         </param>
         <param name="reader">
-            <instance type="Magento_ObjectManager_Config_Reader_Dom" />
+            <instance type="Magento\ObjectManager\Config\Reader\Dom" />
         </param>
         <param name="cacheId">
             <value>interception</value>
@@ -203,7 +203,7 @@
             <instance type="Magento_Core_Model_Cache_Type_Config" />
         </param>
         <param name="reader">
-            <instance type="Magento_ObjectManager_Config_Reader_Dom" />
+            <instance type="Magento\ObjectManager\Config\Reader\Dom" />
         </param>
         <param name="cacheId">
             <value>plugin-list</value>

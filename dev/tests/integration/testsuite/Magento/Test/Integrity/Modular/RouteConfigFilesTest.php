@@ -48,7 +48,7 @@ class Magento_Test_Integrity_Modular_RouteConfigFilesTest extends PHPUnit_Framew
 
         $mask = $magentoBaseDir . '/app/code/*/*/etc/*/routes.xml';
         $files = glob($mask);
-        $mergedConfig = new Magento_Config_Dom(
+        $mergedConfig = new \Magento\Config\Dom(
             '<config></config>',
             $this->_idAttributes
         );
@@ -56,11 +56,11 @@ class Magento_Test_Integrity_Modular_RouteConfigFilesTest extends PHPUnit_Framew
         foreach ($files as $file) {
             $content = file_get_contents($file);
             try {
-                new Magento_Config_Dom($content, $this->_idAttributes, $this->_schemaFile);
+                new \Magento\Config\Dom($content, $this->_idAttributes, $this->_schemaFile);
 
                 //merge won't be performed if file is invalid because of exception thrown
                 $mergedConfig->merge($content);
-            } catch(Magento_Config_Dom_ValidationException $e) {
+            } catch(\Magento\Config\Dom\ValidationException $e) {
                 $invalidFiles[] = $file;
             }
         }

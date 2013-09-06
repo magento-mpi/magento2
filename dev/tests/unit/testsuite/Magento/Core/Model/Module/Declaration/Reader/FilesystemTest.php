@@ -31,7 +31,7 @@ class Magento_Core_Model_Module_Declaration_Reader_FilesystemTest extends PHPUni
         $schemaLocatorMock = $this->getMock(
             'Magento_Core_Model_Module_Declaration_SchemaLocator', array(), array(), '', false
         );
-        $validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $this->_model = new Magento_Core_Model_Module_Declaration_Reader_Filesystem(
             $fileResolver, $converter, $schemaLocatorMock, $validationStateMock
         );

@@ -15,7 +15,7 @@ class Magento_Core_Model_Route_Config implements Magento_Core_Model_Route_Config
     protected $_reader;
 
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_cache;
 

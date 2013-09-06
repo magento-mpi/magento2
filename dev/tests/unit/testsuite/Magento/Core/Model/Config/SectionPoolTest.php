@@ -23,7 +23,7 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
     protected $_dataFactoryMock;
 
     /**
-     * @var Magento_Cache_FrontendInterface
+     * @var \Magento\Cache\FrontendInterface
      */
     protected $_cacheMock;
 
@@ -55,7 +55,7 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
         $this->_dataFactoryMock = $this->getMock(
             'Magento_Core_Model_Config_DataFactory', array('create'), array(), '', false
         );
-        $this->_cacheMock = $this->getMock('Magento_Cache_FrontendInterface');
+        $this->_cacheMock = $this->getMock('Magento\Cache\FrontendInterface');
         $this->_cacheKey = 'customCacheId';
 
         $this->_scopeType = 'scopeType';

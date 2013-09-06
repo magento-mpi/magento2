@@ -50,7 +50,7 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
                 'Magento_Config_ReaderInterface' => $this->getMock('Magento\Config\ReaderInterface'),
                 'Magento_Config_ScopeInterface' => $this->getMock('Magento_Config_ScopeInterface'),
                 'Magento_Config_CacheInterface' => $this->getMock('Magento_Config_CacheInterface'),
-                'Magento_Cache_FrontendInterface' => $this->getMock('Magento_Cache_FrontendInterface'),
+                'Magento_Cache_FrontendInterface' => $this->getMock('Magento\Cache\FrontendInterface'),
             ),
             $primaryLoaderMock
         );

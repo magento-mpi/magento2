@@ -12,7 +12,7 @@ class Magento_Core_Model_Config_Initial_Reader
     /**
      * File locator
      *
-     * @var Magento_Config_FileResolverInterface
+     * @var \Magento\Config\FileResolverInterface
      */
     protected $_fileResolver;
 
@@ -45,16 +45,16 @@ class Magento_Core_Model_Config_Initial_Reader
     protected $_scopePriorityScheme = array('primary', 'global');
 
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
+     * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param Magento_Core_Model_Config_Initial_Converter $converter
      * @param string $fileName
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
+        \Magento\Config\FileResolverInterface $fileResolver,
         Magento_Core_Model_Config_Initial_Converter $converter,
         $fileName = 'config.xml',
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = '\Magento\Config\Dom'
     ) {
         $this->_fileResolver = $fileResolver;
         $this->_converter = $converter;
@@ -80,7 +80,7 @@ class Magento_Core_Model_Config_Initial_Reader
             return array();
         }
 
-        /** @var Magento_Config_Dom $domDocument */
+        /** @var \Magento\Config\Dom $domDocument */
         $domDocument = null;
         foreach ($fileList as $file) {
             try {
@@ -90,7 +90,7 @@ class Magento_Core_Model_Config_Initial_Reader
                 } else {
                     $domDocument->merge(file_get_contents($file));
                 }
-            } catch (Magento_Config_Dom_ValidationException $e) {
+            } catch (\Magento\Config\Dom\ValidationException $e) {
                 throw new Magento_Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
             }
         }

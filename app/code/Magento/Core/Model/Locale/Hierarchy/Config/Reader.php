@@ -20,7 +20,7 @@ class Magento_Core_Model_Locale_Hierarchy_Config_Reader extends Magento_Config_R
      * @param Magento_Core_Model_Locale_Hierarchy_Config_FileResolver $fileResolver
      * @param Magento_Core_Model_Locale_Hierarchy_Config_Converter $converter
      * @param Magento_Core_Model_Locale_Hierarchy_Config_SchemaLocator $schemeLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
@@ -29,10 +29,10 @@ class Magento_Core_Model_Locale_Hierarchy_Config_Reader extends Magento_Config_R
         Magento_Core_Model_Locale_Hierarchy_Config_FileResolver $fileResolver,
         Magento_Core_Model_Locale_Hierarchy_Config_Converter $converter,
         Magento_Core_Model_Locale_Hierarchy_Config_SchemaLocator $schemeLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'config.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = '\Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemeLocator, $validationState, $fileName, $idAttributes, $domDocumentClass

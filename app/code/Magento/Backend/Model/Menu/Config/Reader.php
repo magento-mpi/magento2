@@ -10,7 +10,7 @@
 class Magento_Backend_Model_Menu_Config_Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
-     * @param Magento_Config_FileResolverInterface $fileResolver
+     * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param Magento_Backend_Model_Menu_Config_Converter $converter
      * @param Magento_Backend_Model_Menu_Config_SchemaLocator $schemaLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
