@@ -69,7 +69,7 @@ class Mage_Webapi_Controller_ErrorProcessor
                 $exception->getCode(),
                 $exception->getParameters()
             );
-        } else if($exception instanceof Mage_Webapi_Exception) {
+        } else if ($exception instanceof Mage_Webapi_Exception) {
             $maskedException = $exception;
         } else {
             if (!$this->_app->isDeveloperMode()) {

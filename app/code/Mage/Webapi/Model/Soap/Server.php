@@ -30,27 +30,6 @@ class Mage_Webapi_Model_Soap_Server
     /** @var Mage_Webapi_Controller_Soap_Request */
     protected $_request;
 
-    /**
-     * Request XML
-     *
-     * @var string
-     */
-    protected $request;
-
-    /**
-     * Response XML
-     *
-     * @var string
-     */
-    protected $response;
-
-    /**
-     * Registered fault exceptions
-     *
-     * @var array
-     */
-    protected $faultExceptions = array();
-
     /** @var Mage_Webapi_Controller_Soap_Handler */
     protected $_soapHandler;
 
@@ -188,15 +167,13 @@ class Mage_Webapi_Model_Soap_Server
      * Instantiates SoapServer object with options set in object, and
      * dispatches its handle() method.
      * Pulls request using php:://input (for cross-platform compatibility purposes).
-     *
-     * @return string
      */
     public function handle()
     {
         $soapRequest = file_get_contents('php://input');
         $this->_checkRequest($soapRequest);
         $soap = $this->_createSoapServer();
-        return $soap->handle($soapRequest);
+        $soap->handle($soapRequest);
     }
 
     /**
