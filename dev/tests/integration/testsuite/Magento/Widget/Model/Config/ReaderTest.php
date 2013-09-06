@@ -66,11 +66,13 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         );
 
         $schema = __DIR__ . '/../../../../../../../../app/code/Magento/Widget/etc/widget.xsd';
+        $perFileSchema = __DIR__ . '/../../../../../../../../app/code/Magento/Widget/etc/widget_file.xsd';
         $this->_model = Mage::getObjectManager()->create(
             'Magento_Widget_Model_Config_Reader', array(
                 'moduleReader' => $moduleReader,
                 'fileResolver' => $fileResolver,
-                'schema' => $schema
+                'schema' => $schema,
+                'perFileSchema' => $perFileSchema,
             )
         );
     }
