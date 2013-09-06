@@ -75,12 +75,12 @@ class Magento_Test_ObjectManager extends Magento_Core_Model_ObjectManager
         }
     }
 
-   /**
-    * Set objectManager
-    *
-    * @param Magento_ObjectManager $objectManager
-    * @return Magento_ObjectManager
-    */
+    /**
+     * Set objectManager
+     *
+     * @param Magento_ObjectManager $objectManager
+     * @return Magento_ObjectManager
+     */
     public static function setInstance(Magento_ObjectManager $objectManager)
     {
         return self::$_instance = $objectManager;
