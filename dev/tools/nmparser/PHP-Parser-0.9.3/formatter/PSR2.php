@@ -13,17 +13,13 @@ class PSR2 extends PHPParser_PrettyPrinter_Default
 
     protected $methodsVolatile = true;
 
-    protected function pCommaSeparatedMethodParams(array $nodes)
-    {
-        ++$this->indent_level;
-
-        if (count($nodes) > 2) {
+    protected function pCommaSeparated(array $nodes) {
+        $result = $this->pImplode($nodes, ', ');
+        if (count($nodes) > 0 && ((count($nodes) > 1 && strlen($result) > 60) || (!strpos($result, "\n") === false))) {
+            ++$this->indent_level;
             $result =  "\n" . str_repeat('    ', $this->indent_level) .
-                $this->pImplode($nodes, ",\n" . str_repeat('    ', $this->indent_level)) . "\n";
-        } else {
-            $result = $this->pImplode($nodes, ', ');
+                $this->pImplode($nodes, ",\n" . str_repeat('    ', $this->indent_level)) . "\n" . str_repeat('    ', --$this->indent_level);
         }
-        --$this->indent_level;
         return $result;
     }
 
@@ -34,13 +30,8 @@ class PSR2 extends PHPParser_PrettyPrinter_Default
         } else {
             $method_name = $this->patchMethodName($node->name);
         }
-        $method_params = $this->pCommaSeparatedMethodParams($node->params);
-
-        if (isset($method_params{0}) && $method_params{0} == "\n") {
-            $multiline_params = true;
-        } else {
-            $multiline_params = false;
-        }
+        $method_params = $this->pCommaSeparated($node->params);
+        $multiline_params = !(strpos($method_params,"\n") === false);
 
         $result = $this->pModifiers($node->type)
             . 'function ' . ($node->byRef ? '&' : '') . $method_name
@@ -93,15 +84,20 @@ class PSR2 extends PHPParser_PrettyPrinter_Default
         } else {
             $method_name = $this->patchMethodName($this->pObjectProperty($node->name));
         }
-        $method_params = $this->pCommaSeparatedMethodParams($node->args);
         return $this->pVarOrNewExpr($node->var) . '->' . $method_name
-        . '(' . $method_params . ')';
+            . '(' . $this->pCommaSeparated($node->args) . ')';
+
+    }
+
+    public function pExpr_FuncCall(PHPParser_Node_Expr_FuncCall $node) {
+        return $this->p($node->name) . '(' . $this->pCommaSeparated($node->args) . ')';//here
+
     }
 
     public function pStmt_Interface(PHPParser_Node_Stmt_Interface $node) {
         return 'interface ' . $node->name
         . (!empty($node->extends) ? ' extends ' . $this->pCommaSeparated($node->extends) : '')
-        . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
+        . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . '}';
 
     }
 
@@ -110,8 +106,7 @@ class PSR2 extends PHPParser_PrettyPrinter_Default
         . 'class ' . $node->name
         . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
         . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
-        //. "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
-        . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . '}';
+        . "\n" . '{' . "\n" . (!empty($node->stmts) ? $this->pStmts($node->stmts) : '') . '}';
     }
 
     public function pStmt_Class(PHPParser_Node_Stmt_Class $node)
@@ -120,7 +115,7 @@ class PSR2 extends PHPParser_PrettyPrinter_Default
             . 'class ' . $node->name
             . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
             . (!empty($node->implements) ? ' implements' . $this->implementsSeparated($node->implements) : '')
-            . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . '}';
+            . "\n" . '{' . "\n" . (!empty($node->stmts) ? $this->pStmts($node->stmts) : '') . '}';
 
         ++$this->classCount;
 
@@ -140,11 +135,11 @@ class PSR2 extends PHPParser_PrettyPrinter_Default
 
     public function pModifiers($modifiers) {
         return ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_FINAL     ? 'final '     : '')
+        . ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT  ? 'abstract '  : '')
         . ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC    ? 'public '    : '')
         . ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED ? 'protected ' : '')
         . ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE   ? 'private '   : '')
-        . ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_STATIC    ? 'static '    : '')
-        . ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT  ? 'abstract '  : '');
+        . ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_STATIC    ? 'static '    : '');
     }
 
     protected function pComments(array $comments) {
@@ -162,4 +157,51 @@ class PSR2 extends PHPParser_PrettyPrinter_Default
         return 'use ' . $this->pCommaSeparated($node->uses) . ";\n";
     }
 
+    public function pExpr_New(PHPParser_Node_Expr_New $node)
+    {
+        $instationParams = $this->pCommaSeparated($node->args);
+        if (strpos($instationParams, "\n") != false) {
+            return 'new ' . $this->p($node->class) . "(\n    " . $instationParams . "\n)";
+        }
+        return 'new ' . $this->p($node->class) . '(' . $instationParams . ')';
+    }
+
+    public function pStmt_Property(PHPParser_Node_Stmt_Property $node) {
+        return $this->pModifiers($node->type) . parent::pCommaSeparated($node->props) . ';';
+    }
+
+    protected function pInfixOp($type, PHPParser_Node $leftNode, $operatorString, PHPParser_Node $rightNode) {
+        list($precedence, $associativity) = $this->precedenceMap[$type];
+
+        $result = $this->pPrec($leftNode, $precedence, $associativity, -1)
+        . $operatorString
+        . $this->pPrec($rightNode, $precedence, $associativity, 1);
+        if (strlen($result) > 60) {
+            $result = $this->pPrec($leftNode, $precedence, $associativity, -1);
+            $result .= rtrim($operatorString) . "\n";
+            $result .= str_repeat('    ', $this->indent_level) . $this->pPrec($rightNode, $precedence, $associativity, 1);
+            return $result;
+        } else {
+            return $result;
+
+        }
+
+    }
+
+    public function pExpr_StaticCall(PHPParser_Node_Expr_StaticCall $node) {
+        $result = $this->p($node->class) . '::'
+        . ($node->name instanceof PHPParser_Node_Expr
+            ? ($node->name instanceof PHPParser_Node_Expr_Variable
+            || $node->name instanceof PHPParser_Node_Expr_ArrayDimFetch
+                ? $this->p($node->name)
+                : '{' . $this->p($node->name) . '}')
+            : $node->name);
+        $result .= '(' . $this->pCommaSeparated($node->args) . ')' ;
+        return $result;
+
+    }
+
+    public function pExpr_Array(PHPParser_Node_Expr_Array $node) {
+        return 'array(' . $this->pCommaSeparated($node->items) . ')';
+    }
 }
