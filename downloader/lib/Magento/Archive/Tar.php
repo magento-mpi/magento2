@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Archive
+ * @package     Magento_Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Class to work with tar archives
  *
  * @category    Magento
- * @package     \Magento\Archive
+ * @package     Magento_Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\ArchiveInterface
+class Magento_Archive_Tar extends Magento_Archive_Abstract implements Magento_Archive_Interface
 {
     /**
      * Tar block size
@@ -49,14 +49,14 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
     /**
     * Tarball data writer
     *
-    * @var \Magento\Archive\Helper\File
+    * @var Magento_Archive_Helper_File
     */
     protected $_writer;
 
     /**
     * Tarball data reader
     *
-    * @var \Magento\Archive\Helper\File
+    * @var Magento_Archive_Helper_File
     */
     protected $_reader;
 
@@ -70,11 +70,11 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
     /**
      * Initialize tarball writer
      *
-     * @return \Magento\Archive\Tar
+     * @return Magento_Archive_Tar
      */
     protected function _initWriter()
     {
-        $this->_writer = new \Magento\Archive\Helper\File($this->_destinationFilePath);
+        $this->_writer = new Magento_Archive_Helper_File($this->_destinationFilePath);
         $this->_writer->open('w');
 
         return $this;
@@ -94,11 +94,11 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
     /**
      * Destroy tarball writer
      *
-     * @return \Magento\Archive\Tar
+     * @return Magento_Archive_Tar
      */
     protected function _destroyWriter()
     {
-        if ($this->_writer instanceof \Magento\Archive\Helper\File) {
+        if ($this->_writer instanceof Magento_Archive_Helper_File) {
             $this->_writer->close();
             $this->_writer = null;
         }
@@ -109,7 +109,7 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
     /**
      * Get tarball writer
      *
-     * @return \Magento\Archive\Helper\File
+     * @return Magento_Archive_Helper_File
      */
     protected function _getWriter()
     {
@@ -123,11 +123,11 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
     /**
      * Initialize tarball reader
      *
-     * @return \Magento\Archive\Tar
+     * @return Magento_Archive_Tar
      */
     protected function _initReader()
     {
-        $this->_reader = new \Magento\Archive\Helper\File($this->_getCurrentFile());
+        $this->_reader = new Magento_Archive_Helper_File($this->_getCurrentFile());
         $this->_reader->open('r');
 
         return $this;
@@ -136,11 +136,11 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
     /**
      * Destroy tarball reader
      *
-     * @return \Magento\Archive\Tar
+     * @return Magento_Archive_Tar
      */
     protected function _destroyReader()
     {
-        if ($this->_reader instanceof \Magento\Archive\Helper\File) {
+        if ($this->_reader instanceof Magento_Archive_Helper_File) {
             $this->_reader->close();
             $this->_reader = null;
         }
@@ -151,7 +151,7 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
     /**
      * Get tarball reader
      *
-     * @return \Magento\Archive\Helper\File
+     * @return Magento_Archive_Helper_File
      */
     protected function _getReader()
     {
@@ -166,7 +166,7 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
      * Set option that define ability skip first catalog level.
      *
      * @param mixed $skipRoot
-     * @return \Magento\Archive\Tar
+     * @return Magento_Archive_Tar
      */
     protected function _setSkipRoot($skipRoot)
     {
@@ -178,7 +178,7 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
      * Set file which is packing.
      *
      * @param string $file
-     * @return \Magento\Archive\Tar
+     * @return Magento_Archive_Tar
      */
     protected function _setCurrentFile($file)
     {
@@ -190,7 +190,7 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
     * Set path to file where tarball should be placed
     *
     * @param string $destinationFilePath
-    * @return \Magento\Archive\Tar
+    * @return Magento_Archive_Tar
     */
     protected function _setDestinationFilePath($destinationFilePath)
     {
@@ -212,7 +212,7 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
      * Set path to file which is packing.
      *
      * @param string $path
-     * @return \Magento\Archive\Tar
+     * @return Magento_Archive_Tar
      */
     protected function _setCurrentPath($path)
     {
@@ -256,7 +256,7 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
         if (is_dir($file)) {
             $treeDir = scandir($file);
             if (empty($treeDir)) {
-                throw new \Magento\MagentoException('Can\'t scan dir: ' . $file);
+                throw new Magento_Exception('Can\'t scan dir: ' . $file);
             }
             array_shift($treeDir); /* remove  './'*/
             array_shift($treeDir); /* remove  '../'*/
@@ -274,7 +274,7 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
      *
      * @param boolean $skipRoot
      * @param boolean $finalize
-     * @throws \Magento\MagentoException
+     * @throws Magento_Exception
      */
     protected function _createTar($skipRoot = false, $finalize = false)
     {
@@ -288,7 +288,7 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
             $dirFiles = scandir($file);
 
             if (false === $dirFiles) {
-                throw new \Magento\MagentoException('Can\'t scan dir: ' . $file);
+                throw new Magento_Exception('Can\'t scan dir: ' . $file);
             }
 
             array_shift($dirFiles); /* remove  './'*/
@@ -400,7 +400,7 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
      *
      * @param string $destination path to file is unpacked
      * @return array list of files
-     * @throws \Magento\MagentoException
+     * @throws Magento_Exception
      */
     protected function _unpackCurrentTar($destination)
     {
@@ -423,7 +423,7 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
                     $mkdirResult = @mkdir($dirname, 0777, true);
 
                     if (false === $mkdirResult) {
-                        throw new \Magento\MagentoException('Failed to create directory ' . $dirname);
+                        throw new Magento_Exception('Failed to create directory ' . $dirname);
                     }
                 }
 
@@ -436,7 +436,7 @@ class \Magento\Archive\Tar extends \Magento\Archive\AbstractArchive implements \
                     $mkdirResult = @mkdir($currentFile, $header['mode'], true);
 
                     if (false === $mkdirResult) {
-                        throw new \Magento\MagentoException('Failed to create directory ' . $currentFile);
+                        throw new Magento_Exception('Failed to create directory ' . $currentFile);
                     }
                 }
                 $list[] = $currentFile . DS;

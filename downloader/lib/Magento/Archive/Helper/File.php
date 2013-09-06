@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Archive
+ * @package     Magento_Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
 * Helper class that simplifies files stream reading and writing
 *
 * @category    Magento
-* @package     \Magento\Archive
+* @package     Magento_Archive
 * @author      Magento Core Team <core@magentocommerce.com>
 */
-class \Magento\Archive\Helper\File
+class Magento_Archive_Helper_File
 {
     /**
      * Full path to directory where file located
@@ -81,27 +81,27 @@ class \Magento\Archive\Helper\File
      *
      * @param string $mode
      * @param int $chmod
-     * @throws \Magento\MagentoException
+     * @throws Magento_Exception
      */
     public function open($mode = 'w+', $chmod = 0666)
     {
         if ($this->_isWritableMode($mode)) {
             if (!is_writable($this->_fileLocation)) {
-                throw new \Magento\MagentoException('Permission denied to write to ' . $this->_fileLocation);
+                throw new Magento_Exception('Permission denied to write to ' . $this->_fileLocation);
             }
 
             if (is_file($this->_filePath) && !is_writable($this->_filePath)) {
-                throw new \Magento\MagentoException("Can't open file " . $this->_fileName . " for writing. Permission denied.");
+                throw new Magento_Exception("Can't open file " . $this->_fileName . " for writing. Permission denied.");
             }
         }
 
         if ($this->_isReadableMode($mode) && (!is_file($this->_filePath) || !is_readable($this->_filePath))) {
             if (!is_file($this->_filePath)) {
-                throw new \Magento\MagentoException('File ' . $this->_filePath . ' does not exist');
+                throw new Magento_Exception('File ' . $this->_filePath . ' does not exist');
             }
 
             if (!is_readable($this->_filePath)) {
-                throw new \Magento\MagentoException('Permission denied to read file ' . $this->_filePath);
+                throw new Magento_Exception('Permission denied to read file ' . $this->_filePath);
             }
         }
 
@@ -164,14 +164,14 @@ class \Magento\Archive\Helper\File
      * Implementation of file opening
      *
      * @param string $mode
-     * @throws \Magento\MagentoException
+     * @throws Magento_Exception
      */
     protected function _open($mode)
     {
         $this->_fileHandler = @fopen($this->_filePath, $mode);
 
         if (false === $this->_fileHandler) {
-            throw new \Magento\MagentoException('Failed to open file ' . $this->_filePath);
+            throw new Magento_Exception('Failed to open file ' . $this->_filePath);
         }
     }
 
@@ -179,14 +179,14 @@ class \Magento\Archive\Helper\File
      * Implementation of writing data to file
      *
      * @param string $data
-     * @throws \Magento\MagentoException
+     * @throws Magento_Exception
      */
     protected function _write($data)
     {
         $result = @fwrite($this->_fileHandler, $data);
 
         if (false === $result) {
-            throw new \Magento\MagentoException('Failed to write data to ' . $this->_filePath);
+            throw new Magento_Exception('Failed to write data to ' . $this->_filePath);
         }
     }
 
@@ -194,14 +194,14 @@ class \Magento\Archive\Helper\File
      * Implementation of file reading
      *
      * @param int $length
-     * @throws \Magento\MagentoException
+     * @throws Magento_Exception
      */
     protected function _read($length)
     {
         $result = fread($this->_fileHandler, $length);
 
         if (false === $result) {
-            throw new \Magento\MagentoException('Failed to read data from ' . $this->_filePath);
+            throw new Magento_Exception('Failed to read data from ' . $this->_filePath);
         }
 
         return $result;
@@ -247,12 +247,12 @@ class \Magento\Archive\Helper\File
     /**
      * Check whether file is opened
      *
-     * @throws \Magento\MagentoException
+     * @throws Magento_Exception
      */
     protected function _checkFileOpened()
     {
         if (!$this->_fileHandler) {
-            throw new \Magento\MagentoException('File not opened');
+            throw new Magento_Exception('File not opened');
         }
     }
 }
