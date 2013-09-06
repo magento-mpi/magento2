@@ -459,7 +459,6 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     public function cleanCache($tags = array())
     {
         $this->_cache->clean($tags);
-        $this->_eventManager->dispatch('application_clean_cache', array('tags' => $tags));
         return $this;
     }
 
