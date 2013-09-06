@@ -12,7 +12,7 @@
         <reference name="head">
             <block class="Magento_Page_Block_Html_Head_Css" name="magento-versionscms-widgets-css">
                 <arguments>
-                    <argument name="file" type="string">Magento_VersionsCms::widgets.css</argument>
+                    <argument name="file" xsi:type="string">Magento_VersionsCms::widgets.css</argument>
                 </arguments>
             </block>
         </reference>
