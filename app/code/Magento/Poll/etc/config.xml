@@ -10,28 +10,6 @@
  */
 -->
 <config>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Poll>
-                    <files>
-                        <default>Magento_Poll.csv</default>
-                    </files>
-                </Magento_Poll>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Poll>
-                    <files>
-                        <default>Magento_Poll.csv</default>
-                    </files>
-                </Magento_Poll>
-            </modules>
-        </translate>
-    </adminhtml>
     <global>
         <resources>
             <poll_setup>

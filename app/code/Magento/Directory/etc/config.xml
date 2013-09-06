@@ -38,28 +38,6 @@
             </email>
         </template>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Directory>
-                    <files>
-                        <default>Magento_Directory.csv</default>
-                    </files>
-                </Magento_Directory>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Directory>
-                    <files>
-                        <default>Magento_Directory.csv</default>
-                    </files>
-                </Magento_Directory>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <system>
             <currency>

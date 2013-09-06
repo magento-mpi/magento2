@@ -53,17 +53,6 @@
             </import_entities>
         </importexport>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_ScheduledImportExport>
-                    <files>
-                        <default>Magento_ScheduledImportExport.csv</default>
-                    </files>
-                </Magento_ScheduledImportExport>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <system>
             <enterprise_import_export_log>

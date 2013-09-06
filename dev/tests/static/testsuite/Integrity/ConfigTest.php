@@ -11,45 +11,25 @@
 
 class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @return array
-     */
-    public function testDeclaredLocales()
-    {
-        $verifiedFiles = array();
-        foreach ($this->_getConfigFilesPerModule() as $configFile => $moduleName) {
-            $config = simplexml_load_file($configFile);
-            $nodes = $config->xpath("/config/*/translate/modules/{$moduleName}/files/*") ?: array();
-            foreach ($nodes as $node) {
-                $localeFile = dirname($configFile) . '/../locale/en_US/' . (string)$node;
-                $this->assertFileExists($localeFile);
-                $verifiedFiles[realpath($localeFile)] = $moduleName;
-            }
-        }
-        return $verifiedFiles;
-    }
+    protected $_possibleLocales = array('de_DE', 'en_AU', 'en_GB', 'en_US', 'es_ES', 'es_XC', 'fr_FR', 'fr_XC',
+        'it_IT', 'ja_JP', 'nl_NL', 'pl_PL', 'zh_CN', 'zh_XC', 'pt_BR');
 
-    /**
-     * @depends testDeclaredLocales
-     */
-    public function testExistingFilesDeclared($verifiedFiles)
+    public function testExistingFilesDeclared()
     {
         $root = Utility_Files::init()->getPathToSource();
         $failures = array();
         foreach (glob("{$root}/app/code/*/*", GLOB_ONLYDIR) as $modulePath) {
-            $localeFiles = glob("{$modulePath}/locale/*/*.csv");
+            $localeFiles = glob("{$modulePath}/i18n/*.csv");
             foreach ($localeFiles as $file) {
                 $file = realpath($file);
-                $assertFile = dirname(dirname($file)) . DIRECTORY_SEPARATOR . 'en_US' . DIRECTORY_SEPARATOR
-                    . basename($file);
-                if (!isset($verifiedFiles[$assertFile])) {
+                $assertLocale = str_replace('.csv', '', basename($file));
+                if (!in_array($assertLocale, $this->_possibleLocales)) {
                     $failures[] = $file;
                 }
             }
         }
         $this->assertEmpty($failures,
-            'Translation files exist, but not declared in configuration:' . "\n" . var_export($failures, 1)
-        );
+            'Translation files exist, but not declared in configuration:' . "\n" . var_export($failures, 1));
     }
 
     /**

@@ -28,15 +28,6 @@
         </widget>
     </global>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_FullPageCache>
-                    <files>
-                        <default>Magento_FullPageCache.csv</default>
-                    </files>
-                </Magento_FullPageCache>
-            </modules>
-        </translate>
         <cache>
             <dependency>
                 <change>
@@ -111,4 +102,4 @@
             </enterprise_page_cache_crawler>
         </jobs>
     </crontab>
-</config>
+</config>
