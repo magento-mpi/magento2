@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
@@ -64,12 +64,12 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
     {
         $model = Mage::registry('current_promo_quote_rule');
 
-        //$form = new Magento_Data_Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
-        $form = new Magento_Data_Form();
-
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>__('Update prices using the following information')));
+        $fieldset = $form->addFieldset('action_fieldset',
+            array('legend'=>__('Update prices using the following information')));
 
         $fieldset->addField('simple_action', 'select', array(
             'label'     => __('Apply'),
@@ -133,7 +133,8 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             ->setNewChildUrl($this->getUrl('*/promo_quote/newActionHtml/form/rule_actions_fieldset'));
 
         $fieldset = $form->addFieldset('actions_fieldset', array(
-            'legend'=>__('Apply the rule only to cart items matching the following conditions (leave blank for all items).')
+            'legend'=>__('Apply the rule only to cart items matching the following conditions '
+                . '(leave blank for all items).')
         ))->setRenderer($renderer);
 
         $fieldset->addField('actions', 'text', array(
@@ -158,5 +159,4 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
 
         return parent::_prepareForm();
     }
-
 }

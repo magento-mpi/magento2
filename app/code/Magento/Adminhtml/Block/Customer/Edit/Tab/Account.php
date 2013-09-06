@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_Block_Widget_Form_Generic
 {
     /*
      * Disable Auto Group Change Attribute Name
@@ -29,7 +29,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
      */
     public function initForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_account');
         $form->setFieldNameSuffix('account');
 

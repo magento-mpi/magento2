@@ -13,7 +13,7 @@
  *
  */
 class Magento_User_Block_Role_Tab_Info
-    extends Magento_Backend_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     public function getTabLabel()
@@ -45,7 +45,8 @@ class Magento_User_Block_Role_Tab_Info
 
     protected function _initForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset(
             'base_fieldset',

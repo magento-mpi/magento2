@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Sales rule coupon
@@ -27,19 +27,21 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
     protected $_salesRuleCoupon = null;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_SalesRule_Helper_Coupon $salesRuleCoupon,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_salesRuleCoupon = $salesRuleCoupon;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
     }
 
     /**
@@ -49,7 +51,8 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         /**
          * @var Magento_SalesRule_Helper_Coupon $couponHelper

@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Prepare form for render
@@ -23,7 +23,10 @@ class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Adminhtml
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $form = new Magento_Data_Form();
+
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
+
         $customerGroup = Mage::registry('current_group');
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group Information')));
@@ -35,7 +38,8 @@ class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Adminhtml
                 'name'  => 'code',
                 'label' => __('Group Name'),
                 'title' => __('Group Name'),
-                'note'  => __('Maximum length must be less then %1 symbols', Magento_Customer_Model_Group::GROUP_CODE_MAX_LENGTH),
+                'note'  => __('Maximum length must be less then %1 symbols',
+                    Magento_Customer_Model_Group::GROUP_CODE_MAX_LENGTH),
                 'class' => $validateClass,
                 'required' => true,
             )
@@ -66,7 +70,7 @@ class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Adminhtml
             );
         }
 
-        if( Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCustomerGroupData() ) {
+        if ( Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCustomerGroupData() ) {
             $form->addValues(Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCustomerGroupData());
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->setCustomerGroupData(null);
         } else {

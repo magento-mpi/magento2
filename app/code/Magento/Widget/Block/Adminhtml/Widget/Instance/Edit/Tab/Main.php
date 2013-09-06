@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
@@ -87,10 +87,12 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
     protected function _prepareForm()
     {
         $widgetInstance = $this->getWidgetInstance();
-        $form = new Magento_Data_Form(array(
+
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
             'id' => 'edit_form',
             'action' => $this->getData('action'),
-            'method' => 'post'
+            'method' => 'post',
         ));
 
         $fieldset = $form->addFieldset('base_fieldset',
@@ -140,7 +142,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
                 'label'     => __('Assign to Store Views'),
                 'title'     => __('Assign to Store Views'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
+                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')
+                    ->getStoreValuesForForm(false, true),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
