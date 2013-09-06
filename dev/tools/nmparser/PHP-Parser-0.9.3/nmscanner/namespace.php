@@ -45,6 +45,7 @@ class namespacer
     private $rerunUpdate = null;
     private $rerunSearch = array();
     private $rerunreplace = array();
+    private $sourceDirectory = null;
 
 
     private $addSlashArray = array(
@@ -189,14 +190,15 @@ class namespacer
     public function __construct($path, $rootDirectory, $rerun, $testMode)
     {
         $this->rootDirPath = realpath(__DIR__);
+        $this->sourceDirectory = realpath(__DIR__ . '/../../../../../') . '/';
         $this->testFolder = $testMode;
-        $this->path = $path;
+        $this->path = realpath($path);
         $this->gitShell = new Magento\Shell(null);
-        $this->rootDirectory = $rootDirectory;
-        $this->gitMove();
+        $this->rootDirectory = realpath($rootDirectory);
+        //$this->gitMove();
         if ($rerun) {
-            if (is_file($rerun)) {
-                $this->rerunUpdate = $rerun;
+            if (is_file(realpath($rerun))) {
+                $this->rerunUpdate = realpath($rerun);
 
             }
         }
@@ -208,12 +210,24 @@ class namespacer
             $temp = file($this->ignoreFile);
             foreach ($temp as $fl) {
                 if (!empty($fl)) {
-                    $array = $this->scanDirectory(trim($fl), false);
+
+                    $array = $this->scanDirectory(trim($this->sourceDirectory . $fl), false);
                     $this->blackListArray = array_merge($this->blackListArray, $array);
                 }
 
             }
         }
+        if (strpos($this->path, 'downloader') == false) {
+            $downloader = $this->sourceDirectory . 'downloader/lib/Magento';
+            $array = $this->scanDirectory(trim($downloader), false);
+            $this->blackListArray = array_merge($this->blackListArray, $array);
+        }
+        if (strpos($this->path, 'code') == false) {
+            $downloader = $this->sourceDirectory . 'app/code/Magento/Backup/Exception.php';
+            $array = $this->scanDirectory(trim($downloader), false);
+            $this->blackListArray = array_merge($this->blackListArray, $array);
+        }
+
     }
 
     public function gitMove()
@@ -369,7 +383,7 @@ class namespacer
             }
             $content = file_get_contents($file);
 
-            if (strpos($content, 'namespace') !== false) {
+            if (strpos($content, 'namespace Magento') !== false) {
                 echo "Namespace exist  $file\n";
                 continue;
             }
@@ -492,7 +506,7 @@ class namespacer
         );
         echo "php Sanity check  Completed\n";
 
-        $sanityTestSearch=array(
+        $sanityTestSearch = array(
             "in_array('\\Magento\\",
             "\$this->getMock('\\Magento\\",
             "getMockBuilder('\\Magento\\",
@@ -501,7 +515,7 @@ class namespacer
             "case '\\Magento"
 
         );
-        $sanityTestReplace=array(
+        $sanityTestReplace = array(
             "in_array('Magento\\",
             "\$this->getMock('Magento\\",
             "getMockBuilder('Magento\\",
@@ -512,7 +526,7 @@ class namespacer
 
         foreach ($this->phpFile as $key) {
             $contentsPhp = str_replace($sanityPhpSearch, $sanityphpReplace, file_get_contents($key));
-            if($this->testFolder){
+            if ($this->testFolder) {
                 $contentsPhp = str_replace($sanityTestSearch, $sanityTestReplace, file_get_contents($key));
             }
             file_put_contents($key, $contentsPhp);
