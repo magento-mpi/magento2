@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Widget_Model_Config_Reader
+ * Magento_Logging_Model_Config_Reader
  *
  * {license_notice}
  *
@@ -11,7 +11,7 @@
 class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Fieldset_Config_Reader
+     * @var Magento_Logging_Model_Config_Reader
      */
     protected $_model;
 
@@ -65,7 +65,7 @@ class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $schema = __DIR__ . '/../../../../../../../../../../app/code/Magento/Logging/etc/logging.xsd';
+        $schema = __DIR__ . '/../../../../../../../../app/code/Magento/Logging/etc/logging.xsd';
         $this->_model = Mage::getObjectManager()->create(
             'Magento_Logging_Model_Config_Reader', array(
                 'moduleReader' => $moduleReader,

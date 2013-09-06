@@ -35,7 +35,7 @@ class Magento_Logging_Model_ConfigTest extends PHPUnit_Framework_TestCase
         );
         $this->_storageMock->expects($this->once())
             ->method('get')
-            ->with($this->equalTo('/logging'))
+            ->with($this->equalTo('logging'))
             ->will($this->returnValue($loggingConfig));
         $this->_model = new Magento_Logging_Model_Config($this->_storageMock);
     }

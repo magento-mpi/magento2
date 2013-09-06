@@ -19,13 +19,13 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     {
         $result = array('logging' => array());
         $xpath = new DOMXPath($source);
-        $result['logging']['actions'] = $this->_getTitles($xpath);
+        $result['logging']['actions'] = $this->_getActionTitles($xpath);
 
-        $events = $xpath->query('/logging/event');
-        /** @var DOMNode $event */
-        foreach ($events as $event) {
-            $eventId = $event->attributes->getNamedItem('id')->nodeValue;
-            $result['logging'][$eventId] = $this->_convertEvent($event);
+        $logs = $xpath->query('/logging/log');
+        /** @var DOMNode $log */
+        foreach ($logs as $log) {
+            $logId = $log->attributes->getNamedItem('id')->nodeValue;
+            $result['logging'][$logId] = $this->_convertLog($log);
         }
 
         return $result;
@@ -37,15 +37,19 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
      * @param DOMXPath $xpath
      * @return array
      */
-    protected function _getTitles($xpath)
+    protected function _getActionTitles($xpath)
     {
         $result = array();
-        $titles = $xpath->query('/logging/title');
+        $actions = $xpath->query('/logging/action');
 
-        /** @var DOMNode $title */
-        foreach ($titles as $title) {
-            $action = $title->attributes->getNamedItem('action')->nodeValue;
-            $result[$action]['label'] = $title->nodeValue;
+        /** @var DOMNode $action */
+        foreach ($actions as $action) {
+            $actionId = $action->attributes->getNamedItem('id')->nodeValue;
+            foreach ($action->childNodes as $label) {
+                if ($label->nodeName == 'label') {
+                    $result[$actionId]['label'] = $label->nodeValue;
+                }
+            }
         }
         return $result;
     }
@@ -56,21 +60,21 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
      * @param DOMNode $event
      * @return array
      */
-    protected function _convertEvent($event)
+    protected function _convertLog($log)
     {
         $result = array();
-        foreach ($event->childNodes as $eventData) {
-            switch ($eventData->nodeName) {
+        foreach ($log->childNodes as $logData) {
+            switch ($logData->nodeName) {
                 case 'label':
-                    $result['label'] = $eventData->nodeValue;
+                    $result['label'] = $logData->nodeValue;
                     break;
                 case 'expected_model':
-                    $result['expected_models'][$eventData->attributes->getNamedItem('class')->nodeValue] =
-                        $this->_convertExpectedModel($eventData);
+                    $result['expected_models'][$logData->attributes->getNamedItem('class')->nodeValue] =
+                        $this->_convertExpectedModel($logData);
                     break;
-                case 'handle':
-                    $handleName = $eventData->attributes->getNamedItem('name')->nodeValue;
-                    $result['actions'][$handleName] = $this->_convertHandle($eventData);
+                case 'event':
+                    $eventName = $logData->attributes->getNamedItem('controller_action')->nodeValue;
+                    $result['actions'][$eventName] = $this->_convertEvent($logData);
                     break;
             }
         }
@@ -83,37 +87,37 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
      * @param DOMNode $event
      * @return array
      */
-    protected function _convertHandle($handle)
+    protected function _convertEvent($event)
     {
         $result = array();
-        $handleAttributes = $handle->attributes;
-        $handleAction = $handleAttributes->getNamedItem('action');
-        if (!is_null($handleAction)) {
-            $result['action'] = $handleAction->nodeValue;
+        $eventAttributes = $event->attributes;
+        $eventAction = $eventAttributes->getNamedItem('action_alias');
+        if (!is_null($eventAction)) {
+            $result['action'] = $eventAction->nodeValue;
         }
-        $skipOnBackHandles = $handleAttributes->getNamedItem('skip_on_back');
-        if (!is_null($skipOnBackHandles)) {
-            $result['skip_on_back'] = explode(' ', $skipOnBackHandles->nodeValue);
-        }
-        $postDispatch = $handleAttributes->getNamedItem('post_dispatch');
+
+        $postDispatch = $eventAttributes->getNamedItem('post_dispatch');
         if (!is_null($postDispatch)) {
             $result['post_dispatch'] = $postDispatch->nodeValue;
         }
-        foreach ($handle->childNodes as $handleData) {
-            switch ($handleData->nodeName) {
+        foreach ($event->childNodes as $eventData) {
+            switch ($eventData->nodeName) {
                 case 'expected_model':
-                    $result['expected_models'][$handleData->attributes->getNamedItem('class')->nodeValue] =
-                        $this->_convertExpectedModel($handleData);
+                    $result['expected_models'][$eventData->attributes->getNamedItem('class')->nodeValue] =
+                        $this->_convertExpectedModel($eventData);
                     break;
                 case 'post_dispatch':
-                    $result['post_dispatch'][$handleData->attributes->getNamedItem('class')->nodeValue] =
-                        $this->_convertExpectedModel($handleData);
+                    $result['post_dispatch'][$eventData->attributes->getNamedItem('class')->nodeValue] =
+                        $this->_convertExpectedModel($eventData);
+                    break;
+                case 'skip_on_back':
+                    $result['skip_on_back'][] = $eventData->nodeValue;
                     break;
             }
         }
-        $skipOnBackHandles = $handleAttributes->getNamedItem('extends_expected_models');
-        if (!is_null($skipOnBackHandles) && $skipOnBackHandles->nodeValue == 'true') {
-            $result['expected_models']['@'] = 'merge';
+        $extendsExpected = $eventAttributes->getNamedItem('extends_expected_models');
+        if (!is_null($extendsExpected) && $extendsExpected->nodeValue == 'true') {
+            $result['expected_models']['@']['extends'] = 'merge';
         }
         return $result;
     }
@@ -127,14 +131,14 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     protected function _convertExpectedModel($expectedModel)
     {
         $result = array();
-        $expectedModelAttributes = $expectedModel->attributes;
-        $skipFields = $expectedModelAttributes->getNamedItem('skip_fields');
-        if (!is_null($skipFields)) {
-            $result['skip_data'] = explode(' ', $skipFields->nodeValue);
-        }
-        $additionalFields = $expectedModelAttributes->getNamedItem('additional_fields');
-        if (!is_null($additionalFields)) {
-            $result['additional_data'] = explode(' ', $additionalFields->nodeValue);
+        foreach ($expectedModel->childNodes as $childNode) {
+            switch ($childNode->nodeName) {
+                case 'skip_field':
+                    $result['skip_data'][] = $childNode->nodeValue;
+                    break;
+                case 'additional_field':
+                    $result['additional_data'][] = $childNode->nodeValue;
+            }
         }
         return $result;
     }

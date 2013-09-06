@@ -40,7 +40,7 @@ class Magento_Logging_Model_Config_Reader extends Magento_Config_Reader_Filesyst
         $perFileSchema = null,
         $domDocumentClass = 'Magento_Config_Dom'
     ) {
-        $schema = $schema ?: $moduleReader->getModuleDir('etc', 'Enterprise_Logging') . '/logging.xsd';
+        $schema = $schema ?: $moduleReader->getModuleDir('etc', 'Magento_Logging') . '/logging.xsd';
         parent::__construct(
             $fileResolver, $converter, $fileName, $idAttributes, $schema,
             $perFileSchema, $validationState->isValidated(), $domDocumentClass

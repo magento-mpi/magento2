@@ -134,7 +134,6 @@ class Magento_Logging_Model_Config
             }
             asort($this->_labels);
         };
-        var_dump($this->_labels); die();
         return $this->_labels;
     }
 
@@ -166,7 +165,6 @@ class Magento_Logging_Model_Config
             return array();
         }
         //$actionNodes = $this->_xmlConfig["logging/*/actions/{$fullActionName}[1]"];
-        var_dump($fullActionName);
         foreach ($this->_xmlConfig as $configData) {
             if (isset($configData['actions']) && isset ($configData['actions'][$fullActionName])) {
                 $actionNodes = $configData['actions'][$fullActionName];

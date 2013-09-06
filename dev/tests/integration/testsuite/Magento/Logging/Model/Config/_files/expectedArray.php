@@ -8,151 +8,154 @@
 
 
 return array(
-    'actions'=>
-    array(
-        'apply_coupon'=>
-        array(
-            'label'=> 'Apply Coupon'
-        ),
-        'add_to_cart'=>
-        array(
-            'label'=> 'Add to Cart'
-        )
-    ),
-    'enterprise_checkout'=>
-    array(
-        'label'=>
-        'Shopping Cart Management',
-        'expected_models'=>
-        array(
-            'Enterprise_GiftRegistry_Model_Entity'=>
-            array(
-            ),
-            'Enterprise_GiftRegistry_Model_Item'=>
-            array(
-            )
-        ),
+    'logging' => array(
         'actions'=>
         array(
-            'adminhtml_checkout_index'=>
+            'apply_coupon'=>
             array(
-                'action'=>
-                'view',
-                'expected_models'=>
-                array(
-                    'Mage_Sales_Model_Quote'=>
-                    array(
-                    )
-                )
+                'label'=> 'Apply Coupon'
             ),
-            'adminhtml_checkout_applyCoupon'=>
+            'add_to_cart'=>
             array(
-                'action'=>
-                'apply_coupon',
-                'post_dispatch'=>
-                'postDispatchAdminCheckoutApplyCoupon',
-                'expected_models'=>
-                array(
-                    'Mage_Sales_Model_Quote'=>
-                    array(
-                    )
-                )
-            ),
-            'adminhtml_checkout_updateItems'=>
+                'label'=> 'Add to Cart'
+            )
+        ),
+        'enterprise_checkout'=>
+        array(
+            'label'=>
+            'Shopping Cart Management',
+            'expected_models'=>
             array(
-                'action'=>
-                'save',
-                'skip_on_back'=>
+                'Enterprise_GiftRegistry_Model_Entity'=>
                 array(
-                    0=>
-                    'adminhtml_cms_page_version_edit'
                 ),
-                'expected_models'=>
+                'Enterprise_GiftRegistry_Model_Item'=>
                 array(
-                    'Magento_Sales_Model_Quote_Item'=>
-                    array(
-                    )
                 )
             ),
-            'adminhtml_checkout_addToCart'=>
+            'actions'=>
             array(
-                'action'=>
-                'add_to_cart',
-                'expected_models'=>
+                'adminhtml_checkout_index'=>
                 array(
-                    'Magento_Sales_Model_Quote_Item'=>
+                    'action'=>
+                    'view',
+                    'expected_models'=>
                     array(
-                        'additional_data'=>
+                        'Magento_Sales_Model_Quote'=>
                         array(
-
-                            'item_id',
-
-                            'quote_id'
                         )
                     )
-                )
-            ),
-            'adminhtml_customer_save'=>
-            array(
-                'skip_on_back'=>
-                array(
-
-                    'adminhtml_customerbalance_form',
-
-                    'adminhtml_customer_edit'
                 ),
-                'expected_models'=>
+                'adminhtml_checkout_applyCoupon'=>
                 array(
-                    'Enterprise_CustomerBalance_Model_Balance'=>
+                    'action'=>
+                    'apply_coupon',
+                    'post_dispatch'=>
+                    'postDispatchAdminCheckoutApplyCoupon',
+                    'expected_models'=>
                     array(
-                    ),
-                    '@'=>
-                    'merge'
-                )
-            ),
-            'adminhtml_customersegment_match'=>
-            array(
-                'action'=>
-                'refresh_data',
-                'post_dispatch'=>
-                'Enterprise_CustomerSegment_Model_Logging::postDispatchCustomerSegmentMatch'
-            )
-        )
-    ),
-    'customer'=>
-    array(
-        'label'=>
-        'Customers',
-        'expected_models'=>
-        array(
-            'Magento_Customer_Model_Customer'=>
-            array(
-                'skip_data'=>
+                        'Magento_Sales_Model_Quote'=>
+                        array(
+                        )
+                    )
+                ),
+                'adminhtml_checkout_updateItems'=>
                 array(
+                    'action'=>
+                    'save',
+                    'skip_on_back'=>
+                    array(
+                        0=>
+                        'adminhtml_cms_page_version_edit'
+                    ),
+                    'expected_models'=>
+                    array(
+                        'Magento_Sales_Model_Quote_Item'=>
+                        array(
+                        )
+                    )
+                ),
+                'adminhtml_checkout_addToCart'=>
+                array(
+                    'action'=>
+                    'add_to_cart',
+                    'expected_models'=>
+                    array(
+                        'Magento_Sales_Model_Quote_Item'=>
+                        array(
+                            'additional_data'=>
+                            array(
 
-                    'new_password',
+                                'item_id',
 
-                    'password',
+                                'quote_id'
+                            )
+                        )
+                    )
+                ),
+                'adminhtml_customer_save'=>
+                array(
+                    'skip_on_back'=>
+                    array(
 
-                    'password_hash',
+                        'adminhtml_customerbalance_form',
+
+                        'adminhtml_customer_edit'
+                    ),
+                    'expected_models'=>
+                    array(
+                        'Enterprise_CustomerBalance_Model_Balance'=>
+                        array(
+                        ),
+                        '@'=> array(
+                            'extends' => 'merge'
+                        )
+                    )
+                ),
+                'adminhtml_customersegment_match'=>
+                array(
+                    'action'=>
+                    'refresh_data',
+                    'post_dispatch'=>
+                    'Enterprise_CustomerSegment_Model_Logging::postDispatchCustomerSegmentMatch'
                 )
             )
         ),
-        'actions'=>
+        'customer'=>
         array(
-            'adminhtml_customer_edit'=>
+            'label'=>
+            'Customers',
+            'expected_models'=>
             array(
-                'action'=>
-                'view'
-            ),
-            'adminhtml_customer_save'=>
-            array(
-                'action'=>
-                'save',
-                'skip_on_back'=>
+                'Magento_Customer_Model_Customer'=>
                 array(
+                    'skip_data'=>
+                    array(
 
-                    'adminhtml_customer_edit'
+                        'new_password',
+
+                        'password',
+
+                        'password_hash',
+                    )
+                )
+            ),
+            'actions'=>
+            array(
+                'adminhtml_customer_edit'=>
+                array(
+                    'action'=>
+                    'view'
+                ),
+                'adminhtml_customer_save'=>
+                array(
+                    'action'=>
+                    'save',
+                    'skip_on_back'=>
+                    array(
+
+                        'adminhtml_customer_edit'
+                    )
                 )
             )
         )

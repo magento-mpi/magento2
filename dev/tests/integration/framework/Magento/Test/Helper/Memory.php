@@ -67,7 +67,7 @@ class Magento_Test_Helper_Memory
     protected function _getUnixProcessMemoryUsage($pid)
     {
         // RSS - resident set size, the non-swapped physical memory
-        $output = $this->_shell->execute('ps --pid %s --format rss --no-headers', array($pid));
+        $output = $this->_shell->execute('ps -p %s -o rss | sed 1d', array($pid));
         $result = $output . 'k'; // kilobytes
         return self::convertToBytes($result);
     }
