@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class \Magento\System\Dirs
+class Magento_System_Dirs
 {
 
     public static function rm($dirname)
