@@ -33,6 +33,9 @@ class Magento_Core_Model_Layout_Argument_HandlerAbstractTest extends PHPUnit_Fra
     public function testParse($argument, $expectedResult)
     {
         $result = $this->_model->parse($argument);
+        if (isset($result['updaters'])) {
+            $result['updaters'] = array_values($result['updaters']);
+        }
         $this->_assertArrayContainsArray($expectedResult, $result);
     }
 

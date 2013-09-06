@@ -67,11 +67,15 @@ class Magento_Core_Model_Layout_Argument_Handler_Options extends Magento_Core_Mo
         $value = $argument['value'];
 
         if (!isset($value['model'])) {
-            throw new InvalidArgumentException('Passed value has incorrect format');
+            throw new InvalidArgumentException(
+                'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
+            );
         }
 
         if (!is_subclass_of($value['model'], 'Magento_Core_Model_Option_ArrayInterface')) {
-            throw new InvalidArgumentException('Incorrect options model');
+            throw new InvalidArgumentException(
+                'Incorrect options model. ' . $this->_getArgumentInfo($argument)
+            );
         }
     }
 }

@@ -43,7 +43,11 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
      */
     public function testParse($argument, $expectedResult)
     {
-        $this->assertEquals($this->_model->parse($argument), $expectedResult);
+        $result = $this->_model->parse($argument);
+        if (isset($result['updaters'])) {
+            $result['updaters'] = array_values($result['updaters']);
+        }
+        $this->assertEquals($result, $expectedResult);
     }
 
     /**

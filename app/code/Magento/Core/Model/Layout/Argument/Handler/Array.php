@@ -59,11 +59,15 @@ class Magento_Core_Model_Layout_Argument_Handler_Array extends Magento_Core_Mode
         parent::_validate($argument);
         $items = $argument['value'];
         if (!is_array($items)) {
-            throw new InvalidArgumentException('Passed value has incorrect format');
+            throw new InvalidArgumentException(
+                'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
+            );
         }
         foreach ($items as $name => $item) {
             if (!is_array($item) || !isset($item['type']) || !isset($item['value'])) {
-                throw new InvalidArgumentException('Array item: "' . $name . '" has incorrect format');
+                throw new InvalidArgumentException(
+                    'Array item: "' . $name . '" has incorrect format. ' . $this->_getArgumentInfo($argument)
+                );
             }
         }
     }

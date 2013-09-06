@@ -74,7 +74,7 @@ class Magento_Core_Model_Layout_Argument_HandlerFactory
         }
 
         if (!isset($this->_handlerFactories[$type])) {
-            throw new InvalidArgumentException(__('Argument handler %1 does not exist', $type));
+            throw new InvalidArgumentException("Argument handler {$type} does not exist");
         }
 
         if (isset($this->_argumentHandlers[$type])) {
@@ -85,11 +85,19 @@ class Magento_Core_Model_Layout_Argument_HandlerFactory
 
         if (false === ($handler instanceof Magento_Core_Model_Layout_Argument_HandlerInterface)) {
             throw new InvalidArgumentException(
-                __('%1 type handler must implement Magento_Core_Model_Layout_Argument_HandlerInterface', $type)
+                "{$type} type handler must implement Magento_Core_Model_Layout_Argument_HandlerInterface"
             );
         }
 
         $this->_argumentHandlers[$type] = $handler;
         return $handler;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTypes()
+    {
+        return array_keys($this->_handlerFactories);
     }
 }

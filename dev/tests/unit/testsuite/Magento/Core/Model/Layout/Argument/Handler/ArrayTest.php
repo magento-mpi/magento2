@@ -127,6 +127,9 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
             ->will($this->returnCallback($getHandlerCallback));
 
         $result = $this->_model->parse(reset($node));
+        if (isset($result['updaters'])) {
+            $result['updaters'] = array_values($result['updaters']);
+        }
         $this->assertEquals($expected, $result);
     }
 

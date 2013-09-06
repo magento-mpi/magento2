@@ -51,11 +51,15 @@ class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Mod
         $value = $argument['value'];
 
         if (!isset($value['object'])) {
-            throw new InvalidArgumentException('Passed value has incorrect format');
+            throw new InvalidArgumentException(
+                'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
+            );
         }
 
         if (!is_subclass_of($value['object'], 'Magento_Data_Collection')) {
-            throw new InvalidArgumentException('Incorrect data source model');
+            throw new InvalidArgumentException(
+                'Incorrect data source model. ' . $this->_getArgumentInfo($argument)
+            );
         }
     }
 

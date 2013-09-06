@@ -39,7 +39,9 @@ class Magento_Core_Model_Layout_Argument_Handler_Number extends Magento_Core_Mod
     {
         parent::_validate($argument);
         if (!is_numeric($argument['value'])) {
-            throw new InvalidArgumentException('Value is not number argument');
+            throw new InvalidArgumentException(
+                'Value is not number argument. ' . $this->_getArgumentInfo($argument)
+            );
         }
     }
 }

@@ -45,11 +45,15 @@ class Magento_Core_Model_Layout_Argument_Handler_String extends Magento_Core_Mod
         parent::_validate($argument);
 
         if (!isset($argument['value']['string'])) {
-            throw new InvalidArgumentException('Passed value has incorrect format');
+            throw new InvalidArgumentException(
+                'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
+            );
         }
 
         if (!is_string($argument['value']['string'])) {
-            throw new InvalidArgumentException('Value is not string argument');
+            throw new InvalidArgumentException(
+                'Value is not string argument. ' . $this->_getArgumentInfo($argument)
+            );
         }
     }
 

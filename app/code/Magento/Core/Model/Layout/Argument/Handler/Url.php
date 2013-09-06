@@ -55,7 +55,9 @@ class Magento_Core_Model_Layout_Argument_Handler_Url extends Magento_Core_Model_
         $value = $argument['value'];
 
         if (!isset($value['path'])) {
-            throw new InvalidArgumentException('Passed value has incorrect format');
+            throw new InvalidArgumentException(
+                'Passed value has incorrect format. ' . $this->_getArgumentInfo($argument)
+            );
         }
     }
 

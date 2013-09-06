@@ -51,11 +51,14 @@ class Magento_Core_Model_Layout_Argument_Handler_Helper extends Magento_Core_Mod
         $value = $argument['value'];
 
         if (!isset($value['helperClass']) || !isset($value['helperMethod'])) {
-            throw new InvalidArgumentException('Passed helper has incorrect format');
+            throw new InvalidArgumentException(
+                'Passed helper has incorrect format. ' . $this->_getArgumentInfo($argument)
+            );
         }
         if (!method_exists($value['helperClass'], $value['helperMethod'])) {
             throw new InvalidArgumentException(
-                'Helper method "' . $value['helperClass'] . '::' . $value['helperMethod'] . '" does not exist'
+                'Helper method "' . $value['helperClass'] . '::' . $value['helperMethod'] . '" does not exist.'
+                . ' ' . $this->_getArgumentInfo($argument)
             );
         }
     }

@@ -102,7 +102,18 @@ abstract class Magento_Core_Model_Layout_Argument_HandlerAbstract
     protected function _validate(array $argument)
     {
         if (!isset($argument['value'])) {
-            throw new InvalidArgumentException('Value is required for argument');
+            throw new InvalidArgumentException(
+                'Value is required for argument. ' . $this->_getArgumentInfo($argument)
+            );
         }
+    }
+
+    /**
+     * @param array $argument
+     * @return string
+     */
+    protected function _getArgumentInfo($argument)
+    {
+        return  'Argument: ' . json_encode($argument);
     }
 }

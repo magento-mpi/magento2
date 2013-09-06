@@ -38,7 +38,7 @@ class Magento_Core_Model_Layout_Argument_Handler_Boolean extends Magento_Core_Mo
     {
         parent::_validate($argument);
         if (!in_array($argument['value'], array('true', 'false'))) {
-            throw new InvalidArgumentException('Value is not boolean argument');
+            throw new InvalidArgumentException('Value is not boolean argument. ' . $this->_getArgumentInfo($argument));
         }
     }
 }
