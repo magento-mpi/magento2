@@ -18,6 +18,11 @@
 class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Model_Layout_Argument_HandlerAbstract
 {
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(Magento_ObjectManager $objectManager)
