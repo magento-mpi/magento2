@@ -15,13 +15,22 @@ class Magento_Logging_Model_Config_Reader extends Magento_Config_Reader_Filesyst
      * @var array
      */
     protected $_idAttributes = array(
-
+        '/logging/action' => 'id',
+        '/logging/log' => 'name',
+        '/logging/log/event' => 'controller_action',
+        '/logging/log/event/expected_model' => 'class',
+        '/logging/log/event/expected_model/additional_field' => 'name',
+        '/logging/log/event/expected_model/skip_field' => 'name',
+        '/logging/log/event/skip_on_back' => 'controller_action',
+        '/logging/log/expected_model' => 'class',
+        '/logging/log/expected_model/additional_field' => 'name',
+        '/logging/log/expected_model/skip_field' => 'name',
     );
 
     /**
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Core_Model_Fieldset_Config_Converter $converter
+     * @param Magento_Logging_Model_Config_Converter $converter
      * @param Magento_Config_ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
