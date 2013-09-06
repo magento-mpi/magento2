@@ -36,14 +36,15 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
     protected function setUp()
     {
         $this->_factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
+        $factoryColl = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
             array(), '', false);
         $this->_qty = $this->getMock('Magento_Data_Form_Element_Text',
-            array('getElementHtml', 'setForm', 'setValue', 'setName'), array($this->_factory)
+            array('getElementHtml', 'setForm', 'setValue', 'setName'), array($this->_factory, $factoryColl)
         );
         $this->_model = $this->getMock('Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock',
             array('getElementHtml'),
-            array($this->_factory, array('qty' => $this->_qty, 'name' => self::ATTRIBUTE_NAME))
+            array($this->_factory, $factoryColl, array('qty' => $this->_qty, 'name' => self::ATTRIBUTE_NAME))
         );
     }
 
