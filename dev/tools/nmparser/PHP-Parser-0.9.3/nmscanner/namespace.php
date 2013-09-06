@@ -186,7 +186,6 @@ class namespacer
     public function __construct($path, $rootDirectory, $tesDir = false)
     {
 
-
         $this->rootDirPath = realpath(__DIR__);
         $this->path = $path;
         $this->gitShell = new Magento\Shell(null);
@@ -269,8 +268,6 @@ class namespacer
         }
 
 
-
-
         if (!empty($replaceArray)) {
             echo "=====================\n";
             echo "Global replacement Started for git Move\n";
@@ -286,16 +283,12 @@ class namespacer
                 file_put_contents($file, $content);
             }
             echo "Global replacement Completed for git Move\n";
-        }else{
+        } else {
             echo "Nothing to Move\n";
         }
 
 
-
-
     }
-
-
 
 
     public function logFile($logFile, $string)
@@ -364,13 +357,12 @@ class namespacer
                 echo "Only php files can be used for namespace formatting \n";
                 continue;
             }
-            $content=file_get_contents($file);
+            $content = file_get_contents($file);
 
-            if (strpos($content,'namespace') !== false) {
+            if (strpos($content, 'namespace') !== false) {
                 echo "Namespace exist  $file\n";
                 continue;
             }
-
 
 
             clearstatcache();
@@ -501,8 +493,9 @@ class namespacer
                     clearstatcache();
                     //$contents=str_replace($this->classSearch,$this->classReplace,file_get_contents($file));
                     $contents = preg_replace($this->classSearch, $this->classReplace, file_get_contents($file));
-                    file_put_contents($file, $contents);
                     $contents = str_replace("\\\\Magento\\", "\\Magento\\", $contents);
+                    $contents = str_replace("class \\Exception", "class Exception", $contents);
+                    file_put_contents($file, $contents);
                     $this->logFile($this->globalScanner, $file . "Scanning completed \n");
                 }
             } else {
@@ -585,6 +578,7 @@ class namespacer
                         } else {
                             $newClass = $val;
                         }
+                        $baseFileName = trim(basename($file, ".php"));
                         if ((in_array(trim($newClass), $this->reservedKeyWords)) && $namespaceCheck) {
                             $newClass = $this->setMapReservedFiles(
                                 trim($newClass),
@@ -595,15 +589,19 @@ class namespacer
                             $this->reserveCheck = false;
 
                         } else {
-                            if (in_Array($file, $this->reservedKeyWords)) {
-                                $baseFileName = basename($file);
+                            if (in_Array($baseFileName, $this->reservedKeyWords)) {
                                 $newClass = trim($newClass); // $file is set to "index.php";
                                 if ($baseFileName != $newClass && !empty($newClass)) {
                                     $newFileName = dirname($file) . "\\" . $newClass . '.php';
                                     $this->fileMapper[$file] = $newFileName;
                                 }
-                            }
-
+                            } /*else {
+                                $newClass = trim($newClass);
+                                if ($baseFileName != $newClass && !empty($newClass)) {
+                                    $newFileName = dirname($file) . "\\" . $newClass . '.php';
+                                    $this->fileMapper[$file] = $newFileName;
+                                }
+                            }*/
 
                         }
                         $change = "\\" . str_replace(
@@ -669,7 +667,7 @@ class namespacer
             $string = explode(" ", $string[0]);
 
         }
-        if ($newClass === 'Exception' || $newClass === 'Trait' || $newClass === 'Interface') {
+        if ($newClass === 'Trait' || $newClass === 'Interface') {
             $newClass = trim(str_replace(";", '', ($string[count($string) - 1]))) . $newClass;
         } else {
             $newClass = $newClass . trim(str_replace(";", '', ($string[count($string) - 1])));
@@ -768,6 +766,7 @@ class namespacer
             if (file_exists($file)) {
                 $contents = preg_replace($libSearch, $libReplace, file_get_contents($file));
                 $contents = str_replace("\\\\Magento\\", "\\Magento\\", $contents);
+                $contents = str_replace("class \\Exception", "class Exception", $contents);
                 file_put_contents($file, $contents);
             }
         }
