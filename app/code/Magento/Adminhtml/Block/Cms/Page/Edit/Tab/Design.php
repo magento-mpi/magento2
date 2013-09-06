@@ -6,6 +6,8 @@
  * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
     extends Magento_Backend_Block_Widget_Form_Generic
@@ -30,16 +32,10 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
         /*
          * Checking if user have permissions to save information
          */
-        if ($this->_isAllowedAction('Magento_Cms::save')) {
-            $isElementDisabled = false;
-        } else {
-            $isElementDisabled = true;
-        }
+        $isElementDisabled = !$this->_isAllowedAction('Magento_Cms::save');
 
         /** @var Magento_Data_Form $form */
-        $form   = $this->_formFactory->create();
-
-        $form->setHtmlIdPrefix('page_');
+        $form   = $this->_formFactory->create(array('html_id_prefix' => 'page_'));
 
         $model = Mage::registry('cms_page');
 

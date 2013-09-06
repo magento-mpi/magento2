@@ -14,6 +14,8 @@
  * @category   Magento
  * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Magento_User_Block_User_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {

@@ -8,6 +8,11 @@
  * @license     {license_link}
  */
 
+/**
+ * Class Magento_Banner_Block_Adminhtml_Banner_Edit_Form
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Magento_Banner_Block_Adminhtml_Banner_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
 

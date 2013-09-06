@@ -10,6 +10,8 @@
 
 /**
  * Theme Edit Form
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {

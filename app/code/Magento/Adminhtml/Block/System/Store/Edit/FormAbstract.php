@@ -14,6 +14,8 @@
  * @category    Magento
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Magento_Backend_Block_Widget_Form_Generic
 {

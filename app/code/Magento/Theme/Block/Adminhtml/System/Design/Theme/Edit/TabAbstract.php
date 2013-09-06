@@ -12,6 +12,7 @@
  * Theme form tab abstract block
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 abstract class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
     extends Magento_Backend_Block_Widget_Form_Generic

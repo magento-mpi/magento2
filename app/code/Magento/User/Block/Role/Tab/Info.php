@@ -11,6 +11,7 @@
 /**
  * implementing now
  *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Magento_User_Block_Role_Tab_Info
     extends Magento_Backend_Block_Widget_Form_Generic

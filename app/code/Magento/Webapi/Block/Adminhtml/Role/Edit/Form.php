@@ -7,6 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/**
+ * Class Magento_Webapi_Block_Adminhtml_Role_Edit_Form
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Magento_Webapi_Block_Adminhtml_Role_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**

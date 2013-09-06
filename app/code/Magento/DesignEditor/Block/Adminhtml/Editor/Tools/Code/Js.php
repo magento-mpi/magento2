@@ -10,6 +10,8 @@
 
 /**
  * Block that renders JS tab
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_Backend_Block_Widget_Form_Generic
 {

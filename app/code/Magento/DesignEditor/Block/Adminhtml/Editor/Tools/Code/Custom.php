@@ -10,6 +10,8 @@
 
 /**
  * Block that renders Custom tab
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Magento_Backend_Block_Widget_Form_Generic
 {
