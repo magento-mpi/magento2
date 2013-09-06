@@ -443,17 +443,26 @@ class namespacer
     private function sanityCheckCleanup()
     {
 
+
         $sanitySearchXML = array(
             "type name=\"\\Magento\\",
             "preference for=\"\\Magento",
             "module name=\"\\Magento\\",
-            "type=\"\\Magento\\"
+            "type=\"\\Magento\\",
+            "<module>\\Magento\\",
+            "<class>\\Magento\\",
+            "<\\Magento\\",
+            "</\\Magento\\"
         );
         $sanityReplaceXMl = array(
             "type name=\"Magento\\",
             "preference for=\"Magento",
             "module name=\"Magento_",
-            "type=\"Magento\\"
+            "type=\"Magento\\",
+            "<module>Magento_",
+            "<class>Magento_",
+            "<Magento",
+            "</Magento"
         );
 
         echo "=====================\n";
@@ -466,12 +475,46 @@ class namespacer
 
         echo "=====================\n";
         echo "php Sanity check  Started\n";
-        $sanityPhpSearch = array("['\\Magento\\", "get('\\Magento\\", "\\\\Magento");
-        $sanityphpReplace = array("['Magento\\", "get('Magento\\", "\\Magento");
+        $sanityPhpSearch = array(
+            "['\\Magento\\",
+            "get('\\Magento\\",
+            "\\\\Magento",
+            "create('\\\Magento\\",
+            "getSingleton('\\\Magento\\"
+
+        );
+        $sanityphpReplace = array(
+            "['Magento\\",
+            "get('Magento\\",
+            "\\Magento",
+            "create('Magento\\",
+            "getSingleton('Magento\\"
+        );
         echo "php Sanity check  Completed\n";
+
+        $sanityTestSearch=array(
+            "in_array('\\Magento\\",
+            "\$this->getMock('\\Magento\\",
+            "getMockBuilder('\\Magento\\",
+            "->with('\\Magento\\",
+            "array('\\Magento",
+            "case '\\Magento"
+
+        );
+        $sanityTestReplace=array(
+            "in_array('Magento\\",
+            "\$this->getMock('Magento\\",
+            "getMockBuilder('Magento\\",
+            "->with('Magento\\",
+            "array('Magento",
+            "case 'Magento"
+        );
 
         foreach ($this->phpFile as $key) {
             $contentsPhp = str_replace($sanityPhpSearch, $sanityphpReplace, file_get_contents($key));
+            if($this->testFolder){
+                $contentsPhp = str_replace($sanityTestSearch, $sanityTestReplace, file_get_contents($key));
+            }
             file_put_contents($key, $contentsPhp);
         }
 
