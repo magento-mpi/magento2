@@ -16,7 +16,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Connect\Command\Config extends \Magento\Connect\Command
+class Magento_Connect_Command_Config extends Magento_Connect_Command
 {
     /**
      * Parameters constants

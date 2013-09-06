@@ -16,14 +16,14 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class \Magento\Connect\Package\Hotfix extends \Magento\Connect\Package
+class Magento_Connect_Package_Hotfix extends Magento_Connect_Package
 {
 
     /**
      * Initializes an empty package object
      *
      * @param null|string $definition optional package definition xml
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     protected function _init($definition=null)
     {
@@ -59,7 +59,7 @@ END;
     /**
     * Add content to node <replace/>
     *
-    * @return \Magento\Connect\Package\Hotfix
+    * @return Magento_Connect_Package_Hotfix
     */
     public function addReplace($path, $targetName)
     {
@@ -87,7 +87,7 @@ END;
      * @param string $path Path to directory
      * @param string $exclude Exclude
      * @param string $include Include
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function addReplaceDir($targetName, $targetDir, $path, $exclude=null, $include=null)
     {

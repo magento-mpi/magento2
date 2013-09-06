@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Connect\Packager
+class Magento_Connect_Packager
 {
     /**
      * Default Config File name
@@ -49,37 +49,37 @@ class \Magento\Connect\Packager
 
     /**
      * Archiver object
-     * @var \Magento\Archive
+     * @var Magento_Archive
      */
     protected $_archiver = null;
 
     /**
      * HTTP Client (Curl/Socket etc)
-     * @var \Magento\HTTP\IClient
+     * @var Magento_HTTP_IClient
      */
     protected $_http = null;
 
     /**
      * Get Archiver object
      *
-     * @return \Magento\Archive
+     * @return Magento_Archive
      */
     public function getArchiver()
     {
         if(is_null($this->_archiver)) {
-            $this->_archiver = new \Magento\Archive();
+            $this->_archiver = new Magento_Archive();
         }
         return $this->_archiver;
     }
 
     /**
      * Returns HTTP Client
-     * @return \Magento\HTTP\IClient|null
+     * @return Magento_HTTP_IClient|null
      */
     public function getDownloader()
     {
         if(is_null($this->_http)) {
-            $this->_http = \Magento\HTTP\Client::getInstance();
+            $this->_http = Magento_HTTP_Client::getInstance();
         }
         return $this->_http;
     }
@@ -92,7 +92,7 @@ class \Magento\Connect\Packager
      */
     public function getRemoteConf($ftpString)
     {
-        $ftpObj = new \Magento\Connect\Ftp();
+        $ftpObj = new Magento_Connect_Ftp();
         $ftpObj->connect($ftpString);
         $cfgFile = self::CONFIG_FILE_NAME;
         $cacheFile = self::CACHE_FILE_NAME;
@@ -102,12 +102,12 @@ class \Magento\Connect\Packager
         $remoteConfigExists = $ftpObj->fileExists($cfgFile);
         $tempConfigFile = tempnam(sys_get_temp_dir(),'conf');
         if(!$remoteConfigExists) {
-            $remoteCfg = new \Magento\Connect\Config($tempConfigFile);
+            $remoteCfg = new Magento_Connect_Config($tempConfigFile);
             $remoteCfg->store();
             $ftpObj->upload($cfgFile, $tempConfigFile);
         } else {
             $ftpObj->get($tempConfigFile, $cfgFile);
-            $remoteCfg = new \Magento\Connect\Config($tempConfigFile);
+            $remoteCfg = new Magento_Connect_Config($tempConfigFile);
         }
 
         $ftpObj->chdir($wd);
@@ -116,12 +116,12 @@ class \Magento\Connect\Packager
         $tempCacheFile = tempnam(sys_get_temp_dir(),'cache');
 
         if(!$remoteCacheExists) {
-            $remoteCache = new \Magento\Connect\Singleconfig($tempCacheFile);
+            $remoteCache = new Magento_Connect_Singleconfig($tempCacheFile);
             $remoteCache->clear();
             $ftpObj->upload($cacheFile, $tempCacheFile);
         } else {
             $ftpObj->get($tempCacheFile, $cacheFile);
-            $remoteCache = new \Magento\Connect\Singleconfig($tempCacheFile);
+            $remoteCache = new Magento_Connect_Singleconfig($tempCacheFile);
         }
         $ftpObj->chdir($wd);
         return array($remoteCache, $remoteCfg, $ftpObj);
@@ -136,18 +136,18 @@ class \Magento\Connect\Packager
     public function getRemoteCache($ftpString)
     {
 
-        $ftpObj = new \Magento\Connect\Ftp();
+        $ftpObj = new Magento_Connect_Ftp();
         $ftpObj->connect($ftpString);
         $remoteConfigExists = $ftpObj->fileExists(self::CACHE_FILE_NAME);
         if(!$remoteConfigExists) {
             $configFile=tempnam(sys_get_temp_dir(),'conf');
-            $remoteCfg = new \Magento\Connect\Singleconfig($configFile);
+            $remoteCfg = new Magento_Connect_Singleconfig($configFile);
             $remoteCfg->clear();
             $ftpObj->upload(self::CACHE_FILE_NAME, $configFile);
         } else {
             $configFile=tempnam(sys_get_temp_dir(),'conf');
             $ftpObj->get($configFile, self::CACHE_FILE_NAME);
-            $remoteCfg = new \Magento\Connect\Singleconfig($configFile);
+            $remoteCfg = new Magento_Connect_Singleconfig($configFile);
         }
         return array($remoteCfg, $ftpObj);
     }
@@ -160,7 +160,7 @@ class \Magento\Connect\Packager
      */
     public function getRemoteConfig($ftpString)
     {
-        $ftpObj = new \Magento\Connect\Ftp();
+        $ftpObj = new Magento_Connect_Ftp();
         $ftpObj->connect($ftpString);
         $cfgFile = self::CONFIG_FILE_NAME;
 
@@ -168,12 +168,12 @@ class \Magento\Connect\Packager
         $remoteConfigExists = $ftpObj->fileExists($cfgFile);
         $tempConfigFile = tempnam(sys_get_temp_dir(),'conf_');
         if(!$remoteConfigExists) {
-            $remoteCfg = new \Magento\Connect\Config($tempConfigFile);
+            $remoteCfg = new Magento_Connect_Config($tempConfigFile);
             $remoteCfg->store();
             $ftpObj->upload($cfgFile, $tempConfigFile);
         } else {
             $ftpObj->get($tempConfigFile, $cfgFile);
-            $remoteCfg = new \Magento\Connect\Config($tempConfigFile);
+            $remoteCfg = new Magento_Connect_Config($tempConfigFile);
         }
         $ftpObj->chdir($wd);
         return array($remoteCfg, $ftpObj);
@@ -182,8 +182,8 @@ class \Magento\Connect\Packager
     /**
      * Write Cache config remotely
      *
-     * @param \Magento\Connect\Singleconfig $cache
-     * @param \Magento\Connect\Ftp $ftpObj
+     * @param Magento_Connect_Singleconfig $cache
+     * @param Magento_Connect_Ftp $ftpObj
      * @return void
      */
     public function writeToRemoteCache($cache, $ftpObj)
@@ -197,8 +197,8 @@ class \Magento\Connect\Packager
     /**
      * Write config remotely
      *
-     * @param \Magento\Connect\Config $cache
-     * @param \Magento\Connect\Ftp $ftpObj
+     * @param Magento_Connect_Config $cache
+     * @param Magento_Connect_Ftp $ftpObj
      * @return void
      */
     public function writeToRemoteConfig($cache, $ftpObj)

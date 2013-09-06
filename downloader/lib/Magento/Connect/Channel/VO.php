@@ -9,7 +9,7 @@
  */
 
 
-class \Magento\Connect\Channel\VO implements Iterator
+class Magento_Connect_Channel_VO implements Iterator
 {
 
     private $_validator = null;
@@ -77,7 +77,7 @@ class \Magento\Connect\Channel\VO implements Iterator
     private function validator()
     {
         if(is_null($this->_validator)) {
-            $this->_validator = new \Magento\Connect\Validator();
+            $this->_validator = new Magento_Connect_Validator();
         }
         return $this->_validator;
     }

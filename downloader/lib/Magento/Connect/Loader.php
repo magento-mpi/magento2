@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Connect\Loader
+class Magento_Connect_Loader
 {
     /**
      * Factory for HTTP client

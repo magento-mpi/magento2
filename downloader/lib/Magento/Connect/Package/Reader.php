@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Connect\Package\Reader
+class Magento_Connect_Package_Reader
 {
 
     /**
@@ -38,7 +38,7 @@ class \Magento\Connect\Package\Reader
     /**
     * Archivator is used for extract DEFAULT_NAME_PACKAGE.
     *
-    * @var \Magento\Archive
+    * @var Magento_Archive
     */
     protected $_archivator = null;
 
@@ -46,7 +46,7 @@ class \Magento\Connect\Package\Reader
     * Constructor initializes $_file.
     *
     * @param string $file
-    * @return \Magento\Connect\Package\Reader
+    * @return Magento_Connect_Package_Reader
     */
     public function __construct($file='')
     {
@@ -61,12 +61,12 @@ class \Magento\Connect\Package\Reader
     /**
     * Retrieve archivator.
     *
-    * @return \Magento\Archive
+    * @return Magento_Archive
     */
     protected function _getArchivator()
     {
         if (is_null($this->_archivator)) {
-            $this->_archivator = new \Magento\Archive();
+            $this->_archivator = new Magento_Archive();
         }
         return $this->_archivator;
     }
@@ -103,7 +103,7 @@ class \Magento\Connect\Package\Reader
         $handle = fopen($this->_file, 'r');
         try {
             $data = $this->_loadResource($handle);
-        } catch (\Magento\MagentoException $e) {
+        } catch (Magento_Exception $e) {
             fclose($handle);
             throw $e;
         }
@@ -115,7 +115,7 @@ class \Magento\Connect\Package\Reader
     * Loads a package from specified resource
     *
     * @param resource $resource only file resources are supported at the moment
-    * @return \Magento\Connect\Package
+    * @return Magento_Connect_Package
     */
     protected function _loadResource(&$resource)
     {
@@ -126,7 +126,7 @@ class \Magento\Connect\Package\Reader
                 $data .= fread($resource, 10240);
             }
         } else {
-            throw new \Magento\MagentoException('Unsupported resource type');
+            throw new Magento_Exception('Unsupported resource type');
         }
         return $data;
     }
