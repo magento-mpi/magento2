@@ -185,6 +185,7 @@ class Magento_Test_Application
                 ->setResourceConfig(Mage::getObjectManager()->get('Magento_Core_Model_Config_Resource'));
         } else {
             $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+            Magento_Test_ObjectManager::setInstance($objectManager);
             $config->configure($objectManager);
             $objectManager->addSharedInstance($config, 'Magento_Core_Model_Config_Primary');
             $objectManager->addSharedInstance($config->getDirectories(), 'Magento_Core_Model_Dir');
