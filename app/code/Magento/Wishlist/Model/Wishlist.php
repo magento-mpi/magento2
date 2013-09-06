@@ -345,8 +345,6 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
             }
         }
 
-        Mage::dispatchEvent('wishlist_product_add_after', array('items' => $items));
-
         return $item;
     }
 
