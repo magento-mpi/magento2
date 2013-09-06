@@ -172,7 +172,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     public function getDirectFrontNames()
     {
         if (is_null($this->_directFrontNames)) {
-            $names = Mage::getConfig()->getNode(self::XML_NODE_DIRECT_FRONT_NAMES);
+            $names = $this->_objectManager->get('Magento_Core_Model_Config')->getNode(self::XML_NODE_DIRECT_FRONT_NAMES);
             if ($names) {
                 $this->_directFrontNames = $names->asArray();
             } else {

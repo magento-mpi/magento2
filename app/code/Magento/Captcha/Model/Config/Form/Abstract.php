@@ -31,7 +31,7 @@ abstract class Magento_Captcha_Model_Config_Form_Abstract extends Magento_Core_M
     {
         $optionArray = array();
         /* @var $backendNode Magento_Core_Model_Config_Element */
-        $backendNode = Mage::getConfig()->getNode($this->_configPath);
+        $backendNode = $this->_coreConfig->getNode($this->_configPath);
         if ($backendNode) {
             foreach ($backendNode->children() as $formNode) {
                 /* @var $formNode Magento_Core_Model_Config_Element */

@@ -25,6 +25,30 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
     protected $_template = 'Magento_Paypal::system/config/fieldset/store.phtml';
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $data
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Render service JavaScript code
      *
      * @param Magento_Data_Form_Element_Abstract $element
@@ -55,7 +79,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
         // Retrieve a code of the current website
         $website = $this->getRequest()->getParam('website');
 
-        $configRoot = Mage::getConfig()->getNode(null, 'website', $website);
+        $configRoot = $this->_coreConfig->getNode(null, 'website', $website);
 
         $disabledMethods = array();
         foreach ($methods as $methodId => $methodPath) {

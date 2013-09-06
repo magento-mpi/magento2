@@ -109,15 +109,25 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         parent::__construct($data);
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -317,7 +327,7 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
 
         if (!$this->hasData('secure')) {
             if ($this->getType() == Magento_Core_Model_Store::URL_TYPE_LINK && !$store->isAdmin()) {
-                $pathSecure = Mage::getConfig()->shouldUrlBeSecure('/' . $this->getActionPath());
+                $pathSecure = $this->_coreConfig->shouldUrlBeSecure('/' . $this->getActionPath());
                 $this->setData('secure', $pathSecure);
             } else {
                 $this->setData('secure', true);

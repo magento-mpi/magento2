@@ -43,21 +43,31 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
         parent::__construct($data);
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -107,8 +117,8 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
                 'add_images' => true,
                 'files_browser_window_url' => Mage::getSingleton('Magento_Backend_Model_Url')
                     ->getUrl('*/cms_wysiwyg_images/index'),
-                'files_browser_window_width' => (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_width'),
-                'files_browser_window_height'=> (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_height'),
+                'files_browser_window_width' => (int) $this->_coreConfig->getNode('adminhtml/cms/browser/window_width'),
+                'files_browser_window_height'=> (int) $this->_coreConfig->getNode('adminhtml/cms/browser/window_height'),
             ));
         }
 

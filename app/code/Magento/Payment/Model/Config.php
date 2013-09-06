@@ -29,12 +29,22 @@ class Magento_Payment_Model_Config
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -106,7 +116,7 @@ class Magento_Payment_Model_Config
      */
     public function getCcTypes()
     {
-        $_types = Mage::getConfig()->getNode('global/payment/cc/types')->asArray();
+        $_types = $this->_coreConfig->getNode('global/payment/cc/types')->asArray();
 
         uasort($_types, array('Magento_Payment_Model_Config', 'compareCcTypes'));
 

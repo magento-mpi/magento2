@@ -72,12 +72,22 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -220,7 +230,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
         );
 
         // reinit configuration
-        Mage::getConfig()->reinit();
+        $this->_coreConfig->reinit();
         Mage::app()->reinitStores();
 
         $this->clearCache();

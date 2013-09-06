@@ -305,7 +305,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
             $request = $this->getRequest();
         }
 
-        $config = Mage::getConfig()->getNode('global/rewrite');
+        $config = $this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/rewrite');
         if (!$config) {
             return;
         }

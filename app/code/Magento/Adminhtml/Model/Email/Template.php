@@ -32,7 +32,7 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
         $paths = array();
 
         // find nodes which are using $templateCode value
-        $defaultCfgNodes = Mage::getConfig()->getXpath('default/*/*[*="' . $templateCode . '"]');
+        $defaultCfgNodes = $this->_coreConfig->getXpath('default/*/*[*="' . $templateCode . '"]');
         if (!is_array($defaultCfgNodes)) {
             return array();
         }

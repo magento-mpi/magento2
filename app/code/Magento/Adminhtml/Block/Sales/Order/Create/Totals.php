@@ -21,6 +21,30 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
     protected $_totalRenderers;
     protected $_defaultRenderer = 'Magento_Adminhtml_Block_Sales_Order_Create_Totals_Default';
 
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $data
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -48,7 +72,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
             $block = $this->_defaultRenderer;
-            $config = Mage::getConfig()->getNode("global/sales/quote/totals/{$code}/admin_renderer");
+            $config = $this->_coreConfig->getNode("global/sales/quote/totals/{$code}/admin_renderer");
             if ($config) {
                 $block = (string) $config;
             }

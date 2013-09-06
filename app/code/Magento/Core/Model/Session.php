@@ -21,6 +21,8 @@
 class Magento_Core_Model_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string|null $sessionName
      * @param array $data
@@ -30,7 +32,10 @@ class Magento_Core_Model_Session extends Magento_Core_Model_Session_Abstract
         $sessionName = null,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct(
+            $coreStoreConfig,
+            $data
+        );
         $this->init('core', $sessionName);
     }
 

@@ -19,6 +19,36 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstract
 {
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $storeManager,
+            $urlModel,
+            $data
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Block initializing, grid parameters
      */
     protected function _construct()
@@ -57,7 +87,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
                 ->addAttributeToFilter(
                     'type_id',
                     array_keys(
-                        Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
+                        $this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
                     )
                 )->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
                 ->addStoreFilter($this->_getStore());

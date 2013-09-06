@@ -25,6 +25,8 @@ class Magento_Sales_Model_Order_Pdf_Invoice extends Magento_Sales_Model_Order_Pd
     protected $_coreStoreConfig = null;
 
     /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
@@ -32,7 +34,10 @@ class Magento_Sales_Model_Order_Pdf_Invoice extends Magento_Sales_Model_Order_Pd
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($data);
+        parent::__construct(
+            $coreStoreConfig,
+            $data
+        );
         $this->_coreStoreConfig = $coreStoreConfig;
     }
 

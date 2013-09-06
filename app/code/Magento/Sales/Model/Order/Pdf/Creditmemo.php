@@ -26,6 +26,8 @@ class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order
     protected $_coreStoreConfig = null;
 
     /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
@@ -33,7 +35,10 @@ class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($data);
+        parent::__construct(
+            $coreStoreConfig,
+            $data
+        );
         $this->_coreStoreConfig = $coreStoreConfig;
     }
 

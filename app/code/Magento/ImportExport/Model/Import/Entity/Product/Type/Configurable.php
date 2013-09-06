@@ -113,6 +113,29 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     protected $_superAttrValuesCombs = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Object constructor.
+     *
+     * @throws Exception
+     * @param array $params
+     * @param Magento_Core_Model_Config $coreConfig
+     * @return void
+     */
+    public function __construct(
+        array $params,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        parent::__construct(
+            $params
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Add attribute parameters to appropriate attribute set.
      *
      * @param string $attrParams Name of attribute set.
@@ -210,7 +233,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
             $attrSetIdToName   = $this->_entityModel->getAttrSetIdToName();
             $allowProductTypes = array();
 
-            foreach (Mage::getConfig()
+            foreach ($this->_coreConfig
                     ->getNode('global/catalog/product/type/configurable/allow_product_types')->children() as $type) {
                 $allowProductTypes[] = $type->getName();
             }

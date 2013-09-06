@@ -44,8 +44,16 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -53,12 +61,14 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -68,7 +78,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     {
         $this->_init('Magento_Log_Model_Resource_Visitor');
         $userAgent = Mage::helper('Magento_Core_Helper_Http')->getHttpUserAgent();
-        $ignoreAgents = Mage::getConfig()->getNode('global/ignore_user_agents');
+        $ignoreAgents = $this->_coreConfig->getNode('global/ignore_user_agents');
         if ($ignoreAgents) {
             $ignoreAgents = $ignoreAgents->asArray();
             if (in_array($userAgent, $ignoreAgents)) {
@@ -317,7 +327,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      */
     public function isModuleIgnored($observer)
     {
-        $ignores = Mage::getConfig()->getNode('global/ignoredModules/entities')->asArray();
+        $ignores = $this->_coreConfig->getNode('global/ignoredModules/entities')->asArray();
 
         if (is_array($ignores) && $observer) {
             $curModule = $observer->getEvent()->getControllerAction()->getRequest()->getRouteName();

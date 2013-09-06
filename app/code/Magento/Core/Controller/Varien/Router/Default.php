@@ -26,7 +26,7 @@ class Magento_Core_Controller_Varien_Router_Default extends Magento_Core_Control
         $actionName     = isset($noRoute[2]) ? $noRoute[2] : 'index';
 
         if (Mage::app()->getStore()->isAdmin()) {
-            $adminFrontName = (string)Mage::getConfig()->getNode('admin/routers/adminhtml/args/frontName');
+            $adminFrontName = (string)$this->_objectManager->get('Magento_Core_Model_Config')->getNode('admin/routers/adminhtml/args/frontName');
             if ($adminFrontName != $moduleName) {
                 $moduleName     = 'core';
                 $controllerName = 'index';

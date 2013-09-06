@@ -121,6 +121,13 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction
      * @param Magento_FullPageCache_Model_Cache $fpcCache
      * @param Magento_FullPageCache_Model_Cache_SubProcessorFactory $subProcessorFactory
@@ -133,6 +140,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
      * @param Magento_FullPageCache_Model_Store_Identifier $storeIdentifier
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction,
@@ -146,7 +154,8 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         Magento_FullPageCache_Model_Metadata $metadata,
         Magento_FullPageCache_Model_Store_Identifier $storeIdentifier,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_containerFactory = $containerFactory;
@@ -161,6 +170,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         $this->_storeIdentifier = $storeIdentifier;
         $this->_storeManager = $storeManager;
         $this->_requestTags = array(self::CACHE_TAG);
+        $this->_coreConfig = $coreConfig;
     }
 
 
@@ -552,7 +562,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
     {
         if ($this->_requestProcessor === null) {
             $this->_requestProcessor = false;
-            $configuration = Mage::getConfig()->getNode(self::XML_NODE_ALLOWED_CACHE);
+            $configuration = $this->_coreConfig->getNode(self::XML_NODE_ALLOWED_CACHE);
             if ($configuration) {
                 $configuration = $configuration->asArray();
             }

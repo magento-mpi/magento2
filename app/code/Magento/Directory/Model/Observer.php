@@ -31,12 +31,22 @@ class Magento_Directory_Model_Observer
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     public function scheduledUpdateCurrencyRates($schedule)
@@ -53,7 +63,7 @@ class Magento_Directory_Model_Observer
 
         try {
             $importModel = Mage::getModel(
-                Mage::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray()
+                $this->_coreConfig->getNode('global/currency/import/services/' . $service . '/model')->asArray()
             );
         } catch (Exception $e) {
             $importWarnings[] = __('FATAL ERROR:') . ' ' . Mage::throwException(__("We can't initialize the import model."));

@@ -25,12 +25,21 @@ class Magento_Sales_Model_Order_Creditmemo_Config extends Magento_Sales_Model_Or
     protected $_collectorsCacheKey = 'sorted_order_creditmemo_collectors';
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * Constructor
      *
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Config $coreConfig
      */
-    public function __construct(Magento_Core_Model_Cache_Type_Config $configCacheType)
-    {
-        parent::__construct($configCacheType, Mage::getConfig()->getNode('global/sales/order_creditmemo'));
+    public function __construct(
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        parent::__construct($configCacheType, $this->_coreConfig->getNode('global/sales/order_creditmemo'));
+        $this->_coreConfig = $coreConfig;
     }
 }

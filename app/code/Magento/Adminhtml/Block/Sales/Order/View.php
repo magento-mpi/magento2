@@ -18,6 +18,30 @@
 class Magento_Adminhtml_Block_Sales_Order_View extends Magento_Adminhtml_Block_Widget_Form_Container
 {
 
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $data
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
     protected function _construct()
     {
         $this->_objectId    = 'order_id';
@@ -47,7 +71,7 @@ class Magento_Adminhtml_Block_Sales_Order_View extends Magento_Adminhtml_Block_W
             // see if order has non-editable products as items
             $nonEditableTypes = array_keys($this->getOrder()->getResource()->aggregateProductsByTypes(
                 $order->getId(),
-                array_keys(Mage::getConfig()
+                array_keys($this->_coreConfig
                     ->getNode('adminhtml/sales/order/create/available_product_types')
                     ->asArray()
                 ),

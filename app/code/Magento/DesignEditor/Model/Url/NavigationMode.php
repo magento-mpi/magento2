@@ -54,7 +54,10 @@ class Magento_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_U
         if (isset($data['themeId'])) {
             $this->_themeId = $data['themeId'];
         }
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct(
+            $coreStoreConfig,
+            $data
+        );
     }
 
     /**

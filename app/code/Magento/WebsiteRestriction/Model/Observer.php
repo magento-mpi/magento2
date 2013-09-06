@@ -22,12 +22,22 @@ class Magento_WebsiteRestriction_Model_Observer
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -81,12 +91,12 @@ class Magento_WebsiteRestriction_Model_Observer
                     if (!$dispatchResult->getCustomerLoggedIn() && !Mage::helper('Magento_Customer_Helper_Data')->isLoggedIn()) {
                         // see whether redirect is required and where
                         $redirectUrl = false;
-                        $allowedActionNames = array_keys(Mage::getConfig()
+                        $allowedActionNames = array_keys($this->_coreConfig
                             ->getNode(Magento_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_GENERIC)
                             ->asArray()
                         );
                         if (Mage::helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()) {
-                            foreach(array_keys(Mage::getConfig()
+                            foreach(array_keys($this->_coreConfig
                                 ->getNode(
                                     Magento_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_REGISTER
                                 )

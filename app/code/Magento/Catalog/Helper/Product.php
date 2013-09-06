@@ -55,18 +55,28 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -504,7 +514,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function getFieldsAutogenerationMasks()
     {
-        return Mage::getConfig()
+        return $this->_coreConfig
             ->getNode(Magento_Catalog_Helper_Product::XML_PATH_AUTO_GENERATE_MASK, 'default')
             ->asArray();
     }
@@ -516,7 +526,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function getUnassignableAttributes()
     {
-        $data = Mage::getConfig()->getNode(self::XML_PATH_UNASSIGNABLE_ATTRIBUTES);
+        $data = $this->_coreConfig->getNode(self::XML_PATH_UNASSIGNABLE_ATTRIBUTES);
         return false === $data || is_string($data->asArray()) ? array() : array_keys($data->asArray());
     }
 
@@ -527,7 +537,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function getAttributesAllowedForAutogeneration()
     {
-        return array_keys(Mage::getConfig()->getNode(self::XML_PATH_ATTRIBUTES_USED_IN_AUTOGENERATION)->asArray());
+        return array_keys($this->_coreConfig->getNode(self::XML_PATH_ATTRIBUTES_USED_IN_AUTOGENERATION)->asArray());
     }
 
     /**
@@ -537,6 +547,6 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function getTypeSwitcherControlLabel()
     {
-        return __((string)Mage::getConfig()->getNode(self::XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL));
+        return __((string)$this->_coreConfig->getNode(self::XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL));
     }
 }

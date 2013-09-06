@@ -98,11 +98,19 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
@@ -111,6 +119,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -118,6 +127,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
         parent::__construct($context, $data);
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -222,7 +232,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     public function loadDefault($templateId)
     {
-        $defaultTemplates = self::getDefaultTemplates();
+        $defaultTemplates = $this->getDefaultTemplates();
         if (!isset($defaultTemplates[$templateId])) {
             return $this;
         }
@@ -230,7 +240,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         $data = &$defaultTemplates[$templateId];
         $this->setTemplateType($data['type'] == 'html' ? self::TYPE_HTML : self::TYPE_TEXT);
 
-        $module = Mage::getConfig()->determineOmittedNamespace($data['@']['module'], true);
+        $module = $this->_coreConfig->determineOmittedNamespace($data['@']['module'], true);
         $templateText = $this->loadBaseContents($module, $data['file']);
 
         if (preg_match('/<!--@subject\s*(.*?)\s*@-->/u', $templateText, $matches)) {
@@ -269,7 +279,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     public function loadBaseContents($module, $filename)
     {
-        $includeFilename = Mage::getConfig()->getModuleDir('view', $module) . DIRECTORY_SEPARATOR . $filename;
+        $includeFilename = $this->_coreConfig->getModuleDir('view', $module) . DIRECTORY_SEPARATOR . $filename;
         $contents = $this->_filesystem->read($includeFilename);
         if (!$contents) {
             throw new Exception(sprintf('Failed to include file "%s".', $includeFilename));
@@ -282,10 +292,10 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      *
      * @return array
      */
-    static public function getDefaultTemplates()
+    public function getDefaultTemplates()
     {
         if (is_null(self::$_defaultTemplates)) {
-            self::$_defaultTemplates = Mage::getConfig()->getNode(self::XML_PATH_TEMPLATE_EMAIL)->asArray();
+            self::$_defaultTemplates = $this->_coreConfig->getNode(self::XML_PATH_TEMPLATE_EMAIL)->asArray();
         }
 
         return self::$_defaultTemplates;
@@ -296,13 +306,13 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      *
      * @return array
      */
-    static public function getDefaultTemplatesAsOptionsArray()
+    public function getDefaultTemplatesAsOptionsArray()
     {
         $options = array(array('value' => '', 'label' => '', 'group' => ''));
         $groups = array();
-        foreach (self::getDefaultTemplates() as $templateId => $row) {
+        foreach ($this->getDefaultTemplates() as $templateId => $row) {
             $module = $row['@']['module'];
-            $moduleFullName = Mage::getConfig()->determineOmittedNamespace($module, true);
+            $moduleFullName = $this->_coreConfig->determineOmittedNamespace($module, true);
             $options[] = array(
                 'value' => $templateId,
                 'label' => __($row['label']),

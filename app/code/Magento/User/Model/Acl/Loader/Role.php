@@ -15,15 +15,29 @@ class Magento_User_Model_Acl_Loader_Role implements Magento_Acl_LoaderInterface
      */
     protected $_resource;
 
-    public function __construct(array $data = array())
-    {
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param $data
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig,
+        $data = array()
+    ) {
         $this->_resource = isset($data['resource'])
             ? $data['resource']
             : Mage::getSingleton('Magento_Core_Model_Resource');
 
         $this->_objectFactory = isset($data['objectFactory'])
             ? $data['objectFactory']
-            : Mage::getConfig();
+            : $this->_coreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**

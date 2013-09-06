@@ -26,11 +26,22 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
     protected $_resourceConfig;
 
     /**
-     * @param Magento_Core_Model_Config_Resource $resourceConfig
+     * @var Magento_Core_Model_Config
      */
-    public function __construct(Magento_Core_Model_Config_Resource $resourceConfig)
-    {
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config_Resource $resourceConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config_Resource $resourceConfig,
+        Magento_Core_Model_Config $coreConfig
+    ) {
         $this->_resourceConfig = $resourceConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -70,7 +81,7 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
             }
 
             $version    = $resource->getVersion();
-            $requiredVersion = (string) Mage::getConfig()
+            $requiredVersion = (string) $this->_coreConfig
                 ->getNode(sprintf('install/databases/%s/min_version', $dbModel));
 
             // check DB server version

@@ -472,7 +472,7 @@ class Magento_Backend_Model_Config extends Magento_Object
     {
         if (is_null($this->_configRoot)) {
             $this->load();
-            $this->_configRoot = Mage::getConfig()->getNode(null, $this->getScope(), $this->getScopeCode());
+            $this->_configRoot = $this->_appConfig->getNode(null, $this->getScope(), $this->getScopeCode());
         }
         return $this->_configRoot;
     }

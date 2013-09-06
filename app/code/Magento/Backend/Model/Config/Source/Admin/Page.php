@@ -41,7 +41,7 @@ class Magento_Backend_Model_Config_Source_Admin_Page implements Magento_Core_Mod
             $data['menu'] :
             Mage::getSingleton('Magento_Backend_Model_Menu_Config')->getMenu();
 
-        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : Mage::getConfig();
+        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : $this->_objectFactory;
     }
 
     public function toOptionArray()

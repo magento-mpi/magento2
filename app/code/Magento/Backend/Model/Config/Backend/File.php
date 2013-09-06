@@ -35,6 +35,8 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
     protected $_filesystem;
 
     /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Backend_Model_Config_Backend_File_RequestData_Interface $requestData
      * @param Magento_Filesystem $filesystem
@@ -50,7 +52,12 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $resource,
+            $resourceCollection,
+            $data
+        );
         $this->_requestData = $requestData;
         $this->_filesystem = $filesystem;
     }

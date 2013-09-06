@@ -20,6 +20,30 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
 {
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        parent::__construct(
+            $fetchStrategy,
+            $coreStoreConfig
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Retrieve currently edited product model
      *
      * @return Magento_Catalog_Model_Product
@@ -37,7 +61,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
         parent::_initSelect();
 
         $allowProductTypes = array();
-        $allowProductTypeNodes = Mage::getConfig()
+        $allowProductTypeNodes = $this->_coreConfig
             ->getNode(Magento_Catalog_Model_Config::XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES)->children();
         foreach ($allowProductTypeNodes as $type) {
             $allowProductTypes[] = $type->getName();

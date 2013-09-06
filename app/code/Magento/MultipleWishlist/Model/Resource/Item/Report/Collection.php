@@ -19,6 +19,30 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
     extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Collection constructor
+     *
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct(
+            $fetchStrategy,
+            $resource
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Init model
      */
     protected function _construct()
@@ -37,7 +61,7 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
         $customer  = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');
         $select = $this->getSelect();
 
-        $customerAccount = Mage::getConfig()->getFieldset('customer_account');
+        $customerAccount = $this->_coreConfig->getFieldset('customer_account');
         foreach ($customerAccount as $code => $node) {
             if ($node->is('name')) {
                 $fields[$code] = $code;

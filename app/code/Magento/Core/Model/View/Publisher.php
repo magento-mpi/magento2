@@ -64,23 +64,31 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     protected $_viewFileSystem;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * View files publisher model
      *
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Helper_Css $cssHelper
      * @param Magento_Core_Model_View_Service $viewService
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Magento_Core_Helper_Css $cssHelper,
         Magento_Core_Model_View_Service $viewService,
-        Magento_Core_Model_View_FileSystem $viewFileSystem
+        Magento_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_filesystem = $filesystem;
         $this->_cssHelper = $cssHelper;
         $this->_viewService = $viewService;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -189,7 +197,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      */
     protected function _buildPublishedFilePath($filePath, $params, $sourcePath)
     {
-        $allowPublication = (string)Mage::getConfig()->getNode(
+        $allowPublication = (string)$this->_coreConfig->getNode(
             self::XML_PATH_ALLOW_DUPLICATION
         );
         $isCssFile = $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;

@@ -29,7 +29,10 @@ class Magento_Catalog_Model_Session extends Magento_Core_Model_Session_Abstract
         $sessionName = null,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct(
+            $coreStoreConfig,
+            $data
+        );
         $this->init('catalog', $sessionName);
     }
 

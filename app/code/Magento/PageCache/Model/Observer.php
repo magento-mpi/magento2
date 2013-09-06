@@ -20,6 +20,22 @@ class Magento_PageCache_Model_Observer
     const XML_NODE_ALLOWED_CACHE = 'frontend/cache/allowed_requests';
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Retrieve the helper instance
      *
      * @return Magento_PageCache_Helper_Data
@@ -58,7 +74,7 @@ class Magento_PageCache_Model_Observer
             $needCaching = false;
         }
 
-        $configuration = Mage::getConfig()->getNode(self::XML_NODE_ALLOWED_CACHE);
+        $configuration = $this->_coreConfig->getNode(self::XML_NODE_ALLOWED_CACHE);
 
         if (!$configuration) {
             $needCaching = false;

@@ -92,7 +92,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     public function collectRoutes($configArea, $useRouterName)
     {
         $routers = array();
-        $routersConfigNode = Mage::getConfig()->getNode($configArea . '/routers');
+        $routersConfigNode = $this->_objectManager->get('Magento_Core_Model_Config')->getNode($configArea . '/routers');
         if ($routersConfigNode) {
             $routers = $routersConfigNode->children();
         }
@@ -525,7 +525,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
 
     public function rewrite(array $p)
     {
-        $rewrite = Mage::getConfig()->getNode('global/rewrite');
+        $rewrite = $this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/rewrite');
         if ($module = $rewrite->{$p[0]}) {
             if (!$module->children()) {
                 $p[0] = trim((string)$module);
@@ -603,6 +603,6 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         return substr($this->_coreStoreConfig->getConfig('web/unsecure/base_url'), 0, 5) === 'https'
             || $this->_coreStoreConfig->getConfigFlag('web/secure/use_in_frontend')
                 && substr($this->_coreStoreConfig->getConfig('web/secure/base_url'), 0, 5) == 'https'
-                && Mage::getConfig()->shouldUrlBeSecure($path);
+                && $this->_objectManager->get('Magento_Core_Model_Config')->shouldUrlBeSecure($path);
     }
 }

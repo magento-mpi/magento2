@@ -36,6 +36,36 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
     protected $_loadExpired = false;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Define resource model
      */
     protected function _construct()
@@ -191,7 +221,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
             $websiteId = Mage::app()->getStore()->getWebsiteId();
         }
 
-        $lifetime = Mage::getConfig()->getNode(
+        $lifetime = $this->_coreConfig->getNode(
             Magento_Persistent_Helper_Data::XML_PATH_LIFE_TIME,
             'website',
             intval($websiteId)

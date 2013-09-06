@@ -34,7 +34,7 @@ class Magento_FullPageCache_Model_Validator
         if (isset($data['config'])) {
             $this->_config = $data['config'];
         } else {
-            $this->_config = Mage::getConfig();
+            $this->_config = $this->_config;
         }
     }
 

@@ -70,7 +70,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      */
     public function fetchDefault()
     {
-        $moduleFrontName = (string) Mage::getConfig()->getNode('admin/routers/adminhtml/args/frontName');
+        $moduleFrontName = (string) $this->_objectManager->get('Magento_Core_Model_Config')->getNode('admin/routers/adminhtml/args/frontName');
         // set defaults
         $pathParts = explode('/', $this->_getDefaultPath());
         $this->getFront()->setDefault(array(
@@ -100,7 +100,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      */
     protected function _getDefaultPath()
     {
-        return (string)Mage::getConfig()->getNode('default/web/default/admin');
+        return (string)$this->_objectManager->get('Magento_Core_Model_Config')->getNode('default/web/default/admin');
     }
 
     /**
@@ -152,9 +152,9 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
     {
         $useInAdminhtml = $this->_coreStoreConfig
             ->getConfigFlag('web/secure/use_in_adminhtml', Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
-        return substr((string)Mage::getConfig()->getNode('default/web/unsecure/base_url'), 0, 5) === 'https'
+        return substr((string)$this->_objectManager->get('Magento_Core_Model_Config')->getNode('default/web/unsecure/base_url'), 0, 5) === 'https'
             || $useInAdminhtml
-                && substr((string)Mage::getConfig()->getNode('default/web/secure/base_url'), 0, 5) === 'https';
+                && substr((string)$this->_objectManager->get('Magento_Core_Model_Config')->getNode('default/web/secure/base_url'), 0, 5) === 'https';
     }
 
     /**

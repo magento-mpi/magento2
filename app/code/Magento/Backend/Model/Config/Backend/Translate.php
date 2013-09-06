@@ -32,6 +32,8 @@ class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_
     protected $_coreStoreConfig = null;
 
     /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -46,7 +48,12 @@ class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

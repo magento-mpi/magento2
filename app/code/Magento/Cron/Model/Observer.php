@@ -39,12 +39,22 @@ class Magento_Cron_Model_Observer
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -59,8 +69,8 @@ class Magento_Cron_Model_Observer
         $schedules = $this->getPendingSchedules();
         $scheduleLifetime = $this->_coreStoreConfig->getConfig(self::XML_PATH_SCHEDULE_LIFETIME) * 60;
         $now = time();
-        $jobsRoot = Mage::getConfig()->getNode('crontab/jobs');
-        $defaultJobsRoot = Mage::getConfig()->getNode('default/crontab/jobs');
+        $jobsRoot = $this->_coreConfig->getNode('crontab/jobs');
+        $defaultJobsRoot = $this->_coreConfig->getNode('default/crontab/jobs');
 
         foreach ($schedules->getIterator() as $schedule) {
             $jobConfig = $jobsRoot->{$schedule->getJobCode()};
@@ -163,7 +173,7 @@ class Magento_Cron_Model_Observer
         /**
          * generate global crontab jobs
          */
-        $config = Mage::getConfig()->getNode('crontab/jobs');
+        $config = $this->_coreConfig->getNode('crontab/jobs');
         if ($config instanceof Magento_Core_Model_Config_Element) {
             $this->_generateJobs($config->children(), $exists);
         }
@@ -171,7 +181,7 @@ class Magento_Cron_Model_Observer
         /**
          * generate configurable crontab jobs
          */
-        $config = Mage::getConfig()->getNode('default/crontab/jobs');
+        $config = $this->_coreConfig->getNode('default/crontab/jobs');
         if ($config instanceof Magento_Core_Model_Config_Element) {
             $this->_generateJobs($config->children(), $exists);
         }

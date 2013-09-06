@@ -30,7 +30,10 @@ class Magento_Newsletter_Model_Session extends Magento_Core_Model_Session_Abstra
         $sessionName = null,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct(
+            $coreStoreConfig,
+            $data
+        );
         $this->init('newsletter', $sessionName);
     }
 

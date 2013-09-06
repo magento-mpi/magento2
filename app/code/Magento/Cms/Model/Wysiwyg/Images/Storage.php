@@ -51,17 +51,24 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     protected $_viewUrl;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * Constructor
      *
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Image_AdapterFactory $imageFactory,
         Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
@@ -70,6 +77,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;
         parent::__construct($data);
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -474,7 +482,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     public function getConfig()
     {
         if (! $this->_config) {
-            $this->_config = Mage::getConfig()->getNode('cms/browser', 'adminhtml');
+            $this->_config = $this->_coreConfig->getNode('cms/browser', 'adminhtml');
         }
 
         return $this->_config;

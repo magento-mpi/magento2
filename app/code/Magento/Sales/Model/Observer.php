@@ -26,6 +26,22 @@ class Magento_Sales_Model_Observer
     protected $_expireQuotesFilterFields = array();
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Clean expired quotes (cron process)
      *
      * @param Magento_Cron_Model_Schedule $schedule
@@ -35,7 +51,7 @@ class Magento_Sales_Model_Observer
     {
         Mage::dispatchEvent('clear_expired_quotes_before', array('sales_observer' => $this));
 
-        $lifetimes = Mage::getConfig()->getStoresConfigByPath('checkout/cart/delete_quote_after');
+        $lifetimes = $this->_coreConfig->getStoresConfigByPath('checkout/cart/delete_quote_after');
         foreach ($lifetimes as $storeId=>$lifetime) {
             $lifetime *= 86400;
 

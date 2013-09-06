@@ -238,11 +238,19 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -253,6 +261,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -262,6 +271,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         $this->_configCacheType = $configCacheType;
         $this->_appState = $appState;
         parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -349,14 +359,14 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     public function loadConfig($code)
     {
         if (is_numeric($code)) {
-            foreach (Mage::getConfig()->getNode()->stores->children() as $storeCode => $store) {
+            foreach ($this->_coreConfig->getNode()->stores->children() as $storeCode => $store) {
                 if ((int) $store->system->store->id == $code) {
                     $code = $storeCode;
                     break;
                 }
             }
         } else {
-            $store = Mage::getConfig()->getNode()->stores->{$code};
+            $store = $this->_coreConfig->getNode()->stores->{$code};
         }
         if (!empty($store)) {
             $this->setCode($code);
@@ -455,7 +465,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
             $this->_configCache[$path] = $value;
         }
         $fullPath = 'stores/' . $this->getCode() . '/' . $path;
-        Mage::getConfig()->setNode($fullPath, $value);
+        $this->_coreConfig->setNode($fullPath, $value);
 
         return $this;
     }
@@ -525,7 +535,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
             if ($url) {
                 $sValue = str_replace('{{' . $placeholder . '}}', $url, $sValue);
             } elseif (strpos($sValue, Magento_Core_Model_Store::BASE_URL_PLACEHOLDER) !== false) {
-                $distroBaseUrl = Mage::getConfig()->getDistroBaseUrl();
+                $distroBaseUrl = $this->_coreConfig->getDistroBaseUrl();
                 $sValue = str_replace(Magento_Core_Model_Store::BASE_URL_PLACEHOLDER, $distroBaseUrl, $sValue);
             }
         }
@@ -632,7 +642,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
             }
 
             if (false !== strpos($url, Magento_Core_Model_Store::BASE_URL_PLACEHOLDER)) {
-                $distroBaseUrl = Mage::getConfig()->getDistroBaseUrl();
+                $distroBaseUrl = $this->_coreConfig->getDistroBaseUrl();
                 $url = str_replace(Magento_Core_Model_Store::BASE_URL_PLACEHOLDER, $distroBaseUrl, $url);
             }
 
@@ -750,7 +760,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     public function isAdminUrlSecure()
     {
         if ($this->_isAdminSecure === null) {
-            $this->_isAdminSecure = (boolean) (int) (string) Mage::getConfig()
+            $this->_isAdminSecure = (boolean) (int) (string) $this->_coreConfig
                 ->getNode(Magento_Core_Model_Url::XML_PATH_SECURE_IN_ADMIN);
         }
         return $this->_isAdminSecure;
@@ -778,7 +788,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     public function isCurrentlySecure()
     {
         $standardRule = !empty($_SERVER['HTTPS']) && ('off' != $_SERVER['HTTPS']);
-        $offloaderHeader = trim((string) Mage::getConfig()->getNode(self::XML_PATH_OFFLOADER_HEADER, 'default'));
+        $offloaderHeader = trim((string) $this->_coreConfig->getNode(self::XML_PATH_OFFLOADER_HEADER, 'default'));
 
         if ((!empty($offloaderHeader) && !empty($_SERVER[$offloaderHeader])) || $standardRule) {
             return true;
@@ -1244,7 +1254,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      */
     public function resetConfig()
     {
-        Mage::getConfig()->reinit();
+        $this->_coreConfig->reinit();
         $this->_dirCache        = array();
         $this->_configCache     = array();
         $this->_baseUrlCache    = array();

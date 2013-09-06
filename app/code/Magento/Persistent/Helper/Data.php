@@ -128,7 +128,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getPersistentConfigFilePath()
     {
-        return Mage::getConfig()->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
+        return $this->_coreConfig->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
     }
 
     /**

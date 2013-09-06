@@ -25,11 +25,17 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
     protected $_resource;
 
     /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Config $coreConfig
      */
-    public function __construct(Magento_Core_Model_Resource $resource)
-    {
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Config $coreConfig
+    ) {
         $this->_resource = $resource;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -46,6 +52,11 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
      */
     protected $_connectionData;
 
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
     /**
      *  Connection configuration
      *
@@ -147,7 +158,7 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
     public function getRequiredExtensions()
     {
         $extensions = array();
-        $configExt = (array)Mage::getConfig()->getNode(sprintf('install/databases/%s/extensions', $this->getModel()));
+        $configExt = (array)$this->_coreConfig->getNode(sprintf('install/databases/%s/extensions', $this->getModel()));
         foreach (array_keys($configExt) as $name) {
             $extensions[] = $name;
         }

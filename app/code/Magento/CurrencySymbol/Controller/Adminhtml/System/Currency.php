@@ -55,7 +55,7 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
             }
             try {
                 $importModel = Mage::getModel(
-                    Mage::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray()
+                    $this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/currency/import/services/' . $service . '/model')->asArray()
                 );
             } catch (Exception $e) {
                 Mage::throwException(__('We can\'t initialize the import model.'));

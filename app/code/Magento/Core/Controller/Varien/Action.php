@@ -899,7 +899,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         $controller = $this->getRequest()->getControllerName();
         $action = $this->getRequest()->getActionName();
 
-        $rewrite = Mage::getConfig()->getNode('global/routers/' . $route . '/rewrite/' . $controller);
+        $rewrite = $this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/routers/' . $route . '/rewrite/' . $controller);
         if (!$rewrite) {
             return false;
         }

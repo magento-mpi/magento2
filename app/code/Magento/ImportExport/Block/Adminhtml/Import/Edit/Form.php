@@ -18,6 +18,23 @@
 class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
+     * Basic import model
+     *
+     * @var Magento_ImportExport_Model_Import
+     */
+    protected $_importModel;
+
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_ImportExport_Model_Import $importModel,
+        array $data = array()
+    )
+    {
+        parent::__construct($context, $data);
+        $this->_importModel = $importModel;
+    }
+
+    /**
      * Add fieldsets
      *
      * @return Magento_ImportExport_Block_Adminhtml_Import_Edit_Form
@@ -45,7 +62,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Admi
         ));
 
         // add behaviour fieldsets
-        $uniqueBehaviors = Magento_ImportExport_Model_Import::getUniqueEntityBehaviors();
+        $uniqueBehaviors = $this->_importModel->getUniqueEntityBehaviors();
         foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
             $fieldsets[$behaviorCode] = $form->addFieldset(
                 $behaviorCode . '_fieldset',

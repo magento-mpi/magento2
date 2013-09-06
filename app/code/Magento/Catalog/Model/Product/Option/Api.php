@@ -23,12 +23,22 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
     protected $_request = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_request = $request;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -186,13 +196,13 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
     {
         $path = Magento_Catalog_Model_Config_Source_Product_Options_Type::PRODUCT_OPTIONS_GROUPS_PATH;
         $types = array();
-        foreach (Mage::getConfig()->getNode($path)->children() as $group) {
-            $groupTypes = Mage::getConfig()->getNode($path . '/' . $group->getName() . '/types')->children();
+        foreach ($this->_coreConfig->getNode($path)->children() as $group) {
+            $groupTypes = $this->_coreConfig->getNode($path . '/' . $group->getName() . '/types')->children();
             /** @var $type Magento_Core_Model_Config_Element */
             foreach($groupTypes as $type){
                 $labelPath = $path . '/' . $group->getName() . '/types/' . $type->getName() . '/label';
                 $types[] = array(
-                    'label' => (string) Mage::getConfig()->getNode($labelPath),
+                    'label' => (string) $this->_coreConfig->getNode($labelPath),
                     'value' => $type->getName()
                 );
             }

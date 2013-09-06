@@ -281,12 +281,20 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
     protected $_optionEntity;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * Constructor
      *
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
         parent::__construct();
 
         $this->_optionEntity = isset($data['option_entity']) ? $data['option_entity']
@@ -301,6 +309,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
             ->_initCategories()
             ->_initSkus()
             ->_initCustomerGroups();
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -480,7 +489,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      */
     protected function _initTypeModels()
     {
-        $config = Mage::getConfig()->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
+        $config = $this->_coreConfig->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
         foreach ($config as $type => $typeModel) {
             $params = array($this, $type);
             if (!($model = Mage::getModel($typeModel, array('params' => $params)))) {

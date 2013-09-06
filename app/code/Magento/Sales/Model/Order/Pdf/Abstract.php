@@ -70,15 +70,25 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         parent::__construct($data);
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -547,7 +557,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      */
     protected function _getTotalsList($source)
     {
-        $totals = Mage::getConfig()->getNode('global/pdf/totals')->asArray();
+        $totals = $this->_coreConfig->getNode('global/pdf/totals')->asArray();
         usort($totals, array($this, '_sortTotalsList'));
         $totalModels = array();
         foreach ($totals as $index => $totalInfo) {
@@ -684,7 +694,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      */
     protected function _initRenderer($type)
     {
-        $node = Mage::getConfig()->getNode('global/pdf/' . $type);
+        $node = $this->_coreConfig->getNode('global/pdf/' . $type);
         foreach ($node->children() as $renderer) {
             $this->_renderers[$renderer->getName()] = array(
                 'model'     => (string)$renderer,

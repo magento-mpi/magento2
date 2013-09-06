@@ -19,7 +19,7 @@ class Magento_Core_Model_Resource_Transaction_Factory
 
     public function __construct(array $data = array())
     {
-        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : Mage::getConfig();
+        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : $this->_objectFactory;
     }
 
     public function create()

@@ -29,6 +29,30 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
     protected $_template = 'catalog/product/edit/options/option.phtml';
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $data
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Class constructor
      */
     protected function _construct()
@@ -108,10 +132,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
     {
         $path = 'global/catalog/product/options/custom/groups';
 
-        foreach (Mage::getConfig()->getNode($path)->children() as $group) {
+        foreach ($this->_coreConfig->getNode($path)->children() as $group) {
             $this->addChild(
                 $group->getName() . '_option_type',
-                (string)Mage::getConfig()->getNode($path . '/' . $group->getName() . '/render')
+                (string)$this->_coreConfig->getNode($path . '/' . $group->getName() . '/render')
             );
         }
 

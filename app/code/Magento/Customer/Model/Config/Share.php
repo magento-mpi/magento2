@@ -38,6 +38,8 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Data
     protected $_coreStoreConfig = null;
 
     /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -52,7 +54,12 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Data
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

@@ -76,18 +76,28 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_themeFactory = $themeFactory;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -158,11 +168,11 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
 
         if ($this->_isThemePerStoveView($area)) {
             $theme = $this->_storeManager->isSingleStoreMode()
-                ? (string)Mage::getConfig()->getNode('default/' . self::XML_PATH_THEME_ID)
+                ? (string)$this->_coreConfig->getNode('default/' . self::XML_PATH_THEME_ID)
                 : (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_THEME_ID, $store);
         }
 
-        return $theme ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+        return $theme ?: (string)$this->_coreConfig->getNode($area . '/' . self::XML_PATH_THEME);
     }
 
     /**

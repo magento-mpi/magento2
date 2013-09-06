@@ -37,6 +37,8 @@ class Magento_Backend_Model_Auth_Session
     protected $_aclBuilder;
 
     /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Acl_Builder $aclBuilder
      * @param array $data
@@ -46,7 +48,10 @@ class Magento_Backend_Model_Auth_Session
         Magento_Acl_Builder $aclBuilder,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct(
+            $coreStoreConfig,
+            $data
+        );
         $this->_aclBuilder = $aclBuilder;
         $this->init('admin');
     }

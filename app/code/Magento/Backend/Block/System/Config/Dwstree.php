@@ -17,6 +17,30 @@
  */
 class Magento_Backend_Block_System_Config_Dwstree extends Magento_Backend_Block_Widget_Tabs
 {
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $data
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -34,8 +58,8 @@ class Magento_Backend_Block_System_Config_Dwstree extends Magento_Backend_Block_
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore = $this->getRequest()->getParam('store');
 
-        $websitesConfig = Mage::getConfig()->getNode('websites');
-        $storesConfig = Mage::getConfig()->getNode('stores');
+        $websitesConfig = $this->_coreConfig->getNode('websites');
+        $storesConfig = $this->_coreConfig->getNode('stores');
 
         $this->addTab('default', array(
             'label'  => __('Default Config'),

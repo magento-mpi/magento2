@@ -58,15 +58,22 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * Init corresponding total models
      *
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Store|null $store
      */
     public function __construct(
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         $store = null
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -75,6 +82,7 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
         $this->_initModels()
             ->_initCollectors()
             ->_initRetrievers();
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -131,7 +139,7 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
      */
     protected function _initModels()
     {
-        $totalsConfig = Mage::getConfig()->getNode($this->_totalsConfigNode);
+        $totalsConfig = $this->_coreConfig->getNode($this->_totalsConfigNode);
 
         foreach ($totalsConfig->children() as $totalCode => $totalConfig) {
             $class = $totalConfig->getClassName();

@@ -449,7 +449,7 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
     public function getConfigRoot()
     {
         if (empty($this->_configRoot)) {
-            $this->_configRoot = Mage::getConfig()->getNode(null, $this->getScope(), $this->getScopeCode());
+            $this->_configRoot = $this->_coreConfig->getNode(null, $this->getScope(), $this->getScopeCode());
         }
         return $this->_configRoot;
     }

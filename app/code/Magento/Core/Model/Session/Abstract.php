@@ -70,15 +70,25 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     protected $_coreStoreConfig = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         parent::__construct($data);
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -161,7 +171,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
         $this->setSessionId();
 
         Magento_Profiler::start('session_start');
-        $sessionCacheLimiter = Mage::getConfig()->getNode('global/session_cache_limiter');
+        $sessionCacheLimiter = $this->_coreConfig->getNode('global/session_cache_limiter');
         if ($sessionCacheLimiter) {
             session_cache_limiter((string)$sessionCacheLimiter);
         }
@@ -409,7 +419,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     public function getValidateHttpUserAgentSkip()
     {
         $userAgents = array();
-        $skip = Mage::getConfig()->getNode(self::XML_NODE_USET_AGENT_SKIP);
+        $skip = $this->_coreConfig->getNode(self::XML_NODE_USET_AGENT_SKIP);
         foreach ($skip->children() as $userAgent) {
             $userAgents[] = (string)$userAgent;
         }
@@ -632,7 +642,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     public function getSessionIdQueryParam()
     {
         $sessionName = $this->getSessionName();
-        if ($sessionName && $queryParam = (string)Mage::getConfig()->getNode($sessionName . '/session/query_param')) {
+        if ($sessionName && $queryParam = (string)$this->_coreConfig->getNode($sessionName . '/session/query_param')) {
             return $queryParam;
         }
         return self::SESSION_ID_QUERY_PARAM;
@@ -772,7 +782,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      */
     public function getSessionSaveMethod()
     {
-        if (Mage::isInstalled() && $sessionSave = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE)) {
+        if (Mage::isInstalled() && $sessionSave = $this->_coreConfig->getNode(self::XML_NODE_SESSION_SAVE)) {
             return (string) $sessionSave;
         }
         return 'files';
@@ -785,7 +795,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      */
     public function getSessionSavePath()
     {
-        if (Mage::isInstalled() && $sessionSavePath = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
+        if (Mage::isInstalled() && $sessionSavePath = $this->_coreConfig->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
             return $sessionSavePath;
         }
         return Mage::getBaseDir('session');

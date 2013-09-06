@@ -51,6 +51,11 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
      */
     protected $_coreStoreConfig = null;
 
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
     public function setStore($store)
     {
         $this->_store = Mage::app()->getStore($store);
@@ -72,12 +77,17 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
 
     /**
      * Define node
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct(Mage::getConfig()->getNode()->global->customer->address);
+        parent::__construct($this->_coreConfig->getNode()->global->customer->address);
+        $this->_coreConfig = $coreConfig;
     }
 
     /**

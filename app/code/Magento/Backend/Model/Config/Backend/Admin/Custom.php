@@ -34,6 +34,8 @@ class Magento_Backend_Model_Config_Backend_Admin_Custom extends Magento_Core_Mod
     protected $_configWriter;
 
     /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -48,7 +50,12 @@ class Magento_Backend_Model_Config_Backend_Admin_Custom extends Magento_Core_Mod
         array $data = array()
     ) {
         $this->_configWriter = $configWriter;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

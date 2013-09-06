@@ -21,12 +21,36 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
 {
     const XML_PATH_IMAGE_TYPES = 'global/catalog/product/media/image_types';
 
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $data
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
     public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $html = $this->_getHeaderHtml($element);
         $renderer = Mage::getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
 
-        $attributes = Mage::getConfig()->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
+        $attributes = $this->_coreConfig->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
 
         foreach ($attributes as $key => $attribute) {
             /**

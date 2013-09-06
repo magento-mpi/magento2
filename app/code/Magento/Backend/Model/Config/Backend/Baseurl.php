@@ -13,6 +13,8 @@ class Magento_Backend_Model_Config_Backend_Baseurl extends Magento_Core_Model_Co
     protected $_mergeService;
 
     /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Page_Asset_MergeService $mergeService
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -27,7 +29,12 @@ class Magento_Backend_Model_Config_Backend_Baseurl extends Magento_Core_Model_Co
         array $data = array()
     ) {
         $this->_mergeService = $mergeService;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

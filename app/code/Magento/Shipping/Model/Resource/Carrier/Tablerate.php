@@ -82,6 +82,27 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
     protected $_conditionFullNames  = array();
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        parent::__construct(
+            $resource
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Define main table and id field name
      *
      * @return void
@@ -195,7 +216,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
         }
 
         if ($object->getData('groups/tablerate/fields/condition_name/inherit') == '1') {
-            $conditionName = (string)Mage::getConfig()->getNode('default/carriers/tablerate/condition_name');
+            $conditionName = (string)$this->_coreConfig->getNode('default/carriers/tablerate/condition_name');
         } else {
             $conditionName = $object->getData('groups/tablerate/fields/condition_name/value');
         }

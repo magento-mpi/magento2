@@ -59,11 +59,18 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     protected $_storeId                          = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * Initialize tree
      *
+     * @param Magento_Core_Model_Config $coreConfig
      */
-    public function __construct()
-    {
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
         $resource = Mage::getSingleton('Magento_Core_Model_Resource');
 
         parent::__construct(
@@ -76,6 +83,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
                 Magento_Data_Tree_Dbp::LEVEL_FIELD    => 'level',
             )
         );
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -358,7 +366,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
         $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection();
         /** @var $collection Magento_Catalog_Model_Resource_Category_Collection */
 
-        $attributes = Mage::getConfig()->getNode('frontend/category/collection/attributes');
+        $attributes = $this->_coreConfig->getNode('frontend/category/collection/attributes');
         if ($attributes) {
             $attributes = $attributes->asArray();
             $attributes = array_keys($attributes);

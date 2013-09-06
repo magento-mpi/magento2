@@ -53,7 +53,10 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
         $sessionName = null,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct(
+            $coreStoreConfig,
+            $data
+        );
 
         $namespace = 'customer';
         if ($this->getCustomerConfigShare()->isWebsiteScope()) {

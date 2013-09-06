@@ -19,6 +19,22 @@
 class Magento_Catalog_Model_Observer
 {
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Process catalog ata related with store data changes
      *
      * @param   Magento_Event_Observer $observer
@@ -52,7 +68,7 @@ class Magento_Catalog_Model_Observer
         /* @var $store Magento_Core_Model_Store */
         $store = $observer->getEvent()->getStore();
         Mage::app()->reinitStores();
-        Mage::getConfig()->reinit();
+        $this->_coreConfig->reinit();
         /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
         $categoryFlatHelper = Mage::helper('Magento_Catalog_Helper_Category_Flat');
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {

@@ -132,6 +132,36 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     private $_isReadOnly = false;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * init model
      *
      */
@@ -164,18 +194,18 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
      */
     public function loadConfig($code)
     {
-        if (!Mage::getConfig()->getNode('websites')) {
+        if (!$this->_coreConfig->getNode('websites')) {
             return $this;
         }
         if (is_numeric($code)) {
-            foreach (Mage::getConfig()->getNode('websites')->children() as $websiteCode => $website) {
+            foreach ($this->_coreConfig->getNode('websites')->children() as $websiteCode => $website) {
                 if ((int)$website->system->website->id == $code) {
                     $code = $websiteCode;
                     break;
                 }
             }
         } else {
-            $website = Mage::getConfig()->getNode('websites/' . $code);
+            $website = $this->_coreConfig->getNode('websites/' . $code);
         }
         if (!empty($website)) {
             $this->setCode($code);
@@ -194,7 +224,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     public function getConfig($path) {
         if (!isset($this->_configCache[$path])) {
 
-            $config = Mage::getConfig()->getNode('websites/' . $this->getCode() . '/' . $path);
+            $config = $this->_coreConfig->getNode('websites/' . $this->getCode() . '/' . $path);
             if (!$config) {
                 return false;
             }
@@ -473,7 +503,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
         Mage::app()->clearWebsiteCache($this->getId());
 
         parent::_afterDelete();
-        Mage::getConfig()->removeCache();
+        $this->_coreConfig->removeCache();
         return $this;
     }
 

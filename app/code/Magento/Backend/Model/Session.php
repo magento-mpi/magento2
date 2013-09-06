@@ -19,6 +19,8 @@
 class Magento_Backend_Model_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
@@ -26,7 +28,10 @@ class Magento_Backend_Model_Session extends Magento_Core_Model_Session_Abstract
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct(
+            $coreStoreConfig,
+            $data
+        );
         $this->init('adminhtml');
     }
 

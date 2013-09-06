@@ -60,6 +60,27 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
      * @var array
      */
     protected $_textFieldTypes = array(
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        parent::__construct(
+            $context
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
         'text',
         'varchar'
     );
@@ -138,7 +159,7 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
         /**
          * Merging languages that specified manualy
          */
-        $node = Mage::getConfig()->getNode('global/magento_search/supported_languages/solr');
+        $node = $this->_coreConfig->getNode('global/magento_search/supported_languages/solr');
         if ($node && $node->children()) {
             foreach ($node->children() as $_node) {
                 $localeCode = $_node->getName();

@@ -32,11 +32,22 @@ class Magento_Core_Model_Encryption
     protected $_objectManager = null;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @var Magento_Core_Model_Config
      */
-    public function __construct(Magento_ObjectManager $objectManager)
-    {
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_ObjectManager $objectManager,
+        Magento_Core_Model_Config $coreConfig
+    ) {
         $this->_objectManager = $objectManager;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -122,7 +133,7 @@ class Magento_Core_Model_Encryption
     {
         if (!$this->_crypt) {
             if (null === $key) {
-                $key = (string)Mage::getConfig()->getNode('global/crypt/key');
+                $key = (string)$this->_coreConfig->getNode('global/crypt/key');
             }
             $this->_crypt = new Magento_Crypt($key);
         }

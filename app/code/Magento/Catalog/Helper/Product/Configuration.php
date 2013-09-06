@@ -21,6 +21,27 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
     const XML_PATH_CONFIGURABLE_ALLOWED_TYPES = 'global/catalog/product/type/configurable/allow_product_types';
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        parent::__construct(
+            $context
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Retrieves product configuration options
      *
      * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
@@ -253,7 +274,7 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
      */
     public function getConfigurableAllowedTypes()
     {
-        return Mage::getConfig()
+        return $this->_coreConfig
                 ->getNode(self::XML_PATH_CONFIGURABLE_ALLOWED_TYPES)
                 ->children();
     }

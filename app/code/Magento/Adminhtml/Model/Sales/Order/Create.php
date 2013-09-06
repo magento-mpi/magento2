@@ -102,9 +102,21 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      */
     protected $_quote;
 
-    public function __construct()
-    {
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
         $this->_session = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -260,7 +272,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         /* Initialize catalog rule data with new session values */
         $this->initRuleData();
         foreach ($order->getItemsCollection(
-            array_keys(Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()),
+            array_keys($this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')->asArray()),
             true
         ) as $orderItem) {
             /* @var $orderItem Magento_Sales_Model_Order_Item */

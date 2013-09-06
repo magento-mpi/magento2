@@ -413,7 +413,7 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
     {
         $this->_checkIfInstalled();
 
-        $date = (string)Mage::getConfig()->getNode('global/install/date');
+        $date = (string)$this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/install/date');
         if ($date !== Magento_Install_Model_Installer_Config::TMP_INSTALL_DATE_VALUE) {
             $this->_redirect('*/*');
             return;
