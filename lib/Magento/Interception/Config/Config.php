@@ -73,22 +73,22 @@ class Magento_Interception_Config_Config implements Magento_Interception_Config
     protected $_intercepted = array();
 
     /**
-     * @param Magento_Config_ReaderInterface $reader
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Cache_FrontendInterface $cache
-     * @param Magento_ObjectManager_Relations $relations
-     * @param Magento_ObjectManager_Config $omConfig
-     * @param Magento_ObjectManager_Definition_Compiled $classDefinitions
+     * @param \Magento\Config\ReaderInterface $reader
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\ObjectManager\Relations $relations
+     * @param \Magento\ObjectManager\Config $omConfig
+     * @param \Magento\ObjectManager\Definition\Compiled $classDefinitions
      * @param Magento_Interception_CodeGenerator $codeGenerator
      * @param string $cacheId
      */
     public function __construct(
-        Magento_Config_ReaderInterface $reader,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Cache_FrontendInterface $cache,
-        Magento_ObjectManager_Relations $relations,
-        Magento_ObjectManager_Config $omConfig,
-        Magento_ObjectManager_Definition_Compiled $classDefinitions = null,
+        \Magento\Config\ReaderInterface $reader,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Cache\FrontendInterface $cache,
+        \Magento\ObjectManager\Relations $relations,
+        \Magento\ObjectManager\Config $omConfig,
+        \Magento\ObjectManager\Definition\Compiled $classDefinitions = null,
         Magento_Interception_CodeGenerator $codeGenerator = null,
         $cacheId = 'interception'
     ) {

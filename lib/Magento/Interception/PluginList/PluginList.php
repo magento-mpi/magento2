@@ -45,25 +45,25 @@ class Magento_Interception_PluginList_PluginList extends Magento_Config_Data imp
     protected $_scopePriorityScheme = array('global');
 
     /**
-     * @param Magento_Config_ReaderInterface $reader
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Config_CacheInterface $cache
-     * @param Magento_ObjectManager_Relations $relations
-     * @param Magento_ObjectManager_Config $omConfig
+     * @param \Magento\Config\ReaderInterface $reader
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\ObjectManager\Relations $relations
+     * @param \Magento\ObjectManager\Config $omConfig
      * @param Magento_Interception_Definition $definitions
      * @param array $scopePriorityScheme
-     * @param Magento_ObjectManager_Definition_Compiled $classDefinitions
+     * @param \Magento\ObjectManager\Definition\Compiled $classDefinitions
      * @param string $cacheId
      */
     public function __construct(
-        Magento_Config_ReaderInterface $reader,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Config_CacheInterface $cache,
-        Magento_ObjectManager_Relations $relations,
-        Magento_ObjectManager_Config $omConfig,
+        \Magento\Config\ReaderInterface $reader,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Config\CacheInterface $cache,
+        \Magento\ObjectManager\Relations $relations,
+        \Magento\ObjectManager\Config $omConfig,
         Magento_Interception_Definition $definitions,
         array $scopePriorityScheme,
-        Magento_ObjectManager_Definition_Compiled $classDefinitions = null,
+        \Magento\ObjectManager\Definition\Compiled $classDefinitions = null,
         $cacheId = 'plugins'
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);

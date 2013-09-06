@@ -85,12 +85,12 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($result);
 
         /** @var $factory \Magento\ObjectManager\Factory */
-        $factory = Mage::getObjectManager()->create($factoryClassName);
+        $factory = \Mage::getObjectManager()->create($factoryClassName);
         $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $object);
 
         // This test is only valid if the factory created the object if Autoloader did not pick it up automatically
-        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult) {
+        if (\Magento\Code\Generator::GENERATION_SUCCESS == $generatorResult) {
             $content = $this->_clearDocBlock(
                 file_get_contents(
                     $this->_ioObject->getResultFileName(
@@ -126,7 +126,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $object);
 
         // This test is only valid if the factory created the object if Autoloader did not pick it up automatically
-        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult) {
+        if (\Magento\Code\Generator::GENERATION_SUCCESS == $generatorResult) {
             $content = $this->_clearDocBlock(
                 file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Factory'))
             );
@@ -152,7 +152,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         $proxy = Mage::getObjectManager()->create($proxyClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $proxy);
 
-        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult) {
+        if (\Magento\Code\Generator::GENERATION_SUCCESS == $generatorResult) {
             $content = $this->_clearDocBlock(
                 file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITHOUT_NAMESPACE . 'Proxy'))
             );
@@ -169,7 +169,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $factoryClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Proxy';
         $this->assertEquals(
-            Magento_Code_Generator::GENERATION_SUCCESS,
+            \Magento\Code\Generator::GENERATION_SUCCESS,
             $this->_generator->generateClass($factoryClassName)
         );
 
@@ -177,7 +177,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $proxy);
 
         // This test is only valid if the factory created the object if Autoloader did not pick it up automatically
-        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult) {
+        if (\Magento\Code\Generator::GENERATION_SUCCESS == $generatorResult) {
             $content = $this->_clearDocBlock(
                 file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Proxy'))
             );
@@ -201,7 +201,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         }
         $this->assertTrue($result);
 
-        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult) {
+        if (\Magento\Code\Generator::GENERATION_SUCCESS == $generatorResult) {
             $content = $this->_clearDocBlock(
                 file_get_contents($this->_ioObject->
                         getResultFileName(self::CLASS_NAME_WITHOUT_NAMESPACE . 'Interceptor'))
@@ -227,7 +227,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         }
         $this->assertTrue($result);
 
-        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult) {
+        if (\Magento\Code\Generator::GENERATION_SUCCESS == $generatorResult) {
             $content = $this->_clearDocBlock(
                 file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Interceptor'))
             );
@@ -250,7 +250,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         }
         $this->assertTrue($result);
 
-        if (Magento_Code_Generator::GENERATION_SUCCESS == $generatorResult) {
+        if (\Magento\Code\Generator::GENERATION_SUCCESS == $generatorResult) {
             $content = $this->_clearDocBlock(
                 file_get_contents(
                     $this->_ioObject->getResultFileName(self::INTERFACE_NAME_WITHOUT_NAMESPACE . 'Interceptor')
