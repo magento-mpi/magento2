@@ -19,7 +19,7 @@ class Magento_Core_Model_NoRouteHandlerListTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $handlersList = array(
             'default_handler' => array(
                 'instance' => 'Magento_Core_Model_Router_NoRouteHandler',

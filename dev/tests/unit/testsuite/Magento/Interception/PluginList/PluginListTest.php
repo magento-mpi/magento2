@@ -52,7 +52,7 @@ class Magento_Interception_PluginList_PluginListTest extends PHPUnit_Framework_T
         $this->_configScopeMock->expects($this->any())
             ->method('getAllScopes')
             ->will($this->returnValue(array('global', 'backend', 'frontend')));
-        $cacheMock = $this->getMock('Magento_Config_CacheInterface');
+        $cacheMock = $this->getMock('Magento\Config\CacheInterface');
         // turn cache off
         $cacheMock->expects($this->any())
             ->method('get')

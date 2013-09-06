@@ -48,7 +48,7 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
             new Magento_ObjectManager_Config_SchemaLocator(),
             $validationStateMock
         );
-        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
+        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_configScopeMock->expects($this->any())
             ->method('getAllScopes')
             ->will($this->returnValue(array('global', 'backend', 'frontend')));

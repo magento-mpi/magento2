@@ -61,7 +61,7 @@ class Magento_Interception_Config_Config implements Magento_Interception_Config
     /**
      * Configuration scope resolver
      *
-     * @var Magento_Config_ScopeInterface
+     * @var \Magento\Config\ScopeInterface
      */
     protected $_configScope;
 

@@ -61,7 +61,7 @@ class Magento_Core_Model_Route_ConfigTest extends PHPUnit_Framework_TestCase
 /**
  * Wrapper to pass method calls and arguments to mockup inside it
  */
-class Cache_Mock_Wrapper extends PHPUnit_Framework_TestCase implements Magento_Config_CacheInterface
+class Cache_Mock_Wrapper extends PHPUnit_Framework_TestCase implements \Magento\Config\CacheInterface
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject

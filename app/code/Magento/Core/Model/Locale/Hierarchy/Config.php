@@ -19,7 +19,7 @@ class Magento_Core_Model_Locale_Hierarchy_Config
     /**
      * Configuration cache model
      *
-     * @var Magento_Config_CacheInterface
+     * @var \Magento\Config\CacheInterface
      */
     protected $_cache;
 
@@ -39,12 +39,12 @@ class Magento_Core_Model_Locale_Hierarchy_Config
 
     /**
      * @param Magento_Core_Model_Locale_Hierarchy_Config_Reader $reader
-     * @param Magento_Config_CacheInterface $cache
+     * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
         Magento_Core_Model_Locale_Hierarchy_Config_Reader $reader,
-        Magento_Config_CacheInterface $cache,
+        \Magento\Config\CacheInterface $cache,
         $cacheId = 'local_hierarchy_cache'
     ) {
         $this->_cache = $cache;
