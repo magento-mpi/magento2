@@ -50,7 +50,7 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
         $attributes = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $attributes);
-        $this->_allElements = $this->_factoryCollection->create($this);
+        $this->_allElements = $this->_factoryCollection->create(array('container' => $this));
     }
 
     public static function setElementRenderer(Magento_Data_Form_Element_Renderer_Interface $renderer = null)

@@ -15,30 +15,11 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magento_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * @var Magento_Data_FormFactory
-     */
-    protected $_formFactory;
-
-    /**
-     * @param Magento_Data_FormFactory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Data_FormFactory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_formFactory = $formFactory;
-        parent::__construct($coreData, $context, $data);
-    }
-
     /**
      * Entity for editing of gift message
      *
