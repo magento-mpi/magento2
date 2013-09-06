@@ -62,8 +62,13 @@ class SourceClassWithNamespaceInterceptor extends \Magento\Code\GeneratorTest\So
      * @param \Magento_Interception_PluginList $pluginList
      * @param array $arguments
      */
-    public function __construct(\Magento_ObjectManager_Factory $factory, \Magento_ObjectManager_ObjectManager $objectManager, $subjectType, \Magento_Interception_PluginList $pluginList, array $arguments)
-    {
+    public function __construct(
+        \Magento_ObjectManager_Factory $factory,
+        \Magento_ObjectManager_ObjectManager $objectManager,
+        $subjectType,
+        \Magento_Interception_PluginList $pluginList,
+        array $arguments
+    ) {
         $this->_factory = $factory;
         $this->_objectManager = $objectManager;
         $this->_subjectType = $subjectType;
@@ -145,15 +150,23 @@ class SourceClassWithNamespaceInterceptor extends \Magento\Code\GeneratorTest\So
     /**
      * {@inheritdoc}
      */
-    public function publicChildMethod(\Zend\Code\Generator\ClassGenerator $classGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = array())
-    {
+    public function publicChildMethod(
+        \Zend\Code\Generator\ClassGenerator $classGenerator,
+        $param1 = '',
+        $param2 = '\\',
+        $param3 = '\'',
+        array $array = array()
+    ) {
         return $this->_invoke('publicChildMethod', func_get_args());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function publicMethodWithReference(\Zend\Code\Generator\ClassGenerator &$classGenerator, &$param1, array &$array)
+    public function publicMethodWithReference(
+        \Zend\Code\Generator\ClassGenerator &$classGenerator,
+        &$param1,
+        array &$array
     ) {
         return $this->_invoke('publicMethodWithReference', func_get_args());
     }
@@ -169,7 +182,12 @@ class SourceClassWithNamespaceInterceptor extends \Magento\Code\GeneratorTest\So
     /**
      * {@inheritdoc}
      */
-    public function publicParentMethod(\Zend\Code\Generator\DocBlockGenerator $docBlockGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = array())
+    public function publicParentMethod(
+        \Zend\Code\Generator\DocBlockGenerator $docBlockGenerator,
+        $param1 = '',
+        $param2 = '\\',
+        $param3 = '\'',
+        array $array = array()
     ) {
         return $this->_invoke('publicParentMethod', func_get_args());
     }

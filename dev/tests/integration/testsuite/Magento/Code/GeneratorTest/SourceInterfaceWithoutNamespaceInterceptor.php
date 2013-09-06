@@ -61,8 +61,13 @@ class Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespaceInterceptor
      * @param \Magento_Interception_PluginList $pluginList
      * @param array $arguments
      */
-    public function __construct(\Magento_ObjectManager_Factory $factory, \Magento_ObjectManager_ObjectManager $objectManager, $subjectType, \Magento_Interception_PluginList $pluginList, array $arguments)
-    {
+    public function __construct(
+        \Magento_ObjectManager_Factory $factory,
+        \Magento_ObjectManager_ObjectManager $objectManager,
+        $subjectType,
+        \Magento_Interception_PluginList $pluginList,
+        array $arguments
+    ) {
         $this->_factory = $factory;
         $this->_objectManager = $objectManager;
         $this->_subjectType = $subjectType;
