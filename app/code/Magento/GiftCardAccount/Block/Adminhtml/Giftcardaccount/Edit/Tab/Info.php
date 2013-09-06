@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info extends Magento_Backend_Block_Widget_Form
+class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
 
     protected $_template = 'edit/tab/info.phtml';
@@ -19,18 +20,20 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info exte
     protected $_storeManager;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
         $this->_storeManager = $storeManager;
     }
 
@@ -41,7 +44,8 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info exte
      */
     public function initForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_info');
 
         $model = Mage::registry('current_giftcardaccount');

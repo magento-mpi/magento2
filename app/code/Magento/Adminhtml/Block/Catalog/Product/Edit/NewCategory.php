@@ -15,21 +15,23 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_Catalog_Model_CategoryFactory $categoryFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
         $this->setUseContainer(true);
         $this->_categoryFactory = $categoryFactory;
     }
@@ -39,7 +41,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_B
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array('id' => 'new_category_form'));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array('id' => 'new_category_form'));
         $form->setUseContainer($this->getUseContainer());
 
         $form->addField('new_category_messages', 'note', array());
@@ -105,9 +108,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_B
      */
     public function getAfterElementHtml()
     {
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = $this->_coreData;
-        $widgetOptions = $coreHelper->jsonEncode(array(
+        $widgetOptions = $this->_coreData->jsonEncode(array(
             'suggestOptions' => array(
                 'source' => $this->getUrl('adminhtml/catalog_category/suggestCategories'),
                 'valueField' => '#new_category_parent',

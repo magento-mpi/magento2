@@ -12,9 +12,8 @@
  * Reminder rules edit form block
  */
 class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Form
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
-
     /**
      * Intialize form
      *
@@ -34,7 +33,10 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Form
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(
+            array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
+        );
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();

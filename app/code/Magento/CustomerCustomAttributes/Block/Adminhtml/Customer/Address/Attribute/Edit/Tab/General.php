@@ -18,7 +18,7 @@
  */
 class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
     extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Customer data
@@ -28,6 +28,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     protected $_customerData = null;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_CustomerCustomAttributes_Helper_Data $customerData
      * @param Magento_Eav_Helper_Data $eavData
      * @param Magento_Core_Helper_Data $coreData
@@ -35,6 +36,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_CustomerCustomAttributes_Helper_Data $customerData,
         Magento_Eav_Helper_Data $eavData,
         Magento_Core_Helper_Data $coreData,
@@ -42,7 +44,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
         array $data = array()
     ) {
         $this->_customerData = $customerData;
-        parent::__construct($eavData, $coreData, $context, $data);
+        parent::__construct($formFactory, $eavData, $coreData, $context, $data);
     }
 
     /**

@@ -16,7 +16,8 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
+    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
 {
     /**
      * Adding product form elements for editing attribute

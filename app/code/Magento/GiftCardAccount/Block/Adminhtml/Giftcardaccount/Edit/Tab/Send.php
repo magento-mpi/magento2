@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send extends Magento_Backend_Block_Widget_Form
+class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Init form fields
@@ -17,7 +18,8 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send exte
      */
     public function initForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_send');
 
         $model = Mage::registry('current_giftcardaccount');

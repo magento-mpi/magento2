@@ -26,6 +26,7 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
     protected $_formHelper;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -35,6 +36,7 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -43,7 +45,7 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
         Magento_Data_Form $form,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
 
         $this->_codeHelper = $codeHelper;
         $this->_formHelper = $formHelper;

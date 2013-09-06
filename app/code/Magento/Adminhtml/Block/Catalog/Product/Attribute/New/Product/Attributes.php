@@ -15,12 +15,13 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes extends Magento_Adminhtml_Block_Catalog_Form
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes
+    extends Magento_Adminhtml_Block_Catalog_Form
 {
     protected function _prepareForm()
     {
-
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         /**
          * Initialize product object as form property
          * for using it in elements generation

@@ -14,7 +14,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
 
     /**
@@ -26,7 +27,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends
         $data = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
             ->load($this->getRequest()->getParam('id'));
 
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('set_name', array('legend'=> __('Edit Set Name')));
         $fieldset->addField('attribute_set_name', 'text', array(
             'label' => __('Name'),

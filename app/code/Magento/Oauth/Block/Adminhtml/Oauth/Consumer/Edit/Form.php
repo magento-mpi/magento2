@@ -16,7 +16,7 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Consumer model
@@ -46,7 +46,8 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Adm
     protected function _prepareForm()
     {
         $model = $this->getModel();
-        $form = new Magento_Data_Form(array(
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
             'id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'
         ));
 
