@@ -93,11 +93,14 @@ app/code/Magento/Log/Model/Shell.php
 app/code/Magento/Log/Model/Shell
 app/code/Magento/Page/Helper/Robots.php
 app/code/Magento/Page/Model/Asset
+app/code/Magento/ProductAlert/Block/Product/View
 app/code/Magento/Reports/Block/Adminhtml/Customer
 app/code/Magento/Reports/Block/Adminhtml/Product
 app/code/Magento/Reports/Model/Resource/Accounts
 app/code/Magento/Reports/Model/Resource/Customer
 app/code/Magento/Reports/Model/Resource/Report/Collection.php
+app/code/Magento/Sales/Block/Recurring/Profile/Related/Orders/Grid.php
+app/code/Magento/Sales/Block/Recurring/Profile/View
 app/code/Magento/Theme
 app/code/Magento/User
 app/code/Magento/Webapi
