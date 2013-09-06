@@ -29,6 +29,11 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
     protected $_store;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManagerMock;
+
+    /**
      * Mock from email template instance
      *
      * @var Magento_Core_Model_Email_Template
@@ -43,6 +48,12 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
 
         $factory = $this->getMock('Magento_Core_Model_Email_TemplateFactory', array('create'), array(), '', false);
         $this->_store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManagerInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getStore'))
+            ->getMock();
+        $this->_storeManagerMock->expects($this->once())
+            ->will($this->returnValue($this->_store));
         $this->_emailTemplate = $this->getMock('Magento_Core_Model_Email_Template',
             array('setDesignConfig', 'sendTransactional'), array(), '', false
         );
@@ -79,7 +90,8 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $this->_model = new Magento_GiftRegistry_Model_Entity(
-            $coreData, $giftRegistryData, $context, $app, $this->_store, $translate, $factory, $resource, null, array()
+            $coreData, $giftRegistryData, $context, $app, $this->_storeManagerMock, $translate, $factory,
+            $resource, null, array()
         );
     }
 

@@ -42,6 +42,11 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
     protected $_store;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManagerMock;
+
+    /**
      * @var Magento_Sales_Model_Quote_Item_Option
      */
     protected $_quoteItemOption;
@@ -52,6 +57,12 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
     protected function setUp()
     {
         $this->_store = $this->getMock('Magento_Core_Model_Store', array('getCurrentCurrencyRate'), array(), '', false);
+        $this->_storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManagerInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getStore'))
+            ->getMock();
+        $this->_storeManagerMock->expects($this->once())
+            ->will($this->returnValue($this->_store));
         $this->_mockModel(array('_isStrictProcessMode'));
     }
 
@@ -77,7 +88,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
                 $catalogData,
                 $storage,
                 $filesystem,
-                $this->_store,
+                $this->_storeManagerMock,
                 $locale,
             )
         );
