@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Rest
+class \Magento\Connect\Rest
 {
     /**
      * Paths for xml config files
@@ -29,14 +29,14 @@ class Magento_Connect_Rest
 
     /**
      * HTTP Loader
-     * @var Magento_HTTP_IClient
+     * @var \Magento\HTTP\IClient
      */
     protected $_loader = null;
 
     /**
      * XML parser
      *
-     * @var Magento_Xml_Parser
+     * @var \Magento\Xml\Parser
      */
     protected $_parser = null;
 
@@ -95,12 +95,12 @@ class Magento_Connect_Rest
     /**
      * Get HTTP loader
      *
-     * @return Magento_HTTP_IClient|Magento_Connect_Loader_Ftp
+     * @return \Magento\HTTP\IClient|\Magento\Connect\Loader\Ftp
      */
     public function getLoader()
     {
         if (is_null($this->_loader)) {
-            $this->_loader = Magento_Connect_Loader::getInstance($this->_protocol);
+            $this->_loader = \Magento\Connect\Loader::getInstance($this->_protocol);
         }
         return $this->_loader;
     }
@@ -108,12 +108,12 @@ class Magento_Connect_Rest
     /**
      * Get parser
      *
-     * @return Magento_Xml_Parser
+     * @return \Magento\Xml\Parser
      */
     protected function getParser()
     {
         if (is_null($this->_parser)) {
-            $this->_parser = new Magento_Xml_Parser();
+            $this->_parser = new \Magento\Xml\Parser();
         }
         return $this->_parser;
     }
@@ -150,7 +150,7 @@ class Magento_Connect_Rest
         $parser = $this->getParser();
         $out = $parser->loadXML($out)->xmlToArray();
 
-        $vo = new Magento_Connect_Channel_VO();
+        $vo = new \Magento\Connect\Channel\VO();
         $vo->fromArray($out['channel']);
         if (!$vo->validate()) {
             throw new Exception("Invalid channel.xml file");
@@ -303,7 +303,7 @@ class Magento_Connect_Rest
         if (false === $out) {
             return false;
         }
-        return new Magento_Connect_Package($out);
+        return new \Magento\Connect\Package($out);
     }
 
     /**
@@ -311,7 +311,7 @@ class Magento_Connect_Rest
      *
      * @param $package
      * @param $version
-     * @return Magento_Connect_Package|bool
+     * @return \Magento\Connect\Package|bool
      */
     public function getPackageReleaseInfo($package, $version)
     {
@@ -319,7 +319,7 @@ class Magento_Connect_Rest
         if (false === $out) {
             return false;
         }
-        return new Magento_Connect_Package($out);
+        return new \Magento\Connect\Package($out);
     }
 
     /**

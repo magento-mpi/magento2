@@ -189,7 +189,7 @@
             <instance type="Magento\Phrase\Renderer\Translate" />
         </param>
     </type>
-    <type name="Magento_Phrase_Renderer_Translate">
+    <type name="Magento\Phrase\Renderer\Translate">
         <param name="translator">
             <instance type="Magento_Core_Model_Translate" />
         </param>

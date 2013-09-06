@@ -38,7 +38,7 @@
                 -->
                 <block class="Magento_Catalog_Block_Product_View_Media" name="product.info.media" as="media" template="product/view/media.phtml"/>
                 <container name="alert.urls" as="alert_urls" label="Alert Urls"/>
-                <block class="Magento_Catalog_Block_Product_List_Upsell" name="product.info.upsell" as="upsell_products" template="product/list/upsell.phtml">
+                <block class="Magento_Catalog_Block_Product_ProductList_Upsell" name="product.info.upsell" as="upsell_products" template="product/list/upsell.phtml">
                     <action method="setColumnCount">
                         <argument name="columns" xsi:type="string">4</argument>
                     </action>
@@ -103,7 +103,7 @@
             </block>
         </reference>
         <reference name="right">
-            <block class="Magento_Catalog_Block_Product_List_Related" name="catalog.product.related" before="-" template="product/list/related.phtml"/>
+            <block class="Magento_Catalog_Block_Product_ProductList_Related" name="catalog.product.related" before="-" template="product/list/related.phtml"/>
         </reference>
         <update handle="MAP_popup"/>
         <update handle="MAP_price_msrp_item"/>

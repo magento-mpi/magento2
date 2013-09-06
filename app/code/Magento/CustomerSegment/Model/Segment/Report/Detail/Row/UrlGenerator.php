@@ -12,7 +12,7 @@ class Magento_CustomerSegment_Model_Segment_Report_Detail_Row_UrlGenerator
 {
     /**
      * Create url for passed item using passed url model
-     * @param Magento_Object $item
+     * @param \Magento\Object $item
      * @return null
      */
     public function getUrl($item)

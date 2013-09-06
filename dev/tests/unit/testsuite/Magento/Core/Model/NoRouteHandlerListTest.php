@@ -8,7 +8,7 @@
 class Magento_Core_Model_NoRouteHandlerListTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManagerMock;
 

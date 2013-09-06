@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,10 +11,10 @@
  * Class to work with archives
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Backup_Abstract implements  Magento_Backup_Interface
+abstract class \Magento\Backup\AbstractBackup implements  \Magento\Backup\BackupInterface
 {
     /**
      * Backup name
@@ -77,7 +77,7 @@ abstract class Magento_Backup_Abstract implements  Magento_Backup_Interface
      * Set Backup Extension
      *
      * @param string $backupExtension
-     * @return Magento_Backup_Interface
+     * @return \Magento\Backup\BackupInterface
      */
     public function setBackupExtension($backupExtension)
     {
@@ -99,7 +99,7 @@ abstract class Magento_Backup_Abstract implements  Magento_Backup_Interface
      * Set Resource Model
      *
      * @param object $resourceModel
-     * @return Magento_Backup_Interface
+     * @return \Magento\Backup\BackupInterface
      */
     public function setResourceModel($resourceModel)
     {
@@ -121,7 +121,7 @@ abstract class Magento_Backup_Abstract implements  Magento_Backup_Interface
      * Set Time
      *
      * @param int $time
-     * @return Magento_Backup_Interface
+     * @return \Magento\Backup\BackupInterface
      */
     public function setTime($time)
     {
@@ -143,13 +143,13 @@ abstract class Magento_Backup_Abstract implements  Magento_Backup_Interface
      * Set root directory of Magento installation
      *
      * @param string $rootDir
-     * @throws Magento_Exception
-     * @return Magento_Backup_Interface
+     * @throws \Magento\MagentoException
+     * @return \Magento\Backup\BackupInterface
      */
     public function setRootDir($rootDir)
     {
         if (!is_dir($rootDir)) {
-            throw new Magento_Exception('Bad root directory');
+            throw new \Magento\MagentoException('Bad root directory');
         }
 
         $this->_rootDir = $rootDir;
@@ -169,7 +169,7 @@ abstract class Magento_Backup_Abstract implements  Magento_Backup_Interface
      * Set path to directory where backups stored
      *
      * @param string $backupsDir
-     * @return Magento_Backup_Interface
+     * @return \Magento\Backup\BackupInterface
      */
     public function setBackupsDir($backupsDir)
     {
@@ -253,7 +253,7 @@ abstract class Magento_Backup_Abstract implements  Magento_Backup_Interface
      *
      * @param string $name
      * @param bool $applyFilter
-     * @return Magento_Backup_Interface
+     * @return \Magento\Backup\BackupInterface
      */
     public function setName($name, $applyFilter = true)
     {

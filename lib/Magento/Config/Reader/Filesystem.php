@@ -70,7 +70,7 @@ class Filesystem implements \Magento\Config\ReaderInterface
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param \Magento\Config\ConverterInterface $converter
-     * @param Magento_Config_SchemaLocatorInterface $schemaLocator
+     * @param \Magento\Config\SchemaLocatorInterface $schemaLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
      * @param $fileName
      * @param $idAttributes
@@ -79,7 +79,7 @@ class Filesystem implements \Magento\Config\ReaderInterface
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
         \Magento\Config\ConverterInterface $converter,
-        Magento_Config_SchemaLocatorInterface $schemaLocator,
+        \Magento\Config\SchemaLocatorInterface $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName,
         $idAttributes,

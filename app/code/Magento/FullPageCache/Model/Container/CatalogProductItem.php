@@ -20,7 +20,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     /**
      * Parent (container) block
      *
-     * @var null|Magento_TargetRule_Block_Catalog_Product_List_Abstract
+     * @var null|Magento_TargetRule_Block_Catalog_Product_ProductList_Abstract
      */
     protected $_parentBlock;
 
@@ -70,9 +70,9 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     {
         $blockName = $this->_placeholder->getName();
         if ($blockName == self::BLOCK_NAME_RELATED) {
-            return 'Magento_TargetRule_Block_Catalog_Product_List_Related';
+            return 'Magento_TargetRule_Block_Catalog_Product_ProductList_Related';
         } elseif ($blockName == self::BLOCK_NAME_UPSELL) {
-            return 'Magento_TargetRule_Block_Catalog_Product_List_Upsell';
+            return 'Magento_TargetRule_Block_Catalog_Product_ProductList_Upsell';
         }
 
         return null;
@@ -171,7 +171,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     /**
      * Get parent (container) block
      *
-     * @return false|Magento_TargetRule_Block_Catalog_Product_List_Abstract
+     * @return false|Magento_TargetRule_Block_Catalog_Product_ProductList_Abstract
      */
     protected function _getParentBlock()
     {

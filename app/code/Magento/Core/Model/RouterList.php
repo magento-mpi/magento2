@@ -11,7 +11,7 @@
 class Magento_Core_Model_RouterList
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -30,10 +30,10 @@ class Magento_Core_Model_RouterList
     protected $_activeRouters = array();
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param array $routerList
      */
-    public function __construct(Magento_ObjectManager $objectManager, array $routerList)
+    public function __construct(\Magento\ObjectManager $objectManager, array $routerList)
     {
         $this->_objectManager = $objectManager;
         $this->_routerList = $routerList;

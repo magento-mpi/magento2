@@ -8,7 +8,7 @@
 
 /** @var $entityType Magento_Eav_Model_Entity_Type */
 $entityType = Mage::getModel('Magento_Eav_Model_Entity_Type')->loadByCode('catalog_product');
-$taxClasses = Mage::getResourceModel('Magento_Tax_Model_Resource_Class_Collection')->toArray();
+$taxClasses = Mage::getResourceModel('Magento_Tax_Model_Resource_TaxClass_Collection')->toArray();
 $taxClass = reset($taxClasses['items']);
 
 return array(

@@ -146,7 +146,7 @@ class Magento_TestFramework_Helper_Bootstrap
     /**
      * Set object manager
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
     public static function setObjectManager(\Magento\ObjectManager $objectManager)
     {

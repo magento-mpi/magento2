@@ -13,7 +13,7 @@ class Magento_Core_Model_Config_Data_BackendModelPoolTest extends PHPUnit_Framew
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 

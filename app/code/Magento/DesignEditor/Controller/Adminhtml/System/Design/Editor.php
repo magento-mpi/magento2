@@ -69,7 +69,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
             $collection = $this->_objectManager->get('Magento_Core_Model_Resource_Theme_Collection')
                 ->filterPhysicalThemes($page, $pageSize);
 
-            /** @var $availableThemeBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available */
+            /** @var $availableThemeBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Available */
             $availableThemeBlock =  $this->getLayout()->getBlock('available.theme.list');
             $availableThemeBlock->setCollection($collection)->setNextPage(++$page);
             $availableThemeBlock->setIsFirstEntrance($this->_isFirstEntrance());
@@ -465,11 +465,11 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
             $this->loadLayout();
             $this->_setActiveMenu('Magento_DesignEditor::system_design_editor');
             if (!$this->_isFirstEntrance()) {
-                /** @var $assignedThemeBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Assigned */
+                /** @var $assignedThemeBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Assigned */
                 $assignedThemeBlock = $this->getLayout()->getBlock('assigned.theme.list');
                 $assignedThemeBlock->setCollection($this->_customizationConfig->getAssignedThemeCustomizations());
 
-                /** @var $unassignedThemeBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned */
+                /** @var $unassignedThemeBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Unassigned */
                 $unassignedThemeBlock = $this->getLayout()->getBlock('unassigned.theme.list');
                 $unassignedThemeBlock->setCollection($this->_customizationConfig->getUnassignedThemeCustomizations());
                 $unassignedThemeBlock->setHasThemeAssigned($this->_customizationConfig->hasThemeAssigned());

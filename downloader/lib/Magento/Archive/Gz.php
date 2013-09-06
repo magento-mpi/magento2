@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Archive
+ * @package     \Magento\Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Class to work with gz archives
  *
  * @category    Magento
- * @package     Magento_Archive
+ * @package     \Magento\Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Archive_Gz extends Magento_Archive_Abstract implements Magento_Archive_Interface
+class \Magento\Archive\Gz extends \Magento\Archive\AbstractArchive implements \Magento\Archive\ArchiveInterface
 {
     /**
     * Pack file by GZ compressor.
@@ -26,10 +26,10 @@ class Magento_Archive_Gz extends Magento_Archive_Abstract implements Magento_Arc
     */
     public function pack($source, $destination)
     {
-        $fileReader = new Magento_Archive_Helper_File($source);
+        $fileReader = new \Magento\Archive\Helper\File($source);
         $fileReader->open('r');
 
-        $archiveWriter = new Magento_Archive_Helper_File_Gz($destination);
+        $archiveWriter = new \Magento\Archive\Helper\File\Gz($destination);
         $archiveWriter->open('wb9');
 
         while (!$fileReader->eof()) {
@@ -56,10 +56,10 @@ class Magento_Archive_Gz extends Magento_Archive_Abstract implements Magento_Arc
             $destination = $destination . $file;
         }
 
-        $archiveReader = new Magento_Archive_Helper_File_Gz($source);
+        $archiveReader = new \Magento\Archive\Helper\File\Gz($source);
         $archiveReader->open('r');
 
-        $fileWriter = new Magento_Archive_Helper_File($destination);
+        $fileWriter = new \Magento\Archive\Helper\File($destination);
         $fileWriter->open('w');
 
         while (!$archiveReader->eof()) {

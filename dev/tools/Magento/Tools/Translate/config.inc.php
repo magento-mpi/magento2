@@ -19,7 +19,7 @@ $CONFIG['translates'] = array(
     'Magento_AdminNotification' => array(
         'app/code/Magento/AdminNotification/',
     ),
-    'Magento_Backup' => array(
+    '\Magento\Backup' => array(
         'app/code/Magento/Backup/',
     ),
     'Magento_Bundle' => array(
@@ -557,7 +557,7 @@ $CONFIG['helpers']  = array(
     'webapi'            => 'Magento_Webapi',
     'oauth'             => 'Magento_Oauth',
     'importexport'      => 'Magento_ImportExport',
-    'backup'            => 'Magento_Backup',
+    'backup'            => 'Magento\Backup',
     'bundle'            => 'Magento_Bundle',
     'catalog'           => 'Magento_Catalog',
     'cataloginventory'  => 'Magento_CatalogInventory',

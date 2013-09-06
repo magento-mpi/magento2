@@ -16,7 +16,7 @@ require_once __DIR__ . '/../Custom/Module/Model/ItemPlugin/Advanced.php';
 class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Interception_Config_Config
+     * @var \Magento\Interception\Config\Config
      */
     protected $_model;
 
@@ -45,7 +45,7 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
         $reader = new \Magento\ObjectManager\Config\Reader\Dom(
             $fileResolverMock,
             new \Magento\ObjectManager\Config\Mapper\Dom(),
-            new Magento_ObjectManager_Config_SchemaLocator(),
+            new \Magento\ObjectManager\Config\SchemaLocator(),
             $validationStateMock
         );
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
@@ -58,15 +58,15 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
             ->method('load')
             ->will($this->returnValue(false));
 
-        $omConfigMock = $this->getMock('Magento_ObjectManager_Config');
+        $omConfigMock = $this->getMock('Magento\ObjectManager\Config');
         $omConfigMock->expects($this->any())
             ->method('getInstanceType')
             ->will($this->returnArgument(0));
-        $this->_model = new Magento_Interception_Config_Config(
+        $this->_model = new \Magento\Interception\Config\Config(
             $reader,
             $this->_configScopeMock,
             $cacheMock,
-            new Magento_ObjectManager_Relations_Runtime(),
+            new \Magento\ObjectManager\Relations\Runtime(),
             $omConfigMock,
             null,
             null,

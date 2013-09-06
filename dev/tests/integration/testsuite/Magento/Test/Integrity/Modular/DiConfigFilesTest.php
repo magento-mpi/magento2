@@ -98,8 +98,8 @@ class Magento_Test_Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
 
-        /** @var Magento_ObjectManager_Config_SchemaLocator $schemaLocator */
-        $schemaLocator = Mage::getObjectManager()->get('Magento_ObjectManager_Config_SchemaLocator');
+        /** @var \Magento\ObjectManager\Config\SchemaLocator $schemaLocator */
+        $schemaLocator = Mage::getObjectManager()->get('Magento\ObjectManager\Config\SchemaLocator');
 
         new \Magento\ObjectManager\Config\Reader\Dom(
             $fileResolverMock, $mapperMock, $schemaLocator, $validationStateMock

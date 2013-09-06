@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Acl_Resource_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
+namespace Magento\Acl\Resource\Config;
+
+class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
 {
     /**
      * Get path to merged config schema

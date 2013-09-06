@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_System_Config_Form_Field_Array_AbstractTest extends PHPUnit_Framework_TestCase
+class Magento_Backend_Block_System_Config_Form_Field_FieldArray_AbstractTest extends PHPUnit_Framework_TestCase
 {
     public function testGetArrayRows()
     {
-        /** @var $block Magento_Backend_Block_System_Config_Form_Field_Array_Abstract */
+        /** @var $block Magento_Backend_Block_System_Config_Form_Field_FieldArray_Abstract */
         $block = $this->getMockForAbstractClass(
-            'Magento_Backend_Block_System_Config_Form_Field_Array_Abstract',
+            'Magento_Backend_Block_System_Config_Form_Field_FieldArray_Abstract',
             array(),
             '',
             false,

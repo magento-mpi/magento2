@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Interception_PluginList
+namespace Magento\Interception;
+
+interface PluginList
 {
     /**
      * Retrieve list of plugins listening for method

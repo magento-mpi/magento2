@@ -65,36 +65,36 @@ class Magento_Core_Model_ObjectManager extends \Magento\ObjectManager\ObjectMana
             $this->configure($configData);
         }
 
-        $interceptorGenerator = ($definitions instanceof Magento_ObjectManager_Definition_Compiled)
+        $interceptorGenerator = ($definitions instanceof \Magento\ObjectManager\Definition\Compiled)
             ? null
-            : new Magento_Interception_CodeGenerator_CodeGenerator();
+            : new \Magento\Interception\CodeGenerator\CodeGenerator();
 
         \Magento\Profiler::stop('global_primary');
         $verification = $this->get('Magento_Core_Model_Dir_Verification');
         $verification->createAndVerifyDirectories();
 
-        $interceptionConfig = $this->create('Magento_Interception_Config_Config', array(
+        $interceptionConfig = $this->create('Magento\Interception\Config\Config', array(
             'relations' => $definitionFactory->createRelations(),
             'omConfig' => $this->_config,
             'codeGenerator' => $interceptorGenerator,
-            'classDefinitions' => $definitions instanceof Magento_ObjectManager_Definition_Compiled
+            'classDefinitions' => $definitions instanceof \Magento\ObjectManager\Definition\Compiled
                 ? $definitions
                 : null,
             'cacheId' => 'interception',
         ));
 
-        $pluginList = $this->create('Magento_Interception_PluginList_PluginList', array(
+        $pluginList = $this->create('Magento\Interception\PluginList\PluginList', array(
             'relations' => $definitionFactory->createRelations(),
             'definitions' => $definitionFactory->createPluginDefinition(),
             'omConfig' => $this->_config,
-            'classDefinitions' => $definitions instanceof Magento_ObjectManager_Definition_Compiled
+            'classDefinitions' => $definitions instanceof \Magento\ObjectManager\Definition\Compiled
                 ? $definitions
                 : null,
             'scopePriorityScheme' => array('global'),
             'cacheId' => 'pluginlist',
         ));
-        $this->_sharedInstances['Magento_Interception_PluginList_PluginList'] = $pluginList;
-        $this->_factory = $this->create('Magento_Interception_FactoryDecorator', array(
+        $this->_sharedInstances['Magento\Interception\PluginList\PluginList'] = $pluginList;
+        $this->_factory = $this->create('Magento\Interception\FactoryDecorator', array(
             'factory' => $this->_factory,
             'config' => $interceptionConfig,
             'pluginList' => $pluginList

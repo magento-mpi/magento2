@@ -7,33 +7,35 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Interception_PluginList_PluginList extends Magento_Config_Data implements Magento_Interception_PluginList
+namespace Magento\Interception\PluginList;
+
+class PluginList extends \Magento\Config\Data implements \Magento\Interception\PluginList
 {
     /**
      * Type config
      *
-     * @var Magento_ObjectManager_Config
+     * @var \Magento\ObjectManager\Config
      */
     protected $_omConfig;
 
     /**
      * Class relations information provider
      *
-     * @var Magento_ObjectManager_Relations
+     * @var \Magento\ObjectManager\Relations
      */
     protected $_relations;
 
     /**
      * List of interception methods per plugin
      *
-     * @var Magento_Interception_Definition
+     * @var \Magento\Interception\Definition
      */
     protected $_definitions;
 
     /**
      * List of interceptable application classes
      *
-     * @var Magento_ObjectManager_Definition_Compiled
+     * @var \Magento\ObjectManager\Definition\Compiled
      */
     protected $_classDefinitions;
 
@@ -50,7 +52,7 @@ class Magento_Interception_PluginList_PluginList extends Magento_Config_Data imp
      * @param \Magento\Config\CacheInterface $cache
      * @param \Magento\ObjectManager\Relations $relations
      * @param \Magento\ObjectManager\Config $omConfig
-     * @param Magento_Interception_Definition $definitions
+     * @param \Magento\Interception\Definition $definitions
      * @param array $scopePriorityScheme
      * @param \Magento\ObjectManager\Definition\Compiled $classDefinitions
      * @param string $cacheId
@@ -61,7 +63,7 @@ class Magento_Interception_PluginList_PluginList extends Magento_Config_Data imp
         \Magento\Config\CacheInterface $cache,
         \Magento\ObjectManager\Relations $relations,
         \Magento\ObjectManager\Config $omConfig,
-        Magento_Interception_Definition $definitions,
+        \Magento\Interception\Definition $definitions,
         array $scopePriorityScheme,
         \Magento\ObjectManager\Definition\Compiled $classDefinitions = null,
         $cacheId = 'plugins'

@@ -16,7 +16,7 @@ require_once __DIR__ . '/../Custom/Module/Model/ItemPlugin/Advanced.php';
 class Magento_Interception_PluginList_PluginListTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Interception_Config_Config
+     * @var \Magento\Interception\Config\Config
      */
     protected $_model;
 
@@ -45,7 +45,7 @@ class Magento_Interception_PluginList_PluginListTest extends PHPUnit_Framework_T
         $reader = new \Magento\ObjectManager\Config\Reader\Dom(
             $fileResolverMock,
             new \Magento\ObjectManager\Config\Mapper\Dom(),
-            new Magento_ObjectManager_Config_SchemaLocator(),
+            new \Magento\ObjectManager\Config\SchemaLocator(),
             $validationStateMock
         );
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
@@ -62,13 +62,13 @@ class Magento_Interception_PluginList_PluginListTest extends PHPUnit_Framework_T
         $omConfigMock->expects($this->any())
             ->method('getInstanceType')
             ->will($this->returnArgument(0));
-        $this->_model = new Magento_Interception_PluginList_PluginList(
+        $this->_model = new \Magento\Interception\PluginList\PluginList(
             $reader,
             $this->_configScopeMock,
             $cacheMock,
             new \Magento\ObjectManager\Relations\Runtime(),
             $omConfigMock,
-            new Magento_Interception_Definition_Runtime(),
+            new \Magento\Interception\Definition\Runtime(),
             array('global'),
             null,
             'interception'

@@ -41,7 +41,7 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceInterceptor
     /**
      * List of plugins
      *
-     * @var \Magento_Interception_PluginList
+     * @var \Magento\Interception\PluginList
      */
     protected $_pluginList = null;
 
@@ -58,14 +58,14 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceInterceptor
      * @param \Magento\ObjectManager\Factory $factory
      * @param \Magento\ObjectManager\ObjectManager $objectManager
      * @param string $subjectType
-     * @param \Magento_Interception_PluginList $pluginList
+     * @param \Magento\Interception\PluginList $pluginList
      * @param array $arguments
      */
     public function __construct(
         \Magento\ObjectManager\Factory $factory,
         \Magento\ObjectManager\ObjectManager $objectManager,
         $subjectType,
-        \Magento_Interception_PluginList $pluginList,
+        \Magento\Interception\PluginList $pluginList,
         array $arguments
     ) {
         $this->_factory = $factory;
@@ -143,7 +143,7 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceInterceptor
     public function __wakeup()
     {
         $this->_objectManager = Mage::getObjectManager();
-        $this->_pluginList = $this->_objectManager->get('Magento_Interception_PluginList');
+        $this->_pluginList = $this->_objectManager->get('Magento\Interception\PluginList');
     }
 
     /**

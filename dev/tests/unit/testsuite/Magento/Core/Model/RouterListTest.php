@@ -16,7 +16,7 @@ class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManagerMock;
 

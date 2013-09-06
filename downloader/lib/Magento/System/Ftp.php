@@ -15,7 +15,7 @@
  * @package     Magento_System
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_System_Ftp
+class \Magento\System\Ftp
 {
 
     /**

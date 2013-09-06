@@ -60,8 +60,8 @@ class Magento_Core_Model_Config_Section_Reader_DefaultReaderTest extends PHPUnit
             ->method('create')
             ->with(array('scope' => 'default'))
             ->will($this->returnValue(array(
-                new Magento_Object(array('path' => 'config/key1', 'value' => 'default_db_value1')),
-                new Magento_Object(array('path' => 'config/key3', 'value' => 'default_db_value3')),
+                new \Magento\Object(array('path' => 'config/key1', 'value' => 'default_db_value1')),
+                new \Magento\Object(array('path' => 'config/key3', 'value' => 'default_db_value3')),
             )));
         $expectedData = array(
             'config' => array(

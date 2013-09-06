@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category     Magento
- * @package      Magento_Backup
+ * @package      \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Class to work with database backups
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Db extends Magento_Backup_Abstract
+class \Magento\Backup\Db extends \Magento\Backup\AbstractBackup
 {
     /**
      * Implements Rollback functionality for Db
@@ -29,10 +29,10 @@ class Magento_Backup_Db extends Magento_Backup_Abstract
 
         $this->_lastOperationSucceed = false;
 
-        $archiveManager = new Magento_Archive();
+        $archiveManager = new \Magento\Archive();
         $source = $archiveManager->unpack($this->getBackupPath(), $this->getBackupsDir());
 
-        $file = new Magento_Backup_Filesystem_Iterator_File($source);
+        $file = new \Magento\Backup\Filesystem\Iterator\File($source);
         foreach ($file as $statement) {
             $this->getResourceModel()->runCommand($statement);
         }

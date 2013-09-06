@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Backup data collection
  *
  * @category   Magento
- * @package    Magento_Backup
+ * @package    \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backup_Model_Fs_Collection extends \Magento\Data\Collection\Filesystem

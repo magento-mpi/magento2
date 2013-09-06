@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  * Backup by cron backend model
  *
  * @category   Magento
- * @package    Magento_Backup
+ * @package    \Magento\Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backup_Model_Config_Backend_Cron extends Magento_Core_Model_Config_Value

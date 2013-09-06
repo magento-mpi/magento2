@@ -15,8 +15,8 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_HTTP_Client_Socket
-    implements Magento_HTTP_IClient
+class \Magento\HTTP\Client\Socket
+    implements \Magento\HTTP\IClient
 {
     /**
      * Hostname
@@ -429,7 +429,7 @@ class Magento_HTTP_Client_Socket
 
     /**
      * Get response status code
-     * @see lib/Magento/HTTP/Magento_HTTP_Client#getStatus()
+     * @see lib/Magento/HTTP/\Magento\HTTP\Client#getStatus()
      */
     public function getStatus()
     {

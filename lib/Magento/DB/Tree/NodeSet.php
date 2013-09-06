@@ -15,7 +15,7 @@
  */
 namespace Magento\DB\Tree;
 
-class NodeSet implements Iterator
+class NodeSet implements \Iterator
 {
     private $_nodes = array();
     private $_currentNode = 0;

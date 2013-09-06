@@ -37,7 +37,7 @@ class Magento_Test_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
         'eventDispatcher'    => 'Magento_Core_Model_Event_Manager',
         'cacheManager'       => 'Magento_Core_Model_CacheInterface',
         'resource'           => 'Magento_Core_Model_Resource_Abstract',
-        'resourceCollection' => '\Magento\Data\Collection\Db'
+        'resourceCollection' => 'Magento\Data\Collection\Db'
     );
 
     /**

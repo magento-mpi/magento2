@@ -10,7 +10,7 @@
 class Magento_Core_Model_Config_Data_BackendModelPool
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -20,9 +20,9 @@ class Magento_Core_Model_Config_Data_BackendModelPool
     protected $_pool;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

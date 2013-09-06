@@ -100,7 +100,7 @@ class Magento_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCase
                 'Magento_Sales_Model_Resource_Order_Creditmemo',
                 Magento_SalesArchive_Model_Archive::CREDITMEMO
             ),
-            array('\Magento\Object', false)
+            array('Magento\Object', false)
         );
     }
 }

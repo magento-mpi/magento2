@@ -9,5 +9,5 @@
  */
 
 
-class Magento_Backup_Exception extends Zend_Exception
+class \Magento\Backup\BackupException extends Zend_Exception
 {}

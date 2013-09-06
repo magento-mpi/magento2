@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  * Database backup resource model
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backup_Model_Resource_Db
@@ -69,7 +69,7 @@ class Magento_Backup_Model_Resource_Db
      */
     public function getTableDropSql($tableName)
     {
-        return Mage::getResourceHelper('Magento_Backup')->getTableDropSql($tableName);
+        return Mage::getResourceHelper('\Magento\Backup')->getTableDropSql($tableName);
     }
 
     /**
@@ -81,7 +81,7 @@ class Magento_Backup_Model_Resource_Db
      */
     public function getTableCreateSql($tableName, $withForeignKeys = false)
     {
-        return Mage::getResourceHelper('Magento_Backup')->getTableCreateSql($tableName, $withForeignKeys = false);
+        return Mage::getResourceHelper('\Magento\Backup')->getTableCreateSql($tableName, $withForeignKeys = false);
     }
 
     /**
@@ -96,7 +96,7 @@ class Magento_Backup_Model_Resource_Db
         if (!$tableName) {
             $tables = $this->getTables();
             foreach($tables as $table) {
-                $tableFkScript = Mage::getResourceHelper('Magento_Backup')->getTableForeignKeysSql($table);
+                $tableFkScript = Mage::getResourceHelper('\Magento\Backup')->getTableForeignKeysSql($table);
                 if (!empty($tableFkScript)) {
                     $fkScript .= "\n" . $tableFkScript;
                 }
@@ -144,7 +144,7 @@ class Magento_Backup_Model_Resource_Db
      */
     public function getTableDataSql($tableName, $count = null, $offset = null)
     {
-        return Mage::getResourceHelper('Magento_Backup')->getPartInsertSql($tableName, $count, $offset);
+        return Mage::getResourceHelper('\Magento\Backup')->getPartInsertSql($tableName, $count, $offset);
     }
 
     /**
@@ -156,7 +156,7 @@ class Magento_Backup_Model_Resource_Db
      */
     public function getTableCreateScript($tableName, $addDropIfExists = false)
     {
-        return Mage::getResourceHelper('Magento_Backup')->getTableCreateScript($tableName, $addDropIfExists);;
+        return Mage::getResourceHelper('\Magento\Backup')->getTableCreateScript($tableName, $addDropIfExists);;
     }
 
     /**
@@ -192,7 +192,7 @@ class Magento_Backup_Model_Resource_Db
      */
     public function getHeader()
     {
-        return Mage::getResourceHelper('Magento_Backup')->getHeader();
+        return Mage::getResourceHelper('\Magento\Backup')->getHeader();
     }
 
     /**
@@ -202,7 +202,7 @@ class Magento_Backup_Model_Resource_Db
      */
     public function getFooter()
     {
-        return Mage::getResourceHelper('Magento_Backup')->getFooter();
+        return Mage::getResourceHelper('\Magento\Backup')->getFooter();
     }
 
     /**
@@ -213,7 +213,7 @@ class Magento_Backup_Model_Resource_Db
      */
     public function getTableDataBeforeSql($tableName)
     {
-        return Mage::getResourceHelper('Magento_Backup')->getTableDataBeforeSql($tableName);
+        return Mage::getResourceHelper('\Magento\Backup')->getTableDataBeforeSql($tableName);
     }
 
     /**
@@ -224,7 +224,7 @@ class Magento_Backup_Model_Resource_Db
      */
     public function getTableDataAfterSql($tableName)
     {
-        return Mage::getResourceHelper('Magento_Backup')->getTableDataAfterSql($tableName);
+        return Mage::getResourceHelper('\Magento\Backup')->getTableDataAfterSql($tableName);
     }
 
     /**
@@ -234,7 +234,7 @@ class Magento_Backup_Model_Resource_Db
      */
     public function beginTransaction()
     {
-        Mage::getResourceHelper('Magento_Backup')->turnOnSerializableMode();
+        Mage::getResourceHelper('\Magento\Backup')->turnOnSerializableMode();
         $this->_write->beginTransaction();
         return $this;
     }
@@ -247,7 +247,7 @@ class Magento_Backup_Model_Resource_Db
     public function commitTransaction()
     {
         $this->_write->commit();
-        Mage::getResourceHelper('Magento_Backup')->turnOnReadCommittedMode();
+        Mage::getResourceHelper('\Magento\Backup')->turnOnReadCommittedMode();
         return $this;
     }
 

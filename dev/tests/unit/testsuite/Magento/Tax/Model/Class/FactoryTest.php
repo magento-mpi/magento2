@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_Class_FactoryTest extends PHPUnit_Framework_TestCase
+class Magento_Tax_Model_TaxClass_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider createDataProvider
@@ -30,23 +30,23 @@ class Magento_Tax_Model_Class_FactoryTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo($className), $this->equalTo(array('data' => array('id' => 1))))
             ->will($this->returnValue($classTypeMock));
 
-        $taxClassFactory = new Magento_Tax_Model_Class_Factory($objectManager);
+        $taxClassFactory = new Magento_Tax_Model_TaxClass_Factory($objectManager);
         $this->assertEquals($classTypeMock, $taxClassFactory->create($classMock));
     }
 
     public function createDataProvider()
     {
-        $customerClassMock = $this->getMock('Magento_Tax_Model_Class_Type_Customer', array(), array(), '', false);
-        $productClassMock = $this->getMock('Magento_Tax_Model_Class_Type_Product', array(), array(), '', false);
+        $customerClassMock = $this->getMock('Magento_Tax_Model_TaxClass_Type_Customer', array(), array(), '', false);
+        $productClassMock = $this->getMock('Magento_Tax_Model_TaxClass_Type_Product', array(), array(), '', false);
         return array(
             array(
                 Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER,
-                'Magento_Tax_Model_Class_Type_Customer',
+                'Magento_Tax_Model_TaxClass_Type_Customer',
                 $customerClassMock
             ),
             array(
                 Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT,
-                'Magento_Tax_Model_Class_Type_Product',
+                'Magento_Tax_Model_TaxClass_Type_Product',
                 $productClassMock
             ),
         );
@@ -60,7 +60,7 @@ class Magento_Tax_Model_Class_FactoryTest extends PHPUnit_Framework_TestCase
 
         $objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
-        $taxClassFactory = new Magento_Tax_Model_Class_Factory($objectManager);
+        $taxClassFactory = new Magento_Tax_Model_TaxClass_Factory($objectManager);
 
         $this->setExpectedException(
             'Magento_Core_Exception',

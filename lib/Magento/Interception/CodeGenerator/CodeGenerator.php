@@ -7,8 +7,10 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Interception_CodeGenerator_CodeGenerator
-    implements Magento_Interception_CodeGenerator
+namespace Magento\Interception\CodeGenerator;
+
+class CodeGenerator
+    implements \Magento\Interception\CodeGenerator
 {
     /**
      * Class generator

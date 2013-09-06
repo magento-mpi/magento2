@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Xml_Generator
+class \Magento\Xml\Generator
 {
     /**
      * This value is used to replace numeric keys while formatting data for xml output.
@@ -107,7 +107,7 @@ class Magento_Xml_Generator
      * Set xml node name to use instead of numeric index during numeric arrays conversion.
      *
      * @param $name
-     * @return Magento_Xml_Generator
+     * @return \Magento\Xml\Generator
      */
     public function setIndexedArrayItemName($name)
     {

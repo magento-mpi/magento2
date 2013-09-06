@@ -10,7 +10,7 @@
 
 namespace Magento\Connect\Package;
 
-class VO implements Iterator
+class VO implements \Iterator
 {
     protected $properties = array(
         'name' => '',

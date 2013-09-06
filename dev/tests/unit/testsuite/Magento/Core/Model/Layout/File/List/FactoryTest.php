@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_File_List_FactoryTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Layout_File_FileList_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_File_List_Factory
+     * @var Magento_Core_Model_Layout_File_FileList_Factory
      */
     private $_model;
 
@@ -21,7 +21,7 @@ class Magento_Core_Model_Layout_File_List_FactoryTest extends PHPUnit_Framework_
     protected function setUp()
     {
         $this->_objectManager = $this->getMockForAbstractClass('\Magento\ObjectManager');
-        $this->_model = new Magento_Core_Model_Layout_File_List_Factory($this->_objectManager);
+        $this->_model = new Magento_Core_Model_Layout_File_FileList_Factory($this->_objectManager);
     }
 
     public function testCreate()

@@ -18,7 +18,7 @@
         <reference name="content">
             <block class="Magento_Catalog_Block_Category_View" name="category.products" template="category/view.phtml">
                 <block class="Magento_Catalog_Block_Product_List" name="product_list" template="product/list.phtml">
-                    <block class="Magento_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+                    <block class="Magento_Catalog_Block_Product_ProductList_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
                         <block class="Magento_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                         <!-- The following code shows how to set your own pager increments -->
                         <!--

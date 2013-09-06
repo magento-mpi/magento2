@@ -67,7 +67,7 @@ class Magento_Core_Model_Config_Initial_Reader
      *
      * @return array
      *
-     * @throws Magento_Exception
+     * @throws \Magento\MagentoException
      */
     public function read()
     {
@@ -91,7 +91,7 @@ class Magento_Core_Model_Config_Initial_Reader
                     $domDocument->merge(file_get_contents($file));
                 }
             } catch (\Magento\Config\Dom\ValidationException $e) {
-                throw new Magento_Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
+                throw new \Magento\MagentoException("Invalid XML in file " . $file . ":\n" . $e->getMessage());
             }
         }
 

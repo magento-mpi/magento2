@@ -10,11 +10,11 @@
  */
 
 /**
- * Test class for Magento_Catalog_Block_Product_List_Crosssell.
+ * Test class for Magento_Catalog_Block_Product_ProductList_Crosssell.
  *
  * @magentoDataFixture Magento/Catalog/_files/products_crosssell.php
  */
-class Magento_Catalog_Block_Product_List_CrosssellTest extends PHPUnit_Framework_TestCase
+class Magento_Catalog_Block_Product_ProductList_CrosssellTest extends PHPUnit_Framework_TestCase
 {
     public function testAll()
     {
@@ -22,8 +22,8 @@ class Magento_Catalog_Block_Product_List_CrosssellTest extends PHPUnit_Framework
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(2);
         Mage::register('product', $product);
-        /** @var $block Magento_Catalog_Block_Product_List_Crosssell */
-        $block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_List_Crosssell');
+        /** @var $block Magento_Catalog_Block_Product_ProductList_Crosssell */
+        $block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_ProductList_Crosssell');
         $block->setLayout(Mage::getModel('Magento_Core_Model_Layout'));
         $block->setTemplate('Magento_Checkout::cart/crosssell.phtml');
         $block->setItemCount(1);

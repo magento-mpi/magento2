@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 
-final class Magento_Connect_Command_Channels
-extends Magento_Connect_Command
+final class \Magento\Connect\Command\Channels
+extends \Magento\Connect\Command
 {
 
     /**

@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Packager
+class \Magento\Connect\Packager
 {
     /**
      * Default Config File name
@@ -49,37 +49,37 @@ class Magento_Connect_Packager
 
     /**
      * Archiver object
-     * @var Magento_Archive
+     * @var \Magento\Archive
      */
     protected $_archiver = null;
 
     /**
      * HTTP Client (Curl/Socket etc)
-     * @var Magento_HTTP_IClient
+     * @var \Magento\HTTP\IClient
      */
     protected $_http = null;
 
     /**
      * Get Archiver object
      *
-     * @return Magento_Archive
+     * @return \Magento\Archive
      */
     public function getArchiver()
     {
         if(is_null($this->_archiver)) {
-            $this->_archiver = new Magento_Archive();
+            $this->_archiver = new \Magento\Archive();
         }
         return $this->_archiver;
     }
 
     /**
      * Returns HTTP Client
-     * @return Magento_HTTP_IClient|null
+     * @return \Magento\HTTP\IClient|null
      */
     public function getDownloader()
     {
         if(is_null($this->_http)) {
-            $this->_http = Magento_HTTP_Client::getInstance();
+            $this->_http = \Magento\HTTP\Client::getInstance();
         }
         return $this->_http;
     }
@@ -92,7 +92,7 @@ class Magento_Connect_Packager
      */
     public function getRemoteConf($ftpString)
     {
-        $ftpObj = new Magento_Connect_Ftp();
+        $ftpObj = new \Magento\Connect\Ftp();
         $ftpObj->connect($ftpString);
         $cfgFile = self::CONFIG_FILE_NAME;
         $cacheFile = self::CACHE_FILE_NAME;
@@ -102,12 +102,12 @@ class Magento_Connect_Packager
         $remoteConfigExists = $ftpObj->fileExists($cfgFile);
         $tempConfigFile = tempnam(sys_get_temp_dir(),'conf');
         if(!$remoteConfigExists) {
-            $remoteCfg = new Magento_Connect_Config($tempConfigFile);
+            $remoteCfg = new \Magento\Connect\Config($tempConfigFile);
             $remoteCfg->store();
             $ftpObj->upload($cfgFile, $tempConfigFile);
         } else {
             $ftpObj->get($tempConfigFile, $cfgFile);
-            $remoteCfg = new Magento_Connect_Config($tempConfigFile);
+            $remoteCfg = new \Magento\Connect\Config($tempConfigFile);
         }
 
         $ftpObj->chdir($wd);
@@ -116,12 +116,12 @@ class Magento_Connect_Packager
         $tempCacheFile = tempnam(sys_get_temp_dir(),'cache');
 
         if(!$remoteCacheExists) {
-            $remoteCache = new Magento_Connect_Singleconfig($tempCacheFile);
+            $remoteCache = new \Magento\Connect\Singleconfig($tempCacheFile);
             $remoteCache->clear();
             $ftpObj->upload($cacheFile, $tempCacheFile);
         } else {
             $ftpObj->get($tempCacheFile, $cacheFile);
-            $remoteCache = new Magento_Connect_Singleconfig($tempCacheFile);
+            $remoteCache = new \Magento\Connect\Singleconfig($tempCacheFile);
         }
         $ftpObj->chdir($wd);
         return array($remoteCache, $remoteCfg, $ftpObj);
@@ -136,18 +136,18 @@ class Magento_Connect_Packager
     public function getRemoteCache($ftpString)
     {
 
-        $ftpObj = new Magento_Connect_Ftp();
+        $ftpObj = new \Magento\Connect\Ftp();
         $ftpObj->connect($ftpString);
         $remoteConfigExists = $ftpObj->fileExists(self::CACHE_FILE_NAME);
         if(!$remoteConfigExists) {
             $configFile=tempnam(sys_get_temp_dir(),'conf');
-            $remoteCfg = new Magento_Connect_Singleconfig($configFile);
+            $remoteCfg = new \Magento\Connect\Singleconfig($configFile);
             $remoteCfg->clear();
             $ftpObj->upload(self::CACHE_FILE_NAME, $configFile);
         } else {
             $configFile=tempnam(sys_get_temp_dir(),'conf');
             $ftpObj->get($configFile, self::CACHE_FILE_NAME);
-            $remoteCfg = new Magento_Connect_Singleconfig($configFile);
+            $remoteCfg = new \Magento\Connect\Singleconfig($configFile);
         }
         return array($remoteCfg, $ftpObj);
     }
@@ -160,7 +160,7 @@ class Magento_Connect_Packager
      */
     public function getRemoteConfig($ftpString)
     {
-        $ftpObj = new Magento_Connect_Ftp();
+        $ftpObj = new \Magento\Connect\Ftp();
         $ftpObj->connect($ftpString);
         $cfgFile = self::CONFIG_FILE_NAME;
 
@@ -168,12 +168,12 @@ class Magento_Connect_Packager
         $remoteConfigExists = $ftpObj->fileExists($cfgFile);
         $tempConfigFile = tempnam(sys_get_temp_dir(),'conf_');
         if(!$remoteConfigExists) {
-            $remoteCfg = new Magento_Connect_Config($tempConfigFile);
+            $remoteCfg = new \Magento\Connect\Config($tempConfigFile);
             $remoteCfg->store();
             $ftpObj->upload($cfgFile, $tempConfigFile);
         } else {
             $ftpObj->get($tempConfigFile, $cfgFile);
-            $remoteCfg = new Magento_Connect_Config($tempConfigFile);
+            $remoteCfg = new \Magento\Connect\Config($tempConfigFile);
         }
         $ftpObj->chdir($wd);
         return array($remoteCfg, $ftpObj);
@@ -182,8 +182,8 @@ class Magento_Connect_Packager
     /**
      * Write Cache config remotely
      *
-     * @param Magento_Connect_Singleconfig $cache
-     * @param Magento_Connect_Ftp $ftpObj
+     * @param \Magento\Connect\Singleconfig $cache
+     * @param \Magento\Connect\Ftp $ftpObj
      * @return void
      */
     public function writeToRemoteCache($cache, $ftpObj)
@@ -197,8 +197,8 @@ class Magento_Connect_Packager
     /**
      * Write config remotely
      *
-     * @param Magento_Connect_Config $cache
-     * @param Magento_Connect_Ftp $ftpObj
+     * @param \Magento\Connect\Config $cache
+     * @param \Magento\Connect\Ftp $ftpObj
      * @return void
      */
     public function writeToRemoteConfig($cache, $ftpObj)
@@ -213,7 +213,7 @@ class Magento_Connect_Packager
      * Remove empty directories recursively up
      *
      * @param string $dir
-     * @param Magento_Connect_Ftp $ftp
+     * @param \Magento\Connect\Ftp $ftp
      */
     protected function removeEmptyDirectory($dir, $ftp = null)
     {
@@ -235,8 +235,8 @@ class Magento_Connect_Packager
      *
      * @param string $chanName
      * @param string $package
-     * @param Magento_Connect_Singleconfig $cacheObj
-     * @param Magento_Connect_Config $configObj
+     * @param \Magento\Connect\Singleconfig $cacheObj
+     * @param \Magento\Connect\Config $configObj
      * @return void
      */
     public function processUninstallPackage($chanName, $package, $cacheObj, $configObj)
@@ -255,7 +255,7 @@ class Magento_Connect_Packager
             }
         }
 
-        $destDir = $targetPath . DS . Magento_Connect_Package::PACKAGE_XML_DIR;
+        $destDir = $targetPath . DS . \Magento\Connect\Package::PACKAGE_XML_DIR;
         $destFile = $package->getReleaseFilename() . '.xml';
         @unlink($destDir . DS . $destFile);
     }
@@ -265,8 +265,8 @@ class Magento_Connect_Packager
      *
      * @param $chanName
      * @param $package
-     * @param Magento_Connect_Singleconfig $cacheObj
-     * @param Magento_Connect_Ftp $ftp
+     * @param \Magento\Connect\Singleconfig $cacheObj
+     * @param \Magento\Connect\Ftp $ftp
      * @return void
      */
     public function processUninstallPackageFtp($chanName, $package, $cacheObj, $ftp)
@@ -278,7 +278,7 @@ class Magento_Connect_Packager
             $ftp->delete($file);
             $this->removeEmptyDirectory(dirname($file), $ftp);
         }
-        $remoteXml = Magento_Connect_Package::PACKAGE_XML_DIR . DS . $package->getReleaseFilename() . '.xml';
+        $remoteXml = \Magento\Connect\Package::PACKAGE_XML_DIR . DS . $package->getReleaseFilename() . '.xml';
         $ftp->delete($remoteXml);
         $ftp->chdir($ftpDir);
     }
@@ -301,7 +301,7 @@ class Magento_Connect_Packager
     /**
      * Return correct global dir mode in octal representation
      *
-     * @param Magento_Connect_Config $config
+     * @param \Magento\Connect\Config $config
      * @return int
      */
     protected function _getDirMode($config)
@@ -316,7 +316,7 @@ class Magento_Connect_Packager
     /**
      * Return global file mode in octal representation
      *
-     * @param Magento_Connect_Config $config
+     * @param \Magento\Connect\Config $config
      * @return int
      */
     protected function _getFileMode($config)
@@ -342,10 +342,10 @@ class Magento_Connect_Packager
     /**
      * Install package over FTP
      *
-     * @param Magento_Connect_Package $package
+     * @param \Magento\Connect\Package $package
      * @param string $file
-     * @param Magento_Connect_Config $configObj
-     * @param Magento_Connect_Ftp $ftp
+     * @param \Magento\Connect\Config $configObj
+     * @param \Magento\Connect\Ftp $ftp
      * @return void
      */
     public function processInstallPackageFtp($package, $file, $configObj, $ftp)
@@ -370,22 +370,22 @@ class Magento_Connect_Packager
             }
         }
 
-        $localXml = $tar . Magento_Connect_Package_Reader::DEFAULT_NAME_PACKAGE;
+        $localXml = $tar . \Magento\Connect\Package\Reader::DEFAULT_NAME_PACKAGE;
         if (is_file($localXml)) {
-            $remoteXml = Magento_Connect_Package::PACKAGE_XML_DIR . DS . $package->getReleaseFilename() . '.xml';
+            $remoteXml = \Magento\Connect\Package::PACKAGE_XML_DIR . DS . $package->getReleaseFilename() . '.xml';
             $ftp->upload($remoteXml, $localXml, $modeDir, $modeFile);
         }
 
         $ftp->chdir($ftpDir);
-        Magento_System_Dirs::rm(array("-r",$target));
+        \Magento\System\Dirs::rm(array("-r",$target));
     }
 
     /**
      * Package installation to FS
      *
-     * @param Magento_Connect_Package $package
+     * @param \Magento\Connect\Package $package
      * @param string $file
-     * @param Magento_Connect_Config $configObj
+     * @param \Magento\Connect\Config $configObj
      * @return void
      */
     public function processInstallPackage($package, $file, $configObj)
@@ -414,9 +414,9 @@ class Magento_Connect_Packager
             }
         }
 
-        $packageXml = $tar . Magento_Connect_Package_Reader::DEFAULT_NAME_PACKAGE;
+        $packageXml = $tar . \Magento\Connect\Package\Reader::DEFAULT_NAME_PACKAGE;
         if (is_file($packageXml)) {
-            $destDir = $targetPath . DS . Magento_Connect_Package::PACKAGE_XML_DIR;
+            $destDir = $targetPath . DS . \Magento\Connect\Package::PACKAGE_XML_DIR;
             $destFile = $package->getReleaseFilename() . '.xml';
             $dest = $destDir . DS . $destFile;
 
@@ -424,7 +424,7 @@ class Magento_Connect_Packager
             @chmod($dest, $modeFile);
         }
 
-        Magento_System_Dirs::rm(array("-r",$target));
+        \Magento\System\Dirs::rm(array("-r",$target));
     }
 
     /**
@@ -432,8 +432,8 @@ class Magento_Connect_Packager
      *
      * @param string $chanName
      * @param string $package
-     * @param Magento_Connect_Singleconfig $cacheObj
-     * @param Magento_Connect_Config $configObj
+     * @param \Magento\Connect\Singleconfig $cacheObj
+     * @param \Magento\Connect\Config $configObj
      * @return array
      */
     public function getLocalModifiedFiles($chanName, $package, $cacheObj, $configObj)
@@ -454,8 +454,8 @@ class Magento_Connect_Packager
      *
      * @param string $chanName
      * @param string $package
-     * @param Magento_Connect_Singleconfig $cacheObj
-     * @param Magento_Connect_Ftp $ftp
+     * @param \Magento\Connect\Singleconfig $cacheObj
+     * @param \Magento\Connect\Ftp $ftp
      * @return array
      */
     public function getRemoteModifiedFiles($chanName, $package, $cacheObj, $ftp)
@@ -481,9 +481,9 @@ class Magento_Connect_Packager
      * Get upgrades list
      *
      * @param string|array $channels
-     * @param Magento_Connect_Singleconfig $cacheObject
-     * @param Magento_Connect_Config $configObj
-     * @param Magento_Connect_Rest $restObj optional
+     * @param \Magento\Connect\Singleconfig $cacheObject
+     * @param \Magento\Connect\Config $configObj
+     * @param \Magento\Connect\Rest $restObj optional
      * @param bool $checkConflicts
      * @return array
      */
@@ -494,7 +494,7 @@ class Magento_Connect_Packager
         }
 
         if(!$restObj) {
-            $restObj = new Magento_Connect_Rest($configObj->protocol);
+            $restObj = new \Magento\Connect\Rest($configObj->protocol);
         }
 
         $updates = array();
@@ -512,7 +512,7 @@ class Magento_Connect_Packager
             }
 
             $channel = $cacheObject->getChannel($chan);
-            $uri = $channel[Magento_Connect_Singleconfig::K_URI];
+            $uri = $channel[\Magento\Connect\Singleconfig::K_URI];
             $restObj->setChannel($uri);
             $remotePackages = $restObj->getPackagesHashed();
 
@@ -527,7 +527,7 @@ class Magento_Connect_Packager
                 }
                 $package = $remotePackages[$localName];
                 $neededToUpgrade = false;
-                $remoteVersion = $localVersion = trim($localData[Magento_Connect_Singleconfig::K_VER]);
+                $remoteVersion = $localVersion = trim($localData[\Magento\Connect\Singleconfig::K_VER]);
                 foreach ($package as $version => $s) {
 
                     if($cacheObject->compareStabilities($s, $state) < 0) {
@@ -563,8 +563,8 @@ class Magento_Connect_Packager
      *
      * @param string $chanName
      * @param string $package
-     * @param Magento_Connect_Singleconfig $cache
-     * @param Magento_Connect_Config $config
+     * @param \Magento\Connect\Singleconfig $cache
+     * @param \Magento\Connect\Config $config
      * @param bool $withDepsRecursive
      * @return array|null
      */
@@ -675,13 +675,13 @@ class Magento_Connect_Packager
      *
      * @param string $chanName
      * @param string $package
-     * @param Magento_Connect_Singleconfig $cache
-     * @param Magento_Connect_Config $config
+     * @param \Magento\Connect\Singleconfig $cache
+     * @param \Magento\Connect\Config $config
      * @param mixed $versionMax
      * @param mixed $versionMin
      * @param boolean $withDepsRecursive
      * @param boolean $forceRemote
-     * @param Magento_Connect_Rest $rest
+     * @param \Magento\Connect\Rest $rest
      * @return mixed
      */
     public function getDependenciesList( $chanName, $package, $cache, $config, $versionMax = false, $versionMin = false,
@@ -701,7 +701,7 @@ class Magento_Connect_Packager
             $chanName = $cache->chanName($chanName);
 
             if (!$rest) {
-                $rest = new Magento_Connect_Rest($config->protocol);
+                $rest = new \Magento\Connect\Rest($config->protocol);
             }
             $rest->setChannel($cache->chanUrl($chanName));
             $releases = $rest->getReleases($package);
@@ -726,7 +726,7 @@ class Magento_Connect_Packager
             if (!$version) {
                 $versionState = $cache->detectVersionFromRestArray($releases, $versionMin, $versionMax);
                 if ($versionState) {
-                    /** @var $packageInfo Magento_Connect_Package */
+                    /** @var $packageInfo \Magento\Connect\Package */
                     $packageInfo = $rest->getPackageReleaseInfo($package, $versionState);
                     if (false !== $packageInfo) {
                         $stability = $packageInfo->getStability();
@@ -898,10 +898,10 @@ class Magento_Connect_Packager
     protected function processDepsHash(&$depsHash, $sortReverse = true)
     {
         $nodes = array();
-        $graph = new Magento_Connect_Structures_Graph();
+        $graph = new \Magento\Connect\Structures\Graph();
 
         foreach ($depsHash as $key=>$data) {
-            $node = new Magento_Connect_Structures_Node();
+            $node = new \Magento\Connect\Structures\Node();
             $nodes[$key] =& $node;
             unset($data['packages']);
             $node->setData($data);
@@ -930,7 +930,7 @@ class Magento_Connect_Packager
         $out = array();
         foreach ($result as $nodes) {
             foreach ($nodes as $n) {
-                /** @var $n Magento_Connect_Structures_Node */
+                /** @var $n \Magento\Connect\Structures\Node */
                 $out[] = $n->getData();
             }
         }

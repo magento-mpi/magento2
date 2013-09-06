@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Connect_Channel_Generator extends Magento_Xml_Generator
+class \Magento\Connect\Channel\Generator extends \Magento\Xml\Generator
 {
     protected $_file      = 'channel.xml';
     protected $_generator = null;
@@ -29,7 +29,7 @@ class Magento_Connect_Channel_Generator extends Magento_Xml_Generator
     public function getGenerator()
     {
         if (is_null($this->_generator)) {
-            $this->_generator = new Magento_Xml_Generator();
+            $this->_generator = new \Magento\Xml\Generator();
         }
         return $this->_generator;
     }

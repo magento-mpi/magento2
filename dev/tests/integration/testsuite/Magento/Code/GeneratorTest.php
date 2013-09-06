@@ -76,7 +76,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         $factoryClassName = self::CLASS_NAME_WITHOUT_NAMESPACE . 'Factory';
         $result = false;
         $generatorResult = $this->_generator->generateClass($factoryClassName);
-        // Magento_Code_Generator will return a skip if the class has already been auto-loaded
+        // \Magento\Code\Generator will return a skip if the class has already been auto-loaded
         if (\Magento\Code\Generator::GENERATION_SUCCESS == $generatorResult
             || \Magento\Code\Generator::GENERATION_SKIP == $generatorResult
         ) {

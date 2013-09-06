@@ -47,10 +47,10 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
                 'Magento_Core_Model_Cache_Type_Config' => $cache,
                 'Magento_Core_Model_ObjectManager_ConfigLoader' => $configLoader,
                 'Magento_Core_Model_ObjectManager_ConfigCache' => $configCache,
-                'Magento_Config_ReaderInterface' => $this->getMock('Magento\Config\ReaderInterface'),
+                '\Magento\Config\ReaderInterface' => $this->getMock('Magento\Config\ReaderInterface'),
                 'Magento\Config\ScopeInterface' => $this->getMock('Magento\Config\ScopeInterface'),
                 'Magento\Config\CacheInterface' => $this->getMock('Magento\Config\CacheInterface'),
-                'Magento_Cache_FrontendInterface' => $this->getMock('Magento\Cache\FrontendInterface'),
+                '\Magento\Cache\FrontendInterface' => $this->getMock('Magento\Cache\FrontendInterface'),
             ),
             $primaryLoaderMock
         );

@@ -209,7 +209,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             $customerStorage->addCustomer($customer);
         }
 
-        /** @var $attributeCollection Magento_Data_Collection */
+        /** @var $attributeCollection \Magento\Data\Collection */
         $attributeCollection = $this->getMock('Magento\Data\Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */

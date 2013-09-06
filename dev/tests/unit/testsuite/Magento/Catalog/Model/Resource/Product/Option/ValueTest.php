@@ -65,9 +65,9 @@ class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value
     {
         $this->_connections = array(
             'read' =>
-                new Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_DB_Adapter_Pdo_Mysql(),
+                new Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_\Magento\DB\Adapter\Pdo\Mysql(),
             'write' =>
-                new Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_DB_Adapter_Pdo_Mysql(),
+                new Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_\Magento\DB\Adapter\Pdo\Mysql(),
         );
     }
 
@@ -96,7 +96,7 @@ class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value
 /*
  * Extend \Magento\DB\Adapter\Pdo\Mysql and stub needed methods
  */
-class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_DB_Adapter_Pdo_Mysql
+class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_\Magento\DB\Adapter\Pdo\Mysql
     extends \Magento\DB\Adapter\Pdo\Mysql
 {
     /**

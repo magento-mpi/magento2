@@ -10,11 +10,11 @@
  */
 
 /**
- * Test class for Magento_Catalog_Block_Product_List_Related.
+ * Test class for Magento_Catalog_Block_Product_ProductList_Related.
  *
  * @magentoDataFixture Magento/Catalog/_files/products_related.php
  */
-class Magento_Catalog_Block_Product_List_RelatedTest extends PHPUnit_Framework_TestCase
+class Magento_Catalog_Block_Product_ProductList_RelatedTest extends PHPUnit_Framework_TestCase
 {
     public function testAll()
     {
@@ -22,8 +22,8 @@ class Magento_Catalog_Block_Product_List_RelatedTest extends PHPUnit_Framework_T
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(2);
         Mage::register('product', $product);
-        /** @var $block Magento_Catalog_Block_Product_List_Related */
-        $block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_List_Related');
+        /** @var $block Magento_Catalog_Block_Product_ProductList_Related */
+        $block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_ProductList_Related');
         $block->setLayout(Mage::getModel('Magento_Core_Model_Layout'));
         $block->setTemplate('product/list/related.phtml');
 

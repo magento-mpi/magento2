@@ -130,7 +130,7 @@ return array(
         'Magento_Backend_Block_System_Config_Form_Field_Datetime'
     ),
     array('Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract',
-        'Magento_Backend_Block_System_Config_Form_Field_Array_Abstract'
+        'Magento_Backend_Block_System_Config_Form_Field_FieldArray_Abstract'
     ),
     array('Mage_Adminhtml_Block_System_Config_Form_Fieldset',
         'Magento_Backend_Block_System_Config_Form_Fieldset'
@@ -479,7 +479,7 @@ return array(
         'Magento_Shipping_Model_Config_Source_Tablerate'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Shipping_Taxclass',
-        'Magento_Tax_Model_Config_Source_Class_Product'
+        'Magento_Tax_Model_Config_Source_TaxClass_Product'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Storage_Media_Database',
         'Magento_Backend_Model_Config_Source_Storage_Media_Database'

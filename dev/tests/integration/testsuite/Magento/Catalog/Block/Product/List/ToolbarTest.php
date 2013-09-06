@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Block_Product_List_ToolbarTest extends PHPUnit_Framework_TestCase
+class Magento_Catalog_Block_Product_ProductList_ToolbarTest extends PHPUnit_Framework_TestCase
 {
     public function testGetPagerHtml()
     {
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Mage::getModel('Magento_Core_Model_Layout');
-        /** @var $block Magento_Catalog_Block_Product_List_Toolbar */
-        $block = $layout->createBlock('Magento_Catalog_Block_Product_List_Toolbar', 'block');
+        /** @var $block Magento_Catalog_Block_Product_ProductList_Toolbar */
+        $block = $layout->createBlock('Magento_Catalog_Block_Product_ProductList_Toolbar', 'block');
         /** @var $childBlock Magento_Core_Block_Text */
         $childBlock = $layout->addBlock('Magento_Core_Block_Text', 'product_list_toolbar_pager', 'block');
 

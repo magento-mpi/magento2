@@ -215,12 +215,12 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
         $result = array();
         // mark all cache entries with a special tag to be able to clean only cache belonging to the application
         $result[] = array(
-            'class' => '\Magento\Cache\Frontend\Decorator\TagScope',
+            'class' => 'Magento\Cache\Frontend\Decorator\TagScope',
             'parameters' => array('tag' => 'MAGE'),
         );
         if (\Magento\Profiler::isEnabled()) {
             $result[] = array(
-                'class' => '\Magento\Cache\Frontend\Decorator\Profiler',
+                'class' => 'Magento\Cache\Frontend\Decorator\Profiler',
                 'parameters' => array('backendPrefixes' => array('Zend_Cache_Backend_', 'Magento_Cache_Backend_')),
             );
         }

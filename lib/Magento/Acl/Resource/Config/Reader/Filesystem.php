@@ -12,7 +12,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param \Magento\Config\ConverterInterface $converter
-     * @param Magento_Acl_Resource_Config_SchemaLocator $schemaLocator
+     * @param \Magento\Acl\Resource\Config\SchemaLocator $schemaLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
@@ -21,7 +21,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
         \Magento\Config\ConverterInterface $converter,
-        Magento_Acl_Resource_Config_SchemaLocator $schemaLocator,
+        \Magento\Acl\Resource\Config\SchemaLocator $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'acl.xml',
         $idAttributes = array(),

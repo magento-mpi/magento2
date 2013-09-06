@@ -648,7 +648,7 @@ return array(
     array('_getProduct', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell', 'getProduct'),
     array('_getProduct', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Related', 'getProduct'),
     array('_getProduct', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell', 'getProduct'),
-    array('_renderCellTemplate', 'Magento_Backend_Block_System_Config_Form_Field_Array_Abstract', 'renderCellTemplate'),
+    array('_renderCellTemplate', 'Magento_Backend_Block_System_Config_Form_Field_FieldArray_Abstract', 'renderCellTemplate'),
     array('_showSingle', 'Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option', 'showSingle'),
     array('_getDefaultValues', 'Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option', 'getDefaultValues'),
     array('_isSelected', 'Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option', 'isSelected'),

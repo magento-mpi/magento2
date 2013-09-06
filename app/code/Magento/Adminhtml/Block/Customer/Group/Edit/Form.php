@@ -52,7 +52,7 @@ class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Adminhtml
                 'title' => __('Tax Class'),
                 'class' => 'required-entry',
                 'required' => true,
-                'values' => Mage::getSingleton('Magento_Tax_Model_Class_Source_Customer')->toOptionArray()
+                'values' => Mage::getSingleton('Magento_Tax_Model_TaxClass_Source_Customer')->toOptionArray()
             )
         );
 

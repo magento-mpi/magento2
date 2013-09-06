@@ -57,7 +57,7 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
      */
     protected function _initCacheTypeMocks()
     {
-        $cacheTypes = array('\Magento\Cache\Frontend\Decorator\TagScope', '\Magento\Cache\Frontend\Decorator\Bare');
+        $cacheTypes = array('Magento\Cache\Frontend\Decorator\TagScope', '\Magento\Cache\Frontend\Decorator\Bare');
         foreach ($cacheTypes as $type) {
             $this->_cacheTypeMocks[$type] = $this->getMock($type, array('clean'), array(
                 $this->getMockForAbstractClass('\Magento\Cache\FrontendInterface'), 'FIXTURE_TAG'

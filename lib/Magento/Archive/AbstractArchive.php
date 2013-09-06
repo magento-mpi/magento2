@@ -31,7 +31,7 @@ class AbstractArchive
     {
         $destination = trim($destination);
         if(false === file_put_contents($destination, $data)) {
-            throw new \Magento\Exception("Can't write to file: " . $destination);
+            throw new \Exception("Can't write to file: " . $destination);
         }
         return true;
     }

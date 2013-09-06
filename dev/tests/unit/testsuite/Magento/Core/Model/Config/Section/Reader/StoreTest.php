@@ -113,8 +113,8 @@ class Magento_Core_Model_Config_Section_Reader_StoreTest extends PHPUnit_Framewo
             ->method('create')
             ->with(array('scope' => 'stores', 'scopeId' => $storeId))
             ->will($this->returnValue(array(
-                new Magento_Object(array('path' => 'config/key1', 'value' => 'store_db_value1')),
-                new Magento_Object(array('path' => 'config/key3', 'value' => 'store_db_value3')),
+                new \Magento\Object(array('path' => 'config/key1', 'value' => 'store_db_value1')),
+                new \Magento\Object(array('path' => 'config/key3', 'value' => 'store_db_value3')),
             )));
         $expectedData = array(
             'config' => array(

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_Class_Type_CustomerTest extends PHPUnit_Framework_TestCase
+class Magento_Tax_Model_TaxClass_Type_CustomerTest extends PHPUnit_Framework_TestCase
 {
     public function testGetAssignedObjects()
     {
@@ -33,9 +33,9 @@ class Magento_Tax_Model_Class_Type_CustomerTest extends PHPUnit_Framework_TestCa
             ->will($this->returnValue($collectionMock));
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        /** @var $model Magento_Tax_Model_Class_Type_Customer */
+        /** @var $model Magento_Tax_Model_TaxClass_Type_Customer */
         $model = $objectManagerHelper->getObject(
-            'Magento_Tax_Model_Class_Type_Customer',
+            'Magento_Tax_Model_TaxClass_Type_Customer',
             array(
                 'modelCustomerGroup' => $customerGroupMock,
                 'data' => array('id' => 5)

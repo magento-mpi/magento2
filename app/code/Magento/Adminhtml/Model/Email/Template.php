@@ -25,7 +25,7 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
 
     /**
      * @param Magento_Core_Model_Context $context
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_Config $config
@@ -33,7 +33,7 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
      */
     public function __construct(
         Magento_Core_Model_Context $context,
-        Magento_Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_Config $config,

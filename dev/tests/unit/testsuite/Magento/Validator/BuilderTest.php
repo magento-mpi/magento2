@@ -350,7 +350,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
     {
         $constraints = array(array(
             'alias' => 'alias',
-            'class' => '\Magento\Object',
+            'class' => 'Magento\Object',
             'options' => null,
             'type' => 'entity'
         ));

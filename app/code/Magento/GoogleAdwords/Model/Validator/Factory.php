@@ -39,7 +39,7 @@ class Magento_GoogleAdwords_Model_Validator_Factory
                 array(
                     'alias' => 'Regex',
                     'type' => '',
-                    'class' => '\Magento\Validator\Regex',
+                    'class' => 'Magento\Validator\Regex',
                     'options' => array(
                         'arguments' => array('/^[0-9a-f]{6}$/i'),
                         'methods' => array(
@@ -76,7 +76,7 @@ class Magento_GoogleAdwords_Model_Validator_Factory
                 array(
                     'alias' => 'Int',
                     'type' => '',
-                    'class' => '\Magento\Validator\Int',
+                    'class' => 'Magento\Validator\Int',
                     'options' => array(
                         'methods' => array(
                             array(

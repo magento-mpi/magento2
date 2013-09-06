@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Ftp
+class \Magento\Connect\Ftp
 {
     /**
      * Connection object

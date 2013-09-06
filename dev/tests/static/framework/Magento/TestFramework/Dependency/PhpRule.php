@@ -35,7 +35,7 @@ class Magento_TestFramework_Dependency_PhpRule implements Magento_TestFramework_
         if (preg_match_all($pattern, $contents, $matches)) {
             $matches['module'] = array_unique($matches['module']);
             foreach ($matches['module'] as $i => $referenceModule) {
-                if ($currentModule == $referenceModule || $referenceModule == 'Magento_Exception') {
+                if ($currentModule == $referenceModule || $referenceModule == '\Magento\MagentoException') {
                     continue;
                 }
                 $dependenciesInfo[] = array(

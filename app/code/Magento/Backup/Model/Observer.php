@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  * Backup Observer
  *
  * @category   Magento
- * @package    Magento_Backup
+ * @package    \Magento\Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backup_Model_Observer
@@ -48,7 +48,7 @@ class Magento_Backup_Model_Observer
 
         $this->_errors = array();
         try {
-            $backupManager = Magento_Backup::getBackupInstance($type)
+            $backupManager = \Magento\Backup::getBackupInstance($type)
                 ->setBackupExtension(Mage::helper('Magento_Backup_Helper_Data')->getExtensionByType($type))
                 ->setTime(time())
                 ->setBackupsDir(Mage::helper('Magento_Backup_Helper_Data')->getBackupsDir());

@@ -57,8 +57,8 @@ class Magento_Core_Model_Image_AdapterFactory
         $this->_configWriter = $configWriter;
         $this->_config = $configModel;
         $this->_adapterClasses = array(
-            self::ADAPTER_GD2 => '\Magento\Image\Adapter\Gd2',
-            self::ADAPTER_IM => '\Magento\Image\Adapter\ImageMagick',
+            self::ADAPTER_GD2 => 'Magento\Image\Adapter\Gd2',
+            self::ADAPTER_IM => 'Magento\Image\Adapter\ImageMagick',
         );
     }
 

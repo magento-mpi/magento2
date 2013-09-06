@@ -12,7 +12,7 @@
 class Magento_Core_Model_Layout_File_Source_Aggregated implements Magento_Core_Model_Layout_File_SourceInterface
 {
     /**
-     * @var Magento_Core_Model_Layout_File_List_Factory
+     * @var Magento_Core_Model_Layout_File_FileList_Factory
      */
     private $_fileListFactory;
 
@@ -37,14 +37,14 @@ class Magento_Core_Model_Layout_File_Source_Aggregated implements Magento_Core_M
     private $_overridingThemeFiles;
 
     /**
-     * @param Magento_Core_Model_Layout_File_List_Factory $fileListFactory
+     * @param Magento_Core_Model_Layout_File_FileList_Factory $fileListFactory
      * @param Magento_Core_Model_Layout_File_SourceInterface $baseFiles
      * @param Magento_Core_Model_Layout_File_SourceInterface $themeFiles
      * @param Magento_Core_Model_Layout_File_SourceInterface $overridingBaseFiles
      * @param Magento_Core_Model_Layout_File_SourceInterface $overridingThemeFiles
      */
     public function __construct(
-        Magento_Core_Model_Layout_File_List_Factory $fileListFactory,
+        Magento_Core_Model_Layout_File_FileList_Factory $fileListFactory,
         Magento_Core_Model_Layout_File_SourceInterface $baseFiles,
         Magento_Core_Model_Layout_File_SourceInterface $themeFiles,
         Magento_Core_Model_Layout_File_SourceInterface $overridingBaseFiles,

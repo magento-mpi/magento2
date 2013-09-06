@@ -45,7 +45,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Fr
     public function getAdapterDataProvider()
     {
         return array(
-            array('\Magento\DB\Adapter\Pdo\Mysql'),
+            array('Magento\DB\Adapter\Pdo\Mysql'),
             array(''),
             array(null),
         );

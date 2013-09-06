@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Config_SchemaLocatorInterface
+namespace Magento\Config;
+
+interface SchemaLocatorInterface
 {
     /**
      * Get path to merged config schema

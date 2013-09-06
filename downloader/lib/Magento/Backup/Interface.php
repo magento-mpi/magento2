@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Interface for work with archives
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Magento_Backup_Interface
+interface \Magento\Backup\BackupInterface
 {
     /**
      * Create Backup
@@ -35,7 +35,7 @@ interface Magento_Backup_Interface
      * Set Backup Extension
      *
      * @param string $backupExtension
-     * @return Magento_Backup_Interface
+     * @return \Magento\Backup\BackupInterface
      */
     public function setBackupExtension($backupExtension);
 
@@ -43,7 +43,7 @@ interface Magento_Backup_Interface
      * Set Resource Model
      *
      * @param object $resourceModel
-     * @return Magento_Backup_Interface
+     * @return \Magento\Backup\BackupInterface
      */
     public function setResourceModel($resourceModel);
 
@@ -51,7 +51,7 @@ interface Magento_Backup_Interface
      * Set Time
      *
      * @param int $time
-     * @return Magento_Backup_Interface
+     * @return \Magento\Backup\BackupInterface
      */
     public function setTime($time);
 
@@ -66,7 +66,7 @@ interface Magento_Backup_Interface
      * Set path to directory where backups stored
      *
      * @param string $backupsDir
-     * @return Magento_Backup_Interface
+     * @return \Magento\Backup\BackupInterface
      */
     public function setBackupsDir($backupsDir);
 }

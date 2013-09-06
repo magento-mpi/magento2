@@ -1004,7 +1004,7 @@ final class Magento_Downloader_Controller
         try {
             $type = $this->_getBackupTypeByCode($archiveType);
 
-            $backupManager = Magento_Backup::getBackupInstance($type)
+            $backupManager = \Magento\Backup::getBackupInstance($type)
                 ->setBackupExtension(Mage::helper('Magento_Backup_Helper_Data')->getExtensionByType($type))
                 ->setTime(time())
                 ->setName($archiveName)

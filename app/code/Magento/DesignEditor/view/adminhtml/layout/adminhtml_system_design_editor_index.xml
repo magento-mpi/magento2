@@ -43,15 +43,15 @@
                     <argument name="block" xsi:type="string">customizations.themes.tab</argument>
                 </action>
                 <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Available" name="available.themes.tab">
-                    <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available" name="available.theme.list" template="Magento_DesignEditor::theme/list/available.phtml">
+                    <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Available" name="available.theme.list" template="Magento_DesignEditor::theme/list/available.phtml">
                         <block class="Magento_DesignEditor_Block_Adminhtml_Theme" name="available.theme.item" as="item" template="Magento_DesignEditor::theme/available.phtml"/>
                     </block>
                 </block>
                 <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Customizations" name="customizations.themes.tab" template="Magento_DesignEditor::theme/selector/my_customizations_tab.phtml">
-                    <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Assigned" name="assigned.theme.list" template="Magento_DesignEditor::theme/list/customized.phtml">
+                    <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Assigned" name="assigned.theme.list" template="Magento_DesignEditor::theme/list/customized.phtml">
                         <block class="Magento_DesignEditor_Block_Adminhtml_Theme" name="assigned.theme" as="theme" template="Magento_DesignEditor::theme/customized.phtml"/>
                     </block>
-                    <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned" name="unassigned.theme.list" template="Magento_DesignEditor::theme/list/customized.phtml">
+                    <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Unassigned" name="unassigned.theme.list" template="Magento_DesignEditor::theme/list/customized.phtml">
                         <block class="Magento_DesignEditor_Block_Adminhtml_Theme" name="unassigned.theme" as="theme" template="Magento_DesignEditor::theme/customized.phtml"/>
                     </block>
                 </block>

@@ -11,7 +11,7 @@
 /**
  * Command-line options parsing class.
  */
-class Magento_System_Args
+class \Magento\System\Args
 {
     public $flags;
     public $filtered;

@@ -192,7 +192,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
             array('Magento_Core_Model_Config', $configMock),
             array('Magento_Core_Model_Event_Manager', $eventManager),
             array('Magento_Core_Model_StoreManager', $storeManager),
-            array('\Magento\AuthorizationInterface', $authMock),
+            array('Magento\AuthorizationInterface', $authMock),
             array('Magento_Backend_Model_Session', $backendSession),
             array('Magento_Core_Model_Translate_Inline', $inlineMock),
             array('Magento_Core_Model_Layout_Filter_Acl', $aclFilterMock),

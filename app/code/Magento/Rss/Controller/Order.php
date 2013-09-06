@@ -74,7 +74,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
         }
 
         // verify if logged in and authorized
-        if (!$session->isLoggedIn() || !Mage::getSingleton('\Magento\AuthorizationInterface')->isAllowed($aclResource)) {
+        if (!$session->isLoggedIn() || !Mage::getSingleton('Magento\AuthorizationInterface')->isAllowed($aclResource)) {
             Mage::helper('Magento_Core_Helper_Http')->failHttpAuthentication($controller->getResponse(), 'RSS Feeds');
             $controller->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;

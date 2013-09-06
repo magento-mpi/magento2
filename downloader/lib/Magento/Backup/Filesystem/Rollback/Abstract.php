@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,24 +12,24 @@
  * Filesystem rollback workers abstract class
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Backup_Filesystem_Rollback_Abstract
+abstract class \Magento\Backup\Filesystem\Rollback\AbstractRollback
 {
     /**
      * Snapshot object
      *
-     * @var Magento_Backup_Filesystem
+     * @var \Magento\Backup\Filesystem
      */
     protected $_snapshot;
 
     /**
      * Default worker constructor
      *
-     * @param Magento_Backup_Filesystem $snapshotObject
+     * @param \Magento\Backup\Filesystem $snapshotObject
      */
-    public function __construct(Magento_Backup_Filesystem $snapshotObject)
+    public function __construct(\Magento\Backup\Filesystem $snapshotObject)
     {
         $this->_snapshot = $snapshotObject;
     }

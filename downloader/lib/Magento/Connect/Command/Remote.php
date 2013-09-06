@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 
-final class Magento_Connect_Command_Remote
-extends Magento_Connect_Command
+final class \Magento\Connect\Command\Remote
+extends \Magento\Connect\Command
 {
 
     /**
@@ -24,7 +24,7 @@ extends Magento_Connect_Command
 
         $this->cleanupParams($params);
         try {
-            $packager = new Magento_Connect_Packager();
+            $packager = new \Magento\Connect\Packager();
             $channelAuth = isset($options['auth'])?$options['auth']:array();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
@@ -71,7 +71,7 @@ extends Magento_Connect_Command
         $this->cleanupParams($params);
 
         try {
-            $packager = new Magento_Connect_Packager();
+            $packager = new \Magento\Connect\Packager();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
@@ -193,7 +193,7 @@ extends Magento_Connect_Command
     {
         $this->cleanupParams($params);
         try {
-            $packager = new Magento_Connect_Packager();
+            $packager = new \Magento\Connect\Packager();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
                 list($cache, $ftpObj) = $packager->getRemoteCache($ftp);

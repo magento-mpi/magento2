@@ -11,7 +11,7 @@
 
 namespace Magento\Connect\Channel;
 
-class VO implements Iterator
+class VO implements \Iterator
 {
     
     private $_validator = null;

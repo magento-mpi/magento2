@@ -350,7 +350,7 @@ final class Mage
     public static function objects($key = null)
     {
         if (!self::$_objects) {
-            self::$_objects = new \Magento\Object\Cache;
+            self::$_objects = new Magento\Object\Cache;
         }
         if (is_null($key)) {
             return self::$_objects;

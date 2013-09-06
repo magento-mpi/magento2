@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -160,7 +160,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isRollbackAllowed()
     {
-        return $this->_authorization->isAllowed('Magento_Backup::rollback' );
+        return $this->_authorization->isAllowed('\Magento\Backup::rollback' );
     }
 
     /**

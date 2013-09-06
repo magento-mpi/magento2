@@ -11,7 +11,7 @@
 namespace Magento\Connect;
 
 class Config
-implements Iterator
+implements \Iterator
 {
     protected $_configFile;
     const HEADER = "::ConnectConfig::v::1.0::";

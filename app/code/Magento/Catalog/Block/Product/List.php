@@ -23,7 +23,7 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
      *
      * @var string
      */
-    protected $_defaultToolbarBlock = 'Magento_Catalog_Block_Product_List_Toolbar';
+    protected $_defaultToolbarBlock = 'Magento_Catalog_Block_Product_ProductList_Toolbar';
 
     /**
      * Product Collection
@@ -154,7 +154,7 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
     /**
      * Retrieve Toolbar block
      *
-     * @return Magento_Catalog_Block_Product_List_Toolbar
+     * @return Magento_Catalog_Block_Product_ProductList_Toolbar
      */
     public function getToolbarBlock()
     {

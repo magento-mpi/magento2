@@ -17,7 +17,7 @@ class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
         $config = array(
             'backend_decorators' => array(
                 'test_decorator' => array(
-                    'class' => '\Magento\Cache\Backend\Decorator\Compression',
+                    'class' => 'Magento\Cache\Backend\Decorator\Compression',
                     'options' => array(
                         'compression_threshold' => '100',
                     )

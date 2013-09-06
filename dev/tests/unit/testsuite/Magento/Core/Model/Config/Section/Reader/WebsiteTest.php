@@ -101,8 +101,8 @@ class Magento_Core_Model_Config_Section_Reader_WebsiteTest extends PHPUnit_Frame
             ->method('create')
             ->with(array('scope' => 'websites', 'scopeId' => $websiteId))
             ->will($this->returnValue(array(
-                new Magento_Object(array('path' => 'config/key1', 'value' => 'website_db_value1')),
-                new Magento_Object(array('path' => 'config/key3', 'value' => 'website_db_value3')),
+                new \Magento\Object(array('path' => 'config/key1', 'value' => 'website_db_value1')),
+                new \Magento\Object(array('path' => 'config/key3', 'value' => 'website_db_value3')),
             )));
         $expectedData = array(
             'config' => array(

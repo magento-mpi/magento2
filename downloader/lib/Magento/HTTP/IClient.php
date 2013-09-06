@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Magento_HTTP_IClient
+interface \Magento\HTTP\IClient
 {
     /**
      * Set request timeout

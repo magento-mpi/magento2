@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_Class_Type_ProductTest extends PHPUnit_Framework_TestCase
+class Magento_Tax_Model_TaxClass_Type_ProductTest extends PHPUnit_Framework_TestCase
 {
     public function testGetAssignedObjects()
     {
@@ -33,9 +33,9 @@ class Magento_Tax_Model_Class_Type_ProductTest extends PHPUnit_Framework_TestCas
             ->will($this->returnValue($collectionMock));
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        /** @var $model Magento_Tax_Model_Class_Type_Product */
+        /** @var $model Magento_Tax_Model_TaxClass_Type_Product */
         $model = $objectManagerHelper->getObject(
-            'Magento_Tax_Model_Class_Type_Product',
+            'Magento_Tax_Model_TaxClass_Type_Product',
             array(
                 'modelProduct' => $productMock,
                 'data' => array('id' => 1)
