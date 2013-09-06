@@ -20,6 +20,25 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main_Renderer_Checkbox
     implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
+     * @var Magento_Data_Form_Element_Factory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @param Magento_Data_Form_Element_Factory $elementFactory
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Element_Factory $elementFactory,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_elementFactory = $elementFactory;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Checkbox render function
      *
      * @param Magento_Data_Form_Element_Abstract $element
@@ -27,7 +46,8 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main_Renderer_Checkbox
      */
     public function render(Magento_Data_Form_Element_Abstract $element)
     {
-        $checkbox = new Magento_Data_Form_Element_Checkbox($element->getData());
+        /** @var Magento_Data_Form_Element_Checkbox $checkbox */
+        $checkbox = $this->_elementFactory->create('text', $element->getData());
         $checkbox->setForm($element->getForm());
 
         $elementHtml = sprintf(
