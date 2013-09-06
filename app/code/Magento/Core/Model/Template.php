@@ -132,6 +132,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     {
         if ($this->_designConfig === null) {
             if ($this->_area === null) {
+                mageDebugBacktrace(0,0,1);
                 $this->_area = $this->_design->getArea();
             }
             if ($this->_store === null) {
