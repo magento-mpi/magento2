@@ -27,6 +27,7 @@ app/code/Magento/Catalog/Block/Product/TemplateSelector.php
 app/code/Magento/Catalog/Block/Product/View/Tabs.php
 app/code/Magento/Catalog/Model/Resource/Product/Collection
 app/code/Magento/Catalog/Model/Product/Type.php
+app/code/Magento/Catalog/Model/Plugin
 app/code/Magento/Catalog/Model/Observer/Reindex.php
 app/code/Magento/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/Magento/Centinel/Model/State/Jcb.php
@@ -61,7 +62,6 @@ app/code/Magento/Core/Model/ObjectManager
 app/code/Magento/Core/Model/Observer.php
 app/code/Magento/Core/Model/Page
 app/code/Magento/Core/Model/Page.php
-app/code/Magento/Core/Model/Plugin
 app/code/Magento/Core/Model/Resource/Setup/Migration.php
 app/code/Magento/Core/Model/Resource/Theme
 app/code/Magento/Core/Model/Resource/Theme.php
