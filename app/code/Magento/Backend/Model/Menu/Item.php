@@ -474,7 +474,7 @@ class Magento_Backend_Model_Menu_Item
     public function __wakeup()
     {
         if (Mage::getIsSerializable()) {
-            $this->_moduleHelper = Mage::helper($this->_moduleHelperName);
+            $this->_moduleHelper = Magento_Core_Model_ObjectManager::getInstance()->get($this->_moduleHelperName);
             $this->_validator = Magento_Core_Model_ObjectManager::getInstance()
                 ->get('Magento_Backend_Model_Menu_Item_Validator');
             $this->_acl = Magento_Core_Model_ObjectManager::getInstance()
