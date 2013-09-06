@@ -15,7 +15,7 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Model_System_Config_Backend_Data_Transfer_Key extends Magento_Core_Model_Config_Data
+class Magento_Pbridge_Model_System_Config_Backend_Data_Transfer_Key extends Magento_Core_Model_Config_Value
 {
     /**
      * Checks data transfer key length

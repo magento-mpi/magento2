@@ -111,7 +111,7 @@ class Magento_TestFramework_Dependency_TemplateRule implements Magento_TestFrame
             }
         }
 
-        $this->_namespaces = implode('|', Utility_Files::init()->getNamespaces());
+        $this->_namespaces = implode('|', Magento_TestFramework_Utility_Files::init()->getNamespaces());
     }
 
     /**

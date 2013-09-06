@@ -22,7 +22,7 @@ class Magento_FullPageCache_Model_Container_Customer extends Magento_FullPageCac
      */
     protected function _saveCache($data, $id, $tags = array(), $lifetime = null)
     {
-        $lifetime = Mage::getConfig()->getNode(Magento_Core_Model_Cookie::XML_PATH_COOKIE_LIFETIME);
+        $lifetime = Mage::getConfig()->getValue(Magento_Core_Model_Cookie::XML_PATH_COOKIE_LIFETIME, 'default');
         return parent::_saveCache($data, $id, $tags, $lifetime);
     }
 }

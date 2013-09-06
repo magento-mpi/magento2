@@ -140,19 +140,19 @@
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/static/framework/Dependency/_files/tables_ee.php</path>
+            <path>dev/tests/static/framework/Magento/TestFramework/Dependency/_files/tables_ee.php</path>
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/static/testsuite/Legacy/FilesystemEnterpriseTest.php</path>
+            <path>dev/tests/static/testsuite/Magento/Test/Integrity/ClassesTest.php</path>
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/static/testsuite/Integrity/ClassesTest.php</path>
+            <path>dev/tests/static/testsuite/Magento/Test/Legacy/ClassesTest.php</path>
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/static/testsuite/Legacy/ClassesTest.php</path>
+            <path>static_tests_no_js.xml</path>
         </item>
         <item>
             <word>{copyright}</word>

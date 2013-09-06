@@ -27,24 +27,6 @@
                 </wishlist_email_email_template>
             </email>
         </template>
-        <events>
-            <checkout_cart_update_items_before>
-                <observers>
-                    <wishlist>
-                        <class>Magento_Wishlist_Model_Observer</class>
-                        <method>processCartUpdateBefore</method>
-                    </wishlist>
-                </observers>
-            </checkout_cart_update_items_before>
-            <checkout_cart_add_product_complete>
-                <observers>
-                    <wishlist>
-                        <class>Magento_Wishlist_Model_Observer</class>
-                        <method>processAddToCart</method>
-                    </wishlist>
-                </observers>
-            </checkout_cart_add_product_complete>
-        </events>
         <wishlist>
             <item>
                 <product_attributes>
@@ -56,15 +38,6 @@
         </wishlist>
     </global>
     <frontend>
-        <routers>
-            <wishlist>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Wishlist</module>
-                    <frontName>wishlist</frontName>
-                </args>
-            </wishlist>
-        </routers>
         <translate>
             <modules>
                 <Magento_Wishlist>
@@ -74,24 +47,6 @@
                 </Magento_Wishlist>
             </modules>
         </translate>
-        <events>
-            <customer_login>
-                <observers>
-                    <wishlist>
-                        <class>Magento_Wishlist_Model_Observer</class>
-                        <method>customerLogin</method>
-                    </wishlist>
-                </observers>
-            </customer_login>
-            <customer_logout>
-                <observers>
-                    <wishlist>
-                        <class>Magento_Wishlist_Model_Observer</class>
-                        <method>customerLogout</method>
-                    </wishlist>
-                </observers>
-            </customer_logout>
-        </events>
         <secure_url>
             <wishlist>/wishlist/</wishlist>
         </secure_url>
@@ -120,4 +75,4 @@
             </email>
         </wishlist>
     </default>
-</config>
+</config>

@@ -58,12 +58,6 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
             'Magento_Core_Model_ModuleList',
             array('reader' => $filesystemReader, 'cache' => $this->getMock("\Magento\Config\CacheInterface"))
         );
-        $reader = $this->_objectManager->create(
-            'Magento_Core_Model_Config_Modules_Reader', array('dirs' => $dirs, 'moduleList' => $moduleList)
-        );
-        $modulesLoader = $this->_objectManager->create(
-            'Magento_Core_Model_Config_Loader_Modules', array('dirs' => $dirs, 'fileReader' => $reader)
-        );
 
         /**
          * Mock is used to disable caching, as far as Integration Tests Framework loads main
@@ -78,26 +72,23 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
             ->method('load')
             ->will($this->returnValue(false));
 
-        /** @var Magento_Core_Model_Config_Storage $storage */
-        $storage = $this->_objectManager->create(
-            'Magento_Core_Model_Config_Storage', array(
-                'loader' => $modulesLoader,
-                'cache' => $cache
-            )
-        );
-
-        /** @var Magento_Core_Model_Config_Modules $modulesConfig */
-        $modulesConfig = $this->_objectManager->create(
-            'Magento_Core_Model_Config_Modules', array(
-                'storage' => $storage
-            )
-        );
-
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
         $moduleReader = $this->_objectManager->create(
             'Magento_Core_Model_Config_Modules_Reader', array(
                 'dirs' => $dirs,
-                'modulesConfig' => $modulesConfig
+                'moduleList' => $moduleList
+            )
+        );
+
+        $loader = $this->_objectManager->create(
+            'Magento_Core_Model_Config_Loader',
+            array('fileReader' => $moduleReader)
+        );
+        /** @var Magento_Core_Model_Config_Storage $storage */
+        $storage = $this->_objectManager->create(
+            'Magento_Core_Model_Config_Storage', array(
+                'loader' => $loader,
+                'cache' => $cache
             )
         );
 

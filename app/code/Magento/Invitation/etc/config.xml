@@ -28,17 +28,6 @@
             </email>
         </template>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <magento_invitation before="Magento_Adminhtml">Magento_Invitation_Adminhtml</magento_invitation>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -70,25 +59,6 @@
                 </Magento_Invitation>
             </modules>
         </translate>
-        <routers>
-            <magento_invitation>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Invitation</module>
-                    <frontName>invitation</frontName>
-                </args>
-            </magento_invitation>
-        </routers>
-        <events>
-            <customer_registration_is_allowed>
-                <observers>
-                    <magento_invitation>
-                        <class>Magento_Invitation_Model_Observer</class>
-                        <method>restrictCustomerRegistration</method>
-                    </magento_invitation>
-                </observers>
-            </customer_registration_is_allowed>
-        </events>
         <secure_url>
             <invitation>/invitation/</invitation>
         </secure_url>
@@ -109,4 +79,4 @@
             </general>
         </magento_invitation>
     </default>
-</config>
+</config>

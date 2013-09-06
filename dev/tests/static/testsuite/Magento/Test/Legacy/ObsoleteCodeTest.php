@@ -150,7 +150,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     public function phtmlFileDataProvider()
     {
-        return Utility_Files::init()->getPhpFiles(false, false, true);
+        return Magento_TestFramework_Utility_Files::init()->getPhpFiles(false, false, true);
     }
 
     /**

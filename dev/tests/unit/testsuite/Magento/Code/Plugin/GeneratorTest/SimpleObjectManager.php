@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class SimpleObjectManager implements \Magento\ObjectManager
+class Magento_Code_Plugin_GeneratorTest_SimpleObjectManager implements \Magento\ObjectManager
 {
 
     /**

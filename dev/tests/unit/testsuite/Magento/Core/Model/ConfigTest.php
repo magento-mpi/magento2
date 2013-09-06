@@ -26,15 +26,14 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_moduleListMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_sectionPoolMock;
+
     public function setUp()
     {
         $xml = '<config>
-                    <modules>
-                        <Module>
-                            <version>1.6.0.0</version>
-                            <active>false</active>
-                        </Module>
-                    </modules>
                     <global>
                         <areas>
                             <adminhtml>
@@ -60,48 +59,24 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $configBase = new Magento_Core_Model_Config_Base($xml);
         $objectManagerMock = $this->getMock('Magento_Core_Model_ObjectManager', array(), array(), '', false);
-        $appMock = $this->getMock('Magento_Core_Model_AppInterface');
         $configStorageMock = $this->getMock('Magento_Core_Model_Config_StorageInterface');
         $configStorageMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($configBase));
         $modulesReaderMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false);
-        $invalidatorMock = $this->getMock('Magento_Core_Model_Config_InvalidatorInterface');
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
+        $this->_sectionPoolMock = $this->getMock('Magento_Core_Model_Config_SectionPool', array(), array(), '', false);
 
         $this->_model = new Magento_Core_Model_Config(
-            $objectManagerMock, $configStorageMock, $appMock, $modulesReaderMock, $this->_moduleListMock,
-            $invalidatorMock, $this->_configScopeMock
+            $objectManagerMock, $configStorageMock, $modulesReaderMock, $this->_moduleListMock,
+            $this->_configScopeMock, $this->_sectionPoolMock
         );
     }
-
-    public function testGetXpathMissingXpath()
-    {
-        $xpath = $this->_model->getXpath('global/resources/module_setup/setup/module1');
-        $xpath = $xpath; // PHPMD bug: unused local variable warning
-        $this->assertEquals(false, $xpath);
-    }
-
-    public function testGetXpath()
-    {
-        /** @var Magento_Core_Model_Config_Element $tmp */
-        $node = 'Module';
-        $expected = array($node);
-
-        $xpath = $this->_model->getXpath('global/resources/module_setup/setup/module');
-        $xpath = $xpath; // PHPMD bug: unused local variable warning
-        $this->assertEquals($expected, $xpath);
-    }
-
     public function testSetNodeData()
     {
         $this->_model->setNode('some/custom/node', 'true');
 
-        /** @var Magento_Core_Model_Config_Element $tmp */
-        $node = 'true';
-        $expected = array($node);
-
-        $actual = $this->_model->getXpath('some/custom/node');
-        $this->assertEquals($expected, $actual);
+        $actual = (string)$this->_model->getNode('some/custom/node');
+        $this->assertEquals('true', $actual);
     }
 
     public function testGetNode()
@@ -130,17 +105,35 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->_model->getAreas());
     }
 
-    public function testGetRouters()
+    public function testSetValue()
     {
-        $expected = array(
-            'admin' => array(
-                'class' => 'class',
-                'base_controller' => 'base_controller',
-                'frontName' => 'backend',
-                'area' => 'adminhtml',
-            ),
-        );
-
-        $this->assertEquals($expected, $this->_model->getRouters());
+        $scope = 'default';
+        $scopeCode = null;
+        $value = 'test';
+        $path = 'test/path';
+        $sectionMock = $this->getMock('Magento_Core_Model_Config_Data', array(), array(), '', false);
+        $this->_sectionPoolMock->expects($this->once())
+            ->method('getSection')
+            ->with($scope, $scopeCode)
+            ->will($this->returnValue($sectionMock));
+        $sectionMock->expects($this->once())
+            ->method('setValue')
+            ->with($path, $value);
+        $this->_model->setValue($path, $value);
     }
+
+    public function testGetValue()
+    {
+        $path = 'test/path';
+        $scope = 'default';
+        $scopeCode = null;
+        $sectionMock = $this->getMock('Magento_Core_Model_Config_Data', array(), array(), '', false);
+        $this->_sectionPoolMock->expects($this->once())->method('getSection')->with($scope, $scopeCode)
+            ->will($this->returnValue($sectionMock));
+        $sectionMock->expects($this->once())
+            ->method('getValue')
+            ->with($path);
+        $this->_model->getValue($path);
+    }
+
 }

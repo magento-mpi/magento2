@@ -400,7 +400,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     static protected function _getRelativeFilename($absoluteFilename)
     {
-        $relativeFileName = str_replace(Magento_TestFrameworkUtility_Files::init()->getPathToSource(),
+        $relativeFileName = str_replace(Magento_TestFramework_Utility_Files::init()->getPathToSource(),
             '', $absoluteFilename);
         return trim(str_replace('\\', '/', $relativeFileName), '/');
     }

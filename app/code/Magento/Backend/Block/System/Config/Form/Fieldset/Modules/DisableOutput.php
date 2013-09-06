@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-
+/**
+ * @method Magento_Backend_Block_System_Config_Form getForm()
+ */
 class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     extends Magento_Backend_Block_System_Config_Form_Fieldset
 {
@@ -125,7 +127,7 @@ class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
             $data = $configData[$path];
             $inherit = false;
         } else {
-            $data = (int)(string)$this->getForm()->getConfigRoot()->descend($path);
+            $data = (int)(string)$this->getForm()->getConfigValue($path);
             $inherit = true;
         }
 

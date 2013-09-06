@@ -40,31 +40,25 @@ class Magento_Backend_Model_Config_Structure_Reader extends \Magento\Config\Read
     );
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param Magento_Backend_Model_Config_Structure_Converter $converter
+     * @param Magento_Backend_Model_Config_SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
-     * @param string $schemaFile
-     * @param bool $isValidated
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $moduleReader,
         \Magento\Config\FileResolverInterface $fileResolver,
         Magento_Backend_Model_Config_Structure_Converter $converter,
+        Magento_Backend_Model_Config_SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'system.xml',
         $idAttributes = array(),
-        $schemaFile = null,
-        $isValidated = true,
         $domDocumentClass = '\Magento\Config\Dom'
     ) {
-        $schema = $moduleReader->getModuleDir('etc', 'Magento_Backend') . DIRECTORY_SEPARATOR . 'system.xsd';
-        $perFileSchema =
-            $moduleReader->getModuleDir('etc', 'Magento_Backend') . DIRECTORY_SEPARATOR . 'system_file.xsd';
         parent::__construct(
-            $fileResolver, $converter, $fileName, $idAttributes,
-            $schema, $perFileSchema, $isValidated, $domDocumentClass
+            $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass
         );
     }
 }

@@ -82,7 +82,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture               global/webhook/webhooks/test/hook/label 'Test Hook'
+     * @magentoConfigFixture global/webhook/webhooks/test/hook/label 'Test Hook'
      */
     public function testAfterWebapiUserChange()
     {
@@ -102,7 +102,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture               global/webhook/webhooks/test/hook/label 'Test Hook'
+     * @magentoConfigFixture global/webhook/webhooks/test/hook/label 'Test Hook'
      */
     public function testAfterWebapiRoleChange()
     {

@@ -33,6 +33,11 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
     protected $_validationState;
 
     /**
+     * @var Magento_ObjectManager_Config_SchemaLocator
+     */
+    protected $_schemaLocator;
+
+    /**
      * @var \Magento\ObjectManager\Config\Mapper\Dom
      */
     protected $_mapper;
@@ -51,6 +56,7 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
         $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue($this->_fileList));
         $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom();
         $this->_validationState = new Magento_Core_Model_Config_ValidationState(new Magento_Core_Model_App_State());
+        $this->_schemaLocator = new Magento_ObjectManager_Config_SchemaLocator();
 
         $this->_mergedConfig = new DOMDocument();
         $this->_mergedConfig->load($fixturePath . 'config_merged.xml');
@@ -58,8 +64,12 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
 
     public function testRead()
     {
-        $model = new \Magento\ObjectManager\Config\Reader\Dom($this->_fileResolverMock,
-            $this->_mapper, $this->_validationState);
+        $model = new \Magento\ObjectManager\Config\Reader\Dom(
+            $this->_fileResolverMock,
+            $this->_mapper,
+            $this->_schemaLocator,
+            $this->_validationState
+        );
         $this->assertEquals($this->_mapper->convert($this->_mergedConfig), $model->read('scope'));
     }
 

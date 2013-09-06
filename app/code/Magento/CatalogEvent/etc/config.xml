@@ -31,72 +31,6 @@
         </catalog>
     </default>
     <frontend>
-        <events>
-            <catalog_category_load_after>
-                <observers>
-                    <magento_catalogevent>
-                        <class>Magento_CatalogEvent_Model_Observer</class>
-                        <method>applyEventToCategory</method>
-                    </magento_catalogevent>
-                </observers>
-            </catalog_category_load_after>
-            <catalog_controller_product_init_after>
-                <observers>
-                    <magento_catalogevent>
-                        <class>Magento_CatalogEvent_Model_Observer</class>
-                        <method>applyEventToProduct</method>
-                    </magento_catalogevent>
-                </observers>
-            </catalog_controller_product_init_after>
-            <review_controller_product_init_after>
-                <observers>
-                    <magento_catalogevent>
-                        <class>Magento_CatalogEvent_Model_Observer</class>
-                        <method>applyEventToProduct</method>
-                    </magento_catalogevent>
-                </observers>
-            </review_controller_product_init_after>
-            <catalog_category_collection_load_after>
-                <observers>
-                    <magento_catalogevent>
-                        <class>Magento_CatalogEvent_Model_Observer</class>
-                        <method>applyEventToCategoryCollection</method>
-                    </magento_catalogevent>
-                </observers>
-            </catalog_category_collection_load_after>
-            <catalog_product_collection_load_after>
-                <observers>
-                    <magento_catalogevent>
-                        <class>Magento_CatalogEvent_Model_Observer</class>
-                        <method>applyEventToProductCollection</method>
-                    </magento_catalogevent>
-                </observers>
-            </catalog_product_collection_load_after>
-            <catalog_product_is_salable_after>
-                <observers>
-                    <magento_catalogevent>
-                        <class>Magento_CatalogEvent_Model_Observer</class>
-                        <method>applyIsSalableToProduct</method>
-                    </magento_catalogevent>
-                </observers>
-            </catalog_product_is_salable_after>
-            <checkout_cart_product_add_after>
-                <observers>
-                    <magento_catalogevent>
-                        <class>Magento_CatalogEvent_Model_Observer</class>
-                        <method>applyEventOnQuoteItemSetProduct</method>
-                    </magento_catalogevent>
-                </observers>
-            </checkout_cart_product_add_after>
-            <sales_quote_item_qty_set_after>
-                <observers>
-                    <magento_catalogevent>
-                        <class>Magento_CatalogEvent_Model_Observer</class>
-                        <method>applyEventOnQuoteItemSetQty</method>
-                    </magento_catalogevent>
-                </observers>
-            </sales_quote_item_qty_set_after>
-        </events>
         <translate>
             <modules>
                 <Magento_CatalogEvent>
@@ -107,17 +41,6 @@
             </modules>
         </translate>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <magento_catalogevent before="Magento_Adminhtml">Magento_CatalogEvent_Adminhtml</magento_catalogevent>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -129,4 +52,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

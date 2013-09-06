@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class SimpleClass
+class Magento_Code_Plugin_GeneratorTest_SimpleClass
 {
     /**
      * @return string

@@ -27,9 +27,9 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
     protected $_localConfigFile;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Core_Controller_Request_Http
      */
-    protected $_config;
+    protected $_request;
 
     /**
      * Resource configuration
@@ -51,20 +51,20 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
     protected $_filesystem;
 
     /**
-     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_Config_Resource $resourceConfig
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        Magento_Core_Model_Config $config,
+        Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_Config_Resource $resourceConfig,
         \Magento\Filesystem $filesystem
     ) {
         $this->_localConfigFile = $dirs->getDir(Magento_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
         $this->_dirs = $dirs;
-        $this->_config = $config;
+        $this->_request = $request;
         $this->_resourceConfig = $resourceConfig;
         $this->_filesystem = $filesystem;
     }
@@ -93,7 +93,7 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
             'root_dir' => $this->_dirs->getDir(Magento_Core_Model_Dir::ROOT),
             'app_dir'  => $this->_dirs->getDir(Magento_Core_Model_Dir::APP),
             'var_dir'  => $this->_dirs->getDir(Magento_Core_Model_Dir::VAR_DIR),
-            'base_url' => $this->_config->getDistroBaseUrl(),
+            'base_url' => $this->_request->getDistroBaseUrl(),
         );
         foreach ($defaults as $index => $value) {
             if (!isset($data[$index])) {

@@ -15,4 +15,11 @@ interface ScopeInterface
      * @return string
      */
     public function getCurrentScope();
+
+    /**
+     * Retrieve list of all scopes
+     *
+     * @return array
+     */
+    public function getAllScopes();
 }

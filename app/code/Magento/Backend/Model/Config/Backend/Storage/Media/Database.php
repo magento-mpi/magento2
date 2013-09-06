@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Backend_Model_Config_Backend_Storage_Media_Database extends Magento_Core_Model_Config_Data
+class Magento_Backend_Model_Config_Backend_Storage_Media_Database extends Magento_Core_Model_Config_Value
 {
     /**
      * Create db structure

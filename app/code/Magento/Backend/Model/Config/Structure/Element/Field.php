@@ -237,7 +237,7 @@ class Magento_Backend_Model_Config_Structure_Element_Field
     /**
      * Retrieve backend model
      *
-     * @return Magento_Core_Model_Config_Data
+     * @return Magento_Core_Model_Config_Value
      */
     public function getBackendModel()
     {

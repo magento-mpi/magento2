@@ -42,7 +42,8 @@ class namespacer
     private $allowedFileExtensions = array('php', 'phtml', 'html', 'xml', 'sql');
     private $ignoreFile = "blacklist.txt";
     private $blackListArray = array();
-    private $testDir=array();
+
+
     private $addSlashArray = array(
         "Zend_",
         "Twig_",
@@ -179,8 +180,8 @@ class namespacer
     private $gitShell = null;
 
 
-    private $xmlFile=array();
-    private $phpFile=array();
+    private $xmlFile = array();
+    private $phpFile = array();
 
     public function __construct($path, $rootDirectory, $tesDir = false)
     {
@@ -189,12 +190,8 @@ class namespacer
         $this->rootDirPath = realpath(__DIR__);
         $this->path = $path;
         $this->gitShell = new Magento\Shell(null);
-        $this->gitClassMove();
-        $this->gitListPackageMove();
         $this->rootDirectory = $rootDirectory;
-        if($tesDir){
-            $this->testDir=$path;
-        }
+        $this->gitMove();
         $this->renameFileLogger = time() . $this->renameFileLogger;
         $this->renameClassLogger = time() . $this->renameClassLogger;
         $this->globalScanner = time() . $this->globalScanner;
@@ -210,135 +207,96 @@ class namespacer
         }
     }
 
-    public function gitClassMove()
+    public function gitMove()
     {
-        $params = array(
-            '../../../../../app/code/Magento/Tax/Model/Class',
-            '../../../../../' . 'app/code/Magento/Tax/Model/TaxClass'
+        if (!is_dir($this->rootDirectory)) {
+            die('Git Move is not possible');
+        }
+
+        $reservedFolders = array(
+            '/app/code/Magento/Catalog/Block/Product/List' => '/app/code/Magento/Catalog/Block/Product/ProductList',
+            '/app/code/Magento/Core/Block/Text/List' => '/app/code/Magento/Core/Block/Text/TextList',
+            '/app/code/Magento/Core/Model/Layout/File/List' => '/app/code/Magento/Core/Model/Layout/File/FileList',
+            '/app/code/Magento/DesignEditor/Block/Adminhtml/Theme/Selector/List' => '/app/code/Magento/DesignEditor/Block/Adminhtml/Theme/Selector/SelectorList',
+            '/app/code/Magento/TargetRule/Block/Catalog/Product/List' => '/app/code/Magento/TargetRule/Block/Catalog/Product/ProductList',
+            '/app/code/Magento/Tax/Model/Class' => '/app/code/Magento/Tax/Model/TaxClass',
+            '/app/code/Magento/Tax/Model/Config/Source/Class' => '/app/code/Magento/Tax/Model/Config/Source/TaxClass',
+            '/app/code/Magento/Tax/Model/Resource/Class' => '/app/code/Magento/Tax/Model/Resource/TaxClass',
+            '/app/code/Magento/Usa/Model/Shipping/Carrier/Abstract' => '/app/code/Magento/Usa/Model/Shipping/Carrier/CarrierAbstract',
+            '/app/code/Magento/Backend/Block/System/Config/Form/Field/Array' => '/app/code/Magento/Backend/Block/System/Config/Form/Field/FieldArray'
         );
+        $replaceArray = array();
+        $skipArray = array();
+        foreach ($reservedFolders as $key => $value) {
+            $search = trim(str_replace('/', '_', str_replace('/app/code/', "", $key)));
+            $replace = trim(str_replace('/', '_', str_replace('/app/code/', "", $value)));
+            $replaceArray[$search] = $replace;
+        }
 
         try {
-            if (realpath($params[0]) && !realpath($params[1])) {
-                echo "git-moving $params[0] to $params[1]\n";
-                $this->gitShell->execute(
-                    'git mv %s %s',
-                    $params
-                );
-                $RealPath1 = realpath($params[1]);
-                $files1 = $this->scanDirectory($RealPath1);
-                if (!empty($files1)) {
-                    foreach ($files1 as $key) {
-                        $pattern1 = 'Magento_Tax_Model_Class_';
-                        $rep1 = 'Magento_Tax_Model_TaxClass_';
+            $count = -1;
+            foreach ($reservedFolders as $key => $value) {
+                $count++;
+                $params = array('../../../../../' . $key, '../../../../../' . $value);
+                if (realpath($params[0]) && !realpath($params[1])) {
+                    echo "git-moving $params[0] to $params[1]\n";
+                    $this->gitShell->execute(
+                        'git mv %s %s',
+                        $params
+                    );
 
-                        $cont = str_replace($pattern1, $rep1, file_get_contents($key));
-                        file_put_contents($key, $cont);
-                    }
-
+                } else {
+                    echo "skipping already-moved $params[0]\n";
+                    $skipArray[] = $count;
                 }
-            } else {
-                echo "skipping already-moved $params[0]\n";
-            }
-
-            $params = array(
-                '../../../../../app/code/Magento/Tax/Model/Resource/Class',
-                '../../../../../' . 'app/code/Magento/Tax/Model/Resource/TaxClass'
-            );
-            //git mv %s %s',
-            if (realpath($params[0]) && !realpath($params[1])) {
-                echo "git-moving $params[0] to $params[1]\n";
-                $this->gitShell->execute(
-                    'git mv %s %s',
-                    $params
-                );
-                $RealPath = realpath($params[1]);
-                $files = $this->scanDirectory($RealPath);
-                if (!empty($files)) {
-                    foreach ($files as $key) {
-                        $pattern = 'Magento_Tax_Model_Resource_Class_';
-                        $rep = 'Magento_Tax_Model_Resource_TaxClass_';
-
-                        $cont = str_replace($pattern, $rep, file_get_contents($key));
-                        file_put_contents($key, $cont);
-                    }
-
-                }
-            } else {
-                echo "skipping already-moved $params[0]\n";
             }
         } catch (Exception $e) {
             $string = 'Message: ' . $e->getMessage() . "\n";
             $this->logFile($this->errorLog, $string);
         }
-
-    }
-
-    /**
-     * rename the List package
-     * Magento\Core\Model\Layout\File\List
-     */
-    public function gitListPackageMove()
-    {
-        $params = array(
-            '../../../../../' . 'app/code/Magento/Core/Model/Layout/File/List',
-            '../../../../../' . 'app/code/Magento/Core/Model/Layout/File/ListFile',
-        );
-
-        try {
-            if (realpath($params[0]) && !realpath($params[1])) {
-                echo "git-moving $params[0] to $params[1]\n";
-                $this->gitShell->execute(
-                    'git mv %s %s',
-                    $params
-                );
-                $RealPath1 = realpath($params[1]);
-                $files1 = $this->scanDirectory($RealPath1);
-                if (!empty($files1)) {
-                    foreach ($files1 as $key) {
-                        $pattern1 = 'Magento_Core_Model_' . 'Layout_File_List_';
-                        $rep1 = 'Magento_Core_Model_' . 'Layout_File_ListFile_';
-
-                        $cont = str_replace($pattern1, $rep1, file_get_contents($key));
-                        file_put_contents($key, $cont);
-                    }
-
+        $tempArray = array();
+        if (!empty($skipArray)) {
+            echo "Deleting ClassNames \n";
+            $count = 0;
+            foreach ($replaceArray as $key => $value) {
+                if (!in_array($count, $skipArray)) {
+                    $tempArray[$key] = $value;
                 }
-            } else {
-                echo "skipping already-moved $params[0]\n";
+                $count++;
             }
+            $replaceArray = $tempArray;
 
-            $params = array(
-                '../../../../../dev/tests/unit/testsuite/Magento/Core/Model/Layout/File/List',
-                '../../../../../dev/tests/unit/testsuite/Magento/Core/Model/Layout/File/ListFile'
-            );
-            //git mv %s %s',
-            if (realpath($params[0]) && !realpath($params[1])) {
-                echo "git-moving $params[0] to $params[1]\n";
-                $this->gitShell->execute(
-                    'git mv %s %s',
-                    $params
-                );
-                $RealPath = realpath($params[1]);
-                $files = $this->scanDirectory($RealPath);
-                if (!empty($files)) {
-                    foreach ($files as $key) {
-                        $pattern = 'Magento_Core_Model' . '_Layout_File_List_';
-                        $rep = 'Magento_Core_Model' . '_Layout_File_ListFile_';
-
-                        $cont = str_replace($pattern, $rep, file_get_contents($key));
-                        file_put_contents($key, $cont);
-                    }
-
-                }
-            } else {
-                echo "skipping already-moved $params[0]\n";
-            }
-        } catch (Exception $e) {
-            $string = 'Message: ' . $e->getMessage() . "\n";
-            $this->logFile($this->errorLog, $string);
         }
 
+
+
+
+        if (!empty($replaceArray)) {
+            echo "=====================\n";
+            echo "Global replacement Started for git Move\n";
+            $pattern = array();
+            $replace = array();
+            foreach ($replaceArray as $key => $value) {
+                $pattern[] = $key;
+                $replace[] = $value;
+            }
+            $files = $this->scanDirectory($this->rootDirectory, false, true);
+            foreach ($files as $file) {
+                $content = str_replace($pattern, $replace, file_get_contents($file));
+                file_put_contents($file, $content);
+            }
+            echo "Global replacement Completed for git Move\n";
+        }else{
+            echo "Nothing to Move\n";
+        }
+
+
+
+
     }
+
+
+
 
     public function logFile($logFile, $string)
     {
@@ -406,11 +364,14 @@ class namespacer
                 echo "Only php files can be used for namespace formatting \n";
                 continue;
             }
+            $content=file_get_contents($file);
 
-            /* if(!$this->checkClassFile($file)){
-                 echo "$file Not a clas file \n";
-                 continue;
-             }*/
+            if (strpos($content,'namespace') !== false) {
+                echo "Namespace exist  $file\n";
+                continue;
+            }
+
+
 
             clearstatcache();
             $lines = file($file);
@@ -480,32 +441,41 @@ class namespacer
     private function sanityCheckCleanup()
     {
 
-        $sanitySearchXML = array("type name=\"\\Magento\\", "preference for=\"\\Magento",
-            "module name=\"\\Magento\\","type=\"\\Magento\\");
-        $sanityReplaceXMl=array("type name=\"Magento\\", "preference for=\"Magento",
-            "module name=\"Magento_","type=\"Magento\\");
+        $sanitySearchXML = array(
+            "type name=\"\\Magento\\",
+            "preference for=\"\\Magento",
+            "module name=\"\\Magento\\",
+            "type=\"\\Magento\\"
+        );
+        $sanityReplaceXMl = array(
+            "type name=\"Magento\\",
+            "preference for=\"Magento",
+            "module name=\"Magento_",
+            "type=\"Magento\\"
+        );
 
         echo "=====================\n";
         echo "XML Sanity check  Started\n";
-        foreach($this->xmlFile as $key){
-            $contentsXml=str_replace($sanitySearchXML,$sanityReplaceXMl,file_get_contents($key));
+        foreach ($this->xmlFile as $key) {
+            $contentsXml = str_replace($sanitySearchXML, $sanityReplaceXMl, file_get_contents($key));
             file_put_contents($key, $contentsXml);
         }
         echo "XML Sanity check Completed \n";
 
         echo "=====================\n";
         echo "php Sanity check  Started\n";
-        $sanityPhpSearch = array("['\\Magento\\", "get('\\Magento\\","\\\\Magento");
-        $sanityphpReplace = array("['Magento\\", "get('Magento\\","\\Magento");
+        $sanityPhpSearch = array("['\\Magento\\", "get('\\Magento\\", "\\\\Magento");
+        $sanityphpReplace = array("['Magento\\", "get('Magento\\", "\\Magento");
         echo "php Sanity check  Completed\n";
 
-        foreach($this->phpFile as $key){
-            $contentsPhp=str_replace($sanityPhpSearch,$sanityphpReplace,file_get_contents($key));
+        foreach ($this->phpFile as $key) {
+            $contentsPhp = str_replace($sanityPhpSearch, $sanityphpReplace, file_get_contents($key));
             file_put_contents($key, $contentsPhp);
         }
 
 
     }
+
     private function globalClassnameScanner()
     {
         clearstatcache();
@@ -519,12 +489,12 @@ class namespacer
             if (count($search) === count($this->classReplace) && count($search) === count($this->classSearch)) {
                 $this->classSearch = $search;
                 foreach ($files as $file) {
-                    $ext=strtolower(pathinfo($file, PATHINFO_EXTENSION));
-                    if($ext=='xml'){
-                        $this->xmlFile[]=$file;
+                    $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                    if ($ext == 'xml') {
+                        $this->xmlFile[] = $file;
                     }
-                    if($ext=='php'||$ext=='phtml'){
-                        $this->phpFile[]=$file;
+                    if ($ext == 'php' || $ext == 'phtml') {
+                        $this->phpFile[] = $file;
                     }
 
                     $this->logFile($this->globalScanner, $file . "Start Processing \n");
@@ -532,7 +502,7 @@ class namespacer
                     //$contents=str_replace($this->classSearch,$this->classReplace,file_get_contents($file));
                     $contents = preg_replace($this->classSearch, $this->classReplace, file_get_contents($file));
                     file_put_contents($file, $contents);
-                    $contents=str_replace("\\\\Magento\\","\\Magento\\",$contents);
+                    $contents = str_replace("\\\\Magento\\", "\\Magento\\", $contents);
                     $this->logFile($this->globalScanner, $file . "Scanning completed \n");
                 }
             } else {
@@ -797,7 +767,7 @@ class namespacer
         foreach ($files as $file) {
             if (file_exists($file)) {
                 $contents = preg_replace($libSearch, $libReplace, file_get_contents($file));
-                $contents=str_replace("\\\\Magento\\","\\Magento\\",$contents);
+                $contents = str_replace("\\\\Magento\\", "\\Magento\\", $contents);
                 file_put_contents($file, $contents);
             }
         }

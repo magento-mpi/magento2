@@ -79,7 +79,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 'docblock' => array(
                     'shortDescription' => 'List of plugins',
                     'tags' => array(
-                        array('name' => 'var', 'description' => 'array')
+                        array('name' => 'var', 'description' => '\Magento_Interception_PluginList')
                     )
                 ),
             ),
@@ -109,7 +109,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 array('name' => 'factory', 'type' => '\Magento\ObjectManager\Factory'),
                 array('name' => 'objectManager', 'type' => '\Magento\ObjectManager\ObjectManager'),
                 array('name' => 'subjectType'),
-                array('name' => 'pluginList', 'type' => 'array'),
+                array('name' => 'pluginList', 'type' => '\Magento_Interception_PluginList'),
                 array('name' => 'arguments', 'type' => 'array'),
             ),
             'body' => "\$this->_factory = \$factory;"
@@ -134,7 +134,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                     ),
                     array(
                         'name' => 'param',
-                        'description' => 'array $pluginList',
+                        'description' => '\Magento_Interception_PluginList $pluginList',
                     ),
                     array(
                         'name' => 'param',
@@ -186,7 +186,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
         );
         $methods[] = array(
             'name' => '__sleep',
-            'body' => "\$this->_getSubject();\nreturn array('_subject', '_pluginList');",
+            'body' => "\$this->_getSubject();\nreturn array('_subject', '_subjectType');",
             'docblock' => array(
                 'tags' => array(
                     array(
@@ -207,7 +207,8 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
             'docblock' => array(
                 'shortDescription' => 'Retrieve ObjectManager from the global scope',
             ),
-            'body' => '$this->_objectManager = \Mage::getObjectManager();',
+            'body' => '$this->_objectManager = \Mage::getObjectManager();'
+                . "\n\$this->_pluginList = \$this->_objectManager->get('Magento_Interception_PluginList');",
         );
 
         $reflectionClass = new \ReflectionClass($this->_getSourceClassName());
@@ -230,29 +231,25 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
      */
     protected function _getInvokeMethodBody()
     {
-        return "\$beforeMethodName = \$methodName . 'Before';"
-            . "\nif (isset(\$this->_pluginList[\$beforeMethodName])) {"
-            . "\n    foreach (\$this->_pluginList[\$beforeMethodName] as \$plugin) {"
-            . "\n        \$methodArguments = \$this->_objectManager->get(\$plugin)"
-            . "\n            ->\$beforeMethodName(\$methodArguments);"
-            . "\n    }"
+        return "\$beforeMethodName = 'before' . \$methodName;"
+            . "\nforeach (\$this->_pluginList->getPlugins(\$this->_subjectType, \$methodName, 'before') as \$plugin) {"
+            . "\n    \$methodArguments = \$this->_objectManager->get(\$plugin)"
+            . "\n        ->\$beforeMethodName(\$methodArguments);"
             . "\n}"
-            . "\n\$aroundMethodName = \$methodName . 'Around';"
-            . "\n\$insteadPluginList = isset(\$this->_pluginList[\$aroundMethodName])"
-            . "\n    ? \$this->_pluginList[\$aroundMethodName] : array();"
             . "\n\$invocationChain = new \Magento\Code\Plugin\InvocationChain("
             . "\n    \$this->_getSubject(),"
             . "\n    \$methodName,"
             . "\n    \$this->_objectManager,"
-            . "\n    \$insteadPluginList"
+            . "\n    \$this->_pluginList->getPlugins(\$this->_subjectType, \$methodName, 'around')"
             . "\n);"
             . "\n\$invocationResult = \$invocationChain->proceed(\$methodArguments);"
-            . "\n\$afterMethodName = \$methodName . 'After';"
-            . "\nif (isset(\$this->_pluginList[\$afterMethodName])) {"
-            . "\n    foreach (array_reverse(\$this->_pluginList[\$afterMethodName]) as \$plugin) {"
-            . "\n        \$invocationResult = \$this->_objectManager->get(\$plugin)"
-            . "\n            ->\$afterMethodName(\$invocationResult);"
-            . "\n    }"
+            . "\n\$afterMethodName = 'after' . \$methodName;"
+            . "\n\$afterPlugins = array_reverse("
+            . "\n    \$this->_pluginList->getPlugins(\$this->_subjectType, \$methodName, 'after')"
+            . "\n);"
+            . "\nforeach (\$afterPlugins as \$plugin) {"
+            . "\n    \$invocationResult = \$this->_objectManager->get(\$plugin)"
+            . "\n        ->\$afterMethodName(\$invocationResult);"
             . "\n}"
             . "\nreturn \$invocationResult;";
     }

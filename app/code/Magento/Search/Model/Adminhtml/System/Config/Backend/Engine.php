@@ -16,7 +16,7 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Adminhtml_System_Config_Backend_Engine extends Magento_Core_Model_Config_Data
+class Magento_Search_Model_Adminhtml_System_Config_Backend_Engine extends Magento_Core_Model_Config_Value
 {
     /**
      * After save call

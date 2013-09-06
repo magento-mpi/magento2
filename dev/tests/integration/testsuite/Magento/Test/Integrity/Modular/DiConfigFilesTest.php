@@ -56,13 +56,12 @@ class Magento_Test_Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework
      */
     public function testDiConfigFileWithoutMerging($file)
     {
-        /** @var $readerMock \Magento\ObjectManager\Config\Reader\Dom */
-        $readerMock = $this->getMock('Magento\ObjectManager\Config\Reader\Dom', array('_merge'), array(), '', false);
-        $xsd = $readerMock->getSchemaFile();
+        /** @var \Magento\ObjectManager\Config\SchemaLocator $schemaLocator */
+        $schemaLocator = Mage::getObjectManager()->get('Magento\ObjectManager\Config\SchemaLocator');
 
         $dom = new DOMDocument();
         $dom->load($file);
-        if (!@$dom->schemaValidate($xsd)) {
+        if (!@$dom->schemaValidate($schemaLocator->getSchema())) {
             $this->fail('File ' . $file . ' has invalid xml structure.');
         }
     }
@@ -99,7 +98,12 @@ class Magento_Test_Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
 
-        new \Magento\ObjectManager\Config\Reader\Dom($fileResolverMock, $mapperMock, $validationStateMock);
+        /** @var Magento_ObjectManager_Config_SchemaLocator $schemaLocator */
+        $schemaLocator = Mage::getObjectManager()->get('Magento_ObjectManager_Config_SchemaLocator');
+
+        new \Magento\ObjectManager\Config\Reader\Dom(
+            $fileResolverMock, $mapperMock, $schemaLocator, $validationStateMock
+        );
     }
 
     public function mixedFilesProvider()

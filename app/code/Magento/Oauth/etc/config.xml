@@ -19,32 +19,6 @@
                 </setup>
             </oauth_setup>
         </resources>
-        <events>
-            <before_login_post_redirect>
-                <observers>
-                    <oauth>
-                        <class>Magento_Oauth_Model_Observer</class>
-                        <method>afterCustomerLogin</method>
-                    </oauth>
-                </observers>
-            </before_login_post_redirect>
-            <admin_session_user_login_success>
-                <observers>
-                    <oauth>
-                        <class>Magento_Oauth_Model_Observer</class>
-                        <method>afterAdminLogin</method>
-                    </oauth>
-                </observers>
-            </admin_session_user_login_success>
-            <admin_session_user_login_failed>
-                <observers>
-                    <oauth>
-                        <class>Magento_Oauth_Model_Observer</class>
-                        <method>afterAdminLoginFailed</method>
-                    </oauth>
-                </observers>
-            </admin_session_user_login_failed>
-        </events>
         <template>
             <email>
                 <oauth_email_template translate="label" module="Magento_Oauth">
@@ -55,17 +29,6 @@
             </email>
         </template>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <oauth before="Magento_Adminhtml">Magento_Oauth_Adminhtml</oauth>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -78,15 +41,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <routers>
-            <oauth>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Oauth</module>
-                    <frontName>oauth</frontName>
-                </args>
-            </oauth>
-        </routers>
         <translate>
             <modules>
                 <Magento_Oauth>
@@ -109,4 +63,4 @@
             </email>
         </oauth>
     </default>
-</config>
+</config>

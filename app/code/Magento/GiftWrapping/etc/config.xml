@@ -69,60 +69,8 @@
                 </totals>
             </order_creditmemo>
         </sales>
-        <events>
-            <sales_quote_collect_totals_before>
-                <observers>
-                    <magento_giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Observer</class>
-                        <method>quoteCollectTotalsBefore</method>
-                    </magento_giftwrapping>
-                </observers>
-            </sales_quote_collect_totals_before>
-            <googlecheckout_checkout_before>
-                <observers>
-                    <magento_giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Observer</class>
-                        <method>googlecheckoutCheckoutBefore</method>
-                    </magento_giftwrapping>
-                </observers>
-            </googlecheckout_checkout_before>
-            <paypal_prepare_line_items>
-                <observers>
-                    <magento_giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Observer</class>
-                        <method>addPaypalGiftWrappingItem</method>
-                    </magento_giftwrapping>
-                </observers>
-            </paypal_prepare_line_items>
-        </events>
     </global>
     <frontend>
-        <events>
-            <checkout_controller_onepage_save_shipping_method>
-                <observers>
-                    <magento_giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Observer</class>
-                        <method>checkoutProcessWrappingInfo</method>
-                    </magento_giftwrapping>
-                </observers>
-            </checkout_controller_onepage_save_shipping_method>
-            <checkout_controller_multishipping_shipping_post>
-                <observers>
-                    <magento_giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Observer</class>
-                        <method>checkoutProcessWrappingInfo</method>
-                    </magento_giftwrapping>
-                </observers>
-            </checkout_controller_multishipping_shipping_post>
-            <gift_options_prepare_items>
-                <observers>
-                    <magento_giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Observer</class>
-                        <method>prepareGiftOptpionsItems</method>
-                    </magento_giftwrapping>
-                </observers>
-            </gift_options_prepare_items>
-        </events>
         <translate>
             <modules>
                 <Magento_GiftWrapping>
@@ -133,46 +81,7 @@
             </modules>
         </translate>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <magento_giftwrapping before="Magento_Adminhtml">Magento_GiftWrapping_Adminhtml</magento_giftwrapping>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
-        <events>
-            <adminhtml_sales_order_create_process_data>
-                <observers>
-                    <magento_giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Observer</class>
-                        <method>processOrderCreationData</method>
-                    </magento_giftwrapping>
-                </observers>
-            </adminhtml_sales_order_create_process_data>
-            <sales_convert_order_to_quote>
-                <observers>
-                    <magento_giftwrapping>
-                        <type>model</type>
-                        <class>Magento_GiftWrapping_Model_Observer</class>
-                        <method>salesEventOrderToQuote</method>
-                    </magento_giftwrapping>
-                </observers>
-            </sales_convert_order_to_quote>
-            <sales_convert_order_item_to_quote_item>
-                <observers>
-                    <magento_giftwrapping>
-                        <type>model</type>
-                        <class>Magento_GiftWrapping_Model_Observer</class>
-                        <method>salesEventOrderItemToQuoteItem</method>
-                    </magento_giftwrapping>
-                </observers>
-            </sales_convert_order_item_to_quote_item>
-        </events>
         <translate>
             <modules>
                 <Magento_GiftWrapping>
@@ -210,4 +119,4 @@
             </sales_display>
         </tax>
     </default>
-</config>
+</config>

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Backend_Secure extends Magento_Core_Model_Config_Data
+class Magento_Backend_Model_Config_Backend_Secure extends Magento_Core_Model_Config_Value
 {
     /**
      * @var Magento_Core_Model_Page_Asset_MergeService

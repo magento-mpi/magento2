@@ -19,31 +19,42 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var Magento_Core_Model_Dir $dirs */
         $dirs = $objectManager->create(
-            'Magento_Core_Model_Dir', array(
+            'Magento_Core_Model_Dir',
+            array(
                 'baseDir' => BP,
                 'dirs' => array(
-                    Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files',
-                    Magento_Core_Model_Dir::CONFIG => __DIR__ . '/_files',
+                    Magento_Core_Model_Dir::MODULES => __DIR__ . '/LayoutTest',
+                    Magento_Core_Model_Dir::CONFIG => __DIR__ . '/LayoutTest',
                 )
             )
         );
 
-        $moduleList = $objectManager->create('Magento_Core_Model_ModuleList', array(
-            'reader' => $objectManager->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem', array(
-                'fileResolver' => $objectManager->create('Magento_Core_Model_Module_Declaration_FileResolver',
+        $moduleList = $objectManager->create(
+            'Magento_Core_Model_ModuleList',
+            array(
+                'reader' => $objectManager->create(
+                    'Magento_Core_Model_Module_Declaration_Reader_Filesystem',
                     array(
-                        'applicationDirs' => $dirs
+                        'fileResolver' => $objectManager->create(
+                            'Magento_Core_Model_Module_Declaration_FileResolver',
+                            array(
+                                'applicationDirs' => $dirs
+                            )
+                        )
                     )
-                )
-            )),
-            'cache' => $this->getMock('Magento\Config\CacheInterface')
-        ));
+                ),
+                'cache' => $this->getMock('Magento\Config\CacheInterface')
+            )
+        );
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = $objectManager->create('Magento_Core_Model_Config_Modules_Reader', array(
-            'dirs'       => $dirs,
-            'moduleList' => $moduleList
-        ));
+        $moduleReader = $objectManager->create(
+            'Magento_Core_Model_Config_Modules_Reader',
+            array(
+                'dirs' => $dirs,
+                'moduleList' => $moduleList
+            )
+        );
 
         /** @var Magento_Core_Model_DataService_Config_Reader_Factory $dsCfgReaderFactory */
         $dsCfgReaderFactory = $objectManager->create('Magento_Core_Model_DataService_Config_Reader_Factory');

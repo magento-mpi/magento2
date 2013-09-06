@@ -25,10 +25,8 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $config = new \Magento\ObjectManager\Config\Config(new \Magento\ObjectManager\Relations\Runtime());
-        $factory = new \Magento\ObjectManager\Interception\FactoryDecorator(
-            new \Magento\ObjectManager\Factory\Factory(
+        $factory = new \Magento\ObjectManager\Factory\Factory(
                 $config, null, null, array('one' => 'first_val', 'two' => 'second_val')
-            ), $config
         );
         $this->_object = new \Magento\ObjectManager\ObjectManager($factory, $config);
     }

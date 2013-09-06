@@ -113,6 +113,7 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
             array('online_customers'),
             array('newsletter_subscribers'),
             array('report_product_lowstock'),
+            array('manage_cms_static_blocks')
         );
     }
 
