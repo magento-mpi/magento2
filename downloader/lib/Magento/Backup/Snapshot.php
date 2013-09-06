@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,22 +12,22 @@
  * Class to work with full filesystem and database backups
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Backup\Snapshot extends \Magento\Backup\Filesystem
+class Magento_Backup_Snapshot extends Magento_Backup_Filesystem
 {
     /**
      * Database backup manager
      *
-     * @var \Magento\Backup\Db
+     * @var Magento_Backup_Db
      */
     protected $_dbBackupManager;
 
     /**
      * Implementation Rollback functionality for Snapshot
      *
-     * @throws \Magento\MagentoException
+     * @throws Magento_Exception
      * @return bool
      */
     public function rollback()
@@ -52,7 +52,7 @@ class \Magento\Backup\Snapshot extends \Magento\Backup\Filesystem
     /**
      * Implementation Create Backup functionality for Snapshot
      *
-     * @throws \Magento\MagentoException
+     * @throws Magento_Exception
      * @return bool
      */
     public function create()
@@ -77,7 +77,7 @@ class \Magento\Backup\Snapshot extends \Magento\Backup\Filesystem
      * Overlap getType
      *
      * @return string
-     * @see \Magento\Backup\BackupInterface::getType()
+     * @see Magento_Backup_BackupInterface::getType()
      */
     public function getType()
     {
@@ -87,11 +87,11 @@ class \Magento\Backup\Snapshot extends \Magento\Backup\Filesystem
     /**
      * Create Db Instance
      *
-     * @return \Magento\Backup\BackupInterface
+     * @return Magento_Backup_Interface
      */
     protected function _createDbBackupInstance()
     {
-        return \Magento\Backup::getBackupInstance(Magento_Backup_Helper_Data::TYPE_DB)
+        return Magento_Backup::getBackupInstance(Magento_Backup_Helper_Data::TYPE_DB)
             ->setBackupExtension(Mage::helper('Magento_Backup_Helper_Data')->getExtensionByType(Magento_Backup_Helper_Data::TYPE_DB))
             ->setTime($this->getTime())
             ->setBackupsDir(Mage::getBaseDir("var"))
@@ -101,7 +101,7 @@ class \Magento\Backup\Snapshot extends \Magento\Backup\Filesystem
     /**
      * Get database backup manager
      *
-     * @return \Magento\Backup\Db
+     * @return Magento_Backup_Db
      */
     protected function _getDbBackupManager()
     {
@@ -115,10 +115,10 @@ class \Magento\Backup\Snapshot extends \Magento\Backup\Filesystem
     /**
      * Set Db backup manager
      *
-     * @param \Magento\Backup\AbstractBackup $manager
-     * @return \Magento\Backup\Snapshot
+     * @param Magento_Backup_Abstract $manager
+     * @return Magento_Backup_Snapshot
      */
-    public function setDbBackupManager(\Magento\Backup\AbstractBackup $manager)
+    public function setDbBackupManager(Magento_Backup_Abstract $manager)
     {
         $this->_dbBackupManager = $manager;
         return $this;
@@ -137,7 +137,7 @@ class \Magento\Backup\Snapshot extends \Magento\Backup\Filesystem
     /**
      * Remove Db backup after added it to the snapshot
      *
-     * @return \Magento\Backup\Snapshot
+     * @return Magento_Backup_Snapshot
      */
     protected function _removeDbBackup(){
         @unlink($this->_getDbBackupManager()->getBackupPath());

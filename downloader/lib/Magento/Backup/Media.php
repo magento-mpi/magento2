@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,28 +12,28 @@
  * Class to work media folder and database backups
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Backup\Media extends \Magento\Backup\AbstractBackup
+class Magento_Backup_Media extends Magento_Backup_Abstract
 {
     /**
      * Snapshot backup manager instance
      *
-     * @var \Magento\Backup\Snapshot
+     * @var Magento_Backup_Snapshot
      */
     protected $_snapshotManager;
 
     /**
      * Initialize backup manager instance
      *
-     * @param \Magento\Backup\Snapshot|null $snapshotManager
+     * @param Magento_Backup_Snapshot|null $snapshotManager
      */
     public function __construct($snapshotManager = null)
     {
         if ($snapshotManager !== null) {
-            if (!$snapshotManager instanceof \Magento\Backup\Snapshot) {
-                throw new \Magento\MagentoException('Snapshot manager must be instance of \Magento\Backup\Snapshot');
+            if (!$snapshotManager instanceof Magento_Backup_Snapshot) {
+                throw new Magento_Exception('Snapshot manager must be instance of \Magento\Backup\Snapshot');
             }
             $this->_snapshotManager = $snapshotManager;
         } else {
@@ -44,7 +44,7 @@ class \Magento\Backup\Media extends \Magento\Backup\AbstractBackup
     /**
      * Implementation Rollback functionality for Snapshot
      *
-     * @throws \Magento\MagentoException
+     * @throws Magento_Exception
      * @return bool
      */
     public function rollback()
@@ -56,7 +56,7 @@ class \Magento\Backup\Media extends \Magento\Backup\AbstractBackup
     /**
      * Implementation Create Backup functionality for Snapshot
      *
-     * @throws \Magento\MagentoException
+     * @throws Magento_Exception
      * @return bool
      */
     public function create()
@@ -69,7 +69,7 @@ class \Magento\Backup\Media extends \Magento\Backup\AbstractBackup
      * Overlap getType
      *
      * @return string
-     * @see \Magento\Backup\BackupInterface::getType()
+     * @see Magento_Backup_Interface::getType()
      */
     public function getType()
     {
@@ -79,7 +79,7 @@ class \Magento\Backup\Media extends \Magento\Backup\AbstractBackup
     /**
      * Add all folders and files except media and db backup to ignore list
      *
-     * @return \Magento\Backup\Media
+     * @return Magento_Backup_Media
      */
     protected function _prepareIgnoreList()
     {
@@ -106,7 +106,7 @@ class \Magento\Backup\Media extends \Magento\Backup\AbstractBackup
      * Set Backup Extension
      *
      * @param string $backupExtension
-     * @return \Magento\Backup\BackupInterface
+     * @return Magento_Backup_Interface
      */
     public function setBackupExtension($backupExtension)
     {
@@ -118,7 +118,7 @@ class \Magento\Backup\Media extends \Magento\Backup\AbstractBackup
      * Set Resource Model
      *
      * @param object $resourceModel
-     * @return \Magento\Backup\BackupInterface
+     * @return Magento_Backup_Interface
      */
     public function setResourceModel($resourceModel)
     {
@@ -130,7 +130,7 @@ class \Magento\Backup\Media extends \Magento\Backup\AbstractBackup
      * Set Time
      *
      * @param int $time
-     * @return \Magento\Backup\BackupInterface
+     * @return Magento_Backup_Interface
      */
     public function setTime($time)
     {
@@ -142,7 +142,7 @@ class \Magento\Backup\Media extends \Magento\Backup\AbstractBackup
      * Set path to directory where backups stored
      *
      * @param string $backupsDir
-     * @return \Magento\Backup\BackupInterface
+     * @return Magento_Backup_Interface
      */
     public function setBackupsDir($backupsDir)
     {
@@ -154,7 +154,7 @@ class \Magento\Backup\Media extends \Magento\Backup\AbstractBackup
      * Add path that should be ignoring when creating or rolling back backup
      *
      * @param string|array $paths
-     * @return \Magento\Backup\BackupInterface
+     * @return Magento_Backup_Interface
      */
     public function addIgnorePaths($paths)
     {
@@ -166,8 +166,8 @@ class \Magento\Backup\Media extends \Magento\Backup\AbstractBackup
      * Set root directory of Magento installation
      *
      * @param string $rootDir
-     * @throws \Magento\MagentoException
-     * @return \Magento\Backup\BackupInterface
+     * @throws Magento_Exception
+     * @return Magento_Backup_Interface
      */
     public function setRootDir($rootDir)
     {

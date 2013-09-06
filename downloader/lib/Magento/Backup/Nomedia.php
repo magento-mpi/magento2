@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,16 +12,16 @@
  * Class to work system backup that excludes media folder
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Backup\Nomedia extends \Magento\Backup\Media
+class Magento_Backup_Nomedia extends Magento_Backup_Media
 {
     /**
      * Overlap getType
      *
      * @return string
-     * @see \Magento\Backup\BackupInterface::getType()
+     * @see Magento_Backup_Interface::getType()
      */
     public function getType()
     {
@@ -31,7 +31,7 @@ class \Magento\Backup\Nomedia extends \Magento\Backup\Media
     /**
      * Add media folder to ignore list
      *
-     * @return \Magento\Backup\Media
+     * @return Magento_Backup_Media
      */
     protected function _prepareIgnoreList()
     {

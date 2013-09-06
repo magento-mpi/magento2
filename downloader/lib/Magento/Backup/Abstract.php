@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,10 +11,10 @@
  * Class to work with archives
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class \Magento\Backup\AbstractBackup implements  \Magento\Backup\BackupInterface
+abstract class Magento_Backup_Abstract implements  Magento_Backup_Interface
 {
     /**
      * Backup name

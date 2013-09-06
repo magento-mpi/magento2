@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,9 +12,9 @@
  * Exception
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Backup\Exception\FtpConnectionFailed extends \Magento\Backup\BackupException
+class Magento_Backup_Exception_FtpConnectionFailed extends Magento_Backup_Exception
 {
 }
