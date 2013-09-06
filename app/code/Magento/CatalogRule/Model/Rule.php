@@ -103,6 +103,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_catalogRuleData = null;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_CatalogRule_Helper_Data $catalogRuleData
      * @param Magento_Core_Model_Context $context
      * @param Magento_CatalogRule_Model_Resource_Rule $resource
@@ -110,6 +111,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_CatalogRule_Helper_Data $catalogRuleData,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Context $context,

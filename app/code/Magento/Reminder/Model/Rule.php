@@ -55,6 +55,7 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_reminderData = null;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Reminder_Helper_Data $reminderData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Reminder_Model_Resource_Rule $resource
@@ -62,6 +63,7 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_Reminder_Helper_Data $reminderData,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Context $context,
