@@ -109,7 +109,8 @@ class Magento_Interception_PluginList_PluginListTest extends PHPUnit_Framework_T
             ),
             array(
                 // advanced plugin has lower sort order
-                array('Magento_Interception_Custom_Module_Model_ItemPlugin_Advanced', 'Magento_Interception_Custom_Module_Model_ItemPlugin_Simple'),
+                array('Magento_Interception_Custom_Module_Model_ItemPlugin_Advanced',
+                      'Magento_Interception_Custom_Module_Model_ItemPlugin_Simple'),
                 'Magento_Interception_Custom_Module_Model_Item',
                 'getName',
                 'after',
@@ -123,7 +124,8 @@ class Magento_Interception_PluginList_PluginListTest extends PHPUnit_Framework_T
                 'backend',
             ),
             array(
-                // simple plugin is disabled in configuration for Magento_Interception_Custom_Module_Model_Item in frontend
+                // simple plugin is disabled in configuration for
+                // Magento_Interception_Custom_Module_Model_Item in frontend
                 array(),
                 'Magento_Interception_Custom_Module_Model_Item',
                 'getName',
