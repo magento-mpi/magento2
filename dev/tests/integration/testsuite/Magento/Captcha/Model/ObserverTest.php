@@ -50,7 +50,8 @@ class Magento_Captcha_Model_ObserverTest extends Magento_Test_TestCase_Controlle
     public function testCaptchaIsRequiredAfterFailedLoginAttempts()
     {
         Mage::app()->setCurrentStore(0);
-        $captchaModel = Mage::helper('Magento_Captcha_Helper_Data')->getCaptcha('backend_login');
+        $captchaModel = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Captcha_Helper_Data')
+            ->getCaptcha('backend_login');
 
         try {
             $authModel = Mage::getModel('Magento_Backend_Model_Auth');

@@ -115,7 +115,11 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_Test_TestCas
     {
         $this->_login();
         $this->dispatch('backend/admin/auth/logout');
-        $this->assertRedirect($this->equalTo(Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl()));
+        $this->assertRedirect(
+            $this->equalTo(Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Helper_Data')
+                ->getHomePageUrl()
+            )
+        );
         $this->assertFalse($this->_session->isLoggedIn(), 'User is not logged out.');
     }
 
@@ -130,7 +134,8 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_Test_TestCas
         $this->dispatch('backend/admin/auth/deniedJson');
         $data = array(
             'ajaxExpired' => 1,
-            'ajaxRedirect' => Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl(),
+            'ajaxRedirect' => Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Helper_Data')
+                ->getHomePageUrl(),
         );
         $expected = json_encode($data);
         $this->assertEquals($expected, $this->getResponse()->getBody());
@@ -145,7 +150,8 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_Test_TestCas
     public function testDeniedIframeAction()
     {
         $this->_login();
-        $homeUrl = Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl();
+        $homeUrl = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Helper_Data')
+            ->getHomePageUrl();
         $this->dispatch('backend/admin/auth/deniedIframe');
         $expected = '<script type="text/javascript">parent.window.location =';
         $this->assertStringStartsWith($expected, $this->getResponse()->getBody());

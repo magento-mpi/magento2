@@ -28,7 +28,7 @@ class Magento_Catalog_Helper_Product_UrlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Catalog_Helper_Product_Url');
+        $this->_helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Helper_Product_Url');
     }
 
     public function testGetConvertTable()

@@ -58,7 +58,7 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
         ;
 
         // sample image cached URL
-        $helper = Mage::helper('Magento_Catalog_Helper_Image');
+        $helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Helper_Image');
         self::$_sampleCachedUrl = (string)$helper->init(self::$_product, 'image');
     }
 
@@ -76,7 +76,7 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Catalog_Helper_Image');
+        $this->_helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Helper_Image');
     }
 
     /**

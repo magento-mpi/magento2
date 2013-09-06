@@ -195,7 +195,7 @@ class MageTest extends PHPUnit_Framework_TestCase
      */
     public function testHelper($classId, $expectedClassName)
     {
-        $this->assertInstanceOf($expectedClassName, Mage::helper($classId));
+        $this->assertInstanceOf($expectedClassName, Magento_Test_Helper_Bootstrap::getObjectManager()->get($classId));
     }
 
     /**
