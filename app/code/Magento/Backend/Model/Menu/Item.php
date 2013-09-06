@@ -475,12 +475,18 @@ class Magento_Backend_Model_Menu_Item
     {
         if (Mage::getIsSerializable()) {
             $this->_moduleHelper = Mage::helper($this->_moduleHelperName);
-            $this->_validator = Mage::getSingleton('Magento_Backend_Model_Menu_Item_Validator');
-            $this->_acl = Mage::getSingleton('Magento_AuthorizationInterface');
-            $this->_storeConfig =  Mage::getSingleton('Magento_Core_Model_Store_Config');
-            $this->_menuFactory = Mage::getSingleton('Magento_Backend_Model_MenuFactory');
-            $this->_urlModel = Mage::getSingleton('Magento_Backend_Model_Url');
-            $this->_moduleList = Mage::getSingleton('Magento_Core_Model_ModuleListInterface');
+            $this->_validator = Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_Backend_Model_Menu_Item_Validator');
+            $this->_acl = Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_AuthorizationInterface');
+            $this->_storeConfig =  Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_Core_Model_Store_Config');
+            $this->_menuFactory = Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_Backend_Model_MenuFactory');
+            $this->_urlModel = Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_Backend_Model_Url');
+            $this->_moduleList = Magento_Core_Model_ObjectManager::getInstance()
+                >get('Magento_Core_Model_ModuleListInterface');
             if ($this->_serializedSubmenu) {
                 $this->_submenu = $this->_menuFactory->create();
                 $this->_submenu->unserialize($this->_serializedSubmenu);
