@@ -13,13 +13,13 @@
          xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
     <log id="magento_reward_rate">
         <label translate="true">Reward Points Rates</label>
-        <expected_model class="Magento_Reward_Model_Reward_Rate"/>
-        <event controller_action="adminhtml_reward_rate_edit" action_alias="edit"/>
-        <event controller_action="adminhtml_reward_rate_save" action_alias="save"/>
-        <event controller_action="adminhtml_reward_rate_delete" action_alias="delete"/>
+        <expected_model class="Magento_Reward_Model_Reward_Rate" />
+        <event controller_action="adminhtml_reward_rate_edit" action_alias="edit" />
+        <event controller_action="adminhtml_reward_rate_save" action_alias="save" />
+        <event controller_action="adminhtml_reward_rate_delete" action_alias="delete" />
     </log>
     <log id="customer">
-        <label translate="true"/>
+        <label translate="true" />
         <event controller_action="adminhtml_customer_save"
                extends_expected_models="true">
             <expected_model class="Magento_Reward_Model_Reward_History">

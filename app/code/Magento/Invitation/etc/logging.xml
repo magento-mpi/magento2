@@ -13,15 +13,15 @@
          xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
     <log id="magento_invitation">
         <label translate="true">Customer Invitations</label>
-        <expected_model class="Magento_Invitation_Model_Invitation"/>
-        <event controller_action="adminhtml_invitation_view" action_alias="view"/>
-        <event controller_action="adminhtml_invitation_save" action_alias="save"/>
+        <expected_model class="Magento_Invitation_Model_Invitation" />
+        <event controller_action="adminhtml_invitation_view" action_alias="view" />
+        <event controller_action="adminhtml_invitation_save" action_alias="save" />
         <event controller_action="adminhtml_invitation_saveInvitation"
-               action_alias="save"/>
+               action_alias="save" />
         <event controller_action="adminhtml_invitation_massCancel"
-               action_alias="massUpdate"/>
+               action_alias="massUpdate" />
         <event controller_action="adminhtml_invitation_massResend"
                action_alias="massUpdate"
-               post_dispatch="Magento_Invitation_Model_Observer::postDispatchInvitationMassUpdate"/>
+               post_dispatch="Magento_Invitation_Model_Observer::postDispatchInvitationMassUpdate" />
     </log>
 </logging>

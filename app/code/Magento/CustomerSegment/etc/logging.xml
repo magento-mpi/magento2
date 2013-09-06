@@ -16,21 +16,21 @@
     </action>
     <log id="magento_customersegment">
         <label translate="true">Manage Segments</label>
-        <expected_model class="Magento_CustomerSegment_Model_Segment"/>
-        <event controller_action="adminhtml_customersegment_edit" action_alias="view"/>
+        <expected_model class="Magento_CustomerSegment_Model_Segment" />
+        <event controller_action="adminhtml_customersegment_edit" action_alias="view" />
         <event controller_action="adminhtml_customersegment_save" action_alias="save">
             <skip_on_back>adminhtml_customersegment_edit</skip_on_back>
         </event>
         <event controller_action="adminhtml_customersegment_match"
                action_alias="refresh_data"
-               post_dispatch="Magento_CustomerSegment_Model_Logging::postDispatchCustomerSegmentMatch"/>
+               post_dispatch="Magento_CustomerSegment_Model_Logging::postDispatchCustomerSegmentMatch" />
         <event controller_action="adminhtml_customersegment_delete"
-               action_alias="delete"/>
+               action_alias="delete" />
         <event controller_action="adminhtml_report_customer_customersegment_exportCsv"
                action_alias="export"
-               post_dispatch="postDispatchSimpleSave"/>
+               post_dispatch="postDispatchSimpleSave" />
         <event controller_action="adminhtml_report_customer_customersegment_exportExcel"
                action_alias="export"
-               post_dispatch="postDispatchSimpleSave"/>
+               post_dispatch="postDispatchSimpleSave" />
     </log>
 </logging>

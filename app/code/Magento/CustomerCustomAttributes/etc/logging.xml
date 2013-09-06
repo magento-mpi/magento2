@@ -13,22 +13,22 @@
          xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
     <log id="adminhtml_customer_attribute">
         <label translate="true">Manage Customer Attributes</label>
-        <expected_model class="Magento_Customer_Model_Attribute"/>
+        <expected_model class="Magento_Customer_Model_Attribute" />
         <event controller_action="adminhtml_customer_attribute_edit"
-               action_alias="view"/>
+               action_alias="view" />
         <event controller_action="adminhtml_customer_attribute_save"
-               action_alias="save"/>
+               action_alias="save" />
         <event controller_action="adminhtml_customer_attribute_delete"
-               action_alias="delete"/>
+               action_alias="delete" />
     </log>
     <log id="adminhtml_customer_address_attribute">
         <label translate="true">Manage Customer Address Attributes</label>
-        <expected_model class="Magento_Customer_Model_Attribute"/>
+        <expected_model class="Magento_Customer_Model_Attribute" />
         <event controller_action="adminhtml_customer_address_attribute_edit"
-               action_alias="view"/>
+               action_alias="view" />
         <event controller_action="adminhtml_customer_address_attribute_save"
-               action_alias="save"/>
+               action_alias="save" />
         <event controller_action="adminhtml_customer_address_attribute_delete"
-               action_alias="delete"/>
+               action_alias="delete" />
     </log>
 </logging>

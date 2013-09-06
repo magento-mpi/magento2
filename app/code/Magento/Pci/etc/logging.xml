@@ -15,12 +15,12 @@
         <label translate="true">Encryption Key Change</label>
         <event controller_action="adminhtml_crypt_key_save"
                action_alias="save"
-               post_dispatch="postDispatchSimpleSave"/>
+               post_dispatch="postDispatchSimpleSave" />
     </log>
     <log id="magento_pci_locks">
         <label translate="true">Admin Accounts Locks</label>
         <event controller_action="adminhtml_locks_massUnlock"
                action_alias="massUpdate"
-               post_dispatch="postDispatchAdminAccountsMassUnlock"/>
+               post_dispatch="postDispatchAdminAccountsMassUnlock" />
     </log>
 </logging>

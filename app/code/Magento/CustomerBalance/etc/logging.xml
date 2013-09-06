@@ -14,14 +14,14 @@
     <log id="magento_customerbalance">
         <label translate="true">Store Credit</label>
         <event controller_action="adminhtml_customerbalance_form" action_alias="view">
-            <expected_model class="Magento_CustomerBalance_Model_Balance"/>
+            <expected_model class="Magento_CustomerBalance_Model_Balance" />
         </event>
     </log>
     <log id="customer">
-        <label translate="true"/>
+        <label translate="true" />
         <event controller_action="adminhtml_customer_save"
                extends_expected_models="true">
-            <expected_model class="Magento_CustomerBalance_Model_Balance"/>
+            <expected_model class="Magento_CustomerBalance_Model_Balance" />
             <skip_on_back>adminhtml_customerbalance_form</skip_on_back>
             <skip_on_back>adminhtml_customer_edit</skip_on_back>
         </event>
