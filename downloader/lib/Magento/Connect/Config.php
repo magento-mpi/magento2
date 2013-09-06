@@ -28,7 +28,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Connect\Config implements Iterator
+class Magento_Connect_Config implements Iterator
 {
     /**
      * Config file name
@@ -306,7 +306,7 @@ class \Magento\Connect\Config implements Iterator
                 //save config over ftp
                 $confFile = $this->downloader_path . DIRECTORY_SEPARATOR . "connect.cfg";
                 try {
-                    $ftpObj = new \Magento\Connect\Ftp();
+                    $ftpObj = new Magento_Connect_Ftp();
                     $ftpObj->connect($this->remote_config);
                 } catch (Exception $e) {
                     $this->_configError = 'Cannot access to deployment FTP path. '

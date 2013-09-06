@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Connect\Command
+class Magento_Connect_Command
 {
     /**
      * All commands list
@@ -37,27 +37,27 @@ class \Magento\Connect\Command
 
     /**
      * Connect Config instance
-     * @var \Magento\Connect\Config
+     * @var Magento_Connect_Config
      */
     protected static $_config = null;
     /**
      * Validator instance
      *
-     * @var \Magento\Connect\Validator
+     * @var Magento_Connect_Validator
      */
     protected static $_validator = null;
 
     /**
      * Rest instance
      *
-     * @var \Magento\Connect\Rest
+     * @var Magento_Connect_Rest
      */
     protected static $_rest = null;
 
     /**
      * Cache config instance
      *
-     * @var \Magento\Connect\Singleconfig
+     * @var Magento_Connect_Singleconfig
      */
     protected static $_sconfig = null;
 
@@ -71,7 +71,7 @@ class \Magento\Connect\Command
     /**
      * Packager instance
      *
-     * @var \Magento\Connect\Packager
+     * @var Magento_Connect_Packager
      */
     protected static $_packager = null;
 
@@ -159,7 +159,7 @@ class \Magento\Connect\Command
      * Cache config setter
      *
      * @static
-     * @param \Magento\Connect\Singleconfig $obj
+     * @param Magento_Connect_Singleconfig $obj
      * @return null
      */
     public static function setSconfig($obj)
@@ -170,7 +170,7 @@ class \Magento\Connect\Command
     /**
      * Cache config getter
      *
-     * @return \Magento\Connect\Singleconfig
+     * @return Magento_Connect_Singleconfig
      */
     public function getSconfig()
     {
@@ -180,7 +180,7 @@ class \Magento\Connect\Command
     /**
      * Sets frontend object for all commands
      *
-     * @param \Magento\Connect\Frontend $obj
+     * @param Magento_Connect_Frontend $obj
      * @return null
      */
     public static function setFrontendObject($obj)
@@ -191,7 +191,7 @@ class \Magento\Connect\Command
     /**
      * Set config object for all commands
      *
-     * @param \Magento\Connect\Config $obj
+     * @param Magento_Connect_Config $obj
      * @return null
      */
     public static function setConfigObject($obj)
@@ -202,7 +202,7 @@ class \Magento\Connect\Command
     /**
      * Non-static getter for config
      *
-     * @return \Magento\Connect\Config
+     * @return Magento_Connect_Config
      */
     public function config()
     {
@@ -212,7 +212,7 @@ class \Magento\Connect\Command
     /**
      * Non-static getter for UI
      *
-     * @return \Magento\Connect\Frontend
+     * @return Magento_Connect_Frontend
      */
     public function ui()
     {
@@ -222,12 +222,12 @@ class \Magento\Connect\Command
     /**
      * Get validator object
      *
-     * @return \Magento\Connect\Validator
+     * @return Magento_Connect_Validator
      */
     public function validator()
     {
         if(is_null(self::$_validator)) {
-            self::$_validator = new \Magento\Connect\Validator();
+            self::$_validator = new Magento_Connect_Validator();
         }
         return self::$_validator;
     }
@@ -235,12 +235,12 @@ class \Magento\Connect\Command
     /**
      * Get rest object
      *
-     * @return \Magento\Connect\Rest
+     * @return Magento_Connect_Rest
      */
     public function rest()
     {
         if(is_null(self::$_rest)) {
-            self::$_rest = new \Magento\Connect\Rest(self::config()->protocol);
+            self::$_rest = new Magento_Connect_Rest(self::config()->protocol);
         }
         return self::$_rest;
     }
@@ -415,12 +415,12 @@ class \Magento\Connect\Command
     /**
      * Get packager instance
      *
-     * @return \Magento\Connect\Packager
+     * @return Magento_Connect_Packager
      */
     public function getPackager()
     {
         if(!self::$_packager) {
-            self::$_packager = new \Magento\Connect\Packager();
+            self::$_packager = new Magento_Connect_Packager();
         }
         return self::$_packager;
     }

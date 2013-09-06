@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class \Magento\Connect\Structures\Node
+class Magento_Connect_Structures_Node
 {
     
     protected $_data = null;    
@@ -19,7 +19,7 @@ class \Magento\Connect\Structures\Node
     /**
      * Node graph getter
      *
-     * @return \Magento\Connect\Structures\Graph
+     * @return Magento_Connect_Structures_Graph
      */
     public function &getGraph() 
     {

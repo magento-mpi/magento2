@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Connect\Package
+class Magento_Connect_Package
 {
 
     const PACKAGE_XML_DIR = 'var/package';
@@ -72,21 +72,21 @@ class \Magento\Connect\Package
     /**
      * A helper object that can read from a package archive
      *
-     * @var \Magento\Connect\Package\Reader
+     * @var Magento_Connect_Package_Reader
      */
     protected $_reader;
 
     /**
      * A helper object that can create and write to a package archive
      *
-     * @var \Magento\Connect\Package\Writer
+     * @var Magento_Connect_Package_Writer
      */
     protected $_writer;
 
     /**
      * Validator object
      *
-     * @var \Magento\Connect\Validator
+     * @var Magento_Connect_Validator
      */
     protected $_validator = null;
 
@@ -100,21 +100,21 @@ class \Magento\Connect\Package
     /**
     * Object with target
     *
-    * @var \Magento\Connect\Package\Target
+    * @var Magento_Connect_Package_Target
     */
     protected $_target = null;
 
     /**
     * Config object
     *
-    * @var \Magento\Connect\Config
+    * @var Magento_Connect_Config
     */
     protected $_config = null;
 
     /**
      * General purpose Magento util
      *
-     * @var \Magento\Util
+     * @var Magento_Util
      */
     protected $_util = null;
 
@@ -122,12 +122,12 @@ class \Magento\Connect\Package
      * Creates a package object (empty, or from existing archive, or from package definition xml)
      *
      * @param null|string|resource $source
-     * @param \Magento\Util|null $util
-     * @throws \Magento\MagentoException
+     * @param Magento_Util|null $util
+     * @throws Magento_Exception
      */
-    public function __construct($source = null, \Magento\Util $util = null)
+    public function __construct($source = null, Magento_Util $util = null)
     {
-        $this->_util = $util ? $util : new \Magento\Util();
+        $this->_util = $util ? $util : new Magento_Util();
         libxml_use_internal_errors(true);
 
         if (is_string($source)) {
@@ -139,14 +139,14 @@ class \Magento\Connect\Package
                 // package archive filename
                 $this->_loadFile($source);
             } else {
-                throw new \Magento\MagentoException('Invalid package source');
+                throw new Magento_Exception('Invalid package source');
             }
         } elseif (is_resource($source)) {
             $this->_loadResource($source);
         } elseif (is_null($source)) {
             $this->_init();
         } else {
-            throw new \Magento\MagentoException('Invalid package source');
+            throw new Magento_Exception('Invalid package source');
         }
     }
 
@@ -154,7 +154,7 @@ class \Magento\Connect\Package
      * Initializes an empty package object
      *
      * @param null|string $definition optional package definition xml
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     protected function _init($definition=null)
     {
@@ -191,12 +191,12 @@ END;
      * Loads a package from specified file
      *
      * @param string $filename
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     protected function _loadFile($filename='')
     {
         if (is_null($this->_reader)) {
-            $this->_reader = new \Magento\Connect\Package\Reader($filename);
+            $this->_reader = new Magento_Connect_Package_Reader($filename);
         }
         $content = $this->_reader->load();
         $this->_packageXml = simplexml_load_string($content);
@@ -207,7 +207,7 @@ END;
      * Creates a package and saves it
      *
      * @param string $path
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function save($path)
     {
@@ -221,13 +221,13 @@ END;
      * Creates a package archive and saves it to specified path
      *
      * @param string $path
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     protected function _savePackage($path)
     {
         $fileName = $this->getReleaseFilename();
         if (is_null($this->_writer)) {
-            $this->_writer = new \Magento\Connect\Package\Writer($this->getContents(), $path.$fileName);
+            $this->_writer = new Magento_Connect_Package_Writer($this->getContents(), $path.$fileName);
         }
         $this->_writer
             ->composePackage()
@@ -239,19 +239,19 @@ END;
     /**
     * Retrieve Target object
     *
-    * @return \Magento\Connect\Package\Target
+    * @return Magento_Connect_Package_Target
     */
     protected function getTarget()
     {
-        if (!$this->_target instanceof \Magento\Connect\Package\Target) {
-            $this->_target = new \Magento\Connect\Package\Target();
+        if (!$this->_target instanceof Magento_Connect_Package_Target) {
+            $this->_target = new Magento_Connect_Package_Target();
         }
         return $this->_target;
     }
 
     public function setTarget($arg)
     {
-        if ($arg instanceof \Magento\Connect\Package\Target) {
+        if ($arg instanceof Magento_Connect_Package_Target) {
             $this->_target = $arg;
         }
     }
@@ -262,7 +262,7 @@ END;
      * Puts value to name
      *
      * @param string $name
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function setName($name)
     {
@@ -274,7 +274,7 @@ END;
      * Puts value to <channel />
      *
      * @param string $channel
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function setChannel($channel)
     {
@@ -286,7 +286,7 @@ END;
      * Puts value to <summary />
      *
      * @param string $summary
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function setSummary($summary)
     {
@@ -298,7 +298,7 @@ END;
      * Puts value to <description />
      *
      * @param string $description
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function setDescription($description)
     {
@@ -315,7 +315,7 @@ END;
      * );
      *
      * @param array $authors
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function setAuthors($authors)
     {
@@ -332,7 +332,7 @@ END;
     * @param string $name
     * @param string $user
     * @param string $email
-    * @return \Magento\Connect\Package
+    * @return Magento_Connect_Package
     */
     public function addAuthor($name=null, $user=null, $email=null)
     {
@@ -352,7 +352,7 @@ END;
      * Puts value to <date/>. Format should be Y-M-D.
      *
      * @param string $date
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function setDate($date)
     {
@@ -364,7 +364,7 @@ END;
      * Puts value to <time />. Format should be H:i:s.
      *
      * @param string $time
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function setTime($time)
     {
@@ -376,7 +376,7 @@ END;
      * Puts value to <version/>. Format should be X.Y.Z.
      *
      * @param string $version
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function setVersion($version)
     {
@@ -388,7 +388,7 @@ END;
      * Puts value to <stability/>. It can be alpha, beta, devel and stable.
      *
      * @param string $stability
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function setStability($stability)
     {
@@ -401,7 +401,7 @@ END;
      *
      * @param string $license
      * @param string $uri
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function setLicense($license, $uri=null)
     {
@@ -416,7 +416,7 @@ END;
      * Puts value to <notes/>.
      *
      * @param string $notes
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function setNotes($notes)
     {
@@ -459,7 +459,7 @@ END;
      * @param string $path Path to directory or file
      * @param string $targetName Target name.
      * @param string $hash MD5 hash of the file
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function addContent($path, $targetName)
     {
@@ -490,7 +490,7 @@ END;
      * @param string $path Path to directory
      * @param string $exclude Exclude
      * @param string $include Include
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function addContentDir($targetName, $path, $exclude=null, $include=null)
     {
@@ -529,7 +529,7 @@ END;
      * @param string $channel
      * @param string $minVersion
      * @param string $maxVersion
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function addCompatible($packageName, $channel, $minVersion, $maxVersion)
     {
@@ -546,7 +546,7 @@ END;
      *
      * @param string $minVersion
      * @param string $maxVersion
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function setDependencyPhpVersion($minVersion, $maxVersion)
     {
@@ -616,7 +616,7 @@ END;
      * array('curl', 'mysql')
      *
      * @param array|string $extensions
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function setDependencyPhpExtensions($extensions)
     {
@@ -641,7 +641,7 @@ END;
     *
     * @param array $packages
     * @param bool $clear
-    * @return \Magento\Connect\Package
+    * @return Magento_Connect_Package
     */
     public function setDependencyPackages($packages, $clear = false)
     {
@@ -674,7 +674,7 @@ END;
      * @param string $channel
      * @param string $minVersion
      * @param string $maxVersion
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function addDependencyPackage($name, $channel, $minVersion, $maxVersion, $files = array())
     {
@@ -707,7 +707,7 @@ END;
      * @param string $package
      * @param string $minVersion
      * @param string $maxVersion
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function addDependencyExtension($name, $minVersion, $maxVersion)
     {
@@ -1050,12 +1050,12 @@ END;
     /**
      * Validator instance (single)
      *
-     *  @return \Magento\Connect\Validator
+     *  @return Magento_Connect_Validator
      */
     protected function validator()
     {
         if(is_null($this->_validator)) {
-            $this->_validator = new \Magento\Connect\Validator();
+            $this->_validator = new Magento_Connect_Validator();
         }
         return $this->_validator;
     }
@@ -1168,7 +1168,7 @@ END;
              * Check mandatory rules fields
              */
              if(!isset($data['method'], $data['v_method'])) {
-             throw new \Magento\MagentoException("Invalid rules specified!");
+             throw new Magento_Exception("Invalid rules specified!");
          }
 
             $method = $data['method'];
@@ -1183,14 +1183,14 @@ END;
              * Check for method availability, package
              */
             if(!method_exists($this, $method)) {
-                throw new \Magento\MagentoException("Invalid method specified for Package : $method");
+                throw new Magento_Exception("Invalid method specified for Package : $method");
             }
 
             /**
              * Check for method availability, validator
              */
             if(!method_exists($v, $validatorMethod)) {
-                throw new \Magento\MagentoException("Invalid method specified for Validator : $validatorMethod");
+                throw new Magento_Exception("Invalid method specified for Validator : $validatorMethod");
             }
 
             /**
@@ -1285,7 +1285,7 @@ END;
     /**
     * Clear dependencies
     *
-    * @return \Magento\Connect\Package
+    * @return Magento_Connect_Package
     */
     public function clearDependencies()
     {
@@ -1296,7 +1296,7 @@ END;
     /**
     * Clear contents
     *
-    * @return \Magento\Connect\Package
+    * @return Magento_Connect_Package
     */
     public function clearContents()
     {
@@ -1307,7 +1307,7 @@ END;
     /**
      * Get config
      *
-     * @return \Magento\Connect\Config
+     * @return Magento_Connect_Config
      */
     public function getConfig()
     {
@@ -1317,7 +1317,7 @@ END;
     /**
      * Set config
      *
-     * @param \Magento\Connect\Config $config
+     * @param Magento_Connect_Config $config
      */
     public function setConfig($config)
     {
@@ -1329,7 +1329,7 @@ END;
      *
      * @param array $data
      *
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
     public function importDataV1x(array $data)
     {

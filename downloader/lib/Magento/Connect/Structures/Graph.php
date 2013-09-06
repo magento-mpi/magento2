@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-class \Magento\Connect\Structures\Graph
+class Magento_Connect_Structures_Graph
 {
     protected $_nodes = array();
     protected $_directed = false;
-    protected $_nodeClassName = '\Magento\Connect\Structures\Node';
+    protected $_nodeClassName = 'Magento_Connect_Structures_Node';
 
     const ACYCLIC_VISITED_KEY = 'acyclic-test-visited';
     const SORT_VISITED_KEY = 'topological-sort-visited';

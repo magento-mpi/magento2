@@ -16,25 +16,25 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-final class \Magento\Connect\Converter
+final class Magento_Connect_Converter
 {
     protected $_archiver;
 
     /**
      *
-     * @return \Magento\Archive
+     * @return Magento_Archive
      */
     public function arc()
     {
         if(!$this->_archiver) {
-            $this->_archiver = new \Magento\Archive();
+            $this->_archiver = new Magento_Archive();
         }
         return $this->_archiver;
     }
 
     public function newPackage()
     {
-        return new \Magento\Connect\Package();
+        return new Magento_Connect_Package();
     }
 
     /**
@@ -109,7 +109,7 @@ final class \Magento\Connect\Converter
     /**
      * Conver pear package object to magento object
      * @param Pear_Package_V2 $pearObject
-     * @return \Magento\Connect\Package
+     * @return Magento_Connect_Package
      */
 
     public function convertPackageObject($pearObject)
@@ -229,8 +229,8 @@ final class \Magento\Connect\Converter
             $tempDir = "tmp-".basename($sourceFile).uniqid();
             $outDir = "out-".basename($sourceFile).uniqid();
             $outDir = rtrim($outDir, "\\/");
-            \Magento\System\Dirs::mkdirStrict($outDir);
-            \Magento\System\Dirs::mkdirStrict($tempDir);
+            Magento_System_Dirs::mkdirStrict($outDir);
+            Magento_System_Dirs::mkdirStrict($tempDir);
 
             $result = $arc->unpack($sourceFile, $tempDir);
             if(!$result) {
@@ -263,7 +263,7 @@ final class \Magento\Connect\Converter
                 }
             }
             
-            $target = new \Magento\Connect\Package\Target("target.xml");
+            $target = new Magento_Connect_Package_Target("target.xml");
             $targets = $target->getTargets();                        
             $mageObject->setTarget($target);            
             $validRoles = array_keys($targets);
@@ -282,7 +282,7 @@ final class \Magento\Connect\Converter
                 $sourceFile = $pathSource.DS.$name;
                 $targetFile = $outDir . DS . $baseName . DS. $name;
                 if(file_exists($sourceFile)) {
-                    \Magento\System\Dirs::mkdirStrict(dirname($targetFile));
+                    Magento_System_Dirs::mkdirStrict(dirname($targetFile));
                     $copy = @copy($sourceFile, $targetFile);
                     if(false === $copy) {
                         throw new Exception("Cannot copy '{$sourceFile}' to '{$targetFile}'");
@@ -301,13 +301,13 @@ final class \Magento\Connect\Converter
             if(@file_exists($targetArchive)) {
                 @unlink($targetArchive);
             }
-            \Magento\System\Dirs::mkdirStrict(dirname($destFile));
+            Magento_System_Dirs::mkdirStrict(dirname($destFile));
             $copy = @copy($filename, $destFile);
             if(false === $copy) {
                 throw new Exception("Cannot copy '{$filename}' to '{$targetArchive}'");
             }
-            \Magento\System\Dirs::rm($tempDir);
-            \Magento\System\Dirs::rm($outDir);
+            Magento_System_Dirs::rm($tempDir);
+            Magento_System_Dirs::rm($outDir);
 
         } catch (Exception $e) {
             throw $e;

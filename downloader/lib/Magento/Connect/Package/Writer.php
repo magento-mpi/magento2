@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Connect\Package\Writer
+class Magento_Connect_Package_Writer
 {
 
     /**
@@ -38,7 +38,7 @@ class \Magento\Connect\Package\Writer
     /**
     * Archivator is used for extract DEFAULT_NAME_PACKAGE.
     *
-    * @var \Magento\Archive
+    * @var Magento_Archive
     */
     protected $_archivator = null;
 
@@ -69,7 +69,7 @@ class \Magento\Connect\Package\Writer
     *
     * @param array $files
     * @param string $namePackage
-    * @return \Magento\Connect\Package\Reader
+    * @return Magento_Connect_Package_Reader
     */
     public function __construct($files, $namePackage='')
     {
@@ -81,12 +81,12 @@ class \Magento\Connect\Package\Writer
     /**
     * Retrieve archivator.
     *
-    * @return \Magento\Archive
+    * @return Magento_Archive
     */
     protected function _getArchivator()
     {
         if (is_null($this->_archivator)) {
-            $this->_archivator = new \Magento\Archive();
+            $this->_archivator = new Magento_Archive();
         }
         return $this->_archivator;
     }
@@ -95,7 +95,7 @@ class \Magento\Connect\Package\Writer
     * Create dir in PATH_TO_TEMPORARY_DIRECTORY and move all files
     * to this dir.
     *
-    * @return \Magento\Connect\Package\Writer
+    * @return Magento_Connect_Package_Writer
     */
     public function composePackage()
     {
@@ -123,7 +123,7 @@ class \Magento\Connect\Package\Writer
     * Add package.xml to temporary package directory.
     *
     * @param $content
-    * @return \Magento\Connect\Package\Writer
+    * @return Magento_Connect_Package_Writer
     */
     public function addPackageXml($content)
     {
@@ -134,7 +134,7 @@ class \Magento\Connect\Package\Writer
     /**
     * Archives package.
     *
-    * @return \Magento\Connect\Package\Writer
+    * @return Magento_Connect_Package_Writer
     */
     public function archivePackage()
     {
@@ -144,7 +144,7 @@ class \Magento\Connect\Package\Writer
             true);
 
         //delete temporary dir
-        \Magento\System\Dirs::rm(array("-r", $this->_temporaryPackageDir));
+        Magento_System_Dirs::rm(array("-r", $this->_temporaryPackageDir));
         return $this;
     }
     

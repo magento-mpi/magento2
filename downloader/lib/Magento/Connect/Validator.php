@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class \Magento\Connect\Validator
+class Magento_Connect_Validator
 {
     /**
      * Array of stability variants
@@ -442,7 +442,7 @@ class \Magento\Connect\Validator
      * Validate contents of package
      *
      * @param array $contents
-     * @param \Magento\Connect\Config $config
+     * @param Magento_Connect_Config $config
      * @return bool
      */
     public function validateContents(array $contents, $config)
