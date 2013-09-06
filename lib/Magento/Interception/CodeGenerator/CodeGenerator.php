@@ -13,16 +13,16 @@ class Magento_Interception_CodeGenerator_CodeGenerator
     /**
      * Class generator
      *
-     * @var Magento_Code_Generator
+     * @var \Magento\Code\Generator
      */
     protected $_generator;
 
     /**
-     * @param Magento_Code_Generator $generator
+     * @param \Magento\Code\Generator $generator
      */
-    public function __construct(Magento_Code_Generator $generator = null)
+    public function __construct(\Magento\Code\Generator $generator = null)
     {
-        $this->_generator = $generator ?: new Magento_Code_Generator();
+        $this->_generator = $generator ?: new \Magento\Code\Generator();
     }
 
     /**
