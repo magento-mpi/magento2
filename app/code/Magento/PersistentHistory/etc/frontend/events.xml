@@ -13,7 +13,6 @@
     </event>
     <event name="controller_action_layout_generate_blocks_after">
         <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="applyPersistentData" />
-        <observer name="magento_persistenthistory_cart" instance="Magento_PersistentHistory_Model_Observer" method="removeCartLink" />
     </event>
     <event name="controller_action_predispatch_catalog_product_compare_clear">
         <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="applyCustomerId" />
@@ -85,4 +84,4 @@
     <event name="persistent_session_expired">
         <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="expireSidebars" />
     </event>
-</config>
+</config>
