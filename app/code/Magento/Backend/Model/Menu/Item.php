@@ -486,7 +486,7 @@ class Magento_Backend_Model_Menu_Item
             $this->_urlModel = Magento_Core_Model_ObjectManager::getInstance()
                 ->get('Magento_Backend_Model_Url');
             $this->_moduleList = Magento_Core_Model_ObjectManager::getInstance()
-                >get('Magento_Core_Model_ModuleListInterface');
+                ->get('Magento_Core_Model_ModuleListInterface');
             if ($this->_serializedSubmenu) {
                 $this->_submenu = $this->_menuFactory->create();
                 $this->_submenu->unserialize($this->_serializedSubmenu);
