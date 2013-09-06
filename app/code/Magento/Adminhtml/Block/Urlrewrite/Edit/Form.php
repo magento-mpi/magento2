@@ -18,7 +18,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * @var array
@@ -114,7 +114,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
         $this->_initFormValues();
 
         // Prepare form
-        $form = new Magento_Data_Form(array(
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
             'id'            => 'edit_form',
             'use_container' => true,
             'method'        => 'post'

@@ -25,7 +25,7 @@
  */
 // @codingStandardsIgnoreEnd
 abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Prepare general form for scheduled operation
@@ -36,7 +36,8 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
     {
         /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
         $operation = Mage::registry('current_operation');
-        $form = new Magento_Data_Form(array(
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
             'id'     => 'edit_form',
             'name'   => 'scheduled_operation'
         ));

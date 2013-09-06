@@ -15,7 +15,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Prepare Extension Package Form
@@ -24,7 +24,8 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Form extends Magento
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post'

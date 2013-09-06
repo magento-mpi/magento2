@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Report type options
@@ -101,7 +101,8 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block
     protected function _prepareForm()
     {
         $actionUrl = $this->getUrl('*/*/sales');
-        $form = new Magento_Data_Form(
+        /** @var Magento_Data_Form $form */
+        $form   = $this->_formFactory->create(
             array('id' => 'filter_form', 'action' => $actionUrl, 'method' => 'get')
         );
         $htmlIdPrefix = 'sales_report_';

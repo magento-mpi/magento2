@@ -11,7 +11,8 @@
 /**
  * Block that renders Custom tab
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Magento_Backend_Block_Widget_Form
+class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * @var Magento_Eav_Model_Config
@@ -29,6 +30,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
     protected $_themeContext;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Eav_Model_Config $eavConfig
@@ -37,6 +39,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Eav_Model_Config $eavConfig,
@@ -44,7 +47,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
         Magento_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
         $this->_eavConfig = $eavConfig;
         $this->_controlFactory = $controlFactory;
         $this->_themeContext = $themeContext;
@@ -68,7 +71,8 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
             'action'   => '#',
             'method'   => 'post'
         ));

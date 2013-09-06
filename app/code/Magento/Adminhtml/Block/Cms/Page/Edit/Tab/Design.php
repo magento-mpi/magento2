@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Prepare form tab configuration
@@ -36,7 +36,8 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             $isElementDisabled = true;
         }
 
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form   = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('page_');
 

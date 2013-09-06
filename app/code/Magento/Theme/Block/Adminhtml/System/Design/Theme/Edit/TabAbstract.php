@@ -14,7 +14,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
-    extends Magento_Backend_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
@@ -23,18 +23,20 @@ abstract class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstrac
     protected $_objectManager;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
         $this->_objectManager = $objectManager;
     }
 

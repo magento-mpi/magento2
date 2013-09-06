@@ -66,19 +66,13 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     public function getForm()
     {
         if (is_null($this->_form)) {
-            $this->_form = new Magento_Data_Form();
+            /** @var Magento_Data_Form $form */
+            $form = $this->_formFactory->create();
             $this->_prepareForm();
         }
 
         return $this->_form;
     }
-
-    /**
-     * Prepare Form and add elements to form
-     *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
-     */
-    abstract protected function _prepareForm();
 
     /**
      * Return array of additional form element types by type

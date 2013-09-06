@@ -11,7 +11,7 @@
 /**
  * Assign order status to order state form
  */
-class Magento_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     protected function _construct()
     {
@@ -26,7 +26,8 @@ class Magento_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Magento_Adm
      */
     protected function _prepareForm()
     {
-        $form   = new Magento_Data_Form(array(
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
             'id'        => 'edit_form',
             'method'    => 'post'
         ));

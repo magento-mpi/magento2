@@ -35,6 +35,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     protected $_customCssFile;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_ObjectManager $objectManager
@@ -42,13 +43,14 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
         Magento_Theme_Model_Uploader_Service $uploaderService,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $objectManager, $data);
+        parent::__construct($formFactory, $coreData, $context, $objectManager, $data);
         $this->_uploaderService = $uploaderService;
     }
 
@@ -59,7 +61,8 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $this->setForm($form);
         $this->_addThemeCssFieldset();
 

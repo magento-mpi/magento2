@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Review data
@@ -27,18 +27,20 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
 
     /**
      * @param Magento_Review_Helper_Data $reviewData
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Review_Helper_Data $reviewData,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
     }
 
     protected function _prepareForm()
@@ -47,7 +49,8 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
         $product = Mage::getModel('Magento_Catalog_Model_Product')->load($review->getEntityPkValue());
         $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($review->getCustomerId());
 
-        $form = new Magento_Data_Form(array(
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
             'id'        => 'edit_form',
             'action'    => $this->getUrl('*/*/save', array(
                 'id' => $this->getRequest()->getParam('id'),

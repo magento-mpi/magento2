@@ -16,7 +16,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sitemap_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Sitemap_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
 
     /**
@@ -34,7 +34,8 @@ class Magento_Adminhtml_Block_Sitemap_Edit_Form extends Magento_Adminhtml_Block_
     {
         $model = Mage::registry('sitemap_sitemap');
 
-        $form = new Magento_Data_Form(array(
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post'

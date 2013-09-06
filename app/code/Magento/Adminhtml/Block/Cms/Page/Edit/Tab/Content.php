@@ -17,8 +17,8 @@
  */
 
 class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form_Generic
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * @var Magento_Core_Model_Event_Manager
@@ -68,7 +68,8 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
         }
 
 
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form   = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('page_');
 
