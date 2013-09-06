@@ -111,13 +111,14 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function __construct(
         Magento_CatalogRule_Helper_Data $catalogRuleData,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Context $context,
         Magento_CatalogRule_Model_Resource_Rule $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogRuleData = $catalogRuleData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($formFactory, $context, $resource, $resourceCollection, $data);
     }
 
     /**

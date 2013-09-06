@@ -63,13 +63,14 @@ class Magento_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function __construct(
         Magento_Reminder_Helper_Data $reminderData,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Context $context,
         Magento_Reminder_Model_Resource_Rule $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_reminderData = $reminderData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($formFactory, $context, $resource, $resourceCollection, $data);
     }
 
     /**
