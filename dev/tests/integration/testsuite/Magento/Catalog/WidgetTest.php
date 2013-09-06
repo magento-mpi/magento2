@@ -24,8 +24,14 @@ class Magento_Catalog_WidgetTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('list_images', $templates);
 
         $blocks = $config['supported_containers'];
-        $this->assertArrayHasKey('left_column', $blocks);
-        $this->assertArrayHasKey('main_content', $blocks);
-        $this->assertArrayHasKey('right_column', $blocks);
+
+        $containers = array();
+        foreach ($blocks as $block) {
+            $containers[] = $block['container_name'];
+        }
+
+        $this->assertContains('left', $containers);
+        $this->assertContains('content', $containers);
+        $this->assertContains('right', $containers);
     }
 }
