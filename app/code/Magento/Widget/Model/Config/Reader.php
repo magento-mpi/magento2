@@ -43,6 +43,7 @@ class Magento_Widget_Model_Config_Reader extends Magento_Config_Reader_Filesyste
         $domDocumentClass = 'Magento_Config_Dom'
     ) {
         $schema = $schema ?: $moduleReader->getModuleDir('etc', 'Magento_Widget') . '/widget.xsd';
+        $perFileSchema = $perFileSchema ?: $moduleReader->getModuleDir('etc', 'Magento_Widget') . '/widget_file.xsd';
         parent::__construct(
             $fileResolver, $converter, $fileName, $idAttributes, $schema,
             $perFileSchema, $validationState->isValidated(), $domDocumentClass
