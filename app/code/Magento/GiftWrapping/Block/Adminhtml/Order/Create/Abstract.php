@@ -29,20 +29,18 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
 
     /**
      * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
-     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_GiftWrapping_Helper_Data $giftWrappingData,
-        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

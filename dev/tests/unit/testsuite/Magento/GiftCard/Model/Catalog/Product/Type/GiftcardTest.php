@@ -60,8 +60,9 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
         $this->_storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
-            ->getMock();
-        $this->_storeManagerMock->expects($this->once())
+            ->getMockForAbstractClass();
+        $this->_storeManagerMock->expects($this->any())
+            ->method('getStore')
             ->will($this->returnValue($this->_store));
         $this->_mockModel(array('_isStrictProcessMode'));
     }

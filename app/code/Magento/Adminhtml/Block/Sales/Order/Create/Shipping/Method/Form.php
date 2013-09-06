@@ -29,20 +29,18 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
 
     /**
      * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Tax_Helper_Data $taxData,
-        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()

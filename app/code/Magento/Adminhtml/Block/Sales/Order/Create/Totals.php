@@ -30,20 +30,18 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
 
     /**
      * @param Magento_Sales_Helper_Data $salesData
-     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Sales_Helper_Data $salesData,
-        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()

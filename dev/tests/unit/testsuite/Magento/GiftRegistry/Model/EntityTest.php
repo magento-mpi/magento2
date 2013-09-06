@@ -51,8 +51,9 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
         $this->_storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
-            ->getMock();
-        $this->_storeManagerMock->expects($this->once())
+            ->getMockForAbstractClass();
+        $this->_storeManagerMock->expects($this->any())
+            ->method('getStore')
             ->will($this->returnValue($this->_store));
         $this->_emailTemplate = $this->getMock('Magento_Core_Model_Email_Template',
             array('setDesignConfig', 'sendTransactional'), array(), '', false
