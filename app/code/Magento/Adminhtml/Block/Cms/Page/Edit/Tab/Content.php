@@ -27,19 +27,21 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Event_Manager $eventManager,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
     }
 
     /**

@@ -51,18 +51,20 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
 
     /**
      * @param Magento_Backend_Helper_Data $adminhtmlData
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Helper_Data $adminhtmlData,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
     }
 
     /**

@@ -28,21 +28,23 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
     protected $_cmsData = null;
 
     /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_VersionsCms_Helper_Data $cmsData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Form_Factory $formFactory,
         Magento_VersionsCms_Helper_Data $cmsData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Event_Manager $eventManager,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
-        parent::__construct($coreData, $context, $eventManager, $data);
+        parent::__construct($eventManager, $formFactory, $coreData, $context, $data);
     }
 
     /**
