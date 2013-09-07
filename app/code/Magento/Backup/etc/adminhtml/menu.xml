@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="\Magento\Backup::system_tools_backup" title="Backups" module="\Magento\Backup" sortOrder="30" parent="Magento_Adminhtml::system_tools" action="adminhtml/system_backup" resource="\Magento\Backup::backup"/>
+        <add id="Magento\Backup::system_tools_backup" title="Backups" module="\Magento\Backup" sortOrder="30" parent="Magento_Adminhtml::system_tools" action="adminhtml/system_backup" resource="\Magento\Backup::backup"/>
     </menu>
 </config>
