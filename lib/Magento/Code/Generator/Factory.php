@@ -53,7 +53,7 @@ class Factory extends \Magento\Code\Generator\EntityAbstract
             'parameters' => array(
                 array(
                     'name' => 'objectManager',
-                    'type' => 'Magento\ObjectManager'
+                    'type' => '\Magento\ObjectManager'
                 ),
                 array(
                     'name' => 'instanceName',
@@ -66,7 +66,7 @@ class Factory extends \Magento\Code\Generator\EntityAbstract
                 'tags'             => array(
                     array(
                         'name'        => 'param',
-                        'description' => 'Magento\ObjectManager $objectManager'
+                        'description' => '\Magento\ObjectManager $objectManager'
                     ),
                     array(
                         'name'        => 'param',

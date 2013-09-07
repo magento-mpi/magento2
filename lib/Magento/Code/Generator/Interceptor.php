@@ -49,7 +49,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 'docblock' => array(
                     'shortDescription' => 'Object Manager instance',
                     'tags' => array(
-                        array('name' => 'var', 'description' => 'Magento\ObjectManager')
+                        array('name' => 'var', 'description' => '\Magento\ObjectManager')
                     )
                 ),
             ),
