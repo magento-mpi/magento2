@@ -13,6 +13,11 @@ class Magento_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_Tes
 {
     const GIFT_CARD_ACCOUNT_CODE = 'giftcardaccount_fixture';
 
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test apply gift card to shopping cart via API.
      */

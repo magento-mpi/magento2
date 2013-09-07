@@ -21,6 +21,7 @@ class Magento_Catalog_Model_Category_Attribute_ApiTest extends PHPUnit_Framework
 
     protected function setUp()
     {
+        $this->markTestSkipped('Api tests were skipped');
         $this->_model = Mage::getModel('Magento_Catalog_Model_Category_Attribute_Api');
     }
 

@@ -9,6 +9,11 @@
  */
 class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Ensure that partial shipment works correctly.
      *
@@ -16,8 +21,6 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
      */
     public function testPartialShipmentCreate()
     {
-        $this->markTestSkipped();
-
         $order = $this->_getOrderFixture();
         $items = $order->getAllItems();
         $this->assertCount(1, $items, "Exactly one order item was expected to exist.");
@@ -57,8 +60,6 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
      */
     public function testItems()
     {
-        $this->markTestSkipped();
-
         /** Prepare data. */
         $shipmentFixture = $this->_getShipmentFixture();
         $filters = array(
@@ -90,8 +91,6 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
      */
     public function testGetCarriers()
     {
-        $this->markTestSkipped();
-
         /** Prepare data. */
         /** @var Magento_Sales_Model_Order $order */
         $order = Mage::getModel('Magento_Sales_Model_Order');
@@ -118,8 +117,6 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
      */
     public function testAddComment()
     {
-        $this->markTestSkipped();
-
         /** Add comment to shipment via API. */
         $commentText = 'Shipment test comment.';
         $isAdded = Magento_Test_Helper_Api::call(
@@ -150,8 +147,6 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
      */
     public function testTrackOperations()
     {
-        $this->markTestSkipped();
-
         /** Prepare data. */
         $carrierCode = 'ups';
         $trackingTitle = 'Tracking title';
@@ -200,8 +195,6 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
      */
     public function testCRUD()
     {
-        $this->markTestSkipped();
-
         // Create new shipment
         $newShipmentId = Magento_Test_Helper_Api::call(
             $this,
@@ -236,8 +229,6 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
      */
     public function testAutoIncrementType()
     {
-        $this->markTestSkipped();
-
         // Set shipping increment id prefix
         $prefix = '01';
         Magento_Test_Helper_Eav::setIncrementIdPrefix('shipment', $prefix);
@@ -269,8 +260,6 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
      */
     public function testSendInfo()
     {
-        $this->markTestSkipped();
-
         $isSent = Magento_Test_Helper_Api::call(
             $this,
             'salesOrderShipmentSendInfo',

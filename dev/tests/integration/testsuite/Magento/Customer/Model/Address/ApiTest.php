@@ -11,6 +11,11 @@
  */
 class Magento_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test for customer address list
      */
