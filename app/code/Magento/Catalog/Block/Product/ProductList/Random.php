@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Block_Product_ProductList_Random extends Magento_Catalog_Block_Product_ProductList
+class Magento_Catalog_Block_Product_ProductList_Random extends Magento_Catalog_Block_Product_List
 {
     protected function _getProductCollection()
     {

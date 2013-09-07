@@ -15,8 +15,8 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::system">
                     <resource id="Magento_Adminhtml::tools">
-                        <resource id="\Magento\Backup::backup" title="Backups" sortOrder="30">
-                            <resource id="\Magento\Backup::rollback" title="Rollback" />
+                        <resource id="Magento_Backup::backup" title="Backups" sortOrder="30">
+                            <resource id="Magento_Backup::rollback" title="Rollback" />
                         </resource>
                     </resource>
                 </resource>

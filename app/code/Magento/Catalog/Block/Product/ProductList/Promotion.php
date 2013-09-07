@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Block_Product_ProductList_Promotion extends Magento_Catalog_Block_Product_ProductList
+class Magento_Catalog_Block_Product_ProductList_Promotion extends Magento_Catalog_Block_Product_List
 {
     protected function _getProductCollection()
     {
