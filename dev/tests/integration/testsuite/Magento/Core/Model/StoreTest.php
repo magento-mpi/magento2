@@ -32,6 +32,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             'appState' => $objectManager->get('Magento_Core_Model_App_State'),
             'request' => $objectManager->get('Magento_Core_Controller_Request_Http'),
             'configDataResource' => $objectManager->get('Magento_Core_Model_Resource_Config_Data'),
+            'resource' => $objectManager->get('Magento_Core_Model_Resource_Store'),
         );
 
         $this->_model = $this->getMock(
