@@ -18,6 +18,7 @@ class Magento_Catalog_Model_Product_Api_Attribute_TierPriceTest extends PHPUnit_
      */
     protected function setUp()
     {
+        $this->markTestSkipped('Api tests were skipped');
         $productData = require realpath(dirname(__FILE__) . '/../_files/ProductData.php');
         $product = Mage::getModel('Magento_Catalog_Model_Product');
 

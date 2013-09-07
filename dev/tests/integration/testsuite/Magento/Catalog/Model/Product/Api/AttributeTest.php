@@ -10,6 +10,11 @@
  */
 class Magento_Catalog_Model_Product_Api_AttributeTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Tests attribute creation with invalid characters in attribute code (possible SQL injection)
      */
