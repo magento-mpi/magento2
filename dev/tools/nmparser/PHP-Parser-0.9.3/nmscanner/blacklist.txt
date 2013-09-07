@@ -1,0 +1,14 @@
+.idea
+lib/Apache
+lib/PEAR
+lib/phpseclib
+lib/Zend
+lib/3Dsecure
+lib/flex
+lib/googlecheckout
+lib/JSMin
+lib/LinLibertineFont
+lib/PEAR
+lib/phpseclib
+lib/Symfony
+lib/Twig
