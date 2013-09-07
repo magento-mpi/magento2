@@ -66,11 +66,7 @@ class Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
         $this->_cacheInstance->save(
             $timestamp,
             $this->getNonceCacheId($nonce),
-<<<<<<< HEAD:app/code/Mage/Webapi/Model/Soap/Security/UsernameToken/NonceStorage.php
-            array(Mage_Webapi_Model_Cache_Type::CACHE_TAG),
-=======
-            array(Magento_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG),
->>>>>>> upstream/develop:app/code/Magento/Webapi/Model/Soap/Security/UsernameToken/NonceStorage.php
+            array(Magento_Webapi_Model_Cache_Type::CACHE_TAG),
             $nonceCacheTtl
         );
     }

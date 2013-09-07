@@ -73,8 +73,8 @@ class Magento_Webapi_Exception extends RuntimeException
     public function getOriginator()
     {
         return ($this->getHttpCode() < 500)
-            ? Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER
-            : Mage_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER;
+            ? Magento_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER
+            : Magento_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER;
     }
 
     /**

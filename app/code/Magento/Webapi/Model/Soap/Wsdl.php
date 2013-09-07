@@ -22,16 +22,13 @@ class Magento_Webapi_Model_Soap_Wsdl extends Wsdl
      *
      * @param string $name
      * @param string|Zend\Uri\Uri $uri
-<<<<<<< HEAD:app/code/Mage/Webapi/Model/Soap/Wsdl.php
-     * @param Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_AnyComplexType $strategy
+     * @param Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_AnyComplexType $strategy
      */
-    public function __construct($name, $uri, Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_AnyComplexType $strategy)
-=======
-     * @param Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased $strategy
-     */
-    public function __construct($name, $uri, Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased $strategy)
->>>>>>> upstream/develop:app/code/Magento/Webapi/Model/Soap/Wsdl.php
-    {
+    public function __construct(
+        $name,
+        $uri,
+        Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_AnyComplexType $strategy
+    ) {
         $this->_uri = $uri;
         parent::__construct($name, $uri, $strategy);
     }

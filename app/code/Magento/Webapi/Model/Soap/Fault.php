@@ -42,18 +42,18 @@ class Magento_Webapi_Model_Soap_Fault extends RuntimeException
      */
     protected $_details = array();
 
-    /** @var Mage_Core_Model_App */
+    /** @var Magento_Core_Model_App */
     protected $_application;
 
     /**
      * Construct exception.
      *
-     * @param Mage_Core_Model_App $application
-     * @param Mage_Webapi_Exception $previousException
+     * @param Magento_Core_Model_App $application
+     * @param Magento_Webapi_Exception $previousException
      */
     public function __construct(
-        Mage_Core_Model_App $application,
-        Mage_Webapi_Exception $previousException
+        Magento_Core_Model_App $application,
+        Magento_Webapi_Exception $previousException
     ) {
         parent::__construct($previousException->getMessage(), $previousException->getCode(), $previousException);
         $this->_soapCode = $previousException->getOriginator();
@@ -106,7 +106,7 @@ class Magento_Webapi_Model_Soap_Fault extends RuntimeException
      * Add details about current fault.
      *
      * @param array $details Associative array containing details about current fault
-     * @return Mage_Webapi_Model_Soap_Fault
+     * @return Magento_Webapi_Model_Soap_Fault
      */
     public function addDetails($details)
     {

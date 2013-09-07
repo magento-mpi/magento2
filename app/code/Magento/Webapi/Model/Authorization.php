@@ -15,13 +15,21 @@ class Magento_Webapi_Model_Authorization
     protected $_authorization;
 
     /**
+     * @var Magento_Webapi_Helper_Data
+     */
+    protected $_helper;
+
+    /**
      * Initialize dependencies.
      *
+     * @param Magento_Webapi_Helper_Data $helper
      * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
+        Magento_Webapi_Helper_Data $helper,
         Magento_AuthorizationInterface $authorization
     ) {
+        $this->_helper = $helper;
         $this->_authorization = $authorization;
     }
 
@@ -35,21 +43,12 @@ class Magento_Webapi_Model_Authorization
     public function checkServiceAcl($service, $method)
     {
         $coreAuthorization = $this->_authorization;
-<<<<<<< HEAD:app/code/Mage/Webapi/Model/Authorization.php
-        if (!$coreAuthorization->isAllowed($service . Mage_Webapi_Model_Acl_Rule::RESOURCE_SEPARATOR . $method)
-            && !$coreAuthorization->isAllowed(null)
-        ) {
-            throw new Mage_Webapi_Exception(
-                $this->_helper->__('Access to service is forbidden.'),
-                Mage_Webapi_Exception::HTTP_FORBIDDEN
-=======
-        if (!$coreAuthorization->isAllowed($resource . Magento_Webapi_Model_Acl_Rule::RESOURCE_SEPARATOR . $method)
+        if (!$coreAuthorization->isAllowed($service . Magento_Webapi_Model_Acl_Rule::RESOURCE_SEPARATOR . $method)
             && !$coreAuthorization->isAllowed(null)
         ) {
             throw new Magento_Webapi_Exception(
-                __('Access to resource is forbidden.'),
+                $this->_helper->__('Access to service is forbidden.'),
                 Magento_Webapi_Exception::HTTP_FORBIDDEN
->>>>>>> upstream/develop:app/code/Magento/Webapi/Model/Authorization.php
             );
         }
     }

@@ -12,7 +12,7 @@ class Magento_Webapi_Controller_Request extends Zend_Controller_Request_Http
     /**
      * Modify pathInfo: strip down the front name and query parameters.
      *
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_App $app
      * @param null|string|Zend_Uri $uri
      */
     public function __construct($app, $uri = null)
