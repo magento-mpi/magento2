@@ -32,27 +32,12 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Subscription extends Magento_
     /** @var Magento_Core_Model_Registry  */
     private $_registry;
 
-<<<<<<< HEAD:app/code/Mage/Webhook/controllers/Adminhtml/Webhook/SubscriptionController.php
-    /** @var Mage_Webhook_Service_SubscriptionInterfaceV1 */
-=======
     /** @var Magento_Webhook_Service_SubscriptionV1Interface */
->>>>>>> upstream/develop:app/code/Magento/Webhook/Controller/Adminhtml/Webhook/Subscription.php
     private $_subscriptionService;
 
     /**
      * Class constructor
      *
-<<<<<<< HEAD:app/code/Mage/Webhook/controllers/Adminhtml/Webhook/SubscriptionController.php
-     * @param Mage_Core_Model_Registry $registry
-     * @param Mage_Webhook_Service_SubscriptionInterfaceV1 $subscriptionService
-     * @param Mage_Backend_Controller_Context $context
-     * @param string $areaCode
-     */
-    public function __construct(
-        Mage_Core_Model_Registry $registry,
-        Mage_Webhook_Service_SubscriptionInterfaceV1 $subscriptionService,
-        Mage_Backend_Controller_Context $context,
-=======
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Webhook_Service_SubscriptionV1Interface $subscriptionService
      * @param Magento_Backend_Controller_Context $context
@@ -62,7 +47,6 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Subscription extends Magento_
         Magento_Core_Model_Registry $registry,
         Magento_Webhook_Service_SubscriptionV1Interface $subscriptionService,
         Magento_Backend_Controller_Context $context,
->>>>>>> upstream/develop:app/code/Magento/Webhook/Controller/Adminhtml/Webhook/Subscription.php
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);

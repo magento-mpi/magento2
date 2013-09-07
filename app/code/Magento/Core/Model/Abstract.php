@@ -107,22 +107,9 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     protected $_cacheManager;
 
     /**
-<<<<<<< HEAD:app/code/Mage/Core/Model/Abstract.php
-     * Set of fields to be retrieved on entity loading.
-     *
-     * @var array
-     */
-    protected $_fieldset = array();
-
-    /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
-=======
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
->>>>>>> upstream/develop:app/code/Magento/Core/Model/Abstract.php
      * @param array $data
      */
     public function __construct(
@@ -324,30 +311,6 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
         $this->getResource()->afterLoad($this);
         $this->_afterLoad();
         return $this;
-    }
-
-    /**
-     * Set active set of fields to be used for entity loading.
-     *
-     * @param array $fieldset
-     * @return Mage_Core_Model_Abstract
-     */
-    public function setFieldset($fieldset)
-    {
-        if (is_array($fieldset)) {
-            $this->_fieldset = $fieldset;
-        }
-        return $this;
-    }
-
-    /**
-     * Get active set of fields to be used for entity loading.
-     *
-     * @return array
-     */
-    public function getFieldset()
-    {
-        return $this->_fieldset;
     }
 
     /**
@@ -661,9 +624,9 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
      */
     protected function _afterDeleteCommit()
     {
-         $this->_eventDispatcher->dispatch('model_delete_commit_after', array('object' => $this));
-         $this->_eventDispatcher->dispatch($this->_eventPrefix . '_delete_commit_after', $this->_getEventData());
-         return $this;
+        $this->_eventDispatcher->dispatch('model_delete_commit_after', array('object' => $this));
+        $this->_eventDispatcher->dispatch($this->_eventPrefix . '_delete_commit_after', $this->_getEventData());
+        return $this;
     }
 
     /**

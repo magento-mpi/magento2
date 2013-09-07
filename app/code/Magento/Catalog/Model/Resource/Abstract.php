@@ -87,15 +87,9 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Magento_Eav_Model
      * Retrieve select object for loading entity attributes values
      * Join attribute store value
      *
-<<<<<<< HEAD:app/code/Mage/Catalog/Model/Resource/Abstract.php
-     * @param Mage_Core_Model_Abstract $object
-     * @param string $table
-     * @return Zend_Db_Select|bool Return false in case when no attributes should be loaded from current table
-=======
      * @param Magento_Object $object
      * @param string $table
      * @return Magento_DB_Select
->>>>>>> upstream/develop:app/code/Magento/Catalog/Model/Resource/Abstract.php
      */
     protected function _getLoadAttributesSelect($object, $table)
     {
@@ -127,10 +121,6 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Magento_Eav_Model
                     . ' AND set_table.attribute_set_id = ?', $setId),
                 array()
             );
-        }
-        $skipCurrentSelect = !$this->_applyFieldsetFilter($select, $object->getFieldset());
-        if ($skipCurrentSelect) {
-            return false;
         }
         return $select;
     }

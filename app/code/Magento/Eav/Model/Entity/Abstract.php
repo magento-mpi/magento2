@@ -1004,14 +1004,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
             $attribute = current($this->_attributesByTable[$table]);
             $eavType = $attribute->getBackendType();
             $select = $this->_getLoadAttributesSelect($object, $table);
-<<<<<<< HEAD:app/code/Mage/Eav/Model/Entity/Abstract.php
-            if ($select === false) {
-                continue;
-            }
-            $selects[$eavType][] = $this->_addLoadAttributesSelectFields($select, $table, $eavType);
-=======
             $selects[$eavType][] = $select->columns('*');
->>>>>>> upstream/develop:app/code/Magento/Eav/Model/Entity/Abstract.php
         }
         $selectGroups = Mage::getResourceHelper('Magento_Eav')->getLoadAttributesSelectGroups($selects);
         foreach ($selectGroups as $selects) {
@@ -1043,19 +1036,14 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Retrieve select object for loading base entity row
      *
-<<<<<<< HEAD:app/code/Mage/Eav/Model/Entity/Abstract.php
-     * @param   Mage_Core_Model_Abstract $object
-=======
      * @param   Magento_Object $object
->>>>>>> upstream/develop:app/code/Magento/Eav/Model/Entity/Abstract.php
      * @param   mixed $rowId
      * @return  Zend_Db_Select
      */
     protected function _getLoadRowSelect($object, $rowId)
     {
-        $columns = $this->_getColumnsForEntityLoad($object, $this->getEntityTable());
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getEntityTable(), $columns)
+            ->from($this->getEntityTable())
             ->where($this->getEntityIdField() . ' =?', $rowId);
 
         return $select;
@@ -1064,98 +1052,20 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Retrieve select object for loading entity attributes values
      *
-<<<<<<< HEAD:app/code/Mage/Eav/Model/Entity/Abstract.php
-     * @param   Mage_Core_Model_Abstract $object
-     * @param   string $table
-     * @return  Zend_Db_Select|bool Return false in case when no attributes should be loaded from current table
-=======
      * @param   Magento_Object $object
      * @param   string $table
      * @return  Zend_Db_Select
->>>>>>> upstream/develop:app/code/Magento/Eav/Model/Entity/Abstract.php
      */
     protected function _getLoadAttributesSelect($object, $table)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($table, array())
             ->where($this->getEntityIdField() . ' =?', $object->getId());
-        $skipCurrentSelect = !$this->_applyFieldsetFilter($select, $object->getFieldset());
-        if ($skipCurrentSelect) {
-            return false;
-        }
+
         return $select;
     }
 
     /**
-<<<<<<< HEAD:app/code/Mage/Eav/Model/Entity/Abstract.php
-     * Apply filter to the attributes select object based on entity active fieldset.
-     *
-     * @param Zend_Db_Select $select
-     * @param array $fieldset
-     * @return bool Return false if current select object will not return any records
-     */
-    protected function _applyFieldsetFilter(Zend_Db_Select &$select, array $fieldset)
-    {
-        /** Identify the list of tables participating in current select. */
-        $selectFromParts = $select->getPart(Zend_Db_Select::FROM);
-        $currentTables = array();
-        if (is_array($selectFromParts)) {
-            foreach ($selectFromParts as $selectFromPart) {
-                $currentTables[] = $selectFromPart['tableName'];
-            }
-        } else {
-            return true;
-        }
-
-        $fieldsetAttributeIds = array();
-        /** @var $eavConfig Mage_Eav_Model_Config */
-        $eavConfig = Mage::getSingleton('Mage_Eav_Model_Config');
-        foreach ($fieldset as $attributeCode) {
-            $attribute = $eavConfig->getAttribute($this->getEntityType(), $attributeCode);
-            if ($attribute->getId()) {
-                if (in_array($attribute->getBackendTable(), $currentTables)) {
-                    /** Current attribute filter should be applied to current select expression */
-                    $fieldsetAttributeIds[] = $attribute->getId();
-                }
-            }
-        }
-        if (!empty($fieldsetAttributeIds)) {
-            $tablesAliases = array_keys($selectFromParts);
-            /** Any table alias can be used as they are joined by attribute_id field. */
-            $tableName = reset($tablesAliases);
-            $select->where(
-                $this->_getReadAdapter()->quoteIdentifier($tableName) . '.attribute_id IN (?)',
-                $fieldsetAttributeIds
-            );
-        } elseif (!empty($fieldset)) {
-            /**
-             * Current select must not return any records as fieldset is not empty
-             * but there are no fields to be requested from current EAV table.
-             */
-             return false;
-        }
-        return true;
-    }
-
-    /**
-     * Adds Columns prepared for union
-     *
-     * @param Varien_Db_Select $select
-     * @param string $table
-     * @param string $type
-     * @return Varien_Db_Select
-     */
-    protected function _addLoadAttributesSelectFields($select, $table, $type)
-    {
-        $select->columns(
-            Mage::getResourceHelper('Mage_Eav')->attributeSelectFields($table, $type)
-        );
-        return $select;
-    }
-
-    /**
-=======
->>>>>>> upstream/develop:app/code/Magento/Eav/Model/Entity/Abstract.php
      * Initialize attribute value for object
      *
      * @param   Magento_Object $object

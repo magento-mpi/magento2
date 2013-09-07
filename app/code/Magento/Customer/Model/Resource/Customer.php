@@ -182,11 +182,7 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
     /**
      * Retrieve select object for loading base entity row
      *
-<<<<<<< HEAD:app/code/Mage/Customer/Model/Resource/Customer.php
-     * @param Mage_Core_Model_Abstract $object
-=======
      * @param Magento_Object $object
->>>>>>> upstream/develop:app/code/Magento/Customer/Model/Resource/Customer.php
      * @param mixed $rowId
      * @return Magento_DB_Select
      */
