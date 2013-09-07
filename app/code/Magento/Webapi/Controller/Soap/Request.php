@@ -12,23 +12,15 @@ class Magento_Webapi_Controller_Soap_Request extends Magento_Webapi_Controller_R
     /** @var Magento_Core_Model_App */
     protected $_application;
 
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_helper;
-
     /**
      * Initialize dependencies.
      *
      * @param Magento_Core_Model_App $application
-     * @param Magento_Webapi_Helper_Data $helper
      * @param string|null $uri
      */
-    public function __construct(
-        Magento_Core_Model_App $application,
-        Magento_Webapi_Helper_Data $helper,
-        $uri = null
-    ) {
+    public function __construct(Magento_Core_Model_App $application, $uri = null)
+    {
         parent::__construct($application, $uri);
-        $this->_helper = $helper;
     }
 
     /**
@@ -46,8 +38,8 @@ class Magento_Webapi_Controller_Soap_Request extends Magento_Webapi_Controller_R
         $allowedParams = array($wsdlParam, $servicesParam);
         $notAllowedParameters = array_diff($requestParams, $allowedParams);
         if (count($notAllowedParameters)) {
-            $message = $this->_helper->__('Not allowed parameters: %s. ', implode(', ', $notAllowedParameters))
-                . $this->_helper->__('Please use only "%s" and "%s".', $wsdlParam, $servicesParam);
+            $message = __('Not allowed parameters: %s. ', implode(', ', $notAllowedParameters))
+                . __('Please use only "%s" and "%s".', $wsdlParam, $servicesParam);
             throw new Magento_Webapi_Exception($message, Magento_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
@@ -73,7 +65,7 @@ class Magento_Webapi_Controller_Soap_Request extends Magento_Webapi_Controller_R
         $regexp = "/^($serviceVerPattern)([$serviceSeparator]$serviceVerPattern)*$/";
         //Check if the $param is of valid format
         if (empty($param) || !preg_match($regexp, $param)) {
-            $message = $this->_helper->__('Incorrect format of WSDL request URI or Requested services are missing.');
+            $message = __('Incorrect format of WSDL request URI or Requested services are missing.');
             throw new Magento_Webapi_Exception($message, Magento_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         //Split the $param string to create an array of 'service' => 'version'

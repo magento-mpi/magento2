@@ -24,9 +24,6 @@ class Magento_Webapi_Controller_ErrorProcessor
     /** @var Magento_Core_Helper_Data */
     protected $_coreHelper;
 
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_apiHelper;
-
     /** @var Magento_Core_Model_App */
     protected $_app;
 
@@ -46,7 +43,6 @@ class Magento_Webapi_Controller_ErrorProcessor
         Magento_Core_Model_Logger $logger
     ) {
         $this->_coreHelper = $helperFactory->get('Magento_Core_Helper_Data');
-        $this->_apiHelper = $helperFactory->get('Magento_Webapi_Helper_Data');
         $this->_app = $app;
         $this->_logger = $logger;
         $this->registerShutdownFunction();
@@ -55,7 +51,7 @@ class Magento_Webapi_Controller_ErrorProcessor
     /**
      * Mask actual exception for security reasons in case when it should not be exposed to API clients.
      *
-     * Convert any exception into Mage_Webapi_Exception.
+     * Convert any exception into Magento_Webapi_Exception.
      *
      * @param Exception $exception
      * @return Magento_Webapi_Exception
@@ -77,8 +73,7 @@ class Magento_Webapi_Controller_ErrorProcessor
                 $reportId = $this->_logException($exception);
                 /** Create exception with masked message. */
                 $maskedException = new Magento_Webapi_Exception(
-                    $this->_apiHelper
-                        ->__('Internal Error. Details are available in Magento log file. Report ID: "%s"', $reportId),
+                    __('Internal Error. Details are available in Magento log file. Report ID: "%s"', $reportId),
                     Magento_Webapi_Exception::HTTP_INTERNAL_ERROR
                 );
             } else {
@@ -108,8 +103,7 @@ class Magento_Webapi_Controller_ErrorProcessor
         } else {
             $reportId = $this->_logException($exception);
             $this->render(
-                $this->_coreHelper
-                    ->__('Internal Error. Details are available in Magento log file. Report ID: "%s"', $reportId),
+                __('Internal Error. Details are available in Magento log file. Report ID: "%s"', $reportId),
                 'Trace is not available.',
                 $httpCode
             );
@@ -227,9 +221,7 @@ class Magento_Webapi_Controller_ErrorProcessor
             if ($this->_app->isDeveloperMode()) {
                 $this->render($errorMessage);
             } else {
-                $this->render(
-                    $this->_apiHelper->__('Server internal error. See details in report api/%s', $reportId)
-                );
+                $this->render(__('Server internal error. See details in report api/%s', $reportId));
             }
         }
     }

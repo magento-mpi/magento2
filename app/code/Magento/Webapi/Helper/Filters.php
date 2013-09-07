@@ -30,7 +30,7 @@ class Magento_Webapi_Helper_Filters extends Magento_Core_Helper_Abstract
         Magento_Core_Model_Config $config
     ) {
         parent::__construct($context);
-        $moduleDir = $config->getModuleDir('etc', 'Mage_Webapi');
+        $moduleDir = $config->getModuleDir('etc', 'Magento_Webapi');
         $retriever = new JsonSchema\Uri\UriRetriever();
         $this->_schema = $retriever->retrieve('file://' . $moduleDir . '/json/filters-schema.json');
         $refResolver = new JsonSchema\RefResolver($retriever);

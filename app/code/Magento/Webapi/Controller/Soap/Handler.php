@@ -28,9 +28,6 @@ class Magento_Webapi_Controller_Soap_Handler
     /** @var Magento_Webapi_Model_Soap_Config */
     protected $_apiConfig;
 
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_helper;
-
     /**
      * Initialize dependencies.
      *
@@ -39,22 +36,19 @@ class Magento_Webapi_Controller_Soap_Handler
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Webapi_Model_Soap_Config $apiConfig
      * @param Magento_Webapi_Controller_Soap_Security $security
-     * @param Magento_Webapi_Helper_Data $helper
      */
     public function __construct(
         Magento_Core_Model_App $application,
         Magento_Webapi_Controller_Soap_Request $request,
         Magento_ObjectManager $objectManager,
         Magento_Webapi_Model_Soap_Config $apiConfig,
-        Magento_Webapi_Controller_Soap_Security $security,
-        Magento_Webapi_Helper_Data $helper
+        Magento_Webapi_Controller_Soap_Security $security
     ) {
         $this->_application = $application;
         $this->_request = $request;
         $this->_objectManager = $objectManager;
         $this->_apiConfig = $apiConfig;
         $this->_security = $security;
-        $this->_helper = $helper;
     }
 
     /**
@@ -83,7 +77,7 @@ class Magento_Webapi_Controller_Soap_Handler
             // check if the operation is a secure operation & whether the request was made in HTTPS
             if ($serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_IS_SECURE] && !$this->_request->isSecure()) {
                 throw new Magento_Webapi_Exception(
-                    $this->_helper->__("Operation allowed only in HTTPS"),
+                    __("Operation allowed only in HTTPS"),
                     Magento_Webapi_Exception::HTTP_BAD_REQUEST
                 );
             }

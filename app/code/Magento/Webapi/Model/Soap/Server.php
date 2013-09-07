@@ -69,15 +69,14 @@ class Magento_Webapi_Model_Soap_Server
     protected function _checkRequest($soapRequest)
     {
         // TODO: Check why entity loader is required here
-        // TODO: Add translation to all Mage_Webapi_Exceptions
         libxml_disable_entity_loader(true);
         $dom = new DOMDocument();
         if (strlen($soapRequest) == 0 || !$dom->loadXML($soapRequest)) {
-            throw new Magento_Webapi_Exception('Invalid XML', Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
+            throw new Magento_Webapi_Exception(__('Invalid XML'), Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
         }
         foreach ($dom->childNodes as $child) {
             if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
-                throw new Magento_Webapi_Exception('Invalid XML: Detected use of illegal DOCTYPE',
+                throw new Magento_Webapi_Exception(__('Invalid XML: Detected use of illegal DOCTYPE'),
                     Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
             }
         }

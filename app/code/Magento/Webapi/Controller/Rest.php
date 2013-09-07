@@ -27,9 +27,6 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
     /** @var Magento_ObjectManager */
     protected $_objectManager;
 
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var Magento_Core_Model_App_State */
     protected $_appState;
 
@@ -41,17 +38,15 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
      * @param Magento_Webapi_Controller_Rest_Router $router
      * @param Magento_Webapi_Controller_Rest_Authentication $authentication
      * @param Magento_ObjectManager $objectManager
-     * @param Magento_Webapi_Helper_Data $helper
      * @param Magento_Core_Model_App_State $appState
      */
     public function __construct(
         Magento_Webapi_Controller_Rest_Request $request,
         Magento_Webapi_Controller_Rest_Response $response,
         Magento_Webapi_Controller_Rest_Router $router,
-        // TODO: Mage_Webapi_Model_Authorization $authorization,
+        // TODO: Magento_Webapi_Model_Authorization $authorization,
         Magento_Webapi_Controller_Rest_Authentication $authentication,
         Magento_ObjectManager $objectManager,
-        Magento_Webapi_Helper_Data $helper,
         Magento_Core_Model_App_State $appState
     ) {
         $this->_router = $router;
@@ -60,7 +55,6 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
         $this->_request = $request;
         $this->_response = $response;
         $this->_objectManager = $objectManager;
-        $this->_helper = $helper;
         $this->_appState = $appState;
     }
 
@@ -84,7 +78,7 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new Magento_Webapi_Exception(
-                    $this->_helper->__('Magento is not yet installed'),
+                    __('Magento is not yet installed'),
                     Magento_Webapi_Exception::HTTP_BAD_REQUEST
                 );
             }
@@ -93,7 +87,7 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
 
             if ($route->isSecure() && !$this->_request->isSecure()) {
                 throw new Magento_Webapi_Exception(
-                    $this->_helper->__('Operation allowed only in HTTPS'),
+                    __('Operation allowed only in HTTPS'),
                     Magento_Webapi_Exception::HTTP_BAD_REQUEST
                 );
             }

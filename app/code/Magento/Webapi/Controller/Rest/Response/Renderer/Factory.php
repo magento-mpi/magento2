@@ -22,9 +22,6 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_Factory
     /** @var Magento_Core_Model_Config */
     protected $_applicationConfig;
 
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var Magento_Webapi_Controller_Rest_Request */
     protected $_request;
 
@@ -33,18 +30,15 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_Factory
      *
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_Config $applicationConfig
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Webapi_Controller_Rest_Request $request
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Magento_Core_Model_Config $applicationConfig,
-        Magento_Core_Model_Factory_Helper $helperFactory,
         Magento_Webapi_Controller_Rest_Request $request
     ) {
         $this->_objectManager = $objectManager;
         $this->_applicationConfig = $applicationConfig;
-        $this->_helper = $helperFactory->get('Magento_Webapi_Helper_Data');
         $this->_request = $request;
     }
 
@@ -77,14 +71,14 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_Factory
         if (!isset($rendererClass)) {
             /** If server does not have renderer for any of the accepted types it SHOULD send 406 (not acceptable). */
             throw new Magento_Webapi_Exception(
-                $this->_helper->__('Server cannot understand Accept HTTP header media type.'),
+                __('Server cannot understand Accept HTTP header media type.'),
                 Magento_Webapi_Exception::HTTP_NOT_ACCEPTABLE
             );
         }
         $renderer = $this->_objectManager->get($rendererClass);
         if (!$renderer instanceof Magento_Webapi_Controller_Rest_Response_RendererInterface) {
             throw new LogicException(
-                'The renderer must implement "Mage_Webapi_Controller_Rest_Response_RendererInterface".');
+                'The renderer must implement "Magento_Webapi_Controller_Rest_Response_RendererInterface".');
         }
         return $renderer;
     }

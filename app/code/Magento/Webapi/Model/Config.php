@@ -95,7 +95,7 @@ class Magento_Webapi_Model_Config
         if (null === $this->_reader) {
             $configFiles = $this->_getConfigFile();
             $this->_reader = $this->_config->getModelInstance(
-                'Mage_Webapi_Model_Config_Reader',
+                'Magento_Webapi_Model_Config_Reader',
                 array('configFiles' => $configFiles)
             );
         }

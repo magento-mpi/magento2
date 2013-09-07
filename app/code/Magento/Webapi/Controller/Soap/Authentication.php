@@ -9,9 +9,6 @@
  */
 class Magento_Webapi_Controller_Soap_Authentication
 {
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_helper;
-
     /**
      * Username token factory.
      *
@@ -25,16 +22,13 @@ class Magento_Webapi_Controller_Soap_Authentication
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Helper_Data $helper
      * @param Magento_Webapi_Model_Soap_Security_UsernameToken_Factory $usernameTokenFactory
      * @param Magento_Webapi_Model_Authorization_RoleLocator $roleLocator
      */
     public function __construct(
-        Magento_Webapi_Helper_Data $helper,
         Magento_Webapi_Model_Soap_Security_UsernameToken_Factory $usernameTokenFactory,
         Magento_Webapi_Model_Authorization_RoleLocator $roleLocator
     ) {
-        $this->_helper = $helper;
         $this->_tokenFactory = $usernameTokenFactory;
         $this->_roleLocator = $roleLocator;
     }
@@ -56,22 +50,22 @@ class Magento_Webapi_Controller_Soap_Authentication
             $this->_roleLocator->setRoleId($user->getRoleId());
         } catch (Magento_Webapi_Model_Soap_Security_UsernameToken_NonceUsedException $e) {
             throw new Magento_Webapi_Exception(
-                $this->_helper->__('WS-Security UsernameToken Nonce is already used.'),
+                __('WS-Security UsernameToken Nonce is already used.'),
                 Magento_Webapi_Exception::HTTP_BAD_REQUEST
             );
         } catch (Magento_Webapi_Model_Soap_Security_UsernameToken_TimestampRefusedException $e) {
             throw new Magento_Webapi_Exception(
-                $this->_helper->__('WS-Security UsernameToken Created timestamp is refused.'),
+                __('WS-Security UsernameToken Created timestamp is refused.'),
                 Magento_Webapi_Exception::HTTP_BAD_REQUEST
             );
         } catch (Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException $e) {
             throw new Magento_Webapi_Exception(
-                $this->_helper->__('Invalid Username or Password.'),
+                __('Invalid Username or Password.'),
                 Magento_Webapi_Exception::HTTP_BAD_REQUEST
             );
         } catch (Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidDateException $e) {
             throw new Magento_Webapi_Exception(
-                $this->_helper->__('Invalid UsernameToken Created date.'),
+                __('Invalid UsernameToken Created date.'),
                 Magento_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }

@@ -25,9 +25,6 @@ class Magento_Webapi_Controller_Soap_Security
      */
     protected $_usernameToken;
 
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var Magento_Webapi_Controller_Soap_Authentication */
     protected $_authentication;
 
@@ -37,16 +34,13 @@ class Magento_Webapi_Controller_Soap_Security
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Helper_Data $helper
      * @param Magento_Webapi_Controller_Soap_Authentication $authentication
      * @param Magento_Webapi_Model_Authorization $authorization
      */
     public function __construct(
-        Magento_Webapi_Helper_Data $helper,
         Magento_Webapi_Controller_Soap_Authentication $authentication,
         Magento_Webapi_Model_Authorization $authorization
     ) {
-        $this->_helper = $helper;
         $this->_authentication = $authentication;
         $this->_authorization = $authorization;
     }
@@ -65,9 +59,9 @@ class Magento_Webapi_Controller_Soap_Security
     {
         // TODO: Uncomment authentication
         // if (is_null($this->_usernameToken)) {
-        //     throw new Mage_Webapi_Exception(
-        //         $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
-        //         Mage_Webapi_Exception::HTTP_UNAUTHORIZED
+        //     throw new Magento_Webapi_Exception(
+        //         __('WS-Security UsernameToken is not found in SOAP-request.'),
+        //         Magento_Webapi_Exception::HTTP_UNAUTHORIZED
         //     );
         // }
         // $this->_authentication->authenticate($this->_usernameToken);

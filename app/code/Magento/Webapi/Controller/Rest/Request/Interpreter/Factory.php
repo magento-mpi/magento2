@@ -22,9 +22,6 @@ class Magento_Webapi_Controller_Rest_Request_Interpreter_Factory
     /** @var Magento_Core_Model_Config */
     protected $_applicationConfig;
 
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var Magento_Core_Model_Factory_Helper */
     protected $_helperFactory;
 
@@ -41,7 +38,6 @@ class Magento_Webapi_Controller_Rest_Request_Interpreter_Factory
         $this->_objectManager = $objectManager;
         $this->_applicationConfig = $applicationConfig;
         $this->_helperFactory = $helperFactory;
-        $this->_helper = $this->_helperFactory->get('Magento_Webapi_Helper_Data');
     }
 
     /**
@@ -67,7 +63,7 @@ class Magento_Webapi_Controller_Rest_Request_Interpreter_Factory
 
         if (!isset($interpreterClass) || empty($interpreterClass)) {
             throw new Magento_Webapi_Exception(
-                $this->_helper->__('Server cannot understand Content-Type HTTP header media type "%s"', $contentType),
+                __('Server cannot understand Content-Type HTTP header media type "%s"', $contentType),
                 Magento_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }

@@ -55,7 +55,7 @@ class Magento_Webapi_Model_Rest_Config
      *      'routePath' => '/categories/:categoryId',
      *      'httpMethod' => 'GET',
      *      'version' => 1,
-     *      'class' => 'Mage_Catalog_Service_CategoryService',
+     *      'class' => 'Magento_Catalog_Service_CategoryService',
      *      'serviceMethod' => 'item'
      *      'secure' => true
      *  );</pre>
@@ -65,7 +65,7 @@ class Magento_Webapi_Model_Rest_Config
     {
         /** @var $route Magento_Webapi_Controller_Rest_Router_Route */
         $route = $this->_routeFactory->createRoute(
-            'Mage_Webapi_Controller_Rest_Router_Route',
+            'Magento_Webapi_Controller_Rest_Router_Route',
             strtolower($routeData[self::KEY_ROUTE_PATH])
         );
 

@@ -8,7 +8,6 @@ use Zend\Soap\Wsdl;
  *
  * @copyright   {copyright}
  * @license     {license_link}
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Magento_Webapi_Model_Soap_Wsdl_Generator
 {
@@ -21,11 +20,6 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      * @var Magento_Webapi_Model_Soap_Wsdl_Factory
      */
     protected $_wsdlFactory;
-
-    /**
-     * @var Magento_Webapi_Helper_Data
-     */
-    protected $_helper;
 
     /**
      * @var Magento_Core_Model_CacheInterface
@@ -50,19 +44,16 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      * Initialize dependencies.
      *
      * @param Magento_Webapi_Model_Soap_Config $apiConfig
-     * @param Magento_Webapi_Helper_Data $helper
      * @param Magento_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Magento_Core_Model_CacheInterface $cache
      */
     public function __construct(
         Magento_Webapi_Model_Soap_Config $apiConfig,
-        Magento_Webapi_Helper_Data $helper,
         Magento_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Magento_Core_Model_CacheInterface $cache
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
-        $this->_helper = $helper;
         $this->_cache = $cache;
     }
 
@@ -423,7 +414,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
         $requestedServices = $this->_apiConfig->getRequestedSoapServices(array($serviceName));
         if (empty($requestedServices)) {
             throw new Magento_Webapi_Exception(
-                $this->_helper->__('Service "%s" is not available.', $serviceName),
+                __('Service "%s" is not available.', $serviceName),
                 Magento_Webapi_Exception::HTTP_NOT_FOUND
             );
         }

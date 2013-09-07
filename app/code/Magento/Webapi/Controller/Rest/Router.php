@@ -12,23 +12,16 @@ class Magento_Webapi_Controller_Rest_Router
     /** @var array */
     protected $_routes = array();
 
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var Magento_Webapi_Model_Rest_Config */
     protected $_apiConfig;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Helper_Data $helper
      * @param Magento_Webapi_Model_Rest_Config $apiConfig
      */
-    public function __construct(
-        Magento_Webapi_Helper_Data $helper,
-        Magento_Webapi_Model_Rest_Config $apiConfig
-    ) {
-        $this->_helper = $helper;
+    public function __construct(Magento_Webapi_Model_Rest_Config $apiConfig)
+    {
         $this->_apiConfig = $apiConfig;
     }
 
@@ -56,7 +49,7 @@ class Magento_Webapi_Controller_Rest_Router
                 return $route;
             }
         }
-        throw new Magento_Webapi_Exception($this->_helper->__('Request does not match any route.'),
+        throw new Magento_Webapi_Exception(__('Request does not match any route.'),
             Magento_Webapi_Exception::HTTP_NOT_FOUND);
     }
 

@@ -27,9 +27,6 @@ class Magento_Webapi_Model_Soap_Config
     /** @var Magento_Webapi_Model_Config */
     protected $_config;
 
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var Magento_Core_Model_ObjectManager */
     protected $_objectManager;
 
@@ -53,19 +50,16 @@ class Magento_Webapi_Model_Soap_Config
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Dir $dir
      * @param Magento_Webapi_Model_Config $config
-     * @param Magento_Webapi_Helper_Data $helper
      */
     public function __construct(
         Magento_Core_Model_ObjectManager $objectManager,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Dir $dir,
-        Magento_Webapi_Model_Config $config,
-        Magento_Webapi_Helper_Data $helper
+        Magento_Webapi_Model_Config $config
     ) {
         $this->_filesystem = $filesystem;
         $this->_dir = $dir;
         $this->_config = $config;
-        $this->_helper = $helper;
         $this->_objectManager = $objectManager;
     }
 
@@ -152,7 +146,7 @@ class Magento_Webapi_Model_Soap_Config
         $soapOperations = $this->_getSoapOperations($requestedServices);
         if (!isset($soapOperations[$soapOperation])) {
             throw new Magento_Webapi_Exception(
-                $this->_helper->__('Operation "%s" not found.', $soapOperation),
+                __('Operation "%s" not found.', $soapOperation),
                 Magento_Webapi_Exception::HTTP_NOT_FOUND
             );
         }
@@ -226,7 +220,7 @@ class Magento_Webapi_Model_Soap_Config
     /**
      * Generate SOAP operation name.
      *
-     * @param string $interfaceName e.g. Mage_Catalog_Service_ProductInterfaceV1
+     * @param string $interfaceName e.g. Magento_Catalog_Service_ProductInterfaceV1
      * @param string $methodName e.g. create
      * @return string e.g. catalogProductCreate
      */
@@ -241,9 +235,9 @@ class Magento_Webapi_Model_Soap_Config
      * Translate service interface name into service name.
      * Example:
      * <pre>
-     * - Mage_Customer_Service_CustomerV1Interface         => customer          // $preserveVersion == false
-     * - Mage_Customer_Service_Customer_AddressV1Interface => customerAddressV1 // $preserveVersion == true
-     * - Mage_Catalog_Service_ProductV2Interface           => catalogProductV2  // $preserveVersion == true
+     * - Magento_Customer_Service_CustomerV1Interface         => customer          // $preserveVersion == false
+     * - Magento_Customer_Service_Customer_AddressV1Interface => customerAddressV1 // $preserveVersion == true
+     * - Magento_Catalog_Service_ProductV2Interface           => catalogProductV2  // $preserveVersion == true
      * </pre>
      *
      * @param string $interfaceName
@@ -261,9 +255,9 @@ class Magento_Webapi_Model_Soap_Config
      * Identify the list of service name parts including sub-services using class name.
      *
      * Examples of input/output pairs: <br/>
-     * - 'Mage_Customer_Service_Customer_AddressV1Interface' => array('Customer', 'Address', 'V1') <br/>
+     * - 'Magento_Customer_Service_Customer_AddressV1Interface' => array('Customer', 'Address', 'V1') <br/>
      * - 'Vendor_Customer_Service_Customer_AddressV1Interface' => array('VendorCustomer', 'Address', 'V1) <br/>
-     * - 'Mage_Catalog_Service_ProductV2Interface' => array('CatalogProduct', 'V2')
+     * - 'Magento_Catalog_Service_ProductV2Interface' => array('CatalogProduct', 'V2')
      *
      * @param string $className
      * @param bool $preserveVersion Should version be preserved during class name conversion into service name
