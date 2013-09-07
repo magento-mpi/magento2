@@ -7,6 +7,19 @@
  */
 class Magento_GiftMessage_Model_Plugin_QuoteItem
 {
+    /** @var \Magento_GiftMessage_Helper_Message */
+    protected $_helper;
+
+    /** @var \Magento_GiftMessage_Model_Message */
+    protected $_message;
+
+    public function __construct(Magento_GiftMessage_Helper_Message $helper,
+            Magento_GiftMessage_Model_Message $message)
+    {
+        $this->_helper = $helper;
+        $this->_message = $message;
+    }
+
     /**
      * @param array $arguments
      * @param Magento_Code_Plugin_InvocationChain $invocationChain
@@ -23,7 +36,7 @@ class Magento_GiftMessage_Model_Plugin_QuoteItem
             return $orderItem;
         }
 
-        $isAvailable = Mage::helper('Magento_GiftMessage_Helper_Message')->isMessagesAvailable(
+        $isAvailable = $this->_helper->isMessagesAvailable(
             'order_item',
             $orderItem,
             $orderItem->getStoreId()
@@ -35,7 +48,7 @@ class Magento_GiftMessage_Model_Plugin_QuoteItem
         /** @var $quoteItem Magento_Sales_Model_Quote_Item */
         $quoteItem = reset($arguments);
         if ($giftMessageId = $orderItem->getGiftMessageId()) {
-            $giftMessage = Mage::getModel('Magento_GiftMessage_Model_Message')->load($giftMessageId)
+            $giftMessage = $this->_message->load($giftMessageId)
                 ->setId(null)
                 ->save();
             $quoteItem->setGiftMessageId($giftMessage->getId());
