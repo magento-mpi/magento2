@@ -9,6 +9,11 @@
  */
 class Magento_GiftCardAccount_Model_Api_CustomerTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test giftcard customer info by code
      *
