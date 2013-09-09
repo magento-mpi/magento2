@@ -36,6 +36,7 @@ class Magento_GiftRegistry_Block_Wishlist_Item_Column_Registry
      */
     public function __construct(
         Magento_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
@@ -44,7 +45,9 @@ class Magento_GiftRegistry_Block_Wishlist_Item_Column_Registry
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
-        parent::__construct($wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct(
+            $eventManager, $wishlistData, $taxData, $catalogData, $coreData, $context, $data
+        );
     }
 
     /**
