@@ -72,7 +72,8 @@ class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         $originalText = file_get_contents(__DIR__ . '/_files/_inline_page_original.html');
         $expectedText = file_get_contents(__DIR__ . '/_files/_inline_page_expected.html');
 
-        $package = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        $package = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface')
             ->getDesignTheme()
             ->getPackageCode();
         $expectedText = str_replace(

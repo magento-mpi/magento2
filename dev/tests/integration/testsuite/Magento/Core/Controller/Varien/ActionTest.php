@@ -299,7 +299,8 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         $controller = $objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
 
-        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface');
         $this->assertEquals($expectedArea, $design->getArea());
         $this->assertEquals($expectedStore, Mage::app()->getStore()->getCode());
         if ($expectedDesign) {
