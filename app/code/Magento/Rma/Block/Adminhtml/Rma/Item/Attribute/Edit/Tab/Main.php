@@ -28,7 +28,6 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     protected $_rmaEav = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Rma_Helper_Eav $rmaEav
      * @param Magento_Eav_Helper_Data $eavData
@@ -37,7 +36,6 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Form_Factory $formFactory,
         Magento_Rma_Helper_Eav $rmaEav,
         Magento_Eav_Helper_Data $eavData,
@@ -46,7 +44,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
-        parent::__construct($eventManager, $formFactory, $eavData, $coreData, $context, $data);
+        parent::__construct($formFactory, $eavData, $coreData, $context, $data);
     }
 
     /**

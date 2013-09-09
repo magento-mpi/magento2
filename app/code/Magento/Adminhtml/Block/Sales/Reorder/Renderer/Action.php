@@ -17,7 +17,7 @@
  */
 
 class Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Array to store all options data
