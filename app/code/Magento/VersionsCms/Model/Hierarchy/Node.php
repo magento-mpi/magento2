@@ -82,6 +82,13 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     protected $_scopeId = self::NODE_SCOPE_DEFAULT_ID;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * Meta node's types
      */
     const META_NODE_TYPE_CHAPTER = 'chapter';
@@ -98,10 +105,12 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $resource, $resourceCollection, $data);
 
         $scope = $scopeId = null;
@@ -724,7 +733,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
         }
         $layoutCode = $rootParams['menu_layout'];
         if (!$layoutCode) {
-            $layoutCode = Mage::getStoreConfig('cms/hierarchy/menu_layout');
+            $layoutCode = $this->_coreStoreConfig->getConfig('cms/hierarchy/menu_layout');
         }
         if (!$layoutCode) {
             return null;

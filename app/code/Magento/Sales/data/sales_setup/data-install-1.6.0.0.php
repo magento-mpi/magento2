@@ -32,7 +32,7 @@ $installer->getConnection()->insertArray(
  * Install order states from config
  */
 $data   = array();
-$states = Mage::getConfig()->getNode('global/sales/order/states')->asArray();
+$states = $installer->getConfigModel()->getNode('global/sales/order/states')->asArray();
 
 foreach ($states as $code => $info) {
     if (isset($info['statuses'])) {

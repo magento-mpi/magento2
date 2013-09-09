@@ -70,18 +70,26 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreConfig;
 
     /**
-     * Constructor
+     * Core store config
      *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig = null;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         parent::__construct(
             $context
         );
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
     }
 
@@ -203,7 +211,7 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
     public function getSearchConfigData($field, $storeId = null)
     {
         $path = 'catalog/search/' . $field;
-        return Mage::getStoreConfig($path, $storeId);
+        return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
     /**

@@ -677,6 +677,6 @@ return array(
     array('setOneRowLimit', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
     array('getCastToIntExpression', 'Magento_Eav_Model_Resource_Helper_Mysql4'),
     array('getConfig', 'Mage', 'Magento_Core_Model_Config', true),
-    array('getStoreConfig', 'Mage', 'Magento_Core_Model_Store_Config', true),
-    array('getStoreConfigFlag', 'Mage', 'Magento_Core_Model_Store_Config', true),
+    array('getStoreConfig', 'Mage', 'Magento_Core_Model_Store_Config'),
+    array('getStoreConfigFlag', 'Mage', 'Magento_Core_Model_Store_Config'),
 );
