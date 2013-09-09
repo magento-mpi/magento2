@@ -25,14 +25,17 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
     protected $_app;
 
     /**
-     * Collection constructor
      *
+     *
+     *
+     *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      * @param array $data
-     * @throws InvalidArgumentException
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Resource_Db_Abstract $resource = null,
         $data = array()
@@ -42,7 +45,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
         if (!($this->_app instanceof Magento_Core_Model_App)) {
             throw new InvalidArgumentException('Required app object is invalid');
         }
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
     /**

@@ -27,16 +27,20 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
     /**
      * Collection constructor
      *
+     *
+     *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      * @param int $timeoutIdling
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Resource_Db_Abstract $resource = null,
         $timeoutIdling = null
     ) {
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
         $this->_timeoutIdling = is_null($timeoutIdling) ?
             self::DEFAULT_TIMEOUT_IDLING_EVENTS : $timeoutIdling;
     }

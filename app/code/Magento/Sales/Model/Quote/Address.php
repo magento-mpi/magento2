@@ -944,11 +944,11 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
      */
     public function collectTotals()
     {
-        Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_before', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_collect_totals_before', array($this->_eventObject => $this));
         foreach ($this->getTotalCollector()->getCollectors() as $model) {
             $model->collect($this);
         }
-        Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_after', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_collect_totals_after', array($this->_eventObject => $this));
         return $this;
     }
 

@@ -14,8 +14,26 @@
  * @category   Magento
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
- */class Magento_Catalog_Model_Product_Attribute_Source_Inputtype extends Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype
+ */
+class Magento_Catalog_Model_Product_Attribute_Source_Inputtype
+    extends Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype
 {
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
+    }
+
     /**
      * Get product input types as option array
      *
@@ -36,7 +54,7 @@
 
         $response = new Magento_Object();
         $response->setTypes(array());
-        Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
+        $this->_eventManager->dispatch('adminhtml_product_attribute_types', array('response'=>$response));
         $_disabledTypes = array();
         $_hiddenFields = array();
         foreach ($response->getTypes() as $type) {

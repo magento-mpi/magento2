@@ -95,6 +95,11 @@ class Magento_Log_Model_Resource_Visitor_Collection extends Magento_Core_Model_R
         'url'                => 'url_info_table.url'
     );
 
+    public function __construct(Magento_Core_Model_Event_Manager_Proxy $eventManager, Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy, Magento_Core_Model_Resource_Db_Abstract $resource = null)
+    {
+        parent::__construct($eventManager, $fetchStrategy, $resource);
+    }
+
     /**
      * Collection resource initialization
      */
@@ -172,7 +177,7 @@ class Magento_Log_Model_Resource_Visitor_Collection extends Magento_Core_Model_R
         if ($this->isLoaded()) {
             return $this;
         }
-        Mage::dispatchEvent('log_visitor_collection_load_before', array('collection' => $this));
+        $this->_eventManager->dispatch('log_visitor_collection_load_before', array('collection' => $this));
         return parent::load($printQuery, $logQuery);
     }
 

@@ -19,6 +19,31 @@
 class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Retrieve Category object
      *
      * @return Magento_Catalog_Model_Category
@@ -144,7 +169,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ba
 
         $form->addValues($this->getCategory()->getData());
 
-        Mage::dispatchEvent('adminhtml_catalog_category_edit_prepare_form', array('form'=>$form));
+        $this->_eventManager->dispatch('adminhtml_catalog_category_edit_prepare_form', array('form'=>$form));
 
         $form->setFieldNameSuffix('general');
         $this->setForm($form);

@@ -130,6 +130,14 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     protected $_customerData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
@@ -141,6 +149,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Customer_Helper_Data $customerData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
@@ -151,6 +160,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_coreData = $coreData;
         $this->_sender = $sender;
@@ -201,7 +211,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
                 self::EXCEPTION_INVALID_EMAIL_OR_PASSWORD
             );
         }
-        Mage::dispatchEvent('customer_customer_authenticated', array(
+        $this->_eventManager->dispatch('customer_customer_authenticated', array(
            'model'    => $this,
            'password' => $password,
         ));

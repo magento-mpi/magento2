@@ -173,6 +173,14 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     protected $_paymentData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Sales_Helper_Data $salesData
      * @param Magento_Core_Model_Context $context
@@ -181,6 +189,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Sales_Helper_Data $salesData,
         Magento_Core_Model_Context $context,
@@ -188,6 +197,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -400,7 +410,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
         $this->getOrder()->setBaseTotalPaid(
             $this->getOrder()->getBaseTotalPaid()+$this->getBaseGrandTotal()
         );
-        Mage::dispatchEvent('sales_order_invoice_pay', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch('sales_order_invoice_pay', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -470,7 +480,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
         }
         $this->setState(self::STATE_CANCELED);
         $this->getOrder()->setState(Magento_Sales_Model_Order::STATE_PROCESSING, true);
-        Mage::dispatchEvent('sales_order_invoice_cancel', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch('sales_order_invoice_cancel', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -676,7 +686,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
             $this->setState(self::STATE_OPEN);
         }
 
-        Mage::dispatchEvent('sales_order_invoice_register', array($this->_eventObject=>$this, 'order' => $order));
+        $this->_eventManager->dispatch('sales_order_invoice_register', array($this->_eventObject=>$this, 'order' => $order));
         return $this;
     }
 

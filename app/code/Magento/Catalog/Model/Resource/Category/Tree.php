@@ -59,11 +59,23 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     protected $_storeId                          = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
      * Initialize tree
      *
+     *
+     *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      */
-    public function __construct()
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
         $resource = Mage::getSingleton('Magento_Core_Model_Resource');
 
         parent::__construct(
@@ -191,7 +203,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     protected function _initInactiveCategoryIds()
     {
         $this->_inactiveCategoryIds = array();
-        Mage::dispatchEvent('catalog_category_tree_init_inactive_category_ids', array('tree' => $this));
+        $this->_eventManager->dispatch('catalog_category_tree_init_inactive_category_ids', array('tree' => $this));
         return $this;
     }
 
@@ -387,7 +399,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      */
     protected function _beforeMove($category, $newParent, $prevNode)
     {
-        Mage::dispatchEvent('catalog_category_tree_move_before', array(
+        $this->_eventManager->dispatch('catalog_category_tree_move_before', array(
             'category'      => $category,
             'prev_parent'   => $prevNode,
             'parent'        => $newParent
@@ -425,7 +437,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     {
         Mage::app()->cleanCache(array(Magento_Catalog_Model_Category::CACHE_TAG));
 
-        Mage::dispatchEvent('catalog_category_tree_move_after', array(
+        $this->_eventManager->dispatch('catalog_category_tree_move_after', array(
             'category'  => $category,
             'prev_node' => $prevNode,
             'parent'    => $newParent

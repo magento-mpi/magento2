@@ -118,6 +118,14 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     protected $_catalogImage = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Catalog_Helper_Image $catalogImage
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product $catalogProduct
@@ -127,6 +135,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Catalog_Helper_Image $catalogImage,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product $catalogProduct,
@@ -135,6 +144,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
         Magento_Catalog_Model_Resource_Product_Collection $resourceCollection,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_catalogImage = $catalogImage;
         $this->_catalogData = $catalogData;
         $this->_catalogProduct = $catalogProduct;
@@ -196,9 +206,9 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     public function validate()
     {
-        Mage::dispatchEvent($this->_eventPrefix . '_validate_before', $this->_getEventData());
+        $this->_eventManager->dispatch($this->_eventPrefix . '_validate_before', $this->_getEventData());
         $result = $this->_getResource()->validate($this);
-        Mage::dispatchEvent($this->_eventPrefix . '_validate_after', $this->_getEventData());
+        $this->_eventManager->dispatch($this->_eventPrefix . '_validate_after', $this->_getEventData());
         return $result;
     }
 
@@ -1042,7 +1052,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
             ->setId(null)
             ->setStoreId(Mage::app()->getStore()->getId());
 
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'catalog_model_product_duplicate',
             array('current_product' => $this, 'new_product' => $newProduct)
         );
@@ -1253,7 +1263,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     public function isSalable()
     {
-        Mage::dispatchEvent('catalog_product_is_salable_before', array(
+        $this->_eventManager->dispatch('catalog_product_is_salable_before', array(
             'product'   => $this
         ));
 
@@ -1263,7 +1273,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
             'product'    => $this,
             'is_salable' => $salable
         ));
-        Mage::dispatchEvent('catalog_product_is_salable_after', array(
+        $this->_eventManager->dispatch('catalog_product_is_salable_after', array(
             'product'   => $this,
             'salable'   => $object
         ));
@@ -1478,7 +1488,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     public function delete()
     {
         parent::delete();
-        Mage::dispatchEvent($this->_eventPrefix.'_delete_after_done', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch($this->_eventPrefix.'_delete_after_done', array($this->_eventObject=>$this));
         return $this;
     }
 

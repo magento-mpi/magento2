@@ -36,15 +36,25 @@ class Magento_Backend_Model_Auth
     protected $_backendData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Backend_Model_Auth_StorageInterface $authStorage
      * @param Magento_Backend_Model_Auth_Credential_StorageInterface $credentialStorage
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Backend_Helper_Data $backendData,
         Magento_Backend_Model_Auth_StorageInterface $authStorage,
         Magento_Backend_Model_Auth_Credential_StorageInterface $credentialStorage
     ) {
+        $this->_eventManager = $eventManager;
         $this->_backendData = $backendData;
         $this->_authStorage = $authStorage;
         $this->_credentialStorage = $credentialStorage;
@@ -143,7 +153,7 @@ class Magento_Backend_Model_Auth
                 $this->getAuthStorage()->setUser($this->getCredentialStorage());
                 $this->getAuthStorage()->processLogin();
 
-                Mage::dispatchEvent('backend_auth_user_login_success', array('user' => $this->getCredentialStorage()));
+                $this->_eventManager->dispatch('backend_auth_user_login_success', array('user' => $this->getCredentialStorage()));
             }
 
             if (!$this->getAuthStorage()->getUser()) {
@@ -153,10 +163,10 @@ class Magento_Backend_Model_Auth
             }
 
         } catch (Magento_Backend_Model_Auth_Plugin_Exception $e) {
-            Mage::dispatchEvent('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
+            $this->_eventManager->dispatch('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
             throw $e;
         } catch (Magento_Core_Exception $e) {
-            Mage::dispatchEvent('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
+            $this->_eventManager->dispatch('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
             self::throwException(
                 __('Please correct the user name or password.')
             );
@@ -171,7 +181,7 @@ class Magento_Backend_Model_Auth
     public function logout()
     {
         $this->getAuthStorage()->processLogout();
-        Mage::dispatchEvent('admin_session_user_logout');
+        $this->_eventManager->dispatch('admin_session_user_logout');
     }
 
     /**

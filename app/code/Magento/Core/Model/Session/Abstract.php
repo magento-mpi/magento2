@@ -70,18 +70,28 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     protected $_coreHttp = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
         parent::__construct($data);
     }
@@ -436,7 +446,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
         if ($clear) {
             $messages = clone $this->getData('messages');
             $this->getData('messages')->clear();
-            Mage::dispatchEvent('core_session_abstract_clear_messages');
+            $this->_eventManager->dispatch('core_session_abstract_clear_messages');
             return $messages;
         }
         return $this->getData('messages');
@@ -472,7 +482,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     public function addMessage(Magento_Core_Model_Message_Abstract $message)
     {
         $this->getMessages()->add($message);
-        Mage::dispatchEvent('core_session_abstract_add_message');
+        $this->_eventManager->dispatch('core_session_abstract_add_message');
         return $this;
     }
 

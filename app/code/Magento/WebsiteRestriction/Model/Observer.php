@@ -29,13 +29,23 @@ class Magento_WebsiteRestriction_Model_Observer
     protected $_customerData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_WebsiteRestriction_Helper_Data $websiteRestrictionData
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Customer_Helper_Data $customerData,
         Magento_WebsiteRestriction_Helper_Data $websiteRestrictionData
     ) {
+        $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_websiteRestrictionData = $websiteRestrictionData;
     }
@@ -52,7 +62,7 @@ class Magento_WebsiteRestriction_Model_Observer
 
         if (!Mage::app()->getStore()->isAdmin()) {
             $dispatchResult = new Magento_Object(array('should_proceed' => true, 'customer_logged_in' => false));
-            Mage::dispatchEvent('websiterestriction_frontend', array(
+            $this->_eventManager->dispatch('websiterestriction_frontend', array(
                 'controller' => $controller, 'result' => $dispatchResult
             ));
             if (!$dispatchResult->getShouldProceed()) {

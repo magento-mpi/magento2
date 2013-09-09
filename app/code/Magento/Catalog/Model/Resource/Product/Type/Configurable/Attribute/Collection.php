@@ -48,17 +48,20 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     protected $_catalogData = null;
 
     /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute $resource
+     * @param Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute
+     * $resource
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute  $resource
     ) {
         $this->_catalogData = $catalogData;
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
     /**

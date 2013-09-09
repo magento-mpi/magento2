@@ -54,17 +54,27 @@ class Magento_Sales_Model_Observer
     protected $_coreData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Customer_Helper_Address $customerAddress
      * @param Magento_Catalog_Helper_Data $catalogData
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Customer_Helper_Data $customerData,
         Magento_Customer_Helper_Address $customerAddress,
         Magento_Catalog_Helper_Data $catalogData
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_customerData = $customerData;
         $this->_customerAddress = $customerAddress;
@@ -79,7 +89,7 @@ class Magento_Sales_Model_Observer
      */
     public function cleanExpiredQuotes($schedule)
     {
-        Mage::dispatchEvent('clear_expired_quotes_before', array('sales_observer' => $this));
+        $this->_eventManager->dispatch('clear_expired_quotes_before', array('sales_observer' => $this));
 
         $lifetimes = Mage::getConfig()->getStoresConfigByPath('checkout/cart/delete_quote_after');
         foreach ($lifetimes as $storeId=>$lifetime) {

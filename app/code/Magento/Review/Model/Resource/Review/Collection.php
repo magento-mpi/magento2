@@ -264,7 +264,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
         if ($this->isLoaded()) {
             return $this;
         }
-        Mage::dispatchEvent('review_review_collection_load_before', array('collection' => $this));
+        $this->_eventManager->dispatch('review_review_collection_load_before', array('collection' => $this));
         parent::load($printQuery, $logQuery);
         if ($this->_addStoreDataFlag) {
             $this->_addStoreData();

@@ -205,6 +205,31 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     protected $_children    = array();
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init resource model
      */
     protected function _construct()
@@ -481,7 +506,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     public function cancel()
     {
         if ($this->getStatusId() !== self::STATUS_CANCELED) {
-            Mage::dispatchEvent('sales_order_item_cancel', array('item'=>$this));
+            $this->_eventManager->dispatch('sales_order_item_cancel', array('item'=>$this));
             $this->setQtyCanceled($this->getQtyToCancel());
             $this->setTaxCanceled($this->getTaxCanceled() + $this->getBaseTaxAmount() * $this->getQtyCanceled() / $this->getQtyOrdered());
             $this->setHiddenTaxCanceled($this->getHiddenTaxCanceled() + $this->getHiddenTaxAmount() * $this->getQtyCanceled() / $this->getQtyOrdered());

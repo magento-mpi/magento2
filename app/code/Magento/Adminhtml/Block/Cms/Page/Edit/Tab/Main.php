@@ -20,6 +20,31 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
     extends Magento_Backend_Block_Widget_Form_Generic
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($formFactory, $coreData, $context, $data);
+    }
+
     protected function _prepareForm()
     {
         /* @var $model Magento_Cms_Model_Page */
@@ -101,7 +126,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
             $model->setData('is_active', $isElementDisabled ? '0' : '1');
         }
 
-        Mage::dispatchEvent('adminhtml_cms_page_edit_tab_main_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_cms_page_edit_tab_main_prepare_form', array('form' => $form));
 
         $form->setValues($model->getData());
         $this->setForm($form);

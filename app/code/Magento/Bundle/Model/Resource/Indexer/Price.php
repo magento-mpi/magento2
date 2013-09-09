@@ -273,7 +273,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
         /**
          * Add additional external limitation
          */
-        Mage::dispatchEvent('catalog_product_prepare_index_select', array(
+        $this->_eventManager->dispatch('catalog_product_prepare_index_select', array(
             'select'        => $select,
             'entity_field'  => new Zend_Db_Expr('e.entity_id'),
             'website_field' => new Zend_Db_Expr('cw.website_id'),
@@ -545,7 +545,7 @@ class Magento_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_
                 'i.website_id = wd.website_id',
                 array()
             );
-        Mage::dispatchEvent('prepare_catalog_product_price_index_table', array(
+        $this->_eventManager->dispatch('prepare_catalog_product_price_index_table', array(
             'index_table'       => array('i' => $this->_getBundlePriceTable()),
             'select'            => $select,
             'entity_id'         => 'i.entity_id',

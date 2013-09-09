@@ -92,15 +92,25 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_customerAddress = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Customer_Helper_Address $customerAddress
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Customer_Helper_Address $customerAddress,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context
     ) {
+        $this->_eventManager = $eventManager;
         $this->_customerAddress = $customerAddress;
         $this->_coreData = $coreData;
         parent::__construct($context);
@@ -338,7 +348,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     public function isRegistrationAllowed()
     {
         $result = new Magento_Object(array('is_allowed' => true));
-        Mage::dispatchEvent('customer_registration_is_allowed', array('result' => $result));
+        $this->_eventManager->dispatch('customer_registration_is_allowed', array('result' => $result));
         return $result->getIsAllowed();
     }
 

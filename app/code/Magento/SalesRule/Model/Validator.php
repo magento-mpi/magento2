@@ -67,6 +67,14 @@ class Magento_SalesRule_Model_Validator extends Magento_Core_Model_Abstract
     protected $_taxData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -74,12 +82,14 @@ class Magento_SalesRule_Model_Validator extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Tax_Helper_Data $taxData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_taxData = $taxData;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
@@ -440,7 +450,7 @@ class Magento_SalesRule_Model_Validator extends Magento_Core_Model_Abstract
                 'discount_amount'      => $discountAmount,
                 'base_discount_amount' => $baseDiscountAmount,
             ));
-            Mage::dispatchEvent('salesrule_validator_process', array(
+            $this->_eventManager->dispatch('salesrule_validator_process', array(
                 'rule'    => $rule,
                 'item'    => $item,
                 'address' => $address,

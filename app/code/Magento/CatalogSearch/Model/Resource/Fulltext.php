@@ -75,15 +75,25 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     protected $_coreString = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_String $coreString,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreString = $coreString;
         $this->_catalogSearchData = $catalogSearchData;
         parent::__construct($resource);
@@ -293,7 +303,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
             // Keeping public interface
             $adapter->update($this->getTable('catalogsearch_query'), array('is_processed' => 0));
             $adapter->truncateTable($this->getTable('catalogsearch_result'));
-            Mage::dispatchEvent('catalogsearch_reset_search_result');
+            $this->_eventManager->dispatch('catalogsearch_reset_search_result');
         } else {
             // Optimized deletion only product-related records
             /** @var $select Magento_DB_Select */
@@ -457,7 +467,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
             }
             $attributes = $productAttributes->getItems();
 
-            Mage::dispatchEvent('catelogsearch_searchable_attributes_load_after', array(
+            $this->_eventManager->dispatch('catelogsearch_searchable_attributes_load_after', array(
                 'engine' => $this->_engine,
                 'attributes' => $attributes
             ));

@@ -118,7 +118,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
         $storeId = $quote ? $quote->getStoreId() : null;
         $checkResult = new StdClass;
         $checkResult->isAvailable = (bool)(int)$this->getOriginalMethodInstance()->getConfigData('active', $storeId);
-        Mage::dispatchEvent('payment_method_is_active', array(
+        $this->_eventManager->dispatch('payment_method_is_active', array(
             'result'          => $checkResult,
             'method_instance' => $this->getOriginalMethodInstance(),
             'quote'           => $quote,

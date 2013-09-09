@@ -25,6 +25,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
     protected $_catalogData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
@@ -32,12 +40,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Data_Form_Factory $formFactory,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_catalogData = $catalogData;
         parent::__construct($formFactory, $coreData, $context, $data);
     }
@@ -167,7 +177,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
             $form->addValues($values);
             $form->setFieldNameSuffix('product');
 
-            Mage::dispatchEvent('adminhtml_catalog_product_edit_prepare_form', array('form' => $form));
+            $this->_eventManager->dispatch('adminhtml_catalog_product_edit_prepare_form', array('form' => $form));
 
             $this->setForm($form);
         }
@@ -191,7 +201,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
 
         $response = new Magento_Object();
         $response->setTypes(array());
-        Mage::dispatchEvent('adminhtml_catalog_product_edit_element_types', array('response' => $response));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_element_types', array('response' => $response));
 
         foreach ($response->getTypes() as $typeName => $typeClass) {
             $result[$typeName] = $typeClass;

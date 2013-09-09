@@ -60,6 +60,35 @@ class Magento_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
     protected $_quote;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($coreData, $paymentData, $context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -102,7 +131,7 @@ class Magento_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
     public function importData(array $data)
     {
         $data = new Magento_Object($data);
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             $this->_eventPrefix . '_import_data_before',
             array(
                 $this->_eventObject=>$this,

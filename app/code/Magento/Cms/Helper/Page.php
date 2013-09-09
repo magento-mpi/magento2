@@ -30,13 +30,23 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
     protected $_pageLayout = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Page_Helper_Layout $pageLayout
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Page_Helper_Layout $pageLayout,
         Magento_Core_Helper_Context $context
     ) {
+        $this->_eventManager = $eventManager;
         $this->_pageLayout = $pageLayout;
         parent::__construct($context);
     }
@@ -101,7 +111,7 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
             $this->_pageLayout->applyHandle($handle);
         }
 
-        Mage::dispatchEvent('cms_page_render', array('page' => $page, 'controller_action' => $action));
+        $this->_eventManager->dispatch('cms_page_render', array('page' => $page, 'controller_action' => $action));
 
         $action->loadLayoutUpdates();
         $layoutUpdate = ($page->getCustomLayoutUpdateXml() && $inRange)

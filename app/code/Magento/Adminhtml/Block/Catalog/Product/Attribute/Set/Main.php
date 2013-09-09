@@ -15,7 +15,7 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento_Adminhtml_Block_Template
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento_Backend_Block_Template
 {
     protected $_template = 'catalog/product/attribute/set/main.phtml';
 
@@ -27,17 +27,27 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
     protected $_catalogProduct = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_catalogProduct = $catalogProduct;
         parent::__construct($coreData, $context, $data);
     }
@@ -386,7 +396,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
      */
     protected function _toHtml()
     {
-        Mage::dispatchEvent('adminhtml_catalog_product_attribute_set_main_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_attribute_set_main_html_before', array('block' => $this));
         return parent::_toHtml();
     }
 }

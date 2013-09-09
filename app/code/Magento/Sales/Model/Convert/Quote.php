@@ -26,13 +26,23 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
     protected $_coreData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         parent::__construct($data);
     }
@@ -57,7 +67,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             ->setCustomer($quote->getCustomer());
 
         $this->_coreData->copyFieldset('sales_convert_quote', 'to_order', $quote, $order);
-        Mage::dispatchEvent('sales_convert_quote_to_order', array('order'=>$order, 'quote'=>$quote));
+        $this->_eventManager->dispatch('sales_convert_quote_to_order', array('order'=>$order, 'quote'=>$quote));
         return $order;
     }
 
@@ -80,7 +90,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             $order
         );
 
-        Mage::dispatchEvent('sales_convert_quote_address_to_order', array('address'=>$address, 'order'=>$order));
+        $this->_eventManager->dispatch('sales_convert_quote_address_to_order', array('address'=>$address, 'order'=>$order));
         return $order;
     }
 
@@ -105,7 +115,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             $orderAddress
         );
 
-        Mage::dispatchEvent('sales_convert_quote_address_to_order_address',
+        $this->_eventManager->dispatch('sales_convert_quote_address_to_order_address',
             array('address' => $address, 'order_address' => $orderAddress));
 
         return $orderAddress;
@@ -130,7 +140,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             $orderPayment
         );
 
-        Mage::dispatchEvent('sales_convert_quote_payment_to_order_payment',
+        $this->_eventManager->dispatch('sales_convert_quote_payment_to_order_payment',
             array('order_payment' => $orderPayment, 'quote_payment' => $payment));
 
         return $orderPayment;
@@ -180,7 +190,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             );
         }
 
-        Mage::dispatchEvent('sales_convert_quote_item_to_order_item',
+        $this->_eventManager->dispatch('sales_convert_quote_item_to_order_item',
             array('order_item'=>$orderItem, 'item'=>$item)
         );
         return $orderItem;

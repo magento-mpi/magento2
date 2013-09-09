@@ -53,6 +53,14 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
     protected $_coreData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -60,12 +68,14 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
@@ -250,7 +260,7 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
             $this->getResource()->cleanOldSessions($this)
                 ->recordLogin($this)
                 ->recordSession($this);
-            Mage::dispatchEvent('api_user_authenticated', array(
+            $this->_eventManager->dispatch('api_user_authenticated', array(
                'model'    => $this,
                'api_key'  => $apiKey,
             ));

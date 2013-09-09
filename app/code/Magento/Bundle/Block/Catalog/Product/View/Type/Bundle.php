@@ -171,7 +171,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
 
                 $responseObject = new Magento_Object();
                 $args = array('response_object' => $responseObject, 'selection' => $_selection);
-                Mage::dispatchEvent('bundle_product_view_config', $args);
+                $this->_eventManager->dispatch('bundle_product_view_config', $args);
                 if (is_array($responseObject->getAdditionalOptions())) {
                     foreach ($responseObject->getAdditionalOptions() as $o => $v) {
                         $selection[$o] = $v;

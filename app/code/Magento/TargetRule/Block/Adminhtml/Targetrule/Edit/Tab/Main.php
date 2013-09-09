@@ -20,6 +20,31 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare Mail Target Rule Edit form
      *
      * @return Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
@@ -98,7 +123,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
         ));
 
 
-        Mage::dispatchEvent('targetrule_edit_tab_main_after_prepare_form', array('model' => $model, 'form' => $form,
+        $this->_eventManager->dispatch('targetrule_edit_tab_main_after_prepare_form', array('model' => $model, 'form' => $form,
             'block' => $this));
 
         $form->setValues($model->getData());

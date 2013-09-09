@@ -15,6 +15,29 @@ class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
     protected $_template = 'Magento_Payment::form/cc.phtml';
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve payment configuration object
      *
      * @return Magento_Payment_Model_Config
@@ -132,7 +155,7 @@ class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
      */
     protected function _toHtml()
     {
-        Mage::dispatchEvent('payment_form_block_to_html_before', array(
+        $this->_eventManager->dispatch('payment_form_block_to_html_before', array(
             'block'     => $this
         ));
         return parent::_toHtml();

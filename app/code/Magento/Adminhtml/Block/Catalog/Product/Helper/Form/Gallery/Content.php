@@ -18,9 +18,32 @@
  *
  * @method Magento_Data_Form_Element_Abstract getElement()
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends Magento_Adminhtml_Block_Widget
+class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends Magento_Backend_Block_Widget
 {
     protected $_template = 'catalog/product/helper/gallery.phtml';
+
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _prepareLayout()
     {
@@ -40,7 +63,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
                 )
             ));
 
-        Mage::dispatchEvent('catalog_product_gallery_prepare_layout', array('block' => $this));
+        $this->_eventManager->dispatch('catalog_product_gallery_prepare_layout', array('block' => $this));
 
         return parent::_prepareLayout();
     }

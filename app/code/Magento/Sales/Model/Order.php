@@ -410,6 +410,14 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
     protected $_coreData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Sales_Helper_Data $salesData
@@ -419,6 +427,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Sales_Helper_Data $salesData,
@@ -427,6 +436,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
@@ -1110,9 +1120,9 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
      */
     public function place()
     {
-        Mage::dispatchEvent('sales_order_place_before', array('order'=>$this));
+        $this->_eventManager->dispatch('sales_order_place_before', array('order'=>$this));
         $this->_placePayment();
-        Mage::dispatchEvent('sales_order_place_after', array('order'=>$this));
+        $this->_eventManager->dispatch('sales_order_place_after', array('order'=>$this));
         return $this;
     }
 
@@ -1155,7 +1165,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
             $this->getPayment()->cancel();
             $this->registerCancellation();
 
-            Mage::dispatchEvent('order_cancel_after', array('order' => $this));
+            $this->_eventManager->dispatch('order_cancel_after', array('order' => $this));
         }
 
         return $this;

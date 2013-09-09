@@ -76,6 +76,14 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
     protected $_catalogProduct = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Wishlist_Helper_Data $wishlistData
@@ -85,6 +93,7 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Core_Helper_Data $coreData,
         Magento_Wishlist_Helper_Data $wishlistData,
@@ -93,6 +102,7 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
         Magento_Wishlist_Model_Resource_Wishlist_Collection $resourceCollection,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_catalogProduct = $catalogProduct;
         $this->_coreData = $coreData;
         $this->_wishlistData = $wishlistData;
@@ -290,7 +300,7 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
         $item->setWishlist($this);
         if (!$item->getId()) {
             $this->getItemCollection()->addItem($item);
-            Mage::dispatchEvent('wishlist_add_item', array('item' => $item));
+            $this->_eventManager->dispatch('wishlist_add_item', array('item' => $item));
         }
         return $this;
     }
@@ -375,7 +385,7 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
             }
         }
 
-        Mage::dispatchEvent('wishlist_product_add_after', array('items' => $items));
+        $this->_eventManager->dispatch('wishlist_product_add_after', array('items' => $items));
 
         return $item;
     }

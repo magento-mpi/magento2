@@ -50,13 +50,27 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     protected $_orderStateCondition = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
      * Set sales order entity and establish read connection
      *
+     *
+     *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param  $fetchStrategy
+     * @param  $resource
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Sales_Model_Resource_Order $resource
     ) {
+        $this->_eventManager = $eventManager;
         parent::__construct($fetchStrategy, $resource->getReadConnection());
     }
 
@@ -136,7 +150,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
             $this->addFieldToFilter('state', array($condition => $this->_orderStateValue));
         }
 
-        Mage::dispatchEvent('sales_sale_collection_query_before', array('collection' => $this));
+        $this->_eventManager->dispatch('sales_sale_collection_query_before', array('collection' => $this));
         return $this;
     }
 

@@ -24,6 +24,7 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_Options extends Magento_Wish
 
     /**
      * @param Magento_Catalog_Helper_Product_ConfigurationPool $helperPool
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -33,6 +34,7 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_Options extends Magento_Wish
      */
     public function __construct(
         Magento_Catalog_Helper_Product_ConfigurationPool $helperPool,
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
@@ -41,7 +43,7 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_Options extends Magento_Wish
         array $data = array()
     ) {
         $this->_helperPool = $helperPool;
-        parent::__construct($wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($eventManager, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     /*
@@ -60,7 +62,7 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_Options extends Magento_Wish
     protected function _construct()
     {
         parent::_construct();
-        Mage::dispatchEvent('product_option_renderer_init', array('block' => $this));
+        $this->_eventManager->dispatch('product_option_renderer_init', array('block' => $this));
     }
 
     /*

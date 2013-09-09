@@ -59,10 +59,18 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
     protected $_directoryData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
      * Enforce format of the street field
      *
      *
      *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -70,12 +78,14 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Directory_Helper_Data $directoryData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_directoryData = $directoryData;
         $data = $this->_implodeStreetField($data);
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -364,7 +374,7 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
             || !$formatType->getRenderer()) {
             return null;
         }
-        Mage::dispatchEvent('customer_address_format', array('type' => $formatType, 'address' => $this));
+        $this->_eventManager->dispatch('customer_address_format', array('type' => $formatType, 'address' => $this));
         return $formatType->getRenderer()->render($this);
     }
 

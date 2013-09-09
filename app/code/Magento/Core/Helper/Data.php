@@ -75,15 +75,25 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreHttp = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
         parent::__construct($context);
         $this->_config = $config;
@@ -456,7 +466,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         $eventName = sprintf('core_copy_fieldset_%s_%s', $fieldset, $aspect);
-        Mage::dispatchEvent($eventName, array(
+        $this->_eventManager->dispatch($eventName, array(
             'target' => $target,
             'source' => $source,
             'root'   => $root

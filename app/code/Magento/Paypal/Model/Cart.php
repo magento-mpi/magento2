@@ -94,12 +94,25 @@ class Magento_Paypal_Model_Cart
     protected $_isShippingAsItem = false;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
      * Require instance of an order or a quote
      *
+     *
+     *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param array $params
      */
-    public function __construct($params = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        $params = array()
+    ) {
+        $this->_eventManager = $eventManager;
         $salesEntity = array_shift($params);
         if (is_object($salesEntity)
             && (($salesEntity instanceof Magento_Sales_Model_Order) || ($salesEntity instanceof Magento_Sales_Model_Quote))) {
@@ -299,7 +312,7 @@ class Magento_Paypal_Model_Cart
         $originalDiscount = $this->_totals[self::TOTAL_DISCOUNT];
 
         // arbitrary items, total modifications
-        Mage::dispatchEvent('paypal_prepare_line_items', array('paypal_cart' => $this));
+        $this->_eventManager->dispatch('paypal_prepare_line_items', array('paypal_cart' => $this));
 
         // distinguish original discount among the others
         if ($originalDiscount > 0.0001 && isset($this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT])) {

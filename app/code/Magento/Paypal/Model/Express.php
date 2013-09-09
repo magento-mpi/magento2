@@ -64,14 +64,16 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     protected $_authorizationCountKey = 'authorization_count';
 
     /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Payment_Helper_Data $paymentData,
         array $data = array()
     ) {
-        parent::__construct($paymentData, $data);
+        parent::__construct($eventManager, $paymentData, $data);
         $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof Magento_Paypal_Model_Pro)) {
             $this->_pro = $proInstance;

@@ -43,17 +43,27 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_cmsData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Cms_Helper_Data $cmsData,
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_View_Url $viewUrl,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_cmsData = $cmsData;
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
@@ -116,7 +126,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             $config->addData($data);
         }
 
-        Mage::dispatchEvent('cms_wysiwyg_config_prepare', array('config' => $config));
+        $this->_eventManager->dispatch('cms_wysiwyg_config_prepare', array('config' => $config));
 
         return $config;
     }

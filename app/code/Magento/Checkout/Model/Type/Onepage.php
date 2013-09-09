@@ -62,15 +62,25 @@ class Magento_Checkout_Model_Type_Onepage
     protected $_customerData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Checkout_Helper_Data $helper
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Helper_Data $coreData
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Checkout_Helper_Data $helper,
         Magento_Customer_Helper_Data $customerData,
         Magento_Core_Helper_Data $coreData
     ) {
+        $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_coreData = $coreData;
         $this->_helper = $helper;
@@ -720,7 +730,7 @@ class Magento_Checkout_Model_Type_Onepage
 
         $order = $service->getOrder();
         if ($order) {
-            Mage::dispatchEvent('checkout_type_onepage_save_order_after',
+            $this->_eventManager->dispatch('checkout_type_onepage_save_order_after',
                 array('order'=>$order, 'quote'=>$this->getQuote()));
 
             /**
@@ -762,7 +772,7 @@ class Magento_Checkout_Model_Type_Onepage
             // TODO: send recurring profile emails
         }
 
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'checkout_submit_all_after',
             array('order' => $order, 'quote' => $this->getQuote(), 'recurring_profiles' => $profiles)
         );

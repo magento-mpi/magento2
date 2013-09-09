@@ -93,18 +93,20 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      *
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Wishlist_Model_Resource_Item $resource
      */
     public function __construct(
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Wishlist_Model_Resource_Item $resource = null
     ) {
         $this->_inventoryData = $catalogInventoryData;
         $this->_adminhtmlSales = $adminhtmlSales;
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
     /**
@@ -206,7 +208,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
             $productCollection = $this->_adminhtmlSales->applySalableProductTypesFilter($productCollection);
         }
 
-        Mage::dispatchEvent('wishlist_item_collection_products_after_load', array(
+        $this->_eventManager->dispatch('wishlist_item_collection_products_after_load', array(
             'product_collection' => $productCollection
         ));
 

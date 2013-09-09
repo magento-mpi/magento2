@@ -24,6 +24,31 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
      */
     protected static $_currentDate = null;
 
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($catalogData, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         /*
@@ -148,7 +173,7 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
         // dispatch event to determine whether the product will eventually get to the result
         $product = new Magento_Object(array('allowed_in_rss' => true, 'allowed_price_in_rss' => true));
         $args['product'] = $product;
-        Mage::dispatchEvent('rss_catalog_special_xml_callback', $args);
+        $this->_eventManager->dispatch('rss_catalog_special_xml_callback', $args);
         if (!$product->getAllowedInRss()) {
             return;
         }

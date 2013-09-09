@@ -22,6 +22,29 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
 
     protected $_template = 'catalog/category/tree.phtml';
 
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -321,7 +344,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
             'category' => $node
         ));
 
-        Mage::dispatchEvent('adminhtml_catalog_category_tree_is_moveable',
+        $this->_eventManager->dispatch('adminhtml_catalog_category_tree_is_moveable',
             array('options'=>$options)
         );
 
@@ -358,7 +381,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     public function canAddRootCategory()
     {
         $options = new Magento_Object(array('is_allow'=>true));
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'adminhtml_catalog_category_tree_can_add_root_category',
             array(
                 'category' => $this->getCategory(),
@@ -378,7 +401,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     public function canAddSubCategory()
     {
         $options = new Magento_Object(array('is_allow'=>true));
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'adminhtml_catalog_category_tree_can_add_sub_category',
             array(
                 'category' => $this->getCategory(),

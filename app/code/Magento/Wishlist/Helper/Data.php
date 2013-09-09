@@ -64,13 +64,23 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         parent::__construct($context);
     }
@@ -501,7 +511,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
             );
         }
         $session->setWishlistItemCount($count);
-        Mage::dispatchEvent('wishlist_items_renewed');
+        $this->_eventManager->dispatch('wishlist_items_renewed');
         return $this;
     }
 

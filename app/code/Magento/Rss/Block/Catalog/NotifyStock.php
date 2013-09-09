@@ -32,17 +32,27 @@ class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
     protected $_adminhtmlData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Rss_Helper_Data $rssData
      * @param Magento_Core_Block_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Rss_Helper_Data $rssData,
         Magento_Core_Block_Context $context,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_adminhtmlData = $adminhtmlData;
         $this->_rssData = $rssData;
         parent::__construct($context, $data);
@@ -86,7 +96,7 @@ class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
                 array('in' => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getVisibleStatusIds())
             )
             ->setOrder('low_stock_date');
-        Mage::dispatchEvent('rss_catalog_notify_stock_collection_select', array('collection' => $collection));
+        $this->_eventManager->dispatch('rss_catalog_notify_stock_collection_select', array('collection' => $collection));
 
         /*
         using resource iterator to load the data one by one

@@ -21,6 +21,31 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Set form id prefix, declare fields for banner properties
      *
      * @return Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
@@ -91,7 +116,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_
             ->addFieldMap("{$htmlIdPrefix}types", 'types')
             ->addFieldDependence('types', 'is_types', '1');
 
-        Mage::dispatchEvent('banner_edit_tab_properties_after_prepare_form', array('model' => $model, 'form' => $form,
+        $this->_eventManager->dispatch('banner_edit_tab_properties_after_prepare_form', array('model' => $model, 'form' => $form,
             'block' => $this, 'after_form_block' => $afterFormBlock));
 
         $this->setChild('form_after', $afterFormBlock);

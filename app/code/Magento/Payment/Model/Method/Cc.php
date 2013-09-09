@@ -21,17 +21,19 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     protected $_moduleList;
 
     /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Payment_Helper_Data $paymentData
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Payment_Helper_Data $paymentData,
         array $data = array()
     ) {
         $this->_moduleList = $moduleList;
-        parent::__construct($paymentData, $data);
+        parent::__construct($eventManager, $paymentData, $data);
     }
 
     /**

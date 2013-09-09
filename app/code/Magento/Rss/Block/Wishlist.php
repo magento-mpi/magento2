@@ -122,7 +122,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
                 $product->setProductUrl($productUrl);
                 $args = array('product' => $product);
 
-                Mage::dispatchEvent('rss_wishlist_xml_callback', $args);
+                $this->_eventManager->dispatch('rss_wishlist_xml_callback', $args);
 
                 if (!$product->getAllowedInRss()) {
                     continue;

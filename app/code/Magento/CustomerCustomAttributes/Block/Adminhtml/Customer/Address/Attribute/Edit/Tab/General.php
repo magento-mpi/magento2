@@ -28,6 +28,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     protected $_customerData = null;
 
     /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_CustomerCustomAttributes_Helper_Data $customerData
      * @param Magento_Eav_Helper_Data $eavData
@@ -36,6 +37,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Data_Form_Factory $formFactory,
         Magento_CustomerCustomAttributes_Helper_Data $customerData,
         Magento_Eav_Helper_Data $eavData,
@@ -245,7 +247,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
 
         $this->getForm()->setDataObject($this->getAttributeObject());
 
-        Mage::dispatchEvent('enterprise_customer_address_attribute_edit_tab_general_prepare_form', array(
+        $this->_eventManager->dispatch('enterprise_customer_address_attribute_edit_tab_general_prepare_form', array(
             'form'      => $form,
             'attribute' => $attribute
         ));

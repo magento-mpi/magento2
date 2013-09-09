@@ -17,6 +17,29 @@
  */
 class Magento_GoogleCheckout_Block_Link extends Magento_Core_Block_Template
 {
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getImageStyle()
     {
         $s = Mage::getStoreConfig('google/checkout/checkout_image');
@@ -62,7 +85,7 @@ class Magento_GoogleCheckout_Block_Link extends Magento_Core_Block_Template
     {
         $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
         if (Mage::getModel('Magento_GoogleCheckout_Model_Payment')->isAvailable($quote) && $quote->validateMinimumAmount()) {
-            Mage::dispatchEvent('googlecheckout_block_link_html_before', array('block' => $this));
+            $this->_eventManager->dispatch('googlecheckout_block_link_html_before', array('block' => $this));
             return parent::_toHtml();
         }
         return '';

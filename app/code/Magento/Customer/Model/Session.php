@@ -80,7 +80,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
         }
 
         $this->init($namespace, $sessionName);
-        Mage::dispatchEvent('customer_session_init', array('customer_session'=>$this));
+        $this->_eventManager->dispatch('customer_session_init', array('customer_session'=>$this));
     }
 
     /**
@@ -231,7 +231,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     public function setCustomerAsLoggedIn($customer)
     {
         $this->setCustomer($customer);
-        Mage::dispatchEvent('customer_login', array('customer'=>$customer));
+        $this->_eventManager->dispatch('customer_login', array('customer'=>$customer));
         return $this;
     }
 
@@ -259,7 +259,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     public function logout()
     {
         if ($this->isLoggedIn()) {
-            Mage::dispatchEvent('customer_logout', array('customer' => $this->getCustomer()) );
+            $this->_eventManager->dispatch('customer_logout', array('customer' => $this->getCustomer()) );
             $this->_logout();
         }
         return $this;

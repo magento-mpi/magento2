@@ -17,6 +17,31 @@
  */
 class Magento_Rss_Block_Catalog_New extends Magento_Rss_Block_Catalog_Abstract
 {
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($catalogData, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         /*
@@ -114,7 +139,7 @@ getFinalPrice() - used in shopping cart calculations
 
         $product->setAllowedInRss(true);
         $product->setAllowedPriceInRss(true);
-        Mage::dispatchEvent('rss_catalog_new_xml_callback', $args);
+        $this->_eventManager->dispatch('rss_catalog_new_xml_callback', $args);
 
         if (!$product->getAllowedInRss()) {
             //Skip adding product to RSS

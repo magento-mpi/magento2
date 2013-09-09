@@ -295,6 +295,14 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
     protected $_catalogInventoryData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_String $coreString
@@ -303,6 +311,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_String $coreString,
@@ -310,6 +319,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         Magento_ImportExport_Helper_Data $importExportData,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_catalogData = $catalogData;
         parent::__construct($coreString, $coreData, $importExportData);
@@ -400,7 +410,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
                 $productTypeModel->saveData();
             }
         }
-        Mage::dispatchEvent('catalog_product_import_finish_before', array('adapter'=>$this));
+        $this->_eventManager->dispatch('catalog_product_import_finish_before', array('adapter'=>$this));
         return true;
     }
 

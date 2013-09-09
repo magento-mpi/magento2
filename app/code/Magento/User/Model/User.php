@@ -109,6 +109,14 @@ class Magento_User_Model_User
     protected $_userData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_User_Helper_Data $userData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Sender $sender
@@ -118,6 +126,7 @@ class Magento_User_Model_User
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_User_Helper_Data $userData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Sender $sender,
@@ -126,6 +135,7 @@ class Magento_User_Model_User
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_userData = $userData;
         $this->_coreData = $coreData;
         $this->_sender = $sender;
@@ -467,7 +477,7 @@ class Magento_User_Model_User
         $result = false;
 
         try {
-            Mage::dispatchEvent('admin_user_authenticate_before', array(
+            $this->_eventManager->dispatch('admin_user_authenticate_before', array(
                 'username' => $username,
                 'user'     => $this
             ));
@@ -491,7 +501,7 @@ class Magento_User_Model_User
                 $result = true;
             }
 
-            Mage::dispatchEvent('admin_user_authenticate_after', array(
+            $this->_eventManager->dispatch('admin_user_authenticate_after', array(
                 'username' => $username,
                 'password' => $password,
                 'user'     => $this,

@@ -58,6 +58,14 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
     protected $_taxClass;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Tax_Helper_Data $taxHelper
      * @param Magento_Tax_Model_Class $taxClass
@@ -66,6 +74,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Tax_Helper_Data $taxHelper,
         Magento_Tax_Model_Class $taxClass,
@@ -73,6 +82,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         parent::__construct(
             $context,
             $resource,
@@ -96,7 +106,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
     {
         parent::_afterSave();
         $this->saveCalculationData();
-        Mage::dispatchEvent('tax_settings_change_after');
+        $this->_eventManager->dispatch('tax_settings_change_after');
         return $this;
     }
 
@@ -108,7 +118,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
      */
     protected function _afterDelete()
     {
-        Mage::dispatchEvent('tax_settings_change_after');
+        $this->_eventManager->dispatch('tax_settings_change_after');
         return parent::_afterDelete();
     }
 

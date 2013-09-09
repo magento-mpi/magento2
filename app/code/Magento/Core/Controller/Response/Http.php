@@ -83,7 +83,7 @@ class Magento_Core_Controller_Response_Http extends Zend_Controller_Response_Htt
         }
         self::$_transportObject->setUrl($url);
         self::$_transportObject->setCode($code);
-        Mage::dispatchEvent('controller_response_redirect',
+        $this->_objectManager->get('Magento_Core_Model_Event_Manager_Proxy')->dispatch('controller_response_redirect',
                 array('response' => $this, 'transport' => self::$_transportObject));
 
         return parent::setRedirect(self::$_transportObject->getUrl(), self::$_transportObject->getCode());

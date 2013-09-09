@@ -12,11 +12,23 @@
 class Magento_SalesRule_Model_Rule_Condition_Combine extends Magento_Rule_Model_Condition_Combine
 {
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
         parent::__construct($context, $data);
         $this->setType('Magento_SalesRule_Model_Rule_Condition_Combine');
     }
@@ -50,7 +62,7 @@ class Magento_SalesRule_Model_Rule_Condition_Combine extends Magento_Rule_Model_
         ));
 
         $additional = new Magento_Object();
-        Mage::dispatchEvent('salesrule_rule_condition_combine', array('additional' => $additional));
+        $this->_eventManager->dispatch('salesrule_rule_condition_combine', array('additional' => $additional));
         $additionalConditions = $additional->getConditions();
         if ($additionalConditions) {
             $conditions = array_merge_recursive($conditions, $additionalConditions);

@@ -44,6 +44,14 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_coreHttp = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -51,12 +59,14 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
@@ -172,7 +182,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
             $this->setFirstVisitAt(now());
             $this->setIsNewVisitor(true);
             $this->save();
-            Mage::dispatchEvent('visitor_init', array('visitor' => $this));
+            $this->_eventManager->dispatch('visitor_init', array('visitor' => $this));
         }
         return $this;
     }

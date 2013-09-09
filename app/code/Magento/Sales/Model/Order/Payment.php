@@ -171,6 +171,35 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     protected $_transactionAdditionalInfo = array();
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($coreData, $paymentData, $context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -244,7 +273,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      */
     public function place()
     {
-        Mage::dispatchEvent('sales_order_payment_place_start', array('payment' => $this));
+        $this->_eventManager->dispatch('sales_order_payment_place_start', array('payment' => $this));
         $order = $this->getOrder();
 
         $this->setAmountOrdered($order->getTotalDue());
@@ -323,7 +352,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
             $order->setState($orderState, $orderStatus, $message, $isCustomerNotified);
         }
 
-        Mage::dispatchEvent('sales_order_payment_place_end', array('payment' => $this));
+        $this->_eventManager->dispatch('sales_order_payment_place_end', array('payment' => $this));
 
         return $this;
     }
@@ -361,7 +390,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
             $this->getAuthorizationTransaction()
         );
 
-        Mage::dispatchEvent('sales_order_payment_capture', array('payment' => $this, 'invoice' => $invoice));
+        $this->_eventManager->dispatch('sales_order_payment_capture', array('payment' => $this, 'invoice' => $invoice));
 
         /**
          * Fetch an update about existing transaction. It can determine whether the transaction can be paid
@@ -502,7 +531,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
             'shipping_captured' => $invoice->getShippingAmount(),
             'base_shipping_captured' => $invoice->getBaseShippingAmount(),
         ));
-        Mage::dispatchEvent('sales_order_payment_pay', array('payment' => $this, 'invoice' => $invoice));
+        $this->_eventManager->dispatch('sales_order_payment_pay', array('payment' => $this, 'invoice' => $invoice));
         return $this;
     }
 
@@ -520,7 +549,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
             'shipping_captured' => -1 * $invoice->getShippingAmount(),
             'base_shipping_captured' => -1 * $invoice->getBaseShippingAmount(),
         ));
-        Mage::dispatchEvent('sales_order_payment_cancel_invoice', array('payment' => $this, 'invoice' => $invoice));
+        $this->_eventManager->dispatch('sales_order_payment_cancel_invoice', array('payment' => $this, 'invoice' => $invoice));
         return $this;
     }
 
@@ -570,7 +599,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
     public function void(Magento_Object $document)
     {
         $this->_void(true);
-        Mage::dispatchEvent('sales_order_payment_void', array('payment' => $this, 'invoice' => $document));
+        $this->_eventManager->dispatch('sales_order_payment_void', array('payment' => $this, 'invoice' => $document));
         return $this;
     }
 
@@ -658,7 +687,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
         $message = $this->_appendTransactionToMessage($transaction, $message);
         $order->setState(Magento_Sales_Model_Order::STATE_PROCESSING, true, $message);
 
-        Mage::dispatchEvent('sales_order_payment_refund', array('payment' => $this, 'creditmemo' => $creditmemo));
+        $this->_eventManager->dispatch('sales_order_payment_refund', array('payment' => $this, 'creditmemo' => $creditmemo));
         return $this;
     }
 
@@ -764,7 +793,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
             'shipping_refunded' => -1 * $creditmemo->getShippingAmount(),
             'base_shipping_refunded' => -1 * $creditmemo->getBaseShippingAmount()
         ));
-        Mage::dispatchEvent('sales_order_payment_cancel_creditmemo',
+        $this->_eventManager->dispatch('sales_order_payment_cancel_creditmemo',
             array('payment' => $this, 'creditmemo' => $creditmemo)
         );
         return $this;
@@ -792,7 +821,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
             $this->_void($isOnline, null, 'cancel');
         }
 
-        Mage::dispatchEvent('sales_order_payment_cancel', array('payment' => $this));
+        $this->_eventManager->dispatch('sales_order_payment_cancel', array('payment' => $this));
 
         return $this;
     }

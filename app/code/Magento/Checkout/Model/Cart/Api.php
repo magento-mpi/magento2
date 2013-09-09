@@ -38,17 +38,27 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
     protected $_paymentData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Checkout_Helper_Data $checkoutData
      * @param Magento_Api_Helper_Data $apiHelper
      * @param Magento_Core_Model_Config_Scope $configScope
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Checkout_Helper_Data $checkoutData,
         Magento_Api_Helper_Data $apiHelper,
         Magento_Core_Model_Config_Scope $configScope
     ) {
+        $this->_eventManager = $eventManager;
         $this->_paymentData = $paymentData;
         $this->_checkoutData = $checkoutData;
         $this->_configScope = $configScope;
@@ -263,7 +273,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
 
             $order = $service->getOrder();
             if ($order) {
-                Mage::dispatchEvent(
+                $this->_eventManager->dispatch(
                     'checkout_type_onepage_save_order_after',
                     array('order' => $order, 'quote' => $quote)
                 );
@@ -275,7 +285,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
                 }
             }
 
-            Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
+            $this->_eventManager->dispatch('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
         } catch (Magento_Core_Exception $e) {
             $this->_fault('create_order_fault', $e->getMessage());
         }

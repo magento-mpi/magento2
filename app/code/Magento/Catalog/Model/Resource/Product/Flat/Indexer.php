@@ -99,15 +99,25 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     protected $_coreData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_catalogProductFlat = $catalogProductFlat;
         parent::__construct($resource);
@@ -446,7 +456,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
 
             $columnsObject = new Magento_Object();
             $columnsObject->setColumns($this->_columns);
-            Mage::dispatchEvent('catalog_product_flat_prepare_columns',
+            $this->_eventManager->dispatch('catalog_product_flat_prepare_columns',
                 array('columns' => $columnsObject)
             );
             $this->_columns = $columnsObject->getColumns();
@@ -506,7 +516,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
 
             $indexesObject = new Magento_Object();
             $indexesObject->setIndexes($this->_indexes);
-            Mage::dispatchEvent('catalog_product_flat_prepare_indexes', array(
+            $this->_eventManager->dispatch('catalog_product_flat_prepare_indexes', array(
                 'indexes'   => $indexesObject
             ));
             $this->_indexes = $indexesObject->getIndexes();
@@ -972,7 +982,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
      */
     public function updateEventAttributes($storeId = null)
     {
-        Mage::dispatchEvent('catalog_product_flat_rebuild', array(
+        $this->_eventManager->dispatch('catalog_product_flat_rebuild', array(
             'store_id' => $storeId,
             'table'    => $this->getFlatTableName($storeId)
         ));
@@ -1215,7 +1225,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
 
         $this->saveProduct($productIds, $storeId);
 
-        Mage::dispatchEvent('catalog_product_flat_update_product', array(
+        $this->_eventManager->dispatch('catalog_product_flat_update_product', array(
             'store_id'      => $storeId,
             'table'         => $this->getFlatTableName($storeId),
             'product_ids'   => $productIds

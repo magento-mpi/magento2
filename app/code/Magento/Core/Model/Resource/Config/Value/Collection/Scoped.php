@@ -7,7 +7,8 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Resource_Config_Value_Collection_Scoped extends Magento_Core_Model_Resource_Db_Collection_Abstract
+class Magento_Core_Model_Resource_Config_Value_Collection_Scoped
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Scope to filter by
@@ -24,12 +25,14 @@ class Magento_Core_Model_Resource_Config_Value_Collection_Scoped extends Magento
     protected $_scopeId;
 
     /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Resource_Config_Data $resource
      * @param string $scope
      * @param int $scopeId
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Resource_Config_Data $resource,
         $scope,
@@ -37,7 +40,7 @@ class Magento_Core_Model_Resource_Config_Value_Collection_Scoped extends Magento
     ) {
         $this->_scope = $scope;
         $this->_scopeId = $scopeId;
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
     /**

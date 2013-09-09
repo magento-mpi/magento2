@@ -68,6 +68,14 @@ class Magento_GoogleCheckout_Model_Api_Xml_Checkout extends Magento_GoogleChecko
     protected $_customerData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_GoogleCheckout_Helper_Data $googleCheckoutData
      * @param Magento_Tax_Helper_Data $taxData
@@ -76,6 +84,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Checkout extends Magento_GoogleChecko
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Customer_Helper_Data $customerData,
         Magento_GoogleCheckout_Helper_Data $googleCheckoutData,
         Magento_Tax_Helper_Data $taxData,
@@ -83,6 +92,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Checkout extends Magento_GoogleChecko
         Magento_Core_Model_Translate $translator,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_googleCheckoutData = $googleCheckoutData;
         $this->_taxData = $taxData;
@@ -195,7 +205,7 @@ EOT;
             'description' => __('A virtual item to reflect the discount total')
         ));
 
-        Mage::dispatchEvent('google_checkout_discount_item_price', array(
+        $this->_eventManager->dispatch('google_checkout_discount_item_price', array(
             'quote'         => $this->getQuote(),
             'discount_item' => $discountItem
         ));

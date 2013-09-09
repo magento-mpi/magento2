@@ -167,6 +167,14 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     protected $_paymentData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Sales_Helper_Data $salesData
      * @param Magento_Core_Model_Context $context
@@ -175,6 +183,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Sales_Helper_Data $salesData,
         Magento_Core_Model_Context $context,
@@ -182,6 +191,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -465,7 +475,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
             $order->getPayment()->refund($this);
         }
 
-        Mage::dispatchEvent('sales_order_creditmemo_refund', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch('sales_order_creditmemo_refund', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -512,7 +522,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         );
         $this->getOrder()->setShippingRefunded($this->getOrder()->getShippingRefunded()-$this->getShippingAmount());
 
-        Mage::dispatchEvent('sales_order_creditmemo_cancel', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch('sales_order_creditmemo_cancel', array($this->_eventObject=>$this));
         return $this;
     }
 

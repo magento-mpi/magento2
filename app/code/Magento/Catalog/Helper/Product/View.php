@@ -48,17 +48,27 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
     protected $_pageLayout = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Page_Helper_Layout $pageLayout
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Page_Helper_Layout $pageLayout,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config
     ) {
+        $this->_eventManager = $eventManager;
         $this->_catalogProduct = $catalogProduct;
         $this->_pageLayout = $pageLayout;
         parent::__construct($context);
@@ -160,7 +170,7 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
             $product->setConfigureMode($params->getConfigureMode());
         }
 
-        Mage::dispatchEvent('catalog_controller_product_view', array('product' => $product));
+        $this->_eventManager->dispatch('catalog_controller_product_view', array('product' => $product));
 
         if ($params->getSpecifyOptions()) {
             $notice = $product->getTypeInstance()->getSpecifyOptionMessage();

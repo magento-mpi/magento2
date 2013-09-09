@@ -47,15 +47,25 @@ class Magento_Persistent_Model_Observer
     protected $_persistentSession = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Persistent_Helper_Session $persistentSession
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Persistent_Helper_Data $persistentData
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Persistent_Helper_Session $persistentSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Persistent_Helper_Data $persistentData
     ) {
+        $this->_eventManager = $eventManager;
         $this->_persistentSession = $persistentSession;
         $this->_coreData = $coreData;
         $this->_persistentData = $persistentData;
@@ -486,7 +496,7 @@ class Magento_Persistent_Model_Observer
             && !($observer->getControllerAction() instanceof Magento_Checkout_Controller_Onepage)
             // persistent session does not expire on onepage checkout page to not spoil customer group id
         ) {
-            Mage::dispatchEvent('persistent_session_expired');
+            $this->_eventManager->dispatch('persistent_session_expired');
             $this->_expirePersistentSession();
             $customerSession->setCustomerId(null)->setCustomerGroupId(null);
         }

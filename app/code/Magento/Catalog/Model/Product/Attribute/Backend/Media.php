@@ -61,6 +61,14 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     protected $_fileStorageDb = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig
@@ -69,6 +77,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_File_Storage_Database $fileStorageDb,
         Magento_Core_Helper_Data $coreData,
         Magento_Catalog_Model_Product_Media_Config $mediaConfig,
@@ -76,6 +85,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         Magento_Filesystem $filesystem,
         $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_fileStorageDb = $fileStorageDb;
         $this->_coreData = $coreData;
         if (isset($data['resourceModel'])) {
@@ -223,7 +233,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
             }
         }
 
-        Mage::dispatchEvent('catalog_product_media_save_before', array('product' => $object, 'images' => $value));
+        $this->_eventManager->dispatch('catalog_product_media_save_before', array('product' => $object, 'images' => $value));
 
         $object->setData($attrCode, $value);
 
@@ -329,7 +339,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
             Mage::throwException(__('The image does not exist.'));
         }
 
-        Mage::dispatchEvent('catalog_product_media_add_image', array('product' => $product, 'image' => $file));
+        $this->_eventManager->dispatch('catalog_product_media_add_image', array('product' => $product, 'image' => $file));
 
         $pathinfo = pathinfo($file);
         $imgExtensions = array('jpg','jpeg','gif','png');

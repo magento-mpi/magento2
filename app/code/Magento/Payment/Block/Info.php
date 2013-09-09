@@ -24,6 +24,29 @@ class Magento_Payment_Block_Info extends Magento_Core_Block_Template
     protected $_template = 'Magento_Payment::info/default.phtml';
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve info model
      *
      * @return Magento_Payment_Model_Info
@@ -143,7 +166,7 @@ class Magento_Payment_Block_Info extends Magento_Core_Block_Template
             } elseif (is_array($transport)) {
                 $transport = new Magento_Object($transport);
             }
-            Mage::dispatchEvent('payment_info_block_prepare_specific_information', array(
+            $this->_eventManager->dispatch('payment_info_block_prepare_specific_information', array(
                 'transport' => $transport,
                 'payment'   => $this->getInfo(),
                 'block'     => $this,

@@ -37,17 +37,19 @@ class Magento_Backend_Model_Auth_Session
     protected $_aclBuilder;
 
     /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Acl_Builder $aclBuilder
      * @param Magento_Core_Helper_Http $coreHttp
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Acl_Builder $aclBuilder,
         Magento_Core_Helper_Http $coreHttp,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
-        parent::__construct($coreHttp, $data);
+        parent::__construct($eventManager, $coreHttp, $data);
         $this->init('admin');
     }
 

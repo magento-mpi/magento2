@@ -111,18 +111,28 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     protected $_checkoutData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
      * @param Magento_Customer_Helper_Data $customerData
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_AdvancedCheckout_Helper_Data $checkoutData,
         Magento_Customer_Helper_Data $customerData
     ) {
+        $this->_eventManager = $eventManager;
         $this->_checkoutData = $checkoutData;
         $this->_customerData = $customerData;
     }
@@ -418,7 +428,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
                 ));
             }
 
-            Mage::dispatchEvent('sales_convert_order_item_to_quote_item', array(
+            $this->_eventManager->dispatch('sales_convert_order_item_to_quote_item', array(
                 'order_item' => $orderItem,
                 'quote_item' => $item
             ));

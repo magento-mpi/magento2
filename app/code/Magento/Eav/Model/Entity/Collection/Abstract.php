@@ -86,12 +86,25 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     );
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
      * Collection constructor
      *
+     *
+     *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      */
-    public function __construct(Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy)
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+    ) {
+        $this->_eventManager = $eventManager;
         parent::__construct($fetchStrategy);
         $this->_construct();
         $this->setConnection($this->getEntity()->getReadConnection());
@@ -839,7 +852,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
         Magento_Profiler::start('EAV:load_collection');
 
         Magento_Profiler::start('before_load');
-        Mage::dispatchEvent('eav_collection_abstract_load_before', array('collection' => $this));
+        $this->_eventManager->dispatch('eav_collection_abstract_load_before', array('collection' => $this));
         $this->_beforeLoad();
         Magento_Profiler::stop('before_load');
 

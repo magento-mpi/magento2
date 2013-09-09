@@ -48,11 +48,23 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_viewUrl;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_View_Url $viewUrl)
-    {
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_View_Url $viewUrl
+    ) {
+        $this->_eventManager = $eventManager;
         parent::__construct($context);
         $this->_viewUrl = $viewUrl;
     }
@@ -303,7 +315,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         }
 
         // Init and load product
-        Mage::dispatchEvent('catalog_controller_product_init_before', array(
+        $this->_eventManager->dispatch('catalog_controller_product_init_before', array(
             'controller_action' => $controller,
             'params' => $params,
         ));
@@ -345,8 +357,8 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         Mage::register('product', $product);
 
         try {
-            Mage::dispatchEvent('catalog_controller_product_init', array('product' => $product));
-            Mage::dispatchEvent('catalog_controller_product_init_after',
+            $this->_eventManager->dispatch('catalog_controller_product_init', array('product' => $product));
+            $this->_eventManager->dispatch('catalog_controller_product_init_after',
                             array('product' => $product,
                                 'controller_action' => $controller
                             )

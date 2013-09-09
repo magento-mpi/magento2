@@ -21,6 +21,31 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare content for tab
      *
      * @return string
@@ -144,7 +169,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Actions'));
 
-        Mage::dispatchEvent('adminhtml_block_salesrule_actions_prepareform', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_block_salesrule_actions_prepareform', array('form' => $form));
 
         $form->setValues($model->getData());
 

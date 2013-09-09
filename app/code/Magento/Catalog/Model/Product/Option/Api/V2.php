@@ -26,19 +26,21 @@ class Magento_Catalog_Model_Product_Option_Api_V2 extends Magento_Catalog_Model_
     protected $_apiData = null;
 
     /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Api_Helper_Data $apiData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Api_Helper_Data $apiData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Controller_Request_Http $request
     ) {
         $this->_apiData = $apiData;
-        parent::__construct($catalogProduct, $catalogData, $request);
+        parent::__construct($eventManager, $catalogProduct, $catalogData, $request);
     }
 
     /**

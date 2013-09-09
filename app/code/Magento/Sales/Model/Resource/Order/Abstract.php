@@ -75,6 +75,29 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
     protected $_eventObject                  = 'resource';
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($resource);
+    }
+
+    /**
      * Add new virtual grid column
      *
      * @param string $alias
@@ -123,7 +146,7 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
     {
         $this->_virtualGridColumns = array();
         if ($this->_eventPrefix && $this->_eventObject) {
-            Mage::dispatchEvent($this->_eventPrefix . '_init_virtual_grid_columns', array(
+            $this->_eventManager->dispatch($this->_eventPrefix . '_init_virtual_grid_columns', array(
                 $this->_eventObject => $this
             ));
         }
@@ -148,7 +171,7 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
                 $proxy->setIds($ids)
                     ->setData($this->_eventObject, $this);
 
-                Mage::dispatchEvent($this->_eventPrefix . '_update_grid_records', array('proxy' => $proxy));
+                $this->_eventManager->dispatch($this->_eventPrefix . '_update_grid_records', array('proxy' => $proxy));
                 $ids = $proxy->getIds();
             }
 
@@ -276,7 +299,7 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
     protected function _beforeSaveAttribute(Magento_Core_Model_Abstract $object, $attribute)
     {
         if ($this->_eventObject && $this->_eventPrefix) {
-            Mage::dispatchEvent($this->_eventPrefix . '_save_attribute_before', array(
+            $this->_eventManager->dispatch($this->_eventPrefix . '_save_attribute_before', array(
                 $this->_eventObject => $this,
                 'object' => $object,
                 'attribute' => $attribute
@@ -295,7 +318,7 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
     protected function _afterSaveAttribute(Magento_Core_Model_Abstract $object, $attribute)
     {
         if ($this->_eventObject && $this->_eventPrefix) {
-            Mage::dispatchEvent($this->_eventPrefix . '_save_attribute_after', array(
+            $this->_eventManager->dispatch($this->_eventPrefix . '_save_attribute_after', array(
                 $this->_eventObject => $this,
                 'object' => $object,
                 'attribute' => $attribute

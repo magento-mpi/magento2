@@ -19,14 +19,16 @@
 class Magento_Backend_Model_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         array $data = array()
     ) {
-        parent::__construct($coreHttp, $data);
+        parent::__construct($eventManager, $coreHttp, $data);
         $this->init('adminhtml');
     }
 }

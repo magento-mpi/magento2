@@ -21,10 +21,21 @@ class Magento_Index_Model_Indexer
     protected $_processesCollection;
 
     /**
-     * Class constructor. Initialize index processes based on configuration
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
      */
-    public function __construct()
-    {
+    protected $_eventManager = null;
+
+    /**
+     * Class constructor. Initialize index processes based on configuration
+     *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
         $this->_processesCollection = $this->_createCollection();
     }
 
@@ -89,7 +100,7 @@ class Magento_Index_Model_Indexer
      */
     public function indexEvents($entity=null, $type=null)
     {
-        Mage::dispatchEvent('start_index_events' . $this->_getEventTypeName($entity, $type));
+        $this->_eventManager->dispatch('start_index_events' . $this->_getEventTypeName($entity, $type));
         /** @var $resourceModel Magento_Index_Model_Resource_Process */
         $resourceModel = Mage::getResourceSingleton('Magento_Index_Model_Resource_Process');
         $resourceModel->beginTransaction();
@@ -100,7 +111,7 @@ class Magento_Index_Model_Indexer
             $resourceModel->rollBack();
             throw $e;
         }
-        Mage::dispatchEvent('end_index_events' . $this->_getEventTypeName($entity, $type));
+        $this->_eventManager->dispatch('end_index_events' . $this->_getEventTypeName($entity, $type));
         return $this;
     }
 
@@ -167,7 +178,7 @@ class Magento_Index_Model_Indexer
          * Index and save event just in case if some process matched it
          */
         if ($event->getProcessIds()) {
-            Mage::dispatchEvent('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
+            $this->_eventManager->dispatch('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
             /** @var $resourceModel Magento_Index_Model_Resource_Process */
             $resourceModel = Mage::getResourceSingleton('Magento_Index_Model_Resource_Process');
             $resourceModel->beginTransaction();
@@ -179,7 +190,7 @@ class Magento_Index_Model_Indexer
                 throw $e;
             }
             $event->save();
-            Mage::dispatchEvent('end_process_event' . $this->_getEventTypeName($entityType, $eventType));
+            $this->_eventManager->dispatch('end_process_event' . $this->_getEventTypeName($entityType, $eventType));
         }
         return $this;
     }

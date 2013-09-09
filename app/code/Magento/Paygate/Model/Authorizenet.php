@@ -180,19 +180,21 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
     protected $_paygateData = null;
 
     /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Paygate_Helper_Data $paygateData
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Payment_Helper_Data $paymentData
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Paygate_Helper_Data $paygateData,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Payment_Helper_Data $paymentData,
         array $data = array()
     ) {
         $this->_paygateData = $paygateData;
-        parent::__construct($moduleList, $paymentData, $data);
+        parent::__construct($eventManager, $moduleList, $paymentData, $data);
     }
 
     /**

@@ -20,6 +20,31 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
     extends Magento_Adminhtml_Block_Catalog_Form
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
+    /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($formFactory, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -38,7 +63,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
             'recurring_profile',
             'tier_price',
         ));
-        Mage::dispatchEvent('adminhtml_catalog_product_form_prepare_excluded_field_list', array('object'=>$this));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_form_prepare_excluded_field_list', array('object'=>$this));
 
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create();

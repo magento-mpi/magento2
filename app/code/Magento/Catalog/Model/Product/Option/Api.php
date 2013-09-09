@@ -30,15 +30,25 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
     protected $_catalogData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Controller_Request_Http $request
     ) {
+        $this->_eventManager = $eventManager;
         $this->_catalogData = $catalogData;
         parent::__construct($catalogProduct);
         $this->_request = $request;
@@ -175,7 +185,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
 
                 // an empty request can be set as event parameter
                 // because it is not used for options changing in observers
-                Mage::dispatchEvent(
+                $this->_eventManager->dispatch(
                     'catalog_product_prepare_save',
                     array(
                         'product' => $product,

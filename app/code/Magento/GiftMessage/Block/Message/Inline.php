@@ -32,17 +32,27 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     protected $_giftMessageMessage = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_GiftMessage_Helper_Message $giftMessageMessage,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_giftMessageMessage = $giftMessageMessage;
         parent::__construct($coreData, $context, $data);
     }
@@ -177,7 +187,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
             $items = array();
 
             $entityItems = $this->getEntity()->getAllItems();
-            Mage::dispatchEvent('gift_options_prepare_items', array('items' => $entityItems));
+            $this->_eventManager->dispatch('gift_options_prepare_items', array('items' => $entityItems));
 
             foreach ($entityItems as $item) {
                 if ($item->getParentItem()) {

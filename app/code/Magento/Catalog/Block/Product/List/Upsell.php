@@ -63,7 +63,7 @@ class Magento_Catalog_Block_Product_List_Upsell extends Magento_Catalog_Block_Pr
         /**
          * Updating collection with desired items
          */
-        Mage::dispatchEvent('catalog_product_upsell', array(
+        $this->_eventManager->dispatch('catalog_product_upsell', array(
             'product'       => $product,
             'collection'    => $this->_itemCollection,
             'limit'         => $this->getItemLimit()

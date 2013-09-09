@@ -41,11 +41,14 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
 
     /**
      * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Model_Event_Manager_Proxy $eventManager
     ) {
         $this->_taxData = $taxData;
+        parent::__construct($eventManager);
     }
 
     public function getIsPricesCalculatedByIndex()
@@ -84,7 +87,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
                 $selectionIds = unserialize($customOption->getValue());
                 $selections = $product->getTypeInstance()->getSelectionsByIds($selectionIds, $product);
                 $selections->addTierPriceData();
-                Mage::dispatchEvent('prepare_catalog_product_collection_prices', array(
+                $this->_eventManager->dispatch('prepare_catalog_product_collection_prices', array(
                     'collection' => $selections,
                     'store_id' => $product->getStoreId(),
                 ));
@@ -117,7 +120,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
 
         $finalPrice = $this->getBasePrice($product, $qty);
         $product->setFinalPrice($finalPrice);
-        Mage::dispatchEvent('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
+        $this->_eventManager->dispatch('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
         $finalPrice = $product->getData('final_price');
 
         $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
@@ -383,7 +386,7 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
             if ($selectionProduct->getSelectionPriceType()) { // percent
                 $product = clone $bundleProduct;
                 $product->setFinalPrice($this->getPrice($product));
-                Mage::dispatchEvent(
+                $this->_eventManager->dispatch(
                     'catalog_product_get_final_price',
                     array('product' => $product, 'qty' => $bundleQty)
                 );

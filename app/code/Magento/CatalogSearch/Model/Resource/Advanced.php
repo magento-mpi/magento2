@@ -19,6 +19,29 @@
 class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection and define catalog product table as main table
      *
      */
@@ -48,7 +71,7 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
             'response_object' => $response
         );
 
-        Mage::dispatchEvent('catalog_prepare_price_select', $eventArgs);
+        $this->_eventManager->dispatch('catalog_prepare_price_select', $eventArgs);
 
         return $response;
     }

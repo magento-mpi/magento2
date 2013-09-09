@@ -201,7 +201,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
         );
 
         $responseObject = new Magento_Object();
-        Mage::dispatchEvent('catalog_product_view_config', array('response_object'=>$responseObject));
+        $this->_eventManager->dispatch('catalog_product_view_config', array('response_object'=>$responseObject));
         if (is_array($responseObject->getAdditionalOptions())) {
             foreach ($responseObject->getAdditionalOptions() as $option=>$value) {
                 $config[$option] = $value;

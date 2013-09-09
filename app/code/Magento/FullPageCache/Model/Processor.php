@@ -114,10 +114,20 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
     protected $_storeManager;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction
      * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_Cache_SubProcessorFactory $subProcessorFactory
-     * @param Magento_FullPageCache_Model_Container_PlaceholderFactory $placeholderFactory
+     * @param Magento_FullPageCache_Model_Cache_SubProcessorFactory
+     * $subProcessorFactory
+     * @param Magento_FullPageCache_Model_Container_PlaceholderFactory
+     * $placeholderFactory
      * @param Magento_FullPageCache_Model_ContainerFactory $containerFactory
      * @param Magento_FullPageCache_Model_Environment $environment
      * @param Magento_FullPageCache_Model_Request_Identifier $requestIdentifier
@@ -127,6 +137,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction,
         Magento_FullPageCache_Model_Cache $fpcCache,
         Magento_FullPageCache_Model_Cache_SubProcessorFactory $subProcessorFactory,
@@ -139,6 +150,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         Magento_FullPageCache_Model_Store_Identifier $storeIdentifier,
         Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
+        $this->_eventManager = $eventManager;
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;
         $this->_subProcessorFactory = $subProcessorFactory;
@@ -493,7 +505,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
                     Mage::getSingleton('Magento_Core_Model_Session')->getSessionName()
                 );
 
-                Mage::dispatchEvent('pagecache_processor_metadata_before_save', array('processor' => $this));
+                $this->_eventManager->dispatch('pagecache_processor_metadata_before_save', array('processor' => $this));
 
                 $this->_metadata->saveMetadata($this->getRequestTags());
             }

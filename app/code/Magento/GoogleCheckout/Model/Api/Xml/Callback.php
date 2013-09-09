@@ -34,6 +34,14 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
     protected $_coreData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_GoogleCheckout_Helper_Data $googleCheckoutData
      * @param Magento_Tax_Helper_Data $taxData
@@ -41,12 +49,14 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_GoogleCheckout_Helper_Data $googleCheckoutData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Core_Model_Translate $translator,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_googleCheckoutData = $googleCheckoutData;
         $this->_taxData = $taxData;
@@ -377,7 +387,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         $quote = $this->_loadQuote();
         $quote->setIsActive(true)->reserveOrderId();
 
-        Mage::dispatchEvent('googlecheckout_create_order_before', array('quote' => $quote));
+        $this->_eventManager->dispatch('googlecheckout_create_order_before', array('quote' => $quote));
         if ($quote->getErrorMessage()) {
             $this->getGRequest()->SendCancelOrder($this->getGoogleOrderNumber(),
                 __('Something went wrong creating the order.'),
@@ -471,7 +481,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         $order->place();
         $order->save();
         $order->sendNewOrderEmail();
-        Mage::dispatchEvent('googlecheckout_save_order_after', array('order' => $order));
+        $this->_eventManager->dispatch('googlecheckout_save_order_after', array('order' => $order));
 
         $quote->setIsActive(false)->save();
 
@@ -485,7 +495,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
             }
         }
 
-        Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
+        $this->_eventManager->dispatch('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
 
         $this->getGRequest()->SendMerchantOrderNumber($order->getExtOrderId(), $order->getIncrementId());
     }

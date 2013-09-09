@@ -21,6 +21,31 @@ abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Ma
 {
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Class constructor
      *
      */
@@ -64,7 +89,7 @@ abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Ma
         $form->setUseContainer(true);
         $this->setForm($form);
 
-        Mage::dispatchEvent('adminhtml_store_edit_form_prepare_form', array('block' => $this));
+        $this->_eventManager->dispatch('adminhtml_store_edit_form_prepare_form', array('block' => $this));
 
         return parent::_prepareForm();
     }

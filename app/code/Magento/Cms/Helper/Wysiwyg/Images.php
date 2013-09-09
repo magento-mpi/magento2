@@ -53,17 +53,27 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
     protected $_backendData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Backend_Helper_Data $backendData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
         Magento_Filesystem $filesystem
     ) {
+        $this->_eventManager = $eventManager;
         $this->_backendData = $backendData;
         $this->_coreData = $coreData;
         parent::__construct($context);
@@ -179,7 +189,7 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
     {
         $checkResult = new StdClass;
         $checkResult->isAllowed = false;
-        Mage::dispatchEvent('cms_wysiwyg_images_static_urls_allowed', array(
+        $this->_eventManager->dispatch('cms_wysiwyg_images_static_urls_allowed', array(
             'result'   => $checkResult,
             'store_id' => $this->_storeId
         ));

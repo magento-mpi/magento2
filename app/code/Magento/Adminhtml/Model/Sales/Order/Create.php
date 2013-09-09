@@ -110,11 +110,21 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected $_coreData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Data $coreData
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Data $coreData
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_session = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
     }
@@ -328,7 +338,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
 
         $this->_coreData->copyFieldset('sales_copy_order', 'to_edit', $order, $quote);
 
-        Mage::dispatchEvent('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
+        $this->_eventManager->dispatch('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
 
         if (!$order->getCustomerId()) {
             $quote->setCustomerIsGuest(true);
@@ -417,7 +427,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 ));
             }
 
-            Mage::dispatchEvent('sales_convert_order_item_to_quote_item', array(
+            $this->_eventManager->dispatch('sales_convert_order_item_to_quote_item', array(
                 'order_item' => $orderItem,
                 'quote_item' => $item
             ));
@@ -1540,7 +1550,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             $order->sendNewOrderEmail();
         }
 
-        Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
+        $this->_eventManager->dispatch('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
 
         return $order;
     }

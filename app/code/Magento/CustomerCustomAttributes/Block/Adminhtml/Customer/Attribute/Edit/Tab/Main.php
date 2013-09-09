@@ -28,6 +28,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
     protected $_customerData = null;
 
     /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_CustomerCustomAttributes_Helper_Data $customerData
      * @param Magento_Eav_Helper_Data $eavData
@@ -36,6 +37,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Data_Form_Factory $formFactory,
         Magento_CustomerCustomAttributes_Helper_Data $customerData,
         Magento_Eav_Helper_Data $eavData,
@@ -44,7 +46,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
         array $data = array()
     ) {
         $this->_customerData = $customerData;
-        parent::__construct($formFactory, $eavData, $coreData, $context, $data);
+        parent::__construct($eventManager, $formFactory, $eavData, $coreData, $context, $data);
     }
 
     /**
@@ -257,7 +259,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
 
         $this->getForm()->setDataObject($this->getAttributeObject());
 
-        Mage::dispatchEvent('enterprise_customer_attribute_edit_tab_general_prepare_form', array(
+        $this->_eventManager->dispatch('enterprise_customer_attribute_edit_tab_general_prepare_form', array(
             'form'      => $form,
             'attribute' => $attribute
         ));

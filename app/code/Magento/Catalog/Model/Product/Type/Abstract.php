@@ -111,19 +111,31 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     abstract public function deleteTypeSpecificData(Magento_Catalog_Model_Product $product);
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
      * Initialize data
      *
+     *
+     *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_File_Storage_Database $fileStorageDb,
         Magento_Filesystem $filesystem,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_fileStorageDb = $fileStorageDb;
         $this->_filesystem = $filesystem;
@@ -513,7 +525,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
         }
 
         $eventName = sprintf('catalog_product_type_prepare_%s_options', $processMode);
-        Mage::dispatchEvent($eventName, array(
+        $this->_eventManager->dispatch($eventName, array(
             'transport'   => $transport,
             'buy_request' => $buyRequest,
             'product' => $product

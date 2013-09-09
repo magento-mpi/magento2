@@ -39,6 +39,14 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
     protected $_catalogSearchData = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -46,12 +54,14 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
         $this->_catalogSearchData = $catalogSearchData;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
@@ -77,14 +87,14 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
      */
     public function rebuildIndex($storeId = null, $productIds = null)
     {
-        Mage::dispatchEvent('catalogsearch_index_process_start', array(
+        $this->_eventManager->dispatch('catalogsearch_index_process_start', array(
             'store_id'      => $storeId,
             'product_ids'   => $productIds
         ));
 
         $this->getResource()->rebuildIndex($storeId, $productIds);
 
-        Mage::dispatchEvent('catalogsearch_index_process_complete', array());
+        $this->_eventManager->dispatch('catalogsearch_index_process_complete', array());
 
         return $this;
     }

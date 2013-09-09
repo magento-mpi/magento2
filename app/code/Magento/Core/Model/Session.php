@@ -28,19 +28,21 @@ class Magento_Core_Model_Session extends Magento_Core_Model_Session_Abstract
     protected $_coreData = null;
 
     /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Http $coreHttp
      * @param array $data
      * @param null $sessionName
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Http $coreHttp,
         array $data = array(),
         $sessionName = null
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($coreHttp, $data);
+        parent::__construct($eventManager, $coreHttp, $data);
         $this->init('core', $sessionName);
     }
 

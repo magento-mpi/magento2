@@ -41,6 +41,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
 
     /**
      * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
@@ -49,6 +50,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
      */
     public function __construct(
         Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
@@ -56,7 +58,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
-        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($eventManager, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     /**
@@ -197,7 +199,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
                         $this->_preparePrice($value['pricing_value'], $value['is_percent'])
                     );
                     $currentProduct->setParentId(true);
-                    Mage::dispatchEvent(
+                    $this->_eventManager->dispatch(
                         'catalog_product_type_configurable_price',
                         array('product' => $currentProduct)
                     );

@@ -142,7 +142,7 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
         $toolbar->setCollection($collection);
 
         $this->setChild('toolbar', $toolbar);
-        Mage::dispatchEvent('catalog_block_product_list_collection', array(
+        $this->_eventManager->dispatch('catalog_block_product_list_collection', array(
             'collection' => $this->_getProductCollection()
         ));
 
