@@ -33,8 +33,8 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Fieldset_Config $fieldsetConfig
     ) {
-        parent::__construct($fetchStrategy);
         $this->_fieldsetConfig = $fieldsetConfig;
+        parent::__construct($fetchStrategy);
     }
 
     /**
