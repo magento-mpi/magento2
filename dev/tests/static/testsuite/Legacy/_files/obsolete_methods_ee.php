@@ -84,4 +84,10 @@ return array(
     array('_saveCustomerSegmentRelations', 'Magento_TargetRule_Model_Resource_Rule'),
     array('_prepareRuleProducts', 'Magento_TargetRule_Model_Resource_Rule'),
     array('getInetNtoaExpr', 'Magento_Logging_Model_Resource_Helper_Mysql4'),
+    array('catalogCategoryIsCatalogPermissionsAllowed', 'Magento_AdminGws_Model_Models'),
+    array('catalogCategoryMoveBefore', 'Magento_AdminGws_Model_Models'),
+    array('catalogProductActionWithWebsitesAfter', 'Magento_AdminGws_Model_Models'),
+    array('restrictCustomerRegistration', 'Magento_Invitation_Model_Observer'),
+    array('restrictCustomersRegistration', 'Magento_WebsiteRestriction_Model_Observer'),
+    array('checkCategoryPermissions', 'Magento_CatalogPermissions_Model_Adminhtml_Observer'),
 );
