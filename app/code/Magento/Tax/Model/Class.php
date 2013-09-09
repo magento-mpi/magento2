@@ -11,8 +11,8 @@
 /**
  * Tax class model
  *
- * @method Magento_Tax_Model_Resource_Class _getResource()
- * @method Magento_Tax_Model_Resource_Class getResource()
+ * @method Magento_Tax_Model_Resource_TaxClass _getResource()
+ * @method Magento_Tax_Model_Resource_TaxClass getResource()
  * @method string getClassName()
  * @method Magento_Tax_Model_Class setClassName(string $value)
  * @method string getClassType()
@@ -60,7 +60,7 @@ class Magento_Tax_Model_Class extends Magento_Core_Model_Abstract
 
     public function _construct()
     {
-        $this->_init('Magento_Tax_Model_Resource_Class');
+        $this->_init('Magento_Tax_Model_Resource_TaxClass');
     }
 
     /**

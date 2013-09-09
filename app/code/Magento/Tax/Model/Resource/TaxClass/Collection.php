@@ -23,7 +23,7 @@ class Magento_Tax_Model_Resource_TaxClass_Collection extends Magento_Core_Model_
      */
     public function _construct()
     {
-        $this->_init('Magento_Tax_Model_Class', 'Magento_Tax_Model_Resource_Class');
+        $this->_init('Magento_Tax_Model_Class', 'Magento_Tax_Model_Resource_TaxClass');
     }
 
     /**

@@ -24,7 +24,7 @@
             <modules>
                 <Magento_Backup>
                     <files>
-                        <default>\Magento\Backup.csv</default>
+                        <default>Magento_Backup.csv</default>
                     </files>
                 </Magento_Backup>
             </modules>

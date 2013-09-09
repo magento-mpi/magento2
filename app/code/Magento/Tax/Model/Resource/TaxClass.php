@@ -16,7 +16,7 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_Class extends Magento_Core_Model_Resource_Db_Abstract
+class Magento_Tax_Model_Resource_TaxClass extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization
@@ -30,7 +30,7 @@ class Magento_Tax_Model_Resource_Class extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Initialize unique fields
      *
-     * @return Magento_Tax_Model_Resource_Class
+     * @return Magento_Tax_Model_Resource_TaxClass
      */
     protected function _initUniqueFields()
     {
