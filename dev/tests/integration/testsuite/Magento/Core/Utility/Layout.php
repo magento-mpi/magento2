@@ -77,7 +77,6 @@ class Magento_Core_Utility_Layout
             'blockFactory'       => $objectManager->create('Magento_Core_Model_BlockFactory', array()),
             'structure'          => $objectManager->create('Magento_Data_Structure', array()),
             'argumentProcessor'  => $objectManager->create('Magento_Core_Model_Layout_Argument_Processor', array()),
-            'translator'         => $objectManager->create('Magento_Core_Model_Layout_Translator'),
             'scheduledStructure' => $objectManager->create('Magento_Core_Model_Layout_ScheduledStructure', array()),
             'dataServiceGraph'   => $objectManager->create('Magento_Core_Model_DataService_Graph', array()),
             'coreStoreConfig'    => $objectManager->create('Magento_Core_Model_Store_Config'),

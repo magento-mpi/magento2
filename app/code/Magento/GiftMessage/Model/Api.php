@@ -18,10 +18,35 @@
 class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_Product
 {
     /**
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
+     * @var Magento_Core_Model_Config_Scope
+     */
+    protected $_configScope;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Config_Scope $configScope
+     * @param Magento_Api_Helper_Data $apiHelper
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Config_Scope $configScope,
+        Magento_Api_Helper_Data $apiHelper
+    ) {
+        $this->_configScope = $configScope;
+        $this->_eventManager = $eventManager;
+        parent::__construct($apiHelper);
+    }
+
+    /**
      * Return an Array of attributes.
      *
-     * @param Array $obj
-     * @return Array
+     * @param Array $arr
+     * @return array
      */
     protected function _prepareData($arr)
     {
@@ -34,28 +59,31 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
     /**
      * Raise event for setting a giftMessage.
      *
-     * @param String $entityId
+     * @param string $entityId
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Sales_Model_Quote $quote
-     * @return AssociativeArray
+     * @return array
      */
     protected function _setGiftMessage($entityId, $request, $quote)
     {
+        $currentScope = $this->_configScope->getCurrentScope();
 
         /**
          * Below code will catch exceptions only in DeveloperMode
-         * @see Magento_Core_Model_App::_callObserverMethod($object, $method, $observer)
-         * And result of Mage::dispatchEvent will always return an Object of Magento_Core_Model_App.
          */
         try {
             /** Frontend area events must be loaded as we emulate frontend behavior. */
-            Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_FRONTEND, Magento_Core_Model_App_Area::PART_EVENTS);
-            Mage::dispatchEvent(
+            $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_FRONTEND);
+            $this->_eventManager->dispatch(
                 'checkout_controller_onepage_save_shipping_method',
                 array('request' => $request, 'quote' => $quote)
             );
+            /** Restore config scope */
+            $this->_configScope->setCurrentScope($currentScope);
             return array('entityId' => $entityId, 'result' => true, 'error' => '');
         } catch (Exception $e) {
+            /** Restore config scope */
+            $this->_configScope->setCurrentScope($currentScope);
             return array('entityId' => $entityId, 'result' => false, 'error' => $e->getMessage());
         }
     }
@@ -63,10 +91,10 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
     /**
      * Set GiftMessage for a Quote.
      *
-     * @param String $quoteId
-     * @param AssociativeArray $giftMessage
-     * @param String $store
-     * @return AssociativeArray
+     * @param string $quoteId
+     * @param array $giftMessage
+     * @param string $store
+     * @return array
      */
     public function setForQuote($quoteId, $giftMessage, $store = null)
     {
@@ -89,9 +117,9 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
     /**
      * Set a GiftMessage to QuoteItem by product
      *
-     * @param String $quoteId
-     * @param Array $productsAndMessages
-     * @param String $store
+     * @param string $quoteId
+     * @param array $productsAndMessages
+     * @param string $store
      * @return array
      */
     public function setForQuoteProduct($quoteId, $productsAndMessages, $store = null)
@@ -142,10 +170,10 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
     /**
      * Set GiftMessage for a QuoteItem by its Id.
      *
-     * @param String $quoteItemId
-     * @param AssociativeArray $giftMessage
-     * @param String $store
-     * @return AssociativeArray
+     * @param string $quoteItemId
+     * @param array $giftMessage
+     * @param string $store
+     * @return array
      */
     public function setForQuoteItem($quoteItemId, $giftMessage, $store = null)
     {

@@ -21,7 +21,7 @@ class Magento_User_Helper_Data extends Magento_Core_Helper_Abstract
      * Configuration path to expiration period of reset password link
      */
     const XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD
-        = 'default/admin/emails/password_reset_link_expiration_period';
+        = 'admin/emails/password_reset_link_expiration_period';
 
     /**
      * @var Magento_Core_Model_Config
@@ -61,6 +61,6 @@ class Magento_User_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getResetPasswordLinkExpirationPeriod()
     {
-        return (int) $this->_coreConfig->getNode(self::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD);
+        return (int) $this->_coreConfig->getValue(self::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD, 'default');
     }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="checkout_cart_update_items_before">
+        <observer name="wishlist" instance="Magento_Wishlist_Model_Observer" method="processCartUpdateBefore" />
+    </event>
+    <event name="checkout_cart_add_product_complete">
+        <observer name="wishlist" instance="Magento_Wishlist_Model_Observer" method="processAddToCart" />
+    </event>
+</config>

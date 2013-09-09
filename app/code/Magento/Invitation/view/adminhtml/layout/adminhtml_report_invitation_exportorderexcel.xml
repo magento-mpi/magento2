@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_invitation_exportorderexcel>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_invitation_exportorderexcel">
         <update handle="adminhtml_report_invitation_order_grid"/>
         <container name="adminhtml.report.grid.container" label="Report Invitation Order Container"/>
-    </adminhtml_report_invitation_exportorderexcel>
+    </handle>
 </layout>

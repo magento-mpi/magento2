@@ -54,11 +54,11 @@ class Magento_Core_Helper_Hint extends Magento_Core_Helper_Abstract
     {
         if (null === $this->_availableHints) {
             $hints = array();
-            $config = $this->_coreConfig->getNode('default/hints');
+            $config = $this->_coreConfig->getValue('hints', 'default');
             if ($config) {
-                foreach ($config->children() as $type => $node) {
-                    if ((string)$node->enabled) {
-                        $hints[$type] = (string)$node->url;
+                foreach ($config as $type => $configValue) {
+                    if (isset($configValue['enabled']) && $configValue['enabled']) {
+                        $hints[$type] = $configValue['url'];
                     }
                 }
             }

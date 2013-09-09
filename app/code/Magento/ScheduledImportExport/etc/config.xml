@@ -53,17 +53,6 @@
             </import_entities>
         </importexport>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <enterprise_importexport before="Magento_Adminhtml">Magento_ScheduledImportExport_Adminhtml</enterprise_importexport>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>

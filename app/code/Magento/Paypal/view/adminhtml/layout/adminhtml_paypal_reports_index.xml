@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_paypal_reports_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_paypal_reports_index">
         <update handle="adminhtml_paypal_reports_block"/>
         <reference name="content">
-            <block type="Magento_Paypal_Block_Adminhtml_Settlement_Report" name="adminhtml.paypal.report.grid.container"/>
+            <block class="Magento_Paypal_Block_Adminhtml_Settlement_Report" name="adminhtml.paypal.report.grid.container"/>
         </reference>
-    </adminhtml_paypal_reports_index>
+    </handle>
 </layout>

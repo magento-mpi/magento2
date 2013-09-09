@@ -60,6 +60,11 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     );
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+    
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -67,15 +72,18 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     protected $_coreStoreConfig = null;
 
     /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($resource);
+        $this->_storeManager = $storeManager;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -637,12 +645,9 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     {
         if (empty($this->_storeIds)) {
             $this->_storeIds = array();
-            $stores = Mage::app()->getConfig()->getNode('stores');
-            foreach ($stores->children() as $store) {
-                $storeId = (int) $store->descend('system/store/id');
-                if ($storeId) {
-                    $this->_storeIds[] = $storeId;
-                }
+            /** @var $store Magento_Core_Model_Store */
+            foreach ($this->_storeManager->getStores(true) as $store) {
+                $this->_storeIds[] = (int)$store->getId();
             }
         }
 

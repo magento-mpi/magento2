@@ -40,15 +40,6 @@
                 </Magento_Shipping>
             </modules>
         </translate>
-        <routers>
-            <shipping>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Shipping</module>
-                    <frontName>shipping</frontName>
-                </args>
-            </shipping>
-        </routers>
     </frontend>
     <default>
         <shipping>

@@ -24,6 +24,9 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
      */
     protected $_stateStatuses;
 
+    /**
+     * @var array
+     */
     private $_states;
 
     /**

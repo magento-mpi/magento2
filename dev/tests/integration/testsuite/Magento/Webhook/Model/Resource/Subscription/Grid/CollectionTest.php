@@ -120,9 +120,9 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
             'moduleList' => $moduleList
         ));
 
-        /** @var Magento_Core_Model_Config_Loader_Modules $modulesLoader */
+        /** @var Magento_Core_Model_Config_Loader $modulesLoader */
         $modulesLoader = $objectManager->create(
-            'Magento_Core_Model_Config_Loader_Modules', array(
+            'Magento_Core_Model_Config_Loader', array(
                 'fileReader' => $moduleReader
         ));
 

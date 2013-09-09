@@ -78,17 +78,13 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
         );
         // Retrieve a code of the current website
         $website = $this->getRequest()->getParam('website');
-
-        $configRoot = $this->_coreConfig->getNode(null, 'website', $website);
-
         $disabledMethods = array();
         foreach ($methods as $methodId => $methodPath) {
-            $isEnabled = (int) $configRoot->descend($methodPath);
+            $isEnabled = (int)  Mage::getConfig()->getValue($methodPath, 'website', $website);
             if ($isEnabled === 0) {
                 $disabledMethods[$methodId] = $isEnabled;
             }
         }
-
         return $disabledMethods;
     }
 }

@@ -36,7 +36,7 @@ class Magento_Cron_Model_Observer
      *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig = null;
+    protected $_coreStoreConfig;
 
     /**
      * @var Magento_Core_Model_Config
@@ -70,13 +70,15 @@ class Magento_Cron_Model_Observer
         $scheduleLifetime = $this->_coreStoreConfig->getConfig(self::XML_PATH_SCHEDULE_LIFETIME) * 60;
         $now = time();
         $jobsRoot = $this->_coreConfig->getNode('crontab/jobs');
-        $defaultJobsRoot = $this->_coreConfig->getNode('default/crontab/jobs');
+        $defaultJobsRoot = $this->_coreConfig->getValue('crontab/jobs', 'default');
 
         foreach ($schedules->getIterator() as $schedule) {
             $jobConfig = $jobsRoot->{$schedule->getJobCode()};
             if (!$jobConfig || !$jobConfig->run) {
-                $jobConfig = $defaultJobsRoot->{$schedule->getJobCode()};
-                if (!$jobConfig || !$jobConfig->run) {
+                $jobConfig = isset($defaultJobsRoot[$schedule->getJobCode()])
+                    ? $defaultJobsRoot[$schedule->getJobCode()]
+                    : false;
+                if (!$jobConfig || !$jobConfig['run']) {
                     continue;
                 }
             }
@@ -175,15 +177,15 @@ class Magento_Cron_Model_Observer
          */
         $config = $this->_coreConfig->getNode('crontab/jobs');
         if ($config instanceof Magento_Core_Model_Config_Element) {
-            $this->_generateJobs($config->children(), $exists);
+            $this->_generateJobs($config->asArray(), $exists);
         }
 
         /**
          * generate configurable crontab jobs
          */
-        $config = $this->_coreConfig->getNode('default/crontab/jobs');
-        if ($config instanceof Magento_Core_Model_Config_Element) {
-            $this->_generateJobs($config->children(), $exists);
+        $config = $this->_coreConfig->getValue('crontab/jobs', 'default');
+        if ($config) {
+            $this->_generateJobs($config, $exists);
         }
 
         /**
@@ -208,11 +210,11 @@ class Magento_Cron_Model_Observer
 
         foreach ($jobs as $jobCode => $jobConfig) {
             $cronExpr = null;
-            if ($jobConfig->schedule->config_path) {
-                $cronExpr = $this->_coreStoreConfig->getConfig((string)$jobConfig->schedule->config_path);
+            if (isset($jobConfig['schedule']['config_path'])) {
+                $cronExpr = $this->_coreStoreConfig($jobConfig['schedule']['config_path']);
             }
-            if (empty($cronExpr) && $jobConfig->schedule->cron_expr) {
-                $cronExpr = (string)$jobConfig->schedule->cron_expr;
+            if (empty($cronExpr) && isset($jobConfig['schedule']['cron_expr'])) {
+                $cronExpr = $jobConfig['schedule']['cron_expr'];
             }
             if (!$cronExpr) {
                 continue;

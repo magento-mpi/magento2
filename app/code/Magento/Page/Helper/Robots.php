@@ -17,8 +17,7 @@
  */
 class Magento_Page_Helper_Robots extends Magento_Core_Helper_Abstract
 {
-    const XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS =
-        'default/design/search_engine_robots/default_custom_instructions';
+    const XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS = 'design/search_engine_robots/default_custom_instructions';
 
     /**
      * @var Magento_Core_Model_Config
@@ -48,6 +47,6 @@ class Magento_Page_Helper_Robots extends Magento_Core_Helper_Abstract
      */
     public function getRobotsDefaultCustomInstructions()
     {
-        return trim((string)$this->_coreConfig->getNode(self::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS));
+        return trim((string)$this->_coreConfig->getValue(self::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS, 'default'));
     }
 }

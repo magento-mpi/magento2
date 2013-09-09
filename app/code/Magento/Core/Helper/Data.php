@@ -63,7 +63,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     );
 
     /**
-     * @var Magento_Core_Model_Config_Modules
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
@@ -80,23 +80,18 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config_Modules $config
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config_Modules $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         parent::__construct($context);
-        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_config = $config;
-        $this->_coreConfig = $coreConfig;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**

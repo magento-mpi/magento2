@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_rma_item_attribute_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_rma_item_attribute_index">
         <reference name="content">
-            <block type="Magento_Rma_Block_Adminhtml_Rma_Item_Attribute" name="magento_rma_item_attribute"/>
+            <block class="Magento_Rma_Block_Adminhtml_Rma_Item_Attribute" name="magento_rma_item_attribute"/>
         </reference>
-    </adminhtml_rma_item_attribute_index>
+    </handle>
 </layout>

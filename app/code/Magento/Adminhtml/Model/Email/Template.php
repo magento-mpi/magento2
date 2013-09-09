@@ -19,7 +19,32 @@
 class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Template
 {
     /**
-     * Collect all system config pathes where current template is used as default
+     * @var Magento_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Core_Model_Config $config
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Core_Model_Config $config,
+        array $data = array()
+    ) {
+        $this->_config = $config;
+        parent::__construct($context, $filesystem, $viewUrl, $viewFileSystem, $config, $data);
+    }
+
+    /**
+     * Collect all system config paths where current template is used as default
      *
      * @return array
      */
@@ -29,26 +54,41 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
         if (!$templateCode) {
             return array();
         }
-        $paths = array();
 
-        // find nodes which are using $templateCode value
-        $defaultCfgNodes = $this->_coreConfig->getXpath('default/*/*[*="' . $templateCode . '"]');
-        if (!is_array($defaultCfgNodes)) {
-            return array();
-        }
-
-        foreach ($defaultCfgNodes as $node) {
-            // create email template path in system.xml
-            $sectionName = $node->getParent()->getName();
-            $groupName = $node->getName();
-            $fieldName = substr($templateCode, strlen($sectionName . '_' . $groupName . '_'));
-            $paths[] = array('path' => implode('/', array($sectionName, $groupName, $fieldName)));
-        }
+        $configData = $this->_config->getValue(null, 'default');
+        $paths = $this->_findEmailTemplateUsages($templateCode, $configData, '');
         return $paths;
     }
 
     /**
-     * Collect all system config pathes where current template is currently used
+     * Find nodes which are using $templateCode value
+     *
+     * @param string $code
+     * @param array $data
+     * @param string $path
+     * @return array
+     */
+    protected function _findEmailTemplateUsages($code, array $data, $path)
+    {
+        $output = array();
+        foreach ($data as $key => $value) {
+            $configPath = $path ? $path . '/' . $key : $key;
+            if (is_array($value)) {
+                $output = array_merge(
+                    $output,
+                    $this->_findEmailTemplateUsages($code, $value, $configPath)
+                );
+            } else {
+                if ($value == $code) {
+                    $output[] = array('path' => $configPath);
+                }
+            }
+        }
+        return $output;
+    }
+
+    /**
+     * Collect all system config paths where current template is currently used
      *
      * @return array
      */

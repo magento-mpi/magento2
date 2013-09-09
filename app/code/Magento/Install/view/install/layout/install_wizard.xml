@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <install_wizard>
-        <block type="Magento_Core_Block_Template" name="root" output="1">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="install_wizard">
+        <block class="Magento_Core_Block_Template" name="root" output="1">
             <action method="setTemplate">
-                <template>Magento_Install::page.phtml</template>
+                <argument name="template" xsi:type="string">Magento_Install::page.phtml</argument>
             </action>
             <container name="left" as="left" label="Left Column"/>
             <container name="content" as="content" label="Content"/>
         </block>
-        <block type="Magento_Install_Block_Db_Main" name="database" as="database"/>
-    </install_wizard>
+        <block class="Magento_Install_Block_Db_Main" name="database" as="database"/>
+    </handle>
 </layout>

@@ -31,14 +31,32 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
     protected $_areaFrontName;
 
     /**
+     * Default routeId for router
+     *
+     * @var string
+     */
+    protected $_defaultRouteId;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Route_Config $routeConfig
+     * @param Magento_Backend_Helper_Data $dataHelper
+     * @param Magento_Core_Model_Config $coreConfig
      * @param string $areaCode
      * @param string $baseController
+     * @param string $routerId
+     * @param string $defaultRouteId
      * @throws InvalidArgumentException
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
@@ -46,8 +64,13 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Route_Config $routeConfig,
+        Magento_Backend_Helper_Data $dataHelper,
+        Magento_Core_Model_Config $coreConfig,
         $areaCode,
-        $baseController
+        $baseController,
+        $routerId,
+        $defaultRouteId
     ) {
         parent::__construct(
             $controllerFactory,
@@ -55,14 +78,19 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
             $app,
             $configScope,
             $coreStoreConfig,
+            $routeConfig,
             $areaCode,
-            $baseController
+            $baseController,
+            $routerId,
+            $defaultRouteId
         );
 
-        $this->_areaFrontName = Mage::helper('Magento_Backend_Helper_Data')->getAreaFrontName();
+        $this->_areaFrontName = $dataHelper->getAreaFrontName();
+        $this->_defaultRouteId = $defaultRouteId;
         if (empty($this->_areaFrontName)) {
             throw new InvalidArgumentException('Area Front Name should be defined');
         }
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -70,9 +98,11 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      */
     public function fetchDefault()
     {
-        $moduleFrontName = (string) $this->_objectManager->get('Magento_Core_Model_Config')->getNode('admin/routers/adminhtml/args/frontName');
         // set defaults
         $pathParts = explode('/', $this->_getDefaultPath());
+        $backendRoutes = $this->_getRoutes();
+        $moduleFrontName = $backendRoutes[$this->_defaultRouteId]['frontName'];
+
         $this->getFront()->setDefault(array(
             'area'       => $this->_getParamWithDefaultValue($pathParts, 0, ''),
             'module'     => $this->_getParamWithDefaultValue($pathParts, 1, $moduleFrontName),
@@ -100,7 +130,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      */
     protected function _getDefaultPath()
     {
-        return (string)$this->_objectManager->get('Magento_Core_Model_Config')->getNode('default/web/default/admin');
+        return (string)$this->_coreConfig->getValue('web/default/admin', 'default');
     }
 
     /**
@@ -150,11 +180,9 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      */
     protected function _shouldBeSecure($path)
     {
-        $useInAdminhtml = $this->_coreStoreConfig
-            ->getConfigFlag('web/secure/use_in_adminhtml', Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
-        return substr((string)$this->_objectManager->get('Magento_Core_Model_Config')->getNode('default/web/unsecure/base_url'), 0, 5) === 'https'
-            || $useInAdminhtml
-                && substr((string)$this->_objectManager->get('Magento_Core_Model_Config')->getNode('default/web/secure/base_url'), 0, 5) === 'https';
+        return substr((string)$this->_coreConfig->getValue('web/unsecure/base_url', 'default'), 0, 5) === 'https'
+            || $this->_coreStoreConfig->getConfigFlag('web/secure/use_in_adminhtml', Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+                && substr((string)$this->_coreConfig->getValue('web/secure/base_url', 'default'), 0, 5) === 'https';
     }
 
     /**
@@ -167,18 +195,6 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
     {
         return Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
             ->getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
-    }
-
-    /**
-     * Emulate custom admin url
-     *
-     * @param string $configArea
-     * @param bool $useRouterName
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function collectRoutes($configArea, $useRouterName)
-    {
-        parent::collectRoutes('admin', $useRouterName);
     }
 
     /**

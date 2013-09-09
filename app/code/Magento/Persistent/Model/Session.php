@@ -221,7 +221,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
             $websiteId = Mage::app()->getStore()->getWebsiteId();
         }
 
-        $lifetime = $this->_coreConfig->getNode(
+        $lifetime = $this->_coreConfig->getValue(
             Magento_Persistent_Helper_Data::XML_PATH_LIFE_TIME,
             'website',
             intval($websiteId)

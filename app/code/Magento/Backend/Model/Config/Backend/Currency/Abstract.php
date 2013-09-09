@@ -18,7 +18,7 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Magento_Core_Model_Config_Data
+abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Magento_Core_Model_Config_Value
 {
     /**
      * Core store config
@@ -85,7 +85,7 @@ abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Ma
     protected function _getCurrencyBase()
     {
         if (!$value = $this->getData('groups/options/fields/base/value')) {
-            $value = $this->_coreConfig->getNode(
+            $value = $this->_coreConfig->getValue(
                 Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
                 $this->getScope(),
                 $this->getScopeId()
@@ -102,7 +102,7 @@ abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Ma
     protected function _getCurrencyDefault()
     {
         if (!$value = $this->getData('groups/options/fields/default/value')) {
-            $value = $this->_coreConfig->getNode(
+            $value = $this->_coreConfig->getValue(
                 Magento_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT,
                 $this->getScope(),
                 $this->getScopeId()

@@ -15,7 +15,7 @@
  * @package    Magento_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cron_Model_Config_Backend_Sitemap extends Magento_Core_Model_Config_Data
+class Magento_Cron_Model_Config_Backend_Sitemap extends Magento_Core_Model_Config_Value
 {
 
     const CRON_STRING_PATH = 'crontab/jobs/sitemap_generate/schedule/cron_expr';
@@ -46,12 +46,12 @@ class Magento_Cron_Model_Config_Backend_Sitemap extends Magento_Core_Model_Confi
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            Mage::getModel('Magento_Core_Model_Config_Data')
+            Mage::getModel('Magento_Core_Model_Config_Value')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
-            Mage::getModel('Magento_Core_Model_Config_Data')
+            Mage::getModel('Magento_Core_Model_Config_Value')
                 ->load(self::CRON_MODEL_PATH, 'path')
                 ->setValue((string) $this->_coreConfig->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)

@@ -1,138 +1,70 @@
 <?php
 /**
+ * Configuration data container for default, stores and websites config values
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Config data model
- *
- * @method Magento_Core_Model_Resource_Config_Data _getResource()
- * @method Magento_Core_Model_Resource_Config_Data getResource()
- * @method string getScope()
- * @method Magento_Core_Model_Config_Data setScope(string $value)
- * @method int getScopeId()
- * @method Magento_Core_Model_Config_Data setScopeId(int $value)
- * @method string getPath()
- * @method Magento_Core_Model_Config_Data setPath(string $value)
- * @method string getValue()
- * @method Magento_Core_Model_Config_Data setValue(string $value)
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- *
- * @SuppressWarnings(PHPMD.NumberOfChildren)
- */
-class Magento_Core_Model_Config_Data extends Magento_Core_Model_Abstract
+class Magento_Core_Model_Config_Data implements Magento_Core_Model_Config_DataInterface
 {
-    const ENTITY = 'core_config_data';
     /**
-     * Prefix of model events names
+     * Config data
      *
-     * @var string
+     * @var array
      */
-    protected $_eventPrefix = 'core_config_data';
+    protected $_data = array();
 
     /**
-     * Parameter name in event
-     *
-     * In observe method you can use $observer->getEvent()->getObject() in this case
-     *
-     * @var string
-     */
-    protected $_eventObject = 'config_data';
-
-    /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
-     *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param Magento_Core_Model_Config_MetadataProcessor $processor
      * @param array $data
      */
-    public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
-        array $data = array()
-    ) {
-        parent::__construct(
-            $context,
-            $resource,
-            $resourceCollection,
-            $data
-        );
-        $this->_coreConfig = $coreConfig;
-    }
-
-    /**
-     * Magento model constructor
-     */
-    protected function _construct()
+    public function __construct(Magento_Core_Model_Config_MetadataProcessor $processor, array $data)
     {
-        $this->_init('Magento_Core_Model_Resource_Config_Data');
+        $this->_data = $processor->process($data);
     }
 
     /**
-     * Add availability call after load as public
-     */
-    public function afterLoad()
-    {
-        $this->_afterLoad();
-    }
-
-    /**
-     * Check if config data value was changed
+     * Retrieve configuration value by path
      *
-     * @return bool
+     * @param null|string $path
+     * @return array|string
      */
-    public function isValueChanged()
+    public function getValue($path = null)
     {
-        return $this->getValue() != $this->getOldValue();
-    }
-
-    /**
-     * Get old value from existing config
-     *
-     * @return string
-     */
-    public function getOldValue()
-    {
-        $storeCode   = $this->getStoreCode();
-        $websiteCode = $this->getWebsiteCode();
-        $path        = $this->getPath();
-
-        if ($storeCode) {
-            return Mage::app()->getStore($storeCode)->getConfig($path);
+        if ($path === null) {
+            return $this->_data;
         }
-        if ($websiteCode) {
-            return Mage::app()->getWebsite($websiteCode)->getConfig($path);
+        $keys = explode('/', $path);
+        $data = $this->_data;
+        foreach ($keys as $key) {
+            if (is_array($data) && array_key_exists($key, $data)) {
+                $data = $data[$key];
+            } else {
+                return false;
+            }
         }
-        return (string) $this->_coreConfig->getNode('default/' . $path);
+        return $data;
     }
 
-
     /**
-     * Get value by key for new user data from <section>/groups/<group>/fields/<field>
-     *
-     * @return string
+     * Set configuration value
+     *l
+     * @param string $path
+     * @param mixed $value
      */
-    public function getFieldsetDataValue($key)
+    public function setValue($path, $value)
     {
-        $data = $this->_getData('fieldset_data');
-        return (is_array($data) && isset($data[$key])) ? $data[$key] : null;
+        $keys = explode('/', $path);
+        $lastKey = array_pop($keys);
+        $currentElement = &$this->_data;
+        foreach ($keys as $key) {
+            if (!isset($currentElement[$key])) {
+                $currentElement[$key] = array();
+            }
+            $currentElement = &$currentElement[$key];
+        }
+        $currentElement[$lastKey] = $value;
     }
 }

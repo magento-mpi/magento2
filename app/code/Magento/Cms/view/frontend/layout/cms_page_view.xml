@@ -7,14 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <cms_page_view translate="label" type="page" parent="default">
-        <label>CMS Pages (All)</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="CMS Pages (All)" id="cms_page_view" type="page" parent="default">
         <reference name="content">
-            <block type="Magento_Core_Block_Template" name="page_content_heading" template="Magento_Cms::content_heading.phtml"/>
+            <block class="Magento_Core_Block_Template" name="page_content_heading" template="Magento_Cms::content_heading.phtml"/>
             <container name="cms.wrapper" label="CMS Content Wrapper" htmlTag="div" htmlClass="std">
-                <block type="Magento_Cms_Block_Page" name="cms_page"/>
+                <block class="Magento_Cms_Block_Page" name="cms_page"/>
             </container>
         </reference>
-    </cms_page_view>
+    </handle>
 </layout>

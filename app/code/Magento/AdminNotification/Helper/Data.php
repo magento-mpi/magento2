@@ -103,11 +103,11 @@ class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
     public function getPopupObjectUrl($withExt = false)
     {
         if (is_null($this->_popupUrl)) {
-            $sheme = Mage::app()->getFrontController()->getRequest()->isSecure()
+            $scheme = Mage::app()->getFrontController()->getRequest()->isSecure()
                 ? 'https://'
                 : 'http://';
 
-            $this->_popupUrl = $sheme . $this->_coreStoreConfig->getConfig(self::XML_PATH_POPUP_URL);
+            $this->_popupUrl = $scheme . $this->_coreStoreConfig->getConfig(self::XML_PATH_POPUP_URL);
         }
         return $this->_popupUrl . ($withExt ? '.swf' : '');
     }

@@ -11,80 +11,6 @@
 -->
 <config>
     <adminhtml>
-        <events>
-            <core_block_abstract_to_html_before>
-                <observers>
-                    <magento_pricepermissions>
-                        <class>Magento_PricePermissions_Model_Observer</class>
-                        <method>coreBlockAbstractToHtmlBefore</method>
-                    </magento_pricepermissions>
-                </observers>
-            </core_block_abstract_to_html_before>
-            <adminhtml_block_html_before>
-                <observers>
-                    <magento_pricepermissions>
-                        <class>Magento_PricePermissions_Model_Observer</class>
-                        <method>adminhtmlBlockHtmlBefore</method>
-                    </magento_pricepermissions>
-                </observers>
-            </adminhtml_block_html_before>
-            <catalog_product_load_after>
-                <observers>
-                    <magento_pricepermissions>
-                        <class>Magento_PricePermissions_Model_Observer</class>
-                        <method>catalogProductLoadAfter</method>
-                    </magento_pricepermissions>
-                </observers>
-            </catalog_product_load_after>
-            <adminhtml_catalog_product_edit_prepare_form>
-                <observers>
-                    <magento_pricepermissions>
-                        <class>Magento_PricePermissions_Model_Observer</class>
-                        <method>adminhtmlCatalogProductEditPrepareForm</method>
-                    </magento_pricepermissions>
-                </observers>
-            </adminhtml_catalog_product_edit_prepare_form>
-            <catalog_product_save_before>
-                <observers>
-                    <magento_pricepermissions>
-                        <class>Magento_PricePermissions_Model_Observer</class>
-                        <method>catalogProductSaveBefore</method>
-                    </magento_pricepermissions>
-                </observers>
-            </catalog_product_save_before>
-            <catalog_product_prepare_save>
-                <observers>
-                    <magento_pricepermissions>
-                        <class>Magento_PricePermissions_Model_Observer</class>
-                        <method>catalogProductPrepareSave</method>
-                    </magento_pricepermissions>
-                </observers>
-            </catalog_product_prepare_save>
-            <adminhtml_catalog_product_form_prepare_excluded_field_list>
-                <observers>
-                    <magento_pricepermissions>
-                        <class>Magento_PricePermissions_Model_Observer</class>
-                        <method>adminhtmlCatalogProductFormPrepareExcludedFieldList</method>
-                    </magento_pricepermissions>
-                </observers>
-            </adminhtml_catalog_product_form_prepare_excluded_field_list>
-            <catalog_product_attribute_update_before>
-                <observers>
-                    <magento_pricepermissions>
-                        <class>Magento_PricePermissions_Model_Observer</class>
-                        <method>catalogProductAttributeUpdateBefore</method>
-                    </magento_pricepermissions>
-                </observers>
-            </catalog_product_attribute_update_before>
-            <controller_action_predispatch>
-                <observers>
-                    <magento_pricepermissions>
-                        <class>Magento_PricePermissions_Model_Observer</class>
-                        <method>adminControllerPredispatch</method>
-                    </magento_pricepermissions>
-                </observers>
-            </controller_action_predispatch>
-        </events>
         <translate>
             <modules>
                 <Magento_PricePermissions>
@@ -95,4 +21,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

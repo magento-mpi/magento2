@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="customer_login">
+        <observer name="loadCustomerQuote" instance="Magento_Checkout_Model_Observer" method="loadCustomerQuote" />
+    </event>
+    <event name="customer_logout">
+        <observer name="unsetAll" instance="Magento_Checkout_Model_Observer" method="unsetAll" />
+    </event>
+    <event name="sales_quote_save_after">
+        <observer name="set_checkout_quote_id" instance="Magento_Checkout_Model_Observer" method="salesQuoteSaveAfter" />
+    </event>
+</config>

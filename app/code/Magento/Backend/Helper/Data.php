@@ -8,12 +8,15 @@
  * @license     {license_link}
  */
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
 {
-    const XML_PATH_BACKEND_FRONTNAME            = 'global/areas/adminhtml/frontName';
-    const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'default/admin/url/use_custom';
-    const XML_PATH_USE_CUSTOM_ADMIN_PATH        = 'default/admin/url/use_custom_path';
-    const XML_PATH_CUSTOM_ADMIN_PATH            = 'default/admin/url/custom_path';
+    const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'admin/url/use_custom';
+    const XML_PATH_USE_CUSTOM_ADMIN_PATH        = 'admin/url/use_custom_path';
+    const XML_PATH_CUSTOM_ADMIN_PATH            = 'admin/url/custom_path';
+    const XML_PATH_BACKEND_AREA_FRONTNAME       = 'default/backend/frontName';
     const BACKEND_AREA_CODE                     = 'adminhtml';
 
     protected $_pageHelpUrl;
@@ -23,16 +26,46 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected $_config;
 
+    /**
+     * @var Magento_Core_Model_Config_Primary
+     */
+    protected $_primaryConfig;
+
+    /**
+     * @var string
+     */
+    protected $_defaultAreaFrontName;
+
+    /**
+     * Area front name
+     * @var string
+     */
     protected $_areaFrontName = null;
 
     /**
-     * @param Magento_Core_Model_Config $applicationConfig
-     * @param Magento_Core_Helper_Context $context
+     * @var Magento_Core_Model_RouterList
      */
-    public function __construct(Magento_Core_Model_Config $applicationConfig, Magento_Core_Helper_Context $context)
-    {
+    protected $_routerList;
+
+    /**
+     * @param Magento_Core_Model_Config $applicationConfig
+     * @param Magento_Core_Model_Config_Primary $primaryConfig
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_RouterList $routerList
+     * @param string $defaultAreaFrontName
+     */
+    public function __construct(
+        Magento_Core_Model_Config $applicationConfig,
+        Magento_Core_Model_Config_Primary $primaryConfig,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_RouterList $routerList,
+        $defaultAreaFrontName
+    ) {
         parent::__construct($context);
         $this->_config = $applicationConfig;
+        $this->_primaryConfig = $primaryConfig;
+        $this->_defaultAreaFrontName = $defaultAreaFrontName;
+        $this->_routerList = $routerList;
     }
 
     public function getPageHelpUrl()
@@ -50,7 +83,7 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
             $frontModule = $request->getControllerModule();
             if (!$frontModule) {
                 $frontName = $request->getModuleName();
-                $router = Mage::app()->getFrontController()->getRouterByFrontName($frontName);
+                $router = $this->_routerList->getRouterByFrontName($frontName);
 
                 $frontModule = $router->getModulesByFrontName($frontName);
                 if (empty($frontModule) === false) {
@@ -154,10 +187,18 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
     public function getAreaFrontName()
     {
         if (null === $this->_areaFrontName) {
-            $this->_areaFrontName = (bool)(string)$this->_config->getNode(self::XML_PATH_USE_CUSTOM_ADMIN_PATH) ?
-                (string)$this->_config->getNode(self::XML_PATH_CUSTOM_ADMIN_PATH) :
-                (string)$this->_config->getNode(self::XML_PATH_BACKEND_FRONTNAME);
+            $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default');
+            $configAreaFrontName = (string)$this->_primaryConfig->getNode(self::XML_PATH_BACKEND_AREA_FRONTNAME);
+
+            if ($isCustomPathUsed) {
+                $this->_areaFrontName = (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH, 'default');
+            } elseif ($configAreaFrontName) {
+                $this->_areaFrontName = $configAreaFrontName;
+            } else {
+                $this->_areaFrontName = $this->_defaultAreaFrontName;
+            }
         }
+
         return $this->_areaFrontName;
     }
 

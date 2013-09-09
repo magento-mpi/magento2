@@ -12,7 +12,7 @@
  * Backend model for "Reward Points Lifetime"
  *
  */
-class Magento_Reward_Model_System_Config_Backend_Expiration extends Magento_Core_Model_Config_Data
+class Magento_Reward_Model_System_Config_Backend_Expiration extends Magento_Core_Model_Config_Value
 {
     const XML_PATH_EXPIRATION_DAYS = 'magento_reward/general/expiration_days';
 
@@ -63,7 +63,7 @@ class Magento_Reward_Model_System_Config_Backend_Expiration extends Magento_Core
     {
         parent::_beforeDelete();
         if ($this->getWebsiteCode()) {
-            $default = (string)$this->_coreConfig->getNode('default/' . self::XML_PATH_EXPIRATION_DAYS);
+            $default = (string)$this->_coreConfig->getValue(self::XML_PATH_EXPIRATION_DAYS, 'default');
             $websiteIds = array(Mage::app()->getWebsite($this->getWebsiteCode())->getId());
             Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_History')
                 ->updateExpirationDate($default, $websiteIds);

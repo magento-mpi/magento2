@@ -26,23 +26,20 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
      * Constructor
      *
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config_Modules $modulesConfig
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config_Modules $modulesConfig,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Config $config,
         Magento_Filesystem $filesystem
     ) {
         parent::__construct(
             $context,
-            $modulesConfig,
-            $coreStoreConfig,
-            $coreConfig
+            $config,
+            $coreStoreConfig
         );
         $this->_filesystem = $filesystem;
     }

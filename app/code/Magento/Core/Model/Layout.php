@@ -164,10 +164,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected $_scheduledStructure;
 
     /**
-     * @var Magento_Core_Model_Layout_Translator
+     * @var array
      */
-    protected $_translator;
-
     protected $_serviceCalls = array();
 
     /** @var Magento_Core_Model_DataService_Graph  */
@@ -191,7 +189,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param Magento_Core_Model_BlockFactory $blockFactory
      * @param Magento_Data_Structure $structure
      * @param Magento_Core_Model_Layout_Argument_Processor $argumentProcessor
-     * @param Magento_Core_Model_Layout_Translator $translator
      * @param Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure
      * @param Magento_Core_Model_DataService_Graph $dataServiceGraph
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -202,7 +199,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         Magento_Core_Model_BlockFactory $blockFactory,
         Magento_Data_Structure $structure,
         Magento_Core_Model_Layout_Argument_Processor $argumentProcessor,
-        Magento_Core_Model_Layout_Translator $translator,
         Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure,
         Magento_Core_Model_DataService_Graph $dataServiceGraph,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -214,7 +210,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $this->_area = $area;
         $this->_structure = $structure;
         $this->_argumentProcessor = $argumentProcessor;
-        $this->_translator = $translator;
         $this->_elementClass = 'Magento_Core_Model_Layout_Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new Magento_Object;
@@ -522,38 +517,53 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      *
      * @param Magento_Core_Model_Layout_Element $node
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _readArguments(Magento_Core_Model_Layout_Element $node)
     {
         $arguments = array();
 
-        foreach ($node->children() as $argument) {
+        foreach ($node->xpath('argument') as $argument) {
             /** @var $argument Magento_Core_Model_Layout_Element */
 
-            $type = $argument->getAttribute('type');
-            if (null !== $type) {
-                $arguments[$argument->getName()]['type'] = $type;
+            $name = (string)$argument['name'];
+            $arguments[$name]['type'] = (string)$argument->attributes('xsi', true)->type;
+
+            $updaters = $this->_getArgumentUpdaters($argument);
+
+            if (!empty($updaters)) {
+                $arguments[$name]['updater'] = $updaters;
             }
 
-            if ($argument->hasChildren()) {
-                $value = array();
-                $this->_fillArgumentsArray($argument, $value);
-                unset($value['updater']);
-                unset($value['@']);
+            $value = $this->_getArgumentValue($argument);
+            if ($this->_isComplexArgument($argument)) {
+                $value = $this->_fillArgumentsArray($argument);
 
-                $updaters = $this->_getArgumentUpdaters($argument);
-
-                if (false === empty($updaters)) {
-                    $arguments[$argument->getName()]['updater'] = $updaters;
+                if ($arguments[$name]['type'] == 'url') {
+                    $value = array(
+                        'path' => (string)$argument['path'],
+                        'params' => $value
+                    );
                 }
-
-                if (is_array($value) && !empty($value)) {
-                    $arguments[$argument->getName()]['value'] = $value;
+                if (!empty($value) && is_array($value)) {
+                    $arguments[$name]['value'] = $value;
                 }
             } else {
-                $value = $this->_translator->translateArgument($argument);
+                if ($arguments[$name]['type'] == 'options') {
+                    $value = (string)$argument['model'];
+                }
+
+                if ($arguments[$name]['type'] == 'url') {
+                    $value = array(
+                        'path' => (string)$argument['path'],
+                    );
+                }
+
+                if ($arguments[$name]['type'] == 'string') {
+                    $value = $this->_translateArgument($argument);
+                }
                 if ('' !== $value) {
-                    $arguments[$argument->getName()]['value'] = $value;
+                    $arguments[$name]['value'] = $value;
                 }
             }
         }
@@ -561,22 +571,76 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     }
 
     /**
+     * Translate argument if needed
+     *
+     * @param Magento_Simplexml_Element $argument
+     * @return Magento_Phrase|string
+     */
+    protected function _translateArgument(Magento_Simplexml_Element $argument)
+    {
+        $value = $this->_getArgumentValue($argument);
+        if (isset($argument['translate'])) {
+            $value = __($value);
+        }
+        return $value;
+    }
+
+    /**
+     * Retrieve value from argument
+     *
+     * @param SimpleXMLElement $argument
+     * @return string
+     */
+    protected function _getArgumentValue(SimpleXMLElement $argument)
+    {
+        if (isset($argument->value)) {
+            $value = $argument->value;
+        } else {
+            $value = $argument;
+        }
+        return (string)$value;
+    }
+
+    /**
      * Fill arguments array
      *
      * @param Magento_Core_Model_Layout_Element $node
-     * @param array $argumentsArray
+     * @return array
      */
-    protected function _fillArgumentsArray(Magento_Core_Model_Layout_Element $node, &$argumentsArray)
+    protected function _fillArgumentsArray(Magento_Core_Model_Layout_Element $node)
     {
+        $argumentsArray = array();
         /** @var $childNode Magento_Core_Model_Layout_Element */
         foreach ($node->children() as $childNode) {
-            $nodeName = $childNode->getName();
-            if ($childNode->hasChildren()) {
-                $this->_fillArgumentsArray($childNode, $argumentsArray[$nodeName]);
+            $nodeName = (string)$childNode['name'];
+            if (empty($nodeName)) {
+                continue;
+            }
+            if ($this->_isComplexArgument($childNode)) {
+                $argumentsArray[$nodeName] = $this->_fillArgumentsArray($childNode);
             } else {
-                $argumentsArray[$nodeName] = $this->_translator->translateArgument($childNode);
+                $argumentsArray[$nodeName] = $this->_translateArgument($childNode);
             }
         }
+        return $argumentsArray;
+    }
+
+    /**
+     * @param Magento_Simplexml_Element $argument
+     * @return boolean
+     */
+    protected function _isSimpleArgument($argument)
+    {
+        return ($argument->hasChildren() && isset($argument->value)) || !$argument->hasChildren();
+    }
+
+    /**
+     * @param Magento_Simplexml_Element $argument
+     * @return boolean
+     */
+    protected function _isComplexArgument($argument)
+    {
+        return !$this->_isSimpleArgument($argument);
     }
 
     /**
@@ -656,7 +720,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             list(
                 $row[self::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME],
                 $row[self::SCHEDULED_STRUCTURE_INDEX_IS_AFTER]
-            ) = $this->_beforeAfterToSibling($node);
+                ) = $this->_beforeAfterToSibling($node);
 
             // materialized path for referencing nodes in the plain array of _scheduledStructure
             if ($this->_scheduledStructure->hasPath($parentName)) {
@@ -747,7 +811,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
                 $this->_structure->setAsChild($name, $parentName, $alias);
             } else {
                 Mage::log("Broken reference: the '{$name}' element cannot be added as child to '{$parentName}, "
-                        . 'because the latter doesn\'t exist', Zend_Log::CRIT
+                    . 'because the latter doesn\'t exist', Zend_Log::CRIT
                 );
             }
         }
@@ -834,21 +898,13 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         }
 
         // create block
-        if (!empty($node['class'])) {
-            $className = (string)$node['class'];
-        } else {
-            $className = (string)$node['type'];
-        }
+        $className = (string)$node['class'];
 
         $arguments = $this->_argumentProcessor->process($arguments);
         $dictionary = $this->_dataServiceGraph->getByNamespace((string)$node['name']);
 
         $block = $this->_createBlock($className, $elementName,
             array('data' => $arguments));
-
-        if (!empty($node['module'])) {
-            $block->setModuleName((string)$node['module']);
-        }
 
         if (!empty($node['template'])) {
             $templateFileName = (string)$node['template'];
@@ -925,7 +981,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $block = $this->getBlock($parentName);
         if (!empty($block)) {
             $args = $this->_extractArgs($node);
-            $this->_translator->translateActionParameters($node, $args);
             call_user_func_array(array($block, $method), $args);
         }
 
@@ -1181,36 +1236,34 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      */
     protected function _extractArgs($node)
     {
-        $args = (array)$node->children();
-        unset($args['@attributes']);
+        $arguments = $node->xpath('argument');
+        $result = array();
 
-        foreach ($args as $key => $arg) {
+        foreach ($arguments as $argument) {
             $matches = array();
-            if (($arg instanceof Magento_Core_Model_Layout_Element)) {
-                if (isset($arg['helper'])) {
-                    $args[$key] = $this->_getArgsByHelper($arg);
+            $key = (string)$argument['name'];
+            if ($node->xpath("*[@name='{$key}' and @translate='true']")) {
+                $result[$key] = __($this->_getArgumentValue($argument));
+            } else if (($argument instanceof Magento_Core_Model_Layout_Element)) {
+                if (isset($argument['helper'])) {
+                    $result[$key] = $this->_getArgsByHelper($argument);
                 } else {
                     /**
                      * if there is no helper we hope that this is assoc array
                      */
-                    $arr = $this->_getArgsFromAssoc($arg);
+                    $arr = $this->_getArgsFromAssoc($argument);
                     if (!empty($arr)) {
-                        $args[$key] = $arr;
+                        $result[$key] = $arr;
+                    } else {
+                        $result[$key] = (string)$argument;
                     }
                 }
-            } else if (preg_match('/\{\{([a-zA-Z\.]*)\}\}/', $arg, $matches)) {
-                $args[$key] = $this->_dataServiceGraph->getArgumentValue($matches[1]);
+            } else if (preg_match('/\{\{([a-zA-Z\.]*)\}\}/', $argument, $matches)) {
+                $result[$key] = $this->_dataServiceGraph->getArgumentValue($matches[1]);
             }
         }
 
-        if (isset($node['json'])) {
-            $json = explode(' ', (string)$node['json']);
-            foreach ($json as $arg) {
-                $args[$arg] = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($args[$arg]);
-            }
-        }
-
-        return $args;
+        return $result;
     }
 
     /**
@@ -1223,7 +1276,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     {
         $helper = (string)$arg['helper'];
         list($helperName, $helperMethod) = explode('::', $helper);
-        $arg = $arg->asArray();
+        $arg = $this->_getArgsFromAssoc($arg);
         unset($arg['@']);
         return call_user_func_array(array(Mage::helper($helperName), $helperMethod), $arg);
     }
@@ -1231,14 +1284,15 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     /**
      * Converts input array to arguments array
      *
-     * @param array $array
+     * @param mixed $array
      * @return array
      */
     protected function _getArgsFromAssoc($array)
     {
         $arr = array();
-        foreach ($array as $key => $value) {
-            $arr[(string)$key] = $value->asArray();
+        foreach ($array as $item) {
+            $key = (string)$item['name'];
+            $arr[$key] = $item->children()->count() ? $this->_getArgsFromAssoc($item->children()) : (string)$item;
         }
         return $arr;
     }

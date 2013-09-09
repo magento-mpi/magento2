@@ -7,47 +7,46 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_multishipping_overview translate="label" type="page" parent="checkout_multishipping">
-        <label>Multishipping Checkout Overview</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Multishipping Checkout Overview" id="checkout_multishipping_overview" type="page" parent="checkout_multishipping">
         <update handle="checkout_multishipping"/>
         <reference name="content">
-            <block type="Magento_Checkout_Block_Multishipping_Overview" name="checkout_overview" template="multishipping/overview.phtml">
+            <block class="Magento_Checkout_Block_Multishipping_Overview" name="checkout_overview" template="multishipping/overview.phtml">
                 <action method="addItemRender">
-                    <type>default</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer</block>
-                    <template>multishipping/item/default.phtml</template>
+                    <argument name="type" xsi:type="string">default</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                    <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
-                    <type>grouped</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Grouped</block>
-                    <template>multishipping/item/default.phtml</template>
+                    <argument name="type" xsi:type="string">grouped</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                    <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
-                    <type>configurable</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Configurable</block>
-                    <template>multishipping/item/default.phtml</template>
+                    <argument name="type" xsi:type="string">configurable</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                    <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
                 </action>
                 <action method="addRowItemRender">
-                    <type>grouped</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Grouped</block>
-                    <template>multishipping/overview/item.phtml</template>
+                    <argument name="type" xsi:type="string">grouped</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                    <argument name="template" xsi:type="string">multishipping/overview/item.phtml</argument>
                 </action>
                 <action method="addRowItemRender">
-                    <type>configurable</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Configurable</block>
-                    <template>multishipping/overview/item.phtml</template>
+                    <argument name="type" xsi:type="string">configurable</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                    <argument name="template" xsi:type="string">multishipping/overview/item.phtml</argument>
                 </action>
-                <block type="Magento_Checkout_Block_Multishipping_Payment_Info" name="payment_info">
+                <block class="Magento_Checkout_Block_Multishipping_Payment_Info" name="payment_info">
                     <action method="setInfoTemplate">
-                        <method/>
-                        <template/>
+                        <argument name="method" xsi:type="string"/>
+                        <argument name="template" xsi:type="string"/>
                     </action>
                 </block>
-                <block type="Magento_Checkout_Block_Agreements" name="checkout.multishipping.agreements" as="agreements" template="multishipping/agreements.phtml"/>
-                <block type="Magento_Checkout_Block_Cart_Totals" name="totals"/>
+                <block class="Magento_Checkout_Block_Agreements" name="checkout.multishipping.agreements" as="agreements" template="multishipping/agreements.phtml"/>
+                <block class="Magento_Checkout_Block_Cart_Totals" name="totals"/>
                 <container name="checkout.multishipping.overview.items.after" as="items_after" label="Overview Items After"/>
             </block>
         </reference>
-    </checkout_multishipping_overview>
+    </handle>
 </layout>

@@ -7,24 +7,24 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_reminder_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_reminder_edit">
         <reference name="head">
             <action method="addJs">
-                <file>mage/adminhtml/wysiwyg/widget.js</file>
+                <argument name="file" xsi:type="string">mage/adminhtml/wysiwyg/widget.js</argument>
             </action>
             <action method="addCss">
-                <file>prototype/windows/themes/default.css</file>
+                <argument name="file" xsi:type="string">prototype/windows/themes/default.css</argument>
             </action>
             <action method="addCss">
-                <file>Magento_Core::prototype/magento.css</file>
+                <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Reminder_Block_Adminhtml_Reminder_Edit" name="adminhtml_reminder_edit"/>
+            <block class="Magento_Reminder_Block_Adminhtml_Reminder_Edit" name="adminhtml_reminder_edit"/>
         </reference>
         <reference name="left">
-            <block type="Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tabs" name="adminhtml_reminder_edit_tabs"/>
+            <block class="Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tabs" name="adminhtml_reminder_edit_tabs"/>
         </reference>
-    </adminhtml_reminder_edit>
+    </handle>
 </layout>

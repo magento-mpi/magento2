@@ -58,16 +58,6 @@
                 </sales_email_magento_rma_customer_comment_template>
             </email>
         </template>
-        <events>
-            <adminhtml_customer_orders_add_action_renderer>
-                <observers>
-                    <magento_rma>
-                        <class>Magento_Rma_Model_Observer</class>
-                        <method>addRmaOption</method>
-                    </magento_rma>
-                </observers>
-            </adminhtml_customer_orders_add_action_renderer>
-        </events>
     </global>
     <default>
         <sales>
@@ -122,17 +112,6 @@
             </magento_rma_customer_comment>
         </sales_email>
     </default>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <magento_rma>Magento_Rma_Adminhtml</magento_rma>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -143,7 +122,6 @@
                 </Magento_Rma>
             </modules>
         </translate>
-        <events></events>
     </adminhtml>
     <frontend>
         <translate>
@@ -155,15 +133,5 @@
                 </Magento_Rma>
             </modules>
         </translate>
-        <routers>
-            <magento_rma>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Rma</module>
-                    <frontName>rma</frontName>
-                </args>
-            </magento_rma>
-        </routers>
-        <events></events>
     </frontend>
-</config>
+</config>

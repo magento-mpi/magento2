@@ -163,7 +163,7 @@ class Magento_Core_Model_Translate
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $viewDesign,
-        Magento_Core_Model_Locale_Hierarchy_Loader $loader,
+        Magento_Core_Model_Locale_Hierarchy_Config $config,
         Magento_Core_Model_Translate_Factory $translateFactory,
         Magento_Cache_FrontendInterface $cache,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
@@ -171,7 +171,7 @@ class Magento_Core_Model_Translate
         Magento_Core_Model_Config $coreConfig
     ) {
         $this->_viewDesign = $viewDesign;
-        $this->_localeHierarchy = $loader->load();
+        $this->_localeHierarchy = $config->getHierarchy();
         $this->_translateFactory = $translateFactory;
         $this->_cache = $cache;
         $this->_viewFileSystem = $viewFileSystem;

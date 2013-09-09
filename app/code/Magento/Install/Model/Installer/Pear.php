@@ -8,8 +8,6 @@
  * @license     {license_link}
  */
 
-require_once "Magento/Pear/Package.php";
-
 /**
  * PEAR Packages Download Manager
  */

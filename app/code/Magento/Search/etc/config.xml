@@ -29,119 +29,8 @@
                 </setup>
             </search_setup>
         </resources>
-        <events>
-            <catalogsearch_index_process_start>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>holdCommit</method>
-                    </magento_search>
-                </observers>
-            </catalogsearch_index_process_start>
-            <catalogsearch_index_process_complete>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>applyIndexChanges</method>
-                    </magento_search>
-                </observers>
-            </catalogsearch_index_process_complete>
-        </events>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <magento_search before="Magento_Adminhtml">Magento_Search_Adminhtml</magento_search>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
-        <events>
-            <adminhtml_catalog_product_attribute_edit_prepare_form>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>eavAttributeEditFormInit</method>
-                    </magento_search>
-                </observers>
-            </adminhtml_catalog_product_attribute_edit_prepare_form>
-            <catelogsearch_searchable_attributes_load_after>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>storeSearchableAttributes</method>
-                    </magento_search>
-                </observers>
-            </catelogsearch_searchable_attributes_load_after>
-            <catalogsearch_query_save_after>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>searchQueryEditFormAfterSave</method>
-                    </magento_search>
-                </observers>
-            </catalogsearch_query_save_after>
-            <customer_group_save_after>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>customerGroupSaveAfter</method>
-                    </magento_search>
-                </observers>
-            </customer_group_save_after>
-            <website_delete_before>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>saveStoreIdsBeforeScopeDelete</method>
-                    </magento_search>
-                </observers>
-            </website_delete_before>
-            <store_group_delete_before>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>saveStoreIdsBeforeScopeDelete</method>
-                    </magento_search>
-                </observers>
-            </store_group_delete_before>
-            <website_delete_after>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>clearIndexForStores</method>
-                    </magento_search>
-                </observers>
-            </website_delete_after>
-            <store_group_delete_after>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>clearIndexForStores</method>
-                    </magento_search>
-                </observers>
-            </store_group_delete_after>
-            <store_delete_after>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>clearIndexForStores</method>
-                    </magento_search>
-                </observers>
-            </store_delete_after>
-            <after_reindex_process_catalog_product_price>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>runFulltextReindexAfterPriceReindex</method>
-                    </magento_search>
-                </observers>
-            </after_reindex_process_catalog_product_price>
-        </events>
         <translate>
             <modules>
                 <Magento_Search>
@@ -153,32 +42,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <events>
-            <controller_action_predispatch_catalog_category_view>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>resetCurrentCatalogLayer</method>
-                    </magento_search>
-                </observers>
-            </controller_action_predispatch_catalog_category_view>
-            <controller_action_predispatch_catalogsearch_result_index>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>resetCurrentSearchLayer</method>
-                    </magento_search>
-                </observers>
-            </controller_action_predispatch_catalogsearch_result_index>
-            <controller_action_predispatch_catalogsearch_advanced_result>
-                <observers>
-                    <magento_search>
-                        <class>Magento_Search_Model_Observer</class>
-                        <method>resetCurrentSearchLayer</method>
-                    </magento_search>
-                </observers>
-            </controller_action_predispatch_catalogsearch_advanced_result>
-        </events>
         <translate>
             <modules>
                 <Magento_Search>
@@ -220,4 +83,4 @@
             </magento_search_index_reindex_all>
         </jobs>
     </crontab>
-</config>
+</config>

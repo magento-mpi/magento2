@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_system_config_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_system_config_edit">
         <reference name="head">
             <action method="addCss">
-                <file>Magento_Paypal::styles.css</file>
+                <argument name="file" xsi:type="string">Magento_Paypal::styles.css</argument>
             </action>
         </reference>
-    </adminhtml_system_config_edit>
+    </handle>
 </layout>

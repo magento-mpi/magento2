@@ -188,10 +188,10 @@ class Magento_Logging_Model_Observer
     {
         $lastRotationFlag = Mage::getModel('Magento_Logging_Model_Flag')->loadSelf();
         $lastRotationTime = $lastRotationFlag->getFlagData();
-        $rotationFrequency = 3600 * 24 * (int)$this->_coreConfig->getNode('default/system/rotation/frequency');
+        $rotationFrequency = 3600 * 24 * (int)$this->_coreConfig->getValue('system/rotation/frequency', 'default');
         if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {
             Mage::getResourceModel('Magento_Logging_Model_Resource_Event')->rotate(
-                3600 * 24 *(int)$this->_coreConfig->getNode('default/system/rotation/lifetime')
+                3600 * 24 *(int)$this->_coreConfig->getValue('system/rotation/lifetime', 'default')
             );
         }
         $lastRotationFlag->setFlagData(time())->save();

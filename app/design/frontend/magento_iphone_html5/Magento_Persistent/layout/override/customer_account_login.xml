@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <customer_account_login>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="customer_account_login">
         <reference name="customer_form_login">
             <action method="setTemplate">
-                <template>Magento_Persistent::customer/form/login.phtml</template>
+                <argument name="template" xsi:type="string">Magento_Persistent::customer/form/login.phtml</argument>
             </action>
-            <block type="Magento_Persistent_Block_Form_Remember" name="persistent.remember.me" template="remember_me.phtml"/>
-            <block type="Magento_Core_Block_Template" name="persistent.remember.me.tooltip" template="Magento_Persistent::remember_me_tooltip.phtml"/>
+            <block class="Magento_Persistent_Block_Form_Remember" name="persistent.remember.me" template="remember_me.phtml"/>
+            <block class="Magento_Core_Block_Template" name="persistent.remember.me.tooltip" template="Magento_Persistent::remember_me_tooltip.phtml"/>
         </reference>
-    </customer_account_login>
+    </handle>
 </layout>
