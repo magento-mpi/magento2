@@ -63,7 +63,7 @@ class Phrase
      * @param string $phrase
      * @throws \DomainException
      */
-    protected function setPhrase($phrase)
+    public function setPhrase($phrase)
     {
         if (!$phrase) {
             throw new \DomainException('Missed phrase.');
@@ -129,9 +129,13 @@ class Phrase
      * Add context value
      *
      * @param string $contextValue
+     * @throws \DomainException
      */
     public function addContextValue($contextValue)
     {
+        if (empty($contextValue)) {
+            throw new \DomainException('Context value is empty.');
+        }
         if (!in_array($contextValue, $this->_contextValue)) {
             $this->_contextValue[] = $contextValue;
         }
@@ -183,6 +187,6 @@ class Phrase
      */
     public function getKey()
     {
-        return $this->getPhrase() . $this->getContextType();
+        return $this->getPhrase() . '::' . $this->getContextType();
     }
 }

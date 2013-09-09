@@ -99,12 +99,12 @@ abstract class AbstractParser implements Code\ParserInterface
             if (empty($parserOptions['type'])) {
                 throw new \InvalidArgumentException('Missed "type" in parser options.');
             }
-            if (!isset($parserOptions['paths']) || !is_array($parserOptions['paths'])) {
-                throw new \InvalidArgumentException('"paths" in parser options must be array.');
-            }
             if (!isset($this->_adapters[$parserOptions['type']])) {
                 throw new \InvalidArgumentException(sprintf('Adapter is not set for type "%s".',
                     $parserOptions['type']));
+            }
+            if (!isset($parserOptions['paths']) || !is_array($parserOptions['paths'])) {
+                throw new \InvalidArgumentException('"paths" in parser options must be array.');
             }
         }
     }

@@ -24,8 +24,8 @@ class Parser extends AbstractParser
             $adapter = $this->_adapters[$options['type']];
             $adapter->parse($file);
 
-            foreach ($adapter->getPhrases() as $phrase) {
-                $this->_addPhrase($phrase);
+            foreach ($adapter->getPhrases() as $phraseData) {
+                $this->_addPhrase($phraseData);
             }
         }
     }
@@ -33,15 +33,15 @@ class Parser extends AbstractParser
     /**
      * Add phrase
      *
-     * @param array $phrase
+     * @param array $phraseData
      */
-    protected function _addPhrase($phrase)
+    protected function _addPhrase($phraseData)
     {
-        $phraseKey = $phrase['phrase'];
+        $phraseKey = $phraseData['phrase'];
 
         $this->_phrases[$phraseKey] = $this->_factory->createPhrase(array(
-            'phrase' => $phrase['phrase'],
-            'translation' => $phrase['phrase'],
+            'phrase' => $phraseData['phrase'],
+            'translation' => $phraseData['phrase'],
         ));
     }
 }

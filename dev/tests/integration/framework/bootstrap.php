@@ -19,6 +19,7 @@ $magentoBaseDir = realpath("$testsBaseDir/../../../");
 Magento_Autoload_IncludePath::addIncludePath(array(
     "$testsBaseDir/framework",
     "$testsBaseDir/testsuite",
+    "$magentoBaseDir/dev/lib",
 ));
 
 /* Bootstrap the application */
@@ -38,6 +39,22 @@ $bootstrap->runBootstrap();
 Magento_Test_Helper_Bootstrap::setInstance(new Magento_Test_Helper_Bootstrap($bootstrap));
 
 Utility_Files::init(new Utility_Files($magentoBaseDir));
+
+function tool_autoloader($className)
+{
+    if (strpos($className, 'Magento\\Tools\\') === false) {
+        return false;
+    }
+    $filePath = str_replace('\\', DS, str_replace('Magento\\Tools\\', '', $className));
+    $filePath = BP . DS . 'dev' . DS . 'tools' . DS . $filePath . '.php';
+
+    if (file_exists($filePath)) {
+        include($filePath);
+    } else {
+        return false;
+    }
+}
+spl_autoload_register('tool_autoloader');
 
 /* Unset declared global variables to release the PHPUnit from maintaining their values between tests */
 unset($bootstrap);

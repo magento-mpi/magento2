@@ -45,7 +45,7 @@ class Factory
      * @param string $locale
      * @return \Magento\Tools\I18n\Code\Locale
      */
-    public static function createLocale($locale)
+    public function createLocale($locale)
     {
         return new Locale($locale);
     }

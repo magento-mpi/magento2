@@ -5,7 +5,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require __DIR__ . '/Code/bootstrap.php';
+require __DIR__ . '/bootstrap.php';
 
 use Magento\Tools\I18n\Code\ServiceLocator;
 
@@ -29,7 +29,7 @@ try {
     $saveMode = $console->getOption('mode') ?: null;
 
     if (!$dictionaryPath) {
-        throw new \InvalidArgumentException('Dictionary path parameter is required.');
+        throw new \InvalidArgumentException('Dictionary source path parameter is required.');
     }
     if (!$packPath) {
         throw new \InvalidArgumentException('Pack path parameter is required.');

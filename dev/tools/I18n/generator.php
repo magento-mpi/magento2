@@ -5,7 +5,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require_once __DIR__ . '/Code/bootstrap.php';
+require_once __DIR__ . '/bootstrap.php';
 
 use Magento\Tools\I18n\Code\ServiceLocator;
 

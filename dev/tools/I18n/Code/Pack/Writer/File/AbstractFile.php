@@ -116,7 +116,7 @@ abstract class AbstractFile implements WriterInterface
             foreach ($phrase->getContextValue() as $context) {
                 $path = $this->_context->buildPathToLocaleDirectoryByContext($phrase->getContextType(), $context);
                 $filename = $this->_packPath . $path . $this->_locale . '.' . $this->_getFileExtension();
-                $files[$filename][] = $phrase;
+                $files[$filename][$phrase->getPhrase()] = $phrase;
             }
         }
         return $files;

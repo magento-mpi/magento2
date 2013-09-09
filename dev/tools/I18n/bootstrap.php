@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-define('BP', realpath(__DIR__ . '/../') . '/');
+define('BP', realpath(__DIR__) . DIRECTORY_SEPARATOR);
 
 function i18n_tool_autoloader($className)
 {

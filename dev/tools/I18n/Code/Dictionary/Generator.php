@@ -60,10 +60,10 @@ class Generator
      */
     public function generate(array $filesOptions, $outputFilename, $withContext = false)
     {
+        $writer = $this->_factory->createDictionaryWriter($outputFilename);
+
         $parser = $this->_getActualParser($withContext);
         $parser->parse($filesOptions);
-
-        $writer = $this->_factory->createDictionaryWriter($outputFilename);
 
         foreach ($parser->getPhrases() as $phrase) {
             $writer->write($phrase);

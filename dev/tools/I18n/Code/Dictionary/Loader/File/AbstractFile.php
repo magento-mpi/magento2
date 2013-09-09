@@ -55,13 +55,15 @@ abstract class AbstractFile implements FileInterface
         $this->_openFile($file);
         $dictionary = $this->_createDictionary();
 
+        $this->_position = 0;
         while ($data = $this->_readFile()) {
             $this->_position++;
+            $data = array_pad($data, 4, null);
             $dictionary->addPhrase($this->_createPhrase(array(
-                'phrase' => isset($data[0]) ? $data[0] : null,
-                'translation' => isset($data[1]) ? $data[1] : null,
-                'context_type' => isset($data[2]) ? $data[2] : null,
-                'context_value' => isset($data[3]) ? $data[3] : null,
+                'phrase' => $data[0],
+                'translation' => $data[1],
+                'context_type' => $data[2],
+                'context_value' => $data[3],
             )));
         }
         $this->_closeFile();
@@ -78,9 +80,8 @@ abstract class AbstractFile implements FileInterface
     protected function _openFile($file)
     {
         if (false === ($this->_fileHandler = @fopen($file, 'r'))) {
-            throw new \InvalidArgumentException(sprintf('Cannot open dictionary file: "%s"', $file));
+            throw new \InvalidArgumentException(sprintf('Cannot open dictionary file: "%s".', $file));
         }
-        $this->_position = 0;
     }
 
     /**

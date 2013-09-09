@@ -14,6 +14,7 @@ use Magento\Tools\I18n\Code\Pack;
 
 /**
  *  Service Locator (instead DI container)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ServiceLocator
 {
@@ -56,19 +57,18 @@ class ServiceLocator
             $filesCollector = new FilesCollector();
 
             $phraseCollector = new Parser\Adapter\Php\Tokenizer\PhraseCollector(new Parser\Adapter\Php\Tokenizer());
-            $phpAdapter = new Parser\Adapter\Php($phraseCollector);
-            $jsAdapter = new Parser\Adapter\Js();
-            $xmlAdapter = new Parser\Adapter\Xml();
+            $adapters = array(
+                'php' => new Parser\Adapter\Php($phraseCollector),
+                'js' => new Parser\Adapter\Js(),
+                'xml' => new Parser\Adapter\Xml(),
+            );
 
             $parser = new Parser\Parser($filesCollector, self::_getFactory());
-            $parser->addAdapter('php', $phpAdapter);
-            $parser->addAdapter('js', $jsAdapter);
-            $parser->addAdapter('xml', $xmlAdapter);
-
             $parserContextual = new Parser\Contextual($filesCollector, self::_getFactory(), self::_getContext());
-            $parserContextual->addAdapter('php', $phpAdapter);
-            $parserContextual->addAdapter('js', $jsAdapter);
-            $parserContextual->addAdapter('xml', $xmlAdapter);
+            foreach ($adapters as $type => $adapter) {
+                $parser->addAdapter($type, $adapter);
+                $parserContextual->addAdapter($type, $adapter);
+            }
 
             self::$_dictionaryGenerator = new Dictionary\Generator($parser, $parserContextual, self::_getFactory());
         }

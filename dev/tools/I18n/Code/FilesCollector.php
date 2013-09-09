@@ -28,6 +28,7 @@ class FilesCollector
                 $files[] = (string)$file;
             }
         }
+        sort($files);
         return $files;
     }
 
