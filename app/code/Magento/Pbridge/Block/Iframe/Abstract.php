@@ -208,7 +208,7 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
             $url = $this->_prepareCssElements(
                 empty($lines['js_css']) ? array() : $lines['js_css'],
                 empty($lines['skin_css']) ? array() : $lines['skin_css'],
-                $shouldMergeCss ? array(Mage::getDesign(), 'getMergedCssUrl') : null
+                $shouldMergeCss ? array($this->_design, 'getMergedCssUrl') : null
             );
         }
         Mage::getSingleton('Magento_Pbridge_Model_Session')->setCssUrl($url);

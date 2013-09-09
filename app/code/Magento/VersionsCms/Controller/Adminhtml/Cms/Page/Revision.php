@@ -320,14 +320,16 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision extends Magento
             Mage::app()->getLocale()->emulate($selectedStoreId);
             Mage::app()->setCurrentStore(Mage::app()->getStore($selectedStoreId));
 
-            $theme = Mage::getDesign()->getConfigurationDesignTheme(null, array('store' => $selectedStoreId));
-            Mage::getDesign()->setDesignTheme($theme, 'frontend');
+            $theme = $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
+                ->getConfigurationDesignTheme(null, array('store' => $selectedStoreId));
+            $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')->setDesignTheme($theme, 'frontend');
 
             $designChange = Mage::getSingleton('Magento_Core_Model_Design')
                 ->loadChange($selectedStoreId);
 
             if ($designChange->getData()) {
-                Mage::getDesign()->setDesignTheme($designChange->getDesign());
+                $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
+                    ->setDesignTheme($designChange->getDesign());
             }
 
             // add handles used to render cms page on frontend
