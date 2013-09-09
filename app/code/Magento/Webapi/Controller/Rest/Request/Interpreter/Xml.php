@@ -10,9 +10,6 @@
 class Magento_Webapi_Controller_Rest_Request_Interpreter_Xml implements
     Magento_Webapi_Controller_Rest_Request_InterpreterInterface
 {
-    /** @var Magento_Core_Model_Factory_Helper */
-    protected $_helperFactory;
-
     /** @var Magento_Xml_Parser */
     protected $_xmlParser;
 
@@ -23,16 +20,13 @@ class Magento_Webapi_Controller_Rest_Request_Interpreter_Xml implements
      * Initialize dependencies.
      *
      * @param Magento_Xml_Parser $xmlParser
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_App $app
      */
     public function __construct(
         Magento_Xml_Parser $xmlParser,
-        Magento_Core_Model_Factory_Helper $helperFactory,
         Magento_Core_Model_App $app
     ) {
         $this->_xmlParser = $xmlParser;
-        $this->_helperFactory = $helperFactory;
         $this->_app = $app;
     }
 

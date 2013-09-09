@@ -269,7 +269,7 @@ class Magento_Webapi_Model_Soap_Config
         if (preg_match(Magento_Webapi_Model_Config::SERVICE_CLASS_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
-            $moduleNamespace = ($moduleNamespace == 'Mage') ? '' : $moduleNamespace;
+            $moduleNamespace = ($moduleNamespace == 'Magento') ? '' : $moduleNamespace;
             $serviceNameParts = explode('_', trim($matches[3], '_'));
             if ($moduleName == $serviceNameParts[0]) {
                 /** Avoid duplication of words in service name */

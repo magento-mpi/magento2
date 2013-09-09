@@ -22,22 +22,16 @@ class Magento_Webapi_Controller_Rest_Request_Interpreter_Factory
     /** @var Magento_Core_Model_Config */
     protected $_applicationConfig;
 
-    /** @var Magento_Core_Model_Factory_Helper */
-    protected $_helperFactory;
-
     /**
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_Config $applicationConfig
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Config $applicationConfig,
-        Magento_Core_Model_Factory_Helper $helperFactory
+        Magento_Core_Model_Config $applicationConfig
     ) {
         $this->_objectManager = $objectManager;
         $this->_applicationConfig = $applicationConfig;
-        $this->_helperFactory = $helperFactory;
     }
 
     /**
