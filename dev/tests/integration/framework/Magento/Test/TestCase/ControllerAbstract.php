@@ -105,8 +105,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     public function getRequest()
     {
         if (!$this->_request) {
-            $this->_request = new Magento_Test_Request();
-            $this->_objectManager->addSharedInstance($this->_request, 'Magento_Test_Request');
+            $this->_request = $this->_objectManager->get('Magento_Test_Request');
         }
         return $this->_request;
     }
@@ -119,8 +118,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     public function getResponse()
     {
         if (!$this->_response) {
-            $this->_response = new Magento_Test_Response();
-            $this->_objectManager->addSharedInstance($this->_response, 'Magento_Test_Response');
+            $this->_response = $this->_objectManager->get('Magento_Test_Response');
         }
         return $this->_response;
     }
