@@ -32,16 +32,22 @@ class Magento_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
      */
     public function testInitDesign()
     {
-        $defaultTheme = Mage::getDesign()->setDefaultDesignTheme()->getDesignTheme();
+        $defaultTheme = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface')->setDefaultDesignTheme()->getDesignTheme();
         $this->_model->load(Magento_Core_Model_App_Area::PART_DESIGN);
-        $design = Mage::getDesign()->setDefaultDesignTheme();
+        $design = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setDefaultDesignTheme();
 
         $this->assertEquals($defaultTheme->getThemePath(), $design->getDesignTheme()->getThemePath());
         $this->assertEquals('frontend', $design->getArea());
 
         // try second time and make sure it won't load second time
         $this->_model->load(Magento_Core_Model_App_Area::PART_DESIGN);
-        $this->assertSame($design, Mage::getDesign()->setArea(Mage::getDesign()->getArea()));
+        $designArea = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->getArea();
+        $sameDesign = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea($designArea);
+        $this->assertSame($design, $sameDesign);
     }
 
     // @codingStandardsIgnoreStart
@@ -54,7 +60,8 @@ class Magento_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     {
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
         $this->_model->detectDesign(new Zend_Controller_Request_Http);
-        $this->assertEquals('magento_blank', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $design = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
     }
 
     /**
@@ -64,7 +71,8 @@ class Magento_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     public function testDetectDesignDesignChange()
     {
         $this->_model->detectDesign();
-        $this->assertEquals('magento_blank', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $design = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
     }
 
     // @codingStandardsIgnoreStart
@@ -81,6 +89,7 @@ class Magento_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
         $model = Mage::getModel('Magento_Core_Model_App_Area', array('areaCode' => 'install'));
         $model->detectDesign(new Zend_Controller_Request_Http);
-        $this->assertNotEquals('magento_blank', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $design = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $this->assertNotEquals('magento_blank', $design->getDesignTheme()->getThemePath());
     }
 }

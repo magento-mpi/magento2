@@ -20,7 +20,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends PHPUnit_Fram
      */
     public function testPrepareLayout()
     {
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            ->setDefaultDesignTheme();
         Magento_Test_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
