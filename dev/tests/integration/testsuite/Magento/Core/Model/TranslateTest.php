@@ -114,7 +114,8 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('frontend', $this->_model->getConfig(Magento_Core_Model_Translate::CONFIG_KEY_AREA));
         $this->assertEquals('en_US', $this->_model->getConfig(Magento_Core_Model_Translate::CONFIG_KEY_LOCALE));
         $this->assertEquals(1, $this->_model->getConfig(Magento_Core_Model_Translate::CONFIG_KEY_STORE));
-        $this->assertEquals(Mage::getDesign()->getDesignTheme()->getId(),
+        $design = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $this->assertEquals($design->getDesignTheme()->getId(),
             $this->_model->getConfig(Magento_Core_Model_Translate::CONFIG_KEY_DESIGN_THEME));
         $this->assertNull($this->_model->getConfig('non_existing_key'));
     }
