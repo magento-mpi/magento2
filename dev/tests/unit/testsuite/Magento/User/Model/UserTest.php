@@ -65,6 +65,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_model = new Magento_User_Model_User(
+            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
             $this->_userData,
             $this->_coreData,
             $this->_senderMock,

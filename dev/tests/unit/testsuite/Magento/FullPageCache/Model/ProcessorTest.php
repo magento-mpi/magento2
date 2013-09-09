@@ -102,6 +102,7 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
         $this->_storeManager = $this->getMock('Magento_Core_Model_StoreManagerInterface');
 
         $this->_model = new  Magento_FullPageCache_Model_Processor(
+            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
             $this->_restrictionMock,
             $this->_fpcCacheMock,
             $this->_subProcFactoryMock,

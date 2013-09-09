@@ -74,6 +74,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
      */
     protected function _mockModel($mockedMethods)
     {
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $coreData = $this->getMockBuilder('Magento_Core_Helper_Data')->disableOriginalConstructor()->getMock();
         $catalogData = $this->getMockBuilder('Magento_Catalog_Helper_Data')->disableOriginalConstructor()->getMock();
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
@@ -85,6 +86,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
             'Magento_GiftCard_Model_Catalog_Product_Type_Giftcard',
             $mockedMethods,
             array(
+                $eventManager,
                 $coreData,
                 $catalogData,
                 $storage,

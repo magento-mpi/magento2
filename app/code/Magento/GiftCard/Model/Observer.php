@@ -27,14 +27,6 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
     protected $_giftCardData = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_GiftCard_Helper_Data $giftCardData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -43,20 +35,17 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
         Magento_GiftCard_Helper_Data $giftCardData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_giftCardData = $giftCardData;
         if (isset($data['email_template_model'])) {
             if (!$data['email_template_model'] instanceof Magento_Core_Model_Email_Template) {
-                throw new InvalidArgumentException(
-                    'Argument "email_template_model" is expected to be an instance of "Magento_Core_Model_Email_Template".'
-                );
+                throw new InvalidArgumentException('Argument "email_template_model" is expected to be an instance of '
+                    . '"Magento_Core_Model_Email_Template".');
             }
             $this->_emailTemplateModel = $data['email_template_model'];
             unset($data['email_template_model']);
@@ -251,7 +240,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                     for ($i = 0; $i < $qty; $i++) {
                         try {
                             $code = new Magento_Object();
-                            $this->_eventManager->dispatch('magento_giftcardaccount_create', array(
+                            $this->_eventDispatcher->dispatch('magento_giftcardaccount_create', array(
                                 'request' => $data, 'code' => $code
                             ));
                             $codes[] = $code->getCode();
