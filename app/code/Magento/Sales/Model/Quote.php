@@ -1018,6 +1018,8 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
             Mage::throwException(implode("\n", $errors));
         }
 
+        Mage::dispatchEvent('sales_quote_product_add_after', array('items' => $items));
+
         return $item;
     }
 
