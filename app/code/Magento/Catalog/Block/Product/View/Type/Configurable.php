@@ -41,7 +41,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
 
     /**
      * @param Magento_Catalog_Helper_Product $catalogProduct
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
@@ -50,7 +50,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
      */
     public function __construct(
         Magento_Catalog_Helper_Product $catalogProduct,
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,

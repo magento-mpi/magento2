@@ -30,7 +30,7 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
@@ -38,7 +38,7 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,

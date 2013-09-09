@@ -54,7 +54,7 @@ abstract class Magento_Wishlist_Block_Abstract extends Magento_Catalog_Block_Pro
     protected $_wishlistData = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -63,7 +63,7 @@ abstract class Magento_Wishlist_Block_Abstract extends Magento_Catalog_Block_Pro
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,

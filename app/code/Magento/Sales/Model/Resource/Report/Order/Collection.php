@@ -40,12 +40,12 @@ class Magento_Sales_Model_Resource_Report_Order_Collection extends Magento_Sales
     protected $_selectedColumns    = array();
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Sales_Model_Resource_Report $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Sales_Model_Resource_Report $resource
     ) {

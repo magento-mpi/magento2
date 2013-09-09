@@ -24,7 +24,7 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_Options extends Magento_Wish
 
     /**
      * @param Magento_Catalog_Helper_Product_ConfigurationPool $helperPool
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -34,7 +34,7 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_Options extends Magento_Wish
      */
     public function __construct(
         Magento_Catalog_Helper_Product_ConfigurationPool $helperPool,
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,

@@ -297,12 +297,12 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager_Proxy
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_String $coreString
@@ -311,7 +311,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_String $coreString,

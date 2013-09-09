@@ -32,18 +32,18 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager_Proxy
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Controller_Request_Http $request

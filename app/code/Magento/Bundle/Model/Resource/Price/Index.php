@@ -42,18 +42,18 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager_Proxy
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager = null;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Resource $resource
     ) {
         $this->_eventManager = $eventManager;

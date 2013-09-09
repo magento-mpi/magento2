@@ -19,13 +19,13 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
     protected $_endpointResource;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Webhook_Model_Resource_Endpoint $endpointResource
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Webhook_Model_Resource_Endpoint $endpointResource,
         Magento_Core_Model_Resource_Db_Abstract $resource = null

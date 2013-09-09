@@ -41,11 +41,11 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
 
     /**
      * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
         Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Event_Manager_Proxy $eventManager
+        Magento_Core_Model_Event_Manager $eventManager
     ) {
         $this->_taxData = $taxData;
         parent::__construct($eventManager);

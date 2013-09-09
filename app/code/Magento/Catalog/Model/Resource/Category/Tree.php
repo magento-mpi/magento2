@@ -61,7 +61,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager_Proxy
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager = null;
 
@@ -70,10 +70,10 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      *
      *
      *
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager
+        Magento_Core_Model_Event_Manager $eventManager
     ) {
         $this->_eventManager = $eventManager;
         $resource = Mage::getSingleton('Magento_Core_Model_Resource');

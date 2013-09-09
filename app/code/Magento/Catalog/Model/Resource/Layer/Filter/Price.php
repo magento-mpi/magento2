@@ -26,7 +26,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager_Proxy
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager = null;
 
@@ -35,11 +35,11 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
      *
      *
      *
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Resource $resource
     ) {
         $this->_eventManager = $eventManager;

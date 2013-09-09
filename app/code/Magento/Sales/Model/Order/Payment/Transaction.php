@@ -130,19 +130,19 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager_Proxy
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
@@ -286,7 +286,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
                 }
             } else {
                 foreach ($this->_children as $child) {
-                    if ($child->getTxnId() === $tnxId) {
+                    if ($child->getTxnId() === $txnId) {
                         $transaction = $child;
                         break;
                     }

@@ -76,7 +76,7 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
     protected $_targetRuleData = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_TargetRule_Helper_Data $targetRuleData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -85,7 +85,7 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_TargetRule_Helper_Data $targetRuleData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,

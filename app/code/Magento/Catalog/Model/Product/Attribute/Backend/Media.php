@@ -63,12 +63,12 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager_Proxy
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig
@@ -77,7 +77,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_File_Storage_Database $fileStorageDb,
         Magento_Core_Helper_Data $coreData,
         Magento_Catalog_Model_Product_Media_Config $mediaConfig,

@@ -21,7 +21,7 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
     protected $_giftRegistryData = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Catalog_Helper_Product_ConfigurationPool $helperPool
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
      * @param Magento_Wishlist_Helper_Data $wishlistData
@@ -32,7 +32,7 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Catalog_Helper_Product_ConfigurationPool $helperPool,
         Magento_GiftRegistry_Helper_Data $giftRegistryData,
         Magento_Wishlist_Helper_Data $wishlistData,

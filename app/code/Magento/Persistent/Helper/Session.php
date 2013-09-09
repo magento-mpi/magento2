@@ -47,14 +47,14 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     protected $_persistentData = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Persistent_Helper_Data $persistentData
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Persistent_Helper_Data $persistentData,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,

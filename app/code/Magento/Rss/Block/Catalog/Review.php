@@ -34,19 +34,19 @@ class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager_Proxy
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Adminhtml_Helper_Data $adminhtmlData
      * @param Magento_Rss_Helper_Data $rssData
      * @param Magento_Core_Block_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Adminhtml_Helper_Data $adminhtmlData,
         Magento_Rss_Helper_Data $rssData,
         Magento_Core_Block_Context $context,

@@ -31,12 +31,12 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager_Proxy
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Eav_Helper_Data $eavData
      * @param Magento_Core_Helper_Data $coreData
@@ -44,7 +44,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Form_Factory $formFactory,
         Magento_Eav_Helper_Data $eavData,
         Magento_Core_Helper_Data $coreData,

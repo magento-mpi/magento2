@@ -34,7 +34,7 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
     /**
      * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
      * @param Magento_Reward_Helper_Data $rewardData
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
@@ -42,7 +42,7 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
     public function __construct(
         Magento_CustomerBalance_Helper_Data $customerBalanceData,
         Magento_Reward_Helper_Data $rewardData,
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config

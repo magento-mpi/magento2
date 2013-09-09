@@ -14,7 +14,7 @@ class Magento_GoogleShopping_Model_Resource_Setup extends Magento_Core_Model_Res
 
     /**
      * @param Magento_GoogleShopping_Helper_Data $googleShoppingData
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $modulesConfig
      * @param Magento_Core_Model_ModuleListInterface $moduleList
@@ -24,7 +24,7 @@ class Magento_GoogleShopping_Model_Resource_Setup extends Magento_Core_Model_Res
      */
     public function __construct(
         Magento_GoogleShopping_Helper_Data $googleShoppingData,
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config $modulesConfig,
         Magento_Core_Model_ModuleListInterface $moduleList,

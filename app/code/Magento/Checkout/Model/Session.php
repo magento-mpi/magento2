@@ -48,14 +48,14 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
 
     /**
      * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param string $sessionName
      * @param array $data
      */
     public function __construct(
         Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         $sessionName = null,
         array $data = array()

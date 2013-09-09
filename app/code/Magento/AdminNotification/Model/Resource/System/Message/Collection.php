@@ -24,13 +24,13 @@ class Magento_AdminNotification_Model_Resource_System_Message_Collection
     protected $_countBySeverity = array();
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_AdminNotification_Model_System_MessageList $messageList
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_AdminNotification_Model_System_MessageList $messageList,
         Magento_Core_Model_Resource_Db_Abstract $resource = null

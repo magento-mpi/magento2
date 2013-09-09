@@ -18,13 +18,13 @@
 class Magento_Authorizenet_Model_Directpost_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param array $data
      * @param null $sessionName
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         array $data = array(),
         $sessionName = null

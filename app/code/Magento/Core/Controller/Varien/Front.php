@@ -165,12 +165,12 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
             Mage::throwException('Front controller reached 100 router match iterations');
         }
         // This event gives possibility to launch something before sending output (allow cookie setting)
-        $this->_objectManager->get('Magento_Core_Model_Event_Manager_Proxy')->dispatch('controller_front_send_response_before', array('front' => $this));
+        $this->_eventManager->dispatch('controller_front_send_response_before', array('front' => $this));
         Magento_Profiler::start('send_response');
-        $this->_objectManager->get('Magento_Core_Model_Event_Manager_Proxy')->dispatch('http_response_send_before', array('response' => $this));
+        $this->_eventManager->dispatch('http_response_send_before', array('response' => $this));
         $this->getResponse()->sendResponse();
         Magento_Profiler::stop('send_response');
-        $this->_objectManager->get('Magento_Core_Model_Event_Manager_Proxy')->dispatch('controller_front_send_response_after', array('front' => $this));
+        $this->_eventManager->dispatch('controller_front_send_response_after', array('front' => $this));
         return $this;
     }
 

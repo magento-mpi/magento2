@@ -53,14 +53,14 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Catalog_Model_Resource_Product $product
      */
     public function __construct(
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Catalog_Model_Resource_Product $product
     ) {

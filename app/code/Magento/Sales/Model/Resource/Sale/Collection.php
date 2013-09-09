@@ -52,7 +52,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager_Proxy
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager = null;
 
@@ -61,12 +61,12 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
      *
      *
      *
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param  $fetchStrategy
      * @param  $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Sales_Model_Resource_Order $resource
     ) {

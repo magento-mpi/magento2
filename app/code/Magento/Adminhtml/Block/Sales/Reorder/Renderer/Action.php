@@ -36,18 +36,18 @@ class Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action
     /**
      * Core event manager proxy
      *
-     * @var Magento_Core_Model_Event_Manager_Proxy
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Sales_Helper_Reorder $salesReorder
      * @param Magento_Backend_Block_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Sales_Helper_Reorder $salesReorder,
         Magento_Backend_Block_Context $context,
         array $data = array()

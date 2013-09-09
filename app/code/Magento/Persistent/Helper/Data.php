@@ -54,7 +54,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
     protected $_coreUrl = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Url $coreUrl
      * @param Magento_Checkout_Helper_Data $checkoutData
      * @param Magento_Persistent_Helper_Session $persistentSession
@@ -63,7 +63,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      * @param Magento_Core_Model_Config $config
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Url $coreUrl,
         Magento_Checkout_Helper_Data $checkoutData,
         Magento_Persistent_Helper_Session $persistentSession,

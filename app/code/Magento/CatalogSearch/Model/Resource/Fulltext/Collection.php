@@ -29,14 +29,14 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_C
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      */
     public function __construct(
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Core_Model_Event_Manager_Proxy $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
     ) {
         $this->_catalogSearchData = $catalogSearchData;
