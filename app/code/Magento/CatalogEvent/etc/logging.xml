@@ -16,7 +16,7 @@
         <expected_model class="Magento_CatalogEvent_Model_Event" />
         <event controller_action="adminhtml_catalog_event_edit" action_alias="view" />
         <event controller_action="adminhtml_catalog_event_save" action_alias="save">
-            <skip_on_back>adminhtml_catalog_event_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_catalog_event_edit" />
         </event>
         <event controller_action="adminhtml_catalog_event_delete"
                action_alias="delete" />

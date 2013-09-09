@@ -22,8 +22,8 @@
         <event controller_action="adminhtml_customer_save"
                extends_expected_models="true">
             <expected_model class="Magento_CustomerBalance_Model_Balance" />
-            <skip_on_back>adminhtml_customerbalance_form</skip_on_back>
-            <skip_on_back>adminhtml_customer_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_customerbalance_form" />
+            <skip_on_back controller_action="adminhtml_customer_edit" />
         </event>
     </log>
 </logging>

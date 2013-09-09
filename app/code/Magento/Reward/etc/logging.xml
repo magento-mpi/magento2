@@ -23,12 +23,12 @@
         <event controller_action="adminhtml_customer_save"
                extends_expected_models="true">
             <expected_model class="Magento_Reward_Model_Reward_History">
-                <skip_field>history_id</skip_field>
-                <skip_field>action</skip_field>
-                <skip_field>additional_data</skip_field>
-                <skip_field>notification_sent</skip_field>
-                <skip_field>created_at</skip_field>
-                <skip_field>expired_at</skip_field>
+                <skip_field name="history_id" />
+                <skip_field name="action" />
+                <skip_field name="additional_data" />
+                <skip_field name="notification_sent" />
+                <skip_field name="created_at" />
+                <skip_field name="expired_at" />
             </expected_model>
         </event>
     </log>

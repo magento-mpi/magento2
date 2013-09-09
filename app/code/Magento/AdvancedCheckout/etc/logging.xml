@@ -33,8 +33,8 @@
         <event controller_action="adminhtml_checkout_addToCart"
                action_alias="add_to_cart">
             <expected_model class="Magento_Sales_Model_Quote_Item">
-                <additional_field>item_id</additional_field>
-                <additional_field>quote_id</additional_field>
+                <additional_field name="item_id" />
+                <additional_field name="quote_id" />
             </expected_model>
         </event>
     </log>

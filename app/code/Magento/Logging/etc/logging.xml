@@ -97,7 +97,7 @@
         <expected_model class="Magento_Catalog_Model_Product" />
         <event controller_action="adminhtml_catalog_product_edit" action_alias="view" />
         <event controller_action="adminhtml_catalog_product_save" action_alias="save">
-            <skip_on_back>adminhtml_catalog_product_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_catalog_product_edit" />
         </event>
         <event controller_action="adminhtml_catalog_product_delete"
                action_alias="delete" />
@@ -171,7 +171,7 @@
                action_alias="view" />
         <event controller_action="adminhtml_catalog_product_attribute_save"
                action_alias="save">
-            <skip_on_back>adminhtml_catalog_product_attribute_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_catalog_product_attribute_edit" />
         </event>
         <event controller_action="adminhtml_catalog_product_attribute_delete"
                action_alias="delete" />
@@ -183,7 +183,7 @@
                action_alias="view" />
         <event controller_action="adminhtml_catalog_product_set_save"
                action_alias="save">
-            <skip_on_back>adminhtml_catalog_product_set_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_catalog_product_set_edit" />
         </event>
         <event controller_action="adminhtml_catalog_product_set_delete"
                action_alias="delete" />
@@ -201,7 +201,7 @@
         <expected_model class="Magento_Cms_Model_Page" />
         <event controller_action="adminhtml_cms_page_edit" action_alias="view" />
         <event controller_action="adminhtml_cms_page_save" action_alias="save">
-            <skip_on_back>adminhtml_cms_page_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_cms_page_edit" />
         </event>
         <event controller_action="adminhtml_cms_page_delete" action_alias="delete" />
     </log>
@@ -224,13 +224,13 @@
     <log name="customer">
         <label translate="true">Customers</label>
         <expected_model class="Magento_Customer_Model_Customer">
-            <skip_field>new_password</skip_field>
-            <skip_field>password</skip_field>
-            <skip_field>password_hash</skip_field>
+            <skip_field name="new_password" />
+            <skip_field name="password" />
+            <skip_field name="password_hash" />
         </expected_model>
         <event controller_action="adminhtml_customer_edit" action_alias="view" />
         <event controller_action="adminhtml_customer_save" action_alias="save">
-            <skip_on_back>adminhtml_customer_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_customer_edit" />
         </event>
         <event controller_action="adminhtml_customer_validate"
                action_alias="save"
@@ -471,7 +471,7 @@
         <event controller_action="adminhtml_system_config_save"
                action_alias="save"
                post_dispatch="postDispatchConfigSave">
-            <skip_on_back>adminhtml_system_config_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_system_config_edit" />
         </event>
     </log>
     <log name="catalogrule">
@@ -481,7 +481,7 @@
         <event controller_action="adminhtml_promo_catalog_save"
                action_alias="save"
                post_dispatch="postDispatchPromoCatalogSaveAndApply">
-            <skip_on_back>adminhtml_promo_catalog_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_promo_catalog_edit" />
         </event>
         <event controller_action="adminhtml_promo_catalog_delete"
                action_alias="delete" />
@@ -494,16 +494,16 @@
         <expected_model class="Magento_SalesRule_Model_Rule" />
         <event controller_action="adminhtml_promo_quote_edit" action_alias="view" />
         <event controller_action="adminhtml_promo_quote_save" action_alias="save">
-            <skip_on_back>adminhtml_promo_quote_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_promo_quote_edit" />
         </event>
         <event controller_action="adminhtml_promo_quote_delete" action_alias="delete" />
     </log>
     <log name="adminhtml_system_account">
         <label translate="true">Admin My Account</label>
         <expected_model class="Magento_User_Model_User">
-            <skip_field>password</skip_field>
-            <skip_field>new_password</skip_field>
-            <skip_field>password_confirmation</skip_field>
+            <skip_field name="password" />
+            <skip_field name="new_password" />
+            <skip_field name="password_confirmation" />
         </expected_model>
         <event controller_action="adminhtml_system_account_index" action_alias="view" />
         <event controller_action="adminhtml_system_account_save" action_alias="save" />
@@ -543,7 +543,7 @@
     <log name="sales_orders">
         <label translate="true">Sales Orders</label>
         <expected_model class="Magento_Sales_Model_Order">
-            <additional_field>increment_id</additional_field>
+            <additional_field name="increment_id" />
         </expected_model>
         <event controller_action="adminhtml_sales_order_pdfdocs" action_alias="export" />
         <event controller_action="adminhtml_sales_order_view" action_alias="view" />
@@ -617,7 +617,7 @@
     <log name="sales_invoices">
         <label translate="true">Sales Invoices</label>
         <expected_model class="Magento_Sales_Model_Order_Invoice">
-            <additional_field>increment_id</additional_field>
+            <additional_field name="increment_id" />
         </expected_model>
         <event controller_action="adminhtml_sales_invoice_view" action_alias="view" />
         <event controller_action="adminhtml_sales_order_invoice_view"
@@ -626,8 +626,8 @@
                action_alias="save"
                extends_expected_models="true">
             <expected_model class="Magento_Sales_Model_Order_Invoice_Comment" />
-            <skip_on_back>adminhtml_system_config_edit</skip_on_back>
-            <skip_on_back>adminhtml_sales_order_view</skip_on_back>
+            <skip_on_back controller_action="adminhtml_system_config_edit" />
+            <skip_on_back controller_action="adminhtml_sales_order_view" />
         </event>
         <event controller_action="adminhtml_sales_order_invoice_addComment"
                action_alias="save">
@@ -639,13 +639,13 @@
                action_alias="print" />
         <event controller_action="adminhtml_sales_order_invoice_email"
                action_alias="email">
-            <skip_on_back>adminhtml_sales_invoice_view</skip_on_back>
+            <skip_on_back controller_action="adminhtml_sales_invoice_view" />
         </event>
     </log>
     <log name="sales_shipments">
         <label translate="true">Sales Shipments</label>
         <expected_model class="Magento_Sales_Model_Order_Shipment">
-            <additional_field>increment_id</additional_field>
+            <additional_field name="increment_id" />
         </expected_model>
         <event controller_action="adminhtml_sales_shipment_view" action_alias="view" />
         <event controller_action="adminhtml_sales_order_shipment_view"
@@ -654,7 +654,7 @@
                action_alias="save"
                extends_expected_models="true">
             <expected_model class="Magento_Sales_Model_Order_Shipment_Comment" />
-            <skip_on_back>adminhtml_sales_order_view</skip_on_back>
+            <skip_on_back controller_action="adminhtml_sales_order_view" />
         </event>
         <event controller_action="adminhtml_sales_order_shipment_addComment"
                action_alias="save">
@@ -666,7 +666,7 @@
                action_alias="print" />
         <event controller_action="adminhtml_sales_order_shipment_email"
                action_alias="email">
-            <skip_on_back>adminhtml_sales_shipment_view</skip_on_back>
+            <skip_on_back controller_action="adminhtml_sales_shipment_view" />
         </event>
         <event controller_action="adminhtml_sales_order_shipment_addTrack"
                action_alias="save">
@@ -676,7 +676,7 @@
     <log name="sales_creditmemos">
         <label translate="true">Sales Credit Memos</label>
         <expected_model class="Magento_Sales_Model_Order_Creditmemo">
-            <additional_field>increment_id</additional_field>
+            <additional_field name="increment_id" />
         </expected_model>
         <event controller_action="adminhtml_sales_creditmemo_view" action_alias="view" />
         <event controller_action="adminhtml_sales_order_creditmemo_view"
@@ -685,7 +685,7 @@
                action_alias="save"
                extends_expected_models="true">
             <expected_model class="Magento_Sales_Model_Order_Creditmemo_Comment" />
-            <skip_on_back>adminhtml_sales_order_view</skip_on_back>
+            <skip_on_back controller_action="adminhtml_sales_order_view" />
         </event>
         <event controller_action="adminhtml_sales_order_creditmemo_addComment"
                action_alias="save">
@@ -697,7 +697,7 @@
                action_alias="print" />
         <event controller_action="adminhtml_sales_order_creditmemo_email"
                action_alias="email">
-            <skip_on_back>adminhtml_sales_creditmemo_view</skip_on_back>
+            <skip_on_back controller_action="adminhtml_sales_creditmemo_view" />
         </event>
     </log>
     <log name="sales_agreement">
@@ -707,7 +707,7 @@
                action_alias="view" />
         <event controller_action="adminhtml_checkout_agreement_save"
                action_alias="save">
-            <skip_on_back>adminhtml_checkout_agreement_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_checkout_agreement_edit" />
         </event>
         <event controller_action="adminhtml_checkout_agreement_delete"
                action_alias="delete" />
@@ -716,7 +716,7 @@
         <label translate="true">Web Services API Roles</label>
         <expected_model class="Magento_Webapi_Model_Acl_Role" />
         <event controller_action="adminhtml_webapi_role_save" action_alias="save">
-            <skip_on_back>adminhtml_webapi_role_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_webapi_role_edit" />
         </event>
         <event controller_action="adminhtml_webapi_role_edit" action_alias="edit" />
         <event controller_action="adminhtml_webapi_role_delete" action_alias="delete" />
@@ -725,7 +725,7 @@
         <label translate="true">Web Services API Users</label>
         <expected_model class="Magento_Webapi_Model_Acl_User" />
         <event controller_action="adminhtml_webapi_user_save" action_alias="save">
-            <skip_on_back>adminhtml_webapi_user_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_webapi_user_edit" />
         </event>
         <event controller_action="adminhtml_webapi_user_edit" action_alias="edit" />
         <event controller_action="adminhtml_webapi_user_delete" action_alias="delete" />
@@ -735,16 +735,16 @@
         <expected_model class="Magento_User_Model_Role" />
         <event controller_action="adminhtml_user_role_editrole" action_alias="view" />
         <event controller_action="adminhtml_user_role_saverole" action_alias="save">
-            <skip_on_back>adminhtml_user_role_editrole</skip_on_back>
+            <skip_on_back controller_action="adminhtml_user_role_editrole" />
         </event>
         <event controller_action="adminhtml_user_role_delete" action_alias="delete" />
     </log>
     <log name="adminhtml_permission_users">
         <label translate="true">Admin Permission Users</label>
         <expected_model class="Magento_User_Model_User">
-            <skip_field>password</skip_field>
-            <skip_field>new_password</skip_field>
-            <skip_field>password_confirmation</skip_field>
+            <skip_field name="password" />
+            <skip_field name="new_password" />
+            <skip_field name="password_confirmation" />
         </expected_model>
         <event controller_action="adminhtml_user_edit" action_alias="view" />
         <event controller_action="adminhtml_user_save" action_alias="save" />
@@ -807,7 +807,7 @@
         <label translate="true">Custom Variables</label>
         <expected_model class="Magento_Core_Model_Variable" />
         <event controller_action="adminhtml_system_variable_save" action_alias="save">
-            <skip_on_back>adminhtml_system_variable_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_system_variable_edit" />
         </event>
         <event controller_action="adminhtml_system_variable_edit" action_alias="view" />
         <event controller_action="adminhtml_system_variable_delete"
@@ -844,7 +844,7 @@
         <expected_model class="Magento_Tax_Model_Calculation_Rule" />
         <event controller_action="adminhtml_tax_rule_edit" action_alias="view" />
         <event controller_action="adminhtml_tax_rule_save" action_alias="save">
-            <skip_on_back>adminhtml_tax_rule_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_tax_rule_edit" />
         </event>
         <event controller_action="adminhtml_tax_rule_delete" action_alias="delete" />
     </log>
@@ -881,7 +881,7 @@
         <expected_model class="Magento_Widget_Model_Widget_Instance" />
         <event controller_action="adminhtml_widget_instance_edit" action_alias="view" />
         <event controller_action="adminhtml_widget_instance_save" action_alias="save">
-            <skip_on_back>adminhtml_widget_instance_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_widget_instance_edit" />
         </event>
         <event controller_action="adminhtml_widget_instance_delete"
                action_alias="delete" />
@@ -945,4 +945,3 @@
                post_dispatch="postDispatchRecurringProfilesUpdate" />
     </log>
 </logging>
-

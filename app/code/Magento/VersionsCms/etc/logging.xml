@@ -24,7 +24,7 @@
                action_alias="view"
                post_dispatch="Magento_VersionsCms_Model_Observer::postDispatchCmsHierachyView" />
         <event controller_action="adminhtml_cms_hierarchy_save" action_alias="save">
-            <skip_on_back>adminhtml_cms_hierarchy_index</skip_on_back>
+            <skip_on_back controller_action="adminhtml_cms_hierarchy_index" />
         </event>
     </log>
     <log name="magento_versionscms_page_versioning">
@@ -38,11 +38,11 @@
         </event>
         <event controller_action="adminhtml_cms_page_version_save" action_alias="save">
             <expected_model class="Magento_VersionsCms_Model_Page_Version" />
-            <skip_on_back>adminhtml_cms_page_version_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_cms_page_version_edit" />
         </event>
         <event controller_action="adminhtml_cms_page_version_new" action_alias="save">
             <expected_model class="Magento_VersionsCms_Model_Page_Version" />
-            <skip_on_back>adminhtml_cms_page_revision_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_cms_page_revision_edit" />
         </event>
         <event controller_action="adminhtml_cms_page_version_delete"
                action_alias="delete">
@@ -62,7 +62,7 @@
         <event controller_action="adminhtml_cms_page_revision_save"
                action_alias="save">
             <expected_model class="Magento_VersionsCms_Model_Page_Revision" />
-            <skip_on_back>adminhtml_cms_page_revision_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_cms_page_revision_edit" />
         </event>
         <event controller_action="adminhtml_cms_page_revision_delete"
                action_alias="delete">
@@ -71,7 +71,7 @@
         <event controller_action="adminhtml_cms_page_revision_publish"
                action_alias="publish"
                post_dispatch="Magento_VersionsCms_Model_Observer::postDispatchCmsRevisionPublish">
-            <skip_on_back>adminhtml_cms_page_revision_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_cms_page_revision_edit" />
         </event>
     </log>
 </logging>

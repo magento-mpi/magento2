@@ -19,7 +19,7 @@
         <expected_model class="Magento_CustomerSegment_Model_Segment" />
         <event controller_action="adminhtml_customersegment_edit" action_alias="view" />
         <event controller_action="adminhtml_customersegment_save" action_alias="save">
-            <skip_on_back>adminhtml_customersegment_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_customersegment_edit" />
         </event>
         <event controller_action="adminhtml_customersegment_match"
                action_alias="refresh_data"

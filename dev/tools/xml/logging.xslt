@@ -35,12 +35,16 @@
                                 </xsl:attribute>
                                 <xsl:for-each select="./additional_data/*">
                                     <additional_field >
-                                        <xsl:value-of select='local-name()' />
+                                        <xsl:attribute name="name">
+                                            <xsl:value-of select="local-name()" />
+                                        </xsl:attribute>
                                     </additional_field >
                                 </xsl:for-each>
                                 <xsl:for-each select="./skip_data/*">
                                     <skip_field >
-                                        <xsl:value-of select='local-name()' />
+                                        <xsl:attribute name="name">
+                                            <xsl:value-of select="local-name()" />
+                                        </xsl:attribute>
                                     </skip_field >
                                 </xsl:for-each>
                             </expected_model>
@@ -70,19 +74,25 @@
                                         </xsl:attribute>
                                         <xsl:for-each select="./additional_data/*">
                                             <additional_field >
-                                                <xsl:value-of select='local-name()' />
+                                                <xsl:attribute name="name">
+                                                    <xsl:value-of select="local-name()" />
+                                                </xsl:attribute>
                                             </additional_field >
                                         </xsl:for-each>
                                         <xsl:for-each select="./skip_data/*">
                                             <skip_field >
-                                                <xsl:value-of select='local-name()' />
+                                                <xsl:attribute name="name">
+                                                    <xsl:value-of select="local-name()" />
+                                                </xsl:attribute>
                                             </skip_field >
                                         </xsl:for-each>
                                     </expected_model>
                                 </xsl:for-each>
                                 <xsl:for-each select="./skip_on_back/*">
                                     <skip_on_back >
-                                        <xsl:value-of select='local-name()' />
+                                        <xsl:attribute name="controller_action">
+                                            <xsl:value-of select="local-name()" />
+                                        </xsl:attribute>
                                     </skip_on_back>
                                 </xsl:for-each>
                             </event>
