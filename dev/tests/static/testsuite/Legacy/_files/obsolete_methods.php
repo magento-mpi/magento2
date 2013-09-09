@@ -166,7 +166,6 @@ return array(
     array('addLinkRel', 'Magento_Page_Block_Html_Head'),
     array('addObserver', 'Mage'),
     array('addRouter', 'Magento_Core_Controller_Varien_Front'),
-    array('addPageHandles', 'Magento_Core_Model_Layout_Update', 'Magento_Core_Model_Layout_Merge'),
     array('addOptionRenderer', 'Magento_Catalog_Block_Product_View_Options'),
     array('addPageHandles', 'Magento_Core_Model_Layout_Update', 'Magento_Core_Model_Layout_Merge'),
     array('addPagerLimit', 'Magento_Catalog_Block_Product_List_Toolbar'),
@@ -706,9 +705,6 @@ return array(
     array('getMetaTags', 'Magento_Page_Block_Html_Head'),
     array('getMetaTagHtml', 'Magento_Page_Block_Html_Head'),
     array('addLink', 'Magento_Sales_Block_Order_Info'),
-    array('getLinks', 'Magento_Sales_Block_Order_Info'),
     array('checkLinks', 'Magento_Sales_Block_Order_Info'),
-    array('addLink', 'Magento_Sales_Block_Order_Info'),
     array('getLinks', 'Magento_Sales_Block_Order_Info'),
-    array('checkLinks', 'Magento_Sales_Block_Order_Info'),
 );
