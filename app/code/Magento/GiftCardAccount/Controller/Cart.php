@@ -39,9 +39,6 @@ class Magento_GiftCardAccount_Controller_Cart extends Magento_Core_Controller_Fr
                     __('Gift Card "%1" was added.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($code))
                 );
             } catch (Magento_Core_Exception $e) {
-                $this->_eventManager->dispatch(
-                    'magento_giftcardaccount_add', array('status' => 'fail', 'code' => $code)
-                );
                 Mage::getSingleton('Magento_Checkout_Model_Session')->addError(
                     $e->getMessage()
                 );

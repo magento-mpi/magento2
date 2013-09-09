@@ -90,4 +90,5 @@ return array(
     array('restrictCustomerRegistration', 'Magento_Invitation_Model_Observer'),
     array('restrictCustomersRegistration', 'Magento_WebsiteRestriction_Model_Observer'),
     array('checkCategoryPermissions', 'Magento_CatalogPermissions_Model_Adminhtml_Observer'),
+    array('chargeById', 'Magento_GiftCardAccount_Model_Observer'),
 );
