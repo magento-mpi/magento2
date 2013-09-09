@@ -41,7 +41,7 @@ class Magento_Checkout_Block_LinkTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider toHtmlDataProvider
      */
-    public function testToHtml($canOnepageCheckout, $isModuleOutputEnabled)
+    public function testToHtml($canOnepageCheckout, $isOutputEnabled)
     {
         $helper = $this->getMockBuilder('Magento_Customer_Helper_Data')
             ->disableOriginalConstructor()
@@ -76,7 +76,7 @@ class Magento_Checkout_Block_LinkTest extends PHPUnit_Framework_TestCase
         $moduleManager->expects($this->any())
             ->method('isOutputEnabled')
             ->with('Magento_Checkout')
-            ->will($this->returnValue($isModuleOutputEnabled));
+            ->will($this->returnValue($isOutputEnabled));
         $this->assertEquals('', $block->toHtml());
     }
 
