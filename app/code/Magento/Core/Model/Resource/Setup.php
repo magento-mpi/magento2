@@ -821,4 +821,12 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     {
         return $this;
     }
+
+    /**
+     * @return Magento_Core_Model_Event_Manager
+     */
+    public function getEventManager()
+    {
+        return $this->_eventManager;
+    }
 }
