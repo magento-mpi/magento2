@@ -15,6 +15,16 @@
 class Magento_Test_Response extends Magento_Core_Controller_Response_Http
 {
     /**
+     *
+     */
+    function __construct()
+    {
+        parent::__construct(
+            Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Event_Manager')
+        );
+    }
+
+    /**
      * Prevent generating exceptions if headers are already sent
      *
      * Prevents throwing an exception in Zend_Controller_Response_Abstract::canSendHeaders()
