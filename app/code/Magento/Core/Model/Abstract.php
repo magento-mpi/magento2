@@ -159,7 +159,6 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     {
         $properties = array_keys(get_object_vars($this));
         if (Mage::getIsSerializable()) {
-            file_put_contents('/home/nas/projects/magento2/var/log/session.error2', file_get_contents('/home/nas/projects/magento2/var/log/session.error2') . PHP_EOL . get_class($this));
             $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager'));
         }
         return $properties;
