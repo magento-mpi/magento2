@@ -21,7 +21,9 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
     public function testAddAttributesToForm()
     {
         $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        $objectManager->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            ->setDefaultDesignTheme();
         $arguments = array(
             $objectManager->get('Magento_Data_Form_Factory'),
             $objectManager->get('Magento_Core_Helper_Data'),

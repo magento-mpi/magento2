@@ -30,14 +30,24 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
     protected $_pageLayout = null;
 
     /**
+     * Design package instance
+     *
+     * @var Magento_Core_Model_View_DesignInterface
+     */
+    protected $_design = null;
+
+    /**
      * @param Magento_Page_Helper_Layout $pageLayout
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
         Magento_Page_Helper_Layout $pageLayout,
+        Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Helper_Context $context
     ) {
         $this->_pageLayout = $pageLayout;
+        $this->_design = $design;
         parent::__construct($context);
     }
 
@@ -88,7 +98,7 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
 
         if ($page->getCustomTheme()) {
             if ($inRange) {
-                Mage::getDesign()->setDesignTheme($page->getCustomTheme());
+                $this->_design->setDesignTheme($page->getCustomTheme());
             }
         }
         $action->addPageLayoutHandles(array('id' => $page->getIdentifier()));
