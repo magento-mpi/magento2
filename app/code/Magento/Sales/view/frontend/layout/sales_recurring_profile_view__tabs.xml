@@ -16,7 +16,7 @@
         </reference>
         <reference name="my.account.wrapper">
             <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view" template="recurring/profile/view.phtml">
-                <block type="Magento_Sales_Block_Recurring_Profile_View_Data" name="sales.recurring.profile.view.billing.data" as="data"/>
+                <block class="Magento_Sales_Block_Recurring_Profile_View_Data" name="sales.recurring.profile.view.billing.data" as="data"/>
                 <action method="setShouldPrepareInfoTabs">
                     <argument name="value" xsi:type="string">1</argument>
                 </action>

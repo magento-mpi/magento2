@@ -18,7 +18,7 @@
         </reference>
         <reference name="sales.recurring.profile.view">
             <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.orders" as="table" template="recurring/grid.phtml">
-                <block type="Magento_Sales_Block_Recurring_Profile_Related_Orders_Grid" name="sales.recurring.profile.related.orders.grid" as="related.orders.grid"/>
+                <block class="Magento_Sales_Block_Recurring_Profile_Related_Orders_Grid" name="sales.recurring.profile.related.orders.grid" as="related.orders.grid"/>
                 <action method="setViewLabel">
                     <argument translate="true" name="value" xsi:type="string">Orders Based on This Profile</argument>
                 </action>

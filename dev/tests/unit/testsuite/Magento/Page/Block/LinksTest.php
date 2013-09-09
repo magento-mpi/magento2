@@ -51,17 +51,15 @@ class Magento_Page_Block_LinksTest extends PHPUnit_Framework_TestCase
     {
         $blockHtml = 'test';
         $name = 'test_name';
-        $this->_context->getLayout()->expects($this->once())->method('renderElement')->with($name)->will(
-            $this->returnValue($blockHtml)
-        );
+        $this->_context->getLayout()->expects($this->once())->method('renderElement')->with($name)
+            ->will($this->returnValue($blockHtml));
 
         /** @var Magento_Core_Block_Abstract $link */
         $link = $this->getMockBuilder('Magento_Core_Block_Abstract')->disableOriginalConstructor()->getMock();
         $link->expects($this->once())
             ->method('getNameInLayout')
-            ->will(
-                $this->returnValue($name)
-            );
+            ->will($this->returnValue($name));
+
         $this->assertEquals($blockHtml, $this->_block->renderLink($link));
     }
 } 

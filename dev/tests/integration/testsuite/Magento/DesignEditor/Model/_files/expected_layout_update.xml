@@ -13,7 +13,7 @@
 <layout>
     <block name="root" type="Mage_Core_Block_Template" template="template.phtml">
         <block name="head" type="Mage_Page_Block_Html_Head">
-            <block type="Mage_Page_Block_Html_Head_Script" name="">
+            <block class="Mage_Page_Block_Html_Head_Script" name="">
                 <arguments>
                     <file>1</file>
                 </arguments>
@@ -24,11 +24,11 @@
         </container>
         <container name="content" label="Content">
             <block name="custom.not_safe" type="Mage_Core_Block_Template" template="Mage_DesignEditor::stub.phtml">%A</block>
-            <block type="Mage_Page_Block_Html" name="content_schedule_block"/>
+            <block class="Mage_Page_Block_Html" name="content_schedule_block"/>
         </container>
     </block>
     <reference name="head">
-        <block type="Mage_Page_Block_Html_Head_Script" name="">
+        <block class="Mage_Page_Block_Html_Head_Script" name="">
             <arguments>
                 <file>1</file>
             </arguments>
@@ -46,7 +46,7 @@
       </container>
       <container name="content" label="Content">
          <block name="custom.not_safe" type="Magento_Core_Block_Template" template="Magento_DesignEditor::stub.phtml">%A</block>
-         <block type="Magento_Page_Block_Html" name="content_schedule_block"/>
+         <block class="Magento_Page_Block_Html" name="content_schedule_block"/>
       </container>
    </block>
    <reference name="head">
