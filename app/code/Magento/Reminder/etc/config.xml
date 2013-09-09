@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Reminder
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <reminder_setup>
+                <setup>
+                    <module>Magento_Reminder</module>
+                    <class>Magento_Reminder_Model_Resource_Setup</class>
+                </setup>
+            </reminder_setup>
+        </resources>
+        <template>
+            <email>
+                <magento_reminder_email_template translate="label" module="Magento_Reminder">
+                    <label>Promotion Notification/Reminder</label>
+                    <file>email/promotion.html</file>
+                    <type>html</type>
+                </magento_reminder_email_template>
+            </email>
+        </template>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Reminder>
+                    <files>
+                        <default>Magento_Reminder.csv</default>
+                    </files>
+                </Magento_Reminder>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <promo>
+            <magento_reminder>
+                <enabled>1</enabled>
+                <frequency>I</frequency>
+                <interval>15</interval>
+                <minutes>0</minutes>
+                <limit>100</limit>
+                <threshold>1</threshold>
+                <identity>general</identity>
+            </magento_reminder>
+        </promo>
+    </default>
+    <crontab>
+        <jobs>
+            <send_notification>
+                <schedule>
+                    <cron_expr>*/15 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>Magento_Reminder_Model_Observer::scheduledNotification</model>
+                </run>
+            </send_notification>
+        </jobs>
+    </crontab>
+</config>

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Guest Order View Return" id="magento_rma_guest_view" type="page" parent="magento_rma_return_view_handle">
+        <reference name="root">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">1column.phtml</argument>
+            </action>
+        </reference>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block class="Magento_Rma_Block_Return_Info" as="info" name="sales.order.info">
+                <block class="Magento_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
+                    <block class="Magento_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml"/>
+                </block>
+            </block>
+            <block class="Magento_Rma_Block_Return_View" name="rma.return.history">
+                <container name="rma.return.history.info" as="info" label="View Return"/>
+            </block>
+            <block class="Magento_Rma_Block_Return_View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
+        </reference>
+        <update handle="magento_rma_return_view_handle"/>
+        <reference name="sales.order.info">
+            <action method="addLink">
+                <argument name="name" xsi:type="string">view</argument>
+                <argument name="path" xsi:type="string">sales/guest/view</argument>
+                <argument translate="true" name="label" xsi:type="string">Order Information</argument>
+            </action>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">invoice</argument>
+                <argument name="path" xsi:type="string">sales/guest/invoice</argument>
+                <argument translate="true" name="label" xsi:type="string">Invoices</argument>
+            </action>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">shipment</argument>
+                <argument name="path" xsi:type="string">sales/guest/shipment</argument>
+                <argument translate="true" name="label" xsi:type="string">Shipments</argument>
+            </action>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">creditmemo</argument>
+                <argument name="path" xsi:type="string">sales/guest/creditmemo</argument>
+                <argument translate="true" name="label" xsi:type="string">Refunds</argument>
+            </action>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">returns</argument>
+                <argument name="path" xsi:type="string"/>
+                <argument translate="true" name="label" xsi:type="string">Returns</argument>
+            </action>
+        </reference>
+        <block class="Magento_Rma_Block_Return_Tracking" name="rma.return.tracking" as="tracking"/>
+    </handle>
+</layout>

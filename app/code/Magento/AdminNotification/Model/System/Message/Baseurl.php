@@ -24,26 +24,26 @@ class Magento_AdminNotification_Model_System_Message_Baseurl
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Config_DataFactory
+     * @var Magento_Core_Model_Config_ValueFactory
      */
-    protected $_configDataFactory;
+    protected $_configValueFactory;
 
     /**
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Model_Config_DataFactory $configDataFactory
+     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
      */
     public function __construct(
         Magento_Core_Model_Config $config,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Model_Config_DataFactory $configDataFactory
+        Magento_Core_Model_Config_ValueFactory $configValueFactory
     ) {
         $this->_urlBuilder = $urlBuilder;
         $this->_config = $config;
         $this->_storeManager = $storeManager;
-        $this->_configDataFactory = $configDataFactory;
+        $this->_configValueFactory = $configValueFactory;
     }
 
     /**
@@ -54,12 +54,14 @@ class Magento_AdminNotification_Model_System_Message_Baseurl
     protected function _getConfigUrl()
     {
         $output = '';
-        $defaultUnsecure= (string) $this->_config->getNode(
-            'default/' . Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
+        $defaultUnsecure = $this->_config->getValue(
+            Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL,
+            'default'
         );
 
-        $defaultSecure  = (string) $this->_config->getNode(
-            'default/' . Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL
+        $defaultSecure = $this->_config->getValue(
+            Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL,
+            'default'
         );
 
         if ($defaultSecure == Magento_Core_Model_Store::BASE_URL_PLACEHOLDER
@@ -68,10 +70,10 @@ class Magento_AdminNotification_Model_System_Message_Baseurl
             $output = $this->_urlBuilder->getUrl('adminhtml/system_config/edit', array('section' => 'web'));
         } else {
             /** @var $dataCollection Magento_Core_Model_Resource_Config_Data_Collection */
-            $dataCollection = $this->_configDataFactory->create()->getCollection();
+            $dataCollection = $this->_configValueFactory->create()->getCollection();
             $dataCollection->addValueFilter(Magento_Core_Model_Store::BASE_URL_PLACEHOLDER);
 
-            /** @var $data Magento_Core_Model_Config_Data */
+            /** @var $data Magento_Core_Model_Config_Value */
             foreach ($dataCollection as $data) {
                 if ($data->getScope() == 'stores') {
                     $code = $this->_storeManager->getStore($data->getScopeId())->getCode();

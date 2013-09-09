@@ -34,7 +34,6 @@ app/code/Magento/Cms/Controller/Router.php
 app/code/Magento/Core/Block/Abstract.php
 app/code/Magento/Core/Controller/Varien/ActionAbstract.php
 app/code/Magento/Core/Controller/Varien/Action/Factory.php
-app/code/Magento/Core/Controller/Varien/Router/Factory.php
 app/code/Magento/Core/Controller/Varien/Action/Forward.php
 app/code/Magento/Core/Controller/Varien/DispatchableInterface.php
 app/code/Magento/Core/Controller/Varien/Router/Abstract.php
@@ -99,8 +98,6 @@ app/code/Magento/Reports/Block/Adminhtml/Product
 app/code/Magento/Reports/Model/Resource/Accounts
 app/code/Magento/Reports/Model/Resource/Customer
 app/code/Magento/Reports/Model/Resource/Report/Collection.php
-app/code/Magento/Tag/Block/Adminhtml/Customer/Edit/Tab/Tag.php
-app/code/Magento/Tag/Block/Catalog/Product/Rss/Link.php
 app/code/Magento/Theme
 app/code/Magento/User
 app/code/Magento/Webapi

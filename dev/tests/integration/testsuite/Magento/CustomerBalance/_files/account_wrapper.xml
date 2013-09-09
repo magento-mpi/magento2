@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CustomerBalance
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+    <handle id="magento_customerbalance_info_index" type="page" parent="customer_account_index">
+        <block class="Magento_Core_Block_Template" name="customerbalance.wrapper" template="Magento_CustomerBalance::account/wrapper.phtml">
+            <block class="Magento_CustomerBalance_Block_Account_Balance" name="balance" template="account/balance.phtml" before="-"/>
+            <block class="Magento_CustomerBalance_Block_Account_History" name="history" template="account/history.phtml" after="-"/>
+        </block>
+    </handle>
+</layout>

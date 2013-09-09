@@ -7,75 +7,31 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Event_Config
+class Magento_Core_Model_Event_Config implements Magento_Core_Model_Event_ConfigInterface
 {
     /**
      * Modules configuration model
      *
-     * @var Magento_Core_Model_Config_Modules
+     * @var Magento_Core_Model_Event_Config_Data
      */
-    protected $_config;
+    protected $_dataContainer;
 
     /**
-     * Configuration for events by area
-     *
-     * @var array
+     * @param Magento_Core_Model_Event_Config_Data $dataContainer
      */
-    protected $_eventAreas = array();
-
-    /**
-     * @param Magento_Core_Model_Config_Modules $config
-     */
-    public function __construct(Magento_Core_Model_Config_Modules $config)
+    public function __construct(Magento_Core_Model_Event_Config_Data $dataContainer)
     {
-        $this->_config = $config;
+        $this->_dataContainer = $dataContainer;
     }
 
     /**
-     * Get area events configuration
+     * Get observers by event name
      *
-     * @param   string $area event area
-     * @return  Magento_Core_Model_Config_Element
+     * @param $eventName
+     * @return array
      */
-    protected function _getAreaEvent($area)
+    public function getObservers($eventName)
     {
-        if (!isset($this->_eventAreas[$area])) {
-            $this->_eventAreas[$area] = $this->_config->getNode($area)->events;
-        }
-        return $this->_eventAreas[$area];
-    }
-
-    /**
-     * Populate event manager with area event observers
-     *
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param $area
-     */
-    public function populate(Magento_Core_Model_Event_Manager $eventManager, $area)
-    {
-        $areaConfig = $this->_getAreaEvent($area);
-        if (!$areaConfig) {
-            return;
-        }
-
-        foreach($areaConfig->children() as $eventName => $eventConfig) {
-            $observers = array();
-            $eventObservers = $eventConfig->observers->children();
-            if (!$eventObservers) {
-                $eventManager->addObservers($area, $eventName, $observers);
-                continue;
-            }
-
-            /** @var $obsConfig Magento_Core_Model_Config_Element */
-            foreach ($eventObservers as $obsName => $obsConfig) {
-                $observers[$obsName] = array(
-                    'type'   => (string)$obsConfig->type,
-                    'model'  => $obsConfig->class ? (string)$obsConfig->class : $obsConfig->getClassName(),
-                    'method' => (string)$obsConfig->method,
-                    'config' => $obsConfig->asArray(),
-                );
-            }
-            $eventManager->addObservers($area, $eventName, $observers);
-        }
+        return $this->_dataContainer->get($eventName, array());
     }
 }

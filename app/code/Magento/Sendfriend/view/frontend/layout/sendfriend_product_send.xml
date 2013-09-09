@@ -7,19 +7,18 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sendfriend_product_send translate="label" type="page" parent="catalog_product_view">
-        <label>Catalog Product Email to a Friend</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Catalog Product Email to a Friend" id="sendfriend_product_send" type="page" parent="catalog_product_view">
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
             <action method="setTemplate">
-                <template>2columns-right.phtml</template>
+                <argument name="template" xsi:type="string">2columns-right.phtml</argument>
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Sendfriend_Block_Send" name="sendfriend.send" template="send.phtml"/>
+            <block class="Magento_Sendfriend_Block_Send" name="sendfriend.send" template="send.phtml"/>
         </reference>
-    </sendfriend_product_send>
+    </handle>
 </layout>

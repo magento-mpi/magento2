@@ -40,8 +40,8 @@ abstract class Magento_Core_Model_File_Storage_Database_Abstract extends Magento
      */
     public function getConfigConnectionName()
     {
-        $connectionName = (string) Mage::app()->getConfig()
-            ->getNode(Magento_Core_Model_File_Storage::XML_PATH_STORAGE_MEDIA_DATABASE);
+        $connectionName = Mage::app()->getConfig()
+            ->getValue(Magento_Core_Model_File_Storage::XML_PATH_STORAGE_MEDIA_DATABASE, 'default');
         if (empty($connectionName)) {
             $connectionName = 'default_setup';
         }

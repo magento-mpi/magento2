@@ -22,10 +22,10 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
      */
     public function testPreDispatchWithEmptyUrlRedirectsToStartupPage()
     {
-        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $backendUrlModel Magento_Backend_Model_Url */
-        $backendUrlModel = Mage::getObjectManager()->get('Magento_Backend_Model_Url');
+        $backendUrlModel = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url');
         $url = $backendUrlModel->getStartupPageUrl();
         $expected = $backendUrlModel->getUrl($url);
         $this->dispatch('backend');

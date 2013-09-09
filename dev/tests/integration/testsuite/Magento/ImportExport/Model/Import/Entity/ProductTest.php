@@ -191,7 +191,7 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
         $existingProductIds = array(10, 11, 12);
         $productsBeforeImport = array();
         foreach ($existingProductIds as $productId) {
-            $product = Mage::getObjectManager()->create('Magento_Catalog_Model_Product');
+            $product = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Catalog_Model_Product');
             $product->load($productId);
             $productsBeforeImport[$product->getSku()] = $product;
         }
@@ -212,7 +212,8 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
             $productBeforeImport = $productsBeforeImport[$row['sku']];
 
             /** @var $productAfterImport Magento_Catalog_Model_Product */
-            $productAfterImport = Mage::getObjectManager()->create('Magento_Catalog_Model_Product');
+            $productAfterImport = Magento_Test_Helper_Bootstrap::getObjectManager()
+                ->create('Magento_Catalog_Model_Product');
             $productAfterImport->load($productBeforeImport->getId());
             $this->assertEquals(
                 @strtotime($row['news_from_date']),

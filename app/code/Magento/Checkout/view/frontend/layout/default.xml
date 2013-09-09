@@ -7,36 +7,36 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="head.components">
-            <block type="Magento_Core_Block_Template" name="checkout_page_head_components" template="Magento_Checkout::js/components.phtml"/>
+            <block class="Magento_Adminhtml_Block_Page_Js_Components" name="checkout_page_head_components" template="Magento_Checkout::js/components.phtml"/>
         </reference>
         <reference name="top.links">
-            <block type="Magento_Checkout_Block_Links" name="checkout_cart_link">
+            <block class="Magento_Checkout_Block_Links" name="checkout_cart_link">
                 <action method="addCartLink"/>
                 <action method="addCheckoutLink"/>
             </block>
         </reference>
         <reference name="right">
-            <block type="Magento_Checkout_Block_Cart_Sidebar" name="cart_sidebar" template="cart/sidebar.phtml" before="-">
+            <block class="Magento_Checkout_Block_Cart_Sidebar" name="cart_sidebar" template="cart/sidebar.phtml" before="-">
                 <action method="addItemRender">
-                    <type>simple</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer</block>
-                    <template>cart/sidebar/default.phtml</template>
+                    <argument name="type" xsi:type="string">simple</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
-                    <type>grouped</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Grouped</block>
-                    <template>cart/sidebar/default.phtml</template>
+                    <argument name="type" xsi:type="string">grouped</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
-                    <type>configurable</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Configurable</block>
-                    <template>cart/sidebar/default.phtml</template>
+                    <argument name="type" xsi:type="string">configurable</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
                 </action>
                 <container name="cart_sidebar.extra_actions" as="extra_actions" label="My Cart Extra Actions"/>
             </block>
         </reference>
-    </default>
+    </handle>
 </layout>

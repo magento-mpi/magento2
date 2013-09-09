@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CustomerCustomAttributes
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <customercustomattributes_setup>
+                <setup>
+                    <module>Magento_CustomerCustomAttributes</module>
+                    <class>Magento_CustomerCustomAttributes_Model_Resource_Setup</class>
+                </setup>
+            </customercustomattributes_setup>
+        </resources>
+    </global>
+    <frontend />
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_CustomerCustomAttributes>
+                    <files>
+                        <default>Magento_CustomerCustomAttributes.csv</default>
+                    </files>
+                </Magento_CustomerCustomAttributes>
+            </modules>
+        </translate>
+    </adminhtml>
+</config>

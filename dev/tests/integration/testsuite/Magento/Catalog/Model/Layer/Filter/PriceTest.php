@@ -43,7 +43,7 @@ class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_Tes
 
     /**
      * @magentoConfigFixture current_store catalog/layered_navigation/price_range_calculation manual
-     * @magentoConfigFixture current_store catalog/layered_navigation/price_range_step        1.5
+     * @magentoConfigFixture current_store catalog/layered_navigation/price_range_step 1.5
      */
     public function testGetPriceRangeManual()
     {

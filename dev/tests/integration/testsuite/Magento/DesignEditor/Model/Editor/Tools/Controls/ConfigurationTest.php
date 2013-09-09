@@ -26,9 +26,11 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
      */
     protected function setUp()
     {
-        $this->_design = Mage::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $this->_design = Magento_Test_Helper_Bootstrap::getObjectManager()->get(
+            'Magento_Core_Model_View_DesignInterface'
+        );
         $this->_design->setDesignTheme('vendor_test_child', Magento_Core_Model_View_DesignInterface::DEFAULT_AREA);
-        $this->_configFactory = Mage::getObjectManager()->create(
+        $this->_configFactory = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
             'Magento_DesignEditor_Model_Editor_Tools_Controls_Factory'
         );
     }
@@ -42,7 +44,9 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
      */
     public function testLoadConfigurations($type, $controlName, $controlData)
     {
-        $configuration = $this->_configFactory->create($type, Mage::getDesign()->getDesignTheme());
+        $designTheme = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->getDesignTheme();
+        $configuration = $this->_configFactory->create($type, $designTheme);
         $this->assertEquals($controlData, $configuration->getControlData($controlName));
     }
 
@@ -112,7 +116,8 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
     public function testSaveConfiguration($saveData, $xpathData)
     {
         $type = Magento_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES;
-        $theme = Mage::getDesign()->getDesignTheme();
+        $theme = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->getDesignTheme();
         $configuration = $this->_configFactory->create($type, $theme);
         $configuration->saveData($saveData);
         $this->assertFileExists($theme->getCustomization()->getCustomViewConfigPath());

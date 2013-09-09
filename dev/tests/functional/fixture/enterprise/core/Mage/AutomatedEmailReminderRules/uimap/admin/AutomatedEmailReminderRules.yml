@@ -49,7 +49,7 @@ create_automated_email_reminder_rule:
             tabs:
                 -
                     rule_information:
-                        xpath: //*[@id='enterprise_reminder_rule_tabs_general_section']
+                        xpath: //*[@id='magento_reminder_rule_tabs_general_section']
                         fieldsets:
                             -
                                 general_information:
@@ -60,14 +60,14 @@ create_automated_email_reminder_rule:
                                         websites: //select[@id='website_ids']
                 -
                     rule_conditions:
-                        xpath: //*[@id='enterprise_reminder_rule_tabs_conditions_section']
+                        xpath: //*[@id='magento_reminder_rule_tabs_conditions_section']
                         fieldsets:
                             -
                                 apply_for_rule_condition:
                                     xpath: //*[@id='rule_conditions_fieldset']
                 -
                     emails_and_labels:
-                        xpath: //*[@id='enterprise_reminder_rule_tabs_template_section']
+                        xpath: //*[@id='magento_reminder_rule_tabs_template_section']
                         fieldsets:
                             -
                                 email_templates:

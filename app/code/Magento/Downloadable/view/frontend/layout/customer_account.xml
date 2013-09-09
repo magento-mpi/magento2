@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <customer_account>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="customer_account">
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label">
-                <name>downloadable_products</name>
-                <path>downloadable/customer/products</path>
-                <label>My Downloadable Products</label>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">downloadable_products</argument>
+                <argument name="path" xsi:type="string">downloadable/customer/products</argument>
+                <argument translate="true" name="label" xsi:type="string">My Downloadable Products</argument>
             </action>
         </reference>
-    </customer_account>
+    </handle>
 </layout>

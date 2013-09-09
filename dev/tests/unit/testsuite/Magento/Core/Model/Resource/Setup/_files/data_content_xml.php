@@ -19,8 +19,8 @@ return array(
         )
     ),
     '$tableData' => array(
-        array('field' => '<reference><block type="catalog/product_new" /></reference>'),
-        array('field' => '<reference><block type="catalogSearch/result" /></reference>'),
+        array('field' => '<reference><block class="catalog/product_new" /></reference>'),
+        array('field' => '<reference><block class="catalogSearch/result" /></reference>'),
         array('field' => '<reference></reference>'),
     ),
     '$expected' => array(
@@ -28,14 +28,14 @@ return array(
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => '<reference><block type="Magento_Catalog_Block_Product_New" /></reference>',
-                'from'  => array('`field` = ?' => '<reference><block type="catalog/product_new" /></reference>')
+                'to'    => '<reference><block class="Magento_Catalog_Block_Product_New" /></reference>',
+                'from'  => array('`field` = ?' => '<reference><block class="catalog/product_new" /></reference>')
             ),
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => '<reference><block type="Magento_CatalogSearch_Block_Result" /></reference>',
-                'from'  => array('`field` = ?' => '<reference><block type="catalogSearch/result" /></reference>')
+                'to'    => '<reference><block class="Magento_CatalogSearch_Block_Result" /></reference>',
+                'from'  => array('`field` = ?' => '<reference><block class="catalogSearch/result" /></reference>')
             ),
         ),
         'aliases_map' => array(

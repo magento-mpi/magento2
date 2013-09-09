@@ -61,9 +61,9 @@ class Magento_Config_Dom
     public function __construct($xml, array $idAttributes = array(), $schemaFile = null)
     {
         $this->_schemaFile    = $schemaFile;
+        $this->_idAttributes  = $idAttributes;
         $this->_dom           = $this->_initDom($xml);
         $this->_rootNamespace = $this->_dom->lookupNamespaceUri($this->_dom->namespaceURI);
-        $this->_idAttributes  = $idAttributes;
     }
 
     /**
@@ -243,6 +243,18 @@ class Magento_Config_Dom
     {
         $errors = self::validateDomDocument($this->_dom, $schemaFileName);
         return !count($errors);
+    }
+
+    /**
+     * Set schema file
+     *
+     * @param string $schemaFile
+     * @return Magento_Config_Dom
+     */
+    public function setSchemaFile($schemaFile)
+    {
+        $this->_schemaFile = $schemaFile;
+        return $this;
     }
 
     /**

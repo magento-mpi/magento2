@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_multishipping_addresses">
+        <reference name="content">
+            <block class="Magento_GiftRegistry_Block_Customer_Checkout" name="giftregistry.customer.checkout" template="customer/checkout/multishipping.phtml"/>
+        </reference>
+        <reference name="additional.product.info">
+            <block class="Magento_GiftRegistry_Block_Cart_Product_Mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
+        </reference>
+    </handle>
+</layout>

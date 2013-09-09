@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_PricePermissions" version="1.11.0.0" active="false">
+        <sequence>
+            <module name="Magento_Bundle"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Downloadable"/>
+            <module name="Magento_GiftCard"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Bundle"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Downloadable"/>
+            <module name="Magento_GiftCard"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Core"/>
+        </depends>
+    </module>
+</config>

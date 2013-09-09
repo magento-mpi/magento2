@@ -18,9 +18,11 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $moduleReader = Mage::getObjectManager()->create('Magento_Core_Model_Config_Modules_Reader');
+        $moduleReader = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Config_Modules_Reader');
         $schemaFile = $moduleReader->getModuleDir('etc', 'Magento_Backend') . DIRECTORY_SEPARATOR . 'menu.xsd';
-        $this->_model = Mage::getObjectManager()->create('Magento_Backend_Model_Menu_Config_Reader',
+        $this->_model = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Menu_Config_Reader',
             array(
                 'perFileSchema' => $schemaFile,
                 'isValidated' => true,

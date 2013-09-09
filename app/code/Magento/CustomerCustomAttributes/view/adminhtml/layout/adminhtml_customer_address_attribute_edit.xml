@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_customer_address_attribute_edit">
+        <update handle="scope_switcher"/>
+        <reference name="content">
+            <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit" name="magento_customercustomattributes_address_attribute_edit"/>
+        </reference>
+        <reference name="left">
+            <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tabs" name="magento_customercustomattributes_address_attribute_edit_tabs">
+                <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General" name="magento_customercustomattributes_address_attribute_edit_tab_general"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">general</argument>
+                    <argument name="block" xsi:type="string">magento_customercustomattributes_address_attribute_edit_tab_general</argument>
+                </action>
+                <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Options" name="magento_customercustomattributes_address_attribute_edit_tab_options"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">options</argument>
+                    <argument name="block" xsi:type="string">magento_customercustomattributes_address_attribute_edit_tab_options</argument>
+                </action>
+            </block>
+        </reference>
+        <reference name="js">
+            <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Js" template="attribute/js.phtml"/>
+        </reference>
+    </handle>
+</layout>

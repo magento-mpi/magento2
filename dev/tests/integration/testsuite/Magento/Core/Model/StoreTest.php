@@ -18,11 +18,14 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $params = array(
-            'context' => Mage::getObjectManager()->get('Magento_Core_Model_Context'),
-            'configCacheType' => Mage::getObjectManager()->get('Magento_Core_Model_Cache_Type_Config'),
-            'urlModel' => Mage::getObjectManager()->get('Magento_Core_Model_Url'),
-            'appState' => Mage::getObjectManager()->get('Magento_Core_Model_App_State'),
+            'context' => $objectManager->get('Magento_Core_Model_Context'),
+            'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
+            'urlModel' => $objectManager->get('Magento_Core_Model_Url'),
+            'appState' => $objectManager->get('Magento_Core_Model_App_State'),
+            'request' => $objectManager->get('Magento_Core_Controller_Request_Http'),
+            'configDataResource' => $objectManager->get('Magento_Core_Model_Resource_Config_Data'),
         );
 
         $this->_model = $this->getMock(
@@ -220,6 +223,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPriceFilter()
     {
+        $this->_model->load('default');
         $this->assertInstanceOf('Magento_Directory_Model_Currency_Filter', $this->_model->getPriceFilter());
     }
 
@@ -234,6 +238,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 
     public function testGetCurrentUrl()
     {
+        $this->_model->load('admin');
         $this->_model->expects($this->any())
             ->method('getUrl')
             ->will($this->returnValue('http://localhost/index.php'));
@@ -318,11 +323,14 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             ->method('isInstalled')
             ->will($this->returnValue($isInstalled));
 
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $params = array(
-            'context' => Mage::getObjectManager()->get('Magento_Core_Model_Context'),
-            'configCacheType' => Mage::getObjectManager()->get('Magento_Core_Model_Cache_Type_Config'),
-            'urlModel' => Mage::getObjectManager()->get('Magento_Core_Model_Url'),
+            'context' => $objectManager->get('Magento_Core_Model_Context'),
+            'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
+            'urlModel' => $objectManager->get('Magento_Core_Model_Url'),
             'appState' => $appStateMock,
+            'request' => $objectManager->get('Magento_Core_Controller_Request_Http'),
+            'configDataResource' => $objectManager->get('Magento_Core_Model_Resource_Config_Data'),
         );
 
         $model = $this->getMock('Magento_Core_Model_Store', array('getConfig'), $params);

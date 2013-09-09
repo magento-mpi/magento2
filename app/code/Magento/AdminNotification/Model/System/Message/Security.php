@@ -91,8 +91,9 @@ class Magento_AdminNotification_Model_System_Message_Security
      */
     private function _isFileAccessible()
     {
-        $unsecureBaseURL = (string) $this->_config->getNode(
-            'default/' . Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
+        $unsecureBaseURL = $this->_config->getValue(
+            Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL,
+            'default'
         );
 
         /** @var $http Magento_HTTP_Adapter_Curl */

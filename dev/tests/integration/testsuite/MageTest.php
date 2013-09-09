@@ -29,19 +29,20 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function testLog($level, $file, $forceLog, $expectedLevel, $expectedKey, $expectsAddLog)
     {
         $message = uniqid();
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         /** @var $logger Magento_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject */
         $logger = $this->getMock('Magento_Core_Model_Logger', array('log', 'addStreamLog'), array(), '', false);
-        $realLogger = Mage::getObjectManager()->get('Magento_Core_Model_Logger');
-        Mage::getObjectManager()->addSharedInstance($logger, 'Magento_Core_Model_Logger');
+        $realLogger = $objectManager->get('Magento_Core_Model_Logger');
+        $objectManager->addSharedInstance($logger, 'Magento_Core_Model_Logger');
         try {
             $logger->expects($this->once())->method('log')->with($message, $expectedLevel, $expectedKey);
             if ($expectsAddLog) {
                 $logger->expects($this->once())->method('addStreamLog');
             }
             Mage::log($message, $level, $file, $forceLog);
-            Mage::getObjectManager()->addSharedInstance($realLogger, 'Magento_Core_Model_Logger');
+            $objectManager->addSharedInstance($realLogger, 'Magento_Core_Model_Logger');
         } catch (Exception $e) {
-            Mage::getObjectManager()->addSharedInstance($realLogger, 'Magento_Core_Model_Logger');
+            $objectManager->addSharedInstance($realLogger, 'Magento_Core_Model_Logger');
             throw $e;
         }
 
@@ -114,17 +115,6 @@ class MageTest extends PHPUnit_Framework_TestCase
         $exception = new Exception((string)$msg);
         Mage::logException($exception);
         $this->expectOutputRegex('/' . $msg . '/');
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     *
-     */
-    public function testGetDesign()
-    {
-        $design = Mage::getDesign();
-        $this->assertEquals('frontend', $design->getArea());
-        $this->assertSame(Mage::getDesign(), $design);
     }
 
     /**

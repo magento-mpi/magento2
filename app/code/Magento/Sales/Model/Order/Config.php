@@ -24,11 +24,17 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
      */
     protected $_stateStatuses;
 
+    /**
+     * @var array
+     */
     private $_states;
 
-    public function __construct()
+    /**
+     * @param Magento_Core_Model_Config $config
+     */
+    public function __construct(Magento_Core_Model_Config $config)
     {
-        parent::__construct(Mage::getConfig()->getNode('global/sales/order'));
+        parent::__construct($config->getNode('global/sales/order'));
     }
 
     protected function _getStatus($status)

@@ -41,10 +41,8 @@ class Magento_Index_Model_EntryPoint_ShellTest extends PHPUnit_Framework_TestCas
             '',
             false
         );
-        $this->_entryPoint = $this->getMock(
-            'Magento_Index_Model_EntryPoint_Shell',
-            array('_setGlobalObjectManager'),
-            array('indexer.php', $this->_shellErrorHandler, $this->_primaryConfig, $this->_objectManager)
+        $this->_entryPoint = new Magento_Index_Model_EntryPoint_Shell(
+            'indexer.php', $this->_shellErrorHandler, $this->_primaryConfig, $this->_objectManager
         );
     }
 

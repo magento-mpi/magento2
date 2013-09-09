@@ -7,18 +7,18 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_product_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_product_edit">
         <update handle="adminhtml_catalog_product_new"/>
         <reference name="page-title">
-            <block type="Magento_Backend_Block_Store_Switcher" name="store_switcher">
+            <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher">
                 <action method="setUseConfirm">
-                    <params>1</params>
+                    <argument name="params" xsi:type="string">1</argument>
                 </action>
             </block>
             <action method="setTitleClass">
-                <class>complex</class>
+                <argument name="class" xsi:type="string">complex</argument>
             </action>
         </reference>
-    </adminhtml_catalog_product_edit>
+    </handle>
 </layout>

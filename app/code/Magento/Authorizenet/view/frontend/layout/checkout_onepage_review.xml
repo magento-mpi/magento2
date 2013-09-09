@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_review>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_review">
         <reference name="checkout.onepage.review.info.items.after">
-            <block type="Magento_Authorizenet_Block_Directpost_Form" name="payment.form.directpost" template="directpost/form.phtml">
+            <block class="Magento_Authorizenet_Block_Directpost_Form" name="payment.form.directpost" template="directpost/form.phtml">
                 <action method="setMethodInfo"/>
             </block>
         </reference>
-    </checkout_onepage_review>
+    </handle>
 </layout>

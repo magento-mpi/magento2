@@ -7,20 +7,20 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <review_product_list>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="review_product_list">
         <update handle="page_one_column"/>
         <reference name="head">
             <action method="removeItem">
-                <type>css</type>
-                <name>Magento_Catalog::zoom.css</name>
+                <argument name="type" xsi:type="string">css</argument>
+                <argument name="name" xsi:type="string">Magento_Catalog::zoom.css</argument>
             </action>
             <action method="addJs">
-                <file>jquery/jqzoom/js/jquery.jqzoom-core-pack.js</file>
+                <argument name="file" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
             </action>
             <action method="addCss">
-                <file>jquery/jqzoom/css/jquery.jqzoom.css</file>
+                <argument name="file" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
             </action>
         </reference>
-    </review_product_list>
+    </handle>
 </layout>

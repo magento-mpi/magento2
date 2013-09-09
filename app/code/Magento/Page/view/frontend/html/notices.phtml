@@ -30,7 +30,7 @@
         <div class="notice-inner"><p><?php echo __('This is only a demo store. You can browse and place orders, but nothing will be processed.') ?></p></div>
     </div>
 <?php endif; ?>
-<?php if (Mage::helper('Magento_Core_Helper_Cookie')->isUserNotAllowSaveCookie()): ?>
+<?php if ($this->helper('Magento_Core_Helper_Cookie')->isUserNotAllowSaveCookie()): ?>
     <div class="global-site-notice notice-cookie" id="notice-cookie-block" style="display: none">
         <div class="notice-inner">
             <p><?php echo __('This store uses cookies to make shopping more enjoyable. Learn how cookies work in our <a href="%1">privacy policy</a>.', $this->getPrivacyPolicyLink()) ?></p>
@@ -45,9 +45,9 @@
                     $('#notice-cookie-block').cookieBlock({
                         cookieAllowButtonSelector: '#btn-cookie-allow',
                         cookieName: '<?php echo Magento_Core_Helper_Cookie::IS_USER_ALLOWED_SAVE_COOKIE ?>',
-                        cookieValue: '<?php echo Mage::helper('Magento_Core_Helper_Cookie')->getAcceptedSaveCookiesWebsiteIds() ?>',
-                        cookieLifetime: <?php echo Mage::helper('Magento_Core_Helper_Cookie')->getCookieRestrictionLifetime()?>,
-                        noCookiesUrl: '<?php echo Mage::getUrl('cms/index/noCookies') ?>'
+                        cookieValue: '<?php echo $this->helper('Magento_Core_Helper_Cookie')->getAcceptedSaveCookiesWebsiteIds() ?>',
+                        cookieLifetime: <?php echo $this->helper('Magento_Core_Helper_Cookie')->getCookieRestrictionLifetime()?>,
+                        noCookiesUrl: '<?php echo $this->getUrl('cms/index/noCookies') ?>'
                     });
                 });
         })(jQuery);

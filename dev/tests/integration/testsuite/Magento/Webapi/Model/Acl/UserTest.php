@@ -30,7 +30,7 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $this->_roleFactory = $this->_objectManager->get('Magento_Webapi_Model_Acl_Role_Factory');
         $this->_model = $this->_objectManager->create('Magento_Webapi_Model_Acl_User');
     }

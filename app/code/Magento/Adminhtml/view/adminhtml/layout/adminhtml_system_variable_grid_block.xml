@@ -7,46 +7,46 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_system_variable_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_system_variable_grid_block">
         <reference name="adminhtml.system.variable.grid.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.variable.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.variable.grid" as="grid">
                 <arguments>
-                    <id>customVariablesGrid</id>
-                    <dataSource type="object">Magento_Core_Model_Resource_Variable_Collection</dataSource>
-                    <default_sort>variable_id</default_sort>
-                    <default_dir>ASC</default_dir>
+                    <argument name="id" xsi:type="string">customVariablesGrid</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Core_Model_Resource_Variable_Collection</argument>
+                    <argument name="default_sort" xsi:type="string">variable_id</argument>
+                    <argument name="default_dir" xsi:type="string">ASC</argument>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.system.variable.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.system.variable.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <rowUrl>
-                            <path>*/*/edit</path>
-                            <extraParamsTemplate>
-                                <variable_id>getId</variable_id>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="variable_id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="variable_id">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="variable_id">
                         <arguments>
-                            <header translate="true">Variable ID</header>
-                            <width>1px</width>
-                            <index>variable_id</index>
+                            <argument name="header" xsi:type="string" translate="true">Variable ID</argument>
+                            <argument name="width" xsi:type="string">1px</argument>
+                            <argument name="index" xsi:type="string">variable_id</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="code">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
-                            <header translate="true">Variable Code</header>
-                            <index>code</index>
+                            <argument name="header" xsi:type="string" translate="true">Variable Code</argument>
+                            <argument name="index" xsi:type="string">code</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true">Name</header>
-                            <index>name</index>
+                            <argument name="header" xsi:type="string" translate="true">Name</argument>
+                            <argument name="index" xsi:type="string">name</argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_system_variable_grid_block>
+    </handle>
 </layout>

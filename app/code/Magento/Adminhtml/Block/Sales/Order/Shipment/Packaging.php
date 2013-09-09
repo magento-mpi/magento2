@@ -19,6 +19,25 @@
 class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adminhtml_Block_Template
 {
     /**
+     * @var Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size
+     */
+    protected $_sourceSizeModel;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size $sourceSizeModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size $sourceSizeModel,
+        array $data = array()
+    ) {
+        $this->_sourceSizeModel = $sourceSizeModel;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve shipment model instance
      *
      * @return Magento_Sales_Model_Order_Shipment
@@ -351,5 +370,15 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
         } else {
             return;
         }
+    }
+
+    /**
+     * Get Usps source size model
+     *
+     * @return Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size
+     */
+    public function getSourceSizeModel()
+    {
+        return $this->_sourceSizeModel;
     }
 }

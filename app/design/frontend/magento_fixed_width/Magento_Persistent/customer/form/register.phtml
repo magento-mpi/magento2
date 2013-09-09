@@ -171,7 +171,7 @@
             <button type="submit" class="button" title="<?php echo __('Submit') ?>"><span><span><?php echo __('Submit') ?></span></span></button>
         </div>
         <p class="required"><?php echo __('* Required Fields') ?></p>
-        <?php if (Mage::helper('Magento_Checkout_Helper_Data')->isContextCheckout()): ?>
+        <?php if ($this->helper('Magento_Checkout_Helper_Data')->isContextCheckout()): ?>
             <input name="context" type="hidden" value="checkout" />
         <?php endif; ?>
     </form>
@@ -186,7 +186,7 @@
                     "<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
                 <?php endif ?>
                 <?php if ($customerAttributes->hasUserDefinedAttributes()): ?>
-                    "<?php echo $this->getViewFileUrl('Enterprise_Customer::file-element.js') ?>",
+                    "<?php echo $this->getViewFileUrl('Magento_CustomerCustomAttributes::file-element.js') ?>",
                 <?php endif ?>
                 <?php if ($_dob->isEnabled()): ?>
                     "<?php echo $this->getViewFileUrl('mage/validation/dob-rule.js') ?>",
@@ -221,7 +221,7 @@
                     }).find('input:text').attr('autocomplete', 'off');
                     <?php if ($this->getShowAddressFields()): ?>
                         $('#country').regionUpdater({
-                            optionalRegionAllowed: <?php echo (Mage::getStoreConfig('general/region/display_all')? 'true' : 'false'); ?>,
+                            optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
                             regionListId: '#region_id',
                             regionInputId: '#region',
                             postcodeId: '#zip',

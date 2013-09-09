@@ -23,6 +23,33 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     protected $_template = 'catalog/product/edit/super/config.phtml';
 
     /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_App $app,
+        Magento_Core_Model_LocaleInterface $locale,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_app = $app;
+        $this->_locale = $locale;
+    }
+
+    /**
      * Initialize block
      *
      */
@@ -418,5 +445,31 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     public function getParentTab()
     {
         return 'product-details';
+    }
+
+    /**
+     * @return Magento_Core_Model_App
+     */
+    public function getApp()
+    {
+        return $this->_app;
+    }
+
+    /**
+     * @return Magento_Core_Model_LocaleInterface
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
+    }
+
+    /**
+     * Get base application currency
+     *
+     * @return Zend_Currency
+     */
+    public function getBaseCurrency()
+    {
+        return $this->getLocale()->currency($this->getApp()->getBaseCurrencyCode());
     }
 }

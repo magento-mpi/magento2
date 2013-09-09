@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_GiftWrapping
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Magento/Core/etc/fieldset.xsd">
+    <scope id="global">
+        <fieldset id="sales_convert_quote_item">
+            <field name="gw_id">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="gw_base_price">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="gw_price">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="gw_base_tax_amount">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="gw_tax_amount">
+                <aspect name="to_order_item" />
+            </field>
+        </fieldset>
+        <fieldset id="sales_convert_quote">
+            <field name="gw_id">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_allow_gift_receipt">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_add_card">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_base_price">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_price">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_items_base_price">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_items_price">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_card_base_price">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_card_price">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_base_tax_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_tax_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_items_base_tax_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_items_tax_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_card_base_tax_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_card_tax_amount">
+                <aspect name="to_order" />
+            </field>
+        </fieldset>
+        <fieldset id="sales_convert_quote_address">
+            <field name="gw_id">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_allow_gift_receipt">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_add_card">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_base_price">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_price">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_items_base_price">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_items_price">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_card_base_price">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_card_price">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_base_tax_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_tax_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_items_base_tax_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_items_tax_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_card_base_tax_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="gw_card_tax_amount">
+                <aspect name="to_order" />
+            </field>
+        </fieldset>
+    </scope>
+</config>

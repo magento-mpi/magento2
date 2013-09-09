@@ -1,19 +1,13 @@
 <?php
 /**
+ * Captcha interface
+ *
  * {license_notice}
  *
  * @category    Magento
  * @package     Magento_Captcha
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Captcha interface
- *
- * @category   Magento
- * @package    Magento_Captcha
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 interface Magento_Captcha_Model_Interface
 {
@@ -35,9 +29,8 @@ interface Magento_Captcha_Model_Interface
     public function isCorrect($word);
 
 
- /**
+    /**
      * Get Block Name
-     *
      * @return string
      */
     public function getBlockName();

@@ -35,6 +35,25 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Admin
      */
     protected $_currency;
 
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_storeManager = $storeManager;
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -109,4 +128,13 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Admin
         return Mage::app()->getWebsite($websiteId)->getBaseCurrency()->format($price);
     }
 
+    /**
+     * Is single store mode
+     *
+     * @return bool
+     */
+    public function isSingleStoreMode()
+    {
+        return $this->_storeManager->isSingleStoreMode();
+    }
 }

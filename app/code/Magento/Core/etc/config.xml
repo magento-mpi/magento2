@@ -46,40 +46,6 @@
         <migration>
             <path_to_aliases_map_file>app/etc/aliases_to_classes_map.json</path_to_aliases_map_file>
         </migration>
-        <events>
-            <theme_delete_before>
-                <observers>
-                    <clean_core_related_content>
-                        <class>Magento_Core_Model_Theme_Observer</class>
-                        <method>cleanThemeRelatedContent</method>
-                    </clean_core_related_content>
-                </observers>
-            </theme_delete_before>
-            <theme_save_after>
-                <observers>
-                    <clean_core_related_content>
-                        <class>Magento_Core_Model_Theme_Observer</class>
-                        <method>checkThemeIsAssigned</method>
-                    </clean_core_related_content>
-                </observers>
-            </theme_save_after>
-            <theme_registration_from_filesystem>
-                <observers>
-                    <theme_registration_observer>
-                        <class>Magento_Core_Model_Observer</class>
-                        <method>themeRegistration</method>
-                    </theme_registration_observer>
-                </observers>
-            </theme_registration_from_filesystem>
-            <application_process_reinit_config>
-                <observers>
-                    <reinit_config_observer>
-                        <class>Magento_Core_Model_Observer</class>
-                        <method>processReinitConfig</method>
-                    </reinit_config_observer>
-                </observers>
-            </application_process_reinit_config>
-        </events>
     </global>
     <frontend>
         <design>
@@ -87,15 +53,6 @@
                 <full_name>magento_demo</full_name>
             </theme>
         </design>
-        <routers>
-            <core>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Core</module>
-                    <frontName>core</frontName>
-                </args>
-            </core>
-        </routers>
         <translate>
             <modules>
                 <Magento_Core>
@@ -105,16 +62,6 @@
                 </Magento_Core>
             </modules>
         </translate>
-        <events>
-            <controller_action_layout_render_before>
-                <observers>
-                    <theme>
-                        <class>Magento_Core_Model_Observer</class>
-                        <method>applyThemeCustomization</method>
-                    </theme>
-                </observers>
-            </controller_action_layout_render_before>
-        </events>
     </frontend>
     <adminhtml>
         <translate>
@@ -126,16 +73,6 @@
                 </Magento_Core>
             </modules>
         </translate>
-        <events>
-            <cms_wysiwyg_config_prepare>
-                <observers>
-                    <variable_observer>
-                        <class>Magento_Core_Model_Variable_Observer</class>
-                        <method>prepareWysiwygPluginConfig</method>
-                    </variable_observer>
-                </observers>
-            </cms_wysiwyg_config_prepare>
-        </events>
         <design>
             <theme>
                 <full_name>magento_backend</full_name>
@@ -231,13 +168,6 @@
             </ident_support>
         </trans_email>
         <web>
-            <routers>
-                <standard>
-                    <area>frontend</area>
-                    <class>Magento_Core_Controller_Varien_Router_Base</class>
-                    <base_controller>Magento_Core_Controller_Varien_Action</base_controller>
-                </standard>
-            </routers>
             <url>
                 <use_store>0</use_store>
                 <redirect_to_base>1</redirect_to_base>
@@ -328,19 +258,6 @@
             </customization>
         </theme>
     </default>
-    <stores>
-        <default>
-            <web>
-                <routers>
-                    <standard>
-                        <area>frontend</area>
-                        <class>Magento_Core_Controller_Varien_Router_Base</class>
-                        <base_controller>Magento_Core_Controller_Varien_Action</base_controller>
-                    </standard>
-                </routers>
-            </web>
-        </default>
-    </stores>
     <crontab>
         <jobs>
             <core_clean_cache>

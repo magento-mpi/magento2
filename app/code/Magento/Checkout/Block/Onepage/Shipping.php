@@ -10,8 +10,6 @@
 
 /**
  * One page checkout status
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Checkout_Block_Onepage_Shipping extends Magento_Checkout_Block_Onepage_Abstract
 {

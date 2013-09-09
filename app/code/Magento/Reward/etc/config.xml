@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Reward
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <reward_setup>
+                <setup>
+                    <module>Magento_Reward</module>
+                    <class>Magento_Reward_Model_Resource_Setup</class>
+                </setup>
+            </reward_setup>
+        </resources>
+        <template>
+            <email>
+                <magento_reward_notification_balance_update_template translate="label" module="Magento_Reward">
+                    <label>Balance Update</label>
+                    <file>email/balance_update.html</file>
+                    <type>html</type>
+                </magento_reward_notification_balance_update_template>
+                <magento_reward_notification_expiry_warning_template translate="label" module="Magento_Reward">
+                    <label>Points Expiry Warning</label>
+                    <file>email/expiry_warning.html</file>
+                    <type>html</type>
+                </magento_reward_notification_expiry_warning_template>
+            </email>
+        </template>
+        <sales>
+            <quote>
+                <totals>
+                    <reward>
+                        <class>Magento_Reward_Model_Total_Quote_Reward</class>
+                        <after>weee,discount,tax,tax_subtotal,grand_total</after>
+                        <before>giftcardaccount,customerbalance</before>
+                        <renderer>Magento_Reward_Block_Checkout_Total</renderer>
+                    </reward>
+                </totals>
+            </quote>
+            <order_invoice>
+                <totals>
+                    <reward>
+                        <class>Magento_Reward_Model_Total_Invoice_Reward</class>
+                        <after>grand_total</after>
+                        <before>giftcardaccount,customerbalance</before>
+                    </reward>
+                </totals>
+            </order_invoice>
+            <order_creditmemo>
+                <totals>
+                    <reward>
+                        <class>Magento_Reward_Model_Total_Creditmemo_Reward</class>
+                        <after>weee,discount,tax,grand_total,customerbalance,giftcardaccount</after>
+                    </reward>
+                </totals>
+            </order_creditmemo>
+        </sales>
+        <pdf>
+            <totals>
+                <reward translate="title">
+                    <title>Reward Points</title>
+                    <source_field>reward_currency_amount</source_field>
+                    <font_size>7</font_size>
+                    <display_zero>0</display_zero>
+                    <sort_order>650</sort_order>
+                    <amount_prefix>-</amount_prefix>
+                </reward>
+            </totals>
+        </pdf>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Reward>
+                    <files>
+                        <default>Magento_Reward.csv</default>
+                    </files>
+                </Magento_Reward>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frontend>
+        <translate>
+            <modules>
+                <Magento_Reward>
+                    <files>
+                        <default>Magento_Reward.csv</default>
+                    </files>
+                </Magento_Reward>
+            </modules>
+        </translate>
+    </frontend>
+    <default>
+        <magento_reward>
+            <general>
+                <is_enabled>1</is_enabled>
+                <is_enabled_on_front>1</is_enabled_on_front>
+                <publish_history>1</publish_history>
+                <expiry_calculation>static</expiry_calculation>
+                <landing_page>reward-points</landing_page>
+            </general>
+            <notification>
+                <email_sender>general</email_sender>
+                <subscribe_by_default>1</subscribe_by_default>
+                <balance_update_template>magento_reward_notification_balance_update_template</balance_update_template>
+                <expiry_warning_template>magento_reward_notification_expiry_warning_template</expiry_warning_template>
+            </notification>
+        </magento_reward>
+        <sales>
+            <totals_sort>
+                <reward>80</reward>
+            </totals_sort>
+        </sales>
+    </default>
+    <crontab>
+        <jobs>
+            <magento_reward_balance_warning_notification>
+                <schedule>
+                    <cron_expr>1 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>Magento_Reward_Model_Observer::scheduledBalanceExpireNotification</model>
+                </run>
+            </magento_reward_balance_warning_notification>
+            <magento_reward_expire_points>
+                <schedule>
+                    <cron_expr>1 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>Magento_Reward_Model_Observer::scheduledPointsExpiration</model>
+                </run>
+            </magento_reward_expire_points>
+        </jobs>
+    </crontab>
+</config>

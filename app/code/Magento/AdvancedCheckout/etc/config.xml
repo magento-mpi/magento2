@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_AdvancedCheckout
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_AdvancedCheckout>
+                    <files>
+                        <default>Magento_AdvancedCheckout.csv</default>
+                    </files>
+                </Magento_AdvancedCheckout>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frontend>
+        <translate>
+            <modules>
+                <Magento_AdvancedCheckout>
+                    <files>
+                        <default>Magento_AdvancedCheckout.csv</default>
+                    </files>
+                </Magento_AdvancedCheckout>
+            </modules>
+        </translate>
+    </frontend>
+</config>

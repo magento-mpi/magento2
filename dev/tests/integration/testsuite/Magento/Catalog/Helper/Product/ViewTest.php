@@ -25,7 +25,8 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Mage::getDesign()->setDefaultDesignTheme();
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setDefaultDesignTheme();
         $this->_helper = Mage::helper('Magento_Catalog_Helper_Product_View');
         $request = new Magento_Test_Request();
         $request->setRouteName('catalog')
@@ -35,7 +36,8 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
             'request' => $request,
             'response' => new Magento_Test_Response(),
         );
-        $context = Mage::getObjectManager()->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
+        $context = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
         $this->_controller = Mage::getModel(
             'Magento_Catalog_Controller_Product',
             array(

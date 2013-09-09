@@ -89,6 +89,11 @@ final class Mage
     const DEFAULT_TIMEZONE  = 'UTC';
 
     /**
+     * Magento version
+     */
+    const VERSION = '2.0.0.0-dev43';
+
+    /**
      * Registry collection
      *
      * @var array
@@ -431,19 +436,6 @@ final class Mage
     }
 
     /**
-     * Get design package singleton
-     *
-     * @return Magento_Core_Model_View_DesignInterface
-     */
-    public static function getDesign()
-    {
-        if (!self::$_design) {
-            self::$_design = self::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
-        }
-        return self::$_design;
-    }
-
-    /**
      * Retrieve a config instance
      *
      * This method doesn't suit Magento 2 anymore, it is left only until refactoring, when all calls
@@ -478,7 +470,6 @@ final class Mage
     /**
      * Retrieve model object
      *
-     * @link    Magento_Core_Model_Config::getModelInstance
      * @param   string $modelClass
      * @param   array|object $arguments
      * @return  Magento_Core_Model_Abstract|false

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_PersistentHistory" version="1.0.0.0" active="false">
+        <sequence>
+            <module name="Magento_Persistent"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Persistent"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Wishlist"/>
+            <module name="Magento_Reports"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Core"/>
+        </depends>
+    </module>
+</config>

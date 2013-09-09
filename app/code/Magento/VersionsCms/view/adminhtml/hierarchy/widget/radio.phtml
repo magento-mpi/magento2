@@ -1,0 +1,181 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/** @var $this Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio */
+$uniqueHash   = $this->getUniqHash();
+$uniqueId     = $this->getUniqId();
+$parameters = $this->getParameters();
+?>
+
+<div id="<?php echo $uniqueHash; ?>_new" style="display:none;">
+    <div style="margin: 10px 0;">
+        <input type="radio" name="parameters[radio]" value="0" id="general_<?php echo $uniqueHash; ?>">
+        <label for="general_<?php echo $uniqueHash; ?>"><?php echo __('Single Hierarchy for All Store Views'); ?></label>
+    </div>
+
+    <div style="margin: 10px 0;">
+        <input type="radio" name="parameters[radio]" value="1" id="individual_<?php echo $uniqueHash; ?>">
+        <label for="individual_<?php echo $uniqueHash; ?>"><?php echo __('Specific Hierarchy for Each Store View'); ?></label>
+    </div>
+
+    <?php foreach ($this->getAllStoreViewsList() as $store): ?>
+        <fieldset id="<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>" class="fieldset">
+            <legend class="legend">
+                <span><?php echo __('CMS Hierarchy for') . ' ' . $store['label'] ?></span>
+            </legend>
+
+            <div class="field">
+                <label class="label" for="options_<?php echo $uniqueHash; ?>_anchor_text_<?php echo $store['value']; ?>"><?php echo __('Anchor Custom Text'); ?></label>
+                <div class="control">
+                    <input type="text" class="widget-option input-text" value="<?php echo $this->getParamValue('anchor_text_'.$store['value']); ?>" name="parameters[anchor_text_<?php echo $store['value']; ?>]" id="options_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>anchor_text">
+                    <div id="note_options_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>anchor_text" class="note"><?php echo __('If this value is empty, the node or page name will be used.'); ?></div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label" for="options_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>title"><?php echo __('Anchor Custom Title'); ?></label>
+                <div class="control">
+                    <input type="text" class="widget-option input-text" value="<?php echo $this->getParamValue('title_'.$store['value']); ?>" name="parameters[title_<?php echo $store['value']; ?>]" id="options_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>title">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label"><?php echo __('Node');?></label>
+                <div class="control">
+                    <input style="display:none;" type="text" class="widget-option required-entry" value="<?php echo $this->getParamValue('node_id_'.$store['value']); ?>" name="parameters[node_id_<?php echo $store['value']; ?>]" id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>value" />
+                    <label id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>label" class="widget-option-label"><?php echo __('Not Selected'); ?></label>
+                    <div class="hidden" id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>advice-container"></div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label"for="chooseroptions_<?php echo $uniqueHash; ?>_node_id_<?php echo $store['value']; ?>"></label>
+                <div class="control">
+                    <span id="chooseroptions_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>node_id"></span>
+                    <button onclick="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>.choose()" class="scalable btn-chooser" type="button" id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>control"><span><?php echo __('Select a page or node.'); ?></span></button>
+                </div>
+            </div>
+        </fieldset>
+    <?php endforeach; ?>
+</div>
+
+
+<script type="text/javascript">
+//<![CDATA[
+    <?php foreach ($this->getAllStoreViews() as $store): ?>
+        <?php echo $uniqueId; ?>_<?php echo $store['value']; ?> = new WysiwygWidget.chooser("<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>", "<?php echo $this->getUrl('*/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId.'_'.$store['value'], 'scope_id' => $store['value'], 'scope' => ($store['value'] == 0) ? 'default' : 'store'));?>", {"buttons":{"open":"Select a page or node.","close":"Close"}});
+        if ($("<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>value")) {
+            $("<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>value").advaiceContainer = "<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>advice-container";
+        }
+        $('<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>label').update('<?php echo $this->escapeHtml($this->getLabelByNodeId($this->getParamValue('node_id_'.$store['value'])))?>');
+    <?php endforeach; ?>
+    var storesArray = [<?php echo implode($this->getAllStoreViewIds(), ',')?>];
+
+    var changeHierarchyArray = [];
+    function changeHierarchy()
+    {
+        changeHierarchyArray = $('store_ids') ? $F('store_ids') : storesArray;
+        showHierarchy();
+    }
+
+    function addClassEnable(storeId)
+    {
+        $('options_<?php echo $uniqueHash; ?>_'+storeId+'anchor_text').enable();
+        $('options_<?php echo $uniqueHash; ?>_'+storeId+'title').enable();
+        $('<?php echo $uniqueId; ?>_'+storeId+'value').enable();
+
+        $('<?php echo $uniqueId; ?>_'+storeId+'value').addClassName('required-entry');
+    }
+
+    function showHierarchy()
+    {
+        var a = $$('div [id^="<?php echo $uniqueHash; ?>_"]');
+        a.each(function(div){
+            div.hide();
+        });
+        storesArray.each(function(valId){
+            $('options_<?php echo $uniqueHash; ?>_'+valId+'anchor_text').disable();
+            $('options_<?php echo $uniqueHash; ?>_'+valId+'title').disable()
+            $('<?php echo $uniqueId; ?>_'+valId+'value').disable();
+
+            $('<?php echo $uniqueId; ?>_'+valId+'value').removeClassName('required-entry');
+        });
+        if ($('general_<?php echo $uniqueHash; ?>').checked) {
+            $('<?php echo $uniqueHash; ?>_0').show();
+            addClassEnable(0);
+        } else if ($('individual_<?php echo $uniqueHash; ?>').checked) {
+            var showAll = false;
+            changeHierarchyArray.each(function(id){
+                if (id == 0) {
+                    showAll = true;
+                    a.each(function(div){
+                        div.show();
+                    });
+                    storesArray.each(function(id){
+                        if (id != 0) {
+                            $('<?php echo $uniqueHash; ?>_'+id).show();
+                            addClassEnable(id);
+                        }
+                    });
+                }
+            });
+
+            changeHierarchyArray.each(function(id){
+                if (id != 0) {
+                    $('<?php echo $uniqueHash; ?>_'+id).show();
+                    addClassEnable(id);
+                }
+            });
+            $('<?php echo $uniqueHash; ?>_0').hide();
+        }
+    }
+
+    function hideOldHierarchy()
+    {
+        $('options_<?php echo $uniqueHash; ?>').insert({
+            top: new Element('div', {id: 'real_<?php echo $uniqueHash; ?>_real'}).update($('<?php echo $uniqueHash; ?>_new').innerHTML)
+        });
+        $('<?php echo $uniqueHash; ?>_new').remove();
+        $('options_<?php echo $uniqueHash; ?>_anchor_text').up('table').setStyle({
+            display: 'none'
+        });
+        $('<?php echo $uniqueId; ?>label').remove();
+        $('options_<?php echo $uniqueHash; ?>_title').remove();
+        $('options_<?php echo $uniqueHash; ?>_anchor_text').remove();
+        $('chooseroptions_<?php echo $uniqueHash; ?>_node_id').remove();
+        $('note_options_<?php echo $uniqueHash; ?>_anchor_text').remove();
+        $('<?php echo $uniqueId; ?>advice-container').remove();
+        $('<?php echo $uniqueId; ?>control').remove();
+        $('<?php echo $uniqueId; ?>value').remove();
+    }
+
+    document.observe('dom:loaded', function() {
+        $('<?php echo $uniqueHash; ?>_0').insert({after:$('individual_<?php echo $uniqueHash; ?>').up()});
+        hideOldHierarchy();
+
+        if ($('store_ids')) {
+            $('store_ids').observe('change', changeHierarchy);
+        }
+
+        <?php if (isset($parameters['radio']) && $parameters['radio']): ?>
+            $('individual_<?php echo $uniqueHash; ?>').checked = true;
+        <?php else: ?>
+            $('general_<?php echo $uniqueHash; ?>').checked = true;
+        <?php endif; ?>
+
+        changeHierarchy();
+
+        $('general_<?php echo $uniqueHash; ?>').observe('click', showHierarchy);
+        $('individual_<?php echo $uniqueHash; ?>').observe('click', showHierarchy);
+        showHierarchy();
+    });
+//]]>
+</script>

@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_GiftCardAccount
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <giftcardaccount_setup>
+                <setup>
+                    <module>Magento_GiftCardAccount</module>
+                    <class>Magento_GiftCardAccount_Model_Resource_Setup</class>
+                </setup>
+            </giftcardaccount_setup>
+        </resources>
+        <sales>
+            <quote>
+                <totals>
+                    <giftcardaccount>
+                        <class>Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount</class>
+                        <after>weee,discount,tax,tax_subtotal,grand_total</after>
+                        <before>customerbalance</before>
+                        <renderer>Magento_GiftCardAccount_Block_Checkout_Cart_Total</renderer>
+                    </giftcardaccount>
+                </totals>
+            </quote>
+            <order_invoice>
+                <totals>
+                    <giftcardaccount>
+                        <class>Magento_GiftCardAccount_Model_Total_Invoice_Giftcardaccount</class>
+                        <after>discount,tax,grand_total</after>
+                        <before>customerbalance</before>
+                    </giftcardaccount>
+                </totals>
+            </order_invoice>
+            <order_creditmemo>
+                <totals>
+                    <giftcardaccount>
+                        <class>Magento_GiftCardAccount_Model_Total_Creditmemo_Giftcardaccount</class>
+                        <after>weee,discount,tax,grand_total,customerbalance</after>
+                    </giftcardaccount>
+                </totals>
+            </order_creditmemo>
+        </sales>
+        <magento>
+            <giftcardaccount>
+                <separator>-</separator>
+                <charset>
+                    <alphanum>ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</alphanum>
+                    <alpha>ABCDEFGHIJKLMNOPQRSTUVWXYZ</alpha>
+                    <num>0123456789</num>
+                </charset>
+            </giftcardaccount>
+        </magento>
+        <template>
+            <email>
+                <giftcard_giftcardaccount_email_template translate="label" module="Magento_GiftCardAccount">
+                    <label>Gift Card Code/Balance</label>
+                    <file>email/card_information.html</file>
+                    <type>html</type>
+                </giftcard_giftcardaccount_email_template>
+            </email>
+        </template>
+        <pdf>
+            <totals>
+                <magento_giftcardaccount translate="title">
+                    <title>Gift Cards</title>
+                    <source_field>gift_cards_amount</source_field>
+                    <amount_prefix>-</amount_prefix>
+                    <font_size>7</font_size>
+                    <display_zero>0</display_zero>
+                    <sort_order>550</sort_order>
+                </magento_giftcardaccount>
+            </totals>
+        </pdf>
+    </global>
+    <frontend>
+        <translate>
+            <modules>
+                <Magento_GiftCardAccount>
+                    <files>
+                        <default>Magento_GiftCardAccount.csv</default>
+                    </files>
+                </Magento_GiftCardAccount>
+            </modules>
+        </translate>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_GiftCardAccount>
+                    <files>
+                        <default>Magento_GiftCardAccount.csv</default>
+                    </files>
+                </Magento_GiftCardAccount>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <giftcard>
+            <giftcardaccount_email>
+                <identity>general</identity>
+                <template>giftcard_giftcardaccount_email_template</template>
+            </giftcardaccount_email>
+            <giftcardaccount_general>
+                <code_length>12</code_length>
+                <code_format>alphanum</code_format>
+                <code_split>0</code_split>
+                <pool_size>1000</pool_size>
+                <pool_threshold>100</pool_threshold>
+            </giftcardaccount_general>
+        </giftcard>
+        <sales>
+            <totals_sort>
+                <giftcardaccount>90</giftcardaccount>
+            </totals_sort>
+        </sales>
+    </default>
+    <crontab>
+        <jobs>
+            <magento_giftcardaccount_update_states>
+                <schedule>
+                    <cron_expr>0 1 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>Magento_GiftCardAccount_Model_Cron::updateStates</model>
+                </run>
+            </magento_giftcardaccount_update_states>
+            <magento_giftcardaccount_generage_codes_pool>
+                <schedule>
+                    <cron_expr>30 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>Magento_GiftCardAccount_Model_Pool::applyCodesGeneration</model>
+                </run>
+            </magento_giftcardaccount_generage_codes_pool>
+        </jobs>
+    </crontab>
+</config>

@@ -17,7 +17,8 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
      */
     public function testToHtmlHasIndex()
     {
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
 
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Mage::getModel(

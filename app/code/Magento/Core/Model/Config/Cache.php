@@ -16,44 +16,16 @@ class Magento_Core_Model_Config_Cache
     protected $_cacheId = 'config_global';
 
     /**
-     * Cache lock id
-     *
-     * @var string
-     */
-    protected $_cacheLockId;
-
-    /**
      * Container factory model
-     *
-     * @var Magento_Core_Model_Config_ContainerFactory
-     */
-    protected $_containerFactory;
-
-    /**
-     * Base config factory model
      *
      * @var Magento_Core_Model_Config_BaseFactory
      */
-    protected $_baseFactory;
+    protected $_containerFactory;
 
     /**
      * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
-
-    /**
-     * Configuration sections
-     *
-     * @var Magento_Core_Model_Config_Sections
-     */
-    protected $_configSections;
-
-    /**
-     * List of configuration parts for save in cache
-     *
-     * @var array
-     */
-    protected $_cachePartsForSave;
 
     /**
      * Cache lifetime in seconds
@@ -65,75 +37,20 @@ class Magento_Core_Model_Config_Cache
     /**
      * Config container
      *
-     * @var Magento_Core_Model_Config_Container
+     * @var Magento_Core_Model_Config_Base
      */
     protected $_loadedConfig = null;
 
     /**
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Config_Sections $configSections
-     * @param Magento_Core_Model_Config_ContainerFactory $containerFactory
-     * @param Magento_Core_Model_Config_BaseFactory $baseFactory
+     * @param Magento_Core_Model_Config_BaseFactory $containerFactory
      */
     public function __construct(
         Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Config_Sections $configSections,
-        Magento_Core_Model_Config_ContainerFactory $containerFactory,
-        Magento_Core_Model_Config_BaseFactory $baseFactory
+        Magento_Core_Model_Config_BaseFactory $containerFactory
     ) {
         $this->_containerFactory = $containerFactory;
         $this->_configCacheType = $configCacheType;
-        $this->_configSections = $configSections;
-        $this->_cacheLockId = $this->_cacheId . '.lock';
-        $this->_baseFactory = $baseFactory;
-    }
-
-    /**
-     * Save cache of specified
-     *
-     * @param   string $idPrefix cache id prefix
-     * @param   string $sectionName
-     * @param   Magento_Simplexml_Element $source
-     * @param   int $recursionLevel
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    protected function _saveSectionCache($idPrefix, $sectionName, $source, $recursionLevel = 0)
-    {
-        if ($source && $source->$sectionName) {
-            $cacheId = $idPrefix . '_' . $sectionName;
-            if ($recursionLevel > 0) {
-                foreach ($source->$sectionName->children() as $subSectionName => $node) {
-                    $this->_saveSectionCache($cacheId, $subSectionName, $source->$sectionName, $recursionLevel-1);
-                }
-            }
-            $this->_cachePartsForSave[$cacheId] = $source->$sectionName->asNiceXml('', false);
-        }
-    }
-
-    /**
-     * Lock caching to prevent concurrent cache writes
-     */
-    protected function _lock()
-    {
-        $this->_configCacheType->save((string)time(), $this->_cacheLockId, array(), 60);
-    }
-
-    /**
-     * Unlock caching
-     */
-    protected function _unlock()
-    {
-        $this->_configCacheType->remove($this->_cacheLockId);
-    }
-
-    /**
-     * Check whether caching is locked
-     *
-     * @return bool
-     */
-    protected function _isLocked()
-    {
-        return (bool)$this->_configCacheType->load($this->_cacheLockId);
     }
 
     /**
@@ -162,12 +79,12 @@ class Magento_Core_Model_Config_Cache
     public function load()
     {
         if (!$this->_loadedConfig) {
-            $config = (false == $this->_isLocked()) ? $this->_configCacheType->load($this->_cacheId) : false;
+            $config = $this->_configCacheType->load($this->_cacheId);
             if ($config) {
-                $this->_loadedConfig = $this->_containerFactory->create(array('sourceData' => $config));
+                $this->_loadedConfig = $this->_containerFactory->create($config);
             }
         }
-        return $this->_loadedConfig ? $this->_loadedConfig : false;
+        return $this->_loadedConfig ? : false;
     }
 
     /**
@@ -177,24 +94,9 @@ class Magento_Core_Model_Config_Cache
      */
     public function save(Magento_Core_Model_Config_Base $config)
     {
-        if (false == $this->_isLocked()) {
-            $cacheSections = $this->_configSections->getSections();
-            $xml = clone $config->getNode();
-            if (!empty($cacheSections)) {
-                foreach ($cacheSections as $sectionName => $level) {
-                    $this->_saveSectionCache($this->_cacheId, $sectionName, $xml, $level);
-                    unset($xml->$sectionName);
-                }
-            }
-            $this->_cachePartsForSave[$this->_cacheId] = $xml->asNiceXml('', false);
-            $this->_lock();
-            $this->clean();
-            foreach ($this->_cachePartsForSave as $cacheId => $cacheData) {
-                $this->_configCacheType->save((string)$cacheData, $cacheId, array(), $this->_cacheLifetime);
-            }
-            unset($this->_cachePartsForSave);
-            $this->_unlock();
-        }
+        $this->_configCacheType->save(
+            $config->getNode()->asNiceXml('', false), $this->_cacheId, array(), $this->_cacheLifetime
+        );
     }
 
     /**
@@ -206,22 +108,5 @@ class Magento_Core_Model_Config_Cache
     {
         $this->_loadedConfig = null;
         return $this->_configCacheType->clean();
-    }
-
-    /**
-     * Load config section cached data
-     *
-     * @param   string $sectionKey
-     * @return  Magento_Core_Model_Config_Base|bool
-     * @throws  Magento_Core_Model_Config_Cache_Exception
-     */
-    public function getSection($sectionKey)
-    {
-        $cacheId = $this->_cacheId . '_' . $sectionKey;
-        $xmlString = $this->_configCacheType->load($cacheId);
-        if ($xmlString) {
-            return $this->_baseFactory->create($xmlString);
-        }
-        throw new Magento_Core_Model_Config_Cache_Exception();
     }
 }
