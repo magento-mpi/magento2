@@ -10,12 +10,8 @@
  */
 class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Magento_Logging_Model_Config_Reader
-     */
-    protected $_model;
 
-    public function setUp()
+    public function testRead()
     {
         /** @var Magento_Core_Model_Dir $dirs */
         $dirs = Mage::getObjectManager()->create(
@@ -66,18 +62,52 @@ class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         );
 
         $schema = __DIR__ . '/../../../../../../../../app/code/Magento/Logging/etc/logging.xsd';
-        $this->_model = Mage::getObjectManager()->create(
+
+        /** @var Magento_Logging_Model_Config_Reader $model */
+        $model = Mage::getObjectManager()->create(
             'Magento_Logging_Model_Config_Reader', array(
                 'moduleReader' => $moduleReader,
                 'fileResolver' => $fileResolver,
                 'schema' => $schema
             )
         );
+
+        $result = $model->read('global');
+        $expected = include '_files/expectedArray.php';
+        $this->assertEquals($expected, $result);
     }
 
-    public function testRead()
+    /**
+     * @expectedException Magento_Exception
+     * @expectedExceptionMessage Element 'expected_model': This element is not expected. Expected is ( skip_on_back ).
+     */
+    public function testMargeCompleteAndPartial()
     {
-        $result = $this->_model->read('global');
+        $fileList = array(
+            __DIR__ . '/_files/customerBalance.xml',
+            __DIR__ . '/_files/reward.xml'
+        );
+        $fileResolverMock = $this->getMockBuilder('Magento_Config_FileResolverInterface')
+            ->setMethods(array('get'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $fileResolverMock->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo('logging.xml'), $this->equalTo('global'))
+            ->will($this->returnValue($fileList));
+
+        $schema = __DIR__ . '/../../../../../../../../app/code/Magento/Logging/etc/logging.xsd';
+        $perFileSchema = __DIR__ . '/../../../../../../../../app/code/Magento/Logging/etc/logging_file.xsd';
+
+        /** @var Magento_Logging_Model_Config_Reader $model */
+        $model = Mage::getObjectManager()->create(
+            'Magento_Logging_Model_Config_Reader', array(
+                'fileResolver' => $fileResolverMock,
+                'schema' => $schema,
+                'perFileSchema' => $perFileSchema
+            )
+        );
+        $result = $model->read('global');
         $expected = include '_files/expectedArray.php';
         $this->assertEquals($expected, $result);
     }
