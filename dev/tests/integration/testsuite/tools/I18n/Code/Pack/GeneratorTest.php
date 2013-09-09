@@ -10,9 +10,6 @@ namespace Magento\Tools\I18n\Code\Pack;
 
 use Magento\Tools\I18n\Code\ServiceLocator;
 
-/**
- * @SuppressWarnings(PHPMD.LongVariable)
- */
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**

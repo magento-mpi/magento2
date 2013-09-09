@@ -8,6 +8,9 @@
 
 namespace Magento\Tools\I18n\Code\Pack;
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
