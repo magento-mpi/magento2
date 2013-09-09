@@ -10,14 +10,15 @@ class Magento_GiftMessage_Model_Plugin_QuoteItem
     /** @var \Magento_GiftMessage_Helper_Message */
     protected $_helper;
 
-    /** @var \Magento_GiftMessage_Model_Message */
-    protected $_message;
+    /** @var \Magento_GiftMessage_Model_MessageFactory */
+    protected $_messageFactory;
 
-    public function __construct(Magento_GiftMessage_Helper_Message $helper,
-            Magento_GiftMessage_Model_Message $message)
-    {
+    public function __construct(
+        Magento_GiftMessage_Helper_Message $helper,
+        Magento_GiftMessage_Model_MessageFactory $messageFactory
+    ) {
         $this->_helper = $helper;
-        $this->_message = $message;
+        $this->_messageFactory = $messageFactory;
     }
 
     /**
@@ -48,7 +49,7 @@ class Magento_GiftMessage_Model_Plugin_QuoteItem
         /** @var $quoteItem Magento_Sales_Model_Quote_Item */
         $quoteItem = reset($arguments);
         if ($giftMessageId = $orderItem->getGiftMessageId()) {
-            $giftMessage = $this->_message->load($giftMessageId)
+            $giftMessage = $this->_messageFactory->create()->load($giftMessageId)
                 ->setId(null)
                 ->save();
             $quoteItem->setGiftMessageId($giftMessage->getId());

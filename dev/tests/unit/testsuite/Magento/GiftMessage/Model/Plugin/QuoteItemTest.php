@@ -5,22 +5,41 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Magento_GiftMessage_Model_Plugin_QuoteItemTest extends Magento_Bundle_Model_Plugin_QuoteItemParent
+class Magento_GiftMessage_Model_Plugin_QuoteItemTest extends PHPUnit_Framework_TestCase
 {
+    /** @var Magento_Bundle_Model_Plugin_QuoteItem */
+    protected $_model;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_quoteItemMock;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_invocationChainMock;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_orderItemMock;
+
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_helperMock;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_messageFactoryMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_messageMock;
 
     protected function setUp()
     {
-        parent::setUp();
+        $this->_orderItemMock = $this->getMock('Magento_Sales_Model_Order_Item', array(), array(), '', false);
+        $this->_quoteItemMock = $this->getMock('Magento_Sales_Model_Quote_Item', array(), array(), '', false);
+        $this->_messageMock = $this->getMock('Magento_GiftMessage_Model_Message', array(), array(), '', false);
+        $this->_invocationChainMock = $this->getMock('Magento_Code_Plugin_InvocationChain',
+            array(), array(), '', false);
         $this->_helperMock = $this->getMock('Magento_GiftMessage_Helper_Message',
             array('setGiftMessageId', 'isMessagesAvailable'), array(), '', false);
-        $this->_messageMock = $this->getMock('Magento_GiftMessage_Model_Message', array(), array(), '', false);
-        $this->_model = new Magento_GiftMessage_Model_Plugin_QuoteItem($this->_helperMock, $this->_messageMock);
+        $this->_messageFactoryMock = $this->getMock('Magento_GiftMessage_Model_MessageFactory',
+            array('create'), array(), '', false);
+        $this->_model = new Magento_GiftMessage_Model_Plugin_QuoteItem($this->_helperMock, $this->_messageFactoryMock);
     }
 
     public function testAroundItemToOrderItemReordered()
@@ -65,8 +84,8 @@ class Magento_GiftMessage_Model_Plugin_QuoteItemTest extends Magento_Bundle_Mode
         $orderItemMock->expects($this->once())->method('getOrder')->will($this->returnValue(false));
         $this->_helperMock->expects($this->once())->method('isMessagesAvailable')->will($this->returnValue(true));
         $orderItemMock->expects($this->once())->method('getGiftMessageId')->will($this->returnValue(false));
-
-        $this->_messageMock->expects($this->exactly(0))->method('load');
+        $this->_messageMock->expects($this->never())->method('load');
+        $this->_messageFactoryMock->expects($this->never())->method('create');
 
         $orderItem = $this->_model->aroundItemToOrderItem(array($this->_quoteItemMock), $this->_invocationChainMock);
         $this->assertSame($orderItemMock, $orderItem);
@@ -91,6 +110,10 @@ class Magento_GiftMessage_Model_Plugin_QuoteItemTest extends Magento_Bundle_Mode
             ->will($this->returnValue($this->_messageMock));
         $this->_messageMock->expects($this->once())->method('save')->will($this->returnValue($this->_messageMock));
         $this->_messageMock->expects($this->once())->method('getId');
+
+        $this->_messageFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->_messageMock));
 
         $quoteItemMock = $this->getMock('Magento_Sales_Model_Quote_Item',
             array('setGiftMessageId'), array(), '', false);

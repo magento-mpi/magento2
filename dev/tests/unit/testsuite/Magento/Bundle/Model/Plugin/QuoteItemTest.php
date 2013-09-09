@@ -5,11 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Bundle_Model_Plugin_QuoteItemTest extends Magento_Bundle_Model_Plugin_QuoteItemParent
+class Magento_Bundle_Model_Plugin_QuoteItemTest extends PHPUnit_Framework_TestCase
 {
+    /** @var Magento_Bundle_Model_Plugin_QuoteItem */
+    protected $_model;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_quoteItemMock;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_invocationChainMock;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_orderItemMock;
+
     protected function setUp()
     {
-        parent::setUp();
+        $this->_orderItemMock = $this->getMock('Magento_Sales_Model_Order_Item', array(), array(), '', false);
+        $this->_quoteItemMock = $this->getMock('Magento_Sales_Model_Quote_Item', array(), array(), '', false);
+        $this->_invocationChainMock = $this->getMock('Magento_Code_Plugin_InvocationChain',
+            array(), array(), '', false);
+
         $this->_model = new Magento_Bundle_Model_Plugin_QuoteItem();
     }
 
@@ -37,7 +53,7 @@ class Magento_Bundle_Model_Plugin_QuoteItemTest extends Magento_Bundle_Model_Plu
             ->will($this->returnValue(false));
         $this->_quoteItemMock->expects($this->once())->method('getProduct')
             ->will($this->returnValue($productMock));
-        $this->_orderItemMock->expects($this->exactly(0))->method('setProductOptions');
+        $this->_orderItemMock->expects($this->never())->method('setProductOptions');
         $this->_invocationChainMock->expects($this->once())->method('proceed')
             ->will($this->returnValue($this->_orderItemMock));
 
