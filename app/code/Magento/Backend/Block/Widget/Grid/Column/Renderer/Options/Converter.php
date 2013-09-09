@@ -20,7 +20,9 @@ class Converter
         $options = array();
         if (is_array($treeData)) {
             foreach ($treeData as $item) {
-                $options[$item['value']] = $item['label'];
+                if (isset($item['value']) && isset($item['label'])) {
+                    $options[$item['value']] = $item['label'];
+                }
             }
         }
         return $options;

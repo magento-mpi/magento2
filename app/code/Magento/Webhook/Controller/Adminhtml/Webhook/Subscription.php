@@ -165,7 +165,10 @@ class Subscription extends \Magento\Backend\Controller\ActionAbstract
             $subscriptionData = $this->_initSubscriptionData();
             if ($this->_isCreatedByUser($subscriptionData)) {
                 try {
-                    $this->_subscriptionService->delete($subscriptionData[self::DATA_SUBSCRIPTION_ID]);
+                    $subscriptionId = isset($subscriptionData[self::DATA_SUBSCRIPTION_ID])
+                        ? $subscriptionData[self::DATA_SUBSCRIPTION_ID]
+                        : null;
+                    $this->_subscriptionService->delete($subscriptionId);
                     $this->_getSession()->addSuccess(
                         __('The subscription \'%1\' has been removed.',
                         $subscriptionData[self::DATA_NAME])
