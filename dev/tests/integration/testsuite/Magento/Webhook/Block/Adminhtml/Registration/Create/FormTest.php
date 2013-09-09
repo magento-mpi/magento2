@@ -20,7 +20,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends PHPUn
         $layout = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout');
 
         /** @var Magento_Core_Model_Registry $registry */
-        $registry = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Registry');
+        $registry = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry');
         $subscriptionData = array(
             'subscription_id' => '333',
         );

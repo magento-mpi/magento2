@@ -19,7 +19,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends PHPUnit_Fram
 
     public function setUp()
     {
-        $this->_registry = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Registry');
+        $this->_registry = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry');
     }
 
     public function tearDown()
