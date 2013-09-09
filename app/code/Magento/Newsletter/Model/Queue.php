@@ -86,17 +86,19 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
     protected $_newsletterData = null;
 
     /**
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Newsletter_Helper_Data $newsletterData
      * @param Magento_Core_Model_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_View_DesignInterface $design,
         Magento_Newsletter_Helper_Data $newsletterData,
         Magento_Core_Model_Context $context,
         array $data = array()
     ) {
         $this->_newsletterData = $newsletterData;
-        parent::__construct($context, $data);
+        parent::__construct($design, $context, $data);
     }
 
     /**
