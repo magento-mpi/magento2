@@ -76,7 +76,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     /**
      * @var Magento_Core_Model_View_DesignInterface
      */
-    private $_design;
+    protected $_design;
 
     /**
      * Layout Update module
@@ -192,6 +192,14 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected $_factoryHelper = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager_Proxy
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Model_Factory_Helper $factoryHelper
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_DesignInterface $design
@@ -203,6 +211,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param string $area
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Model_Factory_Helper $factoryHelper,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_DesignInterface $design,
@@ -213,6 +222,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         Magento_Core_Model_DataService_Graph $dataServiceGraph,
         $area = Magento_Core_Model_View_DesignInterface::DEFAULT_AREA
     ) {
+        $this->_eventManager = $eventManager;
         $this->_factoryHelper = $factoryHelper;
         $this->_coreData = $coreData;
         $this->_design = $design;
@@ -1159,7 +1169,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             $this->_renderElementCache[$name] = $result;
         }
         $this->_renderingOutput->setData('output', $this->_renderElementCache[$name]);
-        Mage::dispatchEvent('core_layout_render_element', array(
+        $this->_eventManager->dispatch('core_layout_render_element', array(
             'element_name' => $name,
             'layout'       => $this,
             'transport'    => $this->_renderingOutput,
@@ -1433,7 +1443,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $block->setLayout($this);
 
         $this->_blocks[$name] = $block;
-        Mage::dispatchEvent('core_layout_block_create_after', array('block' => $block));
+        $this->_eventManager->dispatch('core_layout_block_create_after', array('block' => $block));
         return $this->_blocks[$name];
     }
 
