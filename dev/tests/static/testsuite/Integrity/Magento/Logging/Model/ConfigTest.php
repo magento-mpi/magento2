@@ -45,7 +45,7 @@ class Integrity_Magento_Logging_Model_ConfigTest extends Integrity_ConfigAbstrac
      *
      * @return string
      */
-    protected function _getKnownValidPartialXml()
+    protected function _getKnownValidFileXml()
     {
         return __DIR__ . '/_files/logging_file.xml';
     }
@@ -58,6 +58,16 @@ class Integrity_Magento_Logging_Model_ConfigTest extends Integrity_ConfigAbstrac
     protected function _getKnownInvalidPartialXml()
     {
         return __DIR__ . '/_files/invalid_logging.xml';
+    }
+
+    /**
+     * The location of a known valid partial xml that both creates and extends existing data
+     *
+     * @return string
+     */
+    protected function _getKnownValidPartialXml()
+    {
+        return __DIR__ . '/_files/partial_logging.xml';
     }
 
     /**
