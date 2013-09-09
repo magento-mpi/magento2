@@ -19,7 +19,6 @@ $magentoBaseDir = realpath("$testsBaseDir/../../../");
 Magento_Autoload_IncludePath::addIncludePath(array(
     "$testsBaseDir/framework",
     "$testsBaseDir/testsuite",
-    "$magentoBaseDir/dev/lib",
 ));
 
 /* Bootstrap the application */
