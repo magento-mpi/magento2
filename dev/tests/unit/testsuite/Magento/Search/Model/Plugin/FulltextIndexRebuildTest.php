@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Search_Model_Plugin_FulltextIndexRebuildText extends PHPUnit_Framework_TestCase
+class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Search_Model_Plugin_FulltextIndexRebuild
@@ -30,7 +30,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildText extends PHPUnit_Frame
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_applicationMock;
+    protected $_cacheMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -51,7 +51,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildText extends PHPUnit_Frame
     {
         $this->_searchHelperMock = $this->getMock('Magento_Search_Helper_Data', array(), array(), '', false);
         $this->_catalogHelperMock = $this->getMock('Magento_CatalogSearch_Helper_Data', array(), array(), '', false);
-        $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
+        $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false);
         $this->_searchEngineMock = $this->getMock('Magento_Search_Model_Resource_Engine', array(), array(), '', false);
         $this->_fulltextSearchMock = $this->getMock(
             'Magento_CatalogSearch_Model_Fulltext',  array(), array(), '', false
@@ -66,7 +66,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildText extends PHPUnit_Frame
             $this->_searchHelperMock,
             $this->_catalogHelperMock,
             $this->_filterPriceMock,
-            $this->_applicationMock
+            $this->_cacheMock
         );
     }
 
@@ -226,8 +226,8 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildText extends PHPUnit_Frame
             ->method('getCacheTag')
             ->will($this->returnValue($cacheTag));
 
-        $this->_applicationMock->expects($this->once())
-            ->method('cleanCache')
+        $this->_cacheMock->expects($this->once())
+            ->method('clean')
             ->will($this->returnValue(array($cacheTag)));
 
         $this->assertEquals($this->_fulltextSearchMock, $this->_model->afterRebuildIndex($this->_fulltextSearchMock));
@@ -265,8 +265,8 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildText extends PHPUnit_Frame
             ->method('getCacheTag')
             ->will($this->returnValue($cacheTag));
 
-        $this->_applicationMock->expects($this->once())
-            ->method('cleanCache')
+        $this->_cacheMock->expects($this->once())
+            ->method('clean')
             ->will($this->returnValue(array($cacheTag)));
 
         $this->assertEquals($this->_fulltextSearchMock, $this->_model->afterRebuildIndex($this->_fulltextSearchMock));

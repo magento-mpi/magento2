@@ -1,5 +1,7 @@
 <?php
 /**
+ * Pluginization of Magento_CatalogSearch_Model_Fulltext model
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -23,26 +25,26 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuild
     protected $_layerFilterPrice;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var Magento_Core_Model_CacheInterface
      */
-    protected $_app;
+    protected $_cache;
 
     /**
      * @param Magento_Search_Helper_Data $searchHelper
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchHelper
      * @param Magento_Search_Model_Catalog_Layer_Filter_Price $layerFilterPrice
-     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_CacheInterface $cache
      */
     public function __construct(
         Magento_Search_Helper_Data $searchHelper,
         Magento_CatalogSearch_Helper_Data $catalogSearchHelper,
         Magento_Search_Model_Catalog_Layer_Filter_Price $layerFilterPrice,
-        Magento_Core_Model_App $app
+        Magento_Core_Model_CacheInterface $cache
     ) {
         $this->_searchHelper = $searchHelper;
         $this->_catalogSearchHelper = $catalogSearchHelper;
         $this->_layerFilterPrice = $layerFilterPrice;
-        $this->_app = $app;
+        $this->_cache = $cache;
     }
 
     /**
@@ -54,7 +56,6 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuild
     public function beforeRebuildIndex(array $arguments)
     {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
-
             $engine = $this->_catalogSearchHelper->getEngine();
             if ($engine->holdCommit() && is_null($arguments['productIds'])) {
                 $engine->setIndexNeedsOptimization();
@@ -72,7 +73,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuild
      * @param Magento_CatalogSearch_Model_Fulltext $result
      * @return Magento_CatalogSearch_Model_Fulltext
      */
-    public function afterRebuildIndex($result)
+    public function afterRebuildIndex(Magento_CatalogSearch_Model_Fulltext $result)
     {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
 
@@ -89,7 +90,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuild
                  * Cleaning MAXPRICE cache
                  */
                 $cacheTag = $this->_layerFilterPrice->getCacheTag();
-                $this->_app->cleanCache(array($cacheTag));
+                $this->_cache->clean(array($cacheTag));
             }
         }
 
