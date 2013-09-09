@@ -31,7 +31,7 @@ class Magento_Core_Controller_Response_Http extends Zend_Controller_Response_Htt
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
-    function __construct(Magento_Core_Model_Event_Manager $eventManager)
+    public function __construct(Magento_Core_Model_Event_Manager $eventManager)
     {
         $this->_eventManager = $eventManager;
     }
