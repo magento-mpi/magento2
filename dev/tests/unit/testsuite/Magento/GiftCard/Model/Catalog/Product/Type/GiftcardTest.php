@@ -56,7 +56,9 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
      */
     protected function setUp()
     {
-        $this->_store = $this->getMock('Magento_Core_Model_Store', array('getCurrentCurrencyRate'), array(), '', false);
+        $this->_store = $this->getMock(
+            'Magento_Core_Model_Store', array('getCurrentCurrencyRate', '__sleep', '__wakeup'), array(), '', false
+        );
         $this->_storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
