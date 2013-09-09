@@ -33,11 +33,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $reflectionMethod = $reflectionObject->getMethod('_translateArgument');
         $reflectionMethod->setAccessible(true);
         $result = $reflectionMethod->invoke($this->_layout, new Magento_Simplexml_Element($argument));
-        if ($isTranslatable) {
-            $this->assertInstanceOf('Magento_Phrase', $result);
-        } else {
-            $this->assertInternalType('string', $result);
-        }
+        $this->assertInternalType('string', $result);
     }
 
     /**
@@ -66,12 +62,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $result = $reflectionMethod->invoke($this->_layout, new Magento_Core_Model_Layout_Element($layoutElement));
         $argument = $method == '_readArguments' ? $result['argumentName']['value'] : $result['argumentName'];
 
-
-        if ($isTranslatable) {
-            $this->assertInstanceOf('Magento_Phrase', $argument);
-        } else {
-            $this->assertInternalType('string', $argument);
-        }
+        $this->assertInternalType('string', $argument);
     }
 
     /**

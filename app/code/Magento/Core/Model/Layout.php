@@ -564,7 +564,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * Translate argument if needed
      *
      * @param Magento_Simplexml_Element $argument
-     * @return Magento_Phrase|string
+     * @return string
      */
     protected function _translateArgument(Magento_Simplexml_Element $argument)
     {
