@@ -29,16 +29,24 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     protected $_viewUrl;
 
     /**
+     * @var Magento_File_Size
+     */
+    protected $_fileSizeService;
+
+    /**
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_File_Size $fileSize
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_View_Url $viewUrl,
+        Magento_File_Size $fileSize,
         array $data = array()
     ) {
         $this->_viewUrl = $viewUrl;
+        $this->_fileSizeService = $fileSize;
         parent::__construct($context, $data);
     }
 
@@ -48,7 +56,8 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
 
         $this->setId($this->getId() . '_Uploader');
 
-        $this->getConfig()->setUrl(Mage::getModel('Magento_Backend_Model_Url')->addSessionParam()->getUrl('*/*/upload'));
+        $uploadUrl = Mage::getModel('Magento_Backend_Model_Url')->addSessionParam()->getUrl('*/*/upload');
+        $this->getConfig()->setUrl($uploadUrl);
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('file');
         $this->getConfig()->setFilters(array(
@@ -65,6 +74,16 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
                 'files' => array('*.*')
             )
         ));
+    }
+
+    /**
+     * Get file size
+     *
+     * @return Magento_File_Size
+     */
+    public function getFileSizeService()
+    {
+        return $this->_fileSizeService;
     }
 
     /**

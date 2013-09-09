@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_customer_wishlist">
+        <reference name="customer.wishlist.edit.tab">
+            <arguments>
+                <argument name="product_configuration_helpers" xsi:type="array">
+                    <item name="giftcard" xsi:type="string">Magento_GiftCard_Helper_Catalog_Product_Configuration</item>
+                </argument>
+            </arguments>
+        </reference>
+    </handle>
+</layout>

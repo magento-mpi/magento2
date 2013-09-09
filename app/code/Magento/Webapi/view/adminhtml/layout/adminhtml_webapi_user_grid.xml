@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_webapi_user_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_webapi_user_grid">
         <update handle="formkey"/>
         <update handle="adminhtml_webapi_user_grid_block"/>
         <container name="webapi_user.grid.container" label="API Users Grid Container" output="1"/>
-    </adminhtml_webapi_user_grid>
+    </handle>
 </layout>

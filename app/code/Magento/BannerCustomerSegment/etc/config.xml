@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <bannercustomersegment_setup>
+                <setup>
+                    <module>Magento_BannerCustomerSegment</module>
+                </setup>
+            </bannercustomersegment_setup>
+        </resources>
+    </global>
+</config>

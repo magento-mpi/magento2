@@ -16,7 +16,7 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Email_Sender extends Magento_Core_Model_Config_Data
+class Magento_Backend_Model_Config_Backend_Email_Sender extends Magento_Core_Model_Config_Value
 {
     /**
      * Check sender name validity

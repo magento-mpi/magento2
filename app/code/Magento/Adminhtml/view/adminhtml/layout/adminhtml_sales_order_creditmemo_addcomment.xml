@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_creditmemo_addcomment>
-        <block type="Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Comments" name="creditmemo_comments">
-            <block type="Magento_Adminhtml_Block_Sales_Order_Comments_View" name="order_comments" template="sales/order/comments/view.phtml"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_creditmemo_addcomment">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Comments" name="creditmemo_comments">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Comments_View" name="order_comments" template="sales/order/comments/view.phtml"/>
         </block>
-    </adminhtml_sales_order_creditmemo_addcomment>
+    </handle>
 </layout>

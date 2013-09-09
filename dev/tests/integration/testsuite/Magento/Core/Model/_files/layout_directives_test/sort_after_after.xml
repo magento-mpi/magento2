@@ -8,15 +8,23 @@
  */
 -->
 <layout>
-    <container name="root" label="Root">
-        <block type="Magento_Core_Block_Text" name="element1" after="element3">
-            <action method="setText"><text>1</text></action>
-        </block>
-        <block type="Magento_Core_Block_Text" name="element2" after="element1">
-            <action method="setText"><text>2</text></action>
-        </block>
-        <block type="Magento_Core_Block_Text" name="element3" after="element_non_existing">
-            <action method="setText"><text>3</text></action>
-        </block>
-    </container>
+    <handle id="sort_after_after">
+        <container name="root" label="Root">
+            <block class="Magento_Core_Block_Text" name="element1" after="element3">
+                <action method="setText">
+                    <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="text" xsi:type="string">1</argument>
+                </action>
+            </block>
+            <block class="Magento_Core_Block_Text" name="element2" after="element1">
+                <action method="setText">
+                    <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="text" xsi:type="string">2</argument>
+                </action>
+            </block>
+            <block class="Magento_Core_Block_Text" name="element3" after="element_non_existing">
+                <action method="setText">
+                    <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="text" xsi:type="string">3</argument>
+                </action>
+            </block>
+        </container>
+    </handle>
 </layout>

@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <newsletter_template_preview>
-        <block type="Magento_Core_Block_Template" name="root" output="1" template="Magento_Adminhtml::newsletter/template/preview.phtml">
-            <block type="Magento_Adminhtml_Block_Newsletter_Template_Preview" name="content" as="content"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="newsletter_template_preview">
+        <block class="Magento_Core_Block_Template" name="root" output="1" template="Magento_Adminhtml::newsletter/template/preview.phtml">
+            <block class="Magento_Adminhtml_Block_Newsletter_Template_Preview" name="content" as="content"/>
         </block>
-        <block type="Magento_Adminhtml_Block_Newsletter_Template_Preview" name="preview_template"/>
-    </newsletter_template_preview>
+        <block class="Magento_Adminhtml_Block_Newsletter_Template_Preview" name="preview_template"/>
+    </handle>
 </layout>

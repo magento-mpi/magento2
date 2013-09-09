@@ -20,12 +20,16 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_GeneralTest extends PHPUnit
      */
     public function testPrepareForm()
     {
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
-        Mage::register('design', Mage::getObjectManager()->create('Magento_Core_Model_Design'));
-        $layout = Mage::getObjectManager()->create('Magento_Core_Model_Layout');
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            ->setDefaultDesignTheme();
+        Mage::register('design', $objectManager ->create('Magento_Core_Model_Design'));
+        $layout = $objectManager ->create('Magento_Core_Model_Layout');
         $block = $layout->addBlock('Magento_Adminhtml_Block_System_Design_Edit_Tab_General');
         $prepareFormMethod = new ReflectionMethod(
-            'Magento_Adminhtml_Block_System_Design_Edit_Tab_General', '_prepareForm');
+            'Magento_Adminhtml_Block_System_Design_Edit_Tab_General', '_prepareForm'
+        );
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

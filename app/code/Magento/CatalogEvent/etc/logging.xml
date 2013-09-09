@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CatalogEvent
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<logging>
+    <magento_catalogevent translate="label">
+        <label>Catalog Events</label>
+        <expected_models>
+            <Magento_CatalogEvent_Model_Event/>
+        </expected_models>
+        <actions>
+            <adminhtml_catalog_event_edit>
+                <action>view</action>
+            </adminhtml_catalog_event_edit>
+            <adminhtml_catalog_event_save>
+                <action>save</action>
+                <skip_on_back>
+                    <adminhtml_catalog_event_edit />
+                </skip_on_back>
+            </adminhtml_catalog_event_save>
+            <adminhtml_catalog_event_delete>
+                <action>delete</action>
+            </adminhtml_catalog_event_delete>
+        </actions>
+    </magento_catalogevent>
+</logging>

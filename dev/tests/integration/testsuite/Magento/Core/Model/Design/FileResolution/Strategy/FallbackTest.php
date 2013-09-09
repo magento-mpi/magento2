@@ -41,7 +41,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
             array(Magento_Core_Model_Dir::THEMES => $this->_viewDir)
         );
 
-        return Mage::getObjectManager()->create(
+        return Magento_Test_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Core_Model_Design_FileResolution_Strategy_Fallback',
             array('fallbackFactory' => new Magento_Core_Model_Design_Fallback_Factory($dirs))
         );

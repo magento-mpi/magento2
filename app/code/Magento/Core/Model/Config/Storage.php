@@ -18,13 +18,13 @@ class Magento_Core_Model_Config_Storage extends Magento_Core_Model_Config_Storag
 
     /**
      * @param Magento_Core_Model_Config_Cache $cache
-     * @param Magento_Core_Model_Config_LoaderInterface $loader
+     * @param Magento_Core_Model_Config_Loader $loader
      * @param Magento_Core_Model_Config_BaseFactory $factory
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      */
     public function __construct(
         Magento_Core_Model_Config_Cache $cache,
-        Magento_Core_Model_Config_LoaderInterface $loader,
+        Magento_Core_Model_Config_Loader $loader,
         Magento_Core_Model_Config_BaseFactory $factory,
         Magento_Core_Model_Config_Resource $resourcesConfig
     ) {

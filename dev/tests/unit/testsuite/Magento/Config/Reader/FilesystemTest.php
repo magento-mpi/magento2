@@ -8,14 +8,24 @@
 class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Config_FileResolverInterface
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileResolverMock;
 
     /**
-     * @var Magento_Config_ConverterInterface
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_converterMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_schemaLocatorMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_validationStateMock;
 
     /**
      * @var string
@@ -27,6 +37,10 @@ class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
         $this->_file =  __DIR__ . '/../_files/reader/config.xml';
         $this->_fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
         $this->_converterMock = $this->getMock('Magento_Config_ConverterInterface', array(), array(), '', false);
+        $this->_schemaLocatorMock = $this->getMock(
+            'Magento_Core_Model_Module_Declaration_SchemaLocator', array(), array(), '', false
+        );
+        $this->_validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
     }
 
     public function testRead()
@@ -34,6 +48,8 @@ class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
         $model = new Magento_Config_Reader_Filesystem(
             $this->_fileResolverMock,
             $this->_converterMock,
+            $this->_schemaLocatorMock,
+            $this->_validationStateMock,
             'fileName',
             array()
         );
@@ -52,14 +68,17 @@ class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
      */
     public function testReadWithInvalidDom()
     {
+        $this->_schemaLocatorMock->expects($this->once())
+            ->method('getSchema')
+            ->will($this->returnValue(__DIR__ . "/../_files/reader/schema.xsd"));
+        $this->_validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
         $model = new Magento_Config_Reader_Filesystem(
             $this->_fileResolverMock,
             $this->_converterMock,
+            $this->_schemaLocatorMock,
+            $this->_validationStateMock,
             'fileName',
-            array(),
-            __DIR__ . "/../_files/reader/schema.xsd",
-            null,
-            true
+            array()
         );
         $this->_fileResolverMock
             ->expects($this->once())->method('get')->will($this->returnValue(array($this->_file)));
@@ -73,14 +92,18 @@ class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
      */
     public function testReadWithInvalidXml()
     {
+        $this->_schemaLocatorMock->expects($this->any())
+            ->method('getPerFileSchema')
+            ->will($this->returnValue(__DIR__ . "/../_files/reader/schema.xsd"));
+        $this->_validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
+
         $model = new Magento_Config_Reader_Filesystem(
             $this->_fileResolverMock,
             $this->_converterMock,
+            $this->_schemaLocatorMock,
+            $this->_validationStateMock,
             'fileName',
-            array(),
-            null,
-            __DIR__ . "/../_files/reader/schema.xsd",
-            true
+            array()
         );
         $this->_fileResolverMock
             ->expects($this->once())->method('get')->will($this->returnValue(array($this->_file)));

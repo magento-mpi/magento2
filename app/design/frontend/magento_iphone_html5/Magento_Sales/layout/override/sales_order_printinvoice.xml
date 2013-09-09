@@ -7,32 +7,31 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_order_printinvoice translate="label" type="page" parent="sales_order_print">
-        <label>Sales Invoice Print View</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Sales Invoice Print View" id="sales_order_printinvoice" type="page" parent="sales_order_print">
         <reference name="content">
-            <block type="Magento_Sales_Block_Order_Print_Invoice" name="sales.order.print.invoice" template="order/print/invoice.phtml">
+            <block class="Magento_Sales_Block_Order_Print_Invoice" name="sales.order.print.invoice" template="order/print/invoice.phtml">
                 <action method="addItemRender">
-                    <type>default</type>
-                    <block>Magento_Catalog_Block_Product_Price</block>
-                    <template>Magento_Sales::order/invoice/items/renderer/default.phtml</template>
+                    <argument name="type" xsi:type="string">default</argument>
+                    <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+                    <argument name="template" xsi:type="string">Magento_Sales::order/invoice/items/renderer/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
-                    <type>grouped</type>
-                    <block>Magento_Sales_Block_Order_Item_Renderer_Grouped</block>
-                    <template>order/invoice/items/renderer/default.phtml</template>
+                    <argument name="type" xsi:type="string">grouped</argument>
+                    <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Item_Renderer_Grouped</argument>
+                    <argument name="template" xsi:type="string">order/invoice/items/renderer/default.phtml</argument>
                 </action>
-                <block type="Magento_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="order/totals.phtml">
+                <block class="Magento_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="order/totals.phtml">
                     <action method="setLabelProperties">
-                        <value>colspan="4" class="a-right"</value>
+                        <argument name="value" xsi:type="string">colspan="4" class="a-right"</argument>
                     </action>
                     <action method="setValueProperties">
-                        <value>class="last a-right"</value>
+                        <argument name="value" xsi:type="string">class="last a-right"</argument>
                     </action>
-                    <block type="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
+                    <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
                 </block>
             </block>
         </reference>
         <container name="additional.product.info" label="Additional Product Info"/>
-    </sales_order_printinvoice>
+    </handle>
 </layout>

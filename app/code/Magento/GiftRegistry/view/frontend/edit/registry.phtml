@@ -1,0 +1,88 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Enterprise_GiftRegistry_Block_Customer_Edit_Registry */ ?>
+<input type="hidden" name="entity_id" id="entity_id" value="<?php echo $this->getEntity()->getEntityId(); ?>" />
+<input type="hidden" name="type_id" id="type_id" value="<?php echo $this->getTypeId(); ?>" />
+<div class="fieldset">
+    <h2 class="legend"><?php echo __('General Information') ?></h2>
+    <ul class="form-list">
+        <li>
+            <label for="type_id"><?php echo __('Gift Registry Type') ?></label>
+            <p class="value"><?php echo $this->getTypeLabel(); ?></p>
+        </li>
+        <li>
+            <label for="title" class="required"><em>*</em><?php echo __('Event') ?></label>
+            <div class="input-box">
+                <input type="text" name="title" id="title" value="<?php echo $this->escapeHtml($this->getEntity()->getTitle());?>" title="<?php echo __('Event') ?>" class="input-text" data-validate="{required:true}" />
+            </div>
+        </li>
+        <li>
+            <label for="message" class="required"><em>*</em><?php echo __('Message') ?></label>
+            <div class="input-box">
+                <textarea name="message" id="message" cols="5" rows="3" title="<?php echo __('Message') ?>" data-validate="{required:true}" ><?php echo $this->escapeHtml($this->getEntity()->getMessage());?></textarea>
+            </div>
+        </li>
+        <li>
+            <label for="is_public" class="required"><em>*</em><?php echo __('Privacy Settings') ?></label>
+            <div class="input-box">
+                <?php echo $this->getIsPublicHtml()?>
+            </div>
+        </li>
+        <li>
+            <label for="is_active" class="required"><em>*</em><?php echo __('Status') ?></label>
+            <div class="input-box">
+                <?php echo $this->getStatusHtml()?>
+            </div>
+        </li>
+    </ul>
+</div>
+<?php
+$fieldsets = $this->getGroupedRegistryAttributes();
+foreach ($fieldsets as $fieldset => $fields) : ?>
+<div class="fieldset">
+    <h2> <?php echo $this->getGroupLabel($fieldset);?></h2>
+    <ul class="form-list">
+
+    <?php foreach ($fields as $field => $data) : ?>
+        <?php $isRequired = $this->isAttributeRequired($data); ?>
+        <li>
+             <label for="<?php echo $field ?>" <?php echo ($isRequired ? 'class="required"' : '')?>>
+                 <?php echo ($isRequired ? '<em>*</em>' : '') . __($data['label']) ?>
+             </label>
+             <div class="input-box">
+                 <?php echo $this->renderField($data, $field) ?>
+             </div>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+
+    <?php foreach ($fields as $field => $data) : ?>
+        <?php if ($this->useRegionUpdater($data)) : ?>
+            <script type="text/javascript">
+                (function($) {
+                    head.js("<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
+                        function() {
+                            $('#<?php echo $field ?>').regionUpdater({
+                                optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
+                                regionListId: '#<?php echo $field ?>_region',
+                                regionInputId: '#<?php echo $field ?>_region_text',
+                                isRegionRequired: false,
+                                isZipRequired: false,
+                                isCountryRequired: true,
+                                regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson(); ?>
+                            });
+                        });
+                })(jQuery);
+            </script>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>
+<?php endforeach; ?>

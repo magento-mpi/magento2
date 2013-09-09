@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Enterprise
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_Enterprise::private_sales" title="Private Sales" module="Magento_Enterprise" sortOrder="10" parent="Magento_Adminhtml::marketing" resource="Magento_Enterprise::marketing_private_sales" />
+    </menu>
+</config>

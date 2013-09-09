@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_googleshopping_items_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_googleshopping_items_index">
         <reference name="head">
             <action method="addJs">
-                <file>Magento_GoogleShopping::googleshopping.js</file>
+                <argument name="file" xsi:type="string">Magento_GoogleShopping::googleshopping.js</argument>
             </action>
         </reference>
-    </adminhtml_googleshopping_items_index>
+    </handle>
 </layout>

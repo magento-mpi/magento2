@@ -56,7 +56,7 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Magento_Index_Model_In
             Magento_Index_Model_Event::TYPE_MASS_ACTION,
             self::EVENT_TYPE_REINDEX_PRICE,
         ),
-        Magento_Core_Model_Config_Data::ENTITY => array(
+        Magento_Core_Model_Config_Value::ENTITY => array(
             Magento_Index_Model_Event::TYPE_SAVE
         ),
         Magento_Customer_Model_Group::ENTITY => array(
@@ -131,7 +131,7 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Magento_Index_Model_In
             return $data[self::EVENT_MATCH_RESULT_KEY];
         }
 
-        if ($event->getEntity() == Magento_Core_Model_Config_Data::ENTITY) {
+        if ($event->getEntity() == Magento_Core_Model_Config_Value::ENTITY) {
             $data = $event->getDataObject();
             if ($data && in_array($data->getPath(), $this->_relatedConfigSettings)) {
                 $result = $data->isValueChanged();
@@ -232,7 +232,7 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Magento_Index_Model_In
         $event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
         $entity = $event->getEntity();
 
-        if ($entity == Magento_Core_Model_Config_Data::ENTITY || $entity == Magento_Customer_Model_Group::ENTITY) {
+        if ($entity == Magento_Core_Model_Config_Value::ENTITY || $entity == Magento_Customer_Model_Group::ENTITY) {
             $process = $event->getProcess();
             $process->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         } else if ($entity == Magento_Catalog_Model_Product::ENTITY) {

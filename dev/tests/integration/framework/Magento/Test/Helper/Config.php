@@ -22,7 +22,7 @@ class Magento_Test_Helper_Config
     public function getEnabledModules()
     {
         $result = array();
-        $moduleList = Mage::getObjectManager()->get('Magento_Core_Model_ModuleListInterface');
+        $moduleList = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_ModuleListInterface');
         foreach ($moduleList->getModules() as $module) {
             $result[] = $module['name'];
         }

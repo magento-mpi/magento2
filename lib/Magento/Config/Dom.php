@@ -246,6 +246,18 @@ class Magento_Config_Dom
     }
 
     /**
+     * Set schema file
+     *
+     * @param string $schemaFile
+     * @return Magento_Config_Dom
+     */
+    public function setSchemaFile($schemaFile)
+    {
+        $this->_schemaFile = $schemaFile;
+        return $this;
+    }
+
+    /**
      * Returns the attribute name with prefix, if there is one
      *
      * @param DOMAttr $attribute

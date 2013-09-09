@@ -45,7 +45,16 @@ class Magento_Core_Model_Module_Declaration_Converter_Dom implements Magento_Con
             foreach ($moduleNode->childNodes as $childNode) {
                 switch ($childNode->nodeName) {
                     case 'depends':
-                        $moduleData['dependencies'] = $this->_convertDependencies($childNode);
+                        $moduleData['dependencies'] = array_merge(
+                            $moduleData['dependencies'],
+                            $this->_convertExtensionDependencies($childNode)
+                        );
+                        break;
+                    case 'sequence':
+                        $moduleData['dependencies'] = array_merge(
+                            $moduleData['dependencies'],
+                            $this->_convertModuleDependencies($childNode)
+                        );
                         break;
                 }
             }
@@ -56,16 +65,15 @@ class Magento_Core_Model_Module_Declaration_Converter_Dom implements Magento_Con
     }
 
     /**
-     * Convert depends node into assoc array
+     * Convert extension depends node into assoc array
      *
      * @param DOMNode $dependsNode
      * @return array
      * @throws Exception
      */
-    protected function _convertDependencies(DOMNode $dependsNode)
+    protected function _convertExtensionDependencies(DOMNode $dependsNode)
     {
         $dependencies = array(
-            'modules' => array(),
             'extensions' => array(
                 'strict' => array(),
                 'alternatives' => array(),
@@ -74,13 +82,6 @@ class Magento_Core_Model_Module_Declaration_Converter_Dom implements Magento_Con
         /** @var $childNode DOMNode */
         foreach ($dependsNode->childNodes as $childNode) {
             switch ($childNode->nodeName) {
-                case 'module':
-                    $nameNode = $childNode->attributes->getNamedItem('name');
-                    if (is_null($nameNode)) {
-                        throw new Exception('Attribute "name" is required for module node.');
-                    }
-                    $dependencies['modules'][] = $nameNode->nodeValue;
-                    break;
                 case 'extension':
                     $dependencies['extensions']['strict'][] = $this->_convertExtensionNode($childNode);
                     break;
@@ -124,5 +125,32 @@ class Magento_Core_Model_Module_Declaration_Converter_Dom implements Magento_Con
             $extensionData['minVersion'] = $minVersionNode->nodeValue;
         }
         return $extensionData;
+    }
+
+    /**
+     * Convert module depends node into assoc array
+     *
+     * @param DOMNode $dependsNode
+     * @return array
+     * @throws Exception
+     */
+    protected function _convertModuleDependencies(DOMNode $dependsNode)
+    {
+        $dependencies = array(
+            'modules' => array(),
+        );
+        /** @var $childNode DOMNode */
+        foreach ($dependsNode->childNodes as $childNode) {
+            switch ($childNode->nodeName) {
+                case 'module':
+                    $nameNode = $childNode->attributes->getNamedItem('name');
+                    if (is_null($nameNode)) {
+                        throw new Exception('Attribute "name" is required for module node.');
+                    }
+                    $dependencies['modules'][] = $nameNode->nodeValue;
+                    break;
+            }
+        }
+        return $dependencies;
     }
 }

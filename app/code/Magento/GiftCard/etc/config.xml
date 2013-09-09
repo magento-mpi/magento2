@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_GiftCard
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <giftcard_setup>
+                <setup>
+                    <module>Magento_GiftCard</module>
+                    <class>Magento_Catalog_Model_Resource_Setup</class>
+                </setup>
+            </giftcard_setup>
+        </resources>
+        <catalog>
+            <product>
+                <type>
+                    <giftcard translate="label">
+                        <label>Gift Card</label>
+                        <model>Magento_GiftCard_Model_Catalog_Product_Type_Giftcard</model>
+                        <price_model>Magento_GiftCard_Model_Catalog_Product_Price_Giftcard</price_model>
+                        <index_priority>45</index_priority>
+                        <composite>0</composite>
+                        <is_qty>1</is_qty>
+                        <price_indexer>Magento_GiftCard_Model_Resource_Indexer_Price</price_indexer>
+                    </giftcard>
+                </type>
+                <attributes>
+                    <unassignable>
+                        <allow_open_amount />
+                        <giftcard_amounts />
+                        <giftcard_type />
+                    </unassignable>
+                </attributes>
+            </product>
+        </catalog>
+        <template>
+            <email>
+                <giftcard_email_template translate="label" module="Magento_GiftCard">
+                    <label>Gift Card(s) Purchase</label>
+                    <file>email/gift_information.html</file>
+                    <type>html</type>
+                </giftcard_email_template>
+            </email>
+        </template>
+        <sales>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <giftcard_type />
+                        <giftcard_amounts />
+                        <allow_open_amount />
+                        <open_amount_min />
+                        <open_amount_max />
+                        <use_config_lifetime />
+                        <lifetime />
+                        <use_config_is_redeemable />
+                        <is_redeemable />
+                        <use_config_email_template />
+                        <email_template />
+                    </product_attributes>
+                </item>
+            </quote>
+        </sales>
+    </global>
+    <frontend>
+        <product>
+            <collection>
+                <attributes>
+                    <giftcard_type />
+                    <giftcard_amounts />
+                    <allow_open_amount />
+                    <open_amount_min />
+                    <open_amount_max />
+                    <use_config_lifetime />
+                    <lifetime />
+                    <use_config_is_redeemable />
+                    <is_redeemable />
+                </attributes>
+            </collection>
+        </product>
+        <translate>
+            <modules>
+                <Magento_GiftCard>
+                    <files>
+                        <default>Magento_GiftCard.csv</default>
+                    </files>
+                </Magento_GiftCard>
+            </modules>
+        </translate>
+        <secure_url>
+            <giftcard_customer>/giftcard/customer/</giftcard_customer>
+        </secure_url>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_GiftCard>
+                    <files>
+                        <default>Magento_GiftCard.csv</default>
+                    </files>
+                </Magento_GiftCard>
+            </modules>
+        </translate>
+        <sales>
+            <order>
+                <create>
+                    <available_product_types>
+                        <giftcard />
+                    </available_product_types>
+                </create>
+            </order>
+        </sales>
+    </adminhtml>
+    <default>
+        <giftcard>
+            <email>
+                <identity>general</identity>
+                <template>giftcard_email_template</template>
+            </email>
+            <general>
+                <is_redeemable>1</is_redeemable>
+                <lifetime>0</lifetime>
+                <order_item_status>9</order_item_status>
+                <allow_message>1</allow_message>
+                <message_max_length>255</message_max_length>
+            </general>
+        </giftcard>
+    </default>
+</config>

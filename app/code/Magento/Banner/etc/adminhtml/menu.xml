@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Banner
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_Banner::cms_magento_banner" title="Banners" module="Magento_Banner" sortOrder="40" parent="Magento_Adminhtml::content_elements" action="adminhtml/banner" resource="Magento_Banner::magento_banner"/>
+    </menu>
+</config>

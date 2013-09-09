@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_ScheduledImportExport" version="1.11.0.3" active="false">
+        <sequence>
+            <module name="Magento_ImportExport"/>
+        </sequence>
+        <depends>
+            <module name="Magento_ImportExport"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Index"/>
+            <module name="Magento_Cron"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Reward"/>
+            <module name="Magento_CustomerBalance"/>
+            <module name="Magento_Eav"/>
+        </depends>
+    </module>
+</config>

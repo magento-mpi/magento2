@@ -22,15 +22,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <routers>
-            <media>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Media</module>
-                    <frontName>media</frontName>
-                </args>
-            </media>
-        </routers>
         <translate>
             <modules>
                 <Magento_Media>
@@ -41,4 +32,4 @@
             </modules>
         </translate>
     </frontend>
-</config>
+</config>

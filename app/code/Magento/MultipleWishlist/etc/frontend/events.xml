@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="wishlist_delete_commit_after">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerWishlistChange" />
+    </event>
+    <event name="wishlist_save_commit_after">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerWishlistListChange" />
+    </event>
+</config>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer My Return Create" id="magento_rma_return_create" type="page" parent="magento_rma_return_create_handle">
+        <update handle="customer_account"/>
+        <reference name="customer_account_navigation">
+            <action method="setActive">
+                <argument name="path" xsi:type="string">rma/return/history/</argument>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block class="Magento_Rma_Block_Return_Create" as="create" name="rma.return.create" template="return/create.phtml">
+                <action method="setFormCode">
+                    <argument name="code" xsi:type="string">default</argument>
+                </action>
+                <action method="setEntityModelClass">
+                    <argument name="code" xsi:type="string">Magento_Rma_Model_Item</argument>
+                </action>
+            </block>
+        </reference>
+        <update handle="magento_rma_return_create_handle"/>
+    </handle>
+</layout>

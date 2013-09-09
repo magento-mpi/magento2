@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <catalog_product_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_product_view">
         <reference name="content">
-            <block type="Magento_Core_Block_Template" name="external.pagecache.cookie" template="Magento_PageCache::cookie.phtml"/>
+            <block class="Magento_Core_Block_Template" name="external.pagecache.cookie" template="Magento_PageCache::cookie.phtml"/>
         </reference>
-    </catalog_product_view>
+    </handle>
 </layout>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Pci_Model_Observer">
+        <param name="authorization">
+            <instance type="Magento_Authorization_Proxy" />
+        </param>
+    </type>
+</config>

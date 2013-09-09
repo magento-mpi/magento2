@@ -7,89 +7,89 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_tax_rule_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_tax_rule_block">
         <reference name="adminhtml.block.tax.rule.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.tax.rule.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.tax.rule.grid" as="grid">
                 <arguments>
-                    <id>taxRuleGrid</id>
-                    <dataSource type="object">Magento_Tax_Model_Resource_Rule_Grid_Collection</dataSource>
-                    <default_sort>tax_rule_id</default_sort>
-                    <default_dir>ASC</default_dir>
-                    <save_parameters_in_session>1</save_parameters_in_session>
+                    <argument name="id" xsi:type="string">taxRuleGrid</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Tax_Model_Resource_Rule_Grid_Collection</argument>
+                    <argument name="default_sort" xsi:type="string">tax_rule_id</argument>
+                    <argument name="default_dir" xsi:type="string">ASC</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.block.tax.rule.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.block.tax.rule.columnSet" as="grid.columnSet">
                     <arguments>
-                        <rowUrl>
-                            <path>*/*/edit</path>
-                            <extraParamsTemplate>
-                                <rule>getId</rule>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="rule" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="code">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
-                            <header translate='true' module='Magento_Tax'>Name</header>
-                            <index>code</index>
-                            <align>left</align>
-                            <type>longtext</type>
-                            <filter_index>code</filter_index>
+                            <argument name="header" xsi:type="string" translate="true">Name</argument>
+                            <argument name="index" xsi:type="string">code</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="type" xsi:type="string">longtext</argument>
+                            <argument name="filter_index" xsi:type="string">code</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="customer_tax_classes">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="customer_tax_classes">
                         <arguments>
-                            <header translate='true' module='Magento_Tax'>Customer Tax Class</header>
-                            <sortable>0</sortable>
-                            <align>left</align>
-                            <index>customer_tax_classes</index>
-                            <filter_index>ctc.customer_tax_class_id</filter_index>
-                            <show_missing_option_values>1</show_missing_option_values>
-                            <type>options</type>
-                            <options type="options">Magento_Tax_Model_Resource_Rule_Grid_Options_CustomerTaxClass</options>
+                            <argument name="header" xsi:type="string" translate="true">Customer Tax Class</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="index" xsi:type="string">customer_tax_classes</argument>
+                            <argument name="filter_index" xsi:type="string">ctc.customer_tax_class_id</argument>
+                            <argument name="show_missing_option_values" xsi:type="string">1</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Tax_Model_Resource_Rule_Grid_Options_CustomerTaxClass"/>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="product_tax_classes">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="product_tax_classes">
                         <arguments>
-                            <header translate='true' module='Magento_Tax'>Product Tax Class</header>
-                            <sortable>0</sortable>
-                            <align>left</align>
-                            <index>product_tax_classes</index>
-                            <filter_index>ptc.product_tax_class_id</filter_index>
-                            <show_missing_option_values>1</show_missing_option_values>
-                            <type>options</type>
-                            <options type="options">Magento_Tax_Model_Resource_Rule_Grid_Options_ProductTaxClass</options>
+                            <argument name="header" xsi:type="string" translate="true">Product Tax Class</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="index" xsi:type="string">product_tax_classes</argument>
+                            <argument name="filter_index" xsi:type="string">ptc.product_tax_class_id</argument>
+                            <argument name="show_missing_option_values" xsi:type="string">1</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Tax_Model_Resource_Rule_Grid_Options_ProductTaxClass"/>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="tax_rates">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="tax_rates">
                         <arguments>
-                            <header translate='true' module='Magento_Tax'>Tax Rate</header>
-                            <sortable>0</sortable>
-                            <align>left</align>
-                            <index>tax_rates</index>
-                            <filter_index>rate.tax_calculation_rate_id</filter_index>
-                            <show_missing_option_values>1</show_missing_option_values>
-                            <type>options</type>
-                            <options type="options">Magento_Tax_Model_Resource_Rule_Grid_Options_HashOptimized</options>
+                            <argument name="header" xsi:type="string" translate="true">Tax Rate</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="index" xsi:type="string">tax_rates</argument>
+                            <argument name="filter_index" xsi:type="string">rate.tax_calculation_rate_id</argument>
+                            <argument name="show_missing_option_values" xsi:type="string">1</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Tax_Model_Resource_Rule_Grid_Options_HashOptimized"/>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="priority">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="priority">
                         <arguments>
-                            <header translate='true' module='Magento_Tax'>Priority</header>
-                            <index>priority</index>
-                            <width>50</width>
-                            <type>text</type>
+                            <argument name="header" xsi:type="string" translate="true">Priority</argument>
+                            <argument name="index" xsi:type="string">priority</argument>
+                            <argument name="width" xsi:type="string">50</argument>
+                            <argument name="type" xsi:type="string">text</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="position">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="position">
                         <arguments>
-                            <header translate='true' module='Magento_Tax'>Sort Order</header>
-                            <index>position</index>
-                            <width>50</width>
-                            <type>text</type>
+                            <argument name="header" xsi:type="string" translate="true">Sort Order</argument>
+                            <argument name="index" xsi:type="string">position</argument>
+                            <argument name="width" xsi:type="string">50</argument>
+                            <argument name="type" xsi:type="string">text</argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_tax_rule_block>
+    </handle>
 </layout>

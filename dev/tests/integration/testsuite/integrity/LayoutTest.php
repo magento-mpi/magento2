@@ -136,14 +136,13 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 
         $xpath = '/layouts/*['
             . '@type="' . Magento_Core_Model_Layout_Merge::TYPE_PAGE . '"'
-            . ' or @type="' . Magento_Core_Model_Layout_Merge::TYPE_FRAGMENT . '"'
-            . ' or @translate="label"]';
+            . ' or @type="' . Magento_Core_Model_Layout_Merge::TYPE_FRAGMENT . '"]';
         $handles = $xml->xpath($xpath) ?: array();
 
         /** @var Magento_Core_Model_Layout_Element $node */
         $errors = array();
         foreach ($handles as $node) {
-            if (!$node->xpath('label')) {
+            if (!$node->xpath('@label')) {
                 $errors[] = $node->getName();
             }
         }

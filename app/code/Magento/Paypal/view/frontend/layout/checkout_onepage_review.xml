@@ -7,18 +7,18 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_review>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_review">
         <reference name="checkout.onepage.review.info.items.after">
-            <block type="Magento_Paypal_Block_Iframe" name="paypal.iframe"/>
+            <block class="Magento_Paypal_Block_Iframe" name="paypal.iframe"/>
         </reference>
         <reference name="checkout.onepage.review.button">
             <action method="setTemplate">
-                <template helper="Magento_Paypal_Helper_Hss::getReviewButtonTemplate">
-                    <name>Magento_Paypal::hss/review/button.phtml</name>
-                    <block>checkout.onepage.review.button</block>
-                </template>
+                <argument name="template" xsi:type="helper" helper="Magento_Paypal_Helper_Hss::getReviewButtonTemplate">
+                    <param name="name">Magento_Paypal::hss/review/button.phtml</param>
+                    <param name="block">checkout.onepage.review.button</param>
+                </argument>
             </action>
         </reference>
-    </checkout_onepage_review>
+    </handle>
 </layout>

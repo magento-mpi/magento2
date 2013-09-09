@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_guest_reorder>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_guest_reorder">
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Sales_Block_Order_View" name="sales.order.view"/>
+            <block class="Magento_Sales_Block_Order_View" name="sales.order.view"/>
         </reference>
-    </sales_guest_reorder>
+    </handle>
 </layout>

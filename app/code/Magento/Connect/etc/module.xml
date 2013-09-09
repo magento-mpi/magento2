@@ -9,6 +9,10 @@
 -->
 <config>
     <module name="Magento_Connect" version="1.6.0.0" active="true">
-        <depends />
+        <depends>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Backend"/>
+        </depends>
     </module>
 </config>

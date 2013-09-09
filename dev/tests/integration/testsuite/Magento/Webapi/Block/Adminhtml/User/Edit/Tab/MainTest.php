@@ -37,7 +37,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Fram
     {
         parent::setUp();
 
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
         $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
         $this->_block = $this->_blockFactory->createBlock('Magento_Webapi_Block_Adminhtml_User_Edit_Tab_Main');

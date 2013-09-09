@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="catalog_product_type_prepare_cart_options">
+        <observer name="payment_recurring_profile_prepare_options" instance="Magento_Payment_Model_Observer" method="prepareProductRecurringProfileOptions" />
+    </event>
+</config>

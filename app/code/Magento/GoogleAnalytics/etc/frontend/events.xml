@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="googleanalytics_order_success" instance="Magento_GoogleAnalytics_Model_Observer" method="setGoogleAnalyticsOnOrderSuccessPageView" />
+    </event>
+    <event name="checkout_multishipping_controller_success_action">
+        <observer name="googleanalytics_order_success" instance="Magento_GoogleAnalytics_Model_Observer" method="setGoogleAnalyticsOnOrderSuccessPageView" />
+    </event>
+    <event name="googlecheckout_block_link_html_before">
+        <observer name="googleanalytics_googlecheckout_integration" instance="Magento_GoogleAnalytics_Model_Observer" method="injectAnalyticsInGoogleCheckoutLink" />
+    </event>
+</config>

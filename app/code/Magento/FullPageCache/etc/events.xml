@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="design_editor_activate">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="setNoCacheCookie" />
+    </event>
+    <event name="design_editor_deactivate">
+        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="deleteNoCacheCookie" />
+    </event>
+</config>

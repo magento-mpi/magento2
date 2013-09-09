@@ -31,7 +31,8 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $endpoint->getUser());
 
         $userId = 42;
-        $user = Mage::getObjectManager()->create('Magento_Webhook_Model_User', array('webapiUserId' => $userId));
+        $user = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_User', array('webapiUserId' => $userId));
         $endpoint->setApiUserId($userId);
         $this->assertEquals($user, $endpoint->getUser());
 

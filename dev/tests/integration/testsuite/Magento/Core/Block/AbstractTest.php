@@ -28,7 +28,8 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         Mage::getConfig();
-        Mage::getDesign()->setDefaultDesignTheme();
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setDefaultDesignTheme();
         $this->_block = $this->getMockForAbstractClass('Magento_Core_Block_Abstract', array(
             Mage::getSingleton('Magento_Core_Block_Context'),
             array('module_name' => 'Magento_Core')
@@ -44,7 +45,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $dirPath = __DIR__ . DIRECTORY_SEPARATOR . '_files';
         /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
+        $dirs = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir');
 
         $prepareFileName = new ReflectionMethod($dirs, '_setDir');
         $prepareFileName->setAccessible(true);
@@ -291,7 +292,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         // Without layout
         /** @var $blockFactory Magento_Core_Model_BlockFactory */
-        $blockFactory = Mage::getObjectManager()->get('Magento_Core_Model_BlockFactory');
+        $blockFactory = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_BlockFactory');
         $block1 = $blockFactory->createBlock('Magento_Core_Block_Text');
         $block1->setText('Block text');
         $block1->setNameInLayout('block');

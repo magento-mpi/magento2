@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
+    <widget id="cms_hierarchy_node" class="Magento_VersionsCms_Block_Widget_Node" is_email_compatible="true"
+            placeholder_image="Magento_VersionsCms::widget_node.gif">
+        <label translate="true">CMS Hierarchy Node Link</label>
+        <description translate="true">Link to Specified CMS Hierarchy Node</description>
+        <parameter name="node_id" xsi:type="block" visible="true" required="true" sort_order="10">
+            <label translate="true">Node</label>
+            <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser">
+                <data>
+                    <item name="button" xsi:type="array">
+                        <item name="open" xsi:type="string">Select a page or node.</item>
+                    </item>
+                </data>
+            </block>
+        </parameter>
+        <parameter name="anchor_text" xsi:type="text" visible="true">
+            <label translate="true">Anchor Custom Text</label>
+            <description translate="true">If this value is empty, the node or page name will be used.</description>
+        </parameter>
+        <parameter name="title" xsi:type="text" visible="true">
+            <label translate="true">Anchor Custom Title</label>
+        </parameter>
+        <parameter name="template" xsi:type="select" visible="true">
+            <label translate="true">Template</label>
+            <option name="default" value="hierarchy/widget/link/link_block.phtml" selected="true">
+                <label translate="true">CMS Page Link Block Template</label>
+            </option>
+            <option name="link_inline" value="hierarchy/widget/link/link_inline.phtml">
+                <label translate="true">CMS Page Link Inline Template</label>
+            </option>
+        </parameter>
+    </widget>
+</widgets>

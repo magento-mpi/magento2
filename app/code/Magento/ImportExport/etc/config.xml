@@ -76,17 +76,6 @@
             </export_product_types>
         </importexport>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <importexport before="Magento_Adminhtml">Magento_ImportExport_Adminhtml</importexport>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -128,4 +117,4 @@
             </format_v2>
         </import>
     </default>
-</config>
+</config>

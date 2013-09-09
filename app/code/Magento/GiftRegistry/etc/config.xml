@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_GiftRegistry
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <giftregistry_setup>
+                <setup>
+                    <module>Magento_GiftRegistry</module>
+                    <class>Magento_GiftRegistry_Model_Resource_Setup</class>
+                </setup>
+            </giftregistry_setup>
+        </resources>
+        <template>
+            <email>
+                <magento_giftregistry_owner_email_template translate="label" module="Magento_GiftRegistry">
+                    <label>New Registry</label>
+                    <file>email/owner.html</file>
+                    <type>html</type>
+                </magento_giftregistry_owner_email_template>
+                <magento_giftregistry_sharing_email_template translate="label" module="Magento_GiftRegistry">
+                    <label>Registry Sharing</label>
+                    <file>email/sharing.html</file>
+                    <type>html</type>
+                </magento_giftregistry_sharing_email_template>
+                <magento_giftregistry_update_email_template translate="label" module="Magento_GiftRegistry">
+                    <label>Registry Update</label>
+                    <file>email/update.html</file>
+                    <type>html</type>
+                </magento_giftregistry_update_email_template>
+            </email>
+        </template>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_GiftRegistry>
+                    <files>
+                        <default>Magento_GiftRegistry.csv</default>
+                    </files>
+                </Magento_GiftRegistry>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frontend>
+        <translate>
+            <modules>
+                <Magento_GiftRegistry>
+                    <files>
+                        <default>Magento_GiftRegistry.csv</default>
+                    </files>
+                </Magento_GiftRegistry>
+            </modules>
+        </translate>
+    </frontend>
+    <default>
+        <magento_giftregistry>
+            <general>
+                <enabled>1</enabled>
+                <max_registrant>5</max_registrant>
+            </general>
+            <owner_email>
+                <identity>general</identity>
+                <template>magento_giftregistry_owner_email_template</template>
+            </owner_email>
+            <sharing_email>
+                <identity>general</identity>
+                <template>magento_giftregistry_sharing_email_template</template>
+                <send_limit>3</send_limit>
+            </sharing_email>
+            <update_email>
+                <identity>general</identity>
+                <template>magento_giftregistry_update_email_template</template>
+            </update_email>
+        </magento_giftregistry>
+    </default>
+</config>

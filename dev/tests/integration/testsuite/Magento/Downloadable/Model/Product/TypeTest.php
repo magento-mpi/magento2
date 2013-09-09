@@ -21,7 +21,8 @@ class Magento_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $this->_model = Mage::getObjectManager()->create('Magento_Downloadable_Model_Product_Type');
+        $this->_model = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Downloadable_Model_Product_Type');
     }
 
     /**

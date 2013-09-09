@@ -18,32 +18,6 @@
                 </setup>
             </catalogrule_setup>
         </resources>
-        <events>
-            <prepare_catalog_product_price_index_table>
-                <observers>
-                    <catalogrule>
-                        <class>Magento_CatalogRule_Model_Observer</class>
-                        <method>prepareCatalogProductPriceIndexTable</method>
-                    </catalogrule>
-                </observers>
-            </prepare_catalog_product_price_index_table>
-            <catalog_product_type_configurable_price>
-                <observers>
-                    <catalogrule>
-                        <class>Magento_CatalogRule_Model_Observer</class>
-                        <method>catalogProductTypeConfigurablePrice</method>
-                    </catalogrule>
-                </observers>
-            </catalog_product_type_configurable_price>
-            <catalogrule_apply_all>
-                <observers>
-                    <catalogrule>
-                        <class>Magento_CatalogRule_Model_Observer</class>
-                        <method>processApplyAll</method>
-                    </catalogrule>
-                </observers>
-            </catalogrule_apply_all>
-        </events>
         <catalogrule>
             <related_cache_types>
                 <block_html />
@@ -51,24 +25,6 @@
         </catalogrule>
     </global>
     <frontend>
-        <events>
-            <catalog_product_get_final_price>
-                <observers>
-                    <catalogrule>
-                        <class>Magento_CatalogRule_Model_Observer</class>
-                        <method>processFrontFinalPrice</method>
-                    </catalogrule>
-                </observers>
-            </catalog_product_get_final_price>
-            <prepare_catalog_product_collection_prices>
-                <observers>
-                    <catalogrule>
-                        <class>Magento_CatalogRule_Model_Observer</class>
-                        <method>prepareCatalogProductCollectionPrices</method>
-                    </catalogrule>
-                </observers>
-            </prepare_catalog_product_collection_prices>
-        </events>
         <translate>
             <modules>
                 <Magento_CatalogRule>
@@ -89,56 +45,6 @@
                 </Magento_CatalogRule>
             </modules>
         </translate>
-        <events>
-            <catalog_product_get_final_price>
-                <observers>
-                    <catalogrule>
-                        <class>Magento_CatalogRule_Model_Observer</class>
-                        <method>processAdminFinalPrice</method>
-                    </catalogrule>
-                </observers>
-            </catalog_product_get_final_price>
-            <catalog_product_save_after>
-                <observers>
-                    <catalogrule>
-                        <class>Magento_CatalogRule_Model_Observer</class>
-                        <method>applyAllRulesOnProduct</method>
-                    </catalogrule>
-                </observers>
-            </catalog_product_save_after>
-            <catalog_product_import_finish_before>
-                <observers>
-                    <catalogrule>
-                        <class>Magento_CatalogRule_Model_Observer</class>
-                        <method>createCatalogRulesRelations</method>
-                    </catalogrule>
-                </observers>
-            </catalog_product_import_finish_before>
-            <catalog_product_import_after>
-                <observers>
-                    <catalogrule>
-                        <class>Magento_CatalogRule_Model_Observer</class>
-                        <method>applyAllRules</method>
-                    </catalogrule>
-                </observers>
-            </catalog_product_import_after>
-            <catalog_entity_attribute_delete_after>
-                <observers>
-                    <catalogrule>
-                        <class>Magento_CatalogRule_Model_Observer</class>
-                        <method>catalogAttributeDeleteAfter</method>
-                    </catalogrule>
-                </observers>
-            </catalog_entity_attribute_delete_after>
-            <catalog_entity_attribute_save_after>
-                <observers>
-                    <catalogrule>
-                        <class>Magento_CatalogRule_Model_Observer</class>
-                        <method>catalogAttributeSaveAfter</method>
-                    </catalogrule>
-                </observers>
-            </catalog_entity_attribute_save_after>
-        </events>
     </adminhtml>
     <crontab>
         <jobs>
@@ -151,15 +57,5 @@
                 </run>
             </catalogrule_apply_all>
         </jobs>
-        <events>
-            <catalog_product_get_final_price>
-                <observers>
-                    <catalogrule>
-                        <class>Magento_CatalogRule_Model_Observer</class>
-                        <method>processAdminFinalPrice</method>
-                    </catalogrule>
-                </observers>
-            </catalog_product_get_final_price>
-        </events>
     </crontab>
-</config>
+</config>
