@@ -164,7 +164,7 @@ class Magento_Logging_Model_Processor
         $this->_lastAction = $fullActionName;
 
         $this->_eventConfig = $this->_config->getEventByFullActionName($fullActionName);
-        $this->_skipNextAction = (!$this->_config->isEventGroupLogged($this->_eventConfig['log_name'])) ? true : false;
+        $this->_skipNextAction = (!$this->_config->isEventGroupLogged($this->_eventConfig['group_name'])) ? true : false;
         if ($this->_skipNextAction) {
             return;
         }

@@ -21,11 +21,11 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
         $xpath = new DOMXPath($source);
         $result['logging']['actions'] = $this->_getActionTitles($xpath);
 
-        $logs = $xpath->query('/logging/log');
-        /** @var DOMNode $log */
-        foreach ($logs as $log) {
-            $logId = $log->attributes->getNamedItem('name')->nodeValue;
-            $result['logging'][$logId] = $this->_convertLog($log, $logId);
+        $groups = $xpath->query('/logging/group');
+        /** @var DOMNode $group */
+        foreach ($groups as $group) {
+            $groupId = $group->attributes->getNamedItem('name')->nodeValue;
+            $result['logging'][$groupId] = $this->_convertGroup($group, $groupId);
         }
 
         return $result;
@@ -55,26 +55,27 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     }
 
     /**
-     * Convert Event node to array
+     * Convert Group node to array
      *
      * @param DOMNode $event
+     * @param string $groupId
      * @return array
      */
-    protected function _convertLog($log, $logId)
+    protected function _convertGroup($group, $groupId)
     {
         $result = array();
-        foreach ($log->childNodes as $logData) {
-            switch ($logData->nodeName) {
+        foreach ($group->childNodes as $groupParams) {
+            switch ($groupParams->nodeName) {
                 case 'label':
-                    $result['label'] = $logData->nodeValue;
+                    $result['label'] = $groupParams->nodeValue;
                     break;
                 case 'expected_model':
-                    $result['expected_models'][$logData->attributes->getNamedItem('class')->nodeValue] =
-                        $this->_convertExpectedModel($logData);
+                    $result['expected_models'][$groupParams->attributes->getNamedItem('class')->nodeValue] =
+                        $this->_convertExpectedModel($groupParams);
                     break;
                 case 'event':
-                    $eventName = $logData->attributes->getNamedItem('controller_action')->nodeValue;
-                    $result['actions'][$eventName] = $this->_convertEvent($logData, $logId);
+                    $eventName = $groupParams->attributes->getNamedItem('controller_action')->nodeValue;
+                    $result['actions'][$eventName] = $this->_convertEvent($groupParams, $groupId);
                     break;
             }
         }
@@ -82,14 +83,15 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     }
 
     /**
-     * Convert Handle node to array
+     * Convert Event node to array
      *
      * @param DOMNode $event
+     * @param string $groupId
      * @return array
      */
-    protected function _convertEvent($event, $logId)
+    protected function _convertEvent($event, $groupId)
     {
-        $result = array('log_name' => $logId);
+        $result = array('group_name' => $groupId);
         $eventAttributes = $event->attributes;
         $eventAction = $eventAttributes->getNamedItem('action_alias');
         if (!is_null($eventAction)) {
