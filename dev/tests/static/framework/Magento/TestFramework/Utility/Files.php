@@ -436,6 +436,43 @@ class Magento_TestFramework_Utility_Files
     }
 
     /**
+     * Check if specified class exists
+     *
+     * @param string $class
+     * @param string &$path
+     * @return bool
+     */
+
+    public function classFormalNamespaceFileExists($class, &$path = '')
+    {
+        $classParts = explode('\\', $class);
+        if ($classParts[0] == "")
+            array_shift($classParts);
+        $path = implode(DIRECTORY_SEPARATOR, $classParts) . '.php';
+        $class = array_pop($classParts);
+        $namespace = implode('\\', $classParts);
+        $directories = array('/app/code/', '/lib/');
+        foreach ($directories as $dir) {
+            $fullPath = str_replace('/', DIRECTORY_SEPARATOR, $this->_path . $dir . $path);
+            /**
+             * Use realpath() instead of file_exists() to avoid incorrect work on Windows because of case insensitivity
+             * of file names
+             */
+            if (realpath($fullPath) == $fullPath) {
+                $fileContent = file_get_contents($fullPath);
+                if (
+                    strpos($fileContent, 'namespace ' . $namespace) !== false &&
+                    (strpos($fileContent, 'class ' . $class) !== false ||
+                    strpos($fileContent, 'interface ' . $class) !== false)
+                ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Return list of declared namespaces
      *
      * @return array
