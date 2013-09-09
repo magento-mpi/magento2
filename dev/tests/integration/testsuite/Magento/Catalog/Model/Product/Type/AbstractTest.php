@@ -18,9 +18,13 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_model = $this->getMockBuilder('Magento_Catalog_Model_Product_Type_Abstract')
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array('dispatch'), array(), '', false);
+        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $fileStorageDb = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $this->_model = $this->getMockForAbstractClass('Magento_Catalog_Model_Product_Type_Abstract',
+            array($eventManager, $coreData, $fileStorageDb, $filesystem), ''
+        );
     }
 
     public function testGetRelationInfo()
