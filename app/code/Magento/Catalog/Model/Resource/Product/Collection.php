@@ -477,8 +477,6 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      */
     protected function _beforeLoad()
     {
-        Mage::dispatchEvent('catalog_product_collection_load_before', array('collection' => $this));
-
         return parent::_beforeLoad();
     }
 

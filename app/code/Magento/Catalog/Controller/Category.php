@@ -24,7 +24,6 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
      */
     protected function _initCategory()
     {
-        $this->_eventManager->dispatch('catalog_controller_category_init_before', array('controller_action' => $this));
         $categoryId = (int) $this->getRequest()->getParam('id', false);
         if (!$categoryId) {
             return false;

@@ -345,7 +345,6 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         Mage::register('product', $product);
 
         try {
-            Mage::dispatchEvent('catalog_controller_product_init', array('product' => $product));
             Mage::dispatchEvent('catalog_controller_product_init_after',
                             array('product' => $product,
                                 'controller_action' => $controller

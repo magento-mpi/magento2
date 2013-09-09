@@ -205,8 +205,6 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
             }
         }
 
-        Mage::dispatchEvent('catalog_product_media_save_before', array('product' => $object, 'images' => $value));
-
         $object->setData($attrCode, $value);
 
         return $this;
@@ -310,8 +308,6 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         if (!$this->_filesystem->isFile($file, $this->_baseTmpMediaPath)) {
             Mage::throwException(__('The image does not exist.'));
         }
-
-        Mage::dispatchEvent('catalog_product_media_add_image', array('product' => $product, 'image' => $file));
 
         $pathinfo = pathinfo($file);
         $imgExtensions = array('jpg','jpeg','gif','png');

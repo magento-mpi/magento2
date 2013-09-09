@@ -132,7 +132,6 @@ class Magento_Backend_Model_Menu_Config
                 $this->_logger
             );
             $this->_menu = $this->_menuBuilder->getResult($this->_menu);
-            $this->_eventManager->dispatch('backend_menu_load_after', array('menu' => $this->_menu));
 
             $this->_configCacheType->save($this->_menu->serialize(), self::CACHE_MENU_OBJECT);
         }
