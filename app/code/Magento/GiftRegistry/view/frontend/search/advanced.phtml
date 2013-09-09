@@ -1,0 +1,40 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Enterprise_GiftRegistry_Block_Search_Advanced  */ ?>
+
+<?php foreach ($this->getAttributes() as $code => $attribute): ?>
+    <div class="field">
+        <label for="<?php echo $this->getFieldIdPrefix().$code ?>"><?php echo $attribute['label'] ?></label>
+        <div class="input-box">
+            <?php echo $this->renderField($code) ?>
+        </div>
+    </div>
+<?php endforeach; ?>
+
+<script type="text/javascript">
+    (function($) {
+        $('#gr-type-specific-fieldset').toggle(<?php echo ($this->getAttributes() ? "true" : "false");?>);
+    <?php if ($this->getRegionJsVisible()): ?>
+        head.js("<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
+            function() {
+                $('#<?php echo $this->getFieldIdPrefix() . $this->getElementCountry()?>').regionUpdater({
+                    optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
+                    regionListId: '#<?php echo $this->getFieldIdPrefix() . $this->getElementRegion()?>',
+                    regionInputId: '#<?php echo $this->getFieldIdPrefix() . $this->getElementRegionText()?>',
+                    regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson(); ?>,
+                    isRegionRequired: false,
+                    isZipRequired: false,
+                    isCountryRequired: false
+                });
+            });
+    <?php endif; ?>
+    })(jQuery)
+</script>

@@ -23,7 +23,7 @@ class Magento_Core_Model_Layout_Merge
     /**
      * XPath of handles originally declared in layout updates
      */
-    const XPATH_HANDLE_DECLARATION = '/layout/*[@* or label]';
+    const XPATH_HANDLE_DECLARATION = '/layout/*[@*[local-name()!="id"] or label]';
 
     /**
      * @var Magento_Core_Model_Theme
@@ -262,11 +262,15 @@ class Magento_Core_Model_Layout_Merge
     protected function _getPageHandleNode($handleName)
     {
         /* quick validation for non-existing page types */
-        if (!$handleName || !isset($this->getFileLayoutUpdatesXml()->$handleName)) {
+        if (!$handleName) {
+            return null;
+        }
+        $handles = $this->getFileLayoutUpdatesXml()->xpath("handle[@id='$handleName']");
+        if (empty($handles)) {
             return null;
         }
         $condition = '@type="' . self::TYPE_PAGE . '" or @type="' . self::TYPE_FRAGMENT . '"';
-        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/{$handleName}[{$condition}][1]");
+        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/handle[@id=\"{$handleName}\" and ($condition)]");
         return $nodes ? reset($nodes) : null;
     }
 
@@ -330,10 +334,10 @@ class Magento_Core_Model_Layout_Merge
         $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
         /** @var $node Magento_Core_Model_Layout_Element */
         foreach ($nodes as $node) {
-            $name = $node->getName();
+            $name = $node->getAttribute('id');
             $info = array(
                 'name'     => $name,
-                'label'    => (string)$node->label,
+                'label'    => __((string)$node->getAttribute('label')),
                 'type'     => $node->getAttribute('type'),
                 'children' => array()
             );
@@ -343,18 +347,6 @@ class Magento_Core_Model_Layout_Merge
             $result[$name] = $info;
         }
         return $result;
-    }
-
-    /**
-     * Retrieve the label for a page handle
-     *
-     * @param string $handleName
-     * @return string|null
-     */
-    public function getPageHandleLabel($handleName)
-    {
-        $node = $this->_getPageHandleNode($handleName);
-        return $node ? (string)$node->label : null;
     }
 
     /**
@@ -404,12 +396,13 @@ class Magento_Core_Model_Layout_Merge
     /**
      * Get layout updates as Magento_Core_Model_Layout_Element object
      *
-     * @return Magento_Core_Model_Layout_Element
+     * @return SimpleXMLElement
      */
     public function asSimplexml()
     {
         $updates = trim($this->asString());
-        $updates = '<' . '?xml version="1.0"?' . '><layout>' . $updates . '</layout>';
+        $updates = '<' . '?xml version="1.0"?' . '><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+            . $updates . '</layout>';
         return $this->_loadXmlString($updates);
     }
 
@@ -450,7 +443,7 @@ class Magento_Core_Model_Layout_Merge
         $_profilerKey = 'layout_package_update:' . $handle;
         Magento_Profiler::start($_profilerKey);
         $layout = $this->getFileLayoutUpdatesXml();
-        foreach ($layout->$handle as $updateXml) {
+        foreach ($layout->xpath("handle[@id='$handle']") as $updateXml) {
             $this->_fetchRecursiveUpdates($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }
@@ -474,7 +467,9 @@ class Magento_Core_Model_Layout_Merge
             Magento_Profiler::stop($_profilerKey);
             return false;
         }
-        $updateStr = '<update_xml>' . $updateStr . '</update_xml>';
+        $updateStr = '<update_xml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+            . $updateStr
+            . '</update_xml>';
         $updateStr = $this->_substitutePlaceholders($updateStr);
         $updateXml = $this->_loadXmlString($updateStr);
         $this->_fetchRecursiveUpdates($updateXml);
@@ -615,7 +610,7 @@ class Magento_Core_Model_Layout_Merge
             }
             $layoutStr .= $fileXml->innerXml();
         }
-        $layoutStr = '<layouts>' . $layoutStr . '</layouts>';
+        $layoutStr = '<layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $layoutStr . '</layouts>';
         $layoutXml = $this->_loadXmlString($layoutStr);
         return $layoutXml;
     }

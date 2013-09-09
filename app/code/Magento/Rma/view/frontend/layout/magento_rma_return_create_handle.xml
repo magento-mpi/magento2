@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="RMA Return Create" id="magento_rma_return_create_handle" type="page" parent="default">
+        <reference name="content">
+            <block class="Magento_CustomAttribute_Block_Form_Template" name="magento_rma_item_form_template">
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">text</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_CustomAttribute_Block_Form_Renderer_Text</argument>
+                    <argument name="template" xsi:type="string">Magento_Rma::form/renderer/text.phtml</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">textarea</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_CustomAttribute_Block_Form_Renderer_Textarea</argument>
+                    <argument name="template" xsi:type="string">Magento_Rma::form/renderer/textarea.phtml</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">select</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_Rma_Block_Form_Renderer_Select</argument>
+                    <argument name="template" xsi:type="string">form/renderer/select.phtml</argument>
+                </action>
+                <action method="addRenderer">
+                    <argument name="type" xsi:type="string">image</argument>
+                    <argument name="renderer_block" xsi:type="string">Magento_Rma_Block_Form_Renderer_Image</argument>
+                    <argument name="template" xsi:type="string">form/renderer/image.phtml</argument>
+                </action>
+            </block>
+        </reference>
+    </handle>
+</layout>

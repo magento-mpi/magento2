@@ -7,28 +7,27 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <paypal_express_review_details translate="label" type="fragment" owner="checkout_onepage_index">
-        <label>Paypal Express Review Details</label>
-        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-            <block type="Magento_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" template="express/review/details.phtml">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Paypal Express Review Details" id="paypal_express_review_details" type="fragment" owner="checkout_onepage_index">
+        <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block class="Magento_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" template="express/review/details.phtml">
                 <action method="addItemRender">
-                    <type>default</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer</block>
-                    <template>onepage/review/item.phtml</template>
+                    <argument name="type" xsi:type="string">default</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                    <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
                 </action>
                 <action method="addItemRender">
-                    <type>grouped</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Grouped</block>
-                    <template>onepage/review/item.phtml</template>
+                    <argument name="type" xsi:type="string">grouped</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                    <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
                 </action>
                 <action method="addItemRender">
-                    <type>configurable</type>
-                    <block>Magento_Checkout_Block_Cart_Item_Renderer_Configurable</block>
-                    <template>onepage/review/item.phtml</template>
+                    <argument name="type" xsi:type="string">configurable</argument>
+                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                    <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
                 </action>
-                <block type="Magento_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="onepage/review/totals.phtml"/>
+                <block class="Magento_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="onepage/review/totals.phtml"/>
             </block>
         </block>
-    </paypal_express_review_details>
+    </handle>
 </layout>

@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_extension_custom_loadtab>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_extension_custom_loadtab">
         <container name="root" label="Root" output="1">
-            <block type="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Load" name="connect_extension_load_local_package_grid" template="extension/custom/load.phtml">
-                <block type="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid" name="local_package_grid"/>
+            <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Load" name="connect_extension_load_local_package_grid" template="extension/custom/load.phtml">
+                <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid" name="local_package_grid"/>
             </block>
         </container>
-    </adminhtml_extension_custom_loadtab>
+    </handle>
 </layout>

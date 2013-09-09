@@ -7,25 +7,25 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_newsletter_queue_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_newsletter_queue_edit">
         <update handle="editor"/>
         <reference name="head">
             <action method="addCss">
-                <file>jquery/fileUploader/css/jquery.fileupload-ui.css</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/load-image.min.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/load-image.min.js</argument>
             </action>
             <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload-fp.js</file>
+                <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload-fp.js</argument>
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Newsletter_Queue_Edit" name="queue_edit" template="newsletter/queue/edit.phtml"/>
+            <block class="Magento_Adminhtml_Block_Newsletter_Queue_Edit" name="queue_edit" template="newsletter/queue/edit.phtml"/>
         </reference>
-    </adminhtml_newsletter_queue_edit>
+    </handle>
 </layout>

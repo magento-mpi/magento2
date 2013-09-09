@@ -51,9 +51,9 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
      */
     protected function _emulateInstallerConfigDir($dir)
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $installerConfig = new Magento_Install_Model_Installer_Config(
-            $objectManager->get('Magento_Core_Model_Config'),
+            $objectManager->get('Magento_Core_Controller_Request_Http'),
             new Magento_Core_Model_Dir(__DIR__, array(), array(Magento_Core_Model_Dir::CONFIG => $dir)),
             $objectManager->get('Magento_Core_Model_Config_Resource'),
             new Magento_Filesystem(new Magento_Filesystem_Adapter_Local())

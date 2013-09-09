@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer My Account GiftRegistry Edit" id="magento_giftregistry_index_edit" module="Magento_GiftRegistry" type="page" parent="magento_giftregistry_view_index">
+        <update handle="customer_account"/>
+        <update handle="page_calendar"/>
+        <reference name="customer_account_navigation">
+            <action method="setActive">
+                <argument name="path" xsi:type="string">magento_giftregistry/index/index</argument>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block class="Magento_GiftRegistry_Block_Customer_Edit" name="giftregistry_edit" template="edit/edit.phtml">
+                <action method="addInputTypeTemplate">
+                    <argument name="type" xsi:type="string">text</argument>
+                    <argument name="template" xsi:type="string">Magento_GiftRegistry::attributes/text.phtml</argument>
+                </action>
+                <action method="addInputTypeTemplate">
+                    <argument name="type" xsi:type="string">region</argument>
+                    <argument name="template" xsi:type="string">Magento_GiftRegistry::attributes/region.phtml</argument>
+                </action>
+                <block class="Magento_GiftRegistry_Block_Customer_Edit_Registry" name="giftregistry_edit_registry" template="edit/registry.phtml"/>
+                <block class="Magento_GiftRegistry_Block_Customer_Edit_Registrants" name="giftregistry_edit_registrants" template="edit/registrants.phtml"/>
+                <block class="Magento_GiftRegistry_Block_Customer_Address_Edit" name="giftregistry_address_edit" template="address/edit.phtml"/>
+            </block>
+        </reference>
+    </handle>
+</layout>

@@ -72,7 +72,7 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataTest exte
         $data = array(
             'json_helper' => new Magento_Core_Helper_Data(
                 $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
-                $this->getMock('Magento_Core_Model_Config_Modules', array(), array(), '', false, false),
+                $this->getMock('Magento_Core_Model_Config', array(), array(), '', false, false),
                 $this->getMock('Magento_ObjectManager', array(), array(), '', false, false)
             ),
             'resource'    => $resourceModelMock,

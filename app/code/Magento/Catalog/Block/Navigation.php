@@ -34,6 +34,25 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
      */
     protected $_itemLevelPositions = array();
 
+    /**
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_registry;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_registry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         $this->addData(array(
@@ -46,6 +65,16 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     }
 
     /**
+     * Get current category
+     *
+     * @return Magento_Catalog_Model_Category
+     */
+    public function getCategory()
+    {
+        return $this->_registry->registry('current_category');
+    }
+
+    /**
      * Get Key pieces for caching block content
      *
      * @return array
@@ -55,7 +84,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
         $shortCacheId = array(
             'CATALOG_NAVIGATION',
             Mage::app()->getStore()->getId(),
-            Mage::getDesign()->getDesignTheme()->getId(),
+            $this->_design->getDesignTheme()->getId(),
             Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId(),
             'template' => $this->getTemplate(),
             'name' => $this->getNameInLayout(),

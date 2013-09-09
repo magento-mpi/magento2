@@ -21,6 +21,8 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
      * @param array $sharedInstances
      * @param Magento_Core_Model_ObjectManager_ConfigLoader_Primary $primaryLoader
      * @throws Magento_BootstrapException
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(
         Magento_Core_Model_Config_Primary $primaryConfig,
@@ -30,23 +32,15 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
     ) {
         $definitionFactory = new Magento_Core_Model_ObjectManager_DefinitionFactory($primaryConfig);
         $definitions = $definitionFactory->createClassDefinition($primaryConfig);
+        $relations = $definitionFactory->createRelations();
         $config = $config ?: new Magento_ObjectManager_Config_Config(
-            $definitionFactory->createRelations(),
+            $relations,
             $definitions
         );
 
         $appMode = $primaryConfig->getParam(Mage::PARAM_MODE, Magento_Core_Model_App_State::MODE_DEFAULT);
-        $classBuilder = ($appMode == Magento_Core_Model_App_State::MODE_DEVELOPER)
-            ? new Magento_ObjectManager_Interception_ClassBuilder_Runtime()
-            : new Magento_ObjectManager_Interception_ClassBuilder_General();
+        $factory = new Magento_ObjectManager_Factory_Factory($config, $this, $definitions, $primaryConfig->getParams());
 
-        $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
-            new Magento_ObjectManager_Factory_Factory($config, null, $definitions, $primaryConfig->getParams()),
-            $config,
-            null,
-            $definitionFactory->createPluginDefinition($primaryConfig),
-            $classBuilder
-        );
         $sharedInstances['Magento_Core_Model_Config_Primary'] = $primaryConfig;
         $sharedInstances['Magento_Core_Model_Dir'] = $primaryConfig->getDirectories();
         $sharedInstances['Magento_Core_Model_ObjectManager'] = $this;
@@ -71,9 +65,40 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
             $this->configure($configData);
         }
 
+        $interceptorGenerator = ($definitions instanceof Magento_ObjectManager_Definition_Compiled)
+            ? null
+            : new Magento_Interception_CodeGenerator_CodeGenerator();
+
         Magento_Profiler::stop('global_primary');
         $verification = $this->get('Magento_Core_Model_Dir_Verification');
         $verification->createAndVerifyDirectories();
+
+        $interceptionConfig = $this->create('Magento_Interception_Config_Config', array(
+            'relations' => $definitionFactory->createRelations(),
+            'omConfig' => $this->_config,
+            'codeGenerator' => $interceptorGenerator,
+            'classDefinitions' => $definitions instanceof Magento_ObjectManager_Definition_Compiled
+                ? $definitions
+                : null,
+            'cacheId' => 'interception',
+        ));
+
+        $pluginList = $this->create('Magento_Interception_PluginList_PluginList', array(
+            'relations' => $definitionFactory->createRelations(),
+            'definitions' => $definitionFactory->createPluginDefinition(),
+            'omConfig' => $this->_config,
+            'classDefinitions' => $definitions instanceof Magento_ObjectManager_Definition_Compiled
+                ? $definitions
+                : null,
+            'scopePriorityScheme' => array('global'),
+            'cacheId' => 'pluginlist',
+        ));
+        $this->_sharedInstances['Magento_Interception_PluginList_PluginList'] = $pluginList;
+        $this->_factory = $this->create('Magento_Interception_FactoryDecorator', array(
+            'factory' => $this->_factory,
+            'config' => $interceptionConfig,
+            'pluginList' => $pluginList
+        ));
         $this->_config->setCache($this->get('Magento_Core_Model_ObjectManager_ConfigCache'));
         $this->configure($this->get('Magento_Core_Model_ObjectManager_ConfigLoader')->load('global'));
     }

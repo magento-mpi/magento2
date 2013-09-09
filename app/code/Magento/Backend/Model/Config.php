@@ -27,13 +27,6 @@ class Magento_Backend_Model_Config extends Magento_Object
     protected $_configData;
 
     /**
-     * Root config node
-     *
-     * @var Magento_Core_Model_Config_Element
-     */
-    protected $_configRoot;
-
-    /**
      * Event dispatcher
      *
      * @var Magento_Core_Model_Event_Manager
@@ -64,7 +57,7 @@ class Magento_Backend_Model_Config extends Magento_Object
     /**
      * TransactionFactory
      *
-     * @var Magento_Core_Model_Resource_Transaction_Factory
+     * @var Magento_Core_Model_Resource_TransactionFactory
      */
     protected $_transactionFactory;
 
@@ -85,9 +78,9 @@ class Magento_Backend_Model_Config extends Magento_Object
     /**
      * Config data factory
      *
-     * @var Magento_Core_Model_Config_DataFactory
+     * @var Magento_Core_Model_Config_ValueFactory
      */
-    protected $_configDataFactory;
+    protected $_configValueFactory;
 
     /**
      * @var Magento_Core_Model_StoreManagerInterface
@@ -99,9 +92,9 @@ class Magento_Backend_Model_Config extends Magento_Object
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Backend_Model_Config_Structure $configStructure
-     * @param Magento_Core_Model_Resource_Transaction_Factory $transactionFactory
+     * @param Magento_Core_Model_Resource_TransactionFactory $transactionFactory
      * @param Magento_Backend_Model_Config_Loader $configLoader
-     * @param Magento_Core_Model_Config_DataFactory $configDataFactory
+     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
@@ -110,9 +103,9 @@ class Magento_Backend_Model_Config extends Magento_Object
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Backend_Model_Config_Structure $configStructure,
-        Magento_Core_Model_Resource_Transaction_Factory $transactionFactory,
+        Magento_Core_Model_Resource_TransactionFactory $transactionFactory,
         Magento_Backend_Model_Config_Loader $configLoader,
-        Magento_Core_Model_Config_DataFactory $configDataFactory,
+        Magento_Core_Model_Config_ValueFactory $configValueFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
@@ -123,7 +116,7 @@ class Magento_Backend_Model_Config extends Magento_Object
         $this->_appConfig = $config;
         $this->_application = $application;
         $this->_configLoader = $configLoader;
-        $this->_configDataFactory = $configDataFactory;
+        $this->_configValueFactory = $configValueFactory;
         $this->_storeManager = $storeManager;
     }
 
@@ -256,10 +249,10 @@ class Magento_Backend_Model_Config extends Magento_Object
                 /** @var $field Magento_Backend_Model_Config_Structure_Element_Field */
                 $field = $this->_configStructure->getElement($groupPath . '/' . $originalFieldId);
 
-                /** @var Magento_Core_Model_Config_Data $backendModel */
+                /** @var Magento_Core_Model_Config_Value $backendModel */
                 $backendModel = $field->hasBackendModel() ?
                     $field->getBackendModel() :
-                    $this->_configDataFactory->create();
+                    $this->_configValueFactory->create();
 
                 $data = array(
                     'field' => $fieldId,
@@ -386,11 +379,13 @@ class Magento_Backend_Model_Config extends Magento_Object
     {
         if ($this->getStore()) {
             $scope   = 'stores';
-            $scopeId = (int) $this->_appConfig->getNode('stores/' . $this->getStore() . '/system/store/id');
+            $store = $this->_storeManager->getStore($this->getStore());
+            $scopeId = (int)$store->getId();
             $scopeCode = $this->getStore();
         } elseif ($this->getWebsite()) {
             $scope   = 'websites';
-            $scopeId = (int) $this->_appConfig->getNode('websites/' . $this->getWebsite() . '/system/website/id');
+            $website = $this->_storeManager->getWebsite($this->getWebsite());
+            $scopeId = (int)$website->getId();
             $scopeCode = $this->getWebsite();
         } else {
             $scope   = 'default';
@@ -419,7 +414,7 @@ class Magento_Backend_Model_Config extends Magento_Object
      * Set correct scope if isSingleStoreMode = true
      *
      * @param Magento_Backend_Model_Config_Structure_Element_Field $fieldConfig
-     * @param Magento_Core_Model_Config_Data $dataObject
+     * @param Magento_Core_Model_Config_Value $dataObject
      */
     protected function _checkSingleStoreMode(
         Magento_Backend_Model_Config_Structure_Element_Field $fieldConfig,
@@ -456,24 +451,10 @@ class Magento_Backend_Model_Config extends Magento_Object
             $data = $configData[$path];
             $inherit = false;
         } else {
-            $data = $this->getConfigRoot()->descend($path);
+            $data =  $this->_appConfig->getValue($path, $this->getScope(), $this->getScopeCode());
             $inherit = true;
         }
 
         return $data;
-    }
-
-    /**
-     * Get config root node for current scope
-     *
-     * @return Magento_Core_Model_Config_Element
-     */
-    public function getConfigRoot()
-    {
-        if (is_null($this->_configRoot)) {
-            $this->load();
-            $this->_configRoot = Mage::getConfig()->getNode(null, $this->getScope(), $this->getScopeCode());
-        }
-        return $this->_configRoot;
     }
 }

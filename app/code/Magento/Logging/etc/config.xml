@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Logging
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <logging_setup>
+                <setup>
+                    <module>Magento_Logging</module>
+                    <class>Magento_Core_Model_Resource_Setup</class>
+                </setup>
+            </logging_setup>
+        </resources>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Logging>
+                    <files>
+                        <default>Magento_Logging.csv</default>
+                    </files>
+                </Magento_Logging>
+            </modules>
+        </translate>
+        <enterprise>
+            <logging>
+                <skip_fields>updated_at,form_key</skip_fields>
+            </logging>
+        </enterprise>
+    </adminhtml>
+    <default>
+        <system>
+            <rotation translate="frequency">
+                <frequency>1</frequency>
+                <lifetime>60</lifetime>
+            </rotation>
+        </system>
+    </default>
+    <crontab>
+        <jobs>
+            <magento_logging_rotate_logs>
+                <schedule>
+                    <cron_expr>1 2 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>Magento_Logging_Model_Observer::rotateLogs</model>
+                </run>
+            </magento_logging_rotate_logs>
+        </jobs>
+    </crontab>
+</config>

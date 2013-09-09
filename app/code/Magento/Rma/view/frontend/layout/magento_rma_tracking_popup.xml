@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Shipment Tracking Popup" id="magento_rma_tracking_popup" type="page" parent="magento_rma_return_view">
+        <reference name="root">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">popup.phtml</argument>
+            </action>
+        </reference>
+        <reference name="content">
+            <block class="Magento_Rma_Block_Return_Tracking_Popup" name="rma.tracking.popup" template="Magento_Shipping::tracking/popup.phtml"/>
+        </reference>
+    </handle>
+</layout>

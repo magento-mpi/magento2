@@ -29,6 +29,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     protected static $_constants  = array();
     protected static $_methods    = array();
     protected static $_attributes = array();
+    protected static $_namespaces = array();
     /**#@-*/
 
     /**
@@ -40,6 +41,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
         self::_populateList(self::$_classes, $errors, 'obsolete_classes*.php', false);
         self::_populateList(self::$_constants, $errors, 'obsolete_constants*.php');
         self::_populateList(self::$_methods, $errors, 'obsolete_methods*.php');
+        self::_populateList(self::$_namespaces, $errors, 'obsolete_namespaces*.php', false);
         self::_populateList(self::$_attributes, $errors, 'obsolete_properties*.php');
         if ($errors) {
             $message = 'Duplicate patterns identified in list declarations:' . PHP_EOL . PHP_EOL;
@@ -122,6 +124,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
         $this->_testObsoleteActions($content);
         $this->_testObsoleteConstants($content);
         $this->_testObsoletePropertySkipCalculate($content);
+        $this->_testObsoleteNamespace($file);
     }
 
     /**
@@ -134,12 +137,31 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $file
+     * @dataProvider phtmlFileDataProvider
+     */
+    public function testTemplateMageCall($file)
+    {
+        $content = file_get_contents($file);
+        $this->_assertNotRegExp('/\bMage::(\w+?)\(/iS', $content, "Static Method of 'Mage' class is obsolete.");
+    }
+
+    /**
+     * @return array
+     */
+    public function phtmlFileDataProvider()
+    {
+        return Utility_Files::init()->getPhpFiles(false, false, true);
+    }
+
+    /**
+     * @param string $file
      * @dataProvider xmlFileDataProvider
      */
     public function testXmlFile($file)
     {
         $content = file_get_contents($file);
         $this->_testObsoleteClasses($content, $file);
+        $this->_testObsoleteNamespace($file);
     }
 
     /**
@@ -220,6 +242,28 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
                 $this->_assertNotRegExp('/function\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
                 $this->_assertNotRegExp('/[^a-z\d_]' . $quotedMethod . '\s*\(/iS', $content, $message);
             }
+        }
+    }
+
+    /**
+     * Assert that obsolete namespaces are not used in the content
+     *
+     * This method will search the content for references to class
+     * that start with obsolete namespace
+     *
+     * @param string $content
+     */
+    protected function _testObsoleteNamespace($file)
+    {
+        foreach (self::$_namespaces as $row) {
+            list($namespacePath, , $replacementPath) = $row;
+            $relativePath = str_replace(Utility_Files::init()->getPathToSource(), "", $file);
+            $namespacePathArray = explode('/', $namespacePath);
+            $namespace = $namespacePathArray[4];
+            $replacementPathArray = explode('/', $replacementPath);
+            $replacement = $replacementPathArray[3];
+            $message = $this->_suggestReplacement("Namespace '{$namespace}' is obsolete.", $replacement);
+            $this->assertStringStartsNotWith($namespace, $relativePath, $message);
         }
     }
 

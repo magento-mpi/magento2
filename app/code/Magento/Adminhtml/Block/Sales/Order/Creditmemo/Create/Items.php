@@ -140,7 +140,6 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
 
     public function canReturnToStock()
     {
-        $canReturnToStock = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
         if (Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
             return true;
         } else {

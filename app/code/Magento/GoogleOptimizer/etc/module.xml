@@ -9,10 +9,19 @@
 -->
 <config>
     <module name="Magento_GoogleOptimizer" version="2.0.0.0" active="true">
+        <sequence>
+            <module name="Magento_GoogleAnalytics"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Cms"/>
+        </sequence>
         <depends>
-            <module name="Magento_GoogleAnalytics" />
-            <module name="Magento_Catalog" />
-            <module name="Magento_Cms" />
+            <module name="Magento_GoogleAnalytics"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Cms"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>

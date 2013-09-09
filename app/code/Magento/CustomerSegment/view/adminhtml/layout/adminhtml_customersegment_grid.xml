@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_customersegment_grid">
+        <update handle="formkey"/>
+        <update handle="adminhtml_customersegment_block"/>
+        <container name="customersegment.container" label="Customer Segment Container" output="1"/>
+    </handle>
+</layout>

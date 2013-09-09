@@ -9,8 +9,15 @@
 -->
 <config>
     <module name="Magento_Sitemap" version="1.6.0.0" active="true">
+        <sequence>
+            <module name="Magento_Catalog"/>
+        </sequence>
         <depends>
-            <module name="Magento_Catalog" />
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Cms"/>
+            <module name="Magento_Adminhtml" type="soft"/>
         </depends>
     </module>
 </config>

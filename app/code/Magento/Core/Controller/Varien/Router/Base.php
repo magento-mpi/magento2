@@ -10,8 +10,14 @@
 
 class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller_Varien_Router_Abstract
 {
+    /**
+     * @var array
+     */
     protected $_modules = array();
-    protected $_routes = array();
+
+    /**
+     * @var array
+     */
     protected $_dispatchData = array();
 
     /**
@@ -33,6 +39,13 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     protected $_areaCode;
 
     /**
+     * Unique router id
+     *
+     * @var string
+     */
+    protected $_routerId;
+
+    /**
      * Base controller that belongs to area
      *
      * @var string
@@ -50,12 +63,24 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     protected $_configScope;
 
     /**
+     * @var Magento_Core_Model_Route_Config
+     */
+    protected $_routeConfig;
+
+    /**
+     * @var array
+     */
+    protected $_routes;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
+     * @param Magento_Core_Model_Route_Config $routeConfig
      * @param string $areaCode
      * @param string $baseController
+     * @param string $routerId
      * @throws InvalidArgumentException
      */
     public function __construct(
@@ -63,8 +88,10 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         Magento_Filesystem $filesystem,
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
+        Magento_Core_Model_Route_Config $routeConfig,
         $areaCode,
-        $baseController
+        $baseController,
+        $routerId
     ) {
         parent::__construct($controllerFactory);
 
@@ -72,52 +99,32 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         $this->_filesystem     = $filesystem;
         $this->_areaCode       = $areaCode;
         $this->_baseController = $baseController;
-        $this->_configScope  = $configScope;
+        $this->_configScope    = $configScope;
+        $this->_routeConfig    = $routeConfig;
+        $this->_routerId       = $routerId;
 
         if (is_null($this->_areaCode) || is_null($this->_baseController)) {
             throw new InvalidArgumentException("Not enough options to initialize router.");
         }
     }
 
-    public function collectRoutes($configArea, $useRouterName)
+    /**
+     * Get routes for router
+     *
+     * @return array
+     */
+    protected function _getRoutes()
     {
-        $routers = array();
-        $routersConfigNode = Mage::getConfig()->getNode($configArea . '/routers');
-        if ($routersConfigNode) {
-            $routers = $routersConfigNode->children();
+        if (empty($this->_routes)) {
+            $this->_routes = $this->_routeConfig->getRoutes($this->_areaCode, $this->_routerId);
         }
-        foreach ($routers as $routerName => $routerConfig) {
-            $use = (string)$routerConfig->use;
-            if ($use == $useRouterName) {
-                $modules = array((string)$routerConfig->args->module);
-                if ($routerConfig->args->modules) {
-                    foreach ($routerConfig->args->modules->children() as $customModule) {
-                        if ((string)$customModule) {
-                            if ($before = $customModule->getAttribute('before')) {
-                                $position = array_search($before, $modules);
-                                if ($position === false) {
-                                    $position = 0;
-                                }
-                                array_splice($modules, $position, 0, (string)$customModule);
-                            } elseif ($after = $customModule->getAttribute('after')) {
-                                $position = array_search($after, $modules);
-                                if ($position === false) {
-                                    $position = count($modules);
-                                }
-                                array_splice($modules, $position+1, 0, (string)$customModule);
-                            } else {
-                                $modules[] = (string)$customModule;
-                            }
-                        }
-                    }
-                }
 
-                $frontName = (string)$routerConfig->args->frontName;
-                $this->addModule($frontName, $modules, $routerName);
-            }
-        }
+        return $this->_routes;
     }
 
+    /**
+     * Set default module/controller/action values
+     */
     public function fetchDefault()
     {
         $this->getFront()->setDefault(array(
@@ -457,11 +464,29 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         return $controllerClassName;
     }
 
-    public function addModule($frontName, $moduleName, $routeName)
+    /**
+     * Include the file containing controller class if this class is not defined yet
+     *
+     * @param $controllerFileName
+     * @param $controllerClassName
+     * @return bool
+     * @throws Magento_Core_Exception
+     */
+    protected function _includeControllerClass($controllerFileName, $controllerClassName)
     {
-        $this->_modules[$frontName] = $moduleName;
-        $this->_routes[$routeName] = $frontName;
-        return $this;
+        if (!class_exists($controllerClassName, false)) {
+            if (!$this->_filesystem->isFile($controllerFileName)) {
+                return false;
+            }
+            include $controllerFileName;
+
+            if (!class_exists($controllerClassName, false)) {
+                throw Mage::exception('Magento_Core',
+                    Mage::helper('Magento_Core_Helper_Data')->__('Controller file was loaded but class does not exist')
+                );
+            }
+        }
+        return true;
     }
 
     /**
@@ -473,38 +498,48 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     public function getModulesByFrontName($frontName)
     {
         $modules = array();
-        if (isset($this->_modules[$frontName])) {
-            if (false === is_array($this->_modules[$frontName])) {
-                $modules = array($this->_modules[$frontName]);
-            } else {
-                $modules = $this->_modules[$frontName];
+
+        $routes = $this->_getRoutes();
+        foreach ($routes as $routeData) {
+            if ($routeData['frontName'] == $frontName && isset($routeData['modules'])) {
+                $modules = $routeData['modules'];
+                break;
             }
         }
-        return $modules;
+
+        return array_unique($modules);
     }
 
-    public function getModuleByName($moduleName, $modules)
+    /**
+     * Get route frontName by id
+     * @param string $routeId
+     * @return string
+     */
+    public function getFrontNameByRoute($routeId)
     {
-        foreach ($modules as $module) {
-            if ($moduleName === $module || (is_array($module)
-                && $this->getModuleByName($moduleName, $module))) {
-                return true;
-            }
+        $routes = $this->_getRoutes();
+        if (isset($routes[$routeId])) {
+            return $routes[$routeId]['frontName'];
         }
+
         return false;
     }
 
-    public function getFrontNameByRoute($routeName)
-    {
-        if (isset($this->_routes[$routeName])) {
-            return $this->_routes[$routeName];
-        }
-        return false;
-    }
-
+    /**
+     * Get route Id by route frontName
+     *
+     * @param string $frontName
+     * @return string
+     */
     public function getRouteByFrontName($frontName)
     {
-        return array_search($frontName, $this->_routes);
+        foreach ($this->_getRoutes() as $routeId => $routeData) {
+            if ($routeData['frontName'] == $frontName) {
+                return $routeId;
+            }
+        }
+
+        return false;
     }
 
     public function getControllerClassName($realModule, $controller)

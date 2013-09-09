@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_category_view">
+        <reference name="top.container">
+            <block class="Magento_CatalogEvent_Block_Catalog_Category_Event" after="-" name="catalog_category_event" template="catalog/category/event.phtml"/>
+        </reference>
+    </handle>
+</layout>

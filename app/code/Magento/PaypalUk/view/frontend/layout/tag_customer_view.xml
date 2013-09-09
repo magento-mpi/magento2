@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <tag_customer_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="tag_customer_view">
         <update handle="SHORTCUT_uk_popup"/>
-    </tag_customer_view>
+    </handle>
 </layout>

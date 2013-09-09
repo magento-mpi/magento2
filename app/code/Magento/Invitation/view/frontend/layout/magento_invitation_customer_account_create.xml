@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer Account Registration by Invitation Form" id="magento_invitation_customer_account_create" type="page" parent="magento_invitation_index_send">
+        <update handle="customer_account_create"/>
+        <reference name="content">
+            <block class="Magento_Invitation_Block_Customer_Form_Register" name="customer_form_register_invitation" template="Magento_Customer::form/register.phtml"/>
+            <move element="customer.form.register.fields.before" destination="customer_form_register_invitation" as="form_fields_before"/>
+            <move element="customer_form_user_attributes" destination="customer_form_register_invitation"/>
+            <move element="customer_form_address_user_attributes" destination="customer_form_register_invitation"/>
+            <remove name="customer_form_register"/>
+        </reference>
+    </handle>
+</layout>

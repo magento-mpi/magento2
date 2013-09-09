@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_multishipping_success>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_multishipping_success">
         <reference name="checkout_success">
-            <block type="Magento_Downloadable_Block_Checkout_Success" name="downloadable.checkout.success" template="checkout/success.phtml"/>
+            <block class="Magento_Downloadable_Block_Checkout_Success" name="downloadable.checkout.success" template="checkout/success.phtml"/>
         </reference>
-    </checkout_multishipping_success>
+    </handle>
 </layout>

@@ -15,7 +15,7 @@
  * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Captcha_Model_Config_Form_Abstract extends Magento_Core_Model_Config_Data
+abstract class Magento_Captcha_Model_Config_Form_Abstract extends Magento_Core_Model_Config_Value
 {
     /**
      * @var string
@@ -30,13 +30,11 @@ abstract class Magento_Captcha_Model_Config_Form_Abstract extends Magento_Core_M
     public function toOptionArray()
     {
         $optionArray = array();
-        /* @var $backendNode Magento_Core_Model_Config_Element */
-        $backendNode = Mage::getConfig()->getNode($this->_configPath);
-        if ($backendNode) {
-            foreach ($backendNode->children() as $formNode) {
-                /* @var $formNode Magento_Core_Model_Config_Element */
-                if (!empty($formNode->label)) {
-                    $optionArray[] = array('label' => (string)$formNode->label, 'value' => $formNode->getName());
+        $backendConfig = Mage::getConfig()->getValue($this->_configPath, 'default');
+        if ($backendConfig) {
+            foreach ($backendConfig as $formName => $formConfig) {
+                if (!empty($formConfig['label'])) {
+                    $optionArray[] = array('label' => $formConfig['label'], 'value' => $formName);
                 }
             }
         }

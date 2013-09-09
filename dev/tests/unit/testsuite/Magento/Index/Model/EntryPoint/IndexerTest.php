@@ -41,10 +41,8 @@ class Magento_Index_Model_EntryPoint_IndexerTest extends PHPUnit_Framework_TestC
         $this->_primaryConfig = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $this->_entryPoint = $this->getMock(
-            'Magento_Index_Model_EntryPoint_Indexer',
-            array('_setGlobalObjectManager'),
-            array($this->_reportDir, $this->_filesystem, $this->_primaryConfig, $this->_objectManager)
+        $this->_entryPoint = new Magento_Index_Model_EntryPoint_Indexer(
+            $this->_reportDir, $this->_filesystem, $this->_primaryConfig, $this->_objectManager
         );
     }
 

@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_report_customer_totals>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_report_customer_totals">
         <update handle="adminhtml_report_customer_totals_grid"/>
         <reference name="content">
-            <block name="adminhtml.report.grid.container" type="Magento_Reports_Block_Adminhtml_Customer_Totals"/>
+            <block class="Magento_Reports_Block_Adminhtml_Customer_Totals" name="adminhtml.report.grid.container"/>
         </reference>
-    </adminhtml_report_customer_totals>
+    </handle>
 </layout>

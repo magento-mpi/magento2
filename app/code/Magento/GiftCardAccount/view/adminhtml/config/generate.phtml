@@ -1,0 +1,56 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php
+$_htmlId = $this->getHtmlId() ? $this->getHtmlId() : '_' . uniqid();
+?>
+<button style="" onclick="" class="scalable" type="button" id="generateBtn<?php echo $_htmlId ?>">
+    <span><span><span><?php echo __('Generate'); ?></span></span></span>
+</button>
+<br />
+<p class="nm"><small>
+<?php
+$_usage = $this->getUsage();
+echo __('Code Pool used: <b>%1%%</b> (free <b>%2</b> of <b>%3</b> total).', $_usage->getPercent(), $_usage->getFree(), $_usage->getTotal());
+?>
+</small></p>
+<br />
+
+<script type="text/javascript">
+//<![CDATA[
+function redirectToGeneration()
+{
+    var url = '<?php echo $this->getUrl('*/giftcardaccount/generate'); ?>';
+    if (confirm('<?php echo __('Are you sure you want to continue without saving your changes?'); ?>')) {
+        if (Prototype.Browser.IE) {
+            var generateLink = new Element('a', {href: url});
+            $$('body')[0].insert(generateLink);
+            generateLink.click();
+        } else {
+            window.location.href = url;
+        }
+    }
+}
+
+function disableGenerateButton()
+{
+    var elem = $('generateBtn<?php echo $_htmlId ?>');
+    elem.disabled = true;
+    elem.addClassName('disabled');
+}
+
+Event.observe('generateBtn<?php echo $_htmlId ?>', 'click', redirectToGeneration)
+
+$('giftcard_giftcardaccount_general').select('input', 'select').each(function(elem) {
+    Event.observe($(elem.id), 'change', disableGenerateButton);
+});
+//]]>
+</script>

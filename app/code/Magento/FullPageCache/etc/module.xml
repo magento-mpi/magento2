@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_FullPageCache" version="1.11.0.0" active="false">
+        <sequence>
+            <module name="Magento_Core"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_WebsiteRestriction"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Reports"/>
+            <module name="Magento_Wishlist"/>
+            <module name="Magento_Banner"/>
+            <module name="Magento_Page"/>
+            <module name="Magento_TargetRule"/>
+        </depends>
+    </module>
+</config>

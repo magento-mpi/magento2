@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="log_log_clean_after">
+        <observer name="reports" instance="Magento_Reports_Model_Event_Observer" method="eventClean" />
+    </event>
+</config>

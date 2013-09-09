@@ -31,10 +31,10 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
 
         /** @var $factory Magento_Webhook_Model_Subscription_Factory */
-        $this->_subscriptionFactory = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription_Factory');
+        $this->_subscriptionFactory = $objectManager->create('Magento_Webhook_Model_Subscription_Factory');
 
         $this->_subscription = $objectManager->create('Magento_Webhook_Model_Subscription_Factory')
             ->create()
@@ -82,7 +82,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture               global/webhook/webhooks/test/hook/label 'Test Hook'
+     * @magentoConfigFixture global/webhook/webhooks/test/hook/label 'Test Hook'
      */
     public function testAfterWebapiUserChange()
     {
@@ -102,7 +102,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture               global/webhook/webhooks/test/hook/label 'Test Hook'
+     * @magentoConfigFixture global/webhook/webhooks/test/hook/label 'Test Hook'
      */
     public function testAfterWebapiRoleChange()
     {

@@ -63,7 +63,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     );
 
     /**
-     * @var Magento_Core_Model_Config_Modules
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
@@ -77,12 +77,12 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config_Modules $config
+     * @param Magento_Core_Model_Config $config
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config_Modules $config,
+        Magento_Core_Model_Config $config,
         Magento_ObjectManager $objectManager
     ) {
         parent::__construct($context);

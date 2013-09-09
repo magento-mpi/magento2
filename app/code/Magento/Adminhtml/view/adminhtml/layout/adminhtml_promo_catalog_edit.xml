@@ -7,40 +7,40 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_promo_catalog_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_promo_catalog_edit">
         <reference name="head">
             <action method="setCanLoadExtJs">
-                <flag>1</flag>
+                <argument name="flag" xsi:type="string">1</argument>
             </action>
             <action method="setCanLoadRulesJs">
-                <flag>1</flag>
+                <argument name="flag" xsi:type="string">1</argument>
             </action>
         </reference>
         <reference name="left">
-            <block type="Magento_Adminhtml_Block_Promo_Catalog_Edit_Tabs" name="promo_catalog_edit_tabs">
-                <block type="Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main" name="promo_catalog_edit_tab_main"/>
-                <block type="Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions" name="promo_catalog_edit_tab_conditions"/>
-                <block type="Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions" name="promo_catalog_edit_tab_actions"/>
+            <block class="Magento_Adminhtml_Block_Promo_Catalog_Edit_Tabs" name="promo_catalog_edit_tabs">
+                <block class="Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main" name="promo_catalog_edit_tab_main"/>
+                <block class="Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions" name="promo_catalog_edit_tab_conditions"/>
+                <block class="Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions" name="promo_catalog_edit_tab_actions"/>
                 <action method="addTab">
-                    <name>main_section</name>
-                    <block>promo_catalog_edit_tab_main</block>
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">promo_catalog_edit_tab_main</argument>
                 </action>
                 <action method="addTab">
-                    <name>conditions_section</name>
-                    <block>promo_catalog_edit_tab_conditions</block>
+                    <argument name="name" xsi:type="string">conditions_section</argument>
+                    <argument name="block" xsi:type="string">promo_catalog_edit_tab_conditions</argument>
                 </action>
                 <action method="addTab">
-                    <name>actions_section</name>
-                    <block>promo_catalog_edit_tab_actions</block>
+                    <argument name="name" xsi:type="string">actions_section</argument>
+                    <argument name="block" xsi:type="string">promo_catalog_edit_tab_actions</argument>
                 </action>
             </block>
         </reference>
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Promo_Catalog_Edit" name="promo_catalog_edit"/>
+            <block class="Magento_Adminhtml_Block_Promo_Catalog_Edit" name="promo_catalog_edit"/>
         </reference>
         <reference name="js">
-            <block type="Magento_Adminhtml_Block_Promo_Catalog_Edit_Js" template="promo/js.phtml"/>
+            <block class="Magento_Adminhtml_Block_Promo_Catalog_Edit_Js" template="promo/js.phtml"/>
         </reference>
-    </adminhtml_promo_catalog_edit>
+    </handle>
 </layout>
