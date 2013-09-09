@@ -284,7 +284,7 @@ abstract class Magento_Api_Model_Server_HandlerAbstract
         } catch (Magento_Api_Exception $e) {
             return $this->_fault($e->getMessage(), $resourceName, $e->getCustomMessage());
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
             return $this->_fault('internal', null, $e->getMessage());
         }
     }

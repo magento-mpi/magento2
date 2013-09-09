@@ -319,6 +319,8 @@ return array(
     array('getLanguageSelect', 'Magento_Adminhtml_Block_Page_Footer'),
     array('getLayoutFilename', '', 'getFilename'),
     array('getLifeTime', 'Magento_Core_Model_Resource_Session'),
+    array('getLog', 'Mage', 'Magento_Core_Model_Logger'),
+    array('getLogException', 'Mage', 'Magento_Core_Model_Logger'),
     array('getLocaleBaseDir', 'Magento_Core_Model_Design_Package'),
     array('getMail', 'Magento_Newsletter_Model_Template'),
     array('getMaxQueryLenght'),
