@@ -17,7 +17,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="action" type="actionType"  minOccurs="0" maxOccurs="unbounded" />
-                <xs:element name='log'  type="logType"  minOccurs="1" maxOccurs="unbounded" />
+                <xs:element name='group'  type="groupType"  minOccurs="1" maxOccurs="unbounded" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -34,10 +34,10 @@
         <xs:attribute name="id" type="xs:ID" use="required"/>
     </xs:complexType>
 
-    <xs:complexType name="logType">
+    <xs:complexType name="groupType">
         <xs:annotation>
             <xs:documentation>
-                The set of events which will be logged
+                The group of events which will be logged
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
