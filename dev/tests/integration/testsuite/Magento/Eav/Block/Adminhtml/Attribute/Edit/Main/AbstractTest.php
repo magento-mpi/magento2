@@ -28,8 +28,10 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
 
         $block = $this->getMockForAbstractClass(
             'Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract',
-            array(Mage::getSingleton('Magento_Backend_Block_Template_Context'))
-        )
+            array(
+                 Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Block_Template_Context'),
+                 Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry'),
+        ))
         ->setLayout(Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout'));
 
         $method = new ReflectionMethod(

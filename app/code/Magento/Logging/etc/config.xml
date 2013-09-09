@@ -21,64 +21,6 @@
         </resources>
     </global>
     <adminhtml>
-        <events>
-            <controller_action_predispatch>
-                <observers>
-                    <magento_logging>
-                        <class>Magento_Logging_Model_Observer</class>
-                        <method>controllerPredispatch</method>
-                    </magento_logging>
-                </observers>
-            </controller_action_predispatch>
-            <controller_action_postdispatch_adminhtml>
-                <observers>
-                    <magento_logging>
-                        <class>Magento_Logging_Model_Observer</class>
-                        <method>controllerPostdispatch</method>
-                    </magento_logging>
-                </observers>
-            </controller_action_postdispatch_adminhtml>
-            <model_save_after>
-                <observers>
-                    <magento_logging>
-                        <class>Magento_Logging_Model_Observer</class>
-                        <method>modelSaveAfter</method>
-                    </magento_logging>
-                </observers>
-            </model_save_after>
-            <model_delete_after>
-                <observers>
-                    <magento_logging>
-                        <class>Magento_Logging_Model_Observer</class>
-                        <method>modelDeleteAfter</method>
-                    </magento_logging>
-                </observers>
-            </model_delete_after>
-            <model_load_after>
-                <observers>
-                    <magento_logging>
-                        <class>Magento_Logging_Model_Observer</class>
-                        <method>modelLoadAfter</method>
-                    </magento_logging>
-                </observers>
-            </model_load_after>
-            <backend_auth_user_login_success>
-                <observers>
-                    <magento_logging>
-                        <class>Magento_Logging_Model_Observer</class>
-                        <method>adminSessionLoginSuccess</method>
-                    </magento_logging>
-                </observers>
-            </backend_auth_user_login_success>
-            <backend_auth_user_login_failed>
-                <observers>
-                    <magento_logging>
-                        <class>Magento_Logging_Model_Observer</class>
-                        <method>adminSessionLoginFailed</method>
-                    </magento_logging>
-                </observers>
-            </backend_auth_user_login_failed>
-        </events>
         <translate>
             <modules>
                 <Magento_Logging>
@@ -94,17 +36,6 @@
             </logging>
         </enterprise>
     </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Magento_Logging before="Magento_Adminhtml">Magento_Logging_Adminhtml</Magento_Logging>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <system>
             <rotation translate="frequency">
@@ -125,4 +56,4 @@
             </magento_logging_rotate_logs>
         </jobs>
     </crontab>
-</config>
+</config>

@@ -13,6 +13,9 @@
  */
 final class Mage
 {
+    /**
+     * Default error handler function name
+     */
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
 
     /**
@@ -75,13 +78,14 @@ final class Mage
      */
     const PARAM_CUSTOM_LOCAL_CONFIG = 'custom_local_config';
 
-    /**
+    /**#@+
      * Product edition labels
      */
     const EDITION_COMMUNITY    = 'Community';
     const EDITION_ENTERPRISE   = 'Enterprise';
     const EDITION_PROFESSIONAL = 'Professional';
     const EDITION_GO           = 'Go';
+    /**#@-*/
 
     /**
      * Default timezone
@@ -92,13 +96,6 @@ final class Mage
      * Magento version
      */
     const VERSION = '2.0.0.0-dev43';
-
-    /**
-     * Registry collection
-     *
-     * @var array
-     */
-    static private $_registry = array();
 
     /**
      * Application root absolute path
@@ -244,8 +241,6 @@ final class Mage
      */
     public static function reset()
     {
-        self::resetRegistry();
-
         self::$_appRoot         = null;
         self::$_app             = null;
         self::$_config          = null;
@@ -255,18 +250,6 @@ final class Mage
         self::$_design          = null;
         self::$_objectManager   = null;
         // do not reset $headersSentThrowsException
-    }
-
-    /**
-     * Reset registry
-     */
-    public static function resetRegistry()
-    {
-        foreach (array_keys(self::$_registry) as $key) {
-            self::unregister($key);
-        }
-
-        self::$_registry = array();
     }
 
     /**
@@ -281,13 +264,7 @@ final class Mage
      */
     public static function register($key, $value, $graceful = false)
     {
-        if (isset(self::$_registry[$key])) {
-            if ($graceful) {
-                return;
-            }
-            self::throwException('Mage registry key "' . $key . '" already exists');
-        }
-        self::$_registry[$key] = $value;
+        self::getObjectManager()->get('Magento_Core_Model_Registry')->register($key, $value, $graceful);
     }
 
     /**
@@ -299,12 +276,7 @@ final class Mage
      */
     public static function unregister($key)
     {
-        if (isset(self::$_registry[$key])) {
-            if (is_object(self::$_registry[$key]) && (method_exists(self::$_registry[$key], '__destruct'))) {
-                self::$_registry[$key]->__destruct();
-            }
-            unset(self::$_registry[$key]);
-        }
+        self::getObjectManager()->get('Magento_Core_Model_Registry')->unregister($key);
     }
 
     /**
@@ -317,10 +289,7 @@ final class Mage
      */
     public static function registry($key)
     {
-        if (isset(self::$_registry[$key])) {
-            return self::$_registry[$key];
-        }
-        return null;
+        return self::getObjectManager()->get('Magento_Core_Model_Registry')->registry($key);
     }
 
     /**
@@ -379,7 +348,8 @@ final class Mage
      */
     public static function getModuleDir($type, $moduleName)
     {
-        return self::getObjectManager()->get('Magento_Core_Model_Config_Modules_Reader')->getModuleDir($type, $moduleName);
+        return self::getObjectManager()->get('Magento_Core_Model_Config_Modules_Reader')
+            ->getModuleDir($type, $moduleName);
     }
 
     /**
@@ -483,7 +453,6 @@ final class Mage
     /**
      * Retrieve model object
      *
-     * @link    Magento_Core_Model_Config::getModelInstance
      * @param   string $modelClass
      * @param   array|object $arguments
      * @return  Magento_Core_Model_Abstract|false
@@ -505,10 +474,12 @@ final class Mage
     public static function getSingleton($modelClass = '')
     {
         $registryKey = '_singleton/' . $modelClass;
-        if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getObjectManager()->get($modelClass));
+        /** @var Magento_Core_Model_Registry $registryObject */
+        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
+        if (!$registryObject->registry($registryKey)) {
+            $registryObject->register($registryKey, self::getObjectManager()->get($modelClass));
         }
-        return self::registry($registryKey);
+        return $registryObject->registry($registryKey);
     }
 
     /**
@@ -560,11 +531,13 @@ final class Mage
      */
     public static function getResourceSingleton($modelClass = '')
     {
+        /** @var Magento_Core_Model_Registry $registryObject */
+        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
         $registryKey = '_resource_singleton/' . $modelClass;
-        if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getObjectManager()->get($modelClass));
+        if (!$registryObject->registry($registryKey)) {
+            $registryObject->register($registryKey, self::getObjectManager()->get($modelClass));
         }
-        return self::registry($registryKey);
+        return $registryObject->registry($registryKey);
     }
 
     /**
@@ -592,11 +565,13 @@ final class Mage
             $name .= '_Helper_Data';
         }
 
+        /** @var Magento_Core_Model_Registry $registryObject */
+        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
         $registryKey = '_helper/' . $name;
-        if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getObjectManager()->get($name));
+        if (!$registryObject->registry($registryKey)) {
+            $registryObject->register($registryKey, self::getObjectManager()->get($name));
         }
-        return self::registry($registryKey);
+        return $registryObject->registry($registryKey);
     }
 
     /**
@@ -616,13 +591,15 @@ final class Mage
         if (substr($moduleName, 0, 8) == 'Magento_') {
             $connection = substr($connection, 8);
         }
+        /** @var Magento_Core_Model_Registry $registryObject */
+        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
         $key = 'resourceHelper/' . $connection;
-        if (!self::registry($key)) {
-            self::register(
+        if (!$registryObject->registry($key)) {
+            $registryObject->register(
                 $key, self::getObjectManager()->create($helperClassName, array('modulePrefix' => $connection))
             );
         }
-        return self::registry($key);
+        return $registryObject->registry($key);
     }
 
     /**

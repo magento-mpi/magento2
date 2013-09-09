@@ -22,76 +22,7 @@
         <index>
             <indexer />
         </index>
-        <events>
-            <store_save_commit_after>
-                <observers>
-                    <index>
-                        <class>Magento_Index_Model_Observer</class>
-                        <method>processStoreSave</method>
-                    </index>
-                </observers>
-            </store_save_commit_after>
-            <store_group_save_commit_after>
-                <observers>
-                    <index>
-                        <class>Magento_Index_Model_Observer</class>
-                        <method>processStoreGroupSave</method>
-                    </index>
-                </observers>
-            </store_group_save_commit_after>
-            <website_save_commit_after>
-                <observers>
-                    <index>
-                        <class>Magento_Index_Model_Observer</class>
-                        <method>processWebsiteSave</method>
-                    </index>
-                </observers>
-            </website_save_commit_after>
-            <store_delete_commit_after>
-                <observers>
-                    <index>
-                        <class>Magento_Index_Model_Observer</class>
-                        <method>processStoreDelete</method>
-                    </index>
-                </observers>
-            </store_delete_commit_after>
-            <store_group_delete_commit_after>
-                <observers>
-                    <index>
-                        <class>Magento_Index_Model_Observer</class>
-                        <method>processStoreGroupDelete</method>
-                    </index>
-                </observers>
-            </store_group_delete_commit_after>
-            <website_delete_commit_after>
-                <observers>
-                    <index>
-                        <class>Magento_Index_Model_Observer</class>
-                        <method>processWebsiteDelete</method>
-                    </index>
-                </observers>
-            </website_delete_commit_after>
-            <core_config_data_save_commit_after>
-                <observers>
-                    <index>
-                        <class>Magento_Index_Model_Observer</class>
-                        <method>processConfigDataSave</method>
-                    </index>
-                </observers>
-            </core_config_data_save_commit_after>
-        </events>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Magento_Index before="Magento_Adminhtml">Magento_Index_Adminhtml</Magento_Index>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -103,4 +34,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

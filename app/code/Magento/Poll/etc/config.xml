@@ -11,15 +11,6 @@
 -->
 <config>
     <frontend>
-        <routers>
-            <poll>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Poll</module>
-                    <frontName>poll</frontName>
-                </args>
-            </poll>
-        </routers>
         <translate>
             <modules>
                 <Magento_Poll>

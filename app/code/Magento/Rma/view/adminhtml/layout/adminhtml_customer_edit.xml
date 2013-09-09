@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_customer_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_customer_edit">
         <reference name="customer_edit_tabs">
-            <block type="Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma" name="customer_edit_tab_rma" after="orders">
-                <block type="Magento_Rma_Block_Adminhtml_Rma" name="magento_rma"/>
+            <block class="Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma" name="customer_edit_tab_rma" after="orders">
+                <block class="Magento_Rma_Block_Adminhtml_Rma" name="magento_rma"/>
             </block>
             <action method="addTabAfter">
-                <name>customer_edit_tab_rma</name>
-                <block>customer_edit_tab_rma</block>
-                <after>orders</after>
+                <argument name="name" xsi:type="string">customer_edit_tab_rma</argument>
+                <argument name="block" xsi:type="string">customer_edit_tab_rma</argument>
+                <argument name="after" xsi:type="string">orders</argument>
             </action>
         </reference>
-    </adminhtml_customer_edit>
+    </handle>
 </layout>

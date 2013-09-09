@@ -18,6 +18,22 @@ class Magento_PersistentHistory_Model_Observer
     protected $_setQuotePersistent = true;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+    }
+
+    /**
      * Set persistent data to customer session
      *
      * @param Magento_Event_Observer $observer
@@ -41,7 +57,7 @@ class Magento_PersistentHistory_Model_Observer
                 ->setCustomerGroupId($customer->getGroupId());
 
             // apply persistent data to segments
-            Mage::register('segment_customer', $customer, true);
+            $this->_coreRegistry->register('segment_customer', $customer, true);
             if ($this->_isWishlistPersist()) {
                 Mage::helper('Magento_Wishlist_Helper_Data')->setCustomer($customer);
             }
@@ -306,7 +322,7 @@ class Magento_PersistentHistory_Model_Observer
         $eventDataObject = $observer->getEvent()->getDataObject();
 
         if ($eventDataObject->getValue()) {
-            $optionCustomerSegm = Mage::getModel('Magento_Core_Model_Config_Data')
+            $optionCustomerSegm = Mage::getModel('Magento_Core_Model_Config_Value')
                 ->setScope($eventDataObject->getScope())
                 ->setScopeId($eventDataObject->getScopeId())
                 ->setPath(Magento_PersistentHistory_Helper_Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM)

@@ -38,9 +38,9 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_Co
         /** @var Magento_Core_Model_Dir $dirs */
         $dirs = $objectManager->create(
             'Magento_Core_Model_Dir', array(
-                'baseDir' => array(BP),
-                'dirs' => array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files'))
-        );
+                'baseDir' => BP,
+                'dirs' => array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files')
+        ));
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
         $moduleReader = $objectManager->create(

@@ -179,6 +179,7 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Sales_Model_Status_ListFactory $statusListFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -186,13 +187,14 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Sales_Model_Status_ListFactory $statusListFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_errorInfos = $statusListFactory->create();
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
 

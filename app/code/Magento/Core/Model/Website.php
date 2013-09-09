@@ -27,12 +27,7 @@
  * @method Magento_Core_Model_Website setDefaultGroupId(int $value)
  * @method int getIsDefault()
  * @method Magento_Core_Model_Website setIsDefault(int $value)
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
 {
     const ENTITY    = 'core_website';
@@ -132,6 +127,31 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     private $_isReadOnly = false;
 
     /**
+     * @var Magento_Core_Model_Resource_Config_Data
+     */
+    protected $_configDataResource;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Config_Data $configDataResource
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Config_Data $configDataResource,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_configDataResource = $configDataResource;
+    }
+
+    /**
      * init model
      *
      */
@@ -157,56 +177,20 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     }
 
     /**
-     * Load website configuration
-     *
-     * @param   string $code
-     * @return  Magento_Core_Model_Website
-     */
-    public function loadConfig($code)
-    {
-        if (!Mage::getConfig()->getNode('websites')) {
-            return $this;
-        }
-        if (is_numeric($code)) {
-            foreach (Mage::getConfig()->getNode('websites')->children() as $websiteCode => $website) {
-                if ((int)$website->system->website->id == $code) {
-                    $code = $websiteCode;
-                    break;
-                }
-            }
-        } else {
-            $website = Mage::getConfig()->getNode('websites/' . $code);
-        }
-        if (!empty($website)) {
-            $this->setCode($code);
-            $id = (int)$website->system->website->id;
-            $this->setId($id)->setStoreId($id);
-        }
-        return $this;
-    }
-
-    /**
      * Get website config data
      *
      * @param string $path
      * @return mixed
      */
-    public function getConfig($path) {
+    public function getConfig($path)
+    {
         if (!isset($this->_configCache[$path])) {
 
-            $config = Mage::getConfig()->getNode('websites/' . $this->getCode() . '/' . $path);
+            $config = Mage::getConfig()->getValue($path, 'website', $this->getCode());
             if (!$config) {
                 return false;
             }
-            if ($config->hasChildren()) {
-                $value = array();
-                foreach ($config->children() as $k => $v) {
-                    $value[$k] = $v;
-                }
-            } else {
-                $value = (string)$config;
-            }
-            $this->_configCache[$path] = $value;
+            $this->_configCache[$path] = $config;
         }
         return $this->_configCache[$path];
     }
@@ -460,6 +444,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
+        $this->_configDataResource->clearWebsiteData($this);
         return parent::_beforeDelete();
     }
 
@@ -471,7 +456,6 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     protected function _afterDelete()
     {
         Mage::app()->clearWebsiteCache($this->getId());
-
         parent::_afterDelete();
         Mage::getConfig()->removeCache();
         return $this;

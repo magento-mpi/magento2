@@ -92,6 +92,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
@@ -99,6 +100,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
@@ -107,7 +109,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         $this->_filesystem = $filesystem;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
-        parent::__construct($context, $data);
+        parent::__construct($context, $registry, $data);
     }
 
     /**

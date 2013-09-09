@@ -34,13 +34,23 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
     protected $_config;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_config = $config;
     }
@@ -84,7 +94,7 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
             $controller->getLayout()->helper('Magento_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
         }
 
-        $currentCategory = Mage::registry('current_category');
+        $currentCategory = $this->_coreRegistry->registry('current_category');
         $root = $controller->getLayout()->getBlock('root');
         if ($root) {
             $controllerClass = $controller->getFullActionName();

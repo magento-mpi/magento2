@@ -7,16 +7,15 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <magento_rma_tracking_popup translate="label" type="page" parent="magento_rma_return_view">
-        <label>Shipment Tracking Popup</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Shipment Tracking Popup" id="magento_rma_tracking_popup" type="page" parent="magento_rma_return_view">
         <reference name="root">
             <action method="setTemplate">
-                <template>popup.phtml</template>
+                <argument name="template" xsi:type="string">popup.phtml</argument>
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Rma_Block_Return_Tracking_Popup" name="rma.tracking.popup" template="Magento_Shipping::tracking/popup.phtml"/>
+            <block class="Magento_Rma_Block_Return_Tracking_Popup" name="rma.tracking.popup" template="Magento_Shipping::tracking/popup.phtml"/>
         </reference>
-    </magento_rma_tracking_popup>
+    </handle>
 </layout>

@@ -9,6 +9,27 @@
  */
 class Magento_Rma_Block_Order_Guest extends Magento_Core_Block_Template
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     public function _construct()
     {
         parent::_construct();
@@ -16,7 +37,7 @@ class Magento_Rma_Block_Order_Guest extends Magento_Core_Block_Template
         if (Mage::helper('Magento_Rma_Helper_Data')->isEnabled()) {
             $returns = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection')
                 ->addFieldToSelect('*')
-                ->addFieldToFilter('order_id', Mage::registry('current_order')->getId())
+                ->addFieldToFilter('order_id', $this->_coreRegistry->registry('current_order')->getId())
                 ->count()
             ;
 

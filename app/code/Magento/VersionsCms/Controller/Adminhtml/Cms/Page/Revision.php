@@ -8,15 +8,9 @@
  * @license     {license_link}
  */
 
-
 /**
  * Manage revision controller
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision extends Magento_VersionsCms_Controller_Adminhtml_Cms_Page
 {
     /**
@@ -26,14 +20,16 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision extends Magento
 
     /**
      * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Config_Scope $configScope
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Config_Scope $configScope
     ) {
         $this->_configScope = $configScope;
-        parent::__construct($context);
+        parent::__construct($context, $coreRegistry);
     }
 
     /**
@@ -47,8 +43,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision extends Magento
         $this->loadLayout()
             ->_setActiveMenu('Magento_Cms::cms_page')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
-            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'))
-        ;
+            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
         return $this;
     }
 
@@ -82,7 +77,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision extends Magento
         }
 
         //setting in registry as cms_page to make work CE blocks
-        Mage::register('cms_page', $revision);
+        $this->_coreRegistry->register('cms_page', $revision);
         return $revision;
     }
 
@@ -125,7 +120,8 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision extends Magento
     public function saveAction()
     {
         // check if data sent
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             $data = $this->_filterPostData($data);
             // init model and set data
             $revision = $this->_initRevision();
@@ -349,8 +345,8 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision extends Magento
     public function deleteAction()
     {
         // check if we know what should be deleted
-        if ($id = $this->getRequest()->getParam('revision_id')) {
-            $error = false;
+        $id = $this->getRequest()->getParam('revision_id');
+        if ($id) {
             try {
                 // init model and delete
                 $revision = $this->_initRevision();
@@ -394,16 +390,12 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Revision extends Magento
         switch ($this->getRequest()->getActionName()) {
             case 'save':
                 return Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserSaveRevision();
-                break;
             case 'publish':
                 return Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserPublishRevision();
-                break;
             case 'delete':
                 return Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserDeleteRevision();
-                break;
             default:
                 return $this->_authorization->isAllowed('Magento_Cms::page');
-                break;
         }
     }
 

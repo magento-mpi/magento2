@@ -55,152 +55,6 @@
                 </totals>
             </order_creditmemo>
         </sales>
-        <events>
-            <adminhtml_customer_save_after>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>customerSaveAfter</method>
-                    </magento_customerbalance>
-                </observers>
-            </adminhtml_customer_save_after>
-            <sales_quote_payment_import_data_before>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>paymentDataImport</method>
-                    </magento_customerbalance>
-                </observers>
-            </sales_quote_payment_import_data_before>
-            <sales_model_service_quote_submit_before>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>processOrderPlace</method>
-                    </magento_customerbalance>
-                </observers>
-            </sales_model_service_quote_submit_before>
-            <sales_model_service_quote_submit_failure>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>revertStoreCredit</method>
-                    </magento_customerbalance>
-                </observers>
-            </sales_model_service_quote_submit_failure>
-            <paypal_payment_cancel>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>revertStoreCredit</method>
-                    </magento_customerbalance>
-                </observers>
-            </paypal_payment_cancel>
-            <checkout_type_multishipping_create_orders_single>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>processOrderPlace</method>
-                    </magento_customerbalance>
-                </observers>
-            </checkout_type_multishipping_create_orders_single>
-            <checkout_multishipping_refund_all>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>revertStoreCreditForAllOrders</method>
-                    </magento_customerbalance>
-                </observers>
-            </checkout_multishipping_refund_all>
-            <adminhtml_sales_order_create_process_data>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>processOrderCreationData</method>
-                    </magento_customerbalance>
-                </observers>
-            </adminhtml_sales_order_create_process_data>
-            <payment_method_is_active>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>togglePaymentMethods</method>
-                    </magento_customerbalance>
-                </observers>
-            </payment_method_is_active>
-            <sales_quote_collect_totals_before>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>quoteCollectTotalsBefore</method>
-                    </magento_customerbalance>
-                </observers>
-            </sales_quote_collect_totals_before>
-            <sales_quote_merge_after>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>quoteMergeAfter</method>
-                    </magento_customerbalance>
-                </observers>
-            </sales_quote_merge_after>
-            <sales_order_invoice_save_after>
-                <observers>
-                    <magento_customerbalance_sales_order_invoice_save_after>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>increaseOrderInvoicedAmount</method>
-                    </magento_customerbalance_sales_order_invoice_save_after>
-                </observers>
-            </sales_order_invoice_save_after>
-            <sales_order_creditmemo_save_after>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>creditmemoSaveAfter</method>
-                    </magento_customerbalance>
-                </observers>
-            </sales_order_creditmemo_save_after>
-            <adminhtml_sales_order_creditmemo_register_before>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>creditmemoDataImport</method>
-                    </magento_customerbalance>
-                </observers>
-            </adminhtml_sales_order_creditmemo_register_before>
-            <sales_order_load_after>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>salesOrderLoadAfter</method>
-                    </magento_customerbalance>
-                </observers>
-            </sales_order_load_after>
-            <sales_order_creditmemo_refund>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>refund</method>
-                    </magento_customerbalance>
-                </observers>
-            </sales_order_creditmemo_refund>
-            <website_delete_before>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>setCustomersBalanceCurrencyToWebsiteBaseCurrency</method>
-                    </magento_customerbalance>
-                </observers>
-            </website_delete_before>
-            <paypal_prepare_line_items>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>addPaypalCustomerBalanceItem</method>
-                    </magento_customerbalance>
-                </observers>
-            </paypal_prepare_line_items>
-        </events>
         <pdf>
             <totals>
                 <magento_customerbalance translate="title">
@@ -231,49 +85,11 @@
                 </Magento_CustomerBalance>
             </modules>
         </translate>
-        <routers>
-            <magento_customerbalance>
-                <use>standard</use>
-                <args>
-                    <module>Magento_CustomerBalance</module>
-                    <frontName>storecredit</frontName>
-                </args>
-            </magento_customerbalance>
-        </routers>
         <secure_url>
             <storecredit_info>/storecredit/info/</storecredit_info>
         </secure_url>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <customerbalance before="Magento_Adminhtml">Magento_CustomerBalance_Adminhtml</customerbalance>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
-        <events>
-            <adminhtml_customer_prepare_save>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>prepareCustomerBalanceSave</method>
-                    </magento_customerbalance>
-                </observers>
-            </adminhtml_customer_prepare_save>
-            <sales_prepare_amount_expression>
-                <observers>
-                    <magento_customerbalance>
-                        <class>Magento_CustomerBalance_Model_Observer</class>
-                        <method>extendSalesAmountExpression</method>
-                    </magento_customerbalance>
-                </observers>
-            </sales_prepare_amount_expression>
-        </events>
         <translate>
             <modules>
                 <Magento_CustomerBalance>
@@ -299,4 +115,4 @@
             </totals_sort>
         </sales>
     </default>
-</config>
+</config>

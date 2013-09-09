@@ -19,6 +19,27 @@
 class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare form fields
      *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -27,7 +48,7 @@ class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget
     protected function _prepareForm()
     {
         /** @var $model Magento_User_Model_User */
-        $model = Mage::registry('permissions_user');
+        $model = $this->_coreRegistry->registry('permissions_user');
 
         $form = new Magento_Data_Form();
 

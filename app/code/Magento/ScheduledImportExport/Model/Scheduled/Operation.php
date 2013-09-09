@@ -75,6 +75,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      * Initialize operation model
      *
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Date $dateModel
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -83,12 +84,13 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Date $dateModel,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_init('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation');
         $this->_dateModel = $dateModel;
     }
@@ -246,13 +248,13 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $exprPath  = $this->getExprConfigPath();
         $modelPath = $this->getModelConfigPath();
         try {
-            Mage::getModel('Magento_Core_Model_Config_Data')
+            Mage::getModel('Magento_Core_Model_Config_Value')
                 ->load($exprPath, 'path')
                 ->setValue($cronExprString)
                 ->setPath($exprPath)
                 ->save();
 
-            Mage::getModel('Magento_Core_Model_Config_Data')
+            Mage::getModel('Magento_Core_Model_Config_Value')
                 ->load($modelPath, 'path')
                 ->setValue(self::CRON_MODEL)
                 ->setPath($modelPath)
@@ -273,10 +275,10 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     protected function _dropCronTask()
     {
         try {
-            Mage::getModel('Magento_Core_Model_Config_Data')
+            Mage::getModel('Magento_Core_Model_Config_Value')
                 ->load($this->getExprConfigPath(), 'path')
                 ->delete();
-            Mage::getModel('Magento_Core_Model_Config_Data')
+            Mage::getModel('Magento_Core_Model_Config_Value')
                 ->load($this->getModelConfigPath(), 'path')
                 ->delete();
         } catch (Exception $e) {

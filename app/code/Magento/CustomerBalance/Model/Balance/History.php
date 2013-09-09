@@ -94,9 +94,9 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
                         && $user = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()
                     ) {
                         if ($user->getUsername()) {
-                            if (!trim($balance->getComment())){
+                            if (!trim($balance->getComment())) {
                                 $this->setAdditionalInfo(__('By admin: %1.', $user->getUsername()));
-                            }else{
+                            } else {
                                 $this->setAdditionalInfo(__('By admin: %1. (%2)', $user->getUsername(), $balance->getComment()));
                             }
                         }
@@ -189,7 +189,7 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
         $result = array();
         /** @var $collection Magento_CustomerBalance_Model_Resource_Balance_History_Collection */
         $collection = $this->getCollection()->loadHistoryData($customerId, $websiteId);
-        foreach($collection as $historyItem) {
+        foreach ($collection as $historyItem) {
             $result[] = $historyItem->getData();
         }
         return $result;

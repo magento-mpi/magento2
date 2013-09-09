@@ -68,15 +68,17 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_area = isset($data['area']) ? $data['area'] : null;
         $this->_store = isset($data['store']) ? $data['store'] : null;
-        parent::__construct($context, null, null, $data);
+        parent::__construct($context, $registry, null, null, $data);
     }
 
     /**

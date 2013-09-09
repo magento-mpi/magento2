@@ -77,7 +77,7 @@ class Magento_Page_Block_Switch extends Magento_Core_Block_Template
                 if (!$store->getIsActive()) {
                     continue;
                 }
-                $store->setLocaleCode(Mage::getStoreConfig('general/locale/code', $store->getId()));
+                $store->setLocaleCode($store->getConfig('general/locale/code'));
 
                 $params = array(
                     '_query' => array()

@@ -7,58 +7,58 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_index">
         <reference name="checkout.onepage.login">
             <container name="login.form.additional.info" label="Form Additional Info">
-                <block type="Magento_Captcha_Block_Captcha" name="captcha">
+                <block class="Magento_Captcha_Block_Captcha" name="captcha">
                     <action method="setFormId">
-                        <formId>user_login</formId>
+                        <argument name="formId" xsi:type="string">user_login</argument>
                     </action>
                     <action method="setImgWidth">
-                        <width>230</width>
+                        <argument name="width" xsi:type="string">230</argument>
                     </action>
                     <action method="setImgHeight">
-                        <width>50</width>
+                        <argument name="width" xsi:type="string">50</argument>
                     </action>
                 </block>
             </container>
         </reference>
         <reference name="checkout.onepage.billing">
             <container name="form.additional.info" label="Form Additional Info">
-                <block type="Magento_Captcha_Block_Captcha" name="captcha.guest.checkout">
+                <block class="Magento_Captcha_Block_Captcha" name="captcha.guest.checkout">
                     <reference name="head">
                         <action method="addJs">
-                            <file>Magento_Captcha::onepage.js</file>
+                            <argument name="file" xsi:type="string">Magento_Captcha::onepage.js</argument>
                         </action>
                     </reference>
                     <action method="setFormId">
-                        <formId>guest_checkout</formId>
+                        <argument name="formId" xsi:type="string">guest_checkout</argument>
                     </action>
                     <action method="setImgWidth">
-                        <width>230</width>
+                        <argument name="width" xsi:type="string">230</argument>
                     </action>
                     <action method="setImgHeight">
-                        <width>50</width>
+                        <argument name="width" xsi:type="string">50</argument>
                     </action>
                 </block>
-                <block type="Magento_Captcha_Block_Captcha" name="captcha.register.during.checkout">
+                <block class="Magento_Captcha_Block_Captcha" name="captcha.register.during.checkout">
                     <reference name="head">
                         <action method="addJs">
-                            <file>Magento_Captcha::onepage.js</file>
+                            <argument name="file" xsi:type="string">Magento_Captcha::onepage.js</argument>
                         </action>
                     </reference>
                     <action method="setFormId">
-                        <formId>register_during_checkout</formId>
+                        <argument name="formId" xsi:type="string">register_during_checkout</argument>
                     </action>
                     <action method="setImgWidth">
-                        <width>230</width>
+                        <argument name="width" xsi:type="string">230</argument>
                     </action>
                     <action method="setImgHeight">
-                        <width>50</width>
+                        <argument name="width" xsi:type="string">50</argument>
                     </action>
                 </block>
             </container>
         </reference>
-    </checkout_onepage_index>
+    </handle>
 </layout>

@@ -103,7 +103,8 @@ return array(
     array('XML_PATH_ALLOW_DUPLICATION', 'Magento_Core_Model_Design_PackageInterface',
         'Magento_Core_Model_Design_Package::XML_PATH_ALLOW_DUPLICATION'
     ),
-    array('XML_PATH_ALLOW_MAP_UPDATE', 'Magento_Core_Model_Design_PackageInterface'),
+    array('XML_PATH_ALLOW_MAP_UPDATE', 'Mage_Core_Model_Design_PackageInterface'),
+    array('XML_PATH_BACKEND_FRONTNAME', 'Mage_Backend_Helper_Data'),
     array('XML_PATH_CACHE_BETA_TYPES'),
     array('XML_PATH_CHECK_EXTENSIONS', 'Magento_Install_Model_Config'),
     array('XML_PATH_COUNTRY_DEFAULT', 'Magento_Paypal_Model_System_Config_Backend_MerchantCountry'),
@@ -114,13 +115,11 @@ return array(
     array('XML_PATH_DEFAULT_TIMEZONE', 'Magento_Core_Model_Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE'
     ),
-    array('XML_PATH_INSTALL_DATE', 'Magento_Core_Model_App', 'Magento_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE'),
-    array('XML_PATH_LOCALE_INHERITANCE', 'Magento_Core_Model_Translate',
-        'Magento_Core_Model_Locale_Hierarchy_Loader::XML_PATH_LOCALE_INHERITANCE'
-    ),
-    array('XML_PATH_SENDING_SET_RETURN_PATH', 'Magento_Newsletter_Model_Subscriber'),
-    array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Magento_Core_Model_App',
-        'Magento_Core_Model_Db_UpdaterInterface::XML_PATH_SKIP_PROCESS_MODULES_UPDATES'
+    array('XML_PATH_INSTALL_DATE', 'Mage_Core_Model_App', 'Mage_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE'),
+    array('XML_PATH_LOCALE_INHERITANCE', 'Mage_Core_Model_Translate'),
+    array('XML_PATH_SENDING_SET_RETURN_PATH', 'Mage_Newsletter_Model_Subscriber'),
+    array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Mage_Core_Model_App',
+        'Mage_Core_Model_Db_UpdaterInterface::XML_PATH_SKIP_PROCESS_MODULES_UPDATES'
     ),
     array('XML_PATH_STATIC_FILE_SIGNATURE', 'Magento_Core_Helper_Data',
         'Magento_Core_Model_Design_Package::XML_PATH_STATIC_FILE_SIGNATURE'
@@ -131,5 +130,6 @@ return array(
     array('XML_PATH_THEME_ID', 'Magento_Core_Model_Design_PackageInterface',
         'Magento_Core_Model_Design_Package::XML_PATH_THEME_ID'
     ),
+    array('XML_STORE_ROUTERS_PATH', 'Mage_Core_Controller_Varien_Front'),
 );
 

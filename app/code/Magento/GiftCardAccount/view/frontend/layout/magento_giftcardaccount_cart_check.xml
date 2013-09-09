@@ -7,16 +7,15 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <magento_giftcardaccount_cart_check translate="label" module="Magento_GiftCardAccount" type="page" parent="checkout_cart_index">
-        <label>Gift Card Balance Check Form</label>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Gift Card Balance Check Form" id="magento_giftcardaccount_cart_check" type="page" parent="checkout_cart_index">
         <reference name="root">
             <action method="setTemplate">
-                <template>1column.phtml</template>
+                <argument name="template" xsi:type="string">1column.phtml</argument>
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_GiftCardAccount_Block_Check" template="check.phtml" name="check.result" as="check_result"/>
+            <block class="Magento_GiftCardAccount_Block_Check" template="check.phtml" name="check.result" as="check_result"/>
         </reference>
-    </magento_giftcardaccount_cart_check>
+    </handle>
 </layout>

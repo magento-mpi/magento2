@@ -10,12 +10,8 @@
 
 /**
  * Renderer for Payments Advanced information
- *
- * @category   Magento
- * @package    Magento_Paypal
- * @author     Magento Core Team <core@magentocommerce.com>
  */
- class Magento_Paypal_Block_Adminhtml_System_Config_Payflowlink_Advanced
+class Magento_Paypal_Block_Adminhtml_System_Config_Payflowlink_Advanced
     extends Magento_Paypal_Block_Adminhtml_System_Config_Payflowlink_Info
 {
     /**

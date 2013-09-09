@@ -85,7 +85,7 @@ class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_Test
                 'isValid'               => true,
                 'checkAllowedExtension' => true,
                 'save'                  => true,
-                'result'                => '/tmp/test_filename',
+                'result'                => '/tmp' . DIRECTORY_SEPARATOR . 'test_filename',
                 'exception'             => null
             ),
             array(
@@ -144,6 +144,9 @@ class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_Test
         $this->_fileUploader->expects($this->any())->method('getUploadedFileName')
             ->will($this->returnValue('test_filename'));
 
-        $this->assertEquals($result, $this->_model->uploadPreviewImage($testScope, '/tmp'));
+        $this->assertEquals(
+            Magento_Filesystem::fixSeparator($result),
+            Magento_Filesystem::fixSeparator($this->_model->uploadPreviewImage($testScope, '/tmp'))
+        );
     }
 }

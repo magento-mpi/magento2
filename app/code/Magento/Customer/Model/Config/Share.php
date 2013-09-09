@@ -15,7 +15,7 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Data
+class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Value
 {
     /**
      * Xml config path to customers sharing scope value

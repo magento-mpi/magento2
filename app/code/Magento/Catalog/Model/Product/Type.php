@@ -196,7 +196,7 @@ class Magento_Catalog_Model_Product_Type
     static public function getTypes()
     {
         if (is_null(self::$_types)) {
-            $config = Mage::getObjectManager()->get('Magento_Core_Model_Config_Modules');
+            $config = Mage::getObjectManager()->get('Magento_Core_Model_Config');
             $productTypes = $config->getNode('global/catalog/product/type')->asArray();
             foreach ($productTypes as $productKey => $productConfig) {
                 $productTypes[$productKey]['label'] = __($productConfig['label']);

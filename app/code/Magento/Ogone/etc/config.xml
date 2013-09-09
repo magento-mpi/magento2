@@ -72,15 +72,6 @@
         <secure_url>
             <ogone_api>/ogone/api</ogone_api>
         </secure_url>
-        <routers>
-            <ogone>
-                <use>standard</use>
-                <args>
-                    <module>Magento_Ogone</module>
-                    <frontName>ogone</frontName>
-                </args>
-            </ogone>
-        </routers>
         <translate>
             <modules>
                 <Magento_Ogone>

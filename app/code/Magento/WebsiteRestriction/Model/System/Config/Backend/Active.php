@@ -15,7 +15,7 @@
  * @package     Magento_WebsiteRestriction
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_WebsiteRestriction_Model_System_Config_Backend_Active extends Magento_Core_Model_Config_Data
+class Magento_WebsiteRestriction_Model_System_Config_Backend_Active extends Magento_Core_Model_Config_Value
 {
     /**
      * Prefix of model events names

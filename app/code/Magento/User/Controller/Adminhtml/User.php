@@ -10,6 +10,25 @@
 class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_ActionAbstract
 {
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     protected function _initAction()
     {
         $this->loadLayout()
@@ -59,7 +78,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
             $model->setData($data);
         }
 
-        Mage::register('permissions_user', $model);
+        $this->_coreRegistry->register('permissions_user', $model);
 
         if (isset($userId)) {
             $breadcrumb = __('Edit User');
@@ -166,7 +185,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
         if ($userId) {
             $model->load($userId);
         }
-        Mage::register('permissions_user', $model);
+        $this->_coreRegistry->register('permissions_user', $model);
         $this->loadLayout();
         $this->renderLayout();
     }

@@ -56,15 +56,15 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
     {
         return array(
             array(
-                array('store_type'=>'website', 'store_data'=> Mage::getModel('Magento_Core_Model_Website')),
+                array('store_type' => 'website', 'store_data' => Mage::getModel('Magento_Core_Model_Website')),
                 'Magento_Adminhtml_Block_System_Store_Edit_Form_Website'
             ),
             array(
-                array('store_type'=>'group', 'store_data'=> Mage::getModel('Magento_Core_Model_Store_Group')),
+                array('store_type' => 'group', 'store_data' => Mage::getModel('Magento_Core_Model_Store_Group')),
                 'Magento_Adminhtml_Block_System_Store_Edit_Form_Group'
             ),
             array(
-                array('store_type'=>'store', 'store_data'=> Mage::getModel('Magento_Core_Model_Store')),
+                array('store_type' => 'store', 'store_data' => Mage::getModel('Magento_Core_Model_Store')),
                 'Magento_Adminhtml_Block_System_Store_Edit_Form_Store'
             )
         );

@@ -22,6 +22,27 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
     protected $_lifeTime    = 600;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $config);
+    }
+
+    /**
      * Try to load valid order by $_POST or $_COOKIE
      *
      * @return bool|null
@@ -97,7 +118,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
         }
 
         if (!$errors && $order->getId()) {
-            Mage::register('current_order', $order);
+            $this->_coreRegistry->register('current_order', $order);
             return true;
         }
 
