@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Backup file item model
  *
  * @category   Magento
- * @package    \Magento\Backup
+ * @package    Magento_Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  *
  * @method string getPath()
@@ -202,14 +202,14 @@ class Magento_Backup_Model_Backup extends \Magento\Object
     public function open($write = false)
     {
         if (is_null($this->getPath())) {
-            Mage::exception('\Magento\Backup', __('The backup file path was not specified.'));
+            Mage::exception('Magento_Backup', __('The backup file path was not specified.'));
         }
 
         if ($write && $this->_filesystem->isFile($this->_getFilePath())) {
             $this->_filesystem->delete($this->_getFilePath());
         }
         if (!$write && !$this->_filesystem->isFile($this->_getFilePath())) {
-            Mage::exception('\Magento\Backup',
+            Mage::exception('Magento_Backup',
                 __('The backup file "%1" does not exist.', $this->getFileName()));
         }
 
@@ -238,7 +238,7 @@ class Magento_Backup_Model_Backup extends \Magento\Object
     protected function _getStream()
     {
         if (is_null($this->_stream)) {
-            Mage::exception('\Magento\Backup', __('The backup file handler was unspecified.'));
+            Mage::exception('Magento_Backup', __('The backup file handler was unspecified.'));
         }
         return $this->_stream;
     }
@@ -276,7 +276,7 @@ class Magento_Backup_Model_Backup extends \Magento\Object
             $this->_getStream()->write($string);
         }
         catch (\Magento\Filesystem\FilesystemException $e) {
-            Mage::exception('\Magento\Backup',
+            Mage::exception('Magento_Backup',
                 __('Something went wrong writing to the backup file "%1".', $this->getFileName()));
         }
 

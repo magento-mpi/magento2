@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  * Database backup model
  *
  * @category    Magento
- * @package     \Magento\Backup
+ * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backup_Model_Db

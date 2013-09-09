@@ -30,7 +30,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
         }
 
         $this->loadLayout();
-        $this->_setActiveMenu('\Magento\Backup::system_tools_backup');
+        $this->_setActiveMenu('Magento_Backup::system_tools_backup');
         $this->_addBreadcrumb(__('System'), __('System'));
         $this->_addBreadcrumb(__('Tools'), __('Tools'));
         $this->_addBreadcrumb(__('Backups'), __('Backup'));
@@ -341,6 +341,6 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('\Magento\Backup::backup');
+        return $this->_authorization->isAllowed('Magento_Backup::backup');
     }
 }

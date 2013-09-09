@@ -160,7 +160,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isRollbackAllowed()
     {
-        return $this->_authorization->isAllowed('\Magento\Backup::rollback' );
+        return $this->_authorization->isAllowed('Magento_Backup::rollback' );
     }
 
     /**
