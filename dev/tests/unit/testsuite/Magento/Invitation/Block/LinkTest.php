@@ -61,8 +61,8 @@ class Magento_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
         $customerSession = $this->getMockBuilder('Magento_Customer_Model_Session')
             ->disableOriginalConstructor()->getMock();
 
-        /** @var Magento_Invitation_Model_Config $invitationConfiguration |PHPUnit_Framework_MockObject_MockObject */
-        $invitationConfiguration = $this->getMockBuilder('Magento_Invitation_Model_Config')
+        /** @var Magento_Invitation_Model_Config $invitationConfig |PHPUnit_Framework_MockObject_MockObject */
+        $invitationConfig = $this->getMockBuilder('Magento_Invitation_Model_Config')
             ->disableOriginalConstructor()->getMock();
 
         /** @var Magento_Invitation_Block_Link $block */
@@ -70,7 +70,7 @@ class Magento_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
             'Magento_Invitation_Block_Link',
             array(
                 'customerSession' => $customerSession,
-                'invitationConfiguration' => $invitationConfiguration,
+                'invitationConfiguration' => $invitationConfig,
             )
         );
 
@@ -78,7 +78,7 @@ class Magento_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
             $this->returnValue($isLoggedIn)
         );
 
-        $invitationConfiguration->expects($this->any())->method('isEnabledOnFront')->will(
+        $invitationConfig->expects($this->any())->method('isEnabledOnFront')->will(
             $this->returnValue($isEnabledOnFront)
         );
 
