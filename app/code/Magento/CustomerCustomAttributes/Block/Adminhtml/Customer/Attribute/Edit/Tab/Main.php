@@ -28,6 +28,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
     protected $_customerData = null;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_CustomerCustomAttributes_Helper_Data $customerData
      * @param Magento_Eav_Helper_Data $eavData
      * @param Magento_Core_Helper_Data $coreData
@@ -35,6 +36,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_CustomerCustomAttributes_Helper_Data $customerData,
         Magento_Eav_Helper_Data $eavData,
         Magento_Core_Helper_Data $coreData,
@@ -42,7 +44,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
         array $data = array()
     ) {
         $this->_customerData = $customerData;
-        parent::__construct($eavData, $coreData, $context, $data);
+        parent::__construct($formFactory, $eavData, $coreData, $context, $data);
     }
 
     /**

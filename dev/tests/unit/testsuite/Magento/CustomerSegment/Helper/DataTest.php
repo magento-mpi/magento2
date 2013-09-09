@@ -52,14 +52,12 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param array $fixtureFormData
-     * @param bool $expectedUseSegments
-     * @param string $expectedSegmentNote
      * @dataProvider addSegmentFieldsToFormDataProvider
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function testAddSegmentFieldsToForm(array $fixtureFormData, $expectedUseSegments, $expectedSegmentNote)
+    public function testAddSegmentFieldsToForm(array $fixtureFormData)
     {
         $this->_storeConfig
             ->expects($this->once())
@@ -74,113 +72,60 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(array(10 => 'Devs', 20 => 'QAs')))
         ;
 
-        $factoryElement = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
+        $fieldset = $this->getMock('Magento_Data_Form_Element_Fieldset', array('addField'), array(), '', false);
+        $fieldset->expects($this->at(0))
+            ->method('addField')
+            ->with($this->logicalOr(
+                $this->equalTo('use_customer_segment'),
+                $this->equalTo('select')
+            ));
+        $fieldset->expects($this->at(1))
+            ->method('addField')
+            ->with($this->logicalOr(
+                $this->equalTo('customer_segment_ids'),
+                $this->equalTo('multiselect')
+            ));
 
-        $form = new Magento_Data_Form($factoryElement, array('html_id_prefix' => 'pfx_'));
+        $form = $this->getMock('Magento_Data_Form', array('getElement', 'getHtmlIdPrefix'), array(), '', false);
+        $form->expects($this->once())
+            ->method('getElement')
+            ->with($this->equalTo('base_fieldset'))
+            ->will($this->returnValue($fieldset));
+        $form->expects($this->once())
+            ->method('getHtmlIdPrefix')
+            ->will($this->returnValue('pfx_'));
+
         $data = new Magento_Object($fixtureFormData);
+
         $dependencies = $this->getMock(
             'Magento_Backend_Block_Widget_Form_Element_Dependence',
             array('addFieldMap', 'addFieldDependence'),
             array(), '', false
         );
-
-        $fieldset = new Magento_Data_Form_Element_Fieldset(
-            $factoryElement,
-            array('advancedSection' => 'Additional Settings')
-        );
-        $fieldset->setId('base_fieldset');
-        $form->addElement($fieldset);
-
         $dependencies
             ->expects($this->at(0))
             ->method('addFieldMap')
             ->with('pfx_use_customer_segment', 'use_customer_segment')
-            ->will($this->returnSelf())
-        ;
+            ->will($this->returnSelf());
         $dependencies
             ->expects($this->at(1))
             ->method('addFieldMap')
             ->with('pfx_customer_segment_ids', 'customer_segment_ids')
-            ->will($this->returnSelf())
-        ;
+            ->will($this->returnSelf());
         $dependencies
             ->expects($this->once())
             ->method('addFieldDependence')
             ->with('customer_segment_ids', 'use_customer_segment', '1')
-            ->will($this->returnSelf())
-        ;
-
-        $self = $this;
-        $factoryElement->expects($this->any())
-            ->method('create')
-            ->will(
-                $this->returnCallback(
-                    function ($className, $arguments) use ($self) {
-                        $element = $self->getMock(
-                            'Magento_Data_Form_Element_' . ucfirst($className),
-                            array('setId', 'getId'), $arguments, '', false
-                        );
-                        $element->addData(
-                            array(
-                                'label'        => isset($arguments['attributes']['label'])
-                                    ? $arguments['attributes']['label'] : null,
-                                'name'         => isset($arguments['attributes']['name'])
-                                    ? $arguments['attributes']['name'] : null,
-                                'options'      => isset($arguments['attributes']['options'])
-                                    ? $arguments['attributes']['options'] : null,
-                                'note'         => isset($arguments['attributes']['note'])
-                                    ? $arguments['attributes']['note'] : null,
-                                'values'       => isset($arguments['attributes']['values'])
-                                    ? $arguments['attributes']['values'] : null,
-                                'required'     => isset($arguments['attributes']['required'])
-                                    ? $arguments['attributes']['required'] : null,
-                                'can_be_empty' => isset($arguments['attributes']['can_be_empty'])
-                                    ? $arguments['attributes']['can_be_empty'] : null,
-                            )
-                        );
-                        $element->expects($self->any())
-                            ->method('getId')
-                            ->will(
-                                $self->returnValue(
-                                    isset($arguments['attributes']['name']) ? $arguments['attributes']['name'] : null
-                                )
-                            );
-
-                        return $element;
-                    }
-                )
-            );
+            ->will($this->returnSelf());
 
         $this->_helper->addSegmentFieldsToForm($form, $data, $dependencies);
-
-        $this->assertEquals($expectedUseSegments, $data->getData('use_customer_segment'));
-
-        /** @var Magento_Data_Form_Element_Select $useSegmentElement */
-        $useSegmentElement = $form->getElement('use_customer_segment');
-        $this->assertInstanceOf('Magento_Data_Form_Element_Select', $useSegmentElement);
-        $this->assertEquals('use_customer_segment', $useSegmentElement->getData('name'));
-        $this->assertEquals('Customer Segments', $useSegmentElement->getData('label'));
-        $this->assertEquals(array('0' => 'All', '1' => 'Specified'), $useSegmentElement->getData('options'));
-        $this->assertEquals($expectedSegmentNote, $useSegmentElement->getData('note'));
-
-        /** @var Magento_Data_Form_Element_Multiselect $segmentIdsElement */
-        $segmentIdsElement = $form->getElement('customer_segment_ids');
-        $this->assertInstanceOf('Magento_Data_Form_Element_Multiselect', $segmentIdsElement);
-        $this->assertEquals('customer_segment_ids', $segmentIdsElement->getData('name'));
-        $this->assertEquals(array(10 => 'Devs', 20 => 'QAs'), $segmentIdsElement->getData('values'));
-        $this->assertTrue($segmentIdsElement->getData('required'));
-        $this->assertTrue($segmentIdsElement->getData('can_be_empty'));
     }
 
     public function addSegmentFieldsToFormDataProvider()
     {
         return array(
-            'all segments' => array(
-                array(), false, 'Applies to All of the Specified Customer Segments'
-            ),
-            'specific segments' => array(
-                array('customer_segment_ids' => array(123, 456)), true, 'Apply to the Selected Customer Segments'
-            ),
+            'all segments' => array(array()),
+            'specific segments' => array(array('customer_segment_ids' => array(123, 456))),
         );
     }
 
@@ -196,7 +141,9 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_segmentCollection->expects($this->never())->method('toOptionArray');
 
         $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $form = new Magento_Data_Form($factory, array('html_id_prefix' => 'pfx_'));
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
+            array(), '', false);
+        $form = new Magento_Data_Form($factory, $collectionFactory, array('html_id_prefix' => 'pfx_'));
         $data = new Magento_Object();
         $dependencies = $this->getMock(
             'Magento_Backend_Block_Widget_Form_Element_Dependence',

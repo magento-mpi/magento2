@@ -51,8 +51,13 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Form extends Magento_Ba
 
     protected function _prepareForm()
     {
-        $form = $this->_formFactory->create(array('id' => 'edit_form',
-            'action' => $this->_backendData->getUrl('*/*/save'), 'method' => 'post'));
+        $form = $this->_formFactory->create(array(
+            'attributes'=> array(
+                'id' => 'edit_form',
+                'action' => $this->_backendData->getUrl('*/*/save'),
+                'method' => 'post',
+            ))
+        );
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();

@@ -17,7 +17,7 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Backend_Block_Widget_Form
+class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * @var Magento_Core_Model_Layout_Argument_HandlerFactory
@@ -25,18 +25,20 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Ba
     protected $_handlerFactory;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory,$coreData, $context, $data);
 
         $this->_handlerFactory = $handlerFactory;
     }
@@ -48,7 +50,8 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Ba
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         foreach ($this->getData('fields') as $itemId => $item) {
             $this->_prepareFormItem($item);
             $form->addField($itemId, $item['type'], $item);

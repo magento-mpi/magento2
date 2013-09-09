@@ -9,6 +9,11 @@
  */
 class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test downloadable link create
      *

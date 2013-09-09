@@ -24,18 +24,34 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
     protected $_googleShoppingCategory = null;
 
     /**
+     * @var Magento_Data_Form_Element_Factory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @var Magento_Data_FormFactory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param Magento_Data_FormFactory $formFactory
+     * @param Magento_Data_Form_Element_Factory $elementFactory
      * @param Magento_GoogleShopping_Helper_Category $googleShoppingCategory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Data_FormFactory $formFactory,
+        Magento_Data_Form_Element_Factory $elementFactory,
         Magento_GoogleShopping_Helper_Category $googleShoppingCategory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_googleShoppingCategory = $googleShoppingCategory;
+        $this->_elementFactory = $elementFactory;
+        $this->_formFactory = $formFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -46,7 +62,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        $form = $this->_formFactory->create();
 
         $itemType = $this->getItemType();
 
@@ -129,10 +145,10 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
      */
     public function getAttributeSetsSelectElement($targetCountry)
     {
-        $field = new Magento_Data_Form_Element_Select();
+        $field = $this->_elementFactory->create('select');
         $field->setName('attribute_set_id')
             ->setId('select_attribute_set')
-            ->setForm(new Magento_Data_Form())
+            ->setForm($this->_formFactory->create())
             ->addClass('required-entry')
             ->setValues($this->_getAttributeSetsArray($targetCountry));
         return $field;

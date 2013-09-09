@@ -16,7 +16,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Adminhtml_Block_Catalog_Form
+class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Retrieve Category object
@@ -53,11 +53,13 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ad
      *
      * @return Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes
      */
-    protected function _prepareForm() {
+    protected function _prepareForm()
+    {
         $group      = $this->getGroup();
         $attributes = $this->getAttributes();
 
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('group_' . $group->getId());
         $form->setDataObject($this->getCategory());
 

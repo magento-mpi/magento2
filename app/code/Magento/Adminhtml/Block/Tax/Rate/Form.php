@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     const FORM_ELEMENT_ID = 'rate-form';
 
@@ -33,18 +33,20 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
 
     /**
      * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Tax_Helper_Data $taxData,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
     }
 
     protected function _construct()
@@ -57,7 +59,8 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
     protected function _prepareForm()
     {
         $rateObject = new Magento_Object(Mage::getSingleton('Magento_Tax_Model_Calculation_Rate')->getData());
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $countries = Mage::getModel('Magento_Directory_Model_Config_Source_Country')->toOptionArray(false, 'US');
         unset($countries[0]);

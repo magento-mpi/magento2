@@ -27,7 +27,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     protected $_canConfigure = true;
 
     /**
-     * Mock for store instance
+     * Store instance
      *
      * @var Magento_Core_Model_Store
      */
@@ -54,7 +54,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Store $store
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
@@ -63,11 +63,11 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_File_Storage_Database $fileStorageDb,
         Magento_Filesystem $filesystem,
-        Magento_Core_Model_Store $store,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
-        $this->_store = $store;
+        $this->_store = $storeManager->getStore();
         $this->_locale = $locale;
         parent::__construct($coreData, $fileStorageDb, $filesystem, $data);
     }

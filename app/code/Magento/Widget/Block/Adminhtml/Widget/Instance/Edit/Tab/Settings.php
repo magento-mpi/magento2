@@ -17,7 +17,7 @@
  */
 class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
     extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     protected function _construct()
     {
@@ -82,12 +82,14 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
      */
     protected function _prepareForm()
     {
-        $widgetInstance = $this->getWidgetInstance();
-        $form = new Magento_Data_Form(array(
-            'id' => 'edit_form',
-            'action' => $this->getData('action'),
-            'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend'=>__('Settings'))

@@ -33,6 +33,11 @@ abstract class Magento_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUni
         )
     );
 
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Get current test suite helper if class name not specified.
      *

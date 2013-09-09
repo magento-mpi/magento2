@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backend_Block_Widget_Form_Generic
 {
     protected $_template = 'customer/tab/addresses.phtml';
 
@@ -27,19 +27,21 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
     protected $_adminhtmlAddresses = null;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
     }
 
     public function getRegionsUrl()
@@ -101,7 +103,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
         /* @var $customer Magento_Customer_Model_Customer */
         $customer = Mage::registry('current_customer');
 
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('address_fieldset', array(
             'legend'    => __("Edit Customer's Address"))
         );

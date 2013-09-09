@@ -16,7 +16,8 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Magento_Adminhtml_Block_Widget_Form
+abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     protected $_attribute = null;
 
@@ -28,19 +29,21 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
     protected $_eavData = null;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Eav_Helper_Data $eavData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_Eav_Helper_Data $eavData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_eavData = $eavData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
     }
 
     public function setAttributeObject($attribute)
@@ -69,11 +72,14 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
     {
         $attributeObject = $this->getAttributeObject();
 
-        $form = new Magento_Data_Form(array(
-            'id' => 'edit_form',
-            'action' => $this->getData('action'),
-            'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend' => __('Attribute Properties'))

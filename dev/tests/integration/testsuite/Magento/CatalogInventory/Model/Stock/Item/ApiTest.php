@@ -10,6 +10,11 @@
  */
 class Magento_CatalogInventory_Model_Stock_Item_ApiTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test list method.
      */

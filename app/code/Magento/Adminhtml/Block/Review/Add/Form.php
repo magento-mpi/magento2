@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Review data
@@ -27,23 +27,26 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Adminhtml_Block_Wi
 
     /**
      * @param Magento_Review_Helper_Data $reviewData
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Review_Helper_Data $reviewData,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
     }
 
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form   = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('add_review_form', array('legend' => __('Review Details')));
 

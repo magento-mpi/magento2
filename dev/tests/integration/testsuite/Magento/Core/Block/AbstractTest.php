@@ -487,9 +487,11 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
             $withRoute = "{$base}catalog/product/view/id/10/";
 
             $encoded = $this->_block->$method();
-            $this->assertEquals(Mage::helper('Magento_Core_Helper_Data')->urlDecode($encoded), $base);
+            $this->assertEquals(Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+                ->urlDecode($encoded), $base);
             $encoded = $this->_block->$method('catalog/product/view', array('id' => 10));
-            $this->assertEquals(Mage::helper('Magento_Core_Helper_Data')->urlDecode($encoded), $withRoute);
+            $this->assertEquals(Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+                ->urlDecode($encoded), $withRoute);
         }
     }
 
@@ -542,13 +544,13 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testFormatDate()
     {
-        $helper = Mage::helper('Magento_Core_Helper_Data');
+        $helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data');
         $this->assertEquals($helper->formatDate(), $this->_block->formatDate());
     }
 
     public function testFormatTime()
     {
-        $helper = Mage::helper('Magento_Core_Helper_Data');
+        $helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data');
         $this->assertEquals($helper->formatTime(), $this->_block->formatTime());
     }
 

@@ -9,6 +9,11 @@
  */
 class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test create and read created invoice
      *
@@ -130,8 +135,6 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testCapture()
     {
-        $this->markTestSkipped();
-
         /** Capture invoice data via API. */
         $invoiceBefore = $this->_getFixtureInvoice();
         $this->assertTrue($invoiceBefore->canCapture(), "Invoice fixture cannot be captured.");
@@ -155,8 +158,6 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testVoid()
     {
-        $this->markTestSkipped();
-
         /** Prepare data. Make invoice voidable. */
         $invoiceBefore = $this->_getFixtureInvoice();
         $invoiceBefore->setState(Magento_Sales_Model_Order_Invoice::STATE_PAID)->setCanVoidFlag(true)->save();
@@ -184,8 +185,6 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testCancel()
     {
-        $this->markTestSkipped();
-
         /** Capture invoice data via API. */
         $invoiceBefore = $this->_getFixtureInvoice();
         $this->assertTrue($invoiceBefore->canCancel(), "Invoice fixture cannot be cancelled.");
@@ -247,8 +246,6 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testAutoIncrementType()
     {
-        $this->markTestSkipped();
-
         /** @var $quote Magento_Sales_Model_Quote */
         $order = Mage::registry('order2');
         $incrementId = $order->getIncrementId();

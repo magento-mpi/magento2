@@ -43,7 +43,8 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento
 
     public function testPrepareColumns()
     {
-        $this->_formFactoryMock = $this->_makeMock('Magento_Data_Form_Factory');
+        $this->_formFactoryMock = $this->getMock('Magento_Data_Form_Factory', array('create'),
+            array(), '', false, false);
         $this->_registry = new Magento_Core_Model_Registry();
         $this->_coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $this->_formatMock = $this->_makeMock('Magento_Webhook_Model_Source_Format');

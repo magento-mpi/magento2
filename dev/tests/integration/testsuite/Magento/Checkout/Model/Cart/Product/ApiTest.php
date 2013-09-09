@@ -9,6 +9,11 @@
  */
 class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model_Cart_AbstractTest
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test quote item update.
      *

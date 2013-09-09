@@ -24,6 +24,11 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
         self::$_customOptionFixture = self::_loadXmlFixture('CustomOption.xml');
     }
 
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Product Custom Option CRUD test
      */

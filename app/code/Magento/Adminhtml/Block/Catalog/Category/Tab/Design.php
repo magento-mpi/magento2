@@ -26,7 +26,8 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Design extends Magento_Adminh
     public function _prepareLayout()
     {
         parent::_prepareLayout();
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setDataObject($this->getCategory());
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Custom Design')));

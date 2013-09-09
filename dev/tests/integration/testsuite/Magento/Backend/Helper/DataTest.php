@@ -28,7 +28,7 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_helper = Mage::helper('Magento_Backend_Helper_Data');
+        $this->_helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Helper_Data');
     }
 
     protected function tearDown()

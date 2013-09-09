@@ -9,6 +9,12 @@
  */
 class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
 {
+
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_special_price.php
      */

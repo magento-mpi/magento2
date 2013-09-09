@@ -12,6 +12,11 @@ class Magento_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCase
 {
     public static $code;
 
+    protected function setUp()
+    {
+        $this->markTestSkipped('Api tests were skipped');
+    }
+
     /**
      * Test create, list, info, update, remove
      *

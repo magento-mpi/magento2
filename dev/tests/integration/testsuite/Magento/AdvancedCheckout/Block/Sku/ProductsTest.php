@@ -21,7 +21,7 @@ class Magento_AdvancedCheckout_Block_Sku_ProductsTest extends PHPUnit_Framework_
             'sku' => 'test',
             'code' => Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU,
         );
-        Mage::helper('Magento_AdvancedCheckout_Helper_Data')->getSession()
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_AdvancedCheckout_Helper_Data')->getSession()
             ->setAffectedItems(array(Mage::app()->getStore()->getId() => array($item)));
         $this->assertContains('<form', $block->toHtml());
     }

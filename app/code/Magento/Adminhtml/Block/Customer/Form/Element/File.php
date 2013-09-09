@@ -26,35 +26,29 @@ class Magento_Adminhtml_Block_Customer_Form_Element_File extends Magento_Data_Fo
     /**
      * Adminhtml data
      *
-     * @var Magento_Adminhtml_Helper_Data
+     * @var Magento_Backend_Helper_Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * Core data
-     *
-     * @var Magento_Core_Helper_Data
-     */
-    protected $_coreData = null;
-
-    /**
      * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $attributes
      */
     public  function __construct(
-        Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Core_Helper_Data $coreData,
-        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Core_Model_View_Url $viewUrl,
         $attributes = array()
     ) {
-        $this->_coreData = $coreData;
         $this->_adminhtmlData = $adminhtmlData;
         $this->_viewUrl = $viewUrl;
-        parent::__construct($factoryElement, $attributes);
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
         $this->setType('file');
     }
 

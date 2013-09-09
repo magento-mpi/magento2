@@ -25,7 +25,7 @@ class Magento_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
         $page = Mage::getSingleton('Magento_Cms_Model_Page');
         $page->load('page_design_blank', 'identifier'); // fixture
         /** @var $pageHelper Magento_Cms_Helper_Page */
-        $pageHelper = Mage::helper('Magento_Cms_Helper_Page');
+        $pageHelper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Cms_Helper_Page');
         $result = $pageHelper->renderPage(
             Mage::getModel('Magento_Core_Controller_Front_Action', array('context' => $context)),
             $page->getId()

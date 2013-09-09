@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Backend_Block_Widget_Form_Generic
 {
 
     /**
@@ -17,7 +17,8 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Adm
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('general', array(
             'legend' => __('General Settings'))

@@ -9,7 +9,7 @@
  */
 
 class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Return current gift registry type instance
@@ -48,7 +48,8 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form();
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create();
         $form->setFieldNameSuffix('type');
 
         $fieldset = $form->addFieldset('base_fieldset', array(

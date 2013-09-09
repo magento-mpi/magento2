@@ -18,7 +18,7 @@ class Magento_Core_Helper_StringTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Core_Helper_String');
+        $this->_helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_String');
     }
 
     /**

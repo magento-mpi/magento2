@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extend
     {
         $product = $this->getMockBuilder('Magento_Catalog_Model_Product')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId'))
+            ->setMethods(array('getId', '__wakeup'))
             ->getMock();
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
 

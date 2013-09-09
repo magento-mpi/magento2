@@ -14,8 +14,10 @@
  * @category    Magento
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Magento_Adminhtml_Block_Widget_Form
+abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Magento_Backend_Block_Widget_Form_Generic
 {
 
     /**
@@ -35,11 +37,14 @@ abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Ma
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
 
         $this->_prepareStoreFieldSet($form);
 

@@ -12,7 +12,8 @@
  * Gift wrapping total block for admin checkout
  *
  */
-class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Totals extends Magento_Adminhtml_Block_Sales_Order_Create_Totals_Default
+class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Totals
+    extends Magento_Adminhtml_Block_Sales_Order_Create_Totals_Default
 {
     /**
      * Gift wrapping data

@@ -14,7 +14,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_CategoryTest extends P
     {
         $block = Mage::getObjectManager()->create('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category');
 
-        $form = new Magento_Data_Form();
+        $form = Mage::getObjectManager()->create('Magento_Data_Form');
         $block->setForm($form);
 
         $this->assertRegExp('/<button[^>]*New\sCategory[^>]*>/', $block->getAfterElementHtml());

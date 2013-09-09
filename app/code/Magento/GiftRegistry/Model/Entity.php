@@ -127,7 +127,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_App $application
-     * @param Magento_Core_Model_Store $store
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
      * @param Magento_GiftRegistry_Model_Resource_Entity $resource
@@ -139,7 +139,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         Magento_GiftRegistry_Helper_Data $giftRegistryData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_App $application,
-        Magento_Core_Model_Store $store,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Translate $translate,
         Magento_Core_Model_Email_TemplateFactory $templateFactory,
         Magento_GiftRegistry_Model_Resource_Entity $resource,
@@ -149,7 +149,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         $this->_coreData = $coreData;
         $this->_giftRegistryData = $giftRegistryData;
         $this->_app = $application;
-        $this->_store = $store;
+        $this->_store = $storeManager->getStore();
         $this->_translate = $translate;
         $this->_templateFactory = $templateFactory;
         parent::__construct($context, $resource, $resourceCollection, $data);

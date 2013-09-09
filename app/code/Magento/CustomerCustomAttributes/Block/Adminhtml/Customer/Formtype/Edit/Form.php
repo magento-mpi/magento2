@@ -15,7 +15,8 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Retrieve current form type instance
@@ -42,11 +43,14 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Fo
             $saveUrl = $this->getUrl('*/*/create');
             $showNew = true;
         }
-        $form = new Magento_Data_Form(array(
-            'id'        => 'edit_form',
-            'action'    => $saveUrl,
-            'method'    => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $saveUrl,
+                'method'    => 'post',
+            ))
+        );
 
         if ($showNew) {
             $fieldset = $form->addFieldset('base_fieldset', array(

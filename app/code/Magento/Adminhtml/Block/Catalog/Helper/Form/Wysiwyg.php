@@ -32,20 +32,24 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_F
     protected $_moduleManager = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param Magento_Core_Model_ModuleManager $moduleManager
      * @param Magento_Backend_Helper_Data $backendData
      * @param array $attributes
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         Magento_Core_Model_ModuleManager $moduleManager,
         Magento_Backend_Helper_Data $backendData,
         array $attributes = array()
     ) {
         $this->_moduleManager = $moduleManager;
         $this->_backendData = $backendData;
-        parent::__construct($factoryElement, $attributes);
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
     }
 
     /**

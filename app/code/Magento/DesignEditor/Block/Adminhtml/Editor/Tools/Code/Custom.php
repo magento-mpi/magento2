@@ -10,8 +10,10 @@
 
 /**
  * Block that renders Custom tab
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Magento_Backend_Block_Widget_Form
+class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * Upload file element html id
@@ -24,18 +26,20 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage
     protected $_themeContext;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
         $this->_themeContext = $themeContext;
     }
 
@@ -47,10 +51,13 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
-            'action'   => '#',
-            'method'   => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'action'   => '#',
+                'method'   => 'post',
+            ))
+        );
         $this->setForm($form);
         $form->setUseContainer(true);
 

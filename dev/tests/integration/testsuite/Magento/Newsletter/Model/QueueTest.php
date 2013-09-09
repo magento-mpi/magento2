@@ -35,7 +35,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         );
 
         $emailTemplate = $this->getMock('Magento_Core_Model_Email_Template',
-            array('_getMail', '_getLogoUrl'), array(), '', false
+            array('_getMail', '_getLogoUrl', '__wakeup'), array(), '', false
         );
         $emailTemplate->expects($this->exactly(2))->method('_getMail')->will($this->onConsecutiveCalls(
             $subscriberOne, $subscriberTwo
@@ -60,7 +60,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $errorMsg = md5(microtime());
         $brokenMail->expects($this->any())->method('send')->will($this->throwException(new Exception($errorMsg, 99)));
         $template = $this->getMock('Magento_Core_Model_Email_Template',
-            array('_getMail', '_getLogoUrl'), array(), '', false
+            array('_getMail', '_getLogoUrl', '__wakeup'), array(), '', false
         );
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));
 

@@ -10,8 +10,10 @@
 
 /**
  * Block that renders JS tab
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_Backend_Block_Widget_Form
+class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * @var Magento_Theme_Model_Config_Customization
@@ -24,6 +26,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_
     protected $_themeContext;
 
     /**
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Theme_Model_Config_Customization $customizationConfig
@@ -31,13 +34,14 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_
      * @param array $data
      */
     public function __construct(
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Theme_Model_Config_Customization $customizationConfig,
         Magento_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($formFactory, $coreData, $context, $data);
         $this->_customizationConfig = $customizationConfig;
         $this->_themeContext = $themeContext;
     }
@@ -49,10 +53,13 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_
      */
     protected function _prepareForm()
     {
-        $form = new Magento_Data_Form(array(
-            'action' => '#',
-            'method' => 'post'
-        ));
+        /** @var Magento_Data_Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'action' => '#',
+                'method' => 'post',
+            ))
+        );
         $this->setForm($form);
         $form->setUseContainer(true);
 

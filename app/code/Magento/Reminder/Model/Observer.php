@@ -20,15 +20,15 @@ class Magento_Reminder_Model_Observer
     /**
      * Reminder data
      *
-     * @var Magento_Reminder_Model_Rule
+     * @var Magento_Reminder_Helper_Data
      */
     protected $_reminderData = null;
 
     /**
-     * @param Magento_Reminder_Model_Rule $reminderData
+     * @param Magento_Reminder_Helper_Data $reminderData
      */
     public function __construct(
-        Magento_Reminder_Model_Rule $reminderData
+        Magento_Reminder_Helper_Data $reminderData
     ) {
         $this->_reminderData = $reminderData;
     }

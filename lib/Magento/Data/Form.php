@@ -41,14 +41,16 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
 
     /**
      * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
         Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
-        parent::__construct($factoryElement, $attributes);
-        $this->_allElements = new Magento_Data_Form_Element_Collection($this);
+        parent::__construct($factoryElement, $factoryCollection, $attributes);
+        $this->_allElements = $this->_factoryCollection->create(array('container' => $this));
     }
 
     public static function setElementRenderer(Magento_Data_Form_Element_Renderer_Interface $renderer = null)

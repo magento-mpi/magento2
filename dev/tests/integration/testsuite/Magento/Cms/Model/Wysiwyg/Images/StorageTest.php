@@ -19,7 +19,8 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
 
     public static function setUpBeforeClass()
     {
-        self::$_baseDir = Mage::helper('Magento_Cms_Helper_Wysiwyg_Images')->getCurrentPath() . __CLASS__;
+        self::$_baseDir = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Cms_Helper_Wysiwyg_Images')
+                ->getCurrentPath() . __CLASS__;
         mkdir(self::$_baseDir, 0777);
         touch(self::$_baseDir . DIRECTORY_SEPARATOR . '1.swf');
     }
