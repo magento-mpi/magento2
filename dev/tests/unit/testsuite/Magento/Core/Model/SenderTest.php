@@ -41,7 +41,7 @@ class Magento_Core_Model_SenderTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $this->_storeMock = $this->getMockBuilder('Magento_Core_Model_Store')
             ->disableOriginalConstructor()
-            ->setMethods(array('load', 'getConfig'))
+            ->setMethods(array('load', 'getConfig', '__sleep', '__wakeup'))
             ->getMock();
         $this->_storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManagerInterface')
             ->disableOriginalConstructor()

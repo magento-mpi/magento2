@@ -113,7 +113,7 @@ class Magento_User_Model_User
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_Context $context
-     * @param Magento_User_Model_Resource_User $resource
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
@@ -122,7 +122,7 @@ class Magento_User_Model_User
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Sender $sender,
         Magento_Core_Model_Context $context,
-        Magento_User_Model_Resource_User $resource,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -138,6 +138,20 @@ class Magento_User_Model_User
     protected function _construct()
     {
         $this->_init('Magento_User_Model_Resource_User');
+    }
+
+    public function __sleep()
+    {
+        $properties = parent::__sleep();
+        return array_diff($properties, array('_sender', '_coreData', '_userData'));
+    }
+
+    public function __wakeup()
+    {
+        parent::__wakeup();
+        $this->_sender   = Mage::getSingleton('Magento_Core_Model_Sender');
+        $this->_coreData = Mage::getSingleton('Magento_Core_Helper_Data');
+        $this->_userData = Mage::getSingleton('Magento_User_Helper_Data');
     }
 
     /**

@@ -276,6 +276,18 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
+    public function __sleep()
+    {
+        $properties = parent::__sleep();
+        return array_diff($properties, array('_coreFileStorageDatabase'));
+    }
+
+    public function __wakeup()
+    {
+        parent::__wakeup();
+        $this->_coreFileStorageDatabase = Mage::getSingleton('Magento_Core_Helper_File_Storage_Database');
+    }
+
     /**
      * Initialize object
      */

@@ -87,7 +87,6 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
         $convertedAmount = $amount * 2;
         $storeMock = $this->getMockBuilder('Magento_Core_Model_Store')
             ->disableOriginalConstructor()
-            ->setMethods(array('convertPrice'))
             ->getMock();
         $storeMock->expects($this->once())
             ->method('convertPrice')
