@@ -33,8 +33,10 @@ class Integrity_Modular_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbs
     public function viewFilesFromModulesViewDataProvider()
     {
         $files = array();
+        /** @var $configModel Magento_Core_Model_Config */
+        $configModel = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
         foreach ($this->_getEnabledModules() as $moduleName) {
-            $moduleViewDir = Mage::getConfig()->getModuleDir('view', $moduleName);
+            $moduleViewDir = $configModel->getModuleDir('view', $moduleName);
             if (!is_dir($moduleViewDir)) {
                 continue;
             }

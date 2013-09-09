@@ -10,7 +10,9 @@ class Integrity_Magento_Sales_TotalDeclarationTest extends PHPUnit_Framework_Tes
     public function testTotalDeclarations()
     {
         $config = array();
-        foreach (Mage::getConfig()->getNode('global/sales/quote/totals')->asCanonicalArray() as $key => $row) {
+        /** @var $configModel Magento_Core_Model_Config */
+        $configModel = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
+        foreach ($configModel->getNode('global/sales/quote/totals')->asCanonicalArray() as $key => $row) {
             $config[$key] = array(
                 'before' => empty($row['before']) ? array() : explode(',', $row['before']),
                 'after'  => empty($row['after']) ? array() : explode(',', $row['after']),

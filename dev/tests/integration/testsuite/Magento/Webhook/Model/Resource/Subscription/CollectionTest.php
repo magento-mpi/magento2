@@ -59,9 +59,11 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     {
         $this->_subscriptions = array();
 
-        Mage::getConfig()->setNode('global/webhook/webhooks/listeners/one/label', 'One Listener');
-        Mage::getConfig()->setNode('global/webhook/webhooks/listeners/two/label', 'Two Listeners');
-        Mage::getConfig()->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');
+        /** @var $configModel Magento_Core_Model_Config */
+        $configModel = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
+        $configModel->setNode('global/webhook/webhooks/listeners/one/label', 'One Listener');
+        $configModel->setNode('global/webhook/webhooks/listeners/two/label', 'Two Listeners');
+        $configModel->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');
 
         /** @var Magento_Webhook_Model_Subscription $subscription */
         $subscription = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Webhook_Model_Subscription');
