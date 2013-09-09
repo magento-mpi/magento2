@@ -27,27 +27,17 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
     protected $_catalogProduct = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_catalogProduct = $catalogProduct;
         parent::__construct($coreData, $context, $data);
     }

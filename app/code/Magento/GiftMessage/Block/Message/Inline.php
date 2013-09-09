@@ -32,27 +32,17 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     protected $_giftMessageMessage = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
         Magento_GiftMessage_Helper_Message $giftMessageMessage,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_giftMessageMessage = $giftMessageMessage;
         parent::__construct($coreData, $context, $data);
     }

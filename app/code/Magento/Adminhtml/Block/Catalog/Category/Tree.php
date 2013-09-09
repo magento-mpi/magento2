@@ -22,29 +22,6 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
 
     protected $_template = 'catalog/category/tree.phtml';
 
-    /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_eventManager = $eventManager;
-        parent::__construct($coreData, $context, $data);
-    }
-
     protected function _construct()
     {
         parent::_construct();

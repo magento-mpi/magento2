@@ -28,30 +28,6 @@ class Magento_User_Block_Role extends Magento_Backend_Block_Widget_Grid_Containe
      */
     protected $_blockGroup = 'Magento_User';
 
-
-    /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_eventManager = $eventManager;
-        parent::__construct($coreData, $context, $data);
-    }
-
     protected function _construct()
     {
         $this->_headerText = __('Roles');

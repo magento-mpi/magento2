@@ -19,31 +19,6 @@
 class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_eventManager = $eventManager;
-        parent::__construct($formFactory, $coreData, $context, $data);
-    }
-
-    /**
      * Retrieve Category object
      *
      * @return Magento_Catalog_Model_Category
@@ -57,7 +32,8 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ba
      * Initialize tab
      *
      */
-    protected function _construct() {
+    protected function _construct()
+    {
         parent::_construct();
         $this->setShowGlobalIcon(true);
     }
@@ -101,15 +77,13 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ba
                         'name'  => 'path',
                         'value' => $this->getRequest()->getParam('parent')
                     ));
-                }
-                else {
+                } else {
                     $fieldset->addField('path', 'hidden', array(
                         'name'  => 'path',
                         'value' => 1
                     ));
                 }
-            }
-            else {
+            } else {
                 $fieldset->addField('id', 'hidden', array(
                     'name'  => 'id',
                     'value' => $this->getCategory()->getId()
@@ -134,7 +108,8 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ba
                     ));
                 } else {
                     $form->getElement('url_key')->setRenderer(
-                        $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey')
+                        $this->getLayout()
+                            ->createBlock('Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey')
                     );
                 }
             }
@@ -163,7 +138,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ba
             }
         }
 
-        if (!$this->getCategory()->getId()){
+        if (!$this->getCategory()->getId()) {
             $this->getCategory()->setIncludeInMenu(1);
         }
 

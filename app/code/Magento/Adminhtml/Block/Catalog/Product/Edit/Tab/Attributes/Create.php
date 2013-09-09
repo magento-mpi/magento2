@@ -25,29 +25,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends
     protected $_config = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_eventManager = $eventManager;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Retrive config of new attribute creation
      *
      * @return Magento_Object
@@ -102,7 +79,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends
     protected function _toHtml()
     {
         $this->setCanShow(true);
-        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_tab_attributes_create_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_tab_attributes_create_html_before', array(
+            'block' => $this,
+        ));
         if (!$this->getCanShow()) {
             return '';
         }

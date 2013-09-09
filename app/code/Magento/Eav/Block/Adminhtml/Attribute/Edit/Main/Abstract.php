@@ -28,34 +28,6 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
      */
     protected $_eavData = null;
 
-    /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Eav_Helper_Data $eavData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Eav_Helper_Data $eavData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_eventManager = $eventManager;
-        $this->_eavData = $eavData;
-        parent::__construct($formFactory, $coreData, $context, $data);
-    }
-
     public function setAttributeObject($attribute)
     {
         $this->_attribute = $attribute;
@@ -224,7 +196,9 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
      */
     protected function _initFormValues()
     {
-        $this->_eventManager->dispatch('adminhtml_block_eav_attribute_edit_form_init', array('form' => $this->getForm()));
+        $this->_eventManager->dispatch('adminhtml_block_eav_attribute_edit_form_init', array(
+            'form' => $this->getForm(),
+        ));
         $this->getForm()
             ->addValues($this->getAttributeObject()->getData());
         return parent::_initFormValues();

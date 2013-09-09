@@ -34,25 +34,15 @@ class Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action
     protected $_salesReorder = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Sales_Helper_Reorder $salesReorder
      * @param Magento_Backend_Block_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Sales_Helper_Reorder $salesReorder,
         Magento_Backend_Block_Context $context,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_salesReorder = $salesReorder;
         parent::__construct($context, $data);
     }
@@ -67,7 +57,10 @@ class Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action
             );
             $this->addToActions($reorderAction);
         }
-        $this->_eventManager->dispatch('adminhtml_customer_orders_add_action_renderer', array('renderer' => $this, 'row' => $row));
+        $this->_eventManager->dispatch('adminhtml_customer_orders_add_action_renderer', array(
+            'renderer' => $this,
+            'row' => $row,
+        ));
         return $this->_actionsToHtml();
     }
 

@@ -27,14 +27,6 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
     protected $_salesRuleCoupon = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
      * @param Magento_Core_Helper_Data $coreData
@@ -42,14 +34,12 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Form_Factory $formFactory,
         Magento_SalesRule_Helper_Coupon $salesRuleCoupon,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_salesRuleCoupon = $salesRuleCoupon;
         parent::__construct($formFactory, $coreData, $context, $data);
     }
@@ -150,7 +140,9 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
 
         $this->setForm($form);
 
-        $this->_eventManager->dispatch('adminhtml_promo_quote_edit_tab_coupons_form_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_promo_quote_edit_tab_coupons_form_prepare_form', array(
+            'form' => $form,
+        ));
 
         return parent::_prepareForm();
     }

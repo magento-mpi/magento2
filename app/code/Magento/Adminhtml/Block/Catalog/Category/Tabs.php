@@ -34,27 +34,17 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Bloc
     protected $_adminhtmlCatalog = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
         parent::__construct($coreData, $context, $data);
     }

@@ -85,33 +85,6 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
     protected $_locale;
 
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        array $data = array()
-    ) {
-        $this->_eventManager = $eventManager;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
-    }
-
-    /**
      * Apply sorting and filtering to collection
      *
      * @return Magento_Backend_Block_Widget_Grid|Magento_Reports_Block_Adminhtml_Grid

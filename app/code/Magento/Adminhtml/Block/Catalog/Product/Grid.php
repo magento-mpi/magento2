@@ -25,14 +25,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
     protected $_catalogData = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -41,7 +33,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -49,7 +40,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
         Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_catalogData = $catalogData;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
