@@ -38,6 +38,18 @@ class Magento_Backend_Model_Config_Backend_Encrypted
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
+    public function __sleep()
+    {
+        $properties = parent::__sleep();
+        return array_diff($properties, array('_coreData'));
+    }
+
+    public function __wakeup()
+    {
+        parent::__wakeup();
+        $this->_coreData = Mage::getSingleton('Magento_Core_Helper_Data');
+    }
+
     /**
      * Decrypt value after loading
      *

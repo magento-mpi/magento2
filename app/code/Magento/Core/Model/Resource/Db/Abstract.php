@@ -139,6 +139,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
     {
         $properties = array_keys(get_object_vars($this));
         if (Mage::getIsSerializable()) {
+            file_put_contents('/home/nas/projects/magento2/var/log/session.error', file_get_contents('/home/nas/projects/magento2/var/log/session.error') . PHP_EOL . get_class($this));
             $properties = array_diff($properties, array('_resources', '_connections'));
         }
         return $properties;
