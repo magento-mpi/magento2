@@ -92,7 +92,7 @@
     <action id="create">
         <label translate="true">Create</label>
     </action>
-    <log name="catalog_products">
+    <group name="catalog_products">
         <label translate="true">Catalog Products</label>
         <expected_model class="Magento_Catalog_Model_Product" />
         <event controller_action="adminhtml_catalog_product_edit" action_alias="view" />
@@ -109,8 +109,8 @@
         <event controller_action="adminhtml_catalog_product_action_attribute_save"
                action_alias="massUpdate"
                post_dispatch="postDispatchProductUpdateAttributes" />
-    </log>
-    <log name="catalog_categories">
+    </group>
+    <group name="catalog_categories">
         <label translate="true">Catalog Categories</label>
         <expected_model class="Magento_Catalog_Model_Category" />
         <event controller_action="adminhtml_catalog_category_edit" action_alias="view" />
@@ -120,15 +120,15 @@
                post_dispatch="postDispatchCategoryMove" />
         <event controller_action="adminhtml_catalog_category_delete"
                action_alias="delete" />
-    </log>
-    <log name="core_urlrewrites">
+    </group>
+    <group name="core_urlrewrites">
         <label translate="true">URL Redirects</label>
         <expected_model class="Magento_Core_Model_Url_Rewrite" />
         <event controller_action="adminhtml_urlrewrite_edit" action_alias="view" />
         <event controller_action="adminhtml_urlrewrite_save" action_alias="save" />
         <event controller_action="adminhtml_urlrewrite_delete" action_alias="delete" />
-    </log>
-    <log name="catalogsearch">
+    </group>
+    <group name="catalogsearch">
         <label translate="true">Catalog Search</label>
         <expected_model class="Magento_CatalogSearch_Model_Query" />
         <event controller_action="adminhtml_catalog_search_edit" action_alias="view" />
@@ -140,15 +140,15 @@
         <event controller_action="adminhtml_index_globalSearch"
                action_alias="global_search"
                post_dispatch="postDispatchGlobalSearch" />
-    </log>
-    <log name="rating">
+    </group>
+    <group name="rating">
         <label translate="true">Catalog Ratings</label>
         <expected_model class="Magento_Rating_Model_Rating" />
         <event controller_action="adminhtml_rating_edit" action_alias="view" />
         <event controller_action="adminhtml_rating_save" action_alias="save" />
         <event controller_action="adminhtml_rating_delete" action_alias="delete" />
-    </log>
-    <log name="review">
+    </group>
+    <group name="review">
         <label translate="true">Catalog Reviews</label>
         <expected_model class="Magento_Review_Model_Review" />
         <event controller_action="adminhtml_catalog_product_review_edit"
@@ -163,8 +163,8 @@
                action_alias="massUpdate" />
         <event controller_action="adminhtml_catalog_product_review_massDelete"
                action_alias="massDelete" />
-    </log>
-    <log name="catalog_attributes">
+    </group>
+    <group name="catalog_attributes">
         <label translate="true">Catalog Attributes</label>
         <expected_model class="Magento_Catalog_Model_Resource_Eav_Attribute" />
         <event controller_action="adminhtml_catalog_product_attribute_edit"
@@ -175,8 +175,8 @@
         </event>
         <event controller_action="adminhtml_catalog_product_attribute_delete"
                action_alias="delete" />
-    </log>
-    <log name="catalog_attributesets">
+    </group>
+    <group name="catalog_attributesets">
         <label translate="true">Catalog Product Templates</label>
         <expected_model class="Magento_Eav_Model_Entity_Attribute_Set" />
         <event controller_action="adminhtml_catalog_product_set_edit"
@@ -187,16 +187,16 @@
         </event>
         <event controller_action="adminhtml_catalog_product_set_delete"
                action_alias="delete" />
-    </log>
-    <log name="admin_login">
+    </group>
+    <group name="admin_login">
         <label translate="true">Admin Sign In</label>
         <event controller_action="adminhtml_auth_forgotpassword"
                action_alias="forgotpassword"
                post_dispatch="postDispatchForgotPassword">
             <expected_model class="Magento_User_Model_User" />
         </event>
-    </log>
-    <log name="cms_pages">
+    </group>
+    <group name="cms_pages">
         <label translate="true">CMS Pages</label>
         <expected_model class="Magento_Cms_Model_Page" />
         <event controller_action="adminhtml_cms_page_edit" action_alias="view" />
@@ -204,15 +204,15 @@
             <skip_on_back controller_action="adminhtml_cms_page_edit" />
         </event>
         <event controller_action="adminhtml_cms_page_delete" action_alias="delete" />
-    </log>
-    <log name="cms_blocks">
+    </group>
+    <group name="cms_blocks">
         <label translate="true">CMS Blocks</label>
         <expected_model class="Magento_Cms_Model_Block" />
         <event controller_action="adminhtml_cms_block_edit" action_alias="view" />
         <event controller_action="adminhtml_cms_block_save" action_alias="save" />
         <event controller_action="adminhtml_cms_block_delete" action_alias="delete" />
-    </log>
-    <log name="poll">
+    </group>
+    <group name="poll">
         <label translate="true">CMS Polls</label>
         <expected_model class="Magento_Poll_Model_Poll" />
         <event controller_action="adminhtml_poll_edit" action_alias="edit" />
@@ -220,8 +220,8 @@
         <event controller_action="adminhtml_poll_validate"
                action_alias="save"
                post_dispatch="postDispatchPollValidation" />
-    </log>
-    <log name="customer">
+    </group>
+    <group name="customer">
         <label translate="true">Customers</label>
         <expected_model class="Magento_Customer_Model_Customer">
             <skip_field name="new_password" />
@@ -250,16 +250,16 @@
                post_dispatch="postDispatchSimpleSave" />
         <event controller_action="adminhtml_customer_massAssignGroup"
                action_alias="massUpdate" />
-    </log>
-    <log name="customer_groups">
+    </group>
+    <group name="customer_groups">
         <label translate="true">Customer Groups</label>
         <expected_model class="Magento_Customer_Model_Group" />
         <event controller_action="adminhtml_customer_group_edit" action_alias="view" />
         <event controller_action="adminhtml_customer_group_save" action_alias="save" />
         <event controller_action="adminhtml_customer_group_delete"
                action_alias="delete" />
-    </log>
-    <log name="reports">
+    </group>
+    <group name="reports">
         <label translate="true">Reports</label>
         <event controller_action="adminhtml_report_sales_sales"
                action_alias="view"
@@ -462,8 +462,8 @@
         <event controller_action="adminhtml_report_invitation_exportOrderExcel"
                action_alias="export"
                post_dispatch="postDispatchSimpleSave" />
-    </log>
-    <log name="adminhtml_system_config">
+    </group>
+    <group name="adminhtml_system_config">
         <label translate="true">System Configuration</label>
         <event controller_action="adminhtml_system_config_edit"
                action_alias="view"
@@ -473,8 +473,8 @@
                post_dispatch="postDispatchConfigSave">
             <skip_on_back controller_action="adminhtml_system_config_edit" />
         </event>
-    </log>
-    <log name="catalogrule">
+    </group>
+    <group name="catalogrule">
         <label translate="true">Catalog Price Rules</label>
         <expected_model class="Magento_CatalogRule_Model_Rule" />
         <event controller_action="adminhtml_promo_catalog_edit" action_alias="view" />
@@ -488,8 +488,8 @@
         <event controller_action="adminhtml_promo_catalog_applyRules"
                action_alias="apply"
                post_dispatch="postDispatchPromoCatalogApply" />
-    </log>
-    <log name="salesrule">
+    </group>
+    <group name="salesrule">
         <label translate="true">Cart Price Rules</label>
         <expected_model class="Magento_SalesRule_Model_Rule" />
         <event controller_action="adminhtml_promo_quote_edit" action_alias="view" />
@@ -497,8 +497,8 @@
             <skip_on_back controller_action="adminhtml_promo_quote_edit" />
         </event>
         <event controller_action="adminhtml_promo_quote_delete" action_alias="delete" />
-    </log>
-    <log name="adminhtml_system_account">
+    </group>
+    <group name="adminhtml_system_account">
         <label translate="true">Admin My Account</label>
         <expected_model class="Magento_User_Model_User">
             <skip_field name="password" />
@@ -507,14 +507,14 @@
         </expected_model>
         <event controller_action="adminhtml_system_account_index" action_alias="view" />
         <event controller_action="adminhtml_system_account_save" action_alias="save" />
-    </log>
-    <log name="newsletter_queue">
+    </group>
+    <group name="newsletter_queue">
         <label translate="true">Newsletter Queue</label>
         <expected_model class="Magento_Newsletter_Model_Queue" />
         <event controller_action="adminhtml_newsletter_queue_edit" action_alias="view" />
         <event controller_action="adminhtml_newsletter_queue_save" action_alias="save" />
-    </log>
-    <log name="newsletter_templates">
+    </group>
+    <group name="newsletter_templates">
         <label translate="true">Newsletter Templates</label>
         <expected_model class="Magento_Newsletter_Model_Template" />
         <event controller_action="adminhtml_newsletter_template_save"
@@ -525,8 +525,8 @@
                action_alias="delete" />
         <event controller_action="adminhtml_newsletter_template_preview"
                action_alias="preview" />
-    </log>
-    <log name="newsletter_subscribers">
+    </group>
+    <group name="newsletter_subscribers">
         <label translate="true">Newsletter Subscribers</label>
         <expected_model class="Magento_Newsletter_Model_Subscriber" />
         <event controller_action="adminhtml_newsletter_subscriber_massUnsubscribe"
@@ -539,8 +539,8 @@
         <event controller_action="adminhtml_newsletter_subscriber_exportXml"
                action_alias="export"
                post_dispatch="postDispatchSimpleSave" />
-    </log>
-    <log name="sales_orders">
+    </group>
+    <group name="sales_orders">
         <label translate="true">Sales Orders</label>
         <expected_model class="Magento_Sales_Model_Order">
             <additional_field name="increment_id" />
@@ -606,15 +606,15 @@
                action_alias="export" />
         <event controller_action="adminhtml_sales_order_pdfcreditmemos"
                action_alias="export" />
-    </log>
-    <log name="sales_order_status">
+    </group>
+    <group name="sales_order_status">
         <label translate="true">Sales Order Status</label>
         <event controller_action="adminhtml_sales_order_addComment"
                action_alias="save">
             <expected_model class="Magento_Sales_Model_Order_Status_History" />
         </event>
-    </log>
-    <log name="sales_invoices">
+    </group>
+    <group name="sales_invoices">
         <label translate="true">Sales Invoices</label>
         <expected_model class="Magento_Sales_Model_Order_Invoice">
             <additional_field name="increment_id" />
@@ -641,8 +641,8 @@
                action_alias="email">
             <skip_on_back controller_action="adminhtml_sales_invoice_view" />
         </event>
-    </log>
-    <log name="sales_shipments">
+    </group>
+    <group name="sales_shipments">
         <label translate="true">Sales Shipments</label>
         <expected_model class="Magento_Sales_Model_Order_Shipment">
             <additional_field name="increment_id" />
@@ -672,8 +672,8 @@
                action_alias="save">
             <expected_model class="Magento_Sales_Model_Order_Shipment_Track" />
         </event>
-    </log>
-    <log name="sales_creditmemos">
+    </group>
+    <group name="sales_creditmemos">
         <label translate="true">Sales Credit Memos</label>
         <expected_model class="Magento_Sales_Model_Order_Creditmemo">
             <additional_field name="increment_id" />
@@ -699,8 +699,8 @@
                action_alias="email">
             <skip_on_back controller_action="adminhtml_sales_creditmemo_view" />
         </event>
-    </log>
-    <log name="sales_agreement">
+    </group>
+    <group name="sales_agreement">
         <label translate="true">Checkout Terms and Conditions</label>
         <expected_model class="Magento_Checkout_Model_Agreement" />
         <event controller_action="adminhtml_checkout_agreement_edit"
@@ -711,8 +711,8 @@
         </event>
         <event controller_action="adminhtml_checkout_agreement_delete"
                action_alias="delete" />
-    </log>
-    <log name="webapi_acl_role">
+    </group>
+    <group name="webapi_acl_role">
         <label translate="true">Web Services API Roles</label>
         <expected_model class="Magento_Webapi_Model_Acl_Role" />
         <event controller_action="adminhtml_webapi_role_save" action_alias="save">
@@ -720,8 +720,8 @@
         </event>
         <event controller_action="adminhtml_webapi_role_edit" action_alias="edit" />
         <event controller_action="adminhtml_webapi_role_delete" action_alias="delete" />
-    </log>
-    <log name="webapi_acl_user">
+    </group>
+    <group name="webapi_acl_user">
         <label translate="true">Web Services API Users</label>
         <expected_model class="Magento_Webapi_Model_Acl_User" />
         <event controller_action="adminhtml_webapi_user_save" action_alias="save">
@@ -729,8 +729,8 @@
         </event>
         <event controller_action="adminhtml_webapi_user_edit" action_alias="edit" />
         <event controller_action="adminhtml_webapi_user_delete" action_alias="delete" />
-    </log>
-    <log name="adminhtml_permission_roles">
+    </group>
+    <group name="adminhtml_permission_roles">
         <label translate="true">Admin Permission Roles</label>
         <expected_model class="Magento_User_Model_Role" />
         <event controller_action="adminhtml_user_role_editrole" action_alias="view" />
@@ -738,8 +738,8 @@
             <skip_on_back controller_action="adminhtml_user_role_editrole" />
         </event>
         <event controller_action="adminhtml_user_role_delete" action_alias="delete" />
-    </log>
-    <log name="adminhtml_permission_users">
+    </group>
+    <group name="adminhtml_permission_users">
         <label translate="true">Admin Permission Users</label>
         <expected_model class="Magento_User_Model_User">
             <skip_field name="password" />
@@ -749,8 +749,8 @@
         <event controller_action="adminhtml_user_edit" action_alias="view" />
         <event controller_action="adminhtml_user_save" action_alias="save" />
         <event controller_action="adminhtml_user_delete" action_alias="delete" />
-    </log>
-    <log name="adminhtml_system_websites">
+    </group>
+    <group name="adminhtml_system_websites">
         <label translate="true">Manage Websites</label>
         <expected_model class="Magento_Core_Model_Website" />
         <event controller_action="adminhtml_system_store_editWebsite"
@@ -763,37 +763,37 @@
         </event>
         <event controller_action="adminhtml_system_store_deleteWebsitePost"
                action_alias="delete" />
-    </log>
-    <log name="adminhtml_system_store_groups">
+    </group>
+    <group name="adminhtml_system_store_groups">
         <label translate="true">Manage Stores</label>
         <expected_model class="Magento_Core_Model_Store" />
         <event controller_action="adminhtml_system_store_editStore"
                action_alias="view" />
         <event controller_action="adminhtml_system_store_deleteStorePost"
                action_alias="delete" />
-    </log>
-    <log name="adminhtml_system_stores">
+    </group>
+    <group name="adminhtml_system_stores">
         <label translate="true">Manage Store Views</label>
         <expected_model class="Magento_Core_Model_Store_Group" />
         <event controller_action="adminhtml_system_store_deleteGroupPost"
                action_alias="delete" />
         <event controller_action="adminhtml_system_store_editGroup"
                action_alias="view" />
-    </log>
-    <log name="adminhtml_system_design">
+    </group>
+    <group name="adminhtml_system_design">
         <label translate="true">Manage Design</label>
         <expected_model class="Magento_Core_Model_Design" />
         <event controller_action="adminhtml_system_design_save" action_alias="save" />
         <event controller_action="adminhtml_system_design_delete"
                action_alias="delete" />
-    </log>
-    <log name="adminhtml_system_currency">
+    </group>
+    <group name="adminhtml_system_currency">
         <label translate="true">Manage Currency Rates</label>
         <event controller_action="adminhtml_system_currency_saveRates"
                action_alias="save"
                post_dispatch="postDispatchSystemCurrencySave" />
-    </log>
-    <log name="adminhtml_system_email_template">
+    </group>
+    <group name="adminhtml_system_email_template">
         <label translate="true">Transactional Emails</label>
         <expected_model class="Magento_Core_Model_Email_Template" />
         <event controller_action="adminhtml_system_email_template_save"
@@ -802,8 +802,8 @@
                action_alias="edit" />
         <event controller_action="adminhtml_system_email_template_delete"
                action_alias="delete" />
-    </log>
-    <log name="adminhtml_system_variable">
+    </group>
+    <group name="adminhtml_system_variable">
         <label translate="true">Custom Variables</label>
         <expected_model class="Magento_Core_Model_Variable" />
         <event controller_action="adminhtml_system_variable_save" action_alias="save">
@@ -812,8 +812,8 @@
         <event controller_action="adminhtml_system_variable_edit" action_alias="view" />
         <event controller_action="adminhtml_system_variable_delete"
                action_alias="delete" />
-    </log>
-    <log name="adminhtml_system_backups">
+    </group>
+    <group name="adminhtml_system_backups">
         <label translate="true">System Backups</label>
         <event controller_action="adminhtml_system_backup_create"
                action_alias="create"
@@ -824,8 +824,8 @@
         <event controller_action="adminhtml_system_backup_rollback"
                action_alias="rollback"
                post_dispatch="postDispatchSystemRollback" />
-    </log>
-    <log name="tax_customer_tax_classes">
+    </group>
+    <group name="tax_customer_tax_classes">
         <label translate="true">Customer Tax Classes</label>
         <expected_model class="Magento_Tax_Model_Class" />
         <event controller_action="adminhtml_tax_class_ajaxDelete"
@@ -834,12 +834,12 @@
         <event controller_action="adminhtml_tax_class_ajaxSave"
                action_alias="save"
                post_dispatch="postDispatchTaxClassSave" />
-    </log>
-    <log name="tax_product_tax_classes">
+    </group>
+    <group name="tax_product_tax_classes">
         <label translate="true">Catalog Product Tax Classes</label>
         <expected_model class="Magento_Tax_Model_Class" />
-    </log>
-    <log name="tax_rules">
+    </group>
+    <group name="tax_rules">
         <label translate="true">Tax Rules</label>
         <expected_model class="Magento_Tax_Model_Calculation_Rule" />
         <event controller_action="adminhtml_tax_rule_edit" action_alias="view" />
@@ -847,8 +847,8 @@
             <skip_on_back controller_action="adminhtml_tax_rule_edit" />
         </event>
         <event controller_action="adminhtml_tax_rule_delete" action_alias="delete" />
-    </log>
-    <log name="tax_rates">
+    </group>
+    <group name="tax_rates">
         <label translate="true">Tax Rates</label>
         <expected_model class="Magento_Tax_Model_Calculation_Rate" />
         <event controller_action="adminhtml_tax_rate_edit" action_alias="view" />
@@ -860,23 +860,23 @@
                action_alias="export"
                post_dispatch="postDispatchTaxRatesExport" />
         <event controller_action="adminhtml_tax_rate_delete" action_alias="delete" />
-    </log>
-    <log name="google_sitemap">
+    </group>
+    <group name="google_sitemap">
         <label translate="true">XML Sitemap</label>
         <expected_model class="Magento_Sitemap_Model_Sitemap" />
         <event controller_action="adminhtml_sitemap_edit" action_alias="view" />
         <event controller_action="adminhtml_sitemap_save" action_alias="save" />
         <event controller_action="adminhtml_sitemap_delete" action_alias="delete" />
         <event controller_action="adminhtml_sitemap_generate" action_alias="save" />
-    </log>
-    <log name="googleshopping_types">
+    </group>
+    <group name="googleshopping_types">
         <label translate="true">Google Shopping</label>
         <expected_model class="Magento_GoogleShopping_Model_Type" />
         <event controller_action="googleshopping_types_edit" action_alias="edit" />
         <event controller_action="googleshopping_types_save" action_alias="save" />
         <event controller_action="googleshopping_types_delete" action_alias="delete" />
-    </log>
-    <log name="widget_instance">
+    </group>
+    <group name="widget_instance">
         <label translate="true">Frontend App Instance</label>
         <expected_model class="Magento_Widget_Model_Widget_Instance" />
         <event controller_action="adminhtml_widget_instance_edit" action_alias="view" />
@@ -885,8 +885,8 @@
         </event>
         <event controller_action="adminhtml_widget_instance_delete"
                action_alias="delete" />
-    </log>
-    <log name="index_management">
+    </group>
+    <group name="index_management">
         <label translate="true">Index Management</label>
         <expected_model class="Magento_Index_Model_Process" />
         <event controller_action="adminhtml_process_edit" action_alias="view" />
@@ -899,8 +899,8 @@
         <event controller_action="adminhtml_process_reindexProcess"
                action_alias="reindex_process"
                post_dispatch="postDispatchReindexProcess" />
-    </log>
-    <log name="cache_management">
+    </group>
+    <group name="cache_management">
         <label translate="true">Cache Management</label>
         <event controller_action="adminhtml_cache_massEnable"
                action_alias="save"
@@ -923,8 +923,8 @@
         <event controller_action="adminhtml_cache_flushAll"
                action_alias="flush"
                post_dispatch="postDispatchSimpleSave" />
-    </log>
-    <log name="paypal_settlement_reports">
+    </group>
+    <group name="paypal_settlement_reports">
         <label translate="true">PayPal Settlement Reports</label>
         <event controller_action="adminhtml_paypal_reports_details"
                action_alias="view">
@@ -933,8 +933,8 @@
         <event controller_action="adminhtml_paypal_reports_fetch" action_alias="fetch">
             <expected_model class="Magento_Paypal_Model_Report_Settlement" />
         </event>
-    </log>
-    <log name="adminhtml_sales_recurring_profile">
+    </group>
+    <group name="adminhtml_sales_recurring_profile">
         <label translate="true">Recurring Billing Profiles</label>
         <expected_model class="Magento_Sales_Model_Recurring_Profile" />
         <event controller_action="adminhtml_sales_recurring_profile_updateProfile"
@@ -943,5 +943,5 @@
         <event controller_action="adminhtml_sales_recurring_profile_updateState"
                action_alias="updateState"
                post_dispatch="postDispatchRecurringProfilesUpdate" />
-    </log>
+    </group>
 </logging>

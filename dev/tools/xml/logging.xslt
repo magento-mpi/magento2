@@ -20,7 +20,7 @@
                     </xsl:for-each>
                 </xsl:if>
                 <xsl:if test="local-name() != 'actions'">
-                    <log>
+                    <group>
                         <xsl:attribute name="name">
                             <xsl:value-of select='local-name()' />
                         </xsl:attribute>
@@ -97,7 +97,7 @@
                                 </xsl:for-each>
                             </event>
                         </xsl:for-each>
-                    </log>
+                    </group>
                 </xsl:if>
             </xsl:for-each>
         </logging>

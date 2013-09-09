@@ -14,7 +14,7 @@
     <action id="refresh_data">
         <label translate="true">Refresh Data</label>
     </action>
-    <log name="magento_customersegment">
+    <group name="magento_customersegment">
         <label translate="true">Manage Segments</label>
         <expected_model class="Magento_CustomerSegment_Model_Segment" />
         <event controller_action="adminhtml_customersegment_edit" action_alias="view" />
@@ -32,5 +32,5 @@
         <event controller_action="adminhtml_report_customer_customersegment_exportExcel"
                action_alias="export"
                post_dispatch="postDispatchSimpleSave" />
-    </log>
+    </group>
 </logging>

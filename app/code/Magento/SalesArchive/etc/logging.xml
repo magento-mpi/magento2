@@ -17,7 +17,7 @@
     <action id="add">
         <label translate="true">Add</label>
     </action>
-    <log name="magento_salesarchive">
+    <group name="magento_salesarchive">
         <label translate="true">Sales Archive</label>
         <expected_model class="Magento_SalesArchive_Model_Archive" />
         <event controller_action="adminhtml_sales_archive_add"
@@ -36,5 +36,5 @@
         <event controller_action="adminhtml_sales_archive_massRemove"
                action_alias="massDelete"
                post_dispatch="postDispatchSalesArchiveManagement" />
-    </log>
+    </group>
 </logging>

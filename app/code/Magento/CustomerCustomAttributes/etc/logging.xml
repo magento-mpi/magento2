@@ -11,7 +11,7 @@
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
-    <log name="adminhtml_customer_attribute">
+    <group name="adminhtml_customer_attribute">
         <label translate="true">Manage Customer Attributes</label>
         <expected_model class="Magento_Customer_Model_Attribute" />
         <event controller_action="adminhtml_customer_attribute_edit"
@@ -20,8 +20,8 @@
                action_alias="save" />
         <event controller_action="adminhtml_customer_attribute_delete"
                action_alias="delete" />
-    </log>
-    <log name="adminhtml_customer_address_attribute">
+    </group>
+    <group name="adminhtml_customer_address_attribute">
         <label translate="true">Manage Customer Address Attributes</label>
         <expected_model class="Magento_Customer_Model_Attribute" />
         <event controller_action="adminhtml_customer_address_attribute_edit"
@@ -30,5 +30,5 @@
                action_alias="save" />
         <event controller_action="adminhtml_customer_address_attribute_delete"
                action_alias="delete" />
-    </log>
+    </group>
 </logging>
