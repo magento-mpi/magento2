@@ -116,7 +116,7 @@ class Magento_Test_Integrity_Modular_ViewFilesTest extends Magento_TestFramework
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setArea($application)
             ->setDefaultDesignTheme();
-        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_FileSystem');
+        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_View_FileSystem');
         $this->assertFileExists($filesystem->getViewFile($file));
     }
