@@ -471,16 +471,6 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     }
 
     /**
-     * Add tax class id attribute to select and join price rules data if needed
-     *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
-     */
-    protected function _beforeLoad()
-    {
-        return parent::_beforeLoad();
-    }
-
-    /**
      * Processing collection items after loading
      * Adding url rewrites, minimal prices, final prices, tax percents
      *
