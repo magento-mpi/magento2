@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Reports_Model_Plugin_LogTest extends PHPUnit_Framework_TestCase
 {
     /**
