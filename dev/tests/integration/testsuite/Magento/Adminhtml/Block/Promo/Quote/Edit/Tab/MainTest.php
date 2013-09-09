@@ -22,7 +22,9 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_MainTest extends PHPUnit_Fram
     public function testPrepareForm()
     {
         $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        $objectManager->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            ->setDefaultDesignTheme();
         $objectManager->get('Magento_Core_Model_Registry')
             ->register('current_promo_quote_rule', $objectManager->create('Magento_SalesRule_Model_Rule'));
 

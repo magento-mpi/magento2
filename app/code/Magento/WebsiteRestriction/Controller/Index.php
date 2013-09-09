@@ -80,7 +80,8 @@ class Magento_WebsiteRestriction_Controller_Index extends Magento_Core_Controlle
                 if (Mage::app()->getLocale()
                     ->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo())
                 ) {
-                    Mage::getDesign()->setDesignTheme($page->getCustomTheme());
+                    $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
+                        ->setDesignTheme($page->getCustomTheme());
                 }
             }
 

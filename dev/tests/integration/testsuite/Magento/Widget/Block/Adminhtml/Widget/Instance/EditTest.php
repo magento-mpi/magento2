@@ -21,7 +21,9 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_EditTest extends PHPUnit_Fr
     public function testConstruct()
     {
         $type = 'Magento_Catalog_Block_Product_Widget_New';
-        $theme = Mage::getDesign()->setDefaultDesignTheme()->getDesignTheme();
+        $theme = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setDefaultDesignTheme()
+            ->getDesignTheme();
 
         /** @var $widgetInstance Magento_Widget_Model_Widget_Instance */
         $widgetInstance = Mage::getModel('Magento_Widget_Model_Widget_Instance');

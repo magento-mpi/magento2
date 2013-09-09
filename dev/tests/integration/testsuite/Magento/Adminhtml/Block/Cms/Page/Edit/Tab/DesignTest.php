@@ -22,7 +22,9 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_DesignTest extends PHPUnit_Frame
     {
         /** @var $objectManager Magento_Test_ObjectManager */
         $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        $objectManager->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            ->setDefaultDesignTheme();
         $objectManager->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $objectManager->get('Magento_Core_Model_Registry')

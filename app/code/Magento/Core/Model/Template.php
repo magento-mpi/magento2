@@ -67,15 +67,25 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     protected $_store;
 
     /**
+     * Design package instance
+     *
+     * @var Magento_Core_Model_View_DesignInterface
+     */
+    protected $_design = null;
+
+    /**
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_design = $design;
         $this->_area = isset($data['area']) ? $data['area'] : null;
         $this->_store = isset($data['store']) ? $data['store'] : null;
         parent::__construct($context, $registry, null, null, $data);
@@ -124,7 +134,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     {
         if ($this->_designConfig === null) {
             if ($this->_area === null) {
-                $this->_area = Mage::getDesign()->getArea();
+                $this->_area = $this->_design->getArea();
             }
             if ($this->_store === null) {
                 $this->_store = Mage::app()->getStore()->getId();
