@@ -203,6 +203,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
 
     /**
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -211,6 +212,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Directory_Helper_Data $directoryData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
@@ -218,7 +220,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
         array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($directoryData, $context, $resource, $resourceCollection, $data);
+        parent::__construct($eventManager, $directoryData, $context, $resource, $resourceCollection, $data);
     }
 
     /**

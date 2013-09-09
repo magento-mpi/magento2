@@ -35,6 +35,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config $modulesConfig,
         Magento_Core_Model_ModuleListInterface $moduleList,
@@ -43,8 +44,10 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
         Magento_Core_Model_CacheInterface $cache,
         $resourceName
     ) {
-        parent::__construct($resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader, $cache,
-            $resourceName);
+        parent::__construct(
+            $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
+            $resource, $modulesReader, $cache, $resourceName
+        );
         $this->_coreData = $coreData;
     }
 

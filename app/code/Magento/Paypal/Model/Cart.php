@@ -103,10 +103,9 @@ class Magento_Paypal_Model_Cart
     /**
      * Require instance of an order or a quote
      *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param array $params
+     * @throws Exception
      */
     public function __construct(
         Magento_Core_Model_Event_Manager_Proxy $eventManager,

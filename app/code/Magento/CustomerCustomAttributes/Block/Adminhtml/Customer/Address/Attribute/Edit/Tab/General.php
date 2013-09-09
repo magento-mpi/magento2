@@ -46,7 +46,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
         array $data = array()
     ) {
         $this->_customerData = $customerData;
-        parent::__construct($formFactory, $eavData, $coreData, $context, $data);
+        parent::__construct($eventManager, $formFactory, $eavData, $coreData, $context, $data);
     }
 
     /**

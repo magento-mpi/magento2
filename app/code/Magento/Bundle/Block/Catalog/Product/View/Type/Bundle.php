@@ -37,6 +37,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
 
     /**
      * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
@@ -45,6 +46,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
      */
     public function __construct(
         Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
@@ -52,7 +54,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
-        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($eventManager, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     public function getOptions()

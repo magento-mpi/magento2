@@ -11,7 +11,7 @@
 /**
  * Shopping cart price rule chooser
  */
-class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
      * Core event manager proxy

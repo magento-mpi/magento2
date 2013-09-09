@@ -12,7 +12,7 @@
  * Obtain all carts contents for specified client
  *
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Carts extends Magento_Adminhtml_Block_Template
+class Magento_Adminhtml_Block_Customer_Edit_Tab_Carts extends Magento_Backend_Block_Template
 {
     /**
      * Core event manager proxy

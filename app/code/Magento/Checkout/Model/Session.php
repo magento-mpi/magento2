@@ -56,12 +56,13 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      */
     public function __construct(
         Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         $sessionName = null,
         array $data = array()
     ) {
         $this->_orderFactory = $orderFactory;
-        parent::__construct($coreHttp, $data);
+        parent::__construct($eventManager, $coreHttp, $data);
         $this->init('checkout', $sessionName);
     }
 

@@ -60,6 +60,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      *
      * @param Magento_Core_Helper_Url $coreUrl
      * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param array $data
      * @param null $sessionName
@@ -67,13 +68,14 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     public function __construct(
         Magento_Core_Helper_Url $coreUrl,
         Magento_Customer_Helper_Data $customerData,
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         array $data = array(),
         $sessionName = null
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;
-        parent::__construct($coreHttp, $data);
+        parent::__construct($eventManager, $coreHttp, $data);
         $namespace = 'customer';
         if ($this->getCustomerConfigShare()->isWebsiteScope()) {
             $namespace .= '_' . (Mage::app()->getStore()->getWebsite()->getCode());

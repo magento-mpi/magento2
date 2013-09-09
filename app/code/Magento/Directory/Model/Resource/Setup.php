@@ -24,6 +24,7 @@ class Magento_Directory_Model_Resource_Setup extends Magento_Core_Model_Resource
 
     /**
      * @param Magento_Directory_Helper_Data $directoryData
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $modulesConfig
      * @param Magento_Core_Model_ModuleListInterface $moduleList
@@ -33,6 +34,7 @@ class Magento_Directory_Model_Resource_Setup extends Magento_Core_Model_Resource
      */
     public function __construct(
         Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config $modulesConfig,
         Magento_Core_Model_ModuleListInterface $moduleList,
@@ -40,7 +42,9 @@ class Magento_Directory_Model_Resource_Setup extends Magento_Core_Model_Resource
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         $resourceName
     ) {
-        parent::__construct($resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader, $resourceName);
+        parent::__construct(
+            $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader, $resourceName
+        );
         $this->_directoryData = $directoryData;
     }
 
