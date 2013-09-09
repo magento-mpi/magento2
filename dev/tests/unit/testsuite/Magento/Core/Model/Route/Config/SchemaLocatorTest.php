@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Router_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Route_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject

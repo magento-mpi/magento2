@@ -53,7 +53,7 @@ if (!is_dir($workingDir)) {
 }
 
 $config = require __DIR__ . "/conf/{$options['e']}.php";
-$blackList = require __DIR__ . '/../../../../dev/tools/license_placeholder/blacklist.php';
+$blackList = require __DIR__ . '/../../../../dev/tools/Magento/Tools/license_placeholder/blacklist.php';
 
 try {
     Routine::run($workingDir, $config, $blackList);

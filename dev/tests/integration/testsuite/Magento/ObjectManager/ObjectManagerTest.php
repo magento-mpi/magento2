@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
+class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Test classes for basic instantiation

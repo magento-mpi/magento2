@@ -48,7 +48,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends 
         $this->_themeContext->expects($this->any())->method('getStagingTheme')
             ->will($this->returnValue($this->_theme));
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(
             'Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom',
             array(

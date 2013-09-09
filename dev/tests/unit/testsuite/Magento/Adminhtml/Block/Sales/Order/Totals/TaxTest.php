@@ -42,7 +42,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framewo
      */
     protected function _getModelArgument()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         return $objectManagerHelper->getConstructArguments(
             'Magento_Adminhtml_Block_Sales_Order_Totals_Tax',
             array(

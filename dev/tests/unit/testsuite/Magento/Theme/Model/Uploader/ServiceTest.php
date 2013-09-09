@@ -37,7 +37,7 @@ class Magento_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCas
         $uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($this->_uploader));
         $this->_filesystemMock = $this->getMock('Magento_Io_File', array('read'), array(), '', false);
         /** @var $service Magento_Theme_Model_Uploader_Service */
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(
             'Magento_Theme_Model_Uploader_Service',
             array('fileIo' => $this->_filesystemMock, 'uploaderFactory' => $uploaderFactory)

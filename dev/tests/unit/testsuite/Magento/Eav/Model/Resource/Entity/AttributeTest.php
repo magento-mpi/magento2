@@ -35,7 +35,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
             'is_unique' => 0,
         );
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model Magento_Core_Model_Abstract */
         $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
         $arguments['data'] = $attributeData;
@@ -90,7 +90,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
         );
 
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model Magento_Core_Model_Abstract */
         $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
         $arguments['data'] = $attributeData;
@@ -151,7 +151,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
         /** @var $resourceModel Magento_Eav_Model_Resource_Entity_Attribute */
         list($adapter, $resourceModel) = $this->_prepareResourceModel();
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model Magento_Core_Model_Abstract */
         $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
         $model = $this->getMock('Magento_Core_Model_Abstract', null, $arguments);

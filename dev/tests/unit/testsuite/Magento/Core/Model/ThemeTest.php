@@ -39,7 +39,7 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $this->_imageFactory = $this->getMock('Magento_Core_Model_Theme_ImageFactory',
             array('create'), array(), '', false);
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Theme', array(
             'customizationFactory' => $customizationFactory,
             'customizationConfig'  => $customizationConfig,
