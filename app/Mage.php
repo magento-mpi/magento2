@@ -566,26 +566,6 @@ final class Mage
     }
 
     /**
-     * Retrieve helper object
-     *
-     * @param string $name the helper name
-     * @return Magento_Core_Helper_Abstract
-     */
-    public static function helper($name)
-    {
-        /* Default helper class for a module */
-        if (strpos($name, '_Helper_') === false) {
-            $name .= '_Helper_Data';
-        }
-
-        $registryKey = '_helper/' . $name;
-        if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getObjectManager()->get($name));
-        }
-        return self::registry($registryKey);
-    }
-
-    /**
      * Retrieve resource helper object
      *
      * @param string $moduleName

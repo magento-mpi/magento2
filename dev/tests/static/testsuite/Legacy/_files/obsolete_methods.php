@@ -682,4 +682,5 @@ return array(
     array('getHelper', 'Magento_Cms_Model_Wysiwyg_Images_Storage'),
     array('getHelper', 'Magento_Core_Model_AppProxy'),
     array('getHelper', 'Magento_Core_Model_App'),
+    array('helper', 'Mage'),
 );

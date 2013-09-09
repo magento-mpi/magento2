@@ -176,25 +176,4 @@ class MageTest extends PHPUnit_Framework_TestCase
             array('Magento_Core', 'Magento_Core_Model_Resource_Helper_Abstract')
         );
     }
-
-    /**
-     * @param string $classId
-     * @param string $expectedClassName
-     * @dataProvider helperDataProvider
-     */
-    public function testHelper($classId, $expectedClassName)
-    {
-        $this->assertInstanceOf($expectedClassName, Mage::helper($classId));
-    }
-
-    /**
-     * @return array
-     */
-    public function helperDataProvider()
-    {
-        return array(
-            'module name' => array('Magento_Core', 'Magento_Core_Helper_Data'),
-            'class name'  => array('Magento_Core_Helper_Js', 'Magento_Core_Helper_Js'),
-        );
-    }
 }

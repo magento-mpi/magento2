@@ -160,7 +160,7 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
         $namespaces = $source->getNamespaces(true);
 
         /** @var Magento_Api_Helper_Data $helper */
-        $helper = Mage::helper('Magento_Api_Helper_Data');
+        $helper = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Api_Helper_Data');
         $isWsi = $helper->isWsiCompliant();
 
         foreach ($namespaces as $key => $value) {
