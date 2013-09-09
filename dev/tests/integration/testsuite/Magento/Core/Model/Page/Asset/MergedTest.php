@@ -45,7 +45,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
                 Magento_Core_Model_Dir::THEMES => realpath(__DIR__ . '/../../_files/design')
             )
         ));
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme('vendor_default');
     }
 

@@ -44,7 +44,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
      */
     public function testLoadConfigurations($type, $controlName, $controlData)
     {
-        $designTheme = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        $designTheme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->getDesignTheme();
         $configuration = $this->_configFactory->create($type, $designTheme);
         $this->assertEquals($controlData, $configuration->getControlData($controlName));
@@ -116,7 +116,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
     public function testSaveConfiguration($saveData, $xpathData)
     {
         $type = Magento_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES;
-        $theme = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->getDesignTheme();
         $configuration = $this->_configFactory->create($type, $theme);
         $configuration->saveData($saveData);

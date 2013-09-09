@@ -18,7 +18,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testCreate()
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
         /** Prepare data. */

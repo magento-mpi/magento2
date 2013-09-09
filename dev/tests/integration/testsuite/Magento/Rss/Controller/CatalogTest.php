@@ -136,7 +136,7 @@ class Magento_Rss_Controller_CatalogTest extends Magento_TestFramework_TestCase_
      */
     protected function _loginAdmin()
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setArea('adminhtml')
             ->setDefaultDesignTheme();
         $this->getRequest()->setServer(array(

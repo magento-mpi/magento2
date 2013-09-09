@@ -18,7 +18,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_InstanceTest extends Magento_Ba
     {
         parent::setUp();
 
-        $theme = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();
         $this->getRequest()->setParam('type', 'Magento_Cms_Block_Widget_Page_Link');

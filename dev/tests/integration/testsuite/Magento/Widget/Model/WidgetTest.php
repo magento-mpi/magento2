@@ -44,7 +44,7 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPlaceholderImageUrl($type, $expectedFile)
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
         $expectedPubFile = Mage::getBaseDir(Magento_Core_Model_Dir::STATIC_VIEW)
             . "/adminhtml/magento_basic/en_US/{$expectedFile}";
