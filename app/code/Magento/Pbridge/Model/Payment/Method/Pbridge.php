@@ -74,12 +74,13 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Pbridge_Helper_Data $pbridgeData,
         Magento_Payment_Helper_Data $paymentData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($paymentData, $data);
+        parent::__construct($eventManager, $paymentData, $data);
     }
 
     /**

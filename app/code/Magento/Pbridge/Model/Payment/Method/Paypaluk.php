@@ -63,12 +63,13 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      */
     public function __construct(
         Magento_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Payment_Helper_Data $paymentData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($moduleList, $paymentData, $data);
+        parent::__construct($eventManager, $moduleList, $paymentData, $data);
         $this->_pro->setPaymentMethod($this);
     }
 
