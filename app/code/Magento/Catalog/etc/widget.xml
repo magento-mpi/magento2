@@ -15,9 +15,7 @@
         <description translate="true">List of Products that are set as New</description>
         <parameter name="display_type" xsi:type="select" required="true" visible="true">
             <label translate="true">Display Type</label>
-            <description translate="true">All products - recently added products, New products - products marked as
-                new
-            </description>
+            <description translate="true">All products - recently added products, New products - products marked as new</description>
             <option name="default" value="all_products" selected="true">
                 <label translate="true">All products</label>
             </option>
@@ -63,9 +61,7 @@
         </parameter>
         <parameter name="cache_lifetime" xsi:type="text" visible="true">
             <label translate="true">Cache Lifetime (Seconds)</label>
-            <description translate="true">86400 by default, if not set. To refresh instantly, clear the Blocks HTML
-                Output cache.
-            </description>
+            <description translate="true">86400 by default, if not set. To refresh instantly, clear the Blocks HTML Output cache.</description>
         </parameter>
         <container name="left">
             <template name="default" value="list_default" />

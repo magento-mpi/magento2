@@ -53,8 +53,7 @@
     <widget id="recently_compared" class="Magento_Reports_Block_Product_Widget_Compared"
             placeholder_image="Magento_Reports::images/product_widget_compared.gif">
         <label translate="true">Recently Compared Products</label>
-        <description translate="true">List of Products Recently Compared and Removed from the Compare List by Visitor
-        </description>
+        <description translate="true">List of Products Recently Compared and Removed from the Compare List by Visitor</description>
         <parameter name="page_size" xsi:type="text" required="true" visible="true">
             <label translate="true">Number of Products to display</label>
             <value>5</value>

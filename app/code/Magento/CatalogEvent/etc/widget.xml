@@ -25,8 +25,7 @@
         </parameter>
         <parameter name="width" xsi:type="text" visible="true">
             <label translate="true">Block Custom Width</label>
-            <description translate="true">The width in pixels will be set automatically if this value is empty.
-            </description>
+            <description translate="true">The width in pixels will be set automatically if this value is empty.</description>
         </parameter>
         <parameter name="template" xsi:type="select" visible="false" required="true">
             <option name="default" value="widget/lister.phtml" selected="true">
