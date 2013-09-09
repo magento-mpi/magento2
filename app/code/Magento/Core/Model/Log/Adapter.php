@@ -74,7 +74,7 @@ class Magento_Core_Model_Log_Adapter
         }
         $data = $this->_filterDebugData($data);
         $data['__pid'] = getmypid();
-        $this->_logger->log($data, null, $this->_logFileName, true);
+        $this->_logger->logFile($data, Zend_Log::DEBUG, $this->_logFileName);
         return $this;
     }
 

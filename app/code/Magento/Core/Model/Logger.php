@@ -140,6 +140,28 @@ class Magento_Core_Model_Logger
     }
 
     /**
+     * Log a message in specific file
+     *
+     * @param string $message
+     * @param int $level
+     * @param string $file
+     */
+    public function logFile($message, $level = Zend_Log::DEBUG, $file = '')
+    {
+        if (!isset($file)) {
+            $this->log($message, $level);
+        }
+        if (is_array($message) || is_object($message)) {
+            $message = print_r($message, true);
+        }
+        /** @var $logger Zend_Log */
+        if (!$this->hasLog($file)) {
+            $this->addStreamLog($file, $file);
+        }
+        $logger->log($message, $level, $file);
+    }
+
+    /**
      * Log a message with "debug" level
      *
      * @param string $message

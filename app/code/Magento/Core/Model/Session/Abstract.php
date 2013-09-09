@@ -453,7 +453,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
             "\n",
             $exception->getTraceAsString());
         $file = Mage::getStoreConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
-        $this->_logger->log($message, Zend_Log::DEBUG, $file);
+        $this->_logger->logFile($message, Zend_Log::DEBUG, $file);
 
         $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->error($alternativeText));
         return $this;
