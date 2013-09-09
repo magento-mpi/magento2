@@ -76,7 +76,7 @@ app/code/Magento/License
 app/code/Magento/Logging
 dev/tests/integration/testsuite/Magento/Logging
 dev/tests/unit/testsuite/Magento/Logging
-dev/ests/static/testsuite/Integrity/Magento/Logging
+dev/tests/static/testsuite/Integrity/Magento/Logging
 app/code/Magento/Pbridge
 dev/tests/unit/testsuite/Magento/Pbridge
 dev/tests/integration/testsuite/Magento/Pbridge
