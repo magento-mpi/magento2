@@ -310,10 +310,11 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
                 Add: After elimination of skins and refactoring of themes we can't just switch area,
                 cause we can't be sure that theme set for previous area exists in new one
             */
-            $area = Mage::getDesign()->getArea();
-            $theme = Mage::getDesign()->getDesignTheme();
-            Mage::getDesign()->setDesignTheme(
-                Mage::getDesign()->getConfigurationDesignTheme(Magento_Core_Model_App_Area::AREA_FRONTEND)
+            $design = $this->_objectManager->get('Magento_Core_Model_View_DesignInterface');
+            $area = $design->getArea();
+            $theme = $design->getDesignTheme();
+            $design->setDesignTheme(
+                $design->getConfigurationDesignTheme(Magento_Core_Model_App_Area::AREA_FRONTEND)
             );
 
             /** @var $observer Magento_ScheduledImportExport_Model_Observer */
@@ -321,7 +322,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             $result = $observer->processScheduledOperation($schedule, true);
 
             // restore current design area and theme
-            Mage::getDesign()->setDesignTheme($theme, $area);
+            $design->setDesignTheme($theme, $area);
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }

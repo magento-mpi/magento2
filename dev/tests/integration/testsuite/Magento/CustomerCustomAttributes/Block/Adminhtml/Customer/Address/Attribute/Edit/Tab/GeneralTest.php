@@ -21,7 +21,9 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
      */
     public function testPrepareForm()
     {
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            ->setDefaultDesignTheme();
         $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer');
         /** @var $model Magento_Customer_Model_Attribute */
         $model = Mage::getModel('Magento_Customer_Model_Attribute');

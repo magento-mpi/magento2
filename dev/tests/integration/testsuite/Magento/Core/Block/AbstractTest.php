@@ -28,7 +28,8 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         Mage::getConfig();
-        Mage::getDesign()->setDefaultDesignTheme();
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setDefaultDesignTheme();
         $this->_block = $this->getMockForAbstractClass('Magento_Core_Block_Abstract', array(
             Mage::getSingleton('Magento_Core_Block_Context'),
             array('module_name' => 'Magento_Core')
