@@ -27,6 +27,7 @@ class Magento_GiftRegistry_Block_Wishlist_Item_Column_Registry
 
     /**
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData

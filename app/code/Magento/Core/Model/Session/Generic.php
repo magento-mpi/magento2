@@ -21,7 +21,7 @@ class Magento_Core_Model_Session_Generic extends Magento_Core_Model_Session_Abst
         array $data = array(),
         $sessionName = null
     ) {
-        parent::__construct($eventManager, $sessionNamespace, $coreHttp, $data);
+        parent::__construct($eventManager, $coreHttp, $data);
         $this->init($sessionNamespace, $sessionName);
     }
 }
