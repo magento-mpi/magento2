@@ -19,10 +19,12 @@ abstract class Magento_Api_Model_Server_HandlerAbstract
 {
     protected $_resourceSuffix = null;
 
+    /**
+     * Set error handler and load area
+     */
     public function __construct()
     {
         set_error_handler(array($this, 'handlePhpError'), E_ALL);
-        Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMIN, Magento_Core_Model_App_Area::PART_EVENTS);
     }
 
     public function handlePhpError($errorCode, $errorMessage, $errorFile)
@@ -148,7 +150,6 @@ abstract class Magento_Api_Model_Server_HandlerAbstract
         $this->_startSession();
         return $this->_getSession()->getSessionId();
     }
-
 
     /**
      * End web service session

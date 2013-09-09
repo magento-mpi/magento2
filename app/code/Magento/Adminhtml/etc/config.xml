@@ -10,49 +10,7 @@
  */
 -->
 <config>
-    <global>
-        <events>
-            <adminhtml_controller_action_predispatch_start>
-                <observers>
-                    <massaction>
-                        <class>Magento_Adminhtml_Model_Observer</class>
-                        <method>massactionPrepareKey</method>
-                    </massaction>
-                </observers>
-            </adminhtml_controller_action_predispatch_start>
-            <admin_user_authenticate_after>
-                <observers>
-                    <configuration_files_access_level_verification>
-                        <class>Magento_Adminhtml_Model_Observer</class>
-                        <method>clearCacheConfigurationFilesAccessLevelVerification</method>
-                    </configuration_files_access_level_verification>
-                </observers>
-            </admin_user_authenticate_after>
-        </events>
-    </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <use>admin</use>
-                <args>
-                    <modules>
-                        <Magento_Adminhtml>Magento_Adminhtml</Magento_Adminhtml>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
-        <events>
-            <admin_system_config_changed_section_admin>
-                <observers>
-                    <bind_locale>
-                        <class>Magento_Backend_Model_Config_Backend_Admin_Observer</class>
-                        <method>afterCustomUrlChanged</method>
-                    </bind_locale>
-                </observers>
-            </admin_system_config_changed_section_admin>
-        </events>
         <global_search>
             <products>
                 <class>Magento_Adminhtml_Model_Search_Catalog</class>

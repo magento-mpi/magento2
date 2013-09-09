@@ -84,15 +84,17 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
         $product->setId(100);
         $category = Mage::getModel('Magento_Catalog_Model_Category');
         $category->setId(10);
-        Mage::register('current_category', $category);
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('current_category', $category);
 
         try {
             $this->assertStringEndsWith(
                 'sendfriend/product/send/id/100/cat_id/10/', $this->_helper->getEmailToFriendUrl($product)
             );
-            Mage::unregister('current_category');
+            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
         } catch (Exception $e) {
-            Mage::unregister('current_category');
+            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
             throw $e;
         }
     }
@@ -173,8 +175,17 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     {
         Mage::getSingleton('Magento_Catalog_Model_Session')->setLastVisitedCategoryId(2);
         $this->_helper->initProduct(1, 'view');
-        $this->assertInstanceOf('Magento_Catalog_Model_Product', Mage::registry('current_product'));
-        $this->assertInstanceOf('Magento_Catalog_Model_Category', Mage::registry('current_category'));
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+
+        $this->assertInstanceOf(
+            'Magento_Catalog_Model_Product',
+            $objectManager->get('Magento_Core_Model_Registry')->registry('current_product')
+        );
+        $this->assertInstanceOf(
+            'Magento_Catalog_Model_Category',
+            $objectManager->get('Magento_Core_Model_Registry')->registry('current_category')
+        );
     }
 
     public function testPrepareProductOptions()

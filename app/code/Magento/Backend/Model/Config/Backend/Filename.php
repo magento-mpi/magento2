@@ -7,9 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-class Magento_Backend_Model_Config_Backend_Filename extends Magento_Core_Model_Config_Data
+class Magento_Backend_Model_Config_Backend_Filename extends Magento_Core_Model_Config_Value
 {
     protected function _beforeSave()
     {

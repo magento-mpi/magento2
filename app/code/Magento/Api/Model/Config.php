@@ -22,7 +22,7 @@ class Magento_Api_Model_Config extends Magento_Simplexml_Config
      *
      * @see Magento_Simplexml_Config
      */
-    public function __construct($sourceData=null)
+    public function __construct($sourceData = null)
     {
         $this->setCacheId('config_api');
         $this->setCacheTags(array(Magento_Api_Model_Cache_Type::CACHE_TAG));

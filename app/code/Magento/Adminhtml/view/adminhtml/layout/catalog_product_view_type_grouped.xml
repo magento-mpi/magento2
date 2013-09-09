@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <catalog_product_view_type_grouped>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_product_view_type_grouped">
         <reference name="product.composite.fieldset">
-            <block type="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped" name="product.composite.fieldset.grouped" before="product.composite.fieldset.options" template="catalog/product/composite/fieldset/grouped.phtml"/>
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped" name="product.composite.fieldset.grouped" before="product.composite.fieldset.options" template="catalog/product/composite/fieldset/grouped.phtml"/>
             <remove name="product.composite.fieldset.qty"/>
         </reference>
-    </catalog_product_view_type_grouped>
+    </handle>
 </layout>

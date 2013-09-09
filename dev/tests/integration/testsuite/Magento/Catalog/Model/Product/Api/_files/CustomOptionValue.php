@@ -15,7 +15,9 @@ $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
 
 $product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->setData($productData)->save();
-Mage::register('productData', $product);
+/** @var $objectManager Magento_Test_ObjectManager */
+$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->register('productData', $product);
 
 $customOptionApi = Mage::getModel('Magento_Catalog_Model_Product_Option_Api');
 $data = Magento_Test_Helper_Api::simpleXmlToArray($fixture->fixtureCustomOption);
@@ -24,5 +26,4 @@ $data = Magento_Test_Helper_Api::simpleXmlToArray($fixture->fixtureCustomOption)
 Mage::getSingleton('Magento_Catalog_Model_Product_Option')->unsetOptions();
 $customOptionApi->add($product->getId(), $data);
 $customOptionsList = $customOptionApi->items($product->getId());
-
-Mage::register('customOptionId', $customOptionsList[0]['option_id']);
+$objectManager->get('Magento_Core_Model_Registry')->register('customOptionId', $customOptionsList[0]['option_id']);

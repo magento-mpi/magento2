@@ -24,7 +24,9 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends PHPUnit_F
         /** @var $event Magento_CatalogEvent_Model_Event */
         $event = Mage::getModel('Magento_CatalogEvent_Model_Event');
         $event->setCategoryId(1)->setId(1);
-        Mage::register('magento_catalogevent_event', $event);
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('magento_catalogevent_event', $event);
         $block = Mage::app()->getLayout()->createBlock('Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form');
         $prepareFormMethod = new ReflectionMethod(
             'Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form', '_prepareForm');

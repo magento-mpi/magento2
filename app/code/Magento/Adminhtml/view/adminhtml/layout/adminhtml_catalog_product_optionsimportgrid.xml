@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_product_optionsimportgrid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_product_optionsimportgrid">
         <container name="root" label="Root" output="1">
-            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid" name="catalog.product.import.custom.options"/>
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid" name="catalog.product.import.custom.options"/>
         </container>
-    </adminhtml_catalog_product_optionsimportgrid>
+    </handle>
 </layout>

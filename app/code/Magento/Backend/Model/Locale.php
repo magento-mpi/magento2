@@ -49,7 +49,7 @@ class Magento_Backend_Model_Locale extends Magento_Core_Model_Locale
         Magento_Backend_Model_Locale_Manager $localeManager,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Locale_Validator $localeValidator,
-        $locale=null
+        $locale = null
     ) {
         $this->_session = $session;
         $this->_localeManager = $localeManager;

@@ -21,7 +21,9 @@ class Magento_Catalog_Block_Product_List_CrosssellTest extends PHPUnit_Framework
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(2);
-        Mage::register('product', $product);
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('product', $product);
         /** @var $block Magento_Catalog_Block_Product_List_Crosssell */
         $block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_List_Crosssell');
         $block->setLayout(Mage::getModel('Magento_Core_Model_Layout'));

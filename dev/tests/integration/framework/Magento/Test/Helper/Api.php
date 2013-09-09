@@ -48,11 +48,14 @@ class Magento_Test_Helper_Api
         $handlerMock->expects($testCase->any())->method('_getSession')->will($testCase->returnValue($apiSessionMock));
 
         array_unshift($params, 'sessionId');
-        Mage::unregister('isSecureArea');
-        Mage::register('isSecureArea', true);
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('isSecureArea');
+        $objectManager->get('Magento_Core_Model_Registry')->register('isSecureArea', true);
         $result = call_user_func_array(array($handlerMock, $path), $params);
-        Mage::unregister('isSecureArea');
-        Mage::register('isSecureArea', false);
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('isSecureArea');
+        $objectManager->get('Magento_Core_Model_Registry')->register('isSecureArea', false);
 
         self::restoreErrorHandler();
         return $result;

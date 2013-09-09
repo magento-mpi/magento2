@@ -7,162 +7,162 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_newsletter_subscriber_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_newsletter_subscriber_block">
         <reference name="adminhtml.newsletter.subscriber.container">
-            <block type="Magento_Adminhtml_Block_Newsletter_Subscriber_Grid" name='adminhtml.newslettrer.subscriber.grid' as='grid'>
+            <block class="Magento_Adminhtml_Block_Newsletter_Subscriber_Grid" name="adminhtml.newslettrer.subscriber.grid" as="grid">
                 <arguments>
-                    <id>subscriberGrid</id>
-                    <dataSource type="object">Magento_Newsletter_Model_Resource_Subscriber_Grid_Collection</dataSource>
-                    <default_sort>subscriber_id</default_sort>
-                    <default_dir>desc</default_dir>
-                    <use_ajax>1</use_ajax>>
+                    <argument name="id" xsi:type="string">subscriberGrid</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Newsletter_Model_Resource_Subscriber_Grid_Collection</argument>
+                    <argument name="default_sort" xsi:type="string">subscriber_id</argument>
+                    <argument name="default_dir" xsi:type="string">desc</argument>
+                    <argument name="use_ajax" xsi:type="string">1</argument>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.newslettrer.subscriber.grid.massaction" as="grid.massaction">
+                <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.newslettrer.subscriber.grid.massaction" as="grid.massaction">
                     <arguments>
-                        <massaction_id_field>subscriber_id</massaction_id_field>
-                        <form_field_name>subscriber</form_field_name>
-                        <use_select_all>1</use_select_all>
-                        <options>
-                            <unsubscribe>
-                                <label translate="true">Unsubscribe</label>
-                                <url>*/*/massUnsubscribe</url>
-                            </unsubscribe>
-                            <delete>
-                                <label translate="true">Delete</label>
-                                <url>*/*/massDelete</url>
-                            </delete>
-                        </options>
+                        <argument name="massaction_id_field" xsi:type="string">subscriber_id</argument>
+                        <argument name="form_field_name" xsi:type="string">subscriber</argument>
+                        <argument name="use_select_all" xsi:type="string">1</argument>
+                        <argument name="options" xsi:type="array">
+                            <item name="unsubscribe" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Unsubscribe</item>
+                                <item name="url" xsi:type="string">*/*/massUnsubscribe</item>
+                            </item>
+                            <item name="delete" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Delete</item>
+                                <item name="url" xsi:type="string">*/*/massDelete</item>
+                            </item>
+                        </argument>
                     </arguments>
                 </block>
-                <block type="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.newslettrer.subscriber.grid.export" as="grid.export">
+                <block class="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.newslettrer.subscriber.grid.export" as="grid.export">
                     <arguments>
-                        <exportTypes>
-                            <csv>
-                                <urlPath>*/*/exportCsv</urlPath>
-                                <label translate="true">CSV</label>
-                            </csv>
-                            <excel>
-                                <urlPath>*/*/exportXml</urlPath>
-                                <label translate="true">Excel XML</label>
-                            </excel>
-                        </exportTypes>
+                        <argument name="exportTypes" xsi:type="array">
+                            <item name="csv" xsi:type="array">
+                                <item name="urlPath" xsi:type="string">*/*/exportCsv</item>
+                                <item name="label" xsi:type="string" translate="true">CSV</item>
+                            </item>
+                            <item name="excel" xsi:type="array">
+                                <item name="urlPath" xsi:type="string">*/*/exportXml</item>
+                                <item name="label" xsi:type="string" translate="true">Excel XML</item>
+                            </item>
+                        </argument>
                     </arguments>
                 </block>
-                <block type='Magento_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.newslettrer.subscriber.grid.columnSet' as='grid.columnSet'>
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.newslettrer.subscriber.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <id>problemGrid</id>
+                        <argument name="id" xsi:type="string">problemGrid</argument>
                     </arguments>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='subscriber_id'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="subscriber_id">
                         <arguments>
-                            <header translate='true' module='Magento_Newsletter'>ID</header>
-                            <index>subscriber_id</index>
-                            <header_css_class>col-id</header_css_class>
-                            <column_css_class>col-id</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
+                            <argument name="index" xsi:type="string">subscriber_id</argument>
+                            <argument name="header_css_class" xsi:type="string">col-id</argument>
+                            <argument name="column_css_class" xsi:type="string">col-id</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='email'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
                         <arguments>
-                            <header translate='true' module='Magento_Newsletter'>Email</header>
-                            <index>subscriber_email</index>
-                            <header_css_class>col-email</header_css_class>
-                            <column_css_class>ccol-email</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Email</argument>
+                            <argument name="index" xsi:type="string">subscriber_email</argument>
+                            <argument name="header_css_class" xsi:type="string">col-email</argument>
+                            <argument name="column_css_class" xsi:type="string">ccol-email</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='type'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="type">
                         <arguments>
-                            <header translate='true' module='Magento_Newsletter'>Type</header>
-                            <index>type</index>
-                            <type>options</type>
-                            <options>
-                                <guest>
-                                    <value>1</value>
-                                    <label translate="true">Guest</label>
-                                </guest>
-                                <customer>
-                                    <value>2</value>
-                                    <label translate ="true">Customer</label>
-                                </customer>
-                            </options>
-                            <header_css_class>col-type</header_css_class>
-                            <column_css_class>col-type</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Type</argument>
+                            <argument name="index" xsi:type="string">type</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="array">
+                                <item name="guest" xsi:type="array">
+                                    <item name="value" xsi:type="string">1</item>
+                                    <item name="label" xsi:type="string" translate="true">Guest</item>
+                                </item>
+                                <item name="customer" xsi:type="array">
+                                    <item name="value" xsi:type="string">2</item>
+                                    <item name="label" xsi:type="string" translate="true">Customer</item>
+                                </item>
+                            </argument>
+                            <argument name="header_css_class" xsi:type="string">col-type</argument>
+                            <argument name="column_css_class" xsi:type="string">col-type</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='firstname'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="firstname">
                         <arguments>
-                            <header translate='true' module='Magento_Newsletter'>Customer First Name</header>
-                            <index>customer_firstname</index>
-                            <default>----</default>
-                            <header_css_class>col-first-name</header_css_class>
-                            <column_css_class>col-first-name</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Customer First Name</argument>
+                            <argument name="index" xsi:type="string">customer_firstname</argument>
+                            <argument name="default" xsi:type="string">----</argument>
+                            <argument name="header_css_class" xsi:type="string">col-first-name</argument>
+                            <argument name="column_css_class" xsi:type="string">col-first-name</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='lastname'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="lastname">
                         <arguments>
-                            <header translate='true' module='Magento_Newsletter'>Customer Last Name</header>
-                            <index>customer_lastname</index>
-                            <default>----</default>
-                            <header_css_class>col-last-name</header_css_class>
-                            <column_css_class>col-last-name</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Customer Last Name</argument>
+                            <argument name="index" xsi:type="string">customer_lastname</argument>
+                            <argument name="default" xsi:type="string">----</argument>
+                            <argument name="header_css_class" xsi:type="string">col-last-name</argument>
+                            <argument name="column_css_class" xsi:type="string">col-last-name</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='status'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
-                            <header translate='true'>Status</header>
-                            <index>subscriber_status</index>
-                            <type>options</type>
-                            <status_not_active>
-                                <value>2</value>
-                                <label translate="true">Not Activated</label>
-                            </status_not_active>
-                            <status_subscribed>
-                                <value>1</value>
-                                <label translate="true">Subscribed</label>
-                            </status_subscribed>
-                            <status_unsubscribed>
-                                <value>3</value>
-                                <label translate="true">Unsubscribed</label>
-                            </status_unsubscribed>
-                            <status_unconfirmed>
-                                <value>4</value>
-                                <label translate="true">Unconfirmed</label>
-                            </status_unconfirmed>
-                            <header_css_class>col-status</header_css_class>
-                            <column_css_class>col-status</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Status</argument>
+                            <argument name="index" xsi:type="string">subscriber_status</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="status_not_active" xsi:type="array">
+                                <item name="value" xsi:type="string">2</item>
+                                <item name="label" xsi:type="string" translate="true">Not Activated</item>
+                            </argument>
+                            <argument name="status_subscribed" xsi:type="array">
+                                <item name="value" xsi:type="string">1</item>
+                                <item name="label" xsi:type="string" translate="true">Subscribed</item>
+                            </argument>
+                            <argument name="status_unsubscribed" xsi:type="array">
+                                <item name="value" xsi:type="string">3</item>
+                                <item name="label" xsi:type="string" translate="true">Unsubscribed</item>
+                            </argument>
+                            <argument name="status_unconfirmed" xsi:type="array">
+                                <item name="value" xsi:type="string">4</item>
+                                <item name="label" xsi:type="string" translate="true">Unconfirmed</item>
+                            </argument>
+                            <argument name="header_css_class" xsi:type="string">col-status</argument>
+                            <argument name="column_css_class" xsi:type="string">col-status</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column_Multistore' as='website'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website">
                         <arguments>
-                            <header translate='true' module='Magento_Newsletter'>Web Site</header>
-                            <index>website_id</index>
-                            <type>options</type>
-                            <options type="options">Magento_Backend_Model_Config_Source_Website_OptionHash</options>
-                            <header_css_class>col-website</header_css_class>
-                            <column_css_class>col-website</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Web Site</argument>
+                            <argument name="index" xsi:type="string">website_id</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Backend_Model_Config_Source_Website_OptionHash"/>
+                            <argument name="header_css_class" xsi:type="string">col-website</argument>
+                            <argument name="column_css_class" xsi:type="string">col-website</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column_Multistore' as='group'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="group">
                         <arguments>
-                            <header translate='true' module='Magento_Newsletter'>Store</header>
-                            <index>group_id</index>
-                            <type>options</type>
-                            <options type="options">Magento_Newsletter_Block_Subscribe_Grid_Options_GroupOptionHash</options>
-                            <header_css_class>col-store</header_css_class>
-                            <column_css_class>col-store</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Store</argument>
+                            <argument name="index" xsi:type="string">group_id</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Newsletter_Block_Subscribe_Grid_Options_GroupOptionHash"/>
+                            <argument name="header_css_class" xsi:type="string">col-store</argument>
+                            <argument name="column_css_class" xsi:type="string">col-store</argument>
                         </arguments>
                     </block>
-                    <block type='Magento_Backend_Block_Widget_Grid_Column_Multistore' as='store'>
+                    <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store">
                         <arguments>
-                            <header translate='true' module='Magento_Newsletter'>Store View</header>
-                            <index>store_id</index>
-                            <type>options</type>
-                            <options type="options">Magento_Newsletter_Block_Subscribe_Grid_Options_StoreOptionHash</options>
-                            <header_css_class>col-store-view</header_css_class>
-                            <column_css_class>col-store-view</column_css_class>
+                            <argument name="header" xsi:type="string" translate="true">Store View</argument>
+                            <argument name="index" xsi:type="string">store_id</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="options" model="Magento_Newsletter_Block_Subscribe_Grid_Options_StoreOptionHash"/>
+                            <argument name="header_css_class" xsi:type="string">col-store-view</argument>
+                            <argument name="column_css_class" xsi:type="string">col-store-view</argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_newsletter_subscriber_block>
+    </handle>
 </layout>

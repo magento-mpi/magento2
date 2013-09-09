@@ -6,6 +6,8 @@
  * @license {license_link}
  */
 
-Mage::unregister('website');
-Mage::unregister('store_group');
-Mage::unregister('store_on_new_website');
+/** @var $objectManager Magento_Test_ObjectManager */
+$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->unregister('website');
+$objectManager->get('Magento_Core_Model_Registry')->unregister('store_group');
+$objectManager->get('Magento_Core_Model_Registry')->unregister('store_on_new_website');

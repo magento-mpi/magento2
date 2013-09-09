@@ -125,8 +125,11 @@ class Magento_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Fra
      */
     public function testAttributeSetAttrCRUD()
     {
-        $testAttributeSetId = Mage::registry('testAttributeSetId');
-        $attrIdsArray = Mage::registry('testAttributeSetAttrIdsArray');
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+
+        $testAttributeSetId = $objectManager->get('Magento_Core_Model_Registry')->registry('testAttributeSetId');
+        $attrIdsArray = $objectManager->get('Magento_Core_Model_Registry')->registry('testAttributeSetAttrIdsArray');
 
         // add attribute test
         $addResult = Magento_Test_Helper_Api::call(
@@ -152,7 +155,10 @@ class Magento_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Fra
      */
     public function testAttributeSetGroupCRUD()
     {
-        $testAttributeSetId = Mage::registry('testAttributeSetId');
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+
+        $testAttributeSetId = $objectManager->get('Magento_Core_Model_Registry')->registry('testAttributeSetId');
         $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/AttributeSet.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($attributeSetFixture->groupAdd);
 
@@ -195,7 +201,9 @@ class Magento_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Fra
         $this->assertTrue((bool)$removeResult);
 
         $this->_removeAttrSet($testAttributeSetId);
-        $this->_removeAttributes(Mage::registry('testAttributeSetAttrIdsArray'));
+        $this->_removeAttributes(
+            $objectManager->get('Magento_Core_Model_Registry')->registry('testAttributeSetAttrIdsArray')
+        );
 
         // remove undefined group exception test
         Magento_Test_Helper_Api::callWithException(

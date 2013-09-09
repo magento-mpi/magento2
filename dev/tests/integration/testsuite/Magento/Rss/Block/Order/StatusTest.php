@@ -18,7 +18,9 @@ class Magento_Rss_Block_Order_StatusTest extends PHPUnit_Framework_TestCase
 
         $uniqid = uniqid();
         $order = $this->getMock('Magento_Object', array('formatPrice'), array(array('id' => $uniqid,)));
-        Mage::register('current_order', $order);
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('current_order', $order);
         $this->assertContains($uniqid, $block->toHtml());
     }
 }

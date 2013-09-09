@@ -22,7 +22,9 @@ class Magento_Payment_Block_Catalog_Product_View_ProfileTest extends PHPUnit_Fra
         $product = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Catalog_Model_Product');
         $product->setIsRecurring('1');
         $product->setRecurringProfile(array('start_date_is_editable' => true));
-        Mage::register('current_product', $product);
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
         $block = Magento_Test_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Payment_Block_Catalog_Product_View_Profile');
         $block->setLayout(Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout'));

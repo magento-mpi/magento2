@@ -7,48 +7,48 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_order_create_load_block_data>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_order_create_load_block_data">
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Sales_Order_Create_Data" template="sales/order/create/data.phtml" name="data">
-                <block type="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar" template="sales/order/create/sidebar.phtml" name="sidebar">
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart" template="sales/order/create/sidebar/items.phtml" name="cart"/>
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist"/>
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder" template="sales/order/create/sidebar/items.phtml" name="reorder"/>
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Viewed" template="sales/order/create/sidebar/items.phtml" name="viewed"/>
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Compared" template="sales/order/create/sidebar/items.phtml" name="compared"/>
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared" template="sales/order/create/sidebar/items.phtml" name="pcompared"/>
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed" template="sales/order/create/sidebar/items.phtml" name="pviewed"/>
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Data" template="sales/order/create/data.phtml" name="data">
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar" template="sales/order/create/sidebar.phtml" name="sidebar">
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart" template="sales/order/create/sidebar/items.phtml" name="cart"/>
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist"/>
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder" template="sales/order/create/sidebar/items.phtml" name="reorder"/>
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Viewed" template="sales/order/create/sidebar/items.phtml" name="viewed"/>
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Compared" template="sales/order/create/sidebar/items.phtml" name="compared"/>
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared" template="sales/order/create/sidebar/items.phtml" name="pcompared"/>
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed" template="sales/order/create/sidebar/items.phtml" name="pviewed"/>
                 </block>
-                <block type="Magento_Adminhtml_Block_Sales_Order_Create_Form_Account" template="sales/order/create/form/account.phtml" name="form_account"/>
-                <block type="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Address" template="sales/order/create/form/address.phtml" name="shipping_address"/>
-                <block type="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Address" template="sales/order/create/form/address.phtml" name="billing_address"/>
-                <block type="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method" template="sales/order/create/abstract.phtml" name="shipping_method">
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form" template="sales/order/create/shipping/method/form.phtml" name="order.create.shipping.method.form" as="form"/>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Form_Account" template="sales/order/create/form/account.phtml" name="form_account"/>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Address" template="sales/order/create/form/address.phtml" name="shipping_address"/>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Address" template="sales/order/create/form/address.phtml" name="billing_address"/>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method" template="sales/order/create/abstract.phtml" name="shipping_method">
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form" template="sales/order/create/shipping/method/form.phtml" name="order.create.shipping.method.form" as="form"/>
                 </block>
-                <block type="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method" template="sales/order/create/abstract.phtml" name="billing_method">
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form" template="sales/order/create/billing/method/form.phtml" name="order.create.billing.method.form" as="form"/>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method" template="sales/order/create/abstract.phtml" name="billing_method">
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form" template="sales/order/create/billing/method/form.phtml" name="order.create.billing.method.form" as="form"/>
                 </block>
-                <block type="Magento_Adminhtml_Block_Sales_Order_Create_Newsletter" template="sales/order/create/abstract.phtml" name="newsletter">
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Create_Newsletter_Form" template="sales/order/create/newsletter/form.phtml" name="order.create.newsletter.form" as="form"/>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Newsletter" template="sales/order/create/abstract.phtml" name="newsletter">
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Newsletter_Form" template="sales/order/create/newsletter/form.phtml" name="order.create.newsletter.form" as="form"/>
                 </block>
-                <block type="Magento_Adminhtml_Block_Sales_Order_Create_Search" template="sales/order/create/abstract.phtml" name="search">
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid" name="search.grid" as="grid"/>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Search" template="sales/order/create/abstract.phtml" name="search">
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid" name="search.grid" as="grid"/>
                 </block>
-                <block type="Magento_Adminhtml_Block_Sales_Order_Create_Items" template="sales/order/create/items.phtml" name="items">
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid" template="sales/order/create/items/grid.phtml" name="items_grid">
-                        <block type="Magento_Adminhtml_Block_Sales_Order_Create_Coupons" template="sales/order/create/coupons/form.phtml" name="coupons">
-                            <block type="Magento_Adminhtml_Block_Sales_Order_Create_Coupons_Form" template="sales/order/create/coupons/form.phtml" name="order.create.coupons.form" as="form"/>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Items" template="sales/order/create/items.phtml" name="items">
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid" template="sales/order/create/items/grid.phtml" name="items_grid">
+                        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Coupons" template="sales/order/create/coupons/form.phtml" name="coupons">
+                            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Coupons_Form" template="sales/order/create/coupons/form.phtml" name="order.create.coupons.form" as="form"/>
                         </block>
                     </block>
                 </block>
-                <block type="Magento_Adminhtml_Block_Sales_Order_Create_Comment" template="sales/order/create/comment.phtml" name="comment"/>
-                <block type="Magento_Adminhtml_Block_Sales_Order_Create_Totals" template="sales/order/create/totals.phtml" name="totals"/>
-                <block type="Magento_Adminhtml_Block_Template" name="gift_options" template="sales/order/giftoptions.phtml">
-                    <block type="Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage" template="sales/order/create/giftmessage.phtml" name="giftmessage"/>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Comment" template="sales/order/create/comment.phtml" name="comment"/>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Totals" template="sales/order/create/totals.phtml" name="totals"/>
+                <block class="Magento_Adminhtml_Block_Template" name="gift_options" template="sales/order/giftoptions.phtml">
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage" template="sales/order/create/giftmessage.phtml" name="giftmessage"/>
                 </block>
-                <block type="Magento_Core_Block_Text_List" name="order_item_extra_info"/>
+                <block class="Magento_Core_Block_Text_List" name="order_item_extra_info"/>
             </block>
         </reference>
-    </adminhtml_sales_order_create_load_block_data>
+    </handle>
 </layout>

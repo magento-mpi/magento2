@@ -48,6 +48,9 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         sort($correctHeader);
         $this->assertEquals($correctHeader, $csvHeader);
 
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+
         /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $websiteCode = $website->getCode();
@@ -58,16 +61,17 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
             // prepare correct data
             $correctCustomerData = array(
                 Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_EMAIL
-                    => Mage::registry('customer_finance_email'),
+                    => $objectManager->get('Magento_Core_Model_Registry')->registry('customer_finance_email'),
                 Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_WEBSITE
                     => Mage::app()->getStore()->getWebsite()->getCode(),
                 Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_FINANCE_WEBSITE
                     => $websiteCode,
                 Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
                     COLUMN_CUSTOMER_BALANCE
-                    => Mage::registry('customer_balance_' . $websiteCode),
+                    => $objectManager->get('Magento_Core_Model_Registry')->registry('customer_balance_' . $websiteCode),
                 Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS
-                    => Mage::registry('reward_point_balance_' . $websiteCode),
+                    => $objectManager->get('Magento_Core_Model_Registry')
+                        ->registry('reward_point_balance_' . $websiteCode),
             );
 
             asort($csvCustomerData);

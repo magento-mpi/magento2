@@ -47,12 +47,14 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     {
         $this->assertFalse($this->_model->getCategoryId());
         $category = new Magento_Object(array('id' => 5));
-        Mage::register('current_category', $category);
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('current_category', $category);
         try {
             $this->assertEquals(5, $this->_model->getCategoryId());
-            Mage::unregister('current_category');
+            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
         } catch (Exception $e) {
-            Mage::unregister('current_category');
+            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
             throw $e;
         }
     }
@@ -61,14 +63,17 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     {
         $this->assertEmpty($this->_model->getCategory());
 
-        Mage::register('current_category', new Magento_Object(array('id' => 3))); // fixture
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')
+            ->register('current_category', new Magento_Object(array('id' => 3))); // fixture
         try {
             $category = $this->_model->getCategory();
             $this->assertInstanceOf('Magento_Catalog_Model_Category', $category);
             $this->assertEquals(3, $category->getId());
-            Mage::unregister('current_category');
+            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
         } catch (Exception $e) {
-            Mage::unregister('current_category');
+            $objectManager->get('Magento_Core_Model_Registry')->unregister('current_category');
             throw $e;
         }
 

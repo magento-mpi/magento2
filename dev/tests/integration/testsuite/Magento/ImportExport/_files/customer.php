@@ -49,5 +49,7 @@ $customer->setDefaultBilling($address->getId());
 $customer->setDefaultShipping($address->getId());
 $customer->save();
 
-Mage::unregister('_fixture/Magento_ImportExport_Customer');
-Mage::register('_fixture/Magento_ImportExport_Customer', $customer);
+/** @var $objectManager Magento_Test_ObjectManager */
+$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->unregister('_fixture/Magento_ImportExport_Customer');
+$objectManager->get('Magento_Core_Model_Registry')->register('_fixture/Magento_ImportExport_Customer', $customer);

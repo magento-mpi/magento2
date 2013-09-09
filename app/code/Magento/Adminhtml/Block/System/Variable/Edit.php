@@ -10,14 +10,30 @@
 
 /**
  * Custom Variable Edit Container
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_System_Variable_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     /**
      * Internal constructor
      *
@@ -37,7 +53,7 @@ class Magento_Adminhtml_Block_System_Variable_Edit extends Magento_Adminhtml_Blo
      */
     public function getVariable()
     {
-        return Mage::registry('current_variable');
+        return $this->_coreRegistry->registry('current_variable');
     }
 
     /**
@@ -88,8 +104,7 @@ class Magento_Adminhtml_Block_System_Variable_Edit extends Magento_Adminhtml_Blo
     {
         if ($this->getVariable()->getId()) {
             return __('Custom Variable "%1"', $this->escapeHtml($this->getVariable()->getName()));
-        }
-        else {
+        } else {
             return __('New Custom Variable');
         }
     }

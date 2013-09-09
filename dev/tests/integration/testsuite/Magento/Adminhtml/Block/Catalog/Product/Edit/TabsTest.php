@@ -21,13 +21,15 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends PHPUnit_Fram
     public function testPrepareLayout()
     {
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
-        Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Config_Scope')
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+
+        $objectManager->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $product Magento_Catalog_Model_Product */
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
-        Mage::register('product', $product);
+        $objectManager->get('Magento_Core_Model_Registry')->register('product', $product);
 
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Mage::getModel('Magento_Core_Model_Layout');

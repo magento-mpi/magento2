@@ -6,7 +6,9 @@
  * @license {license_link}
  */
 
-if (!Mage::registry('attribute_set_with_configurable')) {
+/** @var $objectManager Magento_Test_ObjectManager */
+$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+if (!$objectManager->get('Magento_Core_Model_Registry')->registry('attribute_set_with_configurable')) {
     define('ATTRIBUTES_COUNT', 2);
     define('ATTRIBUTE_OPTIONS_COUNT', 3);
 
@@ -22,7 +24,7 @@ if (!Mage::registry('attribute_set_with_configurable')) {
     /** @var $entityType Magento_Eav_Model_Entity_Type */
     $entityType = Mage::getModel('Magento_Eav_Model_Entity_Type')->loadByCode('catalog_product');
     $attributeSet->initFromSkeleton($entityType->getDefaultAttributeSetId())->save();
-    Mage::register('attribute_set_with_configurable', $attributeSet);
+    $objectManager->get('Magento_Core_Model_Registry')->register('attribute_set_with_configurable', $attributeSet);
 
     /** @var $attributeFixture Magento_Catalog_Model_Resource_Eav_Attribute */
     $attributeFixture = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute');
@@ -60,7 +62,8 @@ if (!Mage::registry('attribute_set_with_configurable')) {
             )
         );
         $attribute->save();
-        Mage::register('eav_configurable_attribute_' . $attributeCount, $attribute);
+        $objectManager->get('Magento_Core_Model_Registry')
+            ->register('eav_configurable_attribute_' . $attributeCount, $attribute);
         unset($attribute);
     }
 }

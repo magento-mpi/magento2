@@ -6,7 +6,9 @@
  * @license {license_link}
  */
 
-Mage::unregister('quote');
-Mage::unregister('order');
-Mage::unregister('quote2');
-Mage::unregister('order2');
+/** @var $objectManager Magento_Test_ObjectManager */
+$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->unregister('quote');
+$objectManager->get('Magento_Core_Model_Registry')->unregister('order');
+$objectManager->get('Magento_Core_Model_Registry')->unregister('quote2');
+$objectManager->get('Magento_Core_Model_Registry')->unregister('order2');

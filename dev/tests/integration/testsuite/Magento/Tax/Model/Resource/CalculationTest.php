@@ -18,10 +18,15 @@ class Magento_Tax_Model_Resource_CalculationTest extends PHPUnit_Framework_TestC
      */
     public function testGetRate()
     {
-        $taxRule = Mage::registry('_fixture/Magento_Tax_Model_Calculation_Rule');
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+
+        $taxRule = $objectManager->get('Magento_Core_Model_Registry')
+            ->registry('_fixture/Magento_Tax_Model_Calculation_Rule');
         $customerTaxClasses = $taxRule->getTaxCustomerClass();
         $productTaxClasses = $taxRule->getTaxProductClass();
-        $taxRate =  Mage::registry('_fixture/Magento_Tax_Model_Calculation_Rate');
+        $taxRate =  $objectManager->get('Magento_Core_Model_Registry')
+            ->registry('_fixture/Magento_Tax_Model_Calculation_Rate');
         $data = new Magento_Object();
         $data->setData(array(
             'country_id' => 'US',

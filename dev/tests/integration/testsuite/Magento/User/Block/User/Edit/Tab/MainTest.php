@@ -31,14 +31,18 @@ class Magento_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_
             ->create('Magento_User_Block_User_Edit_Tab_Main');
         $this->_block->setArea('adminhtml');
         $this->_user = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_User');
-        Mage::register('permissions_user', $this->_user);
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('permissions_user', $this->_user);
     }
 
     protected function tearDown()
     {
         $this->_block = null;
         $this->_user = null;
-        Mage::unregister('permissions_user');
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('permissions_user');
         parent::tearDown();
     }
 

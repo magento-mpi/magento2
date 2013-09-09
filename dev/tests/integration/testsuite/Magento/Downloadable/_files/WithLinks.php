@@ -47,4 +47,6 @@ $product->setData($productData)
     ->setStoreId(0)
     ->setDownloadableData(array('link' => $linksData))
     ->save();
-Mage::register('downloadable', $product);
+/** @var $objectManager Magento_Test_ObjectManager */
+$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->register('downloadable', $product);

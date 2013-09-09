@@ -31,17 +31,6 @@
             </banner>
         </magento>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <magento_banner before="Magento_Adminhtml">Magento_Banner_Adminhtml</magento_banner>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -52,39 +41,5 @@
                 </Magento_Banner>
             </modules>
         </translate>
-        <events>
-            <adminhtml_controller_catalogrule_prepare_save>
-                <observers>
-                    <magento_banner>
-                        <class>Magento_Banner_Model_Observer</class>
-                        <method>prepareCatalogRuleSave</method>
-                    </magento_banner>
-                </observers>
-            </adminhtml_controller_catalogrule_prepare_save>
-            <catalogrule_rule_save_after>
-                <observers>
-                    <magento_banner>
-                        <class>Magento_Banner_Model_Observer</class>
-                        <method>bindRelatedBannersToCatalogRule</method>
-                    </magento_banner>
-                </observers>
-            </catalogrule_rule_save_after>
-            <adminhtml_controller_salesrule_prepare_save>
-                <observers>
-                    <magento_banner>
-                        <class>Magento_Banner_Model_Observer</class>
-                        <method>prepareSalesRuleSave</method>
-                    </magento_banner>
-                </observers>
-            </adminhtml_controller_salesrule_prepare_save>
-            <salesrule_rule_save_after>
-                <observers>
-                    <magento_banner>
-                        <class>Magento_Banner_Model_Observer</class>
-                        <method>bindRelatedBannersToSalesRule</method>
-                    </magento_banner>
-                </observers>
-            </salesrule_rule_save_after>
-        </events>
     </adminhtml>
-</config>
+</config>

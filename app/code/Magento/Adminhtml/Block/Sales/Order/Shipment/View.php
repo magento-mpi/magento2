@@ -17,6 +17,26 @@
  */
 class Magento_Adminhtml_Block_Sales_Order_Shipment_View extends Magento_Adminhtml_Block_Widget_Form_Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
 
     protected function _construct()
     {
@@ -58,15 +78,14 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View extends Magento_Adminhtm
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     public function getHeaderText()
     {
         if ($this->getShipment()->getEmailSent()) {
             $emailSent = __('the shipment email was sent');
-        }
-        else {
+        } else {
             $emailSent = __('the shipment email is not sent');
         }
         return __('Shipment #%1 | %3 (%2)', $this->getShipment()->getIncrementId(), $emailSent, $this->formatDate($this->getShipment()->getCreatedAtDate(), 'medium', true));
@@ -77,9 +96,9 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View extends Magento_Adminhtm
         return $this->getUrl(
             '*/sales_order/view',
             array(
-                'order_id'  => $this->getShipment() ? $this->getShipment()->getOrderId() : null,
-                'active_tab'=> 'order_shipments'
-            ));
+                'order_id' => $this->getShipment() ? $this->getShipment()->getOrderId() : null,
+                'active_tab' => 'order_shipments'
+        ));
     }
 
     public function getEmailUrl()

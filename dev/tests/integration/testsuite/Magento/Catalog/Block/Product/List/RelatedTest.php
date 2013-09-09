@@ -21,7 +21,9 @@ class Magento_Catalog_Block_Product_List_RelatedTest extends PHPUnit_Framework_T
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(2);
-        Mage::register('product', $product);
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('product', $product);
         /** @var $block Magento_Catalog_Block_Product_List_Related */
         $block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_List_Related');
         $block->setLayout(Mage::getModel('Magento_Core_Model_Layout'));

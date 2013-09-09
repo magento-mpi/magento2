@@ -241,8 +241,11 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testAutoIncrementType()
     {
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+
         /** @var $quote Magento_Sales_Model_Quote */
-        $order = Mage::registry('order2');
+        $order = $objectManager->get('Magento_Core_Model_Registry')->registry('order2');
         $incrementId = $order->getIncrementId();
 
         // Set invoice increment id prefix
@@ -264,7 +267,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
 
         $this->assertTrue(is_string($newInvoiceId), 'Increment Id is not a string');
         $this->assertStringStartsWith($prefix, $newInvoiceId, 'Increment Id returned by API is not correct');
-        Mage::register('invoiceIncrementId', $newInvoiceId);
+        $objectManager->get('Magento_Core_Model_Registry')->register('invoiceIncrementId', $newInvoiceId);
     }
 
     /**
@@ -275,8 +278,11 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testListWithFilters()
     {
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+
         /** @var $invoice Magento_Sales_Model_Order_Invoice */
-        $invoice = Mage::registry('invoice');
+        $invoice = $objectManager->get('Magento_Core_Model_Registry')->registry('invoice');
 
         $filters = array(
             'filters' => (object)array(

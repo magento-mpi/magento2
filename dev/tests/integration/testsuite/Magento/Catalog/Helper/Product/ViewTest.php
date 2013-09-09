@@ -64,7 +64,9 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
         /** @var $product Magento_Catalog_Model_Product */
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->setTypeId(Magento_Catalog_Model_Product_Type::DEFAULT_TYPE)->setId(99)->setUrlKey($uniqid);
-        Mage::register('product', $product);
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('product', $product);
 
         $this->_helper->initProductLayout($product, $this->_controller);
         $rootBlock = $this->_controller->getLayout()->getBlock('root');

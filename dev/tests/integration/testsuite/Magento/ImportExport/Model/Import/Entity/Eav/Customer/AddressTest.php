@@ -128,8 +128,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     public function testInitAddresses()
     {
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+
         // get addressed from fixture
-        $customers = Mage::registry($this->_fixtureKey);
+        $customers = $objectManager->get('Magento_Core_Model_Registry')->registry($this->_fixtureKey);
         $correctAddresses = array();
         /** @var $customer Magento_Customer_Model_Customer */
         foreach ($customers as $customer) {
@@ -196,7 +199,10 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     protected function _addTestAddress(Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address $entityAdapter)
     {
-        $customers = Mage::registry($this->_fixtureKey);
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+
+        $customers = $objectManager->get('Magento_Core_Model_Registry')->registry($this->_fixtureKey);
         /** @var $customer Magento_Customer_Model_Customer */
         $customer = reset($customers);
         $customerId = $customer->getId();
@@ -273,8 +279,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     public function testSaveCustomerDefaults()
     {
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+
         // get not default address
-        $customers = Mage::registry($this->_fixtureKey);
+        $customers = $objectManager->get('Magento_Core_Model_Registry')->registry($this->_fixtureKey);
         /** @var $notDefaultAddress Magento_Customer_Model_Address */
         $notDefaultAddress = null;
         /** @var $addressCustomer Magento_Customer_Model_Customer */

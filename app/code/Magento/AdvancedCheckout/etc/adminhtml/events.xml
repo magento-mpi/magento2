@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="adminhtml_sales_order_create_process_data_before">
+        <observer name="addBySku" instance="Magento_AdvancedCheckout_Model_Observer" method="addBySku" />
+        <observer name="uploadSkuCsv" instance="Magento_AdvancedCheckout_Model_Observer" method="uploadSkuCsv" />
+    </event>
+</config>

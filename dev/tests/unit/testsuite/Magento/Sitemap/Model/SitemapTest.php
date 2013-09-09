@@ -403,9 +403,10 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         // Mock helper methods
         $pushToRobots = 0;
         if (isset($robotsInfo['pushToRobots'])) {
-            $pushToRobots = (int) $robotsInfo['pushToRobots'];
+            $pushToRobots = (int)$robotsInfo['pushToRobots'];
         }
-        $helperMock = Mage::registry('_helper/Magento_Sitemap_Helper_Data');
+        $helperMock = Mage::getObjectManager()->get('Magento_Core_Model_Registry')
+            ->registry('_helper/Magento_Sitemap_Helper_Data');
         $helperMock->expects($this->any())
             ->method('getMaximumLinesNumber')
             ->will($this->returnValue($maxLines));

@@ -33,16 +33,22 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight extends Magento
      */
     protected $_helper;
 
-    public function __construct(array $data = array())
+    /**
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = array())
     {
-        $this->_helper = isset($data['helper']) ? $data['helper'] : Mage::helper('Magento_Catalog_Helper_Product');
-        $this->_virtual = isset($data['element'])
-            ? $data['element']
+        $this->_helper = isset($attributes['helper'])
+            ? $attributes['helper']
+            : Mage::helper('Magento_Catalog_Helper_Product');
+        $this->_virtual = isset($attributes['element'])
+            ? $attributes['element']
             : Mage::getModel('Magento_Data_Form_Element_Checkbox');
         $this->_virtual->setId(self::VIRTUAL_FIELD_HTML_ID)->setName('is_virtual')
             ->setLabel($this->_helper->getTypeSwitcherControlLabel());
-        $data['class'] = 'validate-number validate-zero-or-greater validate-number-range number-range-0-99999999.9999';
-        parent::__construct($data);
+        $attributes['class'] = 'validate-number validate-zero-or-greater '
+            . 'validate-number-range number-range-0-99999999.9999';
+        parent::__construct($attributes);
     }
 
     /**
@@ -59,7 +65,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight extends Magento
             . parent::getElementHtml()
             . '<label class="addafter" for="'
             . $this->getHtmlId()
-            . '"><strong>'. __('lbs') .'</strong></label>'
+            . '"><strong>' . __('lbs') . '</strong></label>'
             . '</div></div></div><div class="field choice">'
             . $this->_virtual->getElementHtml() . $this->_virtual->getLabelHtml()
             . '</div></div>';

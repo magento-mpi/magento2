@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <magento_advancedcheckout before="Magento_Adminhtml">Magento_AdvancedCheckout_Adminhtml</magento_advancedcheckout>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -31,56 +20,8 @@
                 </Magento_AdvancedCheckout>
             </modules>
         </translate>
-        <events>
-            <adminhtml_sales_order_create_process_data_before>
-                <observers>
-                    <addBySku>
-                        <class>Magento_AdvancedCheckout_Model_Observer</class>
-                        <method>addBySku</method>
-                    </addBySku>
-                    <uploadSkuCsv>
-                        <class>Magento_AdvancedCheckout_Model_Observer</class>
-                        <method>uploadSkuCsv</method>
-                    </uploadSkuCsv>
-                </observers>
-            </adminhtml_sales_order_create_process_data_before>
-        </events>
     </adminhtml>
     <frontend>
-        <routers>
-            <checkout>
-                <args>
-                    <modules>
-                        <magento_advancedcheckout before="Magento_Checkout">Magento_AdvancedCheckout</magento_advancedcheckout>
-                    </modules>
-                </args>
-            </checkout>
-            <magento_advancedcheckout>
-                <use>standard</use>
-                <args>
-                    <module>Magento_AdvancedCheckout</module>
-                    <frontName>customer_order</frontName>
-                </args>
-            </magento_advancedcheckout>
-        </routers>
-        <events>
-            <controller_action_layout_generate_blocks_before>
-                <observers>
-                    <magento_advancedcheckout>
-                        <class>Magento_AdvancedCheckout_Model_Observer</class>
-                        <method>collectTotalsFailedItems</method>
-                    </magento_advancedcheckout>
-                </observers>
-            </controller_action_layout_generate_blocks_before>
-            <core_block_abstract_to_html_before>
-                <observers>
-                    <magento_advancedcheckout>
-                        <class>Magento_AdvancedCheckout_Model_Observer</class>
-                        <method>addCartLink</method>
-                    </magento_advancedcheckout>
-                </observers>
-            </core_block_abstract_to_html_before>
-        </events>
         <translate>
             <modules>
                 <Magento_AdvancedCheckout>
@@ -91,4 +32,4 @@
             </modules>
         </translate>
     </frontend>
-</config>
+</config>

@@ -23,7 +23,9 @@ class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid
     {
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
-        Mage::register('current_product', $product);
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
 
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Mage::getSingleton('Magento_Core_Model_Layout');

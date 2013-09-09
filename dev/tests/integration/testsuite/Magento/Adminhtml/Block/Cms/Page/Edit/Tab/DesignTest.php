@@ -20,11 +20,13 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_DesignTest extends PHPUnit_Frame
      */
     public function testPrepareForm()
     {
+        /** @var $objectManager Magento_Test_ObjectManager */
         $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $objectManager->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        Mage::register('cms_page', Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Cms_Model_Page'));
+        $objectManager->get('Magento_Core_Model_Registry')
+            ->register('cms_page', $objectManager->create('Magento_Cms_Model_Page'));
 
         $block = $objectManager->create('Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design');
         $prepareFormMethod = new ReflectionMethod(

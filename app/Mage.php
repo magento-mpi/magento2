@@ -253,46 +253,6 @@ final class Mage
     }
 
     /**
-     * Register a new variable
-     *
-     * @param string $key
-     * @param mixed $value
-     * @param bool $graceful
-     * @throws Magento_Core_Exception
-     *
-     * @deprecated use Magento_Core_Model_Registry::register
-     */
-    public static function register($key, $value, $graceful = false)
-    {
-        self::getObjectManager()->get('Magento_Core_Model_Registry')->register($key, $value, $graceful);
-    }
-
-    /**
-     * Unregister a variable from register by key
-     *
-     * @param string $key
-     *
-     * @deprecated use Magento_Core_Model_Registry::unregister
-     */
-    public static function unregister($key)
-    {
-        self::getObjectManager()->get('Magento_Core_Model_Registry')->unregister($key);
-    }
-
-    /**
-     * Retrieve a value from registry by a key
-     *
-     * @param string $key
-     * @return mixed
-     *
-     * @deprecated use Magento_Core_Model_Registry::registry
-     */
-    public static function registry($key)
-    {
-        return self::getObjectManager()->get('Magento_Core_Model_Registry')->registry($key);
-    }
-
-    /**
      * Retrieve application root absolute path
      *
      * @return string
