@@ -19,6 +19,7 @@
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 class Magento_Core_Model_Layout extends Magento_Simplexml_Config
 {

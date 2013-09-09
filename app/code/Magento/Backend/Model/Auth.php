@@ -153,7 +153,8 @@ class Magento_Backend_Model_Auth
                 $this->getAuthStorage()->setUser($this->getCredentialStorage());
                 $this->getAuthStorage()->processLogin();
 
-                $this->_eventManager->dispatch('backend_auth_user_login_success', array('user' => $this->getCredentialStorage()));
+                $this->_eventManager
+                    ->dispatch('backend_auth_user_login_success', array('user' => $this->getCredentialStorage()));
             }
 
             if (!$this->getAuthStorage()->getUser()) {
@@ -163,10 +164,12 @@ class Magento_Backend_Model_Auth
             }
 
         } catch (Magento_Backend_Model_Auth_Plugin_Exception $e) {
-            $this->_eventManager->dispatch('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
+            $this->_eventManager
+                ->dispatch('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
             throw $e;
         } catch (Magento_Core_Exception $e) {
-            $this->_eventManager->dispatch('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
+            $this->_eventManager
+                ->dispatch('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
             self::throwException(
                 __('Please correct the user name or password.')
             );

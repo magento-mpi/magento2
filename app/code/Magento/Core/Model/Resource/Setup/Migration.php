@@ -10,6 +10,7 @@
 
 /**
  * Resource setup model with methods needed for migration process between Magento versions
+ * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Resource_Setup
 {
