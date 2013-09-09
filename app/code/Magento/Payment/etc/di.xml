@@ -8,17 +8,17 @@
  */
 -->
 <config>
-    <type name="Magento_Tax_Helper_Data">
-        <param name="taxConfig">
-            <instance type="Magento_Tax_Model_ConfigProxy" />
-        </param>
-    </type>
-    <type name="Magento_Tax_Model_Calculation_Rate">
+    <type name="Magento_Payment_Model_Method_Abstract">
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
-    <type name="Magento_Tax_Model_Calculation_Rule">
+    <type name="Magento_Paypal_Model_Cart">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Paypal_Model_Payment_Transaction">
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>

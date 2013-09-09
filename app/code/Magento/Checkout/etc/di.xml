@@ -8,23 +8,27 @@
  */
 -->
 <config>
-    <type name="Magento_SalesRule_Model_Resource_Rule_Collection" shared="false" />
-    <type name="Magento_SalesRule_Model_Quote_Discount">
+    <type name="Magento_Checkout_Helper_Data">
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
-    <type name="Magento_SalesRule_Model_Rule_Condition_Combine">
+    <type name="Magento_Checkout_Model_Cart_Api">
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
-    <type name="Magento_SalesRule_Model_Rule">
+    <type name="Magento_Checkout_Model_Cart">
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
-    <type name="Magento_SalesRule_Model_Validator">
+    <type name="Magento_Checkout_Model_Type_Multishipping">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Checkout_Model_Type_Onepage">
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>

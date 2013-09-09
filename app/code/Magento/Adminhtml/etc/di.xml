@@ -13,4 +13,9 @@
             <instance type="Magento_Core_Model_Cache_Type_Translate" />
         </param>
     </type>
+    <type name="Magento_Adminhtml_Model_Sales_Order_Create">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
 </config>

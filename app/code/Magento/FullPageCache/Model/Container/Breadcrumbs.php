@@ -14,27 +14,6 @@
 class Magento_FullPageCache_Model_Container_Breadcrumbs extends Magento_FullPageCache_Model_Container_Abstract
 {
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
-     */
-    public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Container_Placeholder $placeholder
-    ) {
-        $this->_eventManager = $eventManager;
-        parent::__construct($fpcCache, $placeholder);
-    }
-
-    /**
      * Get cache identifier
      *
      * @return string

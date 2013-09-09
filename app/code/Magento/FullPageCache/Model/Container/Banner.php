@@ -30,27 +30,6 @@ class Magento_FullPageCache_Model_Container_Banner
     protected $_bannersSequence = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
-     */
-    public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Container_Placeholder $placeholder
-    ) {
-        $this->_eventManager = $eventManager;
-        parent::__construct($fpcCache, $placeholder);
-    }
-
-    /**
      * Get cache additional identifiers from cookies.
      * Customers are differentiated because they can have different content of banners (due to template variables)
      * or different sets of banners targeted to their segment.

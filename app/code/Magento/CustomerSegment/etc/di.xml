@@ -8,12 +8,7 @@
  */
 -->
 <config>
-    <type name="Magento_GiftCardAccount_Model_History">
-        <param name="adminSession">
-            <instance type="Magento_Backend_Model_Auth_Session_Proxy" />
-        </param>
-    </type>
-    <type name="Magento_GiftCardAccount_Model_Observer">
+    <type name="Magento_CustomerSegment_Model_Customer">
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
