@@ -1,6 +1,6 @@
 <?php
 /**
- * Enterprise_Wishlist_Model_Resource_Item_Report_Collection
+ * Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
  *
  * {license_notice}
  *
@@ -8,16 +8,16 @@
  * @license     {license_link}
  */
 
-class Enterprise_Wishlist_Model_Resource_Item_Report_CollectionTest extends PHPUnit_Framework_TestCase
+class Magento_MultipleWishlist_Model_Resource_Item_Report_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Enterprise_Wishlist_Model_Resource_Item_Report_Collection
+     * @var Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
      */
     protected $_collection;
 
     public function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Enterprise_Wishlist_Model_Resource_Item_Report_Collection');
+        $this->_collection = Mage::getResourceModel('Magento_MultipleWishlist_Model_Resource_Item_Report_Collection');
     }
 
     public function testAddCustomerInfo()
