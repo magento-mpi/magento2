@@ -16,12 +16,11 @@
         <cache_advanced>
             <instances>
                 <additional>
+                    <id_prefix>additional_prefix</id_prefix>
                     <backend>Zend_Cache_Backend_BlackHole</backend>
                 </additional>
             </instances>
-            <usage>
-                <Magento_Core_Model_Config>additional</Magento_Core_Model_Config>
-            </usage>
         </cache_advanced>
     </global>
 </config>
+
