@@ -9,13 +9,15 @@
  */
 
 /**
- * Filter Iterator
+ * Filter \Iterator
  *
  * @category    Magento
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Filesystem_Iterator_Filter extends FilterIterator
+namespace Magento\Backup\Filesystem\Iterator;
+
+class Filter extends \FilterIterator
 {
     /**
      * Array that is used for filtering
@@ -27,10 +29,10 @@ class Magento_Backup_Filesystem_Iterator_Filter extends FilterIterator
     /**
      * Constructor
      *
-     * @param Iterator $iterator
+     * @param \Iterator $iterator
      * @param array $filters list of files to skip
      */
-    public function __construct(Iterator $iterator, array $filters)
+    public function __construct(\Iterator $iterator, array $filters)
     {
         parent::__construct($iterator);
         $this->_filters = $filters;

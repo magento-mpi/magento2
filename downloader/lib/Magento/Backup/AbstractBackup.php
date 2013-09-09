@@ -14,7 +14,9 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Backup_Abstract implements  Magento_Backup_Interface
+namespace Magento\Backup;
+
+abstract class AbstractBackup implements  \Magento\Backup\BackupInterface
 {
     /**
      * Backup name

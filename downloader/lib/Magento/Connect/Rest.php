@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Rest
+namespace Magento\Connect;
+
+class Rest
 {
     /**
      * Paths for xml config files
@@ -145,7 +147,7 @@ class Magento_Connect_Rest
         $out = $this->loadChannelUri(self::CHANNEL_XML);
         $statusCode = $this->getLoader()->getStatus();
         if ($statusCode != 200) {
-            throw new Exception("Invalid server response for {$this->_chanUri}");
+            throw new \Exception("Invalid server response for {$this->_chanUri}");
         }
         $parser = $this->getParser();
         $out = $parser->loadXML($out)->xmlToArray();
@@ -153,7 +155,7 @@ class Magento_Connect_Rest
         $vo = new \Magento\Connect\Channel\VO();
         $vo->fromArray($out['channel']);
         if (!$vo->validate()) {
-            throw new Exception("Invalid channel.xml file");
+            throw new \Exception("Invalid channel.xml file");
         }
         return $vo;
     }
@@ -325,7 +327,7 @@ class Magento_Connect_Rest
     /**
      * Get package archive file of release
      *
-     * @throws Exception
+     * @throws \Exception
      * @param string $package package name
      * @param string $version package version
      * @param string $targetFile
@@ -350,13 +352,13 @@ class Magento_Connect_Rest
 
         $statusCode = $this->getLoader()->getStatus();
         if ($statusCode != 200) {
-            throw new Exception("Package not found: {$package} {$version}");
+            throw new \Exception("Package not found: {$package} {$version}");
         }
         $dir = dirname($targetFile);
         @mkdir($dir, 0777, true);
         $result = @file_put_contents($targetFile, $out);
         if (false === $result) {
-            throw new Exception("Cannot write to file {$targetFile}");
+            throw new \Exception("Cannot write to file {$targetFile}");
         }
         return true;
     }

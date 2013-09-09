@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Singleconfig
+namespace Magento\Connect;
+
+class Singleconfig
 {
     /**
      * Default single config filename
@@ -48,7 +50,7 @@ class Magento_Connect_Singleconfig
     /**
      * Validator instance
      *
-     * @var Magento_Connect_Validator
+     * @var \Magento\Connect\Validator
      */
     protected $_validator;
 
@@ -236,8 +238,8 @@ class Magento_Connect_Singleconfig
      * Check channel, add if valid name and not exist
      *
      * @param string $chanName
-     * @param Magento_Connect_Config $config
-     * @param Magento_Connect_Rest $rest
+     * @param \Magento\Connect\Config $config
+     * @param \Magento\Connect\Rest $rest
      * @return boolean
      */
     public function checkChannel($chanName, $config, $rest = null)
@@ -246,7 +248,7 @@ class Magento_Connect_Singleconfig
             return true;
         }
 
-        $_validator = new Magento_Connect_Validator();
+        $_validator = new \Magento\Connect\Validator();
         if ($this->isChannelName($chanName)) {
             $uri = $this->chanUrl($chanName);
         } elseif ($_validator->validateUrl($chanName)) {
@@ -254,12 +256,12 @@ class Magento_Connect_Singleconfig
         } elseif($chanName) {
             $uri = $config->protocol.'://'.$chanName;
         } else {
-            throw new Exception("'{$chanName}' is not existant channel name / valid uri");
+            throw new \Exception("'{$chanName}' is not existant channel name / valid uri");
         }
 
         if ($uri && !$this->isChannel($uri)) {
             if (!isset($rest)) {
-                $rest = new Magento_Connect_Rest($config->protocol);
+                $rest = new \Magento\Connect\Rest($config->protocol);
             }
             $rest->setChannel($uri);
             $data = $rest->getChannelInfo();
@@ -634,7 +636,7 @@ class Magento_Connect_Singleconfig
     /**
      * Add package
      *
-     * @param Magento_Connect_Package $package
+     * @param \Magento\Connect\Package $package
      * @return null
      */
     public function addPackage($package)
@@ -687,19 +689,19 @@ class Magento_Connect_Singleconfig
     /**
      * Retrieve Package object
      *
-     * @throws Exception
+     * @throws \Exception
      * @param string $chanName
      * @param string $package
-     * @return Magento_Connect_Package
+     * @return \Magento\Connect\Package
      */
     public function getPackageObject($chanName, $package)
     {
         $chanName = $this->chanName($chanName);
         if($this->hasPackageRecord($chanName, $package)) {
             $data = $this->fetchPackage($chanName, $package);
-            return new Magento_Connect_Package($data[self::K_XML]);
+            return new \Magento\Connect\Package($data[self::K_XML]);
         }
-        throw new Exception("Cannot get package: '{$package}'");
+        throw new \Exception("Cannot get package: '{$package}'");
     }
 
     /**
@@ -792,12 +794,12 @@ class Magento_Connect_Singleconfig
      * Output error - throw exception
      *
      * @param $message
-     * @throws Exception
+     * @throws \Exception
      * @return null
      */
     protected function doError($message)
     {
-        throw new Exception($message);
+        throw new \Exception($message);
     }
 
     /**
@@ -810,7 +812,7 @@ class Magento_Connect_Singleconfig
     public function compareStabilities($s1, $s2)
     {
         if(!$this->_validator) {
-            $this->_validator = new Magento_Connect_Validator();
+            $this->_validator = new \Magento\Connect\Validator();
         }
         return $this->_validator->compareStabilities($s1, $s2);
     }

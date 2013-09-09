@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-final class Magento_Connect_Command_Install extends Magento_Connect_Command
+namespace Magento\Connect\Command;
+
+final class Install extends \Magento\Connect\Command
 {
     /**
      * Install action callback
      *
-     * @throws Exception
+     * @throws \Exception
      * @param string $command
      * @param array $options
      * @param array $params
@@ -25,13 +27,13 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
 
         $installFileMode = $command === 'install-file';
 
-        /** @var $ftpObj Magento_Connect_Ftp */
+        /** @var $ftpObj \Magento\Connect\Ftp */
         $ftpObj=null;
         $ftp = empty($options['ftp']) ? false : $options['ftp'];
-        /** @var $packager Magento_Connect_Packager */
+        /** @var $packager \Magento\Connect\Packager */
         $packager = $this->getPackager();
-        /** @var $cache Magento_Connect_Singleconfig */
-        /** @var $config Magento_Connect_Config */
+        /** @var $cache \Magento\Connect\Singleconfig */
+        /** @var $config \Magento\Connect\Config */
         if ($ftp) {
             list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
         } else {
@@ -56,8 +58,8 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
             }
             chdir($config->magento_root);
             $dirCache = DIRECTORY_SEPARATOR . $config->downloader_path . DIRECTORY_SEPARATOR
-                . Magento_Connect_Config::DEFAULT_CACHE_PATH;
-            $dirTmp = DIRECTORY_SEPARATOR . Magento_Connect_Package_Reader::PATH_TO_TEMPORARY_DIRECTORY;
+                . \Magento\Connect\Config::DEFAULT_CACHE_PATH;
+            $dirTmp = DIRECTORY_SEPARATOR . \Magento\Connect\Package\Reader::PATH_TO_TEMPORARY_DIRECTORY;
             $dirMedia = DIRECTORY_SEPARATOR . 'media';
             $isWritable = true;
             if ($ftp) {
@@ -85,7 +87,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                           && is_writable($config->magento_root . $dirTmp);
             if (!$isWritable) {
                 $this->doError($command, $err);
-                throw new Exception(
+                throw new \Exception(
                     'Your Magento folder does not have sufficient write permissions, which downloader requires.'
                 );
             }
@@ -95,22 +97,22 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
 
             if ($installFileMode) {
                 if (count($params) < 1) {
-                    throw new Exception("Argument should be: filename");
+                    throw new \Exception("Argument should be: filename");
                 }
                 $filename = $params[0];
                 if (!@file_exists($filename)) {
-                    throw new Exception("File '{$filename}' not found");
+                    throw new \Exception("File '{$filename}' not found");
                 }
                 if (!@is_readable($filename)) {
-                    throw new Exception("File '{$filename}' is not readable");
+                    throw new \Exception("File '{$filename}' is not readable");
                 }
 
-                $package = new Magento_Connect_Package($filename);
+                $package = new \Magento\Connect\Package($filename);
                 $package->setConfig($config);
                 $package->validate();
                 $errors = $package->getErrors();
                 if (count($errors)) {
-                    throw new Exception("Package file is invalid\n" . implode("\n", $errors));
+                    throw new \Exception("Package file is invalid\n" . implode("\n", $errors));
                 }
 
                 $pChan = $package->getChannel();
@@ -118,7 +120,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                 $pVer = $package->getVersion();
 
                 if (!($cache->isChannelName($pChan) || $cache->isChannelAlias($pChan))) {
-                    throw new Exception("The '{$pChan}' channel is not installed. Please use the MAGE shell "
+                    throw new \Exception("The '{$pChan}' channel is not installed. Please use the MAGE shell "
                         . "script to install the '{$pChan}' channel.");
                 }
 
@@ -129,7 +131,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                     if ($forceMode) {
                         $this->doError($command, "Package {$pChan}/{$pName} {$pVer} conflicts with: " . $conflicts);
                     } else {
-                        throw new Exception("Package {$pChan}/{$pName} {$pVer} conflicts with: " . $conflicts);
+                        throw new \Exception("Package {$pChan}/{$pName} {$pVer} conflicts with: " . $conflicts);
                     }
                 }
 
@@ -140,7 +142,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                     if ($forceMode) {
                         $this->doError($command, $err);
                     } else {
-                        throw new Exception($err);
+                        throw new \Exception($err);
                     }
                 }
 
@@ -150,7 +152,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                     if ($forceMode) {
                         $this->doError($command, $err);
                     } else {
-                        throw new Exception($err);
+                        throw new \Exception($err);
                     }
                 }
 
@@ -181,7 +183,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
 
             if (!$upgradeAllMode) {
                 if (count($params) < 2) {
-                    throw new Exception("Argument should be: channelName packageName");
+                    throw new \Exception("Argument should be: channelName packageName");
                 }
                 $channel = $params[0];
                 $package = $params[1];
@@ -215,7 +217,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                 } else {
                     $channel = $params[0];
                     if (!$cache->isChannel($channel)) {
-                        throw new Exception("'{$channel}' is not existant channel name / valid uri");
+                        throw new \Exception("'{$channel}' is not existant channel name / valid uri");
                     }
                     $channels = $cache->chanName($channel);
                 }
@@ -272,7 +274,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                         if ($forceMode) {
                             $this->doError($command, "Package {$pChan}/{$pName} {$pVer} conflicts with: " . $conflicts);
                         } else {
-                            throw new Exception("Package {$pChan}/{$pName} {$pVer} conflicts with: " . $conflicts);
+                            throw new \Exception("Package {$pChan}/{$pName} {$pVer} conflicts with: " . $conflicts);
                         }
                     }
 
@@ -300,7 +302,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                     if ($ftp) {
                         $cwd=$ftpObj->getcwd();
                         $dir=$cwd . DIRECTORY_SEPARATOR .$config->downloader_path . DIRECTORY_SEPARATOR
-                             . Magento_Connect_Config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( $pChan, "\\/");
+                             . \Magento\Connect\Config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( $pChan, "\\/");
                         $ftpObj->mkdirRecursive($dir,0777);
                         $ftpObj->chdir($cwd);
                     } else {
@@ -328,12 +330,12 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                         $cache->deletePackage($pChan, $pName);
                     }
 
-                    $package = new Magento_Connect_Package($file);
+                    $package = new \Magento\Connect\Package($file);
                     if ($clearInstallMode && $pInstallState != 'upgrade' && !$installAll) {
                         $this->validator()->validateContents($package->getContents(), $config);
                         $errors = $this->validator()->getErrors();
                         if (count($errors)) {
-                            throw new Exception("Package '{$pName}' is invalid\n" . implode("\n", $errors));
+                            throw new \Exception("Package '{$pName}' is invalid\n" . implode("\n", $errors));
                         }
                     }
 
@@ -344,7 +346,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                         if ($forceMode) {
                             $this->doError($command, $err);
                         } else {
-                            throw new Exception($err);
+                            throw new \Exception($err);
                         }
                     }
 
@@ -354,7 +356,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                         if ($forceMode) {
                             $this->doError($command, $err);
                         } else {
-                            throw new Exception($err);
+                            throw new \Exception($err);
                         }
                     }
 
@@ -372,7 +374,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                     $installedDepsAssoc[] = array('channel'=>$pChan, 'name'=>$pName, 'version'=>$pVer);
                     $installedDeps[] = array($pChan, $pName, $pVer);
 
-                } catch(Exception $e) {
+                } catch(\Exception $e) {
                     $this->doError($command, $e->getMessage());
                 }
             }
@@ -387,7 +389,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
 
             $this->ui()->output($out);
             return $out[$command]['data'];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($ftp) {
                 $packager->writeToRemoteCache($cache, $ftpObj);
                 @unlink($config->getFilename());
@@ -438,20 +440,20 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
 
         try {
             if (count($params) != 2) {
-                throw new Exception("Argument count should be = 2");
+                throw new \Exception("Argument count should be = 2");
             }
 
             $channel = $params[0];
             $package = $params[1];
-            /** @var $packager Magento_Connect_Packager */
+            /** @var $packager \Magento\Connect\Packager */
             $packager = $this->getPackager();
             $withDepsMode = !isset($options['nodeps'])? false : (boolean)$options['nodeps'];
             $forceMode = isset($options['force']);
 
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            /** @var $cache Magento_Connect_Singleconfig */
-            /** @var $config Magento_Connect_Config */
-            /** @var $ftpObj Magento_Connect_Ftp */
+            /** @var $cache \Magento\Connect\Singleconfig */
+            /** @var $config \Magento\Connect\Config */
+            /** @var $ftpObj \Magento\Connect\Ftp */
             if ($ftp) {
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
             } else {
@@ -461,7 +463,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
 
             $channel = $cache->chanName($channel);
             if (!$cache->hasPackage($channel, $package)) {
-                throw new Exception("Package is not installed");
+                throw new \Exception("Package is not installed");
             }
 
             $deletedPackages = array();
@@ -484,14 +486,14 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                         if ($forceMode) {
                             $this->ui()->output("Warning: " . $errMessage);
                         } else {
-                            throw new Exception($errMessage);
+                            throw new \Exception($errMessage);
                         }
                     }
-                } catch(Exception $e) {
+                } catch(\Exception $e) {
                     if ($forceMode) {
                         $this->doError($command, $e->getMessage());
                     } else {
-                        throw new Exception($e->getMessage());
+                        throw new \Exception($e->getMessage());
                     }
                 }
             }
@@ -508,11 +510,11 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
                     $cache->deletePackage($chan, $pack);
                     $deletedPackages[] = array($chan, $pack);
                     $this->ui()->output("Package {$packageName} uninstalled");
-                } catch(Exception $e) {
+                } catch(\Exception $e) {
                     if ($forceMode) {
                         $this->doError($command, $e->getMessage());
                     } else {
-                        throw new Exception($e->getMessage());
+                        throw new \Exception($e->getMessage());
                     }
                 }
             }
@@ -523,7 +525,7 @@ final class Magento_Connect_Command_Install extends Magento_Connect_Command
             $out = array($command=>array('data'=>$deletedPackages, 'title'=>'Package deleted: '));
             $this->ui()->output($out);
             return $out[$command]['data'];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->doError($command, $e->getMessage());
         }
     }

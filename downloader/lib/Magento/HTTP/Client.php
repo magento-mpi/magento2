@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_HTTP_Client
+namespace Magento\HTTP;
+
+class Client
 {
     /**
      * Disallow to instantiate - pvt constructor
@@ -29,9 +31,9 @@ class Magento_HTTP_Client
      * Factory for HTTP client
      *
      * @static
-     * @throws Exception
+     * @throws \Exception
      * @param string|bool $frontend  'curl'/'socket' or false for auto-detect
-     * @return Magento_HTTP_IClient
+     * @return \Magento\HTTP\IClient
      */
     public static function getInstance($frontend = false)
     {
@@ -39,7 +41,7 @@ class Magento_HTTP_Client
             $frontend = self::detectFrontend();
         }
         if (false === $frontend) {
-            throw new Exception("Cannot find frontend automatically, set it manually");
+            throw new \Exception("Cannot find frontend automatically, set it manually");
         }
 
         $class = __CLASS__ . "_" . str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $frontend)));

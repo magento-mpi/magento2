@@ -18,16 +18,18 @@ include_once "Magento/Connect.php";
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Downloader_Model_Connect extends Magento_Downloader_Model
+namespace Magento\Downloader\Model;
+
+class Connect extends \Magento\Downloader\Model
 {
     /**
-     * Retrive object of Magento_Downloader_Connect
+     * Retrive object of \Magento\Downloader\Connect
      *
-     * @return Magento_Downloader_Connect
+     * @return \Magento\Downloader\Connect
      */
     public function connect()
     {
-        return Magento_Downloader_Connect::getInstance();
+        return \Magento\Downloader\Connect::getInstance();
     }
 
     /**
@@ -403,7 +405,7 @@ class Magento_Downloader_Model_Connect extends Magento_Downloader_Model
                 }
                 $ftpObj->delete($confFile);
                 $ftpObj->close();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $errors[] = 'Deployment FTP Error. ' . $e->getMessage();
             }
         } else {

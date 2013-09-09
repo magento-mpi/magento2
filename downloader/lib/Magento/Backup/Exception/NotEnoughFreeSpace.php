@@ -9,12 +9,14 @@
  */
 
 /**
- * Exception
+ * \Exception
  *
  * @category    Magento
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Exception_NotEnoughFreeSpace extends Magento_Backup_Exception
+namespace Magento\Backup\Exception;
+
+class NotEnoughFreeSpace extends \Magento\Backup\Exception
 {
 }

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Connect_Channel_Generator extends Magento_Xml_Generator
+namespace Magento\Connect\Channel;
+
+class Generator extends \Magento\Xml\Generator
 {
     protected $_file      = 'channel.xml';
     protected $_generator = null;

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Archive
+ * @package     \Magento\Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +15,9 @@
  * @package     Magento_Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Magento_Archive_Interface
+namespace Magento\Archive;
+
+interface ArchiveInterface
 {
     /**
     * Pack file or directory.

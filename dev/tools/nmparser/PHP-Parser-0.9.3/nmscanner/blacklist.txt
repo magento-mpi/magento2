@@ -12,3 +12,6 @@ lib/PEAR
 lib/phpseclib
 lib/Symfony
 lib/Twig
+app/code/Zend
+dev/tools/nmparser
+downloader/mage.php

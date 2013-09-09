@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_System_Dirs
+namespace Magento\System;
+
+class Dirs
 {
 
     public static function rm($dirname)
@@ -68,11 +70,11 @@ class Magento_System_Dirs
             return true;
         }
         if($exists && !is_dir($path)) {
-            throw new Exception("'{$path}' already exists, should be a dir, not a file!");
+            throw new \Exception("'{$path}' already exists, should be a dir, not a file!");
         }
         $out = @mkdir($path, $mode, $recursive);
         if(false === $out) {
-            throw new Exception("Can't create dir: '{$path}'");
+            throw new \Exception("Can't create dir: '{$path}'");
         }
         return true;
     }
@@ -81,7 +83,7 @@ class Magento_System_Dirs
     {
         $exists = file_exists($source);
         if(!$exists) {
-            throw new Exception('No file exists: '.$exists);
+            throw new \Exception('No file exists: '.$exists);
         }
 
     }

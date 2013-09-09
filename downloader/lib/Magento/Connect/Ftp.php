@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Ftp
+namespace Magento\Connect;
+
+class Ftp
 {
     /**
      * Connection object
@@ -27,13 +29,13 @@ class Magento_Connect_Ftp
     /**
      * Check connected, throw exception if not
      *
-     * @throws Exception
+     * @throws \Exception
      * @return null
      */
     protected function checkConnected()
     {
         if(!$this->_conn) {
-            throw new Exception(__CLASS__." - no connection established with server");
+            throw new \Exception(__CLASS__." - no connection established with server");
         }
     }
 
@@ -81,7 +83,7 @@ class Magento_Connect_Ftp
      *
      * @param string $login
      * @param string $password
-     * @throws Exception on invalid login credentials
+     * @throws \Exception on invalid login credentials
      * @return boolean
      */
     public function login($login = "anonymous", $password = "test@gmail.com")
@@ -89,7 +91,7 @@ class Magento_Connect_Ftp
         $this->checkConnected();
         $res = @ftp_login($this->_conn, $login, $password);
         if(!$res) {
-            throw new Exception("Invalid login credentials");
+            throw new \Exception("Invalid login credentials");
         }
         return $res;
     }
@@ -98,20 +100,20 @@ class Magento_Connect_Ftp
      * Validate connection string
      *
      * @param string $string
-     * @throws Exception
+     * @throws \Exception
      * @return string
      */
     public function validateConnectionString($string)
     {
         if (empty($string)) {
-            throw new Exception("Connection string is empty");
+            throw new \Exception("Connection string is empty");
         }
         $data = @parse_url($string);
         if(false === $data) {
-            throw new Exception("Connection string invalid: '{$string}'");
+            throw new \Exception("Connection string invalid: '{$string}'");
         }
         if($data['scheme'] != 'ftp') {
-            throw new Exception("Support for scheme '{$data['scheme']}' unsupported");
+            throw new \Exception("Support for scheme '{$data['scheme']}' unsupported");
         }
         return $data;
     }
@@ -133,7 +135,7 @@ class Magento_Connect_Ftp
         $this->_conn = @ftp_connect($params['host'], $port, $timeout);
 
         if(!$this->_conn) {
-            throw new Exception("Cannot connect to host: {$params['host']}");
+            throw new \Exception("Cannot connect to host: {$params['host']}");
         }
         ftp_pasv($this->_conn, true);
         if(isset($params['user']) && isset($params['pass'])) {
@@ -143,7 +145,7 @@ class Magento_Connect_Ftp
         }
         if(isset($params['path'])) {
             if(!$this->chdir($params['path'])) {
-                throw new Exception ("Cannot chdir after login to: {$params['path']}");
+                throw new \Exception ("Cannot chdir after login to: {$params['path']}");
             }
         }
     }
@@ -228,20 +230,20 @@ class Magento_Connect_Ftp
         $this->checkConnected();
 
         if(!file_exists($local)) {
-            throw new Exception("Local file doesn't exist: {$local}");
+            throw new \Exception("Local file doesn't exist: {$local}");
         }
         if(!is_readable($local)) {
-            throw new Exception("Local file is not readable: {$local}");
+            throw new \Exception("Local file is not readable: {$local}");
         }
         if(is_dir($local)) {
-            throw new Exception("Directory given instead of file: {$local}");
+            throw new \Exception("Directory given instead of file: {$local}");
         }
 
         $globalPathMode = substr($remote, 0, 1) == "/";
         $dirname = dirname($remote);
         $cwd = $this->getcwd();
         if(false === $cwd) {
-            throw new Exception("Server returns something awful on PWD command");
+            throw new \Exception("Server returns something awful on PWD command");
         }
 
         if(!$globalPathMode) {

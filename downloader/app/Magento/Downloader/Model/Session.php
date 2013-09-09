@@ -15,7 +15,9 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloader_Model_Session extends Magento_Downloader_Model
+namespace Magento\Downloader\Model;
+
+class Session extends \Magento\Downloader\Model
 {
     /**
      * Session
@@ -27,12 +29,12 @@ class Magento_Downloader_Model_Session extends Magento_Downloader_Model
     /**
      * Init session
      *
-     * @return Magento_Downloader_Model_Session
+     * @return \Magento\Downloader\Model\Session
      */
     public function start()
     {
-        if (class_exists('Magento') && Mage::isInstalled()) {
-            $this->_session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        if (class_exists('Magento') && \Mage::isInstalled()) {
+            $this->_session = \Mage::getSingleton('Magento_Backend_Model_Auth_Session');
         } else {
             session_start();
         }
@@ -97,7 +99,7 @@ class Magento_Downloader_Model_Session extends Magento_Downloader_Model
             if ($this->_checkUserAccess($user)) {
                 return $this;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->addMessage('error', $e->getMessage());
         }
 
@@ -120,7 +122,7 @@ class Magento_Downloader_Model_Session extends Magento_Downloader_Model
             $this->addMessage('error', 'Invalid user name or password');
             $this->controller()->setAction('login');
         } elseif ($this->getUserId() || ($user && $user->getId())) {
-            if (Mage::getSingleton('Magento\AuthorizationInterface')->isAllowed('Magento_Adminhtml::all')) {
+            if (\Mage::getSingleton('Magento\AuthorizationInterface')->isAllowed('Magento_Adminhtml::all')) {
                 return true;
             } else {
                 $this->logout();
@@ -134,7 +136,7 @@ class Magento_Downloader_Model_Session extends Magento_Downloader_Model
     /**
      * Log Out
      *
-     * @return Magento_Downloader_Model_Session
+     * @return \Magento\Downloader\Model\Session
      */
     public function logout()
     {
@@ -164,7 +166,7 @@ class Magento_Downloader_Model_Session extends Magento_Downloader_Model
      * @param string $type
      * @param string $msg
      * @param string $clear
-     * @return Magento_Downloader_Model_Session
+     * @return \Magento\Downloader\Model\Session
      */
     public function addMessage($type, $msg, $clear = false)
     {
@@ -200,6 +202,6 @@ class Magento_Downloader_Model_Session extends Magento_Downloader_Model
         if (!$this->_session || !$this->_session->isLoggedIn()) {
             return '';
         }
-        return Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl();
+        return \Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl();
     }
 }

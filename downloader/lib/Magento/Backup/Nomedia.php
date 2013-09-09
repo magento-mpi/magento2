@@ -15,13 +15,15 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Nomedia extends Magento_Backup_Media
+namespace Magento\Backup;
+
+class Nomedia extends \Magento\Backup\Media
 {
     /**
      * Overlap getType
      *
      * @return string
-     * @see Magento_Backup_Interface::getType()
+     * @see \Magento\Backup\BackupInterface::getType()
      */
     public function getType()
     {
@@ -31,7 +33,7 @@ class Magento_Backup_Nomedia extends Magento_Backup_Media
     /**
      * Add media folder to ignore list
      *
-     * @return Magento_Backup_Media
+     * @return \Magento\Backup\Media
      */
     protected function _prepareIgnoreList()
     {

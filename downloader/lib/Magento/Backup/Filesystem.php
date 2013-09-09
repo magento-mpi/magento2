@@ -15,7 +15,9 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Filesystem extends Magento_Backup_Abstract
+namespace Magento\Backup;
+
+class Filesystem extends \Magento\Backup\AbstractBackup
 {
     /**
      * Paths that ignored when creating or rolling back snapshot
@@ -62,7 +64,7 @@ class Magento_Backup_Filesystem extends Magento_Backup_Abstract
     /**
      * Implementation Rollback functionality for Filesystem
      *
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      * @return bool
      */
     public function rollback()
@@ -72,8 +74,8 @@ class Magento_Backup_Filesystem extends Magento_Backup_Abstract
         set_time_limit(0);
         ignore_user_abort(true);
 
-        $rollbackWorker = $this->_useFtp ? new Magento_Backup_Filesystem_Rollback_Ftp($this)
-            : new Magento_Backup_Filesystem_Rollback_Fs($this);
+        $rollbackWorker = $this->_useFtp ? new \Magento\Backup\Filesystem\Rollback\Ftp($this)
+            : new \Magento\Backup\Filesystem\Rollback\Fs($this);
         $rollbackWorker->run();
 
         $this->_lastOperationSucceed = true;
@@ -82,7 +84,7 @@ class Magento_Backup_Filesystem extends Magento_Backup_Abstract
     /**
      * Implementation Create Backup functionality for Filesystem
      *
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      * @return boolean
      */
     public function create()
@@ -94,41 +96,41 @@ class Magento_Backup_Filesystem extends Magento_Backup_Abstract
 
         $this->_checkBackupsDir();
 
-        $fsHelper = new Magento_Backup_Filesystem_Helper();
+        $fsHelper = new \Magento\Backup\Filesystem\Helper();
 
         $filesInfo = $fsHelper->getInfo(
             $this->getRootDir(),
-            Magento_Backup_Filesystem_Helper::INFO_READABLE | Magento_Backup_Filesystem_Helper::INFO_SIZE,
+            \Magento\Backup\Filesystem\Helper::INFO_READABLE | \Magento\Backup\Filesystem\Helper::INFO_SIZE,
             $this->getIgnorePaths()
         );
 
         if (!$filesInfo['readable']) {
-            throw new Magento_Backup_Exception_NotEnoughPermissions('Not enough permissions to read files for backup');
+            throw new \Magento\Backup\Exception\NotEnoughPermissions('Not enough permissions to read files for backup');
         }
 
         $freeSpace = disk_free_space($this->getBackupsDir());
 
         if (2 * $filesInfo['size'] > $freeSpace) {
-            throw new Magento_Backup_Exception_NotEnoughFreeSpace('Not enough free space to create backup');
+            throw new \Magento\Backup\Exception\NotEnoughFreeSpace('Not enough free space to create backup');
         }
 
         $tarTmpPath = $this->_getTarTmpPath();
 
-        $tarPacker = new Magento_Backup_Archive_Tar();
+        $tarPacker = new \Magento\Backup\Archive\Tar();
         $tarPacker->setSkipFiles($this->getIgnorePaths())
             ->pack($this->getRootDir(), $tarTmpPath, true);
 
         if (!is_file($tarTmpPath) || filesize($tarTmpPath) == 0) {
-            throw new Magento_Exception('Failed to create backup');
+            throw new \Magento\Exception('Failed to create backup');
         }
 
         $backupPath = $this->getBackupPath();
 
-        $gzPacker = new Magento_Archive_Gz();
+        $gzPacker = new \Magento\Archive\Gz();
         $gzPacker->pack($tarTmpPath, $backupPath);
 
         if (!is_file($backupPath) || filesize($backupPath) == 0) {
-            throw new Magento_Exception('Failed to create backup');
+            throw new \Magento\Exception('Failed to create backup');
         }
 
         @unlink($tarTmpPath);
@@ -143,7 +145,7 @@ class Magento_Backup_Filesystem extends Magento_Backup_Abstract
      * @param string $username
      * @param string $password
      * @param string $path
-     * @return Magento_Backup_Filesystem
+     * @return \Magento\Backup\Filesystem
      */
     public function setUseFtp($host, $username, $password, $path)
     {
@@ -170,7 +172,7 @@ class Magento_Backup_Filesystem extends Magento_Backup_Abstract
      * Add path that should be ignoring when creating or rolling back backup
      *
      * @param string|array $paths
-     * @return Magento_Backup_Filesystem
+     * @return \Magento\Backup\Filesystem
      */
     public function addIgnorePaths($paths)
     {
@@ -203,7 +205,7 @@ class Magento_Backup_Filesystem extends Magento_Backup_Abstract
      *
      * @see Magento_Backup_AbstractBackup::setBackupsDir()
      * @param string $backupsDir
-     * @return Magento_Backup_Filesystem
+     * @return \Magento\Backup\Filesystem
      */
     public function setBackupsDir($backupsDir)
     {
@@ -235,7 +237,7 @@ class Magento_Backup_Filesystem extends Magento_Backup_Abstract
     /**
      * Check backups directory existence and whether it's writeable
      *
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _checkBackupsDir()
     {
@@ -245,7 +247,7 @@ class Magento_Backup_Filesystem extends Magento_Backup_Abstract
             $backupsDirParentDirectory = basename($backupsDir);
 
             if (!is_writeable($backupsDirParentDirectory)) {
-                throw new Magento_Backup_Exception_NotEnoughPermissions('Cant create backups directory');
+                throw new \Magento\Backup\Exception\NotEnoughPermissions('Cant create backups directory');
             }
 
             mkdir($backupsDir);
@@ -253,7 +255,7 @@ class Magento_Backup_Filesystem extends Magento_Backup_Abstract
         }
 
         if (!is_writable($backupsDir)) {
-            throw new Magento_Backup_Exception_NotEnoughPermissions('Backups directory is not writeable');
+            throw new \Magento\Backup\Exception\NotEnoughPermissions('Backups directory is not writeable');
         }
     }
 

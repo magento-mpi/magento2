@@ -15,7 +15,9 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloader_Model_Config_Abstract extends Magento_Downloader_Model
+namespace Magento\Downloader\Model\Config;
+
+class AbstractConfig extends \Magento\Downloader\Model
 {
     /**
     * Retrive file name
@@ -30,7 +32,7 @@ class Magento_Downloader_Model_Config_Abstract extends Magento_Downloader_Model
     /**
     * Load file
     *
-    * @return Magento_Downloader_Model_Config
+    * @return \Magento\Downloader\Model\Config
     */
     public function load()
     {
@@ -59,7 +61,7 @@ class Magento_Downloader_Model_Config_Abstract extends Magento_Downloader_Model
     /**
     * Save file
     *
-    * @return Magento_Downloader_Model_Config
+    * @return \Magento\Downloader\Model\Config
     */
     public function save()
     {

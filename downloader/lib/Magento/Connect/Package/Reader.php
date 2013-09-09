@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Package_Reader
+namespace Magento\Connect\Package;
+
+class Reader
 {
 
     /**
@@ -38,7 +40,7 @@ class Magento_Connect_Package_Reader
     /**
     * Archivator is used for extract DEFAULT_NAME_PACKAGE.
     *
-    * @var Magento_Archive
+    * @var \Magento\Archive
     */
     protected $_archivator = null;
 
@@ -46,7 +48,7 @@ class Magento_Connect_Package_Reader
     * Constructor initializes $_file.
     *
     * @param string $file
-    * @return Magento_Connect_Package_Reader
+    * @return \Magento\Connect\Package\Reader
     */
     public function __construct($file='')
     {
@@ -61,12 +63,12 @@ class Magento_Connect_Package_Reader
     /**
     * Retrieve archivator.
     *
-    * @return Magento_Archive
+    * @return \Magento\Archive
     */
     protected function _getArchivator()
     {
         if (is_null($this->_archivator)) {
-            $this->_archivator = new Magento_Archive();
+            $this->_archivator = new \Magento\Archive();
         }
         return $this->_archivator;
     }
@@ -79,7 +81,7 @@ class Magento_Connect_Package_Reader
     public function load()
     {
         if (!is_file($this->_file) || !is_readable($this->_file)) {
-            throw new Exception('Invalid package file specified.');
+            throw new \Exception('Invalid package file specified.');
         }
         if ($this->_getArchivator()->isArchive($this->_file)) {
             @mkdir(self::PATH_TO_TEMPORARY_DIRECTORY, 0777, true);
@@ -103,7 +105,7 @@ class Magento_Connect_Package_Reader
         $handle = fopen($this->_file, 'r');
         try {
             $data = $this->_loadResource($handle);
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\Exception $e) {
             fclose($handle);
             throw $e;
         }
@@ -115,7 +117,7 @@ class Magento_Connect_Package_Reader
     * Loads a package from specified resource
     *
     * @param resource $resource only file resources are supported at the moment
-    * @return Magento_Connect_Package
+    * @return \Magento\Connect\Package
     */
     protected function _loadResource(&$resource)
     {
@@ -126,7 +128,7 @@ class Magento_Connect_Package_Reader
                 $data .= fread($resource, 10240);
             }
         } else {
-            throw new Magento_Exception('Unsupported resource type');
+            throw new \Magento\Exception('Unsupported resource type');
         }
         return $data;
     }

@@ -15,7 +15,9 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloader_Model_Config_Community extends Magento_Downloader_Model_Config_Abstract implements Magento_Downloader_Model_Config_Interface
+namespace Magento\Downloader\Model\Config;
+
+class Community extends \Magento\Downloader\Model\Config\AbstractConfig implements \Magento\Downloader\Model\Config\ConfigInterface
 {
 
     /**
@@ -30,7 +32,7 @@ class Magento_Downloader_Model_Config_Community extends Magento_Downloader_Model
      * Set data for Settings View
      *
      * @param \Magento\Connect\Config $config
-     * @param Magento_Downloader_View $view
+     * @param \Magento\Downloader\View $view
      * @return null
      */
     public function setInstallView($config, $view)
@@ -41,7 +43,7 @@ class Magento_Downloader_Model_Config_Community extends Magento_Downloader_Model
     /**
      * Set data for Settings View
      * @param \Magento\Connect\Config $config
-     * @param Magento_Downloader_View $view
+     * @param \Magento\Downloader\View $view
      * @return null
      */
     public function setSettingsView($config, $view)

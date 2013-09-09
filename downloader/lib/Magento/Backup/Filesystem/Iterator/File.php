@@ -16,7 +16,9 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Filesystem_Iterator_File extends SplFileObject
+namespace Magento\Backup\Filesystem\Iterator;
+
+class File extends \SplFileObject
 {
     /**
      * The statement that was last read during iteration

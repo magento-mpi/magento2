@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Packager
+namespace Magento\Connect;
+
+class Packager
 {
     /**
      * Default Config File name
@@ -49,37 +51,37 @@ class Magento_Connect_Packager
 
     /**
      * Archiver object
-     * @var Magento_Archive
+     * @var \Magento\Archive
      */
     protected $_archiver = null;
 
     /**
      * HTTP Client (Curl/Socket etc)
-     * @var Magento_HTTP_IClient
+     * @var \Magento\HTTP\IClient
      */
     protected $_http = null;
 
     /**
      * Get Archiver object
      *
-     * @return Magento_Archive
+     * @return \Magento\Archive
      */
     public function getArchiver()
     {
         if(is_null($this->_archiver)) {
-            $this->_archiver = new Magento_Archive();
+            $this->_archiver = new \Magento\Archive();
         }
         return $this->_archiver;
     }
 
     /**
      * Returns HTTP Client
-     * @return Magento_HTTP_IClient|null
+     * @return \Magento\HTTP\IClient|null
      */
     public function getDownloader()
     {
         if(is_null($this->_http)) {
-            $this->_http = Magento_HTTP_Client::getInstance();
+            $this->_http = \Magento\HTTP\Client::getInstance();
         }
         return $this->_http;
     }
@@ -92,7 +94,7 @@ class Magento_Connect_Packager
      */
     public function getRemoteConf($ftpString)
     {
-        $ftpObj = new Magento_Connect_Ftp();
+        $ftpObj = new \Magento\Connect\Ftp();
         $ftpObj->connect($ftpString);
         $cfgFile = self::CONFIG_FILE_NAME;
         $cacheFile = self::CACHE_FILE_NAME;
@@ -102,12 +104,12 @@ class Magento_Connect_Packager
         $remoteConfigExists = $ftpObj->fileExists($cfgFile);
         $tempConfigFile = tempnam(sys_get_temp_dir(),'conf');
         if(!$remoteConfigExists) {
-            $remoteCfg = new Magento_Connect_Config($tempConfigFile);
+            $remoteCfg = new \Magento\Connect\Config($tempConfigFile);
             $remoteCfg->store();
             $ftpObj->upload($cfgFile, $tempConfigFile);
         } else {
             $ftpObj->get($tempConfigFile, $cfgFile);
-            $remoteCfg = new Magento_Connect_Config($tempConfigFile);
+            $remoteCfg = new \Magento\Connect\Config($tempConfigFile);
         }
 
         $ftpObj->chdir($wd);
@@ -116,12 +118,12 @@ class Magento_Connect_Packager
         $tempCacheFile = tempnam(sys_get_temp_dir(),'cache');
 
         if(!$remoteCacheExists) {
-            $remoteCache = new Magento_Connect_Singleconfig($tempCacheFile);
+            $remoteCache = new \Magento\Connect\Singleconfig($tempCacheFile);
             $remoteCache->clear();
             $ftpObj->upload($cacheFile, $tempCacheFile);
         } else {
             $ftpObj->get($tempCacheFile, $cacheFile);
-            $remoteCache = new Magento_Connect_Singleconfig($tempCacheFile);
+            $remoteCache = new \Magento\Connect\Singleconfig($tempCacheFile);
         }
         $ftpObj->chdir($wd);
         return array($remoteCache, $remoteCfg, $ftpObj);
@@ -136,18 +138,18 @@ class Magento_Connect_Packager
     public function getRemoteCache($ftpString)
     {
 
-        $ftpObj = new Magento_Connect_Ftp();
+        $ftpObj = new \Magento\Connect\Ftp();
         $ftpObj->connect($ftpString);
         $remoteConfigExists = $ftpObj->fileExists(self::CACHE_FILE_NAME);
         if(!$remoteConfigExists) {
             $configFile=tempnam(sys_get_temp_dir(),'conf');
-            $remoteCfg = new Magento_Connect_Singleconfig($configFile);
+            $remoteCfg = new \Magento\Connect\Singleconfig($configFile);
             $remoteCfg->clear();
             $ftpObj->upload(self::CACHE_FILE_NAME, $configFile);
         } else {
             $configFile=tempnam(sys_get_temp_dir(),'conf');
             $ftpObj->get($configFile, self::CACHE_FILE_NAME);
-            $remoteCfg = new Magento_Connect_Singleconfig($configFile);
+            $remoteCfg = new \Magento\Connect\Singleconfig($configFile);
         }
         return array($remoteCfg, $ftpObj);
     }
@@ -160,7 +162,7 @@ class Magento_Connect_Packager
      */
     public function getRemoteConfig($ftpString)
     {
-        $ftpObj = new Magento_Connect_Ftp();
+        $ftpObj = new \Magento\Connect\Ftp();
         $ftpObj->connect($ftpString);
         $cfgFile = self::CONFIG_FILE_NAME;
 
@@ -168,12 +170,12 @@ class Magento_Connect_Packager
         $remoteConfigExists = $ftpObj->fileExists($cfgFile);
         $tempConfigFile = tempnam(sys_get_temp_dir(),'conf_');
         if(!$remoteConfigExists) {
-            $remoteCfg = new Magento_Connect_Config($tempConfigFile);
+            $remoteCfg = new \Magento\Connect\Config($tempConfigFile);
             $remoteCfg->store();
             $ftpObj->upload($cfgFile, $tempConfigFile);
         } else {
             $ftpObj->get($tempConfigFile, $cfgFile);
-            $remoteCfg = new Magento_Connect_Config($tempConfigFile);
+            $remoteCfg = new \Magento\Connect\Config($tempConfigFile);
         }
         $ftpObj->chdir($wd);
         return array($remoteCfg, $ftpObj);
@@ -182,8 +184,8 @@ class Magento_Connect_Packager
     /**
      * Write Cache config remotely
      *
-     * @param Magento_Connect_Singleconfig $cache
-     * @param Magento_Connect_Ftp $ftpObj
+     * @param \Magento\Connect\Singleconfig $cache
+     * @param \Magento\Connect\Ftp $ftpObj
      * @return void
      */
     public function writeToRemoteCache($cache, $ftpObj)
@@ -197,8 +199,8 @@ class Magento_Connect_Packager
     /**
      * Write config remotely
      *
-     * @param Magento_Connect_Config $cache
-     * @param Magento_Connect_Ftp $ftpObj
+     * @param \Magento\Connect\Config $cache
+     * @param \Magento\Connect\Ftp $ftpObj
      * @return void
      */
     public function writeToRemoteConfig($cache, $ftpObj)
@@ -618,7 +620,7 @@ class Magento_Connect_Packager
                 }
             }
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
 
         $level--;
@@ -706,7 +708,7 @@ class Magento_Connect_Packager
             $rest->setChannel($cache->chanUrl($chanName));
             $releases = $rest->getReleases($package);
             if (!$releases || !count($releases)) {
-                throw new Exception("No releases for '{$package}', skipping");
+                throw new \Exception("No releases for '{$package}', skipping");
             }
             $state = $config->preferred_state ? $config->preferred_state : 'stable';
             /**
@@ -730,15 +732,15 @@ class Magento_Connect_Packager
                     $packageInfo = $rest->getPackageReleaseInfo($package, $versionState);
                     if (false !== $packageInfo) {
                         $stability = $packageInfo->getStability();
-                        throw new Exception("Extension is '{$stability}' please check(or change) stability settings".
+                        throw new \Exception("Extension is '{$stability}' please check(or change) stability settings".
                                             " on Magento Connect Manager");
                     }
                 }
-                throw new Exception("Version for '{$package}' was not detected");
+                throw new \Exception("Version for '{$package}' was not detected");
             }
             $packageInfo = $rest->getPackageReleaseInfo($package, $version);
             if (false === $packageInfo) {
-                throw new Exception("Package release '{$package}' not found on server");
+                throw new \Exception("Package release '{$package}' not found on server");
             }
             $stability = $packageInfo->getStability();
 
@@ -864,7 +866,7 @@ class Magento_Connect_Packager
                 }
             }
             unset($rest);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $_failed[] = array(
                 'name'=>$package,
                 'channel'=>$chanName,
@@ -922,7 +924,7 @@ class Magento_Connect_Packager
         }
 
         if (!$graph->isAcyclic()) {
-            throw new Exception("Dependency references are cyclic");
+            throw new \Exception("Dependency references are cyclic");
         }
 
         $result = $graph->topologicalSort();

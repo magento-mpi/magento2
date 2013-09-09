@@ -15,7 +15,9 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloader_View
+namespace Magento\Downloader;
+
+class View
 {
     /**
      * Internal cache
@@ -35,11 +37,11 @@ class Magento_Downloader_View
     /**
     * Retrieve Controller as singleton
     *
-    * @return Magento_Downloader_Controller
+    * @return \Magento\Downloader\Controller
     */
     public function controller()
     {
-        return Magento_Downloader_Controller::singleton();
+        return \Magento\Downloader\Controller::singleton();
     }
 
     /**
@@ -92,7 +94,7 @@ class Magento_Downloader_View
     *
     * @param string $key
     * @param mixed $value
-    * @return Magento_Downloader_Controller
+    * @return \Magento\Downloader\Controller
     */
     public function set($key, $value)
     {
