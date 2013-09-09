@@ -24,8 +24,8 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
         $logs = $xpath->query('/logging/log');
         /** @var DOMNode $log */
         foreach ($logs as $log) {
-            $logId = $log->attributes->getNamedItem('id')->nodeValue;
-            $result['logging'][$logId] = $this->_convertLog($log);
+            $logId = $log->attributes->getNamedItem('name')->nodeValue;
+            $result['logging'][$logId] = $this->_convertLog($log, $logId);
         }
 
         return $result;
@@ -60,7 +60,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
      * @param DOMNode $event
      * @return array
      */
-    protected function _convertLog($log)
+    protected function _convertLog($log, $logId)
     {
         $result = array();
         foreach ($log->childNodes as $logData) {
@@ -74,7 +74,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
                     break;
                 case 'event':
                     $eventName = $logData->attributes->getNamedItem('controller_action')->nodeValue;
-                    $result['actions'][$eventName] = $this->_convertEvent($logData);
+                    $result['actions'][$eventName] = $this->_convertEvent($logData, $logId);
                     break;
             }
         }
@@ -87,9 +87,9 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
      * @param DOMNode $event
      * @return array
      */
-    protected function _convertEvent($event)
+    protected function _convertEvent($event, $logId)
     {
-        $result = array();
+        $result = array('log_name' => $logId);
         $eventAttributes = $event->attributes;
         $eventAction = $eventAttributes->getNamedItem('action_alias');
         if (!is_null($eventAction)) {
@@ -101,6 +101,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
             $result['post_dispatch'] = $postDispatch->nodeValue;
         }
         foreach ($event->childNodes as $eventData) {
+            $eventDataAttributes = $eventData->attributes;
             switch ($eventData->nodeName) {
                 case 'expected_model':
                     $result['expected_models'][$eventData->attributes->getNamedItem('class')->nodeValue] =
@@ -111,7 +112,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
                         $this->_convertExpectedModel($eventData);
                     break;
                 case 'skip_on_back':
-                    $result['skip_on_back'][] = $eventData->nodeValue;
+                    $result['skip_on_back'][] = $eventDataAttributes->getNamedItem('controller_action')->nodeValue;
                     break;
             }
         }
@@ -131,13 +132,13 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     protected function _convertExpectedModel($expectedModel)
     {
         $result = array();
-        foreach ($expectedModel->childNodes as $childNode) {
-            switch ($childNode->nodeName) {
+        foreach ($expectedModel->childNodes as $parameter) {
+            switch ($parameter->nodeName) {
                 case 'skip_field':
-                    $result['skip_data'][] = $childNode->nodeValue;
+                    $result['skip_data'][] = $parameter->attributes->getNamedItem('name')->nodeValue;
                     break;
                 case 'additional_field':
-                    $result['additional_data'][] = $childNode->nodeValue;
+                    $result['additional_data'][] = $parameter->attributes->getNamedItem('name')->nodeValue;
             }
         }
         return $result;

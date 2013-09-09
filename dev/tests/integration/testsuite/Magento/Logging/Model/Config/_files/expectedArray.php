@@ -37,8 +37,8 @@ return array(
             array(
                 'adminhtml_checkout_index'=>
                 array(
-                    'action'=>
-                    'view',
+                    'log_name' => 'enterprise_checkout',
+                    'action' => 'view',
                     'expected_models'=>
                     array(
                         'Magento_Sales_Model_Quote'=>
@@ -48,10 +48,9 @@ return array(
                 ),
                 'adminhtml_checkout_applyCoupon'=>
                 array(
-                    'action'=>
-                    'apply_coupon',
-                    'post_dispatch'=>
-                    'postDispatchAdminCheckoutApplyCoupon',
+                    'log_name' => 'enterprise_checkout',
+                    'action' => 'apply_coupon',
+                    'post_dispatch' => 'postDispatchAdminCheckoutApplyCoupon',
                     'expected_models'=>
                     array(
                         'Magento_Sales_Model_Quote'=>
@@ -61,6 +60,7 @@ return array(
                 ),
                 'adminhtml_checkout_updateItems'=>
                 array(
+                    'log_name' => 'enterprise_checkout',
                     'action'=>
                     'save',
                     'skip_on_back'=>
@@ -77,6 +77,7 @@ return array(
                 ),
                 'adminhtml_checkout_addToCart'=>
                 array(
+                    'log_name' => 'enterprise_checkout',
                     'action'=>
                     'add_to_cart',
                     'expected_models'=>
@@ -95,6 +96,7 @@ return array(
                 ),
                 'adminhtml_customer_save'=>
                 array(
+                    'log_name' => 'enterprise_checkout',
                     'skip_on_back'=>
                     array(
 
@@ -114,6 +116,7 @@ return array(
                 ),
                 'adminhtml_customersegment_match'=>
                 array(
+                    'log_name' => 'enterprise_checkout',
                     'action'=>
                     'refresh_data',
                     'post_dispatch'=>
@@ -144,11 +147,13 @@ return array(
             array(
                 'adminhtml_customer_edit'=>
                 array(
+                    'log_name' => 'customer',
                     'action'=>
                     'view'
                 ),
                 'adminhtml_customer_save'=>
                 array(
+                    'log_name' => 'customer',
                     'action'=>
                     'save',
                     'skip_on_back'=>

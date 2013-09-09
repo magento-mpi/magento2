@@ -15,7 +15,7 @@
     <action id="add_to_cart">
         <label translate="true">Add to Cart</label>
     </action>
-    <log id="enterprise_checkout">
+    <log name="enterprise_checkout">
         <label translate="true">Shopping Cart Management</label>
         <expected_model class="Enterprise_GiftRegistry_Model_Entity"/>
         <expected_model class="Enterprise_GiftRegistry_Model_Item"/>
@@ -29,35 +29,35 @@
         </event>
         <event controller_action="adminhtml_checkout_updateItems" action_alias="save">
             <expected_model class="Magento_Sales_Model_Quote_Item"/>
-            <skip_on_back>adminhtml_cms_page_version_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_cms_page_version_edit" />
         </event>
         <event controller_action="adminhtml_checkout_addToCart"
                action_alias="add_to_cart">
             <expected_model class="Magento_Sales_Model_Quote_Item">
-                <additional_field>item_id</additional_field>
-                <additional_field>quote_id</additional_field>
+                <additional_field name="item_id" />
+                <additional_field name="quote_id" />
             </expected_model>
         </event>
         <event controller_action="adminhtml_customer_save"
                extends_expected_models="true">
             <expected_model class="Enterprise_CustomerBalance_Model_Balance"/>
-            <skip_on_back>adminhtml_customerbalance_form</skip_on_back>
-            <skip_on_back>adminhtml_customer_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_customerbalance_form" />
+            <skip_on_back controller_action="adminhtml_customer_edit" />
         </event>
         <event controller_action="adminhtml_customersegment_match"
                action_alias="refresh_data"
                post_dispatch="Enterprise_CustomerSegment_Model_Logging::postDispatchCustomerSegmentMatch"/>
     </log>
-    <log id="customer">
+    <log name="customer">
         <label translate="true">Customers</label>
         <expected_model class="Magento_Customer_Model_Customer">
-            <skip_field>new_password</skip_field>
-            <skip_field>password</skip_field>
-            <skip_field>password_hash</skip_field>
+            <skip_field name="new_password" />
+            <skip_field name="password" />
+            <skip_field name="password_hash" />
         </expected_model>
         <event controller_action="adminhtml_customer_edit" action_alias="view"/>
         <event controller_action="adminhtml_customer_save" action_alias="save">
-            <skip_on_back>adminhtml_customer_edit</skip_on_back>
+            <skip_on_back controller_action="adminhtml_customer_edit" />
         </event>
     </log>
 </logging>

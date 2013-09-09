@@ -163,12 +163,12 @@ class Magento_Logging_Model_Processor
 
         $this->_lastAction = $fullActionName;
 
-        $this->_skipNextAction = (!$this->_config->isActive($fullActionName)) ? true : false;
+        $this->_eventConfig = $this->_config->getEventByFullActionName($fullActionName);
+        $this->_skipNextAction = (!$this->_config->isEventGroupLogged($this->_eventConfig['log_name'])) ? true : false;
         if ($this->_skipNextAction) {
             return;
         }
         $this->_handleConfig = $this->_config->getNode($fullActionName);
-        $this->_eventConfig = $this->_config->getEventByFullActionName($fullActionName);
 
         /**
          * Skip view action after save. For example on 'save and continue' click.
@@ -190,8 +190,8 @@ class Magento_Logging_Model_Processor
             }
         }
 
-        if (isset($this->_handleConfig['skip_on_back'])) {
-            $addValue = $this->_handleConfig['skip_on_back'];
+        if (isset($this->_eventConfig['skip_on_back'])) {
+            $addValue = $this->_eventConfig['skip_on_back'];var_dump($addValue);
             $sessionValue = $this->_authSession->getSkipLoggingAction();
             if (!is_array($sessionValue) && $sessionValue) {
                 $sessionValue = explode(',', $sessionValue);
