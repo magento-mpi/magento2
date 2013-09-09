@@ -33,7 +33,6 @@ class Magento_Backend_Model_Config_Backend_Baseurl extends Magento_Core_Model_Co
         $this->_mergeService = $mergeService;
         parent::__construct(
             $context,
-            $coreConfig,
             $resource,
             $resourceCollection,
             $data

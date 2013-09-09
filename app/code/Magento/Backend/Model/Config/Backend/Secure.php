@@ -33,7 +33,6 @@ class Magento_Backend_Model_Config_Backend_Secure extends Magento_Core_Model_Con
         $this->_mergeService = $mergeService;
         parent::__construct(
             $context,
-            $coreConfig,
             $resource,
             $resourceCollection,
             $data

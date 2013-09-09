@@ -51,8 +51,8 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
             $filesystem,
             $app,
             $configScope,
-            $routeConfig,
             $coreStoreConfig,
+            $routeConfig,
             $areaCode,
             $baseController,
             $routerId

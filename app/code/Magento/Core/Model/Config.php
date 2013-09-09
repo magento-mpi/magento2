@@ -134,7 +134,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Config_ScopeInterface $configScope,
         Magento_Core_Model_Config_SectionPool $sectionPool,
-        Magento_Config_ScopeInterface $configScope,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
