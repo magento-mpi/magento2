@@ -14,6 +14,27 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
     extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
+     * @var Magento_Core_Model_Fieldset_Config
+     */
+    protected $_fieldsetConfig;
+
+    /**
+     * Collection constructor
+     *
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Fieldset_Config $fieldsetConfig,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_fieldsetConfig = $fieldsetConfig;
+        parent::__construct($fetchStrategy, $resource);
+    }
+
+    /**
      * Init model
      */
     protected function _construct()
@@ -31,9 +52,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
         /* @var Magento_Customer_Model_Resource_Customer $customer */
         $customer  = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');
 
-        $customerAccount = Mage::getObjectManager()
-            ->get('Magento_Core_Model_Fieldset_Config')
-            ->getFieldset('customer_account');
+        $customerAccount = $this->_fieldsetConfig->getFieldset('customer_account');
 
         foreach ($customerAccount as $code => $field) {
             if (isset($field['name'])) {

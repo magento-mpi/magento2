@@ -19,6 +19,25 @@
 class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Model_Entity_Collection_Abstract
 {
     /**
+     * @var Magento_Core_Model_Fieldset_Config
+     */
+    protected $_fieldsetConfig;
+
+    /**
+     * Collection constructor
+     *
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
+     */
+    public function __construct(
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Fieldset_Config $fieldsetConfig
+    ) {
+        parent::__construct($fetchStrategy);
+        $this->_fieldsetConfig = $fieldsetConfig;
+    }
+
+    /**
      * Resource initialization
      */
     protected function _construct()
@@ -52,9 +71,7 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
     public function addNameToSelect()
     {
         $fields = array();
-        $customerAccount = Mage::getObjectManager()
-            ->get('Magento_Core_Model_Fieldset_Config')
-            ->getFieldset('customer_account');
+        $customerAccount = $this->_fieldsetConfig->getFieldset('customer_account');
         foreach ($customerAccount as $code => $field) {
             if (isset($field['name'])) {
                 $fields[$code] = $code;
