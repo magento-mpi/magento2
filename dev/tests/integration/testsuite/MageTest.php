@@ -118,17 +118,6 @@ class MageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoAppIsolation enabled
-     *
-     */
-    public function testGetDesign()
-    {
-        $design = Mage::getDesign();
-        $this->assertEquals('frontend', $design->getArea());
-        $this->assertSame(Mage::getDesign(), $design);
-    }
-
-    /**
      * @param string $classId
      * @param string $expectedClassName
      * @dataProvider getModelDataProvider

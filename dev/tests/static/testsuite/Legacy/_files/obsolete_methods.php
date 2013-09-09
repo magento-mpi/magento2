@@ -294,6 +294,7 @@ return array(
     array('getDebug', 'Magento_Paypal_Model_Api_Abstract'),
     array('getDefaultBasePath', 'Magento_Core_Model_Store'),
     array('getDeleteUrl', 'Magento_Adminhtml_Block_Catalog_Product_Edit'),
+    array('getDesign', 'Mage'),
     array('getDirectOutput', 'Magento_Core_Model_Layout'),
     array('getDistroServerVars', 'Magento_Core_Model_Config', 'getDistroBaseUrl'),
     array('getElementClass', 'Magento_Core_Model_Layout_Update'),

@@ -42,7 +42,8 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(2, array_shift($keys));
 
-        $themeModel = Mage::getDesign()->getDesignTheme();
+        $themeModel = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->getDesignTheme();
 
         $this->assertEquals($themeModel->getId() ?: null, $info[2]);
 

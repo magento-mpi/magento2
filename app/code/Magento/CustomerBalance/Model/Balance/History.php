@@ -41,6 +41,31 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
     const ACTION_REVERTED = 5;
 
     /**
+     * Design package instance
+     *
+     * @var Magento_Core_Model_View_DesignInterface
+     */
+    protected $_design = null;
+
+    /**
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_design = $design;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource
      *
      */
@@ -145,7 +170,7 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
         if ($this->getBalanceModel()->getNotifyByEmail()) {
             $storeId = $this->getBalanceModel()->getStoreId();
             $email = Mage::getModel('Magento_Core_Model_Email_Template')
-                ->setDesignConfig(array('store' => $storeId, 'area' => Mage::getDesign()->getArea()));
+                ->setDesignConfig(array('store' => $storeId, 'area' => $this->_design->getArea()));
             $customer = $this->getBalanceModel()->getCustomer();
             $email->sendTransactional(
                 Mage::getStoreConfig('customer/magento_customerbalance/email_template', $storeId),
