@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_system_backup_grid>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_system_backup_grid">
         <update handle="formkey"/>
         <update handle="adminhtml_system_backup_block"/>
         <container label="Mage Adminhtml Block Backup" name="adminhtml.system.backup.container" output="1"/>
-    </adminhtml_system_backup_grid>
+    </handle>
 </layout>

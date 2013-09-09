@@ -9,9 +9,16 @@
 -->
 <config>
     <module name="Magento_Oauth" version="1.0.0.0" active="true">
+        <sequence>
+            <module name="Magento_Core"/>
+            <module name="Magento_User"/>
+        </sequence>
         <depends>
-            <module name="Magento_Core" />
-            <module name="Magento_User" />
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Page"/>
         </depends>
     </module>
 </config>

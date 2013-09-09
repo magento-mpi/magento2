@@ -7,20 +7,20 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <contacts_index_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="contacts_index_index">
         <reference name="form.additional.info">
-            <block type="Magento_Captcha_Block_Captcha" name="captcha">
+            <block class="Magento_Captcha_Block_Captcha" name="captcha">
                 <action method="setFormId">
-                    <formId>contact_us</formId>
+                    <argument name="formId" xsi:type="string">contact_us</argument>
                 </action>
                 <action method="setImgWidth">
-                    <width>230</width>
+                    <argument name="width" xsi:type="string">230</argument>
                 </action>
                 <action method="setImgHeight">
-                    <width>50</width>
+                    <argument name="width" xsi:type="string">50</argument>
                 </action>
             </block>
         </reference>
-    </contacts_index_index>
+    </handle>
 </layout>

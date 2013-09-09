@@ -9,11 +9,22 @@
 -->
 <config>
     <module name="Magento_VersionsCms" version="1.11.0.4" active="false">
+        <sequence>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Cms"/>
+            <module name="Magento_Widget"/>
+            <module name="Magento_User"/>
+        </sequence>
         <depends>
-            <module name="Magento_Adminhtml" />
-            <module name="Magento_Cms" />
-            <module name="Magento_Widget" />
-            <module name="Magento_User" />
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Cms"/>
+            <module name="Magento_Widget"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_User"/>
+            <module name="Magento_Enterprise"/>
+            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>

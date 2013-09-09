@@ -139,7 +139,7 @@ class Integrity_Layout_HandleTest extends PHPUnit_Framework_TestCase
         $basename = basename($file);
         if (substr($basename, 0, strlen($skippedPrefix)) != $skippedPrefix) {
             $handle = $handles[0];
-            $this->assertEquals($handle->getName() . ".xml", $basename);
+            $this->assertEquals($handle['id'] . ".xml", $basename);
         }
     }
 

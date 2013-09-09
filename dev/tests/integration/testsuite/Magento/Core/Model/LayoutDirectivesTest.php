@@ -216,10 +216,12 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
     {
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Mage::getModel('Magento_Core_Model_Layout');
-        $layout->setXml(simplexml_load_file(
+        /** @var $xml Magento_Core_Model_Layout_Element */
+        $xml = simplexml_load_file(
             __DIR__ . "/_files/layout_directives_test/{$fixtureFile}",
             'Magento_Core_Model_Layout_Element'
-        ));
+        );
+        $layout->loadString($xml->handle->asXml());
         $layout->generateElements();
         return $layout;
     }

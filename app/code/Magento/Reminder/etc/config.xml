@@ -28,60 +28,7 @@
                 </magento_reminder_email_template>
             </email>
         </template>
-        <events>
-            <salesrule_rule_get_coupon_types>
-                <observers>
-                    <magento_reminder>
-                        <class>Magento_Reminder_Model_Observer</class>
-                        <method>getCouponTypes</method>
-                    </magento_reminder>
-                </observers>
-            </salesrule_rule_get_coupon_types>
-            <adminhtml_promo_quote_edit_tab_main_prepare_form>
-                <observers>
-                    <magento_reminder>
-                        <class>Magento_Reminder_Model_Observer</class>
-                        <method>updatePromoQuoteTabMainForm</method>
-                    </magento_reminder>
-                </observers>
-            </adminhtml_promo_quote_edit_tab_main_prepare_form>
-            <salesrule_rule_save_after>
-                <observers>
-                    <magento_reminder>
-                        <class>Magento_Reminder_Model_Observer</class>
-                        <method>detachUnsupportedSalesRule</method>
-                    </magento_reminder>
-                </observers>
-            </salesrule_rule_save_after>
-            <adminhtml_block_promo_widget_chooser_prepare_collection>
-                <observers>
-                    <magento_reminder>
-                        <class>Magento_Reminder_Model_Observer</class>
-                        <method>addSalesRuleFilter</method>
-                    </magento_reminder>
-                </observers>
-            </adminhtml_block_promo_widget_chooser_prepare_collection>
-            <adminhtml_promo_quote_edit_tab_main_prepare_form>
-                <observers>
-                    <magento_reminder>
-                        <class>Magento_Reminder_Model_Observer</class>
-                        <method>addUseAutoGenerationNotice</method>
-                    </magento_reminder>
-                </observers>
-            </adminhtml_promo_quote_edit_tab_main_prepare_form>
-        </events>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <magento_reminder before="Magento_Adminhtml">Magento_Reminder_Adminhtml</magento_reminder>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -118,4 +65,4 @@
             </send_notification>
         </jobs>
     </crontab>
-</config>
+</config>

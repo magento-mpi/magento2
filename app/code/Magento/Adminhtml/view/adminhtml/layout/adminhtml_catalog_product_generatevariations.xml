@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_catalog_product_generatevariations>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_catalog_product_generatevariations">
         <container name="root" label="Root" output="1">
-            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
-                <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
-                <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute" template="Magento_Adminhtml::catalog/product/edit/super/attribute-template.phtml" as="attribute-renderer"/>
-                <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix" template="Magento_Adminhtml::catalog/product/edit/super/matrix.phtml" as="matrix"/>
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
+                <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
+                <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute" template="Magento_Adminhtml::catalog/product/edit/super/attribute-template.phtml" as="attribute-renderer"/>
+                <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix" template="Magento_Adminhtml::catalog/product/edit/super/matrix.phtml" as="matrix"/>
             </block>
         </container>
-    </adminhtml_catalog_product_generatevariations>
+    </handle>
 </layout>

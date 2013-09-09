@@ -25,7 +25,8 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
-    public function __construct(Magento_Backend_Block_Template_Context $context,
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()

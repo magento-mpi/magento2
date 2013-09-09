@@ -20,5 +20,5 @@ class Magento_Captcha_Model_Config_Form_Backend extends Magento_Captcha_Model_Co
     /**
      * @var string
      */
-    protected $_configPath = 'default/captcha/backend/areas';
+    protected $_configPath = 'captcha/backend/areas';
 }

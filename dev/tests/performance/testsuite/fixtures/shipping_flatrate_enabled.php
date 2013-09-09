@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 
-/** @var Magento_Core_Model_Config_Data $configData */
-$configData = Mage::getModel('Magento_Core_Model_Config_Data');
+/** @var Magento_Core_Model_Config_Value $configData */
+$configData = Mage::getModel('Magento_Core_Model_Config_Value');
 $configData->setPath('carriers/flatrate/active')
     ->setScope(Magento_Core_Model_Config::SCOPE_DEFAULT)
     ->setScopeId(0)

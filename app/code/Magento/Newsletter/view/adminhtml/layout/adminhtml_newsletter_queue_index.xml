@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_newsletter_queue_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_newsletter_queue_index">
         <update handle="adminhtml_newsletter_queue_grid_block"/>
         <reference name="content">
-            <block type="Magento_Backend_Block_Template" template="Magento_Newsletter::queue/list.phtml" name="adminhtml.newsletter.queue.grid.container"/>
+            <block class="Magento_Backend_Block_Template" template="Magento_Newsletter::queue/list.phtml" name="adminhtml.newsletter.queue.grid.container"/>
         </reference>
-    </adminhtml_newsletter_queue_index>
+    </handle>
 </layout>

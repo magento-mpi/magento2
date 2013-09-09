@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Tax_Model_Config_Price_Include extends Magento_Core_Model_Config_Data
+class Magento_Tax_Model_Config_Price_Include extends Magento_Core_Model_Config_Value
 {
     public function afterSave()
     {

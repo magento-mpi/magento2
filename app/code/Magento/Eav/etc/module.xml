@@ -9,8 +9,14 @@
 -->
 <config>
     <module name="Magento_Eav" version="1.6.0.2" active="true">
+        <sequence>
+            <module name="Magento_Core"/>
+        </sequence>
         <depends>
-            <module name="Magento_Core" />
+            <module name="Magento_Core"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Catalog"/>
         </depends>
     </module>
 </config>

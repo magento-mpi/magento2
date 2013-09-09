@@ -7,13 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_cms_page_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_cms_page_edit">
         <reference name="cms_page_edit_tabs">
             <action method="addTab">
-                <name>google-experiment</name>
-                <block>Magento_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer</block>
+                <argument name="name" xsi:type="string">google-experiment</argument>
+                <argument name="block" xsi:type="string">Magento_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer</argument>
             </action>
         </reference>
-    </adminhtml_cms_page_edit>
+    </handle>
 </layout>

@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_customer_wishlist>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_customer_wishlist">
         <reference name="customer.wishlist.edit.tab">
             <arguments>
-                <product_configuration_helpers>
-                    <giftcard>Magento_GiftCard_Helper_Catalog_Product_Configuration</giftcard>
-                </product_configuration_helpers>
+                <argument name="product_configuration_helpers" xsi:type="array">
+                    <item name="giftcard" xsi:type="string">Magento_GiftCard_Helper_Catalog_Product_Configuration</item>
+                </argument>
             </arguments>
         </reference>
-    </adminhtml_customer_wishlist>
+    </handle>
 </layout>

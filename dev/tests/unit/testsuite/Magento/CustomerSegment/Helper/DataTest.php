@@ -42,7 +42,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         $testCase = $this;
         $elementFactory = $this->_elementFactory;
         $mockCallback = function ($className, $data) use ($testCase, $elementFactory) {
-            return $testCase->getMock($className, null, array($elementFactory, $data['attributes']));
+            return $testCase->getMock($className, null, array($elementFactory, $data));
         };
         $this->_elementFactory->expects($this->any())->method('create')->will($this->returnCallback($mockCallback));
 

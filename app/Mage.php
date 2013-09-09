@@ -480,7 +480,6 @@ final class Mage
     /**
      * Retrieve model object
      *
-     * @link    Magento_Core_Model_Config::getModelInstance
      * @param   string $modelClass
      * @param   array|object $arguments
      * @return  Magento_Core_Model_Abstract|false

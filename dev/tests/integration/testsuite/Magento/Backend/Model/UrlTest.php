@@ -62,7 +62,6 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      * App isolation is enabled to protect next tests from polluted registry by getUrl()
      *
      * @covers Magento_Backend_Model_Url::getSecure
-     * @magentoConfigFixture admin/routers/adminhtml/args/frontName admin
      * @magentoAppIsolation enabled
      */
     public function testGetUrl()
@@ -76,7 +75,6 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      * @param string $controller
      * @param string $action
      * @param string $expectedHash
-     * @magentoConfigFixture global/helpers/core/encryption_model Magento_Core_Model_Encryption
      * @dataProvider getSecretKeyDataProvider
      * @magentoAppIsolation enabled
      */
@@ -98,32 +96,45 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function getSecretKeyDataProvider()
     {
+        /** @var $helper Magento_Core_Helper_Data */
+        $helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data');
         return array(
-            array('', '', '', '6f1957ed8fd24547bf3c2e75e97e965b'),
-            array('', '', 'action', 'b7b02c691d8b36cd4c85dbb06fb78d63'),
-            array('', 'controller', '', '8893bfa4185d5704449ab42b8b246e40'),
-            array('', 'controller', 'action', '88b2bcff0469c6105cca241f76d0f5da'),
-            array('adminhtml', '', '', '21c4e3709e616e6efb9d63a38184b8cc'),
-            array('adminhtml', '', 'action', 'c0899247e4d9312541d06f44577b44ae'),
-            array('adminhtml', 'controller', '', '39ee521775d46fc245d6791ca5cf1951'),
-            array('adminhtml', 'controller', 'action', '6c9c1edd5bc6415506cab1ae9f11f581'),
+            array('', '', '',
+                $helper->getHash('default_router' . 'default_controller' . 'default_action' . 'salt')),
+            array('', '', 'action',
+                $helper->getHash('default_router' . 'default_controller' . 'action' . 'salt')),
+            array('', 'controller', '',
+                $helper->getHash('default_router' . 'controller' . 'default_action' . 'salt')),
+            array('', 'controller', 'action',
+                $helper->getHash('default_router' . 'controller' . 'action' . 'salt')),
+            array('adminhtml', '', '',
+                $helper->getHash('adminhtml' . 'default_controller' . 'default_action' . 'salt')),
+            array('adminhtml', '', 'action',
+                $helper->getHash('adminhtml' . 'default_controller' . 'action' . 'salt')),
+            array('adminhtml', 'controller', '',
+                $helper->getHash('adminhtml' . 'controller' . 'default_action' . 'salt')),
+            array('adminhtml', 'controller', 'action',
+                $helper->getHash('adminhtml' . 'controller' . 'action' . 'salt')),
         );
-        // md5('controlleractionsalt') .
     }
 
     /**
-     * @magentoConfigFixture global/helpers/core/encryption_model Magento_Core_Model_Encryption
      * @magentoAppIsolation enabled
      */
     public function testGetSecretKeyForwarded()
     {
+        /** @var $helper Magento_Core_Helper_Data */
+        $helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data');
         /** @var $request Magento_Core_Controller_Request_Http */
         $request = Mage::getModel('Magento_Core_Controller_Request_Http');
         $request->setControllerName('controller')->setActionName('action');
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);
         Mage::getSingleton('Magento_Core_Model_Session')->setData('_form_key', 'salt');
-        $this->assertEquals('c36d05473b54f437889608cbe8d50339', $this->_model->getSecretKey());
+        $this->assertEquals(
+            $helper->getHash('controller' . 'action' . 'salt'),
+            $this->_model->getSecretKey()
+        );
     }
 
     public function testUseSecretKey()

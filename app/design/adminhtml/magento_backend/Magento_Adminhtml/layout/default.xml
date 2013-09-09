@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <!--
 /**
  * {license_notice}
@@ -7,32 +7,71 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="head">
-            <action method="addCss"><file>mui/reset.css</file></action>
-            <action method="addCss"><file>mui/base.css</file></action>
-            <action method="addCss"><file>mui/elements.css</file></action>
-            <action method="addCss"><file>mui/form.css</file></action>
-            <action method="addCss"><file>mui/components.css</file></action>
-            <action method="addCss"><file>css/admin.css</file></action>
-            <action method="addCss"><file>jquery/farbtastic/css/farbtastic.css</file></action>
-            <action method="addCss"><file>css/header.css</file></action>
-            <action method="addCss"><file>css/pages.css</file></action>
-            <action method="addCss"><file>mui/utils.css</file></action>
-            <action method="addCss"><file>Magento_Core::prototype/magento.css</file></action>
-
-            <action method="addCss"><file>css/debug.css</file></action> <!-- temporary to debug -->
-
-            <action method="addCss"><file>mui/print.css</file><params>media="print"</params></action>
-
-            <action method="addJs"><file>lib/modernizr.js</file></action>
-            <action method="addJs"><file>js/head.js</file></action>
-            <action method="addJs"><file>mage/dropdown.js</file></action>
-            <action method="addJs"><file>jquery/jquery.tabs.js</file></action>
-            <action method="addJs"><file>jquery/farbtastic/jquery.farbtastic.js</file></action>
-            <action method="addJs"><file>js/theme.js</file></action>
-            <action method="addJs"><file>js/jquery.details.js</file></action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">mui/reset.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">mui/base.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">mui/elements.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">mui/form.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">mui/components.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">css/admin.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">jquery/farbtastic/css/farbtastic.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">css/header.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">css/pages.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">mui/utils.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
+            </action>
+            <action method="addCss">
+                <argument name="file" xsi:type="string">css/debug.css</argument>
+            </action>
+            <!-- temporary to debug -->
+            <action method="addCss">
+                <argument name="file" xsi:type="string">mui/print.css</argument>
+                <argument name="params" xsi:type="string">media="print"</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">lib/modernizr.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">js/head.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">mage/dropdown.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/jquery.tabs.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">jquery/farbtastic/jquery.farbtastic.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">js/theme.js</argument>
+            </action>
+            <action method="addJs">
+                <argument name="file" xsi:type="string">js/jquery.details.js</argument>
+            </action>
         </reference>
-    </default>
+    </handle>
 </layout>

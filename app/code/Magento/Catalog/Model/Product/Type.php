@@ -39,9 +39,9 @@ class Magento_Catalog_Model_Product_Type
     const DEFAULT_PRICE_MODEL   = 'Magento_Catalog_Model_Product_Type_Price';
 
     /**
-     * @var Magento_Core_Model_Config_Modules
+     * @var Magento_Core_Model_Config
      */
-    protected $_configModules;
+    protected $_config;
 
     /**
      * Product types
@@ -72,11 +72,11 @@ class Magento_Catalog_Model_Product_Type
     protected $_typesPriority;
 
     /**
-     * @param Magento_Core_Model_Config_Modules $configModules
+     * @param Magento_Core_Model_Config $config
      */
-    public function __construct(Magento_Core_Model_Config_Modules $configModules)
+    public function __construct(Magento_Core_Model_Config $config)
     {
-        $this->_configModules = $configModules;
+        $this->_config = $config;
     }
 
     /**
@@ -208,7 +208,7 @@ class Magento_Catalog_Model_Product_Type
     public function getTypes()
     {
         if (is_null($this->_types)) {
-            $productTypes = $this->_configModules->getNode('global/catalog/product/type')->asArray();
+            $productTypes = $this->_config->getNode('global/catalog/product/type')->asArray();
             foreach ($productTypes as $productKey => $productConfig) {
                 $productTypes[$productKey]['label'] = __($productConfig['label']);
             }

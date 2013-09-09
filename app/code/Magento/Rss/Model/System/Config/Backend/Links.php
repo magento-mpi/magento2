@@ -12,7 +12,7 @@
  * Cache cleaner backend model
  *
  */
-class Magento_Rss_Model_System_Config_Backend_Links extends Magento_Core_Model_Config_Data
+class Magento_Rss_Model_System_Config_Backend_Links extends Magento_Core_Model_Config_Value
 {
     /**
      * @var Magento_Core_Model_Cache_TypeListInterface

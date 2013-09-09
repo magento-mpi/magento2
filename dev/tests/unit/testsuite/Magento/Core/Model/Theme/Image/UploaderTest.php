@@ -85,7 +85,7 @@ class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_Test
                 'isValid'               => true,
                 'checkAllowedExtension' => true,
                 'save'                  => true,
-                'result'                => '/tmp/test_filename',
+                'result'                => '/tmp' . DIRECTORY_SEPARATOR . 'test_filename',
                 'exception'             => null
             ),
             array(

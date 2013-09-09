@@ -18,16 +18,6 @@
                 </setup>
             </reports_setup>
         </resources>
-        <events>
-            <log_log_clean_after>
-                <observers>
-                    <reports>
-                        <class>Magento_Reports_Model_Event_Observer</class>
-                        <method>eventClean</method>
-                    </reports>
-                </observers>
-            </log_log_clean_after>
-        </events>
     </global>
     <adminhtml>
         <translate>
@@ -50,88 +40,6 @@
                 </Magento_Reports>
             </modules>
         </translate>
-        <events>
-            <catalog_product_compare_remove_product>
-                <observers>
-                    <reports>
-                        <class>Magento_Reports_Model_Event_Observer</class>
-                        <method>catalogProductCompareRemoveProduct</method>
-                    </reports>
-                </observers>
-            </catalog_product_compare_remove_product>
-            <customer_login>
-                <observers>
-                    <reports>
-                        <class>Magento_Reports_Model_Event_Observer</class>
-                        <method>customerLogin</method>
-                    </reports>
-                </observers>
-            </customer_login>
-            <customer_logout>
-                <observers>
-                    <reports>
-                        <class>Magento_Reports_Model_Event_Observer</class>
-                        <method>customerLogout</method>
-                    </reports>
-                </observers>
-            </customer_logout>
-            <catalog_controller_product_view>
-                <observers>
-                    <reports>
-                        <class>Magento_Reports_Model_Event_Observer</class>
-                        <method>catalogProductView</method>
-                    </reports>
-                </observers>
-            </catalog_controller_product_view>
-            <sendfriend_product>
-                <observers>
-                    <reports>
-                        <class>Magento_Reports_Model_Event_Observer</class>
-                        <method>sendfriendProduct</method>
-                    </reports>
-                </observers>
-            </sendfriend_product>
-            <catalog_product_compare_add_product>
-                <observers>
-                    <reports>
-                        <class>Magento_Reports_Model_Event_Observer</class>
-                        <method>catalogProductCompareAddProduct</method>
-                    </reports>
-                </observers>
-            </catalog_product_compare_add_product>
-            <catalog_product_compare_item_collection_clear>
-                <observers>
-                    <reports>
-                        <class>Magento_Reports_Model_Event_Observer</class>
-                        <method>catalogProductCompareClear</method>
-                    </reports>
-                </observers>
-            </catalog_product_compare_item_collection_clear>
-            <sales_quote_item_save_before>
-                <observers>
-                    <reports>
-                        <class>Magento_Reports_Model_Event_Observer</class>
-                        <method>checkoutCartAddProduct</method>
-                    </reports>
-                </observers>
-            </sales_quote_item_save_before>
-            <wishlist_add_product>
-                <observers>
-                    <reports>
-                        <class>Magento_Reports_Model_Event_Observer</class>
-                        <method>wishlistAddProduct</method>
-                    </reports>
-                </observers>
-            </wishlist_add_product>
-            <wishlist_share>
-                <observers>
-                    <reports>
-                        <class>Magento_Reports_Model_Event_Observer</class>
-                        <method>wishlistShare</method>
-                    </reports>
-                </observers>
-            </wishlist_share>
-        </events>
     </frontend>
     <default>
         <catalog>
@@ -148,4 +56,4 @@
             </dashboard>
         </reports>
     </default>
-</config>
+</config>

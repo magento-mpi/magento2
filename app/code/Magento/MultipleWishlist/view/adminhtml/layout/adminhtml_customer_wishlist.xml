@@ -7,22 +7,22 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_customer_wishlist>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_customer_wishlist">
         <reference name="customer.wishlist.edit.tab">
             <arguments>
-                <dataSource>
+                <argument name="dataSource" xsi:type="object">
                     <updater>Magento_MultipleWishlist_Model_Resource_Item_Collection_Updater</updater>
-                </dataSource>
+                </argument>
             </arguments>
             <reference name="customer.wishlist.edit.tab.columnSet">
-                <block type="Magento_Backend_Block_Widget_Grid_Column" as="wishlist_name" before="-">
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="wishlist_name" before="-">
                     <arguments>
-                        <header translate="true">Wishlist</header>
-                        <index>wishlist_name</index>
+                        <argument name="header" xsi:type="string" translate="true">Wishlist</argument>
+                        <argument name="index" xsi:type="string">wishlist_name</argument>
                     </arguments>
                 </block>
             </reference>
         </reference>
-    </adminhtml_customer_wishlist>
+    </handle>
 </layout>

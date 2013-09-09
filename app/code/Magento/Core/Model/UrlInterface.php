@@ -24,7 +24,7 @@ interface Magento_Core_Model_UrlInterface
      */
     const XML_PATH_UNSECURE_URL     = 'web/unsecure/base_url';
     const XML_PATH_SECURE_URL       = 'web/secure/base_url';
-    const XML_PATH_SECURE_IN_ADMIN  = 'default/web/secure/use_in_adminhtml';
+    const XML_PATH_SECURE_IN_ADMIN  = 'web/secure/use_in_adminhtml';
     const XML_PATH_SECURE_IN_FRONT  = 'web/secure/use_in_frontend';
 
     /**

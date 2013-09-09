@@ -20,16 +20,11 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
     {
         $options = array(
             'areaCode' => 'frontend',
-            'baseController' => 'Magento_Core_Controller_Front_Action'
+            'baseController' => 'Magento_Core_Controller_Front_Action',
+            'routerId' => 'standard'
         );
         $this->_model = Mage::getModel('Magento_Core_Controller_Varien_Router_Base', $options);
         $this->_model->setFront(Mage::getModel('Magento_Core_Controller_Varien_Front'));
-    }
-
-    public function testCollectRoutes()
-    {
-        $this->_model->collectRoutes('frontend', 'standard');
-        $this->assertEquals('catalog', $this->_model->getFrontNameByRoute('catalog'));
     }
 
     public function testFetchDefault()
@@ -51,9 +46,7 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
         }
 
         $request = new Magento_Test_Request();
-        $this->assertNull($this->_model->match($request));
 
-        $this->_model->collectRoutes('frontend', 'standard');
         $this->assertInstanceOf('Magento_Core_Controller_Varien_Action', $this->_model->match($request));
         $request->setRequestUri('core/index/index');
         $this->assertInstanceOf('Magento_Core_Controller_Varien_Action', $this->_model->match($request));
@@ -66,22 +59,15 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @covers Magento_Core_Controller_Varien_Router_Base::addModule
      * @covers Magento_Core_Controller_Varien_Router_Base::getModulesByFrontName
      * @covers Magento_Core_Controller_Varien_Router_Base::getRouteByFrontName
      * @covers Magento_Core_Controller_Varien_Router_Base::getFrontNameByRoute
      */
-    public function testAddModuleAndGetters()
+    public function testGetters()
     {
-        $this->_model->addModule('test_front', 'test_name', 'test_route');
-        $this->assertEquals(array('test_name'), $this->_model->getModulesByFrontName('test_front'));
-        $this->assertEquals('test_route', $this->_model->getRouteByFrontName('test_front'));
-        $this->assertEquals('test_front', $this->_model->getFrontNameByRoute('test_route'));
-    }
-
-    public function testGetModuleByName()
-    {
-        $this->assertTrue($this->_model->getModuleByName('test', array('test')));
+        $this->assertEquals(array('Magento_Catalog'), $this->_model->getModulesByFrontName('catalog'));
+        $this->assertEquals('cms', $this->_model->getRouteByFrontName('cms'));
+        $this->assertEquals('cms', $this->_model->getFrontNameByRoute('cms'));
     }
 
     public function testGetControllerClassName()

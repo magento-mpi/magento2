@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <catalog_category_view_type_layered>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalog_category_view_type_layered">
         <reference name="content">
             <remove name="catalog.leftnav"/>
-            <block type="Magento_Search_Block_Catalog_Layer_View" name="enterprisecatalog.leftnav" after="-" template="Magento_Catalog::layer/view.phtml"/>
+            <block class="Magento_Search_Block_Catalog_Layer_View" name="enterprisecatalog.leftnav" after="-" template="Magento_Catalog::layer/view.phtml"/>
         </reference>
-    </catalog_category_view_type_layered>
+    </handle>
 </layout>

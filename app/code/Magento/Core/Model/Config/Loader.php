@@ -10,47 +10,43 @@
 class Magento_Core_Model_Config_Loader implements Magento_Core_Model_Config_LoaderInterface
 {
     /**
-     * Modules configuration object
+     * Primary application configuration
      *
-     * @var Magento_Core_Model_Config_Modules
+     * @var Magento_Core_Model_Config_Primary
      */
-    protected $_modulesConfig;
+    protected $_primaryConfig;
 
     /**
-     * Modules configuration object
-     *
-     * @var Magento_Core_Model_Config_Locales
+     * @var Magento_Core_Model_Config_Resource
      */
-    protected $_localesConfig;
+    protected $_resourceConfig;
 
     /**
-     * Database configuration loader
-     *
-     * @var Magento_Core_Model_Config_Loader_Db
+     * @var Magento_Core_Model_Config_Modules_Reader
      */
-    protected $_dbLoader;
+    protected $_fileReader;
 
     /**
-     * @var Magento_Core_Model_Config_BaseFactory
+     * @var Magento_Core_Model_Config_Loader_Local
      */
-    protected $_configFactory;
+    protected $_localLoader;
 
     /**
-     * @param Magento_Core_Model_Config_Modules $config
-     * @param Magento_Core_Model_Config_Locales $localesConfig
-     * @param Magento_Core_Model_Config_Loader_Db $dbLoader
-     * @param Magento_Core_Model_Config_BaseFactory $factory
+     * @param Magento_Core_Model_Config_Primary $primaryConfig
+     * @param Magento_Core_Model_Config_Resource $resourceConfig
+     * @param Magento_Core_Model_Config_Modules_Reader $fileReader
+     * @param Magento_Core_Model_Config_Loader_Local $localLoader
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules $config,
-        Magento_Core_Model_Config_Locales $localesConfig,
-        Magento_Core_Model_Config_Loader_Db $dbLoader,
-        Magento_Core_Model_Config_BaseFactory $factory
+        Magento_Core_Model_Config_Primary $primaryConfig,
+        Magento_Core_Model_Config_Resource $resourceConfig,
+        Magento_Core_Model_Config_Modules_Reader $fileReader,
+        Magento_Core_Model_Config_Loader_Local $localLoader
     ) {
-        $this->_modulesConfig = $config;
-        $this->_localesConfig = $localesConfig;
-        $this->_dbLoader = $dbLoader;
-        $this->_configFactory = $factory;
+        $this->_primaryConfig = $primaryConfig;
+        $this->_resourceConfig = $resourceConfig;
+        $this->_fileReader = $fileReader;
+        $this->_localLoader = $localLoader;
     }
 
     /**
@@ -60,8 +56,27 @@ class Magento_Core_Model_Config_Loader implements Magento_Core_Model_Config_Load
      */
     public function load(Magento_Core_Model_Config_Base $config)
     {
-        $config->extend($this->_configFactory->create($this->_modulesConfig->getNode()));
-        $this->_dbLoader->load($config);
-        $config->extend($this->_configFactory->create($this->_localesConfig->getNode()));
+        if (!$config->getNode()) {
+            $config->loadString('<config></config>');
+        }
+
+        Magento_Profiler::start('config');
+        Magento_Profiler::start('load_modules');
+
+        $config->extend($this->_primaryConfig);
+
+        Magento_Profiler::start('load_modules_configuration');
+
+        $resourceConfig = sprintf('config.%s.xml', $this->_resourceConfig->getResourceConnectionModel('core'));
+        $this->_fileReader->loadModulesConfiguration(array('config.xml', $resourceConfig), $config);
+        Magento_Profiler::stop('load_modules_configuration');
+
+        // Prevent local configuration overriding
+        $this->_localLoader->load($config);
+
+        $config->applyExtends();
+
+        Magento_Profiler::stop('load_modules');
+        Magento_Profiler::stop('config');
     }
 }

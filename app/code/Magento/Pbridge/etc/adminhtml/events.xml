@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="admin_system_config_changed_section_payment">
+        <observer name="magento_pbridge" instance="Magento_Pbridge_Model_Observer" method="updatePaymentProfileStatus" />
+    </event>
+</config>

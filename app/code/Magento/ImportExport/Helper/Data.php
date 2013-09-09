@@ -31,12 +31,12 @@ class Magento_ImportExport_Helper_Data extends Magento_Core_Helper_Data
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config_Modules $config
+     * @param Magento_Core_Model_Config $config
      * @param Magento_File_Size $fileSize
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config_Modules $config,
+        Magento_Core_Model_Config $config,
         Magento_File_Size $fileSize
     ) {
         $this->_fileSize = $fileSize;

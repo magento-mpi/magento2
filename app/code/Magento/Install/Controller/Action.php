@@ -61,8 +61,7 @@ class Magento_Install_Controller_Action extends Magento_Core_Controller_Varien_A
     {
         $areaCode = $this->getLayout()->getArea();
         $area = Mage::app()->getArea($areaCode);
-        $area->load(Magento_Core_Model_App_Area::PART_CONFIG)
-            ->load(Magento_Core_Model_App_Area::PART_EVENTS);
+        $area->load(Magento_Core_Model_App_Area::PART_CONFIG);
         $this->_initDefaultTheme($areaCode);
         $area->detectDesign($this->getRequest());
         $area->load(Magento_Core_Model_App_Area::PART_TRANSLATE);

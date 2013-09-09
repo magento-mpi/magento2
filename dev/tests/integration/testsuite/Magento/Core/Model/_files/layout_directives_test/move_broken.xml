@@ -8,7 +8,9 @@
  */
 -->
 <layout>
-    <container name="container1" label="Container 1"/>
-    <move element="no_name3"/>
-    <block type="Magento_Core_Block_Text" name="no_name3"/>
+    <handle id="move_broken">
+        <container name="container1" label="Container 1"/>
+        <move element="no_name3"/>
+        <block class="Magento_Core_Block_Text" name="no_name3"/>
+    </handle>
 </layout>

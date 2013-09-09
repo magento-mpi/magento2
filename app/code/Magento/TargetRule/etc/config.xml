@@ -28,32 +28,6 @@
         </index>
     </global>
     <adminhtml>
-        <events>
-            <catalog_product_save_after>
-                <observers>
-                    <magento_targetrule>
-                        <class>Magento_TargetRule_Model_Observer</class>
-                        <method>catalogProductAfterSave</method>
-                    </magento_targetrule>
-                </observers>
-            </catalog_product_save_after>
-            <catalog_product_save_commit_after>
-                <observers>
-                    <magento_targetrule>
-                        <class>Magento_TargetRule_Model_Observer</class>
-                        <method>catalogProductSaveCommitAfter</method>
-                    </magento_targetrule>
-                </observers>
-            </catalog_product_save_commit_after>
-            <core_config_data_save_commit_after>
-                <observers>
-                    <magento_targetrule>
-                        <class>Magento_TargetRule_Model_Observer</class>
-                        <method>coreConfigSaveCommitAfter</method>
-                    </magento_targetrule>
-                </observers>
-            </core_config_data_save_commit_after>
-        </events>
         <translate>
             <modules>
                 <Magento_TargetRule>
@@ -64,17 +38,6 @@
             </modules>
         </translate>
     </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Magento_TargetRule before="Magento_Adminhtml">Magento_TargetRule_Adminhtml</Magento_TargetRule>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <catalog>
             <magento_targetrule>
@@ -102,4 +65,4 @@
             </magento_targetrule_index_reindex>
         </jobs>
     </crontab>
-</config>
+</config>

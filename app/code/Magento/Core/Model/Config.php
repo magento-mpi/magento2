@@ -10,7 +10,6 @@
 
 
 /**
- * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -45,48 +44,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     protected $_secureUrlCache = array();
 
     /**
-     * Configuration data model
-     *
-     * @var Magento_Core_Model_Config_Data
-     */
-    protected $_configDataModel;
-
-    /**
-     * Configuration for events by area
-     *
-     * @var array
-     */
-    protected $_eventAreas;
-
-    /**
-     * Flag cache for existing or already created directories
-     *
-     * @var array
-     */
-    protected $_dirExists = array();
-
-    /**
-     * Flach which allow using cache for config initialization
-     *
-     * @var bool
-     */
-    protected $_allowCacheForInit = true;
-
-    /**
-     * Property used during cache save process
-     *
-     * @var array
-     */
-    protected $_cachePartsForSave = array();
-
-    /**
-     * Empty configuration object for loading and merging configuration parts
-     *
-     * @var Magento_Core_Model_Config_Base
-     */
-    protected $_prototype;
-
-    /**
      * Active modules array per namespace
      *
      * @var array
@@ -99,13 +56,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      * @var array
      */
     protected $_allowedAreas = null;
-
-    /**
-     * Current area code
-     *
-     * @var string
-     */
-    protected $_currentAreaCode = null;
 
     /**
      * Object manager
@@ -129,23 +79,11 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     protected $_config;
 
     /**
-     * Application object
-     *
-     * @var Magento_Core_Model_AppInterface
-     */
-    protected $_app;
-
-    /**
      * Module configuration reader
      *
      * @var Magento_Core_Model_Config_Modules_Reader
      */
     protected $_moduleReader;
-
-    /**
-     * @var Magento_Core_Model_Config_InvalidatorInterface
-     */
-    protected $_invalidator;
 
     /**
      * @var Magento_Config_ScopeInterface
@@ -158,40 +96,39 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     protected $_moduleList;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var Magento_Core_Model_Config_SectionPool
      */
-    protected $_httpRequest;
+    protected $_sectionPool;
+
+    /**
+     * @var Magento_Core_Model_Resource_Store_Collection
+     */
+    protected $_storeCollection;
 
     /**
      * @param Magento_Core_Model_ObjectManager $objectManager
      * @param Magento_Core_Model_Config_StorageInterface $storage
-     * @param Magento_Core_Model_AppInterface $app
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Config_InvalidatorInterface $invalidator
      * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Core_Controller_Request_Http $httpRequest
+     * @param Magento_Core_Model_Config_SectionPool $sectionPool
      */
     public function __construct(
         Magento_Core_Model_ObjectManager $objectManager,
         Magento_Core_Model_Config_StorageInterface $storage,
-        Magento_Core_Model_AppInterface $app,
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Config_InvalidatorInterface $invalidator,
         Magento_Config_ScopeInterface $configScope,
-        Magento_Core_Controller_Request_Http $httpRequest
+        Magento_Core_Model_Config_SectionPool $sectionPool
     ) {
         Magento_Profiler::start('config_load');
         $this->_objectManager = $objectManager;
-        $this->_app = $app;
         $this->_storage = $storage;
         $this->_config = $this->_storage->getConfiguration();
         $this->_moduleReader = $moduleReader;
         $this->_moduleList = $moduleList;
-        $this->_invalidator = $invalidator;
         $this->_configScope = $configScope;
-        $this->_httpRequest = $httpRequest;
+        $this->_sectionPool = $sectionPool;
         Magento_Profiler::stop('config_load');
     }
 
@@ -206,20 +143,9 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         $nodeAreas = $this->getNode('global/areas');
         if (is_object($nodeAreas)) {
             foreach ($nodeAreas->asArray() as $areaCode => $areaInfo) {
-                if (empty($areaCode)
-                    || (!isset($areaInfo['base_controller']) || empty($areaInfo['base_controller']))
-                ) {
+                if (empty($areaCode)) {
                     continue;
                 }
-                /**
-                 * TODO: Check of 'routers' nodes existance is excessive:
-                 * TODO: 'routers' check is moved Magento_Core_Model_Config::getRouters()
-                 */
-
-                /**
-                 * TODO: Routers are not required in API.
-                 * TODO: That is why Check for empty router class moved to Magento_Core_Model_Config::getRouters()
-                 */
                 $this->_allowedAreas[$areaCode] = $areaInfo;
             }
         }
@@ -228,49 +154,41 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     }
 
     /**
-     * Returns nodes found by xpath expression
-     *
-     * @param string $xpath
-     * @return array
-     */
-    public function getXpath($xpath)
-    {
-        return $this->_config->getXpath($xpath);
-    }
-
-    /**
      * Returns node found by the $path and scope info
      *
      * @param   string $path
-     * @param   string $scope
-     * @param   string|int $scopeCode
      * @return Magento_Core_Model_Config_Element
+     * @deprecated
      */
-    public function getNode($path = null, $scope = '', $scopeCode = null)
+    public function getNode($path = null)
     {
-        if ($scope !== '') {
-            if (('store' === $scope) || ('website' === $scope)) {
-                $scope .= 's';
-            }
-            if (('default' !== $scope) && is_int($scopeCode)) {
-                if ('stores' == $scope) {
-                    $scopeCode = $this->_app->getStore($scopeCode)->getCode();
-                } elseif ('websites' == $scope) {
-                    $scopeCode = $this->_app->getWebsite($scopeCode)->getCode();
-                } else {
-                    Mage::throwException(
-                        __('Unknown scope "%1".', $scope)
-                    );
-                }
-            }
-            $path = $scope . ($scopeCode ? '/' . $scopeCode : '' ) . (empty($path) ? '' : '/' . $path);
-        }
-        try {
-            return $this->_config->getNode($path);
-        } catch (Magento_Core_Model_Config_Cache_Exception $e) {
-            $this->reinit();
-            return $this->_config->getNode($path);
-        }
+        return $this->_config->getNode($path);
+    }
+
+    /**
+     * Retrieve config value by path and scope
+     *
+     * @param string $path
+     * @param string $scope
+     * @param string $scopeCode
+     * @return mixed
+     */
+    public function getValue($path = null, $scope = 'default', $scopeCode = null)
+    {
+        return $this->_sectionPool->getSection($scope, $scopeCode)->getValue($path);
+    }
+
+    /**
+     * Set config value in the corresponding config scope
+     *
+     * @param string $path
+     * @param mixed $value
+     * @param string $scope
+     * @param null|string $scopeCode
+     */
+    public function setValue($path, $value, $scope = 'default', $scopeCode = null)
+    {
+        $this->_sectionPool->getSection($scope, $scopeCode)->setValue($path, $value);
     }
 
     /**
@@ -282,12 +200,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      */
     public function setNode($path, $value, $overwrite = true)
     {
-        try {
-            $this->_config->setNode($path, $value, $overwrite);
-        } catch (Magento_Core_Model_Config_Cache_Exception $e) {
-            $this->reinit();
-            $this->_config->setNode($path, $value, $overwrite);
-        }
+        $this->_config->setNode($path, $value, $overwrite);
     }
 
     /**
@@ -315,7 +228,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         $areaCode = empty($areaCode) ? $this->_configScope->getCurrentScope() : $areaCode;
         $areas = $this->getAreas();
         if (!isset($areas[$areaCode])) {
-            throw new InvalidArgumentException('Requested area (' . $areaCode . ') doesn\'t exist');
+            throw new InvalidArgumentException('Requested area (' . $areaCode . ') does not exist');
         }
         return $areas[$areaCode];
     }
@@ -338,30 +251,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
             ));
         }
         return $areaConfig['frontName'];
-    }
-
-    /**
-     * Get routers from config
-     *
-     * @return array
-     */
-    public function getRouters()
-    {
-        $routers = array();
-        foreach ($this->getAreas() as $areaCode => $areaInfo) {
-            if (isset($areaInfo['routers']) && is_array($areaInfo['routers'])) {
-                foreach ($areaInfo['routers'] as $routerKey => $routerInfo ) {
-                    if (!isset($routerInfo['class']) || empty($routerInfo['class'])) {
-                        continue;
-                    }
-                    $routerInfo = array_merge($routerInfo, $areaInfo);
-                    unset($routerInfo['routers']);
-                    $routerInfo['area'] = $areaCode;
-                    $routers[$routerKey] = $routerInfo;
-                }
-            }
-        }
-        return $routers;
     }
 
     /**
@@ -397,48 +286,44 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      *
      * return array($storeId => $pathValue)
      *
-     * @param   string $path
-     * @param   array  $allowValues
-     * @param   string $useAsKey
-     * @return  array
+     * @param string $path
+     * @param array $allowedValues
+     * @param string $keyAttribute
+     * @return array
+     * @throws InvalidArgumentException
      */
-    public function getStoresConfigByPath($path, $allowValues = array(), $useAsKey = 'id')
+    public function getStoresConfigByPath($path, $allowedValues = array(), $keyAttribute = 'id')
     {
+        // @todo inject custom store collection that corresponds to the following requirements
+        if (is_null($this->_storeCollection)) {
+            $this->_storeCollection = $this->_objectManager->create('Magento_Core_Model_Resource_Store_Collection');
+            $this->_storeCollection->setLoadDefault(true);
+        }
         $storeValues = array();
-        $stores = $this->getNode('stores');
-        /** @var $store Magento_Simplexml_Element */
-        foreach ($stores->children() as $code => $store) {
-            switch ($useAsKey) {
+        /** @var $store Magento_Core_Model_Store */
+        foreach ($this->_storeCollection as $store) {
+            switch ($keyAttribute) {
                 case 'id':
-                    $key = (int)$store->descend('system/store/id');
+                    $key = $store->getId();
                     break;
-
                 case 'code':
-                    $key = $code;
+                    $key = $store->getCode();
                     break;
-
                 case 'name':
-                    $key = (string) $store->descend('system/store/name');
+                    $key = $store->getName();
                     break;
-
                 default:
-                    $key = false;
+                    throw new InvalidArgumentException("'{$keyAttribute}' cannot be used as a key.");
                     break;
             }
 
-            if ($key === false) {
-                continue;
-            }
-
-            $pathValue = (string)$store->descend($path);
-
-            if (empty($allowValues)) {
-                $storeValues[$key] = $pathValue;
-            } elseif (in_array($pathValue, $allowValues)) {
-                $storeValues[$key] = $pathValue;
+            $value = $this->getValue($path, 'store', $store->getCode());
+            if (empty($allowedValues)) {
+                $storeValues[$key] = $value;
+            } elseif (in_array($value, $allowedValues)) {
+                $storeValues[$key] = $value;
             }
         }
-
         return $storeValues;
     }
 
@@ -484,30 +369,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
             }
         }
         return $this->_secureUrlCache[$url];
-    }
-
-    /**
-     * Get website instance base url
-     *
-     * @return string
-     */
-    public function getDistroBaseUrl()
-    {
-        if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
-            $secure = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off'))
-                || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443');
-            $scheme = ($secure ? 'https' : 'http') . '://' ;
-
-            $hostArr = explode(':', $_SERVER['HTTP_HOST']);
-            $host = $hostArr[0];
-            $port = isset($hostArr[1]) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443)
-                ? ':'. $hostArr[1]
-                : '';
-            $path = $this->_httpRequest->getBasePath();
-
-            return $scheme . $host . $port . rtrim($path, '/') . '/';
-        }
-        return 'http://localhost/';
     }
 
     /**
@@ -559,46 +420,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      */
     public function reinit()
     {
-        $this->removeCache();
-        $this->_invalidator->invalidate();
-        $this->_config = $this->_storage->getConfiguration();
-        $this->_cacheInstanceId = null;
-    }
-
-    /**
-     * Get model class instance.
-     *
-     * Example:
-     * $config->getModelInstance('Magento_Catalog_Model_Resource_Product')
-     *
-     * Will instantiate Magento_Catalog_Model_Resource_Product
-     *
-     * @param string $modelClass
-     * @param array|object $constructArguments
-     * @return Magento_Core_Model_Abstract|bool
-     */
-    public function getModelInstance($modelClass = '', $constructArguments = array())
-    {
-        if (class_exists($modelClass)) {
-            Magento_Profiler::start('FACTORY:' . $modelClass);
-            $obj = $this->_objectManager->create($modelClass, $constructArguments);
-            Magento_Profiler::stop('FACTORY:' . $modelClass);
-            return $obj;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Get resource model object by alias
-     *
-     * @param   string $modelClass
-     * @param   array $constructArguments
-     * @return  object
-     */
-    public function getResourceModelInstance($modelClass = '', $constructArguments=array())
-    {
-        return $this->getModelInstance($modelClass, $constructArguments);
+        $this->_sectionPool->clean();
     }
 
     /**
@@ -610,5 +432,15 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         $eventManager = $this->_objectManager->get('Magento_Core_Model_Event_Manager');
         $eventManager->dispatch('application_clean_cache', array('tags' => array(self::CACHE_TAG)));
         $this->_storage->removeCache();
+    }
+
+    /**
+     * Reload xml configuration data
+     * @deprecated must be removed after Installation logic is removed from application
+     */
+    public function reloadConfig()
+    {
+        $this->_storage->removeCache();
+        $this->_config = $this->_storage->getConfiguration();
     }
 }

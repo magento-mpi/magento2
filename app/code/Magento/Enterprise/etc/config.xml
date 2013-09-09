@@ -28,16 +28,6 @@
         </design>
     </frontend>
     <adminhtml>
-        <events>
-            <backend_auth_user_login_success>
-                <observers>
-                    <magento_enterprise>
-                        <class>Magento_Enterprise_Model_Observer</class>
-                        <method>setHideSurveyQuestion</method>
-                    </magento_enterprise>
-                </observers>
-            </backend_auth_user_login_success>
-        </events>
         <design>
             <theme>
                 <full_name>magento_backend</full_name>
@@ -46,16 +36,6 @@
     </adminhtml>
     <install>
         <eula_file>LICENSE_EE.html</eula_file>
-        <events>
-            <controller_action_predispatch_install>
-                <observers>
-                    <enterprise_install>
-                        <class>Magento_Enterprise_Model_Observer_Install</class>
-                        <method>setDesignTheme</method>
-                    </enterprise_install>
-                </observers>
-            </controller_action_predispatch_install>
-        </events>
         <design>
             <theme>
                 <full_name>magento_enterprise</full_name>

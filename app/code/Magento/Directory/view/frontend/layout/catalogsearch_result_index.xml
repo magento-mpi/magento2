@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <catalogsearch_result_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="catalogsearch_result_index">
         <reference name="left">
-            <block type="Magento_Directory_Block_Currency" name="currency" before="-" template="currency.phtml"/>
+            <block class="Magento_Directory_Block_Currency" name="currency" before="-" template="currency.phtml"/>
         </reference>
-    </catalogsearch_result_index>
+    </handle>
 </layout>

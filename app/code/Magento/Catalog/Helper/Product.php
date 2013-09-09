@@ -493,8 +493,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     public function getFieldsAutogenerationMasks()
     {
         return Mage::getConfig()
-            ->getNode(Magento_Catalog_Helper_Product::XML_PATH_AUTO_GENERATE_MASK, 'default')
-            ->asArray();
+            ->getValue(Magento_Catalog_Helper_Product::XML_PATH_AUTO_GENERATE_MASK, 'default');
     }
 
     /**

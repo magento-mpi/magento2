@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_order_view>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_order_view">
         <reference name="order_totals">
-            <block type="Magento_GiftCardAccount_Block_Sales_Order_Giftcards" name="giftcards" template="order/giftcards.phtml"/>
+            <block class="Magento_GiftCardAccount_Block_Sales_Order_Giftcards" name="giftcards" template="order/giftcards.phtml"/>
         </reference>
-    </sales_order_view>
+    </handle>
 </layout>

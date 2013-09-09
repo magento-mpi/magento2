@@ -7,42 +7,42 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_index">
         <reference name="checkout.onepage.payment.methods_additional">
-            <block type="Magento_Reward_Block_Checkout_Payment_Additional" template="checkout/onepage/payment/additional.phtml" name="reward.points" before="-"/>
+            <block class="Magento_Reward_Block_Checkout_Payment_Additional" template="checkout/onepage/payment/additional.phtml" name="reward.points" before="-"/>
         </reference>
         <reference name="checkout.onepage.login.before">
-            <block type="Magento_Reward_Block_Tooltip_Checkout" name="reward.tooltip.checkout" template="tooltip.phtml">
+            <block class="Magento_Reward_Block_Tooltip_Checkout" name="reward.tooltip.checkout" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <type>Magento_Reward_Model_Action_OrderExtra</type>
+                    <argument name="type" xsi:type="string">Magento_Reward_Model_Action_OrderExtra</argument>
                 </action>
                 <action method="setWrapperClass">
-                    <class>reward-checkout</class>
+                    <argument name="class" xsi:type="string">reward-checkout</argument>
                 </action>
-                <action method="setRewardMessage" translate="message">
-                    <message>Log in now and earn %1 for this order.</message>
+                <action method="setRewardMessage">
+                    <argument translate="true" name="message" xsi:type="string">Log in now and earn %1 for this order.</argument>
                 </action>
                 <action method="setIsGuestNote">
-                    <value>1</value>
+                    <argument name="value" xsi:type="string">1</argument>
                 </action>
             </block>
         </reference>
         <reference name="checkout.onepage.login.before">
-            <block type="Magento_Reward_Block_Tooltip_Checkout" name="reward.tooltip.checkout.salesrule" template="tooltip.phtml">
+            <block class="Magento_Reward_Block_Tooltip_Checkout" name="reward.tooltip.checkout.salesrule" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <type>Magento_Reward_Model_Action_Salesrule</type>
+                    <argument name="type" xsi:type="string">Magento_Reward_Model_Action_Salesrule</argument>
                 </action>
                 <action method="setWrapperClass">
-                    <class>reward-checkout</class>
+                    <argument name="class" xsi:type="string">reward-checkout</argument>
                 </action>
-                <action method="setRewardMessage" translate="message">
-                    <message>Log in now and earn %1 for this order.</message>
+                <action method="setRewardMessage">
+                    <argument translate="true" name="message" xsi:type="string">Log in now and earn %1 for this order.</argument>
                 </action>
                 <action method="setIsGuestNote">
-                    <value>1</value>
+                    <argument name="value" xsi:type="string">1</argument>
                 </action>
             </block>
         </reference>
-    </checkout_onepage_index>
+    </handle>
 </layout>
