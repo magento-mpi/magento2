@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_CustomerSegment_Model_Plugin_SalesRuleConditionCombineTest extends PHPUnit_Framework_TestCase
 {
     /**
