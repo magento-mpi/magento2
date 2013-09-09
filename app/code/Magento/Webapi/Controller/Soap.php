@@ -114,7 +114,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     /**
      * Set body and status code to response using information extracted from provided exception.
      *
-     * @param Magento_Webapi_Exception $exception
+     * @param Exception $exception
      */
     protected function _prepareErrorResponse($exception)
     {

@@ -68,18 +68,13 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
     public function generate($requestedServices, $endPointUrl)
     {
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedServices));
-        if ($this->_cache->canUse(Magento_Webapi_Model_Config::CACHE_ID)) {
-            $cachedWsdlContent = $this->_cache->load($cacheId);
-            if ($cachedWsdlContent !== false) {
-                return $cachedWsdlContent;
-            }
+        $cachedWsdlContent = $this->_cache->load($cacheId);
+        if ($cachedWsdlContent !== false) {
+            return $cachedWsdlContent;
         }
 
         $wsdlContent = $this->_generate($requestedServices, $endPointUrl);
-
-        if ($this->_cache->canUse(Magento_Webapi_Model_Config::CACHE_ID)) {
-            $this->_cache->save($wsdlContent, $cacheId, array(Magento_Webapi_Model_Config::CACHE_TAG));
-        }
+        $this->_cache->save($wsdlContent, $cacheId, array(Magento_Webapi_Model_Config::CACHE_TAG));
 
         return $wsdlContent;
     }

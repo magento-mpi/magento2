@@ -203,8 +203,9 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Co
     protected function _validateUserData($user)
     {
         $group = $user->isObjectNew() ? 'create' : 'update';
-        $validator = $this->_objectManager->get('Magento_Core_Model_Validator_Factory')
-            ->createValidator('api_user', $group);
+        /** @var Magento_Core_Model_Validator_Factory $validatorFactory */
+        $validatorFactory = $this->_objectManager->get('Magento_Core_Model_Validator_Factory');
+        $validator = $validatorFactory->createValidator('api_user', $group);
         if (!$validator->isValid($user)) {
             throw new Magento_Validator_Exception($validator->getMessages());
         }

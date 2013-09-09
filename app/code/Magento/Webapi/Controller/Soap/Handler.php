@@ -56,7 +56,7 @@ class Magento_Webapi_Controller_Soap_Handler
      *
      * @param string $operation
      * @param array $arguments
-     * @return stdClass
+     * @return stdClass|null
      * @throws Magento_Webapi_Exception|LogicException
      */
     public function __call($operation, $arguments)
@@ -119,7 +119,7 @@ class Magento_Webapi_Controller_Soap_Handler
             $object = $obj;
             foreach ($obj as &$value) {
                 if ($this->_unpackArguments($value)) {
-                    array_walk($value, function($val, $key) use(&$arr) {
+                    array_walk($value, function ($val, $key) use (&$arr) {
                         $arr[$key] = $val;
                     });
                     $object = $arr;

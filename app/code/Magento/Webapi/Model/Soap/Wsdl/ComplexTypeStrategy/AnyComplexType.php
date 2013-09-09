@@ -1,6 +1,5 @@
 <?php
 use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
-    Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface,
     Zend\Soap\Wsdl;
 
 /**

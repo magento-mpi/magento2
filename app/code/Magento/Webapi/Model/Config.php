@@ -33,11 +33,6 @@ class Magento_Webapi_Model_Config
     const SERVICE_CLASS_PATTERN = '/^(.+?)_(.+?)_Service(_.+)+(V\d+)Interface$/';
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_config;
-
-    /**
      * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
@@ -54,24 +49,27 @@ class Magento_Webapi_Model_Config
      */
     protected $_moduleReader;
 
+    /** @var Magento_ObjectManager */
+    protected $_objectManager;
+
     /**
      * @var array
      */
     protected $_services;
 
     /**
-     * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
-        Magento_Core_Model_Config $config,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Config_Modules_Reader $moduleReader
+        Magento_Core_Model_Config_Modules_Reader $moduleReader,
+        Magento_ObjectManager $objectManager
     ) {
-        $this->_config = $config;
         $this->_configCacheType = $configCacheType;
         $this->_moduleReader = $moduleReader;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -94,7 +92,7 @@ class Magento_Webapi_Model_Config
     {
         if (null === $this->_reader) {
             $configFiles = $this->_getConfigFile();
-            $this->_reader = $this->_config->getModelInstance(
+            $this->_reader = $this->_objectManager->create(
                 'Magento_Webapi_Model_Config_Reader',
                 array('configFiles' => $configFiles)
             );

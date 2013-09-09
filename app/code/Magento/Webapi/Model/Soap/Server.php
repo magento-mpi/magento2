@@ -166,13 +166,15 @@ class Magento_Webapi_Model_Soap_Server
      * Instantiates SoapServer object with options set in object, and
      * dispatches its handle() method.
      * Pulls request using php:://input (for cross-platform compatibility purposes).
+     *
+     * @return string
      */
     public function handle()
     {
         $soapRequest = file_get_contents('php://input');
         $this->_checkRequest($soapRequest);
         $soap = $this->_createSoapServer();
-        $soap->handle($soapRequest);
+        return $soap->handle($soapRequest);
     }
 
     /**

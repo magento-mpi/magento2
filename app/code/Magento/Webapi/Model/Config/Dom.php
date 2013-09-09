@@ -13,8 +13,7 @@ class Magento_Webapi_Model_Config_Dom extends Magento_Config_Dom
      * Getter for node by path
      *
      * @param string $nodePath
-     * @throws Magento_Exception an exception is possible if original document contains multiple fixed nodes
-     * @return DOMElement | null
+     * @return DOMElement|null
      */
     protected function _getMatchedNode($nodePath)
     {
