@@ -101,8 +101,6 @@ class Magento_Paypal_Model_Cart
     protected $_eventManager = null;
 
     /**
-     * Require instance of an order or a quote
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param array $params
      * @throws Exception
@@ -114,7 +112,8 @@ class Magento_Paypal_Model_Cart
         $this->_eventManager = $eventManager;
         $salesEntity = array_shift($params);
         if (is_object($salesEntity)
-            && (($salesEntity instanceof Magento_Sales_Model_Order) || ($salesEntity instanceof Magento_Sales_Model_Quote))) {
+            && (($salesEntity instanceof Magento_Sales_Model_Order)
+                || ($salesEntity instanceof Magento_Sales_Model_Quote))) {
             $this->_salesEntity = $salesEntity;
         } else {
             throw new Exception('Invalid sales entity provided.');

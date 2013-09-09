@@ -54,7 +54,10 @@ class Magento_FullPageCache_Model_Container_CatalogProductList
 
         if (Mage::registry('product')) {
             $block = $this->_getPlaceHolderBlock();
-            $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+            $this->_eventManager->dispatch('render_block', array(
+                'block' => $block,
+                'placeholder' => $this->_placeholder,
+            ));
             return $block->toHtml();
         }
 

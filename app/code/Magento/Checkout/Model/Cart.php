@@ -39,12 +39,6 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     protected $_eventManager = null;
 
     /**
-     * Constructor
-
- By default is looking for first argument as array and assigns it
-     * as object attributes
- This behavior may change in child classes
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      */
     public function __construct(
@@ -293,7 +287,10 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
             Mage::throwException(__('The product does not exist.'));
         }
 
-        $this->_eventManager->dispatch('checkout_cart_product_add_after', array('quote_item' => $result, 'product' => $product));
+        $this->_eventManager->dispatch('checkout_cart_product_add_after', array(
+            'quote_item' => $result,
+            'product' => $product,
+        ));
         $this->getCheckoutSession()->setLastAddedProductId($productId);
         return $this;
     }
