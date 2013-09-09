@@ -44,7 +44,7 @@ class Magento_Page_Block_LinksTest extends PHPUnit_Framework_TestCase
             ->with($name)
             ->will($this->returnValue($blocks));
         $this->_block->setNameInLayout($name);
-        $this->assertEquals($blocks,   $this->_block->getLinks());
+        $this->assertEquals($blocks, $this->_block->getLinks());
     }
 
     public function testRenderLink()
