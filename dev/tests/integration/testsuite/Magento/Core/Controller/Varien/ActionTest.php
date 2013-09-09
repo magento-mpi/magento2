@@ -19,7 +19,9 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     protected function setUp()
     {
         Mage::getConfig();
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+            ->setDefaultDesignTheme();
         $arguments = array(
             'request'  => new Magento_TestFramework_Request(),
             'response' => new Magento_TestFramework_Response(),
@@ -297,10 +299,11 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         $controller = $objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
 
-        $this->assertEquals($expectedArea, Mage::getDesign()->getArea());
+        $design = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $this->assertEquals($expectedArea, $design->getArea());
         $this->assertEquals($expectedStore, Mage::app()->getStore()->getCode());
         if ($expectedDesign) {
-            $this->assertEquals($expectedDesign, Mage::getDesign()->getDesignTheme()->getThemePath());
+            $this->assertEquals($expectedDesign, $design->getDesignTheme()->getThemePath());
         }
     }
 

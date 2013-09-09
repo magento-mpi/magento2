@@ -11,13 +11,38 @@
 class Magento_Core_Model_Design_Backend_Exceptions extends Magento_Backend_Model_Config_Backend_Serialized_Array
 {
     /**
+     * Design package instance
+     *
+     * @var Magento_Core_Model_View_DesignInterface
+     */
+    protected $_design = null;
+
+    /**
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_design = $design;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Validate value
      *
      * @throws Magento_Core_Exception if there is no field value, search value is empty or regular expression is not valid
      */
     protected function _beforeSave()
     {
-        $design = clone Mage::getDesign(); // For value validations
+        $design = clone $this->_design; // For value validations
         $exceptions = $this->getValue();
         foreach ($exceptions as $rowKey => $row) {
             if ($rowKey === '__empty') {

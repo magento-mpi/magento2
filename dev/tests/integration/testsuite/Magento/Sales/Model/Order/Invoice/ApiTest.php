@@ -18,7 +18,9 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testCreate()
     {
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+            ->setDefaultDesignTheme();
         /** Prepare data. */
         $order = $this->_getFixtureOrder();
         $this->assertCount(

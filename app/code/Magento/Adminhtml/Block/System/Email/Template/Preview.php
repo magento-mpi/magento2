@@ -48,7 +48,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Preview extends Magento_Admi
 
         $template->setDesignConfig(
             array(
-                'area' => Mage::getDesign()->getArea(),
+                'area' => $this->_design->getArea(),
                 'store' => Mage::getSingleton('Magento_Core_Model_StoreManagerInterface')->getDefaultStoreView()->getId()
             )
         );

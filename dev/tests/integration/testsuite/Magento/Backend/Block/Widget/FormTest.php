@@ -21,7 +21,9 @@ class Magento_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
     public function testSetFieldset()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        $objectManager->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            ->setDefaultDesignTheme();
         $layout = $objectManager->create('Magento_Core_Model_Layout');
         $formBlock = $layout->addBlock('Magento_Backend_Block_Widget_Form');
         $fieldSet = $objectManager->create('Magento_Data_Form_Element_Fieldset');
