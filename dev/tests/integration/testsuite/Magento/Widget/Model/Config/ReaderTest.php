@@ -90,4 +90,38 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         $expected = include '_files/expectedArray.php';
         $this->assertEquals($expected, $result);
     }
+
+    /**
+     * @expectedException Magento_Exception
+     * @expectedExceptionMessage Invalid Document
+     * Element 'parameter': This element is not expected. Expected is ( container ).
+     */
+    public function testMargeCompleteAndPartial()
+    {
+        $fileList = array(
+            __DIR__ . '/_files/widgetFirst.xml',
+            __DIR__ . '/_files/widgetSecond.xml'
+        );
+        $fileResolverMock = $this->getMockBuilder('Magento_Config_FileResolverInterface')
+            ->setMethods(array('get'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $fileResolverMock->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo('widget.xml'), $this->equalTo('global'))
+            ->will($this->returnValue($fileList));
+
+        $schema = __DIR__ . '/../../../../../../../../app/code/Magento/Widget/etc/widget.xsd';
+        $perFileSchema = __DIR__ . '/../../../../../../../../app/code/Magento/Widget/etc/widget_file.xsd';
+
+        /** @var Magento_Widget_Model_Config_Reader $model */
+        $model = Mage::getObjectManager()->create(
+            'Magento_Widget_Model_Config_Reader', array(
+                'fileResolver' => $fileResolverMock,
+                'schema' => $schema,
+                'perFileSchema' => $perFileSchema
+            )
+        );
+        $result = $model->read('global');
+    }
 }
