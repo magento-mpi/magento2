@@ -77,11 +77,6 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     protected $_eventManager = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param array $data

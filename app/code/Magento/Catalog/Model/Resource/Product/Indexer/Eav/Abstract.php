@@ -27,10 +27,6 @@ abstract class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
     protected $_eventManager = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Model_Resource $resource
      */

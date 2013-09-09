@@ -12,7 +12,7 @@ class Magento_Core_Model_Session_Generic extends Magento_Core_Model_Session_Abst
      * @param Magento_Core_Helper_Http $coreHttp
      * @param array $sessionNamespace
      * @param array $data
-     * @param null $sessionName
+     * @param string $sessionName
      */
     public function __construct(
         Magento_Core_Model_Event_Manager_Proxy $eventManager,

@@ -12,10 +12,7 @@
 class Magento_Webhook_Model_Resource_Subscription_Grid_Collection
     extends Magento_Webhook_Model_Resource_Subscription_Collection
 {
-
     /**
-     * Collection constructor
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Webhook_Model_Subscription_Config $subscriptionConfig
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy

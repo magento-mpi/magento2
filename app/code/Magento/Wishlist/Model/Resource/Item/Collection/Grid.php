@@ -24,7 +24,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishl
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param Magento_Wishlist_Model_Resource_Item $resource
      */
     public function __construct(
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
@@ -32,7 +32,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishl
         Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Db_Abstract $resource
+        Magento_Wishlist_Model_Resource_Item $resource
     ) {
         $this->_registryManager = $registry;
         parent::__construct($catalogInventoryData, $adminhtmlSales, $eventManager, $fetchStrategy, $resource);

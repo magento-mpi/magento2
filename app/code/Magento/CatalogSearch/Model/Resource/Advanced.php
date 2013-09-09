@@ -26,10 +26,6 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
     protected $_eventManager = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Model_Resource $resource
      */

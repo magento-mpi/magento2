@@ -88,10 +88,6 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     protected $_catalogProduct = null;
 
     /**
-     * Initialize data
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Catalog_Helper_Data $catalogData

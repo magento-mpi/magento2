@@ -47,11 +47,10 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     protected $_orderFactory;
 
     /**
-     * Class constructor. Initialize checkout session namespace
-     *
      * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
-     * @param null $sessionName
+     * @param string $sessionName
      * @param array $data
      */
     public function __construct(

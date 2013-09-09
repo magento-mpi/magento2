@@ -103,10 +103,6 @@ abstract class Magento_Core_Model_Resource_Db_Collection_Abstract extends Magent
     protected $_eventManager = null;
 
     /**
-     * Collection constructor
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Resource_Db_Abstract $resource

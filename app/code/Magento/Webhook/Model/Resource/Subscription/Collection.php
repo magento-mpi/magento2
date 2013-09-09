@@ -19,8 +19,6 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
     protected $_endpointResource;
 
     /**
-     * Collection constructor
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Webhook_Model_Resource_Endpoint $endpointResource

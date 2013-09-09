@@ -66,10 +66,6 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
     protected $_eventManager = null;
 
     /**
-     * Enforce format of the street field
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Context $context

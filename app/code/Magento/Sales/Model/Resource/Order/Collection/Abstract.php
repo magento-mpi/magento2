@@ -32,11 +32,6 @@ abstract class Magento_Sales_Model_Resource_Order_Collection_Abstract extends Ma
      */
     protected $_orderField   = 'parent_id';
 
-    public function __construct(Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy, Magento_Core_Model_Resource_Db_Abstract $resource = null)
-    {
-        parent::__construct($fetchStrategy, $resource);
-    }
-
     /**
      * Set sales order model as parent collection object
      *

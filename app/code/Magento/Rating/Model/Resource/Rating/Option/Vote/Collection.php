@@ -25,12 +25,11 @@ class Magento_Rating_Model_Resource_Rating_Option_Vote_Collection extends Magent
     protected $_app;
 
     /**
-     * Collection constructor
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      * @param array $data
+     * @throws InvalidArgumentException
      */
     public function __construct(
         Magento_Core_Model_Event_Manager_Proxy $eventManager,

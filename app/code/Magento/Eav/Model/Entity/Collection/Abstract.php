@@ -93,10 +93,6 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     protected $_eventManager = null;
 
     /**
-     * Collection constructor
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      */

@@ -82,10 +82,6 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
     protected $_eventManager = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Model_Resource $resource
      */

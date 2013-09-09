@@ -43,7 +43,9 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
-        parent::__construct($eventManager, $helperPool, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct(
+            $eventManager, $helperPool, $wishlistData, $taxData, $catalogData, $coreData, $context, $data
+        );
     }
 
     /**

@@ -118,10 +118,6 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     protected $_eventManager = null;
 
     /**
-     * Initialize data
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb

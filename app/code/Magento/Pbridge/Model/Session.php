@@ -18,14 +18,10 @@
 class Magento_Pbridge_Model_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
-     * Initialize Enterprise Pbridge session namespace
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param array $data
-     * @param null $sessionName
+     * @param string $sessionName
      */
     public function __construct(
         Magento_Core_Model_Event_Manager_Proxy $eventManager,

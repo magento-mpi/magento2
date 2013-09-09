@@ -27,10 +27,6 @@ class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
     protected $_connectData = null;
 
     /**
-     * Contructor
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Connect_Helper_Data $connectData
      * @param Magento_Core_Helper_Http $coreHttp

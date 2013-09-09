@@ -25,12 +25,6 @@ class Magento_GoogleCheckout_Model_Api extends Magento_Object
     protected $_eventManager = null;
 
     /**
-     * Constructor
-
- By default is looking for first argument as array and assigns it
-     * as object attributes
- This behavior may change in child classes
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      */
     public function __construct(

@@ -18,10 +18,6 @@
 class Magento_Authorizenet_Model_Directpost_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
-     * Class constructor. Initialize session namespace
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param array $data

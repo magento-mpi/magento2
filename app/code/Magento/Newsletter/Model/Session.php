@@ -19,14 +19,10 @@
 class Magento_Newsletter_Model_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
-     * Class constructor. Initialize session namespace
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param array $data
-     * @param null $sessionName
+     * @param string $sessionName
      */
     public function __construct(
         Magento_Core_Model_Event_Manager_Proxy $eventManager,

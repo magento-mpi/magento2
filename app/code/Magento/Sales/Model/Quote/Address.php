@@ -166,7 +166,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
     /**
      * Total models collector
      *
-     * @var Magento_Sales_Model_Quote_Address_Totla_Collector
+     * @var Magento_Sales_Model_Quote_Address_Total_Collector
      */
     protected $_totalCollector = null;
 

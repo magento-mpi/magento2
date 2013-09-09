@@ -25,10 +25,6 @@ class Magento_Webhook_Model_Resource_Job_Collection extends Magento_Core_Model_R
     protected $_timeoutIdling;
 
     /**
-     * Collection constructor
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Resource_Db_Abstract $resource

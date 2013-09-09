@@ -34,15 +34,17 @@ class Magento_Sales_Model_Resource_Report_Bestsellers_Collection
     protected $_selectedColumns    = array();
 
     /**
-     * Initialize custom resource model
-     *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Sales_Model_Resource_Report $resource
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Sales_Model_Resource_Report $resource
     ) {
         $resource->init('sales_bestsellers_aggregated_daily');
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
     /**

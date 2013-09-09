@@ -48,8 +48,6 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     protected $_giftcardAmounts = null;
 
     /**
-     * Initialize data
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Catalog_Helper_Data $catalogData

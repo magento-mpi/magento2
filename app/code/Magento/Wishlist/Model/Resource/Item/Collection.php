@@ -89,8 +89,6 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     protected $_inventoryData = null;
 
     /**
-     * Collection constructor
-     *
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
@@ -102,7 +100,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
         Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Wishlist_Model_Resource_Item $resource = null
+        Magento_Wishlist_Model_Resource_Item $resource
     ) {
         $this->_inventoryData = $catalogInventoryData;
         $this->_adminhtmlSales = $adminhtmlSales;

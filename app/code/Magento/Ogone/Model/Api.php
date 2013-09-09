@@ -171,10 +171,6 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     protected $_coreString = null;
 
     /**
-     * Init Ogone Api instance, detup default values
-     *
-     *
-     *
      * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Ogone_Model_Config $config

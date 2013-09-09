@@ -27,8 +27,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     protected $_downloadableFile = null;
 
     /**
-     * Initialize data
-     *
+     * @param Magento_Core_Model_Event_Manager_Proxy $eventManager
      * @param Magento_Downloadable_Helper_File $downloadableFile
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
@@ -36,6 +35,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager_Proxy $eventManager,
         Magento_Downloadable_Helper_File $downloadableFile,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_File_Storage_Database $fileStorageDb,
@@ -43,7 +43,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
         array $data = array()
     ) {
         $this->_downloadableFile = $downloadableFile;
-        parent::__construct($coreData, $fileStorageDb, $filesystem, $data);
+        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $data);
     }
 
     /**
