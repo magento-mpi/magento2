@@ -119,7 +119,9 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     public function getResponse()
     {
         if (!$this->_response) {
-            $this->_response = new Magento_TestFramework_Response();
+            $this->_response = new Magento_TestFramework_Response(
+                $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false)
+            );
             $this->_objectManager->addSharedInstance($this->_response, 'Magento_TestFramework_Response');
         }
         return $this->_response;

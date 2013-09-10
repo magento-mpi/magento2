@@ -14,13 +14,6 @@
  */
 class Magento_TestFramework_Response extends Magento_Core_Controller_Response_Http
 {
-    public function __construct()
-    {
-        parent::__construct(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Event_Manager')
-        );
-    }
-
     /**
      * Prevent generating exceptions if headers are already sent
      *
