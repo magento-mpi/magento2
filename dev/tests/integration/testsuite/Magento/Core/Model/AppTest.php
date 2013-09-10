@@ -226,7 +226,8 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
             'replace' => false
         );
         $this->assertContains($expectedHeader, $this->_model->getResponse()->getHeaders());
-        $response = new Magento_TestFramework_Response();
+        $response = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_TestFramework_Response');
         $this->_model->setResponse($response);
         $this->assertSame($response, $this->_model->getResponse());
         $this->assertEmpty($this->_model->getResponse()->getHeaders());
