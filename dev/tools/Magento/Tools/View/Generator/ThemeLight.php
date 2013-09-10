@@ -13,7 +13,7 @@
  */
 namespace Magento\Tools\View\Generator;
 
-class ThemeLight extends Varien_Object implements Magento_Core_Model_ThemeInterface
+class ThemeLight extends \Varien_Object implements \Magento_Core_Model_ThemeInterface
 {
     /**
      * {@inheritdoc}
@@ -36,7 +36,7 @@ class ThemeLight extends Varien_Object implements Magento_Core_Model_ThemeInterf
      */
     public function getFullPath()
     {
-        return $this->getArea() . Magento_Core_Model_Theme::PATH_SEPARATOR . $this->getThemePath();
+        return $this->getArea() . \Magento_Core_Model_Theme::PATH_SEPARATOR . $this->getThemePath();
     }
 
     /**
