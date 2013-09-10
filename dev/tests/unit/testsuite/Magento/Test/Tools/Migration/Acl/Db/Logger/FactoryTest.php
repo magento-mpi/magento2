@@ -22,13 +22,13 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
 class Magento_Test_Tools_Migration_Acl_Db_Logger_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_Acl_Db_Logger_Factory
+     * @var \Magento\Tools\Migration\Acl\Db\Logger\Factory
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Magento_Tools_Migration_Acl_Db_Logger_Factory();
+        $this->_model = new \Magento\Tools\Migration\Acl\Db\Logger\Factory();
     }
 
     public function tearDown()
@@ -55,7 +55,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Logger_FactoryTest extends PHPUnit_Fra
     public function testGetLogger($loggerType, $file)
     {
         $this->assertInstanceOf(
-            'Magento_Tools_Migration_Acl_Db_LoggerAbstract', $this->_model->getLogger($loggerType, $file));
+            '\Magento\Tools\Migration\Acl\Db\LoggerAbstract', $this->_model->getLogger($loggerType, $file));
     }
 
     /**

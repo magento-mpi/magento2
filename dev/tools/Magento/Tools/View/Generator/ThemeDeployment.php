@@ -11,7 +11,9 @@
 /**
  * Transformation of files, which must be copied to new location and its contents processed
  */
-class Magento_Tools_View_Generator_ThemeDeployment
+namespace Magento\Tools\View\Generator;
+
+class ThemeDeployment
 {
     /**
      * Helper to process CSS content and fix urls
@@ -143,8 +145,8 @@ class Magento_Tools_View_Generator_ThemeDeployment
      */
     protected function _copyDirStructure($sourceDir, $destinationDir, $context)
     {
-        $files = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($sourceDir, RecursiveDirectoryIterator::SKIP_DOTS)
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($sourceDir, \RecursiveDirectoryIterator::SKIP_DOTS)
         );
         foreach ($files as $fileSource) {
             $fileSource = (string) $fileSource;

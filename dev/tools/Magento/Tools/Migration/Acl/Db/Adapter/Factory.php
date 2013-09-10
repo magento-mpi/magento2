@@ -11,15 +11,17 @@
 /**
  * Db adapters factory
  */
-class Magento_Tools_Migration_Acl_Db_Adapter_Factory
+namespace Magento\Tools\Migration\Acl\Db\Adapter;
+
+class Factory
 {
     /**
      * Get db adapter
      *
      * @param array $config
      * @param string $type
-     * @throws InvalidArgumentException
-     * @return Zend_Db_Adapter_Abstract
+     * @throws \InvalidArgumentException
+     * @return \Zend_Db_Adapter_Abstract
      */
     public function getAdapter(array $config, $type = null)
     {
@@ -30,13 +32,13 @@ class Magento_Tools_Migration_Acl_Db_Adapter_Factory
         }
 
         if (false == class_exists($dbAdapterClassName, true)) {
-            throw new InvalidArgumentException('Specified adapter not exists: ' . $dbAdapterClassName);
+            throw new \InvalidArgumentException('Specified adapter not exists: ' . $dbAdapterClassName);
         }
         $adapter = new $dbAdapterClassName($config);
 
-        if (false == ($adapter instanceof Zend_Db_Adapter_Abstract)) {
+        if (false == ($adapter instanceof \Zend_Db_Adapter_Abstract)) {
             unset($adapter);
-            throw new InvalidArgumentException('Specified adapter is not instance of Zend_Db_Adapter_Abstract');
+            throw new \InvalidArgumentException('Specified adapter is not instance of \Zend_Db_Adapter_Abstract');
         }
         return $adapter;
     }

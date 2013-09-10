@@ -11,20 +11,22 @@
 /**
  * System configuration migration reader
  */
-class Magento_Tools_Migration_System_Configuration_Reader
+namespace Magento\Tools\Migration\System\Configuration;
+
+class Reader
 {
     /**
-     * @var Magento_Tools_Migration_System_FileManager
+     * @var \Magento\Tools\Migration\System\FileManager
      */
     protected $_fileManager;
 
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Parser
+     * @var \Magento\Tools\Migration\System\Configuration\Parser
      */
     protected $_parser;
 
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Mapper
+     * @var \Magento\Tools\Migration\System\Configuration\Mapper
      */
     protected $_mapper;
 
@@ -39,14 +41,14 @@ class Magento_Tools_Migration_System_Configuration_Reader
     CONST SYSTEM_CONFIG_PATH_PATTERN = 'app/code/*/*/*/etc/system.xml';
 
     /**
-     * @param Magento_Tools_Migration_System_FileManager $fileManager
-     * @param Magento_Tools_Migration_System_Configuration_Parser $parser
+     * @param \Magento\Tools\Migration\System\FileManager $fileManager
+     * @param \Magento\Tools\Migration\System\Configuration\Parser $parser
      * @param Tools_Migration_System_Configuration_Mapper $mapper
      */
     public function __construct(
-        Magento_Tools_Migration_System_FileManager $fileManager,
-        Magento_Tools_Migration_System_Configuration_Parser $parser,
-        Magento_Tools_Migration_System_Configuration_Mapper $mapper
+        \Magento\Tools\Migration\System\FileManager $fileManager,
+        \Magento\Tools\Migration\System\Configuration\Parser $parser,
+        \Magento\Tools\Migration\System\Configuration\Mapper $mapper
     ) {
         $this->_fileManager = $fileManager;
         $this->_parser = $parser;
@@ -64,7 +66,7 @@ class Magento_Tools_Migration_System_Configuration_Reader
     {
         $files = $this->_fileManager->getFileList(
             $this->_basePath . DIRECTORY_SEPARATOR
-            . Magento_Tools_Migration_System_Configuration_Reader::SYSTEM_CONFIG_PATH_PATTERN
+            . \Magento\Tools\Migration\System\Configuration\Reader::SYSTEM_CONFIG_PATH_PATTERN
         );
         $result = array();
         foreach ($files as $fileName) {
@@ -84,11 +86,11 @@ class Magento_Tools_Migration_System_Configuration_Reader
      * Create Dom document from xml string
      *
      * @param $xml
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     protected function _getDOMDocument($xml)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML($xml);
         return $dom;
     }

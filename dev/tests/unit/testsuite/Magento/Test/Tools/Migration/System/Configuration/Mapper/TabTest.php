@@ -15,18 +15,18 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Tab.php';
 
 /**
- * Test case for Magento_Tools_Migration_System_Configuration_Mapper_Tab
+ * Test case for \Magento\Tools\Migration\System\Configuration\Mapper\Tab
  */
 class Magento_Test_Tools_Migration_System_Configuration_Mapper_TabTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Mapper_Tab
+     * @var \Magento\Tools\Migration\System\Configuration\Mapper\Tab
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Magento_Tools_Migration_System_Configuration_Mapper_Tab();
+        $this->_object = new \Magento\Tools\Migration\System\Configuration\Mapper\Tab();
     }
 
     protected function tearDown()

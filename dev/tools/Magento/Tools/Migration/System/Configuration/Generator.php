@@ -9,20 +9,22 @@
  */
 
 
-class Magento_Tools_Migration_System_Configuration_Generator
+namespace Magento\Tools\Migration\System\Configuration;
+
+class Generator
 {
     /**
-     * @var Magento_Tools_Migration_System_FileManager
+     * @var \Magento\Tools\Migration\System\FileManager
      */
     protected $_fileManager;
 
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Formatter
+     * @var \Magento\Tools\Migration\System\Configuration\Formatter
      */
     protected $_xmlFormatter;
 
     /**
-     * @var Magento_Tools_Migration_System_Configuration_LoggerAbstract
+     * @var \Magento\Tools\Migration\System\Configuration\LoggerAbstract
      */
     protected $_logger;
 
@@ -34,14 +36,14 @@ class Magento_Tools_Migration_System_Configuration_Generator
     protected $_basePath;
 
     /**
-     * @var Magento_Tools_Migration_System_Configuration_LoggerAbstract
+     * @var \Magento\Tools\Migration\System\Configuration\LoggerAbstract
      */
     protected $_fileSchemaPath;
 
     public function __construct(
-        Magento_Tools_Migration_System_Configuration_Formatter $xmlFormatter,
-        Magento_Tools_Migration_System_FileManager $fileManager,
-        Magento_Tools_Migration_System_Configuration_LoggerAbstract $logger
+        \Magento\Tools\Migration\System\Configuration\Formatter $xmlFormatter,
+        \Magento\Tools\Migration\System\FileManager $fileManager,
+        \Magento\Tools\Migration\System\Configuration\LoggerAbstract $logger
     ) {
         $this->_fileManager = $fileManager;
         $this->_xmlFormatter = $xmlFormatter;
@@ -65,12 +67,12 @@ class Magento_Tools_Migration_System_Configuration_Generator
         if (@!$domDocument->schemaValidate($this->_fileSchemaPath)) {
             $this->_logger->add(
                 $this->_removeBasePath($fileName),
-                Magento_Tools_Migration_System_Configuration_LoggerAbstract::FILE_KEY_INVALID
+                \Magento\Tools\Migration\System\Configuration\LoggerAbstract::FILE_KEY_INVALID
             );
         } else {
             $this->_logger->add(
                 $this->_removeBasePath($fileName),
-                Magento_Tools_Migration_System_Configuration_LoggerAbstract::FILE_KEY_VALID
+                \Magento\Tools\Migration\System\Configuration\LoggerAbstract::FILE_KEY_VALID
             );
         }
 
@@ -90,11 +92,11 @@ class Magento_Tools_Migration_System_Configuration_Generator
      *  Create DOM document based on configuration
      *
      * @param array $configuration
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     protected function _createDOMDocument(array $configuration)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $configElement = $dom->createElement('config');
         $systemElement = $dom->createElement('system');
         $configElement->appendChild($systemElement);
@@ -111,10 +113,10 @@ class Magento_Tools_Migration_System_Configuration_Generator
      * Create element
      *
      * @param array $config
-     * @param DOMDocument $dom
-     * @return DOMElement
+     * @param \DOMDocument $dom
+     * @return \DOMElement
      */
-    protected function _createElement($config, DOMDocument $dom)
+    protected function _createElement($config, \DOMDocument $dom)
     {
         $element = $dom->createElement($this->_getValue($config, 'nodeName'), $this->_getValue($config, '#text', ''));
         if ($this->_getValue($config, '#cdata-section')) {

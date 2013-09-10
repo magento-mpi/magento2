@@ -17,13 +17,13 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
 class Magento_Test_Tools_Migration_System_Configuration_ParserTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Parser
+     * @var \Magento\Tools\Migration\System\Configuration\Parser
      */
     protected $_parser;
 
     protected function setUp()
     {
-        $this->_parser = new Magento_Tools_Migration_System_Configuration_Parser();
+        $this->_parser = new \Magento\Tools\Migration\System\Configuration\Parser();
     }
 
     protected function tearDown()

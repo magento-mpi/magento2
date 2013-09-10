@@ -33,7 +33,7 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_FileTest extends 
     public function setUp()
     {
         $this->_fileManagerMock = $this->getMock(
-            'Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
+            'Magento\Tools\Migration\System\FileManager', array(), array(), '', false);
     }
 
     public function tearDown()
@@ -43,7 +43,7 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_FileTest extends 
 
     public function testConstructWithValidFile()
     {
-        new Magento_Tools_Migration_System_Configuration_Logger_File('report.log', $this->_fileManagerMock);
+        new \Magento\Tools\Migration\System\Configuration\Logger\File('report.log', $this->_fileManagerMock);
     }
 
     /**
@@ -51,12 +51,12 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_FileTest extends 
      */
     public function testConstructWithInValidFile()
     {
-        new Magento_Tools_Migration_System_Configuration_Logger_File(null, $this->_fileManagerMock);
+        new \Magento\Tools\Migration\System\Configuration\Logger\File(null, $this->_fileManagerMock);
     }
 
     public function testReport()
     {
-        $model = new Magento_Tools_Migration_System_Configuration_Logger_File('report.log', $this->_fileManagerMock);
+        $model = new \Magento\Tools\Migration\System\Configuration\Logger\File('report.log', $this->_fileManagerMock);
         $this->_fileManagerMock->expects($this->once())->method('write')->with($this->stringEndsWith('report.log'));
         $model->report();
     }

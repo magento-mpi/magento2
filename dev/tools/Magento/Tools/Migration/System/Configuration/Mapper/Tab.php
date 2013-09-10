@@ -8,8 +8,10 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_System_Configuration_Mapper_Tab
-    extends Magento_Tools_Migration_System_Configuration_Mapper_Abstract
+namespace Magento\Tools\Migration\System\Configuration\Mapper;
+
+class Tab
+    extends \Magento\Tools\Migration\System\Configuration\Mapper\AbstractMapper
 {
     /**
      * Attribute maps

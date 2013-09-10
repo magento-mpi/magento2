@@ -14,13 +14,13 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
 class Magento_Test_Tools_Migration_Acl_Db_FileReaderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_Acl_Db_FileReader
+     * @var \Magento\Tools\Migration\Acl\Db\FileReader
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Magento_Tools_Migration_Acl_Db_FileReader();
+        $this->_model = new \Magento\Tools\Migration\Acl\Db\FileReader();
     }
 
     public function testExtractData()

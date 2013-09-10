@@ -16,18 +16,18 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
 class Magento_Test_Tools_Migration_System_Writer_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_System_Writer_Factory
+     * @var \Magento\Tools\Migration\System\Writer\Factory
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Tools_Migration_System_Writer_Factory();
+        $this->_model = new \Magento\Tools\Migration\System\Writer\Factory();
     }
 
     public function testGetWriterReturnsProperWriter()
     {
-        $this->assertInstanceOf('Magento_Tools_Migration_System_Writer_FileSystem', $this->_model->getWriter('write'));
-        $this->assertInstanceOf('Magento_Tools_Migration_System_Writer_Memory', $this->_model->getWriter('someWriter'));
+        $this->assertInstanceOf('Magento\Tools\Migration\System\Writer\FileSystem', $this->_model->getWriter('write'));
+        $this->assertInstanceOf('Magento\Tools\Migration\System\Writer\Memory', $this->_model->getWriter('someWriter'));
     }
 }

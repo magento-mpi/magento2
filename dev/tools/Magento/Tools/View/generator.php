@@ -31,35 +31,35 @@ Usage: php -f generator.php -- [--source <dir>] [--destination <dir>] [--dry-run
 USAGE
 );
 
-$logWriter = new Zend_Log_Writer_Stream('php://output');
-$logWriter->setFormatter(new Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
-$logger = new Zend_Log($logWriter);
+$logWriter = new \Zend_Log_Writer_Stream('php://output');
+$logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
+$logger = new \Zend_Log($logWriter);
 
 $options = getopt('', array('help', 'dry-run', 'source:', 'destination:'));
 if (isset($options['help'])) {
-    $logger->log(SYNOPSIS, Zend_Log::INFO);
+    $logger->log(SYNOPSIS, \Zend_Log::INFO);
     exit(0);
 }
 
-$logger->log('Deploying...', Zend_Log::INFO);
+$logger->log('Deploying...', \Zend_Log::INFO);
 try {
-    $config = new Magento_Tools_View_Generator_Config(BP, $options);
+    $config = new \Magento\Tools\View\Generator\Config(BP, $options);
 
     $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
     $dirs = new Magento_Core_Model_Dir($config->getSourceDir());
     $objectManager = new \Magento\ObjectManager\ObjectManager();
 
     $themes = new Magento_Core_Model_Theme_Collection($filesystem, $objectManager, $dirs);
-    $themes->setItemObjectClass(' Magento_Tools_View_Generator_ThemeLight');
+    $themes->setItemObjectClass(' \Magento\Tools\View\Generator\ThemeLight');
     $themes->addDefaultPattern('*');
 
     $fallbackFactory = new Magento_Core_Model_Design_Fallback_Factory($dirs);
-    $generator = new Magento_Tools_View_Generator_CopyRule($filesystem, $themes,
+    $generator = new \Magento\Tools\View\Generator\CopyRule($filesystem, $themes,
         $fallbackFactory->createViewFileRule());
     $copyRules = $generator->getCopyRules();
 
     $cssHelper = new Magento_Core_Helper_Css($filesystem, $dirs);
-    $deployment = new Magento_Tools_View_Generator_ThemeDeployment(
+    $deployment = new \Magento\Tools\View\Generator\ThemeDeployment(
         $cssHelper,
         $config->getDestinationDir(),
         __DIR__ . '/config/permitted.php',
@@ -67,8 +67,8 @@ try {
         $config->isDryRun()
     );
     $deployment->run($copyRules);
-} catch (Exception $e) {
-    $logger->log('Error: ' . $e->getMessage(), Zend_Log::ERR);
+} catch (\Exception $e) {
+    $logger->log('Error: ' . $e->getMessage(), \Zend_Log::ERR);
     exit(1);
 }
-$logger->log('Completed successfully.', Zend_Log::INFO);
+$logger->log('Completed successfully.', \Zend_Log::INFO);

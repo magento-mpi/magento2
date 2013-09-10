@@ -11,15 +11,17 @@
 /**
  * System configuration migration parser
  */
-class Magento_Tools_Migration_System_Configuration_Parser
+namespace Magento\Tools\Migration\System\Configuration;
+
+class Parser
 {
     /**
      * Parse dom document
      *
-     * @param DOMDocument $dom
+     * @param \DOMDocument $dom
      * @return array
      */
-    public function parse(DOMDocument $dom)
+    public function parse(\DOMDocument $dom)
     {
         $result = array();
         if ($dom->hasChildNodes()) {
@@ -37,10 +39,10 @@ class Magento_Tools_Migration_System_Configuration_Parser
     /**
      * Parse dom node
      *
-     * @param DOMNode $node
+     * @param \DOMNode $node
      * @return array
      */
-    protected function _parseNode(DOMNode $node)
+    protected function _parseNode(\DOMNode $node)
     {
         $result = array();
         if (false === $node->hasChildNodes()) {
@@ -87,7 +89,7 @@ class Magento_Tools_Migration_System_Configuration_Parser
     /**
      * Get sibling key
      *
-     * @param DOMNode $childNode
+     * @param \DOMNode $childNode
      * @return int|string
      */
     protected function _getSiblingKey($childNode)
@@ -99,11 +101,11 @@ class Magento_Tools_Migration_System_Configuration_Parser
     /**
      * Get count of the same nodes
      *
-     * @param DOMNodeList $childNodeList
-     * @param DOMNode $childNode
+     * @param \DOMNodeList $childNodeList
+     * @param \DOMNode $childNode
      * @return int
      */
-    protected function _getSameNodesCount(DOMNodeList $childNodeList, DOMNode $childNode)
+    protected function _getSameNodesCount(\DOMNodeList $childNodeList, \DOMNode $childNode)
     {
         $childCount = 0;
         foreach ($childNodeList as $oNode) {
@@ -117,10 +119,10 @@ class Magento_Tools_Migration_System_Configuration_Parser
     /**
      * Get value of node without child nodes
      *
-     * @param DOMNode $node
+     * @param \DOMNode $node
      * @return array
      */
-    protected function _getSimpleNodeValue(DOMNode $node)
+    protected function _getSimpleNodeValue(\DOMNode $node)
     {
         return (trim($node->nodeValue) !== '') ? array($node->nodeName => $node->nodeValue) : array();
     }
@@ -128,10 +130,10 @@ class Magento_Tools_Migration_System_Configuration_Parser
     /**
      * Parse node attributes
      *
-     * @param DOMNode $node
+     * @param \DOMNode $node
      * @return array
      */
-    protected function _parseNodeAttributes(DOMNode $node)
+    protected function _parseNodeAttributes(\DOMNode $node)
     {
         $result = array();
         $attributes = array();

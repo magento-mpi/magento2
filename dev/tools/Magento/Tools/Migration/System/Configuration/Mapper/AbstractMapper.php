@@ -8,7 +8,9 @@
  * @license    {license_link}
  */
 
-abstract class Magento_Tools_Migration_System_Configuration_Mapper_Abstract
+namespace Magento\Tools\Migration\System\Configuration\Mapper;
+
+abstract class AbstractMapper
 {
     /**
      * Attribute maps

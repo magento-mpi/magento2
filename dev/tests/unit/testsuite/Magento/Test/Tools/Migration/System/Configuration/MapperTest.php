@@ -21,12 +21,12 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Section.php';
 
 /**
- * Test case for Magento_Tools_Migration_System_Configuration_Mapper
+ * Test case for \Magento\Tools\Migration\System\Configuration\Mapper
  */
 class Magento_Test_Tools_Migration_System_Configuration_MapperTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Mapper
+     * @var \Magento\Tools\Migration\System\Configuration\Mapper
      */
     protected $_object;
 
@@ -42,14 +42,14 @@ class Magento_Test_Tools_Migration_System_Configuration_MapperTest extends PHPUn
 
     protected function setUp()
     {
-        $this->_tabMapperMock = $this->getMock('Magento_Tools_Migration_System_Configuration_Mapper_Tab',
+        $this->_tabMapperMock = $this->getMock('Magento\Tools\Migration\System\Configuration\Mapper\Tab',
             array(), array(), '', false
         );
-        $this->_sectionMapperMock = $this->getMock('Magento_Tools_Migration_System_Configuration_Mapper_Section',
+        $this->_sectionMapperMock = $this->getMock('Magento\Tools\Migration\System\Configuration\Mapper\Section',
             array(), array(), '', false
         );
 
-        $this->_object = new Magento_Tools_Migration_System_Configuration_Mapper(
+        $this->_object = new \Magento\Tools\Migration\System\Configuration\Mapper(
             $this->_tabMapperMock,
             $this->_sectionMapperMock
         );

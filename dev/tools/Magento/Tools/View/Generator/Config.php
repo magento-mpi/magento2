@@ -11,7 +11,9 @@
 /**
  * Parses, verifies and stores command-line parameters
  */
-class Magento_Tools_View_Generator_Config
+namespace Magento\Tools\View\Generator;
+
+class Config
 {
     /**
      * @var string

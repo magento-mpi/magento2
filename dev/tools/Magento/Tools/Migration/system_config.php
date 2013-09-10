@@ -20,29 +20,29 @@ try {
             . "If set to 'file', report is written to file /log/report.log",
     ));
 
-    $writerFactory = new Magento_Tools_Migration_System_Writer_Factory();
+    $writerFactory = new \Magento\Tools\Migration\System\Writer\Factory();
 
-    $fileManager = new Magento_Tools_Migration_System_FileManager(new Magento_Tools_Migration_System_FileReader(),
+    $fileManager = new \Magento\Tools\Migration\System\FileManager(new \Magento\Tools\Migration\System\FileReader(),
         $writerFactory->getWriter($options->getOption('mode'))
     );
 
-    $loggerFactory = new Magento_Tools_Migration_System_Configuration_Logger_Factory();
+    $loggerFactory = new \Magento\Tools\Migration\System\Configuration\Logger\Factory();
     $logger = $loggerFactory->getLogger($options->getOption('output'), $defaultReportFile, $fileManager);
 
-    $generator = new Magento_Tools_Migration_System_Configuration_Generator(
-        new  Magento_Tools_Migration_System_Configuration_Formatter(),
+    $generator = new \Magento\Tools\Migration\System\Configuration\Generator(
+        new  \Magento\Tools\Migration\System\Configuration\Formatter(),
         $fileManager,
         $logger
     );
 
-    $fieldMapper = new Magento_Tools_Migration_System_Configuration_Mapper_Field();
-    $groupMapper = new Magento_Tools_Migration_System_Configuration_Mapper_Group($fieldMapper);
-    $sectionMapper = new Magento_Tools_Migration_System_Configuration_Mapper_Section($groupMapper);
-    $tabMapper = new Magento_Tools_Migration_System_Configuration_Mapper_Tab();
-    $mapper = new Magento_Tools_Migration_System_Configuration_Mapper($tabMapper, $sectionMapper);
+    $fieldMapper = new \Magento\Tools\Migration\System\Configuration\Mapper\Field();
+    $groupMapper = new \Magento\Tools\Migration\System\Configuration\Mapper\Group($fieldMapper);
+    $sectionMapper = new \Magento\Tools\Migration\System\Configuration\Mapper\Section($groupMapper);
+    $tabMapper = new \Magento\Tools\Migration\System\Configuration\Mapper\Tab();
+    $mapper = new \Magento\Tools\Migration\System\Configuration\Mapper($tabMapper, $sectionMapper);
 
-    $parser = new Magento_Tools_Migration_System_Configuration_Parser();
-    $reader = new Magento_Tools_Migration_System_Configuration_Reader($fileManager, $parser, $mapper);
+    $parser = new \Magento\Tools\Migration\System\Configuration\Parser();
+    $reader = new \Magento\Tools\Migration\System\Configuration\Reader($fileManager, $parser, $mapper);
 
     foreach ($reader->getConfiguration() as $file => $config) {
         $generator->createConfiguration($file, $config);

@@ -20,13 +20,13 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
 class Magento_Test_Tools_Migration_System_Configuration_Mapper_FieldTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Mapper_Field
+     * @var \Magento\Tools\Migration\System\Configuration\Mapper\Field
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Magento_Tools_Migration_System_Configuration_Mapper_Field();
+        $this->_object = new \Magento\Tools\Migration\System\Configuration\Mapper\Field();
     }
 
     protected function tearDown()

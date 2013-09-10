@@ -14,7 +14,7 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
 class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_Acl_Db_Adapter_Factory
+     * @var \Magento\Tools\Migration\Acl\Db\Adapter\Factory
      */
     protected $_model;
 
@@ -25,7 +25,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Fr
 
     public function setUp()
     {
-        $this->_model = new Magento_Tools_Migration_Acl_Db_Adapter_Factory();
+        $this->_model = new \Magento\Tools\Migration\Acl\Db\Adapter\Factory();
         $this->_config = array(
             'dbname' => 'some_db_name',
             'password' => '',

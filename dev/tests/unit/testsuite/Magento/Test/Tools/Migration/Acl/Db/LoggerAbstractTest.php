@@ -14,13 +14,13 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
 class Magento_Test_Tools_Migration_Acl_Db_LoggerAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_Acl_Db_LoggerAbstract
+     * @var \Magento\Tools\Migration\Acl\Db\LoggerAbstract
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento_Tools_Migration_Acl_Db_LoggerAbstract');
+        $this->_model = $this->getMockForAbstractClass('Magento\Tools\Migration\Acl\Db\LoggerAbstract');
     }
 
     public function tearDown()
@@ -29,8 +29,8 @@ class Magento_Test_Tools_Migration_Acl_Db_LoggerAbstractTest extends PHPUnit_Fra
     }
 
     /**
-     * @covers Magento_Tools_Migration_Acl_Db_LoggerAbstract::add()
-     * @covers Magento_Tools_Migration_Acl_Db_LoggerAbstract::__toString()
+     * @covers \Magento\Tools\Migration\Acl\Db\LoggerAbstract::add()
+     * @covers \Magento\Tools\Migration\Acl\Db\LoggerAbstract::__toString()
      */
     public function testToString()
     {

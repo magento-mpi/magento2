@@ -18,7 +18,7 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
 class Magento_Test_Tools_Migration_System_FileManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_System_FileManager
+     * @var \Magento\Tools\Migration\System\FileManager
      */
     protected $_model;
 
@@ -34,10 +34,10 @@ class Magento_Test_Tools_Migration_System_FileManagerTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento_Tools_Migration_System_FileReader', array(), array(), '', false);
+        $this->_readerMock = $this->getMock('Magento\Tools\Migration\System\FileReader', array(), array(), '', false);
         $this->_writerMock = $this->getMock(
-            'Magento_Tools_Migration_System_Writer_Memory', array(), array(), '', false);
-        $this->_model = new Magento_Tools_Migration_System_FileManager($this->_readerMock, $this->_writerMock);
+            'Magento\Tools\Migration\System\Writer\Memory', array(), array(), '', false);
+        $this->_model = new \Magento\Tools\Migration\System\FileManager($this->_readerMock, $this->_writerMock);
     }
 
     protected function tearDown()

@@ -8,21 +8,23 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_System_Writer_Factory
+namespace Magento\Tools\Migration\System\Writer;
+
+class Factory
 {
     /**
      * @param string $type
-     * @return Magento_Tools_Migration_System_WriterInterface
+     * @return \Magento\Tools\Migration\System\WriterInterface
      */
     public function getWriter($type)
     {
         $writerClassName = null;
         switch ($type) {
             case 'write':
-                $writerClassName = 'Magento_Tools_Migration_System_Writer_FileSystem';
+                $writerClassName = '\Magento\Tools\Migration\System\Writer\FileSystem';
                 break;
             default:
-                $writerClassName = 'Magento_Tools_Migration_System_Writer_Memory';
+                $writerClassName = '\Magento\Tools\Migration\System\Writer\Memory';
                 break;
         }
         return new $writerClassName();

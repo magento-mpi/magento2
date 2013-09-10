@@ -11,7 +11,9 @@
 /**
  * Generator of rules which and where folders from code base should be copied
  */
-class Magento_Tools_View_Generator_CopyRule
+namespace Magento\Tools\View\Generator;
+
+class CopyRule
 {
     /**
      * @var \Magento\Filesystem

@@ -33,7 +33,7 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
 class Magento_Test_Tools_Migration_System_Configuration_Logger_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Logger_Factory
+     * @var \Magento\Tools\Migration\System\Configuration\Logger\Factory
      */
     protected $_model;
 
@@ -44,9 +44,9 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_FactoryTest exten
 
     public function setUp()
     {
-        $this->_model = new Magento_Tools_Migration_System_Configuration_Logger_Factory();
+        $this->_model = new \Magento\Tools\Migration\System\Configuration\Logger\Factory();
         $this->_fileManagerMock = $this->getMock(
-            'Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
+            'Magento\Tools\Migration\System\FileManager', array(), array(), '', false);
     }
 
     public function tearDown()
@@ -61,9 +61,9 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_FactoryTest exten
     public function getLoggerDataProvider()
     {
         return array(
-            array('Magento_Tools_Migration_System_Configuration_Logger_File', 'file', 'report.log'),
-            array('Magento_Tools_Migration_System_Configuration_Logger_Console', 'console', null),
-            array('Magento_Tools_Migration_System_Configuration_Logger_Console', 'dummy', null),
+            array('Magento\Tools\Migration\System\Configuration\Logger\File', 'file', 'report.log'),
+            array('Magento\Tools\Migration\System\Configuration\Logger\Console', 'console', null),
+            array('Magento\Tools\Migration\System\Configuration\Logger\Console', 'dummy', null),
         );
     }
 

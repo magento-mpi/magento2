@@ -14,7 +14,7 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
 class Magento_Test_Tools_Migration_Acl_Db_ReaderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_Acl_Db_Reader
+     * @var \Magento\Tools\Migration\Acl\Db\Reader
      */
     protected $_model;
 
@@ -36,7 +36,7 @@ class Magento_Test_Tools_Migration_Acl_Db_ReaderTest extends PHPUnit_Framework_T
             false,
             array('select', 'fetchPairs')
         );
-        $this->_model = new Magento_Tools_Migration_Acl_Db_Reader($this->_adapterMock, 'dummy');
+        $this->_model = new \Magento\Tools\Migration\Acl\Db\Reader($this->_adapterMock, 'dummy');
     }
 
     public function tearDown()

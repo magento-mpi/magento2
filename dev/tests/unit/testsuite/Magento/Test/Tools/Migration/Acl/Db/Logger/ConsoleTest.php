@@ -18,7 +18,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Logger_ConsoleTest extends PHPUnit_Fra
     public function testReport()
     {
         $this->expectOutputRegex('/^Mapped items count: 0(.)*/');
-        $model = new Magento_Tools_Migration_Acl_Db_Logger_Console();
+        $model = new \Magento\Tools\Migration\Acl\Db\Logger\Console();
         $model->report();
     }
 }

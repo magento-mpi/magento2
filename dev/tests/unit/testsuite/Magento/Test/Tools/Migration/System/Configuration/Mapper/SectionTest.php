@@ -18,7 +18,7 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Section.php';
 
 /**
- * Test case for Magento_Tools_Migration_System_Configuration_Mapper_Section
+ * Test case for \Magento\Tools\Migration\System\Configuration\Mapper\Section
  */
 class Magento_Test_Tools_Migration_System_Configuration_Mapper_SectionTest extends PHPUnit_Framework_TestCase
 {
@@ -28,17 +28,17 @@ class Magento_Test_Tools_Migration_System_Configuration_Mapper_SectionTest exten
     protected $_groupMapperMock;
 
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Mapper_Section
+     * @var \Magento\Tools\Migration\System\Configuration\Mapper\Section
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_groupMapperMock = $this->getMock('Magento_Tools_Migration_System_Configuration_Mapper_Group',
+        $this->_groupMapperMock = $this->getMock('Magento\Tools\Migration\System\Configuration\Mapper\Group',
             array(), array(), '', false
         );
 
-        $this->_object = new Magento_Tools_Migration_System_Configuration_Mapper_Section($this->_groupMapperMock);
+        $this->_object = new \Magento\Tools\Migration\System\Configuration\Mapper\Section($this->_groupMapperMock);
     }
 
     protected function tearDown()

@@ -14,7 +14,7 @@ require $rootDir . '/app/autoload.php';
 $defaultReportFile = 'report.log';
 
 try {
-    $options = new Zend_Console_Getopt(array(
+    $options = new \Zend_Console_Getopt(array(
         'file=s' => "File containing json encoded acl identifier map (old => new)",
         'mode|w' => "Application mode.  Preview mode is default. If set to 'write' - database is updated.",
         'output|f-w' => "Report output type. Report is flushed to console by default."
@@ -27,11 +27,11 @@ try {
         'dbtable=s' => "Table containing resource ids",
     ));
 
-    $fileReader = new Magento_Tools_Migration_Acl_Db_FileReader();
+    $fileReader = new \Magento\Tools\Migration\Acl\Db\FileReader();
 
     $map = $fileReader->extractData($options->getOption('file'));
 
-    $dbAdapterFactory = new Magento_Tools_Migration_Acl_Db_Adapter_Factory();
+    $dbAdapterFactory = new \Magento\Tools\Migration\Acl\Db\Adapter\Factory();
 
     $dbAdapter = $dbAdapterFactory->getAdapter(
         $dbConfig = array(
@@ -43,21 +43,21 @@ try {
         $options->getOption('dbprovider')
     );
 
-    $loggerFactory = new Magento_Tools_Migration_Acl_Db_Logger_Factory();
+    $loggerFactory = new \Magento\Tools\Migration\Acl\Db\Logger\Factory();
     $logger = $loggerFactory->getLogger($options->getOption('output'), $defaultReportFile);
 
-    $writer = new Magento_Tools_Migration_Acl_Db_Writer($dbAdapter, $options->getOption('dbtable'));
-    $reader = new Magento_Tools_Migration_Acl_Db_Reader($dbAdapter, $options->getOption('dbtable'));
+    $writer = new \Magento\Tools\Migration\Acl\Db\Writer($dbAdapter, $options->getOption('dbtable'));
+    $reader = new \Magento\Tools\Migration\Acl\Db\Reader($dbAdapter, $options->getOption('dbtable'));
 
-    $updater = new Magento_Tools_Migration_Acl_Db_Updater($reader, $writer, $logger, $options->getOption('mode'));
+    $updater = new \Magento\Tools\Migration\Acl\Db\Updater($reader, $writer, $logger, $options->getOption('mode'));
     $updater->migrate($map);
 
     $logger->report();
-} catch (Zend_Console_Getopt_Exception $e) {
+} catch (\Zend_Console_Getopt_Exception $e) {
     echo $e->getUsageMessage();
     exit;
-} catch (InvalidArgumentException $exp) {
+} catch (\InvalidArgumentException $exp) {
     echo $exp->getMessage();
-} catch (Exception $exp) {
+} catch (\Exception $exp) {
     echo $exp->getMessage();
 }

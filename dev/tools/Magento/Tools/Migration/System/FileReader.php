@@ -8,19 +8,21 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_System_FileReader
+namespace Magento\Tools\Migration\System;
+
+class FileReader
 {
     /**
      * Retrieve contents of a file
      *
      * @param string $fileName
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getContents($fileName)
     {
         if (false === file_exists($fileName)) {
-            throw new InvalidArgumentException($fileName . ' does not exist');
+            throw new \InvalidArgumentException($fileName . ' does not exist');
         }
         return file_get_contents($fileName);
     }

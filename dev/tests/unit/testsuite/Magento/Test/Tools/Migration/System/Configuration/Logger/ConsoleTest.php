@@ -18,7 +18,7 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_ConsoleTest exten
     public function testReport()
     {
         $this->expectOutputRegex('/^valid: 0(.)*/');
-        $model = new Magento_Tools_Migration_System_Configuration_Logger_Console();
+        $model = new \Magento\Tools\Migration\System\Configuration\Logger\Console();
         $model->report();
     }
 }

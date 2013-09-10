@@ -8,8 +8,10 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_System_Configuration_Mapper_Group
-    extends Magento_Tools_Migration_System_Configuration_Mapper_Abstract
+namespace Magento\Tools\Migration\System\Configuration\Mapper;
+
+class Group
+    extends \Magento\Tools\Migration\System\Configuration\Mapper\AbstractMapper
 {
     /**
      * @var Tools_Migration_System_Configuration_Mapper_Field
@@ -35,7 +37,7 @@ class Magento_Tools_Migration_System_Configuration_Mapper_Group
     /**
      * @param Tools_Migration_System_Configuration_Mapper_Field $fieldMapper
      */
-    public function __construct(Magento_Tools_Migration_System_Configuration_Mapper_Field $fieldMapper)
+    public function __construct(\Magento\Tools\Migration\System\Configuration\Mapper\Field $fieldMapper)
     {
         $this->_fieldMapper = $fieldMapper;
     }

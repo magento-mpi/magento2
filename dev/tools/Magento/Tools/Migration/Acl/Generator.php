@@ -8,9 +8,11 @@
  * @license    {license_link}
  */
 require_once(__DIR__ . '/Menu/Generator.php');
-require_once(__DIR__ . '/FileManager.php');
+namespace Magento\Tools\Migration\Acl;
 
-class Magento_Tools_Migration_Acl_Generator
+
+require_once(__DIR__ . '/FileManager.php');
+class Generator
 {
     /**
      * @var bool
@@ -59,7 +61,7 @@ class Magento_Tools_Migration_Acl_Generator
     protected $_basePath = null;
 
     /**
-     * Adminhtml DOMDocument list
+     * Adminhtml \DOMDocument list
      *
      * @var array
      */
@@ -85,23 +87,23 @@ class Magento_Tools_Migration_Acl_Generator
     protected $_uniqueName = array();
 
     /**
-     * @var Magento_Tools_Migration_Acl_Formatter
+     * @var \Magento\Tools\Migration\Acl\Formatter
      */
     protected $_xmlFormatter;
 
     /**
-     * @var Magento_Tools_Migration_Acl_FileManager
+     * @var \Magento\Tools\Migration\Acl\FileManager
      */
     protected $_fileManager;
 
     /**
-     * @param Magento_Tools_Migration_Acl_Formatter $xmlFormatter
-     * @param Magento_Tools_Migration_Acl_FileManager $fileManager
+     * @param \Magento\Tools\Migration\Acl\Formatter $xmlFormatter
+     * @param \Magento\Tools\Migration\Acl\FileManager $fileManager
      * @param array $options configuration options
      */
     public function __construct(
-        Magento_Tools_Migration_Acl_Formatter $xmlFormatter,
-        Magento_Tools_Migration_Acl_FileManager $fileManager,
+        \Magento\Tools\Migration\Acl\Formatter $xmlFormatter,
+        \Magento\Tools\Migration\Acl\FileManager $fileManager,
         $options = array()
     ) {
         $this->_xmlFormatter = $xmlFormatter;
@@ -240,13 +242,13 @@ class Magento_Tools_Migration_Acl_Generator
     /**
      * Create node
      *
-     * @param DOMDocument $resultDom
+     * @param \DOMDocument $resultDom
      * @param string $nodeName
-     * @param DOMNode $parent
+     * @param \DOMNode $parent
      *
-     * @return DOMNode
+     * @return \DOMNode
      */
-    public function createNode(DOMDocument $resultDom, $nodeName, DOMNode $parent)
+    public function createNode(\DOMDocument $resultDom, $nodeName, \DOMNode $parent)
     {
         $newNode = $resultDom->createElement('resource');
         $xpath = $parent->getAttribute('xpath');
@@ -259,12 +261,12 @@ class Magento_Tools_Migration_Acl_Generator
     /**
      * Generate unique id for ACL item
      *
-     * @param DOMNode $node
+     * @param \DOMNode $node
      * @param $xpath string
      * @param $resourceId string
      * @return mixed
      */
-    public function generateId(DOMNode $node, $xpath, $resourceId)
+    public function generateId(\DOMNode $node, $xpath, $resourceId)
     {
         if (isset($this->_uniqueName[$resourceId]) && $this->_uniqueName[$resourceId] != $xpath) {
             $parts = explode('/', $node->parentNode->getAttribute('xpath'));
@@ -278,11 +280,11 @@ class Magento_Tools_Migration_Acl_Generator
     /**
      * Set meta node
      *
-     * @param DOMNode $node
-     * @param DOMNode $dataNode
+     * @param \DOMNode $node
+     * @param \DOMNode $dataNode
      * @param string $module
      */
-    public function setMetaInfo(DOMNode $node, DOMNode $dataNode, $module)
+    public function setMetaInfo(\DOMNode $node, \DOMNode $dataNode, $module)
     {
         $node->setAttribute($this->_metaNodeNames[$dataNode->nodeName], $dataNode->nodeValue);
         if ($dataNode->nodeName == 'title') {
@@ -334,12 +336,12 @@ class Magento_Tools_Migration_Acl_Generator
     /**
      * Parse node
      *
-     * @param DOMNode $node - data source
-     * @param DOMDocument $dom - result DOMDocument
-     * @param DOMNode $parentNode - parent node from result document
+     * @param \DOMNode $node - data source
+     * @param \DOMDocument $dom - result \DOMDocument
+     * @param \DOMNode $parentNode - parent node from result document
      * @param $moduleName
      */
-    public function parseNode(DOMNode $node, DOMDocument $dom, DOMNode $parentNode, $moduleName)
+    public function parseNode(\DOMNode $node, \DOMDocument $dom, \DOMNode $parentNode, $moduleName)
     {
         if ($this->isRestrictedNode($node->nodeName)) {
             return;
@@ -387,13 +389,13 @@ class Magento_Tools_Migration_Acl_Generator
     }
 
     /**
-     * Get template for result DOMDocument
+     * Get template for result \DOMDocument
      *
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     public function getResultDomDocument()
     {
-        $resultDom = new DOMDocument();
+        $resultDom = new \DOMDocument();
         $resultDom->formatOutput = true;
 
         $config = $resultDom->createElement('config');
@@ -417,13 +419,13 @@ class Magento_Tools_Migration_Acl_Generator
             $module = $this->getModuleName($file);
             $resultDom = $this->getResultDomDocument();
 
-            $adminhtmlDom = new DOMDocument();
+            $adminhtmlDom = new \DOMDocument();
             $adminhtmlDom->load($file);
             $this->_adminhtmlDomList[$file] = $adminhtmlDom;
 
-            $xpath = new DOMXPath($adminhtmlDom);
+            $xpath = new \DOMXPath($adminhtmlDom);
             $resourcesList = $xpath->query('//config/acl/*');
-            /** @var $aclNode DOMNode **/
+            /** @var $aclNode \DOMNode **/
             foreach ($resourcesList as $aclNode) {
                 $this->parseNode($aclNode, $resultDom, $resultDom->getElementsByTagName('resources')->item(0), $module);
             }
@@ -437,10 +439,10 @@ class Magento_Tools_Migration_Acl_Generator
      */
     public function updateAclResourceIds()
     {
-        /**  @var $dom DOMDocument **/
+        /**  @var $dom \DOMDocument **/
         foreach ($this->_parsedDomList as $dom) {
             $list = $dom->getElementsByTagName('resources');
-            /** @var $node DOMNode **/
+            /** @var $node \DOMNode **/
             foreach ($list as $node) {
                 $node->removeAttribute('xpath');
                 if ($node->childNodes->length > 0) {
@@ -451,11 +453,11 @@ class Magento_Tools_Migration_Acl_Generator
     }
 
     /**
-     * @param $node DOMNode
+     * @param $node \DOMNode
      */
     public function updateChildAclNodes($node)
     {
-        /** @var $item DOMNode **/
+        /** @var $item \DOMNode **/
         foreach ($node->childNodes as $item) {
             if (false == $this->isValidNodeType($item->nodeType)) {
                 continue;
@@ -486,7 +488,7 @@ class Magento_Tools_Migration_Acl_Generator
     /**
      * Save ACL files
      *
-     * @throws Exception if tidy extension is not installed
+     * @throws \Exception if tidy extension is not installed
      */
     public function saveAclFiles()
     {
@@ -494,7 +496,7 @@ class Magento_Tools_Migration_Acl_Generator
             return;
         }
 
-        /** @var $dom DOMDocument **/
+        /** @var $dom \DOMDocument **/
         foreach ($this->_parsedDomList as $originFile => $dom) {
             $file = str_replace('adminhtml.xml', 'adminhtml' . DIRECTORY_SEPARATOR . 'acl.xml', $originFile);
             $dom->preserveWhiteSpace = false;
@@ -546,7 +548,7 @@ class Magento_Tools_Migration_Acl_Generator
             'not_removed' => array(),
         );
 
-        /** @var $dom DOMDocument **/
+        /** @var $dom \DOMDocument **/
         foreach ($this->_adminhtmlDomList as $file => $dom) {
             $xpath = new DOMXpath($dom);
             $nodeList = $xpath->query('/config/acl');
@@ -578,10 +580,10 @@ class Magento_Tools_Migration_Acl_Generator
     /**
      * Check if node is empty
      *
-     * @param DOMNode $node
+     * @param \DOMNode $node
      * @return bool
      */
-    public function isNodeEmpty(DOMNode $node)
+    public function isNodeEmpty(\DOMNode $node)
     {
         $output = true;
         foreach ($node->childNodes as $item) {
@@ -696,7 +698,7 @@ class Magento_Tools_Migration_Acl_Generator
      */
     public function processMenu()
     {
-        $menu = new Magento_Tools_Migration_Acl_Menu_Generator(
+        $menu = new \Magento\Tools\Migration\Acl\Menu\Generator(
             $this->getBasePath(),
             $this->getValidNodeTypes(),
             $this->_aclResourceMaps,

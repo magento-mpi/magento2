@@ -21,7 +21,7 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
 class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_System_Configuration_Generator
+     * @var \Magento\Tools\Migration\System\Configuration\Generator
      */
     protected $_model;
 
@@ -43,16 +43,16 @@ class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PH
     protected function setUp()
     {
         $this->_fileManagerMock = $this->getMock(
-            '\Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
+            'Magento\Tools\Migration\System\FileManager', array(), array(), '', false);
         $this->_loggerMock = $this->getMockForAbstractClass(
-            '\Magento_Tools_Migration_System_Configuration_LoggerAbstract',
+            'Magento\Tools\Migration\System\Configuration\LoggerAbstract',
             array(), '', false, false, false, array('add')
         );
-        $this->_formatterMock = $this->getMock('\Magento_Tools_Migration_System_Configuration_Formatter', array(),
+        $this->_formatterMock = $this->getMock('Magento\Tools\Migration\System\Configuration\Formatter', array(),
             array(), '', false
         );
 
-        $this->_model = new \Magento_Tools_Migration_System_Configuration_Generator(
+        $this->_model = new \Magento\Tools\Migration\System\Configuration\Generator(
             $this->_formatterMock, $this->_fileManagerMock, $this->_loggerMock
         );
     }
@@ -89,7 +89,7 @@ class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PH
 
         $this->_loggerMock->expects($this->once())->method('add')->with(
             'someFile',
-            Magento_Tools_Migration_System_Configuration_LoggerAbstract:: FILE_KEY_INVALID
+            \Magento\Tools\Migration\System\Configuration\LoggerAbstract:: FILE_KEY_INVALID
         );
 
         $this->_model->createConfiguration('someFile', include __DIR__ . '/_files/mappedConfiguration.php');

@@ -21,7 +21,7 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
 class Magento_Test_Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var $model Magento_Tools_Migration_Acl_Generator
+     * @var $model \Magento\Tools\Migration\Acl\Generator
      */
     protected $_model;
 
@@ -53,10 +53,10 @@ class Magento_Test_Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Frame
         $this->_emptyFile = $path . 'empty.xml';
         $this->_notEmptyFile = $path . 'not_empty.xml';
 
-        $this->_xmlFormatterMock = $this->getMock('Magento_Tools_Migration_Acl_Formatter');
-        $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_Acl_FileManager');
+        $this->_xmlFormatterMock = $this->getMock('Magento\Tools\Migration\Acl\Formatter');
+        $this->_fileManagerMock = $this->getMock('Magento\Tools\Migration\Acl\FileManager');
         $this->_fileManagerMock->expects($this->once())->method('remove')->with($this->equalTo($this->_emptyFile));
-        $this->_model = new Magento_Tools_Migration_Acl_Generator($this->_xmlFormatterMock, $this->_fileManagerMock);
+        $this->_model = new \Magento\Tools\Migration\Acl\Generator($this->_xmlFormatterMock, $this->_fileManagerMock);
     }
 
     public function tearDown()

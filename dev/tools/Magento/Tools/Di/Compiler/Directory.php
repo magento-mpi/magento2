@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 namespace Magento\Tools\Di\Compiler;
-use Zend\Code\Scanner\FileScanner,
+use \Zend\Code\Scanner\FileScanner,
     Magento\Tools\Di\Compiler\Log\Log;
 
 class Directory

@@ -8,7 +8,9 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_System_Writer_Memory implements Magento_Tools_Migration_System_WriterInterface
+namespace Magento\Tools\Migration\System\Writer;
+
+class Memory implements \Magento\Tools\Migration\System\WriterInterface
 {
     /**
      * @param string $fileName

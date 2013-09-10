@@ -17,7 +17,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Logger_FileTest extends PHPUnit_Framew
 {
     public function testConstructWithValidFile()
     {
-        new Magento_Tools_Migration_Acl_Db_Logger_File(realpath(dirname(__FILE__) . '/../../../../../') . '/tmp/');
+        new \Magento\Tools\Migration\Acl\Db\Logger\File(realpath(dirname(__FILE__) . '/../../../../../') . '/tmp/');
     }
 
     /**
@@ -25,7 +25,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Logger_FileTest extends PHPUnit_Framew
      */
     public function testConstructWithInValidFile()
     {
-        new Magento_Tools_Migration_Acl_Db_Logger_File(null);
+        new \Magento\Tools\Migration\Acl\Db\Logger\File(null);
     }
 }
 
