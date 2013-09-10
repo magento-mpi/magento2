@@ -113,8 +113,8 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
     {
         $this->_objectManager = $this->getMock('Magento_TestFramework_ObjectManager', array(), array(), '', false);
         /*
-         * Prevent calling Magento_Core_Controller_Response_Http::setRedirect() because it executes
-         * Mage::dispatchEvent(), which requires fully initialized application environment intentionally not available
+         * Prevent calling Magento_Core_Controller_Response_Http::setRedirect() because it dispatches event,
+         * which requires fully initialized application environment intentionally not available
          * for unit tests
          */
         $setRedirectMethod = new ReflectionMethod('Zend_Controller_Response_Http', 'setRedirect');
