@@ -153,15 +153,16 @@ class Magento_User_Model_User
     public function __sleep()
     {
         $properties = parent::__sleep();
-        return array_diff($properties, array('_sender', '_coreData', '_userData'));
+        return array_diff($properties, array('_eventManager', '_sender', '_coreData', '_userData'));
     }
 
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_sender   = Mage::getSingleton('Magento_Core_Model_Sender');
-        $this->_coreData = Mage::getSingleton('Magento_Core_Helper_Data');
-        $this->_userData = Mage::getSingleton('Magento_User_Helper_Data');
+        $this->_eventManager = Mage::getSingleton('Magento_Core_Model_Event_Manager');
+        $this->_sender       = Mage::getSingleton('Magento_Core_Model_Sender');
+        $this->_coreData     = Mage::getSingleton('Magento_Core_Helper_Data');
+        $this->_userData     = Mage::getSingleton('Magento_User_Helper_Data');
     }
 
     /**
