@@ -105,7 +105,7 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     public function getRequest()
     {
         if (!$this->_request) {
-            $this->_request = new Magento_TestFramework_Request();
+            $this->_request = $this->_objectManager->get('Magento_TestFramework_Request');
             $this->_objectManager->addSharedInstance($this->_request, 'Magento_TestFramework_Request');
         }
         return $this->_request;
@@ -119,8 +119,7 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     public function getResponse()
     {
         if (!$this->_response) {
-            $this->_response = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_TestFramework_Response');
+            $this->_response = $this->_objectManager->get('Magento_TestFramework_Response');
             $this->_objectManager->addSharedInstance($this->_response, 'Magento_TestFramework_Response');
         }
         return $this->_response;
