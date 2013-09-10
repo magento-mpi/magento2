@@ -423,7 +423,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
 
             return false;
         }
-        $fields = $this->_coreConfig->getFieldset($fieldset, $root);
+        $fields = $this->_config->getFieldset($fieldset, $root);
         if (!$fields) {
             return false;
         }
