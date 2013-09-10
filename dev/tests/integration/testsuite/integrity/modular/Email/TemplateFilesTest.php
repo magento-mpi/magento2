@@ -30,7 +30,7 @@ class Integrity_Modular_Email_TemplateFilesTest extends PHPUnit_Framework_TestCa
         $templateModel = $objectManager->create('Magento_Core_Model_Email_Template');
 
         $data = array();
-        $config = Mage::getConfig();
+        $config = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
         foreach ($templateModel->getDefaultTemplates() as $row) {
             $data[] = array($config->determineOmittedNamespace($row['@']['module'], true), $row['file']);
         }

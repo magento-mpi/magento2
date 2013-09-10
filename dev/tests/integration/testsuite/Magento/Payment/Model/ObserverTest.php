@@ -129,7 +129,7 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected function _resetConfig()
     {
-        Mage::getConfig()->reinit();
+        $this->_objectManager->get('Magento_Core_Model_Config')->reinit();
         $this->_objectManager->create('Magento_Core_Model_StoreManagerInterface')->reinitStores();
     }
 }

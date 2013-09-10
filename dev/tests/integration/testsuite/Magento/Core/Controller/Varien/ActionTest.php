@@ -18,7 +18,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        Mage::getConfig();
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
         $arguments = array(
             'request'  => new Magento_Test_Request(),

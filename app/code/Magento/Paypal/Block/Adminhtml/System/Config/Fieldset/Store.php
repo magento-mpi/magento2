@@ -80,7 +80,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
         $website = $this->getRequest()->getParam('website');
         $disabledMethods = array();
         foreach ($methods as $methodId => $methodPath) {
-            $isEnabled = (int)  Mage::getConfig()->getValue($methodPath, 'website', $website);
+            $isEnabled = (int)  $this->_coreConfig->getValue($methodPath, 'website', $website);
             if ($isEnabled === 0) {
                 $disabledMethods[$methodId] = $isEnabled;
             }

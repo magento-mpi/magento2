@@ -115,13 +115,6 @@ final class Mage
     static private $_app;
 
     /**
-     * Config Model
-     *
-     * @var Magento_Core_Model_Config
-     */
-    static private $_config;
-
-    /**
      * Object manager interface
      *
      * @var Magento_ObjectManager
@@ -248,7 +241,6 @@ final class Mage
 
         self::$_appRoot         = null;
         self::$_app             = null;
-        self::$_config          = null;
         self::$_objects         = null;
         self::$_isDownloader    = false;
         self::$_loggers         = array();
@@ -417,22 +409,6 @@ final class Mage
             self::$_design = self::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
         }
         return self::$_design;
-    }
-
-    /**
-     * Retrieve a config instance
-     *
-     * This method doesn't suit Magento 2 anymore, it is left only until refactoring, when all calls
-     * to this method will be removed in favor of config dependency injection.
-     *
-     * @return Magento_Core_Model_Config
-     */
-    public static function getConfig()
-    {
-        if (!self::$_config) {
-            self::$_config = self::getObjectManager()->get('Magento_Core_Model_Config');
-        }
-        return self::$_config;
     }
 
     /**

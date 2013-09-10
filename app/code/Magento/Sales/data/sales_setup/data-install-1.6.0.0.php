@@ -15,7 +15,7 @@ $installer = $this;
  * Install order statuses from config
  */
 $data     = array();
-$statuses = Mage::getConfig()->getNode('global/sales/order/statuses')->asArray();
+$statuses = $installer->getConfigModel()->getNode('global/sales/order/statuses')->asArray();
 foreach ($statuses as $code => $info) {
     $data[] = array(
         'status' => $code,

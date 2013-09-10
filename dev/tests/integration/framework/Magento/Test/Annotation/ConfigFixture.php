@@ -71,14 +71,15 @@ class Magento_Test_Annotation_ConfigFixture
     {
         if ($storeCode === false) {
             $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+            /** @var $configModel Magento_Core_Model_Config */
+            $configModel = $objectManager->get('Magento_Core_Model_Config');
             // @todo refactor this method when all types of configuration are represented by array
             if (strpos($configPath, 'default/') === 0) {
                 $configPath = substr($configPath, 8);
-                Mage::getConfig()->setValue($configPath, $value);
+                $configModel->setValue($configPath, $value);
                 $objectManager->get('Magento_Core_Model_Config')->setValue($configPath, $value);
             } else {
-                Mage::getConfig()->setNode($configPath, $value);
-                $objectManager->get('Magento_Core_Model_Config')->setNode($configPath, $value);
+                $configModel->setNode($configPath, $value);
                 $objectManager->get('Magento_Core_Model_Config_Primary')->setNode($configPath, $value);
             }
         } else {
