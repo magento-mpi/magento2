@@ -76,8 +76,8 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         $this->_filesystem->setWorkingDirectory($this->getHelper()->getStorageRoot());
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;
-        parent::__construct($data);
         $this->_coreConfig = $coreConfig;
+        parent::__construct($data);
     }
 
     /**
