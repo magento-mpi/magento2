@@ -17,7 +17,7 @@ class Magento_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
     public function testCustomerAddressList()
     {
         // Get the customer's addresses
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'customerAddressList',
             array(
@@ -48,7 +48,7 @@ class Magento_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         $customerAddress = Mage::getModel('Magento_Customer_Model_Address');
         $customerAddress->load(1);
 
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'customerAddressInfo',
             array(
@@ -87,7 +87,7 @@ class Magento_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         );
 
         // Call api to create the address
-        $newAddressId = Magento_Test_Helper_Api::call(
+        $newAddressId = Magento_TestFramework_Helper_Api::call(
             $this,
             'customerAddressCreate',
             array(
@@ -117,7 +117,7 @@ class Magento_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         $addressId = 1;
 
         // Delete address
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'customerAddressDelete',
             array(
@@ -149,7 +149,7 @@ class Magento_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         );
 
         // update a customer's address
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'customerAddressUpdate',
             array(
@@ -199,7 +199,7 @@ class Magento_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
             'telephone'
         );
 
-        Magento_Test_Helper_Api::checkEntityFields(
+        Magento_TestFramework_Helper_Api::checkEntityFields(
             $this,
             $expectedData,
             $actualData,

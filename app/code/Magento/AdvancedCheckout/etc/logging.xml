@@ -18,7 +18,7 @@
             <label>Add to Cart</label>
         </add_to_cart>
     </actions>
-    <magento_checkout translate="label">
+    <magento_advancedcheckout translate="label">
         <label>Shopping Cart Management</label>
         <actions>
             <adminhtml_checkout_index>
@@ -52,5 +52,5 @@
                 </expected_models>
             </adminhtml_checkout_addToCart>
         </actions>
-    </magento_checkout>
+    </magento_advancedcheckout>
 </logging>

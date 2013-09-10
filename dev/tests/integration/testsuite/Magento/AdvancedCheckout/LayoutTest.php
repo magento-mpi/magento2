@@ -13,7 +13,7 @@ class Magento_AdvancedCheckout_LayoutTest extends PHPUnit_Framework_TestCase
 {
     public function testCartLayout()
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme('magento_fixed_width');
         $layout = Mage::getModel('Magento_Core_Model_Layout');
         $layout->getUpdate()->addHandle('checkout_cart_index');

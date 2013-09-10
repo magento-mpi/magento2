@@ -26,7 +26,7 @@ class Magento_User_Model_Resource_Role_Grid_CollectionTest extends PHPUnit_Frame
         $expectedResult = array(
             array(
                 'role_type' => Magento_User_Model_Acl_Role_Group::ROLE_TYPE,
-                'role_name' => Magento_Test_Bootstrap::ADMIN_ROLE_NAME,
+                'role_name' => Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME,
             ),
         );
         $actualResult = array();

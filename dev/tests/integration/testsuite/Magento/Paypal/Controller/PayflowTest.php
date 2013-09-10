@@ -9,7 +9,7 @@
 /**
  * @magentoDataFixture Magento/Sales/_files/order.php
  */
-class Magento_Paypal_Controller_PayflowTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Paypal_Controller_PayflowTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     public function setUp()
     {

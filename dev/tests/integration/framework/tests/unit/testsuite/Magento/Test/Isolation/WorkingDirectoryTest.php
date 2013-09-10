@@ -10,18 +10,18 @@
  */
 
 /**
- * Test class for Magento_Test_Isolation_WorkingDirectory.
+ * Test class for Magento_TestFramework_Isolation_WorkingDirectory.
  */
 class Magento_Test_Isolation_WorkingDirectoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Isolation_WorkingDirectory
+     * @var Magento_TestFramework_Isolation_WorkingDirectory
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Magento_Test_Isolation_WorkingDirectory();
+        $this->_object = new Magento_TestFramework_Isolation_WorkingDirectory();
     }
 
     protected function tearDown()

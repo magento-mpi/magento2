@@ -18,7 +18,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testCreate()
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
         /** Prepare data. */
@@ -30,7 +30,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
         );
 
         /** Create new invoice via API. */
-        $newInvoiceId = Magento_Test_Helper_Api::call(
+        $newInvoiceId = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderInvoiceCreate',
             array(
@@ -66,7 +66,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
     public function testInfo()
     {
         /** Retrieve invoice data via API. */
-        $invoiceData = Magento_Test_Helper_Api::call(
+        $invoiceData = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderInvoiceInfo',
             array(
@@ -83,7 +83,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
             'entity_id' => 'invoice_id',
             'base_grand_total'
         );
-        Magento_Test_Helper_Api::checkEntityFields(
+        Magento_TestFramework_Helper_Api::checkEntityFields(
             $this,
             $this->_getFixtureInvoice()->getData(),
             $invoiceData,
@@ -104,7 +104,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
         $commentText = "Test invoice comment.";
 
         /** Retrieve invoice data via API. */
-        $isAdded = Magento_Test_Helper_Api::call(
+        $isAdded = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderInvoiceAddComment',
             array(
@@ -145,7 +145,8 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
              */
             $this->setExpectedException('SoapFault', $expectedFaultMessage);
         }
-        Magento_Test_Helper_Api::call($this, 'salesOrderInvoiceCapture', array($invoiceBefore->getIncrementId()));
+        Magento_TestFramework_Helper_Api::call($this, 'salesOrderInvoiceCapture',
+            array($invoiceBefore->getIncrementId()));
     }
 
     /**
@@ -172,7 +173,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
             $this->setExpectedException('SoapFault', $expectedFaultMessage);
         }
 
-        Magento_Test_Helper_Api::call($this, 'salesOrderInvoiceVoid', array($invoiceBefore->getIncrementId()));
+        Magento_TestFramework_Helper_Api::call($this, 'salesOrderInvoiceVoid', array($invoiceBefore->getIncrementId()));
     }
 
     /**
@@ -185,7 +186,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
         /** Capture invoice data via API. */
         $invoiceBefore = $this->_getFixtureInvoice();
         $this->assertTrue($invoiceBefore->canCancel(), "Invoice fixture cannot be cancelled.");
-        $isCanceled = Magento_Test_Helper_Api::call(
+        $isCanceled = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderInvoiceCancel',
             array($invoiceBefore->getIncrementId())
@@ -249,10 +250,10 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
 
         // Set invoice increment id prefix
         $prefix = '01';
-        Magento_Test_Helper_Eav::setIncrementIdPrefix('invoice', $prefix);
+        Magento_TestFramework_Helper_Eav::setIncrementIdPrefix('invoice', $prefix);
 
         // Create new invoice
-        $newInvoiceId = Magento_Test_Helper_Api::call(
+        $newInvoiceId = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderInvoiceCreate',
             array(
@@ -295,7 +296,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
             )
         );
 
-        $result = Magento_Test_Helper_Api::call($this, 'salesOrderInvoiceList', $filters);
+        $result = Magento_TestFramework_Helper_Api::call($this, 'salesOrderInvoiceList', $filters);
 
         if (!isset($result[0])) { // workaround for WS-I
             $result = array($result);

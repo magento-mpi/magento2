@@ -12,17 +12,17 @@
 class Magento_Test_ApplicationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Magento_Test_Application::getInstallDir()
-     * @covers Magento_Test_Application::getDbInstance()
-     * @covers Magento_Test_Application::getInitParams()
+     * @covers Magento_TestFramework_Application::getInstallDir()
+     * @covers Magento_TestFramework_Application::getDbInstance()
+     * @covers Magento_TestFramework_Application::getInitParams()
      */
     public function testConstructor()
     {
-        $dbInstance = $this->getMockForAbstractClass('Magento_Test_Db_DbAbstract', array(), '', false);
+        $dbInstance = $this->getMockForAbstractClass('Magento_TestFramework_Db_DbAbstract', array(), '', false);
         $installDir = '/install/dir';
         $appMode = Magento_Core_Model_App_State::MODE_DEVELOPER;
 
-        $object = new Magento_Test_Application(
+        $object = new Magento_TestFramework_Application(
             $dbInstance,
             $installDir,
             new Magento_Simplexml_Element('<data/>'),

@@ -30,7 +30,8 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
 
     public function testSetThemeId()
     {
-        $theme = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();
         $this->_model->setThemeId($theme->getId());

@@ -21,7 +21,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_MainTest extends PH
      */
     public function testPrepareForm()
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         Mage::register('current_target_rule', Mage::getModel('Magento_TargetRule_Model_Rule'));

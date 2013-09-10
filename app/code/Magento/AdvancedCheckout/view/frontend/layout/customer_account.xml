@@ -12,7 +12,7 @@
         <reference name="customer-account-navigation">
             <block class="Magento_AdvancedCheckout_Block_Customer_Link" name="customer-account-navigation-checkout-sku-link">
                 <arguments>
-                    <argument name="path" xsi:type="string">magento_checkout/sku</argument>
+                    <argument name="path" xsi:type="string">magento_advancedcheckout/sku</argument>
                     <argument name="label" xsi:type="string">Order by SKU</argument>
                 </arguments>
             </block>

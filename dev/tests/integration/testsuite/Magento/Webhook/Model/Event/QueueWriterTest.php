@@ -13,7 +13,7 @@ class Magento_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_Test
 {
     public function testOfferWebhookEvent()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         // New collection must be created to avoid interference between QueueReader tests
         $collection =  $objectManager->create('Magento_Webhook_Model_Resource_Event_Collection');
         $readerArgs = array('collection' => $collection);
@@ -35,7 +35,7 @@ class Magento_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_Test
 
     public function testOfferMagentoEvent()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         // New collection must be created to avoid interference between QueueReader tests
         $collection =  $objectManager->create('Magento_Webhook_Model_Resource_Event_Collection');
         $readerArgs = array('collection' => $collection);

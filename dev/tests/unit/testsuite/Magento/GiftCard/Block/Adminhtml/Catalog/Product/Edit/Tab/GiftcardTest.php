@@ -41,7 +41,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_GiftcardTest ext
             ->method('isSingleStoreMode')
             ->will($this->returnValue($isSingleStore));
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $block = $objectManagerHelper->getObject(
             'Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard',
             array('context' => $contextMock, 'storeManager' => $storeManagerMock)

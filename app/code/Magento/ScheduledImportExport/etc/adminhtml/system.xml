@@ -12,7 +12,7 @@
 <config>
     <system>
         <section id="system">
-            <group id="magento_import_export_log" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="900">
+            <group id="magento_scheduled_import_export_log" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="900">
                 <label>Scheduled Import/Export File History Cleaning</label>
                 <field id="save_days" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Save Files, Days</label>

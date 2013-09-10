@@ -21,7 +21,7 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
 
     public static function setUpBeforeClass()
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme('magento_demo');
     }
 

@@ -26,6 +26,6 @@ class Magento_SalesArchive_Model_Resource_Order_Shipment_Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->setMainTable('enterprise_sales_shipment_grid_archive');
+        $this->setMainTable('magento_sales_shipment_grid_archive');
     }
 }
