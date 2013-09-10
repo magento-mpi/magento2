@@ -19,12 +19,15 @@ class Magento_Payment_Block_Catalog_Product_View_ProfileTest extends PHPUnit_Fra
      */
     public function testGetDateHtml()
     {
-        $product = Mage::getObjectManager()->create('Magento_Catalog_Model_Product');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        
+        $product = $objectManager->create('Magento_Catalog_Model_Product');
         $product->setIsRecurring('1');
         $product->setRecurringProfile(array('start_date_is_editable' => true));
-        Mage::register('current_product', $product);
-        $block = Mage::getObjectManager()->create('Magento_Payment_Block_Catalog_Product_View_Profile');
-        $block->setLayout(Mage::getObjectManager()->create('Magento_Core_Model_Layout'));
+        $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
+        $block = $objectManager->create('Magento_Payment_Block_Catalog_Product_View_Profile');
+        $block->setLayout($objectManager->create('Magento_Core_Model_Layout'));
 
         $html = $block->getDateHtml();
         $this->assertNotEmpty($html);

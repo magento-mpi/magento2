@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <checkout_onepage_review>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="checkout_onepage_review">
         <reference name="additional.product.info">
-            <block type="Magento_GiftWrapping_Block_Product_Info" name="giftwrapping.product.info" template="product/info.phtml"/>
+            <block class="Magento_GiftWrapping_Block_Product_Info" name="giftwrapping.product.info" template="product/info.phtml"/>
         </reference>
-    </checkout_onepage_review>
+    </handle>
 </layout>

@@ -8,8 +8,9 @@
  * @license     {license_link}
  */
 ?>
-<?php if (!Mage::helper('Magento_Core_Helper_Cookie')->isUserNotAllowSaveCookie()): ?>
-<?php $accountId = Mage::getStoreConfig(Magento_GoogleAnalytics_Helper_Data::XML_PATH_ACCOUNT) ?>
+<?php /** @var $this Magento_GoogleAnalytics_Block_Ga */ ?>
+<?php if (!$this->helper('Magento_Core_Helper_Cookie')->isUserNotAllowSaveCookie()): ?>
+<?php $accountId = $this->getConfig(Magento_GoogleAnalytics_Helper_Data::XML_PATH_ACCOUNT) ?>
 <!-- BEGIN GOOGLE ANALYTICS CODEs -->
 <script type="text/javascript">
 //<![CDATA[

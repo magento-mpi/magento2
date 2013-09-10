@@ -28,7 +28,13 @@ class Magento_Core_Model_Module_Declaration_Reader_FilesystemTest extends PHPUni
             )));
         $fileResolver = new Magento_Core_Model_Module_Declaration_FileResolver($applicationDirs);
         $converter = new Magento_Core_Model_Module_Declaration_Converter_Dom();
-        $this->_model = new Magento_Core_Model_Module_Declaration_Reader_Filesystem($fileResolver, $converter);
+        $schemaLocatorMock = $this->getMock(
+            'Magento_Core_Model_Module_Declaration_SchemaLocator', array(), array(), '', false
+        );
+        $validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
+        $this->_model = new Magento_Core_Model_Module_Declaration_Reader_Filesystem(
+            $fileResolver, $converter, $schemaLocatorMock, $validationStateMock
+        );
     }
 
     public function testRead()

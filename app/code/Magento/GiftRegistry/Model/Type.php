@@ -129,12 +129,13 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
      */
     protected function _saveAttributeStoreData()
     {
-        if ($groups = $this->getAttributes()) {
-            foreach((array)$groups as $attributes) {
-                foreach((array)$attributes as $attribute) {
+        $groups = $this->getAttributes();
+        if ($groups) {
+            foreach ((array)$groups as $attributes) {
+                foreach ((array)$attributes as $attribute) {
                     $this->_getResource()->saveStoreData($this, $attribute);
                     if (isset($attribute['options']) && is_array($attribute['options'])) {
-                        foreach($attribute['options'] as $option) {
+                        foreach ($attribute['options'] as $option) {
                             $optionCode = $option['code'];
                             $option['code'] = $attribute['code'];
                             $this->_getResource()->saveStoreData($this, $option, $optionCode);
@@ -153,7 +154,8 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
      */
     protected function _cleanupData()
     {
-        if ($groups = $this->getAttributes()) {
+        $groups = $this->getAttributes();
+        if ($groups) {
             $attributesToSave = array();
             $config = Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config');
             foreach ((array)$groups as $group => $attributes) {
@@ -172,9 +174,9 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
                             $optionsToSave = array();
                             foreach ($attribute['options'] as $option) {
                                 if ($option['is_deleted']) {
-                                  $this->_getResource()->deleteAttributeStoreData(
-                                      $this->getId(), $attribute['code'], $option['code']
-                                  );
+                                    $this->_getResource()->deleteAttributeStoreData(
+                                        $this->getId(), $attribute['code'], $option['code']
+                                    );
                                 } else {
                                     $optionsToSave[] = $option;
                                 }
@@ -221,7 +223,8 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     {
         if (is_array($attributes)) {
             foreach ($attributes as $code => $attribute) {
-                if ($storeLabel = $this->getAttributeStoreData($code)) {
+                $storeLabel = $this->getAttributeStoreData($code);
+                if ($storeLabel) {
                     $attributes[$code]['label'] = $storeLabel;
                     $attributes[$code]['default_label'] = $attribute['label'];
                 }
@@ -229,7 +232,8 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
                     $options = array();
                     foreach ($attribute['options'] as $key => $label) {
                         $data = array('code' => $key, 'label' => $label);
-                        if ($storeLabel = $this->getAttributeStoreData($code, $key)) {
+                        $storeLabel = $this->getAttributeStoreData($code, $key);
+                        if ($storeLabel) {
                             $data['label'] = $storeLabel;
                             $data['default_label'] = $label;
                         }
@@ -258,9 +262,9 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
 
         if (is_array($this->_storeData)) {
             foreach ($this->_storeData as $item) {
-               if ($item['attribute_code'] == $attributeCode && $item['option_code'] == $optionCode) {
-                   return $item['label'];
-               }
+                if ($item['attribute_code'] == $attributeCode && $item['option_code'] == $optionCode) {
+                    return $item['label'];
+                }
             }
         }
         return '';
@@ -277,7 +281,8 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
         if (!$this->getId() || empty($code)) {
             return null;
         }
-        if ($groups = $this->getAttributes()) {
+        $groups = $this->getAttributes();
+        if ($groups) {
             foreach ($groups as $group) {
                 if (isset($group[$code])) {
                     return $group[$code];

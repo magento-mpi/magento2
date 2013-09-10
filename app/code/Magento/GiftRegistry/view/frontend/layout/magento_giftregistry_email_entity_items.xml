@@ -7,9 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <magento_giftregistry_email_entity_items translate="label" type="page" parent="magento_giftregistry_index_items">
-        <label>Customer GiftRegistry Email Items List</label>
-        <block type="Magento_GiftRegistry_Block_Email_Items" name="giftregistry.email.items" template="email/items.phtml"/>
-    </magento_giftregistry_email_entity_items>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Customer GiftRegistry Email Items List" id="magento_giftregistry_email_entity_items" type="page" parent="magento_giftregistry_index_items">
+        <block class="Magento_GiftRegistry_Block_Email_Items" name="giftregistry.email.items" template="email/items.phtml"/>
+    </handle>
 </layout>

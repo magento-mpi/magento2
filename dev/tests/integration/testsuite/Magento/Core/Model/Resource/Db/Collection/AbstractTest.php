@@ -15,7 +15,7 @@ class Magento_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Fra
 
     protected function setUp()
     {
-        $resourceModel = Mage::getObjectManager()->get('Magento_Core_Model_Resource');
+        $resourceModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource');
         $resource = $this->getMockForAbstractClass('Magento_Core_Model_Resource_Db_Abstract',
             array($resourceModel), '', true, true, true, array('getMainTable', 'getIdFieldName')
         );

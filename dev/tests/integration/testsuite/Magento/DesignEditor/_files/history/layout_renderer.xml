@@ -10,11 +10,11 @@
  * @license     {license_link}
  */
 -->
-<layout>
-    <customer_account>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+    <handle id="customer_account">
         <move element="customer_account_navigation" after="-" destination="right"/>
-    </customer_account>
-    <catalog_category_view>
+    </handle>
+    <handle id="catalog_category_view">
         <remove name="category.products"/>
-    </catalog_category_view>
+    </handle>
 </layout>

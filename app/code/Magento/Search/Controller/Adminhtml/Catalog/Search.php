@@ -18,6 +18,25 @@
 class Magento_Search_Controller_Adminhtml_Catalog_Search extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Ajax grid action
      */
     public function relatedGridAction()
@@ -40,7 +59,7 @@ class Magento_Search_Controller_Adminhtml_Catalog_Search extends Magento_Adminht
             $model->addData($data);
         }
 
-        Mage::register('current_catalog_search', $model);
+        $this->_coreRegistry->register('current_catalog_search', $model);
 
         $this->loadLayout(false);
         $this->renderLayout();

@@ -20,17 +20,24 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
      */
     public function testPrepareForm()
     {
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        
+        $objectManager->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            ->setDefaultDesignTheme();
         $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer');
-        $model = Mage::getObjectManager()->create('Magento_Customer_Model_Attribute');
+        $model = $objectManager->create('Magento_Customer_Model_Attribute');
         $model->setEntityTypeId($entityType->getId());
-        Mage::register('entity_attribute', $model);
+        $objectManager->get('Magento_Core_Model_Registry')->register('entity_attribute', $model);
 
         $block = $this->getMockForAbstractClass(
             'Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract',
-            array(Mage::getSingleton('Magento_Backend_Block_Template_Context'))
-        )
-        ->setLayout(Mage::getObjectManager()->create('Magento_Core_Model_Layout'));
+            array(
+                 $objectManager->get('Magento_Backend_Block_Template_Context'),
+                 $objectManager->get('Magento_Core_Model_Registry'),
+        ))
+        ->setLayout($objectManager->create('Magento_Core_Model_Layout'));
 
         $method = new ReflectionMethod(
             'Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract', '_prepareForm');

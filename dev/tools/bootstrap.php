@@ -18,7 +18,7 @@ function tool_autoloader($className)
     if (strpos($className, 'Magento\\Tools\\') === false) {
         return false;
     }
-    $filePath = str_replace('\\', DIRECTORY_SEPARATOR, str_replace('Magento\\Tools\\', '', $className));
+    $filePath = str_replace('\\', DIRECTORY_SEPARATOR, $className);
     $filePath = __DIR__ . DIRECTORY_SEPARATOR . $filePath . '.php';
     if (file_exists($filePath)) {
         include($filePath);

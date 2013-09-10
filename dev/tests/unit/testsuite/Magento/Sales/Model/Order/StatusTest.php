@@ -26,7 +26,7 @@ class Magento_Sales_Model_Order_StatusTest extends PHPUnit_Framework_TestCase
         if (!$eventDispatcher) {
             $eventDispatcher = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         }
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $model = $helper->getObject('Magento_Sales_Model_Order_Status', array(
             'resource' => $resource,
             'eventDispatcher' => $eventDispatcher

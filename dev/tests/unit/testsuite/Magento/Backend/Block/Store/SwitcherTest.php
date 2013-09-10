@@ -43,7 +43,7 @@ class Magento_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCas
             false
         );
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_object = $helper->getObject('Magento_Backend_Block_Store_Switcher', array(
             'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false),
             'application' => $this->_applicationModel,

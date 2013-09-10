@@ -15,12 +15,12 @@
  * @package    Magento_ScheduledImportExport
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Model_System_Config_Backend_Logclean_Cron extends Magento_Core_Model_Config_Data
+class Magento_ScheduledImportExport_Model_System_Config_Backend_Logclean_Cron extends Magento_Core_Model_Config_Value
 {
     /**
      * Cron expression configuration path
      */
-    const CRON_STRING_PATH = 'crontab/jobs/enterprise_import_export_log_clean/schedule/cron_expr';
+    const CRON_STRING_PATH = 'crontab/jobs/magento_scheduled_import_export_log_clean/schedule/cron_expr';
 
     /**
      * Add cron task
@@ -29,8 +29,8 @@ class Magento_ScheduledImportExport_Model_System_Config_Backend_Logclean_Cron ex
      */
     protected function _afterSave()
     {
-        $time = $this->getData('groups/enterprise_import_export_log/fields/time/value');
-        $frequency = $this->getData('groups/enterprise_import_export_log/fields/frequency/value');
+        $time = $this->getData('groups/magento_scheduled_import_export_log/fields/time/value');
+        $frequency = $this->getData('groups/magento_scheduled_import_export_log/fields/frequency/value');
 
         $frequencyDaily   = Magento_Cron_Model_Config_Source_Frequency::CRON_DAILY;
         $frequencyWeekly  = Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
@@ -47,7 +47,7 @@ class Magento_ScheduledImportExport_Model_System_Config_Backend_Logclean_Cron ex
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            Mage::getModel('Magento_Core_Model_Config_Data')
+            Mage::getModel('Magento_Core_Model_Config_Value')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)

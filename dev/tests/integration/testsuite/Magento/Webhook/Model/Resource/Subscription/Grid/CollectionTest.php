@@ -38,13 +38,14 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
     public static function setUpBeforeClass()
     {
         /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = Mage::getObjectManager()->create('Magento_Webapi_Model_Acl_User');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webapi_Model_Acl_User');
         $user->loadByKey(self::API_KEY);
         if ($user->getId()) {
             self::$_apiUserId = $user->getId();
         } else {
             /** @var Magento_Webhook_Model_Webapi_User_Factory $webapiUserFactory */
-            $webapiUserFactory = Mage::getObjectManager()->create('Magento_Webhook_Model_Webapi_User_Factory');
+            $webapiUserFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->create('Magento_Webhook_Model_Webapi_User_Factory');
             self::$_apiUserId = $webapiUserFactory->createUser(
                 array(
                     'email'      => 'email@localhost.com',
@@ -72,7 +73,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
 
     public function testGetSubscriptions()
     {
-        $gridCollection = Mage::getObjectManager()
+        $gridCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Webhook_Model_Resource_Subscription_Grid_Collection',
                 array('subscriptionConfig' => $this->_config));
 
@@ -87,7 +88,8 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
      */
     protected function _createSubscriptionConfig()
     {
-        $dirs = Mage::getObjectManager()->create(
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $dirs = $objectManager->create(
             'Magento_Core_Model_Dir',
             array(
                 'baseDir' => BP,
@@ -98,10 +100,10 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
             )
         );
 
-        $moduleList = Mage::getObjectManager()->create('Magento_Core_Model_ModuleList', array(
-            'reader' => Mage::getObjectManager()->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem',
+        $moduleList = $objectManager->create('Magento_Core_Model_ModuleList', array(
+            'reader' => $objectManager->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem',
                 array(
-                    'fileResolver' => Mage::getObjectManager()->create(
+                    'fileResolver' => $objectManager->create(
                         'Magento_Core_Model_Module_Declaration_FileResolver',
                         array(
                             'applicationDirs' => $dirs
@@ -113,14 +115,14 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
         ));
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Mage::getObjectManager()->create('Magento_Core_Model_Config_Modules_Reader', array(
+        $moduleReader = $objectManager->create('Magento_Core_Model_Config_Modules_Reader', array(
             'dirs' => $dirs,
             'moduleList' => $moduleList
         ));
 
-        /** @var Magento_Core_Model_Config_Loader_Modules $modulesLoader */
-        $modulesLoader = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_Loader_Modules', array(
+        /** @var Magento_Core_Model_Config_Loader $modulesLoader */
+        $modulesLoader = $objectManager->create(
+            'Magento_Core_Model_Config_Loader', array(
                 'fileReader' => $moduleReader
         ));
 
@@ -142,7 +144,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
             ->will($this->returnValue(false));
 
         /** @var Magento_Core_Model_Config_Storage $storage */
-        $storage = Mage::getObjectManager()->create(
+        $storage = $objectManager->create(
             'Magento_Core_Model_Config_Storage', array(
                 'loader' => $modulesLoader,
                 'cache' => $cache
@@ -150,20 +152,21 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
         );
 
         /** @var Magento_Core_Model_Config $mageConfig */
-        $mageConfig = Mage::getObjectManager()->create('Magento_Core_Model_Config', array(
+        $mageConfig = $objectManager->create('Magento_Core_Model_Config', array(
             'storage' => $storage,
             'moduleReader' => $moduleReader,
             'moduleList' => $moduleList
         ));
 
         /** @var Magento_Webhook_Model_Subscription_Config $config */
-        return Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription_Config', array(
+        return $objectManager->create('Magento_Webhook_Model_Subscription_Config', array(
             'mageConfig' => $mageConfig
         ));
     }
 
     protected function _createSubscriptions()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_subscriptions = array();
 
         Mage::getConfig()->setNode('global/webhook/webhooks/listeners/one/label', 'One Listener');
@@ -171,7 +174,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
         Mage::getConfig()->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');
 
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = $objectManager->create('Magento_Webhook_Model_Subscription');
         $subscription->setAlias('inactive')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/endpoint')
@@ -183,7 +186,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
         $this->_subscriptions[] = $subscription;
 
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = $objectManager->create('Magento_Webhook_Model_Subscription');
         $subscription->setAlias('first')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/endpoint')
@@ -194,7 +197,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        $subscription = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = $objectManager->create('Magento_Webhook_Model_Subscription');
         $subscription->setAlias('second')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/unique_endpoint')
@@ -205,7 +208,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        $subscription = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription');
+        $subscription = $objectManager->create('Magento_Webhook_Model_Subscription');
         $subscription->setAlias('third')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/unique_endpoint')

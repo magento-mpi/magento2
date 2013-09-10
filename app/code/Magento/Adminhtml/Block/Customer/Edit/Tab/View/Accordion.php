@@ -17,9 +17,30 @@
  */
 class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_Adminhtml_Block_Widget_Accordion
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _prepareLayout()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
 
         $this->setId('customerViewAccordion');
 
@@ -30,7 +51,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
         ));
 
         // add shopping cart block of each website
-        foreach (Mage::registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
+        foreach ($this->_coreRegistry->registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
             $website = Mage::app()->getWebsite($websiteId);
 
             // count cart items

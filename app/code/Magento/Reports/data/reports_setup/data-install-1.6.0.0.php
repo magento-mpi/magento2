@@ -60,31 +60,31 @@ $installer->endSetup();
 $cms = Mage::getModel('Magento_Cms_Model_Page')->load('home', 'identifier');
 
 $reportLayoutUpdate    = '<!--<reference name="content">
-        <block type="Magento_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">
+        <block class="Magento_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">
             <action method="addPriceBlockType">
-                <type>bundle</type>
-                <block>Magento_Bundle_Block_Catalog_Product_Price</block>
-                <template>catalog/product/price.phtml</template>
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+                <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </block>
-        <block type="Magento_Reports_Block_Product_Viewed" name="home.reports.product.viewed" alias="product_viewed" template="home_product_viewed.phtml" after="product_new">
+        <block class="Magento_Reports_Block_Product_Viewed" name="home.reports.product.viewed" alias="product_viewed" template="home_product_viewed.phtml" after="product_new">
             <action method="addPriceBlockType">
-                <type>bundle</type>
-                <block>Magento_Bundle_Block_Catalog_Product_Price</block>
-                <template>catalog/product/price.phtml</template>
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+                <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </block>
-        <block type="Magento_Reports_Block_Product_Compared" name="home.reports.product.compared" template="home_product_compared.phtml" after="product_viewed">
+        <block class="Magento_Reports_Block_Product_Compared" name="home.reports.product.compared" template="home_product_compared.phtml" after="product_viewed">
             <action method="addPriceBlockType">
-                <type>bundle</type>
-                <block>Magento_Bundle_Block_Catalog_Product_Price</block>
-                <template>catalog/product/price.phtml</template>
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+                <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </block>
     </reference>
     <reference name="right">
-        <action method="unsetChild"><alias>right.reports.product.viewed</alias></action>
-        <action method="unsetChild"><alias>right.reports.product.compared</alias></action>
+        <action method="unsetChild"><argument name="alias" xsi:type="string">right.reports.product.viewed</argument></action>
+        <action method="unsetChild"><argument name="alias" xsi:type="string">right.reports.product.compared</argument></action>
     </reference>-->';
 
 /*

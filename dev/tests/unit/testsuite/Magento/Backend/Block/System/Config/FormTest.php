@@ -123,7 +123,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             'coreConfig' => $this->_coreConfigMock,
         );
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_object = $helper->getObject('Magento_Backend_Block_System_Config_Form', $data);
         $this->_object->setData('scope_id', 1);
     }
@@ -204,7 +204,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
     /**
      * @dataProvider initFieldsDataProvider
      */
-    public function testInitFields($backendConfigValue, $xmlConfig, $configPath, $inherit, $expectedValue)
+    public function testInitFields($backendConfigValue, $configValue, $configPath, $inherit, $expectedValue)
     {
         // Parameters initialization
         $fieldsetMock = $this->getMock('Magento_Data_Form_Element_Fieldset', array(), array(), '', false, false);
@@ -228,7 +228,10 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             ->with('some/config/path', false, array('section1/group1/field1' => 'some_value'))
             ->will($this->returnValue($backendConfigValue));
 
-        $this->_coreConfigMock->expects($this->any())->method('getNode')->will($this->returnValue($xmlConfig));
+        $this->_coreConfigMock->expects($this->any())
+            ->method('getValue')
+            ->with($configPath)
+            ->will($this->returnValue($configValue));
 
         // Field mock configuration
         $fieldMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Field',
@@ -299,19 +302,9 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
      */
     public function initFieldsDataProvider()
     {
-        $xmlConfig = new Magento_Core_Model_Config_Element('
-            <default>
-                <some>
-                    <config>
-                        <path>Config Value</path>
-                    </config>
-                </some>
-            </default>
-        ');
-
         return array(
             array(array('section1/group1/field1' => 'some_value'), false, null, false, 'some_value'),
-            array(array(), $xmlConfig, 'some/config/path', true, $xmlConfig->descend('some/config/path')),
+            array(array(), 'Config Value', 'some/config/path', true, 'Config Value'),
         );
     }
 }

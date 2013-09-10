@@ -11,7 +11,7 @@
 class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 
@@ -27,7 +27,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_roleFactory = $this->_objectManager->get('Magento_Webapi_Model_Acl_Role_Factory');
         $this->_model = $this->_objectManager->create('Magento_Webapi_Model_Acl_Rule');
     }
@@ -43,7 +43,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
         $this->_model->setRoleId($role->getId())
             ->setResourceId($allowResourceId);
 
-        $crud = new Magento_Test_Entity($this->_model, array('resource_id' => 'customer/get'));
+        $crud = new Magento_TestFramework_Entity($this->_model, array('resource_id' => 'customer/get'));
         $crud->testCrud();
     }
 

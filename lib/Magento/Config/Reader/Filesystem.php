@@ -68,30 +68,30 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
     /**
      * @param Magento_Config_FileResolverInterface $fileResolver
      * @param Magento_Config_ConverterInterface $converter
-     * @param string $fileName
-     * @param array $idAttributes
-     * @param string $schema
-     * @param string $perFileSchema
-     * @param bool $isValidated
+     * @param Magento_Config_SchemaLocatorInterface $schemaLocator
+     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param $fileName
+     * @param $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
         Magento_Config_FileResolverInterface $fileResolver,
         Magento_Config_ConverterInterface $converter,
+        Magento_Config_SchemaLocatorInterface $schemaLocator,
+        Magento_Config_ValidationStateInterface $validationState,
         $fileName,
         $idAttributes,
-        $schema = null,
-        $perFileSchema = null,
-        $isValidated = false,
         $domDocumentClass = 'Magento_Config_Dom'
     ) {
         $this->_fileResolver = $fileResolver;
         $this->_converter = $converter;
         $this->_fileName = $fileName;
         $this->_idAttributes = array_replace($this->_idAttributes, $idAttributes);
-        $this->_schemaFile = $schema;
-        $this->_perFileSchema = $perFileSchema && $isValidated ? $perFileSchema : null;
-        $this->_isValidated = $isValidated;
+        $this->_schemaFile = $schemaLocator->getSchema();
+        $this->_isValidated = $validationState->isValidated();
+        $this->_perFileSchema = $schemaLocator->getPerFileSchema() && $this->_isValidated
+            ? $schemaLocator->getPerFileSchema()
+            : null;
         $this->_domDocumentClass = $domDocumentClass;
     }
 

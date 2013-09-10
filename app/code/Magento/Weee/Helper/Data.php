@@ -23,6 +23,25 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_storeDisplayConfig   = array();
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Get weee amount display type on product view page
      *
      * @param   mixed $store
@@ -146,7 +165,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
                 $type = $this->getEmailPriceDisplayType($store);
                 break;
             default:
-                if (Mage::registry('current_product')) {
+                if ($this->_coreRegistry->registry('current_product')) {
                     $type = $this->getPriceDisplayType($store);
                 } else {
                     $type = $this->getListPriceDisplayType($store);

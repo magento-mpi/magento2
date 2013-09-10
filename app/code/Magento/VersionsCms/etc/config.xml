@@ -19,24 +19,6 @@
                 </setup>
             </versionscms_setup>
         </resources>
-        <events>
-            <cms_controller_router_match_before>
-                <observers>
-                    <magento_versionscms>
-                        <class>Magento_VersionsCms_Model_Observer</class>
-                        <method>cmsControllerRouterMatchBefore</method>
-                    </magento_versionscms>
-                </observers>
-            </cms_controller_router_match_before>
-            <page_block_html_topmenu_gethtml_before>
-                <observers>
-                    <magento_versionscms_add_topmenu_items>
-                        <class>Magento_VersionsCms_Model_Observer</class>
-                        <method>addCmsToTopmenuItems</method>
-                    </magento_versionscms_add_topmenu_items>
-                </observers>
-            </page_block_html_topmenu_gethtml_before>
-        </events>
         <magento_versionscms>
             <hierarchy>
                 <menu>
@@ -67,85 +49,7 @@
             </hierarchy>
         </magento_versionscms>
     </global>
-    <frontend>
-        <events>
-            <cms_page_render>
-                <observers>
-                    <magento_versionscms>
-                        <class>Magento_VersionsCms_Model_Observer</class>
-                        <method>affectCmsPageRender</method>
-                    </magento_versionscms>
-                </observers>
-            </cms_page_render>
-        </events>
-    </frontend>
     <adminhtml>
-        <events>
-            <adminhtml_cms_page_edit_tab_main_prepare_form>
-                <observers>
-                    <magento_versionscms>
-                        <class>Magento_VersionsCms_Model_Observer</class>
-                        <method>onMainTabPrepareForm</method>
-                    </magento_versionscms>
-                </observers>
-            </adminhtml_cms_page_edit_tab_main_prepare_form>
-            <cms_page_save_before>
-                <observers>
-                    <magento_versionscms>
-                        <class>Magento_VersionsCms_Model_Observer</class>
-                        <method>cmsPageSaveBefore</method>
-                    </magento_versionscms>
-                </observers>
-            </cms_page_save_before>
-            <cms_page_save_after>
-                <observers>
-                    <magento_versionscms>
-                        <class>Magento_VersionsCms_Model_Observer</class>
-                        <method>cmsPageSaveAfter</method>
-                    </magento_versionscms>
-                </observers>
-            </cms_page_save_after>
-            <admin_user_delete_after>
-                <observers>
-                    <magento_versionscms>
-                        <class>Magento_VersionsCms_Model_Observer</class>
-                        <method>adminUserDeleteAfter</method>
-                    </magento_versionscms>
-                </observers>
-            </admin_user_delete_after>
-            <website_delete_after>
-                <observers>
-                    <magento_versionscms>
-                        <class>Magento_VersionsCms_Model_Observer</class>
-                        <method>deleteWebsite</method>
-                    </magento_versionscms>
-                </observers>
-            </website_delete_after>
-            <store_delete_after>
-                <observers>
-                    <magento_versionscms>
-                        <class>Magento_VersionsCms_Model_Observer</class>
-                        <method>deleteStore</method>
-                    </magento_versionscms>
-                </observers>
-            </store_delete_after>
-            <cms_page_get_available_statuses>
-                <observers>
-                    <magento_versionscms>
-                        <class>Magento_VersionsCms_Model_Observer</class>
-                        <method>modifyPageStatuses</method>
-                    </magento_versionscms>
-                </observers>
-            </cms_page_get_available_statuses>
-            <cms_page_delete_after>
-                <observers>
-                    <magento_versionscms>
-                        <class>Magento_VersionsCms_Model_Observer</class>
-                        <method>cmsPageDeleteAfter</method>
-                    </magento_versionscms>
-                </observers>
-            </cms_page_delete_after>
-        </events>
         <translate>
             <modules>
                 <Magento_VersionsCms>
@@ -156,17 +60,6 @@
             </modules>
         </translate>
     </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <magento_versionscms before="Magento_Adminhtml">Magento_VersionsCms_Adminhtml</magento_versionscms>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <cms>
             <hierarchy>
@@ -179,4 +72,4 @@
             </content>
         </cms>
     </default>
-</config>
+</config>

@@ -20,32 +20,6 @@
                 </Magento_GoogleAnalytics>
             </modules>
         </translate>
-        <events>
-            <checkout_onepage_controller_success_action>
-                <observers>
-                    <googleanalytics_order_success>
-                        <class>Magento_GoogleAnalytics_Model_Observer</class>
-                        <method>setGoogleAnalyticsOnOrderSuccessPageView</method>
-                    </googleanalytics_order_success>
-                </observers>
-            </checkout_onepage_controller_success_action>
-            <checkout_multishipping_controller_success_action>
-                <observers>
-                    <googleanalytics_order_success>
-                        <class>Magento_GoogleAnalytics_Model_Observer</class>
-                        <method>setGoogleAnalyticsOnOrderSuccessPageView</method>
-                    </googleanalytics_order_success>
-                </observers>
-            </checkout_multishipping_controller_success_action>
-            <googlecheckout_block_link_html_before>
-                <observers>
-                    <googleanalytics_googlecheckout_integration>
-                        <class>Magento_GoogleAnalytics_Model_Observer</class>
-                        <method>injectAnalyticsInGoogleCheckoutLink</method>
-                    </googleanalytics_googlecheckout_integration>
-                </observers>
-            </googlecheckout_block_link_html_before>
-        </events>
     </frontend>
     <adminhtml>
         <translate>
@@ -58,4 +32,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

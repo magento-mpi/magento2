@@ -10,14 +10,9 @@
 
 /**
  * GiftRegistry shipping Address block
- *
- * @category   Magento
- * @package    Magento_GiftRegistry
- * @author     Magento Core Team <core@magentocommerce.com>
  */
- class Magento_GiftRegistry_Block_Customer_Address_Edit extends Magento_GiftRegistry_Block_Customer_Edit_Abstract
+class Magento_GiftRegistry_Block_Customer_Address_Edit extends Magento_GiftRegistry_Block_Customer_Edit_Abstract
 {
-
     /**
      * Contains logged in customer
      *
@@ -31,7 +26,7 @@
      */
     public function getEntity()
     {
-        return Mage::registry('magento_giftregistry_entity');
+        return $this->_coreRegistry->registry('magento_giftregistry_entity');
     }
 
     /**
@@ -41,7 +36,7 @@
      */
     public function getAddress()
     {
-        return Mage::registry('magento_giftregistry_address');
+        return $this->_coreRegistry->registry('magento_giftregistry_address');
     }
 
     /**

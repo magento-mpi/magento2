@@ -22,6 +22,27 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mag
     protected $_template = 'page/version/form.phtml';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Preparing from for version page
      *
      * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Form
@@ -37,7 +58,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mag
         $form->setUseContainer(true);
 
         /* @var $model Magento_Cms_Model_Page */
-        $version = Mage::registry('cms_page_version');
+        $version = $this->_coreRegistry->registry('cms_page_version');
 
         $config = Mage::getSingleton('Magento_VersionsCms_Model_Config');
         /* @var $config Magento_VersionsCms_Model_Config */

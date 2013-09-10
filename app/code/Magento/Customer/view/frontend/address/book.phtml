@@ -11,7 +11,7 @@
 <?php
 /**
  * Temlate for Magento_Customer_Block_Address_Book block
- * @var $test Magento_Customer_Block_Address_Book
+ * @var $this Magento_Customer_Block_Address_Book
  */
 ?>
 <div class="page-title title-buttons">
@@ -23,13 +23,13 @@
     <div class="col-1 addresses-primary">
         <h2><?php echo __('Default Addresses') ?></h2>
         <ol>
-        <?php if($_pAddsses = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getDefaultBilling()): ?>
+        <?php if($_pAddsses = $this->getDefaultBilling()): ?>
             <li class="item">
                 <h3><?php echo __('Default Billing Address') ?></h3>
                 <address>
-                    <?php echo $this->getAddressHtml(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getAddressById($_pAddsses)) ?>
+                    <?php echo $this->getAddressHtml($this->getAddressById($_pAddsses)) ?>
                 </address>
-                <p><a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo __('Change Billing Address') ?></a></p>
+                <p><a href="<?php echo $this->getAddressEditUrl($this->getAddressById($_pAddsses)) ?>"><?php echo __('Change Billing Address') ?></a></p>
            </li>
         <?php else: ?>
             <li class="item">
@@ -38,13 +38,13 @@
             </li>
         <?php endif ?>
 
-        <?php if($_pAddsses = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getDefaultShipping()): ?>
+        <?php if($_pAddsses = $this->getDefaultShipping()): ?>
             <li class="item">
                 <h3><?php echo __('Default Shipping Address') ?></h3>
                 <address>
-                    <?php echo $this->getAddressHtml(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getAddressById($_pAddsses)) ?>
+                    <?php echo $this->getAddressHtml($this->getAddressById($_pAddsses)) ?>
                 </address>
-                <p><a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo __('Change Shipping Address') ?></a></p>
+                <p><a href="<?php echo $this->getAddressEditUrl($this->getAddressById($_pAddsses)) ?>"><?php echo __('Change Shipping Address') ?></a></p>
             </li>
         <?php else: ?>
             <li class="item empty">

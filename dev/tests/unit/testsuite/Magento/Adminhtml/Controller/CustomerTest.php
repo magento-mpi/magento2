@@ -122,7 +122,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
 
         $args = array('context' => $contextMock);
 
-        $helperObjectManager = new Magento_Test_Helper_ObjectManager($this);
+        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_testedObject = $helperObjectManager->getObject('Magento_Adminhtml_Controller_Customer', $args);
     }
 

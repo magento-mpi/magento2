@@ -74,7 +74,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function testSetGetRequest()
     {
         $this->assertInstanceOf('Zend_Controller_Request_Http', $this->_model->getRequest());
-        $request = new Magento_Test_Request;
+        $request = new Magento_TestFramework_Request;
         $this->_model->setRequest($request);
         $this->assertSame($request, $this->_model->getRequest());
     }
@@ -130,9 +130,9 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider getBaseUrlConfiguredDataProvider
      *
-     * @magentoConfigFixture current_store web/secure/base_url        http://sample.com/base_path/
+     * @magentoConfigFixture current_store web/secure/base_url http://sample.com/base_path/
      * @magentoConfigFixture current_store web/unsecure/base_link_url http://sample.com/base_link_path/
-     * @magentoConfigFixture current_store web/secure/base_link_url   https://sample.com/base_link_path/
+     * @magentoConfigFixture current_store web/secure/base_link_url https://sample.com/base_link_path/
      * @magentoConfigFixture current_store web/secure/use_in_frontend 1
      *
      * @param array $params

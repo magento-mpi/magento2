@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_export_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_export_index">
         <reference name="content">
-            <block type="Magento_Adminhtml_Block_Template" template="Magento_ImportExport::export/form/before.phtml" name="export.form.before" alias="form_before"/>
-            <block type="Magento_ImportExport_Block_Adminhtml_Export_Edit" name="export.form.container"/>
-            <block type="Magento_Adminhtml_Block_Template" template="Magento_ImportExport::export/form/after.phtml" name="export.form.after" alias="form_after"/>
+            <block class="Magento_Adminhtml_Block_Template" template="Magento_ImportExport::export/form/before.phtml" name="export.form.before" alias="form_before"/>
+            <block class="Magento_ImportExport_Block_Adminhtml_Export_Edit" name="export.form.container"/>
+            <block class="Magento_ImportExport_Block_Adminhtml_Form_After" template="Magento_ImportExport::export/form/after.phtml" name="export.form.after" alias="form_after"/>
         </reference>
-    </adminhtml_export_index>
+    </handle>
 </layout>

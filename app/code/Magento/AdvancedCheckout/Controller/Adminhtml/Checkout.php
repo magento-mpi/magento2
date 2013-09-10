@@ -26,6 +26,25 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
 
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Return Checkout model as singleton
      *
      * @return Magento_AdvancedCheckout_Model_Cart
@@ -116,9 +135,9 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             $quote->save();
         }
 
-        Mage::register('checkout_current_quote', $quote);
-        Mage::register('checkout_current_customer', $customer);
-        Mage::register('checkout_current_store', Mage::app()->getStore($storeId));
+        $this->_coreRegistry->register('checkout_current_quote', $quote);
+        $this->_coreRegistry->register('checkout_current_customer', $customer);
+        $this->_coreRegistry->register('checkout_current_store', Mage::app()->getStore($storeId));
 
         return $this;
     }
@@ -130,9 +149,9 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
      */
     protected function _initTitle()
     {
-        $this->_title(__('Customers'))
-             ->_title(__('Customers'));
-        if ($customer = Mage::registry('checkout_current_customer')) {
+        $this->_title(__('Customers'))->_title(__('Customers'));
+        $customer = $this->_coreRegistry->registry('checkout_current_customer');
+        if ($customer) {
             $this->_title($customer->getName());
         }
         $this->_title(__('Shopping Cart'));
@@ -206,8 +225,8 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             }
 
             $cart = $this->getCartModel();
-            $customer = Mage::registry('checkout_current_customer');
-            $store = Mage::registry('checkout_current_store');
+            $customer = $this->_coreRegistry->registry('checkout_current_customer');
+            $store = $this->_coreRegistry->registry('checkout_current_store');
 
             $source = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
 
@@ -222,7 +241,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
 
             // Add new products
             if (is_array($source)) {
-                foreach ($source as $key => $products) {
+                foreach ($source as $products) {
                     if (is_array($products)) {
                         foreach ($products as $productId => $qty) {
                             $cart->addProduct($productId, $qty);
@@ -297,7 +316,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 return;
             }
             $code = $this->getRequest()->getPost('code', '');
-            $quote = Mage::registry('checkout_current_quote');
+            $quote = $this->_coreRegistry->registry('checkout_current_quote');
             $quote->setCouponCode($code)
                 ->collectTotals()
                 ->save();
@@ -362,8 +381,8 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
 
             }
             $this->_redirect('*/sales_order_create', array(
-                'customer_id' => Mage::registry('checkout_current_customer')->getId(),
-                'store_id' => Mage::registry('checkout_current_store')->getId(),
+                'customer_id' => $this->_coreRegistry->registry('checkout_current_customer')->getId(),
+                'store_id' => $this->_coreRegistry->registry('checkout_current_store')->getId(),
             ));
             return;
         } catch (Magento_Core_Exception $e) {
@@ -425,7 +444,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         $this->accordionAction();
     }
 
-    /*
+    /**
      * Ajax handler to response configuration fieldset of composite product in order
      *
      * @return Magento_AdvancedCheckout_Controller_Adminhtml_Checkout
@@ -433,14 +452,14 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     public function configureProductToAddAction()
     {
         $this->_initData();
-        $customer   = Mage::registry('checkout_current_customer');
-        $store      = Mage::registry('checkout_current_store');
+        $customer   = $this->_coreRegistry->registry('checkout_current_customer');
+        $store      = $this->_coreRegistry->registry('checkout_current_store');
 
         $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
         $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
 
         // Prepare data
-        $productId  = (int) $this->getRequest()->getParam('id');
+        $productId  = (int)$this->getRequest()->getParam('id');
 
         $configureResult = new Magento_Object();
         $configureResult->setOk(true)
@@ -456,7 +475,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         return $this;
     }
 
-    /*
+    /**
      * Ajax handler to configure item in wishlist
      *
      * @return Magento_AdvancedCheckout_Controller_Adminhtml_Checkout
@@ -468,12 +487,12 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         try {
             $this->_initData();
 
-            $customer   = Mage::registry('checkout_current_customer');
+            $customer   = $this->_coreRegistry->registry('checkout_current_customer');
             $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
-            $store      = Mage::registry('checkout_current_store');
+            $store      = $this->_coreRegistry->registry('checkout_current_store');
             $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
 
-            $itemId = (int) $this->getRequest()->getParam('id');
+            $itemId = (int)$this->getRequest()->getParam('id');
             if (!$itemId) {
                 Mage::throwException(__('The wish list item id is not received.'));
             }
@@ -501,7 +520,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         return $this;
     }
 
-    /*
+    /**
      * Ajax handler to configure item in wishlist
      *
      * @return Magento_AdvancedCheckout_Controller_Adminhtml_Checkout
@@ -513,9 +532,9 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         try {
             $this->_initData();
 
-            $customer   = Mage::registry('checkout_current_customer');
+            $customer   = $this->_coreRegistry->registry('checkout_current_customer');
             $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
-            $store      = Mage::registry('checkout_current_store');
+            $store      = $this->_coreRegistry->registry('checkout_current_store');
             $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
 
             $itemId = (int) $this->getRequest()->getParam('id');
@@ -731,7 +750,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 }
                 break;
             default:
-                $productId = (int) $itemId;
+                $productId = (int)$itemId;
                 break;
         }
 
@@ -791,7 +810,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 $items = $this->getRequest()->getPost('item', array());
                 $items = $this->_processFiles($items);
                 $this->getCartModel()->updateQuoteItems($items);
-                if ($this->getCartModel()->getQuote()->getHasError()){
+                if ($this->getCartModel()->getQuote()->getHasError()) {
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
                         /* @var $error Magento_Core_Model_Message_Error */
                         Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($error->getCode());
@@ -881,17 +900,17 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         }
 
 
-        if (is_array($listTypes) &&  array_intersect($listTypes, $skuListTypes)) {
+        if (is_array($listTypes) && array_intersect($listTypes, $skuListTypes)) {
             $cart = $this->getCartModel();
-            // We need to save products to enterprise_checkout/cart instead of checkout/cart
+            // We need to save products to magento_advancedcheckout/cart instead of checkout/cart
             $cart->saveAffectedProducts($cart, false);
         }
 
         /**
          * Remove quote item
          */
-        $removeItemId = (int) $this->getRequest()->getPost('remove_item');
-        $removeFrom = (string) $this->getRequest()->getPost('from');
+        $removeItemId = (int)$this->getRequest()->getPost('remove_item');
+        $removeFrom = (string)$this->getRequest()->getPost('from');
         if ($removeItemId && $removeFrom) {
             $this->getCartModel()->removeItem($removeItemId, $removeFrom);
         }
@@ -899,8 +918,8 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         /**
          * Move quote item
          */
-        $moveItemId = (int) $this->getRequest()->getPost('move_item');
-        $moveTo = (string) $this->getRequest()->getPost('to');
+        $moveItemId = (int)$this->getRequest()->getPost('move_item');
+        $moveTo = (string)$this->getRequest()->getPost('to');
         if ($moveItemId && $moveTo) {
             $this->getCartModel()->moveQuoteItem($moveItemId, $moveTo);
         }
@@ -940,7 +959,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     public function showUpdateResultAction()
     {
         $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
-        if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())){
+        if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())) {
             $this->getResponse()->setBody($session->getUpdateResult());
             $session->unsUpdateResult();
         } else {

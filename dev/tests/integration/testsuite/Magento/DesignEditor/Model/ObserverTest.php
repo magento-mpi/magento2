@@ -26,7 +26,7 @@ class Magento_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $headBlock = $layout->createBlock('Magento_Page_Block_Html_Head', 'head');
         $headBlock->setData('vde_design_mode', $designMode);
 
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var $page Magento_Core_Model_Page */
         $page = $objectManager->get('Magento_Core_Model_Page');
@@ -56,8 +56,13 @@ class Magento_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
             );
         }
 
+
+        /** @var Magento_Core_Model_Config_Scope $configScope */
+        $configScope = $objectManager->get('Magento_Core_Model_Config_Scope');
+        $configScope->setCurrentScope($area);
+
         /** @var $eventManager Magento_Core_Model_Event_Manager */
-        $eventManager = $objectManager->get('Magento_Core_Model_Event_Manager')->addEventArea($area);
+        $eventManager = $objectManager->get('Magento_Core_Model_Event_Manager');
         $eventManager->dispatch('controller_action_layout_generate_blocks_after', array('layout' => $layout));
 
         $actualAssets = array_keys($pageAssets->getAll());

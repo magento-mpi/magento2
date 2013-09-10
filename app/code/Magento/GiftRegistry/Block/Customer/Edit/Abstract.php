@@ -16,7 +16,6 @@
  */
 abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento_Directory_Block_Data
 {
-
     /**
      * Registry Entity object
      *
@@ -46,13 +45,47 @@ abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento
     protected $_prefix;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $configCacheType, $data);
+    }
+
+    /**
+     * Get config
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public function getConfig($path)
+    {
+        return $this->_storeConfig->getConfig($path);
+    }
+
+    /**
      * Getter, return entity object , instantiated in controller
      *
      * @return Magento_GiftRegistry_Model_Entity
      */
     public function getEntity()
     {
-        return Mage::registry('magento_giftregistry_entity');
+        return $this->_coreRegistry->registry('magento_giftregistry_entity');
     }
 
     /**
@@ -321,6 +354,7 @@ abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento
 
                default :
                    $element = $this->_getInputTextHtml($name, $id, $value, $class);
+                   break;
             }
         }
         return $element;

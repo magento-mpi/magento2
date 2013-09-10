@@ -104,11 +104,11 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $this->_layout->setXml(simplexml_load_string(
             '<layout>
-                <block type="Magento_Core_Block_Text" name="block1">
-                    <block type="Magento_Core_Block_Text"/>
+                <block class="Magento_Core_Block_Text" name="block1">
+                    <block class="Magento_Core_Block_Text"/>
                 </block>
-                <block type="Magento_Core_Block_Text" template="test"/>
-                <block type="Magento_Core_Block_Text"/>
+                <block class="Magento_Core_Block_Text" template="test"/>
+                <block class="Magento_Core_Block_Text"/>
             </layout>',
             'Magento_Core_Model_Layout_Element'
         ));
@@ -219,7 +219,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('Magento_Core_Block_Text', $this->_layout->addBlock('Magento_Core_Block_Text',
             'block1'));
-        $block2 = Mage::getObjectManager()->create('Magento_Core_Block_Text');
+        $block2 = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Block_Text');
         $block2->setNameInLayout('block2');
         $this->_layout->addBlock($block2, '', 'block1');
 

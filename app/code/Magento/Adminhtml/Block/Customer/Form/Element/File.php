@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Customer_Form_Element_File extends Magento_Data_Fo
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $attributes
      */
-    public  function __construct(Magento_Core_Model_View_Url $viewUrl, $attributes = array())
+    public function __construct(Magento_Core_Model_View_Url $viewUrl, $attributes = array())
     {
         $this->_viewUrl = $viewUrl;
         parent::__construct($attributes);

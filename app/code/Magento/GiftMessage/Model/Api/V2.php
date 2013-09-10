@@ -69,25 +69,28 @@ class Magento_GiftMessage_Model_Api_V2 extends Magento_GiftMessage_Model_Api
      */
     protected function _setGiftMessage($entityId, $request, $quote)
     {
+        $currentScope = $this->_configScope->getCurrentScope();
+
         $response = new stdClass();
         $response->entityId = $entityId;
 
         /**
          * Below code will catch exceptions only in DeveloperMode
-         *
-         * @see Magento_Core_Model_App::_callObserverMethod($object, $method, $observer)
-         * And result of Mage::dispatchEvent will always return an Object of Magento_Core_Model_App.
          */
         try {
             /** Frontend area events must be loaded as we emulate frontend behavior. */
-            Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_FRONTEND, Magento_Core_Model_App_Area::PART_EVENTS);
-            Mage::dispatchEvent(
+            $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_FRONTEND);
+            $this->_eventManager->dispatch(
                 'checkout_controller_onepage_save_shipping_method',
                 array('request' => $request, 'quote' => $quote)
             );
+            /** Restore config scope */
+            $this->_configScope->setCurrentScope($currentScope);
             $response->result = true;
             $response->error = '';
         } catch (Exception $e) {
+            /** Restore config scope */
+            $this->_configScope->setCurrentScope($currentScope);
             $response->result = false;
             $response->error = $e->getMessage();
         }

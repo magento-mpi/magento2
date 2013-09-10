@@ -7,44 +7,44 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_extension_custom_edit>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_extension_custom_edit">
         <reference name="content">
-            <block type="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit" name="connect_extension_edit"/>
+            <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit" name="connect_extension_edit"/>
         </reference>
         <reference name="left">
-            <block type="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs" name="connect_extension_edit_tabs">
-                <block type="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package" name="tab_package" template="extension/custom/package.phtml"/>
-                <block type="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release" name="tab_release" template="extension/custom/release.phtml"/>
-                <block type="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors" name="tab_authors" template="extension/custom/authors.phtml"/>
-                <block type="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Depends" name="tab_depends" template="extension/custom/depends.phtml"/>
-                <block type="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents" name="tab_contents" template="extension/custom/contents.phtml"/>
-                <block type="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Local" name="tab_local"/>
+            <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs" name="connect_extension_edit_tabs">
+                <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package" name="tab_package" template="extension/custom/package.phtml"/>
+                <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release" name="tab_release" template="extension/custom/release.phtml"/>
+                <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors" name="tab_authors" template="extension/custom/authors.phtml"/>
+                <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Depends" name="tab_depends" template="extension/custom/depends.phtml"/>
+                <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents" name="tab_contents" template="extension/custom/contents.phtml"/>
+                <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Local" name="tab_local"/>
                 <action method="addTab">
-                    <name>package_info</name>
-                    <block>tab_package</block>
+                    <argument name="name" xsi:type="string">package_info</argument>
+                    <argument name="block" xsi:type="string">tab_package</argument>
                 </action>
                 <action method="addTab">
-                    <name>release_info</name>
-                    <block>tab_release</block>
+                    <argument name="name" xsi:type="string">release_info</argument>
+                    <argument name="block" xsi:type="string">tab_release</argument>
                 </action>
                 <action method="addTab">
-                    <name>authors</name>
-                    <block>tab_authors</block>
+                    <argument name="name" xsi:type="string">authors</argument>
+                    <argument name="block" xsi:type="string">tab_authors</argument>
                 </action>
                 <action method="addTab">
-                    <name>dependencies</name>
-                    <block>tab_depends</block>
+                    <argument name="name" xsi:type="string">dependencies</argument>
+                    <argument name="block" xsi:type="string">tab_depends</argument>
                 </action>
                 <action method="addTab">
-                    <name>contents</name>
-                    <block>tab_contents</block>
+                    <argument name="name" xsi:type="string">contents</argument>
+                    <argument name="block" xsi:type="string">tab_contents</argument>
                 </action>
                 <action method="addTab">
-                    <name>load_local_package</name>
-                    <block>tab_local</block>
+                    <argument name="name" xsi:type="string">load_local_package</argument>
+                    <argument name="block" xsi:type="string">tab_local</argument>
                 </action>
             </block>
         </reference>
-    </adminhtml_extension_custom_edit>
+    </handle>
 </layout>

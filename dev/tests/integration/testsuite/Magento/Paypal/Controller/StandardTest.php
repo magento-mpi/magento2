@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Paypal_Controller_StandardTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Paypal_Controller_StandardTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @var Magento_Checkout_Model_Session

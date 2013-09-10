@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <paypaluk_express_review_details>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="paypaluk_express_review_details">
         <reference name="order_review">
             <action method="addItemRender">
-                <type>bundle</type>
-                <block>Magento_Bundle_Block_Checkout_Cart_Item_Renderer</block>
-                <template>Magento_Checkout::onepage/review/item.phtml</template>
+                <argument name="type" xsi:type="string">bundle</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Checkout_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">Magento_Checkout::onepage/review/item.phtml</argument>
             </action>
         </reference>
-    </paypaluk_express_review_details>
+    </handle>
 </layout>

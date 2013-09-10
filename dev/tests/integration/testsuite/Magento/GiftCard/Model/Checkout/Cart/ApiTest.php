@@ -20,7 +20,7 @@ class Magento_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_Tes
     {
         $quote = $this->_getQuote();
         $giftCardAccountCode = self::GIFT_CARD_ACCOUNT_CODE;
-        $isAdded = Magento_Test_Helper_Api::call(
+        $isAdded = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartGiftcardAdd',
             array(
@@ -41,7 +41,7 @@ class Magento_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testList()
     {
-        $giftCards = Magento_Test_Helper_Api::call(
+        $giftCards = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartGiftcardList',
             array(
@@ -70,7 +70,7 @@ class Magento_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_Tes
     public function testRemove()
     {
         $quote = $this->_getQuote();
-        $isRemoved = Magento_Test_Helper_Api::call(
+        $isRemoved = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartGiftcardRemove',
             array(

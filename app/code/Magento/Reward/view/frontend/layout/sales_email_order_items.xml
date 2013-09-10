@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_email_order_items>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="sales_email_order_items">
         <reference name="order_totals">
-            <block type="Magento_Reward_Block_Sales_Order_Total" name="reward.sales.order.total"/>
+            <block class="Magento_Reward_Block_Sales_Order_Total" name="reward.sales.order.total"/>
         </reference>
-    </sales_email_order_items>
+    </handle>
 </layout>

@@ -18,6 +18,27 @@
 class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Block_Sales_Order_Abstract
 {
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $data);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Retrieve required options from parent
      */
     protected function _beforeToHtml()
@@ -153,5 +174,13 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     public function shouldDisplayCustomerIp()
     {
         return !Mage::getStoreConfigFlag('sales/general/hide_customer_ip', $this->getOrder()->getStoreId());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSingleStoreMode()
+    {
+        return $this->_storeManager->isSingleStoreMode();
     }
 }

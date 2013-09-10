@@ -29,10 +29,15 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
      */
     private $_config;
 
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
     public function setUp()
     {
-
-        $dirs = Mage::getObjectManager()->create(
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $dirs = $this->_objectManager->create(
             'Magento_Core_Model_Dir',
             array(
                 'baseDir' => BP,
@@ -43,21 +48,15 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
             )
         );
 
-        $fileResolver = Mage::getObjectManager()->create(
+        $fileResolver = $this->_objectManager->create(
             'Magento_Core_Model_Module_Declaration_FileResolver', array('applicationDirs' => $dirs)
         );
-        $filesystemReader = Mage::getObjectManager()->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem',
+        $filesystemReader = $this->_objectManager->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem',
             array('fileResolver' => $fileResolver)
         );
-        $moduleList = Mage::getObjectManager()->create(
+        $moduleList = $this->_objectManager->create(
             'Magento_Core_Model_ModuleList',
             array('reader' => $filesystemReader, 'cache' => $this->getMock("Magento_Config_CacheInterface"))
-        );
-        $reader = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_Modules_Reader', array('dirs' => $dirs, 'moduleList' => $moduleList)
-        );
-        $modulesLoader = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_Loader_Modules', array('dirs' => $dirs, 'fileReader' => $reader)
         );
 
         /**
@@ -73,36 +72,33 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
             ->method('load')
             ->will($this->returnValue(false));
 
+        /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
+        $moduleReader = $this->_objectManager->create(
+            'Magento_Core_Model_Config_Modules_Reader', array(
+                'dirs' => $dirs,
+                'moduleList' => $moduleList
+            )
+        );
+
+        $loader = $this->_objectManager->create(
+            'Magento_Core_Model_Config_Loader',
+            array('fileReader' => $moduleReader)
+        );
         /** @var Magento_Core_Model_Config_Storage $storage */
-        $storage = Mage::getObjectManager()->create(
+        $storage = $this->_objectManager->create(
             'Magento_Core_Model_Config_Storage', array(
-                'loader' => $modulesLoader,
+                'loader' => $loader,
                 'cache' => $cache
             )
         );
 
-        /** @var Magento_Core_Model_Config_Modules $modulesConfig */
-        $modulesConfig = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_Modules', array(
-                'storage' => $storage
-            )
-        );
-
-        /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_Modules_Reader', array(
-                'dirs' => $dirs,
-                'modulesConfig' => $modulesConfig
-            )
-        );
-
-        $mageConfig = Mage::getObjectManager()->create(
+        $mageConfig = $this->_objectManager->create(
             'Magento_Core_Model_Config',
             array('storage' => $storage, 'moduleReader' => $moduleReader)
         );
 
         /** @var Magento_Webhook_Model_Subscription_Config $config */
-        $this->_config = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription_Config',
+        $this->_config = $this->_objectManager->create('Magento_Webhook_Model_Subscription_Config',
             array('mageConfig' => $mageConfig)
         );
     }
@@ -111,7 +107,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
     {
 
         /** @var Magento_Webhook_Model_Resource_Subscription_Collection $subscriberCollection */
-        $subscriptionSet = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Subscription_Collection');
+        $subscriptionSet = $this->_objectManager->create('Magento_Webhook_Model_Resource_Subscription_Collection');
 
         // Sanity check
         $subscriptions = $subscriptionSet->getSubscriptionsByAlias(self::SUBSCRIPTION_ALIAS);

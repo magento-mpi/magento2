@@ -12,7 +12,7 @@
 /**
  * Test class for Magento_Checkout_Controller_Cart
  */
-class Magento_Checkout_Controller_CartTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Checkout_Controller_CartTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * Test for Magento_Checkout_Controller_Cart::configureAction() with simple product

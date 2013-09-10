@@ -19,40 +19,6 @@
                 </setup>
             </tax_setup>
         </resources>
-        <events>
-            <sales_convert_quote_address_to_order>
-                <observers>
-                    <tax>
-                        <class>Magento_Tax_Model_Observer</class>
-                        <method>salesEventConvertQuoteAddressToOrder</method>
-                    </tax>
-                </observers>
-            </sales_convert_quote_address_to_order>
-            <sales_order_save_after>
-                <observers>
-                    <tax>
-                        <class>Magento_Tax_Model_Observer</class>
-                        <method>salesEventOrderAfterSave</method>
-                    </tax>
-                </observers>
-            </sales_order_save_after>
-            <catalog_product_collection_load_after>
-                <observers>
-                    <tax>
-                        <class>Magento_Tax_Model_Observer</class>
-                        <method>addTaxPercentToProductCollection</method>
-                    </tax>
-                </observers>
-            </catalog_product_collection_load_after>
-            <sales_quote_collect_totals_before>
-                <observers>
-                    <tax>
-                        <class>Magento_Tax_Model_Observer</class>
-                        <method>quoteCollectTotalsBefore</method>
-                    </tax>
-                </observers>
-            </sales_quote_collect_totals_before>
-        </events>
         <sales>
             <quote>
                 <totals>

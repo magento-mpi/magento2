@@ -21,7 +21,7 @@ class Magento_Sales_Model_Order_Invoice_Total_ShippingTest extends PHPUnit_Frame
     {
         $className = 'Magento_Sales_Model_Order_Invoice';
         $result = new Magento_Data_Collection();
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         foreach ($invoicesData as $oneInvoiceData) {
             $arguments = $objectManagerHelper->getConstructArguments($className, array('data' => $oneInvoiceData));
             /** @var $prevInvoice Magento_Sales_Model_Order_Invoice */

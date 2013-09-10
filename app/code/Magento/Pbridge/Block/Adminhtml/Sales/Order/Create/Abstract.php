@@ -76,7 +76,7 @@ class Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
      */
     protected function _getVariation()
     {
-        return Mage::app()->getConfig()->getNode('default/payment/pbridge/merchantcode')
+        return Mage::app()->getConfig()->getValue('payment/pbridge/merchantcode', 'default')
             . '_' . $this->getQuote()->getStore()->getWebsite()->getCode();
     }
 

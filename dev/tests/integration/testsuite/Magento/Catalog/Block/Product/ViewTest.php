@@ -28,11 +28,12 @@ class Magento_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::getObjectManager()->create('Magento_Catalog_Block_Product_View');
-        $this->_product = Mage::getModel('Magento_Catalog_Model_Product');
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_block = $objectManager->create('Magento_Catalog_Block_Product_View');
+        $this->_product = $objectManager->create('Magento_Catalog_Model_Product');
         $this->_product->load(1);
-        Mage::unregister('product');
-        Mage::register('product', $this->_product);
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('product');
+        $objectManager->get('Magento_Core_Model_Registry')->register('product', $this->_product);
     }
 
     public function testSetLayout()
@@ -53,7 +54,9 @@ class Magento_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($this->_block->getProduct()->getId());
         $this->assertEquals($this->_product->getId(), $this->_block->getProduct()->getId());
 
-        Mage::unregister('product');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('product');
         $this->_block->setProductId(1);
         $this->assertEquals($this->_product->getId(), $this->_block->getProduct()->getId());
     }

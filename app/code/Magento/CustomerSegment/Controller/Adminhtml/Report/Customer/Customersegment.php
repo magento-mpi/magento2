@@ -26,6 +26,25 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
     protected $_adminSession = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Init layout and adding breadcrumbs
      *
      * @return Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegment
@@ -80,7 +99,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
             }
             return false;
         }
-        Mage::register('current_customer_segment', $segment);
+        $this->_coreRegistry->register('current_customer_segment', $segment);
 
         $websiteIds = $this->getRequest()->getParam('website_ids');
         if (!is_null($websiteIds) && empty($websiteIds)) {
@@ -88,7 +107,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
         } elseif (!is_null($websiteIds) && !empty($websiteIds)) {
             $websiteIds = explode(',', $websiteIds);
         }
-        Mage::register('filter_website_ids', $websiteIds);
+        $this->_coreRegistry->register('filter_website_ids', $websiteIds);
 
         return $segment;
     }
@@ -112,9 +131,6 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
         $this->_title(__('Customer Segment Report'));
 
         $this->_initAction()
-            ->_addContent(
-                $this->getLayout()->createBlock('Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment')
-            )
             ->renderlayout();
     }
 
@@ -192,10 +208,10 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
     {
         if ($this->_initSegment()) {
             $fileName = 'customersegment_customers.xml';
+            $this->loadLayout();
             $content = $this->getLayout()
-                ->createBlock('Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid')
-                ->getExcelFile($fileName);
-            $this->_prepareDownloadResponse($fileName, $content);
+                ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
+            $this->_prepareDownloadResponse($fileName, $content->getExcelFile($fileName));
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
             return ;
@@ -209,11 +225,11 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
     public function exportCsvAction()
     {
         if ($this->_initSegment()) {
+            $this->loadLayout();
             $fileName = 'customersegment_customers.csv';
             $content = $this->getLayout()
-                ->createBlock('Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid')
-                ->getCsvFile();
-            $this->_prepareDownloadResponse($fileName, $content);
+                ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
+            $this->_prepareDownloadResponse($fileName, $content->getCsvFile($fileName));
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
             return ;
@@ -228,9 +244,8 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
         if (!$this->_initSegment(false)) {
             return;
         }
-        $grid = $this->getLayout()
-            ->createBlock('Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid');
-        $this->getResponse()->setBody($grid->toHtml());
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     /**

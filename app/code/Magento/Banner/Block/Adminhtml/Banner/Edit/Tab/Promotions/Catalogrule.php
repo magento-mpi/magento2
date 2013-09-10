@@ -12,10 +12,18 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
   extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_CatalogRule_Model_Resource_Rule_Collection $ruleCollection
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -23,8 +31,10 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_CatalogRule_Model_Resource_Rule_Collection $ruleCollection,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $storeManager, $urlModel, $data);
         $this->setCollection($ruleCollection);
     }
@@ -169,6 +179,6 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule
      */
     protected function _getBanner()
     {
-        return Mage::registry('current_banner');
+        return $this->_coreRegistry->registry('current_banner');
     }
 }

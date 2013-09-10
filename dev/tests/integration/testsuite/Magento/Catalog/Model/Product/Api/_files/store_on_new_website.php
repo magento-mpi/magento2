@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-if (!Mage::registry('website')) {
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+if (!$objectManager->get('Magento_Core_Model_Registry')->registry('website')) {
     $website = Mage::getModel('Magento_Core_Model_Website');
     $website->setData(
         array(
@@ -15,34 +17,34 @@ if (!Mage::registry('website')) {
         )
     );
     $website->save();
-    Mage::register('website', $website);
+    $objectManager->get('Magento_Core_Model_Registry')->register('website', $website);
 }
 
-if (!Mage::registry('store_group')) {
+if (!$objectManager->get('Magento_Core_Model_Registry')->registry('store_group')) {
     $defaultCategoryId = 2;
     $storeGroup = Mage::getModel('Magento_Core_Model_Store_Group');
     $storeGroup->setData(
         array(
-            'website_id' => Mage::registry('website')->getId(),
+            'website_id' => $objectManager->get('Magento_Core_Model_Registry')->registry('website')->getId(),
             'name' => 'Test Store' . uniqid(),
             'code' => 'store_group_' . uniqid(),
             'root_category_id' => $defaultCategoryId
         )
     )->save();
-    Mage::register('store_group', $storeGroup);
+    $objectManager->get('Magento_Core_Model_Registry')->register('store_group', $storeGroup);
 }
 
-if (!Mage::registry('store_on_new_website')) {
+if (!$objectManager->get('Magento_Core_Model_Registry')->registry('store_on_new_website')) {
     $store = Mage::getModel('Magento_Core_Model_Store');
     $store->setData(
         array(
-            'group_id' => Mage::registry('store_group')->getId(),
+            'group_id' => $objectManager->get('Magento_Core_Model_Registry')->registry('store_group')->getId(),
             'name' => 'Test Store View',
             'code' => 'store_' . uniqid(),
             'is_active' => true,
-            'website_id' => Mage::registry('website')->getId()
+            'website_id' => $objectManager->get('Magento_Core_Model_Registry')->registry('website')->getId()
         )
     )->save();
-    Mage::register('store_on_new_website', $store);
+    $objectManager->get('Magento_Core_Model_Registry')->register('store_on_new_website', $store);
     Mage::app()->reinitStores();
 }

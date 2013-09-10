@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_scheduled_operation_index>
-        <update handle="formkey" />
-        <update handle="adminhtml_scheduled_operation_block" />
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_scheduled_operation_index">
+        <update handle="formkey"/>
+        <update handle="adminhtml_scheduled_operation_block"/>
         <reference name="content">
-            <block type="Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation" name="adminhtml.block.scheduled.operation.grid.container"/>
+            <block class="Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation" name="adminhtml.block.scheduled.operation.grid.container"/>
         </reference>
-    </adminhtml_scheduled_operation_index>
+    </handle>
 </layout>

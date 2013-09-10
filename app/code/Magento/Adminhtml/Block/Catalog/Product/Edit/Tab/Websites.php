@@ -22,13 +22,44 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Magento_
     protected $_template = 'catalog/product/edit/websites.phtml';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_App $application
+     * @param Magento_Core_Model_Website_Factory $websiteFactory
+     * @param Magento_Core_Model_Store_Group_Factory $storeGroupFactory
+     * @param Magento_Core_Model_StoreFactory $storeFactory
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_App $application,
+        Magento_Core_Model_Website_Factory $websiteFactory,
+        Magento_Core_Model_Store_Group_Factory $storeGroupFactory,
+        Magento_Core_Model_StoreFactory $storeFactory,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $application, $websiteFactory, $storeGroupFactory, $storeFactory, $data);
+    }
+
+    /**
      * Retrieve edited product model instance
      *
      * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
-        return Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**

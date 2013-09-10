@@ -69,7 +69,7 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
         /** @var Magento_Core_Model_App $app */
         $app = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_helper = $objectManager->get('Magento_Webapi_Helper_Config');
         $reader = $objectManager->create(
             'Magento_Webapi_Model_Config_Reader_Soap',

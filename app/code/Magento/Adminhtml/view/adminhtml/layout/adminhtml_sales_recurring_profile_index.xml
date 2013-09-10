@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_sales_recurring_profile_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_sales_recurring_profile_index">
         <reference name="content">
-            <block type="Magento_Sales_Block_Adminhtml_Recurring_Profile" name="sales.recurring.profile.grid.container"/>
+            <block class="Magento_Sales_Block_Adminhtml_Recurring_Profile" name="sales.recurring.profile.grid.container"/>
         </reference>
-    </adminhtml_sales_recurring_profile_index>
+    </handle>
 </layout>

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Wishlist_Controller_IndexTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Wishlist_Controller_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @var Magento_Customer_Model_Session

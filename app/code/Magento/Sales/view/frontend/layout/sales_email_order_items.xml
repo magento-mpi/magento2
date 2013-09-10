@@ -7,34 +7,33 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <sales_email_order_items translate="label" type="page" parent="sales_order_view">
-        <label>Email Order Items List</label>
-        <block type="Magento_Sales_Block_Order_Email_Items" name="items" template="email/items.phtml">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="Email Order Items List" id="sales_email_order_items" type="page" parent="sales_order_view">
+        <block class="Magento_Sales_Block_Order_Email_Items" name="items" template="email/items.phtml">
             <action method="addItemRender">
-                <type>default</type>
-                <block>Magento_Sales_Block_Order_Email_Items_Order_Default</block>
-                <template>email/items/order/default.phtml</template>
+                <argument name="type" xsi:type="string">default</argument>
+                <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Email_Items_Order_Default</argument>
+                <argument name="template" xsi:type="string">email/items/order/default.phtml</argument>
             </action>
             <action method="addItemRender">
-                <type>grouped</type>
-                <block>Magento_Sales_Block_Order_Email_Items_Order_Grouped</block>
-                <template>email/items/order/default.phtml</template>
+                <argument name="type" xsi:type="string">grouped</argument>
+                <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Email_Items_Order_Grouped</argument>
+                <argument name="template" xsi:type="string">email/items/order/default.phtml</argument>
             </action>
-            <block type="Magento_Sales_Block_Order_Totals" name="order_totals" template="order/totals.phtml">
+            <block class="Magento_Sales_Block_Order_Totals" name="order_totals" template="order/totals.phtml">
                 <action method="setLabelProperties">
-                    <value>colspan="3" align="right" style="padding:3px 9px"</value>
+                    <argument name="value" xsi:type="string">colspan="3" align="right" style="padding:3px 9px"</argument>
                 </action>
                 <action method="setValueProperties">
-                    <value>align="right" style="padding:3px 9px"</value>
+                    <argument name="value" xsi:type="string">align="right" style="padding:3px 9px"</argument>
                 </action>
-                <block type="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml">
+                <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml">
                     <action method="setIsPlaneMode">
-                        <value>1</value>
+                        <argument name="value" xsi:type="string">1</argument>
                     </action>
                 </block>
             </block>
         </block>
         <container name="additional.product.info" label="Additional Product Info"/>
-    </sales_email_order_items>
+    </handle>
 </layout>

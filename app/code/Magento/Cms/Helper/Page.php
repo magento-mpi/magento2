@@ -23,6 +23,25 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
     const XML_PATH_HOME_PAGE            = 'web/default/cms_home_page';
 
     /**
+     * Design package instance
+     *
+     * @var Magento_Core_Model_View_DesignInterface
+     */
+    protected $_design = null;
+
+    /**
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_design = $design;
+        parent::__construct($context);
+    }
+
+    /**
     * Renders CMS page on front end
     *
     * Call from controller action
@@ -69,7 +88,7 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
 
         if ($page->getCustomTheme()) {
             if ($inRange) {
-                Mage::getDesign()->setDesignTheme($page->getCustomTheme());
+                $this->_design->setDesignTheme($page->getCustomTheme());
             }
         }
         $action->addPageLayoutHandles(array('id' => $page->getIdentifier()));

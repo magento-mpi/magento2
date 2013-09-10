@@ -20,13 +20,13 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected $_eventObserver;
 
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_eventObserver = $this->_createEventObserver();
     }
 

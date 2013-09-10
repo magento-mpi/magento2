@@ -7,20 +7,20 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <newsletter_manage_index>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="newsletter_manage_index">
         <reference name="customer.newsletter.form.before">
-            <block type="Magento_Reward_Block_Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml">
+            <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <type>Magento_Reward_Model_Action_Newsletter</type>
+                    <argument name="type" xsi:type="string">Magento_Reward_Model_Action_Newsletter</argument>
                 </action>
                 <action method="setWrapperClass">
-                    <class>reward-newsletter</class>
+                    <argument name="class" xsi:type="string">reward-newsletter</argument>
                 </action>
-                <action method="setRewardMessage" translate="message">
-                    <message>Subscribe to our newsletter now and earn %1.</message>
+                <action method="setRewardMessage">
+                    <argument translate="true" name="message" xsi:type="string">Subscribe to our newsletter now and earn %1.</argument>
                 </action>
             </block>
         </reference>
-    </newsletter_manage_index>
+    </handle>
 </layout>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="payment_info_block_prepare_specific_information">
+        <observer name="centinel" instance="Magento_Centinel_Model_Observer" method="paymentInfoBlockPrepareSpecificInformation" shared="false" />
+    </event>
+</config>

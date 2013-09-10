@@ -7,48 +7,48 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <adminhtml_system_store_grid_block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="adminhtml_system_store_grid_block">
         <reference name="adminhtml.system.store.container">
-            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.store.grid" as="grid">
+            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.store.grid" as="grid">
                 <arguments>
-                    <id>storeGrid</id>
-                    <save_parameters_in_session>1</save_parameters_in_session>
-                    <dataSource type="object">Magento_Core_Model_Resource_Website_Grid_Collection</dataSource>
+                    <argument name="id" xsi:type="string">storeGrid</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Core_Model_Resource_Website_Grid_Collection</argument>
                 </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.system.store.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.system.store.grid.columnSet" as="grid.columnSet">
                     <arguments>
-                        <id>storeGrid</id>
+                        <argument name="id" xsi:type="string">storeGrid</argument>
                     </arguments>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="website_title">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="website_title">
                         <arguments>
-                            <header translate="true">Web Site</header>
-                            <align>left</align>
-                            <index>name</index>
-                            <filter_index>main_table.name</filter_index>
-                            <renderer>Magento_Adminhtml_Block_System_Store_Grid_Render_Website</renderer>
+                            <argument name="header" xsi:type="string" translate="true">Web Site</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="index" xsi:type="string">name</argument>
+                            <argument name="filter_index" xsi:type="string">main_table.name</argument>
+                            <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_System_Store_Grid_Render_Website</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="group_title">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="group_title">
                         <arguments>
-                            <header translate="true">Store</header>
-                            <align>left</align>
-                            <index>group_title</index>
-                            <filter_index>group_table.name</filter_index>
-                            <renderer>Magento_Adminhtml_Block_System_Store_Grid_Render_Group</renderer>
+                            <argument name="header" xsi:type="string" translate="true">Store</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="index" xsi:type="string">group_title</argument>
+                            <argument name="filter_index" xsi:type="string">group_table.name</argument>
+                            <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_System_Store_Grid_Render_Group</argument>
                         </arguments>
                     </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="store_title">
+                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="store_title">
                         <arguments>
-                            <header translate="true">Store View</header>
-                            <align>left</align>
-                            <index>store_title</index>
-                            <filter_index>store_table.name</filter_index>
-                            <renderer>Magento_Adminhtml_Block_System_Store_Grid_Render_Store</renderer>
+                            <argument name="header" xsi:type="string" translate="true">Store View</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="index" xsi:type="string">store_title</argument>
+                            <argument name="filter_index" xsi:type="string">store_table.name</argument>
+                            <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_System_Store_Grid_Render_Store</argument>
                         </arguments>
                     </block>
                 </block>
             </block>
         </reference>
-    </adminhtml_system_store_grid_block>
+    </handle>
 </layout>

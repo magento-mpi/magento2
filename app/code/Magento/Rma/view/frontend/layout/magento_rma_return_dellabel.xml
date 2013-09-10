@@ -7,11 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout version="0.1.0">
-    <magento_rma_return_dellabel translate="label" type="fragment" owner="magento_rma_return_view">
-        <label>RMA Return Delete Label</label>
-        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-            <block type="Magento_Rma_Block_Return_Tracking" name="tracking" template="return/tracking.phtml"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle label="RMA Return Delete Label" id="magento_rma_return_dellabel" type="fragment" owner="magento_rma_return_view">
+        <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block class="Magento_Rma_Block_Return_Tracking" name="tracking" template="return/tracking.phtml"/>
         </block>
-    </magento_rma_return_dellabel>
+    </handle>
 </layout>

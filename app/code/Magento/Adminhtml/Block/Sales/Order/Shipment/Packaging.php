@@ -10,14 +10,38 @@
 
 /**
  * Adminhtml shipment packaging
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adminhtml_Block_Template
 {
+    /**
+     * @var Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size
+     */
+    protected $_sourceSizeModel;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size $sourceSizeModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size $sourceSizeModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_sourceSizeModel = $sourceSizeModel;
+        parent::__construct($context, $data);
+    }
+
     /**
      * Retrieve shipment model instance
      *
@@ -25,7 +49,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**
@@ -351,5 +375,15 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
         } else {
             return;
         }
+    }
+
+    /**
+     * Get Usps source size model
+     *
+     * @return Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size
+     */
+    public function getSourceSizeModel()
+    {
+        return $this->_sourceSizeModel;
     }
 }

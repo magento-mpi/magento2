@@ -114,7 +114,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     protected function _getAdapter($adapterType)
     {
         try {
-            $objectManager = Mage::getObjectManager();
+            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
             $adapter = $objectManager->get('Magento_Core_Model_Image_AdapterFactory')->create($adapterType);
             return $adapter;
         } catch (Exception $e) {
@@ -226,7 +226,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
 
     public function saveDataProvider()
     {
-        $dir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR;
+        $dir = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR;
         return $this->_prepareData(array(
             array(
                 $this->_getFixture('image_adapters_test.png'),
@@ -628,7 +628,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
 
     public function testValidateUploadFile()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $imageAdapter = $objectManager->get('Magento_Core_Model_Image_AdapterFactory')->create();
         $this->assertTrue($imageAdapter->validateUploadFile($this->_getFixture('magento_thumbnail.jpg')));
     }
@@ -638,7 +638,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateUploadFileException()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $imageAdapter = $objectManager->get('Magento_Core_Model_Image_AdapterFactory')->create();
         $imageAdapter->validateUploadFile(__FILE__);
     }

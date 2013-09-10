@@ -23,7 +23,7 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_model = $this->_objectManager->create('Magento_Core_Controller_Varien_Front');
     }
 
@@ -45,78 +45,37 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
     public function testGetResponse()
     {
         Mage::app()->setResponse(Mage::getSingleton('Magento_Core_Controller_Response_Http'));
-        if (!Magento_Test_Helper_Bootstrap::canTestHeaders()) {
+        if (!Magento_TestFramework_Helper_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test get response without sending headers');
         }
         $this->assertInstanceOf('Magento_Core_Controller_Response_Http', $this->_model->getResponse());
     }
 
-    public function testAddGetRouter()
+    public function testGetRouter()
     {
-        $router = Mage::getModel('Magento_Core_Controller_Varien_Router_Default');
-        $this->assertNull($router->getFront());
-        $this->_model->addRouter('test', $router);
-        $this->assertSame($this->_model, $router->getFront());
-        $this->assertSame($router, $this->_model->getRouter('test'));
-        $this->assertEmpty($this->_model->getRouter('tt'));
+        $this->assertInstanceOf('Magento_Core_Controller_Varien_Router_Default', $this->_model->getRouter('default'));
     }
 
     public function testGetRouters()
     {
-        $this->assertEmpty($this->_model->getRouters());
-        $this->_model->addRouter('test', Mage::getModel('Magento_Core_Controller_Varien_Router_Default'));
-        $this->assertNotEmpty($this->_model->getRouters());
-    }
-
-    public function testInit()
-    {
-        $this->assertEmpty($this->_model->getRouters());
-        $this->_model->init();
-        $this->assertNotEmpty($this->_model->getRouters());
+        $routers = $this->_model->getRouters();
+        $routerIds = array_keys($routers);
+        foreach (array('admin', 'standard', 'default', 'cms', 'vde') as $routerId) {
+            $this->assertContains($routerId, $routerIds);
+            $this->assertInstanceOf('Magento_Core_Controller_Varien_Router_Abstract', $routers[$routerId]);
+        }
     }
 
     public function testDispatch()
     {
-        if (!Magento_Test_Helper_Bootstrap::canTestHeaders()) {
+        if (!Magento_TestFramework_Helper_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Cant\'t test dispatch process without sending headers');
         }
         $_SERVER['HTTP_HOST'] = 'localhost';
-        $this->_model->init();
         /* empty action */
         $this->_model->getRequest()->setRequestUri('core/index/index');
         $this->_model->dispatch();
         $this->assertEmpty($this->_model->getResponse()->getBody());
-    }
-
-    public function testGetRouterByRoute()
-    {
-        $this->_model->init();
-        $this->assertInstanceOf('Magento_Core_Controller_Varien_Router_Base', $this->_model->getRouterByRoute(''));
-        $this->assertInstanceOf(
-            'Magento_Core_Controller_Varien_Router_Base',
-            $this->_model->getRouterByRoute('checkout')
-        );
-        $this->assertInstanceOf(
-            'Magento_Core_Controller_Varien_Router_Default',
-            $this->_model->getRouterByRoute('test')
-        );
-    }
-
-    public function testGetRouterByFrontName()
-    {
-        $this->_model->init();
-        $this->assertInstanceOf(
-            'Magento_Core_Controller_Varien_Router_Base',
-            $this->_model->getRouterByFrontName('')
-        );
-        $this->assertInstanceOf(
-            'Magento_Core_Controller_Varien_Router_Base',
-            $this->_model->getRouterByFrontName('checkout')
-        );
-        $this->assertInstanceOf(
-            'Magento_Core_Controller_Varien_Router_Default',
-            $this->_model->getRouterByFrontName('test')
-        );
     }
 
     /**
