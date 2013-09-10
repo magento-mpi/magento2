@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="customer_account">
         <reference name="customer-account-navigation">
-            <block type="Mage_Page_Block_Link_Current" name="customer-account-navigation-customer-balance-link">
+            <block type="Magento_Page_Block_Link_Current" name="customer-account-navigation-customer-balance-link">
                 <arguments>
                     <argument name="path" xsi:type="string">magento_customerbalance/info/</argument>
                     <argument translate="true" name="label" xsi:type="string">Store Credit</argument>
