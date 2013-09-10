@@ -21,10 +21,11 @@ class Magento_SalesRule_Model_Plugin_QuoteConfigProductAttributes
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_StoreManager $storeManager
      */
-    public function __construct(Magento_SalesRule_Model_Resource_Rule $ruleResource,
+    public function __construct(
+        Magento_SalesRule_Model_Resource_Rule $ruleResource,
         Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_StoreManager $storeManager)
-    {
+        Magento_Core_Model_StoreManager $storeManager
+    ) {
         $this->_ruleResource = $ruleResource;
         $this->_customerSession = $customerSession;
         $this->_storeManager = $storeManager;

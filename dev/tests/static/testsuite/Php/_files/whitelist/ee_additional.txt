@@ -2,3 +2,4 @@
 # These items and this file are published in Magento EE only
 #
 app/code/Magento/CustomerSegment/Model/Logging.php
+app/code/Magento/CustomerSegment/Model/Plugin

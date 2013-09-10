@@ -27,7 +27,6 @@ return array(
     array('_applyDesignRecursively', 'Magento_Catalog_Model_Design'),
     array('_avoidDoubleTransactionProcessing'),
     array('_beforeChildToHtml'),
-    array('_beforeLoad', 'Magento_Catalog_Model_Resource_Product_Collection'),
     array('_beforeMove', 'Magento_Catalog_Model_Resource_Category_Tree'),
     array('_bytesToMbytes', 'Magento_Catalog_Model_Product_Option_Type_File'),
     array('_calculatePrice', 'Magento_Sales_Model_Quote_Item_Abstract'),

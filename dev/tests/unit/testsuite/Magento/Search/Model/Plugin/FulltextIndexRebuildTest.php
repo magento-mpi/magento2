@@ -54,7 +54,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
         $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false);
         $this->_searchEngineMock = $this->getMock('Magento_Search_Model_Resource_Engine', array(), array(), '', false);
         $this->_fulltextSearchMock = $this->getMock(
-            'Magento_CatalogSearch_Model_Fulltext',  array(), array(), '', false
+            'Magento_CatalogSearch_Model_Fulltext', array(), array(), '', false
         );
         $this->_filterPriceMock = $this->getMock(
             'Magento_Search_Model_Catalog_Layer_Filter_Price', array(), array(), '', false
