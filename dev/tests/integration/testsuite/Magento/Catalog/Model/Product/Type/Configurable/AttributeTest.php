@@ -34,7 +34,8 @@ class Magento_Catalog_Model_Product_Type_Configurable_AttributeTest extends PHPU
         $this->_model->setProductAttribute(new \Magento\Object(array('store_label' => 'Store Label')));
         $this->assertEquals('Store Label', $this->_model->getLabel());
 
-        $this->_model->setUseDefault(1)->setProductAttribute(new \Magento\Object(array('store_label' => 'Other Label')));
+        $this->_model->setUseDefault(1)
+            ->setProductAttribute(new \Magento\Object(array('store_label' => 'Other Label')));
         $this->assertEquals('Other Label', $this->_model->getLabel());
     }
 }

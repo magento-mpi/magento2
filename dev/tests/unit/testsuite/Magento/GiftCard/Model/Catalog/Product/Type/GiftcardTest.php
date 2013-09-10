@@ -124,8 +124,8 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
             $option->setIdFieldName('id');
             $option->setId($i);
             $option->setIsRequire(true);
-            $this->_customOptions[Magento_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX . $i] = new \Magento\Object(
-                array('value' => 'value')
+            $this->_customOptions[Magento_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX . $i] =
+                new \Magento\Object(array('value' => 'value')
             );
             $this->_product->addOption($option);
         }

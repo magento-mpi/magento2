@@ -135,7 +135,8 @@ class Magento_Theme_Model_Wysiwyg_Storage
             return false;
         }
         $thumbnailDir = $this->_helper->getThumbnailDirectory($source);
-        $thumbnailPath = $thumbnailDir . \Magento\Filesystem::DIRECTORY_SEPARATOR . pathinfo($source, PATHINFO_BASENAME);
+        $thumbnailPath =
+            $thumbnailDir . \Magento\Filesystem::DIRECTORY_SEPARATOR . pathinfo($source, PATHINFO_BASENAME);
         try {
             $this->_filesystem->ensureDirectoryExists($thumbnailDir);
             $image = $this->_imageFactory->create();

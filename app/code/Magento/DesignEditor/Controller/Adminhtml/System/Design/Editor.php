@@ -465,11 +465,13 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
             $this->loadLayout();
             $this->_setActiveMenu('Magento_DesignEditor::system_design_editor');
             if (!$this->_isFirstEntrance()) {
-                /** @var $assignedThemeBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Assigned */
+                /** @var $assignedThemeBlock
+                 * Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Assigned */
                 $assignedThemeBlock = $this->getLayout()->getBlock('assigned.theme.list');
                 $assignedThemeBlock->setCollection($this->_customizationConfig->getAssignedThemeCustomizations());
 
-                /** @var $unassignedThemeBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Unassigned */
+                /** @var $unassignedThemeBlock
+                 * Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Unassigned */
                 $unassignedThemeBlock = $this->getLayout()->getBlock('unassigned.theme.list');
                 $unassignedThemeBlock->setCollection($this->_customizationConfig->getUnassignedThemeCustomizations());
                 $unassignedThemeBlock->setHasThemeAssigned($this->_customizationConfig->hasThemeAssigned());
