@@ -36,11 +36,8 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig
     ) {
-        parent::__construct(
-            $fetchStrategy,
-            $coreStoreConfig
-        );
         $this->_coreConfig = $coreConfig;
+        parent::__construct($fetchStrategy, $coreStoreConfig);
     }
 
     /**

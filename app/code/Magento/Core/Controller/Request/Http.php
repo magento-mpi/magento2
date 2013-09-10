@@ -57,12 +57,12 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     protected $_beforeForwardInfo = array();
 
     /**
-     * @var Magento_ObjectManager_ObjectManager
+     * @var Magento_ObjectManager
      */
     protected $_objectManager;
 
     public function __construct(
-        Magento_ObjectManager_ObjectManager $objectManager,
+        Magento_ObjectManager $objectManager,
         $uri = null
     ) {
         $this->_objectManager = $objectManager;
