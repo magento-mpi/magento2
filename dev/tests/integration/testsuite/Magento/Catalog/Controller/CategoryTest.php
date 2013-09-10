@@ -19,8 +19,8 @@ class Magento_Catalog_Controller_CategoryTest extends Magento_TestFramework_Test
     public function assert404NotFound()
     {
         parent::assert404NotFound();
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->assertNull($objectManager->get('Magento_Core_Model_Registry')->registry('current_category'));
     }
 
@@ -68,8 +68,8 @@ class Magento_Catalog_Controller_CategoryTest extends Magento_TestFramework_Test
     {
         $this->dispatch("catalog/category/view/id/$categoryId");
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var $currentCategory Magento_Catalog_Model_Category */
         $currentCategory = $objectManager->get('Magento_Core_Model_Registry')->registry('current_category');

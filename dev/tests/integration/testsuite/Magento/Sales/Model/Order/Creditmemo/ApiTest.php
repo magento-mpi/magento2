@@ -96,8 +96,8 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testNegativeRefundException()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var $order Magento_Sales_Model_Order */
         $order = $objectManager->get('Magento_Core_Model_Registry')->registry('order');
@@ -197,8 +197,8 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
         $prefix = '01';
         Magento_TestFramework_Helper_Eav::setIncrementIdPrefix('creditmemo', $prefix);
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $order = $objectManager->get('Magento_Core_Model_Registry')->registry('order2');
 
@@ -292,8 +292,8 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
      */
     protected function _createCreditmemo()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var $product Magento_Catalog_Model_Product */
         $product = $objectManager->get('Magento_Core_Model_Registry')->registry('product_virtual');

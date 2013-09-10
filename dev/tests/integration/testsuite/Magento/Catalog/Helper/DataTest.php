@@ -28,8 +28,8 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $category = Mage::getModel('Magento_Catalog_Model_Category');
         $category->load(5);
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_category', $category);
 
         try {
@@ -48,8 +48,8 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetCategory()
     {
         $category = Mage::getModel('Magento_Catalog_Model_Category');
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_category', $category);
         try {
             $this->assertSame($category, $this->_helper->getCategory());
@@ -63,8 +63,8 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetProduct()
     {
         $product = Mage::getModel('Magento_Catalog_Model_Product');
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
         try {
             $this->assertSame($product, $this->_helper->getProduct());
@@ -84,8 +84,8 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetAttributeHiddenFields()
     {
         $this->assertEquals(array(), $this->_helper->getAttributeHiddenFields());
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('attribute_type_hidden_fields', 'test');
         try {
             $this->assertEquals('test', $this->_helper->getAttributeHiddenFields());
@@ -99,8 +99,8 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetAttributeDisabledTypes()
     {
         $this->assertEquals(array(), $this->_helper->getAttributeDisabledTypes());
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('attribute_type_disabled_types', 'test');
         try {
             $this->assertEquals('test', $this->_helper->getAttributeDisabledTypes());

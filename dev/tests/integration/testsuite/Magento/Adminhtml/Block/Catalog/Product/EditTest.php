@@ -26,8 +26,8 @@ class Magento_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework
         $product = $this->getMock('Magento_Catalog_Model_Product', array('getAttributes'), array(), '', false);
         $product->expects($this->any())->method('getAttributes')->will($this->returnValue(array()));
         $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE);
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
         $this->_block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit');
     }

@@ -9,8 +9,8 @@
 Mage::app()->loadArea('adminhtml');
 require 'customer.php';
 
-/** @var $objectManager Magento_Test_ObjectManager */
-$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
 /** @var $customer Magento_Customer_Model_Customer */
 //Set up customer address fixture

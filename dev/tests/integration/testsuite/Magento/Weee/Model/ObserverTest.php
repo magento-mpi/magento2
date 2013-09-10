@@ -27,8 +27,8 @@ class Magento_Weee_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateConfigurableProductOptions()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->unregister('current_product');
         $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
         $this->_model->updateConfigurableProductOptions($eventObserver);

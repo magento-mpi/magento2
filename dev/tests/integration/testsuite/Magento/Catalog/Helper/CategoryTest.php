@@ -25,8 +25,8 @@ class Magento_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
     {
         if ($this->_helper) {
             $helperClass = get_class($this->_helper);
-            /** @var $objectManager Magento_Test_ObjectManager */
-            $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+            /** @var $objectManager Magento_TestFramework_ObjectManager */
+            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
             $objectManager->get('Magento_Core_Model_Registry')->unregister('_helper/' . $helperClass);
         }
         $this->_helper = null;

@@ -23,8 +23,8 @@ Mage::app()->reinitStores();
 
 $additionalWebsiteId = $website->getId();
 
-/** @var $objectManager Magento_Test_ObjectManager */
-$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 $objectManager->get('Magento_Core_Model_Registry')
     ->unregister('_fixture/Magento_ScheduledImportExport_Model_TestWebsite');
 $objectManager->get('Magento_Core_Model_Registry')

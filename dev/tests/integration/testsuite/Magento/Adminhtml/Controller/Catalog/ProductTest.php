@@ -27,8 +27,8 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
 
         $this->dispatch('backend/admin/catalog_product/save');
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var $product Magento_Catalog_Model_Product */
         $product = $objectManager->get('Magento_Core_Model_Registry')->registry('current_product');

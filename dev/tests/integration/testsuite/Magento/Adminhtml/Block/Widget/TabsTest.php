@@ -21,8 +21,8 @@ class Magento_Adminhtml_Block_Widget_TabsTest extends PHPUnit_Framework_TestCase
     {
         /** @var $widgetInstance Magento_Widget_Model_Widget_Instance */
         $widgetInstance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_widget_instance', $widgetInstance);
 
         /** @var $layout Magento_Core_Model_Layout */

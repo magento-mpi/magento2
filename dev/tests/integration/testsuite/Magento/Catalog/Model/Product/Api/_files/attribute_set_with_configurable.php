@@ -6,8 +6,8 @@
  * @license {license_link}
  */
 
-/** @var $objectManager Magento_Test_ObjectManager */
-$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 if (!$objectManager->get('Magento_Core_Model_Registry')->registry('attribute_set_with_configurable')) {
     define('ATTRIBUTES_COUNT', 2);
     define('ATTRIBUTE_OPTIONS_COUNT', 3);

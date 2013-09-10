@@ -33,8 +33,8 @@ class Magento_ImportExport_Model_Resource_Import_DataTest extends PHPUnit_Framew
      */
     public function testGetUniqueColumnData()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $expectedBunches = $objectManager->get('Magento_Core_Model_Registry')
             ->registry('_fixture/Magento_ImportExport_Import_Data');
@@ -57,8 +57,8 @@ class Magento_ImportExport_Model_Resource_Import_DataTest extends PHPUnit_Framew
      */
     public function testGetBehavior()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $expectedBunches = $objectManager->get('Magento_Core_Model_Registry')
             ->registry('_fixture/Magento_ImportExport_Import_Data');
@@ -71,8 +71,8 @@ class Magento_ImportExport_Model_Resource_Import_DataTest extends PHPUnit_Framew
      */
     public function testGetEntityTypeCode()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $expectedBunches = $objectManager->get('Magento_Core_Model_Registry')
             ->registry('_fixture/Magento_ImportExport_Import_Data');

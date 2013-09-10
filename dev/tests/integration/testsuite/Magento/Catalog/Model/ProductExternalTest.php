@@ -47,8 +47,8 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     {
         $this->assertFalse($this->_model->getCategoryId());
         $category = new Magento_Object(array('id' => 5));
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_category', $category);
         try {
             $this->assertEquals(5, $this->_model->getCategoryId());
@@ -63,8 +63,8 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     {
         $this->assertEmpty($this->_model->getCategory());
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')
             ->register('current_category', new Magento_Object(array('id' => 3))); // fixture
         try {

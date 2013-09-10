@@ -141,8 +141,8 @@ class Magento_Adminhtml_Controller_CustomerTest extends Magento_Backend_Utility_
          */
         $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Magento_Core_Model_Message::SUCCESS);
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /**
          * Check that customer id set and addresses saved
@@ -216,8 +216,8 @@ class Magento_Adminhtml_Controller_CustomerTest extends Magento_Backend_Utility_
             $this->equalTo(array('You saved the customer.')), Magento_Core_Model_Message::SUCCESS
         );
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /**
          * Check that customer id set and addresses saved

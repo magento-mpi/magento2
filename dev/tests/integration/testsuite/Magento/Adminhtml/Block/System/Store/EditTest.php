@@ -16,8 +16,8 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
 {
     public function tearDown()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->unregister('store_type');
         $objectManager->get('Magento_Core_Model_Registry')->unregister('store_data');
         $objectManager->get('Magento_Core_Model_Registry')->unregister('store_action');
@@ -28,8 +28,8 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
      */
     protected function _initStoreTypesInRegistry($registryData)
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         foreach ($registryData as $key => $value) {
             $objectManager->get('Magento_Core_Model_Registry')->register($key, $value);
         }

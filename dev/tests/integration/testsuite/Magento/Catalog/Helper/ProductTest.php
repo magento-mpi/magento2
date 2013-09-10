@@ -84,8 +84,8 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
         $product->setId(100);
         $category = Mage::getModel('Magento_Catalog_Model_Category');
         $category->setId(10);
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_category', $category);
 
         try {
@@ -175,8 +175,8 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     {
         Mage::getSingleton('Magento_Catalog_Model_Session')->setLastVisitedCategoryId(2);
         $this->_helper->initProduct(1, 'view');
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $this->assertInstanceOf(
             'Magento_Catalog_Model_Product',

@@ -38,8 +38,8 @@ $taxRate = array(
 );
 $rate = Mage::getModel('Magento_Tax_Model_Calculation_Rate')->setData($taxRate)->save();
 
-/** @var $objectManager Magento_Test_ObjectManager */
-$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 $objectManager->get('Magento_Core_Model_Registry')->register('_fixture/Magento_Tax_Model_Calculation_Rate', $rate);
 
 $ruleData = array(

@@ -11,7 +11,7 @@
 
 $model = new Magento_Catalog_Model_Resource_Eav_Attribute(
     Mage::getModel('Magento_Core_Model_Context'),
-    Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry')
+    Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry')
 );
 $model->setName('user_attribute')
     ->setId(1)

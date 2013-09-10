@@ -18,7 +18,7 @@ class Magento_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_block = $this->getMockForAbstractClass(
             'Magento_Wishlist_Block_Abstract',
             array(

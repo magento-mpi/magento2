@@ -48,8 +48,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         sort($correctHeader);
         $this->assertEquals($correctHeader, $csvHeader);
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {

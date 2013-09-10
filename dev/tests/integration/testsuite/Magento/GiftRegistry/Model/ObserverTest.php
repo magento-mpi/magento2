@@ -22,8 +22,8 @@ class Magento_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testDeleteProduct()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('isSecureArea', true);
 
         $customer = Mage::getModel('Magento_Customer_Model_Customer');

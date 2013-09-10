@@ -54,8 +54,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
 
         $this->assertNotEmpty($lines['data'], 'No data was exported');
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $customers Magento_Customer_Model_Customer[] */
         $customers = $objectManager->get('Magento_Core_Model_Registry')
             ->registry('_fixture/Magento_ImportExport_Customer_Collection');
@@ -141,8 +141,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     {
         $createdAtDate = '2038-01-01';
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /**
          * Change created_at date of first customer for future filter test.

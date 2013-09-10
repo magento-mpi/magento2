@@ -17,8 +17,8 @@ class Magento_Sales_Block_Order_Print_CreditmemoTest extends PHPUnit_Framework_T
     public function testGetTotalsHtml()
     {
         $order = Mage::getModel('Magento_Sales_Model_Order');
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_order', $order);
         $payment = Mage::getModel('Magento_Sales_Model_Order_Payment');
         $payment->setMethod('checkmo');

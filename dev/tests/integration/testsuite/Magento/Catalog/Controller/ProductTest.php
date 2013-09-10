@@ -17,8 +17,8 @@ class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestC
     public function assert404NotFound()
     {
         parent::assert404NotFound();
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->assertNull($objectManager->get('Magento_Core_Model_Registry')->registry('current_product'));
     }
 
@@ -38,8 +38,8 @@ class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestC
     public function testViewAction()
     {
         $this->dispatch('catalog/product/view/id/1');
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var $currentProduct Magento_Catalog_Model_Product */
         $currentProduct = $objectManager->get('Magento_Core_Model_Registry')->registry('current_product');

@@ -24,7 +24,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Magento_Catalog_Model_Resource_Eav_Attribute(
             Mage::getModel('Magento_Core_Model_Context'),
-            Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry')
         );
         $model->load($postData['attribute_id']);
         $this->assertNull($model->getData('apply_to'));
@@ -40,7 +40,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Magento_Catalog_Model_Resource_Eav_Attribute(
             Mage::getModel('Magento_Core_Model_Context'),
-            Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry')
         );
         $model->load($postData['attribute_id']);
         $this->assertEquals('simple,configurable', $model->getData('apply_to'));
@@ -57,7 +57,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Magento_Catalog_Model_Resource_Eav_Attribute(
             Mage::getModel('Magento_Core_Model_Context'),
-            Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Registry')
         );
         $model->load($postData['attribute_id']);
         $this->assertEquals(array('simple', 'configurable'), $model->getApplyTo());

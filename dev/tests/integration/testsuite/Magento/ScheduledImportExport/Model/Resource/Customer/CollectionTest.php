@@ -40,8 +40,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
 
         /** @var $customer Magento_Customer_Model_Customer */
         $customer = reset($items);
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $key = $website->getCode() . '_'
@@ -69,8 +69,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
 
         /** @var $customer Magento_Customer_Model_Customer */
         $customer = reset($items);
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $key = $website->getCode() . '_'
@@ -101,8 +101,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
             ->registry('customer_finance_email_rp_cb'), $emails);
@@ -131,8 +131,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
             ->registry('customer_finance_email_rp_cb'), $emails);
@@ -161,8 +161,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
             ->registry('customer_finance_email_rp_cb'), $emails);
@@ -191,8 +191,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
             $emails[] = $item->getEmail();
         }
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $this->assertContains($objectManager->get('Magento_Core_Model_Registry')
             ->registry('customer_finance_email_rp_cb'), $emails);

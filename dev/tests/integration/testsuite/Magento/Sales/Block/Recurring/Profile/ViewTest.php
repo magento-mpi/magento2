@@ -29,8 +29,8 @@ class Magento_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_T
     public function setUp()
     {
         $this->_profile = Mage::getModel('Magento_Sales_Model_Recurring_Profile');
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_recurring_profile', $this->_profile);
 
         $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
@@ -39,8 +39,8 @@ class Magento_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_T
 
     public function tearDown()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->unregister('current_recurring_profile');
         $this->_profile = null;
         $this->_block = null;

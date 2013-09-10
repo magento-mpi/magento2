@@ -19,8 +19,8 @@ class Magento_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Fram
         require __DIR__ . '/../_files/attribute_set_with_configurable.php';
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var Magento_Eav_Model_Entity_Attribute_Set $attributeSet */
         $attributeSet = $objectManager->get('Magento_Core_Model_Registry')->registry('attribute_set_with_configurable');

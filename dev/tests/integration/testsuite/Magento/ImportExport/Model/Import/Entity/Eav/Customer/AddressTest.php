@@ -128,8 +128,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     public function testInitAddresses()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         // get addressed from fixture
         $customers = $objectManager->get('Magento_Core_Model_Registry')->registry($this->_fixtureKey);
@@ -199,8 +199,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     protected function _addTestAddress(Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address $entityAdapter)
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $customers = $objectManager->get('Magento_Core_Model_Registry')->registry($this->_fixtureKey);
         /** @var $customer Magento_Customer_Model_Customer */
@@ -279,8 +279,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     public function testSaveCustomerDefaults()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         // get not default address
         $customers = $objectManager->get('Magento_Core_Model_Registry')->registry($this->_fixtureKey);

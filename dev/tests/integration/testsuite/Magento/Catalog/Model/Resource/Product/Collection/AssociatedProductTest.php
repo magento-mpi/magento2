@@ -20,8 +20,8 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductTest ex
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
         $product->setId(10);
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
         $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct');
         $collectionProduct = $collection->getFirstItem();
@@ -41,8 +41,8 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductTest ex
     {
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
         $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct');
         $this->assertEmpty($collection->count());

@@ -26,8 +26,8 @@ $customer->addData(array(
 ));
 $customerEmail = 'customer_finance_test@test.com';
 $registerKey = 'customer_finance_email';
-/** @var $objectManager Magento_Test_ObjectManager */
-$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 $objectManager->get('Magento_Core_Model_Registry')->unregister($registerKey);
 $objectManager->get('Magento_Core_Model_Registry')->register($registerKey, $customerEmail);
 $customer->setEmail($customerEmail);

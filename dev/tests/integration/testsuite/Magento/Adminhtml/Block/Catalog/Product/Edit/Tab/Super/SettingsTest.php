@@ -33,8 +33,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extend
         $urlModel->expects($this->any())->method('getUrl')->with($this->equalTo($expectedUrl))
             ->will($this->returnValue('url'));
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
 
         $context = Mage::getModel('Magento_Backend_Block_Template_Context', array('urlBuilder' => $urlModel));

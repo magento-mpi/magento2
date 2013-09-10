@@ -244,8 +244,8 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testAutoIncrementType()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var $quote Magento_Sales_Model_Quote */
         $order = $objectManager->get('Magento_Core_Model_Registry')->registry('order2');
@@ -281,8 +281,8 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testListWithFilters()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var $invoice Magento_Sales_Model_Order_Invoice */
         $invoice = $objectManager->get('Magento_Core_Model_Registry')->registry('invoice');

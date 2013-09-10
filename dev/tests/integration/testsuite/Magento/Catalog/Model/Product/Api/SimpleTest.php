@@ -279,8 +279,8 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
     public function testProductWithOptionsCrud()
     {
         $this->markTestIncomplete('TODO: Fix test');
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $optionValueApi = $objectManager->get('Magento_Core_Model_Registry')->registry('optionValueApi');
         $optionValueInstaller = $objectManager->get('Magento_Core_Model_Registry')->registry('optionValueInstaller');
@@ -355,8 +355,8 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
      */
     public function testProductUpdateCustomStore()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var Magento_Core_Model_Store $store */
         $store = $objectManager->get('Magento_Core_Model_Registry')->registry('store_on_new_website');

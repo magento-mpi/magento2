@@ -50,8 +50,8 @@ $model->attributeAdd($response1, 4);
 $model->attributeAdd($response2, 4);
 
 $attributes = array($response1, $response2);
-/** @var $objectManager Magento_Test_ObjectManager */
-$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 $objectManager->get('Magento_Core_Model_Registry')->register('attributes', $attributes);
 $objectManager->get('Magento_Core_Model_Registry')->register('optionValueApi', $optionValueApi);
 $objectManager->get('Magento_Core_Model_Registry')->register('optionValueInstaller', $optionValueInstaller);

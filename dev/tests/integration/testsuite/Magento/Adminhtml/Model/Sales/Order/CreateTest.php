@@ -39,8 +39,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
         $order->loadByIncrementId('100000001');
         $this->assertFalse($order->getShippingAddress());
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->unregister('rule_data');
         $this->_model->initFromOrder($order);
 
@@ -60,8 +60,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->unregister('rule_data');
         $this->_model->initFromOrder($order);
 
@@ -81,8 +81,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->unregister('rule_data');
         $this->_model->initFromOrder($order);
 
@@ -104,8 +104,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
         $this->assertEquals('AE', $payment->getCcType());
         $this->assertEquals('0005', $payment->getCcLast4());
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->unregister('rule_data');
         $payment = $this->_model->initFromOrder($order)->getQuote()->getPayment();
 
@@ -130,8 +130,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
         $this->assertEquals('AE', $payment->getCcType());
         $this->assertEquals('0005', $payment->getCcLast4());
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->unregister('rule_data');
         $payment = $this->_model->initFromOrder($order)->getQuote()->getPayment();
 
