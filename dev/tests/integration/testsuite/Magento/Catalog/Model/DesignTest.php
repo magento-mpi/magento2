@@ -30,7 +30,8 @@ class Magento_Catalog_Model_DesignTest extends PHPUnit_Framework_TestCase
     public function testApplyCustomDesign($theme)
     {
         $this->_model->applyCustomDesign($theme);
-        $design = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface');
         $this->assertEquals('package', $design->getDesignTheme()->getPackageCode());
         $this->assertEquals('theme', $design->getDesignTheme()->getThemeCode());
     }

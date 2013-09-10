@@ -56,7 +56,7 @@ class Magento_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_Tes
             'parser' =>  $this->_parserMock
         );
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_Backend_Model_Widget_Grid_Totals', $arguments);
 
         // setup columns

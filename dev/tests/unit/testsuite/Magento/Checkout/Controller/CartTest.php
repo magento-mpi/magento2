@@ -21,7 +21,7 @@ class Magento_Checkout_Controller_CartTest extends PHPUnit_Framework_TestCase
 
     public function testGoBack()
     {
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $responseMock = $this->getMock('Magento_Core_Controller_Response_Http',
             array('setRedirect'), array(), '', false
         );

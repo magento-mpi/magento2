@@ -20,8 +20,8 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_DesignTest extends PHPUnit_Frame
      */
     public function testPrepareForm()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();

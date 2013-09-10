@@ -14,7 +14,7 @@
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-class Magento_Catalog_Controller_CategoryTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Catalog_Controller_CategoryTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     public function assert404NotFound()
     {

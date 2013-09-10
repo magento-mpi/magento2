@@ -18,7 +18,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $params = array(
             'context'         => $objectManager->get('Magento_Core_Model_Context'),
             'registry'        => $objectManager->get('Magento_Core_Model_Registry'),
@@ -153,7 +153,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBaseUrlInPub()
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_URIS => array(Magento_Core_Model_Dir::PUB => '')
         ));
         $this->_model->load('default');
@@ -270,7 +270,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 
         /* emulate admin store */
         Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
-        $crud = new Magento_Test_Entity($this->_model, array('name' => 'new name'));
+        $crud = new Magento_TestFramework_Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }
 
@@ -329,7 +329,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             ->method('isInstalled')
             ->will($this->returnValue($isInstalled));
 
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $params = array(
             'context'         => $objectManager->get('Magento_Core_Model_Context'),
             'registry'        => $objectManager->get('Magento_Core_Model_Registry'),

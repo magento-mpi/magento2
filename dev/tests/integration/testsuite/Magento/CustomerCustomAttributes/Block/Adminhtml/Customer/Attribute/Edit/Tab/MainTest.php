@@ -22,7 +22,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
      */
     public function testPrepareForm()
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer');

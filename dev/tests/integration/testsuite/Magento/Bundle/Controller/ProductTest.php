@@ -12,7 +12,7 @@
 /**
  * Test class for Magento_Catalog_Controller_Product (bundle product type)
  */
-class Magento_Bundle_Controller_ProductTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Bundle_Controller_ProductTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/Bundle/_files/product.php

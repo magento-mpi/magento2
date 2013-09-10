@@ -113,7 +113,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('Magento_VersionsCms::cms_enterprise_page_hierarchy')
+            ->_setActiveMenu('Magento_VersionsCms::versionscms_page_hierarchy')
             ->_addBreadcrumb(__('CMS'),
                 __('CMS'))
             ->_addBreadcrumb(__('CMS Page Trees'),

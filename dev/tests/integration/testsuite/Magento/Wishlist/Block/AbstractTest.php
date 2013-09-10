@@ -35,7 +35,7 @@ class Magento_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testImage()
     {
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
         $product = Mage::getModel('Magento_Catalog_Model_Product');

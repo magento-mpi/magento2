@@ -28,7 +28,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
 
         $rootResource = new Magento_Core_Model_Acl_RootResource('Magento_Webapi');
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_block = $helper->getObject('Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource', array(
             'ruleResource' => $this->_ruleResource,
             'rootResource' => $rootResource

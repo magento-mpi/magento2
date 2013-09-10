@@ -10,7 +10,7 @@
 class Magento_Webapi_Model_Resource_Acl_TestAbstract extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_helper;
 
@@ -31,7 +31,7 @@ class Magento_Webapi_Model_Resource_Acl_TestAbstract extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $this->_helper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()

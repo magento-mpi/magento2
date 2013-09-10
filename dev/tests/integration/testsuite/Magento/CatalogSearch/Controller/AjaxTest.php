@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogSearch_Controller_AjaxTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_CatalogSearch_Controller_AjaxTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/CatalogSearch/_files/query.php

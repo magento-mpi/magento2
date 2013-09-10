@@ -34,7 +34,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             $this->stringEndsWith('/static/frontend/magento_demo/de_DE/images/logo.gif')
         );
 
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $emailTemplate = $this->getMock('Magento_Core_Model_Email_Template',
             array('_getMail', '_getLogoUrl'),
             array(
@@ -69,7 +69,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $brokenMail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $errorMsg = md5(microtime());
         $brokenMail->expects($this->any())->method('send')->will($this->throwException(new Exception($errorMsg, 99)));
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $template = $this->getMock('Magento_Core_Model_Email_Template',
             array('_getMail', '_getLogoUrl'),
             array(

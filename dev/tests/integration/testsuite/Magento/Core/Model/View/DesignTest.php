@@ -37,7 +37,7 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         $themeDir = Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA) . 'theme';
-        $filesystem = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Filesystem');
+        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Filesystem');
         $filesystem->delete($themeDir . '/frontend');
         $filesystem->delete($themeDir . '/_merged');
 
@@ -69,12 +69,12 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      */
     protected function _emulateFixtureTheme($themePath = 'test_default')
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => realpath(__DIR__ . '/../_files/design'),
             ),
         ));
-        Magento_Test_Helper_Bootstrap::getObjectManager()
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme($themePath);
 
@@ -199,12 +199,12 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
     {
         $this->_emulateFixtureTheme();
         /** @var $theme Magento_Core_Model_Theme */
-        $theme = Magento_Test_Helper_Bootstrap::getObjectManager()
+        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_View_DesignInterface')
             ->getDesignTheme();
         $customConfigFile = $theme->getCustomization()->getCustomViewConfigPath();
         /** @var $filesystem Magento_Filesystem */
-        $filesystem = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Filesystem');
+        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Filesystem');
         $filesystem->setIsAllowCreateDirectories(true);
         try {
             $filesystem->write($customConfigFile, '<?xml version="1.0" encoding="UTF-8"?>
@@ -232,7 +232,7 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testGetViewUrl($appMode, $file, $result)
     {
-        $currentAppMode = Magento_Test_Helper_Bootstrap::getObjectManager()
+        $currentAppMode = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_App_State')
             ->getMode();
         if ($currentAppMode != $appMode) {
@@ -254,7 +254,7 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testGetViewUrlSigned($appMode, $file, $result)
     {
-        $currentAppMode = Magento_Test_Helper_Bootstrap::getObjectManager()
+        $currentAppMode = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_App_State')
             ->getMode();
         if ($currentAppMode != $appMode) {

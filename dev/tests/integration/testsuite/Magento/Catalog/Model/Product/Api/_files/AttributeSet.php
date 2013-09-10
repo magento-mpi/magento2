@@ -16,7 +16,7 @@ $objectManager->get('Magento_Core_Model_Registry')->register(
 );
 
 $attributeSetFixture = simplexml_load_file(__DIR__ . '/_data/xml/AttributeSet.xml');
-$data = Magento_Test_Helper_Api::simpleXmlToArray($attributeSetFixture->attributeEntityToCreate);
+$data = Magento_TestFramework_Helper_Api::simpleXmlToArray($attributeSetFixture->attributeEntityToCreate);
 $data['attribute_code'] = $data['attribute_code'] . '_' . mt_rand(1000, 9999);
 
 $testAttributeSetAttrIdsArray = array();

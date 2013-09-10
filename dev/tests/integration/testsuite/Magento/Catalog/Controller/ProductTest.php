@@ -12,7 +12,7 @@
 /**
  * Test class for Magento_Catalog_Controller_Product.
  */
-class Magento_Catalog_Controller_ProductTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     public function assert404NotFound()
     {

@@ -27,12 +27,13 @@ class Magento_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_
     public function setUp()
     {
         parent::setUp();
-        $this->_block = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Block_User_Edit_Tab_Main');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        
+        $this->_block = $objectManager->create('Magento_User_Block_User_Edit_Tab_Main');
         $this->_block->setArea('adminhtml');
-        $this->_user = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_User');
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $this->_user = $objectManager->create('Magento_User_Model_User');
+
         $objectManager->get('Magento_Core_Model_Registry')->register('permissions_user', $this->_user);
     }
 
@@ -40,15 +41,15 @@ class Magento_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_
     {
         $this->_block = null;
         $this->_user = null;
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->unregister('permissions_user');
         parent::tearDown();
     }
 
     public function testToHtmlPasswordFieldsExistingEntry()
     {
-        $this->_user->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
+        $this->_user->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
         $actualHtml = $this->_block->toHtml();
         $this->assertSelectCount(
             'input.required-entry[type="password"]', 0, $actualHtml,

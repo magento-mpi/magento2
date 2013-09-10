@@ -23,7 +23,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             'viewFileSystem' => $fileSystem,
             'data'           => array('template' => $template, 'area' => $area),
         );
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $block = $helper->getObject('Magento_Core_Block_Template', $arguments);
 
@@ -63,7 +63,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             'translator'    => $translator,
             'engineFactory' => $engineFactory,
         );
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $block = $this->getMock(
             'Magento_Core_Block_Template',

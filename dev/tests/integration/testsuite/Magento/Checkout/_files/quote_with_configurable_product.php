@@ -36,6 +36,6 @@ $cart->save();
 $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
 $objectManager->get('Magento_Core_Model_Registry')->unregister('_singleton/Magento_Checkout_Model_Session');
 
-/** @var $objectManager Magento_Test_ObjectManager */
-$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 $objectManager->removeSharedInstance('Magento_Checkout_Model_Session');

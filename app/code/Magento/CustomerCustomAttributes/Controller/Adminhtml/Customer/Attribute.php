@@ -284,11 +284,11 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
             }
 
             try {
-                $this->_eventManager->dispatch('enterprise_customer_attribute_before_save', array(
+                $this->_eventManager->dispatch('magento_customercustomattributes_attribute_before_save', array(
                     'attribute' => $attributeObject
                 ));
                 $attributeObject->save();
-                $this->_eventManager->dispatch('enterprise_customer_attribute_save', array(
+                $this->_eventManager->dispatch('magento_customercustomattributes_attribute_save', array(
                     'attribute' => $attributeObject
                 ));
 
@@ -343,7 +343,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
             }
             try {
                 $attributeObject->delete();
-                $this->_eventManager->dispatch('enterprise_customer_attribute_delete', array(
+                $this->_eventManager->dispatch('magento_customercustomattributes_attribute_delete', array(
                     'attribute' => $attributeObject
                 ));
 

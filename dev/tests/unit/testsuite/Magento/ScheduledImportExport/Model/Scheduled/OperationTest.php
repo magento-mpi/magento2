@@ -65,7 +65,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
      */
     protected function _getScheduledOperationModel(array $fileInfo)
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $dateModelMock = $this->getMock('Magento_Core_Model_Date', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())

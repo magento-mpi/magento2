@@ -17,9 +17,9 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
     public function testDownloadableLinkCreate()
     {
         $tagFixture = simplexml_load_file(dirname(__FILE__) . '/../../../_files/_data/xml/LinkCRUD.xml');
-        $items = Magento_Test_Helper_Api::simpleXmlToArray($tagFixture->items);
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $items = Magento_TestFramework_Helper_Api::simpleXmlToArray($tagFixture->items);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $productId = $objectManager->get('Magento_Core_Model_Registry')->registry('productData')->getId();
 
@@ -45,7 +45,7 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
                     );
                 }
 
-                $resultId = Magento_Test_Helper_Api::call(
+                $resultId = Magento_TestFramework_Helper_Api::call(
                     $this,
                     'catalogProductDownloadableLinkAdd',
                     array(
@@ -66,14 +66,14 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
      */
     public function testDownloadableLinkItems()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var Magento_Catalog_Model_Product $product */
         $product = $objectManager->get('Magento_Core_Model_Registry')->registry('downloadable');
         $productId = $product->getId();
 
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductDownloadableLinkList',
             array('productId' => $productId)
@@ -100,8 +100,8 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
      */
     public function testDownloadableLinkRemove()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var Magento_Catalog_Model_Product $product */
         $product = $objectManager->get('Magento_Core_Model_Registry')->registry('downloadable');
@@ -109,7 +109,7 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
         $downloadable = $product->getTypeInstance();
         $links = $downloadable->getLinks($product);
         foreach ($links as $link) {
-            $removeResult = Magento_Test_Helper_Api::call(
+            $removeResult = Magento_TestFramework_Helper_Api::call(
                 $this,
                 'catalogProductDownloadableLinkRemove',
                 array(

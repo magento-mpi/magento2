@@ -88,7 +88,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
         $helperMock->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
         $responseMock->expects($this->once())->method('setRedirect')->with('*/system_config/edit');
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = array(
             'request' => $this->_requestMock,
             'response' => $responseMock,

@@ -49,7 +49,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
     protected $_sessionData;
 
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 
@@ -76,7 +76,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_model         = $this->_objectManager->get('Magento_Core_Model_Resource_Session');
 
         /** @var $resource Magento_Core_Model_Resource */

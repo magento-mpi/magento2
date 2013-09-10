@@ -46,7 +46,7 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
     public function testApplyNothing()
     {
         $this->_model->apply(
-            new Magento_Test_Request(),
+            new Magento_TestFramework_Request(),
             Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text')
         );
         /** @var $objectManager Magento_Test_ObjectManager */
@@ -56,7 +56,7 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
 
     public function testApply()
     {
-        $request = new Magento_Test_Request();
+        $request = new Magento_TestFramework_Request();
         $request->setParam('cat', 3);
         $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
 

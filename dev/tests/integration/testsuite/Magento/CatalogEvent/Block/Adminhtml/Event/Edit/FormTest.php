@@ -20,7 +20,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends PHPUnit_F
      */
     public function testPrepareForm()
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         /** @var $event Magento_CatalogEvent_Model_Event */
