@@ -22,7 +22,7 @@ dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/expected
 dev/tests/static/testsuite/Magento/Test/Legacy/_files
 lib/Magento/Archive.php
-lib/Magento/Archive/Abstract.php
+lib/Magento/Archive/AbstractArchive.php
 lib/Magento/Archive/Bz.php
 lib/Magento/Archive/Gz.php
 lib/Magento/Archive/Helper/File.php
