@@ -42,7 +42,7 @@ class Magento_FullPageCache_Model_Placeholder_Config_Converter implements Magent
                     case 'block':
                         $blockInstanceName = $placeholderData->attributes->getNamedItem('instance')->nodeValue;
                         $blockNameNode = $placeholderData->attributes->getNamedItem('name');
-                        if ($blockInstanceName) {
+                        if ($blockNameNode) {
                             $config['name'] = $blockNameNode->nodeValue;
                         }
                         break;

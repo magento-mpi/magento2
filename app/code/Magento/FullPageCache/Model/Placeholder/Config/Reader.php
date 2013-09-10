@@ -20,17 +20,17 @@ class Magento_FullPageCache_Model_Placeholder_Config_Reader extends Magento_Conf
 
     /**
      * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Magento_Core_Model_Event_Config_Converter $converter
+     * @param Magento_FullPageCache_Model_Placeholder_Config_Converter $converter
      * @param Magento_Config_ValidationStateInterface $validationState
-     * @param Magento_Core_Model_Event_Config_SchemaLocator $schemaLocator
+     * @param Magento_FullPageCache_Model_Placeholder_Config_SchemaLocator $schemaLocator
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      */
     public function __construct(
         Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Core_Model_Event_Config_Converter $converter,
-        Magento_Core_Model_Event_Config_SchemaLocator $schemaLocator,
+        Magento_FullPageCache_Model_Placeholder_Config_Converter $converter,
+        Magento_FullPageCache_Model_Placeholder_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState,
         $fileName = 'placeholders.xml',
         $idAttributes = array(),
