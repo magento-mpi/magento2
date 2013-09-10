@@ -17,7 +17,7 @@ class Magento_Logging_Model_Config
     /**
      * logging.xml merged config
      *
-     * @var Magento_Simplexml_Config
+     * @var array
      */
     protected $_xmlConfig;
 
@@ -64,9 +64,9 @@ class Magento_Logging_Model_Config
     }
 
     /**
-     * Check is there value identified by key in System Config
+     * Check if there is a value identified by key in System Config
      *
-     * @param $key
+     * @param string $key
      * @return bool
      */
     public function hasSystemConfigValue($key)
@@ -78,7 +78,7 @@ class Magento_Logging_Model_Config
     }
 
     /**
-     * Check is event group is enabled for logging
+     * Check if event group is enabled for logging
      *
      * @param string $groupName
      * @return bool
@@ -127,7 +127,7 @@ class Magento_Logging_Model_Config
     /**
      * Get configuration node for specified full action name
      *
-     * @param string $fullActionName
+     * @param string $controllerAction
      * @return array|false
      */
     public function getEventByFullActionName($controllerAction)
@@ -137,7 +137,21 @@ class Magento_Logging_Model_Config
                 return $configData['actions'][$controllerAction];
             }
         }
-        return false;;
+        return false;
+    }
+
+    /**
+     * Retrieve configuration for group of events
+     *
+     * @param $groupName
+     * @return bool
+     */
+    public function getEventGroupConfig($groupName)
+    {
+        if (!array_key_exists($groupName, $this->_xmlConfig)) {
+            return false;
+        }
+        return $this->_xmlConfig['$groupName'];
     }
 
 

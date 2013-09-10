@@ -16,12 +16,6 @@ class Magento_Logging_Model_Processor
      */
     protected $_config;
 
-    /**
-     * current handle config
-     *
-     * @var array
-     */
-    protected $_handleConfig;
 
     /**
      * current event config
@@ -91,7 +85,7 @@ class Magento_Logging_Model_Processor
      *
      * @var array
      */
-    protected $_collectedAdditionalData = array();
+    protected $_additionalData = array();
 
     /** @var  Magento_Backend_Model_Auth_Session */
     protected $_authSession;
@@ -152,6 +146,8 @@ class Magento_Logging_Model_Processor
      *
      * @param string $fullActionName Full action name like 'adminhtml_catalog_product_edit'
      * @param string $actionName Action name like 'save', 'edit' etc.
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function initAction($fullActionName, $actionName)
     {
@@ -164,11 +160,10 @@ class Magento_Logging_Model_Processor
         $this->_lastAction = $fullActionName;
 
         $this->_eventConfig = $this->_config->getEventByFullActionName($fullActionName);
-        $this->_skipNextAction = (!$this->_config->isEventGroupLogged($this->_eventConfig['group_name'])) ? true : false;
+        $this->_skipNextAction = (!$this->_config->isEventGroupLogged($this->_eventConfig['group_name']));
         if ($this->_skipNextAction) {
-            return;
+            return $this;
         }
-        $this->_handleConfig = $this->_config->getNode($fullActionName);
 
         /**
          * Skip view action after save. For example on 'save and continue' click.
@@ -177,22 +172,21 @@ class Magento_Logging_Model_Processor
          * like customer balance, when customer balance ajax tab loaded after
          * customer page.
          */
-        $doNotLog = $this->_authSession->getSkipLoggingAction();
-        if ($doNotLog) {
-            if (is_array($doNotLog)) {
-                $key = array_search($fullActionName, $doNotLog);
+        $sessionValue = $this->_authSession->getSkipLoggingAction();
+        if ($sessionValue) {
+            if (is_array($sessionValue)) {
+                $key = array_search($fullActionName, $sessionValue);
                 if ($key !== false) {
-                    unset($doNotLog[$key]);
-                    $this->_authSession->setSkipLoggingAction($doNotLog);
+                    unset($sessionValue[$key]);
+                    $this->_authSession->setSkipLoggingAction($sessionValue);
                     $this->_skipNextAction = true;
-                    return;
+                    return $this;
                 }
             }
         }
 
         if (isset($this->_eventConfig['skip_on_back'])) {
-            $addValue = $this->_eventConfig['skip_on_back'];var_dump($addValue);
-            $sessionValue = $this->_authSession->getSkipLoggingAction();
+            $addValue = $this->_eventConfig['skip_on_back'];
             if (!is_array($sessionValue) && $sessionValue) {
                 $sessionValue = explode(',', $sessionValue);
             } elseif (!$sessionValue) {
@@ -201,6 +195,7 @@ class Magento_Logging_Model_Processor
             $merge = array_merge($addValue, $sessionValue);
             $this->_authSession->setSkipLoggingAction($merge);
         }
+        return $this;
     }
 
     /**
@@ -209,37 +204,44 @@ class Magento_Logging_Model_Processor
      *
      * @param object $model
      * @param string $action
+     * @return Magento_Logging_Model_Processor|false
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function modelActionAfter($model, $action)
     {
         if ($this->_skipNextAction) {
-            return;
+            return false;
         }
         /**
          * These models used when we merge action models with action group models
          */
-        $defaultExpectedModels = null;
-        if ($this->_handleConfig) {
-            if (isset($this->_eventConfig['expected_models'])) {
-                $defaultExpectedModels = $this->_eventConfig['expected_models'];
+        $groupExpectedModels = null;
+        if ($this->_eventConfig) {
+            $eventGroupNode = $this->_config->getEventGroupConfig($this->_eventConfig['group_name']);
+            if (isset($eventGroupNode['expected_models'])) {
+                $groupExpectedModels = $eventGroupNode['expected_models'];
             }
         }
 
         /**
          * Exact models in exactly action node
          */
-        $expectedModels = isset($this->_handleConfig['expected_models'])
-            ? $this->_handleConfig['expected_models'] : false;
+        $expectedModels = isset($this->_eventConfig['expected_models'])
+            ? $this->_eventConfig['expected_models'] : false;
 
         if (!$expectedModels || empty($expectedModels)) {
-            if (empty($defaultExpectedModels)) {
-                return;
+            if (empty($groupExpectedModels)) {
+                return false;
             }
-            $usedModels = $defaultExpectedModels;
+            $usedModels = $groupExpectedModels;
         } else {
-            if ($expectedModels['@']['extends'] == 'merge') {
-                $defaultExpectedModels = array_replace_recursive($defaultExpectedModels, $expectedModels);
-                $usedModels = $defaultExpectedModels;
+            if (isset($expectedModels['@'])
+                && isset($expectedModels['@']['extends'])
+                && $expectedModels['@']['extends'] == 'merge'
+            ) {
+                $groupExpectedModels = array_replace_recursive($groupExpectedModels, $expectedModels);
+                $usedModels = $groupExpectedModels;
             } else {
                 $usedModels = $expectedModels;
             }
@@ -249,61 +251,98 @@ class Magento_Logging_Model_Processor
         /**
          * Log event changes for each model
          */
-        foreach ($usedModels as $className => $callback) {
+        foreach ($usedModels as $className => $params) {
 
             /**
              * Add custom skip fields per expecetd model
              */
-            if (isset($callback['skip_data'])) {
-                $rawData = $callback['skip_data'];
-                $skipData = array_unique($rawData);
+            if (isset($params['skip_data'])) {
+                $skipData = array_unique($params['skip_data']);
             }
 
             /**
              * Add custom additional fields per expecetd model
              */
-            if (isset($callback['additional_data'])) {
-                $rawData = $callback['additional_data'];
-                $additionalData = array_unique($rawData);
+            if (isset($params['additional_data'])) {
+                $additionalData = array_unique($params['additional_data']);
             }
             /**
              * Clean up additional data with skip data
              */
             $additionalData = array_diff($additionalData, $skipData);
 
-            if ($model instanceof $className) {
-                $classMap = $this->_getCallbackFunction(trim($callback), $this->_modelsHandler,
-                    sprintf('model%sAfter', ucfirst($action)));
-                $handler  = $classMap['handler'];
-                $callback = $classMap['callback'];
-                if ($handler) {
-                    $this->collectAdditionalData($model, $additionalData);
-                    $changes = $handler->$callback($model, $this);
-                    /**
-                     * Because of logging view action, $changes must be checked if it is an object
-                     */
-                    if (is_object($changes)) {
-                        $changes->cleanupData($skipData);
-                        if ($changes->hasDifference()) {
-                            $changes->setSourceName($className);
-                            $changes->setSourceId($model->getId());
-                            $this->addEventChanges($changes);
-                        }
-                    }
-                }
+            if (!($model instanceof $className)) {
+                return false;
             }
-            $skipData = array();
+
+            $callback = sprintf('model%sAfter', ucfirst($action));
+            $this->collectAdditionalData($model, $additionalData);
+            $changes = $this->_modelsHandler->$callback($model, $this);
+
+            /* $changes will not be an object in case of view action */
+            if (!is_object($changes)) {
+                return $this;
+            }
+            $changes->cleanupData($skipData);
+            if ($changes->hasDifference()) {
+                $changes->setSourceName($className);
+                $changes->setSourceId($model->getId());
+                $this->addEventChanges($changes);
+            }
         }
+        return $this;
     }
 
     /**
      * Postdispatch action handler
+     *
+     * @return Magento_Logging_Model_Processor|false
      */
     public function logAction()
     {
         if (!$this->_initAction) {
-            return;
+            return false;
         }
+
+        if ($this->_actionName == 'denied') {
+            $this->logDeniedAction();
+            return $this;
+        }
+
+        if ($this->_skipNextAction) {
+            return false;
+        }
+
+        $loggingEvent = $this->_initLoggingEvent();
+        $loggingEvent->setAction($this->_eventConfig['action']);
+        $loggingEvent->setEventCode($this->_eventConfig['group_name']);
+
+        try {
+            if (!$this->_callPostdispatchCallback($loggingEvent)) {
+                return false;
+            }
+
+            /* Prepare additional info */
+            if ($this->getCollectedAdditionalData()) {
+                $loggingEvent->setAdditionalInfo($this->getCollectedAdditionalData());
+            }
+            $loggingEvent->save();
+            $this->_saveEventChanges($loggingEvent);
+
+        } catch (Exception $e) {
+            $this->_logger->logException($e);
+            return false;
+        }
+        return $this;
+    }
+
+    /**
+     * Initialize logging event
+     *
+     * @return Magento_Logging_Model_Event
+     */
+    private function _initLoggingEvent()
+    {
         $username = null;
         $userId   = null;
         if ($this->_authSession->isLoggedIn()) {
@@ -312,74 +351,99 @@ class Magento_Logging_Model_Processor
         }
         $errors = $this->_backendSession->getMessages()->getErrors();
         /** @var Magento_Logging_Model_Event $loggingEvent */
-        $loggingEvent = $this->_objectManager->create('Magento_Logging_Model_Event')
-            ->setData(array(
-                'ip'            => $this->_httpHelper->getRemoteAddr(),
-                'x_forwarded_ip'=> $this->_coreApp->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
-                'user'          => $username,
-                'user_id'       => $userId,
-                'is_success'    => empty($errors),
-                'fullaction'    => $this->_initAction,
-                'error_message' => implode("\n", array_map(create_function('$a', 'return $a->toString();'), $errors)),
-                )
-            );
+        $loggingEvent = $this->_objectManager->create('Magento_Logging_Model_Event');
+        $loggingEvent->setData(array(
+            'ip'            => $this->_httpHelper->getRemoteAddr(),
+            'x_forwarded_ip'=> $this->_coreApp->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
+            'user'          => $username,
+            'user_id'       => $userId,
+            'is_success'    => empty($errors),
+            'fullaction'    => $this->_initAction,
+            'error_message' => implode("\n", array_map(create_function('$a', 'return $a->toString();'), $errors)),
+        ));
+        return $loggingEvent;
+    }
 
-        if ($this->_actionName == 'denied') {
-            $config = $this->_config->getNode($this->_initAction);
-            if (!$config || !$this->_config->isActive($this->_initAction)) {
-                return;
+    /**
+     * @param Magento_Logging_Model_Event$loggingEvent
+     * @return Magento_Logging_Model_Processor|false
+     */
+    private function _callPostdispatchCallback($loggingEvent)
+    {
+        $handler = $this->_controllersHandler;
+        $callback = 'postDispatchGeneric';
+
+        if (isset($this->_eventConfig['post_dispatch'])) {
+            $classPath = explode('::', $this->_eventConfig['post_dispatch']);
+            if (count($classPath) == 2) {
+                $handler = $this->_objectManager->get(str_replace('__', '/', $classPath[0]));
+                $callback = $classPath[1];
+            } else {
+                $callback = $classPath[0];
             }
-            $loggingEvent->setAction($config->action);
-            $loggingEvent->setEventCode($config->getParent()->getParent()->getName());
-            $loggingEvent->setInfo(__('Access denied'));
-            $loggingEvent->setIsSuccess(0);
-            $loggingEvent->save();
-            return;
+            if (!$handler || !$callback || !method_exists($handler, $callback)) {
+                $this->_logger->logException(
+                    new Magento_Core_Exception(sprintf("Unknown callback function: %s::%s", $handler, $callback)));
+            }
         }
 
-        if ($this->_skipNextAction) {
-            return;
+        if (!$handler) {
+            return false;
         }
 
-        $loggingEvent->setAction($this->_handleConfig['action']);
-        $loggingEvent->setEventCode($this->_eventConfig['name']);
-
-        try {
-            $callback = isset($this->_handleConfig['post_dispatch']) ? (string)$this->_handleConfig['post_dispatch'] : false;
-            $defaulfCallback = 'postDispatchGeneric';
-            $classMap = $this->_getCallbackFunction($callback, $this->_controllersHandler, $defaulfCallback);
-            $handler  = $classMap['handler'];
-            $callback = $classMap['callback'];
-            if (!$handler) {
-                return;
-            }
-            if ($handler->$callback($this->_handleConfig, $loggingEvent, $this)) {
-                /**
-                 * Prepare additional info
-                 */
-                if ($this->getCollectedAdditionalData()) {
-                    $loggingEvent->setAdditionalInfo($this->getCollectedAdditionalData());
-                }
-                $loggingEvent->save();
-                $eventId = $loggingEvent->getId();
-                if ($eventId) {
-                    foreach ($this->_eventChanges as $changes) {
-                        if ($changes && ($changes->getOriginalData() || $changes->getResultData())) {
-                            $changes->setEventId($eventId);
-                            $changes->save();
-                        }
-                    }
-                }
-            }
-        } catch (Exception $e) {
-            $this->_logger->logException($e);
+        if (!$handler->$callback($this->_eventConfig, $loggingEvent, $this)) {
+            return false;
         }
+        return $this;
+    }
+
+    /**
+     * Save event changes
+     *
+     * @param Magento_Logging_Model_Event $loggingEvent
+     * @return Magento_Logging_Model_Processor|false
+     */
+    private function _saveEventChanges($loggingEvent)
+    {
+        if (!$loggingEvent->getId()) {
+            return false;
+        }
+        foreach ($this->_eventChanges as $changes) {
+            if ($changes && ($changes->getOriginalData() || $changes->getResultData())) {
+                $changes->setEventId($loggingEvent->getId());
+                $changes->save();
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Log "denied" action
+     *
+     * @return Magento_Logging_Model_Processor|false
+     */
+    public function logDeniedAction()
+    {
+        if ($this->_actionName != 'denied') {
+            return false;
+        }
+        if (!$this->_eventConfig || !$this->_config->isEventGroupLogged($this->_eventConfig['group_name'])) {
+            return $this;
+        }
+        $loggingEvent = $this->_initLoggingEvent();
+        $loggingEvent->setAction($this->_eventConfig['action']);
+        $loggingEvent->setEventCode($this->_eventConfig['group_name']);
+        $loggingEvent->setInfo(__('Access denied'));
+        $loggingEvent->setIsSuccess(0);
+        $loggingEvent->save();
+        return $this;
     }
 
     /**
      * Collect $model id
      *
      * @param object $model
+     * @return null
      */
     public function collectId($model)
     {
@@ -425,15 +489,16 @@ class Magento_Logging_Model_Processor
      *
      * @param object $model
      * @param array $attributes
+     * @return null
      */
     public function collectAdditionalData($model, array $attributes)
     {
         $attributes = array_unique($attributes);
-        if ($model->getId()) {
+        if ($modelId = $model->getId()) {
             foreach ($attributes as $attribute) {
                 $value = $model->getDataUsingMethod($attribute);
                 if (!empty($value)) {
-                    $this->_collectedAdditionalData[get_class($model)][$model->getId()][$attribute] = $value;
+                    $this->_additionalData[get_class($model)][$modelId][$attribute] = $value;
                 }
             }
         }
@@ -446,42 +511,7 @@ class Magento_Logging_Model_Processor
      */
     public function getCollectedAdditionalData()
     {
-        return $this->_collectedAdditionalData;
-    }
-
-    /**
-     * Get callback function for logAction and modelActionAfter functions
-     *
-     * @param string $srtCallback
-     * @param object $defaultHandler
-     * @param string $defaultFunction
-     * @return array Contains two values 'handler' and 'callback' that indicate what callback function should be applied
-     */
-    protected function _getCallbackFunction($srtCallback, $defaultHandler, $defaultFunction)
-    {
-        $return = array('handler' => $defaultHandler, 'callback' => $defaultFunction);
-        if (empty($srtCallback)) {
-            return $return;
-        }
-
-        try {
-            $classPath = explode('::', $srtCallback);
-            if (count($classPath) == 2) {
-                $return['handler'] = $this->_objectManager->get(str_replace('__', '/', $classPath[0]));
-                $return['callback'] = $classPath[1];
-            } else {
-                $return['callback'] = $classPath[0];
-            }
-            if (!$return['handler'] || !$return['callback'] || !method_exists($return['handler'],
-                $return['callback'])) {
-                new Magento_Core_Exception("Unknown callback function: {$srtCallback}");
-            }
-        } catch (Exception $e) {
-            $return['handler'] = false;
-            $this->_logger->logException($e);
-        }
-
-        return $return;
+        return $this->_additionalData;
     }
 
     /**

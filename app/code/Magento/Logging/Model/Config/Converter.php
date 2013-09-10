@@ -57,7 +57,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Convert Group node to array
      *
-     * @param DOMNode $event
+     * @param DOMNode $group
      * @param string $groupId
      * @return array
      */
@@ -93,10 +93,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     {
         $result = array('group_name' => $groupId);
         $eventAttributes = $event->attributes;
-        $eventAction = $eventAttributes->getNamedItem('action_alias');
-        if (!is_null($eventAction)) {
-            $result['action'] = $eventAction->nodeValue;
-        }
+        $result['action'] = $eventAttributes->getNamedItem('action_alias')->nodeValue;
 
         $postDispatch = $eventAttributes->getNamedItem('post_dispatch');
         if (!is_null($postDispatch)) {
@@ -128,7 +125,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Convert Expected Model node to array
      *
-     * @param DOMNode $event
+     * @param DOMNode $expectedModel
      * @return array
      */
     protected function _convertExpectedModel($expectedModel)

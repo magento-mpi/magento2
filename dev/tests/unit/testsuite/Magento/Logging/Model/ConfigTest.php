@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Enterprise_Logging_Model_Config
+ * Test Magento_Logging_Model_Config
  *
  * {license_notice}
  *

@@ -81,7 +81,7 @@ class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
      * @expectedException Magento_Exception
      * @expectedExceptionMessage Element 'expected_model': This element is not expected. Expected is ( skip_on_back ).
      */
-    public function testMargeCompleteAndPartial()
+    public function testMergeCompleteAndPartial()
     {
         $fileList = array(
             __DIR__ . '/_files/customerBalance.xml',
