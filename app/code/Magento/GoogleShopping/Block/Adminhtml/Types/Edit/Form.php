@@ -10,14 +10,30 @@
 
 /**
  * Adminhtml Google Content types mapping form block
- *
- * @category   Magento
- * @package    Magento_GoogleShopping
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     /**
      * Prepare form before rendering HTML
      *
@@ -80,7 +96,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
                 ->setAttributeSetSelected(true);
         }
 
-        $attributes = Mage::registry('attributes');
+        $attributes = $this->_coreRegistry->registry('attributes');
         if (is_array($attributes) && count($attributes) > 0) {
             $attributesBlock->setAttributesData($attributes);
         }
@@ -146,7 +162,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
 
         $ids = array();
         $itemType = $this->getItemType();
-        if ( !($itemType instanceof Magento_Object && $itemType->getId()) ) {
+        if (!($itemType instanceof Magento_Object && $itemType->getId())) {
             $typesCollection = Mage::getResourceModel('Magento_GoogleShopping_Model_Resource_Type_Collection')
                 ->addCountryFilter($targetCountry)
                 ->load();
@@ -171,7 +187,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
      */
     public function getItemType()
     {
-        return Mage::registry('current_item_type');
+        return $this->_coreRegistry->registry('current_item_type');
     }
 
     /**

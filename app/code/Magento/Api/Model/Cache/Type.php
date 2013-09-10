@@ -26,10 +26,10 @@ class Magento_Api_Model_Cache_Type extends Magento_Cache_Frontend_Decorator_TagS
     const CACHE_TAG = 'CONFIG_API';
 
     /**
-     * @param Magento_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool
+     * @param Magento_Core_Model_Cache_Type_FrontendPool $frontend
      */
-    public function __construct(Magento_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool)
+    public function __construct(Magento_Core_Model_Cache_Type_FrontendPool $frontend)
     {
-        parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
+        parent::__construct($frontend->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
     }
 }

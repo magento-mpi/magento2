@@ -8,21 +8,37 @@
  * @license     {license_link}
  */
 
-/**
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Magento_Rma_Block_Return_Info extends Magento_Core_Block_Template
 {
     protected $_links = array();
 
     protected $_template = 'return/info.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _prepareLayout()
     {
-        if ($headBlock = $this->getLayout()->getBlock('head')) {
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
             $headBlock->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
         }
         $this->setChild(
@@ -43,7 +59,7 @@ class Magento_Rma_Block_Return_Info extends Magento_Core_Block_Template
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     public function addLink($name, $path, $label)
@@ -78,12 +94,14 @@ class Magento_Rma_Block_Return_Info extends Magento_Core_Block_Template
 
     public function getReorderUrl($order)
     {
-        return $this->getUrl('sales/guest/reorder', array('order_id' => Mage::registry('current_order')->getId()));
+        $order = $this->_coreRegistry->registry('current_order');
+        return $this->getUrl('sales/guest/reorder', array('order_id' => $order->getId()));
     }
 
     public function getPrintUrl($order)
     {
-        return $this->getUrl('sales/guest/print', array('order_id' => Mage::registry('current_order')->getId()));
+        $order = $this->_coreRegistry->registry('current_order');
+        return $this->getUrl('sales/guest/print', array('order_id' => $order->getId()));
     }
 
 }

@@ -37,6 +37,11 @@
             <value>86400</value>
         </param>
     </type>
+    <type name="Magento_Core_Model_Store">
+        <param name="isCustomEntryPoint">
+            <value type="argument">Magento_Core_Model_Store::CUSTOM_ENTRY_POINT_PARAM</value>
+        </param>
+    </type>
     <type name="Magento_Core_Model_Acl_Cache">
         <param name="cacheKey">
             <value>global_acl_resources</value>

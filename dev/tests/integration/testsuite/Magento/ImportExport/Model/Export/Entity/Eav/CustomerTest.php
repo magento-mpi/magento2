@@ -54,8 +54,11 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
 
         $this->assertNotEmpty($lines['data'], 'No data was exported');
 
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $customers Magento_Customer_Model_Customer[] */
-        $customers = Mage::registry('_fixture/Magento_ImportExport_Customer_Collection');
+        $customers = $objectManager->get('Magento_Core_Model_Registry')
+            ->registry('_fixture/Magento_ImportExport_Customer_Collection');
         foreach ($customers as $key => $customer) {
             foreach ($expectedAttributes as $code) {
                 if (!in_array($code, $this->_model->getDisabledAttributes()) && isset($lines[$key][$code])) {
@@ -138,10 +141,14 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     {
         $createdAtDate = '2038-01-01';
 
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         /**
          * Change created_at date of first customer for future filter test.
          */
-        $customers = Mage::registry('_fixture/Magento_ImportExport_Customer_Collection');
+        $customers = $objectManager->get('Magento_Core_Model_Registry')
+            ->registry('_fixture/Magento_ImportExport_Customer_Collection');
         $customers[0]->setCreatedAt($createdAtDate);
         $customers[0]->save();
         /**

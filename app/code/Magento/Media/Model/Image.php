@@ -76,7 +76,7 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
 
     public function getImage()
     {
-        if(is_null($this->_image)) {
+        if (is_null($this->_image)) {
             $this->_image = $this->_getResource()->getImage($this);
         }
 
@@ -85,7 +85,7 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
 
     public function getTmpImage()
     {
-        if(is_null($this->_image)) {
+        if (is_null($this->_image)) {
             $this->_tmpImage = $this->_getResource()->getTmpImage($this);
         }
 
@@ -99,7 +99,7 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
      */
     public function getDimensions()
     {
-        if(!$this->getData('dimensions')) {
+        if (!$this->getData('dimensions')) {
             $this->setData('dimensions', $this->_getResource()->getDimensions($this));
         }
         return $this->getData('dimensions');
@@ -112,7 +112,7 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
      */
     public function getDestanationDimensions()
     {
-        if(!$this->getData('destanation_dimensions')) {
+        if (!$this->getData('destanation_dimensions')) {
             $this->setData('destanation_dimensions', clone $this->getDimensions());
         }
 
@@ -121,12 +121,12 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
 
     public function getExtension()
     {
-        return substr($this->getFileName(), strrpos($this->getFileName(), '.')+1);
+        return substr($this->getFileName(), strrpos($this->getFileName(), '.') + 1);
     }
 
-    public function getFilePath($useParams=false)
+    public function getFilePath($useParams = false)
     {
-        if($useParams && sizeof($this->getParams())) {
+        if ($useParams && sizeof($this->getParams())) {
             $changes = '.' . $this->getParamsSum();
         } else {
             $changes = '';
@@ -136,9 +136,9 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
              . ( ( $useParams && $this->getParam('extension')) ? $this->getParam('extension') : $this->getExtension() );
     }
 
-    public function getFileUrl($useParams=false)
+    public function getFileUrl($useParams = false)
     {
-        if($useParams && sizeof($this->getParams())) {
+        if ($useParams && sizeof($this->getParams())) {
             $changes = '.' . $this->getParamsSum();
         } else {
             $changes = '';
@@ -153,9 +153,9 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
         return substr($this->getFileName(), 0, strrpos($this->getFileName(), '.'));
     }
 
-    public function addParam($param, $value=null)
+    public function addParam($param, $value = null)
     {
-        if(is_array($param)) {
+        if (is_array($param)) {
             $this->_params = array_merge($this->_params, $param);
         } else {
             $this->_params[$param] = $value;
@@ -164,9 +164,9 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
         return $this;
     }
 
-    public function setParam($param, $value=null)
+    public function setParam($param, $value = null)
     {
-        if(is_array($param)) {
+        if (is_array($param)) {
             $this->_params = $param;
         } else {
             $this->_params[$param] = $value;
@@ -177,7 +177,7 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
 
     public function getParam($param)
     {
-        if(isset($this->_params[$param])) {
+        if (isset($this->_params[$param])) {
             return $this->_params[$param];
         }
 
@@ -214,9 +214,9 @@ class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
         $this->addParam('watermark', $watermark);
         $this->addParam('extension', $extension);
 
-        if(!$this->hasSpecialImage()) {
-            if (strpos($size, 'x')!==false) {
-               list($width, $height) = explode('x', $size);
+        if (!$this->hasSpecialImage()) {
+            if (strpos($size, 'x') !== false) {
+                list($width, $height) = explode('x', $size);
             } else {
                 $width = $size;
                 $height = $this->getDimensions()->getHeight();

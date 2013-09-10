@@ -79,7 +79,7 @@ class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_Tes
         $this->assertEmpty($this->_model->getData('price_range'));
 
         $this->_model->apply(
-            new Magento_Test_Request(),
+            new Magento_TestFramework_Request(),
             Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text')
         );
 
@@ -90,7 +90,7 @@ class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_Tes
     {
         $this->assertEmpty($this->_model->getData('price_range'));
 
-        $request = new Magento_Test_Request();
+        $request = new Magento_TestFramework_Request();
         $request->setParam('price', 'non-numeric');
         $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
 
@@ -102,7 +102,7 @@ class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_Tes
      */
     public function testApplyManual()
     {
-        $request = new Magento_Test_Request();
+        $request = new Magento_TestFramework_Request();
         $request->setParam('price', '10-20');
         $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
 

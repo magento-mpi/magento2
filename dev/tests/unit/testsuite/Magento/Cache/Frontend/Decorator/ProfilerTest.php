@@ -53,7 +53,7 @@ class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_Te
 
         // Test
         $object = new Magento_Cache_Frontend_Decorator_Profiler($frontendMock, array('Zend_Cache_Backend_'));
-        $helper = new Magento_Test_Helper_ProxyTesting();
+        $helper = new Magento_TestFramework_Helper_ProxyTesting();
         $result = $helper->invokeWithExpectations($object, $frontendMock, $method, $params, $expectedResult);
         $this->assertSame($expectedResult, $result);
     }

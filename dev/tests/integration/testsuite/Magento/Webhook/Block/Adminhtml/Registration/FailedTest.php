@@ -16,7 +16,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Fr
 {
     public function testGetSessionError()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var Magento_Backend_Model_Session $session */
         $session = $objectManager->create('Magento_Backend_Model_Session');

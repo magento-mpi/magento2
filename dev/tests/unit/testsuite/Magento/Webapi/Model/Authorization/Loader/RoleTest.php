@@ -34,7 +34,7 @@ class Magento_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framewo
      */
     protected function setUp()
     {
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $this->_resourceModelMock = $this->getMock('Magento_Webapi_Model_Resource_Acl_Role',
             array('getRolesIds'), array(), '', false);

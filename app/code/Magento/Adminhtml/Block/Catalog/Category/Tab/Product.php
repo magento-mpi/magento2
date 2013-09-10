@@ -18,6 +18,31 @@
 class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Adminhtml_Block_Widget_Grid
 {
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -28,7 +53,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Admin
 
     public function getCategory()
     {
-        return Mage::registry('category');
+        return $this->_coreRegistry->registry('category');
     }
 
     protected function _addColumnFilterToCollection($column)

@@ -143,5 +143,9 @@ $customer->save();
 
 $customers[] = $customer;
 
-Mage::unregister('_fixture/Magento_ImportExport_Customers_Array');
-Mage::register('_fixture/Magento_ImportExport_Customers_Array', $customers);
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')
+    ->unregister('_fixture/Magento_ImportExport_Customers_Array');
+$objectManager->get('Magento_Core_Model_Registry')
+    ->register('_fixture/Magento_ImportExport_Customers_Array', $customers);
