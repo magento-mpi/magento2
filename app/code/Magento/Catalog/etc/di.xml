@@ -13,4 +13,12 @@
             <instance type="Magento_Core_Model_Cache_Type_Translate" />
         </param>
     </type>
+    <type name="Magento_Catalog_Helper_Product_View">
+        <param name="messageModels">
+            <value>
+                <catalog>Magento_Catalog_Model_Session</catalog>
+                <checkout>Magento_Checkout_Model_Session</checkout>
+            </value>
+        </param>
+    </type>
 </config>

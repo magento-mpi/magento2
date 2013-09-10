@@ -18,12 +18,15 @@
  */
 class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
 {
-
     /**
-    * Contructor
-    */
-    public function __construct()
-    {
+     * @param Magento_Core_Model_Session_Validator $validator
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Session_Validator $validator,
+        array $data = array()
+    ) {
+        parent::__construct($validator, $data);
         $this->init('adminhtml');
     }
 

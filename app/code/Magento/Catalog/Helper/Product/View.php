@@ -22,27 +22,22 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
     public $ERR_BAD_CONTROLLER_INTERFACE = 2;
 
     /**
-     * Path to list of session models to get messages
-     */
-    const XML_PATH_SESSION_MESSAGE_MODELS = 'global/session/catalog/product/message_models';
-
-    /**
-     * General config object
+     * List of catalog product session message models name
      *
-     * @var Magento_Core_Model_Config
+     * @var array
      */
-    protected $_config;
+    protected $_messageModels;
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
+     * @param array $messageModels
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config
+        array $messageModels = array()
     ) {
         parent::__construct($context);
-        $this->_config = $config;
+        $this->_messageModels = $messageModels;
     }
 
     /**
@@ -152,7 +147,7 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
         $this->initProductLayout($product, $controller);
 
         if ($controller instanceof Magento_Catalog_Controller_Product_View_Interface) {
-            foreach ($this->_getSessionMessageModels() as $sessionModel) {
+            foreach ($this->_messageModels as $sessionModel) {
                 $controller->initLayoutMessages($sessionModel);
             }
         } else {
@@ -164,17 +159,5 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
         $controller->renderLayout();
 
         return $this;
-    }
-
-    /**
-     * Get list of session models with messages
-     *
-     * @return array
-     */
-    protected function _getSessionMessageModels()
-    {
-        $messageModels = $this->_config->getNode(self::XML_PATH_SESSION_MESSAGE_MODELS)
-            ->asArray();
-        return array_values($messageModels);
     }
 }

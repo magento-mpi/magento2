@@ -24,14 +24,6 @@
                 <allow_view_files_duplication>1</allow_view_files_duplication>
             </theme>
         </design>
-        <session>
-            <validation>
-                <http_user_agent_skip>
-                    <flash>Shockwave Flash</flash>
-                    <flash_mac><![CDATA[Adobe Flash Player\s{1,}\w{1,10}]]></flash_mac>
-                </http_user_agent_skip>
-            </validation>
-        </session>
         <request>
             <direct_front_name />
         </request>

@@ -18,12 +18,16 @@
 class Magento_Pbridge_Model_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
-     * Initialize Enterprise Pbridge session namespace
-     *
+     * @param Magento_Core_Model_Session_Validator $validator
      * @param string $sessionName
+     * @param array $data
      */
-    public function __construct($sessionName = null)
-    {
+    public function __construct(
+        Magento_Core_Model_Session_Validator $validator,
+        $sessionName = null,
+        array $data = array()
+    ) {
+        parent::__construct($validator, $data);
         $this->init('magento_pbridge', $sessionName);
     }
 }

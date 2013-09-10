@@ -251,4 +251,12 @@
             </value>
         </param>
     </type>
+    <type name="Magento_Core_Model_Session_Validator">
+        <param name="skippedUserAgentList">
+            <value>
+                <flash>Shockwave Flash</flash>
+                <flash_mac><![CDATA[Adobe Flash Player\s{1,}\w{1,10}]]></flash_mac>
+            </value>
+        </param>
+    </type>
 </config>

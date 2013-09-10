@@ -38,9 +38,15 @@ class Magento_Backend_Model_Auth_Session
 
     /**
      * @param Magento_Acl_Builder $aclBuilder
+     * @param Magento_Core_Model_Session_Validator $validator
+     * @param array $data
      */
-    public function __construct(Magento_Acl_Builder $aclBuilder)
-    {
+    public function __construct(
+        Magento_Acl_Builder $aclBuilder,
+        Magento_Core_Model_Session_Validator $validator,
+        array $data = array()
+    ) {
+        parent::__construct($validator, $data);
         $this->_aclBuilder = $aclBuilder;
         $this->init('admin');
     }

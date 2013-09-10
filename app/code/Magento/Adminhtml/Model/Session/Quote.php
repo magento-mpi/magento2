@@ -47,8 +47,15 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
      */
     protected $_order   = null;
 
-    public function __construct()
-    {
+    /**
+     * @param Magento_Core_Model_Session_Validator $validator
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Session_Validator $validator,
+        array $data = array()
+    ) {
+        parent::__construct($validator, $data);
         $this->init('adminhtml_quote');
         if (Mage::app()->hasSingleStore()) {
             $this->setStoreId(Mage::app()->getStore(true)->getId());
