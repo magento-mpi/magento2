@@ -47,7 +47,7 @@ class Integrity_Magento_Logging_Model_ConfigTest extends Integrity_ConfigAbstrac
      */
     protected function _getKnownValidPartialXml()
     {
-        return __DIR__ . '/_files/logging_file.xml';
+        return __DIR__ . '/_files/partial_logging.xml';
     }
 
     /**
@@ -78,15 +78,5 @@ class Integrity_Magento_Logging_Model_ConfigTest extends Integrity_ConfigAbstrac
     protected function _getFileXsd()
     {
         return '/app/code/Magento/Logging/etc/logging_file.xsd';
-    }
-
-    /**
-     * The location of partial xml file
-     *
-     * @return string
-     */
-    protected function _getPartialXml()
-    {
-        return __DIR__ . '/_files/partial_logging.xml';
     }
 }

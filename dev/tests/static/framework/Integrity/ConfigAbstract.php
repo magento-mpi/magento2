@@ -55,7 +55,7 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
      */
     abstract protected function _getKnownInvalidXml();
 
-    public function testFileSchemaUsingXml()
+    public function testFileSchemaUsingPartialXml()
     {
         $xmlFile = $this->_getKnownValidPartialXml();
         $schema = Utility_Files::init()->getPathToSource() . $this->_getFileXsd();
@@ -90,27 +90,13 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
      */
     abstract protected function _getKnownInvalidPartialXml();
 
-    public function testFileSchemaUsingPartialXml()
-    {
-        $xmlFile = $this->_getPartialXml();;
-        $schema = Utility_Files::init()->getPathToSource() .$this->_getFileXsd();
-        $this->_validateFileExpectSuccess($xmlFile, $schema);
-    }
-
 
     public function testSchemaUsingPartialXml()
     {
-        $xmlFile = $this->_getPartialXml();;
+        $xmlFile = $this->_getKnownValidPartialXml();;
         $schema = Utility_Files::init()->getPathToSource() . $this->_getXsd();
         $this->_validateFileExpectFailure($xmlFile, $schema);
     }
-
-    /**
-     * The location of partial xml file
-     *
-     * @return string
-     */
-    abstract protected function _getPartialXml();
 
     /**
      * @return array

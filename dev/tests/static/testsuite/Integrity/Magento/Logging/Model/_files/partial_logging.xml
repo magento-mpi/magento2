@@ -9,36 +9,12 @@
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../../../../../../../app/code/Magento/Logging/etc/logging_file.xsd">
-    <action id="apply_coupon">
-        <label translate="true">Apply Coupon</label>
-    </action>
-    <action id="add_to_cart">
-        <label translate="true">Add to Cart</label>
-    </action>
-    <group name="enterprise_checkout">
-        <label translate="true">Shopping Cart Management</label>
-        <event controller_action="adminhtml_checkout_index" action_alias="view">
-            <expected_model class="Magento_Sales_Model_Quote" />
-        </event>
-        <event controller_action="adminhtml_checkout_applyCoupon"
-               action_alias="apply_coupon"
-               post_dispatch="postDispatchAdminCheckoutApplyCoupon">
-            <expected_model class="Magento_Sales_Model_Quote" />
-        </event>
-        <event controller_action="adminhtml_checkout_updateItems" action_alias="save">
-            <expected_model class="Magento_Sales_Model_Quote_Item" />
-        </event>
-        <event controller_action="adminhtml_checkout_addToCart"
-               action_alias="add_to_cart">
-            <expected_model class="Magento_Sales_Model_Quote_Item">
-                <additional_field name="item_id" />
-                <additional_field name="quote_id" />
-            </expected_model>
-        </event>
-    </group>
-    <group name="partial_group">
-        <event controller_action="test_action" action_alias="view">
-            <expected_model class="test_class" />
-        </event>
-    </group>
+    <actions>
+        <action id="apply_coupon">
+            <label translate="true">Apply Coupon</label>
+        </action>
+        <action id="add_to_cart">
+            <label translate="true">Add to Cart</label>
+        </action>
+    </actions>
 </logging>
