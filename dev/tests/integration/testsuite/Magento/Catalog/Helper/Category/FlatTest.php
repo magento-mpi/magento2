@@ -18,7 +18,8 @@ class Magento_Catalog_Helper_Category_FlatTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Helper_Category_Flat');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Helper_Category_Flat');
     }
 
     public function testIsEnabledDefault()
