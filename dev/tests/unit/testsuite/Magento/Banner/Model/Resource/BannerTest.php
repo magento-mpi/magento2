@@ -37,9 +37,16 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
     {
         $select = new Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
 
-        $writeAdapter = $this->getMockForAbstractClass(
-            '\Magento\DB\Adapter\AdapterInterface', array(), '', false, true, true, array('getTransactionLevel', 'fetchOne')
-        );
+        $writeAdapter =
+            $this->getMockForAbstractClass(
+                '\Magento\DB\Adapter\AdapterInterface',
+                 array(),
+                '',
+                false,
+                true,
+                true,
+                array('getTransactionLevel', 'fetchOne')
+            );
         $writeAdapter->expects($this->once())->method('getTransactionLevel')->will($this->returnValue(0));
         $writeAdapter->expects($this->never())->method('fetchOne');
 

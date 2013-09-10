@@ -162,7 +162,8 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
      */
     public function configurationDataProvider()
     {
-        $callback = new \Magento\Validator\Constraint\Option\Callback(array('Magento_Validator_Test_Callback', 'getId'));
+        $callback = new \Magento\Validator\Constraint\Option\Callback(
+            array('Magento_Validator_Test_Callback', 'getId'));
         $someMethod = array('method' => 'getMessages');
         $methodWithArgs = array('method' => 'setMax', 'arguments' => array(100));
         $constructorArgs = array('arguments' => array(array('max' => '50')));
