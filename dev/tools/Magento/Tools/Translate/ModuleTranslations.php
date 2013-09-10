@@ -7,6 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Translate;
 
 require_once __DIR__ . '/config.inc.php';
 if (!defined('DS')) {
@@ -34,7 +35,10 @@ OPTIONAL PARAMETRS:
 MTUSAGE
 );
 
-class Magento_Tools_Translate_ModuleTranslations
+global $argv;
+global $CONFIG;
+
+class ModuleTranslations
 {
     const ACTION_CLEAN = 1;
     const ACTION_COLLECT = 2;
@@ -240,7 +244,7 @@ class Magento_Tools_Translate_ModuleTranslations
     }
 }
 
-Magento_Tools_Translate_ModuleTranslations::setConfig($CONFIG);
-$moduleTranslation = new Magento_Tools_Translate_ModuleTranslations($argv);
+\Magento\Tools\Translate\ModuleTranslations::setConfig($CONFIG);
+$moduleTranslation = new \Magento\Tools\Translate\ModuleTranslations($argv);
 $moduleTranslation->run();
 echo "\n\n";
