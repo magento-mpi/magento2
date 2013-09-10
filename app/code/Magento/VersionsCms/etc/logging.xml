@@ -29,7 +29,6 @@
                 <event controller_action="adminhtml_cms_hierarchy_index"
                        action_alias="view"
                        post_dispatch="Magento_VersionsCms_Model_Observer::postDispatchCmsHierachyView">
-                    <expected_models />
                 </event>
                 <event controller_action="adminhtml_cms_hierarchy_save" action_alias="save">
                     <skip_on_back>
@@ -89,7 +88,6 @@
                 <event controller_action="adminhtml_cms_page_revision_preview"
                        action_alias="preview"
                        post_dispatch="Magento_VersionsCms_Model_Observer::postDispatchCmsRevisionPreview">
-                    <expected_models />
                 </event>
                 <event controller_action="adminhtml_cms_page_revision_save"
                        action_alias="save">
