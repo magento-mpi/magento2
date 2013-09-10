@@ -48,6 +48,12 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
         $this->_objectManager->addSharedInstance($sessionModelFixture, 'Magento_Core_Model_Session');
     }
 
+    protected function _prepareRequestResponse()
+    {
+        $this->_request = new Magento_Test_Request();
+        $this->_response = new Magento_Test_Response();
+    }
+
     /**
      * Bootstrap instance getter.
      * Mocking real bootstrap
@@ -65,17 +71,15 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
     public function testGetRequest()
     {
         $this->_objectManager = $this->getMock('Magento_Test_ObjectManager', array(), array(), '', false);
-        $request = $this->getRequest();
-        $this->assertInstanceOf('Magento_Test_Request', $request);
-        $this->assertSame($request, $this->getRequest());
+        $this->_objectManager->expects($this->once())->method('get')->with('Magento_Test_Request');
+        $this->getRequest();
     }
 
     public function testGetResponse()
     {
         $this->_objectManager = $this->getMock('Magento_Test_ObjectManager', array(), array(), '', false);
-        $response = $this->getResponse();
-        $this->assertInstanceOf('Magento_Test_Response', $response);
-        $this->assertSame($response, $this->getResponse());
+        $this->_objectManager->expects($this->once())->method('get')->with('Magento_Test_Response');
+        $this->getResponse();
     }
 
     /**
@@ -83,7 +87,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
      */
     public function testAssert404NotFound()
     {
-        $this->_objectManager = $this->getMock('Magento_Test_ObjectManager', array(), array(), '', false);
+        $this->_prepareRequestResponse();
         $this->getRequest()->setActionName('noRoute');
         $this->getResponse()->setBody(
             '404 Not Found test <h3>We are sorry, but the page you are looking for cannot be found.</h3>'
@@ -104,7 +108,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
      */
     public function testAssertRedirectFailure()
     {
-        $this->_objectManager = $this->getMock('Magento_Test_ObjectManager', array(), array(), '', false);
+        $this->_prepareRequestResponse();
         $this->assertRedirect();
     }
 
@@ -113,7 +117,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
      */
     public function testAssertRedirect()
     {
-        $this->_objectManager = $this->getMock('Magento_Test_ObjectManager', array(), array(), '', false);
+        $this->_prepareRequestResponse();
         /*
          * Prevent calling Magento_Core_Controller_Response_Http::setRedirect() because it executes
          * Mage::dispatchEvent(), which requires fully initialized application environment intentionally not available
