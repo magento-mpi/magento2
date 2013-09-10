@@ -9,4 +9,9 @@
 -->
 <config>
     <preference for="Magento_Core_Model_Resource_Setup_Migration" type="Magento_Enterprise_Model_Resource_Setup_Migration" />
+    <type name="Magento_Core_Model_View_Design">
+        <param name="themes">
+            <value><frontend>magento_fixed_width</frontend><adminhtml>magento_backend</adminhtml><install>magento_enterprise</install></value>
+        </param>
+    </type>
 </config>
