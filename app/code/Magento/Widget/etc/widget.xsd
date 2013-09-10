@@ -43,13 +43,13 @@
 
     <xs:complexType name="parametersType">
         <xs:sequence>
-            <xs:element name="parameter" type="parameterType" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element name="parameter" type="parameterType" maxOccurs="unbounded" minOccurs="1" />
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="containersType">
         <xs:sequence>
-            <xs:element name="container" type="containerType" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element name="container" type="containerType" maxOccurs="unbounded" minOccurs="1" />
         </xs:sequence>
     </xs:complexType>
 
@@ -161,7 +161,7 @@
 
     <xs:complexType name="optionsType">
         <xs:sequence>
-            <xs:element name="option" type="optionType" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element name="option" type="optionType" maxOccurs="unbounded" minOccurs="1" />
         </xs:sequence>
     </xs:complexType>
 
