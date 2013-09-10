@@ -37,7 +37,9 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_LayoutTest ex
      */
     public function testGetLayoutsChooser()
     {
-        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+            ->setDefaultDesignTheme();
 
         $actualHtml = $this->_block->getLayoutsChooser();
         $this->assertStringStartsWith('<select ', $actualHtml);

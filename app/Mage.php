@@ -436,19 +436,6 @@ final class Mage
     }
 
     /**
-     * Get design package singleton
-     *
-     * @return Magento_Core_Model_View_DesignInterface
-     */
-    public static function getDesign()
-    {
-        if (!self::$_design) {
-            self::$_design = self::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
-        }
-        return self::$_design;
-    }
-
-    /**
      * Retrieve a config instance
      *
      * This method doesn't suit Magento 2 anymore, it is left only until refactoring, when all calls

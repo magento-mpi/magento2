@@ -28,7 +28,8 @@ class Magento_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framewo
 
     public static function setUpBeforeClass()
     {
-        Mage::getDesign()->setDesignTheme('magento_demo');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setDesignTheme('magento_demo');
     }
 
     public function setUp()

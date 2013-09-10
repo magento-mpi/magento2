@@ -25,7 +25,8 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Mage::getDesign()->setDefaultDesignTheme();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setDefaultDesignTheme();
         $this->_helper = Mage::helper('Magento_Catalog_Helper_Product_View');
         $request = new Magento_TestFramework_Request();
         $request->setRouteName('catalog')

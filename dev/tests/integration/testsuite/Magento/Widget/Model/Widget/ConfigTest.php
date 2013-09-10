@@ -28,7 +28,8 @@ class Magento_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPluginSettings()
     {
-        Mage::getDesign()->setDesignTheme('magento_basic', 'adminhtml');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setDesignTheme('magento_basic', 'adminhtml');
 
         $config = new \Magento\Object();
         $settings = $this->_model->getPluginSettings($config);

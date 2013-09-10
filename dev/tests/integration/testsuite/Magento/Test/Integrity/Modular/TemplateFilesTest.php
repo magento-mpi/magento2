@@ -23,7 +23,8 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
      */
     public function testAllTemplates($module, $template, $class, $area)
     {
-        Mage::getDesign()->setDefaultDesignTheme();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setDefaultDesignTheme();
         // intentionally to make sure the module files will be requested
         $params = array(
             'area'       => $area,
