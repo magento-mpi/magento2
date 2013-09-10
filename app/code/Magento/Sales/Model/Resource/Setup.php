@@ -24,33 +24,6 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     protected $_configModel;
 
     /**
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config_Modules $modulesConfig
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Config $configModel
-     * @param $resourceName
-     */
-    public function __construct(
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config_Modules $modulesConfig,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Config $configModel,
-        $resourceName
-    ) {
-        $this->_configModel = $configModel;
-
-        parent::__construct(
-            $resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader, $cache, $resourceName
-        );
-    }
-
-    /**
      * List of entities converted from EAV to flat data structure
      *
      * @var $_flatEntityTables array
@@ -250,6 +223,6 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      */
     public function getConfigModel()
     {
-        return $this->_configModel;
+        return $this->_config;
     }
 }
