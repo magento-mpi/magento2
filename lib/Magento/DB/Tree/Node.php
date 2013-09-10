@@ -12,7 +12,7 @@
 namespace Magento\DB\Tree;
 
 
-require_once 'Magento/Db/Tree/Node/Exception.php';
+
 class Node {
 
     private $left;

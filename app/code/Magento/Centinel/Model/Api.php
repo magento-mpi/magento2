@@ -11,7 +11,6 @@
 /**
  * 3D Secure Validation Library for Payment
  */
-include_once '3Dsecure/CentinelClient.php';
 
 /**
  * 3D Secure Validation Api
@@ -69,7 +68,8 @@ class Magento_Centinel_Model_Api extends \Magento\Object
     protected function _getClientInstance()
     {
         if (empty($this->_clientInstance)) {
-            $this->_clientInstance = new CentinelClient();
+            \Magento\Autoload\IncludePath::load("3Dsecure/CentinelClient");
+            $this->_clientInstance = new \CentinelClient();
         }
         return $this->_clientInstance;
     }

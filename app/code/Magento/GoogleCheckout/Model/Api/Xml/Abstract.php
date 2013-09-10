@@ -8,10 +8,9 @@
  * @license     {license_link}
  */
 
-require_once('googlecheckout/googleresponse.php');
-require_once('googlecheckout/googlemerchantcalculations.php');
-require_once('googlecheckout/googleresult.php');
-require_once('googlecheckout/googlerequest.php');
+
+
+
 
 abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends \Magento\Object
 {
@@ -26,6 +25,8 @@ abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends \Magento\Ob
      */
     public function __construct(Magento_Core_Model_Translate $translator, array $data = array())
     {
+        \Magento\Autoload\IncludePath::load('googlecheckout/googlemerchantcalculations');
+        \Magento\Autoload\IncludePath::load('googlecheckout/googleresult');
         parent::__construct($data);
         $this->_translator = $translator;
     }
@@ -87,6 +88,7 @@ abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends \Magento\Ob
      */
     public function getGRequest()
     {
+        \Magento\Autoload\IncludePath::load('googlecheckout/googlerequest');
         if (!$this->hasData('g_request')) {
             $this->setData('g_request', new GoogleRequest(
                 $this->getMerchantId(),
@@ -113,6 +115,7 @@ abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends \Magento\Ob
      */
     public function getGResponse()
     {
+        \Magento\Autoload\IncludePath::load('googlecheckout/googleresponse');
         $merchantId = $this->getMerchantId();
         $merchantKey = $this->getMerchantKey();
         if (empty($merchantId) || empty($merchantKey)) {

@@ -13,34 +13,7 @@
  *
  * @link http://us3.php.net/manual/en/security.magicquotes.disabling.php
  */
-if (get_magic_quotes_gpc()) {
-    /**
-     * Undo magic quotes
-     *
-     * @param array $array
-     * @param bool $topLevel
-     * @return array
-     */
-    function mageUndoMagicQuotes($array, $topLevel = true)
-    {
-        $newArray = array();
-        foreach ($array as $key => $value) {
-            if (!$topLevel) {
-                $newKey = stripslashes($key);
-                if ($newKey !== $key) {
-                    unset($array[$key]);
-                }
-                $key = $newKey;
-            }
-            $newArray[$key] = is_array($value) ? mageUndoMagicQuotes($value, false) : stripslashes($value);
-        }
-        return $newArray;
-    }
-    $_GET = mageUndoMagicQuotes($_GET);
-    $_POST = mageUndoMagicQuotes($_POST);
-    $_COOKIE = mageUndoMagicQuotes($_COOKIE);
-    $_REQUEST = mageUndoMagicQuotes($_REQUEST);
-}
+
 
 /**
  * Object destructor

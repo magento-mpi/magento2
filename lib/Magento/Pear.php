@@ -48,11 +48,10 @@ if (strpos($_includePath, $_pearPhpDir) === false) {
 //require_once $_pearPhpDir."/PEAR/Command.php";
 //require_once $_pearPhpDir."/PEAR/Exception.php";
 
-require_once dirname(__FILE__) . "/Pear/Frontend.php";
+
 namespace Magento;
 
 
-require_once dirname(__FILE__) . "/Pear/Package.php";
 class Pear
 {
     protected $_config;
@@ -174,6 +173,7 @@ class Pear
     public function getFrontend()
     {
         if (!$this->_frontend) {
+            \Magento\Autoload\IncludePath::load("Pear/Frontend");
             $this->_frontend = new \Magento\Pear\Frontend;
         }
         return $this->_frontend;

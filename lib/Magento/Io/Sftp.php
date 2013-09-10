@@ -19,7 +19,9 @@ namespace Magento\Io;
  * @author      Magento Core Team <core@magentocommerce.com>
  * @link        http://www.php.net/manual/en/function.ssh2-connect.php
  */
-require_once('phpseclib/Net/SFTP.php');
+
+
+
 class Sftp extends \Magento\Io\AbstractIo implements \Magento\Io\IoInterface
 {
     const REMOTE_TIMEOUT = 10;
@@ -52,7 +54,8 @@ class Sftp extends \Magento\Io\AbstractIo implements \Magento\Io\IoInterface
             $host = $args['host'];
             $port = self::SSH2_PORT;
         }
-        $this->_connection = new Net_SFTP($host, $port, $args['timeout']);
+        \Magento\Autoload\IncludePath::load("phpseclib/Net/SFTP");
+        $this->_connection = new \Net_SFTP($host, $port, $args['timeout']);
         if (!$this->_connection->login($args['username'], $args['password'])) {
             throw new \Exception(sprintf("Unable to open SFTP connection as %s@%s", $args['username'], $args['host']));
         }
