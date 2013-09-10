@@ -39,6 +39,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             array('_getMail', '_getLogoUrl'),
             array(
                 $objectManager->get('Magento_Core_Model_Context'),
+                $objectManager->get('Magento_Core_Model_Registry'),
                 $objectManager->get('Magento_Filesystem'),
                 $objectManager->get('Magento_Core_Model_View_Url'),
                 $objectManager->get('Magento_Core_Model_View_FileSystem'),
@@ -73,6 +74,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             array('_getMail', '_getLogoUrl'),
             array(
                 $objectManager->get('Magento_Core_Model_Context'),
+                $objectManager->get('Magento_Core_Model_Registry'),
                 $objectManager->get('Magento_Filesystem'),
                 $objectManager->get('Magento_Core_Model_View_Url'),
                 $objectManager->get('Magento_Core_Model_View_FileSystem'),
