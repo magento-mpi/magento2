@@ -11,16 +11,22 @@
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
-    <group name="magento_pci_crypt">
-        <label translate="true">Encryption Key Change</label>
-        <event controller_action="adminhtml_crypt_key_save"
-               action_alias="save"
-               post_dispatch="postDispatchSimpleSave" />
-    </group>
-    <group name="magento_pci_locks">
-        <label translate="true">Admin Accounts Locks</label>
-        <event controller_action="adminhtml_locks_massUnlock"
-               action_alias="massUpdate"
-               post_dispatch="postDispatchAdminAccountsMassUnlock" />
-    </group>
+    <groups>
+        <group name="magento_pci_crypt">
+            <label translate="true">Encryption Key Change</label>
+            <events>
+                <event controller_action="adminhtml_crypt_key_save"
+                       action_alias="save"
+                       post_dispatch="postDispatchSimpleSave" />
+            </events>
+        </group>
+        <group name="magento_pci_locks">
+            <label translate="true">Admin Accounts Locks</label>
+            <events>
+                <event controller_action="adminhtml_locks_massUnlock"
+                       action_alias="massUpdate"
+                       post_dispatch="postDispatchAdminAccountsMassUnlock" />
+            </events>
+        </group>
+    </groups>
 </logging>

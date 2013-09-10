@@ -11,14 +11,22 @@
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
-    <group name="magento_catalogevent">
-        <label translate="true">Catalog Events</label>
-        <expected_model class="Magento_CatalogEvent_Model_Event" />
-        <event controller_action="adminhtml_catalog_event_edit" action_alias="view" />
-        <event controller_action="adminhtml_catalog_event_save" action_alias="save">
-            <skip_on_back controller_action="adminhtml_catalog_event_edit" />
-        </event>
-        <event controller_action="adminhtml_catalog_event_delete"
-               action_alias="delete" />
-    </group>
+    <groups>
+        <group name="magento_catalogevent">
+            <label translate="true">Catalog Events</label>
+            <expected_models>
+                <expected_model class="Magento_CatalogEvent_Model_Event" />
+            </expected_models>
+            <events>
+                <event controller_action="adminhtml_catalog_event_edit" action_alias="view" />
+                <event controller_action="adminhtml_catalog_event_save" action_alias="save">
+                    <skip_on_back>
+                        <controller_action name="adminhtml_catalog_event_edit" />
+                    </skip_on_back>
+                </event>
+                <event controller_action="adminhtml_catalog_event_delete"
+                       action_alias="delete" />
+            </events>
+        </group>
+    </groups>
 </logging>

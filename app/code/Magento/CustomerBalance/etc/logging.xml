@@ -11,19 +11,29 @@
 -->
 <logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
-    <group name="magento_customerbalance">
-        <label translate="true">Store Credit</label>
-        <event controller_action="adminhtml_customerbalance_form" action_alias="view">
-            <expected_model class="Magento_CustomerBalance_Model_Balance" />
-        </event>
-    </group>
-    <group name="customer">
-        <label translate="true" />
-        <event controller_action="adminhtml_customer_save"
-               extends_expected_models="true">
-            <expected_model class="Magento_CustomerBalance_Model_Balance" />
-            <skip_on_back controller_action="adminhtml_customerbalance_form" />
-            <skip_on_back controller_action="adminhtml_customer_edit" />
-        </event>
-    </group>
+    <groups>
+        <group name="magento_customerbalance">
+            <label translate="true">Store Credit</label>
+            <events>
+                <event controller_action="adminhtml_customerbalance_form" action_alias="view">
+                    <expected_models>
+                        <expected_model class="Magento_CustomerBalance_Model_Balance" />
+                    </expected_models>
+                </event>
+            </events>
+        </group>
+        <group name="customer">
+            <events>
+                <event controller_action="adminhtml_customer_save">
+                    <expected_models merge_group="true">
+                        <expected_model class="Magento_CustomerBalance_Model_Balance" />
+                    </expected_models>
+                    <skip_on_back>
+                        <controller_action name="adminhtml_customerbalance_form" />
+                        <controller_action name="adminhtml_customer_edit" />
+                    </skip_on_back>
+                </event>
+            </events>
+        </group>
+    </groups>
 </logging>
