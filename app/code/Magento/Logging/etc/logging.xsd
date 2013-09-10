@@ -17,14 +17,14 @@
         <xs:complexType>
             <xs:all>
                 <xs:element name="actions" type="actionsType" minOccurs="0" />
-                <xs:element name='groups'  type="groupsType" minOccurs="0" />
+                <xs:element name='groups'  type="groupsType" minOccurs="1" />
             </xs:all>
         </xs:complexType>
     </xs:element>
 
     <xs:complexType name="actionsType">
         <xs:sequence>
-            <xs:element name="action" type="actionType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="action" type="actionType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -42,7 +42,7 @@
 
     <xs:complexType name="groupsType">
         <xs:sequence>
-            <xs:element name="group" type="groupType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="group" type="groupType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -70,7 +70,7 @@
 
     <xs:complexType name="expectedModelsType">
         <xs:sequence>
-            <xs:element name="expected_model" type="expectedModelType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="expected_model" type="expectedModelType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="merge_group" type="xs:boolean" use="optional" />
     </xs:complexType>
@@ -90,7 +90,7 @@
 
     <xs:complexType name="fieldsType">
         <xs:sequence>
-            <xs:element name="field" type="fieldType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="field" type="fieldType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -100,7 +100,7 @@
 
     <xs:complexType name="eventsType">
         <xs:sequence>
-            <xs:element name="event" type="eventType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="event" type="eventType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -121,7 +121,7 @@
 
     <xs:complexType name="skipOnBackType">
         <xs:sequence>
-            <xs:element name="controller_action" type="controllerActionType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="controller_action" type="controllerActionType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
