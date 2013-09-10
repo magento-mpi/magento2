@@ -683,4 +683,5 @@ return array(
     array('getHelper', 'Magento_Core_Model_AppProxy'),
     array('getHelper', 'Magento_Core_Model_App'),
     array('helper', 'Mage'),
+    array('dispatchEvent', 'Mage'),
 );
