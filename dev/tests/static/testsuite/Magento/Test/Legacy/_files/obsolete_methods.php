@@ -222,7 +222,7 @@ return array(
     array('checkConfigurableProducts', 'Magento_Eav_Model_Resource_Entity_Attribute_Collection'),
     array('checkDatabase', 'Magento_Install_Model_Installer_Db'),
     array('checkDateTime', 'Magento_Core_Model_Date'),
-    array('chooseTemplate', 'Mage_Checkout_Block_Cart'),
+    array('chooseTemplate', 'Magento_Checkout_Block_Cart'),
     array('cleanCache', 'Magento_Core_Model_Config'),
     array('cleanDbRow', 'Magento_Core_Model_Resource'),
     array('cleanMergedJsCss', 'Magento_Core_Model_Design_Package', 'Magento_Core_Model_Page_Asset_MergeService'),
