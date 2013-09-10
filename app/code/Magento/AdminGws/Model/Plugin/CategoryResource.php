@@ -24,12 +24,13 @@ class Magento_AdminGws_Model_Plugin_CategoryResource
      * Check if category can be moved
      *
      * @param array $methodArguments
+     * @return array
      * @throws Magento_Core_Exception
      */
     public function beforeChangeParent(array $methodArguments)
     {
         if ($this->_role->getIsAll()) {
-            return;
+            return $methodArguments;
         }
 
         /** @var $currentCategory Magento_Catalog_Model_Category */
@@ -41,6 +42,7 @@ class Magento_AdminGws_Model_Plugin_CategoryResource
                 throw new Magento_Core_Exception(__('You need more permissions to save this item.'));
             }
         }
+        return $methodArguments;
     }
 }
 
