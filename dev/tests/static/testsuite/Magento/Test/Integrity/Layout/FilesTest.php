@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Integrity_Layout_FilesTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Layout_FilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -18,7 +18,7 @@ class Integrity_Layout_FilesTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_schemaFile = Utility_Files::init()->getModuleFile(
+        $this->_schemaFile = Magento_TestFramework_Utility_Files::init()->getModuleFile(
             'Magento', 'Core', 'etc' . DIRECTORY_SEPARATOR . 'layouts.xsd'
         );
     }
@@ -41,7 +41,7 @@ class Integrity_Layout_FilesTest extends PHPUnit_Framework_TestCase
      */
     public function validateDataProvider()
     {
-        return Utility_Files::init()->getLayoutFiles();
+        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
     }
 
     /**

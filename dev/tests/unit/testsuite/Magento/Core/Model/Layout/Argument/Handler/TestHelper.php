@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_Argument_Handler_Files_TestHelper extends Magento_Core_Helper_Abstract
+class Magento_Core_Model_Layout_Argument_Handler_TestHelper extends Magento_Core_Helper_Abstract
 {
     public function testMethod()
     {

@@ -61,7 +61,7 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
      */
     public function layoutTypesDataProvider()
     {
-        return Utility_Files::init()->getLayoutFiles();
+        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
     }
 
     /**
@@ -81,6 +81,7 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
                     'Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct',
                     'Magento_Search_Model_Resource_Search_Grid_Collection',
                     'Magento_Wishlist_Model_Resource_Item_Collection_Grid',
+                    'Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection',
                 ))
 
             // ignored helpers

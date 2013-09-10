@@ -26,9 +26,9 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        include_once(__DIR__ . '/_files/TestObject.php');
+        include_once(__DIR__ . DIRECTORY_SEPARATOR . 'TestObject.php');
 
-        $helperObjectManager = new Magento_Test_Helper_ObjectManager($this);
+        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_model = $helperObjectManager->getObject(
             'Magento_Core_Model_Layout_Argument_Handler_Object',
@@ -65,7 +65,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
             array(
                 reset($simpleObject), array(
                     'value' => array(
-                        'object' => 'Magento_Core_Model_Layout_Argument_Handler_Files_TestObject',
+                        'object' => 'Magento_Core_Model_Layout_Argument_Handler_TestObject',
                     ),
                     'type' => 'object',
                 )
@@ -73,7 +73,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
             array(
                 reset($complexObject), array(
                     'value' => array(
-                        'object' => 'Magento_Core_Model_Layout_Argument_Handler_Files_TestObject',
+                        'object' => 'Magento_Core_Model_Layout_Argument_Handler_TestObject',
                     ),
                     'type' => 'object',
                     'updaters' => array('Magento_Test_Updater')
@@ -89,11 +89,11 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
     public function testProcess($argument)
     {
         $objectMock = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_Handler_Files_TestObject', array(), array(), '', false, false
+            'Magento_Core_Model_Layout_Argument_Handler_TestObject', array(), array(), '', false, false
         );
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with('Magento_Core_Model_Layout_Argument_Handler_Files_TestObject')
+            ->with('Magento_Core_Model_Layout_Argument_Handler_TestObject')
             ->will($this->returnValue($objectMock));
 
         $this->assertSame($this->_model->process($argument), $objectMock);
@@ -108,7 +108,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
             array(
                 array(
                     'value' => array(
-                        'object' => 'Magento_Core_Model_Layout_Argument_Handler_Files_TestObject',
+                        'object' => 'Magento_Core_Model_Layout_Argument_Handler_TestObject',
                     ),
                     'type' => 'object',
                 )

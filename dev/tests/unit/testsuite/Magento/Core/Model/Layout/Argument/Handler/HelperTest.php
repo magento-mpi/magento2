@@ -26,9 +26,9 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        include_once(__DIR__ . '/_files/TestHelper.php');
+        include_once(__DIR__ . DIRECTORY_SEPARATOR . 'TestHelper.php');
 
-        $helperObjectManager = new Magento_Test_Helper_ObjectManager($this);
+        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_model = $helperObjectManager->getObject(
             'Magento_Core_Model_Layout_Argument_Handler_Helper',
@@ -75,7 +75,7 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
     public function testProcess($argument, $expectedResult)
     {
         $helperMock = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_Handler_Files_TestHelper', array(), array(), '', false, false
+            'Magento_Core_Model_Layout_Argument_Handler_TestHelper', array(), array(), '', false, false
         );
         $helperMock->expects($this->once())
             ->method('testMethod')
@@ -83,7 +83,7 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
             ->will($this->returnValue($expectedResult));
         $this->_objectManagerMock->expects($this->once())
             ->method('get')
-            ->with('Magento_Core_Model_Layout_Argument_Handler_Files_TestHelper')
+            ->with('Magento_Core_Model_Layout_Argument_Handler_TestHelper')
             ->will($this->returnValue($helperMock));
 
         $this->assertEquals($this->_model->process($argument), $expectedResult);
@@ -98,7 +98,7 @@ class Magento_Core_Model_Layout_Argument_Handler_HelperTest extends PHPUnit_Fram
             array(
                 array(
                     'value' => array(
-                        'helperClass' => 'Magento_Core_Model_Layout_Argument_Handler_Files_TestHelper',
+                        'helperClass' => 'Magento_Core_Model_Layout_Argument_Handler_TestHelper',
                         'helperMethod' => 'testMethod',
                         'params' => array(
                             'firstValue',

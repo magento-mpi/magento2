@@ -26,7 +26,7 @@ class Magento_Core_Model_Layout_Argument_Handler_StringTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $helperObjectManager = new Magento_Test_Helper_ObjectManager($this);
+        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_model = $helperObjectManager->getObject(
             'Magento_Core_Model_Layout_Argument_Handler_String',

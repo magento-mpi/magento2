@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_Argument_Handler_Files_TestOptions implements Magento_Core_Model_Option_ArrayInterface
+class Magento_Core_Model_Layout_Argument_Handler_TestObject extends Magento_Data_Collection
 {
-    public function toOptionArray()
+    public function testMethod()
     {
     }
 }

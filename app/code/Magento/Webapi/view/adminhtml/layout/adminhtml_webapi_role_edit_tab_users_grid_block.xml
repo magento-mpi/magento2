@@ -44,7 +44,6 @@
                             <argument name="header_css_class" xsi:type="string">a-center</argument>
                             <argument name="type" xsi:type="string">checkbox</argument>
                             <argument name="values" xsi:type="string">
-                                <value></value>
                                 <updater>Magento_Webapi_Model_Acl_Role_InRoleUserUpdater</updater>
                                 <value></value>
                             </argument>

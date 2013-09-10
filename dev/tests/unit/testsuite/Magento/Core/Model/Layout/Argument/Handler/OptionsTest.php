@@ -26,9 +26,9 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
 
     protected function setUp()
     {
-        include_once(__DIR__ . '/_files/TestOptions.php');
+        include_once(__DIR__ . DIRECTORY_SEPARATOR . 'TestOptions.php');
 
-        $helperObjectManager = new Magento_Test_Helper_ObjectManager($this);
+        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_model = $helperObjectManager->getObject(
             'Magento_Core_Model_Layout_Argument_Handler_Options',
@@ -63,7 +63,7 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
                 array(
                     'type' => 'options',
                     'value' => array(
-                        'model' => 'Magento_Core_Model_Layout_Argument_Handler_Files_TestOptions',
+                        'model' => 'Magento_Core_Model_Layout_Argument_Handler_TestOptions',
                     )
                 )
             ),
@@ -78,7 +78,7 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
     public function testProcess($argument, $expectedResult)
     {
         $optionsMock = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_Handler_Files_TestOptions', array(), array(), '', false, false
+            'Magento_Core_Model_Layout_Argument_Handler_TestOptions', array(), array(), '', false, false
         );
         $optionsMock->expects($this->once())
             ->method('toOptionArray')
@@ -86,7 +86,7 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
 
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with('Magento_Core_Model_Layout_Argument_Handler_Files_TestOptions')
+            ->with('Magento_Core_Model_Layout_Argument_Handler_TestOptions')
             ->will($this->returnValue($optionsMock));
 
         $this->assertEquals($this->_model->process($argument), $expectedResult);
@@ -101,7 +101,7 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
             array(
                 array(
                     'value' => array(
-                        'model' => 'Magento_Core_Model_Layout_Argument_Handler_Files_TestOptions',
+                        'model' => 'Magento_Core_Model_Layout_Argument_Handler_TestOptions',
                     )
                 ),
                 array(
