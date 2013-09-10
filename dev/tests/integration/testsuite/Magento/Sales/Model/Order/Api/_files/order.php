@@ -32,7 +32,7 @@ Mage::register('quote', $quote);
 
 //Create order
 $quoteService = Magento_TestFramework_ObjectManager::getInstance()->create('Magento_Sales_Model_Service_Quote',
-    array('qoute' => $quote));
+    array('quote' => $quote));
 //Set payment method to check/money order
 $quoteService->getQuote()->getPayment()->setMethod('checkmo');
 $order = $quoteService->submitOrder();
@@ -55,8 +55,8 @@ $quote2->collectTotals();
 $quote2->save();
 Mage::register('quote2', $quote2);
 
-$quoteService = Magento_TestFramework_ObjectManager::getInstance()->create('Magento_Sales_Model_Service_Quote',
-    array('qoute' => $quote2));
+$quoteService2 = Magento_TestFramework_ObjectManager::getInstance()->create('Magento_Sales_Model_Service_Quote',
+    array('quote' => $quote2));
 //Set payment method to check/money order
 $quoteService2->getQuote()->getPayment()->setMethod('checkmo');
 $order2 = $quoteService2->submitOrder();
