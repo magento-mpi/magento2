@@ -29,7 +29,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
             ->setDefaultDesignTheme();
         $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Catalog_Helper_Product_View');
-        $request = new Magento_Test_Request();
+        $request = new Magento_TestFramework_Request();
         $request->setRouteName('catalog')
             ->setControllerName('product')
             ->setActionName('view');
