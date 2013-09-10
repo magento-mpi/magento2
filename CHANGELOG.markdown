@@ -1,3 +1,21 @@
+=============
+  * Prototype.js uses converted to jQuery:
+    * Deprecated prototype.js based method removed from app/code/Magento/Weee/view/frontend/tax-toggle.js
+    * Removed depreacted prototype.js based file: app/code/Magento/Checkout/view/frontend/opcheckout.js
+    * Updated to use jQuery redirectUrl widget vs prototype based solution:
+      * app/code/Magento/Oauth/view/adminhtml/authorize/form/login.phtml
+      * app/code/Magento/Oauth/view/frontend/authorize/form/login.phtml
+      * app/code/Magento/Catalog/view/frontend/product/list.phtml
+    * Removed file containing jQuery that did not meet the Magento 2 coding standard. Replaced with redirect-url widget
+      * app/code/Magento/Catalog/view/frontend/js/mage-attributes-processing.js
+    * Updated to meet Magento 2 coding stanadrd: app/code/Magento/Checkout/view/frontend/cart/item/default.phtml
+  * Added jQuery widgets:
+    * mage.deletableItem - Widget to tag DOM element as deletable, by default on click
+    * mage.fieldsetControls & mage.fieldsetResetControl - Widget to easily reset a subset of form fields with a reset ui control
+    * mage.itemTable  - Widget to easily add a data template block dynamically on an event, by default click.
+    * mage.redirectUrl - Simple widget to allow for consistent javascript based redirects that meet the Magento 2 coding standard
+    * Added new validation rules for validation widget: 'required-if-not-specified', 'required-if-specified', and 'validate-item-quantity'
+
 2.0.0.0-dev45
 =============
 * Product management improvements:
