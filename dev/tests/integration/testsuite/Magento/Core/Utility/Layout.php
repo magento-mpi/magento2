@@ -73,6 +73,7 @@ class Magento_Core_Utility_Layout
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         return array(
+            'eventManager'       => $objectManager->get('Magento_Core_Model_Event_Manager'),
             'factoryHelper'      => $objectManager->get('Magento_Core_Model_Factory_Helper'),
             'coreData'           => $objectManager->get('Magento_Core_Helper_Data'),
             'design'             => $objectManager->get('Magento_Core_Model_View_DesignInterface'),
