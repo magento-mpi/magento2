@@ -15,14 +15,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="Magento_Checkout_Block_Cart" name="checkout.cart">
-                <action method="setCartTemplate">
-                    <argument name="value" xsi:type="string">cart.phtml</argument>
-                </action>
-                <action method="setEmptyTemplate">
-                    <argument name="value" xsi:type="string">cart/noItems.phtml</argument>
-                </action>
-                <action method="chooseTemplate"/>
+            <block class="Magento_Checkout_Block_Cart" name="checkout.cart" template="cart.phtml">
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">simple</argument>
                     <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
