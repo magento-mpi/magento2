@@ -42,21 +42,18 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     }
 
     /**
-     * Class constructor. Initialize session namespace
-     *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param string $sessionName
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param null|string $sessionName
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         $sessionName = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $coreStoreConfig,
-            $data
-        );
+        parent::__construct($coreStoreConfig, $coreConfig, $data);
 
         $namespace = 'customer';
         if ($this->getCustomerConfigShare()->isWebsiteScope()) {
