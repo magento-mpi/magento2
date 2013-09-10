@@ -65,8 +65,6 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
         $this->_resourceMock->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($this->_adapterMock));
-        
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
 
         $this->_model = new Magento_User_Model_Acl_Loader_Role(
             $this->_groupFactoryMock,

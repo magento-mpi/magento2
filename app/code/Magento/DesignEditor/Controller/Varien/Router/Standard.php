@@ -33,6 +33,8 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
