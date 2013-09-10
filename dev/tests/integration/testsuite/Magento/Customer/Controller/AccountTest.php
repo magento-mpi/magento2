@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Controller_AccountTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php

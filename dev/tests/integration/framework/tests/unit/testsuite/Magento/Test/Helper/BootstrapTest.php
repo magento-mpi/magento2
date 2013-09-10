@@ -10,22 +10,22 @@
  */
 
 /**
- * Test class for Magento_Test_Helper_Bootstrap.
+ * Test class for Magento_TestFramework_Helper_Bootstrap.
  */
 class Magento_Test_Helper_BootstrapTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Helper_Bootstrap
+     * @var Magento_TestFramework_Helper_Bootstrap
      */
     protected $_object;
 
     /**
-     * @var Magento_Test_Bootstrap|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_TestFramework_Bootstrap|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_bootstrap;
 
     /**
-     * @var Magento_Test_Application|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_TestFramework_Application|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_application;
 
@@ -44,18 +44,18 @@ class Magento_Test_Helper_BootstrapTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_application = $this->getMock(
-            'Magento_Test_Application', array('getInstallDir', 'getInitParams', 'reinitialize', 'run'),
+            'Magento_TestFramework_Application', array('getInstallDir', 'getInitParams', 'reinitialize', 'run'),
             array(), '', false
         );
         $this->_bootstrap = $this->getMock(
-            'Magento_Test_Bootstrap', array('getApplication', 'getDbVendorName'), array(), '', false
+            'Magento_TestFramework_Bootstrap', array('getApplication', 'getDbVendorName'), array(), '', false
         );
         $this->_bootstrap
             ->expects($this->any())
             ->method('getApplication')
             ->will($this->returnValue($this->_application))
         ;
-        $this->_object = new Magento_Test_Helper_Bootstrap($this->_bootstrap);
+        $this->_object = new Magento_TestFramework_Helper_Bootstrap($this->_bootstrap);
     }
 
     protected function tearDown()
@@ -71,21 +71,21 @@ class Magento_Test_Helper_BootstrapTest extends PHPUnit_Framework_TestCase
      */
     public function testGetInstanceEmptyProhibited()
     {
-        Magento_Test_Helper_Bootstrap::getInstance();
+        Magento_TestFramework_Helper_Bootstrap::getInstance();
     }
 
     public function testSetInstanceFirstAllowed()
     {
-        Magento_Test_Helper_Bootstrap::setInstance($this->_object);
+        Magento_TestFramework_Helper_Bootstrap::setInstance($this->_object);
         return $this->_object;
     }
 
     /**
      * @depends testSetInstanceFirstAllowed
      */
-    public function testGetInstanceAllowed(Magento_Test_Helper_Bootstrap $expectedInstance)
+    public function testGetInstanceAllowed(Magento_TestFramework_Helper_Bootstrap $expectedInstance)
     {
-        $this->assertSame($expectedInstance, Magento_Test_Helper_Bootstrap::getInstance());
+        $this->assertSame($expectedInstance, Magento_TestFramework_Helper_Bootstrap::getInstance());
     }
 
     /**
@@ -95,13 +95,14 @@ class Magento_Test_Helper_BootstrapTest extends PHPUnit_Framework_TestCase
      */
     public function testSetInstanceChangeProhibited()
     {
-        Magento_Test_Helper_Bootstrap::setInstance($this->_object);
+        Magento_TestFramework_Helper_Bootstrap::setInstance($this->_object);
     }
 
     public function testCanTestHeaders()
     {
         if (!function_exists('xdebug_get_headers')) {
-            $this->assertFalse(Magento_Test_Helper_Bootstrap::canTestHeaders(), 'Expected inability to test headers.');
+            $this->assertFalse(
+                Magento_TestFramework_Helper_Bootstrap::canTestHeaders(), 'Expected inability to test headers.');
             return;
         }
         $expectedHeader = 'SomeHeader: header-value';
@@ -121,7 +122,7 @@ class Magento_Test_Helper_BootstrapTest extends PHPUnit_Framework_TestCase
         setcookie('SomeCookie', 'cookie-value');
         restore_error_handler();
 
-        $this->assertEquals($expectedCanTest, Magento_Test_Helper_Bootstrap::canTestHeaders());
+        $this->assertEquals($expectedCanTest, Magento_TestFramework_Helper_Bootstrap::canTestHeaders());
 
         if ($expectedCanTest) {
             $actualHeaders = xdebug_get_headers();
@@ -172,8 +173,8 @@ class Magento_Test_Helper_BootstrapTest extends PHPUnit_Framework_TestCase
 
     public function testRunApp()
     {
-        $requestMock = $this->getMock('Magento_Test_Request', array(), array(), '', false);
-        $responseMock = $this->getMock('Magento_Test_Response', array(), array(), '', false);
+        $requestMock = $this->getMock('Magento_TestFramework_Request', array(), array(), '', false);
+        $responseMock = $this->getMock('Magento_TestFramework_Response', array(), array(), '', false);
 
         $this->_application
             ->expects($this->once())

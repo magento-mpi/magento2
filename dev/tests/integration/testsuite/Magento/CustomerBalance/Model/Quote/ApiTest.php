@@ -50,11 +50,11 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
     public function testCustomerBalanceForQuoteSetAmount()
     {
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuote.xml');
-        $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
+        $data = Magento_TestFramework_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$quote->getId();
 
-        $result = Magento_Test_Helper_Api::call($this, 'shoppingCartCustomerbalanceSetAmount', $data['input']);
+        $result = Magento_TestFramework_Helper_Api::call($this, 'shoppingCartCustomerbalanceSetAmount', $data['input']);
         $this->assertEquals($data['expected']['used_amount'], $result, 'Used amount is invalid');
     }
 
@@ -66,11 +66,11 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
     public function testCustomerBalanceForQuoteRemoveAmount()
     {
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuote.xml');
-        $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
+        $data = Magento_TestFramework_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$quote->getId();
 
-        $this->assertTrue(Magento_Test_Helper_Api::call(
+        $this->assertTrue(Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartCustomerbalanceRemoveAmount',
             $data['input']),
@@ -87,9 +87,9 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
     public function testCustomerBalanceForQuoteSetAmountWithoutStoreId()
     {
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuote.xml');
-        $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
+        $data = Magento_TestFramework_Helper_Api::simpleXmlToArray($quoteFixture);
 
-        $result = Magento_Test_Helper_Api::call($this, 'shoppingCartCustomerbalanceSetAmount',
+        $result = Magento_TestFramework_Helper_Api::call($this, 'shoppingCartCustomerbalanceSetAmount',
             array('quoteId' => self::$quote->getId()));
 
         $this->assertEquals($data['expected']['used_amount'], $result, 'Used amount is invalid');
@@ -103,7 +103,8 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
     public function testCustomerBalanceForQuoteRemoveAmountWithoutStoreId()
     {
         $input = array('quoteId' => self::$quote->getId());
-        $this->assertTrue(Magento_Test_Helper_Api::call($this, 'shoppingCartCustomerbalanceRemoveAmount', $input),
+        $this->
+            assertTrue(Magento_TestFramework_Helper_Api::call($this, 'shoppingCartCustomerbalanceRemoveAmount', $input),
             'Remove used amount fail');
 
         $quote = Mage::getModel('Magento_Sales_Model_Quote');
@@ -119,11 +120,12 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
         $quoteFixture = simplexml_load_file(
             dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuoteUsingStoreCode.xml'
         );
-        $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
+        $data = Magento_TestFramework_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$quote->getId();
 
-        $result = Magento_Test_Helper_Api::call($this, 'shoppingCartCustomerbalanceSetAmount', (array)$data['input']);
+        $result = Magento_TestFramework_Helper_Api::call($this, 'shoppingCartCustomerbalanceSetAmount',
+            (array)$data['input']);
         $this->assertEquals($data['expected']['used_amount'], $result, 'Used amount is invalid');
     }
 
@@ -137,12 +139,13 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
         $quoteFixture = simplexml_load_file(
             dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuoteUsingStoreCode.xml'
         );
-        $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
+        $data = Magento_TestFramework_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$quote->getId();
 
         $this->assertTrue(
-            Magento_Test_Helper_Api::call($this, 'shoppingCartCustomerbalanceRemoveAmount', (array)$data['input']),
+            Magento_TestFramework_Helper_Api::call($this, 'shoppingCartCustomerbalanceRemoveAmount',
+                (array)$data['input']),
             'Remove used amount fail'
         );
 
@@ -159,10 +162,10 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
         $quoteFixture = simplexml_load_file(
             dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuoteUsingInvalidStoreCode.xml'
         );
-        $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
+        $data = Magento_TestFramework_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$quote->getId();
-        Magento_Test_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceSetAmount',
+        Magento_TestFramework_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceSetAmount',
             (array)$data['input']
         );
     }
@@ -173,8 +176,8 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
     public function testCustomerBalanceForQuoteSetAmountExceptionQuoteNotExists()
     {
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuote.xml');
-        $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
-        Magento_Test_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceSetAmount',
+        $data = Magento_TestFramework_Helper_Api::simpleXmlToArray($quoteFixture);
+        Magento_TestFramework_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceSetAmount',
             (array)$data['input']
         );
     }
@@ -185,8 +188,8 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
     public function testCustomerBalanceForQuoteRemoveAmountExceptionQuoteNotExists()
     {
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuote.xml');
-        $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
-        Magento_Test_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceRemoveAmount',
+        $data = Magento_TestFramework_Helper_Api::simpleXmlToArray($quoteFixture);
+        Magento_TestFramework_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceRemoveAmount',
             (array)$data['input']
         );
     }
@@ -200,10 +203,10 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
         $quoteFixture = simplexml_load_file(
             dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForGuestQuote.xml'
         );
-        $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
+        $data = Magento_TestFramework_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$guestQuote->getId();
-        Magento_Test_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceSetAmount',
+        Magento_TestFramework_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceSetAmount',
             (array)$data['input']
         );
     }
@@ -217,9 +220,9 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
         $quoteFixture = simplexml_load_file(
             dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForGuestQuote.xml'
         );
-        $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
+        $data = Magento_TestFramework_Helper_Api::simpleXmlToArray($quoteFixture);
         $data['input']['quoteId'] = self::$guestQuote->getId();
-        Magento_Test_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceRemoveAmount',
+        Magento_TestFramework_Helper_Api::callWithException($this, 'shoppingCartCustomerbalanceRemoveAmount',
             (array)$data['input']
         );
     }

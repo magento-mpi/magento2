@@ -42,7 +42,7 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
     protected $_layoutMock;
 
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_testHelper;
 
@@ -73,7 +73,7 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
                 'group' => $groupMock
             ),
         );
-        $this->_testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_object = $this->_testHelper->getObject('Magento_Backend_Block_System_Config_Form_Fieldset', $data);
 
         $this->_testData = array(
@@ -148,7 +148,7 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
         $fieldMock->expects($this->any())->method('getTooltip')->will($this->returnValue('test_field_tootip'));
         $fieldMock->expects($this->any())->method('toHtml')->will($this->returnValue('test_field_toHTML'));
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
         $factoryColl = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
         $formMock = $this->getMock('Magento_Data_Form_Abstract', array(), array($factory, $factoryColl));

@@ -28,7 +28,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
 
     protected function setUp()
     {
-        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $orderConstructorArgs = $objectManager->getConstructArguments('Magento_Sales_Model_Order');
         $this->_order = $this->getMock('Magento_Sales_Model_Order', array('formatPriceTxt'), $orderConstructorArgs);
         $this->_order

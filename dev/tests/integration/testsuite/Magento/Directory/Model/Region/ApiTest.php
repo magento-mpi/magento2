@@ -20,7 +20,7 @@ class Magento_Directory_Model_Region_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testList()
     {
-        $data = Magento_Test_Helper_Api::call($this, 'directoryRegionList', array('country' => 'US'));
+        $data = Magento_TestFramework_Helper_Api::call($this, 'directoryRegionList', array('country' => 'US'));
         $this->assertTrue(is_array($data), 'Region list is not array');
         $this->assertNotEmpty($data, 'Region list is empty');
         $region = reset($data);

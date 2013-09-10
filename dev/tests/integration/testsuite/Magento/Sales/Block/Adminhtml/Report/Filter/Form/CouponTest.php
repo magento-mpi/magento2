@@ -28,7 +28,7 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_CouponTest extends PHPUni
     protected function setUp()
     {
         parent::setUp();
-        $this->_application = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App');
+        $this->_application = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App');
     }
 
     /**

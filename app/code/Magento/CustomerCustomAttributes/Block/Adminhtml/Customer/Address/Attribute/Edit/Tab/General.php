@@ -243,7 +243,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
 
         $this->getForm()->setDataObject($this->getAttributeObject());
 
-        $this->_eventManager->dispatch('enterprise_customer_address_attribute_edit_tab_general_prepare_form', array(
+        $this->_eventManager->dispatch('magento_customercustomattributes_address_attribute_edit_tab_general_prepare_form', array(
             'form'      => $form,
             'attribute' => $attribute
         ));

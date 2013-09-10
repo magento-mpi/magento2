@@ -32,7 +32,7 @@ class Magento_Core_Utility_Layout
      */
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var Magento_Core_Model_Layout_File_Factory $fileFactory */
         $fileFactory = $objectManager->get('Magento_Core_Model_Layout_File_Factory');
         $file = $fileFactory->create($layoutUpdatesFile, 'Magento_Core');
@@ -71,7 +71,7 @@ class Magento_Core_Utility_Layout
      */
     public function getLayoutDependencies()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         return array(
             'factoryHelper'      => $objectManager->get('Magento_Core_Model_Factory_Helper'),
             'coreData'           => $objectManager->get('Magento_Core_Helper_Data'),

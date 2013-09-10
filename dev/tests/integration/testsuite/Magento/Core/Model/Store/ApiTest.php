@@ -26,7 +26,7 @@ class Magento_Core_Model_Store_ApiTest extends PHPUnit_Framework_TestCase
     public function testInfo()
     {
         $expectedStore = Mage::app()->getStore('fixturestore');
-        $storeInfo = Magento_Test_Helper_Api::call($this, 'storeInfo', array(
+        $storeInfo = Magento_TestFramework_Helper_Api::call($this, 'storeInfo', array(
             'storeId' => 'fixturestore',
         ));
         $expectedData= $expectedStore->getData();
@@ -38,7 +38,7 @@ class Magento_Core_Model_Store_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testList()
     {
-        $actualStores = Magento_Test_Helper_Api::call($this, 'storeList');
+        $actualStores = Magento_TestFramework_Helper_Api::call($this, 'storeList');
         $expectedStores = Mage::app()->getStores();
         /** @var Magento_Core_Model_Store $expectedStore */
         foreach ($expectedStores as $expectedStore) {

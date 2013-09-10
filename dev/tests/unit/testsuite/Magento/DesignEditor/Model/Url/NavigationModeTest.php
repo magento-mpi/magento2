@@ -67,7 +67,7 @@ class Magento_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framewor
             ->will($this->returnValue(self::FRONT_NAME));
 
         $store = $this->getMock('Magento_Core_Model_Store',
-            array('getBaseUrl', 'isAdmin', 'isAdminUrlSecure', 'isFrontUrlSecure'),
+            array('getBaseUrl', 'isAdmin', 'isAdminUrlSecure', 'isFrontUrlSecure', '__sleep', '__wakeup'),
             array(), '', false
         );
         $store->expects($this->any())

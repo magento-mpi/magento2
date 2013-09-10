@@ -212,7 +212,7 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testSetGetRequest()
     {
         $this->assertInstanceOf('Magento_Core_Controller_Request_Http', $this->_model->getRequest());
-        $request = new Magento_Test_Request();
+        $request = new Magento_TestFramework_Request();
         $this->_model->setRequest($request);
         $this->assertSame($request, $this->_model->getRequest());
     }
@@ -226,7 +226,7 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
             'replace' => false
         );
         $this->assertContains($expectedHeader, $this->_model->getResponse()->getHeaders());
-        $response = new Magento_Test_Response();
+        $response = new Magento_TestFramework_Response();
         $this->_model->setResponse($response);
         $this->assertSame($response, $this->_model->getResponse());
         $this->assertEmpty($this->_model->getResponse()->getHeaders());

@@ -86,7 +86,7 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
 
         $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
 
-        $store = $this->getMock('Magento_Core_Model_Store', array('getId'), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array('getId', '__sleep', '__wakeup'), array(), '', false);
         $store->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(self::CURRENT_STORE_ID));

@@ -31,10 +31,10 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      * @var array
      */
     protected $_tablesMap = array(
-        'sales_flat_order_grid'      => 'enterprise_sales_order_grid_archive',
-        'sales_flat_invoice_grid'    => 'enterprise_sales_invoice_grid_archive',
-        'sales_flat_creditmemo_grid' => 'enterprise_sales_creditmemo_grid_archive',
-        'sales_flat_shipment_grid'   => 'enterprise_sales_shipment_grid_archive'
+        'sales_flat_order_grid'      => 'magento_sales_order_grid_archive',
+        'sales_flat_invoice_grid'    => 'magento_sales_invoice_grid_archive',
+        'sales_flat_creditmemo_grid' => 'magento_sales_creditmemo_grid_archive',
+        'sales_flat_shipment_grid'   => 'magento_sales_shipment_grid_archive'
     );
 
     /**

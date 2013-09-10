@@ -18,11 +18,23 @@
 class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
 {
     /**
+     * Design package instance
+     *
+     * @var Magento_Core_Model_View_DesignInterface
+     */
+    protected $_design = null;
+
+    /**
+     * Initialize attributes map
+     *
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Api_Helper_Data $apiHelper
      */
     public function __construct(
+        Magento_Core_Model_View_DesignInterface $design,
         Magento_Api_Helper_Data $apiHelper
     ) {
+        $this->_design = $design;
         parent::__construct($apiHelper);
         $this->_attributesMap = array(
             'order' => array('order_id' => 'entity_id'),
@@ -165,14 +177,14 @@ class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
 
         try {
             if ($notify && $comment) {
-                $oldArea = Mage::getDesign()->getArea();
-                Mage::getDesign()->setArea('frontend');
+                $oldArea = $this->_design->getArea();
+                $this->_design->setArea('frontend');
             }
 
             $order->save();
             $order->sendOrderUpdateEmail($notify, $comment);
             if ($notify && $comment) {
-                Mage::getDesign()->setArea($oldArea);
+                $this->_design->setArea($oldArea);
             }
 
         } catch (Magento_Core_Exception $e) {

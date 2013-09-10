@@ -27,7 +27,7 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
     protected function setUp()
     {
         $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->addSharedInstance($this->_moduleListMock, 'Magento_Core_Model_ModuleList');
         $objectManager->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);

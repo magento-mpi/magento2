@@ -68,7 +68,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
 
     protected function setUp()
     {
-        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $translator = $this->getMock('Magento_Core_Model_Translate', array('isAllowed'), array(), '', false);
         $translator->expects($this->any())
             ->method('isAllowed')

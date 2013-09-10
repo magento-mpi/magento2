@@ -102,7 +102,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
             $objectManager = new Magento_ObjectManager_ObjectManager();
         }
         $rewriteFactory = $this->getMock('Magento_Core_Model_Url_RewriteFactory', array('create'), array(), '', false);
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $varienFront = $helper->getObject('Magento_Core_Controller_Varien_Front',
             array('rewriteFactory' => $rewriteFactory)
         );

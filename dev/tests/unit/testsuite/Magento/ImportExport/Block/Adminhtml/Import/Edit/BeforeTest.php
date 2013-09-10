@@ -90,7 +90,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
             'importModel' => $importModel,
             'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
         );
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_ImportExport_Block_Adminhtml_Import_Edit_Before',
             $arguments
         );

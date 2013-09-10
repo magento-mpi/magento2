@@ -27,16 +27,22 @@ class Magento_GiftRegistry_Model_Observer
     protected $_giftRegistryData = null;
 
     /**
-     * Class constructor
+     * Design package instance
      *
-     *
-     *
+     * @var Magento_Core_Model_View_DesignInterface
+     */
+    protected $_design = null;
+
+    /**
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Core_Model_View_DesignInterface $design
      */
     public function __construct(
-        Magento_GiftRegistry_Helper_Data $giftRegistryData
+        Magento_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Core_Model_View_DesignInterface $design
     ) {
         $this->_giftRegistryData = $giftRegistryData;
+        $this->_design = $design;
         $this->_isEnabled = $this->_giftRegistryData->isEnabled();
     }
 
@@ -125,7 +131,7 @@ class Magento_GiftRegistry_Model_Observer
      */
     public function addressFormatAdmin($observer)
     {
-        if (Mage::getDesign()->getArea() == Magento_Core_Model_App_Area::AREA_FRONTEND) {
+        if ($this->_design->getArea() == Magento_Core_Model_App_Area::AREA_FRONTEND) {
             $this->_addressFormat($observer);
         }
         return $this;

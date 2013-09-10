@@ -255,7 +255,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
 
         $this->getForm()->setDataObject($this->getAttributeObject());
 
-        $this->_eventManager->dispatch('enterprise_customer_attribute_edit_tab_general_prepare_form', array(
+        $this->_eventManager->dispatch('magento_customercustomattributes_attribute_edit_tab_general_prepare_form', array(
             'form'      => $form,
             'attribute' => $attribute
         ));

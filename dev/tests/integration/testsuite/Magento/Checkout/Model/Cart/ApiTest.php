@@ -28,7 +28,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         $quote = $quoteCollection->getFirstItem();
         $productSku = 'simple-1';
 
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartProductAdd',
             array(
@@ -56,7 +56,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
 
         $errorCode = 1033;
         $errorMessage = 'Product does not exist.';
-        $exception = Magento_Test_Helper_Api::callWithException(
+        $exception = Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'shoppingCartProductAdd',
             array(
@@ -103,7 +103,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         }
 
         $customOptionsData = array($customOptionId => $customOptionValue);
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartProductAdd',
             array(
@@ -150,7 +150,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
         $quote = $quoteCollection->getFirstItem();
 
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartProductList',
             array('quoteId' => $quote->getId())
@@ -178,10 +178,10 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
     {
         // Set order increment id prefix
         $prefix = '01';
-        Magento_Test_Helper_Eav::setIncrementIdPrefix('order', $prefix);
+        Magento_TestFramework_Helper_Eav::setIncrementIdPrefix('order', $prefix);
 
         $quote = $this->_getQuoteFixture();
-        $orderIncrementId = Magento_Test_Helper_Api::call(
+        $orderIncrementId = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartOrder',
             array(
@@ -215,7 +215,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
             'cc_cid' => '000',
         );
 
-        $orderIncrementId = Magento_Test_Helper_Api::call(
+        $orderIncrementId = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartOrderWithPayment',
             array(
@@ -254,7 +254,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         $errorCode = 1075;
         $errorMessage = 'The requested Payment Method is not available.';
 
-        $exception = Magento_Test_Helper_Api::callWithException(
+        $exception = Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'shoppingCartOrderWithPayment',
             array(
@@ -279,7 +279,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         $errorCode = 1071;
         $errorMessage = 'Payment method data is empty.';
 
-        $exception = Magento_Test_Helper_Api::callWithException(
+        $exception = Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'shoppingCartOrderWithPayment',
             array(
@@ -313,7 +313,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         );
         $errorCode = 1075;
         $errorMessage = 'We found an incorrect credit card expiration date.';
-        $exception = Magento_Test_Helper_Api::callWithException(
+        $exception = Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'shoppingCartOrderWithPayment',
             array(
@@ -351,7 +351,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         $quote = $this->_getQuoteFixture();
         $quoteId = $quote->getId();
         /** Retrieve quote info. */
-        $quoteInfo = Magento_Test_Helper_Api::call(
+        $quoteInfo = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartInfo',
             array($quoteId)
@@ -380,7 +380,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         $quote = $this->_getQuoteFixture();
         $quoteId = $quote->getId();
         /** Retrieve quote info. */
-        $quoteTotals = Magento_Test_Helper_Api::call(
+        $quoteTotals = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartTotals',
             array($quoteId)
@@ -420,7 +420,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         $quote = $this->_getQuoteFixture();
         $quoteId = $quote->getId();
         /** Retrieve quote license agreement. */
-        $licenseAgreement = Magento_Test_Helper_Api::call(
+        $licenseAgreement = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartLicense',
             array($quoteId)

@@ -19,7 +19,7 @@
         </testsuite>
         <testsuite name="Magento Integration Tests">
             <directory suffix="Test.php">testsuite</directory>
-            <exclude>testsuite/integrity</exclude>
+            <exclude>testsuite/Magento/Test/Integrity</exclude>
             <exclude>testsuite/MemoryUsageTest.php</exclude>
         </testsuite>
     </testsuites>
@@ -66,6 +66,6 @@
     </php>
     <!-- Test listeners -->
     <listeners>
-        <listener class="Magento_Test_Event_PhpUnit"/>
+        <listener class="Magento_TestFramework_Event_PhpUnit"/>
     </listeners>
 </phpunit>

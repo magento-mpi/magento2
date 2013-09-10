@@ -436,19 +436,6 @@ final class Mage
     }
 
     /**
-     * Get design package singleton
-     *
-     * @return Magento_Core_Model_View_DesignInterface
-     */
-    public static function getDesign()
-    {
-        if (!self::$_design) {
-            self::$_design = self::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
-        }
-        return self::$_design;
-    }
-
-    /**
      * Retrieve a config instance
      *
      * This method doesn't suit Magento 2 anymore, it is left only until refactoring, when all calls
@@ -576,26 +563,6 @@ final class Mage
     {
         $action = self::app()->getFrontController()->getAction();
         return $action ? $action->getLayout()->getBlockSingleton($className) : false;
-    }
-
-    /**
-     * Retrieve helper object
-     *
-     * @param string $name the helper name
-     * @return Magento_Core_Helper_Abstract
-     */
-    public static function helper($name)
-    {
-        /* Default helper class for a module */
-        if (strpos($name, '_Helper_') === false) {
-            $name .= '_Helper_Data';
-        }
-
-        $registryKey = '_helper/' . $name;
-        if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getObjectManager()->get($name));
-        }
-        return self::registry($registryKey);
     }
 
     /**

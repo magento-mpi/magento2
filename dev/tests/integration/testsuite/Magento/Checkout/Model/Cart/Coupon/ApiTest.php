@@ -40,7 +40,7 @@ class Magento_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestC
     {
         $this->_init();
 
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartCouponAdd',
             array(
@@ -74,7 +74,7 @@ class Magento_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestC
             ->collectTotals()
             ->save();
 
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartCouponRemove',
             array('quoteId' => $this->_quote->getId())
