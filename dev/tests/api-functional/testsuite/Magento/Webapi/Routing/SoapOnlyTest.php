@@ -9,7 +9,7 @@
 /**
  * Class to test routing based on a Service that exposes Soap Operations only
  */
-class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
+class Magento_Webapi_Routing_SoapOnlyTest extends Magento_Webapi_Routing_BaseService
 {
     /**
      * @var string
@@ -41,7 +41,7 @@ class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -77,7 +77,7 @@ class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -102,7 +102,7 @@ class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_POST
+                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_POST
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -127,7 +127,7 @@ class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_PUT
+                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_PUT
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -152,7 +152,7 @@ class Mage_Webapi_Routing_SoapOnlyTest extends Mage_Webapi_Routing_BaseService
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE
+                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE
             ),
             'soap' => array(
                 'service' => $this->_soapService,

@@ -6,18 +6,18 @@
  * @license     {license_link}
  */
 
-class Mage_TestModule1_Service_AllSoapAndRestV2 extends Mage_TestModule1_Service_AllSoapAndRestV1 implements
-    Mage_TestModule1_Service_AllSoapAndRestV2Interface
+class Magento_TestModule1_Service_AllSoapAndRestV2 extends Magento_TestModule1_Service_AllSoapAndRestV1 implements
+    Magento_TestModule1_Service_AllSoapAndRestV2Interface
 {
     /**
      * @param $request
      * @return array
-     * @throws Mage_Webapi_Exception
+     * @throws Magento_Webapi_Exception
      */
     public function item($request)
     {
         if ($request['id'] == null) {
-            throw new Mage_Webapi_Exception("Invalid Id", Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception("Invalid Id", Magento_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         $result = array(
             'id' => $request['id'],
@@ -31,12 +31,12 @@ class Mage_TestModule1_Service_AllSoapAndRestV2 extends Mage_TestModule1_Service
     /**
      * @param $request
      * @return array
-     * @throws Mage_Webapi_Exception
+     * @throws Magento_Webapi_Exception
      */
     public function delete($request)
     {
         if ($request['id'] == null) {
-            throw new Mage_Webapi_Exception("Invalid Id", Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Magento_Webapi_Exception("Invalid Id", Magento_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
         $result = array(

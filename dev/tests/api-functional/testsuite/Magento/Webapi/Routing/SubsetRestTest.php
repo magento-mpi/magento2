@@ -9,7 +9,7 @@
 /**
  * Class to test routing based on a Service that exposes subset of REST Operations
  */
-class Mage_Webapi_Routing_SubsetRestTest extends Mage_Webapi_Routing_SoapOnlyTest
+class Magento_Webapi_Routing_SubsetRestTest extends Magento_Webapi_Routing_SoapOnlyTest
 {
     /**
      * @Override
@@ -31,7 +31,7 @@ class Mage_Webapi_Routing_SubsetRestTest extends Mage_Webapi_Routing_SoapOnlyTes
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -62,7 +62,7 @@ class Mage_Webapi_Routing_SubsetRestTest extends Mage_Webapi_Routing_SoapOnlyTes
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,

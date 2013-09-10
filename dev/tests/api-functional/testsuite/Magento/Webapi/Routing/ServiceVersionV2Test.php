@@ -9,7 +9,7 @@
 /**
  * Class to test routing based on Service Versioning(for a new version V2 of an existing V1 service)
  */
-class Mage_Webapi_Routing_ServiceVersionV2Test extends Mage_Webapi_Routing_ServiceVersionV1Test
+class Magento_Webapi_Routing_ServiceVersionV2Test extends Magento_Webapi_Routing_ServiceVersionV1Test
 {
 
     /**
@@ -32,7 +32,7 @@ class Mage_Webapi_Routing_ServiceVersionV2Test extends Mage_Webapi_Routing_Servi
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -55,7 +55,7 @@ class Mage_Webapi_Routing_ServiceVersionV2Test extends Mage_Webapi_Routing_Servi
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE
+                'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE
             ),
             'soap' => array(
                 'service' => $this->_soapService,

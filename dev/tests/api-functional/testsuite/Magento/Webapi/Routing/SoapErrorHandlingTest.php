@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_WebapiAbstract
+class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_WebapiAbstract
 {
     public function setUp()
     {
@@ -143,14 +143,14 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
     ) {
         $this->assertContains($expectedMessage, $soapFault->getMessage(), "Fault message is invalid.");
 
-        $errorDetailsNode = Mage_Webapi_Model_Soap_Fault::NODE_ERROR_DETAILS;
+        $errorDetailsNode = Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAILS;
         $errorDetails = isset($soapFault->detail->$errorDetailsNode) ? $soapFault->detail->$errorDetailsNode : null;
         if (!is_null($expectedErrorCode) || !empty($expectedErrorParams) || $isTraceExpected) {
             /** Check SOAP fault details */
             $this->assertNotNull($errorDetails, "Details must be present.");
 
             /** Check additional error parameters */
-            $paramsNode = Mage_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_PARAMETERS;
+            $paramsNode = Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_PARAMETERS;
             if ($expectedErrorParams) {
                 $this->assertEquals(
                     $expectedErrorParams,
@@ -162,7 +162,7 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
             }
 
             /** Check error trace */
-            $traceNode = Mage_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_TRACE;
+            $traceNode = Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_TRACE;
             if (!Mage::app()->isDeveloperMode()) {
                 /** Developer mode changes tested behavior and it cannot properly be tested for now */
                 if ($isTraceExpected) {
@@ -175,10 +175,10 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
             $this->assertNull($errorDetails, "Details are not expected.");
         }
 
-        /** Check error code */
+        /** Check error code if present*/
         $this->assertEquals(
             $expectedErrorCode,
-            $errorDetails->{Mage_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_CODE},
+            $errorDetails->{Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_CODE},
             "Error code in fault details is invalid."
         );
 
