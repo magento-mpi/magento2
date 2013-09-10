@@ -47,6 +47,8 @@ return array(
     array('applyEventStatus', 'Magento_CatalogEvent_Model_Observer'),
     array('checkQuoteItem', 'Magento_CatalogPermissions_Model_Observer'),
     array('increaseOrderInvoicedAmount', 'Magento_GiftCardAccount_Model_Observer'),
+    array('initRewardType', 'Enterprise_Reward_Block_Tooltip'),
+    array('initRewardType', 'Enterprise_Reward_Block_Tooltip_Checkout'),
     array('blockCreateAfter', 'Magento_FullPageCache_Model_Observer'),
     array('_checkViewedProducts', 'Magento_FullPageCache_Model_Observer'),
     array('invoiceSaveAfter', 'Magento_Reward_Model_Observer'),
