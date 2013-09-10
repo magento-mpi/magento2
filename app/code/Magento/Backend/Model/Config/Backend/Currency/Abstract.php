@@ -31,6 +31,8 @@ abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Ma
      * Constructor
      *
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -38,6 +40,8 @@ abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Ma
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
@@ -46,6 +50,8 @@ abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Ma
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct(
             $context,
+            $storeManager,
+            $config,
             $resource,
             $resourceCollection,
             $data
@@ -61,7 +67,7 @@ abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Ma
     {
         if ($this->getData('groups/options/fields/allow/inherit')) {
             return explode(
-                ',', $this->_coreConfig->getNode('currency/options/allow', $this->getScope(), $this->getScopeId())
+                ',', $this->_config->getNode('currency/options/allow', $this->getScope(), $this->getScopeId())
             );
         }
         return $this->getData('groups/options/fields/allow/value');
@@ -85,7 +91,7 @@ abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Ma
     protected function _getCurrencyBase()
     {
         if (!$value = $this->getData('groups/options/fields/base/value')) {
-            $value = $this->_coreConfig->getValue(
+            $value = $this->_config->getValue(
                 Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
                 $this->getScope(),
                 $this->getScopeId()
@@ -102,7 +108,7 @@ abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Ma
     protected function _getCurrencyDefault()
     {
         if (!$value = $this->getData('groups/options/fields/default/value')) {
-            $value = $this->_coreConfig->getValue(
+            $value = $this->_config->getValue(
                 Magento_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT,
                 $this->getScope(),
                 $this->getScopeId()

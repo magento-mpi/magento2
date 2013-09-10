@@ -41,6 +41,8 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
      * Constructor
      *
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -48,6 +50,8 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
@@ -56,6 +60,8 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct(
             $context,
+            $storeManager,
+            $config,
             $resource,
             $resourceCollection,
             $data

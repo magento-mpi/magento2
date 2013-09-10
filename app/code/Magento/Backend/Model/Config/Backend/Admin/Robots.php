@@ -31,6 +31,8 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
      * Constructor
      *
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -38,6 +40,8 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
@@ -45,6 +49,8 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
     ) {
         parent::__construct(
             $context,
+            $storeManager,
+            $config,
             $resource,
             $resourceCollection,
             $data
