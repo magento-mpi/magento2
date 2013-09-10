@@ -1,16 +1,31 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
-
-class Magento_Catalog_Model_Plugin_QuoteItemProductOptionTest extends Magento_Bundle_Model_Plugin_QuoteItemParent
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+class Magento_Catalog_Model_Plugin_QuoteItemProductOptionTest extends PHPUnit_Framework_TestCase
 {
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_quoteItemMock;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_invocationChainMock;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_orderItemMock;
+
+    /** @var Magento_Catalog_Model_Plugin_QuoteItemProductOption */
+    protected $_model;
+
     protected function setUp()
     {
-        parent::setUp();
+        $this->_orderItemMock = $this->getMock('Magento_Sales_Model_Order_Item', array(), array(), '', false);
+        $this->_quoteItemMock = $this->getMock('Magento_Sales_Model_Quote_Item', array(), array(), '', false);
+        $this->_invocationChainMock = $this->getMock('Magento_Code_Plugin_InvocationChain',
+            array(), array(), '', false);
+
         $this->_model = new Magento_Catalog_Model_Plugin_QuoteItemProductOption();
     }
 
