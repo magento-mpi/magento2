@@ -29,6 +29,7 @@ class Magento_Test_Integrity_Phrase_AbstractTestCase extends PHPUnit_Framework_T
     {
         $filesCollector = new FilesCollector();
 
-        return $filesCollector->getFiles(array(Utility_Files::init()->getPathToSource() . '/app/'), '/\.(php|phtml)$/');
+        return $filesCollector->getFiles(array(Magento_TestFramework_Utility_Files::init()->getPathToSource()),
+            '/\.(php|phtml)$/');
     }
 }

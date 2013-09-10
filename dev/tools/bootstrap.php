@@ -11,7 +11,6 @@ define('DS', DIRECTORY_SEPARATOR);
 Magento_Autoload_IncludePath::addIncludePath(array(
     BP . DS . 'app' . DS . 'code',
     BP . DS . 'lib',
-    BP . DS . 'dev/lib',
 ));
 
 function tool_autoloader($className)

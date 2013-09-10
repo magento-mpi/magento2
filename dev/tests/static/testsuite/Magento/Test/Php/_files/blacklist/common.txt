@@ -236,4 +236,4 @@ lib/Magento/Validator/Constraint/Property.php
 lib/Magento/Validator/Entity/Properties.php
 lib/Magento/Xml/Generator.php
 lib/Magento/Xml/Parser.php
-dev/tools/I18n/Zend
+dev/tools/Magento/Tools/I18n/Zend
