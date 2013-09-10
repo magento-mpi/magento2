@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<service_calls>
+    <service_call name="alias" service="some_class_name" method="some_method_name">
+        <arg name="some_arg_name_one">some_arg_value_one</arg>
+        <arg name="some_arg_name_two">some_arg_value_two</arg>
+    </service_call>
+</service_calls>

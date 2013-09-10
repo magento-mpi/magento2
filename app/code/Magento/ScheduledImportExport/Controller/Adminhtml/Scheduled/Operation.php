@@ -27,7 +27,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
         try {
             $this->_title(__('Scheduled Imports/Exports'))
                 ->loadLayout()
-                ->_setActiveMenu('Magento_ScheduledImportExport::system_convert_enterprise_scheduled_operation');
+                ->_setActiveMenu('Magento_ScheduledImportExport::system_convert_magento_scheduled_operation');
         } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/scheduled_operation/index');
@@ -43,7 +43,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Magento_ScheduledImportExport::enterprise_scheduled_operation');
+        return $this->_authorization->isAllowed('Magento_ScheduledImportExport::magento_scheduled_operation');
     }
 
     /**

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_HTTP_Handler_CompositeTest extends PHPUnit_Framework_TestCase
+class Magento_Http_Handler_CompositeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_HTTP_Handler_Composite

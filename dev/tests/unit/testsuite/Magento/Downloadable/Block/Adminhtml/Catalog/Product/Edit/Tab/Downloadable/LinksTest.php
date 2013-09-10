@@ -19,7 +19,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_block = $objectManagerHelper->getObject(
             'Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links',
             array(

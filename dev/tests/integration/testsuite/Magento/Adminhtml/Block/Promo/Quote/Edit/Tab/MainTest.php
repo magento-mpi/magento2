@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_MainTest extends PHPUnit_Fram
      */
     public function testPrepareForm()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();

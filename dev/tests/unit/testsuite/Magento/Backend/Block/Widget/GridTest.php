@@ -15,13 +15,13 @@
 class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
     }
 
     /**

@@ -20,7 +20,7 @@ class Magento_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
      */
     public function testSetFieldset()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();

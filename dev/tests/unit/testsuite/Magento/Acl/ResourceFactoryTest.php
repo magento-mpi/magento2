@@ -26,7 +26,7 @@ class Magento_Acl_ResourceFactoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $this->_objectManager = $this->getMockForAbstractClass('Magento_ObjectManager', array(), '', true, true, true,
             array('create'));
