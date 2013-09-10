@@ -7,15 +7,15 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Translate;
 
-require_once 'Zend/Exception.php';
-require_once 'Zend/Console/Getopt/Exception.php';
-require_once 'Zend/Console/Getopt.php';
-
-class Magento_Tools_Translate_MultyGetopt extends Zend_Console_Getopt {
+class MultyGetopt extends Zend_Console_Getopt {
 
     protected function _parseSingleOption($flag, &$argv)
     {
+        \Magento\Autoload\Includepath::load('Zend/Exception');
+        \Magento\Autoload\Includepath::load('Zend/Console/Getopt/Exception');
+        \Magento\Autoload\Includepath::load('Zend/Console/Getopt');
             if ($this->_getoptConfig[self::CONFIG_IGNORECASE]) {
                 $flag = strtolower($flag);
             }

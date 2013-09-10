@@ -14,6 +14,7 @@ Usage:
  php -f combine.php -- --output <file> --locale <locale_NAME>
 
 */
+namespace Magento\Tools\Translate;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
@@ -24,10 +25,9 @@ define('MESSAGE_TYPE_ERROR', '2');
 
 define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS);
 
-include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
-include(__DIR__ . DS . 'ModuleTranslations.php');
+global $argv;
 
-class Magento_Tools_Translate_Combine
+class Combine
 {
     /**
      * File name patterns needed to be processed
@@ -107,7 +107,8 @@ class Magento_Tools_Translate_Combine
         }
 
         if ($collectModules) {
-            Magento_Tools_Translate_ModuleTranslations::collectTranslations($localeName);
+            \Magento\Autoload\Includepath::load(__DIR__ . DS . 'ModuleTranslations');
+            \Magento\Tools\Translate\ModuleTranslations::collectTranslations($localeName);
         }
 
         if (file_exists($outputFileName) && !is_writable($outputFileName)) {
@@ -171,6 +172,7 @@ class Magento_Tools_Translate_Combine
         $resultData = array();
 
         $files = $this->_getFilesToProcess(sprintf($this->_localePath, $this->_localeName));
+        \Magento\Autoload\IncludePath::load(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv');
         $csv = new \Magento\File\Csv();
 
         foreach ($files as $alias=>$file){
@@ -225,7 +227,7 @@ class Magento_Tools_Translate_Combine
     }
 }
 
-$combine = new Magento_Tools_Translate_Combine($argv);
+$combine = new \Magento\Tools\Translate\Combine($argv);
 $combine->run();
 echo $combine->renderMessages();
 echo "\n\n";

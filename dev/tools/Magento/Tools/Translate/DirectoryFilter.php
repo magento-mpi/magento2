@@ -7,10 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Translate;
 
-include('ModuleTranslations.php');
-
-class Magento_Tools_Translate_DirectoryFilter extends FilterIterator
+class DirectoryFilter extends FilterIterator
 {
     /**
      * List of allowed extensions
@@ -45,7 +44,7 @@ class Magento_Tools_Translate_DirectoryFilter extends FilterIterator
 
 }
 
-class Magento_Tools_Translate_Translate {
+class Translate {
     /**
      * Object of MultyGetopt
      *
@@ -91,10 +90,11 @@ class Magento_Tools_Translate_Translate {
     static public function run($config)
     {
         self::$CONFIG = $config;
-        Magento_Tools_Translate_ModuleTranslations::setConfig($config);
+        \Magento\Autoload\Includepath::load(__DIR__ . DS . 'ModuleTranslations');
+        \Magento\Tools\Translate\ModuleTranslations::setConfig($config);
         self::$csv = new \Magento\File\CsvMulty();
         try {
-            self::$opts = new Magento_Tools_Translate_MultyGetopt(array(
+            self::$opts = new \Magento\Tools\Translate\MultyGetopt(array(
                 'path=s'     => 'Path to root directory',
                 'validate-s' => 'Validates selected translation against the default (en_US)',
                 'generate'   => 'Generates the default translation (en_US)',
@@ -126,7 +126,7 @@ class Magento_Tools_Translate_Translate {
         }
 
         if(!is_dir($dir_en)){
-            Magento_Tools_Translate_ModuleTranslations::collectTranslations('en_US');
+            \Magento\Tools\Translate\ModuleTranslations::collectTranslations('en_US');
             self::$_clean = 'en_US';
             if(!is_dir($dir_en)){
                 self::_error('Locale dir '.$dir_en.' is not found');
@@ -144,7 +144,7 @@ class Magento_Tools_Translate_Translate {
 
         if($validate!==null && $validate!==false){
             self::$_clean = $validate;
-            Magento_Tools_Translate_ModuleTranslations::collectTranslations($validate);
+            \Magento\Tools\Translate\ModuleTranslations::collectTranslations($validate);
             $dir = $path.self::$CONFIG['paths']['locale'].$validate.'/';
             self::_callValidate($file, $dir, $dir_en);
             return;
@@ -155,7 +155,7 @@ class Magento_Tools_Translate_Translate {
         }
         if($update!==null && $update!==false){
             self::$_clean = $update;
-            Magento_Tools_Translate_ModuleTranslations::collectTranslations($update);
+            \Magento\Tools\Translate\ModuleTranslations::collectTranslations($update);
             $dir = $path.self::$CONFIG['paths']['locale'].$update.'/';
             self::_callUpdate($file, $dir, $dir_en);
             return;
@@ -172,7 +172,7 @@ class Magento_Tools_Translate_Translate {
         }
 
         if (self::$_clean) {
-            Magento_Tools_Translate_ModuleTranslations::cleanTranslations(self::$_clean);
+            \Magento\Tools\Translate\ModuleTranslations::cleanTranslations(self::$_clean);
         }
     }
     /**
@@ -228,7 +228,7 @@ class Magento_Tools_Translate_Translate {
                     foreach(self::$CONFIG['translates'][$file] as $item_name){
                         $path_to_item = $path.$item_name;
                         if(is_dir($path_to_item)) {
-                            $collectedFiles = new Magento_Tools_Translate_DirectoryFilter(
+                            $collectedFiles = new \Magento\Tools\Translate\DirectoryFilter(
                                 new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path_to_item)),
                                 self::$CONFIG['allow_extensions']
                             );
@@ -393,7 +393,7 @@ class Magento_Tools_Translate_Translate {
                 }
             }
         } else {
-            $collectedFiles = new Magento_Tools_Translate_DirectoryFilter(
+            $collectedFiles = new \Magento\Tools\Translate\DirectoryFilter(
                 new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
                 self::$CONFIG['allow_extensions']
             );
@@ -438,7 +438,7 @@ class Magento_Tools_Translate_Translate {
                 }
             }
         } else {
-            $collectedFiles = new Magento_Tools_Translate_DirectoryFilter(
+            $collectedFiles = new \Magento\Tools\Translate\DirectoryFilter(
                 new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
                 array(EXTENSION)
             );
@@ -475,7 +475,7 @@ class Magento_Tools_Translate_Translate {
                         $files = array();
                         $dirs = array();
                         $files = array();
-                        $collectedFiles = new Magento_Tools_Translate_DirectoryFilter(
+                        $collectedFiles = new \Magento\Tools\Translate\DirectoryFilter(
                             new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
                             self::$CONFIG['allow_extensions']
                         );
