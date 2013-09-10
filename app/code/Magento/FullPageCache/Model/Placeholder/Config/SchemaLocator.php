@@ -28,8 +28,9 @@ class Magento_FullPageCache_Model_Placeholder_Config_SchemaLocator implements Ma
      */
     public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_FullPageCache')
-            . DIRECTORY_SEPARATOR . 'placeholders.xsd';
+        $etcDir = $moduleReader->getModuleDir('etc', 'Magento_FullPageCache');
+        $this->_schema = $etcDir . DIRECTORY_SEPARATOR . 'placeholders_merged.xsd';
+        $this->_perFileSchema = $etcDir . DIRECTORY_SEPARATOR . 'placeholders.xsd';
     }
 
     /**

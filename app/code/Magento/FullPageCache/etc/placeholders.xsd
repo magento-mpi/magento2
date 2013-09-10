@@ -8,6 +8,7 @@
  */
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
     <xs:element name="config">
         <xs:complexType>
             <xs:sequence>
@@ -31,12 +32,12 @@
                 Placeholder declaration.
             </xs:documentation>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="container" type="containerDeclaration" minOccurs="1" maxOccurs="1" />
-            <xs:element name="block" type="blockDeclaration" minOccurs="1" maxOccurs="1" />
-        </xs:sequence>
+        <xs:all>
+            <xs:element name="container" type="containerDeclaration" minOccurs="0" />
+            <xs:element name="block" type="blockDeclaration" minOccurs="0" />
+        </xs:all>
         <xs:attribute name="name" type="xs:string" use="required" />
-        <xs:attribute name="code" type="xs:string" use="required" />
+        <xs:attribute name="code" type="xs:string" use="optional" />
         <xs:attribute name="cacheLifeTime" type="xs:nonNegativeInteger" use="optional" />
     </xs:complexType>
 
@@ -55,7 +56,7 @@
                 Block declaration.
             </xs:documentation>
         </xs:annotation>
-        <xs:attribute name="instance" type="instanceName" use="required" />
+        <xs:attribute name="instance" type="instanceName" use="optional" />
         <xs:attribute name="name" type="xs:string" use="optional" />
     </xs:complexType>
 
@@ -69,4 +70,5 @@
             <xs:pattern value="[a-zA-Z_]+" />
         </xs:restriction>
     </xs:simpleType>
+
 </xs:schema>

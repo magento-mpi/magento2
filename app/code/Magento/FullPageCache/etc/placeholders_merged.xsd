@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:redefine schemaLocation="placeholders.xsd">
+        <xs:complexType name="placeholderDeclaration">
+            <xs:complexContent>
+                <xs:restriction base="placeholderDeclaration">
+                    <xs:all>
+                        <xs:element name="container" type="containerDeclaration" minOccurs="1" />
+                        <xs:element name="block" type="blockDeclaration" minOccurs="1" />
+                    </xs:all>
+                    <xs:attribute name="code" type="xs:string" use="required" />
+                </xs:restriction>
+            </xs:complexContent>
+        </xs:complexType>
+
+        <xs:complexType name="blockDeclaration">
+            <xs:complexContent>
+                <xs:restriction base="blockDeclaration">
+                    <xs:attribute name="instance" type="instanceName" use="required" />
+                </xs:restriction>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:redefine>
+</xs:schema>
