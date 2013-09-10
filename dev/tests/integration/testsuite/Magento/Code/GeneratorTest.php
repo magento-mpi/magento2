@@ -167,11 +167,15 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testGenerateClassProxyWithNamespace()
     {
-        $factoryClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Proxy';
-        $this->assertEquals(
-            \Magento\Code\Generator::GENERATION_SUCCESS,
-            $this->_generator->generateClass($factoryClassName)
-        );
+        $proxyClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Proxy';
+        $result = false;
+        $generatorResult = $this->_generator->generateClass($proxyClassName);
+        if (\Magento\Code\Generator::GENERATION_SUCCESS == $generatorResult
+            || \Magento\Code\Generator::GENERATION_SKIP == $generatorResult
+        ) {
+            $result = true;
+        }
+        $this->assertTrue($result);
 
         $proxy = Mage::getObjectManager()->create($proxyClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $proxy);
