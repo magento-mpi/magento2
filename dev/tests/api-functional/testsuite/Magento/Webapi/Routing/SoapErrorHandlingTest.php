@@ -171,16 +171,17 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase
                     $this->assertNull($errorDetails->$traceNode, "Exception trace was not expected.");
                 }
             }
+
+            /** Check error code if present*/
+            $this->assertEquals(
+                $expectedErrorCode,
+                $errorDetails->{Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_CODE},
+                "Error code in fault details is invalid."
+            );
+
         } else {
             $this->assertNull($errorDetails, "Details are not expected.");
         }
-
-        /** Check error code if present*/
-        $this->assertEquals(
-            $expectedErrorCode,
-            $errorDetails->{Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_CODE},
-            "Error code in fault details is invalid."
-        );
 
         /** Check SOAP fault code */
         $this->assertNotNull($soapFault->faultcode, "Fault code must not be empty.");
