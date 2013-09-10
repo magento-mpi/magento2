@@ -27,7 +27,6 @@ class Magento_Test_Integrity_Phrase_ArgumentsTest extends Magento_Test_Integrity
 
     public function testArguments()
     {
-        return;
         $errors = array();
         foreach ($this->_getFiles() as $file) {
             $this->_phraseCollector->parse($file);
