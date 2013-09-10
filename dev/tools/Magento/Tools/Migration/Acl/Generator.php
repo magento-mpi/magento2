@@ -7,11 +7,12 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require_once(__DIR__ . '/Menu/Generator.php');
+
 namespace Magento\Tools\Migration\Acl;
 
-
+require_once(__DIR__ . '/Menu/Generator.php');
 require_once(__DIR__ . '/FileManager.php');
+
 class Generator
 {
     /**
