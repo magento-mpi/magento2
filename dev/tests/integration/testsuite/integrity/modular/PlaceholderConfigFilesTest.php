@@ -15,7 +15,8 @@ class Integrity_Modular_PlaceholderConfigFilesTest extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         $objectManager = Mage::getObjectManager();
-        $this->_schemaFile = $objectManager->get('Magento_FullPageCache_Model_Config_SchemaLocator')->getSchema();
+        $this->_schemaFile = $objectManager->get('Magento_FullPageCache_Model_Placeholder_Config_SchemaLocator')
+            ->getSchema();
     }
 
     /**
