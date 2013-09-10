@@ -20,16 +20,8 @@
             </block>
             <block class="Magento_Sales_Block_Order_Invoice" name="sales.order.invoice" after="sales.order.info">
                 <block class="Magento_Sales_Block_Order_Invoice_Items" name="invoice_items" template="order/invoice/items.phtml">
-                    <action method="addItemRender">
-                        <argument name="type" xsi:type="string">default</argument>
-                        <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Item_Renderer_Default</argument>
-                        <argument name="template" xsi:type="string">order/invoice/items/renderer/default.phtml</argument>
-                    </action>
-                    <action method="addItemRender">
-                        <argument name="type" xsi:type="string">grouped</argument>
-                        <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Item_Renderer_Grouped</argument>
-                        <argument name="template" xsi:type="string">order/invoice/items/renderer/default.phtml</argument>
-                    </action>
+                    <block class="Magento_Sales_Block_Order_Item_Renderer_Default" as="default" template="order/invoice/items/renderer/default.phtml"/>
+                    <block class="Magento_Sales_Block_Order_Item_Renderer_Grouped" as="grouped" template="order/invoice/items/renderer/default.phtml"/>
                     <block class="Magento_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="order/totals.phtml">
                         <action method="setLabelProperties">
                             <argument name="value" xsi:type="string">colspan="4" class="a-right"</argument>

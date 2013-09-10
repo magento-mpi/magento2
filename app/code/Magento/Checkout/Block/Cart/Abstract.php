@@ -15,72 +15,48 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_Template
+class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_Template
 {
-    protected $_customer = null;
-    protected $_checkout = null;
-    protected $_quote    = null;
+    /**
+     * Block alias fallback
+     */
+    const DEFAULT_TYPE = 'default';
 
+    protected $_customer;
+    protected $_checkout;
+    protected $_quote;
     protected $_totals;
-    protected $_itemRenders = array();
-
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->addItemRender('default', 'Magento_Checkout_Block_Cart_Item_Renderer', 'cart/item/default.phtml');
-    }
 
     /**
-     * Add renderer for item product type
-     *
-     * @param   string $productType
-     * @param   string $blockType
-     * @param   string $template
-     * @return  Magento_Checkout_Block_Cart_Abstract
+     * Initialize default item renderer
      */
-    public function addItemRender($productType, $blockType, $template)
+    protected function _prepareLayout()
     {
-        $this->_itemRenders[$productType] = array(
-            'block' => $blockType,
-            'template' => $template,
-            'blockInstance' => null
-        );
-        return $this;
-    }
-
-    /**
-     * Get renderer information by product type code
-     *
-     * @param   string $type
-     * @return  array
-     */
-    public function getItemRendererInfo($type)
-    {
-        if (isset($this->_itemRenders[$type])) {
-            return $this->_itemRenders[$type];
+        if (!$this->getChildBlock(self::DEFAULT_TYPE)) {
+            $this->addChild(
+                self::DEFAULT_TYPE,
+                'Magento_Checkout_Block_Cart_Item_Renderer',
+                array('template' => 'cart/item/default.phtml')
+            );
         }
-        return $this->_itemRenders['default'];
-     }
+        return parent::_prepareLayout();
+    }
 
     /**
      * Get renderer block instance by product type code
      *
-     * @param   string $type
-     * @return  array
+     * @param  string $type
+     * @throws RuntimeException
+     * @return Magento_Core_Block_Abstract
      */
     public function getItemRenderer($type)
     {
-        if (!isset($this->_itemRenders[$type])) {
-            $type = 'default';
+        $renderer = $this->getChildBlock($type) ?: $this->getChildBlock(self::DEFAULT_TYPE);
+        if (!$renderer instanceof Magento_Core_Block) {
+            throw new RuntimeException('Renderer for type "' . $type . '" does not exist.');
         }
-        if (is_null($this->_itemRenders[$type]['blockInstance'])) {
-             $this->_itemRenders[$type]['blockInstance'] = $this->getLayout()
-                ->createBlock($this->_itemRenders[$type]['block'])
-                    ->setTemplate($this->_itemRenders[$type]['template'])
-                    ->setRenderedBlock($this);
-        }
-
-        return $this->_itemRenders[$type]['blockInstance'];
+        $renderer->setRenderedBlock($this);
+        return $renderer;
     }
 
 

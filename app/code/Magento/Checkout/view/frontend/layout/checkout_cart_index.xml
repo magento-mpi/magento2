@@ -16,21 +16,9 @@
         </reference>
         <reference name="content">
             <block class="Magento_Checkout_Block_Cart" name="checkout.cart" template="cart.phtml">
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">simple</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
-                    <argument name="template" xsi:type="string">cart/item/default.phtml</argument>
-                </action>
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">grouped</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
-                    <argument name="template" xsi:type="string">cart/item/default.phtml</argument>
-                </action>
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">configurable</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
-                    <argument name="template" xsi:type="string">cart/item/default.phtml</argument>
-                </action>
+                <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="simple" template="cart/item/default.phtml"/>
+                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="cart/item/default.phtml"/>
+                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="cart/item/default.phtml"/>
                 <container name="checkout.cart.empty.widget" as="checkout_cart_empty_widget" label="Empty Shopping Cart Content Before"/>
                 <container name="checkout.cart.top_methods" as="top_methods" label="Payment Methods Before Checkout Button">
                     <block class="Magento_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage.top" template="onepage/link.phtml"/>

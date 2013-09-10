@@ -21,19 +21,6 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
     const XML_PATH_CHECKOUT_SIDEBAR_COUNT   = 'checkout/sidebar/count';
 
     /**
-     * Class constructor
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->addItemRender(
-            'default',
-            'Magento_Checkout_Block_Cart_Item_Renderer',
-            'cart/sidebar/default.phtml'
-        );
-    }
-
-    /**
      * Retrieve count of display recently added items
      *
      * @return int
@@ -267,8 +254,14 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
     protected function _serializeRenders()
     {
         $result = array();
-        foreach ($this->_itemRenders as $type => $renderer) {
-            $result[] = implode('|', array($type, $renderer['block'], $renderer['template']));
+        foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
+            /** @var $block Magento_Core_Block_Template */
+            $result[] = implode('|', array(
+                // skip $this->getNameInLayout() and '.'
+                substr($block->getNameInLayout(), strlen($this->getNameInLayout()) + 1),
+                get_class($block),
+                $block->getTemplate()
+            ));
         }
         return implode('|', $result);
     }
@@ -277,7 +270,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      * Deserialize renders from string
      *
      * @param string $renders
-     * @return Magento_Checkout_Block_Cart_Sidebar
+     * @return $this
      */
     public function deserializeRenders($renders)
     {
@@ -293,7 +286,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
             if (!$template || !$block || !$type) {
                 continue;
             }
-            $this->addItemRender($type, $block, $template);
+            $this->addChild($type, $block, array('template' => $template));
         }
 
         return $this;

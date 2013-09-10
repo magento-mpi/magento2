@@ -23,11 +23,7 @@
                     <block class="Magento_Adminhtml_Block_Sales_Order_Payment" name="order_payment"/>
                     <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_View_Tracking" name="shipment_tracking" template="sales/order/shipment/view/tracking.phtml"/>
                     <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_View_Items" name="shipment_items" template="sales/order/shipment/view/items.phtml">
-                        <action method="addItemRender">
-                            <argument name="type" xsi:type="string">default</argument>
-                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Renderer_Default</argument>
-                            <argument name="template" xsi:type="string">sales/order/shipment/view/items/renderer/default.phtml</argument>
-                        </action>
+                        <block class="Magento_Adminhtml_Block_Sales_Items_Renderer_Default" as="default" template="sales/order/shipment/view/items/renderer/default.phtml"/>
                         <action method="addColumnRender">
                             <argument name="column" xsi:type="string">qty</argument>
                             <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Qty</argument>

@@ -22,21 +22,9 @@
         </reference>
         <reference name="right">
             <block class="Magento_Checkout_Block_Cart_Sidebar" name="cart_sidebar" template="cart/sidebar.phtml" before="-">
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">simple</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
-                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
-                </action>
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">grouped</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
-                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
-                </action>
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">configurable</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
-                    <argument name="template" xsi:type="string">cart/sidebar/default.phtml</argument>
-                </action>
+                <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="simple" template="cart/sidebar/default.phtml"/>
+                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="cart/sidebar/default.phtml"/>
+                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="cart/sidebar/default.phtml"/>
                 <container name="cart_sidebar.extra_actions" as="extra_actions" label="My Cart Extra Actions"/>
             </block>
         </reference>

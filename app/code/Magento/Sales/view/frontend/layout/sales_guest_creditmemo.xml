@@ -20,16 +20,8 @@
             </block>
             <block class="Magento_Sales_Block_Order_Creditmemo" name="sales.order.creditmemo" after="sales.order.info">
                 <block class="Magento_Sales_Block_Order_Creditmemo_Items" name="creditmemo_items" template="order/creditmemo/items.phtml">
-                    <action method="addItemRender">
-                        <argument name="type" xsi:type="string">default</argument>
-                        <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Item_Renderer_Default</argument>
-                        <argument name="template" xsi:type="string">order/creditmemo/items/renderer/default.phtml</argument>
-                    </action>
-                    <action method="addItemRender">
-                        <argument name="type" xsi:type="string">grouped</argument>
-                        <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Item_Renderer_Grouped</argument>
-                        <argument name="template" xsi:type="string">order/creditmemo/items/renderer/default.phtml</argument>
-                    </action>
+                    <block class="Magento_Sales_Block_Order_Item_Renderer_Default" as="default" template="order/creditmemo/items/renderer/default.phtml"/>
+                    <block class="Magento_Sales_Block_Order_Item_Renderer_Grouped" as="grouped" template="order/creditmemo/items/renderer/default.phtml"/>
                     <block class="Magento_Sales_Block_Order_Creditmemo_Totals" name="creditmemo_totals" template="order/totals.phtml">
                         <action method="setLabelProperties">
                             <argument name="value" xsi:type="string">colspan="6" class="a-right"</argument>
