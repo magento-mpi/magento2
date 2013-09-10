@@ -44,7 +44,7 @@ class Magento_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit
 
     protected function setUp()
     {
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $this->_urlBuilderMock = $this->getMock('Magento_Core_Model_UrlInterface');
 

@@ -50,7 +50,7 @@ class Magento_Backend_Block_System_Config_TabsTest extends PHPUnit_Framework_Tes
             'urlBuilder' => $this->_urlBuilderMock,
             'layout' => $layoutMock,
         );
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_object = $helper->getObject('Magento_Backend_Block_System_Config_Tabs', $data);
     }
 

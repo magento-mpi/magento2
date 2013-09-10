@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Magento_ScheduledImportExport::system_convert_enterprise_scheduled_operation" title="Scheduled" module="Magento_ScheduledImportExport" sortOrder="40" parent="Magento_Adminhtml::system_convert" action="adminhtml/scheduled_operation" resource="Magento_ScheduledImportExport::enterprise_scheduled_operation"/>
+        <add id="Magento_ScheduledImportExport::system_convert_magento_scheduled_operation" title="Scheduled" module="Magento_ScheduledImportExport" sortOrder="40" parent="Magento_Adminhtml::system_convert" action="adminhtml/scheduled_operation" resource="Magento_ScheduledImportExport::magento_scheduled_operation"/>
     </menu>
 </config>

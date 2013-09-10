@@ -27,7 +27,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
 
     public static function setUpBeforeClass()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $service Magento_Core_Model_View_Service */
         $service = $objectManager->get('Magento_Core_Model_View_Service');
         self::$_themePublicDir = $service->getPublicDir();
@@ -40,18 +40,18 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
 
     public function setUp()
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => realpath(__DIR__ . '/../../_files/design')
             )
         ));
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme('vendor_default');
     }
 
     public function tearDown()
     {
-        $filesystem = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Filesystem');
+        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Filesystem');
         $filesystem->delete(self::$_themePublicDir . '/frontend');
         $filesystem->delete(self::$_viewPublicMergedDir);
     }

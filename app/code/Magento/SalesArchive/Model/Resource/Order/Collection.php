@@ -25,7 +25,7 @@ class Magento_SalesArchive_Model_Resource_Order_Collection extends Magento_Sales
     protected function _construct()
     {
         parent::_construct();
-        $this->setMainTable('enterprise_sales_order_grid_archive');
+        $this->setMainTable('magento_sales_order_grid_archive');
     }
 
     /**
@@ -38,7 +38,7 @@ class Magento_SalesArchive_Model_Resource_Order_Collection extends Magento_Sales
     {
         $select = clone $gridSelect;
         $select->reset('from');
-        $select->from(array('main_table' => $this->getTable('enterprise_sales_order_grid_archive')), array());
+        $select->from(array('main_table' => $this->getTable('magento_sales_order_grid_archive')), array());
         return $select;
     }
 }

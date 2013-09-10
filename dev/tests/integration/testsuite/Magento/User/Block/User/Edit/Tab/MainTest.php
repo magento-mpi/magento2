@@ -27,10 +27,10 @@ class Magento_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_
     public function setUp()
     {
         parent::setUp();
-        $this->_block = Magento_Test_Helper_Bootstrap::getObjectManager()
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_User_Block_User_Edit_Tab_Main');
         $this->_block->setArea('adminhtml');
-        $this->_user = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_User');
+        $this->_user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_User');
         Mage::register('permissions_user', $this->_user);
     }
 
@@ -44,7 +44,7 @@ class Magento_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_
 
     public function testToHtmlPasswordFieldsExistingEntry()
     {
-        $this->_user->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
+        $this->_user->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
         $actualHtml = $this->_block->toHtml();
         $this->assertSelectCount(
             'input.required-entry[type="password"]', 0, $actualHtml,
