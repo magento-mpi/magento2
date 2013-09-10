@@ -482,8 +482,8 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function getConfig()
     {
-        if (! $this->_config) {
-            $this->_config = $this->_coreConfig->getNode('cms/browser', 'adminhtml');
+        if (!$this->_config) {
+            $this->_config = $this->_coreConfig->getNode('adminhtml/cms/browser');
         }
 
         return $this->_config;
