@@ -45,7 +45,8 @@ class Magento_Core_Model_Layout_File_Source_AggregateTest extends PHPUnit_Framew
         $this->_themeFiles = $this->getMockForAbstractClass('Magento_Core_Model_Layout_File_SourceInterface');
         $this->_overridingBaseFiles = $this->getMockForAbstractClass('Magento_Core_Model_Layout_File_SourceInterface');
         $this->_overridingThemeFiles = $this->getMockForAbstractClass('Magento_Core_Model_Layout_File_SourceInterface');
-        $fileListFactory = $this->getMock('Magento_Core_Model_Layout_File_FileList_Factory', array(), array(), '', false);
+        $fileListFactory =
+            $this->getMock('Magento_Core_Model_Layout_File_FileList_Factory', array(), array(), '', false);
         $fileListFactory->expects($this->once())->method('create')->will($this->returnValue($this->_fileList));
         $this->_model = new Magento_Core_Model_Layout_File_Source_Aggregated(
             $fileListFactory, $this->_baseFiles, $this->_themeFiles,

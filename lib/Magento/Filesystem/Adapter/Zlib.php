@@ -55,7 +55,9 @@ class Zlib extends \Magento\Filesystem\Adapter\Local
         $compressed = (bool)$info['compress'];
         if ($compressed && !$this->_isCompressionAvailable()) {
             $stream->close();
-            throw new \Magento\Filesystem\FilesystemException('The file was compressed, but zlib extension is not installed.');
+            throw new \Magento\Filesystem\FilesystemException(
+                'The file was compressed, but zlib extension is not installed.'
+            );
         }
         if ($compressed) {
             $content = gzuncompress($stream->read($info['length']));
