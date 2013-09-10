@@ -56,17 +56,19 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Wishlist_Model_Resource_Wishlist $resource
      * @param Magento_Wishlist_Model_Resource_Wishlist_Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Wishlist_Model_Resource_Wishlist $resource,
         Magento_Wishlist_Model_Resource_Wishlist_Collection $resourceCollection,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

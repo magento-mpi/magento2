@@ -46,6 +46,25 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
     protected $_store = '';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Controller pre dispatch method
      *
      * @return Magento_VersionsCms_HierarchyController
@@ -147,7 +166,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
             unset($formData);
         }
 
-        Mage::register('current_hierarchy_node', $nodeModel);
+        $this->_coreRegistry->register('current_hierarchy_node', $nodeModel);
 
         $this->_initAction()
             ->renderLayout();

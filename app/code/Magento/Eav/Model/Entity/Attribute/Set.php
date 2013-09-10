@@ -111,7 +111,7 @@ class Magento_Eav_Model_Entity_Attribute_Set extends Magento_Core_Model_Abstract
             $attributeIds = Mage::getResourceSingleton('Magento_Eav_Model_Resource_Entity_Attribute')
                 ->getValidAttributeIds($ids);
         }
-        if( $data['groups'] ) {
+        if ($data['groups']) {
             foreach ($data['groups'] as $group) {
                 $modelGroup = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Group');
                 $modelGroup->setId(is_numeric($group[0]) && $group[0] > 0 ? $group[0] : null)
@@ -119,9 +119,9 @@ class Magento_Eav_Model_Entity_Attribute_Set extends Magento_Core_Model_Abstract
                     ->setAttributeSetId($this->getId())
                     ->setSortOrder($group[2]);
 
-                if( $data['attributes'] ) {
-                    foreach( $data['attributes'] as $attribute ) {
-                        if( $attribute[1] == $group[0] && in_array($attribute[0], $attributeIds) ) {
+                if ($data['attributes']) {
+                    foreach ($data['attributes'] as $attribute) {
+                        if ($attribute[1] == $group[0] && in_array($attribute[0], $attributeIds)) {
                             $modelAttribute = Mage::getModel('Magento_Eav_Model_Entity_Attribute');
                             $modelAttribute->setId($attribute[0])
                                 ->setAttributeGroupId($attribute[1])
@@ -140,9 +140,9 @@ class Magento_Eav_Model_Entity_Attribute_Set extends Magento_Core_Model_Abstract
         }
 
 
-        if( $data['not_attributes'] ) {
+        if ($data['not_attributes']) {
             $modelAttributeArray = array();
-            foreach( $data['not_attributes'] as $attributeId ) {
+            foreach ($data['not_attributes'] as $attributeId) {
                 $modelAttribute = Mage::getModel('Magento_Eav_Model_Entity_Attribute');
 
                 $modelAttribute->setEntityAttributeId($attributeId);
@@ -151,9 +151,9 @@ class Magento_Eav_Model_Entity_Attribute_Set extends Magento_Core_Model_Abstract
             $this->setRemoveAttributes($modelAttributeArray);
         }
 
-        if( $data['removeGroups'] ) {
+        if ($data['removeGroups']) {
             $modelGroupArray = array();
-            foreach( $data['removeGroups'] as $groupId ) {
+            foreach ($data['removeGroups'] as $groupId) {
                 $modelGroup = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Group');
                 $modelGroup->setId($groupId);
 
@@ -239,8 +239,7 @@ class Magento_Eav_Model_Entity_Attribute_Set extends Magento_Core_Model_Abstract
                 } else {
                     if (isset($setInfo[$attribute->getAttributeId()])) {
                         $attribute->setAttributeSetInfo($setInfo[$attribute->getAttributeId()]);
-                    }
-                    else {
+                    } else {
                         $attribute->setAttributeSetInfo(array());
                     }
                 }

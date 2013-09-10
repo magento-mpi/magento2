@@ -40,13 +40,23 @@ class Magento_Wishlist_Controller_Index
     protected $_skipAuthentication = false;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Wishlist_Model_Config $wishlistConfig
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Wishlist_Model_Config $wishlistConfig
     ) {
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_wishlistConfig = $wishlistConfig;
     }
@@ -87,7 +97,7 @@ class Magento_Wishlist_Controller_Index
      */
     protected function _getWishlist($wishlistId = null)
     {
-        $wishlist = Mage::registry('wishlist');
+        $wishlist = $this->_coreRegistry->registry('wishlist');
         if ($wishlist) {
             return $wishlist;
         }
@@ -112,7 +122,7 @@ class Magento_Wishlist_Controller_Index
                 );
             }
 
-            Mage::register('wishlist', $wishlist);
+            $this->_coreRegistry->register('wishlist', $wishlist);
         } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Wishlist_Model_Session')->addError($e->getMessage());
             return false;
@@ -248,7 +258,7 @@ class Magento_Wishlist_Controller_Index
                 return $this->norouteAction();
             }
 
-            Mage::register('wishlist_item', $item);
+            $this->_coreRegistry->register('wishlist_item', $item);
 
             $params = new Magento_Object();
             $params->setCategoryId(false);
@@ -342,7 +352,7 @@ class Magento_Wishlist_Controller_Index
         }
 
         $post = $this->getRequest()->getPost();
-        if($post && isset($post['description']) && is_array($post['description'])) {
+        if ($post && isset($post['description']) && is_array($post['description'])) {
             $updatedItems = 0;
 
             foreach ($post['description'] as $itemId => $description) {
@@ -662,7 +672,7 @@ class Magento_Wishlist_Controller_Index
             $sharingCode = $wishlist->getSharingCode();
 
             try {
-                foreach($emails as $email) {
+                foreach ($emails as $email) {
                     $emailModel->sendTransactional(
                         Mage::getStoreConfig('wishlist/email/email_template'),
                         Mage::getStoreConfig('wishlist/email/email_identity'),

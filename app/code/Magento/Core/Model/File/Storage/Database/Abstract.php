@@ -19,9 +19,7 @@
 abstract class Magento_Core_Model_File_Storage_Database_Abstract extends Magento_Core_Model_File_Storage_Abstract
 {
     /**
-     * Class construct
-     *
-     * @param string $databaseConnection
+     * @param array $params
      */
     public function __construct($params = array())
     {

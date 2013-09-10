@@ -25,13 +25,34 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
     protected $_entity;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve order model instance
      *
      * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     /**
@@ -129,11 +150,11 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
      */
     public function getDefaultRecipient()
     {
-        if(!$this->getEntity()) {
+        if (!$this->getEntity()) {
             return '';
         }
 
-        if($this->getEntity()->getOrder()) {
+        if ($this->getEntity()->getOrder()) {
             if ($this->getEntity()->getOrder()->getShippingAddress()) {
                 return $this->getEntity()->getOrder()->getShippingAddress()->getName();
             } else if ($this->getEntity()->getOrder()->getBillingAddress()) {
@@ -194,10 +215,10 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
                               );
 
         // init default values for giftmessage form
-        if(!$this->getMessage()->getSender()) {
+        if (!$this->getMessage()->getSender()) {
             $this->getMessage()->setSender($this->getDefaultSender());
         }
-        if(!$this->getMessage()->getRecipient()) {
+        if (!$this->getMessage()->getRecipient()) {
             $this->getMessage()->setRecipient($this->getDefaultRecipient());
         }
 
@@ -211,7 +232,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
      */
     public function getMessage()
     {
-        if(is_null($this->_giftMessage)) {
+        if (is_null($this->_giftMessage)) {
             $this->_initMessage();
         }
 
@@ -250,5 +271,4 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
             'order', $this->getEntity(), $this->getEntity()->getStoreId()
         );
     }
-
 }

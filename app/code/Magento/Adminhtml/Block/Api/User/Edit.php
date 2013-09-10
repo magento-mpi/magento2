@@ -18,6 +18,27 @@
 class Magento_Adminhtml_Block_Api_User_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         $this->_objectId = 'user_id';
@@ -31,8 +52,8 @@ class Magento_Adminhtml_Block_Api_User_Edit extends Magento_Adminhtml_Block_Widg
 
     public function getHeaderText()
     {
-        if (Mage::registry('api_user')->getId()) {
-            return __("Edit User '%1'", $this->escapeHtml(Mage::registry('api_user')->getUsername()));
+        if ($this->_coreRegistry->registry('api_user')->getId()) {
+            return __("Edit User '%1'", $this->escapeHtml($this->_coreRegistry->registry('api_user')->getUsername()));
         }
         else {
             return __('New User');

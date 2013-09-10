@@ -6,5 +6,7 @@
  * @license {license_link}
  */
 
-Mage::unregister('productData');
-Mage::unregister('customOptionId');
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->unregister('productData');
+$objectManager->get('Magento_Core_Model_Registry')->unregister('customOptionId');

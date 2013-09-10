@@ -34,7 +34,8 @@ class Magento_TestFramework_Helper_Api
         $serverMock = $testCase->getMock('Magento_Api_Model_Server', array('getAdapter'));
         $serverMock->expects($testCase->any())->method('getAdapter')->will($testCase->returnValue($soapAdapterMock));
 
-        $apiSessionMock = $testCase->getMock('Magento_Api_Model_Session', array('isAllowed', 'isLoggedIn'));
+        $apiSessionMock = $testCase->getMock('Magento_Api_Model_Session', array('isAllowed', 'isLoggedIn'),
+            array(), '', false);
         $apiSessionMock->expects($testCase->any())->method('isAllowed')->will($testCase->returnValue(true));
         $apiSessionMock->expects($testCase->any())->method('isLoggedIn')->will($testCase->returnValue(true));
 
@@ -47,11 +48,14 @@ class Magento_TestFramework_Helper_Api
         $handlerMock->expects($testCase->any())->method('_getSession')->will($testCase->returnValue($apiSessionMock));
 
         array_unshift($params, 'sessionId');
-        Mage::unregister('isSecureArea');
-        Mage::register('isSecureArea', true);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('isSecureArea');
+        $objectManager->get('Magento_Core_Model_Registry')->register('isSecureArea', true);
         $result = call_user_func_array(array($handlerMock, $path), $params);
-        Mage::unregister('isSecureArea');
-        Mage::register('isSecureArea', false);
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('isSecureArea');
+        $objectManager->get('Magento_Core_Model_Registry')->register('isSecureArea', false);
 
         self::restoreErrorHandler();
         return $result;

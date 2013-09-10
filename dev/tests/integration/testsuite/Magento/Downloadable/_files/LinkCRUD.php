@@ -13,7 +13,9 @@ $customerData['email'] = mt_rand(1000, 9999) . '.' . $customerData['email'];
 
 $customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->setData($customerData)->save();
-Mage::register('customerData', $customer);
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->register('customerData', $customer);
 
 //Create new downloadable product
 $productData = Magento_TestFramework_Helper_Api::simpleXmlToArray($fixture->product);
@@ -22,4 +24,4 @@ $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
 
 $product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->setData($productData)->save();
-Mage::register('productData', $product);
+$objectManager->get('Magento_Core_Model_Registry')->register('productData', $product);

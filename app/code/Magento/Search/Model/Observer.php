@@ -8,15 +8,27 @@
  * @license     {license_link}
  */
 
- /**
+/**
  * Enterprise search model observer
- *
- * @category   Magento
- * @package    Magento_Search
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Search_Model_Observer
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+    }
+
     /**
      * Add search weight field to attribute edit form (only for quick search)
      * @see Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
@@ -228,7 +240,7 @@ class Magento_Search_Model_Observer
     public function resetCurrentCatalogLayer(Magento_Event_Observer $observer)
     {
         if (Mage::helper('Magento_Search_Helper_Data')->getIsEngineAvailableForNavigation()) {
-            Mage::register('current_layer', Mage::getSingleton('Magento_Search_Model_Catalog_Layer'));
+            $this->_coreRegistry->register('current_layer', Mage::getSingleton('Magento_Search_Model_Catalog_Layer'));
         }
     }
 
@@ -240,7 +252,7 @@ class Magento_Search_Model_Observer
     public function resetCurrentSearchLayer(Magento_Event_Observer $observer)
     {
         if (Mage::helper('Magento_Search_Helper_Data')->getIsEngineAvailableForNavigation(false)) {
-            Mage::register('current_layer', Mage::getSingleton('Magento_Search_Model_Search_Layer'));
+            $this->_coreRegistry->register('current_layer', Mage::getSingleton('Magento_Search_Model_Search_Layer'));
         }
     }
 

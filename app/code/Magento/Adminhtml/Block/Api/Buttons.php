@@ -13,6 +13,27 @@ class Magento_Adminhtml_Block_Api_Buttons extends Magento_Adminhtml_Block_Templa
 
     protected $_template = 'api/userinfo.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _prepareLayout()
     {
         $this->addChild('backButton', 'Magento_Adminhtml_Block_Widget_Button', array(
@@ -69,6 +90,6 @@ class Magento_Adminhtml_Block_Api_Buttons extends Magento_Adminhtml_Block_Templa
 
     public function getUser()
     {
-        return Mage::registry('user_data');
+        return $this->_coreRegistry->registry('user_data');
     }
 }

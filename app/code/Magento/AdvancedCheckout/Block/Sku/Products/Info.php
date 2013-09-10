@@ -27,6 +27,27 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
     protected $_helper;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve helper instance
      *
      * @return Magento_AdvancedCheckout_Helper_Data
@@ -158,8 +179,8 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
             $productAttributes['tier_price']->getBackend()->afterLoad($product);
         }
 
-        Mage::unregister('product');
-        Mage::register('product', $product);
+        $this->_coreRegistry->unregister('product');
+        $this->_coreRegistry->register('product', $product);
         if (!$this->hasProductViewBlock()) {
             $this->setProductViewBlock($this->getLayout()->createBlock('Magento_Catalog_Block_Product_View'));
         }

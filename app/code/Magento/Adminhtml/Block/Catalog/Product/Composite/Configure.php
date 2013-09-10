@@ -22,6 +22,27 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magent
     protected $_template = 'catalog/product/composite/configure.phtml';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve product object
      *
      * @return Magento_Catalog_Model_Product
@@ -29,8 +50,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magent
     public function getProduct()
     {
         if (!$this->_product) {
-            if (Mage::registry('current_product')) {
-                $this->_product = Mage::registry('current_product');
+            if ($this->_coreRegistry->registry('current_product')) {
+                $this->_product = $this->_coreRegistry->registry('current_product');
             } else {
                 $this->_product = Mage::getSingleton('Magento_Catalog_Model_Product');
             }

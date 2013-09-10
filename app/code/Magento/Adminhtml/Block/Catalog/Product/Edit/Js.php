@@ -11,13 +11,34 @@
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Js extends Magento_Adminhtml_Block_Template
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Get currently edited product
      *
      * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
