@@ -18,5 +18,6 @@ $quote->getPayment()->setMethod('ccsave');
 $quote->collectTotals();
 $quote->save();
 
-$quoteService = new Magento_Sales_Model_Service_Quote($quote);
+$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+$quoteService = $objectManager->create('Magento_Sales_Model_Service_Quote', array('quote' => $quote));
 $quoteService->getQuote()->getPayment()->setMethod('ccsave');
