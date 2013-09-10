@@ -25,9 +25,8 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider translateArgumentDataProvider
      * @param string $argument
-     * @param boolean $isTranslatable
      */
-    public function testTranslateArgument($argument, $isTranslatable)
+    public function testTranslateArgument($argument)
     {
         $reflectionObject = new ReflectionObject($this->_layout);
         $reflectionMethod = $reflectionObject->getMethod('_translateArgument');
@@ -43,8 +42,8 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     public function translateArgumentDataProvider()
     {
         return array(
-            array('<argument name="argumentName">phrase</argument>', false),
-            array('<argument name="argumentName" translate="true">phrase</argument>', true),
+            array('<argument name="argumentName">phrase</argument>'),
+            array('<argument name="argumentName" translate="true">phrase</argument>'),
         );
     }
 
@@ -52,9 +51,8 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      * @dataProvider translateArgumentsDataProvider
      * @param string $method
      * @param string $layoutElement
-     * @param boolean $isTranslatable
      */
-    public function testTranslateArguments($method, $layoutElement, $isTranslatable)
+    public function testTranslateArguments($method, $layoutElement)
     {
         $reflectionObject = new ReflectionObject($this->_layout);
         $reflectionMethod = $reflectionObject->getMethod($method);
@@ -87,9 +85,9 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         );
 
         foreach ($methods as $method) {
-            $result[] = array($method, $inputData[0], false);
-            $result[] = array($method, $inputData[1], true);
-            $result[] = array($method, $inputData[2], true);
+            $result[] = array($method, $inputData[0]);
+            $result[] = array($method, $inputData[1]);
+            $result[] = array($method, $inputData[2]);
         }
         return $result;
     }
