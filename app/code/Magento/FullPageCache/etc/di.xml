@@ -33,4 +33,11 @@
             <instance type="Magento_Core_Model_View_Design_Proxy" />
         </param>
     </type>
+    <type name="Magento_Log_Model_Visitor">
+        <param name="ignoredUserAgents">
+            <value>
+                <cache_crawler>MagentoCrawler</cache_crawler>
+            </value>
+        </param>
+    </type>
 </config>

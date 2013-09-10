@@ -37,16 +37,38 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_skipRequestLogging = false;
 
     /**
+     * @var array
+     */
+    protected $_ignoredUserAgents;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $ignoredUserAgents
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $ignoredUserAgents = array(),
+        array $data = array()
+    ) {
+        $this->_ignoredUserAgents = $ignoredUserAgents;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+
+    /**
      * Onject initialization
      */
     protected function _construct()
     {
         $this->_init('Magento_Log_Model_Resource_Visitor');
         $userAgent = Mage::helper('Magento_Core_Helper_Http')->getHttpUserAgent();
-        $ignoreAgents = Mage::getConfig()->getNode('global/ignore_user_agents');
-        if ($ignoreAgents) {
-            $ignoreAgents = $ignoreAgents->asArray();
-            if (in_array($userAgent, $ignoreAgents)) {
+        if ($this->_ignoredUserAgents) {
+            if (in_array($userAgent, $this->_ignoredUserAgents)) {
                 $this->_skipRequestLogging = true;
             }
         }

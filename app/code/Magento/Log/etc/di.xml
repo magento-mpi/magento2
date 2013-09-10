@@ -13,4 +13,13 @@
             <instance type="Magento_Core_Model_StoreManager_Proxy" />
         </param>
     </type>
+    <type name="Magento_Log_Model_Visitor">
+        <param name="ignoredUserAgents">
+            <value>
+                <google1>Googlebot/1.0 (googlebot@googlebot.com http://googlebot.com/)</google1>
+                <google2>Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)</google2>
+                <google3>Googlebot/2.1 (+http://www.googlebot.com/bot.html)</google3>
+            </value>
+        </param>
+    </type>
 </config>
