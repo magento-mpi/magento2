@@ -24,6 +24,9 @@ abstract class Magento_Api_Model_Server_HandlerAbstract
      */
     protected $_logger;
 
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     */
     public function __construct(Magento_Core_Model_Logger $logger)
     {
         set_error_handler(array($this, 'handlePhpError'), E_ALL);

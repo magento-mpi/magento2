@@ -46,6 +46,8 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
 
     /**
      * Class construct
+     *
+     * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(Magento_Core_Model_Logger $logger)
     {

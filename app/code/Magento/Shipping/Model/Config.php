@@ -30,10 +30,12 @@ class Magento_Shipping_Model_Config extends Magento_Object
      * Constructor
      *
      * @param Magento_Core_Model_Logger $logger
+     * @param array $data
      */
-    public function __construct(Magento_Core_Model_Logger $logger)
+    public function __construct(Magento_Core_Model_Logger $logger, array $data = array())
     {
         $this->_logger = $logger;
+        parent::__construct($data);
     }
 
     /**

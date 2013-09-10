@@ -56,7 +56,7 @@ class Magento_Core_Model_Context implements Magento_ObjectManager_ContextInterfa
     }
 
     /**
-     * @return \Magento_Core_Model_Logger
+     * @return Magento_Core_Model_Logger
      */
     public function getLogger()
     {

@@ -24,6 +24,11 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
     protected $_configScope;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Magento_Core_Model_Config_Scope $configScope
      */
@@ -32,6 +37,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
         Magento_Core_Model_Config_Scope $configScope
     ) {
         $this->_configScope = $configScope;
+        $this->_logger = $context->getLogger();
         parent::__construct($context);
     }
 
@@ -39,7 +45,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
     {
         if ('new' === $this->getRequest()->getActionName()) {
             $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-            if (!self::authenticateAndAuthorizeAdmin($this, 'Magento_Sales::sales_order')) {
+            if (!self::authenticateAndAuthorizeAdmin($this, 'Magento_Sales::sales_order', $this->_logger)) {
                 return;
             }
         }
@@ -55,7 +61,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
      * @param string $aclResource
      * @return bool
      */
-    public static function authenticateAndAuthorizeAdmin(Magento_Core_Controller_Front_Action $controller, $aclResource)
+    public static function authenticateAndAuthorizeAdmin(Magento_Core_Controller_Front_Action $controller, $aclResource, $logger)
     {
         Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
         /** @var $auth Magento_Backend_Model_Auth */
@@ -69,7 +75,8 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
             try {
                 $auth->login($login, $password);
             } catch (Magento_Backend_Model_Auth_Exception $e) {
-                $controller->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $logger->logException($e);
+                //$controller->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
 

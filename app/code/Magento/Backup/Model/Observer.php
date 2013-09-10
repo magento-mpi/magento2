@@ -34,6 +34,9 @@ class Magento_Backup_Model_Observer
      */
     protected $_logger;
 
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     */
     public function __construct(Magento_Core_Model_Logger $logger)
     {
         $this->_logger = $logger;

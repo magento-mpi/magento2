@@ -71,11 +71,12 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
      * Class constructor
      *
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Resource $resource
      */
-    public function __construct(Magento_Core_Model_Logger $logger)
+    public function __construct(Magento_Core_Model_Logger $logger, Magento_Core_Model_Resource $resource)
     {
         $this->_logger = $logger;
-        $this->_construct();
+        parent::__construct($resource);
     }
 
     /**

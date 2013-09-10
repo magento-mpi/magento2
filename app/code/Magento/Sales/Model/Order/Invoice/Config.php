@@ -30,7 +30,7 @@ class Magento_Sales_Model_Order_Invoice_Config extends Magento_Sales_Model_Order
      * @param Magento_Core_Model_Config $config
      */
     public function __construct(
-            Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Config $config
     ) {
