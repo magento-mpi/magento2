@@ -18,13 +18,34 @@
 class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtml_Block_Template
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve current category instance
      *
      * @return Magento_Catalog_Model_Category
      */
     public function getCategory()
     {
-        return Mage::registry('category');
+        return $this->_coreRegistry->registry('category');
     }
 
     public function getCategoryId()
@@ -68,7 +89,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
         if (!is_null($parentNodeCategory) && $parentNodeCategory->getId()) {
             return $this->getNode($parentNodeCategory, $recursionLevel);
         }
-        $root = Mage::registry('root');
+        $root = $this->_coreRegistry->registry('root');
         if (is_null($root)) {
             $storeId = (int) $this->getRequest()->getParam('store');
 
@@ -98,7 +119,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
                 $root->setName(__('Root'));
             }
 
-            Mage::register('root', $root);
+            $this->_coreRegistry->register('root', $root);
         }
 
         return $root;
@@ -115,7 +136,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
      */
     public function getRootByIds($ids)
     {
-        $root = Mage::registry('root');
+        $root = $this->_coreRegistry->registry('root');
         if (null === $root) {
             $categoryTreeResource = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category_Tree');
             $ids    = $categoryTreeResource->getExistingCategoryIdsBySpecifiedIds($ids);
@@ -129,7 +150,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
             }
 
             $tree->addCollectionData($this->getCategoryCollection());
-            Mage::register('root', $root);
+            $this->_coreRegistry->register('root', $root);
         }
         return $root;
     }

@@ -21,6 +21,27 @@ class Magento_Adminhtml_Block_Customer_Edit_Renderer_Attribute_Group
     protected $_template = 'customer/edit/tab/account/form/renderer/group.phtml';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve disable auto group change element HTML ID
      *
      * @return string
@@ -47,7 +68,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Renderer_Attribute_Group
      */
     public function getDisableAutoGroupChangeCheckboxState()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         $checkedByDefault = ($customer && $customer->getId())
             ? false : Mage::helper('Magento_Customer_Helper_Address')->getDisableAutoGroupAssignDefaultValue();
 

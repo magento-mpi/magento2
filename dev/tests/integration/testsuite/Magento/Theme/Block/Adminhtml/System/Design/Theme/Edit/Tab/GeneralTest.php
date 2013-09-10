@@ -35,7 +35,9 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_GeneralTest ext
 
     public function testToHtmlPreviewImageNote()
     {
-        Mage::register('current_theme', $this->_theme);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('current_theme', $this->_theme);
         $this->_block->setArea('adminhtml');
 
         $this->_block->toHtml();

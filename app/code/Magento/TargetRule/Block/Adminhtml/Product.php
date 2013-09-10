@@ -23,15 +23,25 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block
     protected $_storeManager;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
         $this->_storeManager = $storeManager;
     }
@@ -73,7 +83,7 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**

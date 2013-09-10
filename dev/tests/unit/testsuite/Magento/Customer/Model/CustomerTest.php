@@ -77,10 +77,11 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
 
         $this->_model = new Magento_Customer_Model_Customer(
-            $this->_contextMock, $this->_senderMock, $this->_storeManager, $this->_config, $this->_resourceMock,
-            $this->_collectionMock, array()
+            $this->_contextMock, $coreRegistry, $this->_senderMock, $this->_storeManager, $this->_config,
+            $this->_resourceMock, $this->_collectionMock, array()
         );
     }
 

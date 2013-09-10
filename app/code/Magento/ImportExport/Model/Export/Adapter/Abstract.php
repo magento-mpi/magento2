@@ -37,10 +37,8 @@ abstract class Magento_ImportExport_Model_Export_Adapter_Abstract
      * @param string $destination OPTIONAL Destination file path.
      * @throws Exception
      */
-    final public function __construct($destination = null)
+    public function __construct($destination = null)
     {
-        /** @var $helper Magento_ImportExport_Helper_Data */
-        $helper = Mage::helper('Magento_ImportExport_Helper_Data');
         if (!$destination) {
             $destination = tempnam(sys_get_temp_dir(), 'importexport_');
         }

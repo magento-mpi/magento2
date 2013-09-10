@@ -18,6 +18,27 @@
 class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Internal constructor
      *
      */
@@ -36,7 +57,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit extends Magento_Adminh
      */
     public function getWidgetInstance()
     {
-        return Mage::registry('current_widget_instance');
+        return $this->_coreRegistry->registry('current_widget_instance');
     }
 
     /**
@@ -76,8 +97,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit extends Magento_Adminh
     {
         if ($this->getWidgetInstance()->getId()) {
             return __('Widget "%1"', $this->escapeHtml($this->getWidgetInstance()->getTitle()));
-        }
-        else {
+        } else {
             return __('New Widget Instance');
         }
     }

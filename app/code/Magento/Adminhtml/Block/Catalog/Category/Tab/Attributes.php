@@ -19,13 +19,34 @@
 class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Adminhtml_Block_Catalog_Form
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve Category object
      *
      * @return Magento_Catalog_Model_Category
      */
     public function getCategory()
     {
-        return Mage::registry('current_category');
+        return $this->_coreRegistry->registry('current_category');
     }
 
     /**

@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Items extends Magento_Ad
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**

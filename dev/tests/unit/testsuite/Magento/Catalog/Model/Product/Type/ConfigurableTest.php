@@ -19,7 +19,8 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
     protected function setUp()
     {
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
-        $this->_model = new Magento_Catalog_Model_Product_Type_Configurable($filesystem);
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $this->_model = new Magento_Catalog_Model_Product_Type_Configurable($filesystem, $coreRegistry);
     }
 
     public function testHasWeightTrue()

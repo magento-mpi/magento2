@@ -102,8 +102,23 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      */
     protected $_quote;
 
-    public function __construct()
-    {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($data);
         $this->_session = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
     }
 
@@ -152,7 +167,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      */
     public function initRuleData()
     {
-        Mage::register('rule_data', new Magento_Object(array(
+        $this->_coreRegistry->register('rule_data', new Magento_Object(array(
             'store_id'  => $this->_session->getStore()->getId(),
             'website_id'  => $this->_session->getStore()->getWebsiteId(),
             'customer_group_id' => $this->getCustomerGroupId(),
@@ -178,7 +193,8 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      *
      * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
-    public function recollectCart(){
+    public function recollectCart()
+    {
         if ($this->_needCollectCart === true) {
             $this->getCustomerCart()
                 ->collectTotals()
@@ -668,20 +684,22 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 $this->removeQuoteItem($itemId);
                 break;
             case 'cart':
-                if ($cart = $this->getCustomerCart()) {
+                $cart = $this->getCustomerCart();
+                if ($cart) {
                     $cart->removeItem($itemId);
                     $cart->collectTotals()
                         ->save();
                 }
                 break;
             case 'wishlist':
-                if ($wishlist = $this->getCustomerWishlist()) {
+                $wishlist = $this->getCustomerWishlist();
+                if ($wishlist) {
                     $item = Mage::getModel('Magento_Wishlist_Model_Item')->load($itemId);
                     $item->delete();
                 }
                 break;
             case 'compared':
-                $item = Mage::getModel('Magento_Catalog_Model_Product_Compare_Item')
+                Mage::getModel('Magento_Catalog_Model_Product_Compare_Item')
                     ->load($itemId)
                     ->delete();
                 break;
@@ -882,7 +900,8 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                     $optionId = $productOptions[$label]['option_id'];
                     $option = $item->getProduct()->getOptionById($optionId);
 
-                    $group = Mage::getSingleton('Magento_Catalog_Model_Product_Option')->groupFactory($option->getType())
+                    $group = Mage::getSingleton('Magento_Catalog_Model_Product_Option')
+                        ->groupFactory($option->getType())
                         ->setOption($option)
                         ->setProduct($item->getProduct());
 
@@ -919,7 +938,8 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      */
     protected function _assignOptionsToItem(Magento_Sales_Model_Quote_Item $item, $options)
     {
-        if ($optionIds = $item->getOptionByCode('option_ids')) {
+        $optionIds = $item->getOptionByCode('option_ids');
+        if ($optionIds) {
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 $item->removeOption('option_'.$optionId);
             }
@@ -970,7 +990,8 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected function _prepareOptionsForRequest($item)
     {
         $newInfoOptions = array();
-        if ($optionIds = $item->getOptionByCode('option_ids')) {
+        $optionIds = $item->getOptionByCode('option_ids');
+        if ($optionIds) {
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 $option = $item->getProduct()->getOptionById($optionId);
                 $optionValue = $item->getOptionByCode('option_'.$optionId)->getValue();
@@ -988,7 +1009,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected function _parseCustomPrice($price)
     {
         $price = Mage::app()->getLocale()->getNumber($price);
-        $price = $price>0 ? $price : 0;
+        $price = $price > 0 ? $price : 0;
         return $price;
     }
 

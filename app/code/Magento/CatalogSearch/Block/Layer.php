@@ -15,12 +15,33 @@
 class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Internal constructor
      */
     protected function _construct()
     {
         parent::_construct();
-        Mage::register('current_layer', $this->getLayer(), true);
+        $this->_coreRegistry->register('current_layer', $this->getLayer(), true);
     }
 
     /**
@@ -50,15 +71,15 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
      */
     public function canShowBlock()
     {
-        $_isLNAllowedByEngine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine()->isLayeredNavigationAllowed();
+        $_isLNAllowedByEngine = Mage::helper('Magento_CatalogSearch_Helper_Data')
+            ->getEngine()->isLayeredNavigationAllowed();
         if (!$_isLNAllowedByEngine) {
             return false;
         }
-        $availableResCount = (int) Mage::app()->getStore()
+        $availableResCount = (int)Mage::app()->getStore()
             ->getConfig(Magento_CatalogSearch_Model_Layer::XML_PATH_DISPLAY_LAYER_COUNT);
 
-        if (!$availableResCount
-            || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())) {
+        if (!$availableResCount || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())) {
             return parent::canShowBlock();
         }
         return false;

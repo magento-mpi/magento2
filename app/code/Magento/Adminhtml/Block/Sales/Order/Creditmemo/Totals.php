@@ -24,8 +24,8 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Totals extends Magento_Admi
         if ($this->_creditmemo === null) {
             if ($this->hasData('creditmemo')) {
                 $this->_creditmemo = $this->_getData('creditmemo');
-            } elseif (Mage::registry('current_creditmemo')) {
-                $this->_creditmemo = Mage::registry('current_creditmemo');
+            } elseif ($this->_coreRegistry->registry('current_creditmemo')) {
+                $this->_creditmemo = $this->_coreRegistry->registry('current_creditmemo');
             } elseif ($this->getParentBlock() && $this->getParentBlock()->getCreditmemo()) {
                 $this->_creditmemo = $this->getParentBlock()->getCreditmemo();
             }

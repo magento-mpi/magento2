@@ -10,6 +10,25 @@
 class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize process object by request
      *
      * @return Magento_Index_Model_Process|false
@@ -54,7 +73,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
                  ->_title(__('Index Management'))
                  ->_title(__($process->getIndexer()->getName()));
 
-            Mage::register('current_index_process', $process);
+            $this->_coreRegistry->register('current_index_process', $process);
             $this->loadLayout();
             $this->renderLayout();
         } else {

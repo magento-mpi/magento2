@@ -87,11 +87,9 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
             if ($this->getOrigData('balance') != $this->getBalance()) {
                 if ($this->getBalance() > 0) {
                     $this->setState(self::STATE_AVAILABLE);
-                }
-                elseif ($this->getIsRedeemable() && $this->getIsRedeemed())  {
+                } elseif ($this->getIsRedeemable() && $this->getIsRedeemed()) {
                     $this->setState(self::STATE_REDEEMED);
-                }
-                else {
+                } else {
                     $this->setState(self::STATE_USED);
                 }
             }
