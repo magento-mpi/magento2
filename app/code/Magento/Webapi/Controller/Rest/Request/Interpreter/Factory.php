@@ -57,7 +57,7 @@ class Magento_Webapi_Controller_Rest_Request_Interpreter_Factory
 
         if (!isset($interpreterClass) || empty($interpreterClass)) {
             throw new Magento_Webapi_Exception(
-                __('Server cannot understand Content-Type HTTP header media type "%s"', $contentType),
+                __('Server cannot understand Content-Type HTTP header media type %s', $contentType),
                 Magento_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }

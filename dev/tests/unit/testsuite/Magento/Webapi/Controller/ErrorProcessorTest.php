@@ -203,7 +203,7 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
         );
         /** Assert masked exception message. */
         $this->assertEquals(
-            'Internal Error. Details are available in Magento log file. Report ID: "%s"',
+            'Internal Error. Details are available in Magento log file. Report ID: %s',
             $maskedException->getMessage(),
             'Masked exception message is invalid.'
         );

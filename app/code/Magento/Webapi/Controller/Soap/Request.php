@@ -39,7 +39,7 @@ class Magento_Webapi_Controller_Soap_Request extends Magento_Webapi_Controller_R
         $notAllowedParameters = array_diff($requestParams, $allowedParams);
         if (count($notAllowedParameters)) {
             $message = __('Not allowed parameters: %s. ', implode(', ', $notAllowedParameters))
-                . __('Please use only "%s" and "%s".', $wsdlParam, $servicesParam);
+                . __('Please use only %s and %s.', $wsdlParam, $servicesParam);
             throw new Magento_Webapi_Exception($message, Magento_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 

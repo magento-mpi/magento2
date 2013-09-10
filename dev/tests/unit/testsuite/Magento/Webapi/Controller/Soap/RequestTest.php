@@ -48,7 +48,7 @@ class Magento_Webapi_Controller_Soap_RequestTest extends PHPUnit_Framework_TestC
             $servicesParam => true
         );
         $this->_soapRequest->setParams($requestParams);
-        $exceptionMessage = 'Not allowed parameters: %s. Please use only "%s" and "%s".';
+        $exceptionMessage = 'Not allowed parameters: %s. Please use only %s and %s.';
         /** Execute SUT. */
         try {
             $this->_soapRequest->getRequestedServices();

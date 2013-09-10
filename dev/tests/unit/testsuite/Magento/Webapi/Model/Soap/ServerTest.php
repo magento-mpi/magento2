@@ -38,14 +38,16 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
             $this->returnValue('http://magento.com/')
         );
 
-        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()->getMock();
+        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_Config')
+            ->disableOriginalConstructor()->getMock();
         $this->_configMock->expects($this->any())->method('getAreaFrontName')->will($this->returnValue('soap'));
 
         $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
         $this->_appMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
         $this->_appMock->expects($this->any())->method('getConfig')->will($this->returnValue($this->_configMock));
 
-        $this->_requestMock = $this->getMockBuilder('Magento_Webapi_Controller_Soap_Request')->disableOriginalConstructor()
+        $this->_requestMock = $this->getMockBuilder('Magento_Webapi_Controller_Soap_Request')
+            ->disableOriginalConstructor()
             ->getMock();
 
         $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')

@@ -52,12 +52,7 @@ class Magento_Webapi_Controller_Rest_Request_Interpreter_Json implements
                     Magento_Webapi_Exception::HTTP_BAD_REQUEST);
             } else {
                 throw new Magento_Webapi_Exception(
-                    __('Decoding error: %s%s%s%s',
-                        PHP_EOL,
-                        $e->getMessage(),
-                        PHP_EOL,
-                        $e->getTraceAsString()
-                    ),
+                    __('Decoding error: %s%s%s%s', PHP_EOL, $e->getMessage(), PHP_EOL, $e->getTraceAsString()),
                     Magento_Webapi_Exception::HTTP_BAD_REQUEST
                 );
             }

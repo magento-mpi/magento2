@@ -79,7 +79,7 @@ class Magento_Webapi_Controller_Rest_Request_Interpreter_FactoryTest extends PHP
             ->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue(array($expectedMetadata)));
-        $exceptionMessage = 'Server cannot understand Content-Type HTTP header media type "%s"';
+        $exceptionMessage = 'Server cannot understand Content-Type HTTP header media type %s';
         /** Initialize SUT. */
         try {
             $this->_interpreterFactory->get('text_xml');

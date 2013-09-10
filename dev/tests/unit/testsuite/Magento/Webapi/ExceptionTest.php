@@ -16,7 +16,11 @@ class Magento_Webapi_ExceptionTest extends PHPUnit_Framework_TestCase
     {
         $code = 1111;
         $details = array('key1' => 'value1', 'key2' => 'value2');
-        $apiException = new Magento_Webapi_Exception('Message', Magento_Webapi_Exception::HTTP_UNAUTHORIZED, $code, $details);
+        $apiException = new Magento_Webapi_Exception(
+            'Message',
+            Magento_Webapi_Exception::HTTP_UNAUTHORIZED,
+            $code,
+            $details);
         $this->assertEquals(
             $apiException->getHttpCode(),
             Magento_Webapi_Exception::HTTP_UNAUTHORIZED,
