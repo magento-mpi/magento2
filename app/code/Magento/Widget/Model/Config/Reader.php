@@ -14,10 +14,10 @@ class Magento_Widget_Model_Config_Reader extends Magento_Config_Reader_Filesyste
      */
     protected $_idAttributes = array(
         '/widgets/widget' => 'id',
-        '/widgets/widget/parameter' => 'name',
-        '/widgets/widget/parameter/option' => 'name',
-        '/widgets/widget/container' => 'name',
-        '/widgets/widget/container/template' => 'name',
+        '/widgets/widget/parameters/parameter' => 'name',
+        '/widgets/widget/parameters/parameter/options/option' => 'name',
+        '/widgets/widget/containers/container' => 'name',
+        '/widgets/widget/containers/container/template' => 'name',
     );
 
     /**

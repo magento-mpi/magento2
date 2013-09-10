@@ -12,21 +12,27 @@
     <widget id="wishlist_search" class="Magento_MultipleWishlist_Block_Widget_Search" is_email_compatible="false">
         <label translate="true">Wishlist Search</label>
         <description translate="true">Wish List Search Description</description>
-        <parameter name="types" xsi:type="multiselect" required="true" visible="true" sort_order="10"
-                   source_model="Magento_MultipleWishlist_Model_Config_Source_Search">
-            <label translate="true">Quick Search Form Types</label>
-        </parameter>
-        <parameter name="template" xsi:type="select" required="true" visible="true">
-            <label translate="true">Template</label>
-            <option name="default_template" value="widget/search.phtml" selected="true">
-                <label translate="true">Wish List Search Template</label>
-            </option>
-        </parameter>
-        <container name="left">
-            <template name="default" value="default_template" />
-        </container>
-        <container name="right">
-            <template name="default" value="default_template" />
-        </container>
+        <parameters>
+            <parameter name="types" xsi:type="multiselect" required="true" visible="true" sort_order="10"
+                       source_model="Magento_MultipleWishlist_Model_Config_Source_Search">
+                <label translate="true">Quick Search Form Types</label>
+            </parameter>
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default_template" value="widget/search.phtml" selected="true">
+                        <label translate="true">Wish List Search Template</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+        <containers>
+            <container name="left">
+                <template name="default" value="default_template" />
+            </container>
+            <container name="right">
+                <template name="default" value="default_template" />
+            </container>
+        </containers>
     </widget>
 </widgets>

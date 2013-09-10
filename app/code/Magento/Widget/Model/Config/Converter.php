@@ -41,19 +41,30 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
                     case 'description':
                         $widgetArray['description'] = $widgetSubNode->nodeValue;
                         break;
-                    case 'parameter':
-                        $subNodeAttributes = $widgetSubNode->attributes;
-                        $parameterName = $subNodeAttributes->getNamedItem('name')->nodeValue;
-                        $widgetArray['parameters'][$parameterName] = $this->_convertParameter($widgetSubNode);
+                    case 'parameters':
+                        /** @var $parameter DOMNode */
+                        foreach ($widgetSubNode->childNodes as $parameter) {
+                            if ($parameter->nodeName === '#text') {
+                                continue;
+                            }
+                            $subNodeAttributes = $parameter->attributes;
+                            $parameterName = $subNodeAttributes->getNamedItem('name')->nodeValue;
+                            $widgetArray['parameters'][$parameterName] = $this->_convertParameter($parameter);
+                        }
                         break;
-                    case 'container':
+                    case 'containers':
                         if (!isset($widgetArray['supported_containers'])) {
                             $widgetArray['supported_containers'] = array();
                         }
-                        $widgetArray['supported_containers'] = array_merge(
-                            $widgetArray['supported_containers'],
-                            $this->_convertContainer($widgetSubNode)
-                        );
+                        foreach ($widgetSubNode->childNodes as $container) {
+                            if ($container->nodeName === '#text') {
+                                continue;
+                            }
+                            $widgetArray['supported_containers'] = array_merge(
+                                $widgetArray['supported_containers'],
+                                $this->_convertContainer($container)
+                            );
+                        }
                         break;
                     case "#text": 
                         break;
@@ -137,17 +148,23 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
 
             /** @var $paramSubNode DOMNode */
             foreach ($source->childNodes as $paramSubNode) {
-                if ($paramSubNode->nodeName == 'option') {
-                    $optionAttributes = $paramSubNode->attributes;
-                    $optionName = $optionAttributes->getNamedItem('name')->nodeValue;
-                    $selected = $optionAttributes->getNamedItem('selected');
-                    if (!is_null($selected)) {
-                        $parameter['value'] = $optionAttributes->getNamedItem('value')->nodeValue;
+                if ($paramSubNode->nodeName == 'options') {
+                    /** @var $option DOMNode */
+                    foreach ($paramSubNode->childNodes as $option) {
+                        if ($option->nodeName === '#text') {
+                            continue;
+                        }
+                        $optionAttributes = $option->attributes;
+                        $optionName = $optionAttributes->getNamedItem('name')->nodeValue;
+                        $selected = $optionAttributes->getNamedItem('selected');
+                        if (!is_null($selected)) {
+                            $parameter['value'] = $optionAttributes->getNamedItem('value')->nodeValue;
+                        }
+                        if (!isset($parameter['values'])) {
+                            $parameter['values'] = array();
+                        }
+                        $parameter['values'][$optionName] = $this->_convertOption($option);
                     }
-                    if (!isset($parameter['values'])) {
-                        $parameter['values'] = array();
-                    }
-                    $parameter['values'][$optionName] = $this->_convertOptions($paramSubNode);
                 }
             }
         } elseif ($xsiType == 'text') {
@@ -278,7 +295,7 @@ class Magento_Widget_Model_Config_Converter implements Magento_Config_ConverterI
      * @return array
      * @throws LogicException
      */
-    protected function _convertOptions($source)
+    protected function _convertOption($source)
     {
         $option = array();
         $optionAttributes = $source->attributes;

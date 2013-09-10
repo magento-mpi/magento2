@@ -13,20 +13,26 @@
             is_email_compatible="false">
         <label translate="true">Gift Registry Search</label>
         <description translate="true">Gift Registry Quick Search Form</description>
-        <parameter name="types" xsi:type="multiselect" visible="true" required="true"
-                   source_model="Magento_GiftRegistry_Model_Source_Search">
-            <label translate="true">Quick Search Form Types</label>
-        </parameter>
-        <parameter name="template" xsi:type="select" visible="false">
-            <option name="default_template" value="search/widget/form.phtml">
-                <label translate="true">Default Template</label>
-            </option>
-        </parameter>
-        <container name="left">
-            <template name="default" value="default_template" />
-        </container>
-        <container name="right">
-            <template name="default" value="default_template" />
-        </container>
+        <parameters>
+            <parameter name="types" xsi:type="multiselect" visible="true" required="true"
+                       source_model="Magento_GiftRegistry_Model_Source_Search">
+                <label translate="true">Quick Search Form Types</label>
+            </parameter>
+            <parameter name="template" xsi:type="select" visible="false">
+                <options>
+                    <option name="default_template" value="search/widget/form.phtml">
+                        <label translate="true">Default Template</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+        <containers>
+            <container name="left">
+                <template name="default" value="default_template" />
+            </container>
+            <container name="right">
+                <template name="default" value="default_template" />
+            </container>
+        </containers>
     </widget>
 </widgets>

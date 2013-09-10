@@ -58,22 +58,6 @@ class Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Framework_TestCa
         $this->_validateFileExpectFailure($xmlFile, $schema);
     }
 
-
-    public function testFileSchemaUsingPartialXml()
-    {
-        $xmlFile = __DIR__ . '/_files/partial_widget.xml';
-        $schema = Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget_file.xsd';
-        $this->_validateFileExpectSuccess($xmlFile, $schema);
-    }
-
-
-    public function testSchemaUsingPartialXml()
-    {
-        $xmlFile = __DIR__ . '/_files/partial_widget.xml';
-        $schema = Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget.xsd';
-        $this->_validateFileExpectFailure($xmlFile, $schema);
-    }
-
     /**
      * Run schema validation against an xml file with a provided schema.
      *

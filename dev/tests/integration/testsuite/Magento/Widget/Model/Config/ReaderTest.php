@@ -91,12 +91,7 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @expectedException Magento_Exception
-     * @expectedExceptionMessage Invalid Document
-     * Element 'parameter': This element is not expected. Expected is ( container ).
-     */
-    public function testMargeCompleteAndPartial()
+    public function testMergeCompleteAndPartial()
     {
         $fileList = array(
             __DIR__ . '/_files/widgetFirst.xml',
@@ -122,6 +117,6 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
                 'perFileSchema' => $perFileSchema
             )
         );
-        $result = $model->read('global');
+        $model->read('global');
     }
 }
