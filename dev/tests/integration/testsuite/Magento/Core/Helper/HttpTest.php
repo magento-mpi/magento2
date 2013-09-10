@@ -18,7 +18,7 @@ class Magento_Core_Helper_HttpTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Http');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Http');
     }
 
     public function testGetRemoteAddrHeaders()

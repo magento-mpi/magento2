@@ -26,7 +26,7 @@ class Magento_Sales_Model_Order_CreditmemoTest extends PHPUnit_Framework_TestCas
         $creditmemo->setOrder($order);
 
         $payment = $order->getPayment();
-        $paymentInfoBlock = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Payment_Helper_Data')
+        $paymentInfoBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Payment_Helper_Data')
             ->getInfoBlock($payment);
         $paymentInfoBlock->setArea('invalid-area');
         $payment->setBlockMock($paymentInfoBlock);

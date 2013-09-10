@@ -23,7 +23,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::Magento_TestFramework_Helper_Bootstrap();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::Magento_TestFramework_Helper_Bootstrap();
         $this->_modelParams = array(
             'coreFileStorageDatabase' => $objectManager->get('Magento_Core_Helper_File_Storage_Database'),
             'context' => $objectManager->get('Magento_Core_Model_Context'),

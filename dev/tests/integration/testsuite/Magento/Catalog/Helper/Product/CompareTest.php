@@ -19,7 +19,7 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $this->_helper =
-            Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Helper_Product_Compare');
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Helper_Product_Compare');
     }
 
     /**

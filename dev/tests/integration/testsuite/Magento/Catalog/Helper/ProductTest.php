@@ -18,7 +18,7 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Helper_Product');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Helper_Product');
     }
 
     /**

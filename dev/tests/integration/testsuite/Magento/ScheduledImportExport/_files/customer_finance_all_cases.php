@@ -10,7 +10,7 @@
  */
 
 /** @var $helper Magento_ScheduledImportExport_Helper_Data */
-$helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_ScheduledImportExport_Helper_Data');
+$helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_ScheduledImportExport_Helper_Data');
 
 // customer with reward points and customer balance
 /** @var $customer Magento_Customer_Model_Customer */

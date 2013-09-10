@@ -30,7 +30,7 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
         /** @var Magento_Customer_Model_Customer $customer */
         $customer = Mage::getModel('Magento_Customer_Model_Customer')->load(1);
 
-        $token = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Customer_Helper_Data')
+        $token = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Customer_Helper_Data')
             ->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
 
@@ -50,7 +50,7 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
         /** @var Magento_Customer_Model_Customer $customer */
         $customer = Mage::getModel('Magento_Customer_Model_Customer')->load(1);
 
-        $token = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Customer_Helper_Data')
+        $token = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Customer_Helper_Data')
             ->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
 
