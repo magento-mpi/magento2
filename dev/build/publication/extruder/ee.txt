@@ -10,7 +10,6 @@ app/design/install/magento_enterprise
 app/etc/enterprise
 dev/tests/integration/testsuite/Magento/Test/Integrity/Theme/RenderersTest.php
 dev/tests/integration/testsuite/Magento/Test/Design/Frontend/Enterprise
-dev/tests/integration/testsuite/Magento/Test/Theme
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/_files/view_files_ee.php
 dev/tests/static/testsuite/Magento/Test/Integrity/Enterprise
 dev/tests/static/testsuite/Magento/Test/Js/_files/{whitelist,blacklist}/ee.txt
