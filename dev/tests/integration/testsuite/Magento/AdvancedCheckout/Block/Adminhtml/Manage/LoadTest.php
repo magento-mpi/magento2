@@ -49,7 +49,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_F
             $blockNameOne    => $contentOne
         );
         $this->assertEquals($expectedDecoded,
-            Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')->jsonDecode($result)
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')->jsonDecode($result)
         );
     }
 }

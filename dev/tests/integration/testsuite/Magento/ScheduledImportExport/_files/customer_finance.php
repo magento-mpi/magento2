@@ -34,7 +34,7 @@ $customer->save();
 
 // create store credit and reward points
 /** @var $helper Magento_ScheduledImportExport_Helper_Data */
-$helper = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_ScheduledImportExport_Helper_Data');
+$helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_ScheduledImportExport_Helper_Data');
 
 // increment to modify balance values
 $increment = 0;

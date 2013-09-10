@@ -37,7 +37,7 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
         $this->getRequest()->setPost('email', 'test@test.com');
         $this->dispatch('backend/admin/auth/forgotpassword');
         $this->assertRedirect($this->equalTo(
-            Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Helper_Data')->getHomePageUrl()
         ));
     }
 
@@ -53,7 +53,7 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
         /** @var $user Magento_User_Model_User */
         $user = Mage::getModel('Magento_User_Model_User')->loadByUsername('dummy_username');
         $this->assertNotEmpty($user->getId(), 'Broken fixture');
-        $resetPasswordToken = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_User_Helper_Data')
+        $resetPasswordToken = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_User_Helper_Data')
             ->generateResetPasswordLinkToken();
         $user->changeResetPasswordLinkToken($resetPasswordToken);
         $user->save();
@@ -94,7 +94,7 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
         /** @var $user Magento_User_Model_User */
         $user = Mage::getModel('Magento_User_Model_User')->loadByUsername('dummy_username');
         $this->assertNotEmpty($user->getId(), 'Broken fixture');
-        $resetPasswordToken = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_User_Helper_Data')
+        $resetPasswordToken = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_User_Helper_Data')
             ->generateResetPasswordLinkToken();
         $user->changeResetPasswordLinkToken($resetPasswordToken);
         $user->save();
@@ -110,13 +110,13 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
         $this->dispatch('backend/admin/auth/resetpasswordpost');
 
         $this->assertRedirect($this->equalTo(
-            Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Helper_Data')->getHomePageUrl()
         ));
 
         /** @var $user Magento_User_Model_User */
         $user = Mage::getModel('Magento_User_Model_User')->loadByUsername('dummy_username');
         $this->assertTrue(
-            Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
                 ->validateHash($newDummyPassword, $user->getPassword())
         );
     }
@@ -134,7 +134,7 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
             $this->equalTo(array('Your password reset link has expired.')), Magento_Core_Model_Message::ERROR
         );
         $this->assertRedirect($this->equalTo(
-            Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Helper_Data')->getHomePageUrl()
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Helper_Data')->getHomePageUrl()
         ));
     }
 
@@ -148,7 +148,7 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
         $user = Mage::getModel('Magento_User_Model_User')->loadByUsername('dummy_username');
         $resetPasswordToken = null;
         if ($user->getId()) {
-            $resetPasswordToken = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_User_Helper_Data')
+            $resetPasswordToken = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_User_Helper_Data')
                 ->generateResetPasswordLinkToken();
             $user->changeResetPasswordLinkToken($resetPasswordToken);
             $user->save();

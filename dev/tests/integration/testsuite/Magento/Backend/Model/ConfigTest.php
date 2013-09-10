@@ -81,7 +81,7 @@ class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
                 ->load();
             if (array_key_exists('payment/payflow_link/pwd', $_configData)) {
                 $_configData['payment/payflow_link/pwd'] =
-                    Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+                    Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
                         ->decrypt($_configData['payment/payflow_link/pwd']);
             }
             $this->assertEquals($expectedData, $_configData);

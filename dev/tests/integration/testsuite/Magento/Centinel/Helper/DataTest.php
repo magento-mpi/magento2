@@ -17,7 +17,7 @@ class Magento_Centinel_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetInfoBlock()
     {
         /** @var $block Magento_Payment_Helper_Data */
-        $block = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Payment_Helper_Data');
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Payment_Helper_Data');
         /** @var $paymentInfo Magento_Payment_Model_Info */
         $paymentInfo = Mage::getModel('Magento_Payment_Model_Info');
         $paymentInfo->setMethod('checkmo');

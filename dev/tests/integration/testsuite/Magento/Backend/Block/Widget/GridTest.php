@@ -50,7 +50,7 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
         $this->_layoutMock->expects($this->any())->method('helper')
             ->with('Magento_Core_Helper_Data')
             ->will($this->returnValue(
-                Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
             ));
 
 

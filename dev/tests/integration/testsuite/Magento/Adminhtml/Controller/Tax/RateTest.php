@@ -24,7 +24,7 @@ class Magento_Adminhtml_Controller_Tax_RateTest extends Magento_Backend_Utility_
         $this->dispatch('backend/admin/tax_rate/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
-        $result = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+        $result = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
             ->jsonDecode($jsonBody);
 
         $this->assertArrayHasKey('tax_calculation_rate_id', $result);
@@ -92,7 +92,7 @@ class Magento_Adminhtml_Controller_Tax_RateTest extends Magento_Backend_Utility_
         $this->dispatch('backend/admin/tax_rate/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
-        $result = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
+        $result = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
             ->jsonDecode($jsonBody);
 
         $this->assertEquals($expectedData['success'], $result['success']);
