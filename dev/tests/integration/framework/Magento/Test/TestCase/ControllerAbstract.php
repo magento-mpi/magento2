@@ -105,7 +105,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     public function getRequest()
     {
         if (!$this->_request) {
-            $this->_request = new Magento_Test_Request(Magento_Test_Helper_Bootstrap::getObjectManager());
+            $this->_request = new Magento_Test_Request();
             $this->_objectManager->addSharedInstance($this->_request, 'Magento_Test_Request');
         }
         return $this->_request;

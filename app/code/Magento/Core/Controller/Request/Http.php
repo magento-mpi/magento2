@@ -16,7 +16,6 @@
  */
 class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
 {
-    const XML_NODE_DIRECT_FRONT_NAMES = 'global/request/direct_front_name';
     const DEFAULT_HTTP_PORT = 80;
     const DEFAULT_HTTPS_PORT = 443;
 
@@ -56,20 +55,10 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     protected $_beforeForwardInfo = array();
 
-    /**
-     * @var Magento_ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
-     * @param Magento_ObjectManager $objectManager
-     * @param null|string|Zend_Uri $uri
-     */
     public function __construct(
-        Magento_ObjectManager $objectManager,
         $uri = null
     ) {
-        $this->_objectManager = $objectManager;
+        $this->_directFrontNames = array('api' => '');
         parent::__construct($uri);
     }
 
@@ -188,14 +177,6 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     public function getDirectFrontNames()
     {
-        if (is_null($this->_directFrontNames)) {
-            $names = $this->_objectManager->get('Magento_Core_Model_Config')->getNode(self::XML_NODE_DIRECT_FRONT_NAMES);
-            if ($names) {
-                $this->_directFrontNames = $names->asArray();
-            } else {
-                return array();
-            }
-        }
         return $this->_directFrontNames;
     }
 

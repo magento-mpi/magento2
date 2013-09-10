@@ -32,9 +32,6 @@
                 </http_user_agent_skip>
             </validation>
         </session>
-        <request>
-            <direct_front_name />
-        </request>
         <dev>
             <page_type>
                 <render_inherited>0</render_inherited>
