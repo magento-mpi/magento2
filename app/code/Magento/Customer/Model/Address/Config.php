@@ -86,8 +86,8 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
         Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($this->_coreConfig->getNode()->global->customer->address);
         $this->_coreConfig = $coreConfig;
+        parent::__construct($this->_coreConfig->getNode()->global->customer->address);
     }
 
     /**

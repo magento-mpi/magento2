@@ -35,11 +35,11 @@ class Magento_Adminhtml_Block_Sales_Order_View extends Magento_Adminhtml_Block_W
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
+        $this->_coreConfig = $coreConfig;
         parent::__construct(
             $context,
             $data
         );
-        $this->_coreConfig = $coreConfig;
     }
 
     protected function _construct()

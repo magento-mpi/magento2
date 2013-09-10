@@ -19,11 +19,6 @@
 class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
 {
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_configModel;
-
-    /**
      * List of entities converted from EAV to flat data structure
      *
      * @var $_flatEntityTables array
@@ -223,6 +218,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      */
     public function getConfigModel()
     {
+        return $this->_config;
         return $this->_config;
     }
 }

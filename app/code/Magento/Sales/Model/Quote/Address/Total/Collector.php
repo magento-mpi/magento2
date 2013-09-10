@@ -77,12 +77,12 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
         $store = null
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($configCacheType);
         $this->_store = $store ?: Mage::app()->getStore();
         $this->_initModels()
             ->_initCollectors()
             ->_initRetrievers();
-        $this->_coreConfig = $coreConfig;
     }
 
     /**
