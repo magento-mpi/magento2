@@ -13,12 +13,10 @@
  */
 class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignInterface
 {
-    /**#@+
+    /**
      * Common node path to theme design configuration
      */
-    const XML_PATH_THEME    = 'design/theme/full_name';
     const XML_PATH_THEME_ID = 'design/theme/theme_id';
-    /**#@-*/
 
     /**
      * Regular expressions matches cache
@@ -69,17 +67,41 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
     protected $_themeFactory;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @var Magento_Core_Model_Store_Config
+     */
+    private $_storeConfig;
+
+    /**
+     * @var Magento_Core_Model_Theme_FlyweightFactory
+     */
+    protected $_themes;
+
+    /**
      * Design
      *
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param array $themes
      */
     public function __construct(
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Theme_FlyweightFactory $themeFactory
+        Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_Config $storeConfig,
+        $themes = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_themeFactory = $themeFactory;
+        $this->_config = $config;
+        $this->_storeConfig = $storeConfig;
+        $this->_themes = $themes;
     }
 
     /**
@@ -150,11 +172,15 @@ class Magento_Core_Model_View_Design implements Magento_Core_Model_View_DesignIn
 
         if ($this->_isThemePerStoveView($area)) {
             $theme = $this->_storeManager->isSingleStoreMode()
-                ? Mage::getConfig()->getValue(self::XML_PATH_THEME_ID, 'default')
-                : (string)Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store);
+                ? $this->_config->getValue(self::XML_PATH_THEME_ID, 'default')
+                : (string)$this->_storeConfig->getConfig(self::XML_PATH_THEME_ID, $store);
         }
 
-        return $theme ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+        if (!$theme && isset($this->_themes[$area])) {
+            $theme = $this->_themes[$area];
+        }
+
+        return $theme ;//(string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
     }
 
     /**
