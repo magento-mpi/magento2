@@ -551,7 +551,7 @@ class Generator
 
         /** @var $dom \DOMDocument **/
         foreach ($this->_adminhtmlDomList as $file => $dom) {
-            $xpath = new DOMXpath($dom);
+            $xpath = new \DOMXPath($dom);
             $nodeList = $xpath->query('/config/acl');
             if ($nodeList->length == 0) {
                 continue;
