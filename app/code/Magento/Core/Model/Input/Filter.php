@@ -1,12 +1,5 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
  * Filter data collector
  *
  * {license_notice}

@@ -34,8 +34,9 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_
      */
     public function indexAction()
     {
-        $this->loadLayout()->_setActiveMenu('Magento_Oauth::system_legacy_api_oauth_authorized_tokens');
-        $this->renderLayout();
+        // TODO: Fix during Web API authentication implementation
+        // $this->loadLayout()->_setActiveMenu('Magento_Oauth::system_legacy_api_oauth_authorized_tokens');
+        // $this->renderLayout();
     }
 
     /**
