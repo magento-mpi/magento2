@@ -209,7 +209,11 @@ return array(
     array('callbackQueryHook', 'Magento_Core_Model_Resource_Setup'),
     array('canCreateUser', 'Magento_User_Model_Resource_User'),
     array('canPrint', 'Magento_Checkout_Block_Onepage_Success'),
-    array('canTestHeaders', 'Magento_TestFramework_Bootstrap', 'Magento_TestFramework_Helper_Bootstrap::canTestHeaders'),
+    array(
+        'canTestHeaders',
+        'Magento_TestFramework_Bootstrap',
+        'Magento_TestFramework_Helper_Bootstrap::canTestHeaders'
+    ),
     array('catalogCategoryChangeProducts', 'Magento_Catalog_Model_Product_Flat_Observer'),
     array('catalogEventProductCollectionAfterLoad', 'Magento_GiftMessage_Model_Observer'),
     array('catalogProductLoadAfter', 'Magento_Bundle_Model_Observer'),
@@ -223,7 +227,11 @@ return array(
     array('cleanDbRow', 'Magento_Core_Model_Resource'),
     array('cleanMergedJsCss', 'Magento_Core_Model_Design_Package', 'Magento_Core_Model_Page_Asset_MergeService'),
     array('cleanMergedJsCss', 'Magento_Core_Model_Design_Package_Proxy', 'Magento_Core_Model_Page_Asset_MergeService'),
-    array('cleanMergedJsCss', 'Magento_Core_Model_Design_PackageInterface', 'Magento_Core_Model_Page_Asset_MergeService'),
+    array(
+        'cleanMergedJsCss',
+        'Magento_Core_Model_Design_PackageInterface',
+        'Magento_Core_Model_Page_Asset_MergeService'
+    ),
     array('cleanVarFolder', '', 'Magento_Io_File::rmdirRecursive()'),
     array('cleanVarSubFolders', '', 'glob() on Mage::getBaseDir(Magento_Core_Model_App_Dir::VAR_DIR)'),
     array('cloneIndexTable', 'Magento_Index_Model_Resource_Abstract'),
@@ -293,7 +301,11 @@ return array(
     array('getDbAdapter', 'Magento_Core_Model_Cache'),
     array('getDbAdapter', 'Magento_Core_Model_Cache_Proxy'),
     array('getDbAdapter', 'Magento_Core_Model_CacheInterface'),
-    array('getDbVendorName', 'Magento_TestFramework_Bootstrap', 'Magento_TestFramework_Helper_Bootstrap::getDbVendorName'),
+    array(
+        'getDbVendorName',
+        'Magento_TestFramework_Bootstrap',
+        'Magento_TestFramework_Helper_Bootstrap::getDbVendorName'
+    ),
     array('getDebug', 'Magento_Ogone_Model_Api'),
     array('getDebug', 'Magento_Paypal_Model_Api_Abstract'),
     array('getDefaultBasePath', 'Magento_Core_Model_Store'),
@@ -319,9 +331,17 @@ return array(
     array('getHelperClassName', 'Magento_Core_Model_Config'),
     array('getHtmlFormat', 'Magento_Customer_Model_Address_Abstract'),
     array('getInitParam', 'Magento_Core_Model_App'),
-    array('getInitParams', 'Magento_TestFramework_Bootstrap', 'Magento_TestFramework_Helper_Bootstrap::getAppInitParams'),
+    array(
+        'getInitParams',
+        'Magento_TestFramework_Bootstrap',
+        'Magento_TestFramework_Helper_Bootstrap::getAppInitParams'
+    ),
     array('getInstallDate', 'Magento_Core_Model_Config'),
-    array('getInstallDir', 'Magento_TestFramework_Bootstrap', 'Magento_TestFramework_Helper_Bootstrap::getAppInstallDir'),
+    array(
+        'getInstallDir',
+        'Magento_TestFramework_Bootstrap',
+        'Magento_TestFramework_Helper_Bootstrap::getAppInstallDir'
+    ),
     array('getInstance', 'Magento_TestFramework_Bootstrap', 'Magento_TestFramework_Helper_Bootstrap::getInstance'),
     array('getIsActiveAanalytics', '', 'getOnsubmitJs'),
     array('getIsAjaxRequest', 'Magento_Core_Model_Translate_Inline'),
@@ -329,7 +349,6 @@ return array(
     array('getIsGlobal', 'Magento_Eav_Model_Entity_Attribute_Abstract'),
     array('getIsInStock', 'Magento_Checkout_Block_Cart_Item_Renderer'),
     array('getItemRender', 'Magento_Checkout_Block_Cart_Abstract'),
-    array('getItemRenderer', 'Magento_Checkout_Block_Cart_Abstract'),
     array('getItemRendererInfo', 'Magento_Checkout_Block_Cart_Abstract'),
     array('getKeyList', 'Magento_DB_Adapter_Pdo_Mysql'),
     array('getLanguages', 'Magento_Install_Block_Begin'),
@@ -358,7 +377,11 @@ return array(
     array('getOptimalJsUrls', 'Magento_Core_Model_Design_Package', 'Magento_Core_Model_Page_Asset_Merged'),
     array('getOption', 'Magento_Captcha_Helper_Data', 'Magento_Core_Model_Dir::getDir()'),
     array('getOptions', 'Magento_Core_Model_Config'),
-    array('getOptions', 'Magento_Core_Model_Design_Source_Design', 'Magento_Core_Model_Theme::getThemeCollectionOptionArray'),
+    array(
+        'getOptions',
+        'Magento_Core_Model_Design_Source_Design',
+        'Magento_Core_Model_Theme::getThemeCollectionOptionArray'
+    ),
     array('getOptionValues', 'Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
     array('getOrderHtml', 'Magento_GoogleAnalytics_Block_Ga'),
     array('getOrderId', 'Magento_Checkout_Block_Onepage_Success'),
@@ -393,7 +416,11 @@ return array(
     array('getRelativePath', 'Magento_Core_Model_Theme_Files'),
     array('getRemoveItemUrl', 'Magento_Wishlist_Block_Customer_Sidebar'),
     array('getReorderUrl', 'Magento_Sales_Block_Order_Info'),
-    array('getResourceConfig', 'Magento_Config_Model_Config', 'Magento_Config_Model_Config_Resource::getResourceConfig'),
+    array(
+        'getResourceConfig',
+        'Magento_Config_Model_Config',
+        'Magento_Config_Model_Config_Resource::getResourceConfig'
+    ),
     array('getResourceConfig', 'Magento_Core_Model_Config'),
     array('getResourceConnectionConfig', 'Magento_Config_Model_Config',
         'Magento_Config_Model_Config_Resource::getResourceConnectionConfig'
@@ -411,7 +438,11 @@ return array(
     array('getResourceTypeConfig', 'Magento_Core_Model_Config'),
     array('getResTreeJson', 'Magento_User_Block_Role_Tab_Edit', 'getTree'),
     array('getResTreeJson', 'Magento_Adminhtml_Block_Api_Tab_Rolesedit', 'getTree'),
-    array('getRouterByRoute', 'Magento_Core_Controller_Varien_Front', 'Magento_Core_Model_RouterList::getRouterByFrontName'),
+    array(
+        'getRouterByRoute',
+        'Magento_Core_Controller_Varien_Front',
+        'Magento_Core_Model_RouterList::getRouterByFrontName'
+    ),
     array('getRouterByFrontName', 'Magento_Core_Controller_Varien_Front',
         'Magento_Core_Model_RouterList::getRouterByFrontName'
     ),
@@ -527,8 +558,16 @@ return array(
     array('map', 'Magento_ObjectManager_Config_Mapper_Dom', 'Magento_ObjectManager_Config_Mapper_Dom::convert'),
     array('mergeFiles', 'Magento_Core_Helper_Data', 'Magento_Core_Model_Page_Asset_MergeStrategyInterface'),
     array('mergeFiles', 'Magento_Core_Model_Design_Package', 'Magento_Core_Model_Page_Asset_MergeStrategyInterface'),
-    array('mergeFiles', 'Magento_Core_Model_Design_Package_Proxy', 'Magento_Core_Model_Page_Asset_MergeStrategyInterface'),
-    array('mergeFiles', 'Magento_Core_Model_Design_PackageInterface', 'Magento_Core_Model_Page_Asset_MergeStrategyInterface'),
+    array(
+        'mergeFiles',
+        'Magento_Core_Model_Design_Package_Proxy',
+        'Magento_Core_Model_Page_Asset_MergeStrategyInterface'
+    ),
+    array(
+        'mergeFiles',
+        'Magento_Core_Model_Design_PackageInterface',
+        'Magento_Core_Model_Page_Asset_MergeStrategyInterface'
+    ),
     array('order_success_page_view', 'Magento_GoogleAnalytics_Model_Observer'),
     array('orderedAction', 'Magento_Adminhtml_Controller_Report_Product'),
     array('output', 'Magento_Shell'),
