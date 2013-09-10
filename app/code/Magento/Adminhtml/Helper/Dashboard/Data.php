@@ -70,7 +70,7 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
      */
     public function getChartDataHash($data)
     {
-        $secret = (string)$this->_coreConfig->getNode(Magento_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE);
+        $secret = (string)$this->_config->getNode(Magento_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE);
         return md5($data . $secret);
     }
 }
