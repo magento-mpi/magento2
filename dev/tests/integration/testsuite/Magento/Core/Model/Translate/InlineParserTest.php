@@ -53,7 +53,8 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
             $model->delete();
         } catch (Exception $e) {
             $model->delete();
-            throw $e;
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Logger')
+                ->logException($e);
         }
     }
 
