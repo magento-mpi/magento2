@@ -48,7 +48,7 @@ Mage::register('quote', $quote);
 
 //Create order
 $quoteService = Magento_TestFramework_ObjectManager::getInstance()->create('Magento_Sales_Model_Service_Quote',
-    array('qoute' => $quote));
+    array('quote' => $quote));
 //Set payment method to check/money order
 $quoteService->getQuote()->getPayment()->setMethod('checkmo');
 $order = $quoteService->submitOrder();
