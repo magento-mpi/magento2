@@ -30,10 +30,16 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     protected $_routerList;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_RouterList $routerList
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
@@ -41,6 +47,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_RouterList $routerList,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -49,6 +56,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         $this->_eventManager = $eventManager;
         $this->_routerList = $routerList;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     public function setDefault($key, $value=null)
@@ -207,7 +215,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
             $request = $this->getRequest();
         }
 
-        $config = $this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/rewrite');
+        $config = $this->_coreConfig->getNode('global/rewrite');
         if (!$config) {
             return;
         }

@@ -67,8 +67,8 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_coreConfig = $coreConfig;
+        parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
     /**
