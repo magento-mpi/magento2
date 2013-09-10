@@ -20,7 +20,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_GeneralTest extends PHP
      */
     public function testPrepareForm()
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         Mage::register('current_reminder_rule', Mage::getModel('Magento_Reminder_Model_Rule'));

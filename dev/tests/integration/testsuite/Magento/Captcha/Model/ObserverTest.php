@@ -14,7 +14,7 @@
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Captcha_Model_ObserverTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Captcha_Model_ObserverTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @magentoConfigFixture admin_store admin/captcha/forms backend_login
@@ -27,8 +27,8 @@ class Magento_Captcha_Model_ObserverTest extends Magento_Test_TestCase_Controlle
 
         $post = array(
             'login' => array(
-                'username' => Magento_Test_Bootstrap::ADMIN_NAME,
-                'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD
+                'username' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
+                'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
             ),
             'captcha' => array(
                 'backend_login' => 'some_unrealistic_captcha_value',
@@ -56,7 +56,7 @@ class Magento_Captcha_Model_ObserverTest extends Magento_Test_TestCase_Controlle
         try {
             $authModel = Mage::getModel('Magento_Backend_Model_Auth');
             $authModel->login(
-                Magento_Test_Bootstrap::ADMIN_NAME,
+                Magento_TestFramework_Bootstrap::ADMIN_NAME,
                 'wrong_password'
             );
         }

@@ -92,7 +92,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
     {
         // emulate admin store and design
         Mage::app()->setCurrentStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme(1);
         /** @var Magento_Core_Model_Translate $translate */
         $translate = Mage::getModel('Magento_Core_Model_Translate');

@@ -35,7 +35,7 @@ class Magento_CatalogEvent_Model_EventTest extends PHPUnit_Framework_TestCase
             ->setDisplayState(Magento_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE)
             ->setSortOrder(null)
         ;
-        $crud = new Magento_Test_Entity($this->_model, array(
+        $crud = new Magento_TestFramework_Entity($this->_model, array(
             'category_id'   => 2,
             'date_start'    => $this->_getDate('-1 year'),
             'date_end'      => $this->_getDate('+1 month'),

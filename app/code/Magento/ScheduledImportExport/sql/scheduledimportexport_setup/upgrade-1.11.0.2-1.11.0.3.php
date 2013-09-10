@@ -12,4 +12,4 @@
 $installer = $this;
 
 $installer->getConnection()
-    ->dropColumn($installer->getTable('enterprise_scheduled_operations'), 'entity_subtype');
+    ->dropColumn($installer->getTable('magento_scheduled_operations'), 'entity_subtype');

@@ -17,7 +17,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest ext
 {
     public function testGetMethods()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         // Data for the block object
         $subscriptionId = $objectManager->create('Magento_Webhook_Model_Subscription')
             ->setDataChanges(true)

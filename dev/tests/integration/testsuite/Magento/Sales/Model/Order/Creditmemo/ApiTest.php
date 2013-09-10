@@ -27,14 +27,14 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
         list($product, $qtys, $adjustmentPositive, $adjustmentNegative, $creditMemoIncrement) = $creditmemoInfo;
 
         //Test list
-        $creditmemoList = Magento_Test_Helper_Api::call($this, 'salesOrderCreditmemoList');
+        $creditmemoList = Magento_TestFramework_Helper_Api::call($this, 'salesOrderCreditmemoList');
         $this->assertInternalType('array', $creditmemoList);
         $this->assertNotEmpty($creditmemoList, 'Creditmemo list is empty');
 
         //Test add comment
         $commentText = 'Creditmemo comment';
         $this->assertTrue(
-            (bool)Magento_Test_Helper_Api::call(
+            (bool)Magento_TestFramework_Helper_Api::call(
                 $this,
                 'salesOrderCreditmemoAddComment',
                 array(
@@ -45,7 +45,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
         );
 
         //Test info
-        $creditmemoInfo = Magento_Test_Helper_Api::call(
+        $creditmemoInfo = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderCreditmemoInfo',
             array(
@@ -85,7 +85,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
 
         //Test cancel
         //Situation when creditmemo is possible to cancel was not found
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'salesOrderCreditmemoCancel',
             array('creditmemoIncrementId' => $creditMemoIncrement)
@@ -104,7 +104,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
         /** @var $order Magento_Sales_Model_Order */
         $order = Mage::registry('order');
         $overRefundAmount = $order->getGrandTotal() + 10;
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'salesOrderCreditmemoCreate',
             array(
@@ -124,7 +124,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
         $filter = array(
             'filter' => array((object)array('key' => 'order_id', 'value' => 'invalid-id'))
         );
-        $creditmemoList = Magento_Test_Helper_Api::call(
+        $creditmemoList = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderCreditmemoList',
             (object)array('filters' => $filter)
@@ -137,7 +137,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testCreateInvalidOrderException()
     {
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'salesOrderCreditmemoCreate',
             array(
@@ -152,7 +152,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testAddCommentInvalidCreditmemoException()
     {
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'salesOrderCreditmemoAddComment',
             array(
@@ -167,7 +167,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testInfoInvalidCreditmemoException()
     {
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'salesOrderCreditmemoInfo',
             array('creditmemoIncrementId' => 'invalid-id')
@@ -179,7 +179,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testCancelInvalidIdException()
     {
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'salesOrderCreditmemoCancel',
             array('creditmemoIncrementId' => 'invalid-id')
@@ -197,7 +197,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
     {
         // Set creditmemo increment id prefix
         $prefix = '01';
-        Magento_Test_Helper_Eav::setIncrementIdPrefix('creditmemo', $prefix);
+        Magento_TestFramework_Helper_Eav::setIncrementIdPrefix('creditmemo', $prefix);
 
         $order = Mage::registry('order2');
 
@@ -218,7 +218,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
         $orderIncrementalId = $order->getIncrementId();
 
         //Test create
-        $creditMemoIncrement = Magento_Test_Helper_Api::call(
+        $creditMemoIncrement = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderCreditmemoCreate',
             array(
@@ -268,7 +268,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
             )
         );
 
-        $result = Magento_Test_Helper_Api::call($this, 'salesOrderCreditmemoList', $filters);
+        $result = Magento_TestFramework_Helper_Api::call($this, 'salesOrderCreditmemoList', $filters);
 
         if (!isset($result[0])) { // workaround for WS-I
             $result = array($result);
@@ -315,7 +315,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
         $orderIncrementalId = $order->getIncrementId();
 
         //Test create
-        $creditMemoIncrement = Magento_Test_Helper_Api::call(
+        $creditMemoIncrement = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderCreditmemoCreate',
             array(

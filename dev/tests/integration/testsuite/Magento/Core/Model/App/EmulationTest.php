@@ -23,7 +23,8 @@ class Magento_Core_Model_App_EmulationTest extends PHPUnit_Framework_TestCase
     public function testEnvironmentEmulation()
     {
         $this->_model = Mage::getModel('Magento_Core_Model_App_Emulation');
-        $design = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
 
         $initialEnvInfo = $this->_model->startEnvironmentEmulation(1);

@@ -191,7 +191,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
      */
     protected function _getModelDependencies($addData = false)
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $dataSourceModel = $this->getMock('stdClass', array('getNextBunch'));
         if ($addData) {

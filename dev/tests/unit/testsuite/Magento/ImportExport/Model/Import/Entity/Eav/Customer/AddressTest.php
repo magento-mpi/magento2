@@ -142,7 +142,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     public function setUp()
     {
-        $this->_objectManagerMock = new Magento_Test_Helper_ObjectManager($this);
+        $this->_objectManagerMock = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $this->_coreStringMock = $this->getMock(
             'Magento_Core_Helper_String', array('__construct'), array(), '', false

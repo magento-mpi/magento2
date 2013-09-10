@@ -19,7 +19,7 @@ class Magento_User_Controller_Adminhtml_User_RoleTest extends Magento_Backend_Ut
     public function testEditRoleAction()
     {
         $roleAdmin = Mage::getModel('Magento_User_Model_Role');
-        $roleAdmin->load(Magento_Test_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
+        $roleAdmin->load(Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
 
         $this->getRequest()->setParam('rid', $roleAdmin->getId());
 

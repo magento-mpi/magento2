@@ -14,7 +14,7 @@
  * All the changes are reverted in the appropriate "rollback" fixture.
  */
 
-/** @var $connection Magento_Test_Db_Adapter_TransactionInterface */
+/** @var $connection Magento_TestFramework_Db_Adapter_TransactionInterface */
 $connection = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
 $connection->commitTransparentTransaction();
 

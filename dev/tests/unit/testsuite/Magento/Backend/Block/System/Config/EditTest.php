@@ -79,7 +79,7 @@ class Magento_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_Tes
             'configStructure' => $this->_systemConfigMock
         );
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_object = $helper->getObject('Magento_Backend_Block_System_Config_Edit', $data);
     }
 

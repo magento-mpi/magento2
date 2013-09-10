@@ -15,7 +15,7 @@ class Magento_Autoload_ClassMapTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_loader = new Magento_Autoload_ClassMap(__DIR__ . '/_files');
+        $this->_loader = new Magento_Autoload_ClassMap(__DIR__ . '/ClassMapTest');
     }
 
     /**
@@ -51,7 +51,7 @@ class Magento_Autoload_ClassMapTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(class_exists('Unknown_Class', false));
         $this->_loader->load('TestMap');
         $this->_loader->load('Unknown_Class');
-        $this->assertTrue(class_exists('TestMap', false));
+        $this->assertTrue(class_exists('Magento_Autoload_ClassMapTest_TestMap', false));
         $this->assertFalse(class_exists('Unknown_Class', false));
     }
 }

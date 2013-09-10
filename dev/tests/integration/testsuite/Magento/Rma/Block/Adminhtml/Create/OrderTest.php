@@ -25,7 +25,7 @@ class Magento_Rma_Block_Adminhtml_Create_OrderTest extends PHPUnit_Framework_Tes
         $layout->getUpdate()->addHandle('adminhtml_rma_chooseorder')->load();
         $layout->generateXml()->generateElements();
         $layout->addOutputElement('rma_create_order');
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setArea('adminhtml');
         $this->assertContains('<div id="magento_rma_rma_create_order_grid">', $layout->getOutput());
     }

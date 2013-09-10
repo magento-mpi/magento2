@@ -12,7 +12,7 @@
 /**
  * Theme css file model class
  */
-class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_RendererTest
+class Magento_DesignEditor_Model_Editor_QuickStyles_RendererTest
     extends PHPUnit_Framework_TestCase
 {
     /**

@@ -18,7 +18,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $params = array('layout' => $objectManager->create('Magento_Core_Model_Layout', array()));
         $context = $objectManager->create('Magento_Core_Block_Template_Context', $params);
         $this->_block = Mage::app()->getLayout()->createBlock('Magento_Core_Block_Template', '',

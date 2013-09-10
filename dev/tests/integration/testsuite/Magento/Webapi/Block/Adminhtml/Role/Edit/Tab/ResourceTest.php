@@ -14,7 +14,7 @@
 class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 
@@ -54,7 +54,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
             ->setMethods(array('getResourceIdsByRole'))
             ->getMock();
 
-        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
         $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
         $this->_block = $this->_blockFactory->createBlock('Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource',

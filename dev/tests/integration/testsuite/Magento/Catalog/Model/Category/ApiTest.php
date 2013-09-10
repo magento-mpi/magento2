@@ -207,7 +207,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
      */
     protected function _testCreate($categoryFixture)
     {
-        $categoryId = Magento_Test_Helper_Api::call(
+        $categoryId = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogCategoryCreate',
             array(
@@ -280,7 +280,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
      */
     protected function _testRead($categoryId, $categoryFixture)
     {
-        $categoryRead = Magento_Test_Helper_Api::call(
+        $categoryRead = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogCategoryInfo',
             array('categoryId' => $categoryId, $categoryFixture['update']['store'])
@@ -320,7 +320,8 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
     protected function _testUpdate($categoryId, $categoryFixture)
     {
         $categoryFixture['update']['categoryId'] = $categoryId;
-        $resultUpdated = Magento_Test_Helper_Api::call($this, 'catalogCategoryUpdate', $categoryFixture['update']);
+        $resultUpdated =
+            Magento_TestFramework_Helper_Api::call($this, 'catalogCategoryUpdate', $categoryFixture['update']);
         $this->assertTrue($resultUpdated);
 
         $category = Mage::getModel('Magento_Catalog_Model_Category');
@@ -354,7 +355,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
      */
     protected function _testDelete($categoryId)
     {
-        $categoryDelete = Magento_Test_Helper_Api::call(
+        $categoryDelete = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogCategoryDelete',
             array('categoryId' => $categoryId)
@@ -381,7 +382,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
          */
         $params['categoryData']->is_active = $categoryFixture['vulnerability']['categoryData']->is_active;
 
-        $categoryId = Magento_Test_Helper_Api::call($this, 'catalogCategoryCreate', $params);
+        $categoryId = Magento_TestFramework_Helper_Api::call($this, 'catalogCategoryCreate', $params);
         $this->assertEquals(
             $categoryId,
             (int)$categoryId,
@@ -401,7 +402,8 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
          */
         $params = $categoryFixture['update'];
         $params['categoryId'] = 9999;
-        $exception = $result = Magento_Test_Helper_Api::callWithException($this, 'catalogCategoryUpdate', $params);
+        $exception = $result =
+            Magento_TestFramework_Helper_Api::callWithException($this, 'catalogCategoryUpdate', $params);
         //make result like in response
         $result = array(
             'faultcode' => $exception->faultcode,
@@ -425,7 +427,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
         $params['categoryId'] = $categoryId;
         $params['categoryData']->custom_layout_update =
         $categoryFixture['vulnerability']['categoryData']->custom_layout_update;
-        $exception = Magento_Test_Helper_Api::callWithException($this, 'catalogCategoryUpdate', $params);
+        $exception = Magento_TestFramework_Helper_Api::callWithException($this, 'catalogCategoryUpdate', $params);
         $result = array(
             'faultcode' => $exception->faultcode,
             'faultstring' => $exception->faultstring
@@ -444,7 +446,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testRootCategoryDeleteViaHandler()
     {
-        $exception = Magento_Test_Helper_Api::callWithException(
+        $exception = Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogCategoryDelete',
             array('categoryId' => Magento_Catalog_Model_Category::TREE_ROOT_ID)

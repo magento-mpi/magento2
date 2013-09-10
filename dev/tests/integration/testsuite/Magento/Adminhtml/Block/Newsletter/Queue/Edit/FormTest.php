@@ -20,13 +20,13 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_FormTest extends PHPUnit_Fra
      */
     public function testPrepareForm()
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        Magento_Test_Helper_Bootstrap::getObjectManager()
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $block = Magento_Test_Helper_Bootstrap::getObjectManager()
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form');
         $prepareFormMethod = new ReflectionMethod(
             'Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form', '_prepareForm');

@@ -33,7 +33,7 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
             "Product quantity ordered must more than $qtyToShip for this test."
         );
         /** Create partial shipment via API. */
-        $shipmentIncrementId = Magento_Test_Helper_Api::call(
+        $shipmentIncrementId = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderShipmentCreate',
             array(
@@ -71,12 +71,12 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
         );
 
         /** Retrieve list of shipments via API. */
-        $shipmentsList = Magento_Test_Helper_Api::call($this, 'salesOrderShipmentList', $filters);
+        $shipmentsList = Magento_TestFramework_Helper_Api::call($this, 'salesOrderShipmentList', $filters);
 
         /** Verify received list of shipments. */
         $this->assertCount(1, $shipmentsList, "Exactly 1 shipment is expected to be in the list results.");
         $fieldsToCompare = array('increment_id', 'total_qty', 'entity_id' => 'shipment_id');
-        Magento_Test_Helper_Api::checkEntityFields(
+        Magento_TestFramework_Helper_Api::checkEntityFields(
             $this,
             $shipmentFixture->getData(),
             reset($shipmentsList),
@@ -97,7 +97,7 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
         $order->loadByIncrementId('100000001');
 
         /** Retrieve carriers list */
-        $carriersList = Magento_Test_Helper_Api::call(
+        $carriersList = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderShipmentGetCarriers',
             array($order->getIncrementId())
@@ -119,7 +119,7 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
     {
         /** Add comment to shipment via API. */
         $commentText = 'Shipment test comment.';
-        $isAdded = Magento_Test_Helper_Api::call(
+        $isAdded = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderShipmentAddComment',
             array(
@@ -153,7 +153,7 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
         $trackingNumber = 'N123456';
 
         /** Add tracking information via API. */
-        $trackingNumberId = Magento_Test_Helper_Api::call(
+        $trackingNumberId = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderShipmentAddTrack',
             array($this->_getShipmentFixture()->getIncrementId(), $carrierCode, $trackingTitle, $trackingNumber)
@@ -172,7 +172,7 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
         );
 
         /** Remove tracking information via API. */
-        $isRemoved = Magento_Test_Helper_Api::call(
+        $isRemoved = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderShipmentRemoveTrack',
             array($this->_getShipmentFixture()->getIncrementId(), $trackingNumberId)
@@ -196,7 +196,7 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
     public function testCRUD()
     {
         // Create new shipment
-        $newShipmentId = Magento_Test_Helper_Api::call(
+        $newShipmentId = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderShipmentCreate',
             array(
@@ -210,7 +210,7 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
         Mage::register('shipmentIncrementId', $newShipmentId);
 
         // View new shipment
-        $shipment = Magento_Test_Helper_Api::call(
+        $shipment = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderShipmentInfo',
             array(
@@ -231,10 +231,10 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
     {
         // Set shipping increment id prefix
         $prefix = '01';
-        Magento_Test_Helper_Eav::setIncrementIdPrefix('shipment', $prefix);
+        Magento_TestFramework_Helper_Eav::setIncrementIdPrefix('shipment', $prefix);
 
         // Create new shipment
-        $newShipmentId = Magento_Test_Helper_Api::call(
+        $newShipmentId = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderShipmentCreate',
             array(
@@ -260,7 +260,7 @@ class Magento_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestC
      */
     public function testSendInfo()
     {
-        $isSent = Magento_Test_Helper_Api::call(
+        $isSent = Magento_TestFramework_Helper_Api::call(
             $this,
             'salesOrderShipmentSendInfo',
             array(

@@ -18,7 +18,8 @@ class Magento_Page_Block_Html_FooterTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $design = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface');
         $this->_theme = $design->setDefaultDesignTheme()->getDesignTheme();
     }
 

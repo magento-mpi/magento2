@@ -23,7 +23,7 @@ class Magento_User_Model_Resource_RoleTest extends PHPUnit_Framework_TestCase
 
         $this->assertEmpty($roleResource->getRoleUsers($role));
 
-        $role->load(Magento_Test_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
+        $role->load(Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
         $this->assertNotEmpty($roleResource->getRoleUsers($role));
     }
 }

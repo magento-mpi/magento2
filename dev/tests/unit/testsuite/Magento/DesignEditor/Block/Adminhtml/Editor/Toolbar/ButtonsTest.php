@@ -25,7 +25,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PH
 
     protected function setUp()
     {
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array('getUrl'), array(), '', false);
 

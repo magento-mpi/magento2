@@ -18,7 +18,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     public function testIsVirtualChecked($type)
     {
         $currentProduct = Mage::getModel('Magento_Catalog_Model_Product');
-        $currentProduct->setTypeInstance(Magento_Test_Helper_Bootstrap::getObjectManager()->create($type));
+        $currentProduct->setTypeInstance(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($type));
 
         $block = Mage::getObjectManager()->create('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight');
 
@@ -48,7 +48,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     public function testIsVirtualUnchecked($type)
     {
         $currentProduct = Mage::getModel('Magento_Catalog_Model_Product');
-        $currentProduct->setTypeInstance(Magento_Test_Helper_Bootstrap::getObjectManager()->create($type));
+        $currentProduct->setTypeInstance(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($type));
 
         $block = Mage::getObjectManager()->create('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight');
 

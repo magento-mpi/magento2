@@ -52,7 +52,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest exten
             ->will($this->returnValue($this->_url));
 
         //5. Run functionality
-        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $data = array(
             'helperFactory' => $helperFactory,
             'service'       => $service,

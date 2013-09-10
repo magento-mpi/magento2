@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-class Magento_Paypal_Controller_ExpressTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Paypal_Controller_ExpressTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/Sales/_files/quote.php

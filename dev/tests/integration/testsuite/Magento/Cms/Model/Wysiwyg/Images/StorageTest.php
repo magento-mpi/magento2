@@ -19,7 +19,7 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
 
     public static function setUpBeforeClass()
     {
-        self::$_baseDir = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Cms_Helper_Wysiwyg_Images')
+        self::$_baseDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Cms_Helper_Wysiwyg_Images')
                 ->getCurrentPath() . __CLASS__;
         mkdir(self::$_baseDir, 0777);
         touch(self::$_baseDir . DIRECTORY_SEPARATOR . '1.swf');
@@ -35,7 +35,7 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
      */
     public function testGetFilesCollection()
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
         /** @var $model Magento_Cms_Model_Wysiwyg_Images_Storage */
         $model = Mage::getModel('Magento_Cms_Model_Wysiwyg_Images_Storage');
@@ -56,7 +56,7 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
     {
         $model = Mage::getModel('Magento_Cms_Model_Wysiwyg_Images_Storage');
         $this->assertStringStartsWith(
-            realpath(Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir()),
+            realpath(Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir()),
             $model->getThumbsPath()
         );
     }

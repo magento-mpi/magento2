@@ -12,7 +12,7 @@
 /**
  * Test backend controller for the design editor
  */
-class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest extends PHPUnit_Framework_TestCase
+class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor
@@ -33,7 +33,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTe
             array($backendData), '', false, false, true, array('setActionName'));
         $request->expects($this->any())->method('setActionName')->will($this->returnSelf());
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         /** @var $layoutMock Magento_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject */
         $layoutMock = $this->getMock('Magento_Core_Model_Layout',
