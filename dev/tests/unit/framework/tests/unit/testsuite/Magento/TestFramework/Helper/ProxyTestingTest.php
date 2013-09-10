@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Helper_ProxyTestingTest extends PHPUnit_Framework_TestCase
+class Magento_TestFramework_Helper_ProxyTestingTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $method

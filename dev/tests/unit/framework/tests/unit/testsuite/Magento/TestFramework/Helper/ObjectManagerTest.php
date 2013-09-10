@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
+class Magento_TestFramework_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * List of block default dependencies
@@ -22,7 +22,7 @@ class Magento_Test_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
         'eventManager'    => 'Magento_Core_Model_Event_Manager',
         'translator'      => 'Magento_Core_Model_Translate',
         'cache'           => 'Magento_Core_Model_CacheInterface',
-        'design'   => 'Magento_Core_Model_View_DesignInterface',
+        'design'          => 'Magento_Core_Model_View_DesignInterface',
         'session'         => 'Magento_Core_Model_Session',
         'storeConfig'     => 'Magento_Core_Model_Store_Config',
         'frontController' => 'Magento_Core_Controller_Varien_Front'
