@@ -47,11 +47,6 @@
 class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
 {
     /**
-     * Related cache types config path
-     */
-    const XML_NODE_RELATED_CACHE = 'global/catalogrule/related_cache_types';
-
-    /**
      * Prefix of model events names
      *
      * @var string
@@ -94,6 +89,37 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @var array
      */
     protected static $_priceRulesData = array();
+
+    /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_cacheTypesList;
+
+    /**
+     * @var array
+     */
+    protected $_relatedCacheTypes;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypesList
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $relatedCacheTypes
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypesList,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $relatedCacheTypes = array(),
+        array $data = array()
+    ) {
+        $this->_cacheTypesList = $cacheTypesList;
+        $this->_relatedCacheTypes = $relatedCacheTypes;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Init resource model and id field
@@ -373,12 +399,8 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     protected function _invalidateCache()
     {
-        $types = Mage::getConfig()->getNode(self::XML_NODE_RELATED_CACHE);
-        if ($types) {
-            $types = $types->asArray();
-            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
-            $cacheTypeList->invalidate(array_keys($types));
+        if (is_array($this->_relatedCacheTypes)) {
+            $this->_cacheTypesList->invalidate(array_keys($this->_relatedCacheTypes));
         }
         return $this;
     }

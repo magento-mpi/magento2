@@ -18,11 +18,6 @@
                 </setup>
             </catalogrule_setup>
         </resources>
-        <catalogrule>
-            <related_cache_types>
-                <block_html />
-            </related_cache_types>
-        </catalogrule>
     </global>
     <frontend>
         <translate>
@@ -58,4 +53,4 @@
             </catalogrule_apply_all>
         </jobs>
     </crontab>
-</config>
+</config>
