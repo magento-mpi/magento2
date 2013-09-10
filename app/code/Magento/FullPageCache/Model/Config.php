@@ -1,103 +1,70 @@
 <?php
 /**
+ * Placeholder mapper model. Map block instance to placeholders configuration
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_FullPageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Magento_FullPageCache_Model_Config extends Magento_Simplexml_Config
+class Magento_FullPageCache_Model_Placeholder_Mapper
 {
-    protected $_placeholders = null;
+    /**
+     * @var Magento_FullPageCache_Model_Placeholder_ConfigInterface
+     */
+    protected $_config;
 
     /**
-     * Class constructor
-     * load cache configuration
-     *
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param $data
+     * @var Magento_FullPageCache_Model_Container_PlaceholderFactory
+     */
+    protected $_factory;
+
+    /**
+     * @param Magento_FullPageCache_Model_Container_PlaceholderFactory $factory
+     * @param Magento_FullPageCache_Model_Placeholder_ConfigInterface $config
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        $data = null
+        Magento_FullPageCache_Model_Container_PlaceholderFactory $factory,
+        Magento_FullPageCache_Model_Placeholder_ConfigInterface $config
     ) {
-        parent::__construct($data);
-        $cacheId = 'placeholders_config';
-        $cachedXml = $configCacheType->load($cacheId);
-        if ($cachedXml) {
-            $this->loadString($cachedXml);
-        } else {
-            $config = $configReader->loadModulesConfiguration('placeholder.xml');
-            $xmlConfig = $config->getNode();
-            $configCacheType->save($xmlConfig->asNiceXml(), $cacheId);
-            $this->setXml($xmlConfig);
-        }
+        $this->_factory = $factory;
+        $this->_config = $config;
     }
 
     /**
-     * Initialize all declared placeholders as array
-     * @return Magento_FullPageCache_Model_Config
-     */
-    protected function _initPlaceholders()
-    {
-        if ($this->_placeholders === null) {
-            $this->_placeholders = array();
-            foreach ($this->getNode('placeholders')->children() as $placeholder) {
-                $this->_placeholders[(string)$placeholder->block][] = array(
-                    'container'     => (string)$placeholder->container,
-                    'code'          => (string)$placeholder->placeholder,
-                    'cache_lifetime'=> (int) $placeholder->cache_lifetime,
-                    'name'          => (string) $placeholder->name
-                );
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Create placeholder object based on block information
+     * Map block instance to placeholder configuration and returns new placeholder instance
      *
      * @param Magento_Core_Block_Abstract $block
-     * @return Magento_FullPageCache_Model_Container_Placeholder
+     * @return Magento_FullPageCache_Model_Container_Placeholder|null
      */
-    public function getBlockPlaceholder($block)
+    public function map(Magento_Core_Block_Abstract $block)
     {
-        $this->_initPlaceholders();
         $type = $block->getType();
-
-        if (isset($this->_placeholders[$type])) {
-            $placeholderData = false;
-            foreach ($this->_placeholders[$type] as $placeholderInfo) {
-                if (!empty($placeholderInfo['name'])) {
-                    if ($placeholderInfo['name'] == $block->getNameInLayout()) {
-                        $placeholderData = $placeholderInfo;
-                    }
-                } else {
+        $placeholderData = null;
+        foreach ($this->_config->getPlaceholders($type) as $placeholderInfo) {
+            if (!empty($placeholderInfo['name'])) {
+                if ($placeholderInfo['name'] == $block->getNameInLayout()) {
                     $placeholderData = $placeholderInfo;
                 }
+            } else {
+                $placeholderData = $placeholderInfo;
             }
-
-            if (!$placeholderData) {
-                return false;
-            }
-
-            $placeholder = $placeholderData['code']
-                . ' container="' . $placeholderData['container'] . '"'
-                . ' block="' . get_class($block) . '"';
-            $placeholder.= ' cache_id="' . $block->getCacheKey() . '"';
-            foreach ($block->getCacheKeyInfo() as $k => $v) {
-                if (is_string($k) && !empty($k)) {
-                    $placeholder .= ' ' . $k . '="' . $v . '"';
-                }
-            }
-            $placeholder = Mage::getModel('Magento_FullPageCache_Model_Container_Placeholder',
-                array('definition' => $placeholder));
-            return $placeholder;
         }
-        return false;
+
+        if (null === $placeholderData) {
+            return null;
+        }
+
+        $placeholder = $placeholderData['code']
+            . ' container="' . $placeholderData['container'] . '"'
+            . ' block="' . get_class($block) . '"'
+            . ' cache_id="' . $block->getCacheKey() . '"';
+
+        foreach ($block->getCacheKeyInfo() as $key => $value) {
+            if (is_string($key) && !empty($key)) {
+                $placeholder .= ' ' . $key . '="' . $value . '"';
+            }
+        }
+        return $this->_factory->create($placeholder);
     }
 }

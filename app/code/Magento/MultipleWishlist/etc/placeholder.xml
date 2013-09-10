@@ -1,33 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <!--
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
-    <placeholders>
-        <wishlist>
-            <block>Magento_MultipleWishlist_Block_Customer_Sidebar</block>
-            <placeholder>WISHLIST</placeholder>
-            <container>Magento_FullPageCache_Model_Container_Wishlist</container>
-            <cache_lifetime>86400</cache_lifetime>
-        </wishlist>
-        <wishlist_links>
-            <block>Magento_MultipleWishlist_Block_Links</block>
-            <placeholder>WISHLISTLINKS</placeholder>
-            <container>Magento_FullPageCache_Model_Container_Wishlistlinks</container>
-            <cache_lifetime>86400</cache_lifetime>
-        </wishlist_links>
-        <wishlist_list>
-            <block>Magento_MultipleWishlist_Block_Behaviour</block>
-            <placeholder>WISHLISTS</placeholder>
-            <container>Magento_FullPageCache_Model_Container_Wishlists</container>
-            <cache_lifetime>86400</cache_lifetime>
-        </wishlist_list>
-    </placeholders>
+    <placeholder name="wishlist" code="WISHLIST" cacheLifeTime="86400">
+        <container instance="Magento_FullPageCache_Model_Container_Wishlist" />
+        <block instance="Magento_MultipleWishlist_Block_Customer_Sidebar" />
+    </placeholder>
+    <placeholder name="wishlist_links" code="WISHLISTLINKS" cacheLifeTime="86400">
+        <container instance="Magento_FullPageCache_Model_Container_Wishlistlinks" />
+        <block instance="Magento_MultipleWishlist_Block_Links" />
+    </placeholder>
+    <placeholder name="wishlist_list" code="WISHLISTS" cacheLifeTime="86400">
+        <container instance="Magento_FullPageCache_Model_Container_Wishlists" />
+        <block instance="Magento_MultipleWishlist_Block_Behaviour" />
+    </placeholder>
 </config>
