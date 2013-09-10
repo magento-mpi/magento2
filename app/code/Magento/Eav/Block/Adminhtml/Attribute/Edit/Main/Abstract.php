@@ -28,6 +28,24 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
      */
     protected $_eavData = null;
 
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Eav_Helper_Data $eavData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eavData = $eavData;
+        parent::__construct($formFactory, $coreData, $context, $data);
+    }
+
     public function setAttributeObject($attribute)
     {
         $this->_attribute = $attribute;
