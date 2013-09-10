@@ -61,6 +61,10 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     protected $_objectManager;
 
+    /**
+     * @param Magento_ObjectManager $objectManager
+     * @param null|string|Zend_Uri $uri
+     */
     public function __construct(
         Magento_ObjectManager $objectManager,
         $uri = null
