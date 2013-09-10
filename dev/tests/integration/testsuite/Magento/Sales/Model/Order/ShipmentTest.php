@@ -25,7 +25,8 @@ class Magento_Sales_Model_Order_ShipmentTest extends PHPUnit_Framework_TestCase
         $shipment->setOrder($order);
 
         $payment = $order->getPayment();
-        $paymentInfoBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Payment_Helper_Data')
+        $paymentInfoBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Payment_Helper_Data')
             ->getInfoBlock($payment);
         $paymentInfoBlock->setArea('invalid-area');
         $payment->setBlockMock($paymentInfoBlock);

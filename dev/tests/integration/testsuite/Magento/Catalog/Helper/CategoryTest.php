@@ -18,7 +18,8 @@ class Magento_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Helper_Category');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Helper_Category');
     }
 
     protected function tearDown()
