@@ -30,7 +30,9 @@ class Magento_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
             Mage::getModel('Magento_Core_Controller_Front_Action', array('context' => $context)),
             $page->getId()
         );
-        $this->assertEquals('magento_blank', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface');
+        $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
         $this->assertTrue($result);
     }
 }
