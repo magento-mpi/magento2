@@ -23,7 +23,7 @@ class Magento_Directory_Model_Config_Source_CountryTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_collectionMock = $this->getMock(
             'Magento_Directory_Model_Resource_Country_Collection', array(), array(), '', false
         );

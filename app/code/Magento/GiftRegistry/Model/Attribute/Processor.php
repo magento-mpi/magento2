@@ -25,7 +25,8 @@ class Magento_GiftRegistry_Model_Attribute_Processor extends Magento_Core_Model_
      */
     public function processData($type)
     {
-        if ($data = $type->getAttributes()) {
+        $data = $type->getAttributes();
+        if ($data) {
             $xmlObj = new Magento_Simplexml_Element('<config></config>');
             $typeXml = $xmlObj->addChild(self::XML_PROTOTYPE_NODE);
             if (is_array($data)) {
@@ -73,9 +74,17 @@ class Magento_GiftRegistry_Model_Attribute_Processor extends Magento_Core_Model_
                 $attributeXml->addChild('sort_order', $attribute['sort_order']);
 
                 switch ($attribute['type']) {
-                    case 'select': $this->addSelectOptions($attribute, $attributeXml); break;
-                    case 'date': $this->addDateOptions($attribute, $attributeXml); break;
-                    case 'country': $this->addCountryOptions($attribute, $attributeXml); break;
+                    case 'select':
+                        $this->addSelectOptions($attribute, $attributeXml);
+                        break;
+                    case 'date':
+                        $this->addDateOptions($attribute, $attributeXml);
+                        break;
+                    case 'country':
+                        $this->addCountryOptions($attribute, $attributeXml);
+                        break;
+                    default:
+                        break;
                 }
                 $this->addFrontendParams($attribute, $attributeXml);
             }

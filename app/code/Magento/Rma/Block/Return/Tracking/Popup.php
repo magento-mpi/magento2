@@ -18,7 +18,7 @@ class Magento_Rma_Block_Return_Tracking_Popup extends Magento_Shipping_Block_Tra
     public function getTrackingInfo()
     {
         /* @var $info Magento_Rma_Model_Shipping_Info */
-        $info = Mage::registry('rma_current_shipping');
+        $info = $this->_coreRegistry->registry('rma_current_shipping');
 
         return $info->getTrackingInfo();
     }

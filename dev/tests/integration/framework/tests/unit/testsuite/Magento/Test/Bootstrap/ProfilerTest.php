@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Magento_Test_Bootstrap_Profiler.
+ * Test class for Magento_TestFramework_Bootstrap_Profiler.
  */
 class Magento_Test_Bootstrap_ProfilerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Bootstrap_Profiler
+     * @var Magento_TestFramework_Bootstrap_Profiler
      */
     protected $_object;
 
@@ -28,7 +28,7 @@ class Magento_Test_Bootstrap_ProfilerTest extends PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('');
         $this->_driver = $this->getMock('Magento_Profiler_Driver_Standard', array('registerOutput'));
-        $this->_object = new Magento_Test_Bootstrap_Profiler($this->_driver);
+        $this->_object = new Magento_TestFramework_Bootstrap_Profiler($this->_driver);
     }
 
     protected function tearDown()
@@ -52,7 +52,7 @@ class Magento_Test_Bootstrap_ProfilerTest extends PHPUnit_Framework_TestCase
         $this->_driver
             ->expects($this->once())
             ->method('registerOutput')
-            ->with($this->isInstanceOf('Magento_Test_Profiler_OutputBamboo'))
+            ->with($this->isInstanceOf('Magento_TestFramework_Profiler_OutputBamboo'))
         ;
         $this->_object->registerBambooProfiler('php://output', __DIR__ . '/_files/metrics.php');
     }

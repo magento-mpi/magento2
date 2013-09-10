@@ -47,7 +47,7 @@ class Magento_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Reso
 
         $result = array();
         try {
-            $uploader = Mage::getModel('Magento_Downloadable_Model_Link_Api_Uploader', array('file' => $fileInfo));
+            $uploader = Mage::getModel('Magento_Downloadable_Model_Link_Api_Uploader', array('fileId' => $fileInfo));
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save($tmpPath);

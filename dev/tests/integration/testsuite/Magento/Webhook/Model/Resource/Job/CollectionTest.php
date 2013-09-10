@@ -30,7 +30,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
 
     public function setUp()
     {
-        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_user = $this->_objectManager->create('Magento_Webapi_Model_Acl_User')
             ->setApiKey(md5(rand(0, time())))
             ->save();

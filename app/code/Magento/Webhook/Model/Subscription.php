@@ -56,6 +56,7 @@ class Magento_Webhook_Model_Subscription
     /**
      * @param Magento_Webhook_Model_Endpoint $endpoint
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -63,6 +64,7 @@ class Magento_Webhook_Model_Subscription
     public function __construct(
         Magento_Webhook_Model_Endpoint $endpoint,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -71,7 +73,7 @@ class Magento_Webhook_Model_Subscription
         if (!isset($data['status'])) {
             $data['status'] = Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE;
         }
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $coreRegistry, $resource, $resourceCollection, $data);
 
         $this->_endpoint = $endpoint;
     }

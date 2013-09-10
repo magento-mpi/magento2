@@ -10,12 +10,7 @@
 
 /**
  * Adminhtml invoice items grid
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
 {
     protected $_disableSubmitButton = false;
@@ -97,7 +92,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return $this->_coreRegistry->registry('current_invoice');
     }
 
     /**

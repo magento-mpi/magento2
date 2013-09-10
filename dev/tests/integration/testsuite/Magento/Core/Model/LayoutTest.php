@@ -219,7 +219,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('Magento_Core_Block_Text', $this->_layout->addBlock('Magento_Core_Block_Text',
             'block1'));
-        $block2 = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Block_Text');
+        $block2 = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Block_Text');
         $block2->setNameInLayout('block2');
         $this->_layout->addBlock($block2, '', 'block1');
 

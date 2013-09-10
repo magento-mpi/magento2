@@ -27,7 +27,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     {
         parent::_construct();
 
-        $this->setId('enterprise_customer_address_attribute_edit_tabs');
+        $this->setId('magento_customercustomattributes_address_attribute_edit_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle(__('Attribute Information'));
     }

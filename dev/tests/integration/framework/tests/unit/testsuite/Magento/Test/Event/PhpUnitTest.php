@@ -10,35 +10,35 @@
  */
 
 /**
- * Test class for Magento_Test_Event_PhpUnit.
+ * Test class for Magento_TestFramework_Event_PhpUnit.
  */
 class Magento_Test_Event_PhpUnitTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Event_PhpUnit
+     * @var Magento_TestFramework_Event_PhpUnit
      */
     protected $_object;
 
     /**
-     * @var Magento_Test_EventManager|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_TestFramework_EventManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventManager;
 
     protected function setUp()
     {
-        $this->_eventManager = $this->getMock('Magento_Test_EventManager', array('fireEvent'), array(array()));
-        $this->_object = new Magento_Test_Event_PhpUnit($this->_eventManager);
+        $this->_eventManager = $this->getMock('Magento_TestFramework_EventManager', array('fireEvent'), array(array()));
+        $this->_object = new Magento_TestFramework_Event_PhpUnit($this->_eventManager);
     }
 
     protected function tearDown()
     {
-        Magento_Test_Event_PhpUnit::setDefaultEventManager(null);
+        Magento_TestFramework_Event_PhpUnit::setDefaultEventManager(null);
     }
 
     public function testConstructorDefaultEventManager()
     {
-        Magento_Test_Event_PhpUnit::setDefaultEventManager($this->_eventManager);
-        $this->_object = new Magento_Test_Event_PhpUnit();
+        Magento_TestFramework_Event_PhpUnit::setDefaultEventManager($this->_eventManager);
+        $this->_object = new Magento_TestFramework_Event_PhpUnit();
         $this->testStartTestSuiteFireEvent();
     }
 
@@ -47,7 +47,7 @@ class Magento_Test_Event_PhpUnitTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new Magento_Test_Event_Magento();
+        new Magento_TestFramework_Event_Magento();
     }
 
     /**

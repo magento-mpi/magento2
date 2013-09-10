@@ -17,11 +17,30 @@
 class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Check is allowed access
      *
      * @return bool
      */
-    protected function _isAllowed ()
+    protected function _isAllowed()
     {
         return $this->_authorization
             ->isAllowed('Magento_Newsletter::template');
@@ -41,7 +60,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
      * View Templates list
      *
      */
-    public function indexAction ()
+    public function indexAction()
     {
         $this->_setTitle();
 
@@ -60,7 +79,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
      * JSON Grid Action
      *
      */
-    public function gridAction ()
+    public function gridAction()
     {
         $this->loadLayout();
         $grid = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Newsletter_Template_Grid')
@@ -72,7 +91,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
      * Create new Newsletter Template
      *
      */
-    public function newAction ()
+    public function newAction()
     {
         $this->_forward('edit');
     }
@@ -81,16 +100,17 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
      * Edit Newsletter Template
      *
      */
-    public function editAction ()
+    public function editAction()
     {
         $this->_setTitle();
 
         $model = Mage::getModel('Magento_Newsletter_Model_Template');
-        if ($id = $this->getRequest()->getParam('id')) {
+        $id = $this->getRequest()->getParam('id');
+        if ($id) {
             $model->load($id);
         }
 
-        Mage::register('_current_template', $model);
+        $this->_coreRegistry->register('_current_template', $model);
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
@@ -98,8 +118,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
         if ($model->getId()) {
             $breadcrumbTitle = __('Edit Template');
             $breadcrumbLabel = $breadcrumbTitle;
-        }
-        else {
+        } else {
             $breadcrumbTitle = __('New Template');
             $breadcrumbLabel = __('Create Newsletter Template');
         }
@@ -109,11 +128,13 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
         $this->_addBreadcrumb($breadcrumbLabel, $breadcrumbTitle);
 
         // restore data
-        if ($values = $this->_getSession()->getData('newsletter_template_form_data', true)) {
+        $values = $this->_getSession()->getData('newsletter_template_form_data', true);
+        if ($values) {
             $model->addData($values);
         }
 
-        if ($editBlock = $this->getLayout()->getBlock('template_edit')) {
+        $editBlock = $this->getLayout()->getBlock('template_edit');
+        if ($editBlock) {
             $editBlock->setEditMode($model->getId() > 0);
         }
 
@@ -124,7 +145,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
      * Drop Newsletter Template
      *
      */
-    public function dropAction ()
+    public function dropAction()
     {
         $this->loadLayout('newsletter_template_preview');
         $this->renderLayout();
@@ -134,7 +155,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
      * Save Newsletter Template
      *
      */
-    public function saveAction ()
+    public function saveAction()
     {
         $request = $this->getRequest();
         if (!$request->isPost()) {
@@ -142,7 +163,8 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
         }
         $template = Mage::getModel('Magento_Newsletter_Model_Template');
 
-        if ($id = (int)$request->getParam('id')) {
+        $id = (int)$request->getParam('id');
+        if ($id) {
             $template->load($id);
         }
 
@@ -192,7 +214,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
      * Delete newsletter Template
      *
      */
-    public function deleteAction ()
+    public function deleteAction()
     {
         $template = Mage::getModel('Magento_Newsletter_Model_Template')
             ->load($this->getRequest()->getParam('id'));
@@ -216,7 +238,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
      * Preview Newsletter template
      *
      */
-    public function previewAction ()
+    public function previewAction()
     {
         $this->_setTitle();
         $this->loadLayout();

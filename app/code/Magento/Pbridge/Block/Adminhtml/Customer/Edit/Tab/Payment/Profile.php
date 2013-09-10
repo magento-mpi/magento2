@@ -41,6 +41,25 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
     protected $_iframeHeight = '600';
 
     /**
+     * Core registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Getter for label
      * @return string
      */
@@ -64,7 +83,7 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function canShowTab()
     {
-        if (Mage::registry('current_customer')->getId() && $this->_isProfileEnable()) {
+        if ($this->_coreRegistry->registry('current_customer')->getId() && $this->_isProfileEnable()) {
             return true;
         }
         return false;
@@ -76,7 +95,7 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function isHidden()
     {
-        if (Mage::registry('current_customer')->getId() && $this->_isProfileEnable()) {
+        if ($this->_coreRegistry->registry('current_customer')->getId() && $this->_isProfileEnable()) {
             return false;
         }
         return true;
@@ -127,8 +146,8 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     protected function _getCurrentCustomer()
     {
-        if (Mage::registry('current_customer') instanceof Magento_Customer_Model_Customer) {
-            return Mage::registry('current_customer');
+        if ($this->_coreRegistry->registry('current_customer') instanceof Magento_Customer_Model_Customer) {
+            return $this->_coreRegistry->registry('current_customer');
         }
 
         return null;

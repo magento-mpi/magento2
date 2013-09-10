@@ -46,10 +46,13 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $this->_readerMock = $this->getMockBuilder('Magento_Widget_Model_Config_Reader')
             ->disableOriginalConstructor()
             ->getMock();
+        $registryMock = $this->getMockBuilder('Magento_Core_Model_Registry')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_model = $this->getMock(
             'Magento_Widget_Model_Widget_Instance',
             array('_construct'),
-            array($contextMock, $this->_viewFileSystemMock, $this->_readerMock , $this->_widgetModelMock,
+            array($contextMock, $registryMock, $this->_viewFileSystemMock, $this->_readerMock , $this->_widgetModelMock,
                 $this->_coreConfigMock),
             '',
             true

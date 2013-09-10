@@ -156,7 +156,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $product->setData($productData['create_full_fledged']);
         $product->save();
 
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductSetSpecialPrice',
             array(
@@ -190,7 +190,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         //generate numeric sku
         $data['create_with_attributes_soapv2']['sku'] = rand(1000000, 99999999);
 
-        $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create']);
+        $productId = Magento_TestFramework_Helper_Api::call($this, 'catalogProductCreate', $data['create']);
 
         $this->assertEquals(
             $productId,
@@ -203,7 +203,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $product->load($productId);
         $this->assertNotNull($product->getId(), 'Tested product not found.');
 
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductInfo',
             array(
@@ -229,7 +229,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $data = require __DIR__ . '/_files/ProductData.php';
 
         // create product for test
-        $productId = Magento_Test_Helper_Api::call(
+        $productId = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductCreate',
             $data['create_with_attributes_soapv2']
@@ -246,7 +246,8 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         //update product
         $data['create_with_attributes_soapv2'] = array('productId' => $productId) + $data['update'];
 
-        $isOk = Magento_Test_Helper_Api::call($this, 'catalogProductUpdate', $data['create_with_attributes_soapv2']);
+        $isOk = Magento_TestFramework_Helper_Api::call(
+            $this, 'catalogProductUpdate', $data['create_with_attributes_soapv2']);
 
         //test call response is true
         $this->assertTrue($isOk, 'Call returned false');
@@ -258,7 +259,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $this->assertEquals($data['update']['productData']->name, $product->getName());
 
         //delete product
-        $isOk = Magento_Test_Helper_Api::call($this, 'catalogProductDelete', array('productId' => $productId));
+        $isOk = Magento_TestFramework_Helper_Api::call($this, 'catalogProductDelete', array('productId' => $productId));
 
         //test call response is true
         $this->assertTrue((bool)$isOk, 'Call returned false'); //in SOAP v2 it's integer:1
@@ -278,8 +279,11 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
     public function testProductWithOptionsCrud()
     {
         $this->markTestIncomplete('TODO: Fix test');
-        $optionValueApi = Mage::registry('optionValueApi');
-        $optionValueInstaller = Mage::registry('optionValueInstaller');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $optionValueApi = $objectManager->get('Magento_Core_Model_Registry')->registry('optionValueApi');
+        $optionValueInstaller = $objectManager->get('Magento_Core_Model_Registry')->registry('optionValueInstaller');
         $data = require __DIR__ . '/_files/ProductData.php';
 
         $singleData = & $data['create_with_attributes_soapv2']['productData']->additional_attributes->singleData;
@@ -288,7 +292,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $attributes = $data['create_with_attributes_soapv2']['productData']->additional_attributes;
 
         // create product for test
-        $productId = Magento_Test_Helper_Api::call(
+        $productId = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductCreate',
             $data['create_with_attributes_soapv2']
@@ -319,7 +323,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $productData = $productData['create_full']['soap'];
         $productData['set'] = 9999;
 
-        Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate',
+        Magento_TestFramework_Helper_Api::callWithException($this, 'catalogProductCreate',
             $productData, 'Product attribute set does not exist.'
         );
 
@@ -338,7 +342,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
 
         $productData['set'] = $categoryAttrSetId;
 
-        Magento_Test_Helper_Api::callWithException($this, 'catalogProductCreate',
+        Magento_TestFramework_Helper_Api::callWithException($this, 'catalogProductCreate',
             $productData, 'Product attribute set does not belong to catalog product entity type.'
         );
     }
@@ -351,18 +355,22 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
      */
     public function testProductUpdateCustomStore()
     {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         /** @var Magento_Core_Model_Store $store */
-        $store = Mage::registry('store_on_new_website');
+        $store = $objectManager->get('Magento_Core_Model_Registry')->registry('store_on_new_website');
 
         $data = require __DIR__ . '/_files/ProductData.php';
         // create product for test
-        $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create_full']['soap']);
+        $productId =
+            Magento_TestFramework_Helper_Api::call($this, 'catalogProductCreate', $data['create_full']['soap']);
         $this->assertGreaterThan(0, $productId, 'Product was not created');
 
         // update product on test store
         $data['update_custom_store'] = array('productId' => $productId) + $data['update_custom_store'];
         $data['update_custom_store']['store'] = $store->getCode();
-        $isOk = Magento_Test_Helper_Api::call($this, 'catalogProductUpdate', $data['update_custom_store']);
+        $isOk = Magento_TestFramework_Helper_Api::call($this, 'catalogProductUpdate', $data['update_custom_store']);
         $this->assertTrue($isOk, 'Can not update product on test store');
 
         // Load product in test store
@@ -377,7 +385,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
 
         // update product attribute in default store
         $data['update_default_store'] = array('productId' => $productId) + $data['update_default_store'];
-        $isOk = Magento_Test_Helper_Api::call($this, 'catalogProductUpdate', $data['update_default_store']);
+        $isOk = Magento_TestFramework_Helper_Api::call($this, 'catalogProductUpdate', $data['update_default_store']);
         $this->assertTrue($isOk, 'Can not update product on default store');
 
         // Load product in default store
@@ -420,7 +428,7 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         $productData = $productData['create'];
 
         // create product for test
-        $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $productData);
+        $productId = Magento_TestFramework_Helper_Api::call($this, 'catalogProductCreate', $productData);
 
         // test new product id returned
         $this->assertGreaterThan(0, $productId);

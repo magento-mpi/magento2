@@ -17,13 +17,31 @@
  */
 class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Action
 {
-
     /**
      * Action list where need check enabled cookie
      *
      * @var array
      */
     protected $_cookieCheckActions = array('post');
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
 
     public function preDispatch()
     {
@@ -38,7 +56,9 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
         if (!$allowGuest && $action == 'post' && $this->getRequest()->isPost()) {
             if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-                Mage::getSingleton('Magento_Customer_Model_Session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current' => true)));
+                Mage::getSingleton('Magento_Customer_Model_Session')->setBeforeAuthUrl(
+                    Mage::getUrl('*/*/*', array('_current' => true))
+                );
                 Mage::getSingleton('Magento_Review_Model_Session')->setFormData($this->getRequest()->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
                 $this->_redirectUrl(Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl());
@@ -65,7 +85,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
 
         if ($categoryId) {
             $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
-            Mage::register('current_category', $category);
+            $this->_coreRegistry->register('current_category', $category);
         }
 
         try {
@@ -103,8 +123,8 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
             return false;
         }
 
-        Mage::register('current_product', $product);
-        Mage::register('product', $product);
+        $this->_coreRegistry->register('current_product', $product);
+        $this->_coreRegistry->register('product', $product);
 
         return $product;
     }
@@ -128,7 +148,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
             return false;
         }
 
-        Mage::register('current_review', $review);
+        $this->_coreRegistry->register('current_review', $review);
 
         return $review;
     }
@@ -139,7 +159,8 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
      */
     public function postAction()
     {
-        if ($data = Mage::getSingleton('Magento_Review_Model_Session')->getFormData(true)) {
+        $data = Mage::getSingleton('Magento_Review_Model_Session')->getFormData(true);
+        if ($data) {
             $rating = array();
             if (isset($data['ratings']) && is_array($data['ratings'])) {
                 $rating = $data['ratings'];
@@ -176,26 +197,24 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
 
                     $review->aggregate();
                     $session->addSuccess(__('Your review has been accepted for moderation.'));
-                }
-                catch (Exception $e) {
+                } catch (Exception $e) {
                     $session->setFormData($data);
                     $session->addError(__('We cannot post the review.'));
                 }
-            }
-            else {
+            } else {
                 $session->setFormData($data);
                 if (is_array($validate)) {
                     foreach ($validate as $errorMessage) {
                         $session->addError($errorMessage);
                     }
-                }
-                else {
+                } else {
                     $session->addError(__('We cannot post the review.'));
                 }
             }
         }
 
-        if ($redirectUrl = Mage::getSingleton('Magento_Review_Model_Session')->getRedirectUrl(true)) {
+        $redirectUrl = Mage::getSingleton('Magento_Review_Model_Session')->getRedirectUrl(true);
+        if ($redirectUrl) {
             $this->_redirectUrl($redirectUrl);
             return;
         }
@@ -208,8 +227,9 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
      */
     public function listAction()
     {
-        if ($product = $this->_initProduct()) {
-            Mage::register('productId', $product->getId());
+        $product = $this->_initProduct();
+        if ($product) {
+            $this->_coreRegistry->register('productId', $product->getId());
 
             $design = Mage::getSingleton('Magento_Catalog_Model_Design');
             $settings = $design->getDesignSettings($product);
@@ -219,7 +239,8 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
             $this->_initProductLayout($product);
 
             // update breadcrumbs
-            if ($breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+            $breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs');
+            if ($breadcrumbsBlock) {
                 $breadcrumbsBlock->addCrumb('product', array(
                     'label'    => $product->getName(),
                     'link'     => $product->getProductUrl(),
