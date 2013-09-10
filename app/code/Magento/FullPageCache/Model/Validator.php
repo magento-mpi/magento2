@@ -27,14 +27,17 @@ class Magento_FullPageCache_Model_Validator
     /**
      * Constructor dependency injection
      *
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
         if (isset($data['config'])) {
             $this->_config = $data['config'];
         } else {
-            $this->_config = $this->_config;
+            $this->_config = $coreConfig;
         }
     }
 

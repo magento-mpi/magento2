@@ -78,13 +78,13 @@ class Magento_Logging_Model_Event_Changes extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_coreConfig = $coreConfig;
         parent::__construct(
             $context,
             $resource,
             $resourceCollection,
             $data
         );
-        $this->_coreConfig = $coreConfig;
     }
 
     /**

@@ -39,7 +39,7 @@ class Magento_Sales_Model_Order_Invoice_Config extends Magento_Sales_Model_Order
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Config $coreConfig
     ) {
-        parent::__construct($configCacheType, $this->_coreConfig->getNode('global/sales/order_invoice'));
         $this->_coreConfig = $coreConfig;
+        parent::__construct($configCacheType, $this->_coreConfig->getNode('global/sales/order_invoice'));
     }
 }

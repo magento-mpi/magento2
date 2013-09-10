@@ -63,11 +63,6 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     );
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_config;
-
-    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -89,9 +84,9 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
-        parent::__construct($context);
-        $this->_config = $config;
+        $this->_coreConfig = $config;
         $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
     }
 
     /**
@@ -100,7 +95,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     public function getEncryptor()
     {
         if ($this->_encryptor === null) {
-            $encryptionModel = (string)$this->_config->getNode(self::XML_PATH_ENCRYPTION_MODEL);
+            $encryptionModel = (string)$this->_coreConfig->getNode(self::XML_PATH_ENCRYPTION_MODEL);
 
             if (!$encryptionModel) {
                 $encryptionModel = 'Magento_Core_Model_Encryption';
