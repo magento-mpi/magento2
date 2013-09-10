@@ -19,7 +19,8 @@ class Magento_Catalog_Model_Product_Type_VirtualTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
-        $this->_model = new Magento_Catalog_Model_Product_Type_Virtual($filesystem);
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $this->_model = new Magento_Catalog_Model_Product_Type_Virtual($filesystem, $coreRegistry);
     }
 
     public function testHasWeightFalse()

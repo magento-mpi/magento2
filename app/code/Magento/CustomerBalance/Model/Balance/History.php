@@ -50,6 +50,7 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
     /**
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -57,12 +58,13 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
     public function __construct(
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_design = $design;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -119,9 +121,9 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
                         && $user = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()
                     ) {
                         if ($user->getUsername()) {
-                            if (!trim($balance->getComment())){
+                            if (!trim($balance->getComment())) {
                                 $this->setAdditionalInfo(__('By admin: %1.', $user->getUsername()));
-                            }else{
+                            } else {
                                 $this->setAdditionalInfo(__('By admin: %1. (%2)', $user->getUsername(), $balance->getComment()));
                             }
                         }
@@ -214,7 +216,7 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
         $result = array();
         /** @var $collection Magento_CustomerBalance_Model_Resource_Balance_History_Collection */
         $collection = $this->getCollection()->loadHistoryData($customerId, $websiteId);
-        foreach($collection as $historyItem) {
+        foreach ($collection as $historyItem) {
             $result[] = $historyItem->getData();
         }
         return $result;

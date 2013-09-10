@@ -19,6 +19,25 @@
 class Magento_Shipping_Controller_Tracking extends Magento_Core_Controller_Front_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Ajax action
      *
      */
@@ -32,7 +51,7 @@ class Magento_Shipping_Controller_Tracking extends Magento_Core_Controller_Front
             $block->setType('Magento_Core_Block_Template')
                 ->setTemplate('order/trackinginfo.phtml');
 
-            foreach ($tracks as $track){
+            foreach ($tracks as $track) {
                 $trackingInfo = $track->getNumberDetail();
                 $block->setTrackingInfo($trackingInfo);
                 $response .= $block->toHtml()."\n<br />";
@@ -49,7 +68,7 @@ class Magento_Shipping_Controller_Tracking extends Magento_Core_Controller_Front
     public function popupAction()
     {
         $shippingInfoModel = Mage::getModel('Magento_Shipping_Model_Info')->loadByHash($this->getRequest()->getParam('hash'));
-        Mage::register('current_shipping_info', $shippingInfoModel);
+        $this->_coreRegistry->register('current_shipping_info', $shippingInfoModel);
         if (count($shippingInfoModel->getTrackingInfo()) == 0) {
             $this->norouteAction();
             return;

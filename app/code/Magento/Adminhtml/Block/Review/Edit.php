@@ -10,14 +10,30 @@
 
 /**
  * Review edit form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -84,7 +100,7 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
         $this->_updateButton('save', 'id', 'save_button');
         $this->_updateButton('delete', 'label', __('Delete Review'));
 
-        if( $this->getRequest()->getParam('productId', false) ) {
+        if ($this->getRequest()->getParam('productId', false)) {
             $this->_updateButton(
                 'back',
                 'onclick',
@@ -97,7 +113,7 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
             );
         }
 
-        if( $this->getRequest()->getParam('customerId', false) ) {
+        if ($this->getRequest()->getParam('customerId', false)) {
             $this->_updateButton(
                 'back',
                 'onclick',
@@ -110,7 +126,7 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
             );
         }
 
-        if( $this->getRequest()->getParam('ret', false) == 'pending' ) {
+        if ($this->getRequest()->getParam('ret', false) == 'pending') {
             $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/*/pending') .'\')' );
             $this->_updateButton(
                 'delete',
@@ -126,13 +142,13 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
                     ) . '\''
                     . ')'
             );
-            Mage::register('ret', 'pending');
+            $this->_coreRegistry->register('ret', 'pending');
         }
 
-        if( $this->getRequest()->getParam($this->_objectId) ) {
+        if ($this->getRequest()->getParam($this->_objectId)) {
             $reviewData = Mage::getModel('Magento_Review_Model_Review')
                 ->load($this->getRequest()->getParam($this->_objectId));
-            Mage::register('review_data', $reviewData);
+            $this->_coreRegistry->register('review_data', $reviewData);
         }
 
         $this->_formInitScripts[] = '
@@ -162,8 +178,9 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
 
     public function getHeaderText()
     {
-        if( Mage::registry('review_data') && Mage::registry('review_data')->getId() ) {
-            return __("Edit Review '%1'", $this->escapeHtml(Mage::registry('review_data')->getTitle()));
+        $reviewData = $this->_coreRegistry->registry('review_data');
+        if ($reviewData && $reviewData->getId()) {
+            return __("Edit Review '%1'", $this->escapeHtml($reviewData->getTitle()));
         } else {
             return __('New Review');
         }

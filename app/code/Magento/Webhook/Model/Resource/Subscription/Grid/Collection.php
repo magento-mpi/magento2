@@ -12,7 +12,6 @@
 class Magento_Webhook_Model_Resource_Subscription_Grid_Collection
     extends Magento_Webhook_Model_Resource_Subscription_Collection
 {
-
     /**
      * Collection constructor
      *

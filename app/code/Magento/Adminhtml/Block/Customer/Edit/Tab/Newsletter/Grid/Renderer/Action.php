@@ -17,6 +17,26 @@
  */
 class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
 
     public function render(Magento_Object $row)
     {
@@ -27,9 +47,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action 
                 'href'  => $this->getUrl('*/newsletter_template/preview',
                     array(
                         'id'        => $row->getTemplateId(),
-                        'subscriber'=> Mage::registry('subscriber')->getId()
+                        'subscriber'=> $this->_coreRegistry->registry('subscriber')->getId()
                     )
-                                ),
+                ),
                 'target'=>	'_blank'
             ),
             '#'	=> __('View')

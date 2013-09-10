@@ -10,14 +10,28 @@
 
 /**
  * Admin ratings controller
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Controller_Rating extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     public function indexAction()
     {
         $this->_initEnityId();
@@ -75,7 +89,7 @@ class Magento_Adminhtml_Controller_Rating extends Magento_Adminhtml_Controller_A
                     ->setPosition($position)
                     ->setId($this->getRequest()->getParam('id'))
                     ->setIsActive($isActive)
-                    ->setEntityId(Mage::registry('entityId'))
+                    ->setEntityId($this->_coreRegistry->registry('entityId'))
                     ->save();
 
                 $options = $this->getRequest()->getParam('option_title');
@@ -114,7 +128,7 @@ class Magento_Adminhtml_Controller_Rating extends Magento_Adminhtml_Controller_A
 
     public function deleteAction()
     {
-        if( $this->getRequest()->getParam('id') > 0 ) {
+        if ($this->getRequest()->getParam('id') > 0) {
             try {
                 $model = Mage::getModel('Magento_Rating_Model_Rating');
                 /* @var $model Magento_Rating_Model_Rating */
@@ -134,12 +148,13 @@ class Magento_Adminhtml_Controller_Rating extends Magento_Adminhtml_Controller_A
     {
         $this->_title(__('Ratings'));
 
-        Mage::register('entityId', Mage::getModel('Magento_Rating_Model_Rating_Entity')->getIdByCode('product'));
+        $this->_coreRegistry->register(
+            'entityId', Mage::getModel('Magento_Rating_Model_Rating_Entity')->getIdByCode('product')
+        );
     }
 
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Rating::ratings');
     }
-
 }

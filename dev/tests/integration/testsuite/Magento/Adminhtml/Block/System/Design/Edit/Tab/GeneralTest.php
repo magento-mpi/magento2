@@ -24,7 +24,8 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_GeneralTest extends PHPUnit
         $objectManager->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        Mage::register('design', $objectManager ->create('Magento_Core_Model_Design'));
+        $objectManager->get('Magento_Core_Model_Registry')
+            ->register('design', $objectManager ->create('Magento_Core_Model_Design'));
         $layout = $objectManager ->create('Magento_Core_Model_Layout');
         $block = $layout->addBlock('Magento_Adminhtml_Block_System_Design_Edit_Tab_General');
         $prepareFormMethod = new ReflectionMethod(

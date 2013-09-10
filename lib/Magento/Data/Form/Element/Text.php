@@ -17,7 +17,10 @@
  */
 class Magento_Data_Form_Element_Text extends Magento_Data_Form_Element_Abstract
 {
-    public function __construct($attributes=array())
+    /**
+     * @param array $attributes
+     */
+    public function __construct($attributes = array())
     {
         parent::__construct($attributes);
         $this->setType('text');
@@ -32,6 +35,7 @@ class Magento_Data_Form_Element_Text extends Magento_Data_Form_Element_Abstract
 
     public function getHtmlAttributes()
     {
-        return array('type', 'title', 'class', 'style', 'onclick', 'onchange', 'onkeyup', 'disabled', 'readonly', 'maxlength', 'tabindex', 'placeholder');
+        return array('type', 'title', 'class', 'style', 'onclick', 'onchange', 'onkeyup', 'disabled', 'readonly',
+            'maxlength', 'tabindex', 'placeholder');
     }
 }

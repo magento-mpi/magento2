@@ -17,6 +17,27 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes extends Magento_Adminhtml_Block_Catalog_Form
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _prepareForm()
     {
 
@@ -25,7 +46,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes e
          * Initialize product object as form property
          * for using it in elements generation
          */
-        $form->setDataObject(Mage::registry('product'));
+        $form->setDataObject($this->_coreRegistry->registry('product'));
 
         $fieldset = $form->addFieldset('group_fields', array());
 
@@ -33,11 +54,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes e
 
         $this->_setFieldset($attributes, $fieldset, array('gallery'));
 
-        $values = Mage::registry('product')->getData();
+        $values = $this->_coreRegistry->registry('product')->getData();
         /**
          * Set attribute default values for new product
          */
-        if (!Mage::registry('product')->getId()) {
+        if (!$this->_coreRegistry->registry('product')->getId()) {
             foreach ($attributes as $attribute) {
                 if (!isset($values[$attribute->getAttributeCode()])) {
                     $values[$attribute->getAttributeCode()] = $attribute->getDefaultValue();

@@ -82,6 +82,13 @@ class Magento_FullPageCache_Model_Observer
     protected $_designRules;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_FullPageCache_Model_Processor $processor
      * @param Magento_FullPageCache_Model_Request_Identifier $_requestIdentifier
      * @param Magento_FullPageCache_Model_Config $config
@@ -90,6 +97,7 @@ class Magento_FullPageCache_Model_Observer
      * @param Magento_FullPageCache_Model_Cookie $cookie
      * @param Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction
      * @param Magento_FullPageCache_Model_DesignPackage_Rules $designRules
+     * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_FullPageCache_Model_Processor $processor,
@@ -99,8 +107,10 @@ class Magento_FullPageCache_Model_Observer
         Magento_FullPageCache_Model_Cache $fpcCache,
         Magento_FullPageCache_Model_Cookie $cookie,
         Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction,
-        Magento_FullPageCache_Model_DesignPackage_Rules $designRules
+        Magento_FullPageCache_Model_DesignPackage_Rules $designRules,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_processor = $processor;
         $this->_config    = $config;
         $this->_cacheState = $cacheState;
@@ -221,7 +231,7 @@ class Magento_FullPageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $category = Mage::registry('current_category');
+        $category = $this->_coreRegistry->registry('current_category');
         /**
          * Categories with category event can't be cached
          */
@@ -242,7 +252,7 @@ class Magento_FullPageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $product = Mage::registry('current_product');
+        $product = $this->_coreRegistry->registry('current_product');
         /**
          * Categories with category event can't be cached
          */
@@ -382,7 +392,7 @@ class Magento_FullPageCache_Model_Observer
         sort($ids);
         $this->_cookie->set(Magento_FullPageCache_Model_Cookie::COOKIE_COMPARE_LIST, implode(',', $ids));
 
-        //Recenlty compared products processing
+        //Recently compared products processing
         $recentlyComparedProducts = $this->_cookie
             ->get(Magento_FullPageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED);
         $recentlyComparedProducts = (empty($recentlyComparedProducts)) ? array()

@@ -36,17 +36,19 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Theme_Model_Uploader_Service $uploaderService
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_ObjectManager $objectManager,
         Magento_Theme_Model_Uploader_Service $uploaderService,
         array $data = array()
     ) {
-        parent::__construct($context, $objectManager, $data);
+        parent::__construct($context, $registry, $objectManager, $data);
         $this->_uploaderService = $uploaderService;
     }
 

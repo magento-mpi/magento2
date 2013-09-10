@@ -10,12 +10,8 @@
 
 /**
  * Renderer for Payflow Link information
- *
- * @category   Magento
- * @package    Magento_Paypal
- * @author     Magento Core Team <core@magentocommerce.com>
  */
- class Magento_Paypal_Block_Adminhtml_System_Config_Payflowlink_Info
+class Magento_Paypal_Block_Adminhtml_System_Config_Payflowlink_Info
     extends Magento_Backend_Block_System_Config_Form_Field
 {
     /**

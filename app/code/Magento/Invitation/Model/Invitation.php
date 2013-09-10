@@ -90,7 +90,7 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
         if (count($code) != 2) {
             Mage::throwException(__('Please correct the invitation code.'));
         }
-        list($id, $protectionCode) = $code;
+        list ($id, $protectionCode) = $code;
         $this->load($id);
         if (!$this->getId() || $this->getProtectionCode() != $protectionCode) {
             Mage::throwException(__('Please correct the invitation code.'));
@@ -124,8 +124,7 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
                 if (!$this->hasGroupId()) {
                     throw new Magento_Core_Exception(__('You need to specify a customer ID group.'), self::ERROR_INVALID_DATA);
                 }
-            }
-            else {
+            } else {
                 $this->unsetData('group_id');
             }
 
@@ -133,8 +132,7 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
                 throw new Magento_Core_Exception(__('The wrong store is specified.'), self::ERROR_INVALID_DATA);
             }
             $this->makeSureCustomerNotExists();
-        }
-        else {
+        } else {
             if ($this->dataHasChangedFor('message') && !$this->canMessageBeUpdated()) {
                 throw new Magento_Core_Exception(__("You can't update this message."), self::ERROR_STATUS);
             }
@@ -326,8 +324,7 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
         try {
             $this->makeSureCanBeSent();
             return true;
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             if ($e->getCode() && $e->getCode() === self::ERROR_INVALID_DATA) {
                 throw $e;
             }
@@ -362,7 +359,8 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
             ->setStatus(self::STATUS_ACCEPTED)
             ->setSignupDate($this->getResource()->formatDate(time()))
             ->save();
-        if ($inviterId = $this->getCustomerId()) {
+        $inviterId = $this->getCustomerId();
+        if ($inviterId) {
             $this->getResource()->trackReferral($inviterId, $referralId);
         }
         return $this;
@@ -379,8 +377,7 @@ class Magento_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
         try {
             $this->makeSureCanBeAccepted($websiteId);
             return true;
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // intentionally jammed
         }
         return false;

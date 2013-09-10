@@ -21,6 +21,22 @@
 class Magento_GoogleShopping_Helper_Price
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+    }
+
+    /**
      * Tries to return price that looks like price in catalog
      *
      * @param Magento_Catalog_Model_Product $product
@@ -62,8 +78,8 @@ class Magento_GoogleShopping_Helper_Price
                     Mage::app()->setCurrentStore($store);
                 }
 
-                Mage::unregister('rule_data');
-                Mage::register('rule_data', new Magento_Object(array(
+                $this->_coreRegistry->unregister('rule_data');
+                $this->_coreRegistry->register('rule_data', new Magento_Object(array(
                     'store_id'          => $product->getStoreId(),
                     'website_id'        => $product->getWebsiteId(),
                     'customer_group_id' => $product->getCustomerGroupId())));
@@ -84,13 +100,14 @@ class Magento_GoogleShopping_Helper_Price
     }
 
     /**
-     * Tries calculate price without discount; if can't returns null
-     * @param $product
-     * @param $store
+     * Tries calculate price without discount; if can't returns nul
+     *
+     * @param Magento_Catalog_Model_Product $product
+     * @param mixed $store
      */
     public function getCatalogRegularPrice(Magento_Catalog_Model_Product $product, $store = null)
     {
-         switch ($product->getTypeId()) {
+        switch ($product->getTypeId()) {
             case Magento_Catalog_Model_Product_Type::TYPE_GROUPED:
             case Magento_Catalog_Model_Product_Type::TYPE_BUNDLE:
             case 'giftcard':

@@ -18,6 +18,25 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
     protected $_showCodePoolStatusMessage = true;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Default action
      */
     public function indexAction()
@@ -94,7 +113,8 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
     public function saveAction()
     {
         // check if data sent
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             $data = $this->_filterPostData($data);
             // init model and set data
             $id = $this->getRequest()->getParam('giftcardaccount_id');
@@ -125,8 +145,7 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
                         if($model->getStatus()){
                             $model->sendEmail();
                             $sending = $model->getEmailSent();
-                        }
-                        else {
+                        } else {
                             $status = true;
                         }
                     } catch (Exception $e) {
@@ -179,7 +198,8 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
     public function deleteAction()
     {
         // check if we know what should be deleted
-        if ($id = $this->getRequest()->getParam('id')) {
+        $id = $this->getRequest()->getParam('id');
+        if ($id) {
             try {
                 // init model and delete
                 $model = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount');
@@ -263,6 +283,7 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
      * Load GCA from request
      *
      * @param string $idFieldName
+     * @return Magento_Core_Model_Abstract
      */
     protected function _initGca($idFieldName = 'id')
     {
@@ -273,7 +294,7 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
         if ($id) {
             $model->load($id);
         }
-        Mage::register('current_giftcardaccount', $model);
+        $this->_coreRegistry->register('current_giftcardaccount', $model);
         return $model;
     }
 

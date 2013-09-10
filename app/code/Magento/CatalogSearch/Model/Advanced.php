@@ -60,6 +60,7 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
      * Initialize dependencies
      *
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_CatalogSearch_Helper_Data $helper
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -67,6 +68,7 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_CatalogSearch_Helper_Data $helper,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
@@ -74,7 +76,7 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     ) {
         $this->_engine = $helper->getEngine();
         $this->_setResourceModel($this->_engine->getResourceName());
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
