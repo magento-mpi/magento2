@@ -24,9 +24,6 @@
                 <allow_view_files_duplication>1</allow_view_files_duplication>
             </theme>
         </design>
-        <request>
-            <direct_front_name />
-        </request>
         <dev>
             <page_type>
                 <render_inherited>0</render_inherited>

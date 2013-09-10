@@ -23,11 +23,6 @@
                 </setup>
             </api_setup>
         </resources>
-        <request>
-            <direct_front_name>
-                <api />
-            </direct_front_name>
-        </request>
     </global>
     <frontend>
         <translate>
