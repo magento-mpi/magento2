@@ -55,7 +55,9 @@ class Structure
                 foreach ($groups as $groupName => $group) {
                     $this->_assertArray($group);
                     if ($group !== array_flip($group)) {
-                        throw new \Magento\Exception("Invalid format of group '{$groupName}': " . var_export($group, 1));
+                        throw new \Magento\Exception(
+                            "Invalid format of group '{$groupName}': " . var_export($group, 1)
+                        );
                     }
                     foreach ($group as $groupElementId) {
                         $this->_assertElementExists($groupElementId);

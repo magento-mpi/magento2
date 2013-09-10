@@ -18,7 +18,12 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_AbstractT
     {
         /** @var $listAbstractBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract */
         $listAbstractBlock = $this->getMockForAbstractClass(
-            'Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract', array(), '', false, false, true,
+            'Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract',
+            array(),
+            '',
+            false,
+            false,
+            true,
             array('getChildBlock')
         );
 
@@ -48,7 +53,12 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_AbstractT
     {
         /** @var $listAbstractBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract */
         $listAbstractBlock = $this->getMockForAbstractClass(
-            'Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract', array(), '', false, false, true,
+            'Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract',
+            array(),
+            '',
+            false,
+            false,
+            true,
             array('getChildBlock', 'getLayout')
         );
         /** @var $themeMock Magento_Core_Model_Theme */

@@ -116,7 +116,10 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     public function testWriteException()
     {
         $filename = __DIR__;
-        $this->setExpectedException('\Magento\Filesystem\FilesystemException', "Failed to write contents to '{$filename}'");
+        $this->setExpectedException(
+            '\Magento\Filesystem\FilesystemException',
+            "Failed to write contents to '{$filename}'"
+        );
         $this->_adapter->write($filename, 'any contents');
     }
 
@@ -459,7 +462,10 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     public function testSearchKeysException()
     {
         $pattern = str_repeat('1', 20000); // Overflow the glob() length limit (Win - 260b, Linux - 1k-8k)
-        $this->setExpectedException('\Magento\Filesystem\FilesystemException', "Failed to resolve the file pattern '{$pattern}'");
+        $this->setExpectedException(
+            '\Magento\Filesystem\FilesystemException',
+            "Failed to resolve the file pattern '{$pattern}'"
+        );
         $this->_adapter->searchKeys($pattern);
     }
 }

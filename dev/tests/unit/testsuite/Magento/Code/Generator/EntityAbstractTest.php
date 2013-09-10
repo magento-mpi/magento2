@@ -55,7 +55,8 @@ class Magento_Code_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCa
         $this->assertAttributeEmpty('_sourceClassName', $this->_model);
         $this->assertAttributeEmpty('_resultClassName', $this->_model);
         $this->assertAttributeInstanceOf('\Magento\Code\Generator\Io', '_ioObject', $this->_model);
-        $this->assertAttributeInstanceOf('\Magento\Code\Generator\CodeGenerator\Zend', '_classGenerator', $this->_model);
+        $this->
+            assertAttributeInstanceOf('\Magento\Code\Generator\CodeGenerator\Zend', '_classGenerator', $this->_model);
         $this->assertAttributeInstanceOf('\Magento\Autoload\IncludePath', '_autoloader', $this->_model);
 
         // with source class name

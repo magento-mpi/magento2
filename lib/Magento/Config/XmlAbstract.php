@@ -131,7 +131,8 @@ abstract class XmlAbstract
             $schemaFile = $this->getPerFileSchemaFile() && $this->_isRuntimeValidated()
                 ? $this->getPerFileSchemaFile()
                 : null;
-            $this->_domConfig = new \Magento\Config\Dom($this->_getInitialXml(), $this->_getIdAttributes(), $schemaFile);
+            $this->_domConfig =
+                new \Magento\Config\Dom($this->_getInitialXml(), $this->_getIdAttributes(), $schemaFile);
         }
         return $this->_domConfig;
     }
