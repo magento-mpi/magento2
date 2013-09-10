@@ -15,13 +15,13 @@
 class Magento_ProductAlert_Block_Product_View_StockTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_objectManager;
 
     public function setUp()
     {
-        $this->_objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
     }
 
     public function testPrepareLayoutUrlIsSet()

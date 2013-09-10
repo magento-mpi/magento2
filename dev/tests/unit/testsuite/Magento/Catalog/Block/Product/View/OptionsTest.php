@@ -12,10 +12,10 @@
 /**
  * Test class for Magento_Catalog_Block_Product_View_Options
  */
-class Magento_Catalog_Block_Catalog_Product_View_OptionsTest extends PHPUnit_Framework_TestCase
+class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_objectHelper;
     /**
@@ -30,7 +30,7 @@ class Magento_Catalog_Block_Catalog_Product_View_OptionsTest extends PHPUnit_Fra
 
     protected function setUp()
     {
-        $this->_objectHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_optionResource = $this->getMock('Magento_Catalog_Model_Resource_Product_Option',
             array(), array(), '', false);
     }

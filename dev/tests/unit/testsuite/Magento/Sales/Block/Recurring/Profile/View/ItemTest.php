@@ -26,7 +26,7 @@ class Magento_Sales_Block_Recurring_Profile_View_ItemTest extends PHPUnit_Framew
 
     public function testPrepareLayout()
     {
-        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $this->_profile = $this->getMockBuilder('Magento_Sales_Model_Recurring_Profile')
             ->disableOriginalConstructor()

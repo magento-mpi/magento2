@@ -16,7 +16,7 @@ class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_T
 {
     public function testPrepareLayout()
     {
-        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $customer = $this->getMockBuilder('Magento_Customer_Model_Customer')
             ->disableOriginalConstructor()

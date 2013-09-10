@@ -16,13 +16,13 @@ class Magento_Customer_Block_Account_RegisterTest extends PHPUnit_Framework_Test
 {
 
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_objectManager;
 
     public function setUp()
     {
-        $this->_objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
     }
 
     public function testToHtml()
@@ -50,7 +50,7 @@ class Magento_Customer_Block_Account_RegisterTest extends PHPUnit_Framework_Test
 
     public function testGetHref()
     {
-        $this->_objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $helper = $this->getMockBuilder('Magento_Customer_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('getRegisterUrl'))

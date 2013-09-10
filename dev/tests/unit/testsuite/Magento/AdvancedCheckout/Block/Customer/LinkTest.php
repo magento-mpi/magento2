@@ -9,13 +9,13 @@
 class Magento_AdvancedCheckout_Block_Customer_LinkTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_objectManagerHelper;
 
     protected function setUp()
     {
-        $this->_objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
     }
 
     public function testToHtml()

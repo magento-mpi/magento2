@@ -17,7 +17,7 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
 
     public function testGetHref()
     {
-        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $helper = $this->getMockBuilder('Magento_Customer_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('getAccountUrl'))

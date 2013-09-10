@@ -16,7 +16,7 @@ class Magento_Sales_Block_Guest_LinkTest extends PHPUnit_Framework_TestCase
 {
     public function testToHtml()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $context = $objectManagerHelper->getObject('Magento_Core_Block_Template_Context');
         $session = $this->getMockBuilder('Magento_Customer_Model_Session')

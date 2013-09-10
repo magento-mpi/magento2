@@ -8,7 +8,7 @@
 class Magento_Page_Block_LinksTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_objectManagerHelper;
 
@@ -20,7 +20,7 @@ class Magento_Page_Block_LinksTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         /** @var  Magento_Core_Block_Template_Context $context */
         $this->_context = $this->_objectManagerHelper->getObject('Magento_Core_Block_Template_Context');
