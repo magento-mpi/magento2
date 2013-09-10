@@ -29,8 +29,6 @@ class Magento_FullPageCache_Model_Placeholder_ConfigTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        /** @todo Implement test logic here */
-        
         $this->_readerMock = $this->getMock(
             'Magento_FullPageCache_Model_Placeholder_Config_Reader',
             array(), array(), '', false
@@ -38,7 +36,9 @@ class Magento_FullPageCache_Model_Placeholder_ConfigTest extends PHPUnit_Framewo
         $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
         $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
         $cacheId = null;
-        
+        $this->_cacheMock->expects($this->any())->method('get')->will($this->returnValue(false));
+        $this->_configScopeMock->expects($this->any())->method('getCurrentScope')->will($this->returnValue('global'));
+
         $this->_model = new Magento_FullPageCache_Model_Placeholder_Config(
             $this->_readerMock,
             $this->_configScopeMock,
@@ -47,12 +47,19 @@ class Magento_FullPageCache_Model_Placeholder_ConfigTest extends PHPUnit_Framewo
         );
     }
 
-    public function testGetPlaceholders()
+    public function testGetPlaceholdersExisted()
     {
-        /** @todo Implement test logic here */
-        
-        $name = null;
-        
-        $this->_model->getPlaceholders($name);
+        $testData = array(array('some' => 'data'));
+        $data = array('someBlockInstanceName' => $testData);
+        $this->_readerMock->expects($this->once())->method('read')->with('global')->will($this->returnValue($data));
+        $this->assertEquals($testData, $this->_model->getPlaceholders('someBlockInstanceName'));
+    }
+
+    public function testGetPlaceholdersNotExisted()
+    {
+        $testData = array(array('some' => 'data'));
+        $data = array('someBlockInstanceName' => $testData);
+        $this->_readerMock->expects($this->once())->method('read')->with('global')->will($this->returnValue($data));
+        $this->assertEquals(array(), $this->_model->getPlaceholders('notExistedKey'));
     }
 }

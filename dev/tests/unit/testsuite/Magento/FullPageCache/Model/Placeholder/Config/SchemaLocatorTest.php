@@ -19,27 +19,25 @@ class Magento_FullPageCache_Model_Placeholder_Config_SchemaLocatorTest extends P
 
     protected function setUp()
     {
-        /** @todo Implement test logic here */
-        
         $this->_moduleReaderMock = $this->getMock(
             'Magento_Core_Model_Config_Modules_Reader',
             array(), array(), '', false
         );
-        
+        $this->_moduleReaderMock
+            ->expects($this->once())
+            ->method('getModuleDir')
+            ->with('etc', 'Magento_FullPageCache')
+            ->will($this->returnValue('schema_dir'));
         $this->_model = new Magento_FullPageCache_Model_Placeholder_Config_SchemaLocator($this->_moduleReaderMock);
     }
 
     public function testGetSchema()
     {
-        /** @todo Implement test logic here */
-        
-        $this->_model->getSchema();
+        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'placeholders.xsd', $this->_model->getSchema());
     }
 
     public function testGetPerFileSchema()
     {
-        /** @todo Implement test logic here */
-        
-        $this->_model->getPerFileSchema();
+        $this->assertEquals(null, $this->_model->getPerFileSchema());
     }
 }

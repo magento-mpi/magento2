@@ -34,7 +34,7 @@ class Magento_FullPageCache_Model_Placeholder_Config
     }
 
     /**
-     * * Get placeholders config by block instance name
+     * Get placeholders config by block instance name
      *
      * @param string $name
      * @return array
