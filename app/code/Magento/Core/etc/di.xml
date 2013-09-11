@@ -260,4 +260,9 @@
             </value>
         </param>
     </type>
+    <type name="Magento_Core_Controller_Varien_Action_Context">
+        <param name="isRenderInherited">
+            <value type="bool">false</value>
+        </param>
+    </type>
 </config>

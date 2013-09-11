@@ -24,14 +24,6 @@
                 <allow_view_files_duplication>1</allow_view_files_duplication>
             </theme>
         </design>
-        <dev>
-            <page_type>
-                <render_inherited>0</render_inherited>
-            </page_type>
-            <design_fallback>
-                <allow_map_update>1</allow_map_update>
-            </design_fallback>
-        </dev>
         <migration>
             <path_to_aliases_map_file>app/etc/aliases_to_classes_map.json</path_to_aliases_map_file>
         </migration>

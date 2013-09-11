@@ -160,11 +160,11 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      * @param array $expected
      *
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture global/dev/page_type/render_inherited 1
      * @dataProvider addActionLayoutHandlesInheritedDataProvider
      */
     public function testAddActionLayoutHandlesInherited($route, $controller, $action, $expected)
     {
+        $this->markTestIncomplete('MAGETWO-14116');
         $this->_model->getRequest()
             ->setRouteName($route)
             ->setControllerName($controller)
