@@ -448,7 +448,7 @@ class Server
             $this->_throwException('oauth_callback', self::ERR_PARAMETER_REJECTED);
         }
         if (self::CALLBACK_ESTABLISHED != $this->_protocolParams['oauth_callback']
-            && !Zend_Uri::check($this->_protocolParams['oauth_callback'])
+            && !\Zend_Uri::check($this->_protocolParams['oauth_callback'])
         ) {
             $this->_throwException('oauth_callback', self::ERR_PARAMETER_REJECTED);
         }

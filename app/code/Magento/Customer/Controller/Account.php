@@ -586,7 +586,7 @@ class Account extends \Magento\Core\Controller\Front\Action
     {
         $email = (string)$this->getRequest()->getPost('email');
         if ($email) {
-            if (!Zend_Validate::is($email, 'EmailAddress')) {
+            if (!\Zend_Validate::is($email, 'EmailAddress')) {
                 $this->_getSession()->setForgottenEmail($email);
                 $this->_getSession()->addError(__('Please correct the email address.'));
                 $this->_redirect('*/*/forgotpassword');

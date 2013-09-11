@@ -120,7 +120,7 @@ class Search extends \Magento\Core\Controller\Front\Action
                 break;
 
             case 'email':
-                if (empty($params['email']) || !Zend_Validate::is($params['email'], 'EmailAddress')) {
+                if (empty($params['email']) || !\Zend_Validate::is($params['email'], 'EmailAddress')) {
                     $this->_getSession()->addNotice(
                         __('Please enter a valid email address.')
                     );

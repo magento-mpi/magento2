@@ -155,7 +155,7 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
     protected function _getDbResource($model)
     {
         if (!isset($this->_dbResource)) {
-            $resource =  \Mage::getSingleton("Magento_Install_Model_Installer_Db_" . ucfirst($model));
+            $resource =  \Mage::getSingleton("Magento\\Install\\Model\\Installer\\Db\\" . ucfirst($model));
             if (!$resource) {
                 \Mage::throwException(
                     __('Installer does not exist for %1 database type', $model)

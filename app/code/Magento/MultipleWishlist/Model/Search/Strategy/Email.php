@@ -33,7 +33,7 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
      */
     public function setSearchParams(array $params)
     {
-        if (empty($params['email']) || !Zend_Validate::is($params['email'], 'EmailAddress')) {
+        if (empty($params['email']) || !\Zend_Validate::is($params['email'], 'EmailAddress')) {
             throw new \InvalidArgumentException(
                 __('Please input a valid email address.')
             );

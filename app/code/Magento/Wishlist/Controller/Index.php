@@ -623,7 +623,7 @@ class Index
             } else {
                 foreach ($emails as $index => $email) {
                     $email = trim($email);
-                    if (!Zend_Validate::is($email, 'EmailAddress')) {
+                    if (!\Zend_Validate::is($email, 'EmailAddress')) {
                         $error = __('Please input a valid email address.');
                         break;
                     }

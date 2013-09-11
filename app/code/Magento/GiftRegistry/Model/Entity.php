@@ -354,7 +354,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
             );
         }
 
-        if (!Zend_Validate::is($senderEmail, 'EmailAddress')) {
+        if (!\Zend_Validate::is($senderEmail, 'EmailAddress')) {
             return $result->setErrorMessage(
                 __('Please enter a valid sender email address.')
             );
@@ -363,7 +363,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         $emails = array();
         foreach ($this->getRecipients() as $recipient) {
             $recipientEmail = trim($recipient['email']);
-            if (!Zend_Validate::is($recipientEmail, 'EmailAddress')) {
+            if (!\Zend_Validate::is($recipientEmail, 'EmailAddress')) {
                 return $result->setErrorMessage(
                     __('Please enter a valid recipient email address.')
                 );
@@ -736,15 +736,15 @@ class Entity extends \Magento\Core\Model\AbstractModel
     {
         $errors = array();
 
-        if (!Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
             $errors[] = __('Please enter the title.');
         }
 
-        if (!Zend_Validate::is($this->getMessage(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getMessage(), 'NotEmpty')) {
             $errors[] = __('Please enter the message.');
         }
 
-        if (!Zend_Validate::is($this->getIsPublic(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getIsPublic(), 'NotEmpty')) {
             $errors[] = __('Please enter correct the Privacy setting.');
         } else if (!key_exists($this->getIsPublic(), $this->getOptionsIsPublic())) {
             $errors[] = __('Please enter correct the Privacy setting.');

@@ -232,7 +232,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
                 __('We cannot send an invitation with status "%1".', $this->getStatus()), self::ERROR_STATUS
             );
         }
-        if (!$this->getEmail() || !Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
+        if (!$this->getEmail() || !\Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
             throw new \Magento\Core\Exception(__('Please correct the invalid or empty invitation email.'), self::ERROR_INVALID_DATA);
         }
         $this->makeSureCustomerNotExists();
@@ -399,7 +399,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     {
         $errors = array();
 
-        if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
+        if (!\Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
             $errors[] = __('Please correct the invitation email.');
         }
 

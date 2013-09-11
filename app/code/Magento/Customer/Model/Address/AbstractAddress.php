@@ -383,39 +383,39 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     public function validate()
     {
         $errors = array();
-        if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
             $errors[] = __('Please enter the first name.');
         }
 
-        if (!Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
             $errors[] = __('Please enter the last name.');
         }
 
-        if (!Zend_Validate::is($this->getStreet(1), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getStreet(1), 'NotEmpty')) {
             $errors[] = __('Please enter the street.');
         }
 
-        if (!Zend_Validate::is($this->getCity(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getCity(), 'NotEmpty')) {
             $errors[] = __('Please enter the city.');
         }
 
-        if (!Zend_Validate::is($this->getTelephone(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getTelephone(), 'NotEmpty')) {
             $errors[] = __('Please enter the telephone number.');
         }
 
         $_havingOptionalZip = \Mage::helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip();
         if (!in_array($this->getCountryId(), $_havingOptionalZip)
-            && !Zend_Validate::is($this->getPostcode(), 'NotEmpty')
+            && !\Zend_Validate::is($this->getPostcode(), 'NotEmpty')
         ) {
             $errors[] = __('Please enter the zip/postal code.');
         }
 
-        if (!Zend_Validate::is($this->getCountryId(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getCountryId(), 'NotEmpty')) {
             $errors[] = __('Please enter the country.');
         }
 
         if ($this->getCountryModel()->getRegionCollection()->getSize()
-               && !Zend_Validate::is($this->getRegionId(), 'NotEmpty')
+               && !\Zend_Validate::is($this->getRegionId(), 'NotEmpty')
                && \Mage::helper('Magento\Directory\Helper\Data')->isRegionRequired($this->getCountryId())
         ) {
             $errors[] = __('Please enter the state/province.');
