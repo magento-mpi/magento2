@@ -80,15 +80,16 @@ abstract class Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
      * Object constructor.
      *
      * @param array $params
-     * @param string $type Product type (simple, configurable, etc.)
-     * @throws Exception
-     * @return void
+     * @return \Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
      */
-    final public function __construct(array $params)
+    public function __construct(array $params)
     {
         if ($this->isSuitable()) {
-            if (!isset($params[0]) || !isset($params[1])
-                || !is_object($params[0]) || !($params[0] instanceof Magento_ImportExport_Model_Import_Entity_Product)) {
+            if (!isset($params[0])
+                || !isset($params[1])
+                || !is_object($params[0])
+                || !($params[0] instanceof Magento_ImportExport_Model_Import_Entity_Product)
+            ) {
                 Mage::throwException(__('Please correct the parameters.'));
             }
             $this->_entityModel = $params[0];

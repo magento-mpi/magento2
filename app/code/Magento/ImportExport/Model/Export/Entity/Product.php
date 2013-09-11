@@ -148,6 +148,8 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         Magento_Catalog_Model_Resource_Product_Collection $collection,
         Magento_Core_Model_Config $coreConfig
     ) {
+        $this->_entityCollection = $collection;
+        $this->_coreConfig = $coreConfig;
         parent::__construct();
 
         $this->_initTypeModels()
@@ -156,8 +158,6 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
             ->_initAttributeSets()
             ->_initWebsites()
             ->_initCategories();
-        $this->_entityCollection = $collection;
-        $this->_coreConfig = $coreConfig;
     }
 
     /**

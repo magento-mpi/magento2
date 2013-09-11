@@ -120,18 +120,15 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     /**
      * Object constructor.
      *
-     * @throws Exception
-     * @param array $params
      * @param Magento_Core_Model_Config $coreConfig
-     * @return void
+     * @param array $params
+     * @return \Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
      */
     public function __construct(
-        array $params,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Config $coreConfig,
+        array $params
     ) {
-        parent::__construct(
-            $params
-        );
+        parent::__construct($params);
         $this->_coreConfig = $coreConfig;
     }
 

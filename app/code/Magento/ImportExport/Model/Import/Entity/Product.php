@@ -295,6 +295,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
+        $this->_coreConfig = $coreConfig;
         parent::__construct();
 
         $this->_optionEntity = isset($data['option_entity']) ? $data['option_entity']
@@ -309,7 +310,6 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
             ->_initCategories()
             ->_initSkus()
             ->_initCustomerGroups();
-        $this->_coreConfig = $coreConfig;
     }
 
     /**

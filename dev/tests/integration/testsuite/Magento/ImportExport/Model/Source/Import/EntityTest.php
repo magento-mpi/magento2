@@ -19,7 +19,7 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
      *
      * @var Magento_ImportExport_Model_Source_Import_Entity
      */
-    public static $sourceModel;
+    protected $_sourceModel;
 
     /**
      * Test entity
@@ -36,29 +36,28 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
      *
      * @static
      */
-    public static function setUpBeforeClass()
+    public function setUp()
     {
-        parent::setUpBeforeClass();
+        /** @var Magento_Test_ObjectManager $objectMaganger */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+
         /** @var $config Magento_ImportExport_Model_Config */
-        $config = PHPUnit_Framework_MockObject_Generator::getMock('Magento_ImportExport_Model_Config', null, array(),
-            '', false
+        $config = $objectManager->create(
+            'Magento_ImportExport_Model_Config',
+            array('coreConfig' => $this->_mockConfig())
         );
-        self::$sourceModel = new Magento_ImportExport_Model_Source_Import_Entity($config);
+        $this->_sourceModel = $objectManager->create(
+            'Magento_ImportExport_Model_Source_Import_Entity',
+            array('config' => $config)
+        );
     }
 
     /**
      * Unregister source model and helper
-     *
-     * @static
      */
-    public static function tearDownAfterClass()
+    public function tearDown()
     {
-        self::$sourceModel = null;
-
-        $config = new ReflectionProperty('Mage', '_config');
-        $config->setAccessible(true);
-        $config->setValue(null, null);
-        $config->setAccessible(false);
+        $this->_sourceModel = null;
     }
 
     /**
@@ -75,10 +74,7 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
             'global/importexport/import_entities/' . $this->_testEntity['node'] . '/label',
             $this->_testEntity['label']
         );
-
-        $config = new ReflectionProperty('Mage', '_config');
-        $config->setAccessible(true);
-        $config->setValue(null, $configObject);
+        return $configObject;
     }
 
     /**
@@ -86,9 +82,7 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
      */
     public function testToOptionArray()
     {
-        $this->_mockConfig();
-
-        $optionalArray = self::$sourceModel->toOptionArray();
+        $optionalArray = $this->_sourceModel->toOptionArray();
 
         $this->assertInternalType('array', $optionalArray, 'Result variable must be an array.');
         $this->assertCount(2, $optionalArray);
