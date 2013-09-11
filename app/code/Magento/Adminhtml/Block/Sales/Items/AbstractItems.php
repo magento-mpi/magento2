@@ -16,8 +16,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
+namespace Magento\Adminhtml\Block\Sales\Items;
 
-class  Magento_Adminhtml_Block_Sales_Items_Abstract extends \Magento\Adminhtml\Block\Template
+class AbstractItems extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Renderers with render type key
@@ -63,7 +64,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends \Magento\Adminhtml\B
      * @param string $type
      * @param string $block
      * @param string $template
-     * @return Magento_Adminhtml_Block_Sales_Items_Abstract
+     * @return \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     public function addItemRender($type, $block, $template)
     {
@@ -81,7 +82,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends \Magento\Adminhtml\B
      * @param string $column
      * @param string $block
      * @param string $template
-     * @return Magento_Adminhtml_Block_Sales_Items_Abstract
+     * @return \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     public function addColumnRender($column, $block, $template, $type=null)
     {
@@ -431,7 +432,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends \Magento\Adminhtml\B
     /**
      * Setter for flag _canEditQty
      *
-     * @return Magento_Adminhtml_Block_Sales_Items_Abstract
+     * @return \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      * @see self::_canEditQty
      * @see self::canEditQty
      */

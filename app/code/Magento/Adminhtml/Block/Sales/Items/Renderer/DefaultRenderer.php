@@ -18,7 +18,7 @@
  */
 namespace Magento\Adminhtml\Block\Sales\Items\Renderer;
 
-class DefaultRenderer extends Magento_Adminhtml_Block_Sales_Items_Abstract
+class DefaultRenderer extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 {
     public function getItem()
     {
