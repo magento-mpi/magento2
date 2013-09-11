@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_Magento_Core_Model_Fieldset_FieldsetConfigTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Magento_Core_Model_Fieldset_FieldsetConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $configFile
