@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Menu;
 
-class \Iterator extends \ArrayIterator
+class Iterator extends \ArrayIterator
 {
     /**
      * Rewind to first element

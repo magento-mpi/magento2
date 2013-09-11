@@ -105,7 +105,7 @@ class Config extends \Magento\Object
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Backend\Model\Config\Structure $configStructure,
-        Magento_Core_Model_Resource_TransactionFactory $transactionFactory,
+        \Magento\Core\Model\Resource\TransactionFactory $transactionFactory,
         \Magento\Backend\Model\Config\Loader $configLoader,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

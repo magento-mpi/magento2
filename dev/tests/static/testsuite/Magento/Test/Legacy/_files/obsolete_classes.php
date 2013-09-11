@@ -334,7 +334,7 @@ return array(
         '\Magento\Backend\Model\Config\Backend\Translate'
     ),
     array('Mage_Adminhtml_Model_System_Config_Clone_Media_Image',
-        '\Magento\Catalog\Model\Config\Clone\Media\Image'
+        '\Magento\Catalog\Model\Config\CatalogClone\Media\Image'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Admin_Page',
         '\Magento\Backend\Model\Config\Source\Admin\Page'

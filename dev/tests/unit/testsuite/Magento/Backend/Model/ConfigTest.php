@@ -72,7 +72,7 @@ class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_appConfigMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
         $this->_configLoaderMock = $this->getMock('Magento\Backend\Model\Config\Loader', array(), array(), '', false);
         $this->_applicationMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
-        $this->_dataFactoryMock = $this->getMock('Magento\Core\Model\Config\ValueFactory', array(), array(), '', false);
+        $this->_dataFactoryMock = $this->getMock('Magento_Core_Model_Config_ValueFactory', array(), array(), '', false);
         $this->_storeManager = $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface');
 
         $this->_model = new \Magento\Backend\Model\Config(

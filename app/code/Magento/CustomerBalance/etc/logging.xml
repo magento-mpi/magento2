@@ -16,7 +16,7 @@
             <adminhtml_customerbalance_form>
                 <action>view</action>
                 <expected_models>
-                    <Magento\CustomerBalance\Model\Balance/>
+                    <Magento_CustomerBalance_Model_Balance/>
                 </expected_models>
             </adminhtml_customerbalance_form>
         </actions>
@@ -25,7 +25,7 @@
         <actions>
             <adminhtml_customer_save>
                 <expected_models extends="merge">
-                    <Magento\CustomerBalance\Model\Balance/>
+                    <Magento_CustomerBalance_Model_Balance/>
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_customerbalance_form/>

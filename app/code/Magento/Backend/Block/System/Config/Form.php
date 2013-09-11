@@ -115,7 +115,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Config\Factory $configFactory
      * @param \Magento\Data\Form\Factory $formFactory
-     * @param \Magento\Backend\Model\Config\Clone\Factory $cloneModelFactory
+     * @param \Magento\Backend\Model\Config\BackendClone\Factory $cloneModelFactory
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Backend\Block\System\Config\Form\Fieldset\Factory $fieldsetFactory
      * @param \Magento\Backend\Block\System\Config\Form\Field\Factory $fieldFactory
@@ -126,7 +126,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Config\Factory $configFactory,
         \Magento\Data\Form\Factory $formFactory,
-        \Magento\Backend\Model\Config\Clone\Factory $cloneModelFactory,
+        \Magento\Backend\Model\Config\BackendClone\Factory $cloneModelFactory,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Backend\Block\System\Config\Form\Fieldset\Factory $fieldsetFactory,
         \Magento\Backend\Block\System\Config\Form\Field\Factory $fieldFactory,

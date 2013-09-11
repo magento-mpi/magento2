@@ -27,7 +27,7 @@ class Magento_AdminNotification_Model_NotificationServiceTest extends PHPUnit_Fr
          *  $notificationFactory PHPUnit_Framework_MockObject_MockObject|Magento_AdminNotification_Model_InboxFactory
          */
         $notificationFactory = $this->getMock(
-            'Magento_AdminNotification_Model_InboxFactory', array('create'), array(), '', false
+            'Magento\AdminNotification\Model\InboxFactory', array('create'), array(), '', false
         );
         $notification = $this->getMock(
             '\Magento\AdminNotification\Model\Inbox',

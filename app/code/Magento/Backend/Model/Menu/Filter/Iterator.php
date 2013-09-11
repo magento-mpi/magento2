@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Menu\Filter;
 
-class \Iterator extends \FilterIterator
+class Iterator extends \FilterIterator
 {
     /**
      * Check whether the current element of the iterator is acceptable

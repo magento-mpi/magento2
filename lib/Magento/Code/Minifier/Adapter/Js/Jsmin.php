@@ -9,6 +9,9 @@
 
 namespace Magento\Code\Minifier\Adapter\Js;
 
+if (!class_exists('JSMin')) {
+    require_once(__DIR__ . '/../../../../../JSMin/jsmin.php');
+}
 
 /**
  * Adapter for JSMin library
@@ -20,9 +23,6 @@ class Jsmin implements \Magento\Code\Minifier\AdapterInterface
      */
     public function minify($content)
     {
-        if (!class_exists('JSMin')) {
-            \Magento\Autoload\IncludePath::load("JSMin/jsmin");
-        }
         return \JSMin::minify($content);
     }
 }

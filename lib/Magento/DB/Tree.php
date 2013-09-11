@@ -9,12 +9,12 @@
  */
 
 namespace Magento\DB;
-
+ \Zend_Loader::loadClass('\Zend_Db_Select'); \Zend_Loader::loadClass('\Magento_Db_Tree_Node'); \Zend_Loader::loadClass('\Magento_Db_Tree_NodeSet');
 
 /**
  * Magento Library
  */
-
+require_once 'Magento/Db/Tree/Exception.php';
 class Tree
 {
     private $_id;

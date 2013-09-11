@@ -49,7 +49,7 @@ class Magento_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit
         $this->_urlBuilderMock = $this->getMock('Magento\Core\Model\UrlInterface');
 
         $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
-        $configFactoryMock = $this->getMock('Magento\Core\Model\Config\ValueFactory', array('create'),
+        $configFactoryMock = $this->getMock('Magento_Core_Model_Config_ValueFactory', array('create'),
             array(), '', false
         );
         $this->_configDataMock = $this->getMock('Magento\Core\Model\Config\Value',

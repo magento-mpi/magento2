@@ -81,7 +81,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false, false);
         $configFactoryMock = $this->getMock('Magento\Backend\Model\Config\Factory', array(), array(), '', false, false);
         $this->_formFactoryMock = $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false, false);
-        $cloneFactoryMock = $this->getMock('Magento\Backend\Model\Config\Clone\Factory',
+        $cloneFactoryMock = $this->getMock('Magento\Backend\Model\Config\BackendClone\Factory',
             array(), array(), '', false, false
         );
         $this->_fieldsetFactoryMock = $this->getMock('Magento\Backend\Block\System\Config\Form\Fieldset\Factory',

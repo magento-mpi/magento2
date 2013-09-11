@@ -16,7 +16,7 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Config\Clone\Media;
+namespace Magento\Catalog\Model\Config\CatalogClone\Media;
 
 class Image extends \Magento\Core\Model\Config\Value
 {
