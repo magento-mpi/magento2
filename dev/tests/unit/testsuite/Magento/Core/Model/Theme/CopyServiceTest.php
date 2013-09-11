@@ -130,7 +130,7 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
         );
 
         /* Init Magento_Core_Model_Resource_Layout_Collection model  */
-        $this->_updateFactory = $this->getMock('Magento_Core_Model_Layout_UpdateFactory', array('create'),
+        $this->_updateFactory = $this->getMock('Magento\Core\Model\Layout\UpdateFactory', array('create'),
             array(), '', false);
         $this->_update = $this->getMock(
             '\Magento\Core\Model\Layout\Update',

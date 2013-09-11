@@ -42,7 +42,7 @@ class Magento_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framewo
         $this->_menuSubModel = new \Magento\Backend\Model\Menu($logger);
 
         $this->_factoryMock = $this->getMock(
-            'Magento_Backend_Model_Menu_Filter_IteratorFactory', array('create'), array(), '', false
+            'Magento\Backend\Model\Menu\Filter\IteratorFactory', array('create'), array(), '', false
         );
 
         $itemOne = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);

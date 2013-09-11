@@ -32,11 +32,11 @@ class Config
 
     /**
      * @param \Magento\Core\Model\File\Storage $storage
-     * @param Magento_Filesystem_Stream_LocalFactory $streamFactory
+     * @param \Magento\Filesystem\Stream\LocalFactory $streamFactory
      * @param string $cacheFile
      */
     public function __construct(
-        \Magento\Core\Model\File\Storage $storage, Magento_Filesystem_Stream_LocalFactory $streamFactory, $cacheFile
+        \Magento\Core\Model\File\Storage $storage, \Magento\Filesystem\Stream\LocalFactory $streamFactory, $cacheFile
     ) {
         $this->_config = $storage->getScriptConfig();
         $this->_streamFactory = $streamFactory;

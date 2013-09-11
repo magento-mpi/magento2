@@ -12,7 +12,7 @@ class Synchronization
     /**
      * Database storage factory
      *
-     * @var Magento_Core_Model_File_Storage_DatabaseFactory
+     * @var \Magento\Core\Model\File\Storage\DatabaseFactory
      */
     protected $_storageFactory;
 
@@ -24,12 +24,12 @@ class Synchronization
     protected $_streamFactory;
 
     /**
-     * @param Magento_Core_Model_File_Storage_DatabaseFactory $storageFactory
-     * @param Magento_Filesystem_Stream_LocalFactory $streamFactory
+     * @param \Magento\Core\Model\File\Storage\DatabaseFactory $storageFactory
+     * @param \Magento\Filesystem\Stream\LocalFactory $streamFactory
      */
     public function __construct(
-        Magento_Core_Model_File_Storage_DatabaseFactory $storageFactory,
-        Magento_Filesystem_Stream_LocalFactory $streamFactory
+        \Magento\Core\Model\File\Storage\DatabaseFactory $storageFactory,
+        \Magento\Filesystem\Stream\LocalFactory $streamFactory
     ) {
         $this->_storageFactory = $storageFactory;
         $this->_streamFactory = $streamFactory;

@@ -26,16 +26,16 @@ class Page implements \Magento\Core\Model\Option\ArrayInterface
     protected $_objectFactory;
 
     /**
-     * @var Magento_Backend_Model_Menu_Filter_IteratorFactory
+     * @var \Magento\Backend\Model\Menu\Filter\IteratorFactory
      */
     protected $_iteratorFactory;
 
     /**
-     * @param Magento_Backend_Model_Menu_Filter_IteratorFactory $iteratorFactory
+     * @param \Magento\Backend\Model\Menu\Filter\IteratorFactory $iteratorFactory
      * @param \Magento\Backend\Model\Menu\Config $menuConfig
      */
     public function __construct(
-        Magento_Backend_Model_Menu_Filter_IteratorFactory $iteratorFactory,
+        \Magento\Backend\Model\Menu\Filter\IteratorFactory $iteratorFactory,
         \Magento\Backend\Model\Menu\Config $menuConfig
     ) {
         $this->_menu = $menuConfig->getMenu();

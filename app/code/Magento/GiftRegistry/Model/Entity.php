@@ -114,7 +114,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $_translate;
 
     /**
-     * @var Magento_Core_Model_Email_TemplateFactory
+     * @var \Magento\Core\Model\Email\TemplateFactory
      */
     protected $_templateFactory;
 
@@ -123,7 +123,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\App $application
      * @param \Magento\Core\Model\Store $store
      * @param \Magento\Core\Model\Translate $translate
-     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -133,7 +133,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\App $application,
         \Magento\Core\Model\Store $store,
         \Magento\Core\Model\Translate $translate,
-        Magento_Core_Model_Email_TemplateFactory $templateFactory,
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data= array()

@@ -19,7 +19,7 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLastRealOrder($orderId, $incrementId, $orderMock)
     {
-        $orderFactory = $this->getMockBuilder('Magento_Sales_Model_OrderFactory')
+        $orderFactory = $this->getMockBuilder('Magento\Sales\Model\OrderFactory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();

@@ -31,7 +31,7 @@ class CopyService
     protected $_link;
 
     /**
-     * @var Magento_Core_Model_Layout_UpdateFactory
+     * @var \Magento\Core\Model\Layout\UpdateFactory
      */
     protected $_updateFactory;
 
@@ -49,7 +49,7 @@ class CopyService
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Theme\FileFactory $fileFactory
      * @param \Magento\Core\Model\Layout\Link $link
-     * @param Magento_Core_Model_Layout_UpdateFactory $updateFactory
+     * @param \Magento\Core\Model\Layout\UpdateFactory $updateFactory
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Theme\Customization\Path $customization
      */
@@ -57,7 +57,7 @@ class CopyService
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Theme\FileFactory $fileFactory,
         \Magento\Core\Model\Layout\Link $link,
-        Magento_Core_Model_Layout_UpdateFactory $updateFactory,
+        \Magento\Core\Model\Layout\UpdateFactory $updateFactory,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Theme\Customization\Path $customization
     ) {

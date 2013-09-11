@@ -44,17 +44,17 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_order;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
      * Class constructor. Initialize checkout session namespace
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param string $sessionName
      */
     public function __construct(
-        Magento_Sales_Model_OrderFactory $orderFactory,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
         $sessionName = null
     ) {
         $this->_orderFactory = $orderFactory;

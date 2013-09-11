@@ -44,7 +44,7 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
         );
         $translate = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false);
 
-        $factory = $this->getMock('Magento_Core_Model_Email_TemplateFactory', array('create'), array(), '', false);
+        $factory = $this->getMock('Magento\Core\Model\Email\TemplateFactory', array('create'), array(), '', false);
         $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->_emailTemplate = $this->getMock('Magento\Core\Model\Email\Template',
             array('setDesignConfig', 'sendTransactional'), array(), '', false

@@ -33,7 +33,7 @@ class Magento_Acl_ResourceFactoryTest extends PHPUnit_Framework_TestCase
 
         $this->_expectedObject = $this->getMock('Magento\Acl\Resource', array(), array(), '', false);
 
-        $this->_model = $helper->getObject('\Magento\Acl\ResourceFactory', array(
+        $this->_model = $helper->getObject('Magento\Acl\ResourceFactory', array(
             'objectManager' => $this->_objectManager,
         ));
     }
