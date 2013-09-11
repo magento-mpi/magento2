@@ -86,7 +86,7 @@ class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block
         $this->_selectedBanners = explode(',', $element->getValue());
 
         //Create hidden field that store selected banner ids
-        $hidden = $this->_elementFactory->create('hidden', $element->getData());
+        $hidden = $this->_elementFactory->create('hidden', array('attributes' => $element->getData()));
         $hidden->setId($this->_elementValueId)->setForm($element->getForm());
         $hiddenHtml = $hidden->getElementHtml();
 

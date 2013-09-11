@@ -47,7 +47,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main_Renderer_Checkbox
     public function render(Magento_Data_Form_Element_Abstract $element)
     {
         /** @var Magento_Data_Form_Element_Checkbox $checkbox */
-        $checkbox = $this->_elementFactory->create('text', $element->getData());
+        $checkbox = $this->_elementFactory->create('text', array('attributes' => $element->getData()));
         $checkbox->setForm($element->getForm());
 
         $elementHtml = sprintf(

@@ -60,9 +60,9 @@ class Magento_Paypal_Block_Standard_Redirect extends Magento_Core_Block_Abstract
             $form->addField($field, 'hidden', array('name'=>$field, 'value'=>$value));
         }
         $idSuffix = $this->_coreData->uniqHash();
-        $submitButton = $this->_elementFactory->create('submit', array(
+        $submitButton = $this->_elementFactory->create('submit', array('attributes' => array(
             'value'    => __('Click here if you are not redirected within 10 seconds.'),
-        ));
+        )));
         $id = "submit_to_paypal_button_{$idSuffix}";
         $submitButton->setId($id);
         $form->addElement($submitButton);

@@ -66,7 +66,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey
             'disabled' => true,
         );
         /** @var Magento_Data_Form_Element_Hidden $hidden */
-        $hidden = $this->_elementFactory->create('hidden', $data);
+        $hidden = $this->_elementFactory->create('hidden', array('attributes' => $data));
         $hidden->setForm($element->getForm());
 
         $storeId = $element->getForm()->getDataObject()->getStoreId();
@@ -75,7 +75,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey
         $data['value'] = $element->getValue();
         $data['checked'] = $this->_catalogData->shouldSaveUrlRewritesHistory($storeId);
         /** @var Magento_Data_Form_Element_Checkbox $checkbox */
-        $checkbox = $this->_elementFactory->create('checkbox', $data);
+        $checkbox = $this->_elementFactory->create('checkbox', array('attributes' => $data));
         $checkbox->setForm($element->getForm());
 
         return parent::getElementHtml() . '<br/>' . $hidden->getElementHtml() . $checkbox->getElementHtml() . $checkbox->getLabelHtml();

@@ -147,7 +147,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Backend_Bloc
         ));
         $hiddenHtml = '';
         if ($this->getHiddenEnabled()) {
-            $hidden = $this->_elementFactory->create('hidden', $element->getData());
+            $hidden = $this->_elementFactory->create('hidden', array('attributes' => $element->getData()));
             $hidden->setId("{$chooserId}value")->setForm($element->getForm());
             if ($element->getRequired()) {
                 $hidden->addClass('required-entry');
