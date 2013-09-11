@@ -14,13 +14,13 @@
 <div class="btn-gift-registry">
     <form action="<?php echo $this->getAddUrl();?>" method="post" id="form-validate">
         <div class="input-box">
-            <select id="giftregistry_entity" name="entity" title="<?php echo $this->__('Gift Registry') ?>" class="required-entry">
+            <select id="giftregistry_entity" name="entity" title="<?php echo __('Gift Registry') ?>" class="required-entry">
                 <?php foreach ($entityValues as $_entity):?>
                     <option value="<?php echo $_entity->getValue()?>" title="<?php echo $_entity->getTitle()?>"><?php echo $this->escapeHtml($this->helper('Magento\Core\Helper\String')->truncate($_entity->getTitle(), 40))?></option>
                 <?php endforeach;?>
             </select>
         </div>
-        <button type="submit" class="button"><?php echo $this->helper('Magento\GiftRegistry\Helper\Data')->__('Add To Gift Registry ');?></button>
+        <button type="submit" class="button"><?php echo __('Add To Gift Registry ');?></button>
     </form>
     <script type="text/javascript">
     //<![CDATA[
