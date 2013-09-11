@@ -319,7 +319,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
     public function getModelInstance($modelClass = '', $constructArguments = array())
     {
         switch ($modelClass) {
-            case 'Magento\CustomerBalance\Model\Balance':
+            case '\Magento\CustomerBalance\Model\Balance':
                 $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomer',
                         'getAmount', 'setAmountDelta', 'setComment', 'save'
                     ), $constructArguments, '', false
@@ -346,7 +346,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                     ->method('save')
                     ->will($this->returnSelf());
                 break;
-            case 'Magento\Reward\Model\Reward':
+            case '\Magento\Reward\Model\Reward':
                 $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomer',
                         'getPointsBalance', 'setPointsDelta', 'setAction', 'setComment', 'updateRewardPoints'
                     ), $constructArguments, '', false
