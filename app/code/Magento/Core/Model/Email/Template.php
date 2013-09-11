@@ -97,6 +97,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
@@ -105,6 +106,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
@@ -115,7 +117,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
         $this->_logger = $context->getLogger();
-        parent::__construct($design, $context, $data);
+        parent::__construct($design, $context, $registry, $data);
     }
 
     /**
@@ -450,7 +452,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
     public function send($email, $name = null, array $variables = array())
     {
         if (!$this->isValidForSend()) {
-            $this->_logger->logException(new Exception('This letter cannot be sent.')); // translation is intentionally omitted
+            Mage::logException(new Exception('This letter cannot be sent.')); // translation is intentionally omitted
             return false;
         }
 
@@ -520,7 +522,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
             $mail->send();
             $result = true;
         } catch (Exception $e) {
-           $this->_logger->logException($e);
+            Mage::logException($e);
             $this->_sendingException = $e;
         }
         $this->_bcc = array();

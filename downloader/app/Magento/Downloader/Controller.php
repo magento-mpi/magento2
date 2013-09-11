@@ -1009,7 +1009,7 @@ final class Magento_Downloader_Controller
                 ->setName($archiveName)
                 ->setBackupsDir(Mage::helper('Magento_Backup_Helper_Data')->getBackupsDir());
 
-            Mage::register('backup_manager', $backupManager);
+            Mage::getObjectManager()->get('Magento_Core_Model_Registry')->register('backup_manager', $backupManager);
 
             if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
                 $backupManager->setRootDir(Mage::getBaseDir())

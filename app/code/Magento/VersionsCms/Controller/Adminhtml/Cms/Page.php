@@ -69,7 +69,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtm
             $page->load($pageId);
         }
 
-        Mage::register('cms_page', $page);
+        $this->_coreRegistry->register('cms_page', $page);
         return $page;
     }
 

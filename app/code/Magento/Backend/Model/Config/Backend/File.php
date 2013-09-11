@@ -36,6 +36,7 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Backend_Model_Config_Backend_File_RequestData_Interface $requestData
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -44,13 +45,14 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Backend_Model_Config_Backend_File_RequestData_Interface $requestData,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_requestData = $requestData;
         $this->_filesystem = $filesystem;
     }

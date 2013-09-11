@@ -37,7 +37,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_skipRequestLogging = false;
 
     /**
-     * Onject initialization
+     * Object initialization
      */
     protected function _construct()
     {

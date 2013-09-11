@@ -20,13 +20,34 @@ class Magento_Rma_Block_Return_Tracking extends Magento_Core_Block_Template
     protected $_template = 'return/tracking.phtml';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Class constructor
      */
     protected function _construct()
     {
         parent::_construct();
 
-        $this->setRma(Mage::registry('current_rma'));
+        $this->setRma($this->_coreRegistry->registry('current_rma'));
     }
 
     /**

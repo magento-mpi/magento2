@@ -17,15 +17,26 @@
 class Magento_Paypal_Model_Observer
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
     /**
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Logger $logger
      */
-    public function __construct(Magento_Core_Model_Logger $logger)
-    {
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger
+    ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_logger = $logger;
     }
 
@@ -72,7 +83,7 @@ class Magento_Paypal_Model_Observer
     {
         /* @var $order Magento_Sales_Model_Order */
         $order = $observer->getEvent()->getData('order');
-        Mage::register('hss_order', $order, true);
+        $this->_coreRegistry->register('hss_order', $order, true);
 
         return $this;
     }
@@ -86,7 +97,7 @@ class Magento_Paypal_Model_Observer
     public function setResponseAfterSaveOrder(Magento_Event_Observer $observer)
     {
         /* @var $order Magento_Sales_Model_Order */
-        $order = Mage::registry('hss_order');
+        $order = $this->_coreRegistry->registry('hss_order');
 
         if ($order && $order->getId()) {
             $payment = $order->getPayment();

@@ -11,6 +11,25 @@
 class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Banners list
      *
      * @return void
@@ -59,10 +78,8 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Banner::cms_magento_banner');
         $this->_addBreadcrumb(
-            $bannerId ? __('Edit Banner')
-                : __('New Banner'),
-            $bannerId ? __('Edit Banner')
-                : __('New Banner')
+            $bannerId ? __('Edit Banner') : __('New Banner'),
+            $bannerId ? __('Edit Banner') : __('New Banner')
         )
         ->renderLayout();
     }
@@ -73,7 +90,8 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
     public function saveAction()
     {
         $redirectBack = $this->getRequest()->getParam('back', false);
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
 
             $bannerId = $this->getRequest()->getParam('id');
             $model = $this->_initBanner();
@@ -148,7 +166,8 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
     public function deleteAction()
     {
         // check if we know what should be deleted
-        if ($bannerId = $this->getRequest()->getParam('id')) {
+        $bannerId = $this->getRequest()->getParam('id');
+        if ($bannerId) {
             try {
                 // init model and delete
                 $model = Mage::getModel('Magento_Banner_Model_Banner');
@@ -171,7 +190,7 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
                 );
                 $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 // save data in session
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($data);
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($this->getRequest()->getParams());
                 // redirect to edit form
                 $this->_redirect('*/*/edit', array('id' => $bannerId));
                 return;
@@ -235,8 +254,8 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
         if ($bannerId) {
             $model->load($bannerId);
         }
-        if (!Mage::registry('current_banner')) {
-            Mage::register('current_banner', $model);
+        if (!$this->_coreRegistry->registry('current_banner')) {
+            $this->_coreRegistry->register('current_banner', $model);
         }
         return $model;
     }
@@ -331,8 +350,8 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
                 return;
             }
         }
-        if (!Mage::registry('current_promo_quote_rule')) {
-            Mage::register('current_promo_quote_rule', $model);
+        if (!$this->_coreRegistry->registry('current_promo_quote_rule')) {
+            $this->_coreRegistry->register('current_promo_quote_rule', $model);
         }
         $this->loadLayout();
         $this->getLayout()
@@ -360,8 +379,8 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
                 return;
             }
         }
-        if (!Mage::registry('current_promo_catalog_rule')) {
-            Mage::register('current_promo_catalog_rule', $model);
+        if (!$this->_coreRegistry->registry('current_promo_catalog_rule')) {
+            $this->_coreRegistry->register('current_promo_catalog_rule', $model);
         }
         $this->loadLayout();
         $this->getLayout()

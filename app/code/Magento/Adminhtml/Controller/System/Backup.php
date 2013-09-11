@@ -18,6 +18,25 @@
 class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Backup list action
      */
     public function indexAction()
@@ -81,7 +100,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
 
             $backupManager->setName($this->getRequest()->getParam('backup_name'));
 
-            Mage::register('backup_manager', $backupManager);
+            $this->_coreRegistry->register('backup_manager', $backupManager);
 
             if ($this->getRequest()->getParam('maintenance_mode')) {
                 $turnedOn = $helper->turnOnMaintenanceMode();
@@ -199,7 +218,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
                 ->setName($backup->getName(), false)
                 ->setResourceModel(Mage::getResourceModel('Magento_Backup_Model_Resource_Db'));
 
-            Mage::register('backup_manager', $backupManager);
+            $this->_coreRegistry->register('backup_manager', $backupManager);
 
             $passwordValid = Mage::getModel('Magento_Backup_Model_Backup')->validateUserPassword(
                 $this->getRequest()->getParam('password')
@@ -292,7 +311,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
         $resultData = new Magento_Object();
         $resultData->setIsSuccess(false);
         $resultData->setDeleteResult(array());
-        Mage::register('backup_manager', $resultData);
+        $this->_coreRegistry->register('backup_manager', $resultData);
 
         $deleteFailMessage = __('We couldn\'t delete one or more backups.');
 
@@ -322,8 +341,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
                 $this->_getSession()->addSuccess(
                     __('The selected backup(s) has been deleted.')
                 );
-            }
-            else {
+            } else {
                 throw new Exception($deleteFailMessage);
             }
         } catch (Exception $e) {

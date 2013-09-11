@@ -24,18 +24,28 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
     protected $_configScope;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
     /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Config_Scope $configScope
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Config_Scope $configScope
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_configScope = $configScope;
         $this->_logger = $context->getLogger();
         parent::__construct($context);
@@ -59,10 +69,14 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
      *
      * @param Magento_Core_Controller_Front_Action $controller
      * @param string $aclResource
+     * @param Magento_Core_Model_Logger $logger
      * @return bool
      */
-    public static function authenticateAndAuthorizeAdmin(Magento_Core_Controller_Front_Action $controller, $aclResource, $logger)
-    {
+    public static function authenticateAndAuthorizeAdmin(
+        Magento_Core_Controller_Front_Action $controller, 
+        $aclResource, 
+        $logger
+    ) {
         Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
         /** @var $auth Magento_Backend_Model_Auth */
         $auth = Mage::getModel('Magento_Backend_Model_Auth');
@@ -102,7 +116,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
     {
         $order = Mage::helper('Magento_Rss_Helper_Order')->getOrderByStatusUrlKey((string)$this->getRequest()->getParam('data'));
         if (!is_null($order)) {
-            Mage::register('current_order', $order);
+            $this->_coreRegistry->register('current_order', $order);
             $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
             $this->loadLayout(false);
             $this->renderLayout();

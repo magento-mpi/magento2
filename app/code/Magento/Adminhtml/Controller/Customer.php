@@ -15,6 +15,25 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
     protected $_validator;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Customer initialization
      *
      * @param string $idFieldName
@@ -31,7 +50,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
             $customer->load($customerId);
         }
 
-        Mage::register('current_customer', $customer);
+        $this->_coreRegistry->register('current_customer', $customer);
         return $this;
     }
 
@@ -88,7 +107,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         $this->_setActiveMenu('Magento_Customer::customer_manage');
 
         /* @var $customer Magento_Customer_Model_Customer */
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
 
         // set entered data if was error when we do save
         $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCustomerData(true);
@@ -165,7 +184,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
     public function deleteAction()
     {
         $this->_initCustomer();
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         if ($customer->getId()) {
             try {
                 $customer->delete();
@@ -466,23 +485,22 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
     {
         $this->_initCustomer();
         $subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber')
-            ->loadByCustomer(Mage::registry('current_customer'));
+            ->loadByCustomer($this->_coreRegistry->registry('current_customer'));
 
-        Mage::register('subscriber', $subscriber);
+        $this->_coreRegistry->register('subscriber', $subscriber);
         $this->loadLayout()->renderLayout();
     }
 
     public function wishlistAction()
     {
         $this->_initCustomer();
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         $itemId = (int)$this->getRequest()->getParam('delete');
         if ($customer->getId() && $itemId) {
             try {
                 Mage::getModel('Magento_Wishlist_Model_Item')->load($itemId)
                     ->delete();
-            }
-            catch (Exception $exception) {
+            } catch (Exception $exception) {
                 $this->_objectManager->get('Magento_Core_Model_Logger')->logException($exception);
             }
         }
@@ -517,7 +535,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         if ($deleteItemId) {
             $quote = Mage::getModel('Magento_Sales_Model_Quote')
                 ->setWebsite(Mage::app()->getWebsite($websiteId))
-                ->loadByCustomer(Mage::registry('current_customer'));
+                ->loadByCustomer($this->_coreRegistry->registry('current_customer'));
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
                 $quote->removeItem($deleteItemId);
@@ -565,7 +583,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         $this->loadLayout()
             ->getLayout()
             ->getBlock('admin.customer.reviews')
-            ->setCustomerId(Mage::registry('current_customer')->getId())
+            ->setCustomerId($this->_coreRegistry->registry('current_customer')->getId())
             ->setUseAjax(true);
         $this->renderLayout();
     }
@@ -715,7 +733,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
     public function massUnsubscribeAction()
     {
         $customersIds = $this->getRequest()->getParam('customer');
-        if(!is_array($customersIds)) {
+        if (!is_array($customersIds)) {
              Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Please select customer(s).'));
         } else {
             try {

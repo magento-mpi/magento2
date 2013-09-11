@@ -16,6 +16,25 @@
 class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize payment transaction model
      *
      * @return Magento_Sales_Model_Order_Payment_Transaction | bool
@@ -39,7 +58,7 @@ class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_
             );
         }
 
-        Mage::register('current_transaction', $txn);
+        $this->_coreRegistry->register('current_transaction', $txn);
         return $txn;
     }
 

@@ -191,7 +191,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      * @param string $sessionName
      * @return Magento_Core_Model_Session_Abstract
      */
-    public function init($namespace, $sessionName=null)
+    public function init($namespace, $sessionName = null)
     {
         if (!isset($_SESSION)) {
             $this->start($sessionName);

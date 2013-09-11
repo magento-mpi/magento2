@@ -50,6 +50,7 @@ class Magento_Core_Model_Theme_File extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
      * @param Magento_Core_Model_Theme_Customization_FileServiceFactory $fileServiceFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -58,13 +59,14 @@ class Magento_Core_Model_Theme_File extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
         Magento_Core_Model_Theme_Customization_FileServiceFactory $fileServiceFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_themeFactory = $themeFactory;
         $this->_fileServiceFactory = $fileServiceFactory;
     }

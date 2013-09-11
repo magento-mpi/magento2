@@ -27,7 +27,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Usecustompath extends Magento_C
     {
         if ($this->getOldValue() != $this->getValue()) {
             Mage::helper('Magento_Backend_Helper_Data')->clearAreaFrontName();
-            Mage::register('custom_admin_path_redirect', true, true);
+            $this->_coreRegistry->register('custom_admin_path_redirect', true, true);
         }
 
         return $this;

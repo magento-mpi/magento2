@@ -30,6 +30,11 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      */
     const ENTITY = 'core_store';
 
+    /**
+     * Custom entry point param
+     */
+    const CUSTOM_ENTRY_POINT_PARAM = 'custom_entry_point';
+
     /**#@+
      * Configuration paths
      */
@@ -227,6 +232,11 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     protected $_appState;
 
     /**
+     * @var bool
+     */
+    protected $_isCustomEntryPoint = false;
+
+    /**
      * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
@@ -238,6 +248,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_App_State $appState
@@ -245,10 +256,12 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Resource_Config_Data $configDataResource
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
+     * @param bool $isCustomEntryPoint
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_App_State $appState,
@@ -256,6 +269,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         Magento_Core_Model_Resource_Config_Data $configDataResource,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
+        $isCustomEntryPoint = false,
         array $data = array()
     ) {
         $this->_urlModel = $urlModel;
@@ -263,7 +277,8 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         $this->_appState = $appState;
         $this->_request = $request;
         $this->_configDataResource = $configDataResource;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_isCustomEntryPoint = $isCustomEntryPoint;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -535,7 +550,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      */
     protected function _isCustomEntryPoint()
     {
-        return (bool)Mage::registry('custom_entry_point');
+        return $this->_isCustomEntryPoint;
     }
 
     /**
@@ -902,7 +917,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
             if ($this->getBaseCurrency() && $this->getCurrentCurrency()) {
                 $this->_priceFilter = $this->getCurrentCurrency()->getFilter();
                 $this->_priceFilter->setRate($this->getBaseCurrency()->getRate($this->getCurrentCurrency()));
-            } elseif($this->getDefaultCurrency()) {
+            } elseif ($this->getDefaultCurrency()) {
                 $this->_priceFilter = $this->getDefaultCurrency()->getFilter();
             } else {
                 $this->_priceFilter = new Magento_Filter_Sprintf('%s', 2);

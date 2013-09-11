@@ -17,6 +17,24 @@
  */
 class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
 
     /**
      * Init active menu
@@ -38,7 +56,7 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
      */
     protected function _initModel($requestParam = 'id')
     {
-        $model = Mage::registry('current_giftwrapping_model');
+        $model = $this->_coreRegistry->registry('current_giftwrapping_model');
         if ($model) {
            return $model;
         }
@@ -52,15 +70,13 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
                 Mage::throwException(__('Please request the correct gift wrapping.'));
             }
         }
-        Mage::register('current_giftwrapping_model', $model);
+        $this->_coreRegistry->register('current_giftwrapping_model', $model);
 
         return $model;
     }
 
     /**
      * List of gift wrappings
-     *
-     * @return void
      */
     public function indexAction()
     {
@@ -69,8 +85,6 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
 
     /**
      * Create new gift wrapping
-     *
-     * @return void
      */
     public function newAction()
     {
@@ -82,14 +96,13 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
 
     /**
      * Edit gift wrapping
-     *
-     * @return void
      */
     public function editAction()
     {
         $model = $this->_initModel();
         $this->_initAction();
-        if ($formData = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData()) {
+        $formData = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData();
+        if ($formData) {
             $model->addData($formData);
         }
         $this->_title(__('%1', $model->getDesign()));
@@ -98,8 +111,6 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
 
     /**
      * Save gift wrapping
-     *
-     * @return void
      */
     public function saveAction()
     {
@@ -144,8 +155,6 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
 
     /**
      * Upload temporary gift wrapping image
-     *
-     * @return void
      */
     public function uploadAction()
     {
@@ -179,8 +188,6 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
 
     /**
      * Change gift wrapping(s) status action
-     *
-     * @return void
      */
     public function changeStatusAction()
     {
@@ -208,8 +215,6 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
     /**
      * Delete specified gift wrapping(s)
      * This action can be performed on 'Manage Gift Wrappings' page
-     *
-     * @return void
      */
     public function massDeleteAction()
     {
@@ -237,8 +242,6 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
     /**
      * Delete current gift wrapping
      * This action can be performed on 'Edit Gift Wrapping' page
-     *
-     * @return void
      */
     public function deleteAction()
     {
@@ -287,8 +290,6 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
      * Ajax action for GiftWrapping content in backend order creation
      *
      * @deprecated since 1.12.0.0
-     *
-     * @return void
      */
     public function orderOptionsAction() {
         $this->loadLayout();

@@ -22,6 +22,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
      */
     protected $_layout;
 
+    /**
+     * @param array $attributes
+     * @param Magento_Core_Model_Layout $layout
+     */
     public function __construct($attributes = array(), Magento_Core_Model_Layout $layout = null)
     {
         parent::__construct($attributes);

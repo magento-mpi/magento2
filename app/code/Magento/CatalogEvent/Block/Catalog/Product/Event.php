@@ -18,6 +18,27 @@
 class Magento_CatalogEvent_Block_Catalog_Product_Event extends Magento_CatalogEvent_Block_Event_Abstract
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Return current category event
      *
      * @return Magento_CategoryEvent_Model_Event
@@ -38,7 +59,7 @@ class Magento_CatalogEvent_Block_Catalog_Product_Event extends Magento_CatalogEv
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -48,11 +69,10 @@ class Magento_CatalogEvent_Block_Catalog_Product_Event extends Magento_CatalogEv
      */
     public function canDisplay()
     {
-        return Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled() &&
-               $this->getProduct() &&
-               $this->getEvent() &&
-               $this->getEvent()->canDisplayProductPage() &&
-               !$this->getProduct()->getEventNoTicker();
+        return Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()
+            && $this->getProduct()
+            && $this->getEvent()
+            && $this->getEvent()->canDisplayProductPage()
+            && !$this->getProduct()->getEventNoTicker();
     }
-
 }

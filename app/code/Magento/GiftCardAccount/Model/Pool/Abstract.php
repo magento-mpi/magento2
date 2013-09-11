@@ -20,7 +20,7 @@ abstract class Magento_GiftCardAccount_Model_Pool_Abstract extends Magento_Core_
 
     /**
      * Return first free code
-     * 
+     *
      * @return string
      */
     public function shift()
@@ -76,11 +76,6 @@ abstract class Magento_GiftCardAccount_Model_Pool_Abstract extends Magento_Core_
     public function cleanupFree()
     {
         $this->getResource()->cleanupByStatus(self::STATUS_FREE);
-        /*
-        $this->getCollection()
-            ->addFieldToFilter('status', self::STATUS_FREE)
-            ->walk('delete');
-        */
         return $this;
     }
 }

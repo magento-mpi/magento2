@@ -11,6 +11,25 @@
 class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Init active menu and set breadcrumb
      *
      * @return Magento_GiftRegistry_Controller_Adminhtml_Giftregistry
@@ -39,13 +58,14 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
         $type = Mage::getModel('Magento_GiftRegistry_Model_Type');
         $type->setStoreId($this->getRequest()->getParam('store', 0));
 
-        if ($typeId = $this->getRequest()->getParam($requestParam)) {
+        $typeId = $this->getRequest()->getParam($requestParam);
+        if ($typeId) {
             $type->load($typeId);
             if (!$type->getId()) {
                 Mage::throwException(__('Please correct the  gift registry ID.'));
             }
         }
-        Mage::register('current_giftregistry_type', $type);
+        $this->_coreRegistry->register('current_giftregistry_type', $type);
         return $type;
     }
 
@@ -64,8 +84,7 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
     {
         try {
             $model = $this->_initType();
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
@@ -92,8 +111,7 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
     {
         try {
             $model = $this->_initType();
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
@@ -145,7 +163,8 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
      */
     public function saveAction()
     {
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             //filtering
             $data = $this->_filterPostData($data);
             try {
@@ -155,7 +174,8 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')
                         ->addSuccess(__('You saved the gift registry type.'));
 
-                if ($redirectBack = $this->getRequest()->getParam('back', false)) {
+                $redirectBack = $this->getRequest()->getParam('back', false);
+                if ($redirectBack) {
                     $this->_redirect('*/*/edit', array('id' => $model->getId(), 'store' => $model->getStoreId()));
                     return;
                 }
@@ -180,8 +200,7 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
             $model = $this->_initType();
             $model->delete();
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You deleted the gift registry type.'));
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $model->getId()));
             return;
