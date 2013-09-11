@@ -97,7 +97,7 @@
         </replace>
 
         <!--Make test modules available over HTTP-->
-        <copy todir="${product_root_dir}/app/code/Mage" overwrite="true" failonerror="true">
+        <copy todir="${product_root_dir}/app/code/Magento" overwrite="true" failonerror="true">
             <fileset dir="${product_root_dir}/dev/tests/api-functional/_files" includes="TestModule*/**"/>
         </copy>
 

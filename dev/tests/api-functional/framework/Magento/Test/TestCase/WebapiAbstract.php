@@ -28,7 +28,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     /**
      * Application cache model.
      *
-     * @var Mage_Core_Model_Cache
+     * @var Magento_Core_Model_Cache
      */
     protected $_appCache;
 
@@ -228,13 +228,13 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     /**
      * Call safe delete for model
      *
-     * @param Mage_Core_Model_Abstract $model
+     * @param Magento_Core_Model_Abstract $model
      * @param bool $secure
      * @return Magento_Test_TestCase_WebapiAbstract
      */
     static public function callModelDelete($model, $secure = false)
     {
-        if ($model instanceof Mage_Core_Model_Abstract && $model->getId()) {
+        if ($model instanceof Magento_Core_Model_Abstract && $model->getId()) {
             if ($secure) {
                 self::_enableSecureArea();
             }
@@ -248,7 +248,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     /**
      * Call safe delete for model
      *
-     * @param Mage_Core_Model_Abstract $model
+     * @param Magento_Core_Model_Abstract $model
      * @param bool $secure
      * @return Magento_Test_TestCase_WebapiAbstract
      */
@@ -343,7 +343,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     {
         if ($this->_modelsToDelete) {
             foreach ($this->_modelsToDelete as $key => $modelData) {
-                /** @var $model Mage_Core_Model_Abstract */
+                /** @var $model Magento_Core_Model_Abstract */
                 $model = $modelData['model'];
                 $this->callModelDelete($model, $modelData['secure']);
                 unset($this->_modelsToDelete[$key]);
@@ -400,7 +400,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     /**
      * Get application cache model
      *
-     * @return Mage_Core_Model_Cache
+     * @return Magento_Core_Model_Cache
      */
     protected function _getAppCache()
     {
@@ -413,7 +413,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
             $options->setCacheDir(Magento_Test_Bootstrap::getInstance()->getMagentoDir() . DS . 'var' . DS . 'cache');
             $options->setEtcDir(Magento_Test_Bootstrap::getInstance()->getMagentoDir() . DS . 'app' . DS . 'etc');
 
-            $this->_appCache = Mage::getObjectManager()->get('Mage_Core_Model_Cache');
+            $this->_appCache = Mage::getObjectManager()->get('Magento_Core_Model_Cache');
 
             //revert paths options
             $options->setCacheDir($currentCacheDir);
@@ -429,7 +429,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
      */
     protected function _cleanAppConfigCache()
     {
-        return $this->_getAppCache()->clean(Mage_Core_Model_Config::CACHE_TAG);
+        return $this->_getAppCache()->clean(Magento_Core_Model_Config::CACHE_TAG);
     }
 
     /**
@@ -459,8 +459,8 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
             ));
         }
 
-        /** @var $config Mage_Backend_Model_Config */
-        $config = Mage::getModel('Mage_Backend_Model_Config');
+        /** @var $config Magento_Backend_Model_Config */
+        $config = Mage::getModel('Magento_Backend_Model_Config');
         $data[$group]['fields'][$node]['value'] = $value;
         $config->setSection($section)
             ->setGroups($data)

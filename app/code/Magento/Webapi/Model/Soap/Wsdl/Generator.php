@@ -409,7 +409,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
         $requestedServices = $this->_apiConfig->getRequestedSoapServices(array($serviceName));
         if (empty($requestedServices)) {
             throw new Magento_Webapi_Exception(
-                __('Service "%s" is not available.', $serviceName),
+                __('Service %1 is not available.', $serviceName),
                 Magento_Webapi_Exception::HTTP_NOT_FOUND
             );
         }

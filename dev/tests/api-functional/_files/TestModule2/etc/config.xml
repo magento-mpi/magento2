@@ -8,20 +8,13 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_TestModule2>
-            <version>1.0</version>
-            <current_api_version>1</current_api_version>
-            <active>true</active>
-        </Mage_TestModule2>
-    </modules>
     <global>
-        <di>
-            <preferences>
-                <Mage_TestModule2_Service_SubsetRestV1Interface>Mage_TestModule2_Service_SubsetRestV1</Mage_TestModule2_Service_SubsetRestV1Interface>
-                <Mage_TestModule2_Service_AllSoapNoRestV1Interface>Mage_TestModule2_Service_AllSoapNoRestV1</Mage_TestModule2_Service_AllSoapNoRestV1Interface>
-                <Mage_TestModule2_Service_NoWebApiXmlV1Interface>Mage_TestModule2_Service_NoWebApiXmlV1</Mage_TestModule2_Service_NoWebApiXmlV1Interface>
-            </preferences>
-        </di>
+        <resources>
+            <testmodule2_setup>
+                <setup>
+                    <module>Magento_TestModule2</module>
+                </setup>
+            </testmodule2_setup>
+        </resources>
     </global>
 </config>

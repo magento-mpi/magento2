@@ -19,7 +19,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
     protected $_soapClients = array();
 
     /**
-     * @var Mage_Webapi_Model_Soap_Config
+     * @var Magento_Webapi_Model_Soap_Config
      */
     protected $_soapConfig;
 
@@ -28,7 +28,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
      */
     public function __construct()
     {
-        $this->_soapConfig = Mage::getObjectManager()->get('Mage_Webapi_Model_Soap_Config');
+        $this->_soapConfig = Mage::getObjectManager()->get('Magento_Webapi_Model_Soap_Config');
     }
 
     /**
@@ -139,7 +139,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
             */
             return '';
         } else if (isset($serviceInfo['serviceInterface'])) {
-            preg_match(Mage_Webapi_Model_Config::SERVICE_CLASS_PATTERN, $serviceInfo['serviceInterface'], $matches);
+            preg_match(Magento_Webapi_Model_Config::SERVICE_CLASS_PATTERN, $serviceInfo['serviceInterface'], $matches);
             if (isset($matches[4])) {
                 $version = $matches[4];
             } else {

@@ -4,24 +4,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_TestModule3
+ * @package     Magento_TestModule3
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
-    <modules>
-        <Mage_TestModule3>
-            <version>1.6.0.0.23</version>
-            <current_api_version>1</current_api_version>
-            <active>true</active>
-        </Mage_TestModule3>
-    </modules>
     <global>
-        <di>
-            <preferences>
-                <Mage_TestModule3_Service_ErrorV1Interface>Mage_TestModule3_Service_ErrorV1</Mage_TestModule3_Service_ErrorV1Interface>
-            </preferences>
-        </di>
+        <resources>
+            <testmodule3_setup>
+                <setup>
+                    <module>Magento_TestModule3</module>
+                </setup>
+            </testmodule3_setup>
+        </resources>
     </global>
 </config>

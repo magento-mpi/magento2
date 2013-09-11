@@ -9,7 +9,7 @@
 -->
 <project name="mage-api-functional-tests" basedir="." default="copy-test-modules">
     <!-- Properties -->
-    <property name="mage.code.dir" location="../../../../app/code/Mage" />
+    <property name="mage.code.dir" location="../../../../app/code/Magento" />
 
     <target name="copy-test-modules">
         <copy todir="${mage.code.dir}" overwrite="true">

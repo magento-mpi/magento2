@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <service class="Mage_TestModule3_Service_ErrorV1Interface" baseUrl="/V1/errortest">
+    <service class="Magento_TestModule3_Service_ErrorV1Interface" baseUrl="/V1/errortest">
         <rest-route httpMethod="GET" method="success">/success</rest-route>
         <rest-route httpMethod="GET" method="resourceNotFoundException">/notfound</rest-route>
         <rest-route httpMethod="GET" method="serviceException">/serviceexception</rest-route>

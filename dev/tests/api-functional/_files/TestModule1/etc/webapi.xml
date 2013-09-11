@@ -8,14 +8,14 @@
  */
 -->
 <config>
-    <service class="Mage_TestModule1_Service_AllSoapAndRestV1Interface" baseUrl="/V1/testmodule1">
+    <service class="Magento_TestModule1_Service_AllSoapAndRestV1Interface" baseUrl="/V1/testmodule1">
         <rest-route httpMethod="GET" method="item">/:id</rest-route>
         <rest-route httpMethod="GET" method="items"></rest-route>
         <rest-route httpMethod="POST" method="create"></rest-route>
         <rest-route httpMethod="PUT" method="update">/:id</rest-route>
     </service>
 
-    <service class="Mage_TestModule1_Service_AllSoapAndRestV2Interface" baseUrl="/V2/testmodule1">
+    <service class="Magento_TestModule1_Service_AllSoapAndRestV2Interface" baseUrl="/V2/testmodule1">
         <rest-route httpMethod="GET" method="item">/:id</rest-route>
         <rest-route httpMethod="GET" method="items"></rest-route>
         <rest-route httpMethod="POST" method="create"></rest-route>

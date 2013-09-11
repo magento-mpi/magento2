@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_TestModule2_Service_AllSoapNoRestV1 implements Mage_TestModule2_Service_AllSoapNoRestV1Interface
+class Magento_TestModule2_Service_AllSoapNoRestV1 implements Magento_TestModule2_Service_AllSoapNoRestV1Interface
 {
     /**
      * @param array $request

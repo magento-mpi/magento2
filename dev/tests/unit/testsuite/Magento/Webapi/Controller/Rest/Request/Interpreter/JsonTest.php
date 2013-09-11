@@ -120,7 +120,7 @@ class Magento_Webapi_Controller_Rest_Request_Interpreter_JsonTest extends PHPUni
             $this->fail("Exception is expected to be raised");
         } catch (Magento_Webapi_Exception $e) {
             $this->assertInstanceOf('Magento_Webapi_Exception', $e, 'Exception type is invalid');
-            $this->assertEquals('Decoding error: %s%s%s%s', $e->getMessage(), 'Exception message is invalid');
+            $this->assertContains('Decoding error:', $e->getMessage(), 'Exception message is invalid');
             $this->assertEquals(Magento_Webapi_Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
         }
     }

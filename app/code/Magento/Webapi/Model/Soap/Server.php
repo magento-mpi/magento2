@@ -56,7 +56,13 @@ class Magento_Webapi_Model_Soap_Server
         $this->_request = $request;
         $this->_domDocumentFactory = $domDocumentFactory;
         $this->_soapHandler = $soapHandler;
-        $this->_initWsdlCache();
+        /** Enable or disable SOAP extension WSDL cache depending on Magento configuration. */
+        $wsdlCacheEnabled = (bool)$application->getStore()->getConfig(self::CONFIG_PATH_WSDL_CACHE_ENABLED);
+        if ($wsdlCacheEnabled) {
+            ini_set('soap.wsdl_cache_enabled', '1');
+        } else {
+            ini_set('soap.wsdl_cache_enabled', '0');
+        }
     }
 
     /**
@@ -102,19 +108,6 @@ class Magento_Webapi_Model_Soap_Server
         }
 
         return $headers;
-    }
-
-    /**
-     * Enable or disable SOAP extension WSDL cache depending on Magento configuration.
-     */
-    protected function _initWsdlCache()
-    {
-        $wsdlCacheEnabled = (bool)$this->_application->getStore()->getConfig(self::CONFIG_PATH_WSDL_CACHE_ENABLED);
-        if ($wsdlCacheEnabled) {
-            ini_set('soap.wsdl_cache_enabled', '1');
-        } else {
-            ini_set('soap.wsdl_cache_enabled', '0');
-        }
     }
 
     /**
