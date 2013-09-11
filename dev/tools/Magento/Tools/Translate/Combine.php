@@ -17,7 +17,7 @@ Usage:
 namespace Magento\Tools\Translate;
 
 define('DS', DIRECTORY_SEPARATOR);
-define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
+define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 
 define('MESSAGE_TYPE_NOTICE', '0');
 define('MESSAGE_TYPE_WARNING', '1');

@@ -9,7 +9,7 @@
  */
 namespace Magento\Tools\Translate;
 
-class DirectoryFilter extends FilterIterator
+class DirectoryFilter extends \FilterIterator
 {
     /**
      * List of allowed extensions
@@ -19,10 +19,10 @@ class DirectoryFilter extends FilterIterator
     protected $_allowedExtensions;
 
     /**
-     * @param Iterator $iterator
+     * @param \Iterator $iterator
      * @param array $allowedExtensions
      */
-    public function __construct(Iterator $iterator, array $allowedExtensions)
+    public function __construct(\Iterator $iterator, array $allowedExtensions)
     {
         parent::__construct($iterator);
         $this->_allowedExtensions = $allowedExtensions;
@@ -37,7 +37,7 @@ class DirectoryFilter extends FilterIterator
      */
     public function accept()
     {
-        /** @var $current SPLFileInfo */
+        /** @var $current \SPLFileInfo */
         $current = $this->current();
         return in_array($current->getExtension(), $this->_allowedExtensions);
     }

@@ -27,7 +27,7 @@ USAGE
 
 
 define('DS', DIRECTORY_SEPARATOR);
-define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
+define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 
 define('MESSAGE_TYPE_NOTICE', '0');
 define('MESSAGE_TYPE_WARNING', '1');
@@ -445,7 +445,7 @@ class GenerateEmailTemplates
             'outputName' => $outputName,
         );*/
 
-        $csv = new Varien_File_Csv();
+        $csv = new \Magento\File\Csv();
         $strings1 = $this->separateTranslations($csv->getData($this->_arguments['inputName1']));
         $strings2 = $this->separateTranslations($csv->getData($this->_arguments['inputName2']));
         $resultArray = array();

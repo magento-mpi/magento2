@@ -104,7 +104,7 @@ class ModuleTranslations
      *
      * @param string $locale Locale name (ex. en_US)
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public static function collectTranslations($locale='')
     {
@@ -121,7 +121,7 @@ class ModuleTranslations
             }
         }
         if ($writeError) {
-            throw new Exception("Directory $localeDir is not writable \n\n");
+            throw new \Exception("Directory $localeDir is not writable \n\n");
         }
 
         $files = glob(BASE_PATH . DS . 'app' . DS . 'code' . DS . '*' . DS . '*' . DS .  'locale'
@@ -138,7 +138,7 @@ class ModuleTranslations
      *
      * @param string $locale Locale name (ex. en_US)
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public static function distributeTranslations($locale)
     {
@@ -147,7 +147,7 @@ class ModuleTranslations
         $pathLocales = $_config['paths']['locale'];
         $localeDir = BASE_PATH . DS . $pathLocales . $locale;
         if (!is_dir($localeDir)) {
-            throw new Exception("Directory $localeDir is not writable \n\n");
+            throw new \Exception("Directory $localeDir is not writable \n\n");
         }
 
         $files = glob($localeDir . DS . '*.' . EXTENSION);
@@ -167,7 +167,7 @@ class ModuleTranslations
                 }
             }
             if ($writeError || !copy($file, $newFileName)) {
-                throw new Exception("Directory $newFilePath is not writable \n\n");
+                throw new \Exception("Directory $newFilePath is not writable \n\n");
             }
         }
         return true;
@@ -178,14 +178,14 @@ class ModuleTranslations
      *
      * @param string $locale Locale name (ex. en_US)
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public static function cleanTranslations($locale)
     {
         $_config = self::getConfig();
         $localeDir = BASE_PATH . DS . $_config['paths']['locale'] . $locale;
         if (!is_dir($localeDir)) {
-            throw new Exception("Directory $localeDir is not writable \n\n");
+            throw new \Exception("Directory $localeDir is not writable \n\n");
         }
         $files = glob($localeDir . DS . '*.' . EXTENSION);
         foreach ($files as $file) {
