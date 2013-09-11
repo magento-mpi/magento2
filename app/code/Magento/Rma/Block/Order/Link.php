@@ -10,6 +10,28 @@
 class Magento_Rma_Block_Order_Link extends Magento_Sales_Block_Order_Link
 {
     /**
+     * @var Magento_Rma_Helper_Data
+     */
+    protected $_rmaHelper;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Rma_Helper_Data $rmaHelper
+     * @param Magento_Core_Model_Registry $registry
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Rma_Helper_Data $rmaHelper,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_rmaHelper = $rmaHelper;
+        parent::__construct($context, $registry, $data);
+    }
+
+    /**
      * @inheritdoc
      * @return string
      */
@@ -27,10 +49,10 @@ class Magento_Rma_Block_Order_Link extends Magento_Sales_Block_Order_Link
      */
     protected function _isRmaAviable()
     {
-        if (Mage::helper('Magento_Rma_Helper_Data')->isEnabled()) {
+        if ($this->_rmaHelper->isEnabled()) {
             $returns = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection')
                 ->addFieldToSelect('*')
-                ->addFieldToFilter('order_id', Mage::registry('current_order')->getId())
+                ->addFieldToFilter('order_id', $this->_registry->registry('current_order')->getId())
                 ->count();
 
             return $returns > 0;
