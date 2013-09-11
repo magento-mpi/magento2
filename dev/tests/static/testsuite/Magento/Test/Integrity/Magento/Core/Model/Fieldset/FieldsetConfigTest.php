@@ -18,7 +18,8 @@ class Magento_Test_Integrity_Magento_Core_Model_Fieldset_FieldsetConfigTest exte
     {
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($configFile));
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/code/Magento/Core/etc/fieldset_file.xsd';
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource()
+            . '/app/code/Magento/Core/etc/fieldset_file.xsd';
         $errors = Magento_Config_Dom::validateDomDocument($dom, $schema);
         if ($errors) {
             $this->fail('XML-file ' . $configFile . ' has validation errors:'
@@ -31,7 +32,8 @@ class Magento_Test_Integrity_Magento_Core_Model_Fieldset_FieldsetConfigTest exte
         $xmlFile = __DIR__ . '/_files/fieldset.xml';
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/code/Magento/Core/etc/fieldset.xsd';
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource()
+            . '/app/code/Magento/Core/etc/fieldset.xsd';
         $errors = Magento_Config_Dom::validateDomDocument($dom, $schema);
         if ($errors) {
             $this->fail('There is a problem with the schema.  A known good XML file failed validation: '
@@ -44,7 +46,8 @@ class Magento_Test_Integrity_Magento_Core_Model_Fieldset_FieldsetConfigTest exte
         $xmlFile = __DIR__ . '/_files/invalid_fieldset.xml';
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/code/Magento/Core/etc/fieldset.xsd';
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource()
+            . '/app/code/Magento/Core/etc/fieldset.xsd';
         $errors = Magento_Config_Dom::validateDomDocument($dom, $schema);
         if (!$errors) {
             $this->fail('There is a problem with the schema.  A known bad XML file passed validation');
@@ -56,7 +59,8 @@ class Magento_Test_Integrity_Magento_Core_Model_Fieldset_FieldsetConfigTest exte
         $xmlFile = __DIR__ . '/_files/fieldset_file.xml';
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/code/Magento/Core/etc/fieldset_file.xsd';
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource()
+            . '/app/code/Magento/Core/etc/fieldset_file.xsd';
         $errors = Magento_Config_Dom::validateDomDocument($dom, $schema);
         if ($errors) {
             $this->fail('There is a problem with the schema.  A known good XML file failed validation: '
@@ -69,7 +73,8 @@ class Magento_Test_Integrity_Magento_Core_Model_Fieldset_FieldsetConfigTest exte
         $xmlFile = __DIR__ . '/_files/invalid_fieldset.xml';
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/code/Magento/Core/etc/fieldset_file.xsd';
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource()
+            . '/app/code/Magento/Core/etc/fieldset_file.xsd';
         $errors = Magento_Config_Dom::validateDomDocument($dom, $schema);
         if (!$errors) {
             $this->fail('There is a problem with the schema.  A known bad XML file passed validation');
