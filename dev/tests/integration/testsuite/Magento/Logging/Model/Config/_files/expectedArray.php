@@ -112,7 +112,8 @@ return array(
                         '@'=> array(
                             'extends' => 'merge'
                         )
-                    )
+                    ),
+                    'action' => 'save'
                 ),
                 'adminhtml_customersegment_match'=>
                 array(

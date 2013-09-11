@@ -21,7 +21,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
         $xpath = new DOMXPath($source);
         $result['logging']['actions'] = $this->_getActionTitles($xpath);
 
-        $groups = $xpath->query('/logging/group');
+        $groups = $xpath->query('/logging/groups/group');
         /** @var DOMNode $group */
         foreach ($groups as $group) {
             $groupId = $group->attributes->getNamedItem('name')->nodeValue;
@@ -40,7 +40,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     protected function _getActionTitles($xpath)
     {
         $result = array();
-        $actions = $xpath->query('/logging/action');
+        $actions = $xpath->query('/logging/actions/action');
 
         /** @var DOMNode $action */
         foreach ($actions as $action) {
@@ -57,7 +57,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Convert Group node to array
      *
-     * @param DOMNode $event
+     * @param DOMNode $group
      * @param string $groupId
      * @return array
      */
@@ -69,13 +69,11 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
                 case 'label':
                     $result['label'] = $groupParams->nodeValue;
                     break;
-                case 'expected_model':
-                    $result['expected_models'][$groupParams->attributes->getNamedItem('class')->nodeValue] =
-                        $this->_convertExpectedModel($groupParams);
+                case 'expected_models':
+                    $result['expected_models'] = $this->_convertExpectedModels($groupParams);
                     break;
-                case 'event':
-                    $eventName = $groupParams->attributes->getNamedItem('controller_action')->nodeValue;
-                    $result['actions'][$eventName] = $this->_convertEvent($groupParams, $groupId);
+                case 'events':
+                    $result['actions'] = $this->_convertEvents($groupParams, $groupId);
                     break;
             }
         }
@@ -93,9 +91,9 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     {
         $result = array('group_name' => $groupId);
         $eventAttributes = $event->attributes;
-        $eventAction = $eventAttributes->getNamedItem('action_alias');
-        if (!is_null($eventAction)) {
-            $result['action'] = $eventAction->nodeValue;
+        $actionAliasAttribute = $eventAttributes->getNamedItem('action_alias');
+        if (!is_null($actionAliasAttribute)) {
+            $result['action'] = $actionAliasAttribute->nodeValue;
         }
 
         $postDispatch = $eventAttributes->getNamedItem('post_dispatch');
@@ -105,22 +103,71 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
         foreach ($event->childNodes as $eventData) {
             $eventDataAttributes = $eventData->attributes;
             switch ($eventData->nodeName) {
-                case 'expected_model':
-                    $result['expected_models'][$eventData->attributes->getNamedItem('class')->nodeValue] =
-                        $this->_convertExpectedModel($eventData);
-                    break;
-                case 'post_dispatch':
-                    $result['post_dispatch'][$eventData->attributes->getNamedItem('class')->nodeValue] =
-                        $this->_convertExpectedModel($eventData);
+                case 'expected_models':
+                    $result['expected_models'] = $this->_convertExpectedModels($eventData);
                     break;
                 case 'skip_on_back':
-                    $result['skip_on_back'][] = $eventDataAttributes->getNamedItem('controller_action')->nodeValue;
+                    $result['skip_on_back'] = $this->_convertSkipOnBack($eventData);
                     break;
             }
         }
-        $extendsExpected = $eventAttributes->getNamedItem('extends_expected_models');
-        if (!is_null($extendsExpected) && $extendsExpected->nodeValue == 'true') {
-            $result['expected_models']['@']['extends'] = 'merge';
+        return $result;
+    }
+
+    /**
+     * Convert events grouping node
+     *
+     * @param DOMNode $events
+     * @param string $groupId
+     * @return array
+     */
+    protected function _convertEvents($events, $groupId)
+    {
+        $result = array();
+        foreach ($events->childNodes as $event) {
+            if ($event->nodeName == 'event') {
+                $result[$event->attributes->getNamedItem('controller_action')->nodeValue] =
+                    $this->_convertEvent($event, $groupId);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Convert skip_on_back node to array
+     *
+     * @param DOMNode $skipOnBack
+     * @return array
+     */
+    protected function _convertSkipOnBack($skipOnBack)
+    {
+        $result = array();
+        foreach ($skipOnBack->childNodes as $controllerAction) {
+            if ($controllerAction->nodeName == 'controller_action') {
+                $result[] = $controllerAction->attributes->getNamedItem('name')->nodeValue;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Convert expected_models grouping node
+     *
+     * @param DOMNode $expectedModels
+     * @return array
+     */
+    protected function _convertExpectedModels($expectedModels)
+    {
+        $result = array();
+        foreach ($expectedModels->childNodes as $expectedModelNode) {
+            if ($expectedModelNode->nodeName == 'expected_model') {
+                $result[$expectedModelNode->attributes->getNamedItem('class')->nodeValue] =
+                    $this->_convertExpectedModel($expectedModelNode);
+            }
+        }
+        $extendsGroup = $expectedModels->attributes->getNamedItem('merge_group');
+        if (!is_null($extendsGroup) && $extendsGroup->nodeValue == 'true') {
+            $result['@']['extends'] = 'merge';
         }
         return $result;
     }
@@ -128,7 +175,7 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Convert Expected Model node to array
      *
-     * @param DOMNode $event
+     * @param DOMNode $expectedModel
      * @return array
      */
     protected function _convertExpectedModel($expectedModel)
@@ -136,11 +183,45 @@ class Magento_Logging_Model_Config_Converter implements Magento_Config_Converter
         $result = array();
         foreach ($expectedModel->childNodes as $parameter) {
             switch ($parameter->nodeName) {
-                case 'skip_field':
-                    $result['skip_data'][] = $parameter->attributes->getNamedItem('name')->nodeValue;
+                case 'skip_fields':
+                    $result['skip_data'] = $this->_convertSkipFields($parameter);
                     break;
-                case 'additional_field':
-                    $result['additional_data'][] = $parameter->attributes->getNamedItem('name')->nodeValue;
+                case 'additional_fields':
+                    $result['additional_data'] = $this->_convertAdditionalFields($parameter);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Convert skip_fields node to array
+     *
+     * @param DOMNode $skipFields
+     * @return array
+     */
+    protected function _convertSkipFields($skipFields)
+    {
+        $result = array();
+        foreach ($skipFields->childNodes as $skipField) {
+            if ($skipField->nodeName == 'field') {
+                $result[] = $skipField->attributes->getNamedItem('name')->nodeValue;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Convert additional_fields node to array
+     *
+     * @param DOMNode $additionalFields
+     * @return array
+     */
+    protected function _convertAdditionalFields($additionalFields)
+    {
+        $result = array();
+        foreach ($additionalFields->childNodes as $additionalField) {
+            if ($additionalField->nodeName == 'field') {
+                $result[] = $additionalField->attributes->getNamedItem('name')->nodeValue;
             }
         }
         return $result;

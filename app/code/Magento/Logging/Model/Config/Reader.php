@@ -15,16 +15,16 @@ class Magento_Logging_Model_Config_Reader extends Magento_Config_Reader_Filesyst
      * @var array
      */
     protected $_idAttributes = array(
-        '/logging/action' => 'id',
-        '/logging/group' => 'name',
-        '/logging/group/event' => 'controller_action',
-        '/logging/group/event/expected_model' => 'class',
-        '/logging/group/event/expected_model/additional_field' => 'name',
-        '/logging/group/event/expected_model/skip_field' => 'name',
-        '/logging/group/event/skip_on_back' => 'controller_action',
-        '/logging/group/expected_model' => 'class',
-        '/logging/group/expected_model/additional_field' => 'name',
-        '/logging/group/expected_model/skip_field' => 'name',
+        '/logging/actions/action' => 'id',
+        '/logging/groups/group' => 'name',
+        '/logging/groups/group/events/event' => 'controller_action',
+        '/logging/groups/group/events/event/expected_models/expected_model' => 'class',
+        '/logging/groups/group/events/event/expected_models/expected_model/additional_fields/field' => 'name',
+        '/logging/groups/group/events/event/expected_models/expected_model/skip_fields/field' => 'name',
+        '/logging/groups/group/events/event/skip_on_back/controller_action' => 'name',
+        '/logging/groups/group/expected_models/expected_model' => 'class',
+        '/logging/groups/group/expected_models/expected_model/additional_fields/field' => 'name',
+        '/logging/groups/group/expected_models/expected_model/skip_fields/field' => 'name',
     );
 
     /**
@@ -39,20 +39,17 @@ class Magento_Logging_Model_Config_Reader extends Magento_Config_Reader_Filesyst
      * @param string $domDocumentClass
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Config_FileResolverInterface $fileResolver,
         Magento_Logging_Model_Config_Converter $converter,
+        Magento_Logging_Model_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState,
         $fileName = 'logging.xml',
         $idAttributes = array(),
-        $schema = null,
-        $perFileSchema = null,
         $domDocumentClass = 'Magento_Config_Dom'
     ) {
-        $schema = $schema ?: $moduleReader->getModuleDir('etc', 'Magento_Logging') . '/logging.xsd';
         parent::__construct(
-            $fileResolver, $converter, $fileName, $idAttributes, $schema,
-            $perFileSchema, $validationState->isValidated(), $domDocumentClass
+            $fileResolver, $converter, $schemaLocator, $validationState,
+            $fileName, $idAttributes, $domDocumentClass
         );
     }
 }
