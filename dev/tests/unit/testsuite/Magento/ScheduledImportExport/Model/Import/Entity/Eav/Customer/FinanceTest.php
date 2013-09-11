@@ -142,13 +142,13 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $moduleHelper->expects($this->any())->method('isCustomerBalanceEnabled')->will($this->returnValue(true));
 
         $customerFactory = $this->getMock(
-            'Magento_Customer_Model_CustomerFactory', array('create'), array(), '', false
+            'Magento\Customer\Model\CustomerFactory', array('create'), array(), '', false
         );
         $balanceFactory = $this->getMock(
-            'Magento_CustomerBalance_Model_BalanceFactory', array('create'), array(), '', false
+            'Magento\CustomerBalance\Model\BalanceFactory', array('create'), array(), '', false
         );
         $rewardFactory = $this->getMock(
-            'Magento_Reward_Model_RewardFactory', array('create'), array(), '', false
+            'Magento\Reward\Model\RewardFactory', array('create'), array(), '', false
         );
 
         $customerFactory->expects($this->any())->method('create')

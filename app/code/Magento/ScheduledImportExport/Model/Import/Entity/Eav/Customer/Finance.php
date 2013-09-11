@@ -100,32 +100,32 @@ class Finance
     protected $_importedRowPks = array();
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
-     * @var Magento_CustomerBalance_Model_BalanceFactory
+     * @var \Magento\CustomerBalance\Model\BalanceFactory
      */
     protected $_balanceFactory;
 
     /**
-     * @var Magento_Reward_Model_RewardFactory
+     * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_rewardFactory;
 
     /**
      * @param \Magento\ScheduledImportExport\Helper\Data $helper
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_CustomerBalance_Model_BalanceFactory $balanceFactory
-     * @param Magento_Reward_Model_RewardFactory $rewardFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
+     * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param array $data
      */
     public function __construct(
         \Magento\ScheduledImportExport\Helper\Data $helper,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_CustomerBalance_Model_BalanceFactory $balanceFactory,
-        Magento_Reward_Model_RewardFactory $rewardFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
+        \Magento\Reward\Model\RewardFactory $rewardFactory,
         array $data = array()
     ) {
         // entity type id has no meaning for finance import

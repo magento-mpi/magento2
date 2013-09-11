@@ -10,7 +10,7 @@ namespace Magento\Reward\Model\Reward\Balance;
 class Validator
 {
     /**
-     * @var Magento_Reward_Model_RewardFactory
+     * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_modelFactory;
 
@@ -26,12 +26,12 @@ class Validator
 
     /**
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param Magento_Reward_Model_RewardFactory $modelFactory
+     * @param \Magento\Reward\Model\RewardFactory $modelFactory
      * @param \Magento\Checkout\Model\Session $session
      */
     public function __construct(
         \Magento\Core\Model\StoreManager $storeManager,
-        Magento_Reward_Model_RewardFactory $modelFactory,
+        \Magento\Reward\Model\RewardFactory $modelFactory,
         \Magento\Checkout\Model\Session $session
     ) {
         $this->_storeManager = $storeManager;
