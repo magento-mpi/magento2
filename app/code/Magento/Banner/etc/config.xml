@@ -19,17 +19,6 @@
                 </setup>
             </banner_setup>
         </resources>
-        <magento>
-            <banner>
-                <types translate="content footer header leftcol rightcol">
-                    <content>Content Area</content>
-                    <footer>Footer</footer>
-                    <header>Header</header>
-                    <leftcol>Left Column</leftcol>
-                    <rightcol>Right Column</rightcol>
-                </types>
-            </banner>
-        </magento>
     </global>
     <adminhtml>
         <translate>
@@ -42,4 +31,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>
