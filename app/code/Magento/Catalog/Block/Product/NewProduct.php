@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-class New extends \Magento\Catalog\Block\Product\AbstractProduct
+class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Default value for products count that will be shown
@@ -126,7 +126,7 @@ class New extends \Magento\Catalog\Block\Product\AbstractProduct
      * Set how much product should be displayed at once.
      *
      * @param $count
-     * @return \Magento\Catalog\Block\Product\New
+     * @return \Magento\Catalog\Block\Product\NewProduct
      */
     public function setProductsCount($count)
     {

@@ -22,7 +22,7 @@ return array(
         array('field' => 'customer/customer'),
         array('field' => 'customer/attribute_data_postcode'),
         array('field' => 'customer/attribute_data_postcode::someMethod'),
-        array('field' => '\Magento\Customer\Model\Customer'),
+        array('field' => 'Magento\Customer\Model\Customer'),
     ),
     '$expected' => array(
         'updates' => array(
@@ -35,20 +35,20 @@ return array(
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => '\Magento\Customer\Model\Attribute\Data\Postcode',
+                'to'    => 'Magento\Customer\Model\Attribute\Data\Postcode',
                 'from'  => array('`field` = ?' => 'customer/attribute_data_postcode')
             ),
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => '\Magento\Customer\Model\Attribute\Data\Postcode::someMethod',
+                'to'    => 'Magento\Customer\Model\Attribute\Data\Postcode::someMethod',
                 'from'  => array('`field` = ?' => 'customer/attribute_data_postcode::someMethod')
             ),
         ),
         'aliases_map' => array(
             \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_MODEL => array(
                 'customer/customer'                => 'Magento_Customer_Model_Customer_FROM_MAP',
-                'customer/attribute_data_postcode' => '\Magento\Customer\Model\Attribute\Data\Postcode',
+                'customer/attribute_data_postcode' => 'Magento\Customer\Model\Attribute\Data\Postcode',
             ),
         )
     ),

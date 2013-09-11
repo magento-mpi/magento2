@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Product\Widget;
 
-class New extends \Magento\Catalog\Block\Product\New
+class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
     implements \Magento\Widget\Block\BlockInterface
 {
     /**

@@ -63,7 +63,7 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
 
     public function testSetGetProductsCount()
     {
-        $this->assertEquals(\Magento\Catalog\Block\Product\New::DEFAULT_PRODUCTS_COUNT,
+        $this->assertEquals(\Magento\Catalog\Block\Product\NewProduct::DEFAULT_PRODUCTS_COUNT,
             $this->_block->getProductsCount());
         $this->_block->setProductsCount(100);
         $this->assertEquals(100, $this->_block->getProductsCount());
