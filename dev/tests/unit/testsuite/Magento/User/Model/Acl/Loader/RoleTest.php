@@ -39,11 +39,11 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_resourceMock = $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false, false);
-        $this->_groupFactoryMock = $this->getMock('Magento_User_Model_Acl_Role_GroupFactory',
+        $this->_groupFactoryMock = $this->getMock('Magento\User\Model\Acl\Role\GroupFactory',
             array('create'), array(), '', false
         );
         $this->_roleFactoryMock = $this->getMock(
-            'Magento_User_Model_Acl_Role_UserFactory', array('create'), array(), '', false
+            'Magento\User\Model\Acl\Role\UserFactory', array('create'), array(), '', false
         );
 
         $this->_resourceMock->expects($this->once())

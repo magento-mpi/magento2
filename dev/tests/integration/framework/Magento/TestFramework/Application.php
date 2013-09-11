@@ -406,7 +406,7 @@ class Magento_TestFramework_Application
     protected function _createAdminUser($adminUserName, $adminPassword, $adminRoleName)
     {
         /** @var $user \Magento\User\Model\User */
-        $user = mage::getModel('\Magento\User\Model\User');
+        $user = mage::getModel('Magento\User\Model\User');
         $user->setData(array(
             'firstname' => 'firstname',
             'lastname'  => 'lastname',

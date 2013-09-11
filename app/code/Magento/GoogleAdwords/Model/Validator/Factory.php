@@ -13,14 +13,14 @@ namespace Magento\GoogleAdwords\Model\Validator;
 class Factory
 {
     /**
-     * @var Magento_Validator_BuilderFactory
+     * @var \Magento\Validator\BuilderFactory
      */
     protected $_validatorBuilderFactory;
 
     /**
-     * @param Magento_Validator_BuilderFactory $validatorBuilderFactory
+     * @param \Magento\Validator\BuilderFactory $validatorBuilderFactory
      */
-    public function __construct(Magento_Validator_BuilderFactory $validatorBuilderFactory)
+    public function __construct(\Magento\Validator\BuilderFactory $validatorBuilderFactory)
     {
         $this->_validatorBuilderFactory = $validatorBuilderFactory;
     }
