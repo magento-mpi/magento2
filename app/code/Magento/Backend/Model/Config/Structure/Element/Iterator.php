@@ -10,7 +10,7 @@
 
 namespace Magento\Backend\Model\Config\Structure\Element;
 
-class \Iterator implements \Iterator
+class Iterator implements \Iterator
 {
     /**
      * List of element data
