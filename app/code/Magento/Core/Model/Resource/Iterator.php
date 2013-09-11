@@ -15,7 +15,7 @@
  */
 namespace Magento\Core\Model\Resource;
 
-class \Iterator extends \Magento\Object
+class Iterator extends \Magento\Object
 {
     /**
      * Walk over records fetched from query one by one using callback function

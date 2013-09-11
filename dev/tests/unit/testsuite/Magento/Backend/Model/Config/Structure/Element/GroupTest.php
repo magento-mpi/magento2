@@ -43,7 +43,7 @@ class Magento_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_F
         );
         $this->_applicationMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
         $this->_cloneFactoryMock = $this->getMock(
-            '\Magento\Backend\Model\Config\Clone\Factory', array(), array(), '', false
+            '\Magento\Backend\Model\Config\BackendClone\Factory', array(), array(), '', false
         );
         $this->_depMapperMock = $this->getMock(
             '\Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper', array(), array(), '', false

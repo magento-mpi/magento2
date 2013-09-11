@@ -16,7 +16,7 @@ class Group
     /**
      * Group clone model factory
      *
-     * @var \Magento\Backend\Model\Config\Clone\Factory
+     * @var \Magento\Backend\Model\Config\BackendClone\Factory
      */
     protected $_cloneModelFactory;
 
@@ -29,13 +29,13 @@ class Group
     /**
      * @param \Magento\Core\Model\App $application
      * @param \Magento\Backend\Model\Config\Structure\Element\Iterator\Field $childrenIterator
-     * @param \Magento\Backend\Model\Config\Clone\Factory $cloneModelFactory
+     * @param \Magento\Backend\Model\Config\BackendClone\Factory $cloneModelFactory
      * @param \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper $dependencyMapper
      */
     public function __construct(
         \Magento\Core\Model\App $application,
         \Magento\Backend\Model\Config\Structure\Element\Iterator\Field $childrenIterator,
-        \Magento\Backend\Model\Config\Clone\Factory $cloneModelFactory,
+        \Magento\Backend\Model\Config\BackendClone\Factory $cloneModelFactory,
         \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper $dependencyMapper
     ) {
         parent::__construct($application, $childrenIterator);

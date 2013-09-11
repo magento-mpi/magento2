@@ -11,7 +11,7 @@
 /**
  * System configuration clone model factory
  */
-namespace Magento\Backend\Model\Config\Clone;
+namespace Magento\Backend\Model\Config\BackendClone;
 
 class Factory
 {
