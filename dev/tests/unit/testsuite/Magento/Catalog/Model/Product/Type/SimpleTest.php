@@ -20,7 +20,8 @@ class Magento_Catalog_Model_Product_Type_SimpleTest extends PHPUnit_Framework_Te
     {
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
-        $this->_model = new Magento_Catalog_Model_Product_Type_Simple($filesystem, $coreRegistry);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $this->_model = new Magento_Catalog_Model_Product_Type_Simple($filesystem, $coreRegistry, $logger);
     }
 
     public function testHasWeightTrue()

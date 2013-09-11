@@ -20,7 +20,8 @@ class Magento_Bundle_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     {
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
-        $this->_model = new Magento_Bundle_Model_Product_Type($filesystem, $coreRegistry);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $this->_model = new Magento_Bundle_Model_Product_Type($filesystem, $coreRegistry, $logger);
     }
 
     public function testHasWeightTrue()
