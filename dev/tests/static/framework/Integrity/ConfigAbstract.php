@@ -9,6 +9,9 @@
  */
 abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
 {
+    /** indicator no config file found */
+    const NO_CONFIG_FILE = 'no config file';
+
     /**
      * @param string $configFile
      *
@@ -16,6 +19,11 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
      */
     public function testXml($configFile)
     {
+        if ($configFile == self::NO_CONFIG_FILE) {
+            $this->markTestSkipped(
+                'There is no config file to test.'
+            );
+        }
         $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getXsd();
         $fileSchema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getFileXsd();
         $this->_validateFileExpectSuccess($configFile, $schema, $fileSchema);
@@ -26,7 +34,8 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
      */
     public function configFilesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles($this->_getXmlName());
+        $fileList = Magento_TestFramework_Utility_Files::init()->getConfigFiles($this->_getXmlName());
+        return empty($fileList) ? array(self::NO_CONFIG_FILE => array(self::NO_CONFIG_FILE)) : $fileList;
     }
 
     public function testSchemaUsingValidXml()
