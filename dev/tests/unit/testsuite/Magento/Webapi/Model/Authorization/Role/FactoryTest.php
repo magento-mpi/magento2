@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_RoleFactoryTest extends PHPUnit_Framework_TestCase
+class Magento_Webapi_Model_Authorization_Role_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Webapi_Model_Authorization_Role_Factory
