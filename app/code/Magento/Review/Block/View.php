@@ -28,7 +28,7 @@ class Magento_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
      */
     public function getProductData()
     {
-        return Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -38,7 +38,7 @@ class Magento_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
      */
     public function getReviewData()
     {
-        return Mage::registry('current_review');
+        return $this->_coreRegistry->registry('current_review');
     }
 
     /**

@@ -82,6 +82,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      * Initialize operation model
      *
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Date $dateModel
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -90,13 +91,14 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Date $dateModel,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_init('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation');
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dateModel = $dateModel;

@@ -29,7 +29,11 @@ class Magento_Directory_Model_Currency_Filter implements Zend_Filter_Interface
      */
     protected $_currency;
 
-    public function __construct($code, $rate=1)
+    /**
+     * @param string $code
+     * @param int $rate
+     */
+    public function __construct($code, $rate = 1)
     {
         $this->_currency = Mage::app()->getLocale()->currency($code);
         $this->_rate = $rate;

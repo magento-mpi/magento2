@@ -214,8 +214,8 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
         }
 
         $taxCalculation = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        if (!$taxCalculation->getCustomer() && Mage::registry('current_customer')) {
-            $taxCalculation->setCustomer(Mage::registry('current_customer'));
+        if (!$taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
+            $taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
         }
 
         $_request = $taxCalculation->getRateRequest(false, false, false);

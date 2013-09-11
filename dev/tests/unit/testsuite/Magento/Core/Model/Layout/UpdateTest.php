@@ -33,7 +33,7 @@ class Magento_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
             ->method('addCommitCallback')
             ->will($this->returnSelf());
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model Magento_Core_Model_Layout_Update */
         $model = $helper->getObject('Magento_Core_Model_Layout_Update', array('resource' => $resourceModel));
         $model->setId(0); // set any data to set _hasDataChanges flag

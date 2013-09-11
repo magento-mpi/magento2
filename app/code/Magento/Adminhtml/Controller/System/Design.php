@@ -8,9 +8,27 @@
  * @license     {license_link}
  */
 
-
 class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     public function indexAction()
     {
         $this->_title(__('Store Design'));
@@ -38,7 +56,7 @@ class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Contr
         $this->_setActiveMenu('Magento_Adminhtml::system_design_schedule');
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-        $id  = (int) $this->getRequest()->getParam('id');
+        $id  = (int)$this->getRequest()->getParam('id');
         $design    = Mage::getModel('Magento_Core_Model_Design');
 
         if ($id) {
@@ -47,7 +65,7 @@ class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Contr
 
         $this->_title($design->getId() ? __('Edit Store Design Change') : __('New Store Design Change'));
 
-        Mage::register('design', $design);
+        $this->_coreRegistry->register('design', $design);
 
         $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_System_Design_Edit'));
         $this->_addLeft($this->getLayout()->createBlock('Magento_Adminhtml_Block_System_Design_Edit_Tabs', 'design_tabs'));
@@ -57,7 +75,8 @@ class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Contr
 
     public function saveAction()
     {
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             $id = (int) $this->getRequest()->getParam('id');
 
             $design = Mage::getModel('Magento_Core_Model_Design');
@@ -87,7 +106,8 @@ class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Contr
 
     public function deleteAction()
     {
-        if ($id = $this->getRequest()->getParam('id')) {
+        $id = $this->getRequest()->getParam('id');
+        if ($id) {
             $design = Mage::getModel('Magento_Core_Model_Design')->load($id);
 
             try {

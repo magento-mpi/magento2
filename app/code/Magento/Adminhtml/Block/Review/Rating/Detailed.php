@@ -10,32 +10,48 @@
 
 /**
  * Adminhtml detailed rating stars
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_Block_Template
 {
     protected $_voteCollection = false;
 
     protected $_template = 'rating/detailed.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
 
-        if( Mage::registry('review_data') ) {
-            $this->setReviewId(Mage::registry('review_data')->getReviewId());
+        if ($this->_coreRegistry->registry('review_data')) {
+            $this->setReviewId($this->_coreRegistry->registry('review_data')->getReviewId());
         }
     }
 
     public function getRating()
     {
-        if( !$this->getRatingCollection() ) {
-            if( Mage::registry('review_data') ) {
-                $stores = Mage::registry('review_data')->getStores();
+        if (!$this->getRatingCollection()) {
+            if ($this->_coreRegistry->registry('review_data')) {
+                $stores = $this->_coreRegistry->registry('review_data')->getStores();
 
                 $stores = array_diff($stores, array(0));
 
@@ -93,24 +109,23 @@ class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_B
 
     public function isSelected($option, $rating)
     {
-        if($this->getIsIndependentMode()) {
+        if ($this->getIsIndependentMode()) {
             $ratings = $this->getRequest()->getParam('ratings');
 
-            if(isset($ratings[$option->getRatingId()])) {
+            if (isset($ratings[$option->getRatingId()])) {
                 return $option->getId() == $ratings[$option->getRatingId()];
-            }elseif(!$this->_voteCollection) {
+            } elseif (!$this->_voteCollection) {
                 return false;
             }
         }
 
-        if($this->_voteCollection) {
-            foreach($this->_voteCollection as $vote) {
-                if($option->getId() == $vote->getOptionId()) {
+        if ($this->_voteCollection) {
+            foreach ($this->_voteCollection as $vote) {
+                if ($option->getId() == $vote->getOptionId()) {
                     return true;
                 }
             }
         }
-
         return false;
     }
 }

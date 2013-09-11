@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Install_Controller_WizardTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @var string
@@ -23,7 +23,8 @@ class Magento_Install_Controller_WizardTest extends Magento_Test_TestCase_Contro
 
     public static function setUpBeforeClass()
     {
-        $tmpDir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR . __CLASS__;
+        $tmpDir =
+            Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR . __CLASS__;
         if (is_file($tmpDir)) {
             unlink($tmpDir);
         } elseif (is_dir($tmpDir)) {
@@ -41,11 +42,11 @@ class Magento_Install_Controller_WizardTest extends Magento_Test_TestCase_Contro
 
     public function testPreDispatch()
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(self::$_params);
-        Magento_Test_Helper_Bootstrap::getObjectManager()->configure(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(self::$_params);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(
-                'Magento_Core_Controller_Request_Http' => 'Magento_Test_Request',
-                'Magento_Core_Controller_Response_Http' => 'Magento_Test_Response'
+                'Magento_Core_Controller_Request_Http' => 'Magento_TestFramework_Request',
+                'Magento_Core_Controller_Response_Http' => 'Magento_TestFramework_Response'
             )
         ));
         $this->dispatch('install/wizard');
@@ -61,11 +62,11 @@ class Magento_Install_Controller_WizardTest extends Magento_Test_TestCase_Contro
     {
         $params = self::$_params;
         $params[Mage::PARAM_APP_DIRS][Magento_Core_Model_Dir::STATIC_VIEW] = self::$_tmpDir;
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize($params);
-        Magento_Test_Helper_Bootstrap::getObjectManager()->configure(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize($params);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(
-                'Magento_Core_Controller_Request_Http' => 'Magento_Test_Request',
-                'Magento_Core_Controller_Response_Http' => 'Magento_Test_Response'
+                'Magento_Core_Controller_Request_Http' => 'Magento_TestFramework_Request',
+                'Magento_Core_Controller_Response_Http' => 'Magento_TestFramework_Response'
             )
         ));
         $this->dispatch("install/wizard/{$action}");

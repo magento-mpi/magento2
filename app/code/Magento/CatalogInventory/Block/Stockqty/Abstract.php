@@ -21,13 +21,34 @@ abstract class Magento_CatalogInventory_Block_Stockqty_Abstract extends Magento_
     const XML_PATH_STOCK_THRESHOLD_QTY = 'cataloginventory/options/stock_threshold_qty';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve current product object
      *
      * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -39,7 +60,8 @@ abstract class Magento_CatalogInventory_Block_Stockqty_Abstract extends Magento_
     {
         if (!$this->hasData('product_stock_qty')) {
             $qty = 0;
-            if ($stockItem = $this->getProduct()->getStockItem()) {
+            $stockItem = $this->getProduct()->getStockItem();
+            if ($stockItem) {
                 $qty = (float) $stockItem->getStockQty();
             }
             $this->setData('product_stock_qty', $qty);
@@ -80,5 +102,4 @@ abstract class Magento_CatalogInventory_Block_Stockqty_Abstract extends Magento_
     {
         return ($this->getStockQty() > 0 && $this->getStockQty() <= $this->getThresholdQty());
     }
-
 }

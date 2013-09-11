@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Fra
 
     protected function setUp()
     {
-        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $registryMock = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false, false);
         $layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
         $helperMock = $this->getMock('Magento_Adminhtml_Helper_Data', array(), array(), '', false, false);

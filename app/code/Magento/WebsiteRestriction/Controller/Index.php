@@ -32,13 +32,23 @@ class Magento_WebsiteRestriction_Controller_Index extends Magento_Core_Controlle
     protected $_cacheKeyPrefix = 'RESTRICTION_LANGING_PAGE_';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Cache_Type_Config $configCacheType
     ) {
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_configCacheType = $configCacheType;
     }
@@ -64,13 +74,14 @@ class Magento_WebsiteRestriction_Controller_Index extends Magento_Core_Controlle
             $page = Mage::getModel('Magento_Cms_Model_Page')
                 ->load($this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig($this->_stubPageIdentifier), 'identifier');
 
-            Mage::register('restriction_landing_page', $page);
+            $this->_coreRegistry->register('restriction_landing_page', $page);
 
             if ($page->getCustomTheme()) {
                 if (Mage::app()->getLocale()
                     ->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo())
                 ) {
-                    Mage::getDesign()->setDesignTheme($page->getCustomTheme());
+                    $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
+                        ->setDesignTheme($page->getCustomTheme());
                 }
             }
 

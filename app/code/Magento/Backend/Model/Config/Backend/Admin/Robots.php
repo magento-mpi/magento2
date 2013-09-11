@@ -28,9 +28,8 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
     protected $_filePath;
 
     /**
-     * Constructor
-     *
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Config $config
      * @param Magento_Filesystem $filesystem
@@ -40,6 +39,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Config $config,
         Magento_Filesystem $filesystem,
@@ -49,6 +49,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
     ) {
         parent::__construct(
             $context,
+            $registry,
             $storeManager,
             $config,
             $resource,

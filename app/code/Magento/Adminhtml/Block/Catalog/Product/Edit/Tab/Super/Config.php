@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml catalog super product configurable tab
  *
@@ -33,17 +32,27 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     protected $_locale;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_App $app,
         Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $data);
         $this->_app = $app;
         $this->_locale = $locale;
@@ -90,7 +99,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function isAttributesConfigurationReadonly()
     {
-        return (bool) $this->getProduct()->getAttributesConfigurationReadonly();
+        return (bool)$this->getProduct()->getAttributesConfigurationReadonly();
     }
 
     /**
@@ -216,7 +225,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**

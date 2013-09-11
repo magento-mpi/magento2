@@ -34,11 +34,21 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             $this->stringEndsWith('/static/frontend/magento_demo/de_DE/images/logo.gif')
         );
 
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $emailTemplate = $this->getMock('Magento_Core_Model_Email_Template',
-            array('_getMail', '_getLogoUrl'), array(), '', false
+            array('_getMail', '_getLogoUrl'),
+            array(
+                $objectManager->get('Magento_Core_Model_Context'),
+                $objectManager->get('Magento_Core_Model_Registry'),
+                $objectManager->get('Magento_Filesystem'),
+                $objectManager->get('Magento_Core_Model_View_Url'),
+                $objectManager->get('Magento_Core_Model_View_FileSystem'),
+                $objectManager->get('Magento_Core_Model_View_Design')
+            )
         );
 
-        $storeConfig = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config');
+
+        $storeConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config');
         $coreStoreConfig = new ReflectionProperty($emailTemplate, '_coreStoreConfig');
         $coreStoreConfig->setAccessible(true);
         $coreStoreConfig->setValue($emailTemplate, $storeConfig);
@@ -65,12 +75,21 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $brokenMail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $errorMsg = md5(microtime());
         $brokenMail->expects($this->any())->method('send')->will($this->throwException(new Exception($errorMsg, 99)));
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $template = $this->getMock('Magento_Core_Model_Email_Template',
-            array('_getMail', '_getLogoUrl'), array(), '', false
+            array('_getMail', '_getLogoUrl'),
+            array(
+                $objectManager->get('Magento_Core_Model_Context'),
+                $objectManager->get('Magento_Core_Model_Registry'),
+                $objectManager->get('Magento_Filesystem'),
+                $objectManager->get('Magento_Core_Model_View_Url'),
+                $objectManager->get('Magento_Core_Model_View_FileSystem'),
+                $objectManager->get('Magento_Core_Model_View_Design')
+            )
         );
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));
 
-        $storeConfig = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config');
+        $storeConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config');
         $coreStoreConfig = new ReflectionProperty($template, '_coreStoreConfig');
         $coreStoreConfig->setAccessible(true);
         $coreStoreConfig->setValue($template, $storeConfig);

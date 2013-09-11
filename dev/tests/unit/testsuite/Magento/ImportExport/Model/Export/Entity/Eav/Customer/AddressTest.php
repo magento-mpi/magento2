@@ -68,7 +68,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
     /**
      * ObjectManager helper
      *
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_objectManager;
 
@@ -81,7 +81,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
     public function setUp()
     {
-        $this->_objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $this->_model = new Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address(

@@ -52,12 +52,18 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_mapApplyToProductType = null;
 
     /**
-     * Currenty selected store ID if applicable
+     * Currently selected store ID if applicable
      *
      * @var int
      */
     protected $_storeId = null;
 
+    /** Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
     /**
      * Core store config
      *
@@ -74,15 +80,18 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      * Constructor
      *
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_coreConfig = $coreConfig;
     }
@@ -110,7 +119,8 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
         if (!$this->_categoryPath) {
 
             $path = array();
-            if ($category = $this->getCategory()) {
+            $category = $this->getCategory();
+            if ($category) {
                 $pathInStore = $category->getPathInStore();
                 $pathIds = array_reverse(explode(',', $pathInStore));
 
@@ -160,7 +170,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCategory()
     {
-        return Mage::registry('current_category');
+        return $this->_coreRegistry->registry('current_category');
     }
 
     /**
@@ -170,7 +180,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -180,14 +190,16 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getLastViewedUrl()
     {
-        if ($productId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedProductId()) {
+        $productId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedProductId();
+        if ($productId) {
             $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
             /* @var $product Magento_Catalog_Model_Product */
             if (Mage::helper('Magento_Catalog_Helper_Product')->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
-        if ($categoryId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedCategoryId()) {
+        $categoryId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedCategoryId();
+        if ($categoryId) {
             $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
             /* @var $category Magento_Catalog_Model_Category */
             if (!Mage::helper('Magento_Catalog_Helper_Category')->canShow($category)) {
@@ -218,8 +230,8 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getAttributeHiddenFields()
     {
-        if (Mage::registry('attribute_type_hidden_fields')) {
-            return Mage::registry('attribute_type_hidden_fields');
+        if ($this->_coreRegistry->registry('attribute_type_hidden_fields')) {
+            return $this->_coreRegistry->registry('attribute_type_hidden_fields');
         } else {
             return array();
         }
@@ -232,8 +244,8 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getAttributeDisabledTypes()
     {
-        if (Mage::registry('attribute_type_disabled_types')) {
-            return Mage::registry('attribute_type_disabled_types');
+        if ($this->_coreRegistry->registry('attribute_type_disabled_types')) {
+            return $this->_coreRegistry->registry('attribute_type_disabled_types');
         } else {
             return array();
         }

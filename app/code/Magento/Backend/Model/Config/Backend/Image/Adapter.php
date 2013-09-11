@@ -24,9 +24,8 @@ class Magento_Backend_Model_Config_Backend_Image_Adapter extends Magento_Core_Mo
     protected $_imageFactory;
 
     /**
-     * Constructor
-     *
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
@@ -36,6 +35,7 @@ class Magento_Backend_Model_Config_Backend_Image_Adapter extends Magento_Core_Mo
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Image_AdapterFactory $imageFactory,
@@ -45,6 +45,7 @@ class Magento_Backend_Model_Config_Backend_Image_Adapter extends Magento_Core_Mo
     ) {
         parent::__construct(
             $context,
+            $registry,
             $storeManager,
             $config,
             $resource,

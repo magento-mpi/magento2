@@ -21,9 +21,8 @@ abstract class Magento_GoogleAdwords_Model_Config_Backend_ConversionAbstract ext
     protected $_validatorFactory;
 
     /**
-     * Constructor
-     *
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Config $config
      * @param Magento_Validator_Composite_VarienObjectFactory $validatorCompositeFactory
@@ -33,6 +32,7 @@ abstract class Magento_GoogleAdwords_Model_Config_Backend_ConversionAbstract ext
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Config $config,
         Magento_Validator_Composite_VarienObjectFactory $validatorCompositeFactory,
@@ -42,6 +42,7 @@ abstract class Magento_GoogleAdwords_Model_Config_Backend_ConversionAbstract ext
     ) {
         parent::__construct(
             $context,
+            $registry,
             $storeManager,
             $config,
             $resource,

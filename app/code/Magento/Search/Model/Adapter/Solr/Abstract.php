@@ -70,6 +70,13 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     protected $_clientHelper;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -80,6 +87,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
      * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Search_Helper_ClientInterface $clientHelper
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $options
      */
@@ -87,9 +95,11 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
         Magento_Search_Model_Client_FactoryInterface $clientFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Search_Helper_ClientInterface $clientHelper,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         $options = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_clientHelper = $clientHelper;
         $this->_log = $logger;
         $this->_clientFactory = $clientFactory;
@@ -344,7 +354,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
             } elseif ($sortBy == 'name') {
                 $sortBy = 'alphaNameSort' . $languageSuffix;
             } elseif ($sortBy == 'position') {
-                $sortBy = 'position_category_' . Mage::registry('current_category')->getId();
+                $sortBy = 'position_category_' . $this->_coreRegistry->registry('current_category')->getId();
             } elseif ($sortBy == 'price') {
                 $websiteId       = Mage::app()->getStore()->getWebsiteId();
                 $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
@@ -362,7 +372,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
             if ($sortField == 'relevance') {
                 $sortField = 'score';
             } elseif ($sortField == 'position') {
-                $sortField = 'position_category_' . Mage::registry('current_category')->getId();
+                $sortField = 'position_category_' . $this->_coreRegistry->registry('current_category')->getId();
             } elseif ($sortField == 'price') {
                 $sortField = $this->getPriceFieldName();
             } else {

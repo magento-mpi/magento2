@@ -17,7 +17,10 @@
  */
 class Magento_Data_Form_Element_File extends Magento_Data_Form_Element_Abstract
 {
-    public function __construct($attributes=array()) 
+    /**
+     * @param array $attributes
+     */
+    public function __construct($attributes = array())
     {
         parent::__construct($attributes);
         $this->setType('file');

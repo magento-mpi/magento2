@@ -18,9 +18,11 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected $_blockInjections = array(
         'Magento_Core_Model_Context',
+        'Magento_Core_Model_Registry',
         'Magento_Filesystem',
         'Magento_Core_Model_View_Url',
         'Magento_Core_Model_View_FileSystem',
+        'Magento_Core_Model_View_Design',
         'Magento_Core_Model_Store_Config',
         'Magento_Core_Model_Config'
     );

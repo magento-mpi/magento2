@@ -111,7 +111,7 @@
 
     <target name="_integration_integrity_tests_magento" depends="_integration_tests_configuration" description="Product integration integrity tests">
         <exec dir="${product_root_dir}/dev/tests/integration" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${product_root_dir}/integration_integrity_tests_magento.xml testsuite/integrity"/>
+            <arg line="--log-junit ${product_root_dir}/integration_integrity_tests_magento.xml testsuite/Magento/Test/Integrity"/>
         </exec>
     </target>
 

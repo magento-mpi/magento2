@@ -48,6 +48,13 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_viewUrl;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -60,20 +67,21 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig
     ) {
         parent::__construct($context);
+        $this->_coreRegistry = $coreRegistry;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
         $this->_coreConfig = $coreConfig;
@@ -171,7 +179,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     public function getEmailToFriendUrl($product)
     {
         $categoryId = null;
-        $category = Mage::registry('current_category');
+        $category = $this->_coreRegistry->registry('current_category');
         if ($category) {
             $categoryId = $category->getId();
         }
@@ -359,20 +367,19 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         if ($categoryId) {
             $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
             $product->setCategory($category);
-            Mage::register('current_category', $category);
+            $this->_coreRegistry->register('current_category', $category);
         }
 
         // Register current data and dispatch final events
-        Mage::register('current_product', $product);
-        Mage::register('product', $product);
+        $this->_coreRegistry->register('current_product', $product);
+        $this->_coreRegistry->register('product', $product);
 
         try {
             Mage::dispatchEvent('catalog_controller_product_init', array('product' => $product));
-            Mage::dispatchEvent('catalog_controller_product_init_after',
-                            array('product' => $product,
-                                'controller_action' => $controller
-                            )
-            );
+            Mage::dispatchEvent('catalog_controller_product_init_after', array(
+                'product' => $product,
+                'controller_action' => $controller
+            ));
         } catch (Magento_Core_Exception $e) {
             Mage::logException($e);
             return false;

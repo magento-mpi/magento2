@@ -42,6 +42,13 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_postCodeSubStringLength = 10;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -50,17 +57,20 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Tax_Model_Config $taxConfig
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Tax_Model_Config $taxConfig
      */
-    public function  __construct(
+    public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Tax_Model_Config $taxConfig,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Tax_Model_Config $taxConfig
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_config = $taxConfig;
+        $this->_coreRegistry = $coreRegistry;
     }
 
     /**
@@ -789,10 +799,10 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCalculatedTaxes($source)
     {
-        if (Mage::registry('current_invoice')) {
-            $current = Mage::registry('current_invoice');
-        } elseif (Mage::registry('current_creditmemo')) {
-            $current = Mage::registry('current_creditmemo');
+        if ($this->_coreRegistry->registry('current_invoice')) {
+            $current = $this->_coreRegistry->registry('current_invoice');
+        } elseif ($this->_coreRegistry->registry('current_creditmemo')) {
+            $current = $this->_coreRegistry->registry('current_creditmemo');
         } else {
             $current = $source;
         }
@@ -859,10 +869,10 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getShippingTax($source)
     {
-        if (Mage::registry('current_invoice')) {
-            $current = Mage::registry('current_invoice');
-        } elseif (Mage::registry('current_creditmemo')) {
-            $current = Mage::registry('current_creditmemo');
+        if ($this->_coreRegistry->registry('current_invoice')) {
+            $current = $this->_coreRegistry->registry('current_invoice');
+        } elseif ($this->_coreRegistry->registry('current_creditmemo')) {
+            $current = $this->_coreRegistry->registry('current_creditmemo');
         } else {
             $current = $source;
         }

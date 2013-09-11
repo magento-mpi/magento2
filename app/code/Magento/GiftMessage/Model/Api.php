@@ -33,9 +33,9 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
      * @param Magento_Api_Helper_Data $apiHelper
      */
     public function __construct(
+        Magento_Api_Helper_Data $apiHelper,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Scope $configScope,
-        Magento_Api_Helper_Data $apiHelper
+        Magento_Core_Model_Config_Scope $configScope
     ) {
         $this->_configScope = $configScope;
         $this->_eventManager = $eventManager;

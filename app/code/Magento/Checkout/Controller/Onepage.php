@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Action
 {
     /**
@@ -24,6 +23,25 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
      * @var Magento_Sales_Model_Order
      */
     protected $_order;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
 
     /**
      * @return Magento_Checkout_Controller_Onepage|null
@@ -69,7 +87,8 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
     {
         if (!$this->getOnepage()->getQuote()->hasItems()
             || $this->getOnepage()->getQuote()->getHasError()
-            || $this->getOnepage()->getQuote()->getIsMultiShipping()) {
+            || $this->getOnepage()->getQuote()->getIsMultiShipping()
+        ) {
             $this->_ajaxRedirectResponse();
             return true;
         }
@@ -480,7 +499,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
             ->prepareInvoice($items);
         $invoice->setEmailSent(true)->register();
 
-        Mage::register('current_invoice', $invoice);
+        $this->_coreRegistry->register('current_invoice', $invoice);
         return $invoice;
     }
 

@@ -26,9 +26,8 @@ class Magento_Backend_Model_Config_Backend_Admin_Usecustom extends Magento_Core_
     protected $_configWriter;
 
     /**
-     * Constructor
-     *
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
@@ -38,6 +37,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Usecustom extends Magento_Core_
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
@@ -48,6 +48,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Usecustom extends Magento_Core_
         $this->_configWriter = $configWriter;
         parent::__construct(
             $context,
+            $registry,
             $storeManager,
             $config,
             $resource,

@@ -18,22 +18,32 @@
 class Magento_Core_Model_App_Emulation extends Magento_Object
 {
     /**
+     * Design package instance
+     *
+     * @var Magento_Core_Model_View_DesignInterface
+     */
+    protected $_design = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig = null;
-
+    
     /**
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($data);
+        $this->_design = $design;
         $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($data);
     }
 
     /**
@@ -133,20 +143,19 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
         /** @var $store Magento_Core_Model_StoreManager */
         $store = $objectManager->get('Magento_Core_Model_StoreManager')->getStore();
 
-        $design = Mage::getDesign();
         $initialDesign = array(
-            'area' => $design->getArea(),
-            'theme' => $design->getDesignTheme(),
+            'area' => $this->_design->getArea(),
+            'theme' => $this->_design->getDesignTheme(),
             'store' => $store
         );
 
-        $storeTheme = $design->getConfigurationDesignTheme($area, array('store' => $storeId));
-        $design->setDesignTheme($storeTheme, $area);
+        $storeTheme = $this->_design->getConfigurationDesignTheme($area, array('store' => $storeId));
+        $this->_design->setDesignTheme($storeTheme, $area);
 
         if ($area == Magento_Core_Model_App_Area::AREA_FRONTEND) {
             $designChange = $objectManager->get('Magento_Core_Model_Design')->loadChange($storeId);
             if ($designChange->getData()) {
-                $design->setDesignTheme($designChange->getDesign(), $area);
+                $this->_design->setDesignTheme($designChange->getDesign(), $area);
             }
         }
 
@@ -194,7 +203,7 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
      */
     protected function _restoreInitialDesign(array $initialDesign)
     {
-        Mage::getDesign()->setDesignTheme($initialDesign['theme'], $initialDesign['area']);
+        $this->_design->setDesignTheme($initialDesign['theme'], $initialDesign['area']);
         return $this;
     }
 

@@ -19,7 +19,7 @@ class Magento_Reports_Model_Resource_Report_CollectionTest extends PHPUnit_Frame
 
     protected function setUp()
     {
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_factoryMock = $this->getMock('Zend_DateFactory', array('create'), array(), '', false);
         $arguments = array(
             'dateFactory' => $this->_factoryMock,

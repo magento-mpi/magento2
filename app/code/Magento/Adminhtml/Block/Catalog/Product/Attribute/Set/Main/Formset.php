@@ -8,14 +8,28 @@
  * @license     {license_link}
  */
 
-/**
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
 class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Magento_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Prepares attribute set form
@@ -45,7 +59,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends
 
             $sets = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
                 ->getResourceCollection()
-                ->setEntityTypeFilter(Mage::registry('entityType'))
+                ->setEntityTypeFilter($this->_coreRegistry->registry('entityType'))
                 ->load()
                 ->toOptionArray();
 

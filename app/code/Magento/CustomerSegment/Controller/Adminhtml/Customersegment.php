@@ -14,6 +14,25 @@
 class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize proper segment model
      *
      * @param string $requestParam
@@ -30,7 +49,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
                 Mage::throwException(__('You requested the wrong customer segment.'));
             }
         }
-        Mage::register('current_customer_segment', $segment);
+        $this->_coreRegistry->register('current_customer_segment', $segment);
         return $segment;
     }
 
@@ -66,8 +85,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
 
         try {
             $model = $this->_initSegment();
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
@@ -243,8 +261,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
             $model = $this->_initSegment('id', true);
             $model->delete();
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You deleted the segment.'));
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;

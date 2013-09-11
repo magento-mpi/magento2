@@ -16,7 +16,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
     {
         /** Retrieve the product data. */
         $productId = 1;
-        $actualProductData = Magento_Test_Helper_Api::call(
+        $actualProductData = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductGetSpecialPrice',
             array('productId' => $productId)
@@ -32,7 +32,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'special_from_date'
         );
         /** Assert response product equals to actual product data. */
-        Magento_Test_Helper_Api::checkEntityFields(
+        Magento_TestFramework_Helper_Api::checkEntityFields(
             $this,
             $expectedProduct->getData(),
             $actualProductData,
@@ -46,7 +46,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
     public function testItems()
     {
         /** Retrieve the list of products. */
-        $actualProductsData = Magento_Test_Helper_Api::call(
+        $actualProductsData = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductList'
         );
@@ -64,7 +64,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'category_ids',
         );
         /** Assert first product from response equals to actual product data. */
-        Magento_Test_Helper_Api::checkEntityFields(
+        Magento_TestFramework_Helper_Api::checkEntityFields(
             $this,
             $expectedProduct->getData(),
             reset($actualProductsData),
@@ -77,7 +77,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAdditionalAttributes()
     {
-        $attributesList = Magento_Test_Helper_Api::call(
+        $attributesList = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductListOfAdditionalAttributes',
             array('simple', 4)
@@ -115,7 +115,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             (object)array('description' => 'Item 12'),
         );
 
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductMultiUpdate',
             array($productIds, $productData)
@@ -146,7 +146,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             (object)array('description' => 'something'),
         );
 
-        $exception = Magento_Test_Helper_Api::callWithException(
+        $exception = Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogProductMultiUpdate',
             array($productIds, $productData)
@@ -172,7 +172,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $exception = Magento_Test_Helper_Api::callWithException(
+        $exception = Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogProductMultiUpdate',
             array($productIds, $productData)
@@ -196,7 +196,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $alphaProduct = Mage::getModel('Magento_Catalog_Model_Product');
         $alphaProduct->load(1);
 
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductInfo',
             array(
@@ -221,7 +221,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $numericalProduct = Mage::getModel('Magento_Catalog_Model_Product');
         $numericalProduct->load(2);
 
-        $exception = Magento_Test_Helper_Api::callWithException(
+        $exception = Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogProductInfo',
             array('product' => '12345')
@@ -247,7 +247,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $numericalProduct = Mage::getModel('Magento_Catalog_Model_Product');
         $numericalProduct->load(2);
 
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductInfo',
             array(
@@ -270,7 +270,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $alphaProduct = Mage::getModel('Magento_Catalog_Model_Product');
         $alphaProduct->load(1);
 
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductInfo',
             array(
@@ -296,7 +296,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $numericalProduct = Mage::getModel('Magento_Catalog_Model_Product');
         $numericalProduct->load(2);
 
-        $soapResult = Magento_Test_Helper_Api::call(
+        $soapResult = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductInfo',
             array(
@@ -333,7 +333,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'price',
             'quantity_and_stock_status'
         );
-        Magento_Test_Helper_Api::checkEntityFields(
+        Magento_TestFramework_Helper_Api::checkEntityFields(
             $this,
             $expectedData,
             $actualData,
@@ -350,7 +350,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
     {
         $data = require dirname(__FILE__) . DS . 'Api' . DS . '_files' . DS . 'ProductData.php';
 
-        $productId = Magento_Test_Helper_Api::call(
+        $productId = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductCreate',
             $data['create']
@@ -384,7 +384,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1);
 
-        $updatedProduct = Magento_Test_Helper_Api::call(
+        $updatedProduct = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductUpdate',
             array($product->getId(), $newData)

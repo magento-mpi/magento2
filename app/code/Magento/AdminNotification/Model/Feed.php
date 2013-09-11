@@ -151,9 +151,6 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     public function setLastUpdate()
     {
         Mage::app()->saveCache(time(), 'admin_notifications_lastcheck');
-//        $config = Mage::getModel('Magento_Core_Model_Config');
-//        /* @var $config Magento_Core_Model_Config */
-//        $config->saveConfig(self::XML_LAST_UPDATE_PATH, time());
         return $this;
     }
 
@@ -192,8 +189,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
         try {
             $data = $this->getFeedData();
             $xml  = new SimpleXMLElement($data);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $xml  = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8" ?>');
         }
 

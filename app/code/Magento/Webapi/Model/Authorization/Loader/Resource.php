@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * Class Magento_Webapi_Model_Authorization_Loader_Resource
+ */
 class Magento_Webapi_Model_Authorization_Loader_Resource extends Magento_Acl_Loader_Resource
 {
     /**

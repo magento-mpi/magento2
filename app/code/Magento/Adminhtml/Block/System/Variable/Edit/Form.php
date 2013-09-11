@@ -18,13 +18,34 @@
 class Magento_Adminhtml_Block_System_Variable_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Getter
      *
      * @return Magento_Core_Model_Variable
      */
     public function getVariable()
     {
-        return Mage::registry('current_variable');
+        return $this->_coreRegistry->registry('current_variable');
     }
 
     /**

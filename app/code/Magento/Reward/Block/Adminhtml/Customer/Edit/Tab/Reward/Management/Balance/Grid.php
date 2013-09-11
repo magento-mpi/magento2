@@ -27,6 +27,31 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
     protected $_customerHasOrphanPoints = false;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Internal constructor
      *
      */
@@ -46,7 +71,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
      */
     public function getCustomer()
     {
-        return Mage::registry('current_customer');
+        return $this->_coreRegistry->registry('current_customer');
     }
 
     /**

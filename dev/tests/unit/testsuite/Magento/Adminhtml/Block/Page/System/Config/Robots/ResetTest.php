@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends PHPUni
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_resetRobotsBlock = $objectManagerHelper->getObject(
             'Magento_Adminhtml_Block_Page_System_Config_Robots_Reset',
             array(
@@ -37,12 +37,21 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends PHPUni
         $this->_mockRobotsHelper = $this->getMock('Magento_Page_Helper_Robots',
             array('getRobotsDefaultCustomInstructions'), array(), '', false, false
         );
-        Mage::register('_helper/Magento_Page_Helper_Robots', $this->_mockRobotsHelper);
-    }
 
-    protected function tearDown()
-    {
-        Mage::unregister('_helper/Magento_Page_Helper_Robots');
+        $coreRegisterMock = $this->getMock('Magento_Core_Model_Registry');
+        $coreRegisterMock->expects($this->any())
+            ->method('registry')
+            ->with('_helper/Magento_Page_Helper_Robots')
+            ->will($this->returnValue($this->_mockRobotsHelper));
+
+        $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->getMock();
+        $objectManagerMock->expects($this->any())
+            ->method('get')
+            ->with('Magento_Core_Model_Registry')
+            ->will($this->returnValue($coreRegisterMock));
+
+        Mage::reset();
+        Mage::setObjectManager($objectManagerMock);
     }
 
     /**

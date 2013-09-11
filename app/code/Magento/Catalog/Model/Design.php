@@ -22,14 +22,42 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
     const APPLY_FOR_CATEGORY    = 2;
 
     /**
+     * Design package instance
+     *
+     * @var Magento_Core_Model_View_DesignInterface
+     */
+    protected $_design = null;
+
+    /**
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_design = $design;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Apply custom design
      *
      * @param string $design
      * @return $this
+     * @return Magento_Catalog_Model_Design
      */
     public function applyCustomDesign($design)
     {
-        Mage::getDesign()->setDesignTheme($design);
+        $this->_design->setDesignTheme($design);
         return $this;
     }
 

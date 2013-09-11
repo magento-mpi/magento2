@@ -57,6 +57,13 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_wishlistItemCollection = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -65,12 +72,15 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
 
     /**
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
@@ -136,10 +146,10 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     public function getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            if (Mage::registry('shared_wishlist')) {
-                $this->_wishlist = Mage::registry('shared_wishlist');
-            } elseif (Mage::registry('wishlist')) {
-                $this->_wishlist = Mage::registry('wishlist');
+            if ($this->_coreRegistry->registry('shared_wishlist')) {
+                $this->_wishlist = $this->_coreRegistry->registry('shared_wishlist');
+            } elseif ($this->_coreRegistry->registry('wishlist')) {
+                $this->_wishlist = $this->_coreRegistry->registry('wishlist');
             } else {
                 $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
                 if ($this->getCustomer()) {

@@ -180,7 +180,7 @@ class Magento_Core_Model_App_Area
      */
     protected function _getDesign()
     {
-        return Mage::getDesign();
+        return $this->_objectManager->get('Magento_Core_Model_View_DesignInterface');
     }
 
     /**

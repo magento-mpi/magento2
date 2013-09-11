@@ -88,6 +88,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      * Constructor
      *
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Index_Model_Lock_Storage $lockStorage
      * @param Magento_Index_Model_EventRepository $eventRepository
      * @param Magento_Core_Model_Config $coreConfig
@@ -97,6 +98,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Index_Model_Lock_Storage $lockStorage,
         Magento_Index_Model_EventRepository $eventRepository,
         Magento_Core_Model_Config $coreConfig,
@@ -104,7 +106,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_lockStorage = $lockStorage;
         $this->_eventRepository = $eventRepository;
         $this->_coreConfig = $coreConfig;

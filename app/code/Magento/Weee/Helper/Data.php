@@ -23,20 +23,30 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_storeDisplayConfig   = array();
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig = null;
-
+    
     /**
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
@@ -165,7 +175,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
                 $type = $this->getEmailPriceDisplayType($store);
                 break;
             default:
-                if (Mage::registry('current_product')) {
+                if ($this->_coreRegistry->registry('current_product')) {
                     $type = $this->getPriceDisplayType($store);
                 } else {
                     $type = $this->getListPriceDisplayType($store);

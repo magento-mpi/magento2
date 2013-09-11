@@ -72,7 +72,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     }
 
     /**
-     * Onject initialization
+     * Object initialization
      */
     protected function _construct()
     {

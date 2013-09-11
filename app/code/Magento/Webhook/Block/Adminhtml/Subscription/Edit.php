@@ -72,7 +72,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit extends Magento_Backend_
 
     /**
      * Check whether subscription was generated from configuration.
-     * 
+     *
      * Return false if subscription created within UI.
      *
      * @return bool

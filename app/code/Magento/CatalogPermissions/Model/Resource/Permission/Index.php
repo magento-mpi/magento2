@@ -72,13 +72,13 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     protected $_coreStoreConfig = null;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         parent::__construct($resource);

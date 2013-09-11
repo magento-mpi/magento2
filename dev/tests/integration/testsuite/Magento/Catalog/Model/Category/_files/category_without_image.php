@@ -22,4 +22,6 @@ $category->setName('Category Without Image 1')
     ->setIsActive(true)
     ->save();
 
-Mage::register('_fixture/Magento_Catalog_Model_Category', $category);
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->register('_fixture/Magento_Catalog_Model_Category', $category);

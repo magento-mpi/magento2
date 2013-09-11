@@ -19,15 +19,25 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info exte
     protected $_storeManager;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $data);
         $this->_storeManager = $storeManager;
     }
@@ -42,7 +52,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info exte
         $form = new Magento_Data_Form();
         $form->setHtmlIdPrefix('_info');
 
-        $model = Mage::registry('current_giftcardaccount');
+        $model = $this->_coreRegistry->registry('current_giftcardaccount');
 
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend'=>__('Information'))
@@ -68,10 +78,8 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info exte
             'name'      => 'status',
             'required'  => true,
             'options'   => array(
-                Magento_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED =>
-                    __('Yes'),
-                Magento_GiftCardAccount_Model_Giftcardaccount::STATUS_DISABLED =>
-                    __('No'),
+                Magento_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED => __('Yes'),
+                Magento_GiftCardAccount_Model_Giftcardaccount::STATUS_DISABLED => __('No'),
             ),
         ));
         if (!$model->getId()) {
@@ -84,10 +92,8 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info exte
             'name'      => 'is_redeemable',
             'required'  => true,
             'options'   => array(
-                Magento_GiftCardAccount_Model_Giftcardaccount::REDEEMABLE =>
-                    __('Yes'),
-                Magento_GiftCardAccount_Model_Giftcardaccount::NOT_REDEEMABLE =>
-                    __('No'),
+                Magento_GiftCardAccount_Model_Giftcardaccount::REDEEMABLE => __('Yes'),
+                Magento_GiftCardAccount_Model_Giftcardaccount::NOT_REDEEMABLE => __('No'),
             ),
         ));
         if (!$model->getId()) {

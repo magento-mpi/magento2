@@ -18,7 +18,7 @@ class Magento_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_Rma_Model_Shipping');
     }
 

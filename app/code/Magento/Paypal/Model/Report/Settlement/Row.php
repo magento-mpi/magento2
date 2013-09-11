@@ -90,7 +90,7 @@ class Magento_Paypal_Model_Report_Settlement_Row extends Magento_Core_Model_Abst
             'SUB' => __('Subscription ID'),
             'PAP' => __('Preapproved Payment ID')
         );
-        if($code === null) {
+        if ($code === null) {
             asort($types);
             return $types;
         }
@@ -139,7 +139,7 @@ class Magento_Paypal_Model_Report_Settlement_Row extends Magento_Core_Model_Abst
             'CR' => __('Credit'),
             'DR' => __('Debit'),
         );
-        if($code === null) {
+        if ($code === null) {
             return $options;
         }
         if (isset($options[$code])) {

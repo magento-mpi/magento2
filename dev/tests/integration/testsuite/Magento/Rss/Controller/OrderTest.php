@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Rss_Controller_OrderTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Rss_Controller_OrderTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * Reuse URI for "new" action
@@ -31,8 +31,8 @@ class Magento_Rss_Controller_OrderTest extends Magento_Test_TestCase_ControllerA
     public function testNewAction()
     {
         $this->getRequest()->setServer(array(
-            'PHP_AUTH_USER' => Magento_Test_Bootstrap::ADMIN_NAME,
-            'PHP_AUTH_PW' => Magento_Test_Bootstrap::ADMIN_PASSWORD
+            'PHP_AUTH_USER' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
+            'PHP_AUTH_PW' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
         ));
         $this->dispatch(self::NEW_ORDER_URI);
         $this->assertHeaderPcre('Content-Type', '/text\/xml/');
@@ -65,8 +65,8 @@ class Magento_Rss_Controller_OrderTest extends Magento_Test_TestCase_ControllerA
     public function invalidAccessDataProvider()
     {
         return array(
-            'no login' => array('', Magento_Test_Bootstrap::ADMIN_PASSWORD),
-            'no password' => array(Magento_Test_Bootstrap::ADMIN_NAME, ''),
+            'no login' => array('', Magento_TestFramework_Bootstrap::ADMIN_PASSWORD),
+            'no password' => array(Magento_TestFramework_Bootstrap::ADMIN_NAME, ''),
             'no login and password' => array('', ''),
             'user with inappropriate ACL' => array('dummy_username', 'dummy_password1'),
         );

@@ -28,6 +28,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection
@@ -36,6 +37,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null,
@@ -45,13 +47,14 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         if (isset($data['email_template_model'])) {
             if (!$data['email_template_model'] instanceof Magento_Core_Model_Email_Template) {
                 throw new InvalidArgumentException(
-                    'Argument "email_template_model" is expected to be an instance of "Magento_Core_Model_Email_Template".'
+                    'Argument "email_template_model" is expected to be an'
+                        . ' instance of "Magento_Core_Model_Email_Template".'
                 );
             }
             $this->_emailTemplateModel = $data['email_template_model'];
             unset($data['email_template_model']);
         }
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -108,7 +111,8 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         );
         $productOptions = $orderItem->getProductOptions();
         foreach ($keys as $key) {
-            if ($option = $quoteItem->getProduct()->getCustomOption($key)) {
+            $option = $quoteItem->getProduct()->getCustomOption($key);
+            if ($option) {
                 $productOptions[$key] = $option->getValue();
             }
         }
@@ -190,7 +194,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
 
                         foreach ($invoiceItemCollection as $invoiceItem) {
                             $invoiceId = $invoiceItem->getParentId();
-                            if(isset($loadedInvoices[$invoiceId])) {
+                            if (isset($loadedInvoices[$invoiceId])) {
                                 $invoice = $loadedInvoices[$invoiceId];
                             } else {
                                 $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->load($invoiceId);
@@ -217,12 +221,14 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                 $hasFailedCodes = false;
                 if ($qty > 0) {
                     $isRedeemable = 0;
-                    if ($option = $item->getProductOptionByCode('giftcard_is_redeemable')) {
+                    $option = $item->getProductOptionByCode('giftcard_is_redeemable');
+                    if ($option) {
                         $isRedeemable = $option;
                     }
 
                     $lifetime = 0;
-                    if ($option = $item->getProductOptionByCode('giftcard_lifetime')) {
+                    $option = $item->getProductOptionByCode('giftcard_lifetime');
+                    if ($option) {
                         $lifetime = $option;
                     }
 
@@ -254,7 +260,8 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                     if ($goodCodes && $item->getProductOptionByCode('giftcard_recipient_email')) {
                         $sender = $item->getProductOptionByCode('giftcard_sender_name');
                         $senderName = $item->getProductOptionByCode('giftcard_sender_name');
-                        if ($senderEmail = $item->getProductOptionByCode('giftcard_sender_email')) {
+                        $senderEmail = $item->getProductOptionByCode('giftcard_sender_email');
+                        if ($senderEmail) {
                             $sender = "$sender <$senderEmail>";
                         }
 

@@ -9,13 +9,8 @@
  */
 
 /**
- * customers defined options
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
+ * Customers defined options
  */
-
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Magento_Adminhtml_Block_Widget
 {
     protected $_product;
@@ -29,27 +24,27 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
     protected $_template = 'catalog/product/edit/options/option.phtml';
 
     /**
-     * @var Magento_Core_Model_Config
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
      */
-    protected $_coreConfig;
+    protected $_coreRegistry = null;
 
     /**
-     * Constructor
-     *
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $data
-        );
+        $this->_coreRegistry = $registry;
         $this->_coreConfig = $coreConfig;
+        parent::__construct($context, $data);
     }
 
     /**
@@ -82,7 +77,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
     public function getProduct()
     {
         if (!$this->_productInstance) {
-            if ($product = Mage::registry('product')) {
+            $product = $this->_coreRegistry->registry('product');
+            if ($product) {
                 $this->_productInstance = $product;
             } else {
                 $this->_productInstance = Mage::getSingleton('Magento_Catalog_Model_Product');

@@ -390,7 +390,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getAccountSkuUrl()
     {
-        return Mage::getSingleton('Magento_Core_Model_Url')->getUrl('enterprise_checkout/sku');
+        return Mage::getSingleton('Magento_Core_Model_Url')->getUrl('magento_advancedcheckout/sku');
     }
 
     /**

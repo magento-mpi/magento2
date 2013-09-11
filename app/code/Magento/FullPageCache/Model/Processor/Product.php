@@ -33,6 +33,13 @@ class Magento_FullPageCache_Model_Processor_Product extends Magento_FullPageCach
     protected $_processor;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -40,15 +47,18 @@ class Magento_FullPageCache_Model_Processor_Product extends Magento_FullPageCach
     protected $_coreStoreConfig = null;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_FullPageCache_Model_Cache $fpcCache
      * @param Magento_FullPageCache_Model_Processor $processor
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_FullPageCache_Model_Cache $fpcCache,
         Magento_FullPageCache_Model_Processor $processor,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Registry $coreRegistry,
+    Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_fpcCache = $fpcCache;
         $this->_processor = $processor;
@@ -69,7 +79,7 @@ class Magento_FullPageCache_Model_Processor_Product extends Magento_FullPageCach
             $this->_fpcCache->save($countLimit, $cacheId, array(Magento_FullPageCache_Model_Processor::CACHE_TAG));
         }
         // save current product id
-        $product = Mage::registry('current_product');
+        $product = $this->_coreRegistry->registry('current_product');
         if ($product) {
             $cacheId = $this->_processor->getRequestCacheId() . '_current_product_id';
             $this->_fpcCache->save($product->getId(), $cacheId, array(Magento_FullPageCache_Model_Processor::CACHE_TAG));

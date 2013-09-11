@@ -30,18 +30,28 @@ class Magento_Backup_Model_Observer
     protected $_errors = array();
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig = null;
-
+    
     /**
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Registry $coreRegistry,
+    Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_coreStoreConfig = $coreStoreConfig;
     }
 
@@ -69,7 +79,7 @@ class Magento_Backup_Model_Observer
                 ->setTime(time())
                 ->setBackupsDir(Mage::helper('Magento_Backup_Helper_Data')->getBackupsDir());
 
-            Mage::register('backup_manager', $backupManager);
+            $this->_coreRegistry->register('backup_manager', $backupManager);
 
             if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
                 $backupManager->setRootDir(Mage::getBaseDir())
@@ -78,8 +88,7 @@ class Magento_Backup_Model_Observer
 
             $backupManager->create();
             Mage::log(Mage::helper('Magento_Backup_Helper_Data')->getCreateSuccessMessageByType($type));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_errors[] = $e->getMessage();
             $this->_errors[] = $e->getTrace();
             Mage::log($e->getMessage(), Zend_Log::ERR);

@@ -18,6 +18,25 @@
 class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Init currency by currency code from request
      *
      * @return Magento_CurrencySymbol_Controller_Adminhtml_System_Currency
@@ -28,7 +47,7 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
         $currency = Mage::getModel('Magento_Directory_Model_Currency')
             ->load($code);
 
-        Mage::register('currency', $currency);
+        $this->_coreRegistry->register('currency', $currency);
         return $this;
     }
 
@@ -50,7 +69,7 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
         try {
             $service = $this->getRequest()->getParam('rate_services');
             $this->_getSession()->setCurrencyRateService($service);
-            if( !$service ) {
+            if (!$service) {
                 throw new Exception(__('Please specify a correct Import Service.'));
             }
             try {
@@ -62,7 +81,7 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
             }
             $rates = $importModel->fetchRates();
             $errors = $importModel->getMessages();
-            if( sizeof($errors) > 0 ) {
+            if (sizeof($errors) > 0) {
                 foreach ($errors as $error) {
                     Mage::getSingleton('Magento_Adminhtml_Model_Session')->addWarning($error);
                 }
@@ -82,7 +101,7 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
     public function saveRatesAction()
     {
         $data = $this->getRequest()->getParam('rate');
-        if( is_array($data) ) {
+        if (is_array($data)) {
             try {
                 foreach ($data as $currencyCode => $rate) {
                     foreach( $rate as $currencyTo => $value ) {

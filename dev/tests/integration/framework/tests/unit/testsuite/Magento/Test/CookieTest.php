@@ -17,7 +17,7 @@ class Magento_Test_CookieTest extends PHPUnit_Framework_TestCase
     const SAMPLE_COOKIE_NAME = 'sample_cookie';
 
     /**
-     * @var Magento_Test_Cookie
+     * @var Magento_TestFramework_Cookie
      */
     protected $_model;
 
@@ -26,10 +26,10 @@ class Magento_Test_CookieTest extends PHPUnit_Framework_TestCase
         $coreStoreConfig = $this->getMockBuilder('Magento_Core_Model_Store_Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_model = new Magento_Test_Cookie(
+        $this->_model = new Magento_TestFramework_Cookie(
             $coreStoreConfig,
-            new Magento_Test_Request(),
-            new Magento_Test_Response()
+            new Magento_TestFramework_Request(),
+            new Magento_TestFramework_Response()
         );
     }
 

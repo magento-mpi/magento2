@@ -14,7 +14,7 @@ class Magento_Outbound_Authentication_FactoryTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        $this->_authFactory = Magento_Test_Helper_Bootstrap::getObjectManager()
+        $this->_authFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Outbound_Authentication_Factory');
     }
 

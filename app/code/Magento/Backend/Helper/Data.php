@@ -48,16 +48,16 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_routerList;
 
     /**
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $applicationConfig
      * @param Magento_Core_Model_Config_Primary $primaryConfig
-     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_RouterList $routerList
      * @param string $defaultAreaFrontName
      */
     public function __construct(
+        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $applicationConfig,
         Magento_Core_Model_Config_Primary $primaryConfig,
-        Magento_Core_Helper_Context $context,
         Magento_Core_Model_RouterList $routerList,
         $defaultAreaFrontName
     ) {

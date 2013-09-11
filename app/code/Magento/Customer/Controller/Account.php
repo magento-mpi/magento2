@@ -41,6 +41,25 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
     );
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve customer session model object
      *
      * @return Magento_Customer_Model_Session
@@ -393,7 +412,7 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
     protected function _extractCustomer()
     {
         /** @var Magento_Customer_Model_Customer $customer */
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         if (!$customer) {
             $customer = Mage::getModel('Magento_Customer_Model_Customer')->setId(null);
         }

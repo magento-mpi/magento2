@@ -102,8 +102,9 @@ class Magento_User_Model_User
     protected $_coreStoreConfig = null;
 
     /**
-     * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -111,6 +112,7 @@ class Magento_User_Model_User
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Sender $sender,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
@@ -119,7 +121,7 @@ class Magento_User_Model_User
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_sender = $sender;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -143,7 +145,8 @@ class Magento_User_Model_User
                 '_eventDispatcher',
                 '_cacheManager',
                 '_coreStoreConfig',
-                '_sender'
+                '_sender',
+                '_coreRegistry'
             ));
         }
         return $properties;
@@ -159,6 +162,7 @@ class Magento_User_Model_User
             $this->_cacheManager    = Mage::getSingleton('Magento_Core_Model_CacheInterface');
             $this->_coreStoreConfig = Mage::getObjectManager()->get('Magento_Core_Model_Store_Config');
             $this->_sender = Mage::getObjectManager()->get('Magento_Core_Model_Sender');
+            $this->_coreRegistry = Mage::getObjectManager()->get('Magento_Core_Model_Registry');
         }
     }
 

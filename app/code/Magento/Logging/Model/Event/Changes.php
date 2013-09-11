@@ -146,12 +146,10 @@ class Magento_Logging_Model_Event_Changes extends Magento_Core_Model_Abstract
             if (!$origData && $resultData) {
                 $newOriginalData = array('__was_created' => true);
                 $difference = $resultData;
-            }
-            elseif ($origData && !$resultData) {
+            } elseif ($origData && !$resultData) {
                 $newResultData = array('__was_deleted' => true);
                 $difference = $origData;
-            }
-            elseif ($origData && $resultData) {
+            } elseif ($origData && $resultData) {
                 $newParams  = array_diff_key($resultData, $origData);
                 $sameParams = array_intersect_key($origData, $resultData);
                 foreach ($sameParams as $key => $value) {

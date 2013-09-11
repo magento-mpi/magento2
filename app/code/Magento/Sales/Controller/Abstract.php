@@ -19,6 +19,25 @@
 abstract class Magento_Sales_Controller_Abstract extends Magento_Core_Controller_Front_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Check order view availability
      *
      * @param   Magento_Sales_Model_Order $order
@@ -76,7 +95,7 @@ abstract class Magento_Sales_Controller_Abstract extends Magento_Core_Controller
         $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
 
         if ($this->_canViewOrder($order)) {
-            Mage::register('current_order', $order);
+            $this->_coreRegistry->register('current_order', $order);
             return true;
         } else {
             $this->_redirect('*/*/history');
@@ -124,7 +143,7 @@ abstract class Magento_Sales_Controller_Abstract extends Magento_Core_Controller
         if (!$this->_loadValidOrder()) {
             return;
         }
-        $order = Mage::registry('current_order');
+        $order = $this->_coreRegistry->registry('current_order');
 
         $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
         $cartTruncated = false;
@@ -181,9 +200,9 @@ abstract class Magento_Sales_Controller_Abstract extends Magento_Core_Controller
         }
 
         if ($this->_canViewOrder($order)) {
-            Mage::register('current_order', $order);
+            $this->_coreRegistry->register('current_order', $order);
             if (isset($invoice)) {
-                Mage::register('current_invoice', $invoice);
+                $this->_coreRegistry->register('current_invoice', $invoice);
             }
             $this->loadLayout('print');
             $this->renderLayout();
@@ -210,9 +229,9 @@ abstract class Magento_Sales_Controller_Abstract extends Magento_Core_Controller
             $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
         }
         if ($this->_canViewOrder($order)) {
-            Mage::register('current_order', $order);
+            $this->_coreRegistry->register('current_order', $order);
             if (isset($shipment)) {
-                Mage::register('current_shipment', $shipment);
+                $this->_coreRegistry->register('current_shipment', $shipment);
             }
             $this->loadLayout('print');
             $this->renderLayout();
@@ -240,9 +259,9 @@ abstract class Magento_Sales_Controller_Abstract extends Magento_Core_Controller
         }
 
         if ($this->_canViewOrder($order)) {
-            Mage::register('current_order', $order);
+            $this->_coreRegistry->register('current_order', $order);
             if (isset($creditmemo)) {
-                Mage::register('current_creditmemo', $creditmemo);
+                $this->_coreRegistry->register('current_creditmemo', $creditmemo);
             }
             $this->loadLayout('print');
             $this->renderLayout();
