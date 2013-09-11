@@ -94,7 +94,7 @@
             <group id="placeholder" translate="label" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Product Image Placeholders</label>
                 <clone_fields>1</clone_fields>
-                <clone_model>\Magento\Catalog\Model\Config\Clone\Media\Image</clone_model>
+                <clone_model>\Magento\Catalog\Model\Config\CatalogClone\Media\Image</clone_model>
                 <field id="placeholder" type="image" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label></label>
                     <backend_model>\Magento\Backend\Model\Config\Backend\Image</backend_model>
@@ -217,7 +217,7 @@
             <group id="watermark" translate="label" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Product Image Watermarks</label>
                 <clone_fields>1</clone_fields>
-                <clone_model>\Magento\Catalog\Model\Config\Clone\Media\Image</clone_model>
+                <clone_model>\Magento\Catalog\Model\Config\CatalogClone\Media\Image</clone_model>
                 <field id="size" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Watermark Default Size</label>
                     <comment>Example format: 200x300.</comment>
