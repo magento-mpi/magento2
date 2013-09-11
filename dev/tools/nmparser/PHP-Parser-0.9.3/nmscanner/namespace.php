@@ -27,7 +27,45 @@ class namespacer
         'List',
         'Global',
         'Declare',
-        'Extends'
+        'Extends',
+        'And',
+        'As',
+        'Break',
+        'Callable',
+        'Case',
+        'Catch',
+        'Clone',
+        'Const',
+        'Continue',
+        'Die',
+        'Do',
+        'Echo',
+        'Else',
+        'Elseif',
+        'Empty',
+        'Enddeclare',
+        'Endfor',
+        'Endforeach',
+        'Endif',
+        'Endswitch',
+        'Endwhile',
+        'Eval',
+        'Exit',
+        'Final',
+        'For',
+        'Foreach',
+        'Function',
+        'Goto',
+        'If',
+        'Implements',
+        'Include',
+        'Include_once',
+        'Instanceof',
+        'Insteadof',
+        'Isset',
+        'List',
+        'Namespace',
+        'New'
     );
     private $reserveCheck = false;
     private $fileMapper = array();
@@ -746,9 +784,9 @@ class namespacer
 
                     } else {
 
-                        $newClass = trim($val);
+        $newClass = trim($val);
 
-                    }
+    }
                     $newClass = str_replace("\\\\", "\\", $newClass);
 
                     if ($multipleImplements && trim($val) != trim($vals[count($vals) - 1])) {
@@ -772,178 +810,178 @@ class namespacer
 
 
     private function setMapReservedFiles($newClass, $nameSpace, $file, $reserveCheck)
-    {
-        clearstatcache();
-        $newClass = trim($newClass);
-        $string = explode("\\", trim($nameSpace));
-        if (count($string) == 1) {
-            $string = explode(" ", $string[0]);
+{
+    clearstatcache();
+    $newClass = trim($newClass);
+    $string = explode("\\", trim($nameSpace));
+    if (count($string) == 1) {
+        $string = explode(" ", $string[0]);
 
-        }
-        if ($newClass === 'Trait' || $newClass === 'Interface') {
-            $newClass = trim(str_replace(";", '', ($string[count($string) - 1]))) . $newClass;
-        } else {
-            $newClass = $newClass . trim(str_replace(";", '', ($string[count($string) - 1])));
-        }
-
-        if ($reserveCheck) {
-            $newFileName = dirname($file) . "\\" . $newClass . '.php';
-            $this->fileMapper[$file] = $newFileName;
-        }
-        return $newClass;
     }
+    if ($newClass === 'Trait' || $newClass === 'Interface') {
+        $newClass = trim(str_replace(";", '', ($string[count($string) - 1]))) . $newClass;
+    } else {
+        $newClass = $newClass . trim(str_replace(";", '', ($string[count($string) - 1])));
+    }
+
+    if ($reserveCheck) {
+        $newFileName = dirname($file) . "\\" . $newClass . '.php';
+        $this->fileMapper[$file] = $newFileName;
+    }
+    return $newClass;
+}
 
     private function renameReservedFileNames($file)
-    {
-        if (isset($this->fileMapper[$file])) {
-            clearstatcache();
+{
+    if (isset($this->fileMapper[$file])) {
+        clearstatcache();
 
-            try {
-                if (!empty($this->rootDirPath)) {
-                    $path = $this->getRelativePath($this->rootDirPath, $file);
-                    $tar = $this->getRelativePath($this->rootDirPath, $this->fileMapper[$file]);
-                    $this->gitRename($path, $tar);
-                    $string = $file . " =>  " . $this->fileMapper[$file] . "\n";
-                    $this->logFile($this->renameFileLogger, $string);
-                } else {
-                    $this->gitRename($file, $this->fileMapper[$file]);
-                    $string = $file . " =>  " . $this->fileMapper[$file] . "\n";
-                    $this->logFile($this->renameFileLogger, $string);
-                }
-
-
-            } catch (Exception $e) {
-                $string = 'Message: ' . $e->getMessage() . "\n";
-                $this->logFile($this->errorLog, $string);
+        try {
+            if (!empty($this->rootDirPath)) {
+                $path = $this->getRelativePath($this->rootDirPath, $file);
+                $tar = $this->getRelativePath($this->rootDirPath, $this->fileMapper[$file]);
+                $this->gitRename($path, $tar);
+                $string = $file . " =>  " . $this->fileMapper[$file] . "\n";
+                $this->logFile($this->renameFileLogger, $string);
+            } else {
+                $this->gitRename($file, $this->fileMapper[$file]);
+                $string = $file . " =>  " . $this->fileMapper[$file] . "\n";
+                $this->logFile($this->renameFileLogger, $string);
             }
 
+
+        } catch (Exception $e) {
+            $string = 'Message: ' . $e->getMessage() . "\n";
+            $this->logFile($this->errorLog, $string);
         }
 
     }
+
+}
 
     private function makeFile($file, $array, $namespace)
-    {
+{
 
-        $first_Array = (array_slice($array, 0, $this->splitLine));
-        $key_split = (array_slice($array, $this->splitLine));
-        $array = array_merge($first_Array, $namespace, $key_split);
+    $first_Array = (array_slice($array, 0, $this->splitLine));
+    $key_split = (array_slice($array, $this->splitLine));
+    $array = array_merge($first_Array, $namespace, $key_split);
 
-        $string = "";
-        // new line feeder
-        if (end($array) == "}") {
-            $array[] = "\n";
-        }
-        if ($this->requireOnce !== 0) {
-            $namespace = $array[$this->splitLine];
-            $requireOnce = $array[$this->requireOnce];
-            $array[$this->requireOnce] = $namespace;
-            $array[$this->splitLine] = $requireOnce;
-        }
-        foreach ($array as $key) {
-            $string = $string . $key;
-        }
-
-        if (!in_array($file, $this->fileChanged)) {
-            clearstatcache();
-            file_put_contents($file, $string);
-            $this->renameReservedFileNames($file);
-        }
-
-
+    $string = "";
+    // new line feeder
+    if (end($array) == "}") {
+        $array[] = "\n";
     }
+    if ($this->requireOnce !== 0) {
+        $namespace = $array[$this->splitLine];
+        $requireOnce = $array[$this->requireOnce];
+        $array[$this->requireOnce] = $namespace;
+        $array[$this->splitLine] = $requireOnce;
+    }
+    foreach ($array as $key) {
+        $string = $string . $key;
+    }
+
+    if (!in_array($file, $this->fileChanged)) {
+        clearstatcache();
+        file_put_contents($file, $string);
+        $this->renameReservedFileNames($file);
+    }
+
+
+}
 
     private function isComment($str)
-    {
-        $str = trim($str);
-        $first_two_chars = substr($str, 0, 2);
-        $last_two_chars = substr($str, -2);
-        return $first_two_chars == '//' || substr(
-            $str,
-            0,
-            1
-        ) == '#' || ($first_two_chars == '/*' && $last_two_chars == '*/');
-    }
+{
+    $str = trim($str);
+    $first_two_chars = substr($str, 0, 2);
+    $last_two_chars = substr($str, -2);
+    return $first_two_chars == '//' || substr(
+        $str,
+        0,
+        1
+    ) == '#' || ($first_two_chars == '/*' && $last_two_chars == '*/');
+}
 
     public function replaceThirdParty($path)
-    {
-        foreach ($this->addSlashArray as $key) {
-            $libSearch[] = "/\\s" . $key . "/";
-            $libSearch[] = "/\\(" . $key . "/";
-            $libReplace[] = " \\$key";
-            $libReplace[] = "(\\$key";
-        }
-        $files = $this->scanDirectory($path);
-        echo "=====================\n";
-        echo "Started ThirdParty Replacement \n";
-        foreach ($files as $file) {
-            if (file_exists($file)) {
-                $contents = preg_replace($libSearch, $libReplace, file_get_contents($file));
-                $contents = str_replace("\\\\Magento\\", "\\Magento\\", $contents);
-                $contents = str_replace("class \\Exception", "class Exception", $contents);
-                file_put_contents($file, $contents);
-            }
-        }
-
+{
+    foreach ($this->addSlashArray as $key) {
+        $libSearch[] = "/\\s" . $key . "/";
+        $libSearch[] = "/\\(" . $key . "/";
+        $libReplace[] = " \\$key";
+        $libReplace[] = "(\\$key";
     }
+    $files = $this->scanDirectory($path);
+    echo "=====================\n";
+    echo "Started ThirdParty Replacement \n";
+    foreach ($files as $file) {
+        if (file_exists($file)) {
+            $contents = preg_replace($libSearch, $libReplace, file_get_contents($file));
+            $contents = str_replace("\\\\Magento\\", "\\Magento\\", $contents);
+            $contents = str_replace("class \\Exception", "class Exception", $contents);
+            file_put_contents($file, $contents);
+        }
+    }
+
+}
 
     private function gitRename($sourcePathModule, $targetPathModule)
-    {
+{
 
-        $this->gitShell->execute(
-            'git mv %s %s',
-            array($sourcePathModule, $targetPathModule)
-        );
-        //$ git add app/code/Magento/<newModule>/
-        $this->gitShell->execute(
-            'git add %s',
-            array($targetPathModule)
-        );
+    $this->gitShell->execute(
+        'git mv %s %s',
+        array($sourcePathModule, $targetPathModule)
+    );
+    //$ git add app/code/Magento/<newModule>/
+    $this->gitShell->execute(
+        'git add %s',
+        array($targetPathModule)
+    );
 
-    }
+}
 
     private function getRelativePath($from, $to)
-    {
-        // some compatibility fixes for Windows paths
-        $windows = false;
-        $from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
-        $to = is_dir($to) ? rtrim($to, '\/') . '/' : $to;
-        $from = str_replace('\\', '/', $from);
-        $to = str_replace('\\', '/', $to);
+{
+    // some compatibility fixes for Windows paths
+    $windows = false;
+    $from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
+    $to = is_dir($to) ? rtrim($to, '\/') . '/' : $to;
+    $from = str_replace('\\', '/', $from);
+    $to = str_replace('\\', '/', $to);
 
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $windows = true;
-        }
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        $windows = true;
+    }
 
-        $from = explode('/', $from);
-        $to = explode('/', $to);
-        $relPath = $to;
+    $from = explode('/', $from);
+    $to = explode('/', $to);
+    $relPath = $to;
 
-        foreach ($from as $depth => $dir) {
-            // find first non-matching dir
-            if ($dir === $to[$depth]) {
-                // ignore this directory
-                array_shift($relPath);
+    foreach ($from as $depth => $dir) {
+        // find first non-matching dir
+        if ($dir === $to[$depth]) {
+            // ignore this directory
+            array_shift($relPath);
+        } else {
+            // get number of remaining dirs to $from
+            $remaining = count($from) - $depth;
+            if ($remaining > 1) {
+                // add traversals up to first matching dir
+                $padLength = (count($relPath) + $remaining - 1) * -1;
+                $relPath = array_pad($relPath, $padLength, '..');
+                break;
             } else {
-                // get number of remaining dirs to $from
-                $remaining = count($from) - $depth;
-                if ($remaining > 1) {
-                    // add traversals up to first matching dir
-                    $padLength = (count($relPath) + $remaining - 1) * -1;
-                    $relPath = array_pad($relPath, $padLength, '..');
-                    break;
-                } else {
-                    $relPath[0] = './' . $relPath[0];
-                }
+                $relPath[0] = './' . $relPath[0];
             }
         }
-
-        $path = implode('/', $relPath);
-        if (!$windows) {
-            $path = str_replace("\\", "/", $path);
-        }
-
-        return $path;
     }
+
+    $path = implode('/', $relPath);
+    if (!$windows) {
+        $path = str_replace("\\", "/", $path);
+    }
+
+    return $path;
+}
 }
 
 
