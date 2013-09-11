@@ -62,7 +62,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
      */
     public function testTypes()
     {
-        $expectedTypes = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Source_Inputtype')->toOptionArray();
+        $expectedTypes = Mage::getModel('Magento\Catalog\Model\Product\Attribute\Source\Inputtype')->toOptionArray();
         $types = Magento_TestFramework_Helper_Api::call($this, 'catalogProductAttributeTypes');
         $this->assertEquals($expectedTypes, $types);
     }

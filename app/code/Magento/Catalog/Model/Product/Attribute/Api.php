@@ -126,7 +126,7 @@ class Api extends \Magento\Catalog\Model\Api\Resource
      */
     public function types()
     {
-        return \Mage::getModel('Magento_Catalog_Model_Product_Attribute_Source_Inputtype')->toOptionArray();
+        return \Mage::getModel('Magento\Catalog\Model\Product\Attribute\Source\Inputtype')->toOptionArray();
     }
 
     /**

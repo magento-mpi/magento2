@@ -14,7 +14,10 @@
  * @category   Magento
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
- */class Magento_Catalog_Model_Product_Attribute_Source_Inputtype extends \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype
+ */
+namespace Magento\Catalog\Model\Product\Attribute\Source;
+
+class Inputtype extends \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype
 {
     /**
      * Get product input types as option array

@@ -11,37 +11,36 @@
 
 /**
  * Configuration for reports
-namespace Magento\Reports\Model;
-
  *
  * @category   Magento
  * @package    Magento_Reports
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
+namespace Magento\Reports\Model;
 
- class Config extends \Magento\Object
- {
-    public function getGlobalConfig( )
-    {
-        $dom = new \DOMDocument();
-        $dom -> load( \Mage::getModuleDir('etc','Magento_Reports').DS.'flexConfig.xml' );
+class Config extends \Magento\Object
+{
+   public function getGlobalConfig( )
+   {
+       $dom = new \DOMDocument();
+       $dom -> load( \Mage::getModuleDir('etc','Magento_Reports').DS.'flexConfig.xml' );
 
-        $baseUrl = $dom -> createElement('baseUrl');
-        $baseUrl -> nodeValue = \Mage::getBaseUrl();
+       $baseUrl = $dom -> createElement('baseUrl');
+       $baseUrl -> nodeValue = \Mage::getBaseUrl();
 
-        $dom -> documentElement -> appendChild( $baseUrl );
+       $dom -> documentElement -> appendChild( $baseUrl );
 
-        return $dom -> saveXML();
-    }
+       return $dom -> saveXML();
+   }
 
-    public function getLanguage( )
-    {
-        return file_get_contents( \Mage::getModuleDir('etc','Magento_Reports').DS.'flexLanguage.xml' );
-    }
+   public function getLanguage( )
+   {
+       return file_get_contents( \Mage::getModuleDir('etc','Magento_Reports').DS.'flexLanguage.xml' );
+   }
 
-    public function getDashboard( )
-    {
-        return file_get_contents( \Mage::getModuleDir('etc','Magento_Reports').DS.'flexDashboard.xml' );
-    }
- }
+   public function getDashboard( )
+   {
+       return file_get_contents( \Mage::getModuleDir('etc','Magento_Reports').DS.'flexDashboard.xml' );
+   }
+}
 

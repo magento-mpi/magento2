@@ -13,12 +13,11 @@
  *
  * @category   Magento
  * @package    Magento_Paypal
-namespace Magento\Paypal\Block\Adminhtml\System\Config\Payflowlink;
-
  * @author     Magento Core Team <core@magentocommerce.com>
  */
- class Info
-    extends \Magento\Backend\Block\System\Config\Form\Field
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Payflowlink;
+
+class Info extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Template path
