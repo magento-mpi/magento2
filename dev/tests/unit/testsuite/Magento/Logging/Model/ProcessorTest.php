@@ -6,6 +6,8 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
 {
