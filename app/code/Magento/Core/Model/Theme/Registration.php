@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Theme;
 class Registration
 {
     /**
-     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
+     * @var Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected $_collectionFactory;
 
@@ -50,11 +50,11 @@ class Registration
     /**
      * Initialize dependencies
      *
-     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Theme\Collection $filesystemCollection
      */
     public function __construct(
-        Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Theme\Collection $filesystemCollection
     ) {
         $this->_collectionFactory = $collectionFactory;

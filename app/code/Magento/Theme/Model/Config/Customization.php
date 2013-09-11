@@ -26,7 +26,7 @@ class Customization
     protected $_design;
 
     /**
-     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected $_collectionFactory;
 
@@ -49,12 +49,12 @@ class Customization
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager,
      * @param \Magento\Core\Model\View\DesignInterface $design
-     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\View\DesignInterface $design,
-        Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory
     ) {
         $this->_storeManager    = $storeManager;
         $this->_design          = $design;

@@ -86,7 +86,7 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_configMock = $this->getMock('Magento\Core\Model\ConfigInterface',
             array(), array(), '', false, false);
 
-        $this->_assetFactory = $this->getMock('Magento_Core_Model_Page_Asset_PublicFileFactory',
+        $this->_assetFactory = $this->getMock('Magento\Core\Model\Page\Asset\PublicFileFactory',
             array('create'), array(), '', false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);

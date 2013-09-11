@@ -48,7 +48,7 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
             '\Magento\Core\Model\Theme\Registration',
             array('register'),
             array(
-                $this->_objectManager->create('Magento_Core_Model_Resource_Theme_CollectionFactory'),
+                $this->_objectManager->create('Magento\Core\Model\Resource\Theme\CollectionFactory'),
                 $this->_objectManager->create('Magento\Core\Model\Theme\Collection')
             )
         );

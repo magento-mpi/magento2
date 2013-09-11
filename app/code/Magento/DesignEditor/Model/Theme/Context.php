@@ -16,7 +16,7 @@ namespace Magento\DesignEditor\Model\Theme;
 class Context
 {
     /**
-     * @var Magento_Core_Model_ThemeFactory
+     * @var \Magento\Core\Model\ThemeFactory
      */
     protected $_themeFactory;
 
@@ -38,11 +38,11 @@ class Context
     /**
      * Initialize dependencies
      *
-     * @param Magento_Core_Model_ThemeFactory $themeFactory
+     * @param \Magento\Core\Model\ThemeFactory $themeFactory
      * @param \Magento\Core\Model\Theme\CopyService $copyService
      */
     public function __construct(
-        Magento_Core_Model_ThemeFactory $themeFactory,
+        \Magento\Core\Model\ThemeFactory $themeFactory,
         \Magento\Core\Model\Theme\CopyService $copyService
     ) {
         $this->_themeFactory = $themeFactory;

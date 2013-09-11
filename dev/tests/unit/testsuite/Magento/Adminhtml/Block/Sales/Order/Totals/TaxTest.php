@@ -51,7 +51,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framewo
                 'taxConfig'       => $this->getMock('Magento\Tax\Model\Config', array(), array(), '', false),
                 'taxHelper'       => $this->_getTaxHelperMock(),
                 'taxCalculation'  => $this->getMock('Magento\Tax\Model\Calculation', array(), array(), '', false),
-                'taxOrderFactory' => $this->getMock('Magento_Tax_Model_Sales_Order_Tax_Factory', array(), array(), '',
+                'taxOrderFactory' => $this->getMock('Magento\Tax\Model\Sales\Order\Tax\Factory', array(), array(), '',
                     false),
             )
         );

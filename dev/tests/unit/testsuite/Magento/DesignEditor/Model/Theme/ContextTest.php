@@ -21,7 +21,7 @@ class Magento_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_Tes
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_ThemeFactory
+     * @var \Magento\Core\Model\ThemeFactory
      */
     protected $_themeFactory;
 
@@ -37,7 +37,7 @@ class Magento_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_Tes
 
     public function setUp()
     {
-        $this->_themeFactory = $this->getMock('Magento_Core_Model_ThemeFactory', array('create'), array(), '', false);
+        $this->_themeFactory = $this->getMock('Magento\Core\Model\ThemeFactory', array('create'), array(), '', false);
 
         $this->_theme = $this->getMock('Magento\Core\Model\Theme',
             array('load', 'getId', 'getType', 'getDomainModel', 'isVirtual'), array(), '', false);
